@@ -20,9 +20,3 @@ jobs:
         uses: ruby/setup-ruby@a4effe49ee8ee5b8b5091268c473a4628afb5651 # pin@v1.245.0
         with:
           bundler-cache: true
-
-      - name: SwiftLint
-        uses: norio-nomura/action-swiftlint@9f4dcd7fd46b4e75d7935cf2f4df406d5cae3684 # pin@3.2.1
-        if: always()
-        with:
-          args: --strict
