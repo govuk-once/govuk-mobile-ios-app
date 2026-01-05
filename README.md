@@ -7,7 +7,7 @@
 ## Getting started:
 
 ### Install Xcode
-The application will run on several Xcode versions. The working version of the project can be found [here](.xcode-version)
+The application will run on several Xcode versions. The working version of the project can be found [here](.xcode-version).
 
 ### Resolve packages
 Before the app will build, you will need to navigate to `File -> Packages -> Resolve Package Versions` to install required dependencies.
