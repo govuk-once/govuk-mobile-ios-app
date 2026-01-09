@@ -100,6 +100,7 @@ class ChatViewModel: ObservableObject {
                 )
                 scrollToTop = true
                 addCellModels([cellModel])
+                announceAnswerReturned()
             case .failure(let error):
                 processError(error)
             }
@@ -300,5 +301,14 @@ class ChatViewModel: ObservableObject {
             action: "Chat Question Answer Returned"
         )
         analyticsService.track(event: event)
+    }
+
+    private func announceAnswerReturned() {
+        DispatchQueue.main.async {
+            UIAccessibility.post(
+                notification: .announcement,
+                argument: String.chat.localized("answerReturnedAccessibilityTitle")
+            )
+        }
     }
 }

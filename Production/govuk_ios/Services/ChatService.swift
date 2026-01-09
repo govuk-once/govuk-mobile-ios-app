@@ -156,7 +156,8 @@ extension ChatService {
     }
 
     var isEnabled: Bool {
-        false
+        true
+        //        false
 //      configService.isFeatureEnabled(key: .chat)
     }
 

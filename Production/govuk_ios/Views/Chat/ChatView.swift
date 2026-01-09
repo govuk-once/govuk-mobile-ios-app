@@ -3,8 +3,9 @@ import GOVKit
 
 struct ChatView: View {
     @Environment(\.verticalSizeClass) var verticalSizeClass
-    @StateObject private var viewModel: ChatViewModel
     @Namespace var bottomID
+    @StateObject private var viewModel: ChatViewModel
+    @AccessibilityFocusState private var textAreaAccessibilityFocused: Bool
     @FocusState private var textAreaFocused: Bool
     @State var showClearChatAlert: Bool = false
     @State private var backgroundOpacity = 0.25
@@ -48,6 +49,13 @@ struct ChatView: View {
         .onTapGesture {
             textAreaFocused = false
         }
+        .onChange(of: viewModel.requestInFlight) { requestInFlight in
+            if requestInFlight {
+                DispatchQueue.main.asyncAfter(deadline: .now()) {
+                    textAreaAccessibilityFocused = true
+                }
+            }
+        }
     }
 
     private func chatContainerView(_ frameHeight: CGFloat) -> some View {
@@ -58,11 +66,13 @@ struct ChatView: View {
             maxTextEditorFrameHeight: frameHeight
         )
 
+
         return VStack(spacing: 0) {
             chatCellsScrollViewReaderView
                 .frame(maxHeight: .infinity)
                 .layoutPriority(1)
             chatActionView
+                .accessibilityFocused($textAreaAccessibilityFocused)
         }
     }
 
