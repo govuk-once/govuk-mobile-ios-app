@@ -5,9 +5,9 @@ extension UITabBarItemAppearance {
     static var govUK: UITabBarItemAppearance {
         let appearance = UITabBarItemAppearance()
 
-        appearance.selected.iconColor = UIColor.govUK.text.link
+        appearance.selected.iconColor = UIColor.govUK.text.linkSecondary
         appearance.selected.titleTextAttributes = [
-            .foregroundColor: UIColor.govUK.text.link
+            .foregroundColor: UIColor.govUK.text.linkSecondary
         ]
 
         appearance.normal.iconColor = UIColor.govUK.text.secondary
