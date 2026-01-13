@@ -61,6 +61,7 @@ class HomeViewModel: ObservableObject {
 
     func updateWidgets() {
         let array = [
+            chatWidget,
             topicsWidget,
             addLocalAuthorityWidget,
             storedLocalAuthorityWidget,
@@ -95,6 +96,28 @@ class HomeViewModel: ObservableObject {
                 )
             )
         }
+    }
+
+    private var chatWidget: HomepageWidget? {
+        guard featureEnabled(.chat),
+              let chatBanner = configService.chatBanner,
+              !userDefaultsService.hasSeen(banner: chatBanner)
+        else { return nil }
+        let viewModel = ChatWidgetViewModel(
+            analyticsService: analyticsService,
+            chat: chatBanner,
+            urlOpener: urlOpener,
+            dismissAction: {
+                self.userDefaultsService.markSeen(banner: chatBanner)
+                self.updateWidgets()
+            }
+        )
+
+        return HomepageWidget(
+            content: ChatWidgetView(
+                viewModel: viewModel
+            )
+        )
     }
 
     private var topicsWidget: HomepageWidget? {

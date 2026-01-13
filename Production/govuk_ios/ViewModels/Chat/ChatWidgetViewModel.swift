@@ -10,12 +10,12 @@ struct ChatWidgetViewModel {
     let linkUrl: URL
     let linkTitle: String
     let urlOpener: URLOpener
-    let dismiss: () -> Void
+    let dismissAction: () -> Void
 
     init(analyticsService: AnalyticsServiceInterface,
          chat: ChatBanner,
          urlOpener: URLOpener,
-         dismiss: @escaping () -> Void) {
+         dismissAction: @escaping () -> Void) {
         id = chat.id
         title = chat.title
         body = chat.body
@@ -23,12 +23,22 @@ struct ChatWidgetViewModel {
         linkTitle = chat.link.title
         self.analyticsService = analyticsService
         self.urlOpener = urlOpener
-        self.dismiss = dismiss
+        self.dismissAction = dismissAction
     }
 
     func open() {
         let event = AppEvent.widgetNavigation(text: title)
         analyticsService.track(event: event)
         urlOpener.openIfPossible(linkUrl)
+    }
+
+    func dismiss() {
+        let analyticsText = title
+        let event = AppEvent.buttonFunction(
+            text: analyticsText,
+            section: "Banner",
+            action: "Dismiss")
+        analyticsService.track(event: event)
+        dismissAction()
     }
 }
