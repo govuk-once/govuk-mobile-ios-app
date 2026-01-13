@@ -14,7 +14,7 @@ struct ChatWidgetViewModelTests {
             analyticsService: MockAnalyticsService(),
             chat: chat,
             urlOpener: mockUrlOpener,
-            dismiss: {}
+            dismissAction: {}
         )
         sut.open()
 
@@ -30,12 +30,33 @@ struct ChatWidgetViewModelTests {
             analyticsService: analyticsService,
             chat: chat,
             urlOpener: MockURLOpener(),
-            dismiss: {}
+            dismissAction: {}
         )
         sut.open()
 
         #expect(analyticsService._trackedEvents.count == 1)
         #expect(analyticsService._trackedEvents[0].name == "Navigation")
         #expect(analyticsService._trackedEvents[0].params?["text"] as? String == "Chat widget title")
+    }
+
+
+    @Test
+    func dismiss_tracksEvent() {
+        let link = ChatBanner.Link(title: "Title", url: URL(string: "https://www.test.com")!)
+        let chat = ChatBanner(id: "1234", title: "Chat widget title", body: "Body", link: link)
+        let analyticsService = MockAnalyticsService()
+        let sut = ChatWidgetViewModel(
+            analyticsService: analyticsService,
+            chat: chat,
+            urlOpener: MockURLOpener(),
+            dismissAction: {}
+        )
+        sut.dismiss()
+
+        #expect(analyticsService._trackedEvents.count == 1)
+        #expect(analyticsService._trackedEvents[0].name == "Function")
+        #expect(analyticsService._trackedEvents[0].params?["text"] as? String == "Chat widget title")
+        #expect(analyticsService._trackedEvents[0].params?["section"] as? String == "Banner")
+        #expect(analyticsService._trackedEvents[0].params?["action"] as? String == "Dismiss")
     }
 }
