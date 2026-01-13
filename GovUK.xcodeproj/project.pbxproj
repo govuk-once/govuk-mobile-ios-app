@@ -55,6 +55,7 @@
 		16D186A62E461DC5006ACC7A /* ChatInfoOnboardingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D186A52E461DBB006ACC7A /* ChatInfoOnboardingCoordinator.swift */; };
 		16D186A82E462D94006ACC7A /* ChatConsentOnboardingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D186A72E462D86006ACC7A /* ChatConsentOnboardingCoordinator.swift */; };
 		16D186AC2E462F14006ACC7A /* ChatConsentOnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D186AB2E462F06006ACC7A /* ChatConsentOnboardingViewModel.swift */; };
+		16DB3CB82F0417D900F77DF4 /* SearchCommerceItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DB3CB72F0417C900F77DF4 /* SearchCommerceItem.swift */; };
 		16E8644C2D28362000BCC0FC /* SearchSuggestions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E8644B2D28361300BCC0FC /* SearchSuggestions.swift */; };
 		16E912AF2DA72CE000CD2049 /* OIDAuthorizationServiceWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E912AE2DA72CAD00CD2049 /* OIDAuthorizationServiceWrapper.swift */; };
 		16EE1A412C6F8968005E820F /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16EE1A402C6F8968005E820F /* SearchViewController.swift */; };
@@ -268,6 +269,7 @@
 		5DFB489C2DE9F7F600B41CDA /* LaunchCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFB48802DE9F7F600B41CDA /* LaunchCoordinator.swift */; };
 		5DFDEBF12CEE396D00F7A365 /* UserProperty+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFDEBF02CEE396D00F7A365 /* UserProperty+Convenience.swift */; };
 		5DFE5F1E2D6DE5900041E3B4 /* UNUserNotificationCenter+Interface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFE5F1D2D6DE5900041E3B4 /* UNUserNotificationCenter+Interface.swift */; };
+		8171AE472F1116A00024312B /* ScrollBottomIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8171AE462F11169A0024312B /* ScrollBottomIndicatorView.swift */; };
 		8181DBFA2EE214B100F47531 /* FactoryKit in Frameworks */ = {isa = PBXBuildFile; productRef = 8181DBF92EE214B100F47531 /* FactoryKit */; };
 		8181DBFC2EE214B100F47531 /* FactoryTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 8181DBFB2EE214B100F47531 /* FactoryTesting */; };
 		B04C2E7E2DA913B100F0F63E /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B04C2E7D2DA913B100F0F63E /* WebViewController.swift */; };
@@ -477,6 +479,7 @@
 		16D186A52E461DBB006ACC7A /* ChatInfoOnboardingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInfoOnboardingCoordinator.swift; sourceTree = "<group>"; };
 		16D186A72E462D86006ACC7A /* ChatConsentOnboardingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatConsentOnboardingCoordinator.swift; sourceTree = "<group>"; };
 		16D186AB2E462F06006ACC7A /* ChatConsentOnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatConsentOnboardingViewModel.swift; sourceTree = "<group>"; };
+		16DB3CB72F0417C900F77DF4 /* SearchCommerceItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCommerceItem.swift; sourceTree = "<group>"; };
 		16E8644B2D28361300BCC0FC /* SearchSuggestions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSuggestions.swift; sourceTree = "<group>"; };
 		16E912AE2DA72CAD00CD2049 /* OIDAuthorizationServiceWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OIDAuthorizationServiceWrapper.swift; sourceTree = "<group>"; };
 		16EE1A402C6F8968005E820F /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -691,6 +694,7 @@
 		5DFB488A2DE9F7F600B41CDA /* WelcomeOnboardingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeOnboardingCoordinator.swift; sourceTree = "<group>"; };
 		5DFDEBF02CEE396D00F7A365 /* UserProperty+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserProperty+Convenience.swift"; sourceTree = "<group>"; };
 		5DFE5F1D2D6DE5900041E3B4 /* UNUserNotificationCenter+Interface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UNUserNotificationCenter+Interface.swift"; sourceTree = "<group>"; };
+		8171AE462F11169A0024312B /* ScrollBottomIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollBottomIndicatorView.swift; sourceTree = "<group>"; };
 		B04C2E7D2DA913B100F0F63E /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		B04C2E7F2DA9141400F0F63E /* WebDeeplinkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebDeeplinkRoute.swift; sourceTree = "<group>"; };
 		B04C2E812DA9339B00F0F63E /* WebViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewCoordinator.swift; sourceTree = "<group>"; };
@@ -1868,6 +1872,7 @@
 				D0ECAB032DCDF9EE00A9707E /* RadioButtonView.swift */,
 				4EAFCE522E437D2B00125755 /* HomepageWidget.swift */,
 				4EE44BAC2E70332C0093D380 /* NonTappableCardView.swift */,
+				8171AE462F11169A0024312B /* ScrollBottomIndicatorView.swift */,
 			);
 			path = SwiftUIViews;
 			sourceTree = "<group>";
@@ -1895,6 +1900,7 @@
 		D04C542A2D7081C00070EE79 /* Analytics */ = {
 			isa = PBXGroup;
 			children = (
+				16DB3CB72F0417C900F77DF4 /* SearchCommerceItem.swift */,
 				D04C542D2D7082000070EE79 /* ECommerceItem.swift */,
 				D04C542F2D70821D0070EE79 /* HomeCommerceItem.swift */,
 				D04C542B2D7081CC0070EE79 /* TopicCommerceItem.swift */,
@@ -2529,6 +2535,7 @@
 				4E6663CA2C737EF50063E81C /* Config.swift in Sources */,
 				3D3378142CAAC0E0004BF83F /* AppUnavailableContainerView.swift in Sources */,
 				166248242C4AC91E009F7E58 /* HomeCoordinator.swift in Sources */,
+				16DB3CB82F0417D900F77DF4 /* SearchCommerceItem.swift in Sources */,
 				D0839FD02DE7ABE800CA5C27 /* GovUKProviderFactory.swift in Sources */,
 				D06C2A512DDF39C90045C674 /* LocalAuthorityResponseHandler.swift in Sources */,
 				4E5E79A82DEF063800CA9B4D /* LocalAuthorityConfirmationView.swift in Sources */,
@@ -2673,6 +2680,7 @@
 				16AE517F2E6886D3002BCFD7 /* InfoIconListView.swift in Sources */,
 				4E4089882DBBEF78003ECB3B /* EditLocalAuthorityCoordinator.swift in Sources */,
 				4E00EEEF2CCB04B0007B61E8 /* TopicsOnboardingViewModel.swift in Sources */,
+				8171AE472F1116A00024312B /* ScrollBottomIndicatorView.swift in Sources */,
 				168F85532DE9AE4B0040E6AF /* ScrollBounceBehaviourModifier.swift in Sources */,
 				16E912AF2DA72CE000CD2049 /* OIDAuthorizationServiceWrapper.swift in Sources */,
 				164150AF2DE5DB6D00798DF3 /* WelcomeOnboardingViewModel.swift in Sources */,
