@@ -89,7 +89,7 @@ platform :ios do
   desc 'Regenerate profiles'
   lane :sign_generate do
     match(
-      git_url: 'git@github.com:alphagov/govuk-mobile-ios-certificates.git',
+      git_url: 'git@github.com:govuk-once/govuk-mobile-ios-certificates.git',
       type: 'adhoc',
       app_identifier: [
         'uk.gov.govuk.dev',
@@ -98,7 +98,7 @@ platform :ios do
       force: true
     )
     match(
-      git_url: 'git@github.com:alphagov/govuk-mobile-ios-certificates.git',
+      git_url: 'git@github.com:govuk-once/govuk-mobile-ios-certificates.git',
       type: 'appstore',
       app_identifier: [
         'uk.gov.govuk',
