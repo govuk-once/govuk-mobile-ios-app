@@ -64,7 +64,7 @@ class StoredLocalAuthorityWidgetViewModel {
 
     private func trackNavigationEvent(_ title: String,
                                       external: Bool) {
-        let event = AppEvent.buttonNavigation(
+        let event = AppEvent.widgetNavigation(
             text: title,
             external: external
         )
