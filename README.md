@@ -1,9 +1,5 @@
 # GOV.UK - iOS mobile application
 
->[!Note]
->This application is currently in a closed Beta and is not distributed for general use. 
-
-
 ## Getting started:
 
 ### Install Xcode
