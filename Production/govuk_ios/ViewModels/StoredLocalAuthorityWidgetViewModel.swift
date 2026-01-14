@@ -68,6 +68,6 @@ class StoredLocalAuthorityWidgetViewModel {
             text: title,
             external: external
         )
-        analyticsService.track(event: event) 
+        analyticsService.track(event: event)
     }
 }
