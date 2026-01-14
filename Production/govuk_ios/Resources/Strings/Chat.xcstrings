@@ -45,6 +45,17 @@
         }
       }
     },
+    "chatHeader" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GOV.UK Chat"
+          }
+        }
+      }
+    },
     "clearAlertBodyText" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -166,35 +177,13 @@
         }
       }
     },
-    "introFirstMessage" : {
+    "introMessage" : {
       "extractionState" : "manual",
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hi 👋 I’m GOV.UK Chat."
-          }
-        }
-      }
-    },
-    "introSecondMessage" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "I’m an experimental AI tool. \n\nWhen you ask a question, I’ll find the most relevant information from GOV.UK and use it to create an answer."
-          }
-        }
-      }
-    },
-    "introThirdMessage" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ask a question to get started."
+            "value" : "Hello, I’m GOV.UK Chat 👋. I’m an experimental AI tool. \n\nWhen you ask a question, I’ll find the most relevant information from GOV.UK and use it to create an answer.\n\nMessages will be available for 90 days."
           }
         }
       }
@@ -206,17 +195,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Message loading…"
-          }
-        }
-      }
-    },
-    "messagesAvailableTitle" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Messages will be available until the end of the GOV.UK Chat trial"
           }
         }
       }

@@ -20,9 +20,6 @@ struct ChatView: View {
             ZStack {
                 Color(UIColor.govUK.fills.surfaceChatBackground)
                     .edgesIgnoringSafeArea(.all)
-                Image(decorative: verticalSizeClass == .compact ?
-                      "chat_background_landscape" : "chat_background")
-                .resizable()
                 .opacity(backgroundOpacity)
                 .ignoresSafeArea(edges: [.top, .leading, .trailing])
 
@@ -62,6 +59,7 @@ struct ChatView: View {
             chatCellsScrollViewReaderView
                 .frame(maxHeight: .infinity)
                 .layoutPriority(1)
+                .padding(.vertical, 8)
             chatActionView
         }
     }
@@ -89,18 +87,16 @@ struct ChatView: View {
             Rectangle()
                 .fill(Color.clear)
                 .frame(height: 16)
-            Text(String.chat.localized("messagesAvailableTitle"))
-                .font(.subheadline)
-                .foregroundStyle(Color(UIColor.govUK.text.secondary))
+            Text(.Chat.chatHeader)
+                .font(.govUK.title2Bold)
+                .foregroundStyle(Color(UIColor.govUK.text.primary))
                 .multilineTextAlignment(.center)
+                .accessibilityAddTraits(.isHeader)
                 .padding(.bottom, 4.0)
             chatCellsView
             Text("")
                 .id(bottomID)
         }
-        .mask(
-            gradientMask
-        )
         .scrollIndicators(.hidden)
         .onChange(of: viewModel.scrollToBottom) { shouldScroll in
             if shouldScroll {
@@ -118,31 +114,6 @@ struct ChatView: View {
             }
             viewModel.scrollToTop = false
         }
-    }
-
-    var gradientMask: some View {
-        LinearGradient(
-            gradient: Gradient(stops: [
-                .init(
-                    color: Color(.black).opacity(0),
-                    location: 0
-                ),
-                .init(
-                    color: Color(.black).opacity(1),
-                    location: 0.04
-                ),
-                .init(
-                    color: Color(.black).opacity(1),
-                    location: 0.94
-                ),
-                .init(
-                    color: Color(.black).opacity(0),
-                    location: 1
-                )
-            ]),
-            startPoint: .top,
-            endPoint: .bottom
-        )
     }
 }
 
