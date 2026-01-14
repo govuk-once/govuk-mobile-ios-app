@@ -1,6 +1,5 @@
 import SwiftUI
 import UIComponents
-import FactoryKit
 
 struct ChatWidgetView: View {
     let viewModel: ChatWidgetViewModel

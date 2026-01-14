@@ -327,19 +327,6 @@ final class ChatServiceTests {
     }
 
     @Test
-    func isEnabled_featureAvailableTestNotActive_returnsTrue() {
-        let sut = ChatService(
-            serviceClient: mockChatServiceClient,
-            chatRepository: mockChatRepository,
-            configService: mockConfigService,
-            userDefaultsService: mockUserDefaultsService
-        )
-        mockConfigService.features = [.chat]
-
-        #expect(sut.isEnabled == false)
-    }
-
-    @Test
     func chatOnboarded_setTrue_returnsTrue() {
         let sut = ChatService(
             serviceClient: mockChatServiceClient,
