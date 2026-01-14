@@ -110,7 +110,7 @@ class ChatViewModel: ObservableObject {
     func loadHistory() {
         guard let conversationId = chatService.currentConversationId else {
             cellModels.removeAll()
-            appendIntroMessages(animate: true)
+            appendIntroMessage(animate: true)
             return
         }
         guard shouldLoadHistory else {
@@ -141,32 +141,19 @@ class ChatViewModel: ObservableObject {
         handleError(error)
     }
 
-    private func appendIntroMessages(animate: Bool) {
-        let firstIntroMessage = Intro(
-            title: String.chat.localized("answerTitle"),
-            message: String.chat.localized("introFirstMessage")
-        )
-        let secondIntroMessage = Intro(
+    private func appendIntroMessage(animate: Bool) {
+        let introMessage = Intro(
             title: nil,
-            message: String.chat.localized("introSecondMessage")
+            message: String.chat.localized("introMessage")
         )
-        let thirdIntroMessage = Intro(
-            title: nil,
-            message: String.chat.localized("introThirdMessage")
-        )
-        let models = [
-            ChatCellViewModel(intro: firstIntroMessage,
-                              analyticsService: analyticsService),
-            ChatCellViewModel(intro: secondIntroMessage,
-                              analyticsService: analyticsService),
-            ChatCellViewModel(intro: thirdIntroMessage,
+        let model =
+            ChatCellViewModel(intro: introMessage,
                               analyticsService: analyticsService)
-        ]
         if animate {
-            addCellModels(models)
+            addCellModels([model])
         } else {
-            models.forEach { $0.isVisible = true }
-            cellModels.append(contentsOf: models)
+            model.isVisible = true
+            cellModels.append(model)
         }
     }
 
@@ -188,7 +175,7 @@ class ChatViewModel: ObservableObject {
 
     private func handleHistoryResponse(_ history: History) {
         cellModels.removeAll()
-        appendIntroMessages(animate: false)
+        appendIntroMessage(animate: false)
         let answers = history.answeredQuestions
         answers.forEach { answeredQuestion in
             let question = ChatCellViewModel(answeredQuestion: answeredQuestion,
@@ -216,7 +203,7 @@ class ChatViewModel: ObservableObject {
     func newChat() {
         cellModels.removeAll()
         chatService.clearHistory()
-        appendIntroMessages(animate: true)
+        appendIntroMessage(animate: true)
     }
 
     func openAboutURL() {
