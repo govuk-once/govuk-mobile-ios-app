@@ -92,15 +92,6 @@
       }
     },
     {
-      "identity" : "govuk-mobile-ios-ui-components",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/alphagov/govuk-mobile-ios-ui-components",
-      "state" : {
-        "branch" : "feature/brand-refresh",
-        "revision" : "e87b06d595dbdefc1ee910ec9744e921f6616e7f"
-      }
-    },
-    {
       "identity" : "grpc-binary",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/grpc-binary.git",
