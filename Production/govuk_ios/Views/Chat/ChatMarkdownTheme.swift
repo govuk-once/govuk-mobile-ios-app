@@ -5,7 +5,8 @@ import GOVKit
 extension Theme {
     static let govUK: Theme = Theme.basic
         .link {
-            ForegroundColor(Color(UIColor.govUK.text.link))
+            ForegroundColor(Color(UIColor.govUK.text.linkSecondary))
+            UnderlineStyle(.single)
         }
         .listItem { configuration in
             configuration.label
