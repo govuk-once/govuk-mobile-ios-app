@@ -245,11 +245,11 @@ struct ChatActionView: View {
     }
 
     private var shouldShowMenu: Bool {
-        viewModel.latestQuestion.isEmpty || !textAreaFocused
+        viewModel.latestQuestion.isEmpty
     }
 
     private var shouldShowSendButton: Bool {
-        textAreaFocused && !viewModel.latestQuestion.isEmpty
+        !viewModel.latestQuestion.isEmpty
     }
 }
 
