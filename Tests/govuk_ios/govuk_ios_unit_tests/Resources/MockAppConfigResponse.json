@@ -38,7 +38,7 @@
             "allowsDismissal": false
         }
     ],
-    "chatBanner": {
+    "chatBanner_v2": {
         "id": "govuk_chat_banner_09_2025",
         "title": "Get quick answers from GOV.UK Chat",
         "body": "Use GOV.UK’s experimental AI tool to find out more about topics, services and information on GOV.UK.",

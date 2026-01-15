@@ -34,7 +34,7 @@ final class ChatWidgetViewControllerSnapshotTests: SnapshotTestCase {
             analyticsService: MockAnalyticsService(),
             chat: mockAppConfigService._stubbedChatBanner!,
             urlOpener: MockURLOpener(),
-            dismiss: {}
+            dismissAction: {}
         )
         let view = ChatWidgetView(viewModel: viewModel)
         return HostingViewController(rootView: view)

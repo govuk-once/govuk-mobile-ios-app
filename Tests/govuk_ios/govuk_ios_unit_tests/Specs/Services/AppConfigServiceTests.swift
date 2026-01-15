@@ -159,6 +159,14 @@ struct AppConfigServiceTests {
 
         #expect(sut.isFeatureEnabled(key: .search) == false)
     }
+
+    @Test
+    func isFeatureEnabled_whenFeatureFlagIsChat_returnsFalse() {
+        let result = Config.arrange(releaseFlags: ["chat": true]).toResult()
+        mockAppConfigServiceClient._receivedFetchAppConfigCompletion?(result)
+
+        #expect(sut.isFeatureEnabled(key: .chat) == false)
+    }
 }
 
 private extension Config {

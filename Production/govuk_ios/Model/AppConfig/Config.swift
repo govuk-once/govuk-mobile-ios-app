@@ -1,6 +1,23 @@
 import Foundation
 
 struct Config: Decodable {
+    enum CodingKeys: String, CodingKey {
+        case available
+        case minimumVersion
+        case recommendedVersion
+        case releaseFlags
+        case lastUpdated
+        case searchApiUrl
+        case authenticationIssuerBaseUrl
+        case chatPollIntervalSeconds
+        case refreshTokenExpirySeconds
+        case alertBanner
+        case chatBanner = "chatBanner_v2"
+        case userFeedbackBanner
+        case emergencyBanners
+        case chatUrls
+    }
+
     let available: Bool
     let minimumVersion: String
     let recommendedVersion: String

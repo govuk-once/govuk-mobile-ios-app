@@ -35,6 +35,17 @@ struct HomeViewModelTests {
             )
         ]
 
+        mockConfigService._stubbedChatBanner = ChatBanner(
+            id: "chat",
+            title: "Introducing chat",
+            body: "Chat is a new feature",
+            link: ChatBanner.Link(
+                title: "link",
+                url: URL(string: "http://example.com")!
+            )
+        )
+
+        mockConfigService.features.append(.chat)
         let mockChatService = MockChatService()
         mockChatService._stubbedIsEnabled = true
 
@@ -60,7 +71,7 @@ struct HomeViewModelTests {
         let widgets = subject.widgets
       
         #expect((widgets as Any) is [HomepageWidget])
-        #expect(widgets.count == 5)
+        #expect(widgets.count == 6)
     }
 
     @Test

@@ -128,7 +128,7 @@
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dismiss banner"
+            "value" : "dismiss chat notice"
           }
         }
       }
