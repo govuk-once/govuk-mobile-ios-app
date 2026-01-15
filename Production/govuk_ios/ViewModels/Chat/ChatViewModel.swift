@@ -143,12 +143,13 @@ class ChatViewModel: ObservableObject {
 
     private func appendIntroMessage(animate: Bool) {
         let introMessage = Intro(
-            title: nil,
             message: String.chat.localized("introMessage")
         )
         let model =
-            ChatCellViewModel(intro: introMessage,
-                              analyticsService: analyticsService)
+            ChatCellViewModel(
+                intro: introMessage,
+                analyticsService: analyticsService
+            )
         if animate {
             addCellModels([model])
         } else {
