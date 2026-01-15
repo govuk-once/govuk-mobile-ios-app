@@ -43,7 +43,19 @@ struct RemoteConfigServiceTests {
         let result = sut.string(forKey: .testKey, defaultValue: "defaultStringValue")
         #expect(result == "defaultStringValue")
     }
-    
+
+    @Test
+    func stringForKey_whenAnalyticsConsentDenied_returnsDefaultValue() async throws {
+        mockRemoteConfigServiceClient._stubbedRemoteConfigValues = ["test_key": "testStringValue"]
+        mockAnalyticsService._stubbedPermissionState = .denied
+
+        let _ = await sut.fetch()
+        await sut.activate()
+
+        let result = sut.string(forKey: .testKey, defaultValue: "defaultStringValue")
+        #expect(result == "defaultStringValue")
+    }
+
     @Test
     func boolForKey_whenFetchedAndActivated_withValidKey_returnsExpectedValue() async throws {
         mockRemoteConfigServiceClient._stubbedRemoteConfigValues = ["test_key": true]

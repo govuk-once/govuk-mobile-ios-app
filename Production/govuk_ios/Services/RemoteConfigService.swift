@@ -24,6 +24,10 @@ class RemoteConfigService: RemoteConfigServiceInterface {
     private let remoteConfigServiceClient: RemoteConfigServiceClientInterface
     private let analyticsService: AnalyticsServiceInterface
 
+    private var shouldUseRemoteConfig: Bool {
+        return analyticsService.permissionState == .accepted
+    }
+
     init(remoteConfigServiceClient: RemoteConfigServiceClientInterface,
          analyticsService: AnalyticsServiceInterface) {
         self.remoteConfigServiceClient = remoteConfigServiceClient
@@ -49,18 +53,22 @@ class RemoteConfigService: RemoteConfigServiceInterface {
     }
 
     func string(forKey key: RemoteConfigKey, defaultValue: String) -> String {
-        remoteConfigServiceClient.string(forKey: key.rawValue) ?? defaultValue
+        guard shouldUseRemoteConfig else { return defaultValue }
+        return remoteConfigServiceClient.string(forKey: key.rawValue) ?? defaultValue
     }
 
     func bool(forKey key: RemoteConfigKey, defaultValue: Bool) -> Bool {
-        remoteConfigServiceClient.bool(forKey: key.rawValue) ?? defaultValue
+        guard shouldUseRemoteConfig else { return defaultValue }
+        return remoteConfigServiceClient.bool(forKey: key.rawValue) ?? defaultValue
     }
 
     func int(forKey key: RemoteConfigKey, defaultValue: Int) -> Int {
-        remoteConfigServiceClient.int(forKey: key.rawValue) ?? defaultValue
+        guard shouldUseRemoteConfig else { return defaultValue }
+        return remoteConfigServiceClient.int(forKey: key.rawValue) ?? defaultValue
     }
 
     func double(forKey key: RemoteConfigKey, defaultValue: Double) -> Double {
-        remoteConfigServiceClient.double(forKey: key.rawValue) ?? defaultValue
+        guard shouldUseRemoteConfig else { return defaultValue }
+        return remoteConfigServiceClient.double(forKey: key.rawValue) ?? defaultValue
     }
 }

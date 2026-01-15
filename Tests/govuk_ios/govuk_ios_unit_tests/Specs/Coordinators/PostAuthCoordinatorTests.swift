@@ -14,6 +14,7 @@ struct PostAuthCoordinatorTests {
         let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
         let subject = PostAuthCoordinator(
             coordinatorBuilder: mockCoordinatorBuilder,
+            analyticsService: MockAnalyticsService(),
             remoteConfigService: MockRemoteConfigService(),
             navigationController: MockNavigationController(),
             completion: { }
@@ -28,15 +29,19 @@ struct PostAuthCoordinatorTests {
     }
     
     @Test
-    func analyticsConsentCompletion_triggersRemoteConfigActivation() async {
+    func analyticsConsentCompletion_whenConsentAccepted_triggersRemoteConfigActivation() async {
         let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
         let mockRemoteConfigService = MockRemoteConfigService()
+        let mockAnalyticsService = MockAnalyticsService()
         let subject = PostAuthCoordinator(
             coordinatorBuilder: mockCoordinatorBuilder,
+            analyticsService: mockAnalyticsService,
             remoteConfigService: mockRemoteConfigService,
             navigationController: MockNavigationController(),
             completion: { }
         )
+
+        mockAnalyticsService._stubbedPermissionState = .accepted
 
         await withCheckedContinuation { continuation in
             mockRemoteConfigService._activateCompletionBlock = {
@@ -50,11 +55,36 @@ struct PostAuthCoordinatorTests {
     }
 
     @Test
+    func analyticsConsentCompletion_whenConsentDenied_doesNotTriggerRemoteConfigActivation() async {
+        let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
+        let mockRemoteConfigService = MockRemoteConfigService()
+        let mockAnalyticsService = MockAnalyticsService()
+        let subject = PostAuthCoordinator(
+            coordinatorBuilder: mockCoordinatorBuilder,
+            analyticsService: mockAnalyticsService,
+            remoteConfigService: mockRemoteConfigService,
+            navigationController: MockNavigationController(),
+            completion: { }
+        )
+
+        mockAnalyticsService._stubbedPermissionState = .denied
+        let mockTopicOnboardingCoordinator = MockBaseCoordinator()
+        mockCoordinatorBuilder._stubbedTopicOnboardingCoordinator = mockTopicOnboardingCoordinator
+
+        subject.start(url: nil)
+        mockCoordinatorBuilder._receivedAnalyticsConsentCompletion?()
+
+        #expect(mockRemoteConfigService._activateCallCount == 0)
+        #expect(mockTopicOnboardingCoordinator._startCalled)
+    }
+
+    @Test
     func analyticsConsentCompletion_startsTopicOnboarding() async {
         let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
         let mockRemoteConfigService = MockRemoteConfigService()
         let subject = PostAuthCoordinator(
             coordinatorBuilder: mockCoordinatorBuilder,
+            analyticsService: MockAnalyticsService(),
             remoteConfigService: mockRemoteConfigService,
             navigationController: MockNavigationController(),
             completion: { }
@@ -80,6 +110,7 @@ struct PostAuthCoordinatorTests {
         let mockRemoteConfigService = MockRemoteConfigService()
         let subject = PostAuthCoordinator(
             coordinatorBuilder: mockCoordinatorBuilder,
+            analyticsService: MockAnalyticsService(),
             remoteConfigService: mockRemoteConfigService,
             navigationController: MockNavigationController(),
             completion: { }
@@ -108,6 +139,7 @@ struct PostAuthCoordinatorTests {
         var completionCalled = false
         let subject = PostAuthCoordinator(
             coordinatorBuilder: mockCoordinatorBuilder,
+            analyticsService: MockAnalyticsService(),
             remoteConfigService: mockRemoteConfigService,
             navigationController: MockNavigationController(),
             completion: {
