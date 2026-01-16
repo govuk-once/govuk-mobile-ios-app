@@ -3,11 +3,8 @@ import GOVKit
 import UIComponents
 
 final class SignOutConfirmationViewModel {
-    let bulletStrings: [String] = [String.signOut.localized("signOutBulletOne"),
-                                   String.signOut.localized("signOutBulletTwo")]
     let title: String = String.signOut.localized("signOutTitle")
     let subTitle: String = String.signOut.localized("signOutSubtitle")
-    let body: String = String.signOut.localized("signOutBody")
 
     private let analyticsService: AnalyticsServiceInterface
     private let authenticationService: AuthenticationServiceInterface
