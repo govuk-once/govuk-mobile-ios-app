@@ -22,7 +22,7 @@ struct ChatCellView: View {
             case .intro:
                 introView
             case .loading:
-                questionView
+                loadingView
             }
         }
         .background(viewModel.backgroundColor)
@@ -30,7 +30,11 @@ struct ChatCellView: View {
         .scaleEffect(viewModel.scale, anchor: viewModel.anchor)
         .animation(.easeIn(duration: viewModel.duration).delay(viewModel.delay),
                    value: viewModel.isVisible)
-        .clipShape(RoundedRectangle(cornerRadius: 10))
+        .clipShape(
+            RoundedRectangle(
+                cornerRadius: viewModel.type == .pendingAnswer ? 0 : 18
+            )
+        )
         .padding(.top, viewModel.topPadding)
         .contextMenu {
             Button(action: {
@@ -42,10 +46,19 @@ struct ChatCellView: View {
         }
     }
 
+    private var loadingView: some View {
+        Text(.Chat.loadingQuestionMessage)
+            .font(.govUK.subheadline)
+            .foregroundStyle(Color(UIColor.govUK.text.primary))
+            .multilineTextAlignment(.trailing)
+            .padding(.trailing, 16)
+    }
+
     private var questionView: some View {
         HStack(alignment: .top, spacing: 8) {
             Text(viewModel.message)
                 .font(Font.govUK.body)
+                .foregroundStyle(.white)
                 .multilineTextAlignment(.leading)
                 .padding()
                 .accessibilityLabel(viewModel.accessibilityPrompt + viewModel.message)
@@ -65,10 +78,6 @@ struct ChatCellView: View {
 
     private var introView: some View {
         VStack(alignment: .leading, spacing: 8) {
-            if let title = viewModel.title {
-                Text(title)
-                    .font(Font.govUK.bodySemibold)
-            }
             Text(viewModel.message)
                 .font(Font.govUK.body)
         }
@@ -78,13 +87,7 @@ struct ChatCellView: View {
 
     private var answerView: some View {
         VStack(alignment: .leading, spacing: 8) {
-            if let title = viewModel.title {
-                Text(title)
-                    .font(Font.govUK.bodySemibold)
-            }
-            HStack(alignment: .firstTextBaseline) {
                 markdownView
-            }
             if !viewModel.sources.isEmpty {
                 Divider()
                     .overlay(Color(UIColor.govUK.strokes.chatDivider))
@@ -95,6 +98,8 @@ struct ChatCellView: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
+        .accessibilityElement(children: .contain)
+        .accessibilityLabel(.Chat.answerTitle)
     }
 
     private var sourceView: some View {
@@ -155,7 +160,7 @@ struct ChatCellView: View {
     private func sourceListItemTitleView(title: String) -> some View {
         HStack {
             Text(title)
-                .foregroundStyle(Color(UIColor.govUK.text.link))
+                .foregroundStyle(Color(UIColor.govUK.text.linkSecondary))
                 .multilineTextAlignment(.leading)
                 .padding(.top, 4)
             Spacer()

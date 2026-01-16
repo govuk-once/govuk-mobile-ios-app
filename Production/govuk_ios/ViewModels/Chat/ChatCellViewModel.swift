@@ -18,7 +18,6 @@ enum ChatCellType {
 }
 
 class ChatCellViewModel: ObservableObject {
-    let title: String?
     let message: String
     let id: String
     let type: ChatCellType
@@ -27,14 +26,12 @@ class ChatCellViewModel: ObservableObject {
     let analyticsService: AnalyticsServiceInterface?
     @Published var isVisible: Bool = false
 
-    init(title: String? = nil,
-         message: String,
+    init(message: String,
          id: String,
          type: ChatCellType,
          sources: [Source] = [],
          openURLAction: ((URL) -> Void)? = nil,
          analyticsService: AnalyticsServiceInterface? = nil) {
-        self.title = title
         self.message = message
         self.id = id
         self.type = type
@@ -55,7 +52,6 @@ class ChatCellViewModel: ObservableObject {
                      openURLAction: @escaping (URL) -> Void,
                      analyticsService: AnalyticsServiceInterface) {
         self.init(
-            title: String.chat.localized("answerTitle"),
             message: answer.message ?? "",
             id: answer.id ?? UUID().uuidString,
             type: .answer,
@@ -76,8 +72,7 @@ class ChatCellViewModel: ObservableObject {
 
     convenience init(intro: Intro,
                      analyticsService: AnalyticsServiceInterface) {
-        self.init(title: intro.title,
-                  message: intro.message,
+        self.init(message: intro.message,
                   id: intro.id,
                   type: .intro,
                   analyticsService: analyticsService)
@@ -137,12 +132,12 @@ class ChatCellViewModel: ObservableObject {
 extension ChatCellViewModel {
     var backgroundColor: Color {
         switch type {
-        case .question, .loading:
+        case .question:
             Color(UIColor.govUK.fills.surfaceChatQuestion)
-        case .pendingAnswer:
+        case .loading, .pendingAnswer:
             Color(UIColor.clear)
         case .answer, .intro:
-            Color(UIColor.govUK.fills.surfaceChatBlue)
+            Color(UIColor.govUK.fills.surfaceChatAnswer)
         }
     }
 
@@ -187,7 +182,7 @@ extension ChatCellViewModel {
     }
 
     var topPadding: CGFloat {
-        if type == .intro {
+        if type == .intro || type == .loading {
             0.0
         } else {
             8.0

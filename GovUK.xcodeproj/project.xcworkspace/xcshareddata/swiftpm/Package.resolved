@@ -1,5 +1,5 @@
 {
-  "originHash" : "0946eab9698da26833994551712aee358d15d12d64bcca7b6d17a33a1ddc88a6",
+  "originHash" : "f19efa60fc3da2f90e2612fb8e40e880ab7adfc65c82d9c9581b65d4ff9ba56c",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -106,7 +106,7 @@
       "location" : "https://github.com/govuk-once/govuk-mobile-ios-ui-components/",
       "state" : {
         "branch" : "main",
-        "revision" : "d900b6aeacc869e6bc7c982158471a7ba206d27e"
+        "revision" : "82fe7bdc6843d6059733e11e7e80b49778d18525"
       }
     },
     {

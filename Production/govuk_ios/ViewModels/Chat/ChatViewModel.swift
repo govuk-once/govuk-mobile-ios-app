@@ -55,7 +55,15 @@ class ChatViewModel: ObservableObject {
         trackAskQuestionSubmission()
         errorText = nil
         warningText = nil
-        addCellModels([.loadingQuestion])
+        let currentQuestionModel = ChatCellViewModel(
+            message: localQuestion,
+            id: UUID().uuidString,
+            type: .question,
+            analyticsService: analyticsService
+        )
+        addCellModels([
+            currentQuestionModel,
+            .loadingQuestion])
         scrollToBottom = true
         requestInFlight = true
         chatService.askQuestion(localQuestion) { [weak self] result in
@@ -63,7 +71,7 @@ class ChatViewModel: ObservableObject {
             self?.removeCellModel(.loadingQuestion)
             switch result {
             case .success(let pendingQuestion):
-                self?.latestQuestionID = pendingQuestion.id
+                self?.latestQuestionID = currentQuestionModel.id
                 self?.latestQuestion = ""
                 self?.pollForAnswer(pendingQuestion)
                 completion?(true)
@@ -82,11 +90,7 @@ class ChatViewModel: ObservableObject {
 
     private func pollForAnswer(_ question: PendingQuestion) {
         requestInFlight = true
-        addCellModels(
-            [ChatCellViewModel(question: question,
-                               analyticsService: analyticsService),
-             .gettingAnswer]
-        )
+        addCellModels([.gettingAnswer])
         chatService.pollForAnswer(question) { [weak self] result in
             guard let self else { return }
             removeCellModel(.gettingAnswer)
@@ -143,12 +147,13 @@ class ChatViewModel: ObservableObject {
 
     private func appendIntroMessage(animate: Bool) {
         let introMessage = Intro(
-            title: nil,
             message: String.chat.localized("introMessage")
         )
         let model =
-            ChatCellViewModel(intro: introMessage,
-                              analyticsService: analyticsService)
+            ChatCellViewModel(
+                intro: introMessage,
+                analyticsService: analyticsService
+            )
         if animate {
             addCellModels([model])
         } else {
@@ -191,6 +196,10 @@ class ChatViewModel: ObservableObject {
             cellModels.append(answer)
         }
         if let pendingQuestion = history.pendingQuestion {
+            cellModels.append(ChatCellViewModel(
+                question: pendingQuestion,
+                analyticsService: analyticsService)
+            )
             pollForAnswer(pendingQuestion)
         }
     }

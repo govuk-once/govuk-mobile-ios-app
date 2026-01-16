@@ -55,9 +55,11 @@ final class ChatViewControllerSnapshotTests: SnapshotTestCase {
         viewModel.askQuestion()
         // With no history loading to create cellModels, modify the array
         // directly
-        let model = ChatCellViewModel.gettingAnswer
-        model.isVisible = true
-        viewModel.cellModels = [ChatCellViewModel.gettingAnswer]
+        let loadingModel = ChatCellViewModel.loadingQuestion
+        loadingModel.isVisible = true
+        let gettingAnswerModel = ChatCellViewModel.gettingAnswer
+        gettingAnswerModel.isVisible = true
+        viewModel.cellModels = [loadingModel, gettingAnswerModel]
 
         let view = ChatView(viewModel: viewModel)
             .environment(\.isTesting, true)
@@ -83,9 +85,11 @@ final class ChatViewControllerSnapshotTests: SnapshotTestCase {
         )
         viewModel.askQuestion()
 
-        let model = ChatCellViewModel.gettingAnswer
-        model.isVisible = true
-        viewModel.cellModels = [ChatCellViewModel.gettingAnswer]
+        let loadingModel = ChatCellViewModel.loadingQuestion
+        loadingModel.isVisible = true
+        let gettingAnswerModel = ChatCellViewModel.gettingAnswer
+        gettingAnswerModel.isVisible = true
+        viewModel.cellModels = [loadingModel, gettingAnswerModel]
 
         let view = ChatView(viewModel: viewModel)
             .environment(\.isTesting, true)
