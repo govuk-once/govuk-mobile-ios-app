@@ -196,6 +196,10 @@ class ChatViewModel: ObservableObject {
             cellModels.append(answer)
         }
         if let pendingQuestion = history.pendingQuestion {
+            cellModels.append(ChatCellViewModel(
+                question: pendingQuestion,
+                analyticsService: analyticsService)
+            )
             pollForAnswer(pendingQuestion)
         }
     }
