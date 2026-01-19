@@ -108,7 +108,7 @@ extension Container {
                 remoteConfigServiceClient: self.remoteConfigServiceClient.resolve(),
                 analyticsService: self.analyticsService.resolve()
             )
-        }.scope(.singleton)
+        }
     }
 
     var topicsService: Factory<TopicsServiceInterface> {

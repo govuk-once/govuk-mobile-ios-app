@@ -38,6 +38,7 @@ class PostAuthCoordinator: BaseCoordinator {
         )
         start(coordinator)
     }
+
     private func activateRemoteConfig() {
         Task {
             await remoteConfigService.activate()
