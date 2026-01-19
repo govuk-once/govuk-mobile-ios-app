@@ -45,6 +45,20 @@ struct ChatView: View {
         .onTapGesture {
             textAreaFocused = false
         }
+        .alert(
+            viewModel.validationAlertDetails.title,
+            isPresented: $viewModel.showValidationAlert,
+            presenting: viewModel.validationAlertDetails
+        ) { details in
+            Button(role: .cancel) {
+                textAreaFocused = true
+                viewModel.showValidationAlert = false
+            } label: {
+                Text(details.buttonTitle)
+            }
+        } message: { details in
+            Text(details.message)
+        }
     }
 
     private func chatContainerView(_ frameHeight: CGFloat) -> some View {

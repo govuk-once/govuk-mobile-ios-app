@@ -397,6 +397,28 @@
         }
       }
     },
+    "personalDataValidationErrorText" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Personal data has been detected in your question. Please remove it and try again."
+          }
+        }
+      }
+    },
+    "personalDataValidationTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Personal data"
+          }
+        }
+      }
+    },
     "privacyMenuTitle" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -505,17 +527,6 @@
                 }
               }
             }
-          }
-        }
-      }
-    },
-    "validationErrorText" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Personal data has been detected in your question. Please remove it and try again."
           }
         }
       }
