@@ -97,7 +97,7 @@ struct ChatViewModelTests {
     }
 
     @Test
-    func askQuestionWithPII_generatesErrorText() {
+    func askQuestionWithPII_showValidationAlert() {
         let mockChatService = MockChatService()
         let mockAnalyticsService = MockAnalyticsService()
         mockChatService._stubbedQuestionResult = .failure(ChatError.pageNotFound)
@@ -112,18 +112,20 @@ struct ChatViewModelTests {
         )
         sut.latestQuestion = "My e-mail is steve@apple.com"
 
-        #expect(sut.errorText == nil)
+        #expect(sut.showValidationAlert == false)
+        #expect(sut.validationAlertDetails.title == "Validation error")
         sut.askQuestion()
 
         #expect(sut.cellModels.count == 0)
         #expect(chatError == nil)
-        #expect(sut.errorText != nil)
+        #expect(sut.validationAlertDetails.title == "Personal data")
+        #expect(sut.showValidationAlert == true)
         #expect(!sut.latestQuestion.isEmpty)
         #expect(mockAnalyticsService._trackedEvents.count == 0)
     }
 
     @Test
-    func askQuestion_validationError_generatesErrorText() {
+    func askQuestion_validationError_showValidationAlert() {
         let mockChatService = MockChatService()
         mockChatService._stubbedQuestionResult = .failure(ChatError.validationError)
         var chatError: ChatError?
@@ -137,11 +139,13 @@ struct ChatViewModelTests {
         )
         sut.latestQuestion = "This is the question"
 
-        #expect(sut.errorText == nil)
+        #expect(sut.showValidationAlert == false)
+        #expect(sut.validationAlertDetails.title == "Validation error")
         sut.askQuestion()
 
         #expect(chatError == nil)
-        #expect(sut.errorText != nil)
+        #expect(sut.validationAlertDetails.title == "Personal data")
+        #expect(sut.showValidationAlert == true)
         #expect(!sut.latestQuestion.isEmpty)
     }
 

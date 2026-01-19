@@ -86,11 +86,12 @@ class ChatViewModel: ObservableObject {
                 self?.requestInFlight = false
                 if error == .validationError {
                     self?.setPersonalDataValidationAlertDetails()
+                    self?.showValidationAlert = true
                 } else {
                     self?.processError(error)
                     self?.latestQuestion = ""
+                    completion?(false)
                 }
-                completion?(false)
             }
         }
     }
