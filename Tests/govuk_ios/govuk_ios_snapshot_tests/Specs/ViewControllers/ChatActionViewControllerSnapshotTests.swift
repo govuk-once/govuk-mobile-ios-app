@@ -79,8 +79,9 @@ final class ChatActionViewControllerSnapshotTests: SnapshotTestCase {
             )
             .environment(\.isTesting, true)
             .onAppear {
-                viewModel.errorText = LocalizedStringKey(
-                    String.chat.localized("validationErrorText")
+                viewModel.latestQuestion = String(
+                    repeating: "aa",
+                    count: viewModel.maxCharacters
                 )
                 textAreaFocused = true
             }
