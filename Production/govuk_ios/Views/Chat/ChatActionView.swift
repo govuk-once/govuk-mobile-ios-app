@@ -9,7 +9,7 @@ struct ChatActionView: View {
     @Binding var showClearChatAlert: Bool
     private var animationDuration = 0.3
     private var maxTextEditorFrameHeight: CGFloat
-    private var menuDimensions: CGSize = CGSize(width: 36, height: 36)
+    private var actionDimensions: CGSize = CGSize(width: 36, height: 36)
 
     init(viewModel: ChatViewModel,
          textAreaFocused: FocusState<Bool>.Binding,
@@ -58,18 +58,17 @@ struct ChatActionView: View {
 
     private func chatActionComponentsView(maxFrameHeight: CGFloat) -> some View {
         ZStack {
-            let buttonTrailingPadding: CGFloat = 6
             HStack(alignment: .center, spacing: 6) {
                 textEditorView(maxFrameHeight: maxFrameHeight)
                 // UITextView absorbs all taps if focused in HStack, moves ChatMenuView to its
                 // own HStack and copies dimensions to an invisible circle
                 if shouldShowMenu {
                     Circle().frame(
-                        width: menuDimensions.width,
-                        height: menuDimensions.height
+                        width: actionDimensions.width,
+                        height: actionDimensions.height
                     )
                     .opacity(0)
-                    .padding(.trailing, buttonTrailingPadding)
+                    .padding(.trailing, 6)
                 }
             }
             .overlay(alignment: .center) {
@@ -78,17 +77,17 @@ struct ChatActionView: View {
                     if shouldShowMenu {
                         ChatMenuView(
                             viewModel: viewModel,
-                            menuDimensions: menuDimensions,
+                            menuDimensions: actionDimensions,
                             showClearChatAlert: $showClearChatAlert,
                             disableClearChat: $viewModel.requestInFlight
                         )
-                        .padding(.trailing, buttonTrailingPadding)
+                        .padding(.trailing, 6)
                     }
                 }
             }
             .overlay(alignment: .bottomTrailing) {
                 sendButtonView
-                    .padding(.trailing, buttonTrailingPadding)
+                    .padding([.trailing, .bottom], 2)
             }
         }
         .accessibilityElement(children: .contain)
@@ -195,25 +194,32 @@ struct ChatActionView: View {
     }
 
     private var sendButtonView: some View {
-        HStack(alignment: .bottom) {
+        HStack(alignment: .center) {
             Spacer()
 
             Button(action: askQuestion) {
-                Image(systemName: "arrow.up")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 16, height: 16)
-                    .foregroundColor(
-                        Color(UIColor.govUK.text.buttonPrimary)
-                    )
-                    .frame(width: 36, height: 48)
-                    .background(
-                        Circle().fill(
-                            Color(UIColor.govUK.text.buttonSecondary)
+                ZStack {
+                    Circle()
+                        .fill(Color(UIColor.govUK.text.buttonSecondary))
+                        .frame(
+                            width: actionDimensions.width,
+                            height: actionDimensions.height
                         )
-                    )
-                    .opacity(viewModel.shouldDisableSend ? 0.4 : 1)
+
+                    Image(systemName: "arrow.up")
+                        .font(.system(size: 16, weight: .semibold))
+                        .foregroundColor(Color(UIColor.govUK.text.buttonPrimary))
+                }
+                .frame(width: 44, height: 44, alignment: .center)
+                .contentShape(Circle())
+                .opacity(viewModel.shouldDisableSend ? 0.4 : 1)
             }
+            .buttonStyle(
+                ExpandingButtonStyle(
+                    baseSize: actionDimensions.width,
+                    expandedSize: 42
+                )
+            )
             .accessibilityLabel(String.chat.localized("sendButtonAccessibilityLabel"))
             .disabled(viewModel.shouldDisableSend)
             .simultaneousGesture(TapGesture().onEnded {
@@ -226,7 +232,6 @@ struct ChatActionView: View {
             .conditionalAnimation(shouldShowSendButton ? .easeInOut(duration: 0.3) : .none,
                                   value: shouldShowSendButton)
         }
-        .padding(.leading, 16)
     }
 
     private func askQuestion() {
