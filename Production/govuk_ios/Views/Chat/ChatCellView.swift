@@ -160,6 +160,7 @@ struct ChatCellView: View {
     private func sourceListItemTitleView(title: String) -> some View {
         HStack {
             Text(title)
+                .underline()
                 .foregroundStyle(Color(UIColor.govUK.text.linkSecondary))
                 .multilineTextAlignment(.leading)
                 .padding(.top, 4)
