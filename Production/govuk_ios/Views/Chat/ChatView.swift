@@ -20,8 +20,8 @@ struct ChatView: View {
             ZStack {
                 Color(UIColor.govUK.fills.surfaceChatBackground)
                     .edgesIgnoringSafeArea(.all)
-                .opacity(backgroundOpacity)
-                .ignoresSafeArea(edges: [.top, .leading, .trailing])
+                    .opacity(backgroundOpacity)
+                    .ignoresSafeArea(edges: [.top, .leading, .trailing])
 
                 chatContainerView(geometry.size.height - 32)
                     .conditionalAnimation(.easeInOut(duration: transitionDuration),
