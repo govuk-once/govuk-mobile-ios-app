@@ -87,6 +87,7 @@ class ChatViewModel: ObservableObject {
                 if error == .validationError {
                     self?.setPersonalDataValidationAlertDetails()
                     self?.showValidationAlert = true
+                    self?.removeCellModel(currentQuestionModel)
                 } else {
                     self?.processError(error)
                     self?.latestQuestion = ""

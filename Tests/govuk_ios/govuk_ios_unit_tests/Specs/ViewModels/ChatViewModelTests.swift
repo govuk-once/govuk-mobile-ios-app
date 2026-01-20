@@ -143,6 +143,7 @@ struct ChatViewModelTests {
         #expect(sut.validationAlertDetails.title == "Validation error")
         sut.askQuestion()
 
+        #expect(sut.cellModels.count == 0)
         #expect(chatError == nil)
         #expect(sut.validationAlertDetails.title == "Personal data")
         #expect(sut.showValidationAlert == true)
