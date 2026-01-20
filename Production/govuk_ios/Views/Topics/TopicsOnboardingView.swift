@@ -1,5 +1,5 @@
 import SwiftUI
-import GOVKit
+import GovKit
 
 struct TopicsOnboardingView: View {
     @StateObject private var viewModel: TopicsOnboardingViewModel

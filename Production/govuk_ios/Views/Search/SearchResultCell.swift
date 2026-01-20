@@ -1,5 +1,5 @@
 import UIKit
-import UIComponents
+import GovKitUI
 
 class SearchResultCell: UITableViewCell {
     private lazy var card: UIView = {

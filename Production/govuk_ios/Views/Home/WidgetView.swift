@@ -1,6 +1,6 @@
 import UIKit
 import Foundation
-import UIComponents
+import GovKitUI
 
 class WidgetView: UIView {
     private(set) lazy var contentView = UIView()

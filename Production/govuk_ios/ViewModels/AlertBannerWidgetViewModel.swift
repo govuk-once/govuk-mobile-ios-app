@@ -1,6 +1,6 @@
 import Foundation
 
-import GOVKit
+import GovKit
 
 struct AlertBannerWidgetViewModel {
     let id: String

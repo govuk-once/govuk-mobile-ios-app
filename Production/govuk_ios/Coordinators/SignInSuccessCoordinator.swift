@@ -1,5 +1,5 @@
 import SwiftUI
-import GOVKit
+import GovKit
 
 final class SignInSuccessCoordinator: BaseCoordinator {
     private let analyticsService: AnalyticsServiceInterface

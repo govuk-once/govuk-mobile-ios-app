@@ -1,6 +1,6 @@
 import Foundation
 import UIKit
-import UIComponents
+import GovKitUI
 
 final class InformationView: UIControl {
     private let viewModel: NotificationsWidgetViewModel

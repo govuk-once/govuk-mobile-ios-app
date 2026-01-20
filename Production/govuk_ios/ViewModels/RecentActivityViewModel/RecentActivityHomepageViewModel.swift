@@ -1,7 +1,7 @@
 import Foundation
 import CoreData
-import UIComponents
-import GOVKit
+import GovKitUI
+import GovKit
 
 class RecentActivityHomepageWidgetViewModel: NSObject,
                                             ObservableObject,

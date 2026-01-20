@@ -4,7 +4,7 @@ import Testing
 import SwiftUI
 import CoreData
 import FactoryKit
-import GOVKit
+import GovKit
 
 @testable import govuk_ios
 

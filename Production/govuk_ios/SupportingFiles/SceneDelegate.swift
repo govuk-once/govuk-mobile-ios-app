@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 import FactoryKit
-import GOVKit
+import GovKit
 
 class SceneDelegate: UIResponder,
                      UIWindowSceneDelegate {

@@ -1,7 +1,7 @@
 import UIKit
-import UIComponents
+import GovKitUI
 import CoreData
-import GOVKit
+import GovKit
 
 private typealias DataSource =
     UITableViewDiffableDataSource<SearchHistorySection, NSManagedObjectID>

@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
-import GOVKit
-import UIComponents
+import GovKit
+import GovKitUI
 import SwiftUI
 
 class HomeViewModel: ObservableObject {

@@ -1,6 +1,6 @@
 import SwiftUI
-import GOVKit
-import UIComponents
+import GovKit
+import GovKitUI
 import LocalAuthentication
 
 class LocalAuthenticationOnboardingViewModel: ObservableObject {

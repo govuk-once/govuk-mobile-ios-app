@@ -1,5 +1,5 @@
 import SwiftUI
-import UIComponents
+import GovKitUI
 
 public struct ButtonStackView: View {
     @Environment(\.verticalSizeClass) var verticalSizeClass
@@ -11,15 +11,15 @@ public struct ButtonStackView: View {
     var secondaryDisabled: Bool
 
     public init(primaryButtonViewModel: GOVUKButton.ButtonViewModel,
-                primaryButtonConfiguration: GOVUKButton.ButtonConfiguration = .primary,
+                primaryButtonConfiguration: GOVUKButton.ButtonConfiguration? = nil,
                 primaryDisabled: Bool = false,
                 secondaryButtonViewModel: GOVUKButton.ButtonViewModel,
-                secondaryButtonConfiguration: GOVUKButton.ButtonConfiguration = .secondary,
+                secondaryButtonConfiguration: GOVUKButton.ButtonConfiguration? = nil,
                 secondaryDisabled: Bool = false) {
         self.primaryButtonViewModel = primaryButtonViewModel
-        self.primaryButtonConfiguration = primaryButtonConfiguration
+        self.primaryButtonConfiguration = primaryButtonConfiguration ?? .primary
         self.secondaryButtonViewModel = secondaryButtonViewModel
-        self.secondaryButtonConfiguration = secondaryButtonConfiguration
+        self.secondaryButtonConfiguration = secondaryButtonConfiguration ?? .secondary
         self.primaryDisabled = primaryDisabled
         self.secondaryDisabled = secondaryDisabled
     }

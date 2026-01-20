@@ -1,5 +1,5 @@
 import Foundation
-import GOVKit
+import GovKit
 
 protocol ChatServiceInterface {
     // MARK: - Service

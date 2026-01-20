@@ -1,8 +1,8 @@
 import Foundation
 import SwiftUI
 
-import UIComponents
-import GOVKit
+import GovKitUI
+import GovKit
 
 class TopicsOnboardingViewModel: ObservableObject {
     @Published private(set) var topicSelectionCards: [TopicSelectionCardViewModel] = []

@@ -1,6 +1,6 @@
 import SwiftUI
-import GOVKit
-import UIComponents
+import GovKit
+import GovKitUI
 
 // swiftlint:disable:next type_body_length
 class ChatViewModel: ObservableObject {

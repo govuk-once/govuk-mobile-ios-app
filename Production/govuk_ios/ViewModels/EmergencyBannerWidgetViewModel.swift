@@ -2,7 +2,7 @@ import Foundation
 import UIKit
 
 import SwiftUI
-import GOVKit
+import GovKit
 
 struct EmergencyBannerWidgetViewModel {
     let id: String

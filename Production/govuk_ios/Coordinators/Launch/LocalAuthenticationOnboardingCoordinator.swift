@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 import SwiftUI
-import GOVKit
+import GovKit
 
 class LocalAuthenticationOnboardingCoordinator: BaseCoordinator {
     private let navigationController: UINavigationController

@@ -1,5 +1,5 @@
 import Foundation
-import UIComponents
+import GovKitUI
 
 struct NotificationsWidgetViewModel {
     let title: String

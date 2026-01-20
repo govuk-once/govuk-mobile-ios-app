@@ -1,6 +1,6 @@
 import UIKit
 import Foundation
-import GOVKit
+import GovKit
 
 class RecentActivityCoordinator: BaseCoordinator {
     private let viewControllerBuilder: ViewControllerBuilder

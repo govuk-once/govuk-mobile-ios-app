@@ -1,6 +1,6 @@
 import SwiftUI
-import UIComponents
-import GOVKit
+import GovKitUI
+import GovKit
 
 struct SettingsView<T: SettingsViewModelInterface>: View {
     @StateObject var viewModel: T

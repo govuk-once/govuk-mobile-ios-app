@@ -1,6 +1,6 @@
 import CoreData
 import Foundation
-import GOVKit
+import GovKit
 
 class CoreDataRepository: CoreDataRepositoryInterface {
     private let persistentContainer: NSPersistentContainer

@@ -1,6 +1,6 @@
 import XCTest
 
-@testable import GOVKit
+@testable import GovKit
 
 class MockAnalyticsService: AnalyticsServiceInterface {
     var _setExistingConsentCalled: Bool = false

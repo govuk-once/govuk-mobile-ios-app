@@ -1,5 +1,5 @@
 import SwiftUI
-import GOVKit
+import GovKit
 
 struct LocalAuthorityConfirmationView: View {
     private let viewModel: LocalAuthorityConfirmationViewModel

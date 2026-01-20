@@ -1,5 +1,5 @@
 import UIKit
-import GOVKit
+import GovKit
 
 class AppDelegate: UIResponder,
                    UIApplicationDelegate {

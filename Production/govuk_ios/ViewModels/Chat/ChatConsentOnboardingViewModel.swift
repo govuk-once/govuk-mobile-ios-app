@@ -1,6 +1,6 @@
 import SwiftUI
-import GOVKit
-import UIComponents
+import GovKit
+import GovKitUI
 
 class ChatConsentOnboardingViewModel: InfoViewModelInterface {
     var analyticsService: AnalyticsServiceInterface?

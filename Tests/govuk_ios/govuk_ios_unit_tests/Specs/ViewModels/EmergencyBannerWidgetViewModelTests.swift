@@ -1,7 +1,7 @@
 import Foundation
 import Testing
 
-@testable import GOVKit
+@testable import GovKit
 
 @testable import govuk_ios
 struct EmergencyBannerWidgetViewModelTests {

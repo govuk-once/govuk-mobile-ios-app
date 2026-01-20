@@ -1,6 +1,6 @@
 import SwiftUI
-import GOVKit
-import UIComponents
+import GovKit
+import GovKitUI
 
 struct AppRecommendUpdateContainerView: View {
     @StateObject var viewModel: AppRecommendUpdateContainerViewModel

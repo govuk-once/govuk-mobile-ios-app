@@ -1,6 +1,6 @@
 import Foundation
 import CoreData
-import GOVKit
+import GovKit
 
 @objc(ActivityItem)
 public class ActivityItem: NSManagedObject,

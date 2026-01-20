@@ -1,6 +1,6 @@
 import Foundation
-import GOVKit
-import UIComponents
+import GovKit
+import GovKitUI
 
 class NotificationsOnboardingViewModel: ObservableObject {
     let analyticsService: AnalyticsServiceInterface

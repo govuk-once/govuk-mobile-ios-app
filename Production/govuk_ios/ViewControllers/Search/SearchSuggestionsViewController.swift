@@ -1,6 +1,6 @@
 import Foundation
 import UIKit
-import GOVKit
+import GovKit
 
 private typealias DataSource = UITableViewDiffableDataSource<SearchSuggestionsSection,
                                                              SearchSuggestion>

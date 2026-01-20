@@ -1,5 +1,5 @@
 import UIKit
-import GOVKit
+import GovKit
 
 extension UIApplication: @retroactive URLOpener {
     @discardableResult

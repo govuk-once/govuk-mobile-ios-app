@@ -1,6 +1,6 @@
 import Foundation
 import UIKit
-import GOVKit
+import GovKit
 
 class HomeViewController: BaseViewController {
     private var searchViewController: SearchViewController!

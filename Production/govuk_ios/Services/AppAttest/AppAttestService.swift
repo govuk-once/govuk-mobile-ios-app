@@ -2,7 +2,7 @@ import Foundation
 import Firebase
 import FirebaseCore
 import FirebaseAppCheck
-import GOVKit
+import GovKit
 
 protocol AppAttestServiceInterface {
     func token() async throws -> AppCheckToken

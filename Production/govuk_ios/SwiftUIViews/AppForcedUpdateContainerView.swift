@@ -1,5 +1,5 @@
 import SwiftUI
-import UIComponents
+import GovKitUI
 
 struct AppForcedUpdateContainerView: View {
     @StateObject var viewModel: AppForcedUpdateContainerViewModel

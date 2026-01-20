@@ -1,6 +1,6 @@
 // swiftlint:disable file_length
 import UIKit
-import GOVKit
+import GovKit
 import LocalAuthentication
 
 protocol SettingsViewModelInterface: ObservableObject {

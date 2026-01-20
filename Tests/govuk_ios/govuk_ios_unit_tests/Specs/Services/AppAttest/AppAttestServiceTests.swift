@@ -3,7 +3,7 @@ import Testing
 import Firebase
 import FirebaseAppCheck
 
-@testable import GOVKit
+@testable import GovKit
 @testable import govuk_ios
 
 @Suite

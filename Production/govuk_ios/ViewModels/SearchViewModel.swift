@@ -1,5 +1,5 @@
 import UIKit
-import GOVKit
+import GovKit
 
 enum SearchError: Error {
     case apiUnavailable

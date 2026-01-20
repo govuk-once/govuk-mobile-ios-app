@@ -1,6 +1,6 @@
 import UIKit
 import Foundation
-import GOVKit
+import GovKit
 
 class LaunchViewController: BaseViewController {
     private let viewModel: LaunchViewModel

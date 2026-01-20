@@ -1,6 +1,6 @@
 import Foundation
 import UIKit
-import GOVKit
+import GovKit
 import SafariServices
 
 class SafariCoordinator: BaseCoordinator {

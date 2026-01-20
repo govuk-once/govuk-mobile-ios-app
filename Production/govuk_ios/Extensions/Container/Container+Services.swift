@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 import FactoryKit
-import GOVKit
+import GovKit
 import UserNotifications
 
 import SecureStore

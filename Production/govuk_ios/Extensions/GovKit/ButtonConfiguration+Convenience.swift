@@ -1,7 +1,8 @@
 import Foundation
 import UIKit
-import UIComponents
+import GovKitUI
 
+@MainActor
 extension GOVUKButton.ButtonConfiguration {
     public static var text: GOVUKButton.ButtonConfiguration {
         .init(

@@ -1,6 +1,6 @@
 import SwiftUI
 import MarkdownUI
-import GOVKit
+import GovKit
 
 extension Theme {
     static let govUK: Theme = Theme.basic

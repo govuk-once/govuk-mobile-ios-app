@@ -1,6 +1,6 @@
 import Foundation
-import UIComponents
-import GOVKit
+import GovKitUI
+import GovKit
 
 class LocalAuthorityExplainerViewModel {
     private let explainerPrimaryButtonTitle: String = String.localAuthority.localized(

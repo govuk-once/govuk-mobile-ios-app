@@ -1,5 +1,5 @@
 import Foundation
-import GOVKit
+import GovKit
 
 typealias FetchTopicsListCompletion = (sending FetchTopicsListResult) -> Void
 typealias FetchTopicsListResult = Result<[TopicResponseItem], TopicsServiceError>

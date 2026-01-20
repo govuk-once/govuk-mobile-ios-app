@@ -1,6 +1,6 @@
 import Foundation
-import GOVKit
-import UIComponents
+import GovKit
+import GovKitUI
 import SwiftUI
 
 final class ChatErrorViewModel: InfoViewModelInterface {

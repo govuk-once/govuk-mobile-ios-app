@@ -1,5 +1,5 @@
 import SwiftUI
-import GOVKit
+import GovKit
 
 struct EditTopicsView: View {
     @Environment(\.dismiss) var dismiss

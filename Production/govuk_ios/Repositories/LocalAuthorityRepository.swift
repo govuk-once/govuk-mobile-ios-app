@@ -1,6 +1,6 @@
 import Foundation
 import CoreData
-import GOVKit
+import GovKit
 
 protocol LocalAuthorityRepositoryInterface {
     func save(_ authority: Authority)

@@ -1,7 +1,7 @@
 import Foundation
 import XCTest
 import CoreData
-import UIComponents
+import GovKitUI
 
 @testable import govuk_ios
 

@@ -1,6 +1,6 @@
 import Foundation
 import FactoryKit
-import GOVKit
+import GovKit
 
 protocol AppConfigServiceInterface {
     func fetchAppConfig(completion: @escaping FetchAppConfigCompletion)

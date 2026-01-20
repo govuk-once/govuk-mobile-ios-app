@@ -1,6 +1,6 @@
 import UIKit
 import Foundation
-import GOVKit
+import GovKit
 
 class SettingsCoordinator: TabItemCoordinator {
     private let viewControllerBuilder: ViewControllerBuilder

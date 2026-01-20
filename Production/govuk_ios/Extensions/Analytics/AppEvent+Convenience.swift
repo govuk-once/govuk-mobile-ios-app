@@ -1,7 +1,7 @@
 import UIKit
 import Foundation
 
-import GOVKit
+import GovKit
 
 extension AppEvent {
     static var appLoaded: AppEvent {
