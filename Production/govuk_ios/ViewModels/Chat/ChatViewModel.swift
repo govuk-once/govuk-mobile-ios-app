@@ -10,6 +10,12 @@ class ChatViewModel: ObservableObject {
     private let openURLAction: (URL) -> Void
     private let handleError: (ChatError) -> Void
     private var shouldLoadHistory: Bool = true
+    // Default values will be overridden
+    private(set) var validationAlertDetails = AlertDetails(
+        title: "Validation error",
+        message: "",
+        buttonTitle: "OK"
+    )
 
     @Published var cellModels: [ChatCellViewModel] = []
     @Published var latestQuestion: String = ""
@@ -20,6 +26,7 @@ class ChatViewModel: ObservableObject {
     @Published var warningText: LocalizedStringKey?
     @Published var textViewHeight: CGFloat = 48.0
     @Published var requestInFlight: Bool = false
+    @Published var showValidationAlert: Bool = false
 
     var absoluteRemainingCharacters: Int {
         abs(maxCharacters - latestQuestion.count)
@@ -48,8 +55,8 @@ class ChatViewModel: ObservableObject {
                      completion: ((Bool) -> Void)? = nil) {
         let localQuestion = question ?? latestQuestion
         guard !containsPII(localQuestion) else {
-            errorText = LocalizedStringKey("validationErrorText")
-            completion?(false)
+            setPersonalDataValidationAlertDetails()
+            showValidationAlert = true
             return
         }
         trackAskQuestionSubmission()
@@ -78,12 +85,14 @@ class ChatViewModel: ObservableObject {
             case .failure(let error):
                 self?.requestInFlight = false
                 if error == .validationError {
-                    self?.errorText = LocalizedStringKey("validationErrorText")
+                    self?.setPersonalDataValidationAlertDetails()
+                    self?.showValidationAlert = true
+                    self?.removeCellModel(currentQuestionModel)
                 } else {
                     self?.processError(error)
                     self?.latestQuestion = ""
+                    completion?(false)
                 }
-                completion?(false)
             }
         }
     }
@@ -296,5 +305,13 @@ class ChatViewModel: ObservableObject {
             action: "Chat Question Answer Returned"
         )
         analyticsService.track(event: event)
+    }
+
+    private func setPersonalDataValidationAlertDetails() {
+        validationAlertDetails = AlertDetails(
+            title: String.chat.localized("personalDataValidationTitle"),
+            message: String.chat.localized("personalDataValidationErrorText"),
+            buttonTitle: String.common.localized("ok")
+        )
     }
 }
