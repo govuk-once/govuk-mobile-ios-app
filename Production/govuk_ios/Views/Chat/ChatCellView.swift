@@ -104,7 +104,7 @@ struct ChatCellView: View {
 
     private var sourceView: some View {
         VStack(alignment: .leading, spacing: 8) {
-            DisclosureGroup {
+            DisclosureGroup(isExpanded: $viewModel.isSourceListExpanded) {
                 sourceListView
             } label: {
                 Text(String.chat.localized("sourceListTitle"))

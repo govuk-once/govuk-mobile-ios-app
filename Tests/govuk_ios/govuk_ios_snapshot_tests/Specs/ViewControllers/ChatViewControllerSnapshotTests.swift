@@ -172,6 +172,14 @@ final class ChatViewControllerSnapshotTests: SnapshotTestCase {
             handleError: { _ in }
         )
 
+        viewModel.loadHistory()
+
+        if includeSources {
+            viewModel.cellModels.forEach { model in
+                model.isSourceListExpanded = true
+            }
+        }
+
         let view = ChatView(viewModel: viewModel)
             .environment(\.isTesting, true)
         return view
