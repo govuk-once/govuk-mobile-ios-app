@@ -104,7 +104,7 @@ struct ChatCellView: View {
 
     private var sourceView: some View {
         VStack(alignment: .leading, spacing: 8) {
-            DisclosureGroup {
+            DisclosureGroup(isExpanded: $viewModel.isSourceListExpanded) {
                 sourceListView
             } label: {
                 Text(String.chat.localized("sourceListTitle"))
@@ -160,6 +160,7 @@ struct ChatCellView: View {
     private func sourceListItemTitleView(title: String) -> some View {
         HStack {
             Text(title)
+                .underline()
                 .foregroundStyle(Color(UIColor.govUK.text.linkSecondary))
                 .multilineTextAlignment(.leading)
                 .padding(.top, 4)
