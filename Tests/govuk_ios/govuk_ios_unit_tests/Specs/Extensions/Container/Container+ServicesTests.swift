@@ -87,4 +87,13 @@ struct Container_ServicesTests {
         #expect(sut is ReturningUserService)
     }
 
+    @Test
+    func remoteConfigService_returnsExpectedValue() async {
+        let container = Container()
+        container.remoteConfigServiceClient.register {
+            MockRemoteConfigServiceClient()
+        }
+        let sut = container.remoteConfigService.resolve()
+        #expect(sut is RemoteConfigService)
+    }
 }
