@@ -19,7 +19,7 @@ struct LocalAuthenticationOnboardingViewModelTests {
             authenticationService: mockAuthenticationService,
             completionAction: { }
         )
-        #expect(sut.iconName == "touchid")
+        #expect(sut.iconName == "onboarding_touchid")
         #expect(sut.title == String.onboarding.localized("touchIdEnrolmentTitle"))
         #expect(sut.message == String.onboarding.localized("touchIdEnrolmentMessage"))
         #expect(sut.enrolButtonTitle == String.onboarding.localized("touchIdEnrolmentButtonTitle"))
@@ -38,7 +38,7 @@ struct LocalAuthenticationOnboardingViewModelTests {
             completionAction: { }
         )
 
-        #expect(sut.iconName == "faceid")
+        #expect(sut.iconName == "onboarding_faceid")
         #expect(sut.title == String.onboarding.localized("faceIdEnrolmentTitle"))
         #expect(sut.message == String.onboarding.localized("faceIdEnrolmentMessage"))
         #expect(sut.enrolButtonTitle == String.onboarding.localized("faceIdEnrolmentButtonTitle"))
