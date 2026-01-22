@@ -61,7 +61,8 @@ class HomeCoordinator: TabItemCoordinator {
             searchService: searchService,
             activityService: activityService,
             topicsWidgetViewModel: topicWidgetViewModel,
-            localAuthorityService: localAuthorityService
+            localAuthorityService: localAuthorityService,
+            chatService: chatService
         )
 
         let actions = ViewControllerBuilder.HomeActions(

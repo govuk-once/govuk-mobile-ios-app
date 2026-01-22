@@ -29,6 +29,7 @@ class ViewControllerBuilder {
         let activityService: ActivityServiceInterface
         let topicsWidgetViewModel: TopicsWidgetViewModel
         let localAuthorityService: LocalAuthorityServiceInterface
+        let chatService: ChatServiceInterface
     }
 
     struct HomeActions {
@@ -53,6 +54,7 @@ class ViewControllerBuilder {
             searchService: dependencies.searchService,
             activityService: dependencies.activityService,
             localAuthorityService: dependencies.localAuthorityService,
+            chatService: dependencies.chatService,
             localAuthorityAction: actions.localAuthorityAction,
             editLocalAuthorityAction: actions.editLocalAuthorityAction,
             feedbackAction: actions.feedbackAction,

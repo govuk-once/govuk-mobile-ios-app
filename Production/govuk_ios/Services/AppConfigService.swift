@@ -91,13 +91,6 @@ public final class AppConfigService: AppConfigServiceInterface {
     }
 
     func isFeatureEnabled(key: Feature) -> Bool {
-        #if STAGING
         return featureFlags[key.rawValue] ?? false
-        #else
-        if key == .chat {
-            return false
-        }
-        return featureFlags[key.rawValue] ?? false
-        #endif
     }
 }
