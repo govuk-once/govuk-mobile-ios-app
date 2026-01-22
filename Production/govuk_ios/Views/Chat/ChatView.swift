@@ -20,8 +20,8 @@ struct ChatView: View {
             ZStack {
                 Color(UIColor.govUK.fills.surfaceChatBackground)
                     .edgesIgnoringSafeArea(.all)
-                .opacity(backgroundOpacity)
-                .ignoresSafeArea(edges: [.top, .leading, .trailing])
+                    .opacity(backgroundOpacity)
+                    .ignoresSafeArea(edges: [.top, .leading, .trailing])
 
                 chatContainerView(geometry.size.height - 32)
                     .conditionalAnimation(.easeInOut(duration: transitionDuration),
@@ -44,6 +44,20 @@ struct ChatView: View {
         }
         .onTapGesture {
             textAreaFocused = false
+        }
+        .alert(
+            viewModel.validationAlertDetails.title,
+            isPresented: $viewModel.showValidationAlert,
+            presenting: viewModel.validationAlertDetails
+        ) { details in
+            Button(role: .cancel) {
+                textAreaFocused = true
+                viewModel.showValidationAlert = false
+            } label: {
+                Text(details.buttonTitle)
+            }
+        } message: { details in
+            Text(details.message)
         }
     }
 

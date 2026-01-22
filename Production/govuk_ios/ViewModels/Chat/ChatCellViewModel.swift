@@ -25,6 +25,7 @@ class ChatCellViewModel: ObservableObject {
     let openURLAction: ((URL) -> Void)?
     let analyticsService: AnalyticsServiceInterface?
     @Published var isVisible: Bool = false
+    @Published var isSourceListExpanded: Bool = false
 
     init(message: String,
          id: String,
