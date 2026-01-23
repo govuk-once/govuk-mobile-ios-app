@@ -21,6 +21,7 @@ class CoordinatorBuilder {
             inactivityService: inactivityService,
             authenticationService: container.authenticationService.resolve(),
             localAuthenticationService: container.localAuthenticationService.resolve(),
+            notificationService: container.notificationService.resolve(),
             privacyPresenter: container.privacyService.resolve(),
             navigationController: navigationController
         )
@@ -322,6 +323,8 @@ class CoordinatorBuilder {
             analyticsService: container.analyticsService.resolve(),
             topicsService: container.topicsService.resolve(),
             chatService: container.chatService.resolve(),
+            userService: container.userService.resolve(),
+            notificationService: container.notificationService.resolve(),
             completionAction: completionAction,
             errorAction: errorAction
         )
@@ -335,6 +338,8 @@ class CoordinatorBuilder {
             authenticationService: container.authenticationService.resolve(),
             localAuthenticationService: container.localAuthenticationService.resolve(),
             analyticsService: container.analyticsService.resolve(),
+            userService: container.userService.resolve(),
+            notificationService: container.notificationService.resolve(),
             completionAction: completionAction
         )
     }
