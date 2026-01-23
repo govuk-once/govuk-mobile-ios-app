@@ -276,14 +276,19 @@
 		5DFB489C2DE9F7F600B41CDA /* LaunchCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFB48802DE9F7F600B41CDA /* LaunchCoordinator.swift */; };
 		5DFDEBF12CEE396D00F7A365 /* UserProperty+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFDEBF02CEE396D00F7A365 /* UserProperty+Convenience.swift */; };
 		5DFE5F1E2D6DE5900041E3B4 /* UNUserNotificationCenter+Interface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFE5F1D2D6DE5900041E3B4 /* UNUserNotificationCenter+Interface.swift */; };
+		8101BEEB2F2A24B8009E639B /* RemoteConfigValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8101BEE92F2A24B8009E639B /* RemoteConfigValue.swift */; };
+		8101BEEC2F2A24B8009E639B /* RemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8101BEE82F2A24B8009E639B /* RemoteConfig.swift */; };
+		815935D92F212EF700F8D206 /* UserServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815935D82F212EF300F8D206 /* UserServiceClient.swift */; };
+		815935DB2F213EC700F8D206 /* GOVRequest+UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815935DA2F213EBE00F8D206 /* GOVRequest+UserInfo.swift */; };
+		815935DE2F22353900F8D206 /* UserResponseHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815935DD2F22352B00F8D206 /* UserResponseHandler.swift */; };
+		815935E02F22381A00F8D206 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815935DF2F22381400F8D206 /* UserService.swift */; };
+		815935E22F225B9F00F8D206 /* UserInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815935E12F225B9A00F8D206 /* UserInfoResponse.swift */; };
 		815C58682EE970E200322705 /* RemoteConfigService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815C58672EE970DC00322705 /* RemoteConfigService.swift */; };
 		815C586A2EE973FC00322705 /* RemoteConfigServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815C58692EE973F400322705 /* RemoteConfigServiceClient.swift */; };
 		815C586C2EE9744E00322705 /* FirebaseRemoteConfig in Frameworks */ = {isa = PBXBuildFile; productRef = 815C586B2EE9744E00322705 /* FirebaseRemoteConfig */; };
 		8171AE472F1116A00024312B /* ScrollBottomIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8171AE462F11169A0024312B /* ScrollBottomIndicatorView.swift */; };
 		8181DBFA2EE214B100F47531 /* FactoryKit in Frameworks */ = {isa = PBXBuildFile; productRef = 8181DBF92EE214B100F47531 /* FactoryKit */; };
 		8181DBFC2EE214B100F47531 /* FactoryTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 8181DBFB2EE214B100F47531 /* FactoryTesting */; };
-		81A190212F081A1B00D70C25 /* RemoteConfigValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A190202F081A1700D70C25 /* RemoteConfigValue.swift */; };
-		81EADD9D2F04268300CA7B37 /* RemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81EADD9C2F04267E00CA7B37 /* RemoteConfig.swift */; };
 		B04C2E802DA9141400F0F63E /* WebDeeplinkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = B04C2E7F2DA9141400F0F63E /* WebDeeplinkRoute.swift */; };
 		B0AD6F202DDA86D80077849F /* NotificationsOnboardingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0AD6F1F2DDA86D80077849F /* NotificationsOnboardingService.swift */; };
 		D00984F22D47BC9600D70FEE /* DeviceInformation+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00984F12D47BC9600D70FEE /* DeviceInformation+Convenience.swift */; };
@@ -711,6 +716,13 @@
 		5DFB488A2DE9F7F600B41CDA /* WelcomeOnboardingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeOnboardingCoordinator.swift; sourceTree = "<group>"; };
 		5DFDEBF02CEE396D00F7A365 /* UserProperty+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserProperty+Convenience.swift"; sourceTree = "<group>"; };
 		5DFE5F1D2D6DE5900041E3B4 /* UNUserNotificationCenter+Interface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UNUserNotificationCenter+Interface.swift"; sourceTree = "<group>"; };
+		8101BEE82F2A24B8009E639B /* RemoteConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfig.swift; sourceTree = "<group>"; };
+		8101BEE92F2A24B8009E639B /* RemoteConfigValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigValue.swift; sourceTree = "<group>"; };
+		815935D82F212EF300F8D206 /* UserServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserServiceClient.swift; sourceTree = "<group>"; };
+		815935DA2F213EBE00F8D206 /* GOVRequest+UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GOVRequest+UserInfo.swift"; sourceTree = "<group>"; };
+		815935DD2F22352B00F8D206 /* UserResponseHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserResponseHandler.swift; sourceTree = "<group>"; };
+		815935DF2F22381400F8D206 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
+		815935E12F225B9A00F8D206 /* UserInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoResponse.swift; sourceTree = "<group>"; };
 		815C58672EE970DC00322705 /* RemoteConfigService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigService.swift; sourceTree = "<group>"; };
 		815C58692EE973F400322705 /* RemoteConfigServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigServiceClient.swift; sourceTree = "<group>"; };
 		8171AE462F11169A0024312B /* ScrollBottomIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollBottomIndicatorView.swift; sourceTree = "<group>"; };
@@ -1173,6 +1185,7 @@
 				5D056C232E5706EF00D28DAE /* OneSignalServiceClient.swift */,
 				5D0BD4582C9B1BBA00220625 /* SearchServiceClient.swift */,
 				D04191852CA6A5910034722A /* TopicsServiceClient.swift */,
+				815935DC2F22351700F8D206 /* User */,
 			);
 			path = ServiceClients;
 			sourceTree = "<group>";
@@ -1339,7 +1352,7 @@
 		5D26A75F2C92E054009902DD /* Clients */ = {
 			isa = PBXGroup;
 			children = (
-				81EADD9B2F04266E00CA7B37 /* RemoteConfig */,
+				8101BEEA2F2A24B8009E639B /* RemoteConfig */,
 				5D26A7602C92E069009902DD /* Analytics */,
 			);
 			path = Clients;
@@ -1422,6 +1435,7 @@
 				5DD09EC72C9ADB8500494550 /* SearchService.swift */,
 				D04191772CA57A6F0034722A /* TopicsService.swift */,
 				5D60E6AC2E4A46E20046C1A1 /* UserDefaultsService.swift */,
+				815935DF2F22381400F8D206 /* UserService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1761,6 +1775,7 @@
 			isa = PBXGroup;
 			children = (
 				D04DD3312E0046FB002B5F19 /* GOVRequest+Chat.swift */,
+				815935DA2F213EBE00F8D206 /* GOVRequest+UserInfo.swift */,
 				D0E855D52DDB910A003B4D7A /* GovRequest+Authentication.swift */,
 				5DB6370C2D7736AD00A44E36 /* GOVRequest+App.swift */,
 				5DC79FB12CA18A9A00014446 /* GOVRequest+Search.swift */,
@@ -1826,6 +1841,7 @@
 				D0D9CB922D3024C00051EDDD /* Search */,
 				16FCDE772DC4E38F000E870D /* TokenRefreshResponse.swift */,
 				D041917C2CA57B3D0034722A /* Topics */,
+				815935E12F225B9A00F8D206 /* UserInfoResponse.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1887,13 +1903,22 @@
 			path = UserNotifications;
 			sourceTree = "<group>";
 		};
-		81EADD9B2F04266E00CA7B37 /* RemoteConfig */ = {
+		8101BEEA2F2A24B8009E639B /* RemoteConfig */ = {
 			isa = PBXGroup;
 			children = (
-				81EADD9C2F04267E00CA7B37 /* RemoteConfig.swift */,
-				81A190202F081A1700D70C25 /* RemoteConfigValue.swift */,
+				8101BEE82F2A24B8009E639B /* RemoteConfig.swift */,
+				8101BEE92F2A24B8009E639B /* RemoteConfigValue.swift */,
 			);
 			path = RemoteConfig;
+			sourceTree = "<group>";
+		};
+		815935DC2F22351700F8D206 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				815935DD2F22352B00F8D206 /* UserResponseHandler.swift */,
+				815935D82F212EF300F8D206 /* UserServiceClient.swift */,
+			);
+			path = User;
 			sourceTree = "<group>";
 		};
 		9685F8292C78C01600C33614 /* SwiftUIViews */ = {
@@ -2483,6 +2508,7 @@
 				D0AC16712E8ADD0D00AACE5C /* PrivacyView.swift in Sources */,
 				16A3C2C92E6AF40A009CFF06 /* Image+Extensions.swift in Sources */,
 				4E9F5D072DB79D370063FA78 /* PrimaryButtonView.swift in Sources */,
+				815935D92F212EF700F8D206 /* UserServiceClient.swift in Sources */,
 				D02578772EB8CB73008AD2BF /* EmergencyBannerWidgetViewModel.swift in Sources */,
 				16C34B432C492FF90031AD32 /* HomeDeepLinkRoute.swift in Sources */,
 				4E19C85E2E65109900D56C33 /* ChatWidgetView.swift in Sources */,
@@ -2517,7 +2543,6 @@
 				D04DD32D2E0046DC002B5F19 /* PendingQuestion.swift in Sources */,
 				D04DD32E2E0046DC002B5F19 /* AnsweredQuestion.swift in Sources */,
 				D0A35E0A2E740DFD007D3D27 /* ChatMarkdownTheme.swift in Sources */,
-				81A190212F081A1B00D70C25 /* RemoteConfigValue.swift in Sources */,
 				D04DD32F2E0046DC002B5F19 /* Answer.swift in Sources */,
 				D04DD3302E0046DC002B5F19 /* History.swift in Sources */,
 				D090467A2DBBC1AC0096EE66 /* TokenExtractor.swift in Sources */,
@@ -2531,6 +2556,8 @@
 				D04C54302D70821D0070EE79 /* HomeCommerceItem.swift in Sources */,
 				4EE5F3E72DAFD42A008C60ED /* LocalAuthorityExplainerView.swift in Sources */,
 				3D9C933E2CB0172400EFA337 /* AppForcedUpdateContainerView.swift in Sources */,
+				8101BEEB2F2A24B8009E639B /* RemoteConfigValue.swift in Sources */,
+				8101BEEC2F2A24B8009E639B /* RemoteConfig.swift in Sources */,
 				5D51C8352C5BB9A80011ABE9 /* UIScrollView+Extensions.swift in Sources */,
 				16A99D6B2D35F19300C72DEB /* SearchSuggestionsViewModel.swift in Sources */,
 				4E15340B2E398647002DEDB9 /* HomeContentView.swift in Sources */,
@@ -2548,11 +2575,11 @@
 				D093BA632CB0499A004F489B /* EditTopicsView.swift in Sources */,
 				5DD4CB082D95483100459FB5 /* ActivityItem.swift in Sources */,
 				5DD4CB092D95483100459FB5 /* MonthGroupKey.swift in Sources */,
+				815935DE2F22353900F8D206 /* UserResponseHandler.swift in Sources */,
 				5DD4CB0A2D95483100459FB5 /* RecentActivitySection.swift in Sources */,
 				5DD4CB0B2D95483100459FB5 /* RecentActivitiesViewStructure.swift in Sources */,
 				4EBCA3362DAC5E2E0063A723 /* GOVRequest+LocalAuthority.swift in Sources */,
 				5DD4CB0C2D95483100459FB5 /* ActivityItemCreateParams.swift in Sources */,
-				81EADD9D2F04268300CA7B37 /* RemoteConfig.swift in Sources */,
 				16FD684A2D39AEB5002F1597 /* SuggestionHighlighterProcessor.swift in Sources */,
 				5D79AEC02C32B9180061F344 /* AnimationView.swift in Sources */,
 				5D9E67C82C5A2E1700DB7877 /* DividerView.swift in Sources */,
@@ -2561,6 +2588,7 @@
 				5D66D1862CBFC13100006723 /* AppEvent+Navigation.swift in Sources */,
 				D08F2C7C2E6AF84F00133121 /* AnimatedAPNGImageView.swift in Sources */,
 				D0D655E82D26A79000571841 /* UIApplication+URLOpener.swift in Sources */,
+				815935E02F22381A00F8D206 /* UserService.swift in Sources */,
 				D00984F22D47BC9600D70FEE /* DeviceInformation+Convenience.swift in Sources */,
 				5DC250662C91D802009E9E7F /* FirebaseClient.swift in Sources */,
 				D0900FA92E25309A00E3EB75 /* ChatErrorViewModel.swift in Sources */,
@@ -2589,6 +2617,7 @@
 				16DB3CB82F0417D900F77DF4 /* SearchCommerceItem.swift in Sources */,
 				D0839FD02DE7ABE800CA5C27 /* GovUKProviderFactory.swift in Sources */,
 				D06C2A512DDF39C90045C674 /* LocalAuthorityResponseHandler.swift in Sources */,
+				815935DB2F213EC700F8D206 /* GOVRequest+UserInfo.swift in Sources */,
 				4E5E79A82DEF063800CA9B4D /* LocalAuthorityConfirmationView.swift in Sources */,
 				4EFE22A12D0CD08900136D56 /* Redactor.swift in Sources */,
 				3D4A9E622E6735B0003ABE53 /* UserFeedbackWidgetViewModel.swift in Sources */,
@@ -2622,6 +2651,7 @@
 				D0D9CB932D3024C00051EDDD /* SearchResult.swift in Sources */,
 				D0D9CB942D3024C00051EDDD /* SearchItem.swift in Sources */,
 				D0D9CB952D3024C00051EDDD /* SearchHistoryItem.swift in Sources */,
+				815935E22F225B9F00F8D206 /* UserInfoResponse.swift in Sources */,
 				5D41DB5D2C0870020011E691 /* Container+Aliases.swift in Sources */,
 				3D4A9E602E672975003ABE53 /* UserFeedbackWidgetView.swift in Sources */,
 				5DBE08042C480CA700B58DBE /* AnimationView+Convenience.swift in Sources */,

@@ -6,6 +6,7 @@ class AppCoordinator: BaseCoordinator {
     private let inactivityService: InactivityServiceInterface
     private let authenticationService: AuthenticationServiceInterface
     private let localAuthenticationService: LocalAuthenticationServiceInterface
+    private let notificationService: NotificationServiceInterface
     private var initialLaunch: Bool = true
     private lazy var tabCoordinator: BaseCoordinator = {
         let coordinator = coordinatorBuilder.tab(
@@ -20,12 +21,14 @@ class AppCoordinator: BaseCoordinator {
          inactivityService: InactivityServiceInterface,
          authenticationService: AuthenticationServiceInterface,
          localAuthenticationService: LocalAuthenticationServiceInterface,
+         notificationService: NotificationServiceInterface,
          privacyPresenter: PrivacyPresenting? = nil,
          navigationController: UINavigationController) {
         self.coordinatorBuilder = coordinatorBuilder
         self.inactivityService = inactivityService
         self.authenticationService = authenticationService
         self.localAuthenticationService = localAuthenticationService
+        self.notificationService = notificationService
         self.privacyPresenter = privacyPresenter
         super.init(navigationController: navigationController)
         configureObservers()
@@ -40,6 +43,7 @@ class AppCoordinator: BaseCoordinator {
                 self?.hidePrivacyScreen()
                 return
             }
+            self?.notificationService.unregisterNotificationId()
             self?.startPeriAuthCoordinator()
         }
     }
