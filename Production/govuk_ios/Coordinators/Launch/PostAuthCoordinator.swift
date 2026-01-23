@@ -1,6 +1,6 @@
 import Foundation
 import UIKit
-import GOVKit
+import GovKit
 
 class PostAuthCoordinator: BaseCoordinator {
     private let coordinatorBuilder: CoordinatorBuilder

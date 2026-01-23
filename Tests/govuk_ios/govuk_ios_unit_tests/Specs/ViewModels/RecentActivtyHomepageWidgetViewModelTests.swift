@@ -2,7 +2,7 @@ import Foundation
 import Testing
 import Combine
 import CoreData
-@testable import GOVKit
+@testable import GovKit
 
 @testable import govuk_ios
 struct RecentActivtyHomepageWidgetViewModelTests {

@@ -1,5 +1,5 @@
 import UIKit
-import GOVKit
+import GovKit
 import MachO
 
 protocol JailbreakDetectionServiceInterface {

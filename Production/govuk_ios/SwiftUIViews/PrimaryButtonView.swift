@@ -1,5 +1,5 @@
 import SwiftUI
-import UIComponents
+import GovKitUI
 
 struct PrimaryButtonView: View {
     @Environment(\.verticalSizeClass) var verticalSizeClass

@@ -1,5 +1,5 @@
 import SwiftUI
-import UIComponents
+import GovKitUI
 
 struct AppUnavailableContainerView: View {
     @StateObject var viewModel: AppUnavailableContainerViewModel

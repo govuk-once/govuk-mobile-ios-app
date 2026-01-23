@@ -1,5 +1,5 @@
 import SwiftUI
-import UIComponents
+import GovKitUI
 
 struct ListCardView: View {
     private let viewModel: ListCardViewModel

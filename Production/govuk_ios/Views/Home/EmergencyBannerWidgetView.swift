@@ -1,5 +1,5 @@
 import SwiftUI
-import UIComponents
+import GovKitUI
 
 struct EmergencyBannerWidgetView: View {
     let viewModel: EmergencyBannerWidgetViewModel

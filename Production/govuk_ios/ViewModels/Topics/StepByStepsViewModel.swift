@@ -1,5 +1,5 @@
 import Foundation
-import GOVKit
+import GovKit
 
 class StepByStepsViewModel: TopicDetailViewModelInterface {
     var errorViewModel: AppErrorViewModel?

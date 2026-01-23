@@ -1,6 +1,6 @@
 import UIKit
 
-@testable import GOVKit
+@testable import GovKit
 
 class MockURLOpener: URLOpener {
 

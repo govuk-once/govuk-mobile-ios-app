@@ -1,7 +1,7 @@
 import Foundation
 import SwiftUI
-import UIComponents
-import GOVKit
+import GovKitUI
+import GovKit
 import MarkdownUI
 
 enum ChatLinkType: String {

@@ -1,6 +1,6 @@
 import Foundation
-import GOVKit
-import UIComponents
+import GovKit
+import GovKitUI
 
 final class SignOutConfirmationViewModel {
     let title: String = String.signOut.localized("signOutTitle")

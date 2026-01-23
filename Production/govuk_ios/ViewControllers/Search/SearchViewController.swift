@@ -1,7 +1,7 @@
 import UIKit
 import SwiftUI
-import UIComponents
-import GOVKit
+import GovKitUI
+import GovKit
 
 private typealias DataSource = UITableViewDiffableDataSource<SearchSection, SearchItem>
 private typealias Snapshot = NSDiffableDataSourceSnapshot<SearchSection, SearchItem>

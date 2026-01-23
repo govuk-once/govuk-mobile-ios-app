@@ -1,5 +1,5 @@
 import SwiftUI
-import GOVKit
+import GovKit
 
 struct HomeContentView: View {
     @StateObject var viewModel: HomeViewModel

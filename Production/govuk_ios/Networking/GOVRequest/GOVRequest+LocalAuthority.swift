@@ -1,5 +1,5 @@
 import Foundation
-import GOVKit
+import GovKit
 
 extension GOVRequest {
     static func localAuthority(postcode: String) -> GOVRequest {

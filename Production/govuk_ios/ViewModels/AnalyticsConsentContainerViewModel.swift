@@ -1,7 +1,7 @@
 import Foundation
-import UIComponents
+import GovKitUI
 import UIKit
-import GOVKit
+import GovKit
 
 class AnalyticsConsentContainerViewModel: ObservableObject {
     private let analyticsService: AnalyticsServiceInterface?

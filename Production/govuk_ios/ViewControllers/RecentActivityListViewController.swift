@@ -1,8 +1,8 @@
 import Foundation
 import UIKit
 import CoreData
-import UIComponents
-import GOVKit
+import GovKitUI
+import GovKit
 
 private typealias DataSource =
 UITableViewDiffableDataSource<RecentActivitySection, NSManagedObjectID>

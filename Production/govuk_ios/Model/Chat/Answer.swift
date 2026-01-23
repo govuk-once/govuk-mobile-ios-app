@@ -1,5 +1,5 @@
 import Foundation
-import GOVKit
+import GovKit
 
 struct Answer: Codable {
     enum CodingKeys: String, CodingKey {

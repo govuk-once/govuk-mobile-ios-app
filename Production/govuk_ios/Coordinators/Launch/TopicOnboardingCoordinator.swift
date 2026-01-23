@@ -1,7 +1,7 @@
 import UIKit
 import Foundation
 import FactoryKit
-import GOVKit
+import GovKit
 
 class TopicOnboardingCoordinator: BaseCoordinator {
     private let viewControllerBuilder: ViewControllerBuilder

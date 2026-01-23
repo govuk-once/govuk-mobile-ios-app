@@ -1,6 +1,6 @@
 import SwiftUI
-import UIComponents
-import GOVKit
+import GovKitUI
+import GovKit
 
 struct TopicsWidgetView: View {
     @StateObject var viewModel: TopicsWidgetViewModel

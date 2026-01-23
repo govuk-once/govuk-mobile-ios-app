@@ -1,6 +1,6 @@
 import Foundation
 import SwiftUI
-import UIComponents
+import GovKitUI
 
 struct StoredLocalAuthorityCardView: View {
     let model: StoredLocalAuthorityCardModel

@@ -1,6 +1,6 @@
 import Foundation
 import CoreData
-import GOVKit
+import GovKit
 
 protocol ChatRepositoryInterface {
     func saveConversation(_ conversationId: String?)

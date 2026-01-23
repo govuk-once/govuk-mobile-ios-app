@@ -1,7 +1,7 @@
 import Foundation
-import GOVKit
+import GovKit
 import SwiftUI
-import UIComponents
+import GovKitUI
 
 class LocalAuthorityConfirmationViewModel {
     let analyticsService: AnalyticsServiceInterface

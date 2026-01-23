@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 import CoreData
-import GOVKit
+import GovKit
 
 protocol SearchHistoryViewModelInterface {
     var analyticsService: AnalyticsServiceInterface { get }

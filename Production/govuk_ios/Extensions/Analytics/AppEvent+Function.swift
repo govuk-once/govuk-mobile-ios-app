@@ -1,5 +1,5 @@
 import Foundation
-import GOVKit
+import GovKit
 
 extension AppEvent {
     static func toggle(text: String,

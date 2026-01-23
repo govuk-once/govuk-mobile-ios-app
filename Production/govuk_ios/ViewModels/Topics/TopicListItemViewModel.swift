@@ -1,6 +1,6 @@
 import Foundation
 import SwiftUI
-import UIComponents
+import GovKitUI
 
 class TopicListItemViewModel: ObservableObject {
     let title: String

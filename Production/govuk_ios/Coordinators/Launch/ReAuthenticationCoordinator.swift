@@ -1,6 +1,6 @@
 import Foundation
 import UIKit
-import GOVKit
+import GovKit
 
 class ReAuthenticationCoordinator: BaseCoordinator {
     private let coordinatorBuilder: CoordinatorBuilder

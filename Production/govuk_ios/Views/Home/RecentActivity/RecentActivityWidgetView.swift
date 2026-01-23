@@ -1,6 +1,6 @@
 import SwiftUI
-import UIComponents
-import GOVKit
+import GovKitUI
+import GovKit
 
 struct RecentActivityWidgetView: View {
     @ObservedObject var viewModel: RecentActivityHomepageWidgetViewModel

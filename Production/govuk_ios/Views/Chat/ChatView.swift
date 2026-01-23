@@ -1,5 +1,5 @@
 import SwiftUI
-import GOVKit
+import GovKit
 
 struct ChatView: View {
     @Environment(\.verticalSizeClass) var verticalSizeClass

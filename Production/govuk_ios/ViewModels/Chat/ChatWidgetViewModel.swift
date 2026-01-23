@@ -1,6 +1,6 @@
 import Foundation
 
-import GOVKit
+import GovKit
 
 struct ChatWidgetViewModel {
     private let analyticsService: AnalyticsServiceInterface

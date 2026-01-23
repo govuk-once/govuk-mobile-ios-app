@@ -1,8 +1,8 @@
 import Foundation
 import UIKit
 import CoreData
-import GOVKit
-import UIComponents
+import GovKit
+import GovKitUI
 
 enum TopicSegment {
     case favourite

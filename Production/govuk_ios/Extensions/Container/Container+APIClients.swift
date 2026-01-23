@@ -1,7 +1,7 @@
 import Foundation
 
 import FactoryKit
-import GOVKit
+import GovKit
 
 extension Container {
     var govukAPIClient: Factory<APIServiceClientInterface> {

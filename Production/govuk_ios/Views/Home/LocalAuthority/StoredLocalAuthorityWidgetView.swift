@@ -1,6 +1,6 @@
 import Foundation
 import SwiftUI
-import UIComponents
+import GovKitUI
 
 struct StoredLocalAuthorityWidgetView: View {
     private let viewModel: StoredLocalAuthorityWidgetViewModel

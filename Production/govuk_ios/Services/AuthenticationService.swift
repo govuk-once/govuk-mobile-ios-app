@@ -3,7 +3,7 @@ import UIKit
 import Authentication
 import SecureStore
 import FactoryKit
-import GOVKit
+import GovKit
 
 protocol AuthenticationServiceInterface: AnyObject {
     var accessToken: String? { get }

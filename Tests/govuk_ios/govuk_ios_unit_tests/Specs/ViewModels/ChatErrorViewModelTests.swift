@@ -2,8 +2,8 @@ import Testing
 import UIKit
 
 @testable import govuk_ios
-@testable import GOVKit
-@testable import UIComponents
+@testable import GovKit
+@testable import GovKitUI
 
 struct ChatErrorViewModelTests {
 

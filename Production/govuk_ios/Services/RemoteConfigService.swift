@@ -1,5 +1,5 @@
 import Foundation
-import GOVKit
+import GovKit
 
 enum RemoteConfigKey: String {
     // remove when we have real keys

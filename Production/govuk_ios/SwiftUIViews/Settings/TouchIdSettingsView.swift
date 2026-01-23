@@ -1,6 +1,5 @@
 import SwiftUI
-import GOVKit
-import UIComponents
+import GovKit
 
 struct TouchIdSettingsView: View {
     @StateObject var viewModel: LocalAuthenticationSettingsViewModel

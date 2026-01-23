@@ -1,5 +1,5 @@
 import SwiftUI
-import GOVKit
+import GovKit
 import LocalAuthentication
 
 class LocalAuthenticationSettingsViewModel: ObservableObject {

@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 import CoreData
-import GOVKit
+import GovKit
 
 final class RecentActivityListViewModel: NSObject,
                                    NSFetchedResultsControllerDelegate {

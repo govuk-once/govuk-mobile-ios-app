@@ -1,4 +1,4 @@
-import GOVKit
+import GovKit
 import CoreData
 
 protocol CoreDataDeletionServiceInterface {

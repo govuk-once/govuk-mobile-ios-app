@@ -1,6 +1,6 @@
 import Foundation
-import UIComponents
-import GOVKit
+import GovKitUI
+import GovKit
 
 protocol TopicDetailViewModelInterface: ObservableObject {
     var title: String { get }

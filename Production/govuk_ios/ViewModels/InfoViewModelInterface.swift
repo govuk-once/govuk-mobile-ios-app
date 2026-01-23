@@ -1,7 +1,7 @@
 import Foundation
 import SwiftUI
-import GOVKit
-import UIComponents
+import GovKit
+import GovKitUI
 
 protocol InfoViewModelInterface: ObservableObject {
     var analyticsService: AnalyticsServiceInterface? { get }
@@ -45,12 +45,16 @@ extension InfoViewModelInterface {
     var bottomContentText: String? { nil }
 
     var showPrimaryButton: Bool { true }
+
+    @MainActor
     var primaryButtonConfiguration: GOVUKButton.ButtonConfiguration { .primary }
     var primaryButtonAccessibilityTitle: String { primaryButtonTitle }
 
     var secondaryButtonTitle: String { "" }
     var secondaryButtonAccessibilityTitle: String { secondaryButtonTitle }
     var secondaryButtonViewModel: GOVUKButton.ButtonViewModel? { nil }
+
+    @MainActor
     var secondaryButtonConfiguration: GOVUKButton.ButtonConfiguration { .secondary }
 
     func trackScreen(screen: TrackableScreen) {

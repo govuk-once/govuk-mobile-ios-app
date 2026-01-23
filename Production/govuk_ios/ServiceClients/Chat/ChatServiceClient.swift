@@ -1,5 +1,5 @@
 import Foundation
-import GOVKit
+import GovKit
 
 typealias ChatQuestionResult = (Result<PendingQuestion, ChatError>)
 typealias ChatAnswerResult = (Result<Answer, ChatError>)

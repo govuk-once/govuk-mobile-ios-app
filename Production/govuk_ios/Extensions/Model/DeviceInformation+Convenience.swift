@@ -1,5 +1,5 @@
 import Foundation
-import GOVKit
+import GovKit
 
 extension DeviceInformationProviderInterface {
     func helpAndFeedbackURL(versionProvider: AppVersionProvider) -> URL {

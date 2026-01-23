@@ -1,5 +1,5 @@
 import UIKit
-import UIComponents
+import GovKitUI
 
 class SearchHistoryCell: UITableViewCell {
     private let deleteButton: UIButton = {

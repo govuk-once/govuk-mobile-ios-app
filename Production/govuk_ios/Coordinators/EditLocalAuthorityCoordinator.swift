@@ -1,6 +1,6 @@
 import UIKit
 import Foundation
-import GOVKit
+import GovKit
 
 class EditLocalAuthorityCoordinator: BaseCoordinator {
     private let viewControllerBuilder: ViewControllerBuilder

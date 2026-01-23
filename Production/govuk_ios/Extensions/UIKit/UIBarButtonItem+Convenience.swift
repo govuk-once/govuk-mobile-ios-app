@@ -1,6 +1,6 @@
 import Foundation
 import UIKit
-import GOVKit
+import GovKit
 
 extension UIBarButtonItem {
     static func cancel(target: Any,

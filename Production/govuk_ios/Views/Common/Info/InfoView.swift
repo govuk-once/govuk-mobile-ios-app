@@ -1,6 +1,6 @@
 import SwiftUI
-import GOVKit
-import UIComponents
+import GovKit
+import GovKitUI
 
 struct InfoView<Model>: View where Model: InfoViewModelInterface {
     @Environment(\.verticalSizeClass) var verticalSizeClass

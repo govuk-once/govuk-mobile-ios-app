@@ -1,5 +1,5 @@
 import Foundation
-import GOVKit
+import GovKit
 import UIKit
 import AppAuth
 import Authentication

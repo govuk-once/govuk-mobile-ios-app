@@ -1,5 +1,5 @@
 import SwiftUI
-import GOVKit
+import GovKit
 
 struct FaceIdSettingsView: View {
     @StateObject var viewModel: LocalAuthenticationSettingsViewModel

@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-import GOVKit
+import GovKit
 import CoreData
 
 @testable import govuk_ios

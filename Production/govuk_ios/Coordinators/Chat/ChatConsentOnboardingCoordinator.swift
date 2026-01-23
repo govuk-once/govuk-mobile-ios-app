@@ -1,6 +1,6 @@
 import Foundation
 import UIKit
-import GOVKit
+import GovKit
 
 class ChatConsentOnboardingCoordinator: BaseCoordinator {
     private let viewControllerBuilder: ViewControllerBuilder
