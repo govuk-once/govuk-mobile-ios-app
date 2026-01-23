@@ -7,8 +7,6 @@ class ReAuthenticationCoordinator: BaseCoordinator {
     private let authenticationService: AuthenticationServiceInterface
     private let localAuthenticationService: LocalAuthenticationServiceInterface
     private let analyticsService: AnalyticsServiceInterface
-    private let userService: UserServiceInterface
-    private let notificationService: NotificationServiceInterface
     private let completionAction: () -> Void
 
     init(navigationController: UINavigationController,
@@ -16,16 +14,12 @@ class ReAuthenticationCoordinator: BaseCoordinator {
          authenticationService: AuthenticationServiceInterface,
          localAuthenticationService: LocalAuthenticationServiceInterface,
          analyticsService: AnalyticsServiceInterface,
-         userService: UserServiceInterface,
-         notificationService: NotificationServiceInterface,
          completionAction: @escaping () -> Void) {
         self.authenticationService = authenticationService
         self.localAuthenticationService = localAuthenticationService
         self.completionAction = completionAction
         self.coordinatorBuilder = coordinatorBuilder
         self.analyticsService = analyticsService
-        self.userService = userService
-        self.notificationService = notificationService
         super.init(navigationController: navigationController)
     }
 
@@ -72,7 +66,7 @@ class ReAuthenticationCoordinator: BaseCoordinator {
         switch refreshRequestResult {
         case .success:
             analyticsService.setExistingConsent()
-            fetchUserInfo()
+            completionAction()
         case .failure:
             handleReauthFailure()
         }
@@ -85,18 +79,5 @@ class ReAuthenticationCoordinator: BaseCoordinator {
             completionAction: completionAction
         )
         start(coordinator)
-    }
-
-    private func fetchUserInfo() {
-        userService.fetchUserInfo(completion: { [weak self] result in
-            switch result {
-            case .success(let userInfo):
-                self?.notificationService.register(notificationId: userInfo.userId)
-                self?.completionAction()
-            case .failure(let error):
-                print(error)
-                // show app unavailable screen
-            }
-        })
     }
 }

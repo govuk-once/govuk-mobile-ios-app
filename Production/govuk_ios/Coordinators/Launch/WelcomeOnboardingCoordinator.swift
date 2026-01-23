@@ -6,6 +6,8 @@ import GovKit
 class WelcomeOnboardingCoordinator: BaseCoordinator {
     private let navigationController: UINavigationController
     private let authenticationService: AuthenticationServiceInterface
+    private let userService: UserServiceInterface
+    private let notificationService: NotificationServiceInterface
     private let coordinatorBuilder: CoordinatorBuilder
     private let viewControllerBuilder: ViewControllerBuilder
     private let analyticsService: AnalyticsServiceInterface
@@ -13,6 +15,8 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
     private let deviceInformationProvider: DeviceInformationProviderInterface
     private let versionProvider: AppVersionProvider
     private let completionAction: () -> Void
+
+    private var shouldShowSignInSuccessScreen = false
 
     private lazy var welcomeOnboardingViewModel: WelcomeOnboardingViewModel = {
         WelcomeOnboardingViewModel(
@@ -24,6 +28,8 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
 
     init(navigationController: UINavigationController,
          authenticationService: AuthenticationServiceInterface,
+         userService: UserServiceInterface,
+         notificationService: NotificationServiceInterface,
          coordinatorBuilder: CoordinatorBuilder,
          viewControllerBuilder: ViewControllerBuilder,
          analyticsService: AnalyticsServiceInterface,
@@ -32,6 +38,8 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
          completionAction: @escaping () -> Void) {
         self.navigationController = navigationController
         self.authenticationService = authenticationService
+        self.userService = userService
+        self.notificationService = notificationService
         self.coordinatorBuilder = coordinatorBuilder
         self.viewControllerBuilder = viewControllerBuilder
         self.analyticsService = analyticsService
@@ -42,10 +50,11 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
     }
 
     override func start(url: URL?) {
-        guard !shouldSkipOnboarding
-        else { return completionAction() }
-
-        setWelcomeOnboardingViewController()
+        if shouldSkipOnboarding {
+            fetchUserInfo()
+        } else {
+            setWelcomeOnboardingViewController()
+        }
     }
 
     private func setWelcomeOnboardingViewController(_ animated: Bool = true) {
@@ -59,11 +68,14 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
         guard pendingAuthenticationCoordinator == nil else { return }
         let authenticationCoordinator = coordinatorBuilder.authentication(
             navigationController: navigationController,
-            completionAction: completionAction,
+            completionAction: { [weak self] in
+                self?.fetchUserInfo()
+            },
             errorAction: { [weak self] error in
                 self?.showError(error)
             }
         )
+        shouldShowSignInSuccessScreen = true
         start(authenticationCoordinator)
         pendingAuthenticationCoordinator = authenticationCoordinator
     }
@@ -109,5 +121,35 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
             fullScreen: false
         )
         start(coordinator)
+    }
+
+    func fetchUserInfo() {
+        userService.fetchUserInfo(completion: { [weak self] result in
+            switch result {
+            case .success(let userInfo):
+                self?.notificationService.register(notificationId: userInfo.userId)
+                self?.finishCoordination()
+            case .failure(let error):
+                print(error)
+                // show app unavailable screen
+            }
+        })
+    }
+
+    @MainActor
+    private func startSignInSuccess() {
+        let coordinator = coordinatorBuilder.signInSuccess(
+            navigationController: root,
+            completion: completionAction
+        )
+        start(coordinator)
+    }
+
+    private func finishCoordination() {
+        if shouldShowSignInSuccessScreen {
+            completionAction()
+        } else {
+            startSignInSuccess()
+        }
     }
 }
