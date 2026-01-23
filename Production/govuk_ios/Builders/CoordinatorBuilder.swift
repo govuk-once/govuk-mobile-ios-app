@@ -303,6 +303,8 @@ class CoordinatorBuilder {
         WelcomeOnboardingCoordinator(
             navigationController: navigationController,
             authenticationService: container.authenticationService.resolve(),
+            userService: container.userService.resolve(),
+            notificationService: container.notificationService.resolve(),
             coordinatorBuilder: self,
             viewControllerBuilder: ViewControllerBuilder(),
             analyticsService: container.analyticsService.resolve(),
@@ -323,8 +325,6 @@ class CoordinatorBuilder {
             analyticsService: container.analyticsService.resolve(),
             topicsService: container.topicsService.resolve(),
             chatService: container.chatService.resolve(),
-            userService: container.userService.resolve(),
-            notificationService: container.notificationService.resolve(),
             completionAction: completionAction,
             errorAction: errorAction
         )
@@ -338,8 +338,6 @@ class CoordinatorBuilder {
             authenticationService: container.authenticationService.resolve(),
             localAuthenticationService: container.localAuthenticationService.resolve(),
             analyticsService: container.analyticsService.resolve(),
-            userService: container.userService.resolve(),
-            notificationService: container.notificationService.resolve(),
             completionAction: completionAction
         )
     }
