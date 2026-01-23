@@ -34,6 +34,17 @@
         }
       }
     },
+    "answerReceivedAccessibilityTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Answer received"
+          }
+        }
+      }
+    },
     "answerTitle" : {
       "extractionState" : "manual",
       "localizations" : {

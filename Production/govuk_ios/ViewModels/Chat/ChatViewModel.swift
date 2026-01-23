@@ -113,6 +113,7 @@ class ChatViewModel: ObservableObject {
                 )
                 scrollToTop = true
                 addCellModels([cellModel])
+                announceAnswerReceived()
             case .failure(let error):
                 processError(error)
             }
@@ -313,5 +314,14 @@ class ChatViewModel: ObservableObject {
             message: String.chat.localized("personalDataValidationErrorText"),
             buttonTitle: String.common.localized("ok")
         )
+    }
+
+    private func announceAnswerReceived() {
+        DispatchQueue.main.async {
+            UIAccessibility.post(
+                notification: .announcement,
+                argument: String.chat.localized("answerReceivedAccessibilityTitle")
+            )
+        }
     }
 }
