@@ -10,6 +10,8 @@ class AuthenticationCoordinator: BaseCoordinator {
     private let analyticsService: AnalyticsServiceInterface
     private let topicsService: TopicsServiceInterface
     private var chatService: ChatServiceInterface
+    private let userService: UserServiceInterface
+    private let notificationService: NotificationServiceInterface
     private let completionAction: () -> Void
     private let errorAction: (AuthenticationError) -> Void
 
@@ -20,6 +22,8 @@ class AuthenticationCoordinator: BaseCoordinator {
          analyticsService: AnalyticsServiceInterface,
          topicsService: TopicsServiceInterface,
          chatService: ChatServiceInterface,
+         userService: UserServiceInterface,
+         notificationService: NotificationServiceInterface,
          completionAction: @escaping () -> Void,
          errorAction: @escaping (AuthenticationError) -> Void) {
         self.coordinatorBuilder = coordinatorBuilder
@@ -28,6 +32,8 @@ class AuthenticationCoordinator: BaseCoordinator {
         self.analyticsService = analyticsService
         self.topicsService = topicsService
         self.chatService = chatService
+        self.userService = userService
+        self.notificationService = notificationService
         self.completionAction = completionAction
         self.errorAction = errorAction
         super.init(navigationController: navigationController)
@@ -52,7 +58,7 @@ class AuthenticationCoordinator: BaseCoordinator {
             }
             handleAnalyticsConsent(response: response)
             handleOnboarding(response: response)
-            startSignInSuccess()
+            fetchUserInfo()
         case .failure(let error):
             DispatchQueue.main.async {
                 self.errorAction(error)
@@ -73,6 +79,19 @@ class AuthenticationCoordinator: BaseCoordinator {
         topicsService.resetOnboarding()
         localAuthenticationService.clear()
         chatService.clear()
+    }
+
+    private func fetchUserInfo() {
+        userService.fetchUserInfo(completion: { [weak self] result in
+            switch result {
+            case .success(let userInfo):
+                self?.notificationService.register(notificationId: userInfo.userId)
+                self?.startSignInSuccess()
+            case .failure(let error):
+                print(error)
+                // show app unavailable screen
+            }
+        })
     }
 
     @MainActor

@@ -80,6 +80,17 @@ extension Container {
         }
     }
 
+    var userAPIClient: Factory<APIServiceClientInterface> {
+        Factory(self) {
+            // move to GovKit when hostname is final
+            let defaultUserInfoUrl: URL = URL(string: "https://qoorzgrk0l.execute-api.eu-west-2.amazonaws.com")!
+            return APIServiceClient(baseUrl: defaultUserInfoUrl,
+                             session: self.urlSession(),
+                             requestBuilder: RequestBuilder(),
+                             responseHandler: UserResponseHandler())
+        }
+    }
+
     var urlSession: Factory<URLSession> {
         Factory(self) {
             URLSession(configuration: .default)

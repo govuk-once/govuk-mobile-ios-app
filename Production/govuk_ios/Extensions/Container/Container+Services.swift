@@ -111,6 +111,12 @@ extension Container {
         }
     }
 
+    var userService: Factory<UserServiceInterface> {
+        Factory(self) {
+            UserService(userServiceClient: self.userServiceClient.resolve())
+        }
+    }
+
     var topicsService: Factory<TopicsServiceInterface> {
         Factory(self) {
             TopicsService(
