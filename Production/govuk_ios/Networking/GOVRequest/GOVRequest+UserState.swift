@@ -2,10 +2,10 @@ import Foundation
 import GovKit
 
 extension GOVRequest {
-    static func getUserInfo(accessToken: String?) -> GOVRequest {
+    static func getUserState(accessToken: String?) -> GOVRequest {
         let accessToken = accessToken ?? ""
         return GOVRequest(
-            urlPath: "/post-login",
+            urlPath: "/1.0/app/user",
             method: .post,
             bodyParameters: nil,
             queryParameters: nil,

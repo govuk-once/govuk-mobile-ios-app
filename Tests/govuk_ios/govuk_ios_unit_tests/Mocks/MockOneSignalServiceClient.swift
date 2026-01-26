@@ -6,6 +6,14 @@ import OneSignalFramework
 @testable import govuk_ios
 
 class MockOneSignalServiceClient: OneSignalServiceClient {
+    static func login(_ externalId: String) {
+
+    }
+    
+    static func logout() {
+
+    }
+    
     static func setConsentRequired(_ required: Bool) {
 
     }

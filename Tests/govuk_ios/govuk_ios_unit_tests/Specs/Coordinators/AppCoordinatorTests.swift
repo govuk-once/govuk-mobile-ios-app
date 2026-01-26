@@ -14,6 +14,7 @@ struct AppCoordinatorTests {
         let mockNavigationController = UINavigationController()
         let mockInactivityService = MockInactivityService()
         let mockLocalAuthenticationService = MockLocalAuthenticationService()
+        let mockNotificationService = MockNotificationService()
         let mockCoordinator = MockBaseCoordinator(
             navigationController: mockNavigationController
         )
@@ -24,6 +25,7 @@ struct AppCoordinatorTests {
             inactivityService: mockInactivityService,
             authenticationService: mockAuthenticationService,
             localAuthenticationService: mockLocalAuthenticationService,
+            notificationService: mockNotificationService,
             navigationController: mockNavigationController
         )
 
@@ -41,6 +43,7 @@ struct AppCoordinatorTests {
         let mockNavigationController = UINavigationController()
         let mockInactivityService = MockInactivityService()
         let mockLocalAuthenticationService = MockLocalAuthenticationService()
+        let mockNotificationService = MockNotificationService()
         let mockPreAuthCoordinator = MockBaseCoordinator(
             navigationController: mockNavigationController
         )
@@ -59,6 +62,7 @@ struct AppCoordinatorTests {
             inactivityService: mockInactivityService,
             authenticationService: mockAuthenticationService,
             localAuthenticationService: mockLocalAuthenticationService,
+            notificationService: mockNotificationService,
             navigationController: mockNavigationController
         )
 
@@ -92,6 +96,7 @@ struct AppCoordinatorTests {
         let mockNavigationController = UINavigationController()
         let mockInactivityService = MockInactivityService()
         let mockLocalAuthenticationService = MockLocalAuthenticationService()
+        let mockNotificationService = MockNotificationService()
         let mockPreAuthCoordinator = MockBaseCoordinator(
             navigationController: mockNavigationController
         )
@@ -110,6 +115,7 @@ struct AppCoordinatorTests {
             inactivityService: mockInactivityService,
             authenticationService: mockAuthenticationService,
             localAuthenticationService: mockLocalAuthenticationService,
+            notificationService: mockNotificationService,
             navigationController: mockNavigationController
         )
 
@@ -148,6 +154,7 @@ struct AppCoordinatorTests {
         let mockNavigationController = UINavigationController()
         let mockInactivityService = MockInactivityService()
         let mockLocalAuthenticationService = MockLocalAuthenticationService()
+        let mockNotificationService = MockNotificationService()
         let mockPreAuthCoordinator = MockBaseCoordinator(
             navigationController: mockNavigationController
         )
@@ -166,6 +173,7 @@ struct AppCoordinatorTests {
             inactivityService: mockInactivityService,
             authenticationService: mockAuthenticationService,
             localAuthenticationService: mockLocalAuthenticationService,
+            notificationService: mockNotificationService,
             navigationController: mockNavigationController
         )
 
@@ -202,6 +210,7 @@ struct AppCoordinatorTests {
         let mockNavigationController = UINavigationController()
         let mockInactivityService = MockInactivityService()
         let mockLocalAuthenticationService = MockLocalAuthenticationService()
+        let mockNotificationService = MockNotificationService()
         let mockLaunchCoordinator = MockBaseCoordinator(
             navigationController: mockNavigationController
         )
@@ -225,6 +234,7 @@ struct AppCoordinatorTests {
             inactivityService: mockInactivityService,
             authenticationService: mockAuthenticationService,
             localAuthenticationService: mockLocalAuthenticationService,
+            notificationService: mockNotificationService,
             navigationController: mockNavigationController
         )
 
@@ -247,6 +257,7 @@ struct AppCoordinatorTests {
         let mockNavigationController = UINavigationController()
         let mockInactivityService = MockInactivityService()
         let mockLocalAuthenticationService = MockLocalAuthenticationService()
+        let mockNotificationService = MockNotificationService()
 
         let mockPeriAuthCoordinator = MockBaseCoordinator()
         mockCoordinatorBuilder._stubbedPeriAuthCoordinator = mockPeriAuthCoordinator
@@ -257,6 +268,7 @@ struct AppCoordinatorTests {
             inactivityService: mockInactivityService,
             authenticationService: mockAuthenticationService,
             localAuthenticationService: mockLocalAuthenticationService,
+            notificationService: mockNotificationService,
             navigationController: mockNavigationController
         )
 
@@ -276,6 +288,7 @@ struct AppCoordinatorTests {
         let mockNavigationController = UINavigationController()
         let mockInactivityService = MockInactivityService()
         let mockLocalAuthenticationService = MockLocalAuthenticationService()
+        let mockNotificationService = MockNotificationService()
         let mockCoordinator = MockBaseCoordinator(
             navigationController: mockNavigationController
         )
@@ -289,6 +302,7 @@ struct AppCoordinatorTests {
             inactivityService: mockInactivityService,
             authenticationService: mockAuthenticationService,
             localAuthenticationService: mockLocalAuthenticationService,
+            notificationService: mockNotificationService,
             navigationController: mockNavigationController
         )
 
@@ -306,6 +320,7 @@ struct AppCoordinatorTests {
         let mockNavigationController = UINavigationController()
         let mockInactivityService = MockInactivityService()
         let mockLocalAuthenticationService = MockLocalAuthenticationService()
+        let mockNotificationService = MockNotificationService()
         let mockCoordinator = MockBaseCoordinator(
             navigationController: mockNavigationController
         )
@@ -320,6 +335,7 @@ struct AppCoordinatorTests {
             inactivityService: mockInactivityService,
             authenticationService: mockAuthenticationService,
             localAuthenticationService: mockLocalAuthenticationService,
+            notificationService: mockNotificationService,
             privacyPresenter: mockPrivacyService,
             navigationController: mockNavigationController
         )
@@ -339,6 +355,7 @@ struct AppCoordinatorTests {
         let mockNavigationController = UINavigationController()
         let mockInactivityService = MockInactivityService()
         let mockLocalAuthenticationService = MockLocalAuthenticationService()
+        let mockNotificationService = MockNotificationService()
         mockLocalAuthenticationService._stubbedAvailableAuthType = .faceID
         let mockPrivacyService = MockPrivacyService()
 
@@ -347,6 +364,7 @@ struct AppCoordinatorTests {
             inactivityService: mockInactivityService,
             authenticationService: mockAuthenticationService,
             localAuthenticationService: mockLocalAuthenticationService,
+            notificationService: mockNotificationService,
             privacyPresenter: mockPrivacyService,
             navigationController: mockNavigationController
         )
@@ -368,12 +386,14 @@ struct AppCoordinatorTests {
         mockLocalAuthenticationService._stubbedAvailableAuthType = .none
         mockLocalAuthenticationService._stubbedTouchIdEnabled = false
         let mockPrivacyService = MockPrivacyService()
+        let mockNotificationService = MockNotificationService()
 
         let subject = AppCoordinator(
             coordinatorBuilder: mockCoordinatorBuilder,
             inactivityService: mockInactivityService,
             authenticationService: mockAuthenticationService,
             localAuthenticationService: mockLocalAuthenticationService,
+            notificationService: mockNotificationService,
             privacyPresenter: mockPrivacyService,
             navigationController: mockNavigationController
         )
@@ -400,6 +420,7 @@ struct AppCoordinatorTests {
             inactivityService: mockInactivityService,
             authenticationService: mockAuthenticationService,
             localAuthenticationService: mockLocalAuthenticationService,
+            notificationService: MockNotificationService(),
             privacyPresenter: mockPrivacyService,
             navigationController: mockNavigationController
         )
@@ -426,6 +447,7 @@ struct AppCoordinatorTests {
             inactivityService: mockInactivityService,
             authenticationService: mockAuthenticationService,
             localAuthenticationService: mockLocalAuthenticationService,
+            notificationService: MockNotificationService(),
             privacyPresenter: mockPrivacyService,
             navigationController: mockNavigationController
         )

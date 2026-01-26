@@ -1,5 +1,5 @@
 import Foundation
 
-struct UserInfoResponse: Codable {
+struct UserStateResponse: Codable {
     let userId: String
 }

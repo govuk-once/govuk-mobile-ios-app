@@ -1,14 +1,14 @@
 import Foundation
 import GovKit
 
-typealias FetchUserInfoCompletion = (UserInfoResult) -> Void
-typealias UserInfoResult = Result<UserInfoResponse, UserAPIError>
+typealias FetchUserStateCompletion = (UserStateResult) -> Void
+typealias UserStateResult = Result<UserStateResponse, UserStateError>
 
 protocol UserServiceClientInterface {
-    func fetchUserInfo(completion: @escaping FetchUserInfoCompletion)
+    func fetchUserState(completion: @escaping FetchUserStateCompletion)
 }
 
-enum UserAPIError: LocalizedError {
+enum UserStateError: LocalizedError {
     case networkUnavailable
     case apiUnavailable
     case decodingError
@@ -25,8 +25,8 @@ struct UserServiceClient: UserServiceClientInterface {
         self.authenticationService = authenticationService
     }
 
-    func fetchUserInfo(completion: @escaping FetchUserInfoCompletion) {
-        let request = GOVRequest.getUserInfo(
+    func fetchUserState(completion: @escaping FetchUserStateCompletion) {
+        let request = GOVRequest.getUserState(
             accessToken: authenticationService.accessToken
         )
         apiServiceClient.send(
@@ -38,13 +38,13 @@ struct UserServiceClient: UserServiceClientInterface {
 
     private func mapResult<T: Decodable>(
         _ result: NetworkResult<Data>
-    ) -> Result<T, UserAPIError> {
+    ) -> Result<T, UserStateError> {
         return result.mapError { error in
             let nsError = (error as NSError)
             if nsError.code == NSURLErrorNotConnectedToInternet {
-                return UserAPIError.networkUnavailable
+                return UserStateError.networkUnavailable
             } else {
-                return (error as? UserAPIError) ?? UserAPIError.apiUnavailable
+                return (error as? UserStateError) ?? UserStateError.apiUnavailable
             }
         }.flatMap {
             let decoder = JSONDecoder()
@@ -52,7 +52,7 @@ struct UserServiceClient: UserServiceClientInterface {
                 let response = try decoder.decode(T.self, from: $0)
                 return .success(response)
             } catch {
-                return .failure(UserAPIError.decodingError)
+                return .failure(UserStateError.decodingError)
             }
         }
     }
