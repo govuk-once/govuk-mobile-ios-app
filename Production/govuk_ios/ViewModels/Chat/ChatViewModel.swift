@@ -142,6 +142,8 @@ class ChatViewModel: ObservableObject {
             case .failure(let error):
                 if error == .pageNotFound {
                     self?.chatService.clearHistory()
+                    self?.cellModels.removeAll()
+                    self?.appendIntroMessage(animate: true)
                 } else {
                     self?.processError(error)
                 }
