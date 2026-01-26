@@ -83,8 +83,8 @@ extension Container {
     var userAPIClient: Factory<APIServiceClientInterface> {
         Factory(self) {
             // move to GovKit when hostname is final
-            let defaultUserInfoUrl: URL = URL(string: "https://qoorzgrk0l.execute-api.eu-west-2.amazonaws.com")!
-            return APIServiceClient(baseUrl: defaultUserInfoUrl,
+            let defaultUserStateUrl: URL = URL(string: "https://qoorzgrk0l.execute-api.eu-west-2.amazonaws.com")!
+            return APIServiceClient(baseUrl: defaultUserStateUrl,
                              session: self.urlSession(),
                              requestBuilder: RequestBuilder(),
                              responseHandler: UserResponseHandler())

@@ -1,15 +1,15 @@
 protocol UserServiceInterface {
-     func fetchUserInfo(completion: @escaping FetchUserInfoCompletion)
+     func fetchUserState(completion: @escaping FetchUserStateCompletion)
  }
 
- struct UserService: UserServiceInterface {
+ class UserService: UserServiceInterface {
      private let userServiceClient: UserServiceClientInterface
 
      init(userServiceClient: UserServiceClientInterface) {
          self.userServiceClient = userServiceClient
      }
 
-     func fetchUserInfo(completion: @escaping FetchUserInfoCompletion) {
-         userServiceClient.fetchUserInfo(completion: completion)
+     func fetchUserState(completion: @escaping FetchUserStateCompletion) {
+         userServiceClient.fetchUserState(completion: completion)
      }
  }

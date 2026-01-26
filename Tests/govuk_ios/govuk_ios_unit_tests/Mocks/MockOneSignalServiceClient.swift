@@ -7,6 +7,15 @@ import OneSignalFramework
 
 class MockOneSignalServiceClient: OneSignalServiceClient {
     static var _receivedConsentRequiredValue: Bool?
+
+    static func login(_ externalId: String) {
+
+    }
+    
+    static func logout() {
+
+    }
+
     static func setConsentRequired(_ required: Bool) {
         _receivedConsentRequiredValue = required
     }
