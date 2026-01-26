@@ -147,9 +147,9 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
 
     private func finishCoordination() {
         if shouldShowSignInSuccessScreen {
-            completionAction()
-        } else {
             startSignInSuccess()
+        } else {
+            completionAction()
         }
     }
 }
