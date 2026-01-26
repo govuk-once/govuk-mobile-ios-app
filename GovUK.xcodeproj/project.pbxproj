@@ -275,13 +275,13 @@
 		8101BEEB2F2A24B8009E639B /* RemoteConfigValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8101BEE92F2A24B8009E639B /* RemoteConfigValue.swift */; };
 		8101BEEC2F2A24B8009E639B /* RemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8101BEE82F2A24B8009E639B /* RemoteConfig.swift */; };
 		815935D92F212EF700F8D206 /* UserServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815935D82F212EF300F8D206 /* UserServiceClient.swift */; };
-		815935DB2F213EC700F8D206 /* GOVRequest+UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815935DA2F213EBE00F8D206 /* GOVRequest+UserInfo.swift */; };
+		815935DB2F213EC700F8D206 /* GOVRequest+UserState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815935DA2F213EBE00F8D206 /* GOVRequest+UserState.swift */; };
 		815935DE2F22353900F8D206 /* UserResponseHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815935DD2F22352B00F8D206 /* UserResponseHandler.swift */; };
 		815935E02F22381A00F8D206 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815935DF2F22381400F8D206 /* UserService.swift */; };
-		815935E22F225B9F00F8D206 /* UserInfoResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815935E12F225B9A00F8D206 /* UserInfoResponse.swift */; };
 		815C58682EE970E200322705 /* RemoteConfigService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815C58672EE970DC00322705 /* RemoteConfigService.swift */; };
 		815C586A2EE973FC00322705 /* RemoteConfigServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815C58692EE973F400322705 /* RemoteConfigServiceClient.swift */; };
 		815C586C2EE9744E00322705 /* FirebaseRemoteConfig in Frameworks */ = {isa = PBXBuildFile; productRef = 815C586B2EE9744E00322705 /* FirebaseRemoteConfig */; };
+		815935E22F225B9F00F8D206 /* UserStateResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815935E12F225B9A00F8D206 /* UserStateResponse.swift */; };
 		8171AE472F1116A00024312B /* ScrollBottomIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8171AE462F11169A0024312B /* ScrollBottomIndicatorView.swift */; };
 		8181DBFA2EE214B100F47531 /* FactoryKit in Frameworks */ = {isa = PBXBuildFile; productRef = 8181DBF92EE214B100F47531 /* FactoryKit */; };
 		8181DBFC2EE214B100F47531 /* FactoryTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 8181DBFB2EE214B100F47531 /* FactoryTesting */; };
@@ -711,12 +711,12 @@
 		8101BEE82F2A24B8009E639B /* RemoteConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfig.swift; sourceTree = "<group>"; };
 		8101BEE92F2A24B8009E639B /* RemoteConfigValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigValue.swift; sourceTree = "<group>"; };
 		815935D82F212EF300F8D206 /* UserServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserServiceClient.swift; sourceTree = "<group>"; };
-		815935DA2F213EBE00F8D206 /* GOVRequest+UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GOVRequest+UserInfo.swift"; sourceTree = "<group>"; };
+		815935DA2F213EBE00F8D206 /* GOVRequest+UserState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GOVRequest+UserState.swift"; sourceTree = "<group>"; };
 		815935DD2F22352B00F8D206 /* UserResponseHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserResponseHandler.swift; sourceTree = "<group>"; };
 		815935DF2F22381400F8D206 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
-		815935E12F225B9A00F8D206 /* UserInfoResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoResponse.swift; sourceTree = "<group>"; };
 		815C58672EE970DC00322705 /* RemoteConfigService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigService.swift; sourceTree = "<group>"; };
 		815C58692EE973F400322705 /* RemoteConfigServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigServiceClient.swift; sourceTree = "<group>"; };
+		815935E12F225B9A00F8D206 /* UserStateResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStateResponse.swift; sourceTree = "<group>"; };
 		8171AE462F11169A0024312B /* ScrollBottomIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollBottomIndicatorView.swift; sourceTree = "<group>"; };
 		B04C2E7D2DA913B100F0F63E /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		B04C2E7F2DA9141400F0F63E /* WebDeeplinkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebDeeplinkRoute.swift; sourceTree = "<group>"; };
@@ -959,6 +959,7 @@
 				govuk_ios/govuk_ios_unit_tests/Mocks/Services/MockAuthenticationService.swift,
 				govuk_ios/govuk_ios_unit_tests/Mocks/Services/MockLocalAuthenticationService.swift,
 				govuk_ios/govuk_ios_unit_tests/Mocks/Services/MockUserDefaultsService.swift,
+				govuk_ios/govuk_ios_unit_tests/Mocks/Services/MockUserService.swift,
 				"govuk_ios/shared/Arrangers/Foundation/Date+Arrangers.swift",
 				"govuk_ios/shared/Arrangers/Foundation/URL+Arrangers.swift",
 				"govuk_ios/shared/Arrangers/Model/Chat+Arrangers.swift",
@@ -1764,7 +1765,7 @@
 			isa = PBXGroup;
 			children = (
 				D04DD3312E0046FB002B5F19 /* GOVRequest+Chat.swift */,
-				815935DA2F213EBE00F8D206 /* GOVRequest+UserInfo.swift */,
+				815935DA2F213EBE00F8D206 /* GOVRequest+UserState.swift */,
 				D0E855D52DDB910A003B4D7A /* GovRequest+Authentication.swift */,
 				5DB6370C2D7736AD00A44E36 /* GOVRequest+App.swift */,
 				5DC79FB12CA18A9A00014446 /* GOVRequest+Search.swift */,
@@ -1830,7 +1831,7 @@
 				D0D9CB922D3024C00051EDDD /* Search */,
 				16FCDE772DC4E38F000E870D /* TokenRefreshResponse.swift */,
 				D041917C2CA57B3D0034722A /* Topics */,
-				815935E12F225B9A00F8D206 /* UserInfoResponse.swift */,
+				815935E12F225B9A00F8D206 /* UserStateResponse.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2601,7 +2602,7 @@
 				16DB3CB82F0417D900F77DF4 /* SearchCommerceItem.swift in Sources */,
 				D0839FD02DE7ABE800CA5C27 /* GovUKProviderFactory.swift in Sources */,
 				D06C2A512DDF39C90045C674 /* LocalAuthorityResponseHandler.swift in Sources */,
-				815935DB2F213EC700F8D206 /* GOVRequest+UserInfo.swift in Sources */,
+				815935DB2F213EC700F8D206 /* GOVRequest+UserState.swift in Sources */,
 				4E5E79A82DEF063800CA9B4D /* LocalAuthorityConfirmationView.swift in Sources */,
 				4EFE22A12D0CD08900136D56 /* Redactor.swift in Sources */,
 				3D4A9E622E6735B0003ABE53 /* UserFeedbackWidgetViewModel.swift in Sources */,
@@ -2635,7 +2636,7 @@
 				D0D9CB932D3024C00051EDDD /* SearchResult.swift in Sources */,
 				D0D9CB942D3024C00051EDDD /* SearchItem.swift in Sources */,
 				D0D9CB952D3024C00051EDDD /* SearchHistoryItem.swift in Sources */,
-				815935E22F225B9F00F8D206 /* UserInfoResponse.swift in Sources */,
+				815935E22F225B9F00F8D206 /* UserStateResponse.swift in Sources */,
 				5D41DB5D2C0870020011E691 /* Container+Aliases.swift in Sources */,
 				3D4A9E602E672975003ABE53 /* UserFeedbackWidgetView.swift in Sources */,
 				5DBE08042C480CA700B58DBE /* AnimationView+Convenience.swift in Sources */,

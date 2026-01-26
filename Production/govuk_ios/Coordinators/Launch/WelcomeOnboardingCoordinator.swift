@@ -51,7 +51,7 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
 
     override func start(url: URL?) {
         if shouldSkipOnboarding {
-            fetchUserInfo()
+            fetchUserState()
         } else {
             setWelcomeOnboardingViewController()
         }
@@ -69,7 +69,7 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
         let authenticationCoordinator = coordinatorBuilder.authentication(
             navigationController: navigationController,
             completionAction: { [weak self] in
-                self?.fetchUserInfo()
+                self?.fetchUserState()
             },
             errorAction: { [weak self] error in
                 self?.showError(error)
@@ -123,11 +123,11 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
         start(coordinator)
     }
 
-    func fetchUserInfo() {
-        userService.fetchUserInfo(completion: { [weak self] result in
+    func fetchUserState() {
+        userService.fetchUserState(completion: { [weak self] result in
             switch result {
-            case .success(let userInfo):
-                self?.notificationService.register(notificationId: userInfo.userId)
+            case .success(let userState):
+                self?.notificationService.register(notificationId: userState.userId)
                 self?.finishCoordination()
             case .failure(let error):
                 print(error)

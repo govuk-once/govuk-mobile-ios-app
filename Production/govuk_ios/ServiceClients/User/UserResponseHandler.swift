@@ -4,9 +4,9 @@ struct UserResponseHandler: ResponseHandler {
     func handleStatusCode(_ statusCode: Int) -> Error {
         switch statusCode {
         case 401, 403:
-            UserAPIError.authenticationError
+            UserStateError.authenticationError
         default:
-            UserAPIError.apiUnavailable
+            UserStateError.apiUnavailable
         }
     }
 }
