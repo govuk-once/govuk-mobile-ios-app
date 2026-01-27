@@ -4,7 +4,7 @@ import GovKit
 struct ChatView: View {
     @Environment(\.verticalSizeClass) var verticalSizeClass
     @StateObject private var viewModel: ChatViewModel
-    @AccessibilityFocusState private var textAreaAccessibilityFocused: Bool
+    @AccessibilityFocusState private(set) var textAreaAccessibilityFocused: Bool
     @Namespace var bottomID
     @FocusState private var textAreaFocused: Bool
     @State var showClearChatAlert: Bool = false

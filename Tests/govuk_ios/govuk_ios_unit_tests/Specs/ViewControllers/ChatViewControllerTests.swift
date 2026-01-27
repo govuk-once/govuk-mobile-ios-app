@@ -30,6 +30,7 @@ struct ChatViewControllerTests {
         viewModel.requestInFlight = false
         DispatchQueue.main.asyncAfter(deadline: .now()) {
             viewModel.requestInFlight = true
+            #expect(view.textAreaAccessibilityFocused == true)
         }
     }
 }
