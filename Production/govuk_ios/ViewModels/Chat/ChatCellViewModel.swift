@@ -137,7 +137,7 @@ extension ChatCellViewModel {
         case .loading, .pendingAnswer:
             Color(UIColor.clear)
         case .answer, .intro:
-            Color(UIColor.govUK.fills.surfaceChatAnswer)
+            Color(UIColor.govUK.Fills.surfaceChatAnswer)
         }
     }
 

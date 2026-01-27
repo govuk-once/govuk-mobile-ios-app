@@ -18,6 +18,13 @@ extension GOVUKColors {
             )
         }()
 
+        public static let surfaceChatAnswer: UIColor = {
+            .init(
+                light: .white,
+                dark: .blueDarker70
+            )
+        }()
+
         public static let surfaceChatQuestion: UIColor = {
             .init(
                 light: .white.withAlphaComponent(0.5),
