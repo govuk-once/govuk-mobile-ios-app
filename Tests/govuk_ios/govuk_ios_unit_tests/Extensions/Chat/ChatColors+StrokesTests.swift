@@ -7,7 +7,7 @@ struct ChatColors_StrokesTests {
 
     @Test
     func focusedChatTextBox_returnsExpectedResult() {
-        let result = UIColor.govUK.strokes.focusedChatTextBox
+        let result = UIColor.govUK.Strokes.focusedChatTextBox
 
         #expect(result.lightMode == .primaryBlue)
         #expect(result.darkMode == .accentBlue)
@@ -16,7 +16,7 @@ struct ChatColors_StrokesTests {
     // MARK: Chat
     @Test
     func chatDivider_returnsExpectedResult() {
-        let result = UIColor.govUK.strokes.chatDivider
+        let result = UIColor.govUK.Strokes.chatDivider
 
         #expect(result.lightMode == .blueLighter80)
         #expect(result.darkMode == .blueDarker25)
@@ -24,7 +24,7 @@ struct ChatColors_StrokesTests {
 
     @Test
     func chatAnswer_returnsExpectedResult() {
-        let result = UIColor.govUK.strokes.chatAnswer
+        let result = UIColor.govUK.Strokes.chatAnswer
 
         #expect(result.lightMode == .clear)
         #expect(result.darkMode == .blueDarker25)
@@ -32,7 +32,7 @@ struct ChatColors_StrokesTests {
 
     @Test
     func chatAction_returnsExpectedResult() {
-        let result = UIColor.govUK.strokes.chatAction
+        let result = UIColor.govUK.Strokes.chatAction
 
         #expect(result.lightMode == .grey300)
         #expect(result.darkMode == .blueLighter25)
@@ -40,7 +40,7 @@ struct ChatColors_StrokesTests {
 
     @Test
     func chatOnboardingListDivider_returnsExpectedResult() {
-        let result = UIColor.govUK.strokes.chatOnboardingListDivider
+        let result = UIColor.govUK.Strokes.chatOnboardingListDivider
 
         #expect(result.lightMode == .blueLighter80)
         #expect(result.darkMode == .blueDarker50)

@@ -1,6 +1,4 @@
 import SwiftUI
-import GovKit
-import GovKitUI
 import MarkdownUI
 
 struct ChatCellView: View {
