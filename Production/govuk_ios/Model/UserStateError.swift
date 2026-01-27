@@ -1,18 +1,19 @@
 import Foundation
 
-enum AppConfigError: Error {
-    case remoteJson
-    case invalidSignature
+enum UserStateError: LocalizedError {
     case networkUnavailable
+    case apiUnavailable
+    case decodingError
+    case authenticationError
 }
 
-extension AppConfigError {
+extension UserStateError {
     func asAppUnavailableError() -> AppUnavailableError {
         switch self {
         case .networkUnavailable:
                 .networkUnavailable
         default:
-                .appConfig
+                .userState
         }
     }
 }

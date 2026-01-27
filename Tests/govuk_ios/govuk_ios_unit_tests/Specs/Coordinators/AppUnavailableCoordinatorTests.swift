@@ -8,13 +8,12 @@ import Testing
 @MainActor
 struct AppUnavailableCoordinatorTests {
     @Test
-    func start_isAppAvailable_true_callsDismiss() async {
-        let mockAppLaunchService = MockAppLaunchService()
+    func start_whenErrorIsNil_callsDismiss() async {
         await withCheckedContinuation { continuation in
             let sut = AppUnavailableCoordinator(
                 navigationController: UINavigationController(),
-                appLaunchService: mockAppLaunchService,
-                launchResponse: .arrangeAvailable,
+                error: nil,
+                retryAction: { _ in },
                 dismissAction: {
                     continuation.resume()
                 }
@@ -24,13 +23,12 @@ struct AppUnavailableCoordinatorTests {
     }
 
     @Test
-    func start_isAppAvailable_false_doesntCallDismiss() async throws {
-        let mockAppLaunchService = MockAppLaunchService()
+    func start_whenErrorIsNotNil_doesntCallDismiss() async throws {
         let started: Bool = try await withCheckedThrowingContinuation { continuation in
             let sut = AppUnavailableCoordinator(
                 navigationController: UINavigationController(),
-                appLaunchService: mockAppLaunchService,
-                launchResponse: .arrangeUnavailable,
+                error: .appConfig,
+                retryAction: { _ in },
                 dismissAction: {
                     continuation.resume(throwing: TestError.unexpectedMethodCalled)
                 }

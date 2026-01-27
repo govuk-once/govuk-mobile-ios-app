@@ -5,9 +5,9 @@ import GovKit
 
 class AppUnavailableContainerViewModel: ObservableObject {
     private let urlOpener: URLOpener
-    private let appLaunchService: AppLaunchServiceInterface?
-    let error: AppConfigError?
+    let error: AppUnavailableError?
     private let dismissAction: () -> Void
+    private let retryAction: (@escaping (Bool) -> Void) -> Void
     @Published var showProgressView: Bool = false
 
     private(set) var title = String.appAvailability.localized("unavailableTitle")
@@ -31,12 +31,12 @@ class AppUnavailableContainerViewModel: ObservableObject {
     }
 
     init(urlOpener: URLOpener = UIApplication.shared,
-         appLaunchService: AppLaunchServiceInterface?,
-         error: AppConfigError? = nil,
+         error: AppUnavailableError? = nil,
+         retryAction: @escaping (@escaping (Bool) -> Void) -> Void,
          dismissAction: @escaping () -> Void) {
         self.urlOpener = urlOpener
-        self.appLaunchService = appLaunchService
         self.error = error
+        self.retryAction = retryAction
         self.dismissAction = dismissAction
         handleNetworkError()
     }
@@ -56,8 +56,8 @@ class AppUnavailableContainerViewModel: ObservableObject {
 
     private func retry() {
         showProgressView = true
-        appLaunchService?.fetch { [weak self] result in
-            if case .success = result.configResult {
+        retryAction { [weak self] wasSuccessful in
+            if wasSuccessful {
                 self?.dismissAction()
             }
             self?.showProgressView = false

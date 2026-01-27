@@ -27,7 +27,7 @@ struct AppUnavailableContainerView: View {
                 .overlay(Color(UIColor.govUK.strokes.fixedContainer))
                 .ignoresSafeArea()
             SwiftUIButton(
-                viewModel.error == AppConfigError.networkUnavailable ? .primary : .secondary,
+                viewModel.error == AppUnavailableError.networkUnavailable ? .primary : .secondary,
                 viewModel: viewModel.buttonViewModel
             )
             .accessibilityLabel(viewModel.buttonAccessibilityTitle)
