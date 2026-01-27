@@ -8,13 +8,6 @@ protocol UserServiceClientInterface {
     func fetchUserState(completion: @escaping FetchUserStateCompletion)
 }
 
-enum UserStateError: LocalizedError {
-    case networkUnavailable
-    case apiUnavailable
-    case decodingError
-    case authenticationError
-}
-
 struct UserServiceClient: UserServiceClientInterface {
     private let apiServiceClient: APIServiceClientInterface
     private let authenticationService: AuthenticationServiceInterface

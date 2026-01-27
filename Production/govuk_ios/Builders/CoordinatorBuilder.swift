@@ -32,6 +32,7 @@ class CoordinatorBuilder {
         PreAuthCoordinator(
             coordinatorBuilder: self,
             navigationController: navigationController,
+            appLaunchService: container.appLaunchService.resolve(),
             completion: completion
         )
     }
@@ -148,12 +149,13 @@ class CoordinatorBuilder {
     }
 
     func appUnavailable(navigationController: UINavigationController,
-                        launchResponse: AppLaunchResponse,
+                        error: AppUnavailableError?,
+                        retryAction: @escaping (@escaping (Bool) -> Void) -> Void,
                         dismissAction: @escaping () -> Void) -> BaseCoordinator {
         AppUnavailableCoordinator(
             navigationController: navigationController,
-            appLaunchService: container.appLaunchService.resolve(),
-            launchResponse: launchResponse,
+            error: error,
+            retryAction: retryAction,
             dismissAction: dismissAction
         )
     }

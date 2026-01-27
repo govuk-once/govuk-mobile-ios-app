@@ -278,6 +278,8 @@
 		5DFE5F1E2D6DE5900041E3B4 /* UNUserNotificationCenter+Interface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFE5F1D2D6DE5900041E3B4 /* UNUserNotificationCenter+Interface.swift */; };
 		8101BEEB2F2A24B8009E639B /* RemoteConfigValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8101BEE92F2A24B8009E639B /* RemoteConfigValue.swift */; };
 		8101BEEC2F2A24B8009E639B /* RemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8101BEE82F2A24B8009E639B /* RemoteConfig.swift */; };
+		8101A23E2F28BAAB009E639B /* AppUnavailableError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8101A23D2F28BAA4009E639B /* AppUnavailableError.swift */; };
+		8101A2402F28BB58009E639B /* UserStateError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8101A23F2F28BB54009E639B /* UserStateError.swift */; };
 		815935D92F212EF700F8D206 /* UserServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815935D82F212EF300F8D206 /* UserServiceClient.swift */; };
 		815935DB2F213EC700F8D206 /* GOVRequest+UserState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815935DA2F213EBE00F8D206 /* GOVRequest+UserState.swift */; };
 		815935DE2F22353900F8D206 /* UserResponseHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815935DD2F22352B00F8D206 /* UserResponseHandler.swift */; };
@@ -718,6 +720,8 @@
 		5DFE5F1D2D6DE5900041E3B4 /* UNUserNotificationCenter+Interface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UNUserNotificationCenter+Interface.swift"; sourceTree = "<group>"; };
 		8101BEE82F2A24B8009E639B /* RemoteConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfig.swift; sourceTree = "<group>"; };
 		8101BEE92F2A24B8009E639B /* RemoteConfigValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigValue.swift; sourceTree = "<group>"; };
+		8101A23D2F28BAA4009E639B /* AppUnavailableError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUnavailableError.swift; sourceTree = "<group>"; };
+		8101A23F2F28BB54009E639B /* UserStateError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStateError.swift; sourceTree = "<group>"; };
 		815935D82F212EF300F8D206 /* UserServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserServiceClient.swift; sourceTree = "<group>"; };
 		815935DA2F213EBE00F8D206 /* GOVRequest+UserState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GOVRequest+UserState.swift"; sourceTree = "<group>"; };
 		815935DD2F22352B00F8D206 /* UserResponseHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserResponseHandler.swift; sourceTree = "<group>"; };
@@ -1835,6 +1839,7 @@
 				D04C542A2D7081C00070EE79 /* Analytics */,
 				4E003E7D2C75F497008FCBF2 /* AppConfig */,
 				5D8100882CEB3FE600EE7D15 /* AppLaunchResponse.swift */,
+				8101A23D2F28BAA4009E639B /* AppUnavailableError.swift */,
 				D04DD32C2E0046DC002B5F19 /* Chat */,
 				1631DE982C2B0D020050CB9D /* DeviceInformationProvider.swift */,
 				4E265F142DB0E6B70089CF9E /* LocalAuthority */,
@@ -1843,6 +1848,7 @@
 				16FCDE772DC4E38F000E870D /* TokenRefreshResponse.swift */,
 				D041917C2CA57B3D0034722A /* Topics */,
 				815935E12F225B9A00F8D206 /* UserStateResponse.swift */,
+				8101A23F2F28BB54009E639B /* UserStateError.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2641,6 +2647,7 @@
 				4EE44BAD2E70332C0093D380 /* NonTappableCardView.swift in Sources */,
 				5D7D255F2D141CEC00BDC217 /* Redactor+Convenience.swift in Sources */,
 				5D4F97EB2BFF7725002CBDDE /* CoordinatorBuilder.swift in Sources */,
+				8101A23E2F28BAAB009E639B /* AppUnavailableError.swift in Sources */,
 				5DDD58892D5A556A001C0B3E /* NotificationOnboardingCoordinator.swift in Sources */,
 				D0D2C6932E13F87300620DC2 /* DynamicLibraryWrapper.swift in Sources */,
 				5DD4CB0F2D95485200459FB5 /* Date+Extensions.swift in Sources */,
@@ -2769,6 +2776,7 @@
 				8171AE472F1116A00024312B /* ScrollBottomIndicatorView.swift in Sources */,
 				168F85532DE9AE4B0040E6AF /* ScrollBounceBehaviourModifier.swift in Sources */,
 				16E912AF2DA72CE000CD2049 /* OIDAuthorizationServiceWrapper.swift in Sources */,
+				8101A2402F28BB58009E639B /* UserStateError.swift in Sources */,
 				164150AF2DE5DB6D00798DF3 /* WelcomeOnboardingViewModel.swift in Sources */,
 				5DF32E092E045F5F006C63E0 /* AccessibilityAnnouncerService.swift in Sources */,
 			);

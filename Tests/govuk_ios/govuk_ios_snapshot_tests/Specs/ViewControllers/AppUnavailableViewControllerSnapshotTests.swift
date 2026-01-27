@@ -6,11 +6,11 @@ import SwiftUI
 
 @MainActor
 final class AppUnavailableViewControllerSnapshotTests: SnapshotTestCase {
-    private func view(error: AppConfigError? = nil) -> some View {
+    private func view(error: AppUnavailableError? = nil) -> some View {
         return AppUnavailableContainerView(
             viewModel: AppUnavailableContainerViewModel(
-                appLaunchService: MockAppLaunchService(),
                 error: error,
+                retryAction: { _ in },
                 dismissAction: { }
             )
         )
