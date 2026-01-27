@@ -8,6 +8,20 @@ import Testing
 @MainActor
 struct ChatColoursFillsTests {
     @Test
+    func surfaceChatAnswer_light_returnsExpectedResult() {
+        let result = UIColor.govUK.Fills.surfaceChatAnswer
+
+        #expect(result.lightMode == .white)
+    }
+
+    @Test
+    func surfaceChatAnswer_dark_returnsExpectedResult() {
+        let result = UIColor.govUK.Fills.surfaceChatAnswer
+
+        #expect(result.darkMode == .blueDarker70)
+    }
+
+    @Test
     func surfaceChatAction_light_returnsExpectedResult() {
         let result = UIColor.govUK.Fills.surfaceChatAction
 
@@ -25,14 +39,14 @@ struct ChatColoursFillsTests {
     func surfaceChatQuestion_light_returnsExpectedResult() {
         let result = UIColor.govUK.Fills.surfaceChatQuestion
 
-        #expect(result.lightMode == .white.withAlphaComponent(0.5))
+        #expect(result.lightMode == .blueDarker50)
     }
 
     @Test
     func surfaceChatQuestion_dark_returnsExpectedResult() {
         let result = UIColor.govUK.Fills.surfaceChatQuestion
 
-        #expect(result.darkMode == .blueDarker80.withAlphaComponent(0.5))
+        #expect(result.darkMode == .primaryBlue)
     }
 
     @Test
@@ -62,6 +76,7 @@ struct ChatColoursFillsTests {
 
         #expect(result.darkMode == .blueDarker70)
     }
+
 }
 
 

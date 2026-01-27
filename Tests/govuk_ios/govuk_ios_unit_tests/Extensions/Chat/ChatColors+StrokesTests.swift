@@ -4,7 +4,6 @@ import UIKit
 @testable import GovKitUI
 
 struct ChatColors_StrokesTests {
-
     @Test
     func focusedChatTextBox_returnsExpectedResult() {
         let result = UIColor.govUK.Strokes.focusedChatTextBox
@@ -13,7 +12,6 @@ struct ChatColors_StrokesTests {
         #expect(result.darkMode == .accentBlue)
     }
 
-    // MARK: Chat
     @Test
     func chatDivider_returnsExpectedResult() {
         let result = UIColor.govUK.Strokes.chatDivider
@@ -45,5 +43,4 @@ struct ChatColors_StrokesTests {
         #expect(result.lightMode == .blueLighter80)
         #expect(result.darkMode == .blueDarker50)
     }
-
 }
