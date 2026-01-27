@@ -7,9 +7,25 @@ import GovKit
 @Suite
 struct AppUnavailableViewModelTests {
     @Test
-    func init_networkAvailable_hasCorrectInitialState()  {
+    func init_appConfigUnavailable_hasCorrectInitialState()  {
         let sut = AppUnavailableContainerViewModel(
-            appLaunchService: MockAppLaunchService(),
+            error: .appConfig,
+            retryAction: { _ in },
+            dismissAction: { }
+        )
+
+        #expect(sut.title == "Sorry, the app is unavailable")
+        #expect(sut.subheading == "You cannot use the GOV.UK app at the moment. Try again later.")
+        #expect(sut.buttonTitle == "Go to the GOV.UK website ↗")
+        #expect(sut.buttonAccessibilityTitle == "Go to the GOV.UK website")
+        #expect(sut.buttonAccessibilityHint == "Opens in web browser")
+    }
+
+    @Test
+    func init_userStateUnavailable_hasCorrectInitialState()  {
+        let sut = AppUnavailableContainerViewModel(
+            error: .userState,
+            retryAction: { _ in },
             dismissAction: { }
         )
 
@@ -23,8 +39,8 @@ struct AppUnavailableViewModelTests {
     @Test
     func init_networkUnavailable_hasCorrectInitialState()  {
         let sut = AppUnavailableContainerViewModel(
-            appLaunchService: MockAppLaunchService(),
-            error: AppConfigError.networkUnavailable,
+            error: .networkUnavailable,
+            retryAction: { _ in },
             dismissAction: { }
         )
 
@@ -47,7 +63,8 @@ struct AppUnavailableViewModelTests {
         let urlOpener = MockURLOpener()
         let sut = AppUnavailableContainerViewModel(
             urlOpener: urlOpener,
-            appLaunchService: MockAppLaunchService(),
+            error: .appConfig,
+            retryAction: { _ in },
             dismissAction: { }
         )
         sut.buttonViewModel.action()
@@ -55,64 +72,38 @@ struct AppUnavailableViewModelTests {
     }
 
     @Test
-    func tryAgainButtonAction_successfulFetch_dismisses() {
+    func tryAgainButtonAction_successfulRetry_dismisses() {
         let urlOpener = MockURLOpener()
-        let mockAppLaunchService = MockAppLaunchService()
-        let expectedResponse = AppLaunchResponse(
-            configResult: .success(.arrange),
-            topicResult: .success(
-                [TopicResponseItem(ref: "ref",
-                                   title: "title",
-                                   description: "description")
-                ]
-            ),
-            notificationConsentResult: .aligned,
-            remoteConfigFetchResult: .success,
-            appVersionProvider: MockAppVersionProvider()
-        )
-        mockAppLaunchService._receivedFetchCompletion?(expectedResponse)
         var didDismiss = false
         let sut = AppUnavailableContainerViewModel(
             urlOpener: urlOpener,
-            appLaunchService: mockAppLaunchService,
-            error: AppConfigError.networkUnavailable,
+            error: .networkUnavailable,
+            retryAction: { completion in
+                completion(true)
+            },
             dismissAction: {
                 didDismiss = true
             }
         )
         sut.buttonViewModel.action()
-        mockAppLaunchService._receivedFetchCompletion?(expectedResponse)
         #expect(didDismiss)
     }
 
     @Test
-    func tryAgainButtonAction_fetchError_doesNot_dismiss() {
+    func tryAgainButtonAction_retryUnsuccessful_doesNot_dismiss() {
         let urlOpener = MockURLOpener()
-        let mockAppLaunchService = MockAppLaunchService()
-        let expectedResponse = AppLaunchResponse(
-            configResult: .failure(.remoteJson),
-            topicResult: .success(
-                [TopicResponseItem(ref: "ref",
-                                   title: "title",
-                                   description: "description")
-                ]
-            ),
-            notificationConsentResult: .aligned,
-            remoteConfigFetchResult: .success,
-            appVersionProvider: MockAppVersionProvider()
-        )
-
         var didDismiss = false
         let sut = AppUnavailableContainerViewModel(
             urlOpener: urlOpener,
-            appLaunchService: mockAppLaunchService,
-            error: AppConfigError.networkUnavailable,
+            error: .networkUnavailable,
+            retryAction: { completion in
+                completion(false)
+            },
             dismissAction: {
                 didDismiss = true
             }
         )
         sut.buttonViewModel.action()
-        mockAppLaunchService._receivedFetchCompletion?(expectedResponse)
         #expect(!didDismiss)
     }
 }

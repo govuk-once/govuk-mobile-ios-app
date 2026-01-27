@@ -3,30 +3,30 @@ import UIKit
 import SwiftUI
 
 class AppUnavailableCoordinator: BaseCoordinator {
-    private let appLaunchService: AppLaunchServiceInterface
-    private let launchResponse: AppLaunchResponse
+    private let error: AppUnavailableError?
     let dismissAction: () -> Void
+    let retryAction: (@escaping (Bool) -> Void) -> Void
 
     init(navigationController: UINavigationController,
-         appLaunchService: AppLaunchServiceInterface,
-         launchResponse: AppLaunchResponse,
+         error: AppUnavailableError?,
+         retryAction: @escaping (@escaping (Bool) -> Void) -> Void,
          dismissAction: @escaping () -> Void) {
-        self.appLaunchService = appLaunchService
-        self.launchResponse = launchResponse
+        self.error = error
+        self.retryAction = retryAction
         self.dismissAction = dismissAction
         super.init(navigationController: navigationController)
     }
 
     override func start(url: URL?) {
-        guard !launchResponse.isAppAvailable
+        guard let error = error
         else { return dismissAction() }
-        setAppUnavailable(launchResponse.configResult.getError())
+        setAppUnavailable(error)
     }
 
-    private func setAppUnavailable(_ error: AppConfigError?) {
+    private func setAppUnavailable(_ error: AppUnavailableError?) {
         let viewModel = AppUnavailableContainerViewModel(
-            appLaunchService: appLaunchService,
             error: error,
+            retryAction: retryAction,
             dismissAction: dismissAction
         )
         let containerView = AppUnavailableContainerView(

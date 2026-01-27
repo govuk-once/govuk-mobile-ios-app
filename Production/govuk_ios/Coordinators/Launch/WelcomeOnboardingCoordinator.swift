@@ -72,7 +72,7 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
                 self?.fetchUserState()
             },
             errorAction: { [weak self] error in
-                self?.showError(error)
+                self?.showAuthenticationError(error)
             }
         )
         shouldShowSignInSuccessScreen = true
@@ -80,7 +80,7 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
         pendingAuthenticationCoordinator = authenticationCoordinator
     }
 
-    private func showError(_ error: AuthenticationError) {
+    private func showAuthenticationError(_ error: AuthenticationError) {
         pendingAuthenticationCoordinator = nil
         welcomeOnboardingViewModel.showProgressView = false
         guard case .loginFlow(let loginError) = error,
@@ -130,8 +130,7 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
                 self?.notificationService.register(notificationId: userState.userId)
                 self?.finishCoordination()
             case .failure(let error):
-                print(error)
-                // show app unavailable screen
+                self?.startAppUnavailable(error: error.asAppUnavailableError())
             }
         })
     }
@@ -151,5 +150,27 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
         } else {
             completionAction()
         }
+    }
+
+    private func startAppUnavailable(error: AppUnavailableError) {
+        let coordinator = coordinatorBuilder.appUnavailable(
+            navigationController: root,
+            error: error,
+            retryAction: { [weak self] completion in
+                self?.userService.fetchUserState { result in
+                    switch result {
+                    case .success(let userState):
+                        self?.notificationService.register(notificationId: userState.userId)
+                        completion(true)
+                    default:
+                        completion(false)
+                    }
+                }
+            },
+            dismissAction: { [weak self] in
+                self?.completionAction()
+            }
+        )
+        start(coordinator)
     }
 }
