@@ -175,7 +175,7 @@ struct ChatActionView: View {
             height: min(textEditorFrameHeight, maxFrameHeight)
         )
         .background(
-            Color(UIColor.govUK.fills.surfaceChatAction)
+            Color(UIColor.govUK.Fills.surfaceChatAction)
                 .clipShape(RoundedRectangle(cornerRadius: 25))
         )
         // animate on text growing multiple lines

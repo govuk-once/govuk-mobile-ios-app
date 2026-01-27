@@ -90,7 +90,7 @@ struct ChatCellView: View {
                 markdownView
             if !viewModel.sources.isEmpty {
                 Divider()
-                    .overlay(Color(UIColor.govUK.strokes.chatDivider))
+                    .overlay(Color(UIColor.govUK.Strokes.chatDivider))
                     .padding(.vertical, 8)
                 warningView
                 sourceView
@@ -152,7 +152,7 @@ struct ChatCellView: View {
                 return .handled
             })
             Divider()
-                .overlay(Color(UIColor.govUK.strokes.chatDivider))
+                .overlay(Color(UIColor.govUK.Strokes.chatDivider))
                 .opacity(source.url == viewModel.sources.last?.url ? 0 : 1)
         }
     }

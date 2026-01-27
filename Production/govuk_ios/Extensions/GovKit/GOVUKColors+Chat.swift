@@ -1,7 +1,6 @@
 import Foundation
 import UIKit
-
-@testable import GovKitUI
+import GovKitUI
 
 extension GOVUKColors {
     public struct Fills {

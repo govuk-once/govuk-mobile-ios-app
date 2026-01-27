@@ -1,5 +1,6 @@
 import SwiftUI
 import GovKit
+import GovKitUI
 
 struct ChatView: View {
     @Environment(\.verticalSizeClass) var verticalSizeClass
@@ -18,7 +19,7 @@ struct ChatView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                Color(UIColor.govUK.fills.surfaceChatBackground)
+                Color(UIColor.govUK.Fills.surfaceChatBackground)
                     .edgesIgnoringSafeArea(.all)
                 .opacity(backgroundOpacity)
                 .ignoresSafeArea(edges: [.top, .leading, .trailing])

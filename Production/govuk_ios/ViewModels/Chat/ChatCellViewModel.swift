@@ -133,7 +133,7 @@ extension ChatCellViewModel {
     var backgroundColor: Color {
         switch type {
         case .question:
-            Color(UIColor.govUK.fills.surfaceChatQuestion)
+            Color(UIColor.govUK.Fills.surfaceChatQuestion)
         case .loading, .pendingAnswer:
             Color(UIColor.clear)
         case .answer, .intro:
