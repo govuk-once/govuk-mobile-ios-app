@@ -83,6 +83,7 @@ struct ChatCellView: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
+        .accessibilityLabel(.Chat.introMessageAccessibility)
     }
 
     private var answerView: some View {

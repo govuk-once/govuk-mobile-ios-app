@@ -154,6 +154,12 @@ final class ChatViewControllerSnapshotTests: SnapshotTestCase {
             id: "78910",
             message: "This is the pending question"
         )
+        let pendingAnswer = Answer(
+            createdAt: createdAt,
+            id: "12346",
+            message: "This is the pending answer",
+            sources: includeSources ? sources : nil
+        )
 
         let history = History(
             pendingQuestion: pendingQuestion,
@@ -164,6 +170,7 @@ final class ChatViewControllerSnapshotTests: SnapshotTestCase {
         mockChatService._stubbedConversationId = conversationId
         mockChatService._stubbedHistoryResult = .success(history)
         mockChatService._stubbedQuestionResult = .success(pendingQuestion)
+        mockChatService._stubbedAnswerResults = [.success(pendingAnswer)]
 
         let viewModel = ChatViewModel(
             chatService: mockChatService,

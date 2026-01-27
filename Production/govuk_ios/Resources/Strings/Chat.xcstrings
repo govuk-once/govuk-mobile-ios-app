@@ -34,6 +34,17 @@
         }
       }
     },
+    "answerReceivedAccessibilityTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Answer received"
+          }
+        }
+      }
+    },
     "answerTitle" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -184,6 +195,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Hello, I’m GOV.UK Chat 👋. I’m an experimental AI tool. \n\nWhen you ask a question, I’ll find the most relevant information from GOV.UK and use it to create an answer.\n\nMessages will be available for 90 days."
+          }
+        }
+      }
+    },
+    "introMessageAccessibility" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hello, I’m GOV.UK Chat. I’m an experimental AI tool. \n\nWhen you ask a question, I’ll find the most relevant information from GOV.UK and use it to create an answer.\n\nMessages will be available for 90 days."
           }
         }
       }

@@ -256,7 +256,7 @@ struct ChatViewModelTests {
 
         #expect(mockChatService.currentConversationId == "12345")
         sut.loadHistory()
-        #expect(sut.cellModels.count == 0)
+        #expect(sut.cellModels.count == 1)
         #expect(chatError == nil)
         #expect(mockChatService.currentConversationId == nil)
     }

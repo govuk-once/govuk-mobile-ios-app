@@ -4,6 +4,7 @@ import GovKit
 struct ChatView: View {
     @Environment(\.verticalSizeClass) var verticalSizeClass
     @StateObject private var viewModel: ChatViewModel
+    @AccessibilityFocusState private(set) var textAreaAccessibilityFocused: Bool
     @Namespace var bottomID
     @FocusState private var textAreaFocused: Bool
     @State var showClearChatAlert: Bool = false
@@ -45,6 +46,13 @@ struct ChatView: View {
         .onTapGesture {
             textAreaFocused = false
         }
+        .onChange(of: viewModel.requestInFlight) { requestInFlight in
+            if requestInFlight {
+                DispatchQueue.main.asyncAfter(deadline: .now()) {
+                    textAreaAccessibilityFocused = true
+                }
+            }
+        }
         .alert(
             viewModel.validationAlertDetails.title,
             isPresented: $viewModel.showValidationAlert,
@@ -75,6 +83,7 @@ struct ChatView: View {
                 .layoutPriority(1)
                 .padding(.vertical, 8)
             chatActionView
+                .accessibilityFocused($textAreaAccessibilityFocused)
         }
     }
 
