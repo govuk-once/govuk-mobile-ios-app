@@ -2,6 +2,7 @@ import SwiftUI
 import GovKit
 import GovKitUI
 
+
 struct ChatView: View {
     @Environment(\.verticalSizeClass) var verticalSizeClass
     @StateObject private var viewModel: ChatViewModel
@@ -21,8 +22,8 @@ struct ChatView: View {
             ZStack {
                 Color(UIColor.govUK.Fills.surfaceChatBackground)
                     .edgesIgnoringSafeArea(.all)
-                .opacity(backgroundOpacity)
-                .ignoresSafeArea(edges: [.top, .leading, .trailing])
+                    .opacity(backgroundOpacity)
+                    .ignoresSafeArea(edges: [.top, .leading, .trailing])
 
                 chatContainerView(geometry.size.height - 32)
                     .conditionalAnimation(.easeInOut(duration: transitionDuration),
@@ -45,6 +46,20 @@ struct ChatView: View {
         }
         .onTapGesture {
             textAreaFocused = false
+        }
+        .alert(
+            viewModel.validationAlertDetails.title,
+            isPresented: $viewModel.showValidationAlert,
+            presenting: viewModel.validationAlertDetails
+        ) { details in
+            Button(role: .cancel) {
+                textAreaFocused = true
+                viewModel.showValidationAlert = false
+            } label: {
+                Text(details.buttonTitle)
+            }
+        } message: { details in
+            Text(details.message)
         }
     }
 

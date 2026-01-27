@@ -81,14 +81,22 @@ struct ChatWidgetView: View {
         Button {
             viewModel.open()
         } label: {
-            Text(viewModel.linkTitle)
-                .font(Font.govUK.body)
-                .foregroundColor(Color(UIColor.govUK.text.linkSecondary))
-                .multilineTextAlignment(.leading)
-                .accessibilityAddTraits(.isLink)
-                .accessibilitySortPriority(1)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(16)
+            HStack {
+                Text(viewModel.linkTitle)
+                    .font(Font.govUK.body)
+                    .foregroundColor(Color(UIColor.govUK.text.linkSecondary))
+                    .multilineTextAlignment(.leading)
+                    .accessibilityAddTraits(.isLink)
+                    .accessibilitySortPriority(1)
+
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .foregroundColor(Color(UIColor.govUK.text.linkSecondary))
+                    .font(Font.govUK.bodySemibold)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(16)
+            .accessibilityElement(children: .combine)
         }
     }
 }
