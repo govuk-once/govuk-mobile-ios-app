@@ -21,6 +21,7 @@ class HomeViewModel: ObservableObject {
     let searchService: SearchServiceInterface
     let activityService: ActivityServiceInterface
     let localAuthorityService: LocalAuthorityServiceInterface
+    let chatService: ChatServiceInterface
     @Published var homeContentScrollToTop: Bool = false
     @Published var widgets: [HomepageWidget] = []
 
@@ -33,6 +34,7 @@ class HomeViewModel: ObservableObject {
          searchService: SearchServiceInterface,
          activityService: ActivityServiceInterface,
          localAuthorityService: LocalAuthorityServiceInterface,
+         chatService: ChatServiceInterface,
          localAuthorityAction: @escaping () -> Void,
          editLocalAuthorityAction: @escaping () -> Void,
          feedbackAction: @escaping () -> Void,
@@ -56,6 +58,7 @@ class HomeViewModel: ObservableObject {
         self.searchService = searchService
         self.activityService = activityService
         self.localAuthorityService = localAuthorityService
+        self.chatService = chatService
         updateWidgets()
     }
 
@@ -99,7 +102,7 @@ class HomeViewModel: ObservableObject {
     }
 
     private var chatWidget: HomepageWidget? {
-        guard featureEnabled(.chat),
+        guard chatService.isEnabled,
               let chatBanner = configService.chatBanner,
               !userDefaultsService.hasSeen(banner: chatBanner)
         else { return nil }

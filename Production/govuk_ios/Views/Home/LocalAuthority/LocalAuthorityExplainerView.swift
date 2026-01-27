@@ -28,29 +28,31 @@ struct LocalAuthorityExplainerView: View {
                     )
                 }
                 .padding(16)
-                ScrollView {
-                    VStack {
-                        if verticalSizeClass != .compact {
-                            Image(decorative: "your_local_services")
-                                .scaledToFit()
-                                .frame(width: 290, height: 290)
+                GeometryReader { geometry in
+                    ScrollView {
+                        VStack {
+                            if verticalSizeClass != .compact {
+                                Image(decorative: "your_local_services")
+                                    .padding(.bottom, 26)
+                            }
+                            Text(viewModel.explainerViewTitle)
+                                .foregroundColor(Color(UIColor.govUK.text.primary))
+                                .font(Font.govUK.largeTitleBold)
+                                .multilineTextAlignment(.center)
+                                .frame(maxWidth: .infinity, alignment: .center)
+                                .padding([.horizontal], 16)
+                                .padding(.bottom, 4)
+                                .accessibilityAddTraits(.isHeader)
+                            Text(viewModel.explainerViewDescription)
+                                .font(Font.govUK.body)
+                                .foregroundColor(Color(UIColor.govUK.text.primary))
+                                .padding([.horizontal], 16)
+                                .multilineTextAlignment(.center)
                         }
-                        Text(viewModel.explainerViewTitle)
-                            .foregroundColor(Color(UIColor.govUK.text.primary))
-                            .font(Font.govUK.largeTitleBold)
-                            .multilineTextAlignment(.center)
-                            .frame(maxWidth: .infinity, alignment: .center)
-                            .padding([.horizontal], 16)
-                            .padding(.bottom, 4)
-                            .accessibilityAddTraits(.isHeader)
-                        Text(viewModel.explainerViewDescription)
-                            .font(Font.govUK.body)
-                            .foregroundColor(Color(UIColor.govUK.text.primary))
-                            .padding([.horizontal], 16)
-                            .multilineTextAlignment(.center)
-                        Spacer()
+                        .frame(width: geometry.size.width,
+                               height: geometry.size.height)
+                        .accessibilityElement(children: .contain)
                     }
-                    .accessibilityElement(children: .contain)
                 }
                 PrimaryButtonView(
                     viewModel: viewModel.primaryButtonViewModel

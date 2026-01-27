@@ -59,12 +59,12 @@ class LocalAuthenticationOnboardingViewModel: ObservableObject {
         let authType = localAuthenticationService.availableAuthType
         switch authType {
         case .touchID:
-            iconName = "touchid"
+            iconName = "onboarding_touchid"
             title = String.onboarding.localized("touchIdEnrolmentTitle")
             message = String.onboarding.localized("touchIdEnrolmentMessage")
             enrolButtonTitle = String.onboarding.localized("touchIdEnrolmentButtonTitle")
         case .faceID:
-            iconName = "faceid"
+            iconName = "onboarding_faceid"
             title = String.onboarding.localized("faceIdEnrolmentTitle")
             message = String.onboarding.localized("faceIdEnrolmentMessage")
             enrolButtonTitle = String.onboarding.localized("faceIdEnrolmentButtonTitle")

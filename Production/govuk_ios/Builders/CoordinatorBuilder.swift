@@ -48,6 +48,8 @@ class CoordinatorBuilder {
                   completion: @escaping () -> Void) -> BaseCoordinator {
         PostAuthCoordinator(
             coordinatorBuilder: self,
+            analyticsService: container.analyticsService.resolve(),
+            remoteConfigService: container.remoteConfigService.resolve(),
             navigationController: navigationController,
             completion: completion
         )

@@ -17,7 +17,7 @@ struct LocalAuthenticationOnboardingView: View {
             }
             let imageTopPadding = verticalSizeClass == .compact ? CGFloat(16) : CGFloat(64)
             ScrollView {
-                Image(systemName: viewModel.iconName)
+                Image(viewModel.iconName)
                     .resizable()
                     .frame(width: 64, height: 64)
                     .fontWeight(.thin)

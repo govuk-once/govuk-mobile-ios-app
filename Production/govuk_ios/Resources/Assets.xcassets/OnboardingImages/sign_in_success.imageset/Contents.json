@@ -1,7 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "sign_in_success.svg",
+      "filename" : "sign_in_success_light.svg",
+      "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "sign_in_success_dark.svg",
       "idiom" : "universal"
     }
   ],
