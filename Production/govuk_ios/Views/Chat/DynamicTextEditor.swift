@@ -1,4 +1,5 @@
 import SwiftUI
+import GovKitUI
 
 struct DynamicTextEditor: UIViewRepresentable {
     @Binding var text: String
