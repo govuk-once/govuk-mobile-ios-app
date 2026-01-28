@@ -9,11 +9,10 @@ enum UserStateError: LocalizedError {
 
 extension UserStateError {
     func asAppUnavailableError() -> AppUnavailableError {
-        switch self {
-        case .networkUnavailable:
-                .networkUnavailable
-        default:
-                .userState
+        if self == .networkUnavailable {
+            .networkUnavailable
+        } else {
+            .userState
         }
     }
 }

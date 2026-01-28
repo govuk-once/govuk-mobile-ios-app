@@ -8,11 +8,10 @@ enum AppConfigError: Error {
 
 extension AppConfigError {
     func asAppUnavailableError() -> AppUnavailableError {
-        switch self {
-        case .networkUnavailable:
-                .networkUnavailable
-        default:
-                .appConfig
+        if self == .networkUnavailable {
+            .networkUnavailable
+        } else {
+            .appConfig
         }
     }
 }
