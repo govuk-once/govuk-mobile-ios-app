@@ -17,6 +17,7 @@ struct PreAuthCoordinatorTests {
         let subject = PreAuthCoordinator(
             coordinatorBuilder: mockCoordinatorBuilder,
             navigationController: MockNavigationController(),
+            appLaunchService: MockAppLaunchService(),
             completion: { }
         )
 
@@ -35,6 +36,7 @@ struct PreAuthCoordinatorTests {
         let subject = PreAuthCoordinator(
             coordinatorBuilder: mockCoordinatorBuilder,
             navigationController: MockNavigationController(),
+            appLaunchService: MockAppLaunchService(),
             completion: { }
         )
 
@@ -57,6 +59,7 @@ struct PreAuthCoordinatorTests {
         let subject = PreAuthCoordinator(
             coordinatorBuilder: mockCoordinatorBuilder,
             navigationController: MockNavigationController(),
+            appLaunchService: MockAppLaunchService(),
             completion: { }
         )
 
@@ -85,6 +88,7 @@ struct PreAuthCoordinatorTests {
         let subject = PreAuthCoordinator(
             coordinatorBuilder: mockCoordinatorBuilder,
             navigationController: MockNavigationController(),
+            appLaunchService: MockAppLaunchService(),
             completion: { }
         )
 
@@ -117,6 +121,7 @@ struct PreAuthCoordinatorTests {
         let subject = PreAuthCoordinator(
             coordinatorBuilder: mockCoordinatorBuilder,
             navigationController: MockNavigationController(),
+            appLaunchService: MockAppLaunchService(),
             completion: { }
         )
 
@@ -124,13 +129,14 @@ struct PreAuthCoordinatorTests {
 
         mockCoordinatorBuilder._receivedJailbreakDismissAction?()
         let expectedLaunchResponse = AppLaunchResponse.arrangeAvailable
+
         mockCoordinatorBuilder._receivedLaunchCompletion?(expectedLaunchResponse)
         mockCoordinatorBuilder._receivedAnalyticsConsentCompletion?()
         mockCoordinatorBuilder._receivedNotificationConsentCompletion?()
         mockCoordinatorBuilder._receivedAppForcedUpdateDismissAction?()
 
         #expect(stubbedAppUnavailableCoordinator._startCalled)
-        #expect(mockCoordinatorBuilder._receivedAppUnavailableLaunchResponse == expectedLaunchResponse)
+        #expect(mockCoordinatorBuilder._receivedAppUnavailableError == nil)
     }
 
     @Test
@@ -152,13 +158,13 @@ struct PreAuthCoordinatorTests {
         let subject = PreAuthCoordinator(
             coordinatorBuilder: mockCoordinatorBuilder,
             navigationController: MockNavigationController(),
+            appLaunchService: MockAppLaunchService(),
             completion: { }
         )
 
         subject.start(url: nil)
 
         mockCoordinatorBuilder._receivedJailbreakDismissAction?()
-        let expectedLaunchResponse = AppLaunchResponse.arrangeAvailable
         mockCoordinatorBuilder._receivedLaunchCompletion?(.arrangeAvailable)
         mockCoordinatorBuilder._receivedAnalyticsConsentCompletion?()
         mockCoordinatorBuilder._receivedNotificationConsentCompletion?()
@@ -166,7 +172,7 @@ struct PreAuthCoordinatorTests {
         mockCoordinatorBuilder._receivedAppUnavailableDismissAction?()
 
         #expect(stubbedAppRecommendUpdateCoordinator._startCalled)
-        #expect(mockCoordinatorBuilder._receivedAppUnavailableLaunchResponse == expectedLaunchResponse)
+        #expect(mockCoordinatorBuilder._receivedAppUnavailableError == nil)
     }
 
 
@@ -190,6 +196,7 @@ struct PreAuthCoordinatorTests {
         let subject = PreAuthCoordinator(
             coordinatorBuilder: mockCoordinatorBuilder,
             navigationController: MockNavigationController(),
+            appLaunchService: MockAppLaunchService(),
             completion: {
                 completionCalled = true
             }

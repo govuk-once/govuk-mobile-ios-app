@@ -21,6 +21,7 @@ class CoordinatorBuilder {
             inactivityService: inactivityService,
             authenticationService: container.authenticationService.resolve(),
             localAuthenticationService: container.localAuthenticationService.resolve(),
+            notificationService: container.notificationService.resolve(),
             privacyPresenter: container.privacyService.resolve(),
             navigationController: navigationController
         )
@@ -31,6 +32,7 @@ class CoordinatorBuilder {
         PreAuthCoordinator(
             coordinatorBuilder: self,
             navigationController: navigationController,
+            appLaunchService: container.appLaunchService.resolve(),
             completion: completion
         )
     }
@@ -147,12 +149,13 @@ class CoordinatorBuilder {
     }
 
     func appUnavailable(navigationController: UINavigationController,
-                        launchResponse: AppLaunchResponse,
+                        error: AppUnavailableError?,
+                        retryAction: @escaping (@escaping (Bool) -> Void) -> Void,
                         dismissAction: @escaping () -> Void) -> BaseCoordinator {
         AppUnavailableCoordinator(
             navigationController: navigationController,
-            appLaunchService: container.appLaunchService.resolve(),
-            launchResponse: launchResponse,
+            error: error,
+            retryAction: retryAction,
             dismissAction: dismissAction
         )
     }
@@ -302,6 +305,8 @@ class CoordinatorBuilder {
         WelcomeOnboardingCoordinator(
             navigationController: navigationController,
             authenticationService: container.authenticationService.resolve(),
+            userService: container.userService.resolve(),
+            notificationService: container.notificationService.resolve(),
             coordinatorBuilder: self,
             viewControllerBuilder: ViewControllerBuilder(),
             analyticsService: container.analyticsService.resolve(),

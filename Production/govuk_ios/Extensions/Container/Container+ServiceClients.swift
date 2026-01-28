@@ -66,4 +66,13 @@ extension Container {
             )
         }
     }
+
+    var userServiceClient: Factory<UserServiceClientInterface> {
+        Factory(self) {
+            UserServiceClient(
+                apiServiceClient: self.userAPIClient(),
+                authenticationService: self.authenticationService.resolve()
+            )
+        }
+    }
 }

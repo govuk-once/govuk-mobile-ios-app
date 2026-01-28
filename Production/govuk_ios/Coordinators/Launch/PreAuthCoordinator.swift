@@ -3,12 +3,15 @@ import Foundation
 
 class PreAuthCoordinator: BaseCoordinator {
     private let coordinatorBuilder: CoordinatorBuilder
+    private let appLaunchService: AppLaunchServiceInterface
     private let completion: () -> Void
 
     init(coordinatorBuilder: CoordinatorBuilder,
          navigationController: UINavigationController,
+         appLaunchService: AppLaunchServiceInterface,
          completion: @escaping () -> Void) {
         self.coordinatorBuilder = coordinatorBuilder
+        self.appLaunchService = appLaunchService
         self.completion = completion
         super.init(navigationController: navigationController)
     }
@@ -74,9 +77,15 @@ class PreAuthCoordinator: BaseCoordinator {
 
     private func startAppUnavailable(url: URL?,
                                      launchResponse: AppLaunchResponse) {
+        let error = launchResponse.configResult.getError()?.asAppUnavailableError()
         let coordinator = coordinatorBuilder.appUnavailable(
             navigationController: root,
-            launchResponse: launchResponse,
+            error: error,
+            retryAction: { [weak self] completion in
+                self?.appLaunchService.fetch { response in
+                    completion(response.isAppAvailable)
+                }
+            },
             dismissAction: { [weak self] in
                 self?.startAppRecommendUpdate(
                     url: url,

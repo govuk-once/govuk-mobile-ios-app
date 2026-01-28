@@ -35,7 +35,9 @@ struct CoordinatorBuilderTests {
 
     @Test
     func preAuth_returnsExpectedResult() {
-        let subject = CoordinatorBuilder(container: Container())
+        let container = Container()
+        container.remoteConfig.register { MockRemoteConfig() }
+        let subject = CoordinatorBuilder(container: container)
         let coordinator = subject.preAuth(
             navigationController: MockNavigationController(),
             completion: { }
@@ -123,7 +125,8 @@ struct CoordinatorBuilderTests {
         let subject = CoordinatorBuilder(container: container)
         let coordinator = subject.appUnavailable(
             navigationController: MockNavigationController(),
-            launchResponse: .arrangeAvailable,
+            error: nil,
+            retryAction: { _ in },
             dismissAction: {}
         )
 
