@@ -1,6 +1,5 @@
 import Foundation
 import SwiftUI
-import GovKitUI
 import GovKit
 import MarkdownUI
 
@@ -134,11 +133,11 @@ extension ChatCellViewModel {
     var backgroundColor: Color {
         switch type {
         case .question:
-            Color(UIColor.govUK.Fills.surfaceChatQuestion)
+            Color(UIColor.govUK.fills.surfaceChatQuestion)
         case .loading, .pendingAnswer:
             Color(UIColor.clear)
         case .answer, .intro:
-            Color(UIColor.govUK.Fills.surfaceChatAnswer)
+            Color(UIColor.govUK.fills.surfaceChatAnswer)
         }
     }
 

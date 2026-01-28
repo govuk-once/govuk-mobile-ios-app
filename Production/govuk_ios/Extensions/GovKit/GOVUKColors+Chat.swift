@@ -2,45 +2,44 @@ import Foundation
 import UIKit
 import GovKitUI
 
-extension GOVUKColors {
-    public struct Fills {
-        public static let surfaceChatAnswer: UIColor = {
-            .init(
-                light: .white,
-                dark: .blueDarker70
-            )
-        }()
+extension GOVUKColors.Fills {
+    public static let surfaceChatAnswer: UIColor = {
+        .init(
+            light: .white,
+            dark: .blueDarker70
+        )
+    }()
 
-        public static let surfaceChatAction: UIColor = {
-            .init(
-                light: .white,
-                dark: .blueDarker50
-            )
-        }()
+    public static let surfaceChatAction: UIColor = {
+        .init(
+            light: .white,
+            dark: .blueDarker50
+        )
+    }()
 
-        public static let surfaceChatQuestion: UIColor = {
-            .init(
-                light: .blueDarker50,
-                dark: .primaryBlue
-            )
-        }()
+    public static let surfaceChatQuestion: UIColor = {
+        .init(
+            light: .blueDarker50,
+            dark: .primaryBlue
+        )
+    }()
 
-        public static let surfaceChatBackground: UIColor = {
-            .init(
-                light: .blueLighter90,
-                dark: .blueDarker80
-            )
-        }()
+    public static let surfaceChatBackground: UIColor = {
+        .init(
+            light: .blueLighter90,
+            dark: .blueDarker80
+        )
+    }()
 
-        public static let surfaceChatOnboardingListBackground: UIColor = {
-            .init(
-                light: .blueLighter90,
-                dark: .blueDarker70
-            )
-        }()
-    }
+    public static let surfaceChatOnboardingListBackground: UIColor = {
+        .init(
+            light: .blueLighter90,
+            dark: .blueDarker70
+        )
+    }()
+}
 
-    public struct Strokes {
+extension GOVUKColors.Strokes {
         public static let focusedChatTextBox: UIColor = {
             .init(
                 light: .primaryBlue,
@@ -75,14 +74,13 @@ extension GOVUKColors {
                 dark: .blueDarker50
             )
         }()
-    }
+}
 
-    public struct Text {
+extension GOVUKColors.Text {
         public static let chatTextArea: UIColor = {
             .init(
                 light: .grey700,
                 dark: .white
             )
         }()
-    }
 }

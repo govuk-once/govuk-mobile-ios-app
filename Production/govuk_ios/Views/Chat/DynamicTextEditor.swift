@@ -9,7 +9,7 @@ struct DynamicTextEditor: UIViewRepresentable {
     func makeUIView(context: Context) -> UITextView {
         let textView = UITextView()
         textView.isScrollEnabled = true
-        textView.backgroundColor = UIColor.govUK.Fills.surfaceChatAction
+        textView.backgroundColor = UIColor.govUK.fills.surfaceChatAction
         textView.adjustsFontForContentSizeCategory = true
         textView.delegate = context.coordinator
         textView.accessibilityLabel = placeholderText
@@ -20,7 +20,7 @@ struct DynamicTextEditor: UIViewRepresentable {
         placeholderLabel.adjustsFontForContentSizeCategory = true
         placeholderLabel.text = placeholderText
         placeholderLabel.font = .govUK.body
-        placeholderLabel.textColor = UIColor.govUK.Text.chatTextArea
+        placeholderLabel.textColor = UIColor.govUK.text.chatTextArea
         placeholderLabel.tag = 100
         placeholderLabel.translatesAutoresizingMaskIntoConstraints = false
         placeholderLabel.numberOfLines = 0

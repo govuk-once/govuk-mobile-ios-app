@@ -11,13 +11,13 @@ struct InfoIconListView: View {
                     .padding(paddingEdges(for: index))
                 if index < list.count - 1 {
                     Divider()
-                        .overlay(Color(UIColor.govUK.Strokes.chatOnboardingListDivider))
+                        .overlay(Color(UIColor.govUK.strokes.chatOnboardingListDivider))
                         .padding(.horizontal, 16)
                         .padding(.vertical, 8)
                 }
             }
         }
-        .background(Color(UIColor.govUK.Fills.surfaceChatOnboardingListBackground))
+        .background(Color(UIColor.govUK.fills.surfaceChatOnboardingListBackground))
         .cornerRadius(10)
     }
 

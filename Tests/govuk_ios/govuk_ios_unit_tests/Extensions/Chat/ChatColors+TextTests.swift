@@ -7,7 +7,7 @@ import UIKit
 struct ChatColors_textTests {
     @Test
     func chatTextArea_returnsExpectedResult() {
-        let result = UIColor.govUK.Text.chatTextArea
+        let result = UIColor.govUK.text.chatTextArea
 
         #expect(result.lightMode == .grey700)
         #expect(result.darkMode == .white)
