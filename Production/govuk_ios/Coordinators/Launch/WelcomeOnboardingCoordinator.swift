@@ -162,13 +162,13 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
                     case .success(let userState):
                         self?.notificationService.register(notificationId: userState.userId)
                         completion(true)
-                    default:
+                    case .failure:
                         completion(false)
                     }
                 }
             },
             dismissAction: { [weak self] in
-                self?.completionAction()
+                self?.finishCoordination()
             }
         )
         start(coordinator)
