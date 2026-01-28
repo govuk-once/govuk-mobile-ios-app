@@ -8,12 +8,14 @@ import OneSignalFramework
 class MockOneSignalServiceClient: OneSignalServiceClient {
     static var _receivedConsentRequiredValue: Bool?
 
-    static func login(_ externalId: String) {
+    static var _stubbedExternalId: String? = nil
 
+    static func login(_ externalId: String) {
+        _stubbedExternalId = externalId
     }
     
     static func logout() {
-
+        _stubbedExternalId = nil
     }
 
     static func setConsentRequired(_ required: Bool) {

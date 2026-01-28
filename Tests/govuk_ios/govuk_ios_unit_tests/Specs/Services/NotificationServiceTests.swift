@@ -529,5 +529,34 @@ class NotificationServiceTests {
 
         #expect(alignment == .misaligned(.consentGrantedNotificationsOff))
     }
+
+    @Test
+    func registerNotificationId_callsLogin() {
+        let sut = NotificationService(
+            environmentService: MockAppEnvironmentService(),
+            notificationCenter: MockUserNotificationCenter(),
+            configService: MockAppConfigService(),
+            userDefaultsService: MockUserDefaultsService(),
+            oneSignalServiceClient: MockOneSignalServiceClient.self
+        )
+
+        sut.register(notificationId: "test_user_id")
+        #expect(MockOneSignalServiceClient._stubbedExternalId == "test_user_id")
+    }
+
+    @Test
+    func unregisterNotificationId_callsLogin() {
+        MockOneSignalServiceClient._stubbedExternalId = "test_user_id"
+        let sut = NotificationService(
+            environmentService: MockAppEnvironmentService(),
+            notificationCenter: MockUserNotificationCenter(),
+            configService: MockAppConfigService(),
+            userDefaultsService: MockUserDefaultsService(),
+            oneSignalServiceClient: MockOneSignalServiceClient.self
+        )
+
+        sut.unregisterNotificationId()
+        #expect(MockOneSignalServiceClient._stubbedExternalId == nil)
+    }
 }
 
