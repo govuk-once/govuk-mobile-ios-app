@@ -6,7 +6,7 @@ import Testing
 
 @Suite
 @MainActor
-struct ChatColoursFillsTests {
+struct ChatColours_fillsTests {
     @Test
     func surfaceChatAnswer_light_returnsExpectedResult() {
         let result = UIColor.govUK.Fills.surfaceChatAnswer

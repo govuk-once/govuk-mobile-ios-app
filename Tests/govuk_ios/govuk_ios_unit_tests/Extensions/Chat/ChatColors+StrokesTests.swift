@@ -4,7 +4,7 @@ import UIKit
 
 @testable import GovKitUI
 
-struct ChatColors_StrokesTests {
+struct ChatColors_strokesTests {
     @Test
     func focusedChatTextBox_returnsExpectedResult() {
         let result = UIColor.govUK.Strokes.focusedChatTextBox

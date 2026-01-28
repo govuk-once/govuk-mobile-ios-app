@@ -4,7 +4,7 @@ import UIKit
 
 @testable import GovKitUI
 
-struct ChatColors_TextTests {
+struct ChatColors_textTests {
     @Test
     func chatTextArea_returnsExpectedResult() {
         let result = UIColor.govUK.Text.chatTextArea
