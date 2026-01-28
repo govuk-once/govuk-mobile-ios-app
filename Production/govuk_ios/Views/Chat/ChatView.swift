@@ -20,7 +20,7 @@ struct ChatView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                Color(UIColor.govUK.Fills.surfaceChatBackground)
+                Color(UIColor.govUK.fills.surfaceChatBackground)
                     .edgesIgnoringSafeArea(.all)
                     .opacity(backgroundOpacity)
                     .ignoresSafeArea(edges: [.top, .leading, .trailing])
