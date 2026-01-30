@@ -1,5 +1,5 @@
 import Foundation
 
 struct UserStateResponse: Codable {
-    let userId: String
+    let notificationId: String
 }

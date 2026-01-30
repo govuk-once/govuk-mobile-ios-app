@@ -127,8 +127,8 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
         userService.fetchUserState(completion: { [weak self] result in
             switch result {
             case .success(let userState):
-                self?.notificationService.register(notificationId: userState.userId)
-                self?.finishCoordination()
+                self?.notificationService.register(notificationId: userState.notificationId)
+                self?.handleUserStateFetched()
             case .failure(let error):
                 self?.startAppUnavailable(error: error.asAppUnavailableError())
             }
@@ -144,7 +144,7 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
         start(coordinator)
     }
 
-    private func finishCoordination() {
+    private func handleUserStateFetched() {
         if shouldShowSignInSuccessScreen {
             startSignInSuccess()
         } else {
@@ -160,7 +160,7 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
                 self?.userService.fetchUserState { result in
                     switch result {
                     case .success(let userState):
-                        self?.notificationService.register(notificationId: userState.userId)
+                        self?.notificationService.register(notificationId: userState.notificationId)
                         completion(true)
                     case .failure:
                         completion(false)
@@ -168,7 +168,7 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
                 }
             },
             dismissAction: { [weak self] in
-                self?.finishCoordination()
+                self?.handleUserStateFetched()
             }
         )
         start(coordinator)
