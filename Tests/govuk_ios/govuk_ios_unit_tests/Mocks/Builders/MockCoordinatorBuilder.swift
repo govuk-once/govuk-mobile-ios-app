@@ -124,6 +124,7 @@ class MockCoordinatorBuilder: CoordinatorBuilder {
     }
 
     var _receivedAppUnavailableError: AppUnavailableError?
+    var _receivedAppUnavailableRetryAction: ((@escaping (Bool) -> Void) -> Void)?
     var _receivedAppUnavailableDismissAction: (() -> Void)?
     var _stubbedAppUnavailableCoordinator: MockBaseCoordinator?
     override func appUnavailable(navigationController: UINavigationController,
@@ -131,6 +132,7 @@ class MockCoordinatorBuilder: CoordinatorBuilder {
                                  retryAction: @escaping (@escaping (Bool) -> Void) -> Void,
                                  dismissAction: @escaping () -> Void) -> BaseCoordinator {
         _receivedAppUnavailableError = error
+        _receivedAppUnavailableRetryAction = retryAction
         _receivedAppUnavailableDismissAction = dismissAction
         return _stubbedAppUnavailableCoordinator ?? MockBaseCoordinator()
     }

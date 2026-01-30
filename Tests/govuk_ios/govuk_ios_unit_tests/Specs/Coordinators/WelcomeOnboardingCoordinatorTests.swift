@@ -240,6 +240,43 @@ class WelcomeOnboardingCoordinatorTests {
     }
 
     @Test
+    func appUnavailable_retrySuccess_returnsExpectedResult() async {
+        let mockUserService = MockUserService()
+        let mockNavigationController = MockNavigationController()
+        let mockCoordinatorBuilder = CoordinatorBuilder.mock
+        mockUserService._stubbedFetchUserStateResult = .failure(UserStateError.apiUnavailable)
+
+        let mockViewControllerBuilder = MockViewControllerBuilder()
+        let stubbedWelcomeOnboardingViewController = UIViewController()
+        mockViewControllerBuilder._stubbedWelcomeOnboardingViewController = stubbedWelcomeOnboardingViewController
+
+        let sut = WelcomeOnboardingCoordinator(
+            navigationController: mockNavigationController,
+            authenticationService: MockAuthenticationService(),
+            userService: mockUserService,
+            notificationService: MockNotificationService(),
+            coordinatorBuilder: mockCoordinatorBuilder,
+            viewControllerBuilder: mockViewControllerBuilder,
+            analyticsService: MockAnalyticsService(),
+            deviceInformationProvider: MockDeviceInformationProvider(),
+            versionProvider: MockAppVersionProvider(),
+            completionAction: { }
+        )
+        sut.start(url: nil)
+        mockViewControllerBuilder._stubbedWelcomeOnboardingViewModel?.completeAction()
+        mockCoordinatorBuilder._receivedAuthenticationCompletion?()
+        mockUserService._stubbedFetchUserStateResult = .success(UserStateResponse(userId: "test_user_id"))
+
+        let completion = await withCheckedContinuation { continuation in
+            mockCoordinatorBuilder._receivedAppUnavailableRetryAction? { wasSuccessful in
+                continuation.resume(returning: wasSuccessful)
+            }
+        }
+
+        #expect(completion)
+    }
+
+    @Test
     func authenticationError_startsSignInErrorCoordinator() {
         let mockAuthenticationService = MockAuthenticationService()
         let mockNotificationService = MockNotificationService()
