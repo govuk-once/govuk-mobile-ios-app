@@ -15,7 +15,7 @@ final class UserServiceTests {
 
     @Test
     func fetchUserState_returnsExpectedValue() async throws {
-        mockUserServiceClient._stubbedFetchUserStateResult = .success(UserStateResponse(userId: "test_id"))
+        mockUserServiceClient._stubbedFetchUserStateResult = .success(UserStateResponse(notificationId: "test_id"))
 
         let result = await withCheckedContinuation { continuation in
             sut.fetchUserState(completion: {
@@ -24,7 +24,7 @@ final class UserServiceTests {
         }
 
         let userStateResponse = try #require(try? result.get())
-        #expect(userStateResponse.userId == "test_id")
+        #expect(userStateResponse.notificationId == "test_id")
 
     }
 

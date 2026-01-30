@@ -34,7 +34,7 @@ struct UserServiceClientTests {
             }
         }
         let userStateResponse = try? result.get()
-        #expect(userStateResponse?.userId == "test_user_id")
+        #expect(userStateResponse?.notificationId == "test_user_id")
     }
 
     @Test
@@ -83,7 +83,7 @@ private extension UserServiceClientTests {
     static let userStateData =
     """
     {
-        "userId": "test_user_id"
+        "notificationId": "test_user_id"
     }
     """.data(using: .utf8)!
 }
