@@ -214,4 +214,46 @@ struct PreAuthCoordinatorTests {
 
         #expect(completionCalled)
     }
+
+    @Test
+    func appUnavailable_retrySuccess_returnsExpectedResult() async {
+        let mockAppLaunchService = MockAppLaunchService()
+        let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
+        let stubbedJailbreakCoordinator = MockBaseCoordinator()
+        mockCoordinatorBuilder._stubbedJailbreakCoordinator = stubbedJailbreakCoordinator
+        let stubbedLaunchCoordinator = MockBaseCoordinator()
+        mockCoordinatorBuilder._stubbedLaunchCoordinator = stubbedLaunchCoordinator
+        let stubbedNotificationConsentCoordinator = MockBaseCoordinator()
+        mockCoordinatorBuilder._stubbedNotificationConsentCoordinator = stubbedNotificationConsentCoordinator
+        let stubbedAppForceUpdateCoordinator = MockBaseCoordinator()
+        mockCoordinatorBuilder._stubbedAppForcedUpdateCoordinator = stubbedAppForceUpdateCoordinator
+        let stubbedAppUnavailableCoordinator = MockBaseCoordinator()
+        mockCoordinatorBuilder._stubbedAppUnavailableCoordinator = stubbedAppUnavailableCoordinator
+        let stubbedAppRecommendUpdateCoordinator = MockBaseCoordinator()
+        mockCoordinatorBuilder._stubbedAppRecommendUpdateCoordinator = stubbedAppRecommendUpdateCoordinator
+
+        let subject = PreAuthCoordinator(
+            coordinatorBuilder: mockCoordinatorBuilder,
+            navigationController: MockNavigationController(),
+            appLaunchService: mockAppLaunchService,
+            completion: { }
+        )
+
+        subject.start(url: nil)
+
+        mockCoordinatorBuilder._receivedJailbreakDismissAction?()
+        mockCoordinatorBuilder._receivedLaunchCompletion?(.arrange(configResult: .failure(AppConfigError.networkUnavailable)))
+        mockCoordinatorBuilder._receivedAnalyticsConsentCompletion?()
+        mockCoordinatorBuilder._receivedNotificationConsentCompletion?()
+        mockCoordinatorBuilder._receivedAppForcedUpdateDismissAction?()
+        mockAppLaunchService._stubbedFetchAppLaunchResponse = .arrangeAvailable
+
+        let completion = await withCheckedContinuation { continuation in
+            mockCoordinatorBuilder._receivedAppUnavailableRetryAction? { wasSuccessful in
+                continuation.resume(returning: wasSuccessful)
+            }
+        }
+
+        #expect(completion)
+    }
 }

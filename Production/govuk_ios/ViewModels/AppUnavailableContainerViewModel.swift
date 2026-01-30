@@ -7,7 +7,7 @@ class AppUnavailableContainerViewModel: ObservableObject {
     private let urlOpener: URLOpener
     let error: AppUnavailableError?
     private let dismissAction: () -> Void
-    private let retryAction: (@escaping (Bool) -> Void) -> Void
+    private let retryAction: ((@escaping (Bool) -> Void) -> Void)?
     @Published var showProgressView: Bool = false
 
     private(set) var title = String.appAvailability.localized("unavailableTitle")
@@ -32,7 +32,7 @@ class AppUnavailableContainerViewModel: ObservableObject {
 
     init(urlOpener: URLOpener = UIApplication.shared,
          error: AppUnavailableError? = nil,
-         retryAction: @escaping (@escaping (Bool) -> Void) -> Void,
+         retryAction: ((@escaping (Bool) -> Void) -> Void)?,
          dismissAction: @escaping () -> Void) {
         self.urlOpener = urlOpener
         self.error = error
@@ -56,7 +56,7 @@ class AppUnavailableContainerViewModel: ObservableObject {
 
     private func retry() {
         showProgressView = true
-        retryAction { [weak self] wasSuccessful in
+        retryAction? { [weak self] wasSuccessful in
             if wasSuccessful {
                 self?.dismissAction()
             }

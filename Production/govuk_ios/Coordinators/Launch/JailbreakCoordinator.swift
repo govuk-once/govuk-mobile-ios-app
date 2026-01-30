@@ -24,7 +24,7 @@ class JailbreakCoordinator: BaseCoordinator {
     private func setJailbreakDetectedViewController() {
         let viewModel = AppUnavailableContainerViewModel(
             error: nil,
-            retryAction: { _ in },
+            retryAction: nil,
             dismissAction: dismissAction
         )
 
