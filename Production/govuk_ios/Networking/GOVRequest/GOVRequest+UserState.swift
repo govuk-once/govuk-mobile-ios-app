@@ -6,7 +6,7 @@ extension GOVRequest {
         let accessToken = accessToken ?? ""
         return GOVRequest(
             urlPath: "/1.0/app/user",
-            method: .post,
+            method: .get,
             bodyParameters: nil,
             queryParameters: nil,
             additionalHeaders: ["Authorization": "Bearer \(accessToken)"]
