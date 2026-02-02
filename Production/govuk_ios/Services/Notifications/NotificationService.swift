@@ -15,6 +15,8 @@ protocol NotificationServiceInterface {
     var permissionState: NotificationPermissionState { get async }
     var isFeatureEnabled: Bool { get }
     func fetchConsentAlignment() async -> NotificationConsentResult
+    func register(notificationId: String)
+    func unregisterNotificationId()
 }
 
 class NotificationService: NSObject,
@@ -135,6 +137,14 @@ class NotificationService: NSObject,
         default:
             return .aligned
         }
+    }
+
+    func register(notificationId: String) {
+        oneSignalServiceClient.login(notificationId)
+    }
+
+    func unregisterNotificationId() {
+        oneSignalServiceClient.logout()
     }
 }
 

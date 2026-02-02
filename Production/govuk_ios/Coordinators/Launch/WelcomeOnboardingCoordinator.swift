@@ -6,6 +6,8 @@ import GovKit
 class WelcomeOnboardingCoordinator: BaseCoordinator {
     private let navigationController: UINavigationController
     private let authenticationService: AuthenticationServiceInterface
+    private let userService: UserServiceInterface
+    private let notificationService: NotificationServiceInterface
     private let coordinatorBuilder: CoordinatorBuilder
     private let viewControllerBuilder: ViewControllerBuilder
     private let analyticsService: AnalyticsServiceInterface
@@ -13,6 +15,8 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
     private let deviceInformationProvider: DeviceInformationProviderInterface
     private let versionProvider: AppVersionProvider
     private let completionAction: () -> Void
+
+    private var shouldShowSignInSuccessScreen = false
 
     private lazy var welcomeOnboardingViewModel: WelcomeOnboardingViewModel = {
         WelcomeOnboardingViewModel(
@@ -24,6 +28,8 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
 
     init(navigationController: UINavigationController,
          authenticationService: AuthenticationServiceInterface,
+         userService: UserServiceInterface,
+         notificationService: NotificationServiceInterface,
          coordinatorBuilder: CoordinatorBuilder,
          viewControllerBuilder: ViewControllerBuilder,
          analyticsService: AnalyticsServiceInterface,
@@ -32,6 +38,8 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
          completionAction: @escaping () -> Void) {
         self.navigationController = navigationController
         self.authenticationService = authenticationService
+        self.userService = userService
+        self.notificationService = notificationService
         self.coordinatorBuilder = coordinatorBuilder
         self.viewControllerBuilder = viewControllerBuilder
         self.analyticsService = analyticsService
@@ -42,10 +50,11 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
     }
 
     override func start(url: URL?) {
-        guard !shouldSkipOnboarding
-        else { return completionAction() }
-
-        setWelcomeOnboardingViewController()
+        if shouldSkipOnboarding {
+            fetchUserState()
+        } else {
+            setWelcomeOnboardingViewController()
+        }
     }
 
     private func setWelcomeOnboardingViewController(_ animated: Bool = true) {
@@ -59,16 +68,19 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
         guard pendingAuthenticationCoordinator == nil else { return }
         let authenticationCoordinator = coordinatorBuilder.authentication(
             navigationController: navigationController,
-            completionAction: completionAction,
+            completionAction: { [weak self] in
+                self?.fetchUserState()
+            },
             errorAction: { [weak self] error in
-                self?.showError(error)
+                self?.showAuthenticationError(error)
             }
         )
+        shouldShowSignInSuccessScreen = true
         start(authenticationCoordinator)
         pendingAuthenticationCoordinator = authenticationCoordinator
     }
 
-    private func showError(_ error: AuthenticationError) {
+    private func showAuthenticationError(_ error: AuthenticationError) {
         pendingAuthenticationCoordinator = nil
         welcomeOnboardingViewModel.showProgressView = false
         guard case .loginFlow(let loginError) = error,
@@ -107,6 +119,57 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
             navigationController: root,
             url: url,
             fullScreen: false
+        )
+        start(coordinator)
+    }
+
+    func fetchUserState() {
+        userService.fetchUserState(completion: { [weak self] result in
+            switch result {
+            case .success(let userState):
+                self?.notificationService.register(notificationId: userState.notificationId)
+                self?.handleUserStateFetched()
+            case .failure(let error):
+                self?.startAppUnavailable(error: error.asAppUnavailableError())
+            }
+        })
+    }
+
+    @MainActor
+    private func startSignInSuccess() {
+        let coordinator = coordinatorBuilder.signInSuccess(
+            navigationController: root,
+            completion: completionAction
+        )
+        start(coordinator)
+    }
+
+    private func handleUserStateFetched() {
+        if shouldShowSignInSuccessScreen {
+            startSignInSuccess()
+        } else {
+            completionAction()
+        }
+    }
+
+    private func startAppUnavailable(error: AppUnavailableError) {
+        let coordinator = coordinatorBuilder.appUnavailable(
+            navigationController: root,
+            error: error,
+            retryAction: { [weak self] completion in
+                self?.userService.fetchUserState { result in
+                    switch result {
+                    case .success(let userState):
+                        self?.notificationService.register(notificationId: userState.notificationId)
+                        completion(true)
+                    case .failure:
+                        completion(false)
+                    }
+                }
+            },
+            dismissAction: { [weak self] in
+                self?.handleUserStateFetched()
+            }
         )
         start(coordinator)
     }

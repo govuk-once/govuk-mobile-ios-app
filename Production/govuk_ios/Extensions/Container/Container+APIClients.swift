@@ -80,6 +80,17 @@ extension Container {
         }
     }
 
+    var userAPIClient: Factory<APIServiceClientInterface> {
+        Factory(self) {
+            // move to GovKit when hostname is final
+            let defaultUserStateUrl: URL = URL(string: "https://d2nndycdmjjz2u.cloudfront.net")!
+            return APIServiceClient(baseUrl: defaultUserStateUrl,
+                                    session: self.urlSession(),
+                                    requestBuilder: RequestBuilder(),
+                                    responseHandler: UserResponseHandler())
+        }
+    }
+
     var urlSession: Factory<URLSession> {
         Factory(self) {
             URLSession(configuration: .default)

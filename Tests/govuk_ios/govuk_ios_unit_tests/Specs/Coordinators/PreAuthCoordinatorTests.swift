@@ -17,6 +17,7 @@ struct PreAuthCoordinatorTests {
         let subject = PreAuthCoordinator(
             coordinatorBuilder: mockCoordinatorBuilder,
             navigationController: MockNavigationController(),
+            appLaunchService: MockAppLaunchService(),
             completion: { }
         )
 
@@ -35,6 +36,7 @@ struct PreAuthCoordinatorTests {
         let subject = PreAuthCoordinator(
             coordinatorBuilder: mockCoordinatorBuilder,
             navigationController: MockNavigationController(),
+            appLaunchService: MockAppLaunchService(),
             completion: { }
         )
 
@@ -57,6 +59,7 @@ struct PreAuthCoordinatorTests {
         let subject = PreAuthCoordinator(
             coordinatorBuilder: mockCoordinatorBuilder,
             navigationController: MockNavigationController(),
+            appLaunchService: MockAppLaunchService(),
             completion: { }
         )
 
@@ -85,6 +88,7 @@ struct PreAuthCoordinatorTests {
         let subject = PreAuthCoordinator(
             coordinatorBuilder: mockCoordinatorBuilder,
             navigationController: MockNavigationController(),
+            appLaunchService: MockAppLaunchService(),
             completion: { }
         )
 
@@ -117,6 +121,7 @@ struct PreAuthCoordinatorTests {
         let subject = PreAuthCoordinator(
             coordinatorBuilder: mockCoordinatorBuilder,
             navigationController: MockNavigationController(),
+            appLaunchService: MockAppLaunchService(),
             completion: { }
         )
 
@@ -124,13 +129,14 @@ struct PreAuthCoordinatorTests {
 
         mockCoordinatorBuilder._receivedJailbreakDismissAction?()
         let expectedLaunchResponse = AppLaunchResponse.arrangeAvailable
+
         mockCoordinatorBuilder._receivedLaunchCompletion?(expectedLaunchResponse)
         mockCoordinatorBuilder._receivedAnalyticsConsentCompletion?()
         mockCoordinatorBuilder._receivedNotificationConsentCompletion?()
         mockCoordinatorBuilder._receivedAppForcedUpdateDismissAction?()
 
         #expect(stubbedAppUnavailableCoordinator._startCalled)
-        #expect(mockCoordinatorBuilder._receivedAppUnavailableLaunchResponse == expectedLaunchResponse)
+        #expect(mockCoordinatorBuilder._receivedAppUnavailableError == nil)
     }
 
     @Test
@@ -152,13 +158,13 @@ struct PreAuthCoordinatorTests {
         let subject = PreAuthCoordinator(
             coordinatorBuilder: mockCoordinatorBuilder,
             navigationController: MockNavigationController(),
+            appLaunchService: MockAppLaunchService(),
             completion: { }
         )
 
         subject.start(url: nil)
 
         mockCoordinatorBuilder._receivedJailbreakDismissAction?()
-        let expectedLaunchResponse = AppLaunchResponse.arrangeAvailable
         mockCoordinatorBuilder._receivedLaunchCompletion?(.arrangeAvailable)
         mockCoordinatorBuilder._receivedAnalyticsConsentCompletion?()
         mockCoordinatorBuilder._receivedNotificationConsentCompletion?()
@@ -166,7 +172,7 @@ struct PreAuthCoordinatorTests {
         mockCoordinatorBuilder._receivedAppUnavailableDismissAction?()
 
         #expect(stubbedAppRecommendUpdateCoordinator._startCalled)
-        #expect(mockCoordinatorBuilder._receivedAppUnavailableLaunchResponse == expectedLaunchResponse)
+        #expect(mockCoordinatorBuilder._receivedAppUnavailableError == nil)
     }
 
 
@@ -190,6 +196,7 @@ struct PreAuthCoordinatorTests {
         let subject = PreAuthCoordinator(
             coordinatorBuilder: mockCoordinatorBuilder,
             navigationController: MockNavigationController(),
+            appLaunchService: MockAppLaunchService(),
             completion: {
                 completionCalled = true
             }
@@ -206,5 +213,47 @@ struct PreAuthCoordinatorTests {
         mockCoordinatorBuilder._receivedAppRecommendUpdateDismissAction?()
 
         #expect(completionCalled)
+    }
+
+    @Test
+    func appUnavailable_retrySuccess_returnsExpectedResult() async {
+        let mockAppLaunchService = MockAppLaunchService()
+        let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
+        let stubbedJailbreakCoordinator = MockBaseCoordinator()
+        mockCoordinatorBuilder._stubbedJailbreakCoordinator = stubbedJailbreakCoordinator
+        let stubbedLaunchCoordinator = MockBaseCoordinator()
+        mockCoordinatorBuilder._stubbedLaunchCoordinator = stubbedLaunchCoordinator
+        let stubbedNotificationConsentCoordinator = MockBaseCoordinator()
+        mockCoordinatorBuilder._stubbedNotificationConsentCoordinator = stubbedNotificationConsentCoordinator
+        let stubbedAppForceUpdateCoordinator = MockBaseCoordinator()
+        mockCoordinatorBuilder._stubbedAppForcedUpdateCoordinator = stubbedAppForceUpdateCoordinator
+        let stubbedAppUnavailableCoordinator = MockBaseCoordinator()
+        mockCoordinatorBuilder._stubbedAppUnavailableCoordinator = stubbedAppUnavailableCoordinator
+        let stubbedAppRecommendUpdateCoordinator = MockBaseCoordinator()
+        mockCoordinatorBuilder._stubbedAppRecommendUpdateCoordinator = stubbedAppRecommendUpdateCoordinator
+
+        let subject = PreAuthCoordinator(
+            coordinatorBuilder: mockCoordinatorBuilder,
+            navigationController: MockNavigationController(),
+            appLaunchService: mockAppLaunchService,
+            completion: { }
+        )
+
+        subject.start(url: nil)
+
+        mockCoordinatorBuilder._receivedJailbreakDismissAction?()
+        mockCoordinatorBuilder._receivedLaunchCompletion?(.arrange(configResult: .failure(AppConfigError.networkUnavailable)))
+        mockCoordinatorBuilder._receivedAnalyticsConsentCompletion?()
+        mockCoordinatorBuilder._receivedNotificationConsentCompletion?()
+        mockCoordinatorBuilder._receivedAppForcedUpdateDismissAction?()
+        mockAppLaunchService._stubbedFetchAppLaunchResponse = .arrangeAvailable
+
+        let completion = await withCheckedContinuation { continuation in
+            mockCoordinatorBuilder._receivedAppUnavailableRetryAction? { wasSuccessful in
+                continuation.resume(returning: wasSuccessful)
+            }
+        }
+
+        #expect(completion)
     }
 }

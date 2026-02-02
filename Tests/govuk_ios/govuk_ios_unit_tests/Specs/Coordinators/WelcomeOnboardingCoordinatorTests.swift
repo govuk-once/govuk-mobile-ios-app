@@ -7,30 +7,14 @@ import UIKit
 @Suite
 @MainActor
 class WelcomeOnboardingCoordinatorTests {
-    @Test
-    func start_notSignedIn_setsOnboarding() {
-        let mockAuthenticationService = MockAuthenticationService()
-        let mockNavigationController = MockNavigationController()
-        let mockCoordinatorBuilder = CoordinatorBuilder.mock
-        mockAuthenticationService._stubbedIsSignedIn = false
-        let sut = WelcomeOnboardingCoordinator(
-            navigationController: mockNavigationController,
-            authenticationService: mockAuthenticationService,
-            coordinatorBuilder: mockCoordinatorBuilder,
-            viewControllerBuilder: MockViewControllerBuilder(),
-            analyticsService: MockAnalyticsService(),
-            deviceInformationProvider: MockDeviceInformationProvider(),
-            versionProvider: MockAppVersionProvider(),
-            completionAction: { }
-        )
-        sut.start(url: nil)
 
-        #expect(mockNavigationController._setViewControllers?.count == .some(1))
-    }
-
+    // MARK: start signed in
     @Test
-    func start_signedIn_finishesCoordination() async {
+    func start_signedIn_userStateRequestSuccess_finishesCoordination() async {
         let mockAuthenticationService = MockAuthenticationService()
+        let mockNotificationService = MockNotificationService()
+        let mockUserService = MockUserService()
+        mockUserService._stubbedFetchUserStateResult = .success(UserStateResponse(notificationId: "0"))
         let mockNavigationController = MockNavigationController()
         let mockCoordinatorBuilder = CoordinatorBuilder.mock
         mockAuthenticationService._stubbedIsSignedIn = true
@@ -38,6 +22,8 @@ class WelcomeOnboardingCoordinatorTests {
             let sut = WelcomeOnboardingCoordinator(
                 navigationController: mockNavigationController,
                 authenticationService: mockAuthenticationService,
+                userService: mockUserService,
+                notificationService: mockNotificationService,
                 coordinatorBuilder: mockCoordinatorBuilder,
                 viewControllerBuilder: MockViewControllerBuilder(),
                 analyticsService: MockAnalyticsService(),
@@ -53,8 +39,248 @@ class WelcomeOnboardingCoordinatorTests {
     }
 
     @Test
+    func start_signedIn_userStateRequestSuccess_setsNotificationExternalId() async {
+        let mockAuthenticationService = MockAuthenticationService()
+        let mockNotificationService = MockNotificationService()
+        let mockUserService = MockUserService()
+        mockUserService._stubbedFetchUserStateResult = .success(UserStateResponse(notificationId: "test_user_id"))
+        let mockNavigationController = MockNavigationController()
+        let mockCoordinatorBuilder = CoordinatorBuilder.mock
+        mockAuthenticationService._stubbedIsSignedIn = true
+        let completion = await withCheckedContinuation { continuation in
+            let sut = WelcomeOnboardingCoordinator(
+                navigationController: mockNavigationController,
+                authenticationService: mockAuthenticationService,
+                userService: mockUserService,
+                notificationService: mockNotificationService,
+                coordinatorBuilder: mockCoordinatorBuilder,
+                viewControllerBuilder: MockViewControllerBuilder(),
+                analyticsService: MockAnalyticsService(),
+                deviceInformationProvider: MockDeviceInformationProvider(),
+                versionProvider: MockAppVersionProvider(),
+                completionAction: { continuation.resume(returning: true) }
+            )
+            sut.start(url: nil)
+        }
+
+        #expect(completion)
+        #expect(mockNotificationService._stubbedNotificationId == "test_user_id")
+    }
+
+    @Test
+    func start_signedIn_userStateRequestFailure_startsAppUnavailableCoordinator() async {
+        let mockAuthenticationService = MockAuthenticationService()
+        let mockUserService = MockUserService()
+        mockUserService._stubbedFetchUserStateResult = .failure(UserStateError.apiUnavailable)
+        let mockAppUnavailableCoordinator = MockBaseCoordinator()
+        let mockCoordinatorBuilder = CoordinatorBuilder.mock
+        mockCoordinatorBuilder._stubbedAppUnavailableCoordinator = mockAppUnavailableCoordinator
+        mockAuthenticationService._stubbedIsSignedIn = true
+        await withCheckedContinuation { continuation in
+            let sut = WelcomeOnboardingCoordinator(
+                navigationController: MockNavigationController(),
+                authenticationService: mockAuthenticationService,
+                userService: mockUserService,
+                notificationService: MockNotificationService(),
+                coordinatorBuilder: mockCoordinatorBuilder,
+                viewControllerBuilder: MockViewControllerBuilder(),
+                analyticsService: MockAnalyticsService(),
+                deviceInformationProvider: MockDeviceInformationProvider(),
+                versionProvider: MockAppVersionProvider(),
+                completionAction: { }
+            )
+            mockUserService._fetchUserStateCompletionBlock = {
+                continuation.resume()
+            }
+            sut.start(url: nil)
+        }
+
+        #expect(mockAppUnavailableCoordinator._startCalled == true)
+    }
+
+    // MARK: start not signed in
+
+    @Test
+    func start_notSignedIn_setsOnboarding() {
+        let mockAuthenticationService = MockAuthenticationService()
+        let mockNotificationService = MockNotificationService()
+        let mockUserService = MockUserService()
+        let mockNavigationController = MockNavigationController()
+        let mockCoordinatorBuilder = CoordinatorBuilder.mock
+        mockAuthenticationService._stubbedIsSignedIn = false
+        let sut = WelcomeOnboardingCoordinator(
+            navigationController: mockNavigationController,
+            authenticationService: mockAuthenticationService,
+            userService: mockUserService,
+            notificationService: mockNotificationService,
+            coordinatorBuilder: mockCoordinatorBuilder,
+            viewControllerBuilder: MockViewControllerBuilder(),
+            analyticsService: MockAnalyticsService(),
+            deviceInformationProvider: MockDeviceInformationProvider(),
+            versionProvider: MockAppVersionProvider(),
+            completionAction: { }
+        )
+        sut.start(url: nil)
+
+        #expect(mockNavigationController._setViewControllers?.count == .some(1))
+    }
+
+    @Test
+    func authenticationSuccess_userStateRequestSuccess_startsSignInSuccessCoordinator() async {
+        let mockUserService = MockUserService()
+        let mockCoordinatorBuilder = CoordinatorBuilder.mock
+        let mockSignInSuccessCoordinator = MockBaseCoordinator()
+        mockCoordinatorBuilder._stubbedSignInSuccessCoordinator = mockSignInSuccessCoordinator
+        mockUserService._stubbedFetchUserStateResult = .success(UserStateResponse(notificationId: "0"))
+
+        let mockViewControllerBuilder = MockViewControllerBuilder()
+        let stubbedWelcomeOnboardingViewController = UIViewController()
+        mockViewControllerBuilder._stubbedWelcomeOnboardingViewController = stubbedWelcomeOnboardingViewController
+
+        let completion = await withCheckedContinuation { continuation in
+            let sut = WelcomeOnboardingCoordinator(
+                navigationController: MockNavigationController(),
+                authenticationService: MockAuthenticationService(),
+                userService: mockUserService,
+                notificationService: MockNotificationService(),
+                coordinatorBuilder: mockCoordinatorBuilder,
+                viewControllerBuilder: mockViewControllerBuilder,
+                analyticsService: MockAnalyticsService(),
+                deviceInformationProvider: MockDeviceInformationProvider(),
+                versionProvider: MockAppVersionProvider(),
+                completionAction: { }
+            )
+            sut.start(url: nil)
+            mockCoordinatorBuilder._signInSuccessCallAction = {
+                continuation.resume(returning: true)
+            }
+
+            mockViewControllerBuilder._stubbedWelcomeOnboardingViewModel?.completeAction()
+            mockCoordinatorBuilder._receivedAuthenticationCompletion?()
+        }
+
+        #expect(completion)
+        #expect(mockSignInSuccessCoordinator._startCalled)
+    }
+
+    @Test
+    func authenticationSuccess_userStateRequestSuccess_setNotificationExternalId() async {
+        let mockNotificationService = MockNotificationService()
+        let mockUserService = MockUserService()
+        let mockCoordinatorBuilder = CoordinatorBuilder.mock
+        let mockSignInSuccessCoordinator = MockBaseCoordinator()
+        mockCoordinatorBuilder._stubbedSignInSuccessCoordinator = mockSignInSuccessCoordinator
+        mockUserService._stubbedFetchUserStateResult = .success(UserStateResponse(notificationId: "test_user_id"))
+
+        let mockViewControllerBuilder = MockViewControllerBuilder()
+        let stubbedWelcomeOnboardingViewController = UIViewController()
+        mockViewControllerBuilder._stubbedWelcomeOnboardingViewController = stubbedWelcomeOnboardingViewController
+
+        let completion = await withCheckedContinuation { continuation in
+            let sut = WelcomeOnboardingCoordinator(
+                navigationController: MockNavigationController(),
+                authenticationService: MockAuthenticationService(),
+                userService: mockUserService,
+                notificationService: mockNotificationService,
+                coordinatorBuilder: mockCoordinatorBuilder,
+                viewControllerBuilder: mockViewControllerBuilder,
+                analyticsService: MockAnalyticsService(),
+                deviceInformationProvider: MockDeviceInformationProvider(),
+                versionProvider: MockAppVersionProvider(),
+                completionAction: { }
+            )
+            sut.start(url: nil)
+            mockCoordinatorBuilder._signInSuccessCallAction = {
+                continuation.resume(returning: true)
+            }
+
+            mockViewControllerBuilder._stubbedWelcomeOnboardingViewModel?.completeAction()
+            mockCoordinatorBuilder._receivedAuthenticationCompletion?()
+        }
+
+        #expect(completion)
+        #expect(mockNotificationService._stubbedNotificationId == "test_user_id")
+    }
+
+    @Test
+    func authenticationSuccess_userStateRequestFailure_startsAppUnavailableCoordinator() async {
+        let mockUserService = MockUserService()
+        let mockCoordinatorBuilder = CoordinatorBuilder.mock
+        let mockAppUnavailableCoordinator = MockBaseCoordinator()
+        mockCoordinatorBuilder._stubbedAppUnavailableCoordinator = mockAppUnavailableCoordinator
+        mockUserService._stubbedFetchUserStateResult = .failure(UserStateError.apiUnavailable)
+
+        let mockViewControllerBuilder = MockViewControllerBuilder()
+        let stubbedWelcomeOnboardingViewController = UIViewController()
+        mockViewControllerBuilder._stubbedWelcomeOnboardingViewController = stubbedWelcomeOnboardingViewController
+
+        await withCheckedContinuation { continuation in
+            let sut = WelcomeOnboardingCoordinator(
+                navigationController: MockNavigationController(),
+                authenticationService: MockAuthenticationService(),
+                userService: mockUserService,
+                notificationService: MockNotificationService(),
+                coordinatorBuilder: mockCoordinatorBuilder,
+                viewControllerBuilder: mockViewControllerBuilder,
+                analyticsService: MockAnalyticsService(),
+                deviceInformationProvider: MockDeviceInformationProvider(),
+                versionProvider: MockAppVersionProvider(),
+                completionAction: { }
+            )
+            mockUserService._fetchUserStateCompletionBlock = {
+                continuation.resume()
+            }
+            sut.start(url: nil)
+
+            mockViewControllerBuilder._stubbedWelcomeOnboardingViewModel?.completeAction()
+            mockCoordinatorBuilder._receivedAuthenticationCompletion?()
+        }
+
+        #expect(mockAppUnavailableCoordinator._startCalled == true)
+    }
+
+    @Test
+    func appUnavailable_retrySuccess_returnsExpectedResult() async {
+        let mockUserService = MockUserService()
+        let mockNavigationController = MockNavigationController()
+        let mockCoordinatorBuilder = CoordinatorBuilder.mock
+        mockUserService._stubbedFetchUserStateResult = .failure(UserStateError.apiUnavailable)
+
+        let mockViewControllerBuilder = MockViewControllerBuilder()
+        let stubbedWelcomeOnboardingViewController = UIViewController()
+        mockViewControllerBuilder._stubbedWelcomeOnboardingViewController = stubbedWelcomeOnboardingViewController
+
+        let sut = WelcomeOnboardingCoordinator(
+            navigationController: mockNavigationController,
+            authenticationService: MockAuthenticationService(),
+            userService: mockUserService,
+            notificationService: MockNotificationService(),
+            coordinatorBuilder: mockCoordinatorBuilder,
+            viewControllerBuilder: mockViewControllerBuilder,
+            analyticsService: MockAnalyticsService(),
+            deviceInformationProvider: MockDeviceInformationProvider(),
+            versionProvider: MockAppVersionProvider(),
+            completionAction: { }
+        )
+        sut.start(url: nil)
+        mockViewControllerBuilder._stubbedWelcomeOnboardingViewModel?.completeAction()
+        mockCoordinatorBuilder._receivedAuthenticationCompletion?()
+        mockUserService._stubbedFetchUserStateResult = .success(UserStateResponse(notificationId: "test_user_id"))
+
+        let completion = await withCheckedContinuation { continuation in
+            mockCoordinatorBuilder._receivedAppUnavailableRetryAction? { wasSuccessful in
+                continuation.resume(returning: wasSuccessful)
+            }
+        }
+
+        #expect(completion)
+    }
+
+    @Test
     func authenticationError_startsSignInErrorCoordinator() {
         let mockAuthenticationService = MockAuthenticationService()
+        let mockNotificationService = MockNotificationService()
+        let mockUserService = MockUserService()
         let mockNavigationController = MockNavigationController()
         let mockCoordinatorBuilder = CoordinatorBuilder.mock
         let mockViewControllerBuilder = MockViewControllerBuilder()
@@ -68,6 +294,8 @@ class WelcomeOnboardingCoordinatorTests {
         let sut = WelcomeOnboardingCoordinator(
             navigationController: mockNavigationController,
             authenticationService: mockAuthenticationService,
+            userService: mockUserService,
+            notificationService: mockNotificationService,
             coordinatorBuilder: mockCoordinatorBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
             analyticsService: MockAnalyticsService(),
@@ -87,6 +315,8 @@ class WelcomeOnboardingCoordinatorTests {
     @Test
     func authenticationError_tracksError() {
         let mockAuthenticationService = MockAuthenticationService()
+        let mockNotificationService = MockNotificationService()
+        let mockUserService = MockUserService()
         let mockNavigationController = MockNavigationController()
         let mockCoordinatorBuilder = CoordinatorBuilder.mock
         let mockViewControllerBuilder = MockViewControllerBuilder()
@@ -101,6 +331,8 @@ class WelcomeOnboardingCoordinatorTests {
         let sut = WelcomeOnboardingCoordinator(
             navigationController: mockNavigationController,
             authenticationService: mockAuthenticationService,
+            userService: mockUserService,
+            notificationService: mockNotificationService,
             coordinatorBuilder: mockCoordinatorBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
             analyticsService: mockAnalyticsService,
@@ -121,6 +353,8 @@ class WelcomeOnboardingCoordinatorTests {
     @Test
     func userCancelledError_does_not_start_SignInErrorCoordinator() {
         let mockAuthenticationService = MockAuthenticationService()
+        let mockNotificationService = MockNotificationService()
+        let mockUserService = MockUserService()
         let mockNavigationController = MockNavigationController()
         let mockCoordinatorBuilder = CoordinatorBuilder.mock
         let mockViewControllerBuilder = MockViewControllerBuilder()
@@ -134,6 +368,8 @@ class WelcomeOnboardingCoordinatorTests {
         let sut = WelcomeOnboardingCoordinator(
             navigationController: mockNavigationController,
             authenticationService: mockAuthenticationService,
+            userService: mockUserService,
+            notificationService: mockNotificationService,
             coordinatorBuilder: mockCoordinatorBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
             analyticsService: MockAnalyticsService(),
@@ -152,6 +388,8 @@ class WelcomeOnboardingCoordinatorTests {
     @Test
     func signInErrorCompletion_setsWelcomOnboarding() {
         let mockAuthenticationService = MockAuthenticationService()
+        let mockNotificationService = MockNotificationService()
+        let mockUserService = MockUserService()
         let mockNavigationController = MockNavigationController()
         let mockCoordinatorBuilder = CoordinatorBuilder.mock
         let mockViewControllerBuilder = MockViewControllerBuilder()
@@ -165,6 +403,8 @@ class WelcomeOnboardingCoordinatorTests {
         let sut = WelcomeOnboardingCoordinator(
             navigationController: mockNavigationController,
             authenticationService: mockAuthenticationService,
+            userService: mockUserService,
+            notificationService: mockNotificationService,
             coordinatorBuilder: mockCoordinatorBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
             analyticsService: MockAnalyticsService(),
@@ -184,6 +424,8 @@ class WelcomeOnboardingCoordinatorTests {
     @Test
     func signInErrorCompletion_feedbackAction_setsWelcomOnboarding() {
         let mockAuthenticationService = MockAuthenticationService()
+        let mockNotificationService = MockNotificationService()
+        let mockUserService = MockUserService()
         let mockNavigationController = MockNavigationController()
         let mockCoordinatorBuilder = CoordinatorBuilder.mock
         let mockViewControllerBuilder = MockViewControllerBuilder()
@@ -200,6 +442,8 @@ class WelcomeOnboardingCoordinatorTests {
         let sut = WelcomeOnboardingCoordinator(
             navigationController: mockNavigationController,
             authenticationService: mockAuthenticationService,
+            userService: mockUserService,
+            notificationService: mockNotificationService,
             coordinatorBuilder: mockCoordinatorBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
             analyticsService: MockAnalyticsService(),

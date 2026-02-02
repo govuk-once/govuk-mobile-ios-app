@@ -52,7 +52,7 @@ class AuthenticationCoordinator: BaseCoordinator {
             }
             handleAnalyticsConsent(response: response)
             handleOnboarding(response: response)
-            startSignInSuccess()
+            completionAction()
         case .failure(let error):
             DispatchQueue.main.async {
                 self.errorAction(error)
@@ -73,15 +73,6 @@ class AuthenticationCoordinator: BaseCoordinator {
         topicsService.resetOnboarding()
         localAuthenticationService.clear()
         chatService.clear()
-    }
-
-    @MainActor
-    private func startSignInSuccess() {
-        let coordinator = coordinatorBuilder.signInSuccess(
-            navigationController: root,
-            completion: completionAction
-        )
-        start(coordinator)
     }
 
     private var shouldEncryptRefreshToken: Bool {
