@@ -1,7 +1,10 @@
 import SwiftUI
 import MarkdownUI
+import Lottie
 
 struct ChatCellView: View {
+    @Environment(\.colorScheme) var colorScheme
+    @Environment(\.accessibilityReduceMotion) var reduceMotion
     @StateObject private var viewModel: ChatCellViewModel
 
     init(viewModel: ChatCellViewModel) {
@@ -24,15 +27,15 @@ struct ChatCellView: View {
             }
         }
         .background(viewModel.backgroundColor)
-        .opacity(viewModel.isVisible ? 1 : 0)
-        .scaleEffect(viewModel.scale, anchor: viewModel.anchor)
-        .animation(.easeIn(duration: viewModel.duration).delay(viewModel.delay),
-                   value: viewModel.isVisible)
         .clipShape(
             RoundedRectangle(
                 cornerRadius: viewModel.type == .pendingAnswer ? 0 : 18
             )
         )
+        .opacity(viewModel.isVisible ? 1 : 1)
+        .scaleEffect(viewModel.scale, anchor: viewModel.anchor)
+        .animation(.easeIn(duration: viewModel.duration).delay(viewModel.delay),
+                   value: viewModel.isVisible)
         .padding(.top, viewModel.topPadding)
         .contextMenu {
             Button(action: {
@@ -65,8 +68,19 @@ struct ChatCellView: View {
 
     private var pendingAnswerView: some View {
         HStack(spacing: 5) {
-            AnimatedAPNGImageView(imageName: "generating-your-answer")
-                .frame(width: 24, height: 24)
+            LottieView(
+                animation: .named(
+                    viewModel.animation(for: colorScheme)
+                )
+            )
+            .playing(
+                .fromProgress(
+                    reduceMotion ? 1 : 0.0,
+                    toProgress: 1,
+                    loopMode: .loop
+                )
+            )
+            .frame(width: 24, height: 24)
             ChatEllipsesView(viewModel.message)
                 .font(Font.govUK.body)
             Spacer()

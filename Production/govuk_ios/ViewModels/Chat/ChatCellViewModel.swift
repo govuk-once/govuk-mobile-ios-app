@@ -188,6 +188,12 @@ extension ChatCellViewModel {
             8.0
         }
     }
+
+    func animation(for scheme: ColorScheme) -> String {
+        scheme == .light ?
+        "chat_loading_message_light" :
+        "chat_loading_message_dark"
+    }
 }
 
 // MARK: - Convenience
