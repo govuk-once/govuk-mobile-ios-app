@@ -4,7 +4,6 @@ import Lottie
 
 struct ChatCellView: View {
     @Environment(\.colorScheme) var colorScheme
-    @Environment(\.accessibilityReduceMotion) var reduceMotion
     @StateObject private var viewModel: ChatCellViewModel
 
     init(viewModel: ChatCellViewModel) {
@@ -32,7 +31,7 @@ struct ChatCellView: View {
                 cornerRadius: viewModel.type == .pendingAnswer ? 0 : 18
             )
         )
-        .opacity(viewModel.isVisible ? 1 : 1)
+        .opacity(viewModel.isVisible ? 1 : 0)
         .scaleEffect(viewModel.scale, anchor: viewModel.anchor)
         .animation(.easeIn(duration: viewModel.duration).delay(viewModel.delay),
                    value: viewModel.isVisible)
@@ -67,22 +66,19 @@ struct ChatCellView: View {
     }
 
     private var pendingAnswerView: some View {
-        HStack(spacing: 5) {
+        HStack(spacing: 8) {
             LottieView(
                 animation: .named(
                     viewModel.animation(for: colorScheme)
                 )
             )
             .playing(
-                .fromProgress(
-                    reduceMotion ? 1 : 0.0,
-                    toProgress: 1,
-                    loopMode: .loop
-                )
+                loopMode: .loop
             )
-            .frame(width: 24, height: 24)
-            ChatEllipsesView(viewModel.message)
+            .frame(width: 32, height: 32)
+            Text(viewModel.message)
                 .font(Font.govUK.body)
+                .foregroundStyle(Color(UIColor.govUK.text.primary))
             Spacer()
         }
         .padding(.bottom)
@@ -92,6 +88,7 @@ struct ChatCellView: View {
         VStack(alignment: .leading, spacing: 8) {
             Text(viewModel.message)
                 .font(Font.govUK.body)
+                .foregroundStyle(Color(UIColor.govUK.text.primary))
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
@@ -139,6 +136,7 @@ struct ChatCellView: View {
                 .accessibilityHidden(true)
             Text(String.chat.localized("mistakesTitle"))
                 .font(Font.govUK.bodySemibold)
+                .foregroundStyle(Color(UIColor.govUK.text.primary))
         }
     }
 
@@ -247,26 +245,34 @@ struct ChatDisclosure: DisclosureGroupStyle {
         find the right service for your situation.
         """
 
+    let questionModel = ChatCellViewModel(
+        message: "What is your quest what is your",
+        id: UUID().uuidString,
+        type: .question)
+
     ScrollView {
-        VStack {
-            ChatCellView(
-                viewModel: ChatCellViewModel(
-                    message: "What is your quest what is your",
-                    id: UUID().uuidString,
-                    type: .question)
-            )
-            ChatCellView(
-                viewModel: ChatCellViewModel(
-                    message: previewMessage,
-                    id: UUID().uuidString,
-                    type: .answer,
-                    sources: [
-                        Source(title: "Source 1", url: "https://www.example.com"),
-                        Source(title: "Source 2", url: "https://www.other.com")
-                    ])
-            )
-            ChatCellView(viewModel: .gettingAnswer)
+        ZStack {
+            Color(uiColor: .govUK.fills.surfaceChatBackground)
+            VStack {
+                ChatCellView(
+                    viewModel: questionModel
+                )
+                ChatCellView(
+                    viewModel: ChatCellViewModel(
+                        message: previewMessage,
+                        id: UUID().uuidString,
+                        type: .answer,
+                        sources: [
+                            Source(title: "Source 1", url: "https://www.example.com"),
+                            Source(title: "Source 2", url: "https://www.other.com")
+                        ])
+                )
+                ChatCellView(viewModel: .gettingAnswer)
+            }
+            .padding()
         }
-        .padding()
+    }
+    .onAppear {
+        questionModel.isVisible = true
     }
 }
