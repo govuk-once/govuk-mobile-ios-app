@@ -246,9 +246,19 @@ struct ChatDisclosure: DisclosureGroupStyle {
         """
 
     let questionModel = ChatCellViewModel(
-        message: "What is your quest what is your",
+        message: "What is your quest?",
         id: UUID().uuidString,
         type: .question)
+
+    let answerModel = ChatCellViewModel(
+            message: previewMessage,
+            id: UUID().uuidString,
+            type: .answer,
+            sources: [
+                Source(title: "Source 1", url: "https://www.example.com"),
+                Source(title: "Source 2", url: "https://www.other.com")
+            ])
+
 
     ScrollView {
         ZStack {
@@ -258,14 +268,7 @@ struct ChatDisclosure: DisclosureGroupStyle {
                     viewModel: questionModel
                 )
                 ChatCellView(
-                    viewModel: ChatCellViewModel(
-                        message: previewMessage,
-                        id: UUID().uuidString,
-                        type: .answer,
-                        sources: [
-                            Source(title: "Source 1", url: "https://www.example.com"),
-                            Source(title: "Source 2", url: "https://www.other.com")
-                        ])
+                    viewModel: answerModel
                 )
                 ChatCellView(viewModel: .gettingAnswer)
             }
@@ -274,5 +277,7 @@ struct ChatDisclosure: DisclosureGroupStyle {
     }
     .onAppear {
         questionModel.isVisible = true
+        answerModel.isVisible = true
+        ChatCellViewModel.gettingAnswer.isVisible = true
     }
 }
