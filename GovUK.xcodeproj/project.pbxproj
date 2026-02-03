@@ -330,8 +330,6 @@
 		D06C56092DE70F4D0045C674 /* AppAttestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06C56082DE70F4D0045C674 /* AppAttestService.swift */; };
 		D06C560B2DE711340045C674 /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = D06C560A2DE711340045C674 /* FirebaseAppCheck */; };
 		D076F9192D3544F0000278D5 /* SearchHistoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D076F9182D3544F0000278D5 /* SearchHistoryCell.swift */; };
-		D07D9A962F3106CB00A43BAE /* chat_loading_message_light.json in Resources */ = {isa = PBXBuildFile; fileRef = D07D9A952F3106CB00A43BAE /* chat_loading_message_light.json */; };
-		D07D9A972F3106CB00A43BAE /* chat_loading_message_dark.json in Resources */ = {isa = PBXBuildFile; fileRef = D07D9A942F3106CB00A43BAE /* chat_loading_message_dark.json */; };
 		D07E7A582DAE662A00B92D40 /* LocalAuthorityRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D07E7A572DAE662A00B92D40 /* LocalAuthorityRepository.swift */; };
 		D0839FD02DE7ABE800CA5C27 /* GovUKProviderFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0839FCF2DE7ABE800CA5C27 /* GovUKProviderFactory.swift */; };
 		D08A9A802DB9286D002E9C78 /* SignOutConfirmationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08A9A7F2DB9286D002E9C78 /* SignOutConfirmationCoordinator.swift */; };
@@ -342,7 +340,6 @@
 		D08F157C2E67527000133121 /* ChatMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08F157B2E67527000133121 /* ChatMenuView.swift */; };
 		D08F2C7C2E6AF84F00133121 /* AnimatedAPNGImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08F2C7B2E6AF84F00133121 /* AnimatedAPNGImageView.swift */; };
 		D08F2C7E2E6AF8C800133121 /* CGImageSource+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D08F2C7D2E6AF8C800133121 /* CGImageSource+Extensions.swift */; };
-		D08F2C822E6B1CB100133121 /* generating-your-answer.png in Resources */ = {isa = PBXBuildFile; fileRef = D08F2C812E6B1CB100133121 /* generating-your-answer.png */; };
 		D0900FA92E25309A00E3EB75 /* ChatErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0900FA82E25309A00E3EB75 /* ChatErrorViewModel.swift */; };
 		D090467A2DBBC1AC0096EE66 /* TokenExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09046742DBBC1AC0096EE66 /* TokenExtractor.swift */; };
 		D090467C2DBBC1AC0096EE66 /* IdTokenPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09046702DBBC1AC0096EE66 /* IdTokenPayload.swift */; };
@@ -373,6 +370,8 @@
 		D0D9CFD52D302F2A0051EDDD /* SearchHistoryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D9CFD42D302F2A0051EDDD /* SearchHistoryRepository.swift */; };
 		D0D9CFD72D3030640051EDDD /* SearchHistoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D9CFD62D3030640051EDDD /* SearchHistoryViewController.swift */; };
 		D0D9CFD92D30309D0051EDDD /* SearchHistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D9CFD82D30309D0051EDDD /* SearchHistoryViewModel.swift */; };
+		D0E6C3BA2F323E0700010C17 /* chat_loading_message_dark.json in Resources */ = {isa = PBXBuildFile; fileRef = D0E6C3B82F323E0700010C17 /* chat_loading_message_dark.json */; };
+		D0E6C3BB2F323E0700010C17 /* chat_loading_message_light.json in Resources */ = {isa = PBXBuildFile; fileRef = D0E6C3B92F323E0700010C17 /* chat_loading_message_light.json */; };
 		D0E7923B2D6CD66600EAB81F /* TopicDetailViewModelInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E7923A2D6CD66600EAB81F /* TopicDetailViewModelInterface.swift */; };
 		D0E855D42DDB85C1003B4D7A /* URLEncodedRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E855D32DDB85C1003B4D7A /* URLEncodedRequestBuilder.swift */; };
 		D0E855D62DDB910A003B4D7A /* GovRequest+Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E855D52DDB910A003B4D7A /* GovRequest+Authentication.swift */; };
@@ -760,8 +759,6 @@
 		D06C49B52DE5D2510045C674 /* JailbreakDetectionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JailbreakDetectionService.swift; sourceTree = "<group>"; };
 		D06C56082DE70F4D0045C674 /* AppAttestService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppAttestService.swift; sourceTree = "<group>"; };
 		D076F9182D3544F0000278D5 /* SearchHistoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHistoryCell.swift; sourceTree = "<group>"; };
-		D07D9A942F3106CB00A43BAE /* chat_loading_message_dark.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = chat_loading_message_dark.json; sourceTree = "<group>"; };
-		D07D9A952F3106CB00A43BAE /* chat_loading_message_light.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = chat_loading_message_light.json; sourceTree = "<group>"; };
 		D07E7A572DAE662A00B92D40 /* LocalAuthorityRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthorityRepository.swift; sourceTree = "<group>"; };
 		D0839FCF2DE7ABE800CA5C27 /* GovUKProviderFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovUKProviderFactory.swift; sourceTree = "<group>"; };
 		D08A9A7F2DB9286D002E9C78 /* SignOutConfirmationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignOutConfirmationCoordinator.swift; sourceTree = "<group>"; };
@@ -772,7 +769,6 @@
 		D08F157B2E67527000133121 /* ChatMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMenuView.swift; sourceTree = "<group>"; };
 		D08F2C7B2E6AF84F00133121 /* AnimatedAPNGImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedAPNGImageView.swift; sourceTree = "<group>"; };
 		D08F2C7D2E6AF8C800133121 /* CGImageSource+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGImageSource+Extensions.swift"; sourceTree = "<group>"; };
-		D08F2C812E6B1CB100133121 /* generating-your-answer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "generating-your-answer.png"; sourceTree = "<group>"; };
 		D0900FA82E25309A00E3EB75 /* ChatErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatErrorViewModel.swift; sourceTree = "<group>"; };
 		D09046702DBBC1AC0096EE66 /* IdTokenPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdTokenPayload.swift; sourceTree = "<group>"; };
 		D09046742DBBC1AC0096EE66 /* TokenExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenExtractor.swift; sourceTree = "<group>"; };
@@ -803,6 +799,8 @@
 		D0D9CFD42D302F2A0051EDDD /* SearchHistoryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHistoryRepository.swift; sourceTree = "<group>"; };
 		D0D9CFD62D3030640051EDDD /* SearchHistoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHistoryViewController.swift; sourceTree = "<group>"; };
 		D0D9CFD82D30309D0051EDDD /* SearchHistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHistoryViewModel.swift; sourceTree = "<group>"; };
+		D0E6C3B82F323E0700010C17 /* chat_loading_message_dark.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = chat_loading_message_dark.json; sourceTree = "<group>"; };
+		D0E6C3B92F323E0700010C17 /* chat_loading_message_light.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = chat_loading_message_light.json; sourceTree = "<group>"; };
 		D0E7923A2D6CD66600EAB81F /* TopicDetailViewModelInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicDetailViewModelInterface.swift; sourceTree = "<group>"; };
 		D0E855D32DDB85C1003B4D7A /* URLEncodedRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLEncodedRequestBuilder.swift; sourceTree = "<group>"; };
 		D0E855D52DDB910A003B4D7A /* GovRequest+Authentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GovRequest+Authentication.swift"; sourceTree = "<group>"; };
@@ -1283,11 +1281,10 @@
 		5D0278382C29CBB600F2A4EB /* Animations */ = {
 			isa = PBXGroup;
 			children = (
-				D08F2C812E6B1CB100133121 /* generating-your-answer.png */,
 				164F41DD2E8AA80B0095299F /* app_crown_splash.json */,
 				164F41DF2E8AA83C0095299F /* app_wordmark_splash.json */,
-				D07D9A942F3106CB00A43BAE /* chat_loading_message_dark.json */,
-				D07D9A952F3106CB00A43BAE /* chat_loading_message_light.json */,
+				D0E6C3B82F323E0700010C17 /* chat_loading_message_dark.json */,
+				D0E6C3B92F323E0700010C17 /* chat_loading_message_light.json */,
 				5DDD588A2D5A557D001C0B3E /* onboarding_stay_updated.json */,
 			);
 			path = Animations;
@@ -2284,8 +2281,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5D742BDE2C997ABB00E7B87A /* Onboarding.xcstrings in Resources */,
-				D07D9A962F3106CB00A43BAE /* chat_loading_message_light.json in Resources */,
-				D07D9A972F3106CB00A43BAE /* chat_loading_message_dark.json in Resources */,
 				164F41E02E8AA83C0095299F /* app_wordmark_splash.json in Resources */,
 				4EE5F3F02DAFDB80008C60ED /* LocalAuthority.xcstrings in Resources */,
 				5D54F4732CC8473900A3B6A7 /* Topics.xcstrings in Resources */,
@@ -2294,8 +2289,9 @@
 				5D742BD82C9978B800E7B87A /* Home.xcstrings in Resources */,
 				D0A8B3C22C9DC66E00849304 /* integration_pubkey.der in Resources */,
 				5D41DB7C2C09BF340011E691 /* Settings.bundle in Resources */,
+				D0E6C3BA2F323E0700010C17 /* chat_loading_message_dark.json in Resources */,
+				D0E6C3BB2F323E0700010C17 /* chat_loading_message_light.json in Resources */,
 				5DDD588B2D5A557D001C0B3E /* onboarding_stay_updated.json in Resources */,
-				D08F2C822E6B1CB100133121 /* generating-your-answer.png in Resources */,
 				16FAB82C2E1D375C00B23440 /* Chat.xcstrings in Resources */,
 				162EC84D2DDB54E3000A7224 /* LocalAuthentication.xcstrings in Resources */,
 				164F41DE2E8AA80B0095299F /* app_crown_splash.json in Resources */,
