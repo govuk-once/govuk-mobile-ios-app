@@ -372,6 +372,7 @@
 		D0D9CFD92D30309D0051EDDD /* SearchHistoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0D9CFD82D30309D0051EDDD /* SearchHistoryViewModel.swift */; };
 		D0E6C3BA2F323E0700010C17 /* chat_loading_message_dark.json in Resources */ = {isa = PBXBuildFile; fileRef = D0E6C3B82F323E0700010C17 /* chat_loading_message_dark.json */; };
 		D0E6C3BB2F323E0700010C17 /* chat_loading_message_light.json in Resources */ = {isa = PBXBuildFile; fileRef = D0E6C3B92F323E0700010C17 /* chat_loading_message_light.json */; };
+		D0E6CA2F2F33ACED00010C17 /* SwiftUIAnimationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E6CA2E2F33ACED00010C17 /* SwiftUIAnimationView.swift */; };
 		D0E7923B2D6CD66600EAB81F /* TopicDetailViewModelInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E7923A2D6CD66600EAB81F /* TopicDetailViewModelInterface.swift */; };
 		D0E855D42DDB85C1003B4D7A /* URLEncodedRequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E855D32DDB85C1003B4D7A /* URLEncodedRequestBuilder.swift */; };
 		D0E855D62DDB910A003B4D7A /* GovRequest+Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E855D52DDB910A003B4D7A /* GovRequest+Authentication.swift */; };
@@ -801,6 +802,7 @@
 		D0D9CFD82D30309D0051EDDD /* SearchHistoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchHistoryViewModel.swift; sourceTree = "<group>"; };
 		D0E6C3B82F323E0700010C17 /* chat_loading_message_dark.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = chat_loading_message_dark.json; sourceTree = "<group>"; };
 		D0E6C3B92F323E0700010C17 /* chat_loading_message_light.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = chat_loading_message_light.json; sourceTree = "<group>"; };
+		D0E6CA2E2F33ACED00010C17 /* SwiftUIAnimationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIAnimationView.swift; sourceTree = "<group>"; };
 		D0E7923A2D6CD66600EAB81F /* TopicDetailViewModelInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicDetailViewModelInterface.swift; sourceTree = "<group>"; };
 		D0E855D32DDB85C1003B4D7A /* URLEncodedRequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLEncodedRequestBuilder.swift; sourceTree = "<group>"; };
 		D0E855D52DDB910A003B4D7A /* GovRequest+Authentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GovRequest+Authentication.swift"; sourceTree = "<group>"; };
@@ -1911,6 +1913,7 @@
 				D052D22F2E0B0DC80048F98A /* ButtonStackView.swift */,
 				16161FD22E2FFAD800228028 /* ConditionalAnimation.swift */,
 				3D211B8E2CB6B4FE005D1472 /* HeaderView.swift */,
+				D0E6CA2E2F33ACED00010C17 /* SwiftUIAnimationView.swift */,
 				4E9F5D062DB79D370063FA78 /* PrimaryButtonView.swift */,
 				D0ECAB032DCDF9EE00A9707E /* RadioButtonView.swift */,
 				4EAFCE522E437D2B00125755 /* HomepageWidget.swift */,
@@ -2440,6 +2443,7 @@
 				1677D4042E00695500FB1E56 /* LocalAuthenticationSettingsViewModel.swift in Sources */,
 				4EF407562CE2796900D654FC /* UIButton+Extensions.swift in Sources */,
 				D08F157C2E67527000133121 /* ChatMenuView.swift in Sources */,
+				D0E6CA2F2F33ACED00010C17 /* SwiftUIAnimationView.swift in Sources */,
 				D02416472DEDC0C500F81C6D /* SignInSuccessCoordinator.swift in Sources */,
 				D0EC94C72DCBAEE400A9707E /* SignInErrorViewModel.swift in Sources */,
 				5DE2BBBC2C982593003116B6 /* Bundle+Extensions.swift in Sources */,
