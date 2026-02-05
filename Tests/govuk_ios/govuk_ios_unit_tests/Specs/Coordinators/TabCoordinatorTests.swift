@@ -278,6 +278,7 @@ struct TabCoordinatorTests {
             viewControllerBuilder: MockViewControllerBuilder(),
             deeplinkStore: DeeplinkDataStore(routes: [], root: UIViewController()),
             analyticsService: MockAnalyticsService(),
+            userService: MockUserService(),
             coordinatorBuilder: mockCoordinatorBuilder,
             deviceInformationProvider: MockDeviceInformationProvider(),
             authenticationService: mockAuthenticationService,
