@@ -20,6 +20,7 @@ class SettingsViewControllerSnapshotTests: SnapshotTestCase {
 
         let viewModel = SettingsViewModel(
             analyticsService: MockAnalyticsService(),
+            userService: MockUserService(),
             urlOpener: MockURLOpener(),
             versionProvider: mockVersionProvider,
             deviceInformationProvider: MockDeviceInformationProvider(),
@@ -67,6 +68,7 @@ class SettingsViewControllerSnapshotTests: SnapshotTestCase {
 
         let viewModel = SettingsViewModel(
             analyticsService: MockAnalyticsService(),
+            userService: MockUserService(),
             urlOpener: MockURLOpener(),
             versionProvider: mockVersionProvider,
             deviceInformationProvider: MockDeviceInformationProvider(),
@@ -115,6 +117,7 @@ class SettingsViewControllerSnapshotTests: SnapshotTestCase {
 
         let viewModel = SettingsViewModel(
             analyticsService: MockAnalyticsService(),
+            userService: MockUserService(),
             urlOpener: MockURLOpener(),
             versionProvider: mockVersionProvider,
             deviceInformationProvider: MockDeviceInformationProvider(),
@@ -161,6 +164,7 @@ class SettingsViewControllerSnapshotTests: SnapshotTestCase {
 
         let viewModel = SettingsViewModel(
             analyticsService: MockAnalyticsService(),
+            userService: MockUserService(),
             urlOpener: MockURLOpener(),
             versionProvider: mockVersionProvider,
             deviceInformationProvider: MockDeviceInformationProvider(),

@@ -63,6 +63,7 @@ struct ViewControllerBuilderTests {
         let subject = ViewControllerBuilder()
         let viewModel = SettingsViewModel(
             analyticsService: MockAnalyticsService(),
+            userService: MockUserService(),
             urlOpener: MockURLOpener(),
             versionProvider: MockAppVersionProvider(),
             deviceInformationProvider: MockDeviceInformationProvider(),

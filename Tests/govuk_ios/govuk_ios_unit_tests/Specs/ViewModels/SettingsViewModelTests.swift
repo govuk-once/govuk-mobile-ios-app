@@ -17,6 +17,7 @@ class SettingsViewModelTests {
     let mockNotificationsService = MockNotificationService()
     let mockAuthenticationService = MockAuthenticationService()
     let mockLocalAuthenticationService = MockLocalAuthenticationService()
+    let mockUserService = MockUserService()
 
     init() {
         mockVersionProvider.versionNumber = "123"
@@ -26,6 +27,7 @@ class SettingsViewModelTests {
 
         sut = SettingsViewModel(
             analyticsService: mockAnalyticsService,
+            userService: mockUserService,
             urlOpener: mockURLOpener,
             versionProvider: mockVersionProvider,
             deviceInformationProvider: mockDeviceInformationProvider,
@@ -226,6 +228,7 @@ class SettingsViewModelTests {
             mockNotificationService._stubbededPermissionState = expectedPermission
             let sut = SettingsViewModel(
                 analyticsService: MockAnalyticsService(),
+                userService: MockUserService(),
                 urlOpener: MockURLOpener(),
                 versionProvider: MockAppVersionProvider(),
                 deviceInformationProvider: MockDeviceInformationProvider(),
@@ -263,6 +266,7 @@ class SettingsViewModelTests {
             mockNotificationService._stubbededPermissionState = expectedPermission
             let sut = SettingsViewModel(
                 analyticsService: MockAnalyticsService(),
+                userService: MockUserService(),
                 urlOpener: MockURLOpener(),
                 versionProvider: MockAppVersionProvider(),
                 deviceInformationProvider: MockDeviceInformationProvider(),
@@ -299,6 +303,7 @@ class SettingsViewModelTests {
             mockNotificationService._stubbededPermissionState = expectedPermission
             let sut = SettingsViewModel(
                 analyticsService: MockAnalyticsService(),
+                userService: MockUserService(),
                 urlOpener: MockURLOpener(),
                 versionProvider: MockAppVersionProvider(),
                 deviceInformationProvider: MockDeviceInformationProvider(),
@@ -333,6 +338,7 @@ class SettingsViewModelTests {
             let mockURLOpener = MockURLOpener()
             let sut = SettingsViewModel(
                 analyticsService: MockAnalyticsService(),
+                userService: MockUserService(),
                 urlOpener: mockURLOpener,
                 versionProvider: MockAppVersionProvider(),
                 deviceInformationProvider: MockDeviceInformationProvider(),
@@ -371,6 +377,7 @@ class SettingsViewModelTests {
             let mockURLOpener = MockURLOpener()
             let sut = SettingsViewModel(
                 analyticsService: MockAnalyticsService(),
+                userService: MockUserService(),
                 urlOpener: mockURLOpener,
                 versionProvider: MockAppVersionProvider(),
                 deviceInformationProvider: MockDeviceInformationProvider(),
@@ -409,6 +416,7 @@ class SettingsViewModelTests {
             mockNotificationService._stubbededPermissionState = expectedPermission
             let sut = SettingsViewModel(
                 analyticsService: analyticsService,
+                userService: MockUserService(),
                 urlOpener: mockURLOpener,
                 versionProvider: MockAppVersionProvider(),
                 deviceInformationProvider: MockDeviceInformationProvider(),
@@ -434,6 +442,41 @@ class SettingsViewModelTests {
     }
 
     @Test
+    func handleNotificationAlertAction_callsUserServiceSetNotificationConsent() async throws {
+        var cancellables = Set<AnyCancellable>()
+        let mockUserService = MockUserService()
+        let result: Bool? = await withCheckedContinuation { continuation in
+            let mockNotificationService = MockNotificationService()
+            let analyticsService = MockAnalyticsService()
+            mockNotificationService._stubbededPermissionState = .authorized
+            mockNotificationService._stubbedhasGivenConsent = true
+            let sut = SettingsViewModel(
+                analyticsService: analyticsService,
+                userService: mockUserService,
+                urlOpener: mockURLOpener,
+                versionProvider: MockAppVersionProvider(),
+                deviceInformationProvider: MockDeviceInformationProvider(),
+                authenticationService: MockAuthenticationService(),
+                notificationService: mockNotificationService,
+                notificationCenter: .init(),
+                localAuthenticationService: MockLocalAuthenticationService()
+             )
+            sut.$notificationsPermissionState
+                .receive(on: DispatchQueue.main)
+                .sink(
+                    receiveValue: { value in
+                        guard value == .authorized
+                        else { return }
+                        sut.handleNotificationAlertAction()
+                        let hasAccepted = mockUserService._receivedSetNotificationsConsentAccepted
+                        continuation.resume(returning: hasAccepted)
+                    }
+                ).store(in: &cancellables)
+        }
+        #expect(result == true)
+    }
+
+    @Test
     func notificationSettingsAlertTitles_whenAppComesIntoForeground_returnsCorrectText() async {
         var cancellables = Set<AnyCancellable>()
         let result = await withCheckedContinuation { continuation in
@@ -443,6 +486,7 @@ class SettingsViewModelTests {
             mockNotificationService._stubbededPermissionState = .authorized
             let sut = SettingsViewModel(
                 analyticsService: MockAnalyticsService(),
+                userService: MockUserService(),
                 urlOpener: MockURLOpener(),
                 versionProvider: MockAppVersionProvider(),
                 deviceInformationProvider: MockDeviceInformationProvider(),
@@ -483,6 +527,7 @@ class SettingsViewModelTests {
             mockNotificationService._stubbededPermissionState = .authorized
             let sut = SettingsViewModel(
                 analyticsService: MockAnalyticsService(),
+                userService: MockUserService(),
                 urlOpener: MockURLOpener(),
                 versionProvider: MockAppVersionProvider(),
                 deviceInformationProvider: MockDeviceInformationProvider(),
@@ -522,6 +567,7 @@ class SettingsViewModelTests {
             mockNotificationService._stubbededPermissionState = .denied
             let sut = SettingsViewModel(
                 analyticsService: MockAnalyticsService(),
+                userService: MockUserService(),
                 urlOpener: MockURLOpener(),
                 versionProvider: MockAppVersionProvider(),
                 deviceInformationProvider: MockDeviceInformationProvider(),
@@ -561,6 +607,7 @@ class SettingsViewModelTests {
             mockNotificationService._stubbededPermissionState = .denied
             let sut = SettingsViewModel(
                 analyticsService: MockAnalyticsService(),
+                userService: MockUserService(),
                 urlOpener: MockURLOpener(),
                 versionProvider: MockAppVersionProvider(),
                 deviceInformationProvider: MockDeviceInformationProvider(),

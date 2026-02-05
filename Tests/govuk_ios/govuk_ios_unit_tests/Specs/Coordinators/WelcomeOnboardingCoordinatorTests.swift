@@ -14,7 +14,7 @@ class WelcomeOnboardingCoordinatorTests {
         let mockAuthenticationService = MockAuthenticationService()
         let mockNotificationService = MockNotificationService()
         let mockUserService = MockUserService()
-        mockUserService._stubbedFetchUserStateResult = .success(UserStateResponse(notificationId: "0"))
+        mockUserService._stubbedFetchUserStateResult = .success(Self.userState)
         let mockNavigationController = MockNavigationController()
         let mockCoordinatorBuilder = CoordinatorBuilder.mock
         mockAuthenticationService._stubbedIsSignedIn = true
@@ -43,7 +43,7 @@ class WelcomeOnboardingCoordinatorTests {
         let mockAuthenticationService = MockAuthenticationService()
         let mockNotificationService = MockNotificationService()
         let mockUserService = MockUserService()
-        mockUserService._stubbedFetchUserStateResult = .success(UserStateResponse(notificationId: "test_user_id"))
+        mockUserService._stubbedFetchUserStateResult = .success(Self.userState)
         let mockNavigationController = MockNavigationController()
         let mockCoordinatorBuilder = CoordinatorBuilder.mock
         mockAuthenticationService._stubbedIsSignedIn = true
@@ -64,7 +64,7 @@ class WelcomeOnboardingCoordinatorTests {
         }
 
         #expect(completion)
-        #expect(mockNotificationService._stubbedNotificationId == "test_user_id")
+        #expect(mockNotificationService._stubbedNotificationId == "test_id")
     }
 
     @Test
@@ -131,7 +131,7 @@ class WelcomeOnboardingCoordinatorTests {
         let mockCoordinatorBuilder = CoordinatorBuilder.mock
         let mockSignInSuccessCoordinator = MockBaseCoordinator()
         mockCoordinatorBuilder._stubbedSignInSuccessCoordinator = mockSignInSuccessCoordinator
-        mockUserService._stubbedFetchUserStateResult = .success(UserStateResponse(notificationId: "0"))
+        mockUserService._stubbedFetchUserStateResult = .success(Self.userState)
 
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let stubbedWelcomeOnboardingViewController = UIViewController()
@@ -170,7 +170,7 @@ class WelcomeOnboardingCoordinatorTests {
         let mockCoordinatorBuilder = CoordinatorBuilder.mock
         let mockSignInSuccessCoordinator = MockBaseCoordinator()
         mockCoordinatorBuilder._stubbedSignInSuccessCoordinator = mockSignInSuccessCoordinator
-        mockUserService._stubbedFetchUserStateResult = .success(UserStateResponse(notificationId: "test_user_id"))
+        mockUserService._stubbedFetchUserStateResult = .success(Self.userState)
 
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let stubbedWelcomeOnboardingViewController = UIViewController()
@@ -199,7 +199,7 @@ class WelcomeOnboardingCoordinatorTests {
         }
 
         #expect(completion)
-        #expect(mockNotificationService._stubbedNotificationId == "test_user_id")
+        #expect(mockNotificationService._stubbedNotificationId == "test_id")
     }
 
     @Test
@@ -265,7 +265,7 @@ class WelcomeOnboardingCoordinatorTests {
         sut.start(url: nil)
         mockViewControllerBuilder._stubbedWelcomeOnboardingViewModel?.completeAction()
         mockCoordinatorBuilder._receivedAuthenticationCompletion?()
-        mockUserService._stubbedFetchUserStateResult = .success(UserStateResponse(notificationId: "test_user_id"))
+        mockUserService._stubbedFetchUserStateResult = .success(Self.userState)
 
         let completion = await withCheckedContinuation { continuation in
             mockCoordinatorBuilder._receivedAppUnavailableRetryAction? { wasSuccessful in
@@ -462,4 +462,13 @@ class WelcomeOnboardingCoordinatorTests {
         #expect(mockNavigationController._setViewControllers?.first == stubbedWelcomeOnboardingViewController)
         #expect(mockSafariCoordinator._startCalled)
     }
+}
+
+private extension WelcomeOnboardingCoordinatorTests {
+    static let userState = UserState(
+        notificationId: "test_id",
+        preferences: UserPreferences(
+            notificationsConsented: false
+        )
+    )
 }
