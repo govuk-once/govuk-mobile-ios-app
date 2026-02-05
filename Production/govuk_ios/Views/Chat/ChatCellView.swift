@@ -4,6 +4,7 @@ import Lottie
 
 struct ChatCellView: View {
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.accessibilityReduceMotion) var reducedMotion
     @StateObject private var viewModel: ChatCellViewModel
 
     init(viewModel: ChatCellViewModel) {
@@ -66,14 +67,13 @@ struct ChatCellView: View {
     }
 
     private var pendingAnswerView: some View {
-        HStack(spacing: 8) {
-            LottieView(
-                animation: .named(
-                    viewModel.animation(for: colorScheme)
-                )
-            )
-            .playing(
-                loopMode: .loop
+        return HStack(spacing: 8) {
+            SwiftUIAnimationView(
+                animationName: viewModel.animation(
+                    for: colorScheme
+                ),
+                animationSpeed: 1.5,
+                shouldReduceMotion: false
             )
             .frame(width: 32, height: 32)
             Text(viewModel.message)
@@ -268,9 +268,11 @@ struct ChatDisclosure: DisclosureGroupStyle {
                     viewModel: questionModel
                 )
                 ChatCellView(
+                    viewModel: .gettingAnswer
+                )
+                ChatCellView(
                     viewModel: answerModel
                 )
-                ChatCellView(viewModel: .gettingAnswer)
             }
             .padding()
         }
