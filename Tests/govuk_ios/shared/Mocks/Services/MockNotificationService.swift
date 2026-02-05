@@ -20,8 +20,8 @@ class MockNotificationService: NotificationServiceInterface {
 
     }
 
-    var _receivedRequestPermissionsCompletion: (() -> Void)?
-    func requestPermissions(completion: (() -> Void)?) {
+    var _receivedRequestPermissionsCompletion: ((Bool) -> Void)?
+    func requestPermissions(completion: ((Bool) -> Void)?) {
         _receivedRequestPermissionsCompletion = completion
     }
 

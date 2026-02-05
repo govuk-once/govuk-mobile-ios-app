@@ -2,10 +2,13 @@ import Foundation
 import GovKit
 
 typealias FetchUserStateCompletion = (UserStateResult) -> Void
-typealias UserStateResult = Result<UserStateResponse, UserStateError>
+typealias UserStateResult = Result<UserState, UserStateError>
+typealias UserPreferencesResult = Result<UserPreferencesResponse, UserStateError>
 
 protocol UserServiceClientInterface {
     func fetchUserState(completion: @escaping FetchUserStateCompletion)
+    func setNotificationsConsent(accepted: Bool,
+                                 completion: @escaping (UserPreferencesResult) -> Void)
 }
 
 struct UserServiceClient: UserServiceClientInterface {
@@ -27,6 +30,18 @@ struct UserServiceClient: UserServiceClientInterface {
             completion: { result in
                 completion(mapResult(result))
             })
+    }
+
+    func setNotificationsConsent(accepted: Bool,
+                                 completion: @escaping (UserPreferencesResult) -> Void) {
+        let request = GOVRequest.setNotificationsConsent(
+            accepted: accepted,
+            accessToken: authenticationService.accessToken
+        )
+        apiServiceClient.send(
+            request: request) { result in
+                completion(mapResult(result))
+            }
     }
 
     private func mapResult<T: Decodable>(

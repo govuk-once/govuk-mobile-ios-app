@@ -5,11 +5,23 @@ extension GOVRequest {
     static func getUserState(accessToken: String?) -> GOVRequest {
         let accessToken = accessToken ?? ""
         return GOVRequest(
-            urlPath: "/1.0/app/user",
+            urlPath: "/app/v1/user",
             method: .get,
             bodyParameters: nil,
             queryParameters: nil,
             additionalHeaders: ["Authorization": "Bearer \(accessToken)"]
+        )
+    }
+
+    static func setNotificationsConsent(accepted: Bool,
+                                        accessToken: String?) -> GOVRequest {
+        let accessToken = accessToken ?? ""
+        return GOVRequest(urlPath: "/app/v1/user",
+                          method: .patch,
+                          bodyParameters: ["notificationsConsented": accepted],
+                          queryParameters: nil,
+                          additionalHeaders: ["Content-Type": "application/json",
+                                              "Authorization": "Bearer \(accessToken)"]
         )
     }
 }
