@@ -3,16 +3,21 @@ import UIKit
 import LocalAuthentication
 
 protocol InactivityServiceInterface {
-    func startMonitoring(inactivityHandler: @escaping () -> Void)
-    func resetTimer()
+    func startMonitoring(inactivityHandler: @escaping () -> Void,
+                         alertHandler: @escaping () -> Void)
+    func resetTimers()
 }
 
 class InactivityService: InactivityServiceInterface {
     private let timer: TimerWrapperInterface
+    private let warningTimer: TimerWrapperInterface
     private let authenticationService: AuthenticationServiceInterface
     private let inactivityThreshold: TimeInterval = 15 * 60 // 15 minutes
+    private let warningThreshold: TimeInterval = 13 * 60
     private var inAppTimer: Timer?
+    private var alertTimer: Timer?
     private var inactivityHandler: (() -> Void)?
+    private var alertHandler: (() -> Void)?
     var backgroundedTime: Date = Date()
 
     private var inactive: Bool {
@@ -22,26 +27,35 @@ class InactivityService: InactivityServiceInterface {
     }
 
     init(authenticationService: AuthenticationServiceInterface,
-         timer: TimerWrapperInterface) {
+         timer: TimerWrapperInterface,
+         warningTimer: TimerWrapperInterface) {
         self.authenticationService = authenticationService
+        self.warningTimer = warningTimer
         self.timer = timer
         registerObservers()
     }
 
-    func startMonitoring(inactivityHandler: @escaping () -> Void) {
+    func startMonitoring(inactivityHandler: @escaping () -> Void,
+                         alertHandler: @escaping () -> Void) {
         self.inactivityHandler = inactivityHandler
-        resetTimer()
+        self.alertHandler = alertHandler
+        resetTimers()
     }
 
-    func resetTimer() {
+    func resetTimers() {
         guard self.authenticationService.isSignedIn else {
             return
         }
 
         inAppTimer?.invalidate()
+        alertTimer?.invalidate()
         inAppTimer = timer.scheduledTimer(withTimeInterval: inactivityThreshold,
                                           repeats: false) { [weak self] _ in
             self?.inactivityHandler?()
+        }
+        alertTimer = warningTimer.scheduledTimer(withTimeInterval: warningThreshold,
+                                           repeats: false) { [weak self] _ in
+            self?.alertHandler?()
         }
     }
 
@@ -79,6 +93,7 @@ class InactivityService: InactivityServiceInterface {
 
     @objc private func appDidEnterBackground() {
         inAppTimer?.invalidate()
+        alertTimer?.invalidate()
         backgroundedTime = Date()
     }
 
@@ -89,11 +104,11 @@ class InactivityService: InactivityServiceInterface {
 
         if inactive {
             inactivityHandler?()
-            resetTimer()
+            resetTimers()
         }
     }
 
     @objc private func appInteraction() {
-        resetTimer()
+        resetTimers()
     }
 }
