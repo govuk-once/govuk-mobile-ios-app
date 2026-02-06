@@ -50,6 +50,8 @@
 		16A788B22DCC288800CA64E2 /* ReturningUserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A788B12DCC288400CA64E2 /* ReturningUserService.swift */; };
 		16A98EA52D30333F00C72DEB /* SuggestionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A98EA42D30333A00C72DEB /* SuggestionCell.swift */; };
 		16A99D6B2D35F19300C72DEB /* SearchSuggestionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A99D6A2D35F18700C72DEB /* SearchSuggestionsViewModel.swift */; };
+		16AC2F902F33A98800E3426A /* chat_onboarding_one_light.json in Resources */ = {isa = PBXBuildFile; fileRef = 16AC2F8F2F33A98800E3426A /* chat_onboarding_one_light.json */; };
+		16AC2F922F33AF9E00E3426A /* chat_onboarding_one_dark.json in Resources */ = {isa = PBXBuildFile; fileRef = 16AC2F912F33AF9E00E3426A /* chat_onboarding_one_dark.json */; };
 		16AE517A2E670C28002BCFD7 /* InfoLinksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AE51792E670C19002BCFD7 /* InfoLinksView.swift */; };
 		16AE517F2E6886D3002BCFD7 /* InfoIconListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AE517E2E6886CA002BCFD7 /* InfoIconListView.swift */; };
 		16C34B432C492FF90031AD32 /* HomeDeepLinkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C34B422C492FF90031AD32 /* HomeDeepLinkRoute.swift */; };
@@ -485,6 +487,8 @@
 		16A98EA42D30333A00C72DEB /* SuggestionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionCell.swift; sourceTree = "<group>"; };
 		16A99D6A2D35F18700C72DEB /* SearchSuggestionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSuggestionsViewModel.swift; sourceTree = "<group>"; };
 		16A99D6F2D36C60200C72DEB /* SearchSuggestionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSuggestionsViewController.swift; sourceTree = "<group>"; };
+		16AC2F8F2F33A98800E3426A /* chat_onboarding_one_light.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = chat_onboarding_one_light.json; sourceTree = "<group>"; };
+		16AC2F912F33AF9E00E3426A /* chat_onboarding_one_dark.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = chat_onboarding_one_dark.json; sourceTree = "<group>"; };
 		16AE51792E670C19002BCFD7 /* InfoLinksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoLinksView.swift; sourceTree = "<group>"; };
 		16AE517E2E6886CA002BCFD7 /* InfoIconListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoIconListView.swift; sourceTree = "<group>"; };
 		16C34B422C492FF90031AD32 /* HomeDeepLinkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDeepLinkRoute.swift; sourceTree = "<group>"; };
@@ -1284,6 +1288,8 @@
 			isa = PBXGroup;
 			children = (
 				164F41DD2E8AA80B0095299F /* app_crown_splash.json */,
+				16AC2F8F2F33A98800E3426A /* chat_onboarding_one_light.json */,
+				16AC2F912F33AF9E00E3426A /* chat_onboarding_one_dark.json */,
 				164F41DF2E8AA83C0095299F /* app_wordmark_splash.json */,
 				D0E6C3B82F323E0700010C17 /* chat_loading_message_dark.json */,
 				D0E6C3B92F323E0700010C17 /* chat_loading_message_light.json */,
@@ -2294,10 +2300,12 @@
 				5D41DB7C2C09BF340011E691 /* Settings.bundle in Resources */,
 				D0E6C3BA2F323E0700010C17 /* chat_loading_message_dark.json in Resources */,
 				D0E6C3BB2F323E0700010C17 /* chat_loading_message_light.json in Resources */,
+				16AC2F922F33AF9E00E3426A /* chat_onboarding_one_dark.json in Resources */,
 				5DDD588B2D5A557D001C0B3E /* onboarding_stay_updated.json in Resources */,
 				16FAB82C2E1D375C00B23440 /* Chat.xcstrings in Resources */,
 				162EC84D2DDB54E3000A7224 /* LocalAuthentication.xcstrings in Resources */,
 				164F41DE2E8AA80B0095299F /* app_crown_splash.json in Resources */,
+				16AC2F902F33A98800E3426A /* chat_onboarding_one_light.json in Resources */,
 				5D742BDA2C99791A00E7B87A /* Settings.xcstrings in Resources */,
 				5DD4CB142D9548EF00459FB5 /* RecentActivity.xcstrings in Resources */,
 				5DAD71812BD250DE0075F648 /* Assets.xcassets in Resources */,
