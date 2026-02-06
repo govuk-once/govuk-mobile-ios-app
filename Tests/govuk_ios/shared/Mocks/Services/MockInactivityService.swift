@@ -10,15 +10,22 @@ class MockInactivityService: InactivityServiceInterface {
     }
 
     var _receivedStartMonitoringInactivityHandler: (() -> Void)?
+    var _receivedStartMonitoringAlertHandler: (() -> Void)?
     var _stubbedStartMonitoringCalled = false
-    func startMonitoring(inactivityHandler: @escaping () -> Void) {
+    func startMonitoring(inactivityHandler: @escaping () -> Void,
+                         alertHandler: @escaping () -> Void) {
         _stubbedStartMonitoringCalled = true
         _receivedStartMonitoringInactivityHandler = inactivityHandler
+        _receivedStartMonitoringAlertHandler = alertHandler
     }
 
     var _resetTimerCalled = false
-    func resetTimer() {
+    func resetTimers() {
         _resetTimerCalled = true
+    }
+
+    func simulateWarning() {
+        _receivedStartMonitoringAlertHandler?()
     }
 
     func simulateInactivity() {

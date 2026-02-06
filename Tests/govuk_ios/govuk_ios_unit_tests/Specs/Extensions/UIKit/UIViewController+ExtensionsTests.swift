@@ -1,5 +1,5 @@
 import Foundation
-
+import UIKit
 import Testing
 
 
@@ -22,5 +22,18 @@ struct UIViewController_ExtensionsTests {
 
         #expect(subject._receivedBeginAppearanceTransitionAnimated == false)
         #expect(subject._endAppearanceTransitionCalled)
+    }
+
+    @Test
+    @MainActor
+    func getTopController_returnsExpectedController() {
+        let window = UIApplication.shared.window
+        guard let window = window else { return }
+        let controllerOne = UIViewController()
+        let controllerTwo = UIViewController()
+        window.rootViewController = controllerOne
+        controllerOne.present(controllerTwo, animated: false)
+        let top = controllerOne.getTopController()
+        #expect(top === controllerTwo)
     }
 }

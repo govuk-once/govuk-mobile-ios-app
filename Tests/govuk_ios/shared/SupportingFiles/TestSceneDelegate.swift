@@ -25,4 +25,8 @@ extension TestSceneDelegate: PrivacyPresenting {
     func hidePrivacyScreen() {
         window?.makeKeyAndVisible()
     }
+
+    func showPrivacyAlert() {
+        // Protocol conformance
+    }
 }

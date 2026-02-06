@@ -96,4 +96,13 @@ struct Container_ServicesTests {
         let sut = container.remoteConfigService.resolve()
         #expect(sut is RemoteConfigService)
     }
+
+    @MainActor
+    @Test
+    func inactivityService_returnsExpectedValue() {
+        let container = Container()
+        container.authenticationService.register { MockAuthenticationService() }
+        let sut = container.inactivityService.resolve()
+        #expect(sut is InactivityService)
+    }
 }

@@ -51,4 +51,23 @@ struct UIAlertController_ConvenienceTests {
         #expect(subject.actions.first?.title == "Cancel")
         #expect(subject.actions.last?.title == expectedButtonTitle)
     }
+
+    @Test
+    func preferredActionAlert_returnsExpectedResult() {
+        let expectedTitle = UUID().uuidString
+        let expectedButtonTitle = UUID().uuidString
+        let expectedMessage = UUID().uuidString
+        let subject = UIAlertController.preferredActionAlert(
+            title: expectedTitle,
+            message: expectedMessage,
+            buttonTitle: expectedButtonTitle,
+            handler: nil
+        )
+
+        #expect(subject.title == expectedTitle)
+        #expect(subject.message == expectedMessage)
+        #expect(subject.actions.count == 1)
+        #expect(subject.actions.first?.title == expectedButtonTitle)
+        #expect(subject.preferredAction == subject.actions.first)
+    }
 }
