@@ -29,3 +29,12 @@ extension Constants.API {
     public static let defaultChatFeedbackUrl: URL =
     URL(string: "https://surveys.publishing.service.gov.uk/s/SUIEH2/")!
 }
+
+extension Constants {
+    public struct Timers {
+        public struct Thresholds {
+            public static let inactivityTimeout: TimeInterval = 15 * 60
+            public static let inactivityWarning: TimeInterval = 13 * 60
+        }
+    }
+}

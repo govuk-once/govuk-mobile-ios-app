@@ -1,6 +1,7 @@
 import Foundation
 import UIKit
 import LocalAuthentication
+import GovKit
 
 protocol InactivityServiceInterface {
     func startMonitoring(inactivityHandler: @escaping () -> Void,
@@ -12,8 +13,8 @@ class InactivityService: InactivityServiceInterface {
     private let timer: TimerWrapperInterface
     private let warningTimer: TimerWrapperInterface
     private let authenticationService: AuthenticationServiceInterface
-    private let inactivityThreshold: TimeInterval = 15 * 60 // 15 minutes
-    private let warningThreshold: TimeInterval = 13 * 60
+    private let inactivityThreshold = Constants.Timers.Thresholds.inactivityTimeout // 15 minutes
+    private let warningThreshold = Constants.Timers.Thresholds.inactivityWarning // 13 minutes
     private var inAppTimer: Timer?
     private var alertTimer: Timer?
     private var inactivityHandler: (() -> Void)?
