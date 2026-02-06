@@ -93,7 +93,7 @@ extension SceneDelegate: PrivacyPresenting {
         privacyWindow?.makeKeyAndVisible()
         privacyCoordinator.start()
         if let topController =
-            window?.rootViewController?.getTopController() as? UIAlertController {
+            window?.rootViewController?.topController as? UIAlertController {
             topController.dismiss(animated: false)
         }
     }
@@ -105,11 +105,11 @@ extension SceneDelegate: PrivacyPresenting {
 
     func showPrivacyAlert() {
         let alert = UIAlertController.preferredActionAlert(
-            title: String.home.localized("appTimeoutWarningTitle"),
-            message: String.home.localized("appTimeoutWarningMessage"),
-            buttonTitle: String.home.localized("appTimeoutWarningButtonTitle"),
+            title: String(localized: .Home.appTimeoutWarningTitle),
+            message: String(localized: .Home.appTimeoutWarningMessage),
+            buttonTitle: String(localized: .Home.appTimeoutWarningButtonTitle),
             handler: nil)
-        let presenter = window?.rootViewController?.getTopController()
+        let presenter = window?.rootViewController?.topController
         presenter?.present(alert, animated: true)
     }
 }

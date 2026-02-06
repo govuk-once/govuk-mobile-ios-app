@@ -33,7 +33,7 @@ struct UIViewController_ExtensionsTests {
         let controllerTwo = UIViewController()
         window.rootViewController = controllerOne
         controllerOne.present(controllerTwo, animated: false)
-        let top = controllerOne.getTopController()
+        let top = controllerOne.topController
         #expect(top === controllerTwo)
     }
 }
