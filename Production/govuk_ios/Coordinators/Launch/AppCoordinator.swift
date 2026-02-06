@@ -61,6 +61,9 @@ class AppCoordinator: BaseCoordinator {
                 self?.authenticationService.clearRefreshToken()
                 self?.showPrivacyScreen()
                 self?.startPeriAuthCoordinator()
+            },
+            alertHandler: { [weak self] in
+                self?.privacyPresenter?.showPrivacyAlert()
             }
         )
     }

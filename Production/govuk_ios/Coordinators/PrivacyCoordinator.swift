@@ -5,6 +5,7 @@ import GovKit
 protocol PrivacyPresenting {
     func showPrivacyScreen()
     func hidePrivacyScreen()
+    func showPrivacyAlert()
 }
 
 protocol PrivacyProviding { }

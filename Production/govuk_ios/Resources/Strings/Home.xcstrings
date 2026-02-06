@@ -12,6 +12,39 @@
         }
       }
     },
+    "appTimeoutWarningButtonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stay signed in"
+          }
+        }
+      }
+    },
+    "appTimeoutWarningMessage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "For your security, we sign you out when you have not used the app for a while"
+          }
+        }
+      }
+    },
+    "appTimeoutWarningTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You’ll be signed out soon"
+          }
+        }
+      }
+    },
     "dismissAlertBannerAccessibilityLabel" : {
       "extractionState" : "manual",
       "localizations" : {

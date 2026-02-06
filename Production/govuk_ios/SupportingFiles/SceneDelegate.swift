@@ -92,10 +92,24 @@ extension SceneDelegate: PrivacyPresenting {
     func showPrivacyScreen() {
         privacyWindow?.makeKeyAndVisible()
         privacyCoordinator.start()
+        if let topController =
+            window?.rootViewController?.getTopController() as? UIAlertController {
+            topController.dismiss(animated: false)
+        }
     }
 
     func hidePrivacyScreen() {
         window?.makeKeyAndVisible()
         privacyCoordinator.finish()
+    }
+
+    func showPrivacyAlert() {
+        let alert = UIAlertController.preferredActionAlert(
+            title: String.home.localized("appTimeoutWarningTitle"),
+            message: String.home.localized("appTimeoutWarningMessage"),
+            buttonTitle: String.home.localized("appTimeoutWarningButtonTitle"),
+            handler: nil)
+        let presenter = window?.rootViewController?.getTopController()
+        presenter?.present(alert, animated: true)
     }
 }
