@@ -18,7 +18,7 @@ class ChatConsentOnboardingViewModel: InfoViewModelInterface {
         self.completionAction = completionAction
     }
 
-    var image: AnyView {
+    var image: AnyView? {
         AnyView(
             Image(decorative: "chat_onboarding_consent")
                 .resizable()

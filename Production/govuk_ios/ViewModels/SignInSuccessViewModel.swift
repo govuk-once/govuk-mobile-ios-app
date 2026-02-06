@@ -32,7 +32,7 @@ final class SignInSuccessViewModel: InfoViewModelInterface {
         )
     }
 
-    var image: AnyView {
+    var image: AnyView? {
         AnyView(
             Image(decorative: "sign_in_success")
                 .padding(.bottom, 16)

@@ -57,7 +57,7 @@ final class ChatErrorViewModel: InfoViewModelInterface {
         error == .pageNotFound || error == .networkUnavailable
     }
 
-    var image: AnyView {
+    var image: AnyView? {
         AnyView(
             InfoSystemImage(imageName: "exclamationmark.circle")
         )
