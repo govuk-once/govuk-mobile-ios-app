@@ -42,4 +42,15 @@ extension UIAlertAction {
             }
         )
     }
+
+    static func generic(title: String,
+                        handler: (() -> Void)?) -> UIAlertAction {
+        .init(
+            title: title,
+            style: .default,
+            handler: { _ in
+                handler?()
+            }
+        )
+    }
 }

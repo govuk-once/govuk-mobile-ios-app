@@ -38,4 +38,22 @@ extension UIAlertController {
         ))
         return alert
     }
+
+    // Action button will be bolded in iOS18-, tinted in iOS 26+
+    static func preferredActionAlert(title: String,
+                                     message: String,
+                                     buttonTitle: String,
+                                     handler: (() -> Void)?) -> UIAlertController {
+        let alert = UIAlertController(
+            title: title,
+            message: message,
+            preferredStyle: .alert
+        )
+        let action = UIAlertAction.generic(
+            title: buttonTitle,
+            handler: handler)
+        alert.addAction(action)
+        alert.preferredAction = action
+        return alert
+    }
 }

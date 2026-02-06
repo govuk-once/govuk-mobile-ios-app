@@ -23,4 +23,12 @@ extension UIViewController {
         content.view.removeFromSuperview()
         content.removeFromParent()
     }
+
+    func getTopController() -> UIViewController {
+        if let presentedVC = presentedViewController {
+            return presentedVC.getTopController()
+        } else {
+            return self
+        }
+    }
 }
