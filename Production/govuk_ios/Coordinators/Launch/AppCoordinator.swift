@@ -94,8 +94,7 @@ class AppCoordinator: BaseCoordinator {
         let coordinator = coordinatorBuilder.postAuth(
             navigationController: root,
             completion: { [weak self] in
-                self?.startTabs()
-                self?.inactivityService.resetTimers()
+                self?.startSession()
             }
         )
         start(coordinator)
@@ -121,6 +120,11 @@ class AppCoordinator: BaseCoordinator {
     private func startTabs() {
         start(tabCoordinator, url: pendingDeeplink)
         pendingDeeplink = nil
+    }
+
+    private func startSession() {
+        startTabs()
+        inactivityService.resetTimers()
     }
 }
 
