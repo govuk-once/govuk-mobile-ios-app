@@ -95,6 +95,7 @@ class AppCoordinator: BaseCoordinator {
             navigationController: root,
             completion: { [weak self] in
                 self?.startTabs()
+                self?.inactivityService.resetTimers()
             }
         )
         start(coordinator)
