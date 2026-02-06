@@ -41,13 +41,10 @@ class ChatInfoOnboardingViewModel: InfoViewModelInterface {
         )
     }
 
-    var image: AnyView {
-        AnyView(
-            Image(decorative: "chat_onboarding_info")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .padding(.bottom, 16)
-                .frame(width: 140, height: 140)
+    var animationColorSchemeNames: AnimationColorSchemeNames? {
+        AnimationColorSchemeNames(
+            light: "chat_onboarding_one_light",
+            dark: "chat_onboarding_one_dark"
         )
     }
 

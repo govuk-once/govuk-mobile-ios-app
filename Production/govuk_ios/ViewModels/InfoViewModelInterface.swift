@@ -10,7 +10,8 @@ protocol InfoViewModelInterface: ObservableObject {
 
     var navBarHidden: Bool { get }
 
-    var image: AnyView { get }
+    var image: AnyView? { get }
+    var animationColorSchemeNames: AnimationColorSchemeNames? { get }
 
     var title: String { get }
     var subtitle: String { get }
@@ -39,6 +40,9 @@ protocol ProgressIndicating {
 extension InfoViewModelInterface {
     var navBarHidden: Bool { true }
 
+    var image: AnyView? { nil }
+    var animationColorSchemeNames: AnimationColorSchemeNames? { nil }
+
     var subtitle: String { "" }
     var subtitleFont: Font { Font.govUK.body }
 
@@ -62,4 +66,9 @@ extension InfoViewModelInterface {
             analyticsService.track(screen: screen)
         }
     }
+}
+
+struct AnimationColorSchemeNames {
+    let light: String
+    let dark: String
 }
