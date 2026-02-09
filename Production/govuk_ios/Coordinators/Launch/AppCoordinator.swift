@@ -61,6 +61,9 @@ class AppCoordinator: BaseCoordinator {
                 self?.authenticationService.clearRefreshToken()
                 self?.showPrivacyScreen()
                 self?.startPeriAuthCoordinator()
+            },
+            alertHandler: { [weak self] in
+                self?.privacyPresenter?.showPrivacyAlert()
             }
         )
     }
@@ -91,7 +94,7 @@ class AppCoordinator: BaseCoordinator {
         let coordinator = coordinatorBuilder.postAuth(
             navigationController: root,
             completion: { [weak self] in
-                self?.startTabs()
+                self?.startSession()
             }
         )
         start(coordinator)
@@ -117,6 +120,11 @@ class AppCoordinator: BaseCoordinator {
     private func startTabs() {
         start(tabCoordinator, url: pendingDeeplink)
         pendingDeeplink = nil
+    }
+
+    private func startSession() {
+        startTabs()
+        inactivityService.resetTimers()
     }
 }
 

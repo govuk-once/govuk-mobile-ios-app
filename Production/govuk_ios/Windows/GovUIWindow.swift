@@ -22,6 +22,6 @@ class GovUIWindow: UIWindow {
     }
 
     private func resetInactivityTimer() {
-        inactivityService.resetTimer()
+        inactivityService.resetTimers()
     }
 }
