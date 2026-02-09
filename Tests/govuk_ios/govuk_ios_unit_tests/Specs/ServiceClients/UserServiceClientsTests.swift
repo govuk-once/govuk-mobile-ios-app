@@ -118,8 +118,10 @@ private extension UserServiceClientTests {
     {
         "notificationId": "test_user_id",
         "preferences": {
-            "notificationsConsented": true,
-            "updatedAt": "2026-02-03T09:33:13.459Z"
+            "notifications": {
+                "consentStatus": "unknown",
+                "updatedAt": "2026-02-09T13:41:37.226Z"
+            }
         }
     }
     """.data(using: .utf8)!

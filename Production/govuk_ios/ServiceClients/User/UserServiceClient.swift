@@ -3,12 +3,12 @@ import GovKit
 
 typealias FetchUserStateCompletion = (UserStateResult) -> Void
 typealias UserStateResult = Result<UserState, UserStateError>
-typealias UserPreferencesResult = Result<UserPreferencesResponse, UserStateError>
+typealias NotificationsPreferenceResult = Result<NotificationsPreferenceResponse, UserStateError>
 
 protocol UserServiceClientInterface {
     func fetchUserState(completion: @escaping FetchUserStateCompletion)
     func setNotificationsConsent(accepted: Bool,
-                                 completion: @escaping (UserPreferencesResult) -> Void)
+                                 completion: @escaping (NotificationsPreferenceResult) -> Void)
 }
 
 struct UserServiceClient: UserServiceClientInterface {
@@ -33,7 +33,7 @@ struct UserServiceClient: UserServiceClientInterface {
     }
 
     func setNotificationsConsent(accepted: Bool,
-                                 completion: @escaping (UserPreferencesResult) -> Void) {
+                                 completion: @escaping (NotificationsPreferenceResult) -> Void) {
         let request = GOVRequest.setNotificationsConsent(
             accepted: accepted,
             accessToken: authenticationService.accessToken
@@ -56,6 +56,16 @@ struct UserServiceClient: UserServiceClientInterface {
             }
         }.flatMap {
             let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .custom({ decoder in
+                let formatter = ISO8601DateFormatter()
+                formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+                let container = try decoder.singleValueContainer()
+                let dateString = try container.decode(String.self)
+                guard let date = formatter.date(from: dateString) else {
+                    throw UserStateError.decodingError
+                }
+                return date
+            })
             do {
                 let response = try decoder.decode(T.self, from: $0)
                 return .success(response)
