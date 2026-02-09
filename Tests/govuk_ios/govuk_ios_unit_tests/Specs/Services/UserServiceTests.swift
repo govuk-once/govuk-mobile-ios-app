@@ -59,8 +59,14 @@ private extension UserServiceTests {
     static let userState = UserState(
         notificationId: "test_id",
         preferences: UserPreferences(
-            notificationsConsented: false,
-            analyticsConsented: false
+            notifications: ConsentPreference(
+                consentStatus: .unknown,
+                updatedAt: Date()
+            ),
+            analytics: ConsentPreference(
+                consentStatus: .unknown,
+                updatedAt: Date()
+            )
         )
     )
 }

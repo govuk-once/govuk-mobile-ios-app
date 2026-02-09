@@ -35,6 +35,8 @@ struct UserServiceClientTests {
         }
         let userState = try? result.get()
         #expect(userState?.notificationId == "test_user_id")
+        #expect(userState?.preferences.notifications.consentStatus == .unknown)
+        #expect(userState?.preferences.analytics.consentStatus == .unknown)
     }
 
     @Test
@@ -151,8 +153,14 @@ private extension UserServiceClientTests {
     {
         "notificationId": "test_user_id",
         "preferences": {
-            "notificationsConsented": true,
-            "updatedAt": "2026-02-03T09:33:13.459Z"
+            "notifications": {
+                "consentStatus": "unknown",
+                "updatedAt": "2026-02-09T13:41:37.226Z"
+            },
+            "analytics": {
+                "consentStatus": "unknown",
+                "updatedAt": "2026-02-09T13:41:37.226Z"
+            }
         }
     }
     """.data(using: .utf8)!

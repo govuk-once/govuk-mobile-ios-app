@@ -468,7 +468,14 @@ private extension WelcomeOnboardingCoordinatorTests {
     static let userState = UserState(
         notificationId: "test_id",
         preferences: UserPreferences(
-            notificationsConsented: false
+            notifications: ConsentPreference(
+                consentStatus: .unknown,
+                updatedAt: Date()
+            ),
+            analytics: ConsentPreference(
+                consentStatus: .unknown,
+                updatedAt: Date()
+            )
         )
     )
 }

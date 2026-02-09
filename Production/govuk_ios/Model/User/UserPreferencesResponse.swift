@@ -1,10 +1,19 @@
 import Foundation
 
-struct UserPreferencesResponse: Codable {
-    let preferences: UserPreferences
+struct NotificationsPreferenceResponse: Codable {
+    let preferences: NotificationsPreference
 }
 
-struct UserPreferences: Codable {
-    var notificationsConsented: Bool?
-    var analyticsConsented: Bool?
+struct NotificationsPreference: Codable {
+    let notificationsConsented: Bool
+    let updatedAt: Date
+}
+
+struct AnalyticsPreferenceResponse: Codable {
+    let preferences: AnalyticsPreference
+}
+
+struct AnalyticsPreference: Codable {
+    let analyticsConsented: Bool
+    let updatedAt: Date
 }

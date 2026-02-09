@@ -16,10 +16,14 @@ protocol UserServiceInterface {
      }
 
      func setNotificationsConsent(accepted: Bool) {
-         userServiceClient.setNotificationsConsent(accepted: accepted) { _ in }
+         userServiceClient.setNotificationsConsent(accepted: accepted) { _ in
+             // not doing anything with the result, yet
+         }
      }
 
      func setAnalyticsConsent(accepted: Bool) {
-         userServiceClient.setAnalyticsConsent(accepted: accepted) { _ in }
+         userServiceClient.setAnalyticsConsent(accepted: accepted) { _ in
+             // not doing anything with the result, yet
+         }
      }
  }
