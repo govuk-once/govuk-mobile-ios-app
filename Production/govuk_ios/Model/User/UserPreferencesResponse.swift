@@ -6,4 +6,5 @@ struct UserPreferencesResponse: Codable {
 
 struct UserPreferences: Codable {
     var notificationsConsented: Bool?
+    var analyticsConsented: Bool?
 }
