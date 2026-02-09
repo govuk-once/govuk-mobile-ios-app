@@ -51,7 +51,8 @@ extension UIAlertController {
         )
         let action = UIAlertAction.generic(
             title: buttonTitle,
-            handler: handler)
+            handler: handler
+        )
         alert.addAction(action)
         alert.preferredAction = action
         return alert

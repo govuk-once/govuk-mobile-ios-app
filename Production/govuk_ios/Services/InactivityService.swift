@@ -13,8 +13,8 @@ class InactivityService: InactivityServiceInterface {
     private let timer: TimerWrapperInterface
     private let warningTimer: TimerWrapperInterface
     private let authenticationService: AuthenticationServiceInterface
-    private let inactivityThreshold = Constants.Timers.Thresholds.inactivityTimeout // 15 minutes
-    private let warningThreshold = Constants.Timers.Thresholds.inactivityWarning // 13 minutes
+    private let inactivityThreshold = Constants.Timers.Thresholds.inactivityTimeout
+    private let warningThreshold = Constants.Timers.Thresholds.inactivityWarning
     private var inAppTimer: Timer?
     private var alertTimer: Timer?
     private var inactivityHandler: (() -> Void)?
@@ -55,7 +55,7 @@ class InactivityService: InactivityServiceInterface {
             self?.inactivityHandler?()
         }
         alertTimer = warningTimer.scheduledTimer(withTimeInterval: warningThreshold,
-                                           repeats: false) { [weak self] _ in
+                                                 repeats: false) { [weak self] _ in
             self?.alertHandler?()
         }
     }
