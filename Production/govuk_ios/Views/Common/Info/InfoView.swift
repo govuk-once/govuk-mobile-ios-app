@@ -98,21 +98,22 @@ struct InfoView<Model>: View where Model: InfoViewModelInterface {
     private var infoView: some View {
         VStack {
             if verticalSizeClass != .compact {
-                if let image = viewModel.image {
-                    image
-                        .accessibilityHidden(true)
-                } else if let animationNames = viewModel.animationColorSchemeNames {
-                    let animationName = colorScheme == .light ?
-                    animationNames.light : animationNames.dark
-                    SwiftUIAnimationView(
-                        animationName: animationName,
-                        shouldReduceMotion: true,
-                        playbackMode: LottieLoopMode.playOnce
-                    )
-                    .aspectRatio(contentMode: .fit)
-                    .frame(maxHeight: 252)
-                    .accessibilityHidden(true)
+                Group {
+                    if let image = viewModel.image {
+                        image
+                    } else if let animationNames = viewModel.animationColorSchemeNames {
+                        let animationName = colorScheme == .light ?
+                        animationNames.light : animationNames.dark
+                        SwiftUIAnimationView(
+                            animationName: animationName,
+                            shouldReduceMotion: true,
+                            playbackMode: LottieLoopMode.playOnce
+                        )
+                        .aspectRatio(contentMode: .fit)
+                        .frame(maxHeight: 252)
+                    }
                 }
+                .accessibilityHidden(true)
             }
 
             Text(viewModel.title)
