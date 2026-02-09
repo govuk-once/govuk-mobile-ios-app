@@ -16,7 +16,6 @@ extension UINavigationController {
         navigationController.tabBarItem = .settings
         navigationController.setNavigationBarHidden(false, animated: false)
         navigationController.navigationBar.prefersLargeTitles = true
-        navigationController.navigationBar.setGovUKAppearance()
         return navigationController
     }
 
