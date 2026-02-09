@@ -29,7 +29,6 @@ class AnalyticsConsentContainerViewModel: ObservableObject {
             localisedTitle: allowButtonTitle,
             action: { [weak self] in
                 self?.analyticsService?.setAcceptedAnalytics(accepted: true)
-                self?.userService.setAnalyticsConsent(accepted: true)
                 self?.finishAnalyticsConsent()
             }
         )
@@ -40,7 +39,6 @@ class AnalyticsConsentContainerViewModel: ObservableObject {
             localisedTitle: dontAllowButtonTitle,
             action: { [weak self] in
                 self?.analyticsService?.setAcceptedAnalytics(accepted: false)
-                self?.userService.setAnalyticsConsent(accepted: false)
                 self?.finishAnalyticsConsent()
             }
         )

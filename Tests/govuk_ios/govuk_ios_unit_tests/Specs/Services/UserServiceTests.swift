@@ -48,19 +48,16 @@ final class UserServiceTests {
         #expect(mockUserServiceClient._receivedNotificationsConsentAccepted == true)
     }
 
-    @Test
-    func setAnalyticsConsent_callsClient() {
-        sut.setAnalyticsConsent(accepted: true)
-        #expect(mockUserServiceClient._receivedAnalyticsConsentAccepted == true)
-    }
 }
 
 private extension UserServiceTests {
     static let userState = UserState(
         notificationId: "test_id",
         preferences: UserPreferences(
-            notificationsConsented: false,
-            analyticsConsented: false
+            notifications: ConsentPreference(
+                consentStatus: .unknown,
+                updatedAt: Date()
+            )
         )
     )
 }

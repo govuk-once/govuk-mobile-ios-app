@@ -17,9 +17,4 @@ class MockUserService: UserServiceInterface {
     func setNotificationsConsent(accepted: Bool) {
         _receivedSetNotificationsConsentAccepted = accepted
     }
-
-    var _receivedSetAnalyticsConsentAccepted: Bool?
-    func setAnalyticsConsent(accepted: Bool) {
-        _receivedSetAnalyticsConsentAccepted = accepted
-    }
 }

@@ -46,19 +46,6 @@ struct AnalyticsConsentContainerViewModelTests {
     }
 
     @Test
-    func allowButtonAction_callsUserServiceSetAnalyticsConsent() {
-        let mockUserService = MockUserService()
-        let sut = AnalyticsConsentContainerViewModel(
-            analyticsService: MockAnalyticsService(),
-            userService: mockUserService,
-            completion: {},
-            viewPrivacyAction: {}
-        )
-        sut.allowButtonViewModel.action()
-        #expect(mockUserService._receivedSetAnalyticsConsentAccepted == true)
-    }
-
-    @Test
     func allowButtonAction_callsDismiss() async {
         let dismissCalled = await withCheckedContinuation { continuation in
             let sut = AnalyticsConsentContainerViewModel(
@@ -85,19 +72,6 @@ struct AnalyticsConsentContainerViewModelTests {
         )
         sut.dontAllowButtonViewModel.action()
         #expect(analyticsService._setAcceptedAnalyticsAccepted == false)
-    }
-
-    @Test
-    func dontAllowButtonAction_callsUserServiceSetAnalyticsConsent() {
-        let mockUserService = MockUserService()
-        let sut = AnalyticsConsentContainerViewModel(
-            analyticsService: MockAnalyticsService(),
-            userService: mockUserService,
-            completion: {},
-            viewPrivacyAction: {}
-        )
-        sut.dontAllowButtonViewModel.action()
-        #expect(mockUserService._receivedSetAnalyticsConsentAccepted == false)
     }
 
     @Test
