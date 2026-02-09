@@ -36,6 +36,7 @@ class MockViewControllerBuilder: ViewControllerBuilder {
     var _receivedAnalyticsConsentViewPrivacyAction: (() -> Void)?
     var _stubbedAnalyticsConsentViewController: UIViewController?
     override func analyticsConsent(analyticsService: any AnalyticsServiceInterface,
+                                   userService: UserServiceInterface,
                                    completion: @escaping () -> Void,
                                    viewPrivacyAction: @escaping () -> Void) -> UIViewController {
         _receivedAnalyticsConsentViewPrivacyAction = viewPrivacyAction

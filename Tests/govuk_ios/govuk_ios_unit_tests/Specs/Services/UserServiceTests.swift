@@ -43,10 +43,15 @@ final class UserServiceTests {
     }
 
     @Test
-    func setNotificationConsent_callsClient() async throws {
-        mockUserServiceClient._stubbedFetchUserStateResult = .success(Self.userState)
+    func setNotificationConsent_callsClient() {
         sut.setNotificationsConsent(accepted: true)
         #expect(mockUserServiceClient._receivedNotificationsConsentAccepted == true)
+    }
+
+    @Test
+    func setAnalyticsConsent_callsClient() {
+        sut.setAnalyticsConsent(accepted: true)
+        #expect(mockUserServiceClient._receivedAnalyticsConsentAccepted == true)
     }
 }
 
@@ -54,7 +59,8 @@ private extension UserServiceTests {
     static let userState = UserState(
         notificationId: "test_id",
         preferences: UserPreferences(
-            notificationsConsented: false
+            notificationsConsented: false,
+            analyticsConsented: false
         )
     )
 }

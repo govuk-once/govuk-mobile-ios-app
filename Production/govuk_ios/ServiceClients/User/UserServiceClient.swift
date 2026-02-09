@@ -9,6 +9,8 @@ protocol UserServiceClientInterface {
     func fetchUserState(completion: @escaping FetchUserStateCompletion)
     func setNotificationsConsent(accepted: Bool,
                                  completion: @escaping (UserPreferencesResult) -> Void)
+    func setAnalyticsConsent(accepted: Bool,
+                             completion: @escaping (UserPreferencesResult) -> Void)
 }
 
 struct UserServiceClient: UserServiceClientInterface {
@@ -35,6 +37,18 @@ struct UserServiceClient: UserServiceClientInterface {
     func setNotificationsConsent(accepted: Bool,
                                  completion: @escaping (UserPreferencesResult) -> Void) {
         let request = GOVRequest.setNotificationsConsent(
+            accepted: accepted,
+            accessToken: authenticationService.accessToken
+        )
+        apiServiceClient.send(
+            request: request) { result in
+                completion(mapResult(result))
+            }
+    }
+
+    func setAnalyticsConsent(accepted: Bool,
+                             completion: @escaping (UserPreferencesResult) -> Void) {
+        let request = GOVRequest.setAnalyticsConsent(
             accepted: accepted,
             accessToken: authenticationService.accessToken
         )

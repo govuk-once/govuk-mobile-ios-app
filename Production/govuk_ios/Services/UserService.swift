@@ -1,6 +1,7 @@
 protocol UserServiceInterface {
     func fetchUserState(completion: @escaping FetchUserStateCompletion)
     func setNotificationsConsent(accepted: Bool)
+    func setAnalyticsConsent(accepted: Bool)
 }
 
  class UserService: UserServiceInterface {
@@ -16,5 +17,9 @@ protocol UserServiceInterface {
 
      func setNotificationsConsent(accepted: Bool) {
          userServiceClient.setNotificationsConsent(accepted: accepted) { _ in }
+     }
+
+     func setAnalyticsConsent(accepted: Bool) {
+         userServiceClient.setAnalyticsConsent(accepted: accepted) { _ in }
      }
  }
