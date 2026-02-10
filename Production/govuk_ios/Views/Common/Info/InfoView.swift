@@ -2,7 +2,6 @@ import SwiftUI
 import GovKit
 import GovKitUI
 import Lottie
-import FactoryKit
 
 struct InfoView<Model>: View where Model: InfoViewModelInterface {
     @Environment(\.colorScheme) var colorScheme
@@ -174,33 +173,4 @@ extension InfoView: TrackableScreen {
     var trackingTitle: String? {
         viewModel.trackingTitle
     }
-}
-
-#Preview {
-    let chatOnboardingModel = ChatInfoOnboardingViewModel(
-        analyticsService: Container.shared.analyticsService.resolve(),
-        completionAction: { },
-        cancelOnboardingAction: { })
-    let consentModel = ChatConsentOnboardingViewModel(
-        analyticsService: Container.shared.analyticsService.resolve(),
-        chatService: Container.shared.chatService.resolve(),
-        cancelOnboardingAction: { },
-        completionAction: { }
-    )
-    let chatErrorModel = ChatErrorViewModel(
-        analyticsService: Container.shared.analyticsService.resolve(),
-        error: .apiUnavailable,
-        action: { }
-    )
-    let signInErrorModel = SignInErrorViewModel(
-        error: AuthenticationError.returningUserService(
-            ReturningUserServiceError.missingIdentifierError
-        ),
-        feedbackAction: { _ in },
-        retryAction: { })
-    let signInSuccessViewModel = SignInSuccessViewModel(
-        completion: { }
-    )
-    let welcomeModel = WelcomeOnboardingViewModel(completeAction: { })
-    InfoView(viewModel: consentModel)
 }
