@@ -3,7 +3,7 @@ import SwiftUI
 import GovKit
 import GovKitUI
 
-enum HeroViewContent {
+enum VisualAssetContent {
     case decorativeImage(String)
     case systemImage(String)
     case animation(AnimationColorSchemeNames)
@@ -11,7 +11,7 @@ enum HeroViewContent {
 }
 
 protocol InfoViewModelInterface: ObservableObject {
-    var heroViewContent: HeroViewContent { get }
+    var visualAssetContent: VisualAssetContent { get }
     var analyticsService: AnalyticsServiceInterface? { get }
     var trackingName: String { get }
     var trackingTitle: String { get }
@@ -43,7 +43,7 @@ protocol ProgressIndicating {
 }
 
 extension InfoViewModelInterface {
-    var heroViewContent: HeroViewContent { .none }
+    var visualAssetContent: VisualAssetContent { .none }
     var navBarHidden: Bool { true }
 
     var subtitle: String { "" }

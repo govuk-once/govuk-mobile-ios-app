@@ -48,7 +48,7 @@ class ChatInfoOnboardingViewModel: InfoViewModelInterface {
         )
     }
 
-    var heroViewContent: HeroViewContent {
+    var visualAssetContent: VisualAssetContent {
         .animation(
             AnimationColorSchemeNames(
                 light: "chat_onboarding_one_light",

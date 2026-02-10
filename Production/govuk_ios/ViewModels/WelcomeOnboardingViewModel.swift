@@ -47,7 +47,7 @@ final class WelcomeOnboardingViewModel: InfoViewModelInterface,
         )
     }
 
-    var heroViewContent: HeroViewContent {
+    var visualAssetContent: VisualAssetContent {
         .decorativeImage("onboarding_welcome")
     }
 

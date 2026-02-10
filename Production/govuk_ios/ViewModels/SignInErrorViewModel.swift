@@ -85,7 +85,7 @@ final class SignInErrorViewModel: InfoViewModelInterface {
         }
     }
 
-    var heroViewContent: HeroViewContent {
+    var visualAssetContent: VisualAssetContent {
         .systemImage("exclamationmark.circle")
     }
 }

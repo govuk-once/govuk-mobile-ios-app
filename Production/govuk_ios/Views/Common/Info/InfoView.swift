@@ -118,7 +118,7 @@ struct InfoView<Model>: View where Model: InfoViewModelInterface {
     private var infoView: some View {
         VStack {
             if verticalSizeClass != .compact {
-                contentView
+                visualAssetView
                 .accessibilityHidden(true)
             }
 
@@ -140,8 +140,8 @@ struct InfoView<Model>: View where Model: InfoViewModelInterface {
     }
 
     @ViewBuilder
-    private var contentView: some View {
-        switch viewModel.heroViewContent {
+    private var visualAssetView: some View {
+        switch viewModel.visualAssetContent {
         case .decorativeImage(let imageName):
             Image(decorative: imageName)
                 .padding(.bottom, 16)

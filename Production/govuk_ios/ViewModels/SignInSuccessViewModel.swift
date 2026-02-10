@@ -32,7 +32,7 @@ final class SignInSuccessViewModel: InfoViewModelInterface {
         )
     }
 
-    var heroViewContent: HeroViewContent {
+    var visualAssetContent: VisualAssetContent {
         .decorativeImage("sign_in_success")
     }
 

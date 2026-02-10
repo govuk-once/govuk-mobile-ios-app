@@ -57,7 +57,7 @@ final class ChatErrorViewModel: InfoViewModelInterface {
         error == .pageNotFound || error == .networkUnavailable
     }
 
-    var heroViewContent: HeroViewContent {
+    var visualAssetContent: VisualAssetContent {
         .systemImage("exclamationmark.circle")
     }
 
