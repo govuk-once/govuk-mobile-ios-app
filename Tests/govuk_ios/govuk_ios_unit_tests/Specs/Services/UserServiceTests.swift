@@ -15,7 +15,7 @@ final class UserServiceTests {
 
     @Test
     func fetchUserState_returnsExpectedValue() async throws {
-        mockUserServiceClient._stubbedFetchUserStateResult = .success(Self.userState)
+        mockUserServiceClient._stubbedFetchUserStateResult = .success(UserState.arrange)
 
         let result = await withCheckedContinuation { continuation in
             sut.fetchUserState(completion: {
@@ -48,16 +48,4 @@ final class UserServiceTests {
         #expect(mockUserServiceClient._receivedNotificationsConsentAccepted == true)
     }
 
-}
-
-private extension UserServiceTests {
-    static let userState = UserState(
-        notificationId: "test_id",
-        preferences: UserPreferences(
-            notifications: ConsentPreference(
-                consentStatus: .unknown,
-                updatedAt: Date()
-            )
-        )
-    )
 }
