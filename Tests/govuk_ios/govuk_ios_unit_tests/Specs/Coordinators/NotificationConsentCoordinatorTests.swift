@@ -17,6 +17,7 @@ struct NotificationConsentCoordinatorTests {
                 navigationController: mockNavigationController,
                 notificationService: mockNotificationService,
                 analyticsService: MockAnalyticsService(),
+                userService: MockUserService(),
                 consentResult: .aligned,
                 coordinatorBuilder: MockCoordinatorBuilder.mock,
                 viewControllerBuilder: MockViewControllerBuilder(),
@@ -42,6 +43,7 @@ struct NotificationConsentCoordinatorTests {
                 navigationController: mockNavigationController,
                 notificationService: mockNotificationService,
                 analyticsService: MockAnalyticsService(),
+                userService: MockUserService(),
                 consentResult: .misaligned(.consentGrantedNotificationsOff),
                 coordinatorBuilder: MockCoordinatorBuilder.mock,
                 viewControllerBuilder: MockViewControllerBuilder(),
@@ -70,6 +72,7 @@ struct NotificationConsentCoordinatorTests {
             navigationController: mockNavigationController,
             notificationService: mockNotificationService,
             analyticsService: MockAnalyticsService(),
+            userService: MockUserService(),
             consentResult: .misaligned(.consentNotGrantedNotificationsOn),
             coordinatorBuilder: MockCoordinatorBuilder.mock,
             viewControllerBuilder: mockViewControllerBuilder,
@@ -96,6 +99,7 @@ struct NotificationConsentCoordinatorTests {
             navigationController: mockNavigationController,
             notificationService: mockNotificationService,
             analyticsService: MockAnalyticsService(),
+            userService: MockUserService(),
             consentResult: .misaligned(.consentNotGrantedNotificationsOn),
             coordinatorBuilder: MockCoordinatorBuilder.mock,
             viewControllerBuilder: mockViewControllerBuilder,
@@ -111,6 +115,30 @@ struct NotificationConsentCoordinatorTests {
     }
 
     @Test
+    func grantConsent_callsUserServiceSetNotificationConsent() async {
+        let mockViewControllerBuilder = MockViewControllerBuilder()
+        let mockUserService = MockUserService()
+
+        let subject = NotificationConsentCoordinator(
+            navigationController: MockNavigationController(),
+            notificationService: MockNotificationService(),
+            analyticsService: MockAnalyticsService(),
+            userService: mockUserService,
+            consentResult: .misaligned(.consentNotGrantedNotificationsOn),
+            coordinatorBuilder: MockCoordinatorBuilder.mock,
+            viewControllerBuilder: mockViewControllerBuilder,
+            urlOpener: MockURLOpener(),
+            completion: { }
+        )
+
+        subject.start()
+
+        mockViewControllerBuilder._receivedNotificationConsentAlertGrantConsentAction?()
+
+        #expect(mockUserService._receivedSetNotificationsConsentAccepted == true)
+    }
+
+    @Test
     func openSettings_presentsAlert() async {
         let mockNavigationController = MockNavigationController()
         let mockNotificationService = MockNotificationService()
@@ -123,6 +151,7 @@ struct NotificationConsentCoordinatorTests {
             navigationController: mockNavigationController,
             notificationService: mockNotificationService,
             analyticsService: MockAnalyticsService(),
+            userService: MockUserService(),
             consentResult: .misaligned(.consentNotGrantedNotificationsOn),
             coordinatorBuilder: MockCoordinatorBuilder.mock,
             viewControllerBuilder: mockViewControllerBuilder,
@@ -159,6 +188,7 @@ struct NotificationConsentCoordinatorTests {
             navigationController: mockNavigationController,
             notificationService: mockNotificationService,
             analyticsService: MockAnalyticsService(),
+            userService: MockUserService(),
             consentResult: .misaligned(.consentNotGrantedNotificationsOn),
             coordinatorBuilder: mockCoordinatorBuilder,
             viewControllerBuilder: mockViewControllerBuilder,

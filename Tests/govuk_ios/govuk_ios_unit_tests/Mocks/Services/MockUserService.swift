@@ -12,5 +12,14 @@ class MockUserService: UserServiceInterface {
         }
         _fetchUserStateCompletionBlock?()
     }
-    
+
+    var _receivedSetNotificationsConsentAccepted: Bool?
+    func setNotificationsConsent(accepted: Bool) {
+        _receivedSetNotificationsConsentAccepted = accepted
+    }
+
+    var _receivedSetAnalyticsConsentAccepted: Bool?
+    func setAnalyticsConsent(accepted: Bool) {
+        _receivedSetAnalyticsConsentAccepted = accepted
+    }
 }

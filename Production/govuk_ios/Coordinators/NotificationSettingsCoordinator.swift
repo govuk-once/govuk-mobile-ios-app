@@ -6,6 +6,7 @@ class NotificationSettingsCoordinator: BaseCoordinator {
     private let viewControllerBuilder: ViewControllerBuilder
     private let analyticsService: AnalyticsServiceInterface
     private let notificationService: NotificationServiceInterface
+    private let userService: UserServiceInterface
     private let coordinatorBuilder: CoordinatorBuilder
     private let completeAction: () -> Void
     private let dismissAction: () -> Void
@@ -14,12 +15,14 @@ class NotificationSettingsCoordinator: BaseCoordinator {
          viewControllerBuilder: ViewControllerBuilder,
          analyticsService: AnalyticsServiceInterface,
          notificationService: NotificationServiceInterface,
+         userService: UserServiceInterface,
          coordinatorBuilder: CoordinatorBuilder,
          completeAction: @escaping () -> Void,
          dismissAction: @escaping () -> Void) {
         self.viewControllerBuilder = viewControllerBuilder
         self.analyticsService = analyticsService
         self.notificationService = notificationService
+        self.userService = userService
         self.coordinatorBuilder = coordinatorBuilder
         self.completeAction = completeAction
         self.dismissAction = dismissAction
@@ -32,7 +35,10 @@ class NotificationSettingsCoordinator: BaseCoordinator {
             completeAction: { [weak self] in
                 self?.requestPermission()
             },
-            dismissAction: dismissAction,
+            dismissAction: { [weak self] in
+                self?.userService.setNotificationsConsent(accepted: false)
+                self?.dismissAction()
+            },
             viewPrivacyAction: { [weak self] in
                 self?.openPrivacy()
             }
@@ -50,8 +56,9 @@ class NotificationSettingsCoordinator: BaseCoordinator {
     }
 
     private func requestPermission() {
-        notificationService.requestPermissions(
-            completion: completeAction
-        )
+        notificationService.requestPermissions { [weak self] accepted in
+            self?.userService.setNotificationsConsent(accepted: accepted)
+            self?.completeAction()
+        }
     }
 }

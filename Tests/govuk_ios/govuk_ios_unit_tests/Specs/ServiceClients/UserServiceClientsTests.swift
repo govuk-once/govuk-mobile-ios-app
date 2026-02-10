@@ -21,7 +21,7 @@ struct UserServiceClientTests {
     @Test
     func fetchUserState_sendsExpectedRequest() {
         sut.fetchUserState { _ in }
-        #expect(mockAPI._receivedSendRequest?.urlPath == "/1.0/app/user")
+        #expect(mockAPI._receivedSendRequest?.urlPath == "/app/v1/user")
         #expect(mockAPI._receivedSendRequest?.method == .get)
     }
 
@@ -33,25 +33,27 @@ struct UserServiceClientTests {
                 continuation.resume(returning: result)
             }
         }
-        let userStateResponse = try? result.get()
-        #expect(userStateResponse?.notificationId == "test_user_id")
+        let userState = try? result.get()
+        #expect(userState?.notificationId == "test_user_id")
+        #expect(userState?.preferences.notifications.consentStatus == .unknown)
+        #expect(userState?.preferences.analytics.consentStatus == .unknown)
     }
 
     @Test
-    func fetchUserState_failure_returnsExpectedResult() async {
+    func fetchUserState_failure_returnsApiUnavailableError() async {
         mockAPI._stubbedSendResponse = .failure(UserStateError.apiUnavailable)
         let result = await withCheckedContinuation { continuation in
             sut.fetchUserState { result in
                 continuation.resume(returning: result)
             }
         }
-        let userStateResponse = try? result.get()
-        #expect(userStateResponse == nil)
+        let userState = try? result.get()
+        #expect(userState == nil)
         #expect(result.getError() == .apiUnavailable)
     }
 
     @Test
-    func fetchUserState_invalidJson_returnsExpectedResult() async {
+    func fetchUserState_invalidJson_returnsDecodingError() async {
         mockAPI._stubbedSendResponse = .success("bad json".data(using: .utf8)!)
         let result = await withCheckedContinuation { continuation in
             sut.fetchUserState { result in
@@ -64,7 +66,7 @@ struct UserServiceClientTests {
     }
 
     @Test
-    func fetchUserState_networkUnavailable_returnsExpectedResult() async {
+    func fetchUserState_networkUnavailable_returnsNetworkUnavailableError() async {
         mockAPI._stubbedSendResponse = .failure(
             NSError(domain: "TestError", code: NSURLErrorNotConnectedToInternet)
         )
@@ -77,13 +79,109 @@ struct UserServiceClientTests {
         #expect(userStateResponse == nil)
         #expect(result.getError() == .networkUnavailable)
     }
+
+    @Test
+    func setNotificationsConsent_sendsExpectedRequest() {
+        sut.setNotificationsConsent(accepted: true) { _ in }
+        #expect(mockAPI._receivedSendRequest?.urlPath == "/app/v1/user")
+        #expect(mockAPI._receivedSendRequest?.method == .patch)
+        #expect(mockAPI._receivedSendRequest?.bodyParameters as? [String: AnyHashable] == ["notificationsConsented": true])
+    }
+
+    @Test
+    func setNotificationsConsent_success_returnsExpectedResult() async {
+        mockAPI._stubbedSendResponse = .success(UserServiceClientTests.notificationConsentResponseData)
+        let result = await withCheckedContinuation { continuation in
+            sut.setNotificationsConsent(accepted: true) { result in
+                continuation.resume(returning: result)
+            }
+        }
+        let notificationsConsentResponse = try? result.get()
+        #expect(notificationsConsentResponse?.preferences.notificationsConsented == true)
+    }
+
+    @Test
+    func setNotificationsConsent_failure_returnsApiUnavailableError() async {
+        mockAPI._stubbedSendResponse = .failure(UserStateError.apiUnavailable)
+        let result = await withCheckedContinuation { continuation in
+            sut.setNotificationsConsent(accepted: true) { result in
+                continuation.resume(returning: result)
+            }
+        }
+        let userStateResponse = try? result.get()
+        #expect(userStateResponse == nil)
+        #expect(result.getError() == .apiUnavailable)
+    }
+
+    @Test
+    func setAnalyticsConsent_sendsExpectedRequest() {
+        sut.setAnalyticsConsent(accepted: true) { _ in }
+        #expect(mockAPI._receivedSendRequest?.urlPath == "/app/v1/user")
+        #expect(mockAPI._receivedSendRequest?.method == .patch)
+        #expect(mockAPI._receivedSendRequest?.bodyParameters as? [String: AnyHashable] == ["analyticsConsented": true])
+    }
+
+    @Test
+    func setAnalyticsConsent_success_returnsExpectedResult() async {
+        mockAPI._stubbedSendResponse = .success(UserServiceClientTests.analyticsConsentResponseData)
+        let result = await withCheckedContinuation { continuation in
+            sut.setAnalyticsConsent(accepted: true) { result in
+                continuation.resume(returning: result)
+            }
+        }
+        let analyticsConsentResponse = try? result.get()
+        #expect(analyticsConsentResponse?.preferences.analyticsConsented == true)
+    }
+
+    @Test
+    func setAnalyticsConsent_failure_returnsApiUnavailableError() async {
+        mockAPI._stubbedSendResponse = .failure(UserStateError.apiUnavailable)
+        let result = await withCheckedContinuation { continuation in
+            sut.setAnalyticsConsent(accepted: true) { result in
+                continuation.resume(returning: result)
+            }
+        }
+        let setAnalyticsConsentResponse = try? result.get()
+        #expect(setAnalyticsConsentResponse == nil)
+        #expect(result.getError() == .apiUnavailable)
+    }
 }
 
 private extension UserServiceClientTests {
     static let userStateData =
     """
     {
-        "notificationId": "test_user_id"
+        "notificationId": "test_user_id",
+        "preferences": {
+            "notifications": {
+                "consentStatus": "unknown",
+                "updatedAt": "2026-02-09T13:41:37.226Z"
+            },
+            "analytics": {
+                "consentStatus": "unknown",
+                "updatedAt": "2026-02-09T13:41:37.226Z"
+            }
+        }
+    }
+    """.data(using: .utf8)!
+
+    static let notificationConsentResponseData =
+    """
+    {
+        "preferences": {
+            "notificationsConsented": true,
+            "updatedAt": "2026-02-03T09:33:13.459Z"
+        }
+    }
+    """.data(using: .utf8)!
+
+    static let analyticsConsentResponseData =
+    """
+    {
+        "preferences": {
+            "analyticsConsented": true,
+            "updatedAt": "2026-02-03T09:33:13.459Z"
+        }
     }
     """.data(using: .utf8)!
 }

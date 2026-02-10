@@ -9,8 +9,17 @@ class MockUserServiceClient: UserServiceClientInterface {
         if let result = _stubbedFetchUserStateResult {
             completion(result)
         }
-
     }
-    
+
+    var _receivedNotificationsConsentAccepted: Bool?
+    func setNotificationsConsent(accepted: Bool, completion: @escaping (NotificationsPreferenceResult) -> Void) {
+        _receivedNotificationsConsentAccepted = accepted
+    }
+
+    var _receivedAnalyticsConsentAccepted: Bool?
+    func setAnalyticsConsent(accepted: Bool, completion: @escaping (AnalyticsPreferenceResult) -> Void) {
+        _receivedAnalyticsConsentAccepted = accepted
+    }
+
 }
 
