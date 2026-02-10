@@ -4,7 +4,6 @@ import Lottie
 
 struct ChatCellView: View {
     @Environment(\.colorScheme) var colorScheme
-    @Environment(\.accessibilityReduceMotion) var reducedMotion
     @StateObject private var viewModel: ChatCellViewModel
 
     init(viewModel: ChatCellViewModel) {

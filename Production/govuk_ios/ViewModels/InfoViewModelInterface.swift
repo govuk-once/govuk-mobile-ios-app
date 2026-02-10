@@ -3,14 +3,20 @@ import SwiftUI
 import GovKit
 import GovKitUI
 
+enum VisualAssetContent {
+    case decorativeImage(String)
+    case systemImage(String)
+    case animation(AnimationColorSchemeNames)
+    case none
+}
+
 protocol InfoViewModelInterface: ObservableObject {
+    var visualAssetContent: VisualAssetContent { get }
     var analyticsService: AnalyticsServiceInterface? { get }
     var trackingName: String { get }
     var trackingTitle: String { get }
 
     var navBarHidden: Bool { get }
-
-    var image: AnyView { get }
 
     var title: String { get }
     var subtitle: String { get }
@@ -37,6 +43,7 @@ protocol ProgressIndicating {
 }
 
 extension InfoViewModelInterface {
+    var visualAssetContent: VisualAssetContent { .none }
     var navBarHidden: Bool { true }
 
     var subtitle: String { "" }
@@ -62,4 +69,9 @@ extension InfoViewModelInterface {
             analyticsService.track(screen: screen)
         }
     }
+}
+
+struct AnimationColorSchemeNames {
+    let light: String
+    let dark: String
 }
