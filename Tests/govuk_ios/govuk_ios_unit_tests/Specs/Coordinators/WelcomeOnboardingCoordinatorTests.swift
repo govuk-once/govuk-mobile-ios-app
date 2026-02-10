@@ -14,7 +14,7 @@ class WelcomeOnboardingCoordinatorTests {
         let mockAuthenticationService = MockAuthenticationService()
         let mockNotificationService = MockNotificationService()
         let mockUserService = MockUserService()
-        mockUserService._stubbedFetchUserStateResult = .success(Self.userState)
+        mockUserService._stubbedFetchUserStateResult = .success(UserState.arrange)
         let mockNavigationController = MockNavigationController()
         let mockCoordinatorBuilder = CoordinatorBuilder.mock
         mockAuthenticationService._stubbedIsSignedIn = true
@@ -43,7 +43,7 @@ class WelcomeOnboardingCoordinatorTests {
         let mockAuthenticationService = MockAuthenticationService()
         let mockNotificationService = MockNotificationService()
         let mockUserService = MockUserService()
-        mockUserService._stubbedFetchUserStateResult = .success(Self.userState)
+        mockUserService._stubbedFetchUserStateResult = .success(UserState.arrange)
         let mockNavigationController = MockNavigationController()
         let mockCoordinatorBuilder = CoordinatorBuilder.mock
         mockAuthenticationService._stubbedIsSignedIn = true
@@ -131,7 +131,7 @@ class WelcomeOnboardingCoordinatorTests {
         let mockCoordinatorBuilder = CoordinatorBuilder.mock
         let mockSignInSuccessCoordinator = MockBaseCoordinator()
         mockCoordinatorBuilder._stubbedSignInSuccessCoordinator = mockSignInSuccessCoordinator
-        mockUserService._stubbedFetchUserStateResult = .success(Self.userState)
+        mockUserService._stubbedFetchUserStateResult = .success(UserState.arrange)
 
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let stubbedWelcomeOnboardingViewController = UIViewController()
@@ -170,7 +170,7 @@ class WelcomeOnboardingCoordinatorTests {
         let mockCoordinatorBuilder = CoordinatorBuilder.mock
         let mockSignInSuccessCoordinator = MockBaseCoordinator()
         mockCoordinatorBuilder._stubbedSignInSuccessCoordinator = mockSignInSuccessCoordinator
-        mockUserService._stubbedFetchUserStateResult = .success(Self.userState)
+        mockUserService._stubbedFetchUserStateResult = .success(UserState.arrange)
 
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let stubbedWelcomeOnboardingViewController = UIViewController()
@@ -265,7 +265,7 @@ class WelcomeOnboardingCoordinatorTests {
         sut.start(url: nil)
         mockViewControllerBuilder._stubbedWelcomeOnboardingViewModel?.completeAction()
         mockCoordinatorBuilder._receivedAuthenticationCompletion?()
-        mockUserService._stubbedFetchUserStateResult = .success(Self.userState)
+        mockUserService._stubbedFetchUserStateResult = .success(UserState.arrange)
 
         let completion = await withCheckedContinuation { continuation in
             mockCoordinatorBuilder._receivedAppUnavailableRetryAction? { wasSuccessful in
@@ -462,20 +462,4 @@ class WelcomeOnboardingCoordinatorTests {
         #expect(mockNavigationController._setViewControllers?.first == stubbedWelcomeOnboardingViewController)
         #expect(mockSafariCoordinator._startCalled)
     }
-}
-
-private extension WelcomeOnboardingCoordinatorTests {
-    static let userState = UserState(
-        notificationId: "test_id",
-        preferences: UserPreferences(
-            notifications: ConsentPreference(
-                consentStatus: .unknown,
-                updatedAt: Date()
-            ),
-            analytics: ConsentPreference(
-                consentStatus: .unknown,
-                updatedAt: Date()
-            )
-        )
-    )
 }
