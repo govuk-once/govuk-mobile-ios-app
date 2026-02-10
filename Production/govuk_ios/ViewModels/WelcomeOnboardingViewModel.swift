@@ -47,6 +47,10 @@ final class WelcomeOnboardingViewModel: InfoViewModelInterface,
         )
     }
 
+    var heroViewContent: HeroViewContent {
+        .decorativeImage("onboarding_welcome")
+    }
+
     var subtitleFont: Font {
         Font.govUK.title1
     }

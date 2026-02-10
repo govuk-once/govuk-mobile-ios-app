@@ -3,15 +3,20 @@ import SwiftUI
 import GovKit
 import GovKitUI
 
+enum HeroViewContent {
+    case decorativeImage(String)
+    case systemImage(String)
+    case animation(AnimationColorSchemeNames)
+    case none
+}
+
 protocol InfoViewModelInterface: ObservableObject {
+    var heroViewContent: HeroViewContent { get }
     var analyticsService: AnalyticsServiceInterface? { get }
     var trackingName: String { get }
     var trackingTitle: String { get }
 
     var navBarHidden: Bool { get }
-
-    var image: AnyView? { get }
-    var animationColorSchemeNames: AnimationColorSchemeNames? { get }
 
     var title: String { get }
     var subtitle: String { get }
@@ -38,10 +43,8 @@ protocol ProgressIndicating {
 }
 
 extension InfoViewModelInterface {
+    var heroViewContent: HeroViewContent { .none }
     var navBarHidden: Bool { true }
-
-    var image: AnyView? { nil }
-    var animationColorSchemeNames: AnimationColorSchemeNames? { nil }
 
     var subtitle: String { "" }
     var subtitleFont: Font { Font.govUK.body }

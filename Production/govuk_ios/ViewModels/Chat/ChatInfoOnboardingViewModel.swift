@@ -48,6 +48,15 @@ class ChatInfoOnboardingViewModel: InfoViewModelInterface {
         )
     }
 
+    var heroViewContent: HeroViewContent {
+        .animation(
+            AnimationColorSchemeNames(
+                light: "chat_onboarding_one_light",
+                dark: "chat_onboarding_one_dark"
+            )
+        )
+    }
+
     var navBarHidden: Bool {
         false
     }

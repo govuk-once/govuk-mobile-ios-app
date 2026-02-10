@@ -2,6 +2,7 @@ import SwiftUI
 import GovKit
 import GovKitUI
 import Lottie
+import FactoryKit
 
 struct InfoView<Model>: View where Model: InfoViewModelInterface {
     @Environment(\.colorScheme) var colorScheme
@@ -14,7 +15,6 @@ struct InfoView<Model>: View where Model: InfoViewModelInterface {
         _viewModel = StateObject(wrappedValue: viewModel)
         self.customView = customView
     }
-
     var body: some View {
         VStack {
             GeometryReader { geometry in
@@ -22,39 +22,12 @@ struct InfoView<Model>: View where Model: InfoViewModelInterface {
                     infoView
                         .frame(width: geometry.size.width)
                         .frame(minHeight: geometry.size.height)
-                }.modifier(ScrollBounceBehaviorModifier())
-            }
-            if let model = viewModel as? SignInErrorViewModel {
-                HStack {
-                    Spacer()
-                    Text(model.errorCode)
-                        .foregroundColor(Color(UIColor.govUK.text.primary.withAlphaComponent(0.5)))
-                        .font(Font.govUK.caption2)
-                        .accessibilityHidden(true)
-                        .padding(.trailing, 16)
                 }
+                .modifier(ScrollBounceBehaviorModifier())
             }
-            if let bottomContentText = viewModel.bottomContentText {
-                Text(bottomContentText)
-                    .font(Font.govUK.caption1)
-                    .foregroundColor(Color(UIColor.govUK.text.secondary))
-                    .padding(.bottom, 16)
-            }
-            if let secondaryButtonViewModel = viewModel.secondaryButtonViewModel {
-                ButtonStackView(
-                    primaryButtonViewModel: viewModel.primaryButtonViewModel,
-                    secondaryButtonViewModel: secondaryButtonViewModel
-                )
-            } else if viewModel.showPrimaryButton {
-                Divider()
-                    .overlay(Color(UIColor.govUK.strokes.fixedContainer))
-                SwiftUIButton(
-                    viewModel.primaryButtonConfiguration,
-                    viewModel: viewModel.primaryButtonViewModel
-                )
-                .frame(minHeight: 44, idealHeight: 44)
-                .padding(16)
-            }
+            signInErrorText
+            bottomContentText
+            buttonView
         }
         .background(Color(uiColor: UIColor.govUK.fills.surfaceFullscreen))
         .overlay(content: {
@@ -73,6 +46,54 @@ struct InfoView<Model>: View where Model: InfoViewModelInterface {
             viewModel.trackScreen(screen: self)
         }
     }
+
+    @ViewBuilder
+    private var bottomContentText: some View {
+        if let bottomContentText = viewModel.bottomContentText {
+            Text(bottomContentText)
+                .font(Font.govUK.caption1)
+                .foregroundColor(Color(UIColor.govUK.text.secondary))
+                .padding(.bottom, 16)
+        } else {
+            EmptyView()
+        }
+    }
+
+    @ViewBuilder
+    private var signInErrorText: some View {
+        if let model = viewModel as? SignInErrorViewModel {
+            HStack {
+                Spacer()
+                Text(model.errorCode)
+                    .foregroundColor(Color(UIColor.govUK.text.primary.withAlphaComponent(0.5)))
+                    .font(Font.govUK.caption2)
+                    .accessibilityHidden(true)
+                    .padding(.trailing, 16)
+            }
+        } else {
+            EmptyView()
+        }
+    }
+
+    @ViewBuilder
+    private var buttonView: some View {
+        if let secondaryButtonViewModel = viewModel.secondaryButtonViewModel {
+            ButtonStackView(
+                primaryButtonViewModel: viewModel.primaryButtonViewModel,
+                secondaryButtonViewModel: secondaryButtonViewModel
+            )
+        } else if viewModel.showPrimaryButton {
+            Divider()
+                .overlay(Color(UIColor.govUK.strokes.fixedContainer))
+            SwiftUIButton(
+                viewModel.primaryButtonConfiguration,
+                viewModel: viewModel.primaryButtonViewModel
+            )
+            .frame(minHeight: 44, idealHeight: 44)
+            .padding(16)
+        }
+    }
+
 
     private var progressOpacity: CGFloat {
         guard let model = viewModel as? ProgressIndicating else {
@@ -98,21 +119,7 @@ struct InfoView<Model>: View where Model: InfoViewModelInterface {
     private var infoView: some View {
         VStack {
             if verticalSizeClass != .compact {
-                Group {
-                    if let image = viewModel.image {
-                        image
-                    } else if let animationNames = viewModel.animationColorSchemeNames {
-                        let animationName = colorScheme == .light ?
-                        animationNames.light : animationNames.dark
-                        SwiftUIAnimationView(
-                            animationName: animationName,
-                            shouldReduceMotion: true,
-                            playbackMode: LottieLoopMode.playOnce
-                        )
-                        .aspectRatio(contentMode: .fit)
-                        .frame(maxHeight: 252)
-                    }
-                }
+                contentView
                 .accessibilityHidden(true)
             }
 
@@ -132,6 +139,31 @@ struct InfoView<Model>: View where Model: InfoViewModelInterface {
         }
         .padding(.horizontal, 16)
     }
+
+    @ViewBuilder
+    private var contentView: some View {
+        switch viewModel.heroViewContent {
+        case .decorativeImage(let imageName):
+            Image(decorative: imageName)
+                .padding(.bottom, 16)
+        case .systemImage(let imageName):
+            Image(systemName: imageName)
+                .font(.system(size: 107, weight: .light))
+        case .animation(let animationColorSchemeNames):
+            let animationName = colorScheme == .light ?
+            animationColorSchemeNames.light :
+            animationColorSchemeNames.dark
+            SwiftUIAnimationView(
+                animationName: animationName,
+                shouldReduceMotion: true,
+                playbackMode: LottieLoopMode.playOnce
+            )
+            .aspectRatio(contentMode: .fit)
+            .frame(maxHeight: 252)
+        case .none:
+            EmptyView()
+        }
+    }
 }
 
 extension InfoView: TrackableScreen {
@@ -144,11 +176,31 @@ extension InfoView: TrackableScreen {
     }
 }
 
-struct InfoSystemImage: View {
-    let imageName: String
-
-    var body: some View {
-        Image(systemName: imageName)
-            .font(.system(size: 107, weight: .light))
-    }
+#Preview {
+    let chatOnboardingModel = ChatInfoOnboardingViewModel(
+        analyticsService: Container.shared.analyticsService.resolve(),
+        completionAction: { },
+        cancelOnboardingAction: { })
+    let consentModel = ChatConsentOnboardingViewModel(
+        analyticsService: Container.shared.analyticsService.resolve(),
+        chatService: Container.shared.chatService.resolve(),
+        cancelOnboardingAction: { },
+        completionAction: { }
+    )
+    let chatErrorModel = ChatErrorViewModel(
+        analyticsService: Container.shared.analyticsService.resolve(),
+        error: .apiUnavailable,
+        action: { }
+    )
+    let signInErrorModel = SignInErrorViewModel(
+        error: AuthenticationError.returningUserService(
+            ReturningUserServiceError.missingIdentifierError
+        ),
+        feedbackAction: { _ in },
+        retryAction: { })
+    let signInSuccessViewModel = SignInSuccessViewModel(
+        completion: { }
+    )
+    let welcomeModel = WelcomeOnboardingViewModel(completeAction: { })
+    InfoView(viewModel: consentModel)
 }
