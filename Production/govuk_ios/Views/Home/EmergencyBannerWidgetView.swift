@@ -23,7 +23,7 @@ struct EmergencyBannerWidgetView: View {
                 }
             }
         }
-        .padding()
+        .padding(16)
         .background(viewModel.backgroundColor)
         .roundedBorder(borderColor: viewModel.borderColor)
         .padding([.horizontal, .top])
