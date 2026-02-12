@@ -26,6 +26,7 @@ extension Container {
         Factory(self) {
             AnalyticsService(
                 clients: [
+                    DebugClient(),
                     self.firebaseClient.resolve(),
                     self.crashlyticsClient.resolve(),
                     self.performanceClient.resolve()
@@ -304,6 +305,14 @@ extension Container {
             DVLAService(
                 serviceClient: self.dvlaServiceClient.resolve()
             )
+        }
+    }
+    
+    var notificationCentreService: Factory<NotificationCentreServiceInterface> {
+        Factory(self) {
+            NotificationCentreService(
+                serviceClient: self.notificationCentreServiceClient.resolve(),
+                repository: self.notificationCentreRepository.resolve())
         }
     }
 }

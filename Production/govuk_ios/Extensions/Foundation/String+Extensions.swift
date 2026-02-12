@@ -105,6 +105,13 @@ extension String {
             bundle: .main
         )
     }
+
+    static var notificationCentre: LocalStringBuilder {
+        .init(
+            tableName: "NotificationCentre",
+            bundle: .main
+        )
+    }
 }
 
 extension String {
