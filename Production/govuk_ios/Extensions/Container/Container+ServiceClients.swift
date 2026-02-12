@@ -82,9 +82,19 @@ extension Container {
         }
     }
 
+    var notificationCentreServiceClient: Factory<NotificationCentreServiceClientInterface> {
+        Factory(self) {
+            NotificationCentreServiceClient(
+                apiServiceClient: self.notificationCentreAPIClient()
+            )
+        }
+    }
+
     var dvlaServiceClient: Factory<DVLAServiceClientInterface> {
         Factory(self) {
-            DVLAServiceClient(apiServiceClient: self.dvlaAPIClient())
+            DVLAServiceClient(
+                apiServiceClient: self.dvlaAPIClient()
+            )
         }
     }
 }

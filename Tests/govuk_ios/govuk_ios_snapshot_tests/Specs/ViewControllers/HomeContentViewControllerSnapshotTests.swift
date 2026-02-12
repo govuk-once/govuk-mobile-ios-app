@@ -62,7 +62,8 @@ final class HomeContentViewControllerSnapshotTests: SnapshotTestCase {
             notificationsAction: {},
             recentActivityAction: { } ,
             openURLAction: {_ in } ,
-            openAction: {_ in }
+            openAction: {_ in },
+            notificationCentreAction: { }
         )
         let view = HomeContentView(
             viewModel: viewModel

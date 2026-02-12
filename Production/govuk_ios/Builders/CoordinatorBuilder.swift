@@ -546,4 +546,15 @@ class CoordinatorBuilder {
             viewType: viewType
         )
     }
+
+    func notificationCenterCoordinator(
+        navigationController: UINavigationController
+    ) -> NotificationCentreCoordinator {
+        NotificationCentreCoordinator(
+            navigationController: navigationController,
+            viewControllerBuilder: ViewControllerBuilder(),
+            notificationCentreService: container.notificationCentreService.resolve(),
+            analyticsService: container.analyticsService.resolve(),
+            coordinatorBuilder: self)
+    }
 }

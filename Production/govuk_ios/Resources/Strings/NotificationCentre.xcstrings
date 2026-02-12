@@ -1,95 +1,95 @@
 {
   "sourceLanguage" : "en-GB",
   "strings" : {
-    "allTopicsPickerTitle" : {
+    "deleteNotificationBody" : {
       "extractionState" : "manual",
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "All topics"
+            "value" : "This notification will be permanently deleted. This action cannot be undone."
           }
         }
       }
     },
-    "appTimeoutWarningButtonTitle" : {
+    "deleteNotificationCancelButton" : {
       "extractionState" : "manual",
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Stay signed in"
+            "value" : "Cancel"
           }
         }
       }
     },
-    "appTimeoutWarningMessage" : {
+    "deleteNotificationConfirmButton" : {
       "extractionState" : "manual",
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "For your security, we sign you out when you have not used the app for a while"
+            "value" : "Delete notification"
           }
         }
       }
     },
-    "appTimeoutWarningTitle" : {
+    "deleteNotificationTitle" : {
       "extractionState" : "manual",
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "You’ll be signed out soon"
+            "value" : "Delete notification?"
           }
         }
       }
     },
-    "dismissAlertBannerAccessibilityLabel" : {
+    "noNotificationsBody" : {
       "extractionState" : "manual",
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Dismiss banner"
+            "value" : "You don’t have any notifications yet. When you receive notifications from government services, they’ll appear here."
           }
         }
       }
     },
-    "editTopicsAccessibilityLabel" : {
+    "noNotificationsTitle" : {
       "extractionState" : "manual",
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Edit your topics"
+            "value" : "No notifications"
           }
         }
       }
     },
-    "feedbackWidgetTitle" : {
+    "notificationCentreDetailDeleteA11yLabel" : {
       "extractionState" : "manual",
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tell us what you think about the app"
+            "value" : "Delete notification"
           }
         }
       }
     },
-    "logoAccessibilityTitle" : {
+    "notificationCentreDetailUnreadA11yLabel" : {
       "extractionState" : "manual",
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Gov.UK logo"
+            "value" : "Mark notification as unread"
           }
         }
       }
     },
-    "notificationButtonAccessibilityLabel" : {
+    "notificationCentreNavTitle" : {
       "extractionState" : "manual",
       "localizations" : {
         "en-GB" : {
@@ -100,105 +100,105 @@
         }
       }
     },
-    "notificationWidgetTitle" : {
+    "notificationDetailErrorBody" : {
       "extractionState" : "manual",
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Turn on notifications"
+            "value" : "We’re unable to load this notification right now. Try again later."
           }
         }
       }
     },
-    "noTopicsDescriptionText" : {
+    "notificationDetailTitle" : {
       "extractionState" : "manual",
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No topics selected"
+            "value" : "Notification"
           }
         }
       }
     },
-    "pageTitle" : {
+    "notificationErrorBody" : {
       "extractionState" : "manual",
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Home"
+            "value" : "We’re unable to load your notifications right now. Try again later."
           }
         }
       }
     },
-    "personalisedTopicsPickerTitle" : {
+    "notificationErrorButtonRetry" : {
       "extractionState" : "manual",
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Your topics"
+            "value" : "Try again"
           }
         }
       }
     },
-    "recentActivityWidgetAccessibilityLabel" : {
+    "notificationErrorTitle" : {
       "extractionState" : "manual",
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pages you've visited"
+            "value" : "Sorry, there is a problem"
           }
         }
       }
     },
-    "recentActivityWidgetTitle" : {
+    "notificationNotFoundBody" : {
       "extractionState" : "manual",
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pages you've visited"
+            "value" : "This notification has been deleted or is no longer available"
           }
         }
       }
     },
-    "searchButtonTitle" : {
+    "notificationNotFoundTitle" : {
       "extractionState" : "manual",
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Search"
+            "value" : "Notification not found"
           }
         }
       }
     },
-    "topicsEmptyStateTitle" : {
+    "notificationSentDateFormat" : {
       "extractionState" : "manual",
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Add your topics"
+            "value" : "Sent: %@"
           }
         }
       }
     },
-    "topicsWidgetTitle" : {
+    "notificationUnreadA11yLabel" : {
       "extractionState" : "manual",
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Topics"
+            "value" : "Unread"
           }
         }
       }
     }
   },
-  "version" : "1.0"
+  "version" : "1.1"
 }
