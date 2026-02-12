@@ -8,7 +8,8 @@ extension GOVRequest {
             method: .get,
             bodyParameters: nil,
             queryParameters: ["postcode": postcode],
-            additionalHeaders: nil
+            additionalHeaders: nil,
+            requiresAuthentication: false
         )
     }
     static func localAuthoritySlug(slug: String) -> GOVRequest {
@@ -17,7 +18,8 @@ extension GOVRequest {
             method: .get,
             bodyParameters: nil,
             queryParameters: nil,
-            additionalHeaders: nil
+            additionalHeaders: nil,
+            requiresAuthentication: false
         )
     }
 }

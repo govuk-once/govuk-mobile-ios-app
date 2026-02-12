@@ -4,50 +4,44 @@ import GovKit
 extension GOVRequest {
     private static let userPath = "/app/v1/user"
 
-    static func getUserState(accessToken: String?) -> GOVRequest {
-        let accessToken = accessToken ?? ""
-        return GOVRequest(
+    static func getUserState() -> GOVRequest {
+        GOVRequest(
             urlPath: userPath,
             method: .get,
             bodyParameters: nil,
             queryParameters: nil,
-            additionalHeaders: [
-                "Authorization": "Bearer \(accessToken)"
-            ]
+            additionalHeaders: nil,
+            requiresAuthentication: true
         )
     }
 
-    static func setNotificationsConsent(accepted: Bool,
-                                        accessToken: String?) -> GOVRequest {
-        let accessToken = accessToken ?? ""
-        return GOVRequest(
+    static func setNotificationsConsent(accepted: Bool) -> GOVRequest {
+        GOVRequest(
             urlPath: userPath,
             method: .patch,
             bodyParameters: [
                 "notificationsConsented": accepted
             ],
             queryParameters: nil,
-            additionalHeaders: [
-                "Content-Type": "application/json",
-                "Authorization": "Bearer \(accessToken)"
-            ]
+            additionalHeaders: additionalHeaders,
+            requiresAuthentication: true
         )
     }
 
-    static func setAnalyticsConsent(accepted: Bool,
-                                    accessToken: String?) -> GOVRequest {
-        let accessToken = accessToken ?? ""
-        return GOVRequest(
+    static func setAnalyticsConsent(accepted: Bool) -> GOVRequest {
+        GOVRequest(
             urlPath: userPath,
             method: .patch,
             bodyParameters: [
                 "analyticsConsented": accepted
             ],
             queryParameters: nil,
-            additionalHeaders: [
-                "Content-Type": "application/json",
-                "Authorization": "Bearer \(accessToken)"
-            ]
+            additionalHeaders: additionalHeaders,
+            requiresAuthentication: true
         )
+    }
+
+    private static var additionalHeaders: [String: String] {
+        ["Content-Type": "application/json"]
     }
 }
