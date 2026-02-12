@@ -40,6 +40,7 @@ class ViewControllerBuilder {
         let editLocalAuthorityAction: () -> Void
         let openURLAction: (URL) -> Void
         let openSearchAction: (SearchItem) -> Void
+        let notificationCentreAction: () -> Void
     }
 
     func home(dependencies: HomeDependencies,
@@ -61,7 +62,8 @@ class ViewControllerBuilder {
             notificationsAction: actions.notificationsAction,
             recentActivityAction: actions.recentActivityAction,
             openURLAction: actions.openURLAction,
-            openAction: actions.openSearchAction
+            openAction: actions.openSearchAction,
+            notificationCentreAction: actions.notificationCentreAction
         )
         return HomeViewController(
             viewModel: viewModel
@@ -553,6 +555,16 @@ class ViewControllerBuilder {
         )
         viewController.navigationItem.rightBarButtonItem = viewModel.rightBarButtonItem
         viewController.isModalInPresentation = true
+        return viewController
+    }
+    
+    func notificationCentre() -> UIViewController {
+        let viewModel = NotificationCentreViewModel()
+
+        let viewController = HostingViewController(
+            rootView: NotificationCentreView(), // TODO Pass in ViewModel
+            navigationBarHidden: false
+        )
         return viewController
     }
 }

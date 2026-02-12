@@ -71,6 +71,8 @@
 		16FCDE782DC4E39A000E870D /* TokenRefreshResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FCDE772DC4E38F000E870D /* TokenRefreshResponse.swift */; };
 		16FD684A2D39AEB5002F1597 /* SuggestionHighlighterProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FD68482D39AEAE002F1597 /* SuggestionHighlighterProcessor.swift */; };
 		16FE77672EBB72A7009D02B1 /* TopicsOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FE77662EBB7290009D02B1 /* TopicsOnboardingView.swift */; };
+		3365BE5A2F3DCC3300817D7E /* NotificationCentreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3365BE592F3DCC2E00817D7E /* NotificationCentreViewModel.swift */; };
+		3365BE5C2F3E3A3900817D7E /* NotificationCentreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3365BE5B2F3E3A3400817D7E /* NotificationCentreView.swift */; };
 		3D09A6DB2C9DC877005858D0 /* AppConfigServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D09A6DA2C9DC873005858D0 /* AppConfigServiceClient.swift */; };
 		3D15E7B22CB562E40046CE64 /* AppRecommendUpdateContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D15E7B12CB562E40046CE64 /* AppRecommendUpdateContainerView.swift */; };
 		3D15E7B42CB5630D0046CE64 /* AppRecommendUpdateContainerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D15E7B32CB5630D0046CE64 /* AppRecommendUpdateContainerViewModel.swift */; };
@@ -507,6 +509,8 @@
 		16FCDE772DC4E38F000E870D /* TokenRefreshResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenRefreshResponse.swift; sourceTree = "<group>"; };
 		16FD68482D39AEAE002F1597 /* SuggestionHighlighterProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionHighlighterProcessor.swift; sourceTree = "<group>"; };
 		16FE77662EBB7290009D02B1 /* TopicsOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsOnboardingView.swift; sourceTree = "<group>"; };
+		3365BE592F3DCC2E00817D7E /* NotificationCentreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCentreViewModel.swift; sourceTree = "<group>"; };
+		3365BE5B2F3E3A3400817D7E /* NotificationCentreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCentreView.swift; sourceTree = "<group>"; };
 		3D09A6DA2C9DC873005858D0 /* AppConfigServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfigServiceClient.swift; sourceTree = "<group>"; };
 		3D15E7B12CB562E40046CE64 /* AppRecommendUpdateContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRecommendUpdateContainerView.swift; sourceTree = "<group>"; };
 		3D15E7B32CB5630D0046CE64 /* AppRecommendUpdateContainerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRecommendUpdateContainerViewModel.swift; sourceTree = "<group>"; };
@@ -1161,6 +1165,14 @@
 			path = Processors;
 			sourceTree = "<group>";
 		};
+		3365BE582F3DCC0E00817D7E /* NotificationCentre */ = {
+			isa = PBXGroup;
+			children = (
+				3365BE5B2F3E3A3400817D7E /* NotificationCentreView.swift */,
+			);
+			path = NotificationCentre;
+			sourceTree = "<group>";
+		};
 		3D09A6D92C9DC78A005858D0 /* ServiceClients */ = {
 			isa = PBXGroup;
 			children = (
@@ -1379,6 +1391,7 @@
 				169842D92DB0003C00E3EA66 /* LocalAuthenticationOnboardingViewModel.swift */,
 				1677D4032E00694B00FB1E56 /* LocalAuthenticationSettingsViewModel.swift */,
 				D0ECB3FF2DCE0F2000A9707E /* LocalAuthority */,
+				3365BE592F3DCC2E00817D7E /* NotificationCentreViewModel.swift */,
 				5DA8ADDE2DD4968100ECEB6B /* NotificationsOnboardingViewModel.swift */,
 				D056CE732D3A83F2005845E0 /* NotificationsWidgetViewModel.swift */,
 				5DD4CB192D95491E00459FB5 /* RecentActivityListViewModel.swift */,
@@ -1531,6 +1544,7 @@
 				5D925B192CB7CE4100A1E241 /* Common */,
 				16E5AD442C6E499B000B8B3A /* Home */,
 				169842DC2DB05F0D00E3EA66 /* LocalAuthentication */,
+				3365BE582F3DCC0E00817D7E /* NotificationCentre */,
 				4E3E57E72D9ADBB800402E8B /* Notifications */,
 				163800FD2C99DAB900C3DDD1 /* Search */,
 				5DA4FB052CCBAF1800804C8A /* Settings */,
@@ -2551,6 +2565,7 @@
 				5DD4CB0A2D95483100459FB5 /* RecentActivitySection.swift in Sources */,
 				5DD4CB0B2D95483100459FB5 /* RecentActivitiesViewStructure.swift in Sources */,
 				4EBCA3362DAC5E2E0063A723 /* GOVRequest+LocalAuthority.swift in Sources */,
+				3365BE5C2F3E3A3900817D7E /* NotificationCentreView.swift in Sources */,
 				5DD4CB0C2D95483100459FB5 /* ActivityItemCreateParams.swift in Sources */,
 				81EADD9D2F04268300CA7B37 /* RemoteConfig.swift in Sources */,
 				16FD684A2D39AEB5002F1597 /* SuggestionHighlighterProcessor.swift in Sources */,
@@ -2660,6 +2675,7 @@
 				16A4421A2F1E8C82000AAAA6 /* ExpandingButtonStyle.swift in Sources */,
 				5DCAFA752D4004E700C3F284 /* NotificationService.swift in Sources */,
 				D028CD122CC14A0100742620 /* DisplayableTopic.swift in Sources */,
+				3365BE5A2F3DCC3300817D7E /* NotificationCentreViewModel.swift in Sources */,
 				5D349F692C6B550000B7F747 /* URL+Extensions.swift in Sources */,
 				5D41DB702C088FEB0011E691 /* Container+ServiceClients.swift in Sources */,
 				D0EAB4FF2CDE5D5B007ACBCD /* AppEnvironmentService.swift in Sources */,

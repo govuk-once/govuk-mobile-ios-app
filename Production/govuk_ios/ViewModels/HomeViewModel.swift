@@ -15,6 +15,7 @@ class HomeViewModel: ObservableObject {
     let feedbackAction: () -> Void
     let notificationsAction: () -> Void
     let recentActivityAction: () -> Void
+    let notificationCentreAction: () -> Void
     let openURLAction: (URL) -> Void
     let openAction: (SearchItem) -> Void
     let urlOpener: URLOpener
@@ -41,7 +42,8 @@ class HomeViewModel: ObservableObject {
          notificationsAction: @escaping () -> Void,
          recentActivityAction: @escaping () -> Void,
          openURLAction: @escaping (URL) -> Void,
-         openAction: @escaping (SearchItem) -> Void) {
+         openAction: @escaping (SearchItem) -> Void,
+         notificationCentreAction: @escaping() -> Void) {
         self.analyticsService = analyticsService
         self.configService = configService
         self.notificationService = notificationService
@@ -59,6 +61,7 @@ class HomeViewModel: ObservableObject {
         self.activityService = activityService
         self.localAuthorityService = localAuthorityService
         self.chatService = chatService
+        self.notificationCentreAction = notificationCentreAction
         updateWidgets()
     }
 
