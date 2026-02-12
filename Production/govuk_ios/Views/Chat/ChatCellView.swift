@@ -21,8 +21,8 @@ struct ChatCellView: View {
                 answerView
             case .intro:
                 introView
-            case .loading:
-                loadingView
+            case .sending:
+                sendingView
             }
         }
         .background(viewModel.backgroundColor)
@@ -32,9 +32,12 @@ struct ChatCellView: View {
             )
         )
         .opacity(viewModel.isVisible ? 1 : 0)
-        .scaleEffect(viewModel.scale, anchor: viewModel.anchor)
-        .animation(.easeIn(duration: viewModel.duration).delay(viewModel.delay),
-                   value: viewModel.isVisible)
+        .offset(y: viewModel.isVisible ? 0 : viewModel.offset)
+        .animation(
+            .easeIn(duration: viewModel.animationDuration)
+            .delay(viewModel.delay),
+            value: viewModel.isVisible
+        )
         .padding(.top, viewModel.topPadding)
         .contextMenu {
             Button(action: {
@@ -46,12 +49,12 @@ struct ChatCellView: View {
         }
     }
 
-    private var loadingView: some View {
-        Text(.Chat.loadingQuestionMessage)
+    private var sendingView: some View {
+        Text(viewModel.message)
             .font(.govUK.subheadline)
             .foregroundStyle(Color(UIColor.govUK.text.primary))
             .multilineTextAlignment(.trailing)
-            .padding(.trailing, 16)
+            .padding(.trailing, 0)
     }
 
     private var questionView: some View {
@@ -201,9 +204,11 @@ struct ChatDisclosure: DisclosureGroupStyle {
             HStack(alignment: .firstTextBaseline) {
                 configuration.label
                     .multilineTextAlignment(.leading)
+                    .fixedSize(horizontal: false, vertical: true)
                 Spacer()
                 Image(systemName: configuration.isExpanded ? "chevron.up" : "chevron.down")
                     .foregroundStyle(Color(UIColor.govUK.text.link))
+                    .transaction({ $0.animation = nil }) // Prevent cross-fade animation on toggle
             }
         }
     }
