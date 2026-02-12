@@ -91,6 +91,16 @@ extension Container {
         }
     }
 
+    var notificationCentreAPIClient: Factory<APIServiceClientInterface> {
+        Factory(self) {
+            APIServiceClient(baseUrl: self.appEnvironmentService().flexBaseURL,
+                             session: self.urlSession(),
+                             requestBuilder: RequestBuilder(),
+                             responseHandler: NotificationCentreResponseHandler(),
+                             tokenProvider: self.authenticationService())
+        }
+    }
+
     var urlSession: Factory<URLSession> {
         Factory(self) {
             URLSession(configuration: .default)
