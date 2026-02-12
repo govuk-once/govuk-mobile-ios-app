@@ -51,7 +51,8 @@ struct ViewControllerBuilderTests {
             localAuthorityAction: {},
             editLocalAuthorityAction: {},
             openURLAction: { _ in },
-            openSearchAction: { _ in }
+            openSearchAction: { _ in },
+            notificationCentreAction: { }
         )
 
         let result = subject.home(dependencies: dependencies, actions: actions)
