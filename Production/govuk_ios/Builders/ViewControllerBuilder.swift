@@ -41,6 +41,7 @@ class ViewControllerBuilder {
         let editLocalAuthorityAction: () -> Void
         let openURLAction: (URL) -> Void
         let openSearchAction: (SearchItem) -> Void
+        let notificationCentreAction: () -> Void
     }
 
     func home(dependencies: HomeDependencies,
@@ -62,7 +63,8 @@ class ViewControllerBuilder {
             notificationsAction: actions.notificationsAction,
             recentActivityAction: actions.recentActivityAction,
             openURLAction: actions.openURLAction,
-            openAction: actions.openSearchAction
+            openAction: actions.openSearchAction,
+            notificationCentreAction: actions.notificationCentreAction
         )
         return HomeViewController(
             viewModel: viewModel
@@ -618,9 +620,77 @@ class ViewControllerBuilder {
             viewModel: viewModel
         )
         let viewController = HostingViewController(
-            rootView: termsView
-        )
+            rootView: termsView)
         return viewController
     }
+
+    func notificationCentre(
+        showNotificationAction: @escaping (Notification) -> Void,
+        notificationService: NotificationCentreServiceInterface,
+        analyticsService: AnalyticsServiceInterface) -> UIViewController {
+        let actions = NotificationCentreViewModel.Actions(showNotification: showNotificationAction)
+        let viewModel = NotificationCentreViewModel(
+            actions: actions,
+            notificationService: notificationService,
+            analyticsService: analyticsService)
+
+        let viewController = HostingViewController(
+            rootView: NotificationCentreContainerView(viewModel: viewModel),
+            navigationBarHidden: false
+        )
+        viewController.navigationItem.largeTitleDisplayMode = .never
+        viewController
+            .navigationItem
+            .backButtonTitle = String.notificationCentre.localized("notificationCentreNavTitle")
+
+        return viewController
+    }
+
+    // swiftlint:disable:next function_parameter_count
+    func notificationCentreDetail(
+        notificationId: String,
+        notificationService: NotificationCentreServiceInterface,
+        analyticsService: AnalyticsServiceInterface,
+        showUrlAction: @escaping (URL) -> Void,
+        onUnreadAction: @escaping () -> Void,
+        onDeleteAction: @escaping () -> Void) -> UIViewController {
+            let viewModel = NotificationCentreDetailViewModel(
+                notificationId: notificationId,
+                notificationService: notificationService,
+                analyticsService: analyticsService,
+                showUrlAction: showUrlAction,
+                onUnreadAction: onUnreadAction,
+                onDeleteAction: onDeleteAction)
+
+            let viewController = HostingViewController(
+                rootView: NotificationCentreDetailContainerView(viewModel: viewModel),
+                navigationBarHidden: false
+            )
+            viewController.navigationItem.largeTitleDisplayMode = .always
+            let unreadButton = UIBarButtonItem(
+                image: UIImage(
+                    resource: .notcenUnread),
+                primaryAction: UIAction { [weak viewModel] _ in
+                    viewModel?.onMarkUnread()
+            })
+            unreadButton.accessibilityLabel = String
+                .notificationCentre.localized("notificationCentreDetailUnreadA11yLabel")
+
+            let deleteButton = UIBarButtonItem(
+                image: UIImage(
+                    resource: .notcenDelete),
+                primaryAction: UIAction { [weak viewModel] _ in
+                    viewModel?.onDelete()
+            })
+            deleteButton.accessibilityLabel = String
+                .notificationCentre.localized("notificationCentreDetailDeleteA11yLabel")
+
+
+            viewController.navigationItem.rightBarButtonItems = [
+                deleteButton,
+                unreadButton
+            ]
+            return viewController
+        }
 }
 // swiftlint:enable file_length

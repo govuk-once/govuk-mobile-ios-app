@@ -545,7 +545,7 @@ class NotificationServiceTests {
         )
         sut.acceptConsent()
         sut.register(pushId: "test_user_id")
-        #expect(MockOneSignalServiceClient._stubbedExternalId == nil)
+        #expect(MockOneSignalServiceClient._stubbedExternalId == "test_user_id")
     }
 
     /// Temporarily disabled sending of id to one signal
@@ -580,7 +580,7 @@ class NotificationServiceTests {
         )
 
         sut.unregisterPushId()
-        #expect(MockOneSignalServiceClient._stubbedExternalId == "test_user_id")
+        #expect(MockOneSignalServiceClient._stubbedExternalId == nil)
     }
 
     @Test

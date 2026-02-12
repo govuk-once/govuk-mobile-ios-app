@@ -159,16 +159,14 @@ class NotificationService: NSObject,
     /// Temporarily disabled sending of id to one signal
     /// https://govukverify.atlassian.net/browse/GOVUKAPP-3485
     func register(pushId: String) {
-        return
-        // guard hasGivenConsent else { return }
-        // oneSignalServiceClient.login(pushId)
+        guard hasGivenConsent else { return }
+        oneSignalServiceClient.login(pushId)
     }
 
     /// Temporarily disabled sending of id to one signal
     /// https://govukverify.atlassian.net/browse/GOVUKAPP-3485
     func unregisterPushId() {
-        return
-        // oneSignalServiceClient.logout()
+        oneSignalServiceClient.logout()
     }
 }
 

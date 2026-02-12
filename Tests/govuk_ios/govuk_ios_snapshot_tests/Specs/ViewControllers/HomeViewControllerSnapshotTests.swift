@@ -101,7 +101,8 @@ class HomeViewControllerSnapshotTests: SnapshotTestCase {
             notificationsAction: { },
             recentActivityAction: { },
             openURLAction: { _ in },
-            openAction: { _ in }
+            openAction: { _ in },
+            notificationCentreAction: { }
         )
         return HomeViewController(viewModel: viewModel)
     }

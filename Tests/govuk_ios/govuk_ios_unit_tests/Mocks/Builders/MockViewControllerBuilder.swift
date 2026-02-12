@@ -33,7 +33,8 @@ extension ViewControllerBuilder {
             notificationsAction: { },
             recentActivityAction: { },
             openURLAction: { _ in },
-            openAction: { _ in }
+            openAction: { _ in },
+            notificationCentreAction: { }
         )
         let homeViewController = MockHomeViewController(viewModel: homeViewModel)
         return homeViewController

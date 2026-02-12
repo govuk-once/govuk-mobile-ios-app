@@ -34,4 +34,10 @@ extension Container {
             ChatRepository(coreData: self.coreDataRepository())
         }
     }
+
+    var notificationCentreRepository: Factory<NotificationCentreRepositoryInterface> {
+        Factory(self) {
+            NotificationCentreRepository()
+        }.scope(.singleton) // This wouldn't strictly be necessary if it was using CoreData
+    }
 }

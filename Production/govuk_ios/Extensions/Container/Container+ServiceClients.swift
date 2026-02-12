@@ -82,4 +82,12 @@ extension Container {
             )
         }
     }
+
+    var notificationCentreServiceClient: Factory<NotificationCentreServiceClientInterface> {
+        Factory(self) {
+            NotificationCentreServiceClient(
+                apiServiceClient: self.notificationCentreAPIClient()
+            )
+        }
+    }
 }

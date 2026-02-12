@@ -68,7 +68,7 @@ class AppCoordinator: BaseCoordinator {
             notificationService.register(pushId: pushId)
             let consentStatus: ConsentStatus = consentGiven ? .accepted : .denied
             userService.setNotificationsConsent(consentStatus)
-        }
+       }
     }
 
     override func start(url: URL?) {
