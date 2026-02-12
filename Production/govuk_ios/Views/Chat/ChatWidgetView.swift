@@ -24,7 +24,6 @@ struct ChatWidgetView: View {
         }
         .background(Color(uiColor: UIColor.govUK.fills.surfaceList))
         .roundedBorder(borderColor: .clear)
-        .padding([.horizontal, .top], 16)
     }
 
     private var title: some View {
