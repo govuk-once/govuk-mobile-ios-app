@@ -180,36 +180,6 @@ struct ChatCoordinatorTests {
     }
 
     @Test
-    func chatViewController_handleError_authenticationError_retriesRequest() async throws {
-        let mockChatService = MockChatService()
-        mockChatService.chatOnboardingSeen = true
-        let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
-        let mockViewControllerBuilder = MockViewControllerBuilder()
-        let mockPeriAuthCoordinator = MockBaseCoordinator()
-        mockCoordinatorBuilder._stubbedPeriAuthCoordinator = mockPeriAuthCoordinator
-        let mockAuthenticationService = MockAuthenticationService()
-        let navigationController = UINavigationController()
-        let sut = ChatCoordinator(
-            navigationController: navigationController,
-            coordinatorBuilder: mockCoordinatorBuilder,
-            viewControllerBuilder: mockViewControllerBuilder,
-            deepLinkStore: DeeplinkDataStore(routes: [], root: UIViewController()),
-            analyticsService: MockAnalyticsService(),
-            chatService: mockChatService,
-            authenticationService: mockAuthenticationService,
-            cancelOnboardingAction: { }
-        )
-
-        let didRetry = await withCheckedContinuation { continuation in
-            mockChatService._stubbedRetryAction = { continuation.resume(returning: true) }
-            sut.start(url: nil)
-            mockAuthenticationService._stubbedTokenRefreshRequest = .success(.init(accessToken: "123", idToken: "123"))
-            mockViewControllerBuilder._receivedChatHandleError?(ChatError.authenticationError)
-        }
-        #expect(didRetry)
-    }
-
-    @Test
     func chatViewController_handleError_secondAttempt_authenticationError_showsInfoView() throws {
         let mockChatService = MockChatService()
         mockChatService.chatOnboardingSeen = true

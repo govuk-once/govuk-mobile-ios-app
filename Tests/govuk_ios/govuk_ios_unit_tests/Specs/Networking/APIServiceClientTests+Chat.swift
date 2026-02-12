@@ -8,15 +8,17 @@ struct APIServiceClientTests_Chat {
 
     @Test
     func send_chatRequest_passesExpectedValues() async {
+        let mockAuthenticationService = MockAuthenticationService()
+        mockAuthenticationService._stubbedAccessToken = "testToken"
         let subject = APIServiceClient(
             baseUrl: URL(string: "https://www.google.com")!,
             session: URLSession.mock,
             requestBuilder: RequestBuilder(),
-            responseHandler: ChatResponseHandler()
+            responseHandler: ChatResponseHandler(),
+            tokenProvider: mockAuthenticationService
 
         )
-        let request = GOVRequest.askQuestion("What is your quest?",
-                                             accessToken: "testToken")
+        let request = GOVRequest.askQuestion("What is your quest?")
 
         MockURLProtocol.requestHandlers["https://www.google.com/conversation"] = { request in
             #expect(request.httpMethod == "POST")
@@ -37,11 +39,14 @@ struct APIServiceClientTests_Chat {
 
     @Test
     func send_successResponse_returnsExpectedResult() async {
+        let mockAuthenticationService = MockAuthenticationService()
+        mockAuthenticationService._stubbedAccessToken = "testToken"
         let subject = APIServiceClient(
             baseUrl: URL(string: "https://www.google.com")!,
             session: URLSession.mock,
             requestBuilder: RequestBuilder(),
-            responseHandler: ChatResponseHandler()
+            responseHandler: ChatResponseHandler(),
+            tokenProvider: mockAuthenticationService
 
         )
         let request = GOVRequest.askQuestion("What is your quest?")

@@ -8,7 +8,8 @@ extension GOVRequest {
             method: .get,
             bodyParameters: nil,
             queryParameters: ["q": term, "count": "10"],
-            additionalHeaders: nil
+            additionalHeaders: nil,
+            requiresAuthentication: false
         )
     }
 
@@ -18,7 +19,8 @@ extension GOVRequest {
             method: .get,
             bodyParameters: nil,
             queryParameters: ["q": term],
-            additionalHeaders: nil
+            additionalHeaders: nil,
+            requiresAuthentication: false
         )
     }
 }

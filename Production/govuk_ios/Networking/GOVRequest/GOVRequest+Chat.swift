@@ -3,8 +3,7 @@ import GovKit
 
 extension GOVRequest {
     static func askQuestion(_ question: String,
-                            conversationId: String? = nil,
-                            accessToken: String? = nil) -> GOVRequest {
+                            conversationId: String? = nil) -> GOVRequest {
         var path = "/conversation"
         if let conversationId = conversationId {
             path += "/\(conversationId)"
@@ -14,37 +13,35 @@ extension GOVRequest {
             method: conversationId != nil ? .put : .post,
             bodyParameters: ["user_question": question],
             queryParameters: nil,
-            additionalHeaders: addtionalHeaders(accessToken)
+            additionalHeaders: additionalHeaders,
+            requiresAuthentication: true
         )
     }
 
-    static func getChatHistory(conversationId: String,
-                               accessToken: String? = nil) -> GOVRequest {
+    static func getChatHistory(conversationId: String) -> GOVRequest {
         GOVRequest(
             urlPath: "/conversation/\(conversationId)",
             method: .get,
             bodyParameters: nil,
             queryParameters: nil,
-            additionalHeaders: addtionalHeaders(accessToken)
+            additionalHeaders: additionalHeaders,
+            requiresAuthentication: true
         )
     }
 
     static func getAnswer(conversationId: String,
-                          questionId: String,
-                          accessToken: String? = nil) -> GOVRequest {
+                          questionId: String) -> GOVRequest {
         GOVRequest(
             urlPath: "/conversation/\(conversationId)/questions/\(questionId)/answer",
             method: .get,
             bodyParameters: nil,
             queryParameters: nil,
-            additionalHeaders: addtionalHeaders(accessToken)
+            additionalHeaders: additionalHeaders,
+            requiresAuthentication: true
         )
     }
 
-    private static func addtionalHeaders(_ accessToken: String?) -> [String: String] {
-        var headers = [String: String]()
-        headers["Content-Type"] = "application/json"
-        headers["Authorization"] = "Bearer \(accessToken ?? "")"
-        return headers
+    private static var additionalHeaders: [String: String] {
+        ["Content-Type": "application/json"]
     }
 }

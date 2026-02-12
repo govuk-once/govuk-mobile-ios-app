@@ -12,7 +12,8 @@ extension GOVRequest {
                 "client_id": clientId
             ],
             queryParameters: nil,
-            additionalHeaders: ["Content-Type": "application/x-www-form-urlencoded"]
+            additionalHeaders: ["Content-Type": "application/x-www-form-urlencoded"],
+            requiresAuthentication: false
         )
     }
 }

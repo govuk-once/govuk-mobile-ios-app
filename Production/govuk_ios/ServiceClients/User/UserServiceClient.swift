@@ -22,9 +22,7 @@ struct UserServiceClient: UserServiceClientInterface {
     }
 
     func fetchUserState(completion: @escaping FetchUserStateCompletion) {
-        let request = GOVRequest.getUserState(
-            accessToken: authenticationService.accessToken
-        )
+        let request = GOVRequest.getUserState()
         apiServiceClient.send(
             request: request,
             completion: { result in
@@ -35,8 +33,7 @@ struct UserServiceClient: UserServiceClientInterface {
     func setNotificationsConsent(accepted: Bool,
                                  completion: @escaping (NotificationsPreferenceResult) -> Void) {
         let request = GOVRequest.setNotificationsConsent(
-            accepted: accepted,
-            accessToken: authenticationService.accessToken
+            accepted: accepted
         )
         apiServiceClient.send(
             request: request) { result in

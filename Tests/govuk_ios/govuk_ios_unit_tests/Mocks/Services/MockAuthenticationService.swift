@@ -34,7 +34,10 @@ class MockAuthenticationService: AuthenticationServiceInterface {
 
     var refreshToken: String?
     var idToken: String?
-    var accessToken: String?
+    var _stubbedAccessToken: String?
+    var accessToken: String? {
+        _stubbedAccessToken
+    }
     var didSignOutAction: ((SignoutReason) -> Void)?
 
     var _stubbedAuthenticationResult: AuthenticationServiceResult = .failure(.loginFlow(.init(reason: .authorizationClientError)))
@@ -56,6 +59,9 @@ class MockAuthenticationService: AuthenticationServiceInterface {
     var _tokenRefreshRequestCalled = false
     func tokenRefreshRequest() async -> TokenRefreshResult {
         _tokenRefreshRequestCalled = true
+        if case .success(let response) = _stubbedTokenRefreshRequest {
+            _stubbedAccessToken = response.accessToken
+        }
         return _stubbedTokenRefreshRequest
     }
 

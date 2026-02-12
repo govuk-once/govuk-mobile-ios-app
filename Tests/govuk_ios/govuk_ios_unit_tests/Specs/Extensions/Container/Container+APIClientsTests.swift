@@ -82,9 +82,14 @@ struct Container_APIClientTests {
     @Test
     func chatAPIClient_createsExpectedRequest() async throws {
         let container = Container()
+        let mockAuthenticationService = MockAuthenticationService()
+        mockAuthenticationService._stubbedAccessToken = "testToken"
         container.urlSession.register { URLSession.mock }
         container.appEnvironmentService.register {
             MockAppEnvironmentService()
+        }
+        container.authenticationService.register {
+            mockAuthenticationService
         }
         let sut = container.chatAPIClient()
 
@@ -98,8 +103,7 @@ struct Container_APIClientTests {
                 return (.arrangeSuccess, nil, nil)
             }
 
-            let request = GOVRequest.askQuestion("What is your quest?",
-                                                 accessToken: "testToken")
+            let request = GOVRequest.askQuestion("What is your quest?")
 
             sut.send(
                 request: request,
