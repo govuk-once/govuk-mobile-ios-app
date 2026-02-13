@@ -31,6 +31,16 @@ class PeriAuthCoordinator: BaseCoordinator {
         let coordinator = coordinatorBuilder.welcomeOnboarding(
             navigationController: root,
             completionAction: { [weak self] in
+                self?.startTermsAndConditionsCoordinator(url: url)
+            }
+        )
+        start(coordinator)
+    }
+
+    private func startTermsAndConditionsCoordinator(url: URL?) {
+        let coordinator = coordinatorBuilder.termsAndConditions(
+            navigationController: root,
+            completion: { [weak self] in
                 self?.startLocalAuthenticationOnboardingCoordinator(url: url)
             }
         )
