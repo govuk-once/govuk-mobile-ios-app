@@ -77,11 +77,7 @@ class AuthenticationCoordinator: BaseCoordinator {
 
     @MainActor
     private func startSignInSuccess() {
-        let coordinator = coordinatorBuilder.signInSuccess(
-            navigationController: root,
-            completion: completionAction
-        )
-        start(coordinator)
+        completionAction()
     }
 
     private var shouldEncryptRefreshToken: Bool {
