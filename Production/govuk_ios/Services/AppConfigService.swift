@@ -12,6 +12,7 @@ protocol AppConfigServiceInterface {
     var emergencyBanners: [EmergencyBanner]? { get }
     var chatUrls: ChatURLs? { get }
     var refreshTokenExpirySeconds: Int? { get }
+    var termsAndConditions: TermsAndConditions? { get }
 }
 
 public final class AppConfigService: AppConfigServiceInterface {
@@ -28,6 +29,7 @@ public final class AppConfigService: AppConfigServiceInterface {
     var emergencyBanners: [EmergencyBanner]?
     private(set) var chatUrls: ChatURLs?
     private(set) var refreshTokenExpirySeconds: Int?
+    private(set) var termsAndConditions: TermsAndConditions?
 
     init(appConfigServiceClient: AppConfigServiceClientInterface,
          analyticsService: AnalyticsServiceInterface) {
@@ -67,6 +69,7 @@ public final class AppConfigService: AppConfigServiceInterface {
         chatBanner = config.chatBanner
         userFeedbackBanner = config.userFeedbackBanner
         chatUrls = config.chatUrls
+        termsAndConditions = config.termsAndConditions
     }
 
     private func updateChatPollInterval(_ interval: TimeInterval?) {

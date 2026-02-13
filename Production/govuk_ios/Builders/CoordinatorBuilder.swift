@@ -369,6 +369,24 @@ class CoordinatorBuilder {
         )
     }
 
+    func termsAndConditions(navigationController: UINavigationController,
+                            completion: @escaping () -> Void) -> BaseCoordinator {
+        TermsAndConditionsCoordinator(
+            navigationController: navigationController,
+            analyticsService: container.analyticsService.resolve(),
+            userDefaultsService: container.userDefaultsService.resolve(),
+            appConfigService: container.appConfigService.resolve(),
+            completion: completion)
+    }
+
+    func webView(url: URL) -> BaseCoordinator {
+        WebViewCoordinator(
+            navigationController: UINavigationController(),
+            viewControllerBuilder: ViewControllerBuilder(),
+            url: url
+        )
+    }
+
     func safari(navigationController: UINavigationController,
                 url: URL,
                 fullScreen: Bool) -> BaseCoordinator {
