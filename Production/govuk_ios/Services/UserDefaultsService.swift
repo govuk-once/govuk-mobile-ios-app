@@ -71,4 +71,5 @@ enum UserDefaultsKeys: String {
     case refreshTokenIssuedAtDate = "govuk_refresh_token_iat_date"
     case chatOnboardingSeen = "govuk_chat_onboarding_seen"
     case chatOptedIn = "govuk_chat_opted_in"
+    case acceptedTermsAndConditions = "govuk_accepted_terms_and_conditions"
 }
