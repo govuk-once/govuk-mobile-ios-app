@@ -73,6 +73,11 @@ class MockAppConfigService: AppConfigServiceInterface {
 
     var _receivedFetchAppConfigCompletion: FetchAppConfigCompletion?
     var _stubbedFetchAppConfigResult: FetchAppConfigResult?
+    var _stubbedTermsAndConditions: TermsAndConditions?
+    var termsAndConditions: TermsAndConditions? {
+        _stubbedTermsAndConditions
+    }
+    
     func fetchAppConfig(completion: @escaping FetchAppConfigCompletion) {
         _receivedFetchAppConfigCompletion = completion
         if let result = _stubbedFetchAppConfigResult {
