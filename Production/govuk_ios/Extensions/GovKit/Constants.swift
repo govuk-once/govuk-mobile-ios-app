@@ -36,5 +36,9 @@ extension Constants {
             public static let inactivityTimeout: TimeInterval = 15 * 60
             public static let inactivityWarning: TimeInterval = 13 * 60
         }
+
+        public struct Animation {
+            public static let chatAnimationDuration: TimeInterval = 0.20
+        }
     }
 }
