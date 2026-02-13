@@ -12,6 +12,7 @@ struct PrivacyView: View {
             }
         }
         .ignoresSafeArea()
+        .toolbarColorScheme(.light, for: .navigationBar)
     }
 }
 
