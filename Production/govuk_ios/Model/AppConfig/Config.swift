@@ -16,6 +16,7 @@ struct Config: Decodable {
         case userFeedbackBanner
         case emergencyBanners
         case chatUrls
+        case termsAndConditions
     }
 
     let available: Bool
@@ -32,6 +33,7 @@ struct Config: Decodable {
     let userFeedbackBanner: UserFeedbackBanner?
     let emergencyBanners: [EmergencyBanner]?
     let chatUrls: ChatURLs?
+    let termsAndConditions: TermsAndConditions?
 }
 
 struct ChatURLs: Decodable {
@@ -39,4 +41,9 @@ struct ChatURLs: Decodable {
     let privacyNotice: URL?
     let about: URL?
     let feedback: URL?
+}
+
+struct TermsAndConditions: Decodable {
+    let url: URL
+    let lastUpdated: Date
 }
