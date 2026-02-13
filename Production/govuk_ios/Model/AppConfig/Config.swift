@@ -33,7 +33,7 @@ struct Config: Decodable {
     let userFeedbackBanner: UserFeedbackBanner?
     let emergencyBanners: [EmergencyBanner]?
     let chatUrls: ChatURLs?
-    let termsAndConditions: TermsAndConditions
+    let termsAndConditions: TermsAndConditions?
 }
 
 struct ChatURLs: Decodable {
@@ -45,5 +45,5 @@ struct ChatURLs: Decodable {
 
 struct TermsAndConditions: Decodable {
     let url: URL
-    let lastUpdated: String
+    let lastUpdated: Date
 }
