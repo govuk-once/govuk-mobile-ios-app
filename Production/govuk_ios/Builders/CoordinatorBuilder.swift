@@ -374,8 +374,7 @@ class CoordinatorBuilder {
         TermsAndConditionsCoordinator(
             navigationController: navigationController,
             analyticsService: container.analyticsService.resolve(),
-            userDefaultsService: container.userDefaultsService.resolve(),
-            appConfigService: container.appConfigService.resolve(),
+            termsAndConditionsService: container.termsAndConditionsService.resolve(),
             completion: completion)
     }
 

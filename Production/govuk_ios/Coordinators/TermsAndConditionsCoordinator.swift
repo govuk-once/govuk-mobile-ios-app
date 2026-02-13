@@ -3,27 +3,21 @@ import GovKit
 
 final class TermsAndConditionsCoordinator: BaseCoordinator {
     private let analyticsService: AnalyticsServiceInterface
-    private let userDefaultsService: UserDefaultsServiceInterface
-    private let appConfigService: AppConfigServiceInterface
+    private let termsAndConditionsService: TermsAndConditionsServiceInterface
     private let completion: () -> Void
 
     init(navigationController: UINavigationController,
          analyticsService: AnalyticsServiceInterface,
-         userDefaultsService: UserDefaultsServiceInterface,
-         appConfigService: AppConfigServiceInterface,
+         termsAndConditionsService: TermsAndConditionsServiceInterface,
          completion: @escaping () -> Void) {
         self.analyticsService = analyticsService
-        self.userDefaultsService = userDefaultsService
-        self.appConfigService = appConfigService
+        self.termsAndConditionsService = termsAndConditionsService
         self.completion = completion
         super.init(navigationController: navigationController)
     }
 
     override func start(url: URL?) {
-        guard let acceptanceDate = userDefaultsService.value(
-            forKey: .termsAndConditionsAcceptanceDate
-        ) as? Date,
-              acceptanceDate > appConfigService.termsAndConditions?.lastUpdated ?? .now  else {
+        guard !termsAndConditionsService.termsAcceptanceIsValid else {
             completion()
             return
         }
