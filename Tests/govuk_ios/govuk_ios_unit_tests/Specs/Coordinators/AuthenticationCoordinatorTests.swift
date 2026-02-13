@@ -46,6 +46,45 @@ class AuthenticationCoordinatorTests {
     }
 
     @Test
+    func start_signinSuccess_startsSignInSuccess() async {
+        let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
+        let mockSignInSuccessCoordinator = MockBaseCoordinator()
+        mockCoordinatorBuilder._stubbedSignInSuccessCoordinator = mockSignInSuccessCoordinator
+        let mockAuthenticationService = MockAuthenticationService()
+        let mockTopicsService = MockTopicsService()
+        let mockChatService = MockChatService()
+        let mockLocalAuthenticationService = MockLocalAuthenticationService()
+        let mockNavigationController =  MockNavigationController()
+        mockLocalAuthenticationService._stubbedCanEvaluateBiometricsPolicy = true
+        mockLocalAuthenticationService._stubbedAuthenticationOnboardingSeen = false
+        mockAuthenticationService._stubbedAuthenticationResult = .success(
+            .init(returningUser: true)
+        )
+        let mockAnalyticsService = MockAnalyticsService()
+        let newWindow = UIWindow(frame: UIScreen.main.bounds)
+        newWindow.rootViewController = mockNavigationController
+        newWindow.makeKeyAndVisible()
+        await withCheckedContinuation { continuation in
+            let sut = AuthenticationCoordinator(
+                navigationController: mockNavigationController,
+                coordinatorBuilder: mockCoordinatorBuilder,
+                authenticationService: mockAuthenticationService,
+                localAuthenticationService: mockLocalAuthenticationService,
+                analyticsService: mockAnalyticsService,
+                topicsService: mockTopicsService,
+                chatService: mockChatService,
+                completionAction: {
+                    continuation.resume()
+                },
+                errorAction: { _ in }
+            )
+            sut.start(url: nil)
+        }
+
+        #expect(mockAnalyticsService._setExistingConsentCalled)
+    }
+
+    @Test
     func signinSuccess_newUser_resetsConsentAndPreferences() async {
         let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
         let mockSignInSuccessCoordinator = MockBaseCoordinator()
@@ -125,7 +164,6 @@ class AuthenticationCoordinatorTests {
 
         #expect(!mockAnalyticsService._resetConsentCalled)
         #expect(!mockTopicsService._resetOnboardingCalled)
-        #expect(mockAnalyticsService._setExistingConsentCalled)
     }
 
     @Test
