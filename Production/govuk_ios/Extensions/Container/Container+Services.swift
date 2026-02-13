@@ -279,4 +279,13 @@ extension Container {
             sceneDelegate as? PrivacyPresenting
         }
     }
+
+    var termsAndConditionsService: Factory<TermsAndConditionsServiceInterface> {
+        Factory(self) {
+            TermsAndConditionsService(
+                appConfigService: self.appConfigService.resolve(),
+                userDefaultsService: self.userDefaultsService.resolve()
+            )
+        }
+    }
 }
