@@ -419,4 +419,15 @@ struct CoordinatorBuilderTests {
 
         #expect(coordinator is PrivacyCoordinator)
     }
+
+    @Test
+    func termsAndConditions_returnsExpectedResult() {
+        let subject = CoordinatorBuilder(container: Container())
+        let coordinator = subject.termsAndConditions(
+            navigationController: UINavigationController(),
+            completion: { }
+        )
+
+        #expect(coordinator is TermsAndConditionsCoordinator)
+    }
 }
