@@ -373,6 +373,8 @@ class CoordinatorBuilder {
                             completion: @escaping () -> Void) -> BaseCoordinator {
         TermsAndConditionsCoordinator(
             navigationController: navigationController,
+            viewControllerBuilder: ViewControllerBuilder(),
+            coordinatorBuilder: self,
             analyticsService: container.analyticsService.resolve(),
             termsAndConditionsService: container.termsAndConditionsService.resolve(),
             completion: completion)
