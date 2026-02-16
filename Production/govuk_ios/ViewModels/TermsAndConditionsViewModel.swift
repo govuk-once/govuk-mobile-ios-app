@@ -4,19 +4,19 @@ import GovKitUI
 
 class TermsAndConditionsViewModel: InfoViewModelInterface {
     var analyticsService: AnalyticsServiceInterface?
-    private var updatedTermsAndConditions: Bool
+    private let termsAndConditionsService: TermsAndConditionsServiceInterface
     private var completionAction: () -> Void
     private var dismissAction: () -> Void
     private var openURLAction: (URL) -> Void
 
     init(analyticsService: AnalyticsServiceInterface,
-         updatedTermsAndConditions: Bool,
+         termsAndConditionsService: TermsAndConditionsServiceInterface,
          completionAction: @escaping () -> Void,
          dismissAction: @escaping () -> Void,
          openURLAction: @escaping (URL) -> Void
     ) {
         self.analyticsService = analyticsService
-        self.updatedTermsAndConditions = updatedTermsAndConditions
+        self.termsAndConditionsService = termsAndConditionsService
         self.completionAction = completionAction
         self.dismissAction = dismissAction
         self.openURLAction = openURLAction
@@ -35,7 +35,7 @@ class TermsAndConditionsViewModel: InfoViewModelInterface {
     }
 
     var title: String {
-        let titleVariant = updatedTermsAndConditions ?
+        let titleVariant = termsAndConditionsService.hasUpdatedTerms ?
         LocalizedStringResource.TermsAndConditions.updatedTermsAndConditionsTitle :
         LocalizedStringResource.TermsAndConditions.newTermsAndConditionsTitle
         return String(localized: titleVariant)
@@ -49,6 +49,7 @@ class TermsAndConditionsViewModel: InfoViewModelInterface {
         return .init(
             localisedTitle: primaryButtonTitle,
             action: { [weak self] in
+                self?.termsAndConditionsService.saveAcceptanceDate()
                 self?.completionAction()
             }
         )
