@@ -1,0 +1,53 @@
+{
+  "sourceLanguage" : "en-GB",
+  "strings" : {
+    "Key" : {
+      "extractionState" : "manual"
+    },
+    "newTermsAndConditionsTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Review the terms and conditions"
+          }
+        }
+      }
+    },
+    "termsAndConditionsPrimaryButtonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accept and continue"
+          }
+        }
+      }
+    },
+    "termsAndConditionsSecondaryButtonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Do not accept"
+          }
+        }
+      }
+    },
+    "updatedTermsAndConditionsTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Review the updated terms and conditions"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}
