@@ -3,6 +3,8 @@ import GovKit
 
 protocol TermsAndConditionsServiceInterface {
     var termsAcceptanceIsValid: Bool { get }
+    func saveAcceptanceDate()
+    func resetAcceptanceDate()
 }
 
 struct TermsAndConditionsService: TermsAndConditionsServiceInterface {
@@ -24,5 +26,18 @@ struct TermsAndConditionsService: TermsAndConditionsServiceInterface {
             return false
         }
         return acceptanceDate > appConfigService.termsAndConditions?.lastUpdated ?? .now
+    }
+
+    func saveAcceptanceDate() {
+        userDefaultsService.set(
+            Date.now,
+            forKey: .termsAndConditionsAcceptanceDate
+        )
+    }
+
+    func resetAcceptanceDate() {
+        userDefaultsService.removeObject(
+            forKey: .termsAndConditionsAcceptanceDate
+        )
     }
 }
