@@ -598,8 +598,7 @@ class ViewControllerBuilder {
             }
         )
         let viewController = HostingViewController(
-            rootView: containerView,
-            navigationBarTintColor: .govUK.text.link
+            rootView: containerView
         )
         return viewController
     }
