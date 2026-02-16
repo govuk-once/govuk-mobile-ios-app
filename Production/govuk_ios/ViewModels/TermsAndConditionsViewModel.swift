@@ -22,6 +22,10 @@ class TermsAndConditionsViewModel: InfoViewModelInterface {
         self.openURLAction = openURLAction
     }
 
+    var visualAssetContent: VisualAssetContent {
+        VisualAssetContent.decorativeImage("TermsAndConditions")
+    }
+
     var trackingName: String {
         "Terms and conditions"
     }
@@ -54,11 +58,11 @@ class TermsAndConditionsViewModel: InfoViewModelInterface {
         String(localized: .TermsAndConditions.termsAndConditionsSecondaryButtonTitle)
     }
 
-    var secondaryButtonViewModel: GOVUKButton.ButtonViewModel {
+    var secondaryButtonViewModel: GOVUKButton.ButtonViewModel? {
         return .init(
             localisedTitle: secondaryButtonTitle,
             action: { [weak self] in
-                self?.completionAction()
+                self?.dismissAction()
             }
         )
     }

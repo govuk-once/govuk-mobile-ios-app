@@ -40,12 +40,11 @@ final class TermsAndConditionsCoordinator: BaseCoordinator {
     }
 
     private var termsViewController: UIViewController {
-        let termsURL = appConfigService.termsAndConditions?.url ?? Constants.API.govukBaseUrl
         return viewControllerBuilder.termsAndConditions(
             analyticsService: analyticsService,
             updatedTermsAndConditions: false,
             completionAction: completion,
-            termsAndConditionsURL: termsURL,
+            termsAndConditionsURL: termsAndConditionsService.termsAndContitionsURL,
             privacyURL: Constants.API.privacyPolicyUrl,
             dismissAction: { },
             openURLAction: { [weak self] url in
