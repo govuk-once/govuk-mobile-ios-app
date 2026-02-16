@@ -3,6 +3,7 @@ import GovKit
 
 protocol TermsAndConditionsServiceInterface {
     var termsAcceptanceIsValid: Bool { get }
+    var termsAndContitionsURL: URL { get }
     func saveAcceptanceDate()
     func resetAcceptanceDate()
 }
@@ -26,6 +27,10 @@ struct TermsAndConditionsService: TermsAndConditionsServiceInterface {
             return false
         }
         return acceptanceDate > appConfigService.termsAndConditions?.lastUpdated ?? .now
+    }
+
+    var termsAndContitionsURL: URL {
+        appConfigService.termsAndConditions?.url ?? Constants.API.termsAndConditionsUrl
     }
 
     func saveAcceptanceDate() {

@@ -20,15 +20,10 @@ struct InfoLinksView: View {
         Button(
             action: { openURLAction(url) },
             label: {
-                Spacer()
                 Text(text)
                     .foregroundColor(Color(UIColor.govUK.text.link))
                     .font(Font.govUK.body)
                     .multilineTextAlignment(.center)
-                Spacer()
-                Image(systemName: "arrow.up.right")
-                    .foregroundColor(Color(UIColor.govUK.text.link))
-                    .fontWeight(.semibold)
             }
         )
         .accessibilityRemoveTraits(.isButton)

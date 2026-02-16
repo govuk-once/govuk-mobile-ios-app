@@ -559,5 +559,48 @@ class ViewControllerBuilder {
         viewController.isModalInPresentation = true
         return viewController
     }
+
+    // swiftlint:disable:next function_parameter_count
+    func termsAndConditions(
+        analyticsService: AnalyticsServiceInterface,
+        updatedTermsAndConditions: Bool,
+        completionAction: @escaping () -> Void,
+        termsAndConditionsURL: URL,
+        privacyURL: URL,
+        dismissAction: @escaping () -> Void,
+        openURLAction: @escaping (URL) -> Void,
+    ) -> UIViewController {
+        let viewModel = TermsAndConditionsViewModel(
+            analyticsService: analyticsService,
+            updatedTermsAndConditions: updatedTermsAndConditions,
+            completionAction: completionAction,
+            dismissAction: dismissAction,
+            openURLAction: openURLAction
+        )
+        let containerView = InfoView<TermsAndConditionsViewModel>(
+            viewModel: viewModel,
+            customView: {
+                AnyView(
+                    InfoLinksView(
+                        linkList: [
+                            InfoLinkListItem(
+                                text: "Terms and conditions",
+                                url: termsAndConditionsURL
+                            ),
+                            InfoLinkListItem(
+                                text: "Privacy notice",
+                                url: privacyURL
+                            )
+                        ],
+                        openURLAction: openURLAction
+                    )
+                )
+            }
+        )
+        let viewController = HostingViewController(
+            rootView: containerView
+        )
+        return viewController
+    }
 }
 // swiftlint:enable file_length
