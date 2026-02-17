@@ -42,9 +42,8 @@ final class TermsAndConditionsCoordinator: BaseCoordinator {
     private var termsViewController: UIViewController {
         return viewControllerBuilder.termsAndConditions(
             analyticsService: analyticsService,
-            updatedTermsAndConditions: false,
+            termsAndConditionsService: termsAndConditionsService,
             completionAction: completion,
-            termsAndConditionsURL: termsAndConditionsService.termsAndContitionsURL,
             privacyURL: Constants.API.privacyPolicyUrl,
             dismissAction: { },
             openURLAction: { [weak self] url in
