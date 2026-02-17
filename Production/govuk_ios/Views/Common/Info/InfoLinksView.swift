@@ -21,7 +21,7 @@ struct InfoLinksView: View {
             action: { openURLAction(url) },
             label: {
                 Text(text)
-                    .foregroundColor(Color(UIColor.govUK.text.link))
+                    .foregroundColor(Color(UIColor.govUK.text.linkSecondary))
                     .font(Font.govUK.body)
                     .multilineTextAlignment(.center)
             }
