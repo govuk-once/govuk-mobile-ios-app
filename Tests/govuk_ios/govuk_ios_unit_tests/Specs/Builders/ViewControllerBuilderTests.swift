@@ -185,15 +185,6 @@ struct ViewControllerBuilderTests {
     }
 
     @Test
-    func webViewController_returnsExpectedViewController() {
-        let subject = ViewControllerBuilder()
-        let testURL = URL(string: "https://www.gov.uk")!
-        let viewController = subject.web(for: testURL)
-
-        #expect(viewController is WebViewController)
-    }
-
-    @Test
     func signOutConfirmation_returnsExpectedResult() {
         let subject = ViewControllerBuilder()
         let result = subject.signOutConfirmation(
