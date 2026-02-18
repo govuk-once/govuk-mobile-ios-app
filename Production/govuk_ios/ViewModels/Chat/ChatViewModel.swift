@@ -14,7 +14,7 @@ class ChatViewModel: ObservableObject {
     private(set) var validationAlertDetails = AlertDetails(
         title: "Validation error",
         message: "",
-        buttonTitle: "OK"
+        primaryButtonTitle: "OK"
     )
 
     @Published var cellModels: [ChatCellViewModel] = []
@@ -314,7 +314,7 @@ class ChatViewModel: ObservableObject {
         validationAlertDetails = AlertDetails(
             title: String.chat.localized("personalDataValidationTitle"),
             message: String.chat.localized("personalDataValidationErrorText"),
-            buttonTitle: String.common.localized("ok")
+            primaryButtonTitle: String.common.localized("ok")
         )
     }
 
