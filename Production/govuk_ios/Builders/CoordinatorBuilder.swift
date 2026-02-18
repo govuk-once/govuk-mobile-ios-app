@@ -186,7 +186,6 @@ class CoordinatorBuilder {
         AnalyticsConsentCoordinator(
             navigationController: navigationController,
             analyticsService: container.analyticsService.resolve(),
-            userService: container.userService.resolve(),
             coordinatorBuilder: self,
             viewControllerBuilder: ViewControllerBuilder(),
             completion: completion

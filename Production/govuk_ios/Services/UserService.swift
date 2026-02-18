@@ -15,6 +15,8 @@ protocol UserServiceInterface {
      }
 
      func setNotificationsConsent(accepted: Bool) {
-         userServiceClient.setNotificationsConsent(accepted: accepted) { _ in }
+         userServiceClient.setNotificationsConsent(accepted: accepted) { _ in
+             // not doing anything with the result, yet
+         }
      }
  }
