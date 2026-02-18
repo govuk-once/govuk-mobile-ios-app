@@ -129,7 +129,6 @@ struct TermsAndConditionsServiceTests {
         let mockAppConfigService = MockAppConfigService()
         let mockUserDefaultService = MockUserDefaultsService()
         let configLastUpdated = Date.now
-        let acceptanceDate = Date.now.addingTimeInterval(-600)
 
         mockAppConfigService._stubbedTermsAndConditions = .init(
             url: URL(string: "https://www.example.com")!,
