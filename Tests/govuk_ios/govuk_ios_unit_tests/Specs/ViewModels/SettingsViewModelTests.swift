@@ -24,6 +24,7 @@ class SettingsViewModelTests {
         mockVersionProvider.buildNumber = "456"
         mockAuthenticationService._stubbedIsSignedIn = true
         mockAuthenticationService._stubbedUserEmail = "test@example.com"
+        mockAppConfigService._stubbedTermsAndConditions = Config.arrange.termsAndConditions
 
         sut = SettingsViewModel(
             analyticsService: mockAnalyticsService,
@@ -162,7 +163,7 @@ class SettingsViewModelTests {
         let linkSection = sut.listContent[4]
         let termsAndConditionsRow = try #require(linkSection.rows[3] as? LinkRow)
         termsAndConditionsRow.action()
-        #expect(receivedURL == Constants.API.termsAndConditionsUrl)
+        #expect(receivedURL == Config.arrange.termsAndConditions.url)
         #expect(receivedTitle == termsAndConditionsRow.title)
     }
 
