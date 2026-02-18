@@ -17,12 +17,14 @@ class SettingsViewModelTests {
     let mockNotificationsService = MockNotificationService()
     let mockAuthenticationService = MockAuthenticationService()
     let mockLocalAuthenticationService = MockLocalAuthenticationService()
+    let mockAppConfigService = MockAppConfigService()
 
     init() {
         mockVersionProvider.versionNumber = "123"
         mockVersionProvider.buildNumber = "456"
         mockAuthenticationService._stubbedIsSignedIn = true
         mockAuthenticationService._stubbedUserEmail = "test@example.com"
+        mockAppConfigService._stubbedTermsAndConditions = Config.arrange.termsAndConditions
 
         sut = SettingsViewModel(
             analyticsService: mockAnalyticsService,
@@ -32,7 +34,8 @@ class SettingsViewModelTests {
             authenticationService: mockAuthenticationService,
             notificationService: mockNotificationsService,
             notificationCenter: .default,
-            localAuthenticationService: mockLocalAuthenticationService
+            localAuthenticationService: mockLocalAuthenticationService,
+            appConfigService: mockAppConfigService
         )
     }
 
@@ -160,7 +163,7 @@ class SettingsViewModelTests {
         let linkSection = sut.listContent[4]
         let termsAndConditionsRow = try #require(linkSection.rows[3] as? LinkRow)
         termsAndConditionsRow.action()
-        #expect(receivedURL == Constants.API.termsAndConditionsUrl)
+        #expect(receivedURL == Config.arrange.termsAndConditions.url)
         #expect(receivedTitle == termsAndConditionsRow.title)
     }
 
@@ -232,7 +235,8 @@ class SettingsViewModelTests {
                 authenticationService: MockAuthenticationService(),
                 notificationService: mockNotificationService,
                 notificationCenter: .init(),
-                localAuthenticationService: MockLocalAuthenticationService()
+                localAuthenticationService: MockLocalAuthenticationService(),
+                appConfigService: MockAppConfigService()
             )
             subscription = sut.$notificationsPermissionState
                 .receive(on: DispatchQueue.main)
@@ -269,7 +273,8 @@ class SettingsViewModelTests {
                 authenticationService: MockAuthenticationService(),
                 notificationService: mockNotificationService,
                 notificationCenter: .init(),
-                localAuthenticationService: MockLocalAuthenticationService()
+                localAuthenticationService: MockLocalAuthenticationService(),
+                appConfigService: MockAppConfigService()
             )
             subscription = sut.$notificationsPermissionState
                 .receive(on: DispatchQueue.main)
@@ -305,7 +310,8 @@ class SettingsViewModelTests {
                 authenticationService: MockAuthenticationService(),
                 notificationService: mockNotificationService,
                 notificationCenter: .init(),
-                localAuthenticationService: MockLocalAuthenticationService()
+                localAuthenticationService: MockLocalAuthenticationService(),
+                appConfigService: MockAppConfigService()
             )
             subscription = sut.$notificationsPermissionState
                 .receive(on: DispatchQueue.main)
@@ -339,7 +345,8 @@ class SettingsViewModelTests {
                 authenticationService: MockAuthenticationService(),
                 notificationService: mockNotificationService,
                 notificationCenter: .init(),
-                localAuthenticationService: MockLocalAuthenticationService()
+                localAuthenticationService: MockLocalAuthenticationService(),
+                appConfigService: MockAppConfigService()
             )
             sut.$notificationsPermissionState
                 .receive(on: DispatchQueue.main)
@@ -377,7 +384,8 @@ class SettingsViewModelTests {
                 authenticationService: MockAuthenticationService(),
                 notificationService: mockNotificationService,
                 notificationCenter: .init(),
-                localAuthenticationService: MockLocalAuthenticationService()
+                localAuthenticationService: MockLocalAuthenticationService(),
+                appConfigService: MockAppConfigService()
             )
             sut.$notificationsPermissionState
                 .receive(on: DispatchQueue.main)
@@ -415,7 +423,8 @@ class SettingsViewModelTests {
                 authenticationService: MockAuthenticationService(),
                 notificationService: mockNotificationService,
                 notificationCenter: .init(),
-                localAuthenticationService: MockLocalAuthenticationService()
+                localAuthenticationService: MockLocalAuthenticationService(),
+                appConfigService: MockAppConfigService()
              )
             sut.$notificationsPermissionState
                 .receive(on: DispatchQueue.main)
@@ -449,7 +458,8 @@ class SettingsViewModelTests {
                 authenticationService: MockAuthenticationService(),
                 notificationService: mockNotificationService,
                 notificationCenter: mockNotifcationCenter,
-                localAuthenticationService: MockLocalAuthenticationService()
+                localAuthenticationService: MockLocalAuthenticationService(),
+                appConfigService: MockAppConfigService()
             )
             let tester = SettingsViewModelTester(settingsViewModel: sut)
             let expectedPermission: NotificationPermissionState = .denied
@@ -489,7 +499,8 @@ class SettingsViewModelTests {
                 authenticationService: MockAuthenticationService(),
                 notificationService: mockNotificationService,
                 notificationCenter: mockNotifcationCenter,
-                localAuthenticationService: MockLocalAuthenticationService()
+                localAuthenticationService: MockLocalAuthenticationService(),
+                appConfigService: MockAppConfigService()
             )
             let tester = SettingsViewModelTester(settingsViewModel: sut)
             let expectedPermission: NotificationPermissionState = .denied
@@ -528,7 +539,8 @@ class SettingsViewModelTests {
                 authenticationService: MockAuthenticationService(),
                 notificationService: mockNotificationService,
                 notificationCenter: mockNotifcationCenter,
-                localAuthenticationService: MockLocalAuthenticationService()
+                localAuthenticationService: MockLocalAuthenticationService(),
+                appConfigService: MockAppConfigService()
             )
             let tester = SettingsViewModelTester(settingsViewModel: sut)
             let expectedPermission: NotificationPermissionState = .authorized
@@ -567,7 +579,8 @@ class SettingsViewModelTests {
                 authenticationService: MockAuthenticationService(),
                 notificationService: mockNotificationService,
                 notificationCenter: mockNotifcationCenter,
-                localAuthenticationService: MockLocalAuthenticationService()
+                localAuthenticationService: MockLocalAuthenticationService(),
+                appConfigService: MockAppConfigService()
             )
             let tester = SettingsViewModelTester(settingsViewModel: sut)
             let expectedPermission: NotificationPermissionState = .authorized

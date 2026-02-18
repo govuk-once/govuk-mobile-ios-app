@@ -26,7 +26,8 @@ class SettingsViewControllerSnapshotTests: SnapshotTestCase {
             authenticationService: authenticationService,
             notificationService: notificationService,
             notificationCenter: .default,
-            localAuthenticationService: MockLocalAuthenticationService()
+            localAuthenticationService: MockLocalAuthenticationService(),
+            appConfigService: MockAppConfigService()
         )
         let settingsContentView = SettingsView(
             viewModel: viewModel
@@ -73,7 +74,8 @@ class SettingsViewControllerSnapshotTests: SnapshotTestCase {
             authenticationService: authenticationService,
             notificationService: notificationService,
             notificationCenter: .default,
-            localAuthenticationService: MockLocalAuthenticationService()
+            localAuthenticationService: MockLocalAuthenticationService(),
+            appConfigService: MockAppConfigService()
         )
         let settingsContentView = SettingsView(
             viewModel: viewModel
@@ -121,7 +123,8 @@ class SettingsViewControllerSnapshotTests: SnapshotTestCase {
             authenticationService: authenticationService,
             notificationService: notificationService,
             notificationCenter: .default,
-            localAuthenticationService: MockLocalAuthenticationService()
+            localAuthenticationService: MockLocalAuthenticationService(),
+            appConfigService: MockAppConfigService()
         )
         let settingsContentView = SettingsView(
             viewModel: viewModel
@@ -167,7 +170,8 @@ class SettingsViewControllerSnapshotTests: SnapshotTestCase {
             authenticationService: authenticationService,
             notificationService: notificationService,
             notificationCenter: .default,
-            localAuthenticationService: MockLocalAuthenticationService()
+            localAuthenticationService: MockLocalAuthenticationService(),
+            appConfigService: MockAppConfigService()
         )
         
         let settingsContentView = SettingsView(
