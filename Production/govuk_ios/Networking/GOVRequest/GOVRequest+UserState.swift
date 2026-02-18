@@ -4,7 +4,7 @@ import GovKit
 extension GOVRequest {
     private static let userPath = "/app/v1/user"
 
-    static func getUserState() -> GOVRequest {
+    static var userState: GOVRequest {
         GOVRequest(
             urlPath: userPath,
             method: .get,
