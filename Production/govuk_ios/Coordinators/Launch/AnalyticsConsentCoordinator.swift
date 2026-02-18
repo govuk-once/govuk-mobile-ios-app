@@ -5,19 +5,16 @@ import GovKit
 
 class AnalyticsConsentCoordinator: BaseCoordinator {
     private let analyticsService: AnalyticsServiceInterface
-    private let userService: UserServiceInterface
     private let coordinatorBuilder: CoordinatorBuilder
     private let viewControllerBuilder: ViewControllerBuilder
     private let completion: () -> Void
 
     init(navigationController: UINavigationController,
          analyticsService: AnalyticsServiceInterface,
-         userService: UserServiceInterface,
          coordinatorBuilder: CoordinatorBuilder,
          viewControllerBuilder: ViewControllerBuilder,
          completion: @escaping () -> Void) {
         self.analyticsService = analyticsService
-        self.userService = userService
         self.coordinatorBuilder = coordinatorBuilder
         self.viewControllerBuilder = viewControllerBuilder
         self.completion = completion
@@ -33,7 +30,6 @@ class AnalyticsConsentCoordinator: BaseCoordinator {
     private func setAnalyticsConsent() {
         let viewController = viewControllerBuilder.analyticsConsent(
             analyticsService: analyticsService,
-            userService: userService,
             completion: completion,
             viewPrivacyAction: { [weak self] in
                 self?.openPrivacy()

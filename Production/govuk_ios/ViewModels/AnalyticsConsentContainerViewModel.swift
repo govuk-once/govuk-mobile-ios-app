@@ -5,7 +5,6 @@ import GovKit
 
 class AnalyticsConsentContainerViewModel: ObservableObject {
     private let analyticsService: AnalyticsServiceInterface?
-    private let userService: UserServiceInterface
     private let completion: () -> Void
     private let viewPrivacyAction: () -> Void
 
@@ -29,7 +28,6 @@ class AnalyticsConsentContainerViewModel: ObservableObject {
             localisedTitle: allowButtonTitle,
             action: { [weak self] in
                 self?.analyticsService?.setAcceptedAnalytics(accepted: true)
-                self?.userService.setAnalyticsConsent(accepted: true)
                 self?.finishAnalyticsConsent()
             }
         )
@@ -40,19 +38,16 @@ class AnalyticsConsentContainerViewModel: ObservableObject {
             localisedTitle: dontAllowButtonTitle,
             action: { [weak self] in
                 self?.analyticsService?.setAcceptedAnalytics(accepted: false)
-                self?.userService.setAnalyticsConsent(accepted: false)
                 self?.finishAnalyticsConsent()
             }
         )
     }
 
     init(analyticsService: AnalyticsServiceInterface?,
-         userService: UserServiceInterface,
          urlOpener: URLOpener = UIApplication.shared,
          completion: @escaping () -> Void,
          viewPrivacyAction: @escaping () -> Void) {
         self.analyticsService = analyticsService
-        self.userService = userService
         self.completion = completion
         self.viewPrivacyAction = viewPrivacyAction
     }

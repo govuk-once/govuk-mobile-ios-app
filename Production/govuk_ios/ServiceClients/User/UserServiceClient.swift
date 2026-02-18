@@ -4,14 +4,11 @@ import GovKit
 typealias FetchUserStateCompletion = (UserStateResult) -> Void
 typealias UserStateResult = Result<UserState, UserStateError>
 typealias NotificationsPreferenceResult = Result<NotificationsPreferenceResponse, UserStateError>
-typealias AnalyticsPreferenceResult = Result<AnalyticsPreferenceResponse, UserStateError>
 
 protocol UserServiceClientInterface {
     func fetchUserState(completion: @escaping FetchUserStateCompletion)
     func setNotificationsConsent(accepted: Bool,
                                  completion: @escaping (NotificationsPreferenceResult) -> Void)
-    func setAnalyticsConsent(accepted: Bool,
-                             completion: @escaping (AnalyticsPreferenceResult) -> Void)
 }
 
 struct UserServiceClient: UserServiceClientInterface {
@@ -36,17 +33,6 @@ struct UserServiceClient: UserServiceClientInterface {
     func setNotificationsConsent(accepted: Bool,
                                  completion: @escaping (NotificationsPreferenceResult) -> Void) {
         let request = GOVRequest.setNotificationsConsent(
-            accepted: accepted
-        )
-        apiServiceClient.send(
-            request: request) { result in
-                completion(mapResult(result))
-            }
-    }
-
-    func setAnalyticsConsent(accepted: Bool,
-                             completion: @escaping (AnalyticsPreferenceResult) -> Void) {
-        let request = GOVRequest.setAnalyticsConsent(
             accepted: accepted
         )
         apiServiceClient.send(

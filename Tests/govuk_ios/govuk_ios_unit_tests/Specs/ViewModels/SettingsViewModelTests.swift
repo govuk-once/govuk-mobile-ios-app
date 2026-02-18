@@ -103,16 +103,6 @@ class SettingsViewModelTests {
     }
 
     @Test
-    func analytics_toggledOnThenOff_callsUserServiceSetAnalyticsConsent() throws {
-        mockAnalyticsService.setAcceptedAnalytics(accepted: true)
-        let appOptionsSection = sut.listContent[2]
-        let toggleRow = try #require(appOptionsSection.rows.last as? ToggleRow)
-        #expect(toggleRow.isOn)
-        toggleRow.isOn = false
-        #expect(mockUserService._receivedSetAnalyticsConsentAccepted == false)
-    }
-
-    @Test
     func analytics_toggledOffThenOn_acceptsPermissions() throws {
         mockAnalyticsService.setAcceptedAnalytics(accepted: false)
         let appOptionsSection = sut.listContent[2]
@@ -120,16 +110,6 @@ class SettingsViewModelTests {
         #expect(toggleRow.isOn == false)
         toggleRow.isOn = true
         #expect(mockAnalyticsService.permissionState == .accepted)
-    }
-
-    @Test
-    func analytics_toggledOffThenOn_callsUserServiceSetAnalyticsConsent() throws {
-        mockAnalyticsService.setAcceptedAnalytics(accepted: false)
-        let appOptionsSection = sut.listContent[2]
-        let toggleRow = try #require(appOptionsSection.rows.last as? ToggleRow)
-        #expect(toggleRow.isOn == false)
-        toggleRow.isOn = true
-        #expect(mockUserService._receivedSetAnalyticsConsentAccepted == true)
     }
 
     @Test

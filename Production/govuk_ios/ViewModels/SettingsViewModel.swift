@@ -326,7 +326,6 @@ class SettingsViewModel: SettingsViewModelInterface {
                     self?.analyticsService.setAcceptedAnalytics(
                         accepted: isOn
                     )
-                    self?.userService.setAnalyticsConsent(accepted: isOn)
                 }
             )
         )

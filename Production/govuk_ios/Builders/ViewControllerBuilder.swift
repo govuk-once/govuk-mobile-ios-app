@@ -290,12 +290,10 @@ class ViewControllerBuilder {
     }
 
     func analyticsConsent(analyticsService: any AnalyticsServiceInterface,
-                          userService: UserServiceInterface,
                           completion: @escaping () -> Void,
                           viewPrivacyAction: @escaping () -> Void) -> UIViewController {
         let viewModel = AnalyticsConsentContainerViewModel(
             analyticsService: analyticsService,
-            userService: userService,
             completion: completion,
             viewPrivacyAction: viewPrivacyAction
         )

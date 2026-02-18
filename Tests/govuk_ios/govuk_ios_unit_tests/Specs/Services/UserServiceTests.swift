@@ -48,9 +48,4 @@ final class UserServiceTests {
         #expect(mockUserServiceClient._receivedNotificationsConsentAccepted == true)
     }
 
-    @Test
-    func setAnalyticsConsent_callsClient() {
-        sut.setAnalyticsConsent(accepted: true)
-        #expect(mockUserServiceClient._receivedAnalyticsConsentAccepted == true)
-    }
 }
