@@ -29,4 +29,8 @@ extension TestSceneDelegate: PrivacyPresenting {
     func showPrivacyAlert() {
         // Protocol conformance
     }
+
+    func hidePrivacyAlert() {
+        // Protocol conformance
+    }
 }

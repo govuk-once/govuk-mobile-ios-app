@@ -354,6 +354,7 @@ struct AppCoordinatorTests {
         subject.start()
         mockInactivityService._receivedStartMonitoringInactivityHandler?()
 
+        #expect(mockPrivacyService._didHidePrivacyAlert)
         #expect(mockPrivacyService._didShowPrivacyScreen)
     }
 
@@ -373,12 +374,14 @@ struct AppCoordinatorTests {
             inactivityService: mockInactivityService,
             authenticationService: mockAuthenticationService,
             localAuthenticationService: mockLocalAuthenticationService,
+            privacyPresenter: mockPrivacyService,
             navigationController: mockNavigationController
         )
         mockAuthenticationService._stubbedIsSignedIn = true
         subject.start()
         mockInactivityService._receivedStartMonitoringInactivityHandler?()
 
+        #expect(mockPrivacyService._didHidePrivacyAlert)
         #expect(!mockPrivacyService._didShowPrivacyScreen)
     }
 
