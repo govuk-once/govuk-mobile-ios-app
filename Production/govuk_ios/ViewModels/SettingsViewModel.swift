@@ -30,13 +30,14 @@ struct SettingsViewModelURLParameters {
 
 // swiftlint:disable:next type_body_length
 class SettingsViewModel: SettingsViewModelInterface {
-    let title: String = String.settings.localized("pageTitle")
+    let title: String = String(localized: .Settings.pageTitle)
     private let analyticsService: AnalyticsServiceInterface
     private let urlOpener: URLOpener
     private let versionProvider: AppVersionProvider
     private let deviceInformationProvider: DeviceInformationProviderInterface
     private let authenticationService: AuthenticationServiceInterface
     private let localAuthenticationService: LocalAuthenticationServiceInterface
+    private let appConfigService: AppConfigServiceInterface
     @Published var scrollToTop: Bool = false
     @Published var displayNotificationSettingsAlert: Bool = false
     @Published private(set) var notificationsPermissionState: NotificationPermissionState
@@ -45,8 +46,8 @@ class SettingsViewModel: SettingsViewModelInterface {
     private let notificationCenter: NotificationCenter
     var notificationsAction: (() -> Void)?
     var localAuthenticationAction: (() -> Void)?
-    var notificationAlertButtonTitle: String = String.settings.localized(
-        "notificationAlertPrimaryButtonTitle"
+    var notificationAlertButtonTitle: String = String(
+        localized: .Settings.notificationAlertPrimaryButtonTitle
     )
     var signoutAction: (() -> Void)?
     var openAction: ((SettingsViewModelURLParameters) -> Void)?
@@ -59,7 +60,8 @@ class SettingsViewModel: SettingsViewModelInterface {
          authenticationService: AuthenticationServiceInterface,
          notificationService: NotificationServiceInterface,
          notificationCenter: NotificationCenter,
-         localAuthenticationService: LocalAuthenticationServiceInterface) {
+         localAuthenticationService: LocalAuthenticationServiceInterface,
+         appConfigService: AppConfigServiceInterface) {
         self.analyticsService = analyticsService
         self.urlOpener = urlOpener
         self.versionProvider = versionProvider
@@ -68,6 +70,7 @@ class SettingsViewModel: SettingsViewModelInterface {
         self.notificationService = notificationService
         self.notificationCenter = notificationCenter
         self.localAuthenticationService = localAuthenticationService
+        self.appConfigService = appConfigService
         updateNotificationPermissionState()
         observeAppMoveToForeground()
     }
@@ -82,15 +85,17 @@ class SettingsViewModel: SettingsViewModelInterface {
     }
 
     var notificationSettingsAlertTitle: String {
-        notificationsPermissionState == .authorized ?
-        String.settings.localized("notificationsAlertTitleEnabled") :
-        String.settings.localized("notificationsAlertTitleDisabled")
+        return String(localized: (notificationsPermissionState == .authorized ?
+                    .Settings.notificationsAlertTitleEnabled :
+                        .Settings.notificationsAlertTitleDisabled)
+        )
     }
 
     var notificationSettingsAlertBody: String {
-        notificationsPermissionState == .authorized ?
-        String.settings.localized("notificationsAlertBodyEnabled") :
-        String.settings.localized("notificationsAlertBodyDisabled")
+        String(localized: (notificationsPermissionState == .authorized ?
+            .Settings.notificationsAlertBodyEnabled :
+                .Settings.notificationsAlertBodyDisabled)
+        )
     }
 
     @objc
@@ -145,13 +150,13 @@ class SettingsViewModel: SettingsViewModelInterface {
 
     private var accountSection: GroupedListSection? {
         guard authenticationService.isSignedIn else { return nil }
-        let rowTitle = String.settings.localized("manageAccountRowTitle")
+        let rowTitle = String(localized: .Settings.manageAccountRowTitle)
         return GroupedListSection(
             heading: nil,
             rows: [
                 InformationRow(
                     id: "settings.email.row",
-                    title: String.settings.localized("accountRowTitle"),
+                    title: String(localized: .Settings.accountRowTitle),
                     body: userEmail,
                     imageName: "account_icon",
                     detail: ""),
@@ -170,7 +175,7 @@ class SettingsViewModel: SettingsViewModelInterface {
                     }
                 )
             ],
-            footer: String.settings.localized("accountSectionFooter"))
+            footer: String(localized: .Settings.accountSectionFooter))
     }
 
     private var signoutSection: GroupedListSection? {
@@ -180,7 +185,7 @@ class SettingsViewModel: SettingsViewModelInterface {
             rows: [
                 DetailRow(
                     id: "settings.signout.row",
-                    title: String.settings.localized("signOutRowTitle"),
+                    title: String(localized: .Settings.signOutRowTitle),
                     body: "",
                     accessibilityHint: "",
                     destructive: true,
@@ -198,7 +203,7 @@ class SettingsViewModel: SettingsViewModelInterface {
             rows: [
                 InformationRow(
                     id: "settings.version.row",
-                    title: String.settings.localized("appVersionTitle"),
+                    title: String(localized: .Settings.appVersionTitle),
                     body: nil,
                     detail: versionProvider.fullBuildNumber ?? "-"
                 ),
@@ -212,7 +217,7 @@ class SettingsViewModel: SettingsViewModelInterface {
         return GroupedListSection(
             heading: nil,
             rows: appOptionsRows(),
-            footer: String.settings.localized("appUsageFooter")
+            footer: String(localized: .Settings.appUsageFooter)
         )
     }
 
@@ -220,7 +225,7 @@ class SettingsViewModel: SettingsViewModelInterface {
         GroupedListSection(
             heading: nil,
             rows: [
-                privacyPolicyRow(),
+                privacyPolicyRow,
                 accessibilityStatementRow(),
                 openSourceLicenceRow(),
                 termsAndConditionsRow()
@@ -229,8 +234,8 @@ class SettingsViewModel: SettingsViewModelInterface {
         )
     }
 
-    private func privacyPolicyRow() -> GroupedListRow {
-        let rowTitle = String.settings.localized("privacyPolicyRowTitle")
+    private var privacyPolicyRow: GroupedListRow {
+        let rowTitle = String(localized: .Settings.privacyPolicyRowTitle)
         return LinkRow(
             id: "settings.policy.row",
             title: rowTitle,
@@ -248,7 +253,7 @@ class SettingsViewModel: SettingsViewModelInterface {
     }
 
     private func helpAndFeedbackRow() -> GroupedListRow {
-        let rowTitle = String.settings.localized("helpAndFeedbackSettingsTitle")
+        let rowTitle = String(localized: .Settings.helpAndFeedbackSettingsTitle)
         return LinkRow(
             id: "settings.helpAndfeedback.row",
             title: rowTitle,
@@ -269,7 +274,7 @@ class SettingsViewModel: SettingsViewModelInterface {
     }
 
     private func openSourceLicenceRow() -> GroupedListRow {
-        let rowTitle = String.settings.localized("openSourceLicenceRowTitle")
+        let rowTitle = String(localized: .Settings.openSourceLicenceRowTitle)
         return LinkRow(
             id: "settings.licence.row",
             title: rowTitle,
@@ -289,13 +294,13 @@ class SettingsViewModel: SettingsViewModelInterface {
         var appOptionRows = [GroupedListRow]()
 
         if notificationService.isFeatureEnabled {
-            let rowTitle = String.settings.localized("notificationsTitle")
+            let rowTitle = String(localized: .Settings.notificationsTitle)
             let isAuthorized = notificationsPermissionState == .authorized
             let notificationRow = DetailRow(
                 id: "settings.notifications.row",
                 title: rowTitle,
                 body: isAuthorized ? String.common.localized("on") : String.common.localized("off"),
-                accessibilityHint: String.settings.localized("notificationsAccessibilityHint"),
+                accessibilityHint: String(localized: .Settings.notificationsAccessibilityHint),
                 action: { [weak self] in
                     self?.handleNotificationSettingsPressed(title: rowTitle)
                 }
@@ -305,9 +310,9 @@ class SettingsViewModel: SettingsViewModelInterface {
         if localAuthenticationService.biometricsPossible {
             let biometricsTitle = switch localAuthenticationService.deviceCapableAuthType {
             case .touchID:
-                String.settings.localized("touchIdTitle")
+                String(localized: .Settings.touchIdTitle)
             case .faceID:
-                String.settings.localized("faceIdTitle")
+                String(localized: .Settings.faceIdTitle)
             default:
                 ""
             }
@@ -316,7 +321,7 @@ class SettingsViewModel: SettingsViewModelInterface {
         appOptionRows.append(
             ToggleRow(
                 id: "settings.privacy.row",
-                title: String.settings.localized("appUsageTitle"),
+                title: String(localized: .Settings.appUsageTitle),
                 isOn: hasAcceptedAnalytics,
                 action: { [weak self] isOn in
                     self?.analyticsService.setAcceptedAnalytics(
@@ -359,7 +364,7 @@ class SettingsViewModel: SettingsViewModelInterface {
     private func handleSignOutPressed() {
         trackNavigationEvent(
             String.settings.localized(
-                String.settings.localized("signOutRowTitle")
+                String(localized: .Settings.signOutRowTitle)
             ),
             external: false
         )
@@ -367,15 +372,19 @@ class SettingsViewModel: SettingsViewModelInterface {
     }
 
     private func termsAndConditionsRow() -> GroupedListRow {
-        let rowTitle = String.settings.localized("termsAndConditionsRowTitle")
+        let rowTitle = String(localized: .Settings.termsAndConditionsRowTitle)
         return LinkRow(
             id: "settings.terms.row",
             title: rowTitle,
             body: nil,
             action: { [weak self] in
-                self?.openAction?(
+                guard let self = self,
+                      let terms = self.appConfigService.termsAndConditions else {
+                    return
+                }
+                self.openAction?(
                     .init(
-                        url: Constants.API.termsAndConditionsUrl,
+                        url: terms.url,
                         trackingTitle: rowTitle,
                         fullScreen: false
                     )
@@ -385,7 +394,7 @@ class SettingsViewModel: SettingsViewModelInterface {
     }
 
     private func accessibilityStatementRow() -> GroupedListRow {
-        let rowTitle = String.settings.localized("accessibilityStatementRowTitle")
+        let rowTitle = String(localized: .Settings.accessibilityStatementRowTitle)
         return LinkRow(
             id: "settings.accessibility.row",
             title: rowTitle,
