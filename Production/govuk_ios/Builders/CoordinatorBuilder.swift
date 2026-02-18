@@ -322,6 +322,7 @@ class CoordinatorBuilder {
             analyticsService: container.analyticsService.resolve(),
             topicsService: container.topicsService.resolve(),
             chatService: container.chatService.resolve(),
+            termsAndConditionsService: container.termsAndConditionsService.resolve(),
             completionAction: completionAction,
             errorAction: errorAction
         )

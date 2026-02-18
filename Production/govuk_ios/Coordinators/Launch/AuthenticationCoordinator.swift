@@ -9,7 +9,8 @@ class AuthenticationCoordinator: BaseCoordinator {
     private let localAuthenticationService: LocalAuthenticationServiceInterface
     private let analyticsService: AnalyticsServiceInterface
     private let topicsService: TopicsServiceInterface
-    private var chatService: ChatServiceInterface
+    private let chatService: ChatServiceInterface
+    private let termsAndConditonsService: TermsAndConditionsServiceInterface
     private let completionAction: () -> Void
     private let errorAction: (AuthenticationError) -> Void
 
@@ -20,6 +21,7 @@ class AuthenticationCoordinator: BaseCoordinator {
          analyticsService: AnalyticsServiceInterface,
          topicsService: TopicsServiceInterface,
          chatService: ChatServiceInterface,
+         termsAndConditionsService: TermsAndConditionsServiceInterface,
          completionAction: @escaping () -> Void,
          errorAction: @escaping (AuthenticationError) -> Void) {
         self.coordinatorBuilder = coordinatorBuilder
@@ -28,6 +30,7 @@ class AuthenticationCoordinator: BaseCoordinator {
         self.analyticsService = analyticsService
         self.topicsService = topicsService
         self.chatService = chatService
+        self.termsAndConditonsService = termsAndConditionsService
         self.completionAction = completionAction
         self.errorAction = errorAction
         super.init(navigationController: navigationController)
@@ -73,6 +76,7 @@ class AuthenticationCoordinator: BaseCoordinator {
         topicsService.resetOnboarding()
         localAuthenticationService.clear()
         chatService.clear()
+        termsAndConditonsService.resetAcceptanceDate()
     }
 
     @MainActor
