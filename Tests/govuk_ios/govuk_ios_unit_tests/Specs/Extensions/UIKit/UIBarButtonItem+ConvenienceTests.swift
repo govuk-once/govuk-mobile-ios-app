@@ -10,19 +10,19 @@ import GovKit
 struct UIBarButtonItem_Convenience {
     @Test
     func selectAll_returnsExpectedResult() {
-        let result = UIBarButtonItem.selectAll(action: { _ in } ) as? TopAlignedBarButtonItem
+        let result = UIBarButtonItem.selectAll(action: { _ in } ) as? AlignedBarButtonItem
         #expect(result?.actionButton.title(for: .normal) == "Select all")
     }
 
     @Test
     func deselectAll_returnsExpectedResult() {
-        let result = UIBarButtonItem.deselectAll(action: { _ in } ) as? TopAlignedBarButtonItem
+        let result = UIBarButtonItem.deselectAll(action: { _ in } ) as? AlignedBarButtonItem
         #expect(result?.actionButton.title(for: .normal)  == "Deselect all")
     }
 
     @Test
     func remove_returnsExpectedResult() {
-        let result = UIBarButtonItem.remove(action: { _ in } ) as? TopAlignedBarButtonItem
+        let result = UIBarButtonItem.remove(action: { _ in } ) as? AlignedBarButtonItem
         #expect(result?.actionButton.title(for: .normal)  == "Remove")
     }
 }
