@@ -111,8 +111,9 @@ class SettingsViewModel: SettingsViewModelInterface {
               urlOpener.openNotificationSettings()
         else { return }
         notificationService.toggleHasGivenConsent()
-        let hasGivenConsent = notificationService.hasGivenConsent
-        userService.setNotificationsConsent(accepted: hasGivenConsent)
+        userService.setNotificationsConsent(
+            notificationService.hasGivenConsent ? .accepted : .denied
+        )
         trackNavigationEvent(
             notificationAlertButtonTitle,
             external: false
