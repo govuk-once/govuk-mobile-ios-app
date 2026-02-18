@@ -94,7 +94,8 @@ class CoordinatorBuilder {
             deviceInformationProvider: DeviceInformationProvider(),
             authenticationService: container.authenticationService.resolve(),
             notificationService: container.notificationService.resolve(),
-            localAuthenticationService: container.localAuthenticationService.resolve()
+            localAuthenticationService: container.localAuthenticationService.resolve(),
+            appConfigService: container.appConfigService.resolve()
         )
     }
 

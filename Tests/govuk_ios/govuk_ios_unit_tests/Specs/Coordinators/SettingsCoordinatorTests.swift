@@ -28,7 +28,8 @@ struct SettingsCoordinatorTests {
             deviceInformationProvider: MockDeviceInformationProvider(),
             authenticationService: MockAuthenticationService(),
             notificationService: MockNotificationService(),
-            localAuthenticationService: MockLocalAuthenticationService()
+            localAuthenticationService: MockLocalAuthenticationService(),
+            appConfigService: MockAppConfigService()
         )
         subject.start()
 
@@ -50,7 +51,8 @@ struct SettingsCoordinatorTests {
             deviceInformationProvider: MockDeviceInformationProvider(),
             authenticationService: MockAuthenticationService(),
             notificationService: MockNotificationService(),
-            localAuthenticationService: MockLocalAuthenticationService()
+            localAuthenticationService: MockLocalAuthenticationService(),
+            appConfigService: MockAppConfigService()
         )
         subject.start(url: nil)
 
@@ -75,7 +77,8 @@ struct SettingsCoordinatorTests {
             deviceInformationProvider: MockDeviceInformationProvider(),
             authenticationService: MockAuthenticationService(),
             notificationService: MockNotificationService(),
-            localAuthenticationService: MockLocalAuthenticationService()
+            localAuthenticationService: MockLocalAuthenticationService(),
+            appConfigService: MockAppConfigService()
         )
         subject.start(url: nil)
         mockViewControllerBuilder._receivedSettingsViewModel?.notificationsAction?()
@@ -100,7 +103,8 @@ struct SettingsCoordinatorTests {
             deviceInformationProvider: MockDeviceInformationProvider(),
             authenticationService: MockAuthenticationService(),
             notificationService: MockNotificationService(),
-            localAuthenticationService: MockLocalAuthenticationService()
+            localAuthenticationService: MockLocalAuthenticationService(),
+            appConfigService: MockAppConfigService()
         )
         subject.start(url: nil)
         mockViewControllerBuilder._receivedSettingsViewModel?.notificationsAction?()
@@ -128,7 +132,8 @@ struct SettingsCoordinatorTests {
             deviceInformationProvider: MockDeviceInformationProvider(),
             authenticationService: MockAuthenticationService(),
             notificationService: MockNotificationService(),
-            localAuthenticationService: MockLocalAuthenticationService()
+            localAuthenticationService: MockLocalAuthenticationService(),
+            appConfigService: MockAppConfigService()
         )
         subject.start()
         let settingsViewModel = mockViewControllerBuilder._receivedSettingsViewModel!
@@ -156,7 +161,8 @@ struct SettingsCoordinatorTests {
             deviceInformationProvider: MockDeviceInformationProvider(),
             authenticationService: MockAuthenticationService(),
             notificationService: MockNotificationService(),
-            localAuthenticationService: MockLocalAuthenticationService()
+            localAuthenticationService: MockLocalAuthenticationService(),
+            appConfigService: MockAppConfigService()
         )
         subject.start()
 
@@ -185,7 +191,8 @@ struct SettingsCoordinatorTests {
             deviceInformationProvider: MockDeviceInformationProvider(),
             authenticationService: MockAuthenticationService(),
             notificationService: MockNotificationService(),
-            localAuthenticationService: MockLocalAuthenticationService()
+            localAuthenticationService: MockLocalAuthenticationService(),
+            appConfigService: MockAppConfigService()
         )
         subject.start(url: nil)
         mockViewControllerBuilder._receivedSettingsViewModel?.signoutAction?()
