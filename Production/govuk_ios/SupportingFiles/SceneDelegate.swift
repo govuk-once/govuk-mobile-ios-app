@@ -91,11 +91,8 @@ class SceneDelegate: UIResponder,
 extension SceneDelegate: PrivacyPresenting {
     func showPrivacyScreen() {
         privacyWindow?.makeKeyAndVisible()
+        hidePrivacyAlert()
         privacyCoordinator.start()
-        if let topController =
-            window?.rootViewController?.topController as? UIAlertController {
-            topController.dismiss(animated: false)
-        }
     }
 
     func hidePrivacyScreen() {
@@ -111,5 +108,12 @@ extension SceneDelegate: PrivacyPresenting {
             handler: nil)
         let presenter = window?.rootViewController?.topController
         presenter?.present(alert, animated: true)
+    }
+
+    func hidePrivacyAlert() {
+        if let topController =
+            window?.rootViewController?.topController as? UIAlertController {
+            topController.dismiss(animated: false)
+        }
     }
 }

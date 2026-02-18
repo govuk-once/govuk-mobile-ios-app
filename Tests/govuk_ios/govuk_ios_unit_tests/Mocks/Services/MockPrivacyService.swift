@@ -18,5 +18,10 @@ class MockPrivacyService: PrivacyPresenting {
         _didShowPrivacyAlert = true
     }
 
+    var _didHidePrivacyAlert: Bool = false
+    func hidePrivacyAlert() {
+        _didHidePrivacyAlert = true
+    }
+
 }
 
