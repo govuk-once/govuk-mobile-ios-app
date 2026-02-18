@@ -85,15 +85,17 @@ class SettingsViewModel: SettingsViewModelInterface {
     }
 
     var notificationSettingsAlertTitle: String {
-        notificationsPermissionState == .authorized ?
-        String(localized: .Settings.notificationsAlertTitleEnabled) :
-        String(localized: .Settings.notificationsAlertTitleDisabled)
+        return String(localized: (notificationsPermissionState == .authorized ?
+                    .Settings.notificationsAlertTitleEnabled :
+                        .Settings.notificationsAlertTitleDisabled)
+        )
     }
 
     var notificationSettingsAlertBody: String {
-        notificationsPermissionState == .authorized ?
-        String(localized: .Settings.notificationsAlertBodyEnabled) :
-        String(localized: .Settings.notificationsAlertBodyDisabled)
+        String(localized: (notificationsPermissionState == .authorized ?
+            .Settings.notificationsAlertBodyEnabled :
+                .Settings.notificationsAlertBodyDisabled)
+        )
     }
 
     @objc
@@ -241,8 +243,7 @@ class SettingsViewModel: SettingsViewModelInterface {
             action: { [weak self] in
                 self?.openAction?(
                     .init(
-                        url: self?.appConfigService.termsAndConditions?.url ??
-                        Constants.API.privacyPolicyUrl,
+                        url: Constants.API.privacyPolicyUrl,
                         trackingTitle: rowTitle,
                         fullScreen: false
                     )
@@ -377,9 +378,13 @@ class SettingsViewModel: SettingsViewModelInterface {
             title: rowTitle,
             body: nil,
             action: { [weak self] in
-                self?.openAction?(
+                guard let self = self,
+                      let terms = self.appConfigService.termsAndConditions else {
+                    return
+                }
+                self.openAction?(
                     .init(
-                        url: Constants.API.termsAndConditionsUrl,
+                        url: terms.url,
                         trackingTitle: rowTitle,
                         fullScreen: false
                     )
