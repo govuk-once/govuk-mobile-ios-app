@@ -36,13 +36,13 @@ class TermsAndConditionsViewModel: InfoViewModelInterface {
 
     var title: String {
         let titleVariant = termsAndConditionsService.hasUpdatedTerms ?
-        LocalizedStringResource.TermsAndConditions.updatedTermsAndConditionsTitle :
-        LocalizedStringResource.TermsAndConditions.newTermsAndConditionsTitle
+        LocalizedStringResource.TermsAndConditions.updatedTitle :
+        LocalizedStringResource.TermsAndConditions.newTitle
         return String(localized: titleVariant)
     }
 
     var primaryButtonTitle: String {
-        String(localized: .TermsAndConditions.termsAndConditionsPrimaryButtonTitle)
+        String(localized: .TermsAndConditions.primaryButtonTitle)
     }
 
     var primaryButtonViewModel: GOVUKButton.ButtonViewModel {
@@ -56,7 +56,7 @@ class TermsAndConditionsViewModel: InfoViewModelInterface {
     }
 
     var secondaryButtonTitle: String {
-        String(localized: .TermsAndConditions.termsAndConditionsSecondaryButtonTitle)
+        String(localized: .TermsAndConditions.secondaryButtonTitle)
     }
 
     var secondaryButtonViewModel: GOVUKButton.ButtonViewModel? {

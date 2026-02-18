@@ -64,7 +64,7 @@ struct TermsAndConditionsViewModelTests {
         )
 
         let expectedTitle = String(
-            localized: LocalizedStringResource.TermsAndConditions.newTermsAndConditionsTitle
+            localized: LocalizedStringResource.TermsAndConditions.newTitle
         )
         #expect(sut.title == expectedTitle)
     }
@@ -84,7 +84,7 @@ struct TermsAndConditionsViewModelTests {
         )
 
         let expectedTitle = String(
-            localized: LocalizedStringResource.TermsAndConditions.updatedTermsAndConditionsTitle
+            localized: LocalizedStringResource.TermsAndConditions.updatedTitle
         )
         #expect(sut.title == expectedTitle)
     }
