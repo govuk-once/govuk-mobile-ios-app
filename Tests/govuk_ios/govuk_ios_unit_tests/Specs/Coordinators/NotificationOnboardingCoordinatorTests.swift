@@ -73,7 +73,7 @@ class NotificationOnboardingCoordinatorTests {
         mockViewControllerBuilder._receivedNotificationOnboardingCompleteAction?()
         mockNotificationService._stubbedhasGivenConsent = true
         mockNotificationService._receivedRequestPermissionsCompletion?(true)
-        #expect(mockUserService._receivedSetNotificationsConsentAccepted == true)
+        #expect(mockUserService._receivedNotificationConsent == .accepted)
     }
 
     @Test
@@ -110,7 +110,40 @@ class NotificationOnboardingCoordinatorTests {
         }
 
         mockViewControllerBuilder._receivedNotificationOnboardingDismissAction?()
-        #expect(mockUserService._receivedSetNotificationsConsentAccepted == false)
+        #expect(mockUserService._receivedNotificationConsent == .denied)
+    }
+
+    @Test
+    @MainActor
+    func start_userNotificationConsentUnknownAndOnboardingSeen_callsUserServiceSetConsent() async {
+        let mockUserService = MockUserService()
+        mockUserService._stubbedNotificationsConsentStatus = .unknown
+        let mockNotificationOnboardingService = MockNotificationsOnboardingService()
+        mockNotificationOnboardingService.hasSeenNotificationsOnboarding = true
+        let mockNotificationService = MockNotificationService()
+        mockNotificationService._stubbedhasGivenConsent = true
+
+        let mockNavigationController = MockNavigationController()
+
+        let sut = NotificationOnboardingCoordinator(
+            navigationController: mockNavigationController,
+            notificationService: mockNotificationService,
+            notificationOnboardingService: mockNotificationOnboardingService,
+            analyticsService: MockAnalyticsService(),
+            userService: mockUserService,
+            viewControllerBuilder: MockViewControllerBuilder(),
+            coordinatorBuilder: MockCoordinatorBuilder.mock,
+            completion: { }
+        )
+
+        await withCheckedContinuation { continuation in
+            mockUserService._setNotificationConsentCompletionBlock = {
+                continuation.resume()
+            }
+            sut.start(url: nil)
+        }
+        #expect(mockUserService._receivedNotificationConsent == .accepted)
+
     }
 
     @Test

@@ -445,7 +445,7 @@ class SettingsViewModelTests {
     func handleNotificationAlertAction_callsUserServiceSetNotificationConsent() async throws {
         var cancellables = Set<AnyCancellable>()
         let mockUserService = MockUserService()
-        let result: Bool? = await withCheckedContinuation { continuation in
+        let result: ConsentStatus? = await withCheckedContinuation { continuation in
             let mockNotificationService = MockNotificationService()
             let analyticsService = MockAnalyticsService()
             mockNotificationService._stubbededPermissionState = .authorized
@@ -468,12 +468,11 @@ class SettingsViewModelTests {
                         guard value == .authorized
                         else { return }
                         sut.handleNotificationAlertAction()
-                        let hasAccepted = mockUserService._receivedSetNotificationsConsentAccepted
-                        continuation.resume(returning: hasAccepted)
+                        continuation.resume(returning: mockUserService._receivedNotificationConsent)
                     }
                 ).store(in: &cancellables)
         }
-        #expect(result == true)
+        #expect(result == .accepted)
     }
 
     @Test

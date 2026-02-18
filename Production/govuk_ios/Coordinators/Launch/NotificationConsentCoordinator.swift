@@ -57,7 +57,7 @@ class NotificationConsentCoordinator: BaseCoordinator {
             },
             grantConsentAction: { [weak self] in
                 self?.notificationService.acceptConsent()
-                self?.userService.setNotificationsConsent(accepted: true)
+                self?.userService.setNotificationsConsent(.accepted)
                 self?.root.dismiss(
                     animated: true,
                     completion: self?.completion
@@ -80,7 +80,7 @@ class NotificationConsentCoordinator: BaseCoordinator {
         alert.addAction(
             .continueAction(
                 handler: { [weak self] in
-                    self?.userService.setNotificationsConsent(accepted: false)
+                    self?.userService.setNotificationsConsent(.denied)
                     self?.openSettings()
                 }
             )

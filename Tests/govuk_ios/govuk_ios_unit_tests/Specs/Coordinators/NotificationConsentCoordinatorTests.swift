@@ -135,7 +135,7 @@ struct NotificationConsentCoordinatorTests {
 
         mockViewControllerBuilder._receivedNotificationConsentAlertGrantConsentAction?()
 
-        #expect(mockUserService._receivedSetNotificationsConsentAccepted == true)
+        #expect(mockUserService._receivedNotificationConsent == .accepted)
     }
 
     @Test

@@ -3,6 +3,10 @@ import Foundation
 @testable import govuk_ios
 
 class MockUserService: UserServiceInterface {
+    var _stubbedNotificationsConsentStatus: ConsentStatus?
+    var notificationsConsentStatus: ConsentStatus? {
+        _stubbedNotificationsConsentStatus
+    }
 
     var _fetchUserStateCompletionBlock: (() -> Void)?
     var _stubbedFetchUserStateResult: UserStateResult?
@@ -13,9 +17,11 @@ class MockUserService: UserServiceInterface {
         _fetchUserStateCompletionBlock?()
     }
 
-    var _receivedSetNotificationsConsentAccepted: Bool?
-    func setNotificationsConsent(accepted: Bool) {
-        _receivedSetNotificationsConsentAccepted = accepted
+    var _setNotificationConsentCompletionBlock: (() -> Void)?
+    var _receivedNotificationConsent: ConsentStatus?
+    func setNotificationsConsent(_ consentStatus: ConsentStatus) {
+        _receivedNotificationConsent = consentStatus
+        _setNotificationConsentCompletionBlock?()
     }
 
 }

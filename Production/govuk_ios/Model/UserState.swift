@@ -7,7 +7,6 @@ struct UserState: Codable {
 
 struct UserPreferences: Codable {
     let notifications: ConsentPreference
-    let analytics: ConsentPreference
 }
 
 struct ConsentPreference: Codable {

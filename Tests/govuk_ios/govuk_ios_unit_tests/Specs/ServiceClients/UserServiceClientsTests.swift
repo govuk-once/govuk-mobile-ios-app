@@ -36,7 +36,6 @@ struct UserServiceClientTests {
         let userState = try? result.get()
         #expect(userState?.notificationId == "test_user_id")
         #expect(userState?.preferences.notifications.consentStatus == .unknown)
-        #expect(userState?.preferences.analytics.consentStatus == .unknown)
     }
 
     @Test
@@ -82,17 +81,17 @@ struct UserServiceClientTests {
 
     @Test
     func setNotificationsConsent_sendsExpectedRequest() {
-        sut.setNotificationsConsent(accepted: true) { _ in }
-        #expect(mockAPI._receivedSendRequest?.urlPath == "/app/v1/user")
+        sut.setNotificationsConsent(.accepted) { _ in }
+        #expect(mockAPI._receivedSendRequest?.urlPath == "/app/v1/user/preferences")
         #expect(mockAPI._receivedSendRequest?.method == .patch)
-        #expect(mockAPI._receivedSendRequest?.bodyParameters as? [String: AnyHashable] == ["notificationsConsented": true])
+        #expect(mockAPI._receivedSendRequest?.bodyParameters as? [String: AnyHashable] == ["notifications": ConsentStatus.accepted])
     }
 
     @Test
     func setNotificationsConsent_success_returnsExpectedResult() async {
         mockAPI._stubbedSendResponse = .success(UserServiceClientTests.notificationConsentResponseData)
         let result = await withCheckedContinuation { continuation in
-            sut.setNotificationsConsent(accepted: true) { result in
+            sut.setNotificationsConsent(.accepted) { result in
                 continuation.resume(returning: result)
             }
         }
@@ -104,7 +103,7 @@ struct UserServiceClientTests {
     func setNotificationsConsent_failure_returnsApiUnavailableError() async {
         mockAPI._stubbedSendResponse = .failure(UserStateError.apiUnavailable)
         let result = await withCheckedContinuation { continuation in
-            sut.setNotificationsConsent(accepted: true) { result in
+            sut.setNotificationsConsent(.accepted) { result in
                 continuation.resume(returning: result)
             }
         }

@@ -7,7 +7,7 @@ typealias NotificationsPreferenceResult = Result<NotificationsPreferenceResponse
 
 protocol UserServiceClientInterface {
     func fetchUserState(completion: @escaping FetchUserStateCompletion)
-    func setNotificationsConsent(accepted: Bool,
+    func setNotificationsConsent(_ consentStatus: ConsentStatus,
                                  completion: @escaping (NotificationsPreferenceResult) -> Void)
 }
 
@@ -30,10 +30,10 @@ struct UserServiceClient: UserServiceClientInterface {
             })
     }
 
-    func setNotificationsConsent(accepted: Bool,
+    func setNotificationsConsent(_ consentStatus: ConsentStatus,
                                  completion: @escaping (NotificationsPreferenceResult) -> Void) {
         let request = GOVRequest.setNotificationsConsent(
-            accepted: accepted
+            consentStatus: consentStatus
         )
         apiServiceClient.send(
             request: request) { result in

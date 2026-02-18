@@ -14,10 +14,6 @@ extension UserState {
                 notifications: ConsentPreference(
                     consentStatus: .unknown,
                     updatedAt: Date()
-                ),
-                analytics: ConsentPreference(
-                    consentStatus: .unknown,
-                    updatedAt: Date()
                 )
             )
         )
