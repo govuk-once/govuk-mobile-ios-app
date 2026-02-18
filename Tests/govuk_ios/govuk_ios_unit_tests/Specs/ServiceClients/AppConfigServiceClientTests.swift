@@ -52,9 +52,8 @@ struct AppConfigServiceClientTests {
         #expect(unwrappedResult.config.emergencyBanners?.first?.type == "national-emergency")
         #expect(unwrappedResult.config.emergencyBanners?.last?.link?.title == "More Information")
         #expect(unwrappedResult.config.emergencyBanners?.last?.allowsDismissal == false)
-        #expect(unwrappedResult.config.termsAndConditions?.url ==
+        #expect(unwrappedResult.config.termsAndConditions.url ==
                 URL(string: "https://www.gov.uk/guidance/govuk-app-terms-and-conditions"))
-        #expect(unwrappedResult.config.termsAndConditions?.lastUpdated != nil)
     }
 
     @Test
