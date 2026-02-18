@@ -8,7 +8,7 @@ extension GOVRequest {
         ["Content-Type": "application/json"]
     }
 
-    static func getUserState() -> GOVRequest {
+    static var userState: GOVRequest {
         GOVRequest(
             urlPath: userPath,
             method: .get,

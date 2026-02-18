@@ -22,7 +22,7 @@ struct UserServiceClient: UserServiceClientInterface {
     }
 
     func fetchUserState(completion: @escaping FetchUserStateCompletion) {
-        let request = GOVRequest.getUserState()
+        let request = GOVRequest.userState
         apiServiceClient.send(
             request: request,
             completion: { result in
