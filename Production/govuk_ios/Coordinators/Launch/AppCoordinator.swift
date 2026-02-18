@@ -63,6 +63,7 @@ class AppCoordinator: BaseCoordinator {
                 self?.startPeriAuthCoordinator()
             },
             alertHandler: { [weak self] in
+                guard self?.authenticationService.isSignedIn == true else { return }
                 self?.privacyPresenter?.showPrivacyAlert()
             }
         )
@@ -130,6 +131,7 @@ class AppCoordinator: BaseCoordinator {
 
 extension AppCoordinator {
     private func showPrivacyScreen() {
+        privacyPresenter?.hidePrivacyAlert()
         if shouldShowPrivacyScreen {
             privacyPresenter?.showPrivacyScreen()
         }

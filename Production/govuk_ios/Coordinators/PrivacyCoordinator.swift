@@ -6,6 +6,7 @@ protocol PrivacyPresenting {
     func showPrivacyScreen()
     func hidePrivacyScreen()
     func showPrivacyAlert()
+    func hidePrivacyAlert()
 }
 
 protocol PrivacyProviding { }
