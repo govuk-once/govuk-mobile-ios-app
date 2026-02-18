@@ -20,15 +20,18 @@ struct APIServiceClient: APIServiceClientInterface {
     private let session: URLSession
     private let requestBuilder: RequestBuilderInterface
     private let responseHandler: ResponseHandler?
+    private let tokenProvider: TokenProviding?
 
     init(baseUrl: URL,
          session: URLSession,
          requestBuilder: RequestBuilderInterface,
-         responseHandler: ResponseHandler? = nil) {
+         responseHandler: ResponseHandler? = nil,
+         tokenProvider: TokenProviding? = nil) {
         self.baseUrl = baseUrl
         self.session = session
         self.requestBuilder = requestBuilder
         self.responseHandler = responseHandler
+        self.tokenProvider = tokenProvider
     }
 }
 
@@ -42,16 +45,35 @@ extension APIServiceClient {
         send(
             request: urlRequest,
             signingKey: request.signingKey,
+            requiresAuthentication: request.requiresAuthentication,
+            isRetry: false,
             completion: completion
         )
     }
 
     private func send(request: URLRequest,
                       signingKey: String?,
+                      requiresAuthentication: Bool,
+                      isRetry: Bool,
                       completion: @escaping NetworkResultCompletion<Data>) {
+        var request = request
+        if requiresAuthentication, let accessToken = tokenProvider?.accessToken {
+            request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+        }
+
         let task = session.dataTask(
             with: request,
             completionHandler: { data, response, error in
+                if shouldRefreshTokenAndRetry(response: response, isRetry: isRetry),
+                   let tokenProvider = tokenProvider {
+                    handleUnauthorizedResponse(request: request,
+                                               signingKey: signingKey,
+                                               requiresAuthentication: requiresAuthentication,
+                                               tokenProvider: tokenProvider,
+                                               completion: completion)
+                    return
+                }
+
                 let localError = responseHandler?.handleResponse(response,
                                                                  error: error) ?? error
                 let result: NetworkResult<Data>
@@ -77,6 +99,35 @@ extension APIServiceClient {
             }
         )
         task.resume()
+    }
+
+    private func shouldRefreshTokenAndRetry(response: URLResponse?, isRetry: Bool) -> Bool {
+        guard let httpResponse = response as? HTTPURLResponse else {
+            return false
+        }
+        return [401, 403].contains(httpResponse.statusCode) && isRetry == false
+    }
+
+    private func handleUnauthorizedResponse(request: URLRequest,
+                                            signingKey: String?,
+                                            requiresAuthentication: Bool,
+                                            tokenProvider: TokenProviding,
+                                            completion: @escaping NetworkResultCompletion<Data>) {
+        Task {
+            let result = await tokenProvider.tokenRefreshRequest()
+            switch result {
+            case .success:
+                send(
+                    request: request,
+                    signingKey: signingKey,
+                    requiresAuthentication: requiresAuthentication,
+                    isRetry: true,
+                    completion: completion
+                )
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
     }
 
     private func verifySignatureIfNecessary(signatureBase64: String?,
