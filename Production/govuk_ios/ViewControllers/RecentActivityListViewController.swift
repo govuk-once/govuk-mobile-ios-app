@@ -251,7 +251,7 @@ final class RecentActivityListViewController: BaseViewController {
     override public func viewDidLayoutSubviews() {
         guard let items = editingToolbar.items else { return }
         for item in items {
-            guard let item = item as? AlignedBarButtonItem else { continue }
+            guard let item = item as? CenterAlignedBarButtonItem else { continue }
             item.updateLayout()
         }
     }

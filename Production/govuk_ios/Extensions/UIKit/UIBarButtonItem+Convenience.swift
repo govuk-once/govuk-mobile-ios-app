@@ -16,7 +16,7 @@ extension UIBarButtonItem {
     }
 
     static func selectAll(action: @escaping (UIAction) -> Void) -> UIBarButtonItem {
-        AlignedBarButtonItem(
+        CenterAlignedBarButtonItem(
             title: String.recentActivity.localized("selectAllButtonTitle"),
             tint: UIColor.govUK.text.link,
             action: action
@@ -24,7 +24,7 @@ extension UIBarButtonItem {
     }
 
     static func deselectAll(action: @escaping (UIAction) -> Void) -> UIBarButtonItem {
-        AlignedBarButtonItem(
+        CenterAlignedBarButtonItem(
             title: String.recentActivity.localized("deselectAllButtonTitle"),
             tint: UIColor.govUK.text.link,
             action: action
@@ -32,7 +32,7 @@ extension UIBarButtonItem {
     }
 
     static func remove(action: @escaping (UIAction) -> Void) -> UIBarButtonItem {
-        AlignedBarButtonItem(
+        CenterAlignedBarButtonItem(
             title: String.recentActivity.localized("removeActivitiesButtonTitle"),
             tint: UIColor.govUK.text.buttonDestructive,
             action: action

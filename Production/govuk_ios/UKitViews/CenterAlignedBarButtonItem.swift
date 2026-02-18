@@ -1,7 +1,6 @@
-import Foundation
 import UIKit
 
-class AlignedBarButtonItem: UIBarButtonItem {
+class CenterAlignedBarButtonItem: UIBarButtonItem {
     let actionButton: UIButton
 
     init(title: String,
@@ -27,11 +26,11 @@ class AlignedBarButtonItem: UIBarButtonItem {
         actionButton.setAttributedTitle(attributedTitle, for: .normal)
         actionButton.translatesAutoresizingMaskIntoConstraints = false
         super.init()
-        self.customView = createCustomView()
+        self.customView = createCustomView
         self.customView?.isUserInteractionEnabled = true
     }
 
-    private func createCustomView() -> UIView {
+    private var createCustomView: UIView {
         let localView = UIView()
         localView.translatesAutoresizingMaskIntoConstraints = false
         localView.addSubview(actionButton)
