@@ -386,7 +386,7 @@ class CoordinatorBuilder {
             navigationController: navigationController,
             viewControllerBuilder: ViewControllerBuilder(),
             coordinatorBuilder: self,
-            analyticsService: container.analyticsService.resolve(),
+            authenticationService: container.authenticationService.resolve(),
             termsAndConditionsService: container.termsAndConditionsService.resolve(),
             completion: completion)
     }
