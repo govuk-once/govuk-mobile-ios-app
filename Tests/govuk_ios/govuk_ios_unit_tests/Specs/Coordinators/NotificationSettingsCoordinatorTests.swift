@@ -56,7 +56,7 @@ struct NotificationSettingsCoordinatorTests {
     }
 
     @Test
-    func completeAction_callsUserServiceSetNotificationConsent() {
+    func completeAction_callsUserServiceSetNotificationsConsent() {
         let mockNavigationController = MockNavigationController()
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let mockNotificationService = MockNotificationService()
@@ -80,7 +80,7 @@ struct NotificationSettingsCoordinatorTests {
     }
 
     @Test
-    func dismissAction_callsUserServiceSetNotificationConsent() {
+    func dismissAction_callsUserServiceSetNotificationsConsent() {
         let mockNavigationController = MockNavigationController()
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let mockNotificationService = MockNotificationService()

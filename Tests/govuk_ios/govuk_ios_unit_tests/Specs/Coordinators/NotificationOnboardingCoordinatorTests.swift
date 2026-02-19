@@ -78,7 +78,7 @@ class NotificationOnboardingCoordinatorTests {
 
     @Test
     @MainActor
-    func start_notificationConsentDismissAction_callsUserServiceSetConsent() async {
+    func start_notificationConsentDismissAction_doesNotCallUserServiceSetConsent() async {
         let mockUserService = MockUserService()
 
         let mockNotificationService = MockNotificationService()
@@ -110,7 +110,7 @@ class NotificationOnboardingCoordinatorTests {
         }
 
         mockViewControllerBuilder._receivedNotificationOnboardingDismissAction?()
-        #expect(mockUserService._receivedNotificationConsent == .denied)
+        #expect(mockUserService._receivedNotificationConsent == nil)
     }
 
     @Test
@@ -122,6 +122,7 @@ class NotificationOnboardingCoordinatorTests {
         mockNotificationOnboardingService.hasSeenNotificationsOnboarding = true
         let mockNotificationService = MockNotificationService()
         mockNotificationService._stubbedhasGivenConsent = true
+        mockNotificationService._stubbededPermissionState = .authorized
 
         let mockNavigationController = MockNavigationController()
 

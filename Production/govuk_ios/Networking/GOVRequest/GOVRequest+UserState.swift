@@ -21,7 +21,9 @@ extension GOVRequest {
             urlPath: userPreferencesPath,
             method: .patch,
             bodyParameters: [
-                "notifications": consentStatus
+                "notifications": [
+                    "consentStatus": consentStatus.rawValue
+                ]
             ],
             queryParameters: nil,
             additionalHeaders: additionalHeaders,
