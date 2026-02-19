@@ -41,13 +41,6 @@ class ChatInfoOnboardingViewModel: InfoViewModelInterface {
         )
     }
 
-    var animationColorSchemeNames: AnimationColorSchemeNames? {
-        AnimationColorSchemeNames(
-            light: "chat_onboarding_one_light",
-            dark: "chat_onboarding_one_dark"
-        )
-    }
-
     var visualAssetContent: VisualAssetContent {
         .animation(
             AnimationColorSchemeNames(
