@@ -1,7 +1,6 @@
 import Foundation
 import UIKit
 import CoreData
-import GovKitUI
 import GovKit
 
 private typealias DataSource =
@@ -252,7 +251,7 @@ final class RecentActivityListViewController: BaseViewController {
     override public func viewDidLayoutSubviews() {
         guard let items = editingToolbar.items else { return }
         for item in items {
-            guard let item = item as? TopAlignedBarButtonItem else { continue }
+            guard let item = item as? CenterAlignedBarButtonItem else { continue }
             item.updateLayout()
         }
     }
