@@ -51,6 +51,7 @@ class CoordinatorBuilder {
         PostAuthCoordinator(
             coordinatorBuilder: self,
             analyticsService: container.analyticsService.resolve(),
+            notificationService: container.notificationService.resolve(),
             remoteConfigService: container.remoteConfigService.resolve(),
             navigationController: navigationController,
             completion: completion
@@ -134,6 +135,7 @@ class CoordinatorBuilder {
                   completion: @escaping () -> Void) -> BaseCoordinator {
         ReLaunchCoordinator(
             coordinatorBuilder: self,
+            authenticationService: container.authenticationService.resolve(),
             notificationService: container.notificationService.resolve(),
             navigationController: navigationController,
             completion: completion
