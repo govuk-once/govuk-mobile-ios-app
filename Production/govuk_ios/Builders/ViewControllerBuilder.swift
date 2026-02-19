@@ -556,44 +556,23 @@ class ViewControllerBuilder {
         return viewController
     }
 
-    // swiftlint:disable:next function_parameter_count
     func termsAndConditions(
-        analyticsService: AnalyticsServiceInterface,
         termsAndConditionsService: TermsAndConditionsServiceInterface,
         completionAction: @escaping () -> Void,
-        privacyURL: URL,
-        dismissAction: @escaping () -> Void,
+        alertDismissAction: @escaping () -> Void,
         openURLAction: @escaping (URL) -> Void,
     ) -> UIViewController {
         let viewModel = TermsAndConditionsViewModel(
-            analyticsService: analyticsService,
             termsAndConditionsService: termsAndConditionsService,
             completionAction: completionAction,
-            dismissAction: dismissAction,
+            alertDismissAction: alertDismissAction,
             openURLAction: openURLAction
         )
-        let containerView = InfoView<TermsAndConditionsViewModel>(
-            viewModel: viewModel,
-            customView: {
-                AnyView(
-                    InfoLinksView(
-                        linkList: [
-                            InfoLinkListItem(
-                                text: "Terms and conditions",
-                                url: termsAndConditionsService.termsAndConditionsURL
-                            ),
-                            InfoLinkListItem(
-                                text: "Privacy notice",
-                                url: privacyURL
-                            )
-                        ],
-                        openURLAction: openURLAction
-                    )
-                )
-            }
+        let termsView = TermsAndConditionsView(
+            viewModel: viewModel
         )
         let viewController = HostingViewController(
-            rootView: containerView
+            rootView: termsView
         )
         return viewController
     }

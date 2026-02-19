@@ -1,10 +1,40 @@
 {
   "sourceLanguage" : "en-GB",
   "strings" : {
-    "Key" : {
-      "extractionState" : "manual"
+    "alertDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You must accept to use the app. If you do not want to accept, you can sign out."
+          }
+        }
+      }
     },
-    "newTermsAndConditionsTitle" : {
+    "alertPrimaryButtonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        }
+      }
+    },
+    "alertSecondaryButtonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign out"
+          }
+        }
+      }
+    },
+    "newTitle" : {
       "extractionState" : "manual",
       "localizations" : {
         "en-GB" : {
@@ -15,7 +45,7 @@
         }
       }
     },
-    "termsAndConditionsPrimaryButtonTitle" : {
+    "primaryButtonTitle" : {
       "extractionState" : "manual",
       "localizations" : {
         "en-GB" : {
@@ -26,7 +56,18 @@
         }
       }
     },
-    "termsAndConditionsSecondaryButtonTitle" : {
+    "privacyNoticeTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacy notice"
+          }
+        }
+      }
+    },
+    "secondaryButtonTitle" : {
       "extractionState" : "manual",
       "localizations" : {
         "en-GB" : {
@@ -37,7 +78,18 @@
         }
       }
     },
-    "updatedTermsAndConditionsTitle" : {
+    "termsAndConditionsTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terms and conditions"
+          }
+        }
+      }
+    },
+    "updatedTitle" : {
       "extractionState" : "manual",
       "localizations" : {
         "en-GB" : {
