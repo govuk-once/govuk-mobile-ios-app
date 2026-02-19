@@ -64,7 +64,7 @@ struct ChatView: View {
                 textAreaFocused = true
                 viewModel.showValidationAlert = false
             } label: {
-                Text(details.buttonTitle)
+                Text(details.primaryButtonTitle)
             }
         } message: { details in
             Text(details.message)

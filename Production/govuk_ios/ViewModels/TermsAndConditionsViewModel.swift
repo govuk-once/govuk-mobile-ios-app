@@ -2,47 +2,68 @@ import Foundation
 import GovKit
 import GovKitUI
 
-class TermsAndConditionsViewModel: InfoViewModelInterface {
-    var analyticsService: AnalyticsServiceInterface?
+class TermsAndConditionsViewModel: ObservableObject {
     private let termsAndConditionsService: TermsAndConditionsServiceInterface
-    private var completionAction: () -> Void
-    private var dismissAction: () -> Void
-    private var openURLAction: (URL) -> Void
+    private let completionAction: () -> Void
+    private let alertDismissAction: () -> Void
+    private let openURLAction: (URL) -> Void
+    @Published var showAlert = false
 
-    init(analyticsService: AnalyticsServiceInterface,
-         termsAndConditionsService: TermsAndConditionsServiceInterface,
+    init(termsAndConditionsService: TermsAndConditionsServiceInterface,
          completionAction: @escaping () -> Void,
-         dismissAction: @escaping () -> Void,
+         alertDismissAction: @escaping () -> Void,
          openURLAction: @escaping (URL) -> Void
     ) {
-        self.analyticsService = analyticsService
         self.termsAndConditionsService = termsAndConditionsService
         self.completionAction = completionAction
-        self.dismissAction = dismissAction
+        self.alertDismissAction = alertDismissAction
         self.openURLAction = openURLAction
     }
 
-    var visualAssetContent: VisualAssetContent {
-        VisualAssetContent.decorativeImage("TermsAndConditions")
-    }
-
-    var trackingName: String {
-        "Terms and conditions"
-    }
-
-    var trackingTitle: String {
-        title
+    var alertDetails: AlertDetails {
+        AlertDetails(
+            title: String(
+                localized: .TermsAndConditions.termsAndConditionsTitle
+            ),
+            message: String(
+                localized: .TermsAndConditions.alertDescription
+            ),
+            primaryButtonTitle: String(
+                localized: .TermsAndConditions.alertPrimaryButtonTitle
+            ),
+            secondaryButtonTitle: String(
+                localized: .TermsAndConditions.alertSecondaryButtonTitle
+            ),
+            secondaryButtonAction: alertDismissAction
+        )
     }
 
     var title: String {
         let titleVariant = termsAndConditionsService.hasUpdatedTerms ?
-        LocalizedStringResource.TermsAndConditions.updatedTermsAndConditionsTitle :
-        LocalizedStringResource.TermsAndConditions.newTermsAndConditionsTitle
+        LocalizedStringResource.TermsAndConditions.updatedTitle :
+        LocalizedStringResource.TermsAndConditions.newTitle
         return String(localized: titleVariant)
     }
 
-    var primaryButtonTitle: String {
-        String(localized: .TermsAndConditions.termsAndConditionsPrimaryButtonTitle)
+    var linkList: [LinkListItem] {
+        [
+            LinkListItem(
+                text: String(
+                    localized: .TermsAndConditions.termsAndConditionsTitle
+                ),
+                url: termsAndConditionsService.termsAndConditionsURL
+            ),
+            LinkListItem(
+                text: String(
+                    localized: .TermsAndConditions.privacyNoticeTitle
+                ),
+                url: Constants.API.privacyPolicyUrl
+            )
+        ]
+    }
+
+    private var primaryButtonTitle: String {
+        String(localized: .TermsAndConditions.primaryButtonTitle)
     }
 
     var primaryButtonViewModel: GOVUKButton.ButtonViewModel {
@@ -55,16 +76,25 @@ class TermsAndConditionsViewModel: InfoViewModelInterface {
         )
     }
 
-    var secondaryButtonTitle: String {
-        String(localized: .TermsAndConditions.termsAndConditionsSecondaryButtonTitle)
+    private var secondaryButtonTitle: String {
+        String(localized: .TermsAndConditions.secondaryButtonTitle)
     }
 
-    var secondaryButtonViewModel: GOVUKButton.ButtonViewModel? {
+    var secondaryButtonViewModel: GOVUKButton.ButtonViewModel {
         return .init(
             localisedTitle: secondaryButtonTitle,
             action: { [weak self] in
-                self?.dismissAction()
+                self?.showAlert = true
             }
         )
+    }
+
+    func openURL(_ url: URL) {
+        openURLAction(url)
+    }
+
+    struct LinkListItem {
+        let text: String
+        let url: URL
     }
 }
