@@ -43,6 +43,18 @@ final class UserServiceTests {
     }
 
     @Test
+    func fetchUserState_setsNotificationsConsent() async throws {
+        mockUserServiceClient?._stubbedFetchUserStateResult = .success(UserState.arrange(notificationsConsentStatus: .accepted))
+        await withCheckedContinuation { continuation in
+            sut.fetchUserState(completion: { _ in
+                continuation.resume()
+            })
+        }
+
+        #expect(sut.notificationsConsentStatus == .accepted)
+    }
+
+    @Test
     func setNotificationConsent_callsClient() {
         sut.setNotificationsConsent(.accepted)
         #expect(mockUserServiceClient._receivedNotificationConsent == .accepted)

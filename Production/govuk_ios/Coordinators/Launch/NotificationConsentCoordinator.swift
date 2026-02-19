@@ -115,10 +115,6 @@ class NotificationConsentCoordinator: BaseCoordinator {
         urlOpener.openNotificationSettings()
     }
 
-    private func acceptConsent() {
-        notificationService.acceptConsent()
-    }
-
     @MainActor
     private func finishAction() {
         completion()
