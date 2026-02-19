@@ -1,11 +1,11 @@
 import Foundation
 import SwiftUI
 
-struct TermsAndConditionsView<Model>: View where Model: TermsAndConditionsViewModel {
+struct TermsAndConditionsView: View {
     @Environment(\.verticalSizeClass) var verticalSizeClass
-    @StateObject private var viewModel: Model
+    @StateObject private var viewModel: TermsAndConditionsViewModel
 
-    init(viewModel: Model) {
+    init(viewModel: TermsAndConditionsViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
 

@@ -28,7 +28,7 @@ struct TermsAndConditionsCoordinatorTests {
 
         #expect(
             navigationController.viewControllers.first is
-                HostingViewController<TermsAndConditionsView<TermsAndConditionsViewModel>>
+                HostingViewController<TermsAndConditionsView>
         )
     }
 

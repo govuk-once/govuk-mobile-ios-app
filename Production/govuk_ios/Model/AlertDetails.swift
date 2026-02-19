@@ -1,6 +1,6 @@
 import Foundation
 
-class AlertDetails {
+final class AlertDetails {
     let title: String
     let message: String
     let primaryButtonTitle: String

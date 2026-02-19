@@ -62,7 +62,7 @@ class TermsAndConditionsViewModel: ObservableObject {
         ]
     }
 
-    var primaryButtonTitle: String {
+    private var primaryButtonTitle: String {
         String(localized: .TermsAndConditions.primaryButtonTitle)
     }
 
@@ -76,7 +76,7 @@ class TermsAndConditionsViewModel: ObservableObject {
         )
     }
 
-    var secondaryButtonTitle: String {
+    private var secondaryButtonTitle: String {
         String(localized: .TermsAndConditions.secondaryButtonTitle)
     }
 
