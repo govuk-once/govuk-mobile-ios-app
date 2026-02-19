@@ -40,7 +40,7 @@ class NotificationService: NSObject,
     }
 
     func appDidFinishLaunching(launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
-        oneSignalServiceClient.setConsentGiven(true)
+        oneSignalServiceClient.setConsentRequired(true)
         oneSignalServiceClient.initialize(
             appId: environmentService.oneSignalAppId,
             launchOptions: launchOptions
