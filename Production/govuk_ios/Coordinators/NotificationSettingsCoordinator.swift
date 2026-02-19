@@ -36,7 +36,6 @@ class NotificationSettingsCoordinator: BaseCoordinator {
                 self?.requestPermission()
             },
             dismissAction: { [weak self] in
-                self?.userService.setNotificationsConsent(.denied)
                 self?.dismissAction()
             },
             viewPrivacyAction: { [weak self] in
