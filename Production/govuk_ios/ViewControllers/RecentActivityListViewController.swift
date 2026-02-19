@@ -1,7 +1,6 @@
 import Foundation
 import UIKit
 import CoreData
-import GovKitUI
 import GovKit
 
 private typealias DataSource =
