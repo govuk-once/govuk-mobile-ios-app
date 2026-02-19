@@ -9,11 +9,9 @@ final class TermsAndConditionsViewControllerSnapshotTests: SnapshotTestCase {
     func test_loadInNavigationController_light_rendersCorrectly() {
         let termsViewController = ViewControllerBuilder()
             .termsAndConditions(
-                analyticsService: MockAnalyticsService(),
                 termsAndConditionsService: MockTermsAndConditionsService(),
                 completionAction: { },
-                privacyURL: Constants.API.privacyPolicyUrl,
-                dismissAction: { },
+                alertDismissAction: { },
                 openURLAction: { _ in }
             )
 
@@ -27,11 +25,9 @@ final class TermsAndConditionsViewControllerSnapshotTests: SnapshotTestCase {
     func test_loadInNavigationController_dark_rendersCorrectly() {
         let termsViewController = ViewControllerBuilder()
             .termsAndConditions(
-                analyticsService: MockAnalyticsService(),
                 termsAndConditionsService: MockTermsAndConditionsService(),
                 completionAction: { },
-                privacyURL: Constants.API.privacyPolicyUrl,
-                dismissAction: { },
+                alertDismissAction: { },
                 openURLAction: { _ in }
             )
 

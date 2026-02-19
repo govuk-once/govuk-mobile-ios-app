@@ -7,18 +7,16 @@ import Testing
 struct TermsAndConditionsViewModelTests {
 
     @Test
-    func primaryButton_savesDate_andCallCompletion() {
-        let mockAnalyticsService = MockAnalyticsService()
+    func primaryButton_action_savesDate_andCallCompletion() {
         let mockTermsAndConditionsService = MockTermsAndConditionsService()
 
         var completionCalled = false
         let sut = TermsAndConditionsViewModel(
-            analyticsService: mockAnalyticsService,
             termsAndConditionsService: mockTermsAndConditionsService,
             completionAction: {
                 completionCalled = true
             },
-            dismissAction: { },
+            alertDismissAction: { },
             openURLAction: { _ in }
         )
 
@@ -29,37 +27,30 @@ struct TermsAndConditionsViewModelTests {
     }
 
     @Test
-    func secondaryButton_callsDismiss() {
-        let mockAnalyticsService = MockAnalyticsService()
+    func secondaryButton_action_setsAlert() {
         let mockTermsAndConditionsService = MockTermsAndConditionsService()
 
-        var dismissCalled = false
         let sut = TermsAndConditionsViewModel(
-            analyticsService: mockAnalyticsService,
             termsAndConditionsService: mockTermsAndConditionsService,
             completionAction: { },
-            dismissAction: {
-                dismissCalled = true
-            },
+            alertDismissAction: { },
             openURLAction: { _ in }
         )
 
-        sut.secondaryButtonViewModel?.action()
+        sut.secondaryButtonViewModel.action()
 
         #expect(!mockTermsAndConditionsService._didSaveAcceptanceDate)
-        #expect(dismissCalled)
+        #expect(sut.showAlert == true)
     }
 
     @Test
     func firstTimeUser_terms_showsCorrectTitleVariant() {
-        let mockAnalyticsService = MockAnalyticsService()
         let mockTermsAndConditionsService = MockTermsAndConditionsService()
 
         let sut = TermsAndConditionsViewModel(
-            analyticsService: mockAnalyticsService,
             termsAndConditionsService: mockTermsAndConditionsService,
             completionAction: { },
-            dismissAction: { },
+            alertDismissAction: { },
             openURLAction: { _ in }
         )
 
@@ -71,15 +62,13 @@ struct TermsAndConditionsViewModelTests {
 
     @Test
     func updatedTerms_showsCorrectTitleVariant() {
-        let mockAnalyticsService = MockAnalyticsService()
         let mockTermsAndConditionsService = MockTermsAndConditionsService()
         mockTermsAndConditionsService._stubbedHasUpdatedTerms = true
 
         let sut = TermsAndConditionsViewModel(
-            analyticsService: mockAnalyticsService,
             termsAndConditionsService: mockTermsAndConditionsService,
             completionAction: { },
-            dismissAction: { },
+            alertDismissAction: { },
             openURLAction: { _ in }
         )
 
