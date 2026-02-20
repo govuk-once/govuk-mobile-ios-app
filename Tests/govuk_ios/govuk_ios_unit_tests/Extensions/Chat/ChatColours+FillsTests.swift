@@ -18,7 +18,7 @@ struct ChatColours_fillsTests {
     func surfaceChatAnswer_dark_returnsExpectedResult() {
         let result = UIColor.govUK.fills.surfaceChatAnswer
 
-        #expect(result.darkMode == .blueDarker70)
+        #expect(result.darkMode == .blueShade70)
     }
 
     @Test
@@ -32,14 +32,14 @@ struct ChatColours_fillsTests {
     func surfaceChatAction_dark_returnsExpectedResult() {
         let result = UIColor.govUK.fills.surfaceChatAction
 
-        #expect(result.darkMode == .blueDarker50)
+        #expect(result.darkMode == .blueShade50)
     }
 
     @Test
     func surfaceChatQuestion_light_returnsExpectedResult() {
         let result = UIColor.govUK.fills.surfaceChatQuestion
 
-        #expect(result.lightMode == .blueDarker50)
+        #expect(result.lightMode == .blueShade50)
     }
 
     @Test
@@ -53,28 +53,28 @@ struct ChatColours_fillsTests {
     func surfaceChatBackground_light_returnsExpectedResult() {
         let result = UIColor.govUK.fills.surfaceChatBackground
 
-        #expect(result.lightMode == .blueLighter90)
+        #expect(result.lightMode == .blueTint90)
     }
 
     @Test
     func surfaceChatBackground_dark_returnsExpectedResult() {
         let result = UIColor.govUK.fills.surfaceChatBackground
 
-        #expect(result.darkMode == .blueDarker80)
+        #expect(result.darkMode == .blueShade80)
     }
 
     @Test
     func surfaceChatOnboardingListBackground_light_returnsExpectedResult() {
         let result = UIColor.govUK.fills.surfaceChatOnboardingListBackground
 
-        #expect(result.lightMode == .blueLighter90)
+        #expect(result.lightMode == .blueTint90)
     }
 
     @Test
     func surfaceChatOnboardingListBackground_dark_returnsExpectedResult() {
         let result = UIColor.govUK.fills.surfaceChatOnboardingListBackground
 
-        #expect(result.darkMode == .blueDarker70)
+        #expect(result.darkMode == .blueShade70)
     }
 
 }
