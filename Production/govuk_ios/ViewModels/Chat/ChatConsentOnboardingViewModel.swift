@@ -18,6 +18,10 @@ class ChatConsentOnboardingViewModel: InfoViewModelInterface {
         self.completionAction = completionAction
     }
 
+    var contentAlignment: Alignment {
+        .top
+    }
+
     var visualAssetContent: VisualAssetContent {
         .animation(
             AnimationColorSchemeNames(

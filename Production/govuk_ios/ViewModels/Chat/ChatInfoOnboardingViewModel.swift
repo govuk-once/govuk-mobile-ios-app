@@ -19,6 +19,19 @@ class ChatInfoOnboardingViewModel: InfoViewModelInterface {
         .cancel(target: self, action: #selector(cancelOnboarding))
     }
 
+    var contentAlignment: Alignment {
+        .top
+    }
+
+    var visualAssetContent: VisualAssetContent {
+        .animation(
+            AnimationColorSchemeNames(
+                light: "chat_onboarding_one_light",
+                dark: "chat_onboarding_one_dark"
+            )
+        )
+    }
+
     var title: String {
         String.chat.localized("onboardingInfoTitle")
     }
@@ -38,15 +51,6 @@ class ChatInfoOnboardingViewModel: InfoViewModelInterface {
                 self?.completionAction()
                 self?.trackCompletionAction()
             }
-        )
-    }
-
-    var visualAssetContent: VisualAssetContent {
-        .animation(
-            AnimationColorSchemeNames(
-                light: "chat_onboarding_one_light",
-                dark: "chat_onboarding_one_dark"
-            )
         )
     }
 
