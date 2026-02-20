@@ -285,9 +285,7 @@
 		8181DBFC2EE214B100F47531 /* FactoryTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 8181DBFB2EE214B100F47531 /* FactoryTesting */; };
 		81A190212F081A1B00D70C25 /* RemoteConfigValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A190202F081A1700D70C25 /* RemoteConfigValue.swift */; };
 		81EADD9D2F04268300CA7B37 /* RemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81EADD9C2F04267E00CA7B37 /* RemoteConfig.swift */; };
-		B04C2E7E2DA913B100F0F63E /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B04C2E7D2DA913B100F0F63E /* WebViewController.swift */; };
 		B04C2E802DA9141400F0F63E /* WebDeeplinkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = B04C2E7F2DA9141400F0F63E /* WebDeeplinkRoute.swift */; };
-		B04C2E822DA9339B00F0F63E /* WebViewCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B04C2E812DA9339B00F0F63E /* WebViewCoordinator.swift */; };
 		B0AD6F202DDA86D80077849F /* NotificationsOnboardingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0AD6F1F2DDA86D80077849F /* NotificationsOnboardingService.swift */; };
 		D00984F22D47BC9600D70FEE /* DeviceInformation+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00984F12D47BC9600D70FEE /* DeviceInformation+Convenience.swift */; };
 		D016F29B2E0C51B000659AC3 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D016F29A2E0C51B000659AC3 /* ChatViewModel.swift */; };
@@ -720,9 +718,7 @@
 		8171AE462F11169A0024312B /* ScrollBottomIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollBottomIndicatorView.swift; sourceTree = "<group>"; };
 		81A190202F081A1700D70C25 /* RemoteConfigValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigValue.swift; sourceTree = "<group>"; };
 		81EADD9C2F04267E00CA7B37 /* RemoteConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfig.swift; sourceTree = "<group>"; };
-		B04C2E7D2DA913B100F0F63E /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		B04C2E7F2DA9141400F0F63E /* WebDeeplinkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebDeeplinkRoute.swift; sourceTree = "<group>"; };
-		B04C2E812DA9339B00F0F63E /* WebViewCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewCoordinator.swift; sourceTree = "<group>"; };
 		B0AD6F1F2DDA86D80077849F /* NotificationsOnboardingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsOnboardingService.swift; sourceTree = "<group>"; };
 		D00984F12D47BC9600D70FEE /* DeviceInformation+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DeviceInformation+Convenience.swift"; sourceTree = "<group>"; };
 		D016F29A2E0C51B000659AC3 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
@@ -894,7 +890,6 @@
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/TopicOnboardingViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/TopicsWidgetViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/TouchIdSettingsViewControllerSnapshotTests.swift,
-				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/WebViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/WelcomeOnboardingViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_unit_tests/Resources/MockAppConfigResponse.json,
 				govuk_ios/govuk_ios_unit_tests/Resources/MockAppConfigResponseInvalid.json,
@@ -954,7 +949,6 @@
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/TopicOnboardingViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/TopicsWidgetViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/TouchIdSettingsViewControllerSnapshotTests.swift,
-				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/WebViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/WelcomeOnboardingViewControllerSnapshotTests.swift,
 				"govuk_ios/govuk_ios_unit_tests/Arrangers/Model/LocalAuthority/AmbiguousAuthorities+Arrangers.swift",
 				"govuk_ios/govuk_ios_unit_tests/Arrangers/Model/TopicResponseItem+Arrangers.swift",
@@ -1610,7 +1604,6 @@
 				D08A9A7F2DB9286D002E9C78 /* SignOutConfirmationCoordinator.swift */,
 				5D962D5D2C29BD0B0038BC0A /* TabCoordinator.swift */,
 				5D54F4742CC84A5B00A3B6A7 /* TopicDetailsCoordinator.swift */,
-				B04C2E812DA9339B00F0F63E /* WebViewCoordinator.swift */,
 				161D84D22E5886C800391FBC /* Chat */,
 				5DFB488B2DE9F7F600B41CDA /* Launch */,
 			);
@@ -1713,7 +1706,6 @@
 				5D54A82D2BFCAA4E003D0C21 /* LaunchViewController.swift */,
 				5DD4CB172D95491600459FB5 /* RecentActivityListViewController.swift */,
 				5DE93E982E02CF63007E0DAE /* Search */,
-				B04C2E7D2DA913B100F0F63E /* WebViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -2568,7 +2560,6 @@
 				D093BA632CB0499A004F489B /* EditTopicsView.swift in Sources */,
 				5DD4CB082D95483100459FB5 /* ActivityItem.swift in Sources */,
 				5DD4CB092D95483100459FB5 /* MonthGroupKey.swift in Sources */,
-				B04C2E822DA9339B00F0F63E /* WebViewCoordinator.swift in Sources */,
 				5DD4CB0A2D95483100459FB5 /* RecentActivitySection.swift in Sources */,
 				5DD4CB0B2D95483100459FB5 /* RecentActivitiesViewStructure.swift in Sources */,
 				4EBCA3362DAC5E2E0063A723 /* GOVRequest+LocalAuthority.swift in Sources */,
@@ -2705,7 +2696,6 @@
 				5DA4FB072CCBAF2100804C8A /* SettingsView.swift in Sources */,
 				16161FD12E2FF97D00228028 /* EnvironmentValues+Extensions.swift in Sources */,
 				D03678C62E33CD60009BCC32 /* CompoundRegexValidator.swift in Sources */,
-				B04C2E7E2DA913B100F0F63E /* WebViewController.swift in Sources */,
 				5D8683992C3431050024F2D8 /* ResolvedDeeplinkRoute.swift in Sources */,
 				5D08A9002C9AFABB0049D798 /* Result+Extensions.swift in Sources */,
 				5DE597B62C2EF422003613C8 /* APIServiceClient.swift in Sources */,

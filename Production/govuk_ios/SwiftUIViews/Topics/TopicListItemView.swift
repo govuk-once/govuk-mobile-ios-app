@@ -23,7 +23,7 @@ struct TopicListItemView: View {
         .accessibilityAddTraits(.isButton)
         .accessibilityLabel(viewModel.title)
         .font(Font.govUK.bodySemibold)
-        .padding()
+        .padding(16)
         .background(viewModel.backgroundColor)
         .onTapGesture {
             viewModel.tapAction()

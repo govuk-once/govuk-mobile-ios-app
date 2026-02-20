@@ -10,15 +10,12 @@ struct LocalAuthorityWidget: View {
     }
 
     var body: some View {
-        VStack {
+        VStack(spacing: 16) {
             SectionHeaderLabelView(
                 model: SectionHeaderLabelViewModel(
                     title: viewModel.title,
                 )
             )
-            .padding(.horizontal)
-            .padding(.bottom, 8)
-            .padding(.top, 16)
             Button {
                 viewModel.tapAction()
             } label: {
@@ -56,7 +53,6 @@ struct LocalAuthorityWidget: View {
                         ), radius: 0, x: 0, y: 3
                     )
                 }
-                .padding(.horizontal)
             }
         }
     }

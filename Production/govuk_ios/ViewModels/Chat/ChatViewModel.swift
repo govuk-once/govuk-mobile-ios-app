@@ -175,13 +175,11 @@ class ChatViewModel: ObservableObject {
     }
 
     private func addCellModels(_ models: [ChatCellViewModel]) {
-        var delayOffset = 0.0
         cellModels.append(contentsOf: models)
         for model in models {
-            DispatchQueue.main.asyncAfter(deadline: .now() + delayOffset) {
+            DispatchQueue.main.async {
                 model.isVisible = true
             }
-            delayOffset += 0.7
         }
     }
 

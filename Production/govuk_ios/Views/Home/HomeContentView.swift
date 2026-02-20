@@ -17,9 +17,14 @@ struct HomeContentView: View {
                 ScrollView {
                     EmptyView()
                         .id(topID)
-                    ForEach(viewModel.widgets) { widget in
-                        widget
+                    VStack(spacing: 34) {
+                        ForEach(viewModel.widgets) { widget in
+                            widget
+                        }
                     }
+                    .padding(.top, 24)
+                    .padding(.horizontal, 16)
+                    .padding(.bottom, 28)
                     ScrollBottomIndicatorView(scrollViewHeight: geometry.size.height,
                                               scrollViewCoordinateSpace: scrollViewCoordinateSpace)
                 }
