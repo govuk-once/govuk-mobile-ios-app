@@ -64,7 +64,6 @@ struct EditTopicsView: View {
             topicsList
                 .padding([.top, .horizontal], 16)
         }
-        .clipped()
     }
 }
 
