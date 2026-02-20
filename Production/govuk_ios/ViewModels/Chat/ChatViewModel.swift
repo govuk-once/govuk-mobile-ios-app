@@ -33,7 +33,9 @@ class ChatViewModel: ObservableObject {
     }
 
     var shouldDisableSend: Bool {
-        (latestQuestion.count > maxCharacters) ||
+        let question = latestQuestion.trimmingCharacters(in: .whitespacesAndNewlines)
+        return question.count == 0 ||
+        (question.count > maxCharacters) ||
         requestInFlight
     }
 
@@ -53,7 +55,8 @@ class ChatViewModel: ObservableObject {
 
     func askQuestion(_ question: String? = nil,
                      completion: ((Bool) -> Void)? = nil) {
-        let localQuestion = question ?? latestQuestion
+        let localQuestion = (question ?? latestQuestion)
+            .trimmingCharacters(in: .whitespacesAndNewlines)
         guard !containsPII(localQuestion) else {
             setPersonalDataValidationAlertDetails()
             showValidationAlert = true
