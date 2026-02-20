@@ -101,7 +101,7 @@ struct UserServiceClientTests {
             }
         }
         let notificationsConsentResponse = try? result.get()
-        #expect(notificationsConsentResponse?.preferences.notificationsConsented == true)
+        #expect(notificationsConsentResponse?.notifications.consentStatus == .accepted)
     }
 
     @Test
@@ -135,20 +135,11 @@ private extension UserServiceClientTests {
     static let notificationConsentResponseData =
     """
     {
-        "preferences": {
-            "notificationsConsented": true,
-            "updatedAt": "2026-02-03T09:33:13.459Z"
+        "notifications": {
+            "consentStatus": "accepted",
+            "updatedAt": "2026-02-09T13:41:37.226Z"
         }
     }
     """.data(using: .utf8)!
 
-    static let analyticsConsentResponseData =
-    """
-    {
-        "preferences": {
-            "analyticsConsented": true,
-            "updatedAt": "2026-02-03T09:33:13.459Z"
-        }
-    }
-    """.data(using: .utf8)!
 }
