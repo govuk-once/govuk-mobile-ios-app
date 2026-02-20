@@ -22,7 +22,6 @@ struct StoredLocalAuthorityWidgetView: View {
                 )
             )
             .padding(.bottom, 8)
-            .padding(.top, 16)
             if viewModel.localAuthorities.count == 1,
                let item = viewModel.cardModels().first {
                 StoredLocalAuthorityCardView(model: item)
@@ -40,8 +39,8 @@ struct StoredLocalAuthorityWidgetView: View {
                 twoTierView
             }
         }
-        .padding(.horizontal)
     }
+
     @ViewBuilder
     var twoTierView: some View {
         ForEach(viewModel.cardModels(), id: \.name) { item in

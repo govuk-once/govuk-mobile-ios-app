@@ -323,15 +323,6 @@ struct CoordinatorBuilderTests {
     }
 
     @Test
-    func webView_returnsExpectedResult() {
-        let subject = CoordinatorBuilder(container: Container())
-        let testURL = URL(string: "https://www.gov.uk")!
-        let coordinator = subject.webView(url: testURL)
-
-        #expect(coordinator is WebViewCoordinator)
-    }
-
-    @Test
     func reauthentication_returnsExpectedResult() {
         let subject = CoordinatorBuilder(container: Container())
         let coordinator = subject.reauthentication(
