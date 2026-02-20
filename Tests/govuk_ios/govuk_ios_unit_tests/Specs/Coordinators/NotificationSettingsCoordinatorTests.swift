@@ -56,7 +56,7 @@ struct NotificationSettingsCoordinatorTests {
     }
 
     @Test
-    func completeAction_callsUserServiceSetNotificationConsent() {
+    func completeAction_callsUserServiceSetNotificationsConsent() {
         let mockNavigationController = MockNavigationController()
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let mockNotificationService = MockNotificationService()
@@ -76,11 +76,11 @@ struct NotificationSettingsCoordinatorTests {
         coordinator.start(url: nil)
         mockViewControllerBuilder._receivedNotificationSettingsCompleteAction?()
         mockNotificationService._receivedRequestPermissionsCompletion?(true)
-        #expect(mockUserService._receivedSetNotificationsConsentAccepted == true)
+        #expect(mockUserService._receivedNotificationConsent == .accepted)
     }
 
     @Test
-    func dismissAction_callsUserServiceSetNotificationConsent() {
+    func dismissAction_doesNotCallUserServiceSetNotificationsConsent() {
         let mockNavigationController = MockNavigationController()
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let mockNotificationService = MockNotificationService()
@@ -99,6 +99,6 @@ struct NotificationSettingsCoordinatorTests {
         )
         coordinator.start(url: nil)
         mockViewControllerBuilder._receivedNotificationSettingsDismissAction?()
-        #expect(mockUserService._receivedSetNotificationsConsentAccepted == false)
+        #expect(mockUserService._receivedNotificationConsent == nil)
     }
 }

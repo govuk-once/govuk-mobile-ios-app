@@ -11,9 +11,9 @@ class MockUserServiceClient: UserServiceClientInterface {
         }
     }
 
-    var _receivedNotificationsConsentAccepted: Bool?
-    func setNotificationsConsent(accepted: Bool, completion: @escaping (NotificationsPreferenceResult) -> Void) {
-        _receivedNotificationsConsentAccepted = accepted
+    var _receivedNotificationConsent: ConsentStatus?
+    func setNotificationsConsent(_ consentStatus: ConsentStatus, completion: @escaping (NotificationsPreferenceResult) -> Void) {
+        _receivedNotificationConsent = consentStatus
     }
 
 }

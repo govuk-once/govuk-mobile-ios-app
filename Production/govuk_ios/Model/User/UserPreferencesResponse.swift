@@ -1,10 +1,10 @@
 import Foundation
 
 struct NotificationsPreferenceResponse: Codable {
-    let preferences: NotificationsPreference
+    let notifications: NotificationsPreference
 }
 
 struct NotificationsPreference: Codable {
-    let notificationsConsented: Bool
+    let consentStatus: ConsentStatus
     let updatedAt: Date
 }

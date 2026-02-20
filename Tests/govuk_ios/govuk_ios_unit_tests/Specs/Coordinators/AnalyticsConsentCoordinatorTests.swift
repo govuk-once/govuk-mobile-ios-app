@@ -18,7 +18,6 @@ struct AnalyticsConsentCoordinatorTests {
             let sut = AnalyticsConsentCoordinator(
                 navigationController: mockNavigationController,
                 analyticsService: mockAnalyticsService,
-                userService: MockUserService(),
                 coordinatorBuilder: mockCoordinatorBuilder,
                 viewControllerBuilder: MockViewControllerBuilder(),
                 completion: {
@@ -40,7 +39,6 @@ struct AnalyticsConsentCoordinatorTests {
             let sut = AnalyticsConsentCoordinator(
                 navigationController: mockNavigationController,
                 analyticsService: mockAnalyticsService,
-                userService: MockUserService(),
                 coordinatorBuilder: mockCoordinatorBuilder,
                 viewControllerBuilder: MockViewControllerBuilder(),
                 completion: {
@@ -61,7 +59,6 @@ struct AnalyticsConsentCoordinatorTests {
         let sut = AnalyticsConsentCoordinator(
             navigationController: mockNavigationController,
             analyticsService: mockAnalyticsService,
-            userService: MockUserService(),
             coordinatorBuilder: mockCoordinatorBuilder,
             viewControllerBuilder: MockViewControllerBuilder(),
             completion: { }
@@ -85,7 +82,6 @@ struct AnalyticsConsentCoordinatorTests {
             let sut = AnalyticsConsentCoordinator(
                 navigationController: mockNavigationController,
                 analyticsService: mockAnalyticsService,
-                userService: MockUserService(),
                 coordinatorBuilder: mockCoordinatorBuilder,
                 viewControllerBuilder: mockViewControllerBuilder,
                 completion: { }

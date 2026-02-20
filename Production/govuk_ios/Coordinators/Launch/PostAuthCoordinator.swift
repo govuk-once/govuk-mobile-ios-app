@@ -7,21 +7,38 @@ class PostAuthCoordinator: BaseCoordinator {
     private let completion: () -> Void
     private let remoteConfigService: RemoteConfigServiceInterface
     private let analyticsService: AnalyticsServiceInterface
+    private let notificationService: NotificationServiceInterface
 
     init(coordinatorBuilder: CoordinatorBuilder,
          analyticsService: AnalyticsServiceInterface,
+         notificationService: NotificationServiceInterface,
          remoteConfigService: RemoteConfigServiceInterface,
          navigationController: UINavigationController,
          completion: @escaping () -> Void) {
         self.coordinatorBuilder = coordinatorBuilder
         self.analyticsService = analyticsService
+        self.notificationService = notificationService
         self.remoteConfigService = remoteConfigService
         self.completion = completion
         super.init(navigationController: navigationController)
     }
 
     override func start(url: URL?) {
-        startAnalyicsOnboardingCoordinator()
+        startNotificationConsentCheck()
+    }
+
+    private func startNotificationConsentCheck() {
+        Task {
+            let consentAlignmentResult = await notificationService.fetchConsentAlignment()
+            let coordinator = coordinatorBuilder.notificationConsent(
+                navigationController: root,
+                consentResult: consentAlignmentResult,
+                completion: { [weak self] in
+                    self?.startAnalyicsOnboardingCoordinator()
+                }
+            )
+            start(coordinator)
+        }
     }
 
     private func startAnalyicsOnboardingCoordinator() {

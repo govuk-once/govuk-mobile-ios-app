@@ -35,6 +35,7 @@ struct UserServiceClientTests {
         }
         let userState = try? result.get()
         #expect(userState?.notificationId == "test_user_id")
+        #expect(userState?.preferences.notifications.consentStatus == .unknown)
     }
 
     @Test
@@ -80,29 +81,34 @@ struct UserServiceClientTests {
 
     @Test
     func setNotificationsConsent_sendsExpectedRequest() {
-        sut.setNotificationsConsent(accepted: true) { _ in }
-        #expect(mockAPI._receivedSendRequest?.urlPath == "/app/v1/user")
+        sut.setNotificationsConsent(.accepted) { _ in }
+        #expect(mockAPI._receivedSendRequest?.urlPath == "/app/v1/user/preferences")
         #expect(mockAPI._receivedSendRequest?.method == .patch)
-        #expect(mockAPI._receivedSendRequest?.bodyParameters as? [String: AnyHashable] == ["notificationsConsented": true])
+        let expectedBodyParameters: [String: AnyHashable] = [
+            "notifications": [
+                "consentStatus": "accepted"
+            ]
+        ]
+        #expect(mockAPI._receivedSendRequest?.bodyParameters as? [String: AnyHashable] == expectedBodyParameters)
     }
 
     @Test
     func setNotificationsConsent_success_returnsExpectedResult() async {
         mockAPI._stubbedSendResponse = .success(UserServiceClientTests.notificationConsentResponseData)
         let result = await withCheckedContinuation { continuation in
-            sut.setNotificationsConsent(accepted: true) { result in
+            sut.setNotificationsConsent(.accepted) { result in
                 continuation.resume(returning: result)
             }
         }
         let notificationsConsentResponse = try? result.get()
-        #expect(notificationsConsentResponse?.preferences.notificationsConsented == true)
+        #expect(notificationsConsentResponse?.notifications.consentStatus == .accepted)
     }
 
     @Test
     func setNotificationsConsent_failure_returnsApiUnavailableError() async {
         mockAPI._stubbedSendResponse = .failure(UserStateError.apiUnavailable)
         let result = await withCheckedContinuation { continuation in
-            sut.setNotificationsConsent(accepted: true) { result in
+            sut.setNotificationsConsent(.accepted) { result in
                 continuation.resume(returning: result)
             }
         }
@@ -129,20 +135,11 @@ private extension UserServiceClientTests {
     static let notificationConsentResponseData =
     """
     {
-        "preferences": {
-            "notificationsConsented": true,
-            "updatedAt": "2026-02-03T09:33:13.459Z"
+        "notifications": {
+            "consentStatus": "accepted",
+            "updatedAt": "2026-02-09T13:41:37.226Z"
         }
     }
     """.data(using: .utf8)!
 
-    static let analyticsConsentResponseData =
-    """
-    {
-        "preferences": {
-            "analyticsConsented": true,
-            "updatedAt": "2026-02-03T09:33:13.459Z"
-        }
-    }
-    """.data(using: .utf8)!
 }

@@ -84,7 +84,7 @@ extension Container {
     var userAPIClient: Factory<APIServiceClientInterface> {
         Factory(self) {
             // move to GovKit when hostname is final
-            let defaultUserStateUrl: URL = URL(string: "https://d2nndycdmjjz2u.cloudfront.net")!
+            let defaultUserStateUrl: URL = URL(string: "https://paruliansara.development.bl.once.service.gov.uk")!
             return APIServiceClient(baseUrl: defaultUserStateUrl,
                                     session: self.urlSession(),
                                     requestBuilder: RequestBuilder(),
