@@ -75,7 +75,7 @@ struct ChatCellView: View {
                     for: colorScheme
                 ),
                 animationSpeed: 1.5,
-                shouldReduceMotion: false
+                shouldReduceMotion: true
             )
             .frame(width: 32, height: 32)
             Text(viewModel.message)
