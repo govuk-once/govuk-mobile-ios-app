@@ -6,6 +6,24 @@ import Testing
 
 @Suite
 class NotificationServiceTests {
+
+    @Test
+    func didFinishLaunching_setsConsentRequired() {
+        let mockOneSignalClient = MockOneSignalServiceClient.self
+        let mockEnvironmentService = MockAppEnvironmentService()
+        let sut = NotificationService(
+            environmentService: mockEnvironmentService,
+            notificationCenter: MockUserNotificationCenter(),
+            configService: MockAppConfigService(),
+            userDefaultsService: MockUserDefaultsService(),
+            oneSignalServiceClient: mockOneSignalClient
+        )
+
+        sut.appDidFinishLaunching(launchOptions: nil)
+
+        #expect(mockOneSignalClient._receivedConsentRequiredValue == true)
+        #expect(mockOneSignalClient._receivedInitializeAppId == mockEnvironmentService.oneSignalAppId)
+    }
     //    @Test
     //    func shouldRequestPermissions_statusNotDetermined_returnsTrue() async {
     //        let mockUserNotificationCenter = MockUserNotificationCenter()
