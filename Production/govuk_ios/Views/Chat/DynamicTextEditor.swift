@@ -39,8 +39,7 @@ struct DynamicTextEditor: UIViewRepresentable {
                 equalTo: textView.bottomAnchor
             ),
             placeholderLabel.widthAnchor.constraint(
-                lessThanOrEqualToConstant: textView.frame.width
-            )
+                lessThanOrEqualTo: textView.widthAnchor, multiplier: 1)
         ])
 
         placeholderLabel.isHidden = !text.isEmpty
