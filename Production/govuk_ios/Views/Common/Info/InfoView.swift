@@ -162,6 +162,7 @@ struct InfoView<Model>: View where Model: InfoViewModelInterface {
             )
             .aspectRatio(contentMode: .fit)
             .frame(maxHeight: 252)
+            .accessibilityHidden(true)
         case .none:
             EmptyView()
         }
