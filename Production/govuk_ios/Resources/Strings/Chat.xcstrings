@@ -183,7 +183,7 @@
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Generating your answer"
+            "value" : "Generating your answer…"
           }
         }
       }

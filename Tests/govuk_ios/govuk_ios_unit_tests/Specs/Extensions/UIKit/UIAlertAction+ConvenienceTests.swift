@@ -30,4 +30,13 @@ struct UIAlertAction_ConvenienceTests {
         #expect(subject.title == "Test")
         #expect(subject.style == .destructive)
     }
+
+    @Test
+    func generic_returnsExpectedResult() {
+        let subject = UIAlertAction.generic(title: "Test",
+                                                handler: nil)
+
+        #expect(subject.title == "Test")
+        #expect(subject.style == .default)
+    }
 }

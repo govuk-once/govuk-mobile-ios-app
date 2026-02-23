@@ -40,11 +40,8 @@ final class WelcomeOnboardingViewModel: InfoViewModelInterface,
         )
     }
 
-    var image: AnyView {
-        AnyView(
-            Image(decorative: "onboarding_welcome")
-                .padding(.bottom, 16)
-        )
+    var visualAssetContent: VisualAssetContent {
+        .decorativeImage("onboarding_welcome")
     }
 
     var subtitleFont: Font {

@@ -5,7 +5,7 @@ import FactoryKit
 
 @testable import govuk_ios
 
-private class TestWebCoordinator: MockBaseCoordinator {
+private class TestParentCoordinator: MockBaseCoordinator {
     var presentedCoordinator: BaseCoordinator?
 
     override func present(_ coordinator: BaseCoordinator, animated: Bool = true) {
@@ -27,12 +27,12 @@ struct WebDeeplinkRouteTests {
     }
     
     @Test
-    func action_withValidURL_presentsWebCoordinator() {
+    func action_withValidURL_presentsSafariCoordinator() {
         let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
         let expectedCoordinator = MockBaseCoordinator()
-        mockCoordinatorBuilder._stubbedWebViewCoordinator = expectedCoordinator
+        mockCoordinatorBuilder._stubbedSafariCoordinator = expectedCoordinator
         let subject = WebDeeplinkRoute(coordinatorBuilder: mockCoordinatorBuilder)
-        let mockParentCoordinator = TestWebCoordinator()
+        let mockParentCoordinator = TestParentCoordinator()
         let testURL = "https://www.gov.uk/"
         let params = ["url": testURL]
 
@@ -45,7 +45,7 @@ struct WebDeeplinkRouteTests {
     func action_withInvalidURL_doesNotPresentCoordinator() {
         let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
         let subject = WebDeeplinkRoute(coordinatorBuilder: mockCoordinatorBuilder)
-        let mockParentCoordinator = TestWebCoordinator()
+        let mockParentCoordinator = TestParentCoordinator()
         let params = ["url": "invalid-url"]
         
         subject.action(parent: mockParentCoordinator, params: params)
@@ -57,7 +57,7 @@ struct WebDeeplinkRouteTests {
     func action_withMissingURL_doesNotPresentCoordinator() {
         let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
         let subject = WebDeeplinkRoute(coordinatorBuilder: mockCoordinatorBuilder)
-        let mockParentCoordinator = TestWebCoordinator()
+        let mockParentCoordinator = TestParentCoordinator()
         let params: [String: String] = [:]
         
         subject.action(parent: mockParentCoordinator, params: params)

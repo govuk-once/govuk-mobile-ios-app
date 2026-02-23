@@ -284,11 +284,6 @@ class MockCoordinatorBuilder: CoordinatorBuilder {
         return _stubbedChatConsentOnboardingCoordinator ?? MockBaseCoordinator()
     }
 
-    var _stubbedWebViewCoordinator: MockBaseCoordinator?
-    override func webView(url: URL) -> BaseCoordinator {
-        _stubbedWebViewCoordinator ?? MockBaseCoordinator()
-    }
-
     var _stubbedPrivacyCoordinator: MockBaseCoordinator?
     override func privacy(navigationController: UINavigationController) -> BaseCoordinator & PrivacyProviding {
         _stubbedPrivacyCoordinator ?? MockBaseCoordinator()

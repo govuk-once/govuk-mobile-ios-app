@@ -1,6 +1,5 @@
 import Foundation
 import SwiftUI
-import GovKitUI
 import GovKit
 import MarkdownUI
 
@@ -14,7 +13,7 @@ enum ChatCellType {
     case pendingAnswer
     case answer
     case intro
-    case loading
+    case sending
 }
 
 class ChatCellViewModel: ObservableObject {
@@ -26,6 +25,8 @@ class ChatCellViewModel: ObservableObject {
     let analyticsService: AnalyticsServiceInterface?
     @Published var isVisible: Bool = false
     @Published var isSourceListExpanded: Bool = false
+
+    let animationDuration = Constants.Timers.Animation.chatAnimationDuration
 
     init(message: String,
          id: String,
@@ -80,7 +81,7 @@ class ChatCellViewModel: ObservableObject {
     }
 
     var isAnswer: Bool {
-        (type == .question || type ==  .loading) ? false : true
+        (type == .question || type ==  .sending) ? false : true
     }
 
     var accessibilityPrompt: String {
@@ -135,7 +136,7 @@ extension ChatCellViewModel {
         switch type {
         case .question:
             Color(UIColor.govUK.fills.surfaceChatQuestion)
-        case .loading, .pendingAnswer:
+        case .sending, .pendingAnswer:
             Color(UIColor.clear)
         case .answer, .intro:
             Color(UIColor.govUK.fills.surfaceChatAnswer)
@@ -146,48 +147,37 @@ extension ChatCellViewModel {
         UIScreen.main.bounds.width * 0.2
     }
 
-    var anchor: UnitPoint {
+    var offset: CGFloat {
+        if type == .sending || type == .pendingAnswer {
+            0.0
+        } else {
+            16.0
+        }
+    }
+
+    var delay: TimeInterval {
         switch type {
-        case .intro:
-                .center
-        case .question, .loading:
-                .bottomTrailing
-        case .pendingAnswer, .answer:
-                .bottomLeading
-        }
-    }
-
-    var scale: CGFloat {
-        let localScale = if type == .pendingAnswer {
-            1.0
-        } else {
-            0.90
-        }
-        return isVisible ? 1 : localScale
-    }
-
-    var duration: CGFloat {
-        if type == .intro {
-            0.5
-        } else {
-            0.25
-        }
-    }
-
-    var delay: CGFloat {
-        if type == .loading {
+        case .sending:
             0.4
-        } else {
+        case .pendingAnswer:
+            animationDuration
+        default:
             0.0
         }
     }
 
     var topPadding: CGFloat {
-        if type == .intro || type == .loading {
+        if type == .intro || type == .sending {
             0.0
         } else {
             8.0
         }
+    }
+
+    func animation(for scheme: ColorScheme) -> String {
+        scheme == .light ?
+        "chat_loading_message_light" :
+        "chat_loading_message_dark"
     }
 }
 
@@ -196,7 +186,7 @@ extension ChatCellViewModel {
     static var loadingQuestion: ChatCellViewModel = .init(
         message: String.chat.localized("loadingQuestionMessage"),
         id: UUID().uuidString,
-        type: .loading
+        type: .sending
     )
 
     static var gettingAnswer: ChatCellViewModel = .init(

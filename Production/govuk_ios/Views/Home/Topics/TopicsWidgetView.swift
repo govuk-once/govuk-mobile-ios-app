@@ -7,7 +7,7 @@ struct TopicsWidgetView: View {
     @State var showingEditScreen: Bool = false
 
     var body: some View {
-        VStack {
+        VStack(spacing: 16) {
             SectionHeaderLabelView(
                 model: SectionHeaderLabelViewModel(
                     title: viewModel.widgetTitle,
@@ -18,32 +18,30 @@ struct TopicsWidgetView: View {
                 )
             )
             .opacity(viewModel.fetchTopicsError ? 0 : 1)
-            .padding(.top, 16)
-            if viewModel.fetchTopicsError {
-                AppErrorView(viewModel: viewModel.errorViewModel)
-                    .padding(.vertical)
-                    .background(Color(UIColor.govUK.fills.surfaceList))
-                    .roundedBorder(borderColor: .clear)
-            } else {
-                VStack(spacing: 0) {
-                    topicPicker
-                    switch viewModel.topicsScreen {
-                    case .favourite:
-                        if viewModel.hasFavouritedTopics {
-                            topicsListViewFor(topics: viewModel.favouriteTopics)
-                        } else {
-                            emptyStateView
+            Group {
+                if viewModel.fetchTopicsError {
+                    AppErrorView(viewModel: viewModel.errorViewModel)
+                        .padding(.bottom, 16)
+                } else {
+                    VStack(spacing: 0) {
+                        topicPicker
+                        switch viewModel.topicsScreen {
+                        case .favourite:
+                            if viewModel.hasFavouritedTopics {
+                                topicsListViewFor(topics: viewModel.favouriteTopics)
+                            } else {
+                                emptyStateView
+                            }
+                        case .all:
+                            topicsListViewFor(topics: viewModel.allTopics)
                         }
-                    case .all:
-                        topicsListViewFor(topics: viewModel.allTopics)
                     }
                 }
-                .padding(.top, 16)
-                .background(Color(UIColor.govUK.fills.surfaceList))
-                .roundedBorder(borderColor: .clear)
             }
+            .padding(.top, 16)
+            .background(Color(UIColor.govUK.fills.surfaceList))
+            .roundedBorder(borderColor: .clear)
         }
-        .padding()
         .onAppear {
             viewModel.refreshTopics()
             viewModel.initialLoadComplete = true
@@ -132,7 +130,7 @@ struct TopicsWidgetView: View {
                         )
                     )
             }
-            .padding(.vertical, 14)
+            .padding(.vertical, 16)
         }
     }
 }

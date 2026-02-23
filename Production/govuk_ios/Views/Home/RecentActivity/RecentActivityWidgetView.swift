@@ -4,13 +4,14 @@ import GovKit
 
 struct RecentActivityWidgetView: View {
     @ObservedObject var viewModel: RecentActivityHomepageWidgetViewModel
+
     var body: some View {
         if viewModel.sections.isEmpty {
             emptyStateView
         } else {
             VStack(
                 alignment: .leading,
-                spacing: .zero,
+                spacing: 16,
                 content: {
                     SectionHeaderLabelView(
                         model: SectionHeaderLabelViewModel(
@@ -21,11 +22,9 @@ struct RecentActivityWidgetView: View {
                         )
                     )
                 )
-                .padding(.horizontal, 16)
                     GroupedList(
                         content: viewModel.sections
                     )
-                    .padding(.top, 16)
                 }
             )
         }
@@ -33,19 +32,16 @@ struct RecentActivityWidgetView: View {
     private var emptyStateView: some View {
         VStack(
             alignment: .leading,
-            spacing: .zero,
+            spacing: 16,
             content: {
                 SectionHeaderLabelView(
                     model: .init(
                         title: viewModel.title
                     )
                 )
-                .padding(.horizontal, 16)
                 NonTappableCardView(
                     text: viewModel.emptyActivityStateTitle
                 )
-                .padding(.horizontal, 16)
-                .padding(.top, 16)
             }
         )
     }

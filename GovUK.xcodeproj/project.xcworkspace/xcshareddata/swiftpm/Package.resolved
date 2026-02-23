@@ -106,7 +106,7 @@
       "location" : "https://github.com/govuk-once/govuk-mobile-ios-gov-kit",
       "state" : {
         "branch" : "main",
-        "revision" : "87af2c8deb93ebbabe4dc79a9489ee6f90252466"
+        "revision" : "1acd23c0bc1e687f8272fdc6ad78328b2ba7b80b"
       }
     },
     {
@@ -168,8 +168,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/airbnb/lottie-ios",
       "state" : {
-        "revision" : "a004050748dc197c56256a14dca49a035d74726c",
-        "version" : "4.5.2"
+        "revision" : "0cb03fd7564d27345bcd96144b811e56212949c6",
+        "version" : "4.6.0"
       }
     },
     {

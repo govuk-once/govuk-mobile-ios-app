@@ -32,12 +32,10 @@ final class SignInSuccessViewModel: InfoViewModelInterface {
         )
     }
 
-    var image: AnyView {
-        AnyView(
-            Image(decorative: "sign_in_success")
-                .padding(.bottom, 16)
-        )
+    var visualAssetContent: VisualAssetContent {
+        .decorativeImage("sign_in_success")
     }
+
 
     var subtitleFont: Font {
         Font.govUK.title1

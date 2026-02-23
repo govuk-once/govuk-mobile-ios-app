@@ -223,7 +223,8 @@ extension Container {
         Factory(self) {
             InactivityService(
                 authenticationService: self.authenticationService.resolve(),
-                timer: TimerWrapper()
+                timer: TimerWrapper(),
+                warningTimer: TimerWrapper()
             )
         }.scope(.singleton)
     }

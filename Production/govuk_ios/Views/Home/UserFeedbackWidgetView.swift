@@ -5,8 +5,7 @@ struct UserFeedbackWidgetView: View {
     let viewModel: UserFeedbackWidgetViewModel
 
     var body: some View {
-        VStack(spacing: 0) {
-            Spacer()
+        VStack(spacing: 18) {
             Text(viewModel.body)
                 .font(.govUK.body)
                 .multilineTextAlignment(.center)
@@ -15,8 +14,6 @@ struct UserFeedbackWidgetView: View {
                 )
             linkButton(title: viewModel.linkTitle)
         }
-        .padding(.top)
-        .padding(.bottom, 28)
     }
 
     @ViewBuilder
@@ -32,7 +29,6 @@ struct UserFeedbackWidgetView: View {
                         Color(uiColor: UIColor.govUK.text.buttonSecondary)
                     )
                     .frame(maxWidth: .infinity)
-                    .padding(.top, 18)
             }
         )
         .accessibilityAddTraits(.isLink)

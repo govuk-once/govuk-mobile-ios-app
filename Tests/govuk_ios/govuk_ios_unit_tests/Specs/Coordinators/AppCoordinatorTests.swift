@@ -372,6 +372,7 @@ struct AppCoordinatorTests {
         subject.start()
         mockInactivityService._receivedStartMonitoringInactivityHandler?()
 
+        #expect(mockPrivacyService._didHidePrivacyAlert)
         #expect(mockPrivacyService._didShowPrivacyScreen)
     }
 
@@ -393,12 +394,68 @@ struct AppCoordinatorTests {
             authenticationService: mockAuthenticationService,
             localAuthenticationService: mockLocalAuthenticationService,
             notificationService: mockNotificationService,
+            privacyPresenter: mockPrivacyService,
             navigationController: mockNavigationController
         )
         mockAuthenticationService._stubbedIsSignedIn = true
         subject.start()
         mockInactivityService._receivedStartMonitoringInactivityHandler?()
 
+        #expect(mockPrivacyService._didHidePrivacyAlert)
         #expect(!mockPrivacyService._didShowPrivacyScreen)
     }
+
+    @Test
+    func inactivityWithBiometrics_presentsPrivacyWarningScreen() {
+        let mockAuthenticationService = MockAuthenticationService()
+        let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
+        let mockNavigationController = UINavigationController()
+        let mockInactivityService = MockInactivityService()
+        let mockLocalAuthenticationService = MockLocalAuthenticationService()
+        mockLocalAuthenticationService._stubbedAvailableAuthType = .faceID
+        let mockPrivacyService = MockPrivacyService()
+
+        let subject = AppCoordinator(
+            coordinatorBuilder: mockCoordinatorBuilder,
+            inactivityService: mockInactivityService,
+            authenticationService: mockAuthenticationService,
+            localAuthenticationService: mockLocalAuthenticationService,
+            notificationService: MockNotificationService(),
+            privacyPresenter: mockPrivacyService,
+            navigationController: mockNavigationController
+        )
+        mockAuthenticationService._stubbedIsSignedIn = true
+        subject.start()
+        mockInactivityService._receivedStartMonitoringAlertHandler?()
+
+        #expect(mockPrivacyService._didShowPrivacyAlert)
+    }
+
+    @Test
+    func inactivityWithoutBiometrics_presentsPrivacyWarningScreen() {
+        let mockAuthenticationService = MockAuthenticationService()
+        let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
+        let mockNavigationController = UINavigationController()
+        let mockInactivityService = MockInactivityService()
+        let mockLocalAuthenticationService = MockLocalAuthenticationService()
+        mockLocalAuthenticationService._stubbedAvailableAuthType = .none
+        mockLocalAuthenticationService._stubbedTouchIdEnabled = false
+        let mockPrivacyService = MockPrivacyService()
+
+        let subject = AppCoordinator(
+            coordinatorBuilder: mockCoordinatorBuilder,
+            inactivityService: mockInactivityService,
+            authenticationService: mockAuthenticationService,
+            localAuthenticationService: mockLocalAuthenticationService,
+            notificationService: MockNotificationService(),
+            privacyPresenter: mockPrivacyService,
+            navigationController: mockNavigationController
+        )
+        mockAuthenticationService._stubbedIsSignedIn = true
+        subject.start()
+        mockInactivityService._receivedStartMonitoringAlertHandler?()
+
+        #expect(mockPrivacyService._didShowPrivacyAlert)
+    }
+
 }

@@ -23,7 +23,11 @@ struct WebDeeplinkRoute: DeeplinkRoute {
 
     @MainActor
     private func presentDeeplinkPage(for url: URL, coordinator: BaseCoordinator) {
-        let webCoordinator = coordinatorBuilder.webView(url: url)
-        coordinator.present(webCoordinator)
+        let safariCoordinator = coordinatorBuilder.safari(
+            navigationController: coordinator.root,
+            url: url,
+            fullScreen: true
+        )
+        coordinator.present(safariCoordinator)
     }
 }

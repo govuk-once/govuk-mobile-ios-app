@@ -380,14 +380,6 @@ class CoordinatorBuilder {
         )
     }
 
-    func webView(url: URL) -> BaseCoordinator {
-        WebViewCoordinator(
-            navigationController: UINavigationController(),
-            viewControllerBuilder: ViewControllerBuilder(),
-            url: url
-        )
-    }
-
     func safari(navigationController: UINavigationController,
                 url: URL,
                 fullScreen: Bool) -> BaseCoordinator {

@@ -18,14 +18,8 @@ class ChatConsentOnboardingViewModel: InfoViewModelInterface {
         self.completionAction = completionAction
     }
 
-    var image: AnyView {
-        AnyView(
-            Image(decorative: "chat_onboarding_consent")
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .padding(.bottom, 16)
-                .frame(width: 120, height: 120)
-        )
+    var visualAssetContent: VisualAssetContent {
+        .decorativeImage("chat_onboarding_consent")
     }
 
     var title: String {

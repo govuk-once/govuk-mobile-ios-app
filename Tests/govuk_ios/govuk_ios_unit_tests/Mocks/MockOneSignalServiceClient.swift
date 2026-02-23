@@ -14,14 +14,16 @@ class MockOneSignalServiceClient: OneSignalServiceClient {
     static func logout() {
         _stubbedExternalId = nil
     }
-    
-    static func setConsentRequired(_ required: Bool) {
 
+    static var _receivedConsentRequiredValue: Bool?
+    static func setConsentRequired(_ required: Bool) {
+        _receivedConsentRequiredValue = required
     }
     
+    static var _receivedInitializeAppId: String?
     static func initialize(appId: String,
                            launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
-
+        _receivedInitializeAppId = appId
     }
     
     static func setConsentGiven(_ given: Bool) {

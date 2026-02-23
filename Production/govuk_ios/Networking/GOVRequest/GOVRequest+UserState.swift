@@ -5,6 +5,10 @@ extension GOVRequest {
     private static let userPath = "/app/v1/user"
     private static let userPreferencesPath = "/app/v1/user/preferences"
 
+    private static var additionalHeaders: [String: String] {
+        ["Content-Type": "application/json"]
+    }
+
     static var userState: GOVRequest {
         GOVRequest(
             urlPath: userPath,
@@ -29,9 +33,5 @@ extension GOVRequest {
             additionalHeaders: additionalHeaders,
             requiresAuthentication: true
         )
-    }
-
-    private static var additionalHeaders: [String: String] {
-        ["Content-Type": "application/json"]
     }
 }

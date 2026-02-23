@@ -48,7 +48,7 @@ struct PreAuthCoordinatorTests {
     }
 
     @Test
-    func launchCompletion() {
+    func launchCompletion_startsAppForcedUpdate() {
         let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
         let stubbedJailbreakCoordinator = MockBaseCoordinator()
         mockCoordinatorBuilder._stubbedJailbreakCoordinator = stubbedJailbreakCoordinator

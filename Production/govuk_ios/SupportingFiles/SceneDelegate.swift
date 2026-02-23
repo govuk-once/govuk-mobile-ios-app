@@ -91,11 +91,29 @@ class SceneDelegate: UIResponder,
 extension SceneDelegate: PrivacyPresenting {
     func showPrivacyScreen() {
         privacyWindow?.makeKeyAndVisible()
+        hidePrivacyAlert()
         privacyCoordinator.start()
     }
 
     func hidePrivacyScreen() {
         window?.makeKeyAndVisible()
         privacyCoordinator.finish()
+    }
+
+    func showPrivacyAlert() {
+        let alert = UIAlertController.preferredActionAlert(
+            title: String(localized: .Home.appTimeoutWarningTitle),
+            message: String(localized: .Home.appTimeoutWarningMessage),
+            buttonTitle: String(localized: .Home.appTimeoutWarningButtonTitle),
+            handler: nil)
+        let presenter = window?.rootViewController?.topController
+        presenter?.present(alert, animated: true)
+    }
+
+    func hidePrivacyAlert() {
+        if let topController =
+            window?.rootViewController?.topController as? UIAlertController {
+            topController.dismiss(animated: false)
+        }
     }
 }

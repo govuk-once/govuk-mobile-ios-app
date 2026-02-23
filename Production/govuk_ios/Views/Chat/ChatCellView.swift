@@ -1,9 +1,9 @@
 import SwiftUI
-import GovKit
-import GovKitUI
 import MarkdownUI
+import Lottie
 
 struct ChatCellView: View {
+    @Environment(\.colorScheme) var colorScheme
     @StateObject private var viewModel: ChatCellViewModel
 
     init(viewModel: ChatCellViewModel) {
@@ -21,19 +21,22 @@ struct ChatCellView: View {
                 answerView
             case .intro:
                 introView
-            case .loading:
-                loadingView
+            case .sending:
+                sendingView
             }
         }
         .background(viewModel.backgroundColor)
-        .opacity(viewModel.isVisible ? 1 : 0)
-        .scaleEffect(viewModel.scale, anchor: viewModel.anchor)
-        .animation(.easeIn(duration: viewModel.duration).delay(viewModel.delay),
-                   value: viewModel.isVisible)
         .clipShape(
             RoundedRectangle(
                 cornerRadius: viewModel.type == .pendingAnswer ? 0 : 18
             )
+        )
+        .opacity(viewModel.isVisible ? 1 : 0)
+        .offset(y: viewModel.isVisible ? 0 : viewModel.offset)
+        .animation(
+            .easeIn(duration: viewModel.animationDuration)
+            .delay(viewModel.delay),
+            value: viewModel.isVisible
         )
         .padding(.top, viewModel.topPadding)
         .contextMenu {
@@ -46,12 +49,12 @@ struct ChatCellView: View {
         }
     }
 
-    private var loadingView: some View {
-        Text(.Chat.loadingQuestionMessage)
+    private var sendingView: some View {
+        Text(viewModel.message)
             .font(.govUK.subheadline)
             .foregroundStyle(Color(UIColor.govUK.text.primary))
             .multilineTextAlignment(.trailing)
-            .padding(.trailing, 16)
+            .padding(.trailing, 0)
     }
 
     private var questionView: some View {
@@ -66,11 +69,18 @@ struct ChatCellView: View {
     }
 
     private var pendingAnswerView: some View {
-        HStack(spacing: 5) {
-            AnimatedAPNGImageView(imageName: "generating-your-answer")
-                .frame(width: 24, height: 24)
-            ChatEllipsesView(viewModel.message)
+        return HStack(spacing: 8) {
+            SwiftUIAnimationView(
+                animationName: viewModel.animation(
+                    for: colorScheme
+                ),
+                animationSpeed: 1.5,
+                shouldReduceMotion: false
+            )
+            .frame(width: 32, height: 32)
+            Text(viewModel.message)
                 .font(Font.govUK.body)
+                .foregroundStyle(Color(UIColor.govUK.text.primary))
             Spacer()
         }
         .padding(.bottom)
@@ -80,6 +90,7 @@ struct ChatCellView: View {
         VStack(alignment: .leading, spacing: 8) {
             Text(viewModel.message)
                 .font(Font.govUK.body)
+                .foregroundStyle(Color(UIColor.govUK.text.primary))
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
@@ -127,6 +138,7 @@ struct ChatCellView: View {
                 .accessibilityHidden(true)
             Text(String.chat.localized("mistakesTitle"))
                 .font(Font.govUK.bodySemibold)
+                .foregroundStyle(Color(UIColor.govUK.text.primary))
         }
     }
 
@@ -192,9 +204,11 @@ struct ChatDisclosure: DisclosureGroupStyle {
             HStack(alignment: .firstTextBaseline) {
                 configuration.label
                     .multilineTextAlignment(.leading)
+                    .fixedSize(horizontal: false, vertical: true)
                 Spacer()
                 Image(systemName: configuration.isExpanded ? "chevron.up" : "chevron.down")
                     .foregroundStyle(Color(UIColor.govUK.text.link))
+                    .transaction({ $0.animation = nil }) // Prevent cross-fade animation on toggle
             }
         }
     }
@@ -235,26 +249,41 @@ struct ChatDisclosure: DisclosureGroupStyle {
         find the right service for your situation.
         """
 
+    let questionModel = ChatCellViewModel(
+        message: "What is your quest?",
+        id: UUID().uuidString,
+        type: .question)
+
+    let answerModel = ChatCellViewModel(
+            message: previewMessage,
+            id: UUID().uuidString,
+            type: .answer,
+            sources: [
+                Source(title: "Source 1", url: "https://www.example.com"),
+                Source(title: "Source 2", url: "https://www.other.com")
+            ])
+
+
     ScrollView {
-        VStack {
-            ChatCellView(
-                viewModel: ChatCellViewModel(
-                    message: "What is your quest what is your",
-                    id: UUID().uuidString,
-                    type: .question)
-            )
-            ChatCellView(
-                viewModel: ChatCellViewModel(
-                    message: previewMessage,
-                    id: UUID().uuidString,
-                    type: .answer,
-                    sources: [
-                        Source(title: "Source 1", url: "https://www.example.com"),
-                        Source(title: "Source 2", url: "https://www.other.com")
-                    ])
-            )
-            ChatCellView(viewModel: .gettingAnswer)
+        ZStack {
+            Color(uiColor: .govUK.fills.surfaceChatBackground)
+            VStack {
+                ChatCellView(
+                    viewModel: questionModel
+                )
+                ChatCellView(
+                    viewModel: .gettingAnswer
+                )
+                ChatCellView(
+                    viewModel: answerModel
+                )
+            }
+            .padding()
         }
-        .padding()
+    }
+    .onAppear {
+        questionModel.isVisible = true
+        answerModel.isVisible = true
+        ChatCellViewModel.gettingAnswer.isVisible = true
     }
 }

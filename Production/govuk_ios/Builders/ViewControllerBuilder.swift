@@ -461,10 +461,6 @@ class ViewControllerBuilder {
         return viewController
     }
 
-    func web(for url: URL) -> UIViewController {
-        return WebViewController(url: url)
-    }
-
     func safari(url: URL) -> UIViewController {
         let config = SFSafariViewController.Configuration()
         config.barCollapsingEnabled = true

@@ -26,33 +26,33 @@ struct ChatMenuView: View {
                         showClearChatAlert = true
                     },
                     label: {
-                        Label(String.chat.localized("clearMenuTitle"),
+                        Label(.Chat.clearMenuTitle,
                               systemImage: "trash")
                     }
                 )
                 .disabled(disableClearChat)
             }
             Button(
-                action: { viewModel.openFeedbackURL() },
-                label: {
-                    Text(String.chat.localized("feedbackMenuTitle"))
-                        .accessibilityLabel(String.chat.localized("feedbackMenuAccessibilityTitle"))
-                        .accessibilityHint(String.common.localized("openWebLinkHint"))
-                }
-            )
-            Button(
                 action: { viewModel.openPrivacyURL() },
                 label: {
-                    Text(String.chat.localized("privacyMenuTitle"))
-                        .accessibilityLabel(String.chat.localized("optInPrivacyLinkTitle"))
+                    Text(.Chat.privacyMenuTitle)
+                        .accessibilityLabel(.Chat.optInPrivacyLinkTitle)
                         .accessibilityHint(String.common.localized("openWebLinkHint"))
                 }
             )
             Button(
                 action: { viewModel.openAboutURL() },
                 label: {
-                    Text(String.chat.localized("aboutMenuTitle"))
-                        .accessibilityLabel(String.chat.localized("aboutMenuAccessibilityTitle"))
+                    Text(.Chat.aboutMenuTitle)
+                        .accessibilityLabel(.Chat.aboutMenuAccessibilityTitle)
+                        .accessibilityHint(String.common.localized("openWebLinkHint"))
+                }
+            )
+            Button(
+                action: { viewModel.openFeedbackURL() },
+                label: {
+                    Text(.Chat.feedbackMenuTitle)
+                        .accessibilityLabel(.Chat.feedbackMenuAccessibilityTitle)
                         .accessibilityHint(String.common.localized("openWebLinkHint"))
                 }
             )
@@ -66,7 +66,7 @@ struct ChatMenuView: View {
                         .fill(Color(UIColor.govUK.fills.surfaceChatAction))
                 )
         }
-        .accessibilityLabel(String.chat.localized("moreOptionsAccessibilityLabel"))
+        .accessibilityLabel(.Chat.moreOptionsAccessibilityLabel)
         .accessibilitySortPriority(0)
     }
 }
