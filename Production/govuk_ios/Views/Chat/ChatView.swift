@@ -34,7 +34,7 @@ struct ChatView: View {
         .overlay(content: {
             VStack {
                 ProgressView()
-                    .accessibilityLabel("Loading History")
+                    .accessibilityLabel(.Chat.historyLoadingAccessibilityLabel)
             }
             .opacity(progressOpacity)
             .animation(.easeOut,
