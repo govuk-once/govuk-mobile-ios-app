@@ -31,6 +31,16 @@ struct ChatView: View {
                                           value: viewModel.textViewHeight)
             }
         }
+        .overlay(content: {
+            VStack {
+                ProgressView()
+                    .accessibilityLabel(.Chat.historyLoadingAccessibilityLabel)
+            }
+            .opacity(progressOpacity)
+            .animation(.easeOut,
+                       value: progressOpacity)
+            .ignoresSafeArea()
+        })
         .onAppear {
             viewModel.loadHistory()
             viewModel.trackScreen(screen: self)
@@ -69,6 +79,10 @@ struct ChatView: View {
         } message: { details in
             Text(details.message)
         }
+    }
+
+    private var progressOpacity: CGFloat {
+        viewModel.showProgressView ? 1.0 : 0.0
     }
 
     private func chatContainerView(_ frameHeight: CGFloat) -> some View {

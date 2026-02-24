@@ -47,6 +47,9 @@ beta:
       uk.gov.govuk: "match AppStore uk.gov.govuk"
       uk.gov.govuk.notification-service: "match AppStore uk.gov.govuk.notification-service"
     export_method: app-store
+    entitlements:
+      uk.gov.govuk: "govuk_ios.entitlements"
+      uk.gov.govuk.notification-service: "govuk_ios_notification_service.entitlements"
     build_configuration: Release
     additional_swift_flags:
       - -DPRODUCTION

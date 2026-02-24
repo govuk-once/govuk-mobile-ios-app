@@ -27,13 +27,16 @@ class ChatViewModel: ObservableObject {
     @Published var textViewHeight: CGFloat = 48.0
     @Published var requestInFlight: Bool = false
     @Published var showValidationAlert: Bool = false
+    @Published var showProgressView: Bool = false
 
     var absoluteRemainingCharacters: Int {
         abs(maxCharacters - latestQuestion.count)
     }
 
     var shouldDisableSend: Bool {
-        (latestQuestion.count > maxCharacters) ||
+        let question = latestQuestion.trimmingCharacters(in: .whitespacesAndNewlines)
+        return question.count == 0 ||
+        (question.count > maxCharacters) ||
         requestInFlight
     }
 
@@ -53,7 +56,8 @@ class ChatViewModel: ObservableObject {
 
     func askQuestion(_ question: String? = nil,
                      completion: ((Bool) -> Void)? = nil) {
-        let localQuestion = question ?? latestQuestion
+        let localQuestion = (question ?? latestQuestion)
+            .trimmingCharacters(in: .whitespacesAndNewlines)
         guard !containsPII(localQuestion) else {
             setPersonalDataValidationAlertDetails()
             showValidationAlert = true
@@ -131,10 +135,12 @@ class ChatViewModel: ObservableObject {
             return
         }
         requestInFlight = true
+        showProgressView = true
         chatService.chatHistory(
             conversationId: conversationId
         ) { [weak self] result in
             self?.requestInFlight = false
+            self?.showProgressView = false
             switch result {
             case .success(let answers):
                 self?.shouldLoadHistory = false
