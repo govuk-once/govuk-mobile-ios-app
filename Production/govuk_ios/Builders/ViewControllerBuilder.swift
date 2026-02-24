@@ -558,13 +558,27 @@ class ViewControllerBuilder {
         return viewController
     }
     
-    func notificationCentre() -> UIViewController {
-        let viewModel = NotificationCentreViewModel()
+    func notificationCentre(showNotificationAction: @escaping (Notification) -> Void, notificationService: NotificationCentreServiceInterface) -> UIViewController {
+        let actions = NotificationCentreViewModel.Actions(showNotification: showNotificationAction)
+        let viewModel = NotificationCentreViewModel(actions: actions, notificationService: notificationService)
 
         let viewController = HostingViewController(
-            rootView: NotificationCentreView(), // TODO Pass in ViewModel
+            rootView: NotificationCentreContainerView(viewModel: viewModel),
             navigationBarHidden: false
         )
+        viewController.title = "Notification Centre"
+        viewController.navigationItem.largeTitleDisplayMode = .always
+        return viewController
+    }
+    
+    func notificationCentreDetail(notification: Notification) -> UIViewController {
+        let viewModel = NotificationCentreDetailViewModel(notification: notification)
+
+        let viewController = HostingViewController(
+            rootView: NotificationCentreDetailContainerView(viewModel: viewModel),
+            navigationBarHidden: false
+        )
+        viewController.navigationItem.largeTitleDisplayMode = .always
         return viewController
     }
 }

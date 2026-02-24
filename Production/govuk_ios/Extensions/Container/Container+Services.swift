@@ -270,4 +270,10 @@ extension Container {
             sceneDelegate as? PrivacyPresenting
         }
     }
+    
+    var notificationCentreService: Factory<NotificationCentreServiceInterface> {
+        Factory(self) {
+            NotificationCentreService(serviceClient: self.notificationCentreServiceClient.resolve(), repository: self.notificationCentreRepository.resolve())
+        }
+    }
 }
