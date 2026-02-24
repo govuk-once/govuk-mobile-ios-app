@@ -1,0 +1,83 @@
+{
+  "sourceLanguage" : "en-GB",
+  "strings" : {
+    "noNotificationsBody" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You don’t have any notifications yet. When you receive notifications from government services, they’ll appear here."
+          }
+        }
+      }
+    },
+    "noNotificationsTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No notifications"
+          }
+        }
+      }
+    },
+    "notificationErrorBody" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We’re unable to load your notifications right now. Try again later."
+          }
+        }
+      }
+    },
+    "notificationErrorButtonRetry" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try again"
+          }
+        }
+      }
+    },
+    "notificationErrorTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sorry, there is a problem"
+          }
+        }
+      }
+    },
+    "notificationSentDateFormat" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sent: %@"
+          }
+        }
+      }
+    },
+    "notificationUnreadA11yLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unread"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.1"
+}
