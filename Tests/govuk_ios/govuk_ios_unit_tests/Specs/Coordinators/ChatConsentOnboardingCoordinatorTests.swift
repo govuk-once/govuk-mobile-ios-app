@@ -12,12 +12,14 @@ struct ChatConsentOnboardingCoordinatorTests {
     func start_setsChatConsentOnboardingViewController() throws {
         let mockChatService = MockChatService()
         let mockViewControllerBuilder = MockViewControllerBuilder()
+        let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
         let expectedViewController = UIViewController()
         mockViewControllerBuilder._stubbedChatConsentOnboardingController = expectedViewController
         let navigationController = UINavigationController()
         let sut = ChatConsentOnboardingCoordinator(
             navigationController: navigationController,
             viewControllerBuilder: mockViewControllerBuilder,
+            coordinatorBuilder: mockCoordinatorBuilder,
             analyticsService: MockAnalyticsService(),
             chatService: mockChatService,
             cancelOnboardingAction: { },
