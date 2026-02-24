@@ -288,4 +288,10 @@ extension Container {
             )
         }
     }
+
+    var notificationCentreService: Factory<NotificationCentreServiceInterface> {
+        Factory(self) {
+            NotificationCentreService(serviceClient: self.notificationCentreServiceClient.resolve(), repository: self.notificationCentreRepository.resolve())
+        }
+    }
 }
