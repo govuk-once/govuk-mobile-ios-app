@@ -325,6 +325,10 @@
 		D052CCE02E0B09AA0048F98A /* ChatCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D052CCDF2E0B09AA0048F98A /* ChatCellView.swift */; };
 		D052CCE22E0B09BE0048F98A /* ChatActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D052CCE12E0B09BE0048F98A /* ChatActionView.swift */; };
 		D052D2302E0B0DC80048F98A /* ButtonStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D052D22F2E0B0DC80048F98A /* ButtonStackView.swift */; };
+		D05506632F4DFC18004659F6 /* InfoMarkdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05506622F4DFC18004659F6 /* InfoMarkdownView.swift */; };
+		D05506662F4E17B7004659F6 /* chat_onboarding_three_dark.json in Resources */ = {isa = PBXBuildFile; fileRef = D05506642F4E17B7004659F6 /* chat_onboarding_three_dark.json */; };
+		D05506672F4E17B7004659F6 /* chat_onboarding_three_light.json in Resources */ = {isa = PBXBuildFile; fileRef = D05506652F4E17B7004659F6 /* chat_onboarding_three_light.json */; };
+		D055FFFB2F4DBB46004659F6 /* ChatTermsOnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D055FFFA2F4DBB46004659F6 /* ChatTermsOnboardingViewModel.swift */; };
 		D056CE742D3A83F2005845E0 /* NotificationsWidgetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D056CE732D3A83F2005845E0 /* NotificationsWidgetViewModel.swift */; };
 		D056CE762D3A848A005845E0 /* InformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D056CE752D3A847F005845E0 /* InformationView.swift */; };
 		D05AF4DA2CAD3C2900F86DD0 /* TopicDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05AF4D92CAD3C2900F86DD0 /* TopicDetailView.swift */; };
@@ -758,6 +762,10 @@
 		D052CCDF2E0B09AA0048F98A /* ChatCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCellView.swift; sourceTree = "<group>"; };
 		D052CCE12E0B09BE0048F98A /* ChatActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatActionView.swift; sourceTree = "<group>"; };
 		D052D22F2E0B0DC80048F98A /* ButtonStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStackView.swift; sourceTree = "<group>"; };
+		D05506622F4DFC18004659F6 /* InfoMarkdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoMarkdownView.swift; sourceTree = "<group>"; };
+		D05506642F4E17B7004659F6 /* chat_onboarding_three_dark.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = chat_onboarding_three_dark.json; sourceTree = "<group>"; };
+		D05506652F4E17B7004659F6 /* chat_onboarding_three_light.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = chat_onboarding_three_light.json; sourceTree = "<group>"; };
+		D055FFFA2F4DBB46004659F6 /* ChatTermsOnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTermsOnboardingViewModel.swift; sourceTree = "<group>"; };
 		D056CE732D3A83F2005845E0 /* NotificationsWidgetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsWidgetViewModel.swift; sourceTree = "<group>"; };
 		D056CE752D3A847F005845E0 /* InformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InformationView.swift; sourceTree = "<group>"; };
 		D05AF4D92CAD3C2900F86DD0 /* TopicDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicDetailView.swift; sourceTree = "<group>"; };
@@ -1121,6 +1129,7 @@
 				16AE517E2E6886CA002BCFD7 /* InfoIconListView.swift */,
 				D09046802DBFD8480096EE66 /* InfoView.swift */,
 				16AE51792E670C19002BCFD7 /* InfoLinksView.swift */,
+				D05506622F4DFC18004659F6 /* InfoMarkdownView.swift */,
 			);
 			path = Info;
 			sourceTree = "<group>";
@@ -1286,6 +1295,8 @@
 			isa = PBXGroup;
 			children = (
 				164F41DD2E8AA80B0095299F /* app_crown_splash.json */,
+				D05506642F4E17B7004659F6 /* chat_onboarding_three_dark.json */,
+				D05506652F4E17B7004659F6 /* chat_onboarding_three_light.json */,
 				164F41DF2E8AA83C0095299F /* app_wordmark_splash.json */,
 				5DDD588A2D5A557D001C0B3E /* onboarding_stay_updated.json */,
 				16E943292F4745F500487AD1 /* chat_loading_message_dark.json */,
@@ -2004,6 +2015,7 @@
 				D052CA352E0B08CF0048F98A /* ChatCellViewModel.swift */,
 				D0900FA82E25309A00E3EB75 /* ChatErrorViewModel.swift */,
 				3D9FD4B92E799C9900928E92 /* ChatWidgetViewModel.swift */,
+				D055FFFA2F4DBB46004659F6 /* ChatTermsOnboardingViewModel.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -2297,6 +2309,8 @@
 				D0A8B3C22C9DC66E00849304 /* integration_pubkey.der in Resources */,
 				5D41DB7C2C09BF340011E691 /* Settings.bundle in Resources */,
 				5DDD588B2D5A557D001C0B3E /* onboarding_stay_updated.json in Resources */,
+				D05506662F4E17B7004659F6 /* chat_onboarding_three_dark.json in Resources */,
+				D05506672F4E17B7004659F6 /* chat_onboarding_three_light.json in Resources */,
 				16FAB82C2E1D375C00B23440 /* Chat.xcstrings in Resources */,
 				162EC84D2DDB54E3000A7224 /* LocalAuthentication.xcstrings in Resources */,
 				16E943332F47469F00487AD1 /* chat_onboarding_two_light.json in Resources */,
@@ -2429,6 +2443,7 @@
 				5DFB488C2DE9F7F600B41CDA /* NotificationConsentCoordinator.swift in Sources */,
 				5DFB488D2DE9F7F600B41CDA /* AppForcedUpdateCoordinator.swift in Sources */,
 				5DFB488E2DE9F7F600B41CDA /* ReLaunchCoordinator.swift in Sources */,
+				D055FFFB2F4DBB46004659F6 /* ChatTermsOnboardingViewModel.swift in Sources */,
 				5DFB488F2DE9F7F600B41CDA /* PeriAuthCoordinator.swift in Sources */,
 				4E1534032E398073002DEDB9 /* TopicsWidgetView.swift in Sources */,
 				5DFB48902DE9F7F600B41CDA /* AuthenticationCoordinator.swift in Sources */,
@@ -2558,6 +2573,7 @@
 				5DD4CB092D95483100459FB5 /* MonthGroupKey.swift in Sources */,
 				5DD4CB0A2D95483100459FB5 /* RecentActivitySection.swift in Sources */,
 				5DD4CB0B2D95483100459FB5 /* RecentActivitiesViewStructure.swift in Sources */,
+				D05506632F4DFC18004659F6 /* InfoMarkdownView.swift in Sources */,
 				4EBCA3362DAC5E2E0063A723 /* GOVRequest+LocalAuthority.swift in Sources */,
 				5DD4CB0C2D95483100459FB5 /* ActivityItemCreateParams.swift in Sources */,
 				81EADD9D2F04268300CA7B37 /* RemoteConfig.swift in Sources */,
