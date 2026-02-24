@@ -39,7 +39,6 @@ class ChatConsentOnboardingViewModel: InfoViewModelInterface {
         return .init(
             localisedTitle: primaryButtonTitle,
             action: { [weak self] in
-                self?.chatService.chatOnboardingSeen = true
                 self?.completionAction()
                 self?.trackCompletionAction()
             }
