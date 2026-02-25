@@ -16,7 +16,7 @@ struct ChatConsentOnboardingViewModelTests {
     }
 
     @Test
-    func buttonViewModel_action_callsCompletionAction() async {
+    func buttonViewModel_action_callsCompletion() async {
         var completionCalled = false
         let mockChatService = MockChatService()
         let sut = ChatConsentOnboardingViewModel(

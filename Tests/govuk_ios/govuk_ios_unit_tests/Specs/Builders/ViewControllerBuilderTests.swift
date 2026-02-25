@@ -329,4 +329,20 @@ struct ViewControllerBuilderTests {
         (result as? HostingViewController<InfoView<ChatConsentOnboardingViewModel>>)?.rootView
         #expect(rootView != nil)
     }
+
+    @Test
+    func chatTermsOnboarding_returnsExpectedResult() {
+        let subject = ViewControllerBuilder()
+        let result = subject.chatTermsOnboarding(
+            analyticsService: MockAnalyticsService(),
+            chatService: MockChatService(),
+            cancelOnboardingAction: { },
+            completionAction: { },
+            openURLAction: { _ in }
+        )
+
+        let rootView =
+        (result as? HostingViewController<InfoView<ChatTermsOnboardingViewModel>>)?.rootView
+        #expect(rootView != nil)
+    }
 }

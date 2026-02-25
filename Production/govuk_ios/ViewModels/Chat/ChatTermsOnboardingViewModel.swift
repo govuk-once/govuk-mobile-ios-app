@@ -53,9 +53,8 @@ final class ChatTermsOnboardingViewModel: InfoViewModelInterface {
         return .init(
             localisedTitle: secondaryButtonTitle,
             action: { [weak self] in
-                self?.cancelOnboarding()
-                self?.trackCancelAction()
-            }
+                self?.cancelOnboardingAction()
+                self?.trackCancelAction()            }
         )
     }
 
@@ -78,12 +77,6 @@ final class ChatTermsOnboardingViewModel: InfoViewModelInterface {
 
     var navBarHidden: Bool {
         false
-    }
-
-    @objc
-    func cancelOnboarding() {
-        cancelOnboardingAction()
-        trackCancelAction()
     }
 
     private func trackCancelAction() {
