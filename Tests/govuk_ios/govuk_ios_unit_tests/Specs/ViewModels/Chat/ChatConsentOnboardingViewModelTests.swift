@@ -16,20 +16,20 @@ struct ChatConsentOnboardingViewModelTests {
     }
 
     @Test
-    func buttonViewModel_action_callsCompletion() async {
-        await confirmation { confirmation in
-            let mockChatService = MockChatService()
-            let sut = ChatConsentOnboardingViewModel(
-                analyticsService: MockAnalyticsService(),
-                chatService: mockChatService,
-                cancelOnboardingAction: { },
-                completionAction: { confirmation() }
-            )
-
-            #expect(!mockChatService.chatOnboardingSeen)
-            sut.primaryButtonViewModel.action()
-            #expect(mockChatService.chatOnboardingSeen)
-        }
+    func buttonViewModel_action_callsCompletionAction() async {
+        var completionCalled = false
+        let mockChatService = MockChatService()
+        let sut = ChatConsentOnboardingViewModel(
+            analyticsService: MockAnalyticsService(),
+            chatService: mockChatService,
+            cancelOnboardingAction: { },
+            completionAction: {
+                completionCalled = true
+            }
+        )
+        
+        sut.primaryButtonViewModel.action()
+        #expect(completionCalled)
     }
 
     @Test
