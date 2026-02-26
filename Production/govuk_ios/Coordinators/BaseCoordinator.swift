@@ -38,9 +38,7 @@ class BaseCoordinator: NSObject,
     func present(_ coordinator: BaseCoordinator,
                  animated: Bool = true) {
         start(coordinator)
-        if coordinator.root.parent == nil {
-            root.present(coordinator.root, animated: animated)
-        }
+        root.present(coordinator.root, animated: animated)
     }
 
     func push(_ viewController: UIViewController,
