@@ -56,6 +56,10 @@ final class ChatTermsOnboardingViewModel: InfoViewModelInterface {
         )
     }
 
+    var contentAlignment: Alignment {
+        .top
+    }
+
     var visualAssetContent: VisualAssetContent {
         .animation(
             AnimationColorSchemeNames(
