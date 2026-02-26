@@ -16,6 +16,7 @@ struct EditTopicsView: View {
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
                 doneButton
+                cancelButton
             }
             .toolbarBackground(.hidden, for: .navigationBar)
             .onAppear {
@@ -27,11 +28,21 @@ struct EditTopicsView: View {
 
     private var doneButton: some ToolbarContent {
         ToolbarItem(placement: ToolbarItemPlacement.confirmationAction) {
-            Button(String.topics.localized("doneButtonTitle")) {
+            Button {
                 dismiss()
+            } label: {
+                Image(systemName: "checkmark")
             }
-            .foregroundColor(Color(UIColor.govUK.text.buttonSecondary))
-            .fontWeight(.medium)
+        }
+    }
+
+    private var cancelButton: some ToolbarContent {
+        ToolbarItem(placement: ToolbarItemPlacement.topBarLeading) {
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "xmark")
+                }
         }
     }
 
