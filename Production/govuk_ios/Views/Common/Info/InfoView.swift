@@ -20,7 +20,10 @@ struct InfoView<Model>: View where Model: InfoViewModelInterface {
                 ScrollView {
                     infoView
                         .frame(width: geometry.size.width)
-                        .frame(minHeight: geometry.size.height)
+                        .frame(
+                            minHeight: geometry.size.height,
+                            alignment: viewModel.contentAlignment
+                        )
                 }
                 .modifier(ScrollBounceBehaviorModifier())
             }
@@ -119,7 +122,7 @@ struct InfoView<Model>: View where Model: InfoViewModelInterface {
         VStack {
             if verticalSizeClass != .compact {
                 visualAssetView
-                .accessibilityHidden(true)
+                    .accessibilityHidden(true)
             }
 
             Text(viewModel.title)
