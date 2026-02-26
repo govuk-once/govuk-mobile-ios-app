@@ -17,9 +17,7 @@ struct APIServiceClientTests_User {
         let request = GOVRequest.userState
         let expectedResponse = HTTPURLResponse.arrange(statusCode: 200)
         let expectedData = Data()
-        MockURLProtocol.requestHandlers[
-            "https://www.google.com/app/v1/user"
-        ] = { request in
+        MockURLProtocol.registerHandler(forUrl: "https://www.google.com/app/v1/user") { request in
             return (expectedResponse, expectedData, nil)
         }
 
@@ -55,9 +53,7 @@ struct APIServiceClientTests_User {
         )
         let request = GOVRequest.userState
         let expectedResponse = HTTPURLResponse.arrange(statusCode: statusCode)
-        MockURLProtocol.requestHandlers[
-            "https://www.google.com/app/v1/user"
-        ] = { request in
+        MockURLProtocol.registerHandler(forUrl: "https://www.google.com/app/v1/user") { request in
             return (expectedResponse, nil, nil)
         }
 

@@ -20,7 +20,7 @@ struct APIServiceClientTests_Chat {
         )
         let request = GOVRequest.askQuestion("What is your quest?")
 
-        MockURLProtocol.requestHandlers["https://www.google.com/conversation"] = { request in
+        MockURLProtocol.registerHandler(forUrl: "https://www.google.com/conversation") { request in
             #expect(request.httpMethod == "POST")
             #expect(request.allHTTPHeaderFields?["Content-Type"] == "application/json")
             #expect(request.allHTTPHeaderFields?["Authorization"] == "Bearer testToken")
@@ -52,9 +52,7 @@ struct APIServiceClientTests_Chat {
         let request = GOVRequest.askQuestion("What is your quest?")
         let expectedResponse = HTTPURLResponse.arrange(statusCode: 200)
         let expectedData = Data()
-        MockURLProtocol.requestHandlers[
-            "https://www.google.com/conversation"
-        ] = { request in
+        MockURLProtocol.registerHandler(forUrl: "https://www.google.com/conversation") { request in
             return (expectedResponse, expectedData, nil)
         }
 
@@ -90,9 +88,7 @@ struct APIServiceClientTests_Chat {
         )
         let request = GOVRequest.askQuestion("What is your quest?")
         let expectedResponse = HTTPURLResponse.arrange(statusCode: statusCode)
-        MockURLProtocol.requestHandlers[
-            "https://www.google.com/conversation"
-        ] = { request in
+        MockURLProtocol.registerHandler(forUrl: "https://www.google.com/conversation") { request in
             return (expectedResponse, nil, nil)
         }
 

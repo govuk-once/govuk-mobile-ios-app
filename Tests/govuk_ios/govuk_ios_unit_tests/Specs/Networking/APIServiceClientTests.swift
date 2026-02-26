@@ -21,7 +21,7 @@ struct APIServiceClientTests {
             additionalHeaders: nil,
             requiresAuthentication: false
         )
-        MockURLProtocol.requestHandlers["https://www.google.com/test/test"] = { request in
+        MockURLProtocol.registerHandler(forUrl: "https://www.google.com/test/test") { request in
             #expect(request.url?.absoluteString == "https://www.google.com/test/test")
             #expect(request.httpMethod == "POST")
             let data = request.bodyStreamData
@@ -55,7 +55,7 @@ struct APIServiceClientTests {
             additionalHeaders: nil,
             requiresAuthentication: false
         )
-        MockURLProtocol.requestHandlers["https://www.google.com/test/111"] = { request in
+        MockURLProtocol.registerHandler(forUrl:"https://www.google.com/test/111") { request in
             #expect(request.url?.absoluteString == "https://www.google.com/test/111?query=value")
             #expect(request.httpMethod == "GET")
             #expect(request.httpBody == nil)
@@ -88,7 +88,7 @@ struct APIServiceClientTests {
         )
         let expectedResponse = HTTPURLResponse.arrange(statusCode: 200)
         let expectedData = Data()
-        MockURLProtocol.requestHandlers["https://www.google.com/test/222"] = { request in
+        MockURLProtocol.registerHandler(forUrl:"https://www.google.com/test/222") { request in
             return (expectedResponse, expectedData, nil)
         }
         let resultData = await withCheckedContinuation { continuation in
@@ -119,7 +119,7 @@ struct APIServiceClientTests {
             requiresAuthentication: false
         )
         let expectedResponse = HTTPURLResponse.arrange(statusCode: 200)
-        MockURLProtocol.requestHandlers["https://www.google.com/test/333"] = { request in
+        MockURLProtocol.registerHandler(forUrl: "https://www.google.com/test/333") { request in
             return (expectedResponse, nil, nil)
         }
 
@@ -155,7 +155,7 @@ struct APIServiceClientTests {
             statusCode: 200,
             headerFields: ["x-amz-meta-govuk-sig": "MEQCIDliiuOa6Htw22CnbtGnP0EZvybj1LQJvoSiHqIY3ZUnAiAr7YVRb3pYCGYG6caK4Lnc4IhIT5lbSm00fHpGBLwneQ=="])
         let expectedData = Self.dataMatchesSignature
-        MockURLProtocol.requestHandlers["https://www.google.com/test/222"] = { request in
+        MockURLProtocol.registerHandler(forUrl: "https://www.google.com/test/222") { request in
             return (expectedResponse, expectedData, nil)
         }
         let resultData = await withCheckedContinuation { continuation in
@@ -187,7 +187,7 @@ struct APIServiceClientTests {
             requiresAuthentication: false
         )
         let expectedError = TestError.fakeNetwork
-        MockURLProtocol.requestHandlers["https://www.google.com/test/444"] = { request in
+        MockURLProtocol.registerHandler(forUrl: "https://www.google.com/test/444") { request in
             let expectedResponse = HTTPURLResponse.arrange(statusCode: 400)
             return (expectedResponse, nil, expectedError)
         }
@@ -222,7 +222,7 @@ struct APIServiceClientTests {
             statusCode: 200,
             headerFields: ["x-amz-meta-govuk-sig": "MEQCIDliiuOa6Htw22CnbtGnP0EZvybj1LQJvoSiHqIY3ZUnAiAr7YVRb3pYCGYG6caK4Lnc4IhIT5lbSm00fHpGBLwneQ=="])
         let expectedData = Self.dataDoesNotMatchSignature
-        MockURLProtocol.requestHandlers["https://www.google.com/test/222"] = { request in
+        MockURLProtocol.registerHandler(forUrl: "https://www.google.com/test/222") { request in
             return (expectedResponse, expectedData, nil)
         }
         let result = await withCheckedContinuation { continuation in
@@ -259,7 +259,7 @@ struct APIServiceClientTests {
             statusCode: 200,
             headerFields: ["x-amz-meta-govuk-sig": "InvalidSignatureData"])
         let expectedData = Self.dataMatchesSignature
-        MockURLProtocol.requestHandlers["https://www.google.com/test/222"] = { request in
+        MockURLProtocol.registerHandler(forUrl: "https://www.google.com/test/222") { request in
             return (expectedResponse, expectedData, nil)
         }
         let result = await withCheckedContinuation { continuation in
@@ -296,7 +296,7 @@ struct APIServiceClientTests {
             additionalHeaders: nil,
             requiresAuthentication: true
         )
-        MockURLProtocol.requestHandlers["https://www.google.com/test/test"] = { request in
+        MockURLProtocol.registerHandler(forUrl: "https://www.google.com/test/test") { request in
             #expect(request.allHTTPHeaderFields?["Authorization"] == "Bearer testToken")
             return (.arrangeSuccess, nil, nil)
         }
@@ -328,7 +328,7 @@ struct APIServiceClientTests {
             additionalHeaders: nil,
             requiresAuthentication: false
         )
-        MockURLProtocol.requestHandlers["https://www.google.com/test/test"] = { request in
+        MockURLProtocol.registerHandler(forUrl: "https://www.google.com/test/test") { request in
             #expect(request.allHTTPHeaderFields?["Authorization"] == nil)
             return (.arrangeSuccess, nil, nil)
         }
@@ -368,7 +368,7 @@ struct APIServiceClientTests {
         let expectedData = Data()
 
         var requestCount = 0
-        MockURLProtocol.requestHandlers["https://www.google.com/test/222"] = { request in
+        MockURLProtocol.registerHandler(forUrl: "https://www.google.com/test/222") { request in
             requestCount += 1
             if requestCount == 1 {
                 #expect(request.allHTTPHeaderFields?["Authorization"] == "Bearer expired token")
@@ -412,7 +412,7 @@ struct APIServiceClientTests {
         mockAuthenticationService._stubbedTokenRefreshRequest = .failure(TokenRefreshError.genericError)
 
         var requestCount = 0
-        MockURLProtocol.requestHandlers["https://www.google.com/test/222"] = { request in
+        MockURLProtocol.registerHandler(forUrl: "https://www.google.com/test/222") { request in
             requestCount += 1
             #expect(request.allHTTPHeaderFields?["Authorization"] == "Bearer expired token")
             return (HTTPURLResponse.arrange(statusCode: 403), nil, nil)
@@ -449,7 +449,7 @@ struct APIServiceClientTests {
         )
 
         var requestCount = 0
-        MockURLProtocol.requestHandlers["https://www.google.com/test/222"] = { request in
+        MockURLProtocol.registerHandler(forUrl: "https://www.google.com/test/222") { request in
             requestCount += 1
             return (HTTPURLResponse.arrange(statusCode: 500), nil, nil)
         }
@@ -483,7 +483,7 @@ struct APIServiceClientTests {
         )
 
         var requestCount = 0
-        MockURLProtocol.requestHandlers["https://www.google.com/test/222"] = { request in
+        MockURLProtocol.registerHandler(forUrl: "https://www.google.com/test/222") { request in
             requestCount += 1
             return (HTTPURLResponse.arrangeSuccess, nil, nil)
         }
