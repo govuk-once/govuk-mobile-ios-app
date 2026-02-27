@@ -1,5 +1,15 @@
-- [ ] Added Jira ticket
-- [ ] Added some kind of context describing the change
-- [ ] Have done Post-Amigos when relevant
-> [!TIP]
-> Please be constructive in your review
+# Title
+
+Description
+
+## JIRA ticket(s)
+  - [GOVUKAPP-000]()
+
+## Figma
+  - [Figma board]()
+
+## Screen shots
+
+| Before | After |
+|--------|-------|
+|        |       |
