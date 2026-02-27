@@ -66,4 +66,13 @@ struct AppEnvironmentServiceTests {
 
         #expect(sut.chatBaseURL.absoluteString == "https://www.gov.uk/")
     }
+
+    @Test
+    func flexURL_returnsExpectedValue() {
+        let mockConfig = ["FLEX_BASE_URL": "https://www.flex.gov.uk/"]
+        let sut = AppEnvironmentService(
+            config: mockConfig
+        )
+        #expect(sut.flexBaseURL.absoluteString == "https://www.flex.gov.uk/")
+    }
 }

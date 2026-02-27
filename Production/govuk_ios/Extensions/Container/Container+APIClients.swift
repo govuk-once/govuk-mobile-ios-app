@@ -83,13 +83,11 @@ extension Container {
 
     var userAPIClient: Factory<APIServiceClientInterface> {
         Factory(self) {
-            // move to GovKit when hostname is final
-            let defaultUserStateUrl: URL = URL(string: "https://development.bl.once.service.gov.uk")!
-            return APIServiceClient(baseUrl: defaultUserStateUrl,
-                                    session: self.urlSession(),
-                                    requestBuilder: RequestBuilder(),
-                                    responseHandler: UserResponseHandler(),
-                                    tokenProvider: self.authenticationService())
+            APIServiceClient(baseUrl: self.appEnvironmentService().flexBaseURL,
+                             session: self.urlSession(),
+                             requestBuilder: RequestBuilder(),
+                             responseHandler: UserResponseHandler(),
+                             tokenProvider: self.authenticationService())
         }
     }
 
