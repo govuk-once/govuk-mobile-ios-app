@@ -82,11 +82,13 @@ struct UserServiceClientTests {
     @Test
     func setNotificationsConsent_sendsExpectedRequest() {
         sut.setNotificationsConsent(.accepted) { _ in }
-        #expect(mockAPI._receivedSendRequest?.urlPath == "/app/v1/user/preferences")
+        #expect(mockAPI._receivedSendRequest?.urlPath == "/app/v1/user")
         #expect(mockAPI._receivedSendRequest?.method == .patch)
         let expectedBodyParameters: [String: AnyHashable] = [
-            "notifications": [
-                "consentStatus": "accepted"
+            "preferences": [
+                "notifications": [
+                    "consentStatus": "accepted"
+                ]
             ]
         ]
         #expect(mockAPI._receivedSendRequest?.bodyParameters as? [String: AnyHashable] == expectedBodyParameters)
@@ -101,7 +103,7 @@ struct UserServiceClientTests {
             }
         }
         let notificationsConsentResponse = try? result.get()
-        #expect(notificationsConsentResponse?.notifications.consentStatus == .accepted)
+        #expect(notificationsConsentResponse?.preferences.notifications.consentStatus == .accepted)
     }
 
     @Test
@@ -125,8 +127,7 @@ private extension UserServiceClientTests {
         "notificationId": "test_user_id",
         "preferences": {
             "notifications": {
-                "consentStatus": "unknown",
-                "updatedAt": "2026-02-09T13:41:37.226Z"
+                "consentStatus": "unknown"
             }
         }
     }
@@ -135,9 +136,10 @@ private extension UserServiceClientTests {
     static let notificationConsentResponseData =
     """
     {
-        "notifications": {
-            "consentStatus": "accepted",
-            "updatedAt": "2026-02-09T13:41:37.226Z"
+        "preferences": {
+            "notifications": {
+                "consentStatus": "accepted"
+            }
         }
     }
     """.data(using: .utf8)!

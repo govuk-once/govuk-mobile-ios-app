@@ -3,7 +3,6 @@ import GovKit
 
 extension GOVRequest {
     private static let userPath = "/app/v1/user"
-    private static let userPreferencesPath = "/app/v1/user/preferences"
 
     private static var additionalHeaders: [String: String] {
         ["Content-Type": "application/json"]
@@ -22,11 +21,13 @@ extension GOVRequest {
 
     static func setNotificationsConsent(consentStatus: ConsentStatus) -> GOVRequest {
         GOVRequest(
-            urlPath: userPreferencesPath,
+            urlPath: userPath,
             method: .patch,
             bodyParameters: [
-                "notifications": [
-                    "consentStatus": consentStatus.rawValue
+                "preferences": [
+                    "notifications": [
+                        "consentStatus": consentStatus.rawValue
+                    ]
                 ]
             ],
             queryParameters: nil,

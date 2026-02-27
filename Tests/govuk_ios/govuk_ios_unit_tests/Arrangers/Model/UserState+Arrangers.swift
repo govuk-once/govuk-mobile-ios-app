@@ -13,8 +13,7 @@ extension UserState {
             notificationId: notificationId,
             preferences: UserPreferences(
                 notifications: ConsentPreference(
-                    consentStatus: notificationsConsentStatus,
-                    updatedAt: Date()
+                    consentStatus: notificationsConsentStatus
                 )
             )
         )
