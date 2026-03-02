@@ -5,7 +5,6 @@ import GovKit
 
 class AnalyticsConsentContainerViewModel: ObservableObject {
     private let analyticsService: AnalyticsServiceInterface?
-    private let userService: UserServiceInterface
     private let completion: () -> Void
     private let viewPrivacyAction: () -> Void
 
@@ -45,12 +44,10 @@ class AnalyticsConsentContainerViewModel: ObservableObject {
     }
 
     init(analyticsService: AnalyticsServiceInterface?,
-         userService: UserServiceInterface,
          urlOpener: URLOpener = UIApplication.shared,
          completion: @escaping () -> Void,
          viewPrivacyAction: @escaping () -> Void) {
         self.analyticsService = analyticsService
-        self.userService = userService
         self.completion = completion
         self.viewPrivacyAction = viewPrivacyAction
     }

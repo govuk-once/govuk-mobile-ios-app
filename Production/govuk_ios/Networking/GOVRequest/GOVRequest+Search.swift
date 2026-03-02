@@ -6,7 +6,7 @@ extension GOVRequest {
         GOVRequest(
             urlPath: Constants.API.defaultSearchPath,
             method: .get,
-            bodyParameters: nil,
+            body: nil,
             queryParameters: ["q": term, "count": "10"],
             additionalHeaders: nil,
             requiresAuthentication: false
@@ -17,7 +17,7 @@ extension GOVRequest {
         GOVRequest(
             urlPath: Constants.API.searchSuggestionsPath,
             method: .get,
-            bodyParameters: nil,
+            body: nil,
             queryParameters: ["q": term],
             additionalHeaders: nil,
             requiresAuthentication: false

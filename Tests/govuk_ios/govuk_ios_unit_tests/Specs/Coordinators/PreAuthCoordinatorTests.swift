@@ -48,33 +48,7 @@ struct PreAuthCoordinatorTests {
     }
 
     @Test
-    func launchCompletion_startsNotificationConsentCheck() {
-        let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
-        let stubbedJailbreakCoordinator = MockBaseCoordinator()
-        mockCoordinatorBuilder._stubbedJailbreakCoordinator = stubbedJailbreakCoordinator
-        let stubbedLaunchCoordinator = MockBaseCoordinator()
-        mockCoordinatorBuilder._stubbedLaunchCoordinator = stubbedLaunchCoordinator
-        let stubbedNotificationConsentCoordinator = MockBaseCoordinator()
-        mockCoordinatorBuilder._stubbedNotificationConsentCoordinator = stubbedNotificationConsentCoordinator
-        let subject = PreAuthCoordinator(
-            coordinatorBuilder: mockCoordinatorBuilder,
-            navigationController: MockNavigationController(),
-            appLaunchService: MockAppLaunchService(),
-            completion: { }
-        )
-
-        subject.start(url: nil)
-
-        mockCoordinatorBuilder._receivedJailbreakDismissAction?()
-        let expectedLaunchResponse = AppLaunchResponse.arrangeAvailable
-        mockCoordinatorBuilder._receivedLaunchCompletion?(expectedLaunchResponse)
-
-        #expect(stubbedNotificationConsentCoordinator._startCalled)
-        #expect(mockCoordinatorBuilder._receivedNotificationConsentResult == expectedLaunchResponse.notificationConsentResult)
-    }
-
-    @Test
-    func notificationConsentCheckCompletion_startsAppForcedUpdate() {
+    func launchCompletion_startsAppForcedUpdate() {
         let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
         let stubbedJailbreakCoordinator = MockBaseCoordinator()
         mockCoordinatorBuilder._stubbedJailbreakCoordinator = stubbedJailbreakCoordinator
@@ -97,8 +71,6 @@ struct PreAuthCoordinatorTests {
         mockCoordinatorBuilder._receivedJailbreakDismissAction?()
         let expectedLaunchResponse = AppLaunchResponse.arrangeAvailable
         mockCoordinatorBuilder._receivedLaunchCompletion?(expectedLaunchResponse)
-        mockCoordinatorBuilder._receivedAnalyticsConsentCompletion?()
-        mockCoordinatorBuilder._receivedNotificationConsentCompletion?()
 
         #expect(stubbedAppForceUpdateCoordinator._startCalled)
         #expect(mockCoordinatorBuilder._receivedAppForcedUpdateLaunchResponse == expectedLaunchResponse)
@@ -131,8 +103,6 @@ struct PreAuthCoordinatorTests {
         let expectedLaunchResponse = AppLaunchResponse.arrangeAvailable
 
         mockCoordinatorBuilder._receivedLaunchCompletion?(expectedLaunchResponse)
-        mockCoordinatorBuilder._receivedAnalyticsConsentCompletion?()
-        mockCoordinatorBuilder._receivedNotificationConsentCompletion?()
         mockCoordinatorBuilder._receivedAppForcedUpdateDismissAction?()
 
         #expect(stubbedAppUnavailableCoordinator._startCalled)
@@ -166,8 +136,6 @@ struct PreAuthCoordinatorTests {
 
         mockCoordinatorBuilder._receivedJailbreakDismissAction?()
         mockCoordinatorBuilder._receivedLaunchCompletion?(.arrangeAvailable)
-        mockCoordinatorBuilder._receivedAnalyticsConsentCompletion?()
-        mockCoordinatorBuilder._receivedNotificationConsentCompletion?()
         mockCoordinatorBuilder._receivedAppForcedUpdateDismissAction?()
         mockCoordinatorBuilder._receivedAppUnavailableDismissAction?()
 
@@ -206,8 +174,6 @@ struct PreAuthCoordinatorTests {
 
         mockCoordinatorBuilder._receivedJailbreakDismissAction?()
         mockCoordinatorBuilder._receivedLaunchCompletion?(.arrangeAvailable)
-        mockCoordinatorBuilder._receivedAnalyticsConsentCompletion?()
-        mockCoordinatorBuilder._receivedNotificationConsentCompletion?()
         mockCoordinatorBuilder._receivedAppForcedUpdateDismissAction?()
         mockCoordinatorBuilder._receivedAppUnavailableDismissAction?()
         mockCoordinatorBuilder._receivedAppRecommendUpdateDismissAction?()
@@ -243,8 +209,6 @@ struct PreAuthCoordinatorTests {
 
         mockCoordinatorBuilder._receivedJailbreakDismissAction?()
         mockCoordinatorBuilder._receivedLaunchCompletion?(.arrange(configResult: .failure(AppConfigError.networkUnavailable)))
-        mockCoordinatorBuilder._receivedAnalyticsConsentCompletion?()
-        mockCoordinatorBuilder._receivedNotificationConsentCompletion?()
         mockCoordinatorBuilder._receivedAppForcedUpdateDismissAction?()
         mockAppLaunchService._stubbedFetchAppLaunchResponse = .arrangeAvailable
 

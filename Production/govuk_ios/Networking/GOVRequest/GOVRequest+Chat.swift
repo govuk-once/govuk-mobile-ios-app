@@ -11,7 +11,7 @@ extension GOVRequest {
         return GOVRequest(
             urlPath: path,
             method: conversationId != nil ? .put : .post,
-            bodyParameters: ["user_question": question],
+            body: Question(userQuestion: question),
             queryParameters: nil,
             additionalHeaders: additionalHeaders,
             requiresAuthentication: true
@@ -22,7 +22,7 @@ extension GOVRequest {
         GOVRequest(
             urlPath: "/conversation/\(conversationId)",
             method: .get,
-            bodyParameters: nil,
+            body: nil,
             queryParameters: nil,
             additionalHeaders: additionalHeaders,
             requiresAuthentication: true
@@ -34,7 +34,7 @@ extension GOVRequest {
         GOVRequest(
             urlPath: "/conversation/\(conversationId)/questions/\(questionId)/answer",
             method: .get,
-            bodyParameters: nil,
+            body: nil,
             queryParameters: nil,
             additionalHeaders: additionalHeaders,
             requiresAuthentication: true
@@ -43,5 +43,13 @@ extension GOVRequest {
 
     private static var additionalHeaders: [String: String] {
         ["Content-Type": "application/json"]
+    }
+}
+
+struct Question: Codable {
+    let userQuestion: String
+
+    enum CodingKeys: String, CodingKey {
+        case userQuestion = "user_question"
     }
 }

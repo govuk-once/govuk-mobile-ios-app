@@ -10,7 +10,6 @@ struct AnalyticsConsentContainerViewModelTests {
     func init_hasCorrectInitialState() {
         let sut = AnalyticsConsentContainerViewModel(
             analyticsService: nil,
-            userService: MockUserService(),
             completion: {},
             viewPrivacyAction: {}
         )
@@ -37,7 +36,6 @@ struct AnalyticsConsentContainerViewModelTests {
         let analyticsService = MockAnalyticsService()
         let sut = AnalyticsConsentContainerViewModel(
             analyticsService: analyticsService,
-            userService: MockUserService(),
             completion: {},
             viewPrivacyAction: {}
         )
@@ -50,7 +48,6 @@ struct AnalyticsConsentContainerViewModelTests {
         let dismissCalled = await withCheckedContinuation { continuation in
             let sut = AnalyticsConsentContainerViewModel(
                 analyticsService: nil,
-                userService: MockUserService(),
                 completion: {
                     continuation.resume(returning: true)
                 },
@@ -66,7 +63,6 @@ struct AnalyticsConsentContainerViewModelTests {
         let analyticsService = MockAnalyticsService()
         let sut = AnalyticsConsentContainerViewModel(
             analyticsService: analyticsService,
-            userService: MockUserService(),
             completion: {},
             viewPrivacyAction: {}
         )
@@ -79,7 +75,6 @@ struct AnalyticsConsentContainerViewModelTests {
         let dismissCalled = await withCheckedContinuation { continuation in
             let sut = AnalyticsConsentContainerViewModel(
                 analyticsService: nil,
-                userService: MockUserService(),
                 completion: {
                     continuation.resume(returning: true)
                 },
@@ -95,7 +90,6 @@ struct AnalyticsConsentContainerViewModelTests {
         var viewPrivacyActionCalled = false
         let sut = AnalyticsConsentContainerViewModel(
             analyticsService: nil,
-            userService: MockUserService(),
             completion: {},
             viewPrivacyAction: {
                 viewPrivacyActionCalled = true

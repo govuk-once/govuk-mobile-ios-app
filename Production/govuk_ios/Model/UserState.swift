@@ -11,7 +11,6 @@ struct UserPreferences: Codable {
 
 struct ConsentPreference: Codable {
     let consentStatus: ConsentStatus
-    let updatedAt: Date
 }
 
 enum ConsentStatus: String, Codable {

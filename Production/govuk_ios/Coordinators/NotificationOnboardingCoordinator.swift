@@ -37,6 +37,15 @@ class NotificationOnboardingCoordinator: BaseCoordinator {
     }
 
     private func startNotifications() async {
+        let notificationPermissionState = await notificationService.permissionState
+        let notificationsConsentNeedsSync = (
+            userService.notificationsConsentStatus == .unknown
+            && notificationOnboardingService.hasSeenNotificationsOnboarding
+            && notificationPermissionState != .notDetermined
+        )
+        if notificationsConsentNeedsSync {
+            setUserNotificationConsent()
+        }
         guard await notificationService.shouldRequestPermission,
               !notificationOnboardingService.hasSeenNotificationsOnboarding else {
             return finishCoordination()
@@ -52,7 +61,6 @@ class NotificationOnboardingCoordinator: BaseCoordinator {
             },
             dismissAction: { [weak self] in
                 self?.finishCoordination()
-                self?.userService.setNotificationsConsent(accepted: false)
             },
             viewPrivacyAction: { [weak self] in
                 self?.openPrivacy()
@@ -63,10 +71,20 @@ class NotificationOnboardingCoordinator: BaseCoordinator {
 
     private func request() {
         notificationService.requestPermissions(
-            completion: { [weak self] accepted in
-                self?.userService.setNotificationsConsent(accepted: accepted)
-                self?.finishCoordination()
+            completion: { [weak self] _ in
+                self?.postPermissionsRequestAction()
             }
+        )
+    }
+
+    private func postPermissionsRequestAction() {
+        setUserNotificationConsent()
+        finishCoordination()
+    }
+
+    private func setUserNotificationConsent() {
+        userService.setNotificationsConsent(
+            notificationService.hasGivenConsent ? .accepted : .denied
         )
     }
 

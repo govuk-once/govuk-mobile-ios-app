@@ -7,13 +7,13 @@ extension UserState {
         .arrange()
     }
 
-    static func arrange(notificationId: String = "test_id") -> UserState {
+    static func arrange(notificationId: String = "test_id",
+                        notificationsConsentStatus: ConsentStatus = .unknown) -> UserState {
         .init(
             notificationId: notificationId,
             preferences: UserPreferences(
                 notifications: ConsentPreference(
-                    consentStatus: .unknown,
-                    updatedAt: Date()
+                    consentStatus: notificationsConsentStatus
                 )
             )
         )

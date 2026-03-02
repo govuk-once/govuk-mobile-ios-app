@@ -12,23 +12,32 @@ extension GOVRequest {
         GOVRequest(
             urlPath: userPath,
             method: .get,
-            bodyParameters: nil,
+            body: nil,
             queryParameters: nil,
             additionalHeaders: nil,
             requiresAuthentication: true
         )
     }
 
-    static func setNotificationsConsent(accepted: Bool) -> GOVRequest {
-        GOVRequest(
+    static func setNotificationsConsent(consentStatus: ConsentStatus) -> GOVRequest {
+        let body = NotificationsPreferenceUpdate(
+            preferences: UserPreferences(
+                notifications: ConsentPreference(
+                    consentStatus: consentStatus
+                )
+            )
+        )
+        return GOVRequest(
             urlPath: userPath,
             method: .patch,
-            bodyParameters: [
-                "notificationsConsented": accepted
-            ],
+            body: body,
             queryParameters: nil,
             additionalHeaders: additionalHeaders,
             requiresAuthentication: true
         )
     }
+}
+
+struct NotificationsPreferenceUpdate: Codable {
+    let preferences: UserPreferences
 }

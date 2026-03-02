@@ -16,7 +16,7 @@ struct APIServiceClientTests {
         let govRequest = GOVRequest(
             urlPath: "/test/test",
             method: .post,
-            bodyParameters: ["test_key": "test_value"],
+            body: TestBody(testKey: "test_value"),
             queryParameters: nil,
             additionalHeaders: nil,
             requiresAuthentication: false
@@ -27,7 +27,7 @@ struct APIServiceClientTests {
             let data = request.bodyStreamData
             #expect(data != nil)
             let json = try? JSONDecoder().decode([String: String].self, from: data!)
-            #expect(json?["test_key"] == "test_value")
+            #expect(json?["testKey"] == "test_value")
             return (.arrangeSuccess, nil, nil)
         }
         return await withCheckedContinuation { continuation in
@@ -50,7 +50,7 @@ struct APIServiceClientTests {
         let request = GOVRequest(
             urlPath: "/test/111",
             method: .get,
-            bodyParameters: nil,
+            body: nil,
             queryParameters: ["query": "value"],
             additionalHeaders: nil,
             requiresAuthentication: false
@@ -81,7 +81,7 @@ struct APIServiceClientTests {
         let request = GOVRequest(
             urlPath: "/test/222",
             method: .get,
-            bodyParameters: nil,
+            body: nil,
             queryParameters: nil,
             additionalHeaders: nil,
             requiresAuthentication: false
@@ -113,7 +113,7 @@ struct APIServiceClientTests {
         let request = GOVRequest(
             urlPath: "/test/333",
             method: .get,
-            bodyParameters: nil,
+            body: nil,
             queryParameters: nil,
             additionalHeaders: nil,
             requiresAuthentication: false
@@ -145,7 +145,7 @@ struct APIServiceClientTests {
         let request = GOVRequest(
             urlPath: "/test/222",
             method: .get,
-            bodyParameters: nil,
+            body: nil,
             queryParameters: nil,
             additionalHeaders: nil,
             signingKey: Constants.SigningKey.govUK,
@@ -181,7 +181,7 @@ struct APIServiceClientTests {
         let request = GOVRequest(
             urlPath: "/test/444",
             method: .get,
-            bodyParameters: nil,
+            body: nil,
             queryParameters: nil,
             additionalHeaders: nil,
             requiresAuthentication: false
@@ -212,7 +212,7 @@ struct APIServiceClientTests {
         let request = GOVRequest(
             urlPath: "/test/222",
             method: .get,
-            bodyParameters: nil,
+            body: nil,
             queryParameters: nil,
             additionalHeaders: nil,
             signingKey: Constants.SigningKey.govUK,
@@ -249,7 +249,7 @@ struct APIServiceClientTests {
         let request = GOVRequest(
             urlPath: "/test/222",
             method: .get,
-            bodyParameters: nil,
+            body: nil,
             queryParameters: nil,
             additionalHeaders: nil,
             signingKey: Constants.SigningKey.govUK,
@@ -291,7 +291,7 @@ struct APIServiceClientTests {
         let request = GOVRequest(
             urlPath: "/test/test",
             method: .get,
-            bodyParameters: nil,
+            body: nil,
             queryParameters: nil,
             additionalHeaders: nil,
             requiresAuthentication: true
@@ -323,7 +323,7 @@ struct APIServiceClientTests {
         let request = GOVRequest(
             urlPath: "/test/test",
             method: .get,
-            bodyParameters: nil,
+            body: nil,
             queryParameters: nil,
             additionalHeaders: nil,
             requiresAuthentication: false
@@ -357,7 +357,7 @@ struct APIServiceClientTests {
         let request = GOVRequest(
             urlPath: "/test/222",
             method: .get,
-            bodyParameters: nil,
+            body: nil,
             queryParameters: nil,
             additionalHeaders: nil,
             signingKey: nil,
@@ -402,7 +402,7 @@ struct APIServiceClientTests {
         let request = GOVRequest(
             urlPath: "/test/222",
             method: .get,
-            bodyParameters: nil,
+            body: nil,
             queryParameters: nil,
             additionalHeaders: nil,
             signingKey: nil,
@@ -441,7 +441,7 @@ struct APIServiceClientTests {
         let request = GOVRequest(
             urlPath: "/test/222",
             method: .get,
-            bodyParameters: nil,
+            body: nil,
             queryParameters: nil,
             additionalHeaders: nil,
             signingKey: nil,
@@ -475,7 +475,7 @@ struct APIServiceClientTests {
         let request = GOVRequest(
             urlPath: "/test/222",
             method: .get,
-            bodyParameters: nil,
+            body: nil,
             queryParameters: nil,
             additionalHeaders: nil,
             signingKey: nil,
@@ -495,6 +495,10 @@ struct APIServiceClientTests {
         #expect(mockAuthenticationService._tokenRefreshRequestCalled == false)
         #expect(requestCount == 1)
     }
+}
+
+struct TestBody: Codable {
+    let testKey: String
 }
 
 enum TestError: Error {

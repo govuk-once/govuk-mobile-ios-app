@@ -7,7 +7,7 @@ typealias NotificationsPreferenceResult = Result<NotificationsPreferenceResponse
 
 protocol UserServiceClientInterface {
     func fetchUserState(completion: @escaping FetchUserStateCompletion)
-    func setNotificationsConsent(accepted: Bool,
+    func setNotificationsConsent(_ consentStatus: ConsentStatus,
                                  completion: @escaping (NotificationsPreferenceResult) -> Void)
 }
 
@@ -30,10 +30,10 @@ struct UserServiceClient: UserServiceClientInterface {
             })
     }
 
-    func setNotificationsConsent(accepted: Bool,
+    func setNotificationsConsent(_ consentStatus: ConsentStatus,
                                  completion: @escaping (NotificationsPreferenceResult) -> Void) {
         let request = GOVRequest.setNotificationsConsent(
-            accepted: accepted
+            consentStatus: consentStatus
         )
         apiServiceClient.send(
             request: request) { result in
@@ -52,19 +52,8 @@ struct UserServiceClient: UserServiceClientInterface {
                 return (error as? UserStateError) ?? UserStateError.apiUnavailable
             }
         }.flatMap {
-            let decoder = JSONDecoder()
-            decoder.dateDecodingStrategy = .custom({ decoder in
-                let formatter = ISO8601DateFormatter()
-                formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-                let container = try decoder.singleValueContainer()
-                let dateString = try container.decode(String.self)
-                guard let date = formatter.date(from: dateString) else {
-                    throw UserStateError.decodingError
-                }
-                return date
-            })
             do {
-                let response = try decoder.decode(T.self, from: $0)
+                let response = try JSONDecoder().decode(T.self, from: $0)
                 return .success(response)
             } catch {
                 return .failure(UserStateError.decodingError)

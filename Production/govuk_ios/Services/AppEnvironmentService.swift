@@ -9,6 +9,7 @@ protocol AppEnvironmentServiceInterface {
     var authenticationTokenURL: URL { get }
     var chatBaseURL: URL { get }
     var tokenBaseURL: URL { get }
+    var flexBaseURL: URL { get }
 }
 
 enum AppEnvironmentKey: String {
@@ -18,6 +19,7 @@ enum AppEnvironmentKey: String {
     case authenticationBaseURL = "AUTHENTICATION_BASE_URL"
     case tokenBaseURL = "TOKEN_BASE_URL"
     case chatBaseURL = "CHAT_BASE_URL"
+    case flexBaseURL = "FLEX_BASE_URL"
 }
 
 struct AppEnvironmentService: AppEnvironmentServiceInterface {
@@ -67,6 +69,11 @@ struct AppEnvironmentService: AppEnvironmentServiceInterface {
 
     var chatBaseURL: URL {
         let urlString = string(for: .chatBaseURL)
+        return URL(string: urlString)!
+    }
+
+    var flexBaseURL: URL {
+        let urlString = string(for: .flexBaseURL)
         return URL(string: urlString)!
     }
 }

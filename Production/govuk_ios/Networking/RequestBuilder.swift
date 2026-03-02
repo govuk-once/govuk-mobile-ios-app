@@ -15,11 +15,8 @@ extension RequestBuilderInterface {
     func data(from request: GOVRequest,
               with url: URL) -> URLRequest {
         var data: Data?
-        if let params = request.bodyParameters {
-            data = try? JSONSerialization.data(
-                withJSONObject: params,
-                options: .prettyPrinted
-            )
+        if let body = request.body {
+            data = try? JSONEncoder().encode(body)
         }
         return self.request(
             url: URL(base: url, request: request),

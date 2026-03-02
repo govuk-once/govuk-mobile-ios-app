@@ -6,7 +6,7 @@ extension GOVRequest {
         GOVRequest(
             urlPath: Constants.API.localAuthorityPath,
             method: .get,
-            bodyParameters: nil,
+            body: nil,
             queryParameters: ["postcode": postcode],
             additionalHeaders: nil,
             requiresAuthentication: false
@@ -16,7 +16,7 @@ extension GOVRequest {
         GOVRequest(
             urlPath: "\(Constants.API.localAuthorityPath)/\(slug)",
             method: .get,
-            bodyParameters: nil,
+            body: nil,
             queryParameters: nil,
             additionalHeaders: nil,
             requiresAuthentication: false

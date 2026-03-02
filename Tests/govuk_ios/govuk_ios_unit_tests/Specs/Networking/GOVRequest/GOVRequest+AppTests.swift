@@ -13,7 +13,7 @@ struct GOVRequest_AppTests {
         #expect(request.urlPath == "/config/appinfo/ios")
         #expect(request.method == .get)
         #expect(request.signingKey == Constants.SigningKey.govUK)
-        #expect(request.bodyParameters == nil)
+        #expect(request.body == nil)
         #expect(request.additionalHeaders == nil)
     }
 }

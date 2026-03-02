@@ -114,6 +114,37 @@ struct Container_APIClientTests {
         }
         let data = try #require(responseData)
         let query = String(data: data, encoding: .utf8)
-        #expect(query == "{\n  \"user_question\" : \"What is your quest?\"\n}")
+        #expect(query == "{\"user_question\":\"What is your quest?\"}")
+    }
+
+    @Test
+    func userAPIClient_createsExpectedRequest() async throws {
+        let container = Container()
+        let mockAuthenticationService = MockAuthenticationService()
+        mockAuthenticationService._stubbedAccessToken = "testToken"
+        container.authenticationService.register {
+            mockAuthenticationService
+        }
+        container.urlSession.register { URLSession.mock }
+        container.appEnvironmentService.register {
+            MockAppEnvironmentService()
+        }
+        let sut = container.userAPIClient()
+        await withCheckedContinuation { continuation in
+            MockURLProtocol.registerHandler(forUrl:"https://www.flex.gov.uk/app/v1/user") { request in
+                #expect(request.httpMethod == "GET")
+                #expect(request.allHTTPHeaderFields?["Authorization"] == "Bearer testToken")
+                return (.arrangeSuccess, nil, nil)
+            }
+
+            let request = GOVRequest.userState
+
+            sut.send(
+                request: request,
+                completion: { result in
+                    continuation.resume()
+                }
+            )
+        }
     }
 }
