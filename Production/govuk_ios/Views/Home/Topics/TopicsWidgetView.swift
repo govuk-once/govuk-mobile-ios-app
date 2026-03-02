@@ -25,6 +25,7 @@ struct TopicsWidgetView: View {
                 } else {
                     VStack(spacing: 0) {
                         topicPicker
+                            .padding(1)
                         switch viewModel.topicsScreen {
                         case .favourite:
                             if viewModel.hasFavouritedTopics {
