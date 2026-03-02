@@ -27,14 +27,15 @@ struct EditTopicsView: View {
 
     private var doneButton: some ToolbarContent {
         ToolbarItem(placement: ToolbarItemPlacement.confirmationAction) {
-            Button(String.topics.localized("doneButtonTitle")) {
+            Button {
                 dismiss()
+            } label: {
+                Image(systemName: "checkmark")
+                    .foregroundStyle(Color(uiColor: .govUK.text.primary))
             }
-            .foregroundColor(Color(UIColor.govUK.text.buttonSecondary))
-            .fontWeight(.medium)
+            .accessibilityLabel(viewModel.doneButtonaccessibilityLabel )
         }
     }
-
 
     private var topicsList: some View {
         VStack(spacing: 16) {

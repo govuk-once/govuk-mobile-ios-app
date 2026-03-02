@@ -124,7 +124,7 @@ struct TopicDetailView<T: TopicDetailViewModelInterface>: View {
         HStack {
             Text(description)
                 .font(.govUK.title3)
-                .foregroundColor(Color(UIColor.govUK.text.primary))
+                .foregroundColor(Color(UIColor.govUK.text.secondary))
                 .multilineTextAlignment(.leading)
             Spacer()
         }
