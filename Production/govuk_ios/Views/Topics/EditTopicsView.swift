@@ -33,7 +33,7 @@ struct EditTopicsView: View {
                 Image(systemName: "checkmark")
                     .foregroundStyle(Color(uiColor: .govUK.text.primary))
             }
-            .accessibilityLabel(String.topics.localized("doneButtonTitle"))
+            .accessibilityLabel(viewModel.doneButtonaccessibilityLabel )
         }
     }
 
