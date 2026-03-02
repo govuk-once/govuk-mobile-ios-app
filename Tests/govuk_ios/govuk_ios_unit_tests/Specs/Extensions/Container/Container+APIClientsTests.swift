@@ -13,7 +13,7 @@ struct Container_APIClientTests {
         container.urlSession.register { URLSession.mock }
         let sut = container.searchAPIClient()
         return await withCheckedContinuation { continuation in
-            MockURLProtocol.requestHandlers["https://search.service.gov.uk/v0_1/search.json"] = { request in
+            MockURLProtocol.registerHandler(forUrl: "https://search.service.gov.uk/v0_1/search.json") { request in
                 let components = URLComponents(url: request.url!, resolvingAgainstBaseURL: true)
                 let countQuery = components?.queryItems?.first(where: { $0.name == "count" })
                 #expect(countQuery?.value == "10")
@@ -48,7 +48,7 @@ struct Container_APIClientTests {
         }
         let sut = container.revokeTokenAPIClient()
         return await withCheckedContinuation { continuation in
-            MockURLProtocol.requestHandlers["https://www.govuk-token.com/oauth2/revoke"] = { request in
+            MockURLProtocol.registerHandler(forUrl: "https://www.govuk-token.com/oauth2/revoke") { request in
                 let components = URLComponents(url: request.url!, resolvingAgainstBaseURL: true)
                 #expect(components?.scheme == "https")
                 #expect(components?.host   == "www.govuk-token.com")
@@ -90,7 +90,7 @@ struct Container_APIClientTests {
 
         let responseData = await withCheckedContinuation { continuation in
             var returnData: Data? = nil
-            MockURLProtocol.requestHandlers["https://www.govuk-chat.com/conversation"] = { request in
+            MockURLProtocol.registerHandler(forUrl:"https://www.govuk-chat.com/conversation") { request in
                 #expect(request.httpMethod == "POST")
                 #expect(request.allHTTPHeaderFields?["Content-Type"] == "application/json")
                 #expect(request.allHTTPHeaderFields?["Authorization"] == "Bearer testToken")

@@ -342,6 +342,50 @@
         }
       }
     },
+    "onboardingTermsPrimaryButtonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agree and continue"
+          }
+        }
+      }
+    },
+    "onboardingTermsSecondaryButtonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exit GOV.UK Chat"
+          }
+        }
+      }
+    },
+    "onboardingTermsSubtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We analyse questions and answers to improve Chat, as we’re still developing it.\n\nFind out more, including how to ask us to delete your data, in the [privacy notice.](%@)"
+          }
+        }
+      }
+    },
+    "onboardingTermsTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your GOV.UK Chat conversation data"
+          }
+        }
+      }
+    },
     "optInDescription" : {
       "extractionState" : "manual",
       "localizations" : {

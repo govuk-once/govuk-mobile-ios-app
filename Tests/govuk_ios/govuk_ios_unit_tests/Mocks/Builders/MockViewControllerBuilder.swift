@@ -281,12 +281,28 @@ class MockViewControllerBuilder: ViewControllerBuilder {
     }
 
     var _stubbedChatConsentOnboardingController: UIViewController?
+    var _receivedStartTermsAction: (() -> Void)?
     override func chatConsentOnboarding(
         analyticsService: AnalyticsServiceInterface,
         chatService: ChatServiceInterface,
         cancelOnboardingAction: @escaping () -> Void,
         completionAction: @escaping () -> Void
     ) -> UIViewController {
+        _receivedStartTermsAction = completionAction
         return _stubbedChatConsentOnboardingController ?? UIViewController()
     }
+
+    var _stubbedChatTermsOnboardingController: UIViewController?
+    var _receivedTermsOpenUrlAction: ((URL) -> Void)?
+    override func chatTermsOnboarding(
+        analyticsService: AnalyticsServiceInterface,
+        chatService: ChatServiceInterface,
+        cancelOnboardingAction: @escaping () -> Void,
+        completionAction: @escaping () -> Void,
+        openURLAction: @escaping (URL) -> Void
+    ) -> UIViewController {
+        _receivedTermsOpenUrlAction = openURLAction
+        return _stubbedChatTermsOnboardingController ?? UIViewController()
+    }
+
 }

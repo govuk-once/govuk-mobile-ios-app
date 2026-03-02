@@ -20,7 +20,7 @@ struct APIServiceClientTests {
             queryParameters: nil,
             additionalHeaders: nil
         )
-        MockURLProtocol.requestHandlers["https://www.google.com/test/test"] = { request in
+        MockURLProtocol.registerHandler(forUrl: "https://www.google.com/test/test") { request in
             #expect(request.url?.absoluteString == "https://www.google.com/test/test")
             #expect(request.httpMethod == "POST")
             let data = request.bodyStreamData
@@ -53,7 +53,7 @@ struct APIServiceClientTests {
             queryParameters: ["query": "value"],
             additionalHeaders: nil
         )
-        MockURLProtocol.requestHandlers["https://www.google.com/test/111"] = { request in
+        MockURLProtocol.registerHandler(forUrl:"https://www.google.com/test/111") { request in
             #expect(request.url?.absoluteString == "https://www.google.com/test/111?query=value")
             #expect(request.httpMethod == "GET")
             #expect(request.httpBody == nil)
@@ -85,7 +85,7 @@ struct APIServiceClientTests {
         )
         let expectedResponse = HTTPURLResponse.arrange(statusCode: 200)
         let expectedData = Data()
-        MockURLProtocol.requestHandlers["https://www.google.com/test/222"] = { request in
+        MockURLProtocol.registerHandler(forUrl:"https://www.google.com/test/222") { request in
             return (expectedResponse, expectedData, nil)
         }
         let resultData = await withCheckedContinuation { continuation in
@@ -115,7 +115,7 @@ struct APIServiceClientTests {
             additionalHeaders: nil
         )
         let expectedResponse = HTTPURLResponse.arrange(statusCode: 200)
-        MockURLProtocol.requestHandlers["https://www.google.com/test/333"] = { request in
+        MockURLProtocol.registerHandler(forUrl: "https://www.google.com/test/333") { request in
             return (expectedResponse, nil, nil)
         }
 
@@ -150,7 +150,7 @@ struct APIServiceClientTests {
             statusCode: 200,
             headerFields: ["x-amz-meta-govuk-sig": "MEQCIDliiuOa6Htw22CnbtGnP0EZvybj1LQJvoSiHqIY3ZUnAiAr7YVRb3pYCGYG6caK4Lnc4IhIT5lbSm00fHpGBLwneQ=="])
         let expectedData = Self.dataMatchesSignature
-        MockURLProtocol.requestHandlers["https://www.google.com/test/222"] = { request in
+        MockURLProtocol.registerHandler(forUrl: "https://www.google.com/test/222") { request in
             return (expectedResponse, expectedData, nil)
         }
         let resultData = await withCheckedContinuation { continuation in
@@ -181,7 +181,7 @@ struct APIServiceClientTests {
             additionalHeaders: nil
         )
         let expectedError = TestError.fakeNetwork
-        MockURLProtocol.requestHandlers["https://www.google.com/test/444"] = { request in
+        MockURLProtocol.registerHandler(forUrl: "https://www.google.com/test/444") { request in
             let expectedResponse = HTTPURLResponse.arrange(statusCode: 400)
             return (expectedResponse, nil, expectedError)
         }
@@ -215,7 +215,7 @@ struct APIServiceClientTests {
             statusCode: 200,
             headerFields: ["x-amz-meta-govuk-sig": "MEQCIDliiuOa6Htw22CnbtGnP0EZvybj1LQJvoSiHqIY3ZUnAiAr7YVRb3pYCGYG6caK4Lnc4IhIT5lbSm00fHpGBLwneQ=="])
         let expectedData = Self.dataDoesNotMatchSignature
-        MockURLProtocol.requestHandlers["https://www.google.com/test/222"] = { request in
+        MockURLProtocol.registerHandler(forUrl: "https://www.google.com/test/222") { request in
             return (expectedResponse, expectedData, nil)
         }
         let result = await withCheckedContinuation { continuation in
@@ -251,7 +251,7 @@ struct APIServiceClientTests {
             statusCode: 200,
             headerFields: ["x-amz-meta-govuk-sig": "InvalidSignatureData"])
         let expectedData = Self.dataMatchesSignature
-        MockURLProtocol.requestHandlers["https://www.google.com/test/222"] = { request in
+        MockURLProtocol.registerHandler(forUrl: "https://www.google.com/test/222") { request in
             return (expectedResponse, expectedData, nil)
         }
         let result = await withCheckedContinuation { continuation in
