@@ -29,8 +29,13 @@ protocol UserServiceInterface {
      }
 
      func setNotificationsConsent(_ consentStatus: ConsentStatus) {
-         userServiceClient.setNotificationsConsent(consentStatus) { _ in
-             // not doing anything with the result, yet
+         userServiceClient.setNotificationsConsent(consentStatus) { result in
+             switch result {
+             case .success:
+                 print("userServiceClient.setNotificationsConsent successful")
+             case .failure(let error):
+                 print(error.localizedDescription)
+             }
          }
      }
  }
