@@ -13,7 +13,7 @@ struct GOVRequest_TopicsTests {
         #expect(request.urlPath == "/static/topics/list")
         #expect(request.method == .get)
         #expect(request.signingKey == Constants.SigningKey.govUK)
-        #expect(request.bodyParameters == nil)
+        #expect(request.body == nil)
         #expect(request.additionalHeaders == nil)
     }
 
@@ -25,7 +25,7 @@ struct GOVRequest_TopicsTests {
         #expect(request.urlPath == "/static/topics/\(expectedRef)")
         #expect(request.method == .get)
         #expect(request.signingKey == Constants.SigningKey.govUK)
-        #expect(request.bodyParameters == nil)
+        #expect(request.body == nil)
         #expect(request.queryParameters == nil)
         #expect(request.additionalHeaders == nil)
     }

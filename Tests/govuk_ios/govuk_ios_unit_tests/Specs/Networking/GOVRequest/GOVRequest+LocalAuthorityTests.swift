@@ -15,7 +15,7 @@ struct GOVRequest_LocalAuthorityTests {
         #expect(request.urlPath == "/api/local-authority")
         #expect(request.method == .get)
         #expect(request.signingKey == nil)
-        #expect(request.bodyParameters == nil)
+        #expect(request.body == nil)
         #expect(request.queryParameters?.count == 1)
         #expect(request.queryParameters?["postcode"] == expectedPostcode)
         #expect(request.additionalHeaders == nil)
@@ -30,7 +30,7 @@ struct GOVRequest_LocalAuthorityTests {
         #expect(request.urlPath == "/api/local-authority/dorset")
         #expect(request.method == .get)
         #expect(request.signingKey == nil)
-        #expect(request.bodyParameters == nil)
+        #expect(request.body == nil)
         #expect(request.queryParameters == nil)
         #expect(request.additionalHeaders == nil)
 

@@ -16,36 +16,26 @@ struct GOVRequest_UserTests {
     }
 
     @Test
-    func setNotificationsConsent_accepted_returnsExpectedValues() {
+    func setNotificationsConsent_accepted_returnsExpectedValues() throws {
         let request = GOVRequest.setNotificationsConsent(consentStatus: .accepted)
 
         #expect(request.urlPath == "/app/v1/user")
         #expect(request.method == .patch)
         #expect(request.requiresAuthentication == true)
-        let expectedBodyParameters: [String: AnyHashable] = [
-            "preferences": [
-                "notifications": [
-                    "consentStatus": "accepted"
-                ]
-            ]
-        ]
-        #expect(request.bodyParameters as? [String: AnyHashable] == expectedBodyParameters)
+
+        let body = try #require(request.body as? NotificationsPreferenceUpdate)
+        #expect(body.preferences.notifications.consentStatus == .accepted)
     }
 
     @Test
-    func setNotificationsConsent_denied_returnsExpectedValues() {
+    func setNotificationsConsent_denied_returnsExpectedValues() throws {
         let request = GOVRequest.setNotificationsConsent(consentStatus: .denied)
 
         #expect(request.urlPath == "/app/v1/user")
         #expect(request.method == .patch)
         #expect(request.requiresAuthentication == true)
-        let expectedBodyParameters: [String: AnyHashable] = [
-            "preferences": [
-                "notifications": [
-                    "consentStatus": "denied"
-                ]
-            ]
-        ]
-        #expect(request.bodyParameters as? [String: AnyHashable] == expectedBodyParameters)
+
+        let body = try #require(request.body as? NotificationsPreferenceUpdate)
+        #expect(body.preferences.notifications.consentStatus == .denied)
     }
 }

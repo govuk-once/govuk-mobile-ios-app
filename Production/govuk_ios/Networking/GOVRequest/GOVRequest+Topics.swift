@@ -6,7 +6,7 @@ extension GOVRequest {
         GOVRequest(
             urlPath: "/static/topics/list",
             method: .get,
-            bodyParameters: nil,
+            body: nil,
             queryParameters: nil,
             additionalHeaders: nil,
             signingKey: Constants.SigningKey.govUK,
@@ -18,7 +18,7 @@ extension GOVRequest {
         GOVRequest(
             urlPath: "/static/topics/" + ref,
             method: .get,
-            bodyParameters: nil,
+            body: nil,
             queryParameters: nil,
             additionalHeaders: nil,
             signingKey: Constants.SigningKey.govUK,

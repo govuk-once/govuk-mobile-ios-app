@@ -114,7 +114,7 @@ struct Container_APIClientTests {
         }
         let data = try #require(responseData)
         let query = String(data: data, encoding: .utf8)
-        #expect(query == "{\n  \"user_question\" : \"What is your quest?\"\n}")
+        #expect(query == "{\"user_question\":\"What is your quest?\"}")
     }
 
     @Test

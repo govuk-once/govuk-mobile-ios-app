@@ -8,7 +8,7 @@ import FactoryKit
 struct ChatServiceClientTests {
 
     @Test
-    func askQuestion_newConversation_sendsExpectedRequest() {
+    func askQuestion_newConversation_sendsExpectedRequest() throws {
         let mockAPI = MockAPIServiceClient()
         let sut = ChatServiceClient(serviceClient: mockAPI)
         let expectedQuestion = "expected question?"
@@ -19,11 +19,12 @@ struct ChatServiceClientTests {
 
         #expect(mockAPI._receivedSendRequest?.urlPath == "/conversation")
         #expect(mockAPI._receivedSendRequest?.method == .post)
-        #expect(mockAPI._receivedSendRequest?.bodyParameters as? [String: AnyHashable] == ["user_question": expectedQuestion])
+        let body = try #require(mockAPI._receivedSendRequest?.body as? Question)
+        #expect(body.userQuestion == expectedQuestion)
     }
 
     @Test
-    func askQuestion_existingConversation_sendsExpectedRequest() {
+    func askQuestion_existingConversation_sendsExpectedRequest() throws {
         let mockAPI = MockAPIServiceClient()
         let sut = ChatServiceClient(serviceClient: mockAPI)
         let expectedQuestion = "expected question?"
@@ -35,7 +36,8 @@ struct ChatServiceClientTests {
 
         #expect(mockAPI._receivedSendRequest?.urlPath == "/conversation/\(expectedConversationId)")
         #expect(mockAPI._receivedSendRequest?.method == .put)
-        #expect(mockAPI._receivedSendRequest?.bodyParameters as? [String: AnyHashable] == ["user_question": expectedQuestion])
+        let body = try #require(mockAPI._receivedSendRequest?.body as? Question)
+        #expect(body.userQuestion == expectedQuestion)
     }
 
     @Test

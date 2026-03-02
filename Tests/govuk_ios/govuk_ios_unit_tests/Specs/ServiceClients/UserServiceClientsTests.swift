@@ -80,18 +80,12 @@ struct UserServiceClientTests {
     }
 
     @Test
-    func setNotificationsConsent_sendsExpectedRequest() {
+    func setNotificationsConsent_sendsExpectedRequest() throws {
         sut.setNotificationsConsent(.accepted) { _ in }
         #expect(mockAPI._receivedSendRequest?.urlPath == "/app/v1/user")
         #expect(mockAPI._receivedSendRequest?.method == .patch)
-        let expectedBodyParameters: [String: AnyHashable] = [
-            "preferences": [
-                "notifications": [
-                    "consentStatus": "accepted"
-                ]
-            ]
-        ]
-        #expect(mockAPI._receivedSendRequest?.bodyParameters as? [String: AnyHashable] == expectedBodyParameters)
+        let body = try #require(mockAPI._receivedSendRequest?.body as? NotificationsPreferenceUpdate)
+        #expect(body.preferences.notifications.consentStatus == .accepted)
     }
 
     @Test
