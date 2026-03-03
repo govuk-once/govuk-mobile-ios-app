@@ -83,6 +83,7 @@ class NotificationOnboardingCoordinator: BaseCoordinator {
     }
 
     private func setUserNotificationConsent() {
+        guard userService.isEnabled else { return }
         userService.setNotificationsConsent(
             notificationService.hasGivenConsent ? .accepted : .denied
         )

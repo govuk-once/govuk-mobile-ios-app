@@ -2,11 +2,16 @@ protocol UserServiceInterface {
     func fetchUserState(completion: @escaping FetchUserStateCompletion)
     func setNotificationsConsent(_ consentStatus: ConsentStatus)
     var notificationsConsentStatus: ConsentStatus? { get }
+    var isEnabled: Bool { get }
 }
 
  class UserService: UserServiceInterface {
      private let userServiceClient: UserServiceClientInterface
      private var userState: UserState?
+
+     var isEnabled: Bool {
+         false
+     }
 
      var notificationsConsentStatus: ConsentStatus? {
          userState?.preferences.notifications.consentStatus

@@ -107,7 +107,9 @@ class NotificationConsentCoordinator: BaseCoordinator {
 
     private func grantConsentAction() {
         notificationService.acceptConsent()
-        userService.setNotificationsConsent(.accepted)
+        if userService.isEnabled {
+            userService.setNotificationsConsent(.accepted)
+        }
         root.dismiss(
             animated: true,
             completion: completion
@@ -115,7 +117,9 @@ class NotificationConsentCoordinator: BaseCoordinator {
     }
 
     private func continueAction() {
-        userService.setNotificationsConsent(.denied)
+        if userService.isEnabled {
+            userService.setNotificationsConsent(.denied)
+        }
         openSettings()
     }
 

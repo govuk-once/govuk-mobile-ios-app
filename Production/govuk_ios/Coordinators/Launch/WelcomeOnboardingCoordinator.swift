@@ -124,6 +124,10 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
     }
 
     func fetchUserState() {
+        guard userService.isEnabled else {
+            handleUserStateFetched()
+            return
+        }
         userService.fetchUserState(completion: { [weak self] result in
             switch result {
             case .success(let userState):
