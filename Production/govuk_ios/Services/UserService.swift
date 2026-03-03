@@ -6,18 +6,25 @@ protocol UserServiceInterface {
 }
 
  class UserService: UserServiceInterface {
+     private let appConfigService: AppConfigServiceInterface
      private let userServiceClient: UserServiceClientInterface
      private var userState: UserState?
 
      var isEnabled: Bool {
+        #if STAGING
+         appConfigService.isFeatureEnabled(key: .flex)
+        #else
          false
+        #endif
      }
 
      var notificationsConsentStatus: ConsentStatus? {
          userState?.preferences.notifications.consentStatus
      }
 
-     init(userServiceClient: UserServiceClientInterface) {
+     init(appConfigService: AppConfigServiceInterface,
+          userServiceClient: UserServiceClientInterface) {
+         self.appConfigService = appConfigService
          self.userServiceClient = userServiceClient
      }
 
@@ -34,6 +41,7 @@ protocol UserServiceInterface {
      }
 
      func setNotificationsConsent(_ consentStatus: ConsentStatus) {
+         guard isEnabled else { return }
          userServiceClient.setNotificationsConsent(consentStatus) { result in
              switch result {
              case .success:

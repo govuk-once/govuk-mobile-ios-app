@@ -6,15 +6,18 @@ import Testing
 @Suite
 final class UserServiceTests {
     var mockUserServiceClient: MockUserServiceClient!
-    var sut: UserService!
+    var mockAppConfigService: MockAppConfigService!
 
     init() {
         mockUserServiceClient = MockUserServiceClient()
-        sut = UserService(userServiceClient: mockUserServiceClient)
+        mockAppConfigService = MockAppConfigService()
     }
 
     @Test
     func fetchUserState_returnsExpectedValue() async throws {
+        mockAppConfigService.features = [.flex]
+        let sut = UserService(appConfigService: mockAppConfigService,
+                              userServiceClient: mockUserServiceClient)
         mockUserServiceClient._stubbedFetchUserStateResult = .success(UserState.arrange)
 
         let result = await withCheckedContinuation { continuation in
@@ -30,6 +33,10 @@ final class UserServiceTests {
 
     @Test
     func fetchUserState_returnsExpectedError() async throws {
+        mockAppConfigService.features = [.flex]
+        let sut = UserService(appConfigService: mockAppConfigService,
+                              userServiceClient: mockUserServiceClient)
+
         mockUserServiceClient._stubbedFetchUserStateResult = .failure(UserStateError.apiUnavailable)
 
         let result = await withCheckedContinuation { continuation in
@@ -44,6 +51,10 @@ final class UserServiceTests {
 
     @Test
     func fetchUserState_setsNotificationsConsent() async throws {
+        mockAppConfigService.features = [.flex]
+        let sut = UserService(appConfigService: mockAppConfigService,
+                              userServiceClient: mockUserServiceClient)
+
         mockUserServiceClient?._stubbedFetchUserStateResult = .success(UserState.arrange(notificationsConsentStatus: .accepted))
         await withCheckedContinuation { continuation in
             sut.fetchUserState(completion: { _ in
@@ -55,9 +66,23 @@ final class UserServiceTests {
     }
 
     @Test
-    func setNotificationConsent_callsClient() {
+    func setNotificationConsent_flexEnabled_callsClient() {
+        mockAppConfigService.features = [.flex]
+        let sut = UserService(appConfigService: mockAppConfigService,
+                              userServiceClient: mockUserServiceClient)
+
         sut.setNotificationsConsent(.accepted)
         #expect(mockUserServiceClient._receivedNotificationConsent == .accepted)
+    }
+
+    @Test
+    func setNotificationConsent_flexDisabled_doesNotCallClient() {
+        mockAppConfigService.features = []
+        let sut = UserService(appConfigService: mockAppConfigService,
+                              userServiceClient: mockUserServiceClient)
+
+        sut.setNotificationsConsent(.accepted)
+        #expect(mockUserServiceClient._receivedNotificationConsent == nil)
     }
 
 }

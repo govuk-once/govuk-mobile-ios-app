@@ -73,7 +73,9 @@ struct AppEnvironmentService: AppEnvironmentServiceInterface {
     }
 
     var flexBaseURL: URL {
-        let urlString = string(for: .flexBaseURL)
-        return URL(string: urlString)!
+        // url to be moved into Info.plist when prod environment is ready
+        return URL(string: "https://staging.bl.once.service.gov.uk")!
+//        let urlString = string(for: .flexBaseURL)
+//        return URL(string: urlString)!
     }
 }

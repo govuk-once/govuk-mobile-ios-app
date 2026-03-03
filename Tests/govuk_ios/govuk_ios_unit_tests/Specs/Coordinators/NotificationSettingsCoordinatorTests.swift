@@ -75,6 +75,7 @@ struct NotificationSettingsCoordinatorTests {
         )
         coordinator.start(url: nil)
         mockViewControllerBuilder._receivedNotificationSettingsCompleteAction?()
+        mockNotificationService._stubbedhasGivenConsent = true
         mockNotificationService._receivedRequestPermissionsCompletion?(true)
         #expect(mockUserService._receivedNotificationConsent == .accepted)
     }

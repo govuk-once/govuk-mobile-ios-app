@@ -55,13 +55,15 @@ class NotificationSettingsCoordinator: BaseCoordinator {
     }
 
     private func requestPermission() {
-        notificationService.requestPermissions { [weak self] accepted in
-            if self?.userService.isEnabled == true {
-                self?.userService.setNotificationsConsent(
-                    accepted ? .accepted : .denied
-                )
-            }
-            self?.completeAction()
+        notificationService.requestPermissions { [weak self] _ in
+            self?.postPermissionsRequestAction()
         }
+    }
+
+    private func postPermissionsRequestAction() {
+        userService.setNotificationsConsent(
+            notificationService.hasGivenConsent ? .accepted : .denied
+        )
+        completeAction()
     }
 }
