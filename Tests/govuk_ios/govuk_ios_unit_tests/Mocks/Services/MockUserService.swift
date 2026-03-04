@@ -3,6 +3,7 @@ import Foundation
 @testable import govuk_ios
 
 class MockUserService: UserServiceInterface {
+    var isEnabled: Bool { true }
     var _stubbedNotificationsConsentStatus: ConsentStatus?
     var notificationsConsentStatus: ConsentStatus? {
         _stubbedNotificationsConsentStatus
