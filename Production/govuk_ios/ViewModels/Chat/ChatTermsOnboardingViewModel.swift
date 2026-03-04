@@ -2,8 +2,8 @@ import SwiftUI
 import GovKit
 import GovKitUI
 
-class ChatConsentOnboardingViewModel: InfoViewModelInterface {
-    var analyticsService: AnalyticsServiceInterface?
+final class ChatTermsOnboardingViewModel: InfoViewModelInterface {
+    var analyticsService: (any GovKit.AnalyticsServiceInterface)?
     private var chatService: ChatServiceInterface
     private let cancelOnboardingAction: () -> Void
     private let completionAction: () -> Void
@@ -18,6 +18,44 @@ class ChatConsentOnboardingViewModel: InfoViewModelInterface {
         self.completionAction = completionAction
     }
 
+    var title: String {
+        String(localized: .Chat.onboardingTermsTitle)
+    }
+
+    var markdownText: String {
+        String(
+            localized: .Chat.onboardingTermsSubtitle(
+                chatService.privacyPolicy.absoluteString
+            )
+        )
+    }
+
+    var primaryButtonTitle: String {
+        String(localized: .Chat.onboardingTermsPrimaryButtonTitle)
+    }
+
+    var primaryButtonViewModel: GOVUKButton.ButtonViewModel {
+        return .init(
+            localisedTitle: primaryButtonTitle,
+            action: { [weak self] in
+                self?.primaryButtonAction()
+            }
+        )
+    }
+
+    var secondaryButtonTitle: String {
+        String(localized: .Chat.onboardingTermsSecondaryButtonTitle)
+    }
+
+    var secondaryButtonViewModel: GOVUKButton.ButtonViewModel? {
+        return .init(
+            localisedTitle: secondaryButtonTitle,
+            action: { [weak self] in
+                self?.secondaryButtonAction()
+            }
+        )
+    }
+
     var contentAlignment: Alignment {
         .top
     }
@@ -25,32 +63,10 @@ class ChatConsentOnboardingViewModel: InfoViewModelInterface {
     var visualAssetContent: VisualAssetContent {
         .animation(
             AnimationColorSchemeNames(
-                light: "chat_onboarding_two_light",
-                dark: "chat_onboarding_two_dark"
+                light: "chat_onboarding_three_light",
+                dark: "chat_onboarding_three_dark"
             )
         )
-    }
-
-    var title: String {
-        String.chat.localized("onboardingConsentTitle")
-    }
-
-    var primaryButtonViewModel: GOVUKButton.ButtonViewModel {
-        return .init(
-            localisedTitle: primaryButtonTitle,
-            action: { [weak self] in
-                self?.completionAction()
-                self?.trackCompletionAction()
-            }
-        )
-    }
-
-    var rightBarButtonItem: UIBarButtonItem {
-        .cancel(target: self, action: #selector(cancelOnboarding))
-    }
-
-    var primaryButtonTitle: String {
-        return String.chat.localized("onboardingConsentButtonTitle")
     }
 
     var trackingTitle: String {
@@ -58,22 +74,27 @@ class ChatConsentOnboardingViewModel: InfoViewModelInterface {
     }
 
     var trackingName: String {
-        "Chat Onboarding Screen Two"
+        "Chat Onboarding Screen Three"
     }
 
     var navBarHidden: Bool {
         false
     }
 
-    @objc
-    func cancelOnboarding() {
+    private func primaryButtonAction() {
+        chatService.chatOnboardingSeen = true
+        completionAction()
+        trackCompletionAction()
+    }
+
+    private func secondaryButtonAction() {
         cancelOnboardingAction()
         trackCancelAction()
     }
 
     private func trackCancelAction() {
         let event = AppEvent.buttonNavigation(
-            text: String.common.localized("cancel"),
+            text: secondaryButtonTitle,
             external: false
         )
         analyticsService?.track(event: event)

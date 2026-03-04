@@ -555,5 +555,39 @@ class ViewControllerBuilder {
         viewController.isModalInPresentation = true
         return viewController
     }
+
+    func chatTermsOnboarding(
+        analyticsService: AnalyticsServiceInterface,
+        chatService: ChatServiceInterface,
+        cancelOnboardingAction: @escaping () -> Void,
+        completionAction: @escaping () -> Void,
+        openURLAction: @escaping (URL) -> Void
+    ) -> UIViewController {
+        let viewModel = ChatTermsOnboardingViewModel(
+            analyticsService: analyticsService,
+            chatService: chatService,
+            cancelOnboardingAction: cancelOnboardingAction,
+            completionAction: completionAction)
+
+        let containerView = InfoView<ChatTermsOnboardingViewModel>(
+            viewModel: viewModel,
+            customView: {
+                AnyView(
+                    InfoMarkdownView(
+                        viewModel.markdownText,
+                        openUrlAction: openURLAction
+                    )
+                )
+            }
+        )
+
+        let viewController = HostingViewController(
+            rootView: containerView,
+            navigationBarTintColor: .govUK.text.link
+        )
+
+        viewController.isModalInPresentation = true
+        return viewController
+    }
 }
 // swiftlint:enable file_length

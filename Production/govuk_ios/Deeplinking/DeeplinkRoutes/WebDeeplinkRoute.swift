@@ -28,6 +28,6 @@ struct WebDeeplinkRoute: DeeplinkRoute {
             url: url,
             fullScreen: true
         )
-        coordinator.present(safariCoordinator)
+        coordinator.start(safariCoordinator)
     }
 }

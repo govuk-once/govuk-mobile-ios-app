@@ -11,12 +11,15 @@ enum VisualAssetContent {
 }
 
 protocol InfoViewModelInterface: ObservableObject {
-    var visualAssetContent: VisualAssetContent { get }
     var analyticsService: AnalyticsServiceInterface? { get }
     var trackingName: String { get }
     var trackingTitle: String { get }
 
     var navBarHidden: Bool { get }
+
+    var contentAlignment: Alignment { get }
+
+    var visualAssetContent: VisualAssetContent { get }
 
     var title: String { get }
     var subtitle: String { get }
@@ -45,6 +48,8 @@ protocol ProgressIndicating {
 extension InfoViewModelInterface {
     var visualAssetContent: VisualAssetContent { .none }
     var navBarHidden: Bool { true }
+
+    var contentAlignment: Alignment { .center }
 
     var subtitle: String { "" }
     var subtitleFont: Font { Font.govUK.body }

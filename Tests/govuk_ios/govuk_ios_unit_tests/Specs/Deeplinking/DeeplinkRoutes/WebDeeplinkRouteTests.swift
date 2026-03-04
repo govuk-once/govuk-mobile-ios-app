@@ -27,7 +27,7 @@ struct WebDeeplinkRouteTests {
     }
     
     @Test
-    func action_withValidURL_presentsSafariCoordinator() {
+    func action_withValidURL_startsSafariCoordinator() {
         let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
         let expectedCoordinator = MockBaseCoordinator()
         mockCoordinatorBuilder._stubbedSafariCoordinator = expectedCoordinator
@@ -38,11 +38,11 @@ struct WebDeeplinkRouteTests {
 
         subject.action(parent: mockParentCoordinator, params: params)
         
-        #expect(mockParentCoordinator.presentedCoordinator == expectedCoordinator)
+        #expect(mockParentCoordinator.childCoordinators.first(where: { $0 == mockCoordinatorBuilder._stubbedSafariCoordinator }) != nil)
     }
     
     @Test
-    func action_withInvalidURL_doesNotPresentCoordinator() {
+    func action_withInvalidURL_doesNotStartSafariCoordinator() {
         let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
         let subject = WebDeeplinkRoute(coordinatorBuilder: mockCoordinatorBuilder)
         let mockParentCoordinator = TestParentCoordinator()
@@ -54,7 +54,7 @@ struct WebDeeplinkRouteTests {
     }
     
     @Test
-    func action_withMissingURL_doesNotPresentCoordinator() {
+    func action_withMissingURL_doesNotStartSafariCoordinator() {
         let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
         let subject = WebDeeplinkRoute(coordinatorBuilder: mockCoordinatorBuilder)
         let mockParentCoordinator = TestParentCoordinator()
