@@ -590,7 +590,6 @@ class ViewControllerBuilder {
         return viewController
     }
 
-    // swiftlint:disable:next function_parameter_count
     func termsAndConditions(
         termsAndConditionsService: TermsAndConditionsServiceInterface,
         completionAction: @escaping () -> Void,
