@@ -129,6 +129,7 @@ class ChatViewModel: ObservableObject {
         guard let conversationId = chatService.currentConversationId else {
             cellModels.removeAll()
             appendIntroMessage(animate: true)
+            shouldLoadHistory = false
             return
         }
         guard shouldLoadHistory else {
