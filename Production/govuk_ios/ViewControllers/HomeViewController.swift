@@ -20,6 +20,7 @@ class HomeViewController: BaseViewController {
         localSearchBar.enablesReturnKeyAutomatically = false
         localSearchBar.translatesAutoresizingMaskIntoConstraints = false
         localSearchBar.barTintColor = UIColor.govUK.fills.surfaceHomeHeaderBackground
+        localSearchBar.layer.borderColor = UIColor.govUK.fills.surfaceHomeHeaderBackground.cgColor
         localSearchBar.searchBarStyle = .minimal
         localSearchBar.layer.borderWidth = 0
         localSearchBar.searchTextField.defaultTextAttributes = [
