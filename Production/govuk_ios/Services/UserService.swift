@@ -44,8 +44,9 @@ protocol UserServiceInterface {
          guard isEnabled else { return }
          userServiceClient.setNotificationsConsent(consentStatus) { result in
              switch result {
-             case .success:
-                 print("userServiceClient.setNotificationsConsent successful")
+             case .success(let response):
+                 let returnedConsentStatus = response.preferences.notifications.consentStatus
+                 print("userServiceClient.setNotificationsConsent successful, result: \(returnedConsentStatus.rawValue)")
              case .failure(let error):
                  print(error.localizedDescription)
              }
