@@ -6,7 +6,6 @@ import GovKit
 class NotificationConsentCoordinator: BaseCoordinator {
     private let notificationService: NotificationServiceInterface
     private let analyticsService: AnalyticsServiceInterface
-    private let userService: UserServiceInterface
     private let consentResult: NotificationConsentResult
     private let coordinatorBuilder: CoordinatorBuilder
     private let viewControllerBuilder: ViewControllerBuilder
@@ -24,7 +23,6 @@ class NotificationConsentCoordinator: BaseCoordinator {
          completion: @escaping () -> Void) {
         self.notificationService = notificationService
         self.analyticsService = analyticsService
-        self.userService = userService
         self.consentResult = consentResult
         self.coordinatorBuilder = coordinatorBuilder
         self.viewControllerBuilder = viewControllerBuilder
@@ -72,7 +70,7 @@ class NotificationConsentCoordinator: BaseCoordinator {
         alert.addAction(.cancel(handler: nil))
         alert.addAction(
             .continueAction(
-                handler: continueAction
+                handler: openSettings
             )
         )
         viewController.present(alert, animated: true)
@@ -107,16 +105,10 @@ class NotificationConsentCoordinator: BaseCoordinator {
 
     private func grantConsentAction() {
         notificationService.acceptConsent()
-        userService.setNotificationsConsent(.accepted)
         root.dismiss(
             animated: true,
             completion: completion
         )
-    }
-
-    private func continueAction() {
-        userService.setNotificationsConsent(.denied)
-        openSettings()
     }
 
     @MainActor

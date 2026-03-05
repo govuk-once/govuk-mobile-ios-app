@@ -22,6 +22,7 @@ class CoordinatorBuilder {
             authenticationService: container.authenticationService.resolve(),
             localAuthenticationService: container.localAuthenticationService.resolve(),
             notificationService: container.notificationService.resolve(),
+            userService: container.userService.resolve(),
             privacyPresenter: container.privacyService.resolve(),
             navigationController: navigationController
         )
@@ -93,7 +94,6 @@ class CoordinatorBuilder {
                 root: navigationController
             ),
             analyticsService: container.analyticsService.resolve(),
-            userService: container.userService.resolve(),
             coordinatorBuilder: self,
             deviceInformationProvider: DeviceInformationProvider(),
             authenticationService: container.authenticationService.resolve(),
@@ -299,7 +299,6 @@ class CoordinatorBuilder {
             viewControllerBuilder: ViewControllerBuilder(),
             analyticsService: container.analyticsService.resolve(),
             notificationService: container.notificationService.resolve(),
-            userService: container.userService.resolve(),
             coordinatorBuilder: self,
             completeAction: completionAction,
             dismissAction: dismissAction

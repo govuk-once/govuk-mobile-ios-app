@@ -32,7 +32,6 @@ struct SettingsViewModelURLParameters {
 class SettingsViewModel: SettingsViewModelInterface {
     let title: String = String.settings.localized("pageTitle")
     private let analyticsService: AnalyticsServiceInterface
-    private let userService: UserServiceInterface
     private let urlOpener: URLOpener
     private let versionProvider: AppVersionProvider
     private let deviceInformationProvider: DeviceInformationProviderInterface
@@ -54,7 +53,6 @@ class SettingsViewModel: SettingsViewModelInterface {
     @Published var userEmail: String?
 
     init(analyticsService: AnalyticsServiceInterface,
-         userService: UserServiceInterface,
          urlOpener: URLOpener,
          versionProvider: AppVersionProvider,
          deviceInformationProvider: DeviceInformationProviderInterface,
@@ -70,7 +68,6 @@ class SettingsViewModel: SettingsViewModelInterface {
         self.notificationService = notificationService
         self.notificationCenter = notificationCenter
         self.localAuthenticationService = localAuthenticationService
-        self.userService = userService
         updateNotificationPermissionState()
         observeAppMoveToForeground()
     }
@@ -111,9 +108,6 @@ class SettingsViewModel: SettingsViewModelInterface {
               urlOpener.openNotificationSettings()
         else { return }
         notificationService.toggleHasGivenConsent()
-        userService.setNotificationsConsent(
-            notificationService.hasGivenConsent ? .accepted : .denied
-        )
         trackNavigationEvent(
             notificationAlertButtonTitle,
             external: false

@@ -20,7 +20,6 @@ class SettingsCoordinator: TabItemCoordinator {
          viewControllerBuilder: ViewControllerBuilder,
          deeplinkStore: DeeplinkDataStore,
          analyticsService: AnalyticsServiceInterface,
-         userService: UserServiceInterface,
          coordinatorBuilder: CoordinatorBuilder,
          deviceInformationProvider: DeviceInformationProviderInterface,
          authenticationService: AuthenticationServiceInterface,
@@ -35,7 +34,6 @@ class SettingsCoordinator: TabItemCoordinator {
         self.localAuthenticationService = localAuthenticationService
         self.settingsViewModel = SettingsViewModel(
             analyticsService: analyticsService,
-            userService: userService,
             urlOpener: UIApplication.shared,
             versionProvider: Bundle.main,
             deviceInformationProvider: deviceInformationProvider,

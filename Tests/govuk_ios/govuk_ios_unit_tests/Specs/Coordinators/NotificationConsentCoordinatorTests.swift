@@ -115,30 +115,6 @@ struct NotificationConsentCoordinatorTests {
     }
 
     @Test
-    func grantConsent_callsUserServiceSetNotificationConsent() async {
-        let mockViewControllerBuilder = MockViewControllerBuilder()
-        let mockUserService = MockUserService()
-
-        let subject = NotificationConsentCoordinator(
-            navigationController: MockNavigationController(),
-            notificationService: MockNotificationService(),
-            analyticsService: MockAnalyticsService(),
-            userService: mockUserService,
-            consentResult: .misaligned(.consentNotGrantedNotificationsOn),
-            coordinatorBuilder: MockCoordinatorBuilder.mock,
-            viewControllerBuilder: mockViewControllerBuilder,
-            urlOpener: MockURLOpener(),
-            completion: { }
-        )
-
-        subject.start()
-
-        mockViewControllerBuilder._receivedNotificationConsentAlertGrantConsentAction?()
-
-        #expect(mockUserService._receivedNotificationConsent == .accepted)
-    }
-
-    @Test
     func openSettings_presentsAlert() async {
         let mockNavigationController = MockNavigationController()
         let mockNotificationService = MockNotificationService()

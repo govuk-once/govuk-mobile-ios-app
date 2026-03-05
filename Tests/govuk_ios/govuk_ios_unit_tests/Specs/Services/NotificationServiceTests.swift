@@ -531,7 +531,25 @@ class NotificationServiceTests {
     }
 
     @Test
-    func registerNotificationId_callsLogin() {
+    func registerNotificationId_hasGivenConsent_callsLogin() {
+        MockOneSignalServiceClient._stubbedExternalId = nil
+
+        let sut = NotificationService(
+            environmentService: MockAppEnvironmentService(),
+            notificationCenter: MockUserNotificationCenter(),
+            configService: MockAppConfigService(),
+            userDefaultsService: MockUserDefaultsService(),
+            oneSignalServiceClient: MockOneSignalServiceClient.self
+        )
+        sut.acceptConsent()
+        sut.register(notificationId: "test_user_id")
+        #expect(MockOneSignalServiceClient._stubbedExternalId == "test_user_id")
+    }
+
+    @Test
+    func registerNotificationId_hasNotGivenConsent_doesNotCallLogin() {
+        MockOneSignalServiceClient._stubbedExternalId = nil
+
         let sut = NotificationService(
             environmentService: MockAppEnvironmentService(),
             notificationCenter: MockUserNotificationCenter(),
@@ -541,7 +559,7 @@ class NotificationServiceTests {
         )
 
         sut.register(notificationId: "test_user_id")
-        #expect(MockOneSignalServiceClient._stubbedExternalId == "test_user_id")
+        #expect(MockOneSignalServiceClient._stubbedExternalId == nil)
     }
 
     @Test
@@ -557,6 +575,44 @@ class NotificationServiceTests {
 
         sut.unregisterNotificationId()
         #expect(MockOneSignalServiceClient._stubbedExternalId == nil)
+    }
+
+    @Test
+    func acceptConsent_triggersOnConsentChangedAction() async {
+        let sut = NotificationService(
+            environmentService: MockAppEnvironmentService(),
+            notificationCenter: MockUserNotificationCenter(),
+            configService: MockAppConfigService(),
+            userDefaultsService: MockUserDefaultsService(),
+            oneSignalServiceClient: MockOneSignalServiceClient.self
+        )
+        let consentGiven: Bool = await withCheckedContinuation { continuation in
+            let onConsentChangedAction: ((Bool) -> Void) = { consentGiven in
+                continuation.resume(returning: consentGiven)
+            }
+            sut.addConsentChangedListener(action: onConsentChangedAction)
+            sut.acceptConsent()
+        }
+        #expect(consentGiven == true)
+    }
+
+    @Test
+    func rejectConsent_triggersOnConsentChangedAction() async {
+        let sut = NotificationService(
+            environmentService: MockAppEnvironmentService(),
+            notificationCenter: MockUserNotificationCenter(),
+            configService: MockAppConfigService(),
+            userDefaultsService: MockUserDefaultsService(),
+            oneSignalServiceClient: MockOneSignalServiceClient.self
+        )
+        let consentGiven: Bool = await withCheckedContinuation { continuation in
+            let onConsentChangedAction: ((Bool) -> Void) = { consentGiven in
+                continuation.resume(returning: consentGiven)
+            }
+            sut.addConsentChangedListener(action: onConsentChangedAction)
+            sut.rejectConsent()
+        }
+        #expect(consentGiven == false)
     }
 }
 

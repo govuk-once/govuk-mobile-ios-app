@@ -20,7 +20,6 @@ struct NotificationSettingsCoordinatorTests {
             viewControllerBuilder: mockViewControllerBuilder,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            userService: MockUserService(),
             coordinatorBuilder: MockCoordinatorBuilder.mock,
             completeAction: { },
             dismissAction: { }
@@ -43,7 +42,6 @@ struct NotificationSettingsCoordinatorTests {
             viewControllerBuilder: mockViewControllerBuilder,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            userService: MockUserService(),
             coordinatorBuilder: mockCoordinatorBuilder,
             completeAction: { },
             dismissAction: { }
@@ -53,53 +51,5 @@ struct NotificationSettingsCoordinatorTests {
         mockViewControllerBuilder._receivedNotificationSettingsViewPrivacyAction?()
 
         #expect(mockSafariCoordinator._startCalled)
-    }
-
-    @Test
-    func completeAction_callsUserServiceSetNotificationsConsent() {
-        let mockNavigationController = MockNavigationController()
-        let mockViewControllerBuilder = MockViewControllerBuilder()
-        let mockNotificationService = MockNotificationService()
-        let mockUserService = MockUserService()
-        let expectedViewController = UIViewController()
-        mockViewControllerBuilder._stubbedNotificationSettingsViewController = expectedViewController
-        let coordinator = NotificationSettingsCoordinator(
-            navigationController: mockNavigationController,
-            viewControllerBuilder: mockViewControllerBuilder,
-            analyticsService: MockAnalyticsService(),
-            notificationService: mockNotificationService,
-            userService: mockUserService,
-            coordinatorBuilder: MockCoordinatorBuilder.mock,
-            completeAction: { },
-            dismissAction: { }
-        )
-        coordinator.start(url: nil)
-        mockViewControllerBuilder._receivedNotificationSettingsCompleteAction?()
-        mockNotificationService._stubbedhasGivenConsent = true
-        mockNotificationService._receivedRequestPermissionsCompletion?(true)
-        #expect(mockUserService._receivedNotificationConsent == .accepted)
-    }
-
-    @Test
-    func dismissAction_doesNotCallUserServiceSetNotificationsConsent() {
-        let mockNavigationController = MockNavigationController()
-        let mockViewControllerBuilder = MockViewControllerBuilder()
-        let mockNotificationService = MockNotificationService()
-        let mockUserService = MockUserService()
-        let expectedViewController = UIViewController()
-        mockViewControllerBuilder._stubbedNotificationSettingsViewController = expectedViewController
-        let coordinator = NotificationSettingsCoordinator(
-            navigationController: mockNavigationController,
-            viewControllerBuilder: mockViewControllerBuilder,
-            analyticsService: MockAnalyticsService(),
-            notificationService: mockNotificationService,
-            userService: mockUserService,
-            coordinatorBuilder: MockCoordinatorBuilder.mock,
-            completeAction: { },
-            dismissAction: { }
-        )
-        coordinator.start(url: nil)
-        mockViewControllerBuilder._receivedNotificationSettingsDismissAction?()
-        #expect(mockUserService._receivedNotificationConsent == nil)
     }
 }

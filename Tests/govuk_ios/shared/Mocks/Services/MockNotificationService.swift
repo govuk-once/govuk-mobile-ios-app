@@ -40,6 +40,11 @@ class MockNotificationService: NotificationServiceInterface {
         _onClickAction = onClickAction
     }
 
+    var _receivedOnConsentChangedAction: ((Bool) -> Void)?
+    func addConsentChangedListener(action: @escaping (Bool) -> Void) {
+        _receivedOnConsentChangedAction = action
+    }
+
     var _acceptConsentCalled: Bool = false
     func acceptConsent() {
         _acceptConsentCalled = true

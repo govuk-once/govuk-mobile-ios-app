@@ -26,6 +26,7 @@ struct AppCoordinatorTests {
             authenticationService: mockAuthenticationService,
             localAuthenticationService: mockLocalAuthenticationService,
             notificationService: mockNotificationService,
+            userService: MockUserService(),
             navigationController: mockNavigationController
         )
 
@@ -63,6 +64,7 @@ struct AppCoordinatorTests {
             authenticationService: mockAuthenticationService,
             localAuthenticationService: mockLocalAuthenticationService,
             notificationService: mockNotificationService,
+            userService: MockUserService(),
             navigationController: mockNavigationController
         )
 
@@ -116,6 +118,7 @@ struct AppCoordinatorTests {
             authenticationService: mockAuthenticationService,
             localAuthenticationService: mockLocalAuthenticationService,
             notificationService: mockNotificationService,
+            userService: MockUserService(),
             navigationController: mockNavigationController
         )
 
@@ -174,6 +177,7 @@ struct AppCoordinatorTests {
             authenticationService: mockAuthenticationService,
             localAuthenticationService: mockLocalAuthenticationService,
             notificationService: mockNotificationService,
+            userService: MockUserService(),
             navigationController: mockNavigationController
         )
 
@@ -235,6 +239,7 @@ struct AppCoordinatorTests {
             authenticationService: mockAuthenticationService,
             localAuthenticationService: mockLocalAuthenticationService,
             notificationService: mockNotificationService,
+            userService: MockUserService(),
             navigationController: mockNavigationController
         )
 
@@ -269,6 +274,7 @@ struct AppCoordinatorTests {
             authenticationService: mockAuthenticationService,
             localAuthenticationService: mockLocalAuthenticationService,
             notificationService: mockNotificationService,
+            userService: MockUserService(),
             navigationController: mockNavigationController
         )
 
@@ -303,6 +309,7 @@ struct AppCoordinatorTests {
             authenticationService: mockAuthenticationService,
             localAuthenticationService: mockLocalAuthenticationService,
             notificationService: mockNotificationService,
+            userService: MockUserService(),
             navigationController: mockNavigationController
         )
 
@@ -336,6 +343,7 @@ struct AppCoordinatorTests {
             authenticationService: mockAuthenticationService,
             localAuthenticationService: mockLocalAuthenticationService,
             notificationService: mockNotificationService,
+            userService: MockUserService(),
             privacyPresenter: mockPrivacyService,
             navigationController: mockNavigationController
         )
@@ -365,6 +373,7 @@ struct AppCoordinatorTests {
             authenticationService: mockAuthenticationService,
             localAuthenticationService: mockLocalAuthenticationService,
             notificationService: mockNotificationService,
+            userService: MockUserService(),
             privacyPresenter: mockPrivacyService,
             navigationController: mockNavigationController
         )
@@ -394,6 +403,7 @@ struct AppCoordinatorTests {
             authenticationService: mockAuthenticationService,
             localAuthenticationService: mockLocalAuthenticationService,
             notificationService: mockNotificationService,
+            userService: MockUserService(),
             privacyPresenter: mockPrivacyService,
             navigationController: mockNavigationController
         )
@@ -421,6 +431,7 @@ struct AppCoordinatorTests {
             authenticationService: mockAuthenticationService,
             localAuthenticationService: mockLocalAuthenticationService,
             notificationService: MockNotificationService(),
+            userService: MockUserService(),
             privacyPresenter: mockPrivacyService,
             navigationController: mockNavigationController
         )
@@ -448,6 +459,7 @@ struct AppCoordinatorTests {
             authenticationService: mockAuthenticationService,
             localAuthenticationService: mockLocalAuthenticationService,
             notificationService: MockNotificationService(),
+            userService: MockUserService(),
             privacyPresenter: mockPrivacyService,
             navigationController: mockNavigationController
         )
@@ -458,4 +470,66 @@ struct AppCoordinatorTests {
         #expect(mockPrivacyService._didShowPrivacyAlert)
     }
 
+    @Test
+    func notificationConsentChanged_isSignedIn_callsUserServiceSetConsent() {
+        let mockUserService = MockUserService()
+        let mockAuthenticationService = MockAuthenticationService()
+        mockAuthenticationService._stubbedIsSignedIn = true
+        mockUserService._stubbedNotificationId = "test_user_id"
+        let mockNotificationService = MockNotificationService()
+        let subject = AppCoordinator(
+            coordinatorBuilder: MockCoordinatorBuilder.mock,
+            inactivityService: MockInactivityService(),
+            authenticationService: mockAuthenticationService,
+            localAuthenticationService: MockLocalAuthenticationService(),
+            notificationService: mockNotificationService,
+            userService: mockUserService,
+            privacyPresenter: MockPrivacyService(),
+            navigationController: MockNavigationController())
+        subject.start()
+        mockNotificationService._receivedOnConsentChangedAction?(true)
+        #expect(mockUserService._receivedNotificationConsent == .accepted)
+    }
+
+    @Test
+    func notificationConsentAccepted_isSignedIn_callsNotificationServiceRegister() {
+        let mockUserService = MockUserService()
+        let mockAuthenticationService = MockAuthenticationService()
+        mockAuthenticationService._stubbedIsSignedIn = true
+        mockUserService._stubbedNotificationId = "test_user_id"
+        let mockNotificationService = MockNotificationService()
+        let subject = AppCoordinator(
+            coordinatorBuilder: MockCoordinatorBuilder.mock,
+            inactivityService: MockInactivityService(),
+            authenticationService: mockAuthenticationService,
+            localAuthenticationService: MockLocalAuthenticationService(),
+            notificationService: mockNotificationService,
+            userService: mockUserService,
+            privacyPresenter: MockPrivacyService(),
+            navigationController: MockNavigationController())
+        subject.start()
+        mockNotificationService._receivedOnConsentChangedAction?(true)
+        #expect(mockNotificationService._stubbedNotificationId == "test_user_id")
+    }
+
+    @Test
+    func notificationConsentAccepted_isNotSignedIn_doesNotCallNotificationServiceRegister() {
+        let mockUserService = MockUserService()
+        let mockAuthenticationService = MockAuthenticationService()
+        mockAuthenticationService._stubbedIsSignedIn = false
+        mockUserService._stubbedNotificationId = "test_user_id"
+        let mockNotificationService = MockNotificationService()
+        let subject = AppCoordinator(
+            coordinatorBuilder: MockCoordinatorBuilder.mock,
+            inactivityService: MockInactivityService(),
+            authenticationService: mockAuthenticationService,
+            localAuthenticationService: MockLocalAuthenticationService(),
+            notificationService: mockNotificationService,
+            userService: mockUserService,
+            privacyPresenter: MockPrivacyService(),
+            navigationController: MockNavigationController())
+        subject.start()
+        mockNotificationService._receivedOnConsentChangedAction?(true)
+        #expect(mockNotificationService._stubbedNotificationId == nil)
+    }
 }

@@ -18,6 +18,7 @@ protocol NotificationServiceInterface {
     func register(notificationId: String)
     func unregisterNotificationId()
     var hasGivenConsent: Bool { get }
+    func addConsentChangedListener(action: @escaping (Bool) -> Void)
 }
 
 class NotificationService: NSObject,
@@ -28,6 +29,7 @@ class NotificationService: NSObject,
     private let configService: AppConfigServiceInterface
     private let userDefaultsService: UserDefaultsServiceInterface
     private let oneSignalServiceClient: OneSignalServiceClient.Type
+    private var onConsentChangedAction: ((Bool) -> Void)?
     var onClickAction: ((URL) -> Void)?
 
     init(environmentService: AppEnvironmentServiceInterface,
@@ -101,10 +103,10 @@ class NotificationService: NSObject,
     private func updateConsent(given: Bool) {
         userDefaultsService.set(bool: given, forKey: .notificationsConsentGranted)
         oneSignalServiceClient.setConsentGiven(given)
+        onConsentChangedAction?(given)
     }
 
     func requestPermissions(completion: ((Bool) -> Void)?) {
-        updateConsent(given: true)
         oneSignalServiceClient.Notifications.requestPermission({ [weak self] accepted in
             self?.updateConsent(given: accepted)
             completion?(accepted)
@@ -114,6 +116,10 @@ class NotificationService: NSObject,
     func addClickListener(onClickAction: @escaping (URL) -> Void) {
         oneSignalServiceClient.Notifications.addClickListener(self)
         self.onClickAction = onClickAction
+    }
+
+    func addConsentChangedListener(action: @escaping (Bool) -> Void) {
+        self.onConsentChangedAction = action
     }
 
     func onClick(event: OSNotificationClickEvent) {
@@ -141,6 +147,7 @@ class NotificationService: NSObject,
     }
 
     func register(notificationId: String) {
+        guard hasGivenConsent else { return }
         oneSignalServiceClient.login(notificationId)
     }
 

@@ -72,14 +72,9 @@ class NotificationOnboardingCoordinator: BaseCoordinator {
     private func request() {
         notificationService.requestPermissions(
             completion: { [weak self] _ in
-                self?.postPermissionsRequestAction()
+                self?.finishCoordination()
             }
         )
-    }
-
-    private func postPermissionsRequestAction() {
-        setUserNotificationConsent()
-        finishCoordination()
     }
 
     private func setUserNotificationConsent() {

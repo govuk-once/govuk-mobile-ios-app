@@ -153,7 +153,7 @@ extension Container {
                 userDefaultsService: self.userDefaultsService.resolve(),
                 oneSignalServiceClient: OneSignal.self
             )
-        }
+        }.scope(.singleton)
     }
 
     var notificationsOnboardingService: Factory<NotificationsOnboardingServiceInterface> {

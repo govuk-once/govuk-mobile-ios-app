@@ -7,6 +7,7 @@ class AppCoordinator: BaseCoordinator {
     private let authenticationService: AuthenticationServiceInterface
     private let localAuthenticationService: LocalAuthenticationServiceInterface
     private let notificationService: NotificationServiceInterface
+    private let userService: UserServiceInterface
     private var initialLaunch: Bool = true
     private lazy var tabCoordinator: BaseCoordinator = {
         let coordinator = coordinatorBuilder.tab(
@@ -22,6 +23,7 @@ class AppCoordinator: BaseCoordinator {
          authenticationService: AuthenticationServiceInterface,
          localAuthenticationService: LocalAuthenticationServiceInterface,
          notificationService: NotificationServiceInterface,
+         userService: UserServiceInterface,
          privacyPresenter: PrivacyPresenting? = nil,
          navigationController: UINavigationController) {
         self.coordinatorBuilder = coordinatorBuilder
@@ -29,6 +31,7 @@ class AppCoordinator: BaseCoordinator {
         self.authenticationService = authenticationService
         self.localAuthenticationService = localAuthenticationService
         self.notificationService = notificationService
+        self.userService = userService
         self.privacyPresenter = privacyPresenter
         super.init(navigationController: navigationController)
         configureObservers()
@@ -45,6 +48,19 @@ class AppCoordinator: BaseCoordinator {
             }
             self?.notificationService.unregisterNotificationId()
             self?.startPeriAuthCoordinator()
+        }
+
+        notificationService.addConsentChangedListener { [weak self] consentGiven in
+            self?.handleNotificationConsentChange(consentGiven: consentGiven)
+        }
+    }
+
+    private func handleNotificationConsentChange(consentGiven: Bool) {
+        guard authenticationService.isSignedIn else { return }
+        if let notificationId = userService.notificationId {
+            notificationService.register(notificationId: notificationId)
+            let consentStatus: ConsentStatus = consentGiven ? .accepted : .denied
+            userService.setNotificationsConsent(consentStatus)
         }
     }
 
