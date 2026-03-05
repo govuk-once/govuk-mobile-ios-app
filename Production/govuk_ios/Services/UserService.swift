@@ -46,7 +46,7 @@ protocol UserServiceInterface {
              switch result {
              case .success(let response):
                  let returnedConsentStatus = response.preferences.notifications.consentStatus
-                 print("userServiceClient.setNotificationsConsent successful, result: \(returnedConsentStatus.rawValue)")
+                 print("\(#function) successful, result: \(returnedConsentStatus.rawValue)")
              case .failure(let error):
                  print(error.localizedDescription)
              }

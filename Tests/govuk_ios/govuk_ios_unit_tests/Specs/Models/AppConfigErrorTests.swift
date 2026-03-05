@@ -8,7 +8,7 @@ struct AppConfigErrorTests {
     @Test
     func remoteJson_asAppUnavailableError_returnsAppConfigError() {
         let subject = AppConfigError.remoteJson
-        let result = subject.asAppUnavailableError()
+        let result = subject.asAppUnavailableError
 
         #expect(result == AppUnavailableError.appConfig)
     }
@@ -16,7 +16,7 @@ struct AppConfigErrorTests {
     @Test
     func invalidSignature_asAppUnavailableError_returnsAppConfigError() {
         let subject = AppConfigError.invalidSignature
-        let result = subject.asAppUnavailableError()
+        let result = subject.asAppUnavailableError
 
         #expect(result == AppUnavailableError.appConfig)
     }
@@ -24,7 +24,7 @@ struct AppConfigErrorTests {
     @Test
     func networkUnavailable_asAppUnavailableError_returnsNetworkUnavailable() {
         let subject = AppConfigError.networkUnavailable
-        let result = subject.asAppUnavailableError()
+        let result = subject.asAppUnavailableError
 
         #expect(result == AppUnavailableError.networkUnavailable)
     }

@@ -7,7 +7,7 @@ enum AppConfigError: Error {
 }
 
 extension AppConfigError {
-    func asAppUnavailableError() -> AppUnavailableError {
+    var asAppUnavailableError: AppUnavailableError {
         if self == .networkUnavailable {
             .networkUnavailable
         } else {

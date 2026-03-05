@@ -62,7 +62,7 @@ class PreAuthCoordinator: BaseCoordinator {
 
     private func startAppUnavailable(url: URL?,
                                      launchResponse: AppLaunchResponse) {
-        let error = launchResponse.configResult.getError()?.asAppUnavailableError()
+        let error = launchResponse.configResult.getError()?.asAppUnavailableError
         let coordinator = coordinatorBuilder.appUnavailable(
             navigationController: root,
             error: error,

@@ -8,7 +8,7 @@ enum UserStateError: LocalizedError {
 }
 
 extension UserStateError {
-    func asAppUnavailableError() -> AppUnavailableError {
+    var asAppUnavailableError: AppUnavailableError {
         if self == .networkUnavailable {
             .networkUnavailable
         } else {

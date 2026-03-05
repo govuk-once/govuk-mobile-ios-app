@@ -134,7 +134,7 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
                 self?.notificationService.register(notificationId: userState.notificationId)
                 self?.handleUserStateFetched()
             case .failure(let error):
-                self?.startAppUnavailable(error: error.asAppUnavailableError())
+                self?.startAppUnavailable(error: error.asAppUnavailableError)
             }
         })
     }

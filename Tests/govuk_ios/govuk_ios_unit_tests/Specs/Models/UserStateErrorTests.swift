@@ -8,7 +8,7 @@ struct UserStateErrorTests {
     @Test
     func apiUnavailable_asAppUnavailableError_returnsUserStateError() {
         let subject = UserStateError.apiUnavailable
-        let result = subject.asAppUnavailableError()
+        let result = subject.asAppUnavailableError
 
         #expect(result == AppUnavailableError.userState)
     }
@@ -16,7 +16,7 @@ struct UserStateErrorTests {
     @Test
     func decodingError_asAppUnavailableError_returnsUserStateError() {
         let subject = UserStateError.decodingError
-        let result = subject.asAppUnavailableError()
+        let result = subject.asAppUnavailableError
 
         #expect(result == AppUnavailableError.userState)
     }
@@ -24,7 +24,7 @@ struct UserStateErrorTests {
     @Test
     func authenticationError_asAppUnavailableError_returnsUserStateError() {
         let subject = UserStateError.authenticationError
-        let result = subject.asAppUnavailableError()
+        let result = subject.asAppUnavailableError
 
         #expect(result == AppUnavailableError.userState)
     }
@@ -32,7 +32,7 @@ struct UserStateErrorTests {
     @Test
     func networkUnavailable_asAppUnavailableError_returnsNetworkUnavailable() {
         let subject = UserStateError.networkUnavailable
-        let result = subject.asAppUnavailableError()
+        let result = subject.asAppUnavailableError
 
         #expect(result == AppUnavailableError.networkUnavailable)
     }

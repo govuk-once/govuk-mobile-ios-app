@@ -105,7 +105,8 @@ extension APIServiceClient {
         guard let httpResponse = response as? HTTPURLResponse else {
             return false
         }
-        return [401, 403].contains(httpResponse.statusCode) && isRetry == false
+        let hasAccessTokenExpired = [401, 403].contains(httpResponse.statusCode)
+        return hasAccessTokenExpired && !isRetry
     }
 
     private func handleUnauthorizedResponse(request: URLRequest,

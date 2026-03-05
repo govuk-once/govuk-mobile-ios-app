@@ -7,7 +7,7 @@ extension TokenRefreshResponse {
         arrange()
     }
 
-    static func arrange(accessToken: String = "accessToken") -> TokenRefreshResponse{
+    static func arrange(accessToken: String = "accessToken") -> TokenRefreshResponse {
         .init(accessToken: accessToken,
               idToken: nil)
     }
