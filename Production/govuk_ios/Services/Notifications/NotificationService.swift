@@ -101,12 +101,16 @@ class NotificationService: NSObject,
     }
 
     private func updateConsent(given: Bool) {
+        let previousConsent = userDefaultsService.bool(forKey: .notificationsConsentGranted)
         userDefaultsService.set(bool: given, forKey: .notificationsConsentGranted)
         oneSignalServiceClient.setConsentGiven(given)
-        onConsentChangedAction?(given)
+        if previousConsent != given {
+            onConsentChangedAction?(given)
+        }
     }
 
     func requestPermissions(completion: ((Bool) -> Void)?) {
+        updateConsent(given: true)
         oneSignalServiceClient.Notifications.requestPermission({ [weak self] accepted in
             self?.updateConsent(given: accepted)
             completion?(accepted)
