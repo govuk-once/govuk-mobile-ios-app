@@ -130,7 +130,7 @@ extension ChatService {
         #if STAGING
         configService.isFeatureEnabled(key: .chat)
         #else
-        false
+        true
         #endif
     }
 
