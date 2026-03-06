@@ -282,7 +282,6 @@ class CoordinatorBuilder {
             navigationController: navigationController,
             notificationService: container.notificationService.resolve(),
             analyticsService: container.analyticsService.resolve(),
-            userService: container.userService.resolve(),
             consentResult: consentResult,
             coordinatorBuilder: self,
             viewControllerBuilder: ViewControllerBuilder(),

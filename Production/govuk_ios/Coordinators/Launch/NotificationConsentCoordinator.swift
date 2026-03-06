@@ -15,7 +15,6 @@ class NotificationConsentCoordinator: BaseCoordinator {
     init(navigationController: UINavigationController,
          notificationService: NotificationServiceInterface,
          analyticsService: AnalyticsServiceInterface,
-         userService: UserServiceInterface,
          consentResult: NotificationConsentResult,
          coordinatorBuilder: CoordinatorBuilder,
          viewControllerBuilder: ViewControllerBuilder,
