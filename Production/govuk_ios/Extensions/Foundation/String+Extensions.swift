@@ -71,6 +71,13 @@ extension String {
         )
     }
 
+    static var localWaste: LocalStringBuilder {
+        .init(
+            tableName: "LocalWaste",
+            bundle: .main
+        )
+    }
+
     static var signOut: LocalStringBuilder {
         .init(
             tableName: "SignOut",

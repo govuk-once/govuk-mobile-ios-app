@@ -11,6 +11,7 @@ class HomeViewModel: ObservableObject {
     let userDefaultsService: UserDefaultsServiceInterface
     let topicsWidgetViewModel: TopicsWidgetViewModel
     let localAuthorityAction: () -> Void
+    let unsetLocalWasteAction: () -> Void
     let editLocalAuthorityAction: () -> Void
     let feedbackAction: () -> Void
     let notificationsAction: () -> Void
@@ -37,6 +38,7 @@ class HomeViewModel: ObservableObject {
          chatService: ChatServiceInterface,
          localAuthorityAction: @escaping () -> Void,
          editLocalAuthorityAction: @escaping () -> Void,
+         unsetLocalWasteAction: @escaping (() -> Void) = {},
          feedbackAction: @escaping () -> Void,
          notificationsAction: @escaping () -> Void,
          recentActivityAction: @escaping () -> Void,
@@ -49,6 +51,7 @@ class HomeViewModel: ObservableObject {
         self.topicsWidgetViewModel = topicsWidgetViewModel
         self.localAuthorityAction = localAuthorityAction
         self.editLocalAuthorityAction = editLocalAuthorityAction
+        self.unsetLocalWasteAction = unsetLocalWasteAction
         self.feedbackAction = feedbackAction
         self.notificationsAction = notificationsAction
         self.recentActivityAction = recentActivityAction
@@ -68,6 +71,7 @@ class HomeViewModel: ObservableObject {
             topicsWidget,
             addLocalAuthorityWidget,
             storedLocalAuthorityWidget,
+            unsetLocalWasteWidget,
             recentActivityWidget,
             feedbackWidget
         ].compactMap { $0 }
@@ -195,6 +199,18 @@ class HomeViewModel: ObservableObject {
             self?.localAuthorityAction()
         }
         let view = LocalAuthorityWidget(
+            viewModel: viewModel
+        )
+        return HomepageWidget(
+            content: view
+        )
+    }
+
+    private var unsetLocalWasteWidget: HomepageWidget? {
+        let viewModel = UnsetLocalWasteWidgetViewModel { [weak self] in
+            self?.unsetLocalWasteAction()
+        }
+        let view = UnsetLocalWasteWidgetView(
             viewModel: viewModel
         )
         return HomepageWidget(

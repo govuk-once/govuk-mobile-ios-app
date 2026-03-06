@@ -1,0 +1,50 @@
+{
+  "sourceLanguage" : "en-GB",
+  "strings" : {
+    "localWasteTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bin collections"
+          }
+        }
+      }
+    },
+    "unsetLocalWasteWidgetViewTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Never miss a bin day"
+          }
+        }
+      }
+    },
+    "unsetLocalWasteWidgetViewDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter your postcode to see your next collection date and bin colour."
+          }
+        }
+      }
+    },
+    "unsetLocalWasteWidgetViewPrimaryButton" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Find my bin day"
+          }
+        }
+      }
+    },
+  },
+  "version" : "1.0"
+}
