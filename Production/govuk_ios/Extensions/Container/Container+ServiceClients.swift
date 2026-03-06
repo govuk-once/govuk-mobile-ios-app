@@ -61,7 +61,15 @@ extension Container {
     var chatServiceClient: Factory<ChatServiceClientInterface> {
         Factory(self) {
             ChatServiceClient(
-                serviceClient: self.chatAPIClient(),
+                serviceClient: self.chatAPIClient()
+            )
+        }
+    }
+
+    var userServiceClient: Factory<UserServiceClientInterface> {
+        Factory(self) {
+            UserServiceClient(
+                apiServiceClient: self.userAPIClient(),
                 authenticationService: self.authenticationService.resolve()
             )
         }

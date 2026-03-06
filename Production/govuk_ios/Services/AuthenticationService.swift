@@ -5,7 +5,12 @@ import SecureStore
 import FactoryKit
 import GovKit
 
-protocol AuthenticationServiceInterface: AnyObject {
+protocol TokenProviding {
+    var accessToken: String? { get }
+    func tokenRefreshRequest() async -> TokenRefreshResult
+}
+
+protocol AuthenticationServiceInterface: AnyObject, TokenProviding {
     var accessToken: String? { get }
     var userEmail: String? { get async }
     var isSignedIn: Bool { get }

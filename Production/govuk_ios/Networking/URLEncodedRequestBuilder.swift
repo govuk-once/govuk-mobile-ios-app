@@ -4,9 +4,11 @@ struct URLEncodedRequestBuilder: RequestBuilderInterface {
     func data(from request: GOVRequest,
               with url: URL) -> URLRequest {
         var data: Data?
-        if let params = request.bodyParameters {
+        if let body = request.body,
+           let jsonData = try? JSONEncoder().encode(body),
+           let dictionary = try? JSONSerialization.jsonObject(with: jsonData) as? [String: Any] {
             var urlEncodedComponents = URLComponents()
-            urlEncodedComponents.queryItems = params.map {
+            urlEncodedComponents.queryItems = dictionary.map {
                 URLQueryItem(
                     name: $0.key,
                     value: String(describing: $0.value)

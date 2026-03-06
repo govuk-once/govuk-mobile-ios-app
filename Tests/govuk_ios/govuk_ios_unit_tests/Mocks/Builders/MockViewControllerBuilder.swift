@@ -137,6 +137,8 @@ class MockViewControllerBuilder: ViewControllerBuilder {
         return _stubbedTopicOnboardingViewController ?? UIViewController()
     }
 
+    var _receivedNotificationSettingsCompleteAction: (() -> Void)?
+    var _receivedNotificationSettingsDismissAction: (() -> Void)?
     var _receivedNotificationSettingsViewPrivacyAction: (() -> Void)?
     var _stubbedNotificationSettingsViewController: UIViewController?
     override func notificationSettings(analyticsService: any AnalyticsServiceInterface,
@@ -144,6 +146,8 @@ class MockViewControllerBuilder: ViewControllerBuilder {
                                        dismissAction: @escaping () -> Void,
                                        viewPrivacyAction: @escaping () -> Void
     ) -> UIViewController {
+        _receivedNotificationSettingsCompleteAction = completeAction
+        _receivedNotificationSettingsDismissAction = dismissAction
         _receivedNotificationSettingsViewPrivacyAction = viewPrivacyAction
         return _stubbedNotificationSettingsViewController ?? UIViewController()
     }
@@ -216,6 +220,8 @@ class MockViewControllerBuilder: ViewControllerBuilder {
     }
 
     var _receivedNotificationOnboardingViewPrivacyAction: (() -> Void)?
+    var _receivedNotificationOnboardingCompleteAction: (() -> Void)?
+    var _receivedNotificationOnboardingDismissAction: (() -> Void)?
     var _stubbedNotificationOnboardingViewController: UIViewController?
     override func notificationOnboarding(analyticsService: any AnalyticsServiceInterface,
                                          completeAction: @escaping () -> Void,
@@ -223,6 +229,8 @@ class MockViewControllerBuilder: ViewControllerBuilder {
                                          viewPrivacyAction: @escaping () -> Void
     ) -> UIViewController {
         _receivedNotificationOnboardingViewPrivacyAction = viewPrivacyAction
+        _receivedNotificationOnboardingCompleteAction = completeAction
+        _receivedNotificationOnboardingDismissAction = dismissAction
         return _stubbedNotificationOnboardingViewController ?? UIViewController()
     }
 

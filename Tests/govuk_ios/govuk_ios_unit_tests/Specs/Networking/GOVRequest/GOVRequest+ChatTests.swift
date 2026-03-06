@@ -10,8 +10,7 @@ struct GOVRequest_ChatTests {
     func askQuestion_conversationId_returnsExpectedValues() {
         let request = GOVRequest.askQuestion(
             "Hello?",
-            conversationId: "123",
-            accessToken: "1234"
+            conversationId: "123"
         )
 
         #expect(request.urlPath == "/conversation/123")
@@ -22,8 +21,7 @@ struct GOVRequest_ChatTests {
     func askQuestion_noConversationId_returnsExpectedValues() {
         let request = GOVRequest.askQuestion(
             "Hello?",
-            conversationId: nil,
-            accessToken: "1234"
+            conversationId: nil
         )
 
         #expect(request.urlPath == "/conversation")

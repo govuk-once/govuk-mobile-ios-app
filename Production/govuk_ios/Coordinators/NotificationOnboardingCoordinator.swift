@@ -7,6 +7,7 @@ class NotificationOnboardingCoordinator: BaseCoordinator {
     private let notificationService: NotificationServiceInterface
     private let notificationOnboardingService: NotificationsOnboardingServiceInterface
     private let analyticsService: AnalyticsServiceInterface
+    private let userService: UserServiceInterface
     private let viewControllerBuilder: ViewControllerBuilder
     private let coordinatorBuilder: CoordinatorBuilder
     private let completeAction: () -> Void
@@ -15,12 +16,14 @@ class NotificationOnboardingCoordinator: BaseCoordinator {
          notificationService: NotificationServiceInterface,
          notificationOnboardingService: NotificationsOnboardingServiceInterface,
          analyticsService: AnalyticsServiceInterface,
+         userService: UserServiceInterface,
          viewControllerBuilder: ViewControllerBuilder,
          coordinatorBuilder: CoordinatorBuilder,
          completion: @escaping () -> Void) {
         self.notificationService = notificationService
         self.notificationOnboardingService = notificationOnboardingService
         self.analyticsService = analyticsService
+        self.userService = userService
         self.viewControllerBuilder = viewControllerBuilder
         self.coordinatorBuilder = coordinatorBuilder
         self.completeAction = completion
@@ -34,6 +37,15 @@ class NotificationOnboardingCoordinator: BaseCoordinator {
     }
 
     private func startNotifications() async {
+        let notificationPermissionState = await notificationService.permissionState
+        let notificationsConsentNeedsSync = (
+            userService.notificationsConsentStatus == .unknown
+            && notificationOnboardingService.hasSeenNotificationsOnboarding
+            && notificationPermissionState != .notDetermined
+        )
+        if notificationsConsentNeedsSync {
+            setUserNotificationConsent()
+        }
         guard await notificationService.shouldRequestPermission,
               !notificationOnboardingService.hasSeenNotificationsOnboarding else {
             return finishCoordination()
@@ -59,9 +71,15 @@ class NotificationOnboardingCoordinator: BaseCoordinator {
 
     private func request() {
         notificationService.requestPermissions(
-            completion: { [weak self] in
+            completion: { [weak self] _ in
                 self?.finishCoordination()
             }
+        )
+    }
+
+    private func setUserNotificationConsent() {
+        userService.setNotificationsConsent(
+            notificationService.hasGivenConsent ? .accepted : .denied
         )
     }
 

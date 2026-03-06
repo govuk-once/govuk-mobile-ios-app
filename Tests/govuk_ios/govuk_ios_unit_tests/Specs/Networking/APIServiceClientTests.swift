@@ -16,9 +16,10 @@ struct APIServiceClientTests {
         let govRequest = GOVRequest(
             urlPath: "/test/test",
             method: .post,
-            bodyParameters: ["test_key": "test_value"],
+            body: TestBody(testKey: "test_value"),
             queryParameters: nil,
-            additionalHeaders: nil
+            additionalHeaders: nil,
+            requiresAuthentication: false
         )
         MockURLProtocol.registerHandler(forUrl: "https://www.google.com/test/test") { request in
             #expect(request.url?.absoluteString == "https://www.google.com/test/test")
@@ -26,7 +27,7 @@ struct APIServiceClientTests {
             let data = request.bodyStreamData
             #expect(data != nil)
             let json = try? JSONDecoder().decode([String: String].self, from: data!)
-            #expect(json?["test_key"] == "test_value")
+            #expect(json?["testKey"] == "test_value")
             return (.arrangeSuccess, nil, nil)
         }
         return await withCheckedContinuation { continuation in
@@ -49,9 +50,10 @@ struct APIServiceClientTests {
         let request = GOVRequest(
             urlPath: "/test/111",
             method: .get,
-            bodyParameters: nil,
+            body: nil,
             queryParameters: ["query": "value"],
-            additionalHeaders: nil
+            additionalHeaders: nil,
+            requiresAuthentication: false
         )
         MockURLProtocol.registerHandler(forUrl:"https://www.google.com/test/111") { request in
             #expect(request.url?.absoluteString == "https://www.google.com/test/111?query=value")
@@ -79,9 +81,10 @@ struct APIServiceClientTests {
         let request = GOVRequest(
             urlPath: "/test/222",
             method: .get,
-            bodyParameters: nil,
+            body: nil,
             queryParameters: nil,
-            additionalHeaders: nil
+            additionalHeaders: nil,
+            requiresAuthentication: false
         )
         let expectedResponse = HTTPURLResponse.arrange(statusCode: 200)
         let expectedData = Data()
@@ -110,9 +113,10 @@ struct APIServiceClientTests {
         let request = GOVRequest(
             urlPath: "/test/333",
             method: .get,
-            bodyParameters: nil,
+            body: nil,
             queryParameters: nil,
-            additionalHeaders: nil
+            additionalHeaders: nil,
+            requiresAuthentication: false
         )
         let expectedResponse = HTTPURLResponse.arrange(statusCode: 200)
         MockURLProtocol.registerHandler(forUrl: "https://www.google.com/test/333") { request in
@@ -141,10 +145,11 @@ struct APIServiceClientTests {
         let request = GOVRequest(
             urlPath: "/test/222",
             method: .get,
-            bodyParameters: nil,
+            body: nil,
             queryParameters: nil,
             additionalHeaders: nil,
-            signingKey: Constants.SigningKey.govUK
+            signingKey: Constants.SigningKey.govUK,
+            requiresAuthentication: false
         )
         let expectedResponse = HTTPURLResponse.arrange(
             statusCode: 200,
@@ -176,9 +181,10 @@ struct APIServiceClientTests {
         let request = GOVRequest(
             urlPath: "/test/444",
             method: .get,
-            bodyParameters: nil,
+            body: nil,
             queryParameters: nil,
-            additionalHeaders: nil
+            additionalHeaders: nil,
+            requiresAuthentication: false
         )
         let expectedError = TestError.fakeNetwork
         MockURLProtocol.registerHandler(forUrl: "https://www.google.com/test/444") { request in
@@ -206,10 +212,11 @@ struct APIServiceClientTests {
         let request = GOVRequest(
             urlPath: "/test/222",
             method: .get,
-            bodyParameters: nil,
+            body: nil,
             queryParameters: nil,
             additionalHeaders: nil,
-            signingKey: Constants.SigningKey.govUK
+            signingKey: Constants.SigningKey.govUK,
+            requiresAuthentication: false
         )
         let expectedResponse = HTTPURLResponse.arrange(
             statusCode: 200,
@@ -242,10 +249,11 @@ struct APIServiceClientTests {
         let request = GOVRequest(
             urlPath: "/test/222",
             method: .get,
-            bodyParameters: nil,
+            body: nil,
             queryParameters: nil,
             additionalHeaders: nil,
-            signingKey: Constants.SigningKey.govUK
+            signingKey: Constants.SigningKey.govUK,
+            requiresAuthentication: false
         )
         let expectedResponse = HTTPURLResponse.arrange(
             statusCode: 200,
@@ -267,6 +275,230 @@ struct APIServiceClientTests {
         let error = result.getError()
         #expect(error as? SigningError == SigningError.invalidSignature)
     }
+
+    //MARK: Access token
+
+    @Test
+    func send_requiresAuthenticationTrue_addsAccessTokenToAuthorizationHeader() async {
+        let mockAuthenticationService = MockAuthenticationService()
+        mockAuthenticationService._stubbedAccessToken = "testToken"
+        let subject = APIServiceClient(
+            baseUrl: URL(string: "https://www.google.com")!,
+            session: URLSession.mock,
+            requestBuilder: RequestBuilder(),
+            tokenProvider: mockAuthenticationService
+        )
+        let request = GOVRequest(
+            urlPath: "/test/test",
+            method: .get,
+            body: nil,
+            queryParameters: nil,
+            additionalHeaders: nil,
+            requiresAuthentication: true
+        )
+        MockURLProtocol.registerHandler(forUrl: "https://www.google.com/test/test") { request in
+            #expect(request.allHTTPHeaderFields?["Authorization"] == "Bearer testToken")
+            return (.arrangeSuccess, nil, nil)
+        }
+        await withCheckedContinuation { continuation in
+            subject.send(
+                request: request,
+                completion: { result in
+                    continuation.resume()
+                }
+            )
+        }
+    }
+
+    @Test
+    func send_requiresAuthenticationFalse_doesNotAddAuthorizationHeader() async {
+        let mockAuthenticationService = MockAuthenticationService()
+        mockAuthenticationService._stubbedAccessToken = "testToken"
+        let subject = APIServiceClient(
+            baseUrl: URL(string: "https://www.google.com")!,
+            session: URLSession.mock,
+            requestBuilder: RequestBuilder(),
+            tokenProvider: mockAuthenticationService
+        )
+        let request = GOVRequest(
+            urlPath: "/test/test",
+            method: .get,
+            body: nil,
+            queryParameters: nil,
+            additionalHeaders: nil,
+            requiresAuthentication: false
+        )
+        MockURLProtocol.registerHandler(forUrl: "https://www.google.com/test/test") { request in
+            #expect(request.allHTTPHeaderFields?["Authorization"] == nil)
+            return (.arrangeSuccess, nil, nil)
+        }
+        await withCheckedContinuation { continuation in
+            subject.send(
+                request: request,
+                completion: { result in
+                    continuation.resume()
+                }
+            )
+        }
+    }
+
+    @Test(arguments:
+        [401, 403]
+    )
+    func send_unauthorizedResponse_refreshTokenAndRetryRequestSuccess_returnsExpectedResult(responseStatusCode: Int) async {
+        let mockAuthenticationService = MockAuthenticationService()
+        mockAuthenticationService._stubbedAccessToken = "expired token"
+        let subject = APIServiceClient(
+            baseUrl: URL(string: "https://www.google.com")!,
+            session: URLSession.mock,
+            requestBuilder: RequestBuilder(),
+            tokenProvider: mockAuthenticationService
+        )
+        let request = GOVRequest(
+            urlPath: "/test/222",
+            method: .get,
+            body: nil,
+            queryParameters: nil,
+            additionalHeaders: nil,
+            signingKey: nil,
+            requiresAuthentication: true
+        )
+
+        mockAuthenticationService._stubbedTokenRefreshRequest = .success(.arrange(accessToken: "refreshed token"))
+        let expectedData = Data()
+
+        var requestCount = 0
+        MockURLProtocol.registerHandler(forUrl: "https://www.google.com/test/222") { request in
+            requestCount += 1
+            if requestCount == 1 {
+                #expect(request.allHTTPHeaderFields?["Authorization"] == "Bearer expired token")
+                return (HTTPURLResponse.arrange(statusCode: responseStatusCode), nil, nil)
+            } else {
+                #expect(request.allHTTPHeaderFields?["Authorization"] == "Bearer refreshed token")
+                return (HTTPURLResponse.arrangeSuccess, expectedData, nil)
+            }
+        }
+        let resultData = await withCheckedContinuation { continuation in
+            subject.send(request: request) { result in
+                let resultData = try? result.get()
+                continuation.resume(returning: resultData)
+            }
+        }
+        #expect(mockAuthenticationService._tokenRefreshRequestCalled == true)
+        #expect(resultData == expectedData)
+        #expect(requestCount == 2)
+    }
+
+    @Test
+    func send_unauthorizedResponse_refreshTokenFailure_returnsExpectedError() async {
+        let mockAuthenticationService = MockAuthenticationService()
+        mockAuthenticationService._stubbedAccessToken = "expired token"
+        let subject = APIServiceClient(
+            baseUrl: URL(string: "https://www.google.com")!,
+            session: URLSession.mock,
+            requestBuilder: RequestBuilder(),
+            tokenProvider: mockAuthenticationService
+        )
+        let request = GOVRequest(
+            urlPath: "/test/222",
+            method: .get,
+            body: nil,
+            queryParameters: nil,
+            additionalHeaders: nil,
+            signingKey: nil,
+            requiresAuthentication: true
+        )
+
+        mockAuthenticationService._stubbedTokenRefreshRequest = .failure(TokenRefreshError.genericError)
+
+        var requestCount = 0
+        MockURLProtocol.registerHandler(forUrl: "https://www.google.com/test/222") { request in
+            requestCount += 1
+            #expect(request.allHTTPHeaderFields?["Authorization"] == "Bearer expired token")
+            return (HTTPURLResponse.arrange(statusCode: 403), nil, nil)
+        }
+        let resultError = await withCheckedContinuation { continuation in
+            subject.send(request: request) { result in
+                let resultError = result.getError()
+                continuation.resume(returning: resultError)
+            }
+        }
+        #expect(mockAuthenticationService._tokenRefreshRequestCalled == true)
+        #expect(resultError as? TokenRefreshError == TokenRefreshError.genericError)
+        #expect(requestCount == 1)
+    }
+
+    @Test
+    func send_nonUnauthorizedErrorResponse_doesNotRefreshToken() async {
+        let mockAuthenticationService = MockAuthenticationService()
+        mockAuthenticationService._stubbedAccessToken = "access token"
+        let subject = APIServiceClient(
+            baseUrl: URL(string: "https://www.google.com")!,
+            session: URLSession.mock,
+            requestBuilder: RequestBuilder(),
+            tokenProvider: mockAuthenticationService
+        )
+        let request = GOVRequest(
+            urlPath: "/test/222",
+            method: .get,
+            body: nil,
+            queryParameters: nil,
+            additionalHeaders: nil,
+            signingKey: nil,
+            requiresAuthentication: true
+        )
+
+        var requestCount = 0
+        MockURLProtocol.registerHandler(forUrl: "https://www.google.com/test/222") { request in
+            requestCount += 1
+            return (HTTPURLResponse.arrange(statusCode: 500), nil, nil)
+        }
+        await withCheckedContinuation { continuation in
+            subject.send(request: request) { result in
+                continuation.resume()
+            }
+        }
+        #expect(mockAuthenticationService._tokenRefreshRequestCalled == false)
+        #expect(requestCount == 1)
+    }
+
+    @Test
+    func send_successResponse_doesNotRefreshToken() async {
+        let mockAuthenticationService = MockAuthenticationService()
+        mockAuthenticationService._stubbedAccessToken = "access token"
+        let subject = APIServiceClient(
+            baseUrl: URL(string: "https://www.google.com")!,
+            session: URLSession.mock,
+            requestBuilder: RequestBuilder(),
+            tokenProvider: mockAuthenticationService
+        )
+        let request = GOVRequest(
+            urlPath: "/test/222",
+            method: .get,
+            body: nil,
+            queryParameters: nil,
+            additionalHeaders: nil,
+            signingKey: nil,
+            requiresAuthentication: true
+        )
+
+        var requestCount = 0
+        MockURLProtocol.registerHandler(forUrl: "https://www.google.com/test/222") { request in
+            requestCount += 1
+            return (HTTPURLResponse.arrangeSuccess, nil, nil)
+        }
+        await withCheckedContinuation { continuation in
+            subject.send(request: request) { result in
+                continuation.resume()
+            }
+        }
+        #expect(mockAuthenticationService._tokenRefreshRequestCalled == false)
+        #expect(requestCount == 1)
+    }
+}
+
+struct TestBody: Codable {
+    let testKey: String
 }
 
 enum TestError: Error {

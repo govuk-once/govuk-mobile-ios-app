@@ -23,6 +23,8 @@
 	</array>
 	<key>CHAT_BASE_URL</key>
 	<string>$(CHAT_BASE_URL)</string>
+	<key>FLEX_BASE_URL</key>
+	<string>$(FLEX_BASE_URL)</string>
 	<key>FirebaseAutomaticScreenReportingEnabled</key>
 	<false/>
 	<key>ONESIGNAL_APP_ID</key>

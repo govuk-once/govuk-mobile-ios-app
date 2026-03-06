@@ -6,18 +6,20 @@ extension GOVRequest {
         GOVRequest(
             urlPath: Constants.API.localAuthorityPath,
             method: .get,
-            bodyParameters: nil,
+            body: nil,
             queryParameters: ["postcode": postcode],
-            additionalHeaders: nil
+            additionalHeaders: nil,
+            requiresAuthentication: false
         )
     }
     static func localAuthoritySlug(slug: String) -> GOVRequest {
         GOVRequest(
             urlPath: "\(Constants.API.localAuthorityPath)/\(slug)",
             method: .get,
-            bodyParameters: nil,
+            body: nil,
             queryParameters: nil,
-            additionalHeaders: nil
+            additionalHeaders: nil,
+            requiresAuthentication: false
         )
     }
 }

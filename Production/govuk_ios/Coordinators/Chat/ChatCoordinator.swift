@@ -16,7 +16,7 @@ class ChatCoordinator: TabItemCoordinator {
             analyticsService: analyticsService,
             chatService: chatService,
             openURLAction: presentWebView,
-            handleError: handleError
+            handleError: setChatError
         )
     }()
 
@@ -68,18 +68,6 @@ class ChatCoordinator: TabItemCoordinator {
         start(coordinator)
     }
 
-    private func reauthenticate() {
-        Task {
-            let result = await authenticationService.tokenRefreshRequest()
-            switch result {
-            case .success:
-                self.chatService.retryAction?()
-            case .failure:
-                self.authenticationService.signOut(reason: .tokenRefreshFailure)
-            }
-        }
-    }
-
     func didReselectTab() { /* To be implemented */ }
     func didSelectTab(_ selectedTabIndex: Int,
                       previousTabIndex: Int) {
@@ -100,15 +88,6 @@ class ChatCoordinator: TabItemCoordinator {
                     setChatViewControllerAction: setChatViewController
                 )
             )
-        }
-    }
-
-    private func handleError(_ error: ChatError) {
-        if error == .authenticationError &&
-            !chatService.isRetryAction {
-            reauthenticate()
-        } else {
-            setChatError(error)
         }
     }
 

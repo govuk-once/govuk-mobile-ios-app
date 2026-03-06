@@ -103,33 +103,6 @@ final class ChatServiceTests {
     }
 
     @Test
-    func askQuestion_retryAction_asksQuestionAgain() async throws {
-        let sut = ChatService(
-            serviceClient: mockChatServiceClient,
-            chatRepository: mockChatRepository,
-            configService: mockConfigService,
-            userDefaultsService: mockUserDefaultsService
-        )
-
-        mockChatServiceClient._stubbedAskQuestionResult = .failure(ChatError.authenticationError)
-        let result = await withCheckedContinuation { continuation in
-            sut.askQuestion(
-                "expectedQuestion",
-                completion: { result in
-                    guard result.getError() == nil else {
-                        self.mockChatServiceClient._stubbedAskQuestionResult = .success(.pendingQuestion)
-                        sut.retryAction?()
-                        return
-                    }
-                    continuation.resume(returning: result)
-                }
-            )
-        }
-        let pendingQuestionResult = try #require(try? result.get())
-        #expect(pendingQuestionResult.id == "expectedPendingQuestionId")
-    }
-
-    @Test
     func pollForAnswer_returnsExpectedResult() async throws {
         let sut = ChatService(
             serviceClient: mockChatServiceClient,
@@ -186,39 +159,6 @@ final class ChatServiceTests {
     }
 
     @Test
-    func pollForAnswer_retryAction_pollsAgain() async throws {
-        let sut = ChatService(
-            serviceClient: mockChatServiceClient,
-            chatRepository: mockChatRepository,
-            configService: mockConfigService,
-            userDefaultsService: mockUserDefaultsService
-        )
-
-        mockChatServiceClient._stubbedFetchAnswerResults = [
-            .failure(ChatError.authenticationError)
-        ]
-
-        let result = await withCheckedContinuation { continuation in
-            sut.pollForAnswer(
-                .pendingQuestion,
-                completion: { result in
-                    guard result.getError() == nil else {
-                        self.mockChatServiceClient._stubbedFetchAnswerResults = [
-                            .success(.answeredAnswer)
-                        ]
-                        sut.retryAction?()
-                        return
-                    }
-                    continuation.resume(returning: result)
-                }
-            )
-        }
-
-        let answerResult = try #require(try? result.get())
-        #expect(answerResult.message == "expectedMessage")
-    }
-
-    @Test
     func chatHistory_returnsExpectedResult() async throws {
         let sut = ChatService(
             serviceClient: mockChatServiceClient,
@@ -266,37 +206,6 @@ final class ChatServiceTests {
         #expect((try? result.get()) == nil)
         let error = try #require(result.getError())
         #expect(error == .apiUnavailable)
-    }
-
-    @Test
-    func chatHistory_retryAction_callHistoryAgain() async throws {
-        let sut = ChatService(
-            serviceClient: mockChatServiceClient,
-            chatRepository: mockChatRepository,
-            configService: mockConfigService,
-            userDefaultsService: mockUserDefaultsService
-        )
-
-        mockChatServiceClient._stubbedFetchHistoryResult = .failure(ChatError.authenticationError)
-
-        let result = await withCheckedContinuation { continuation in
-            sut.chatHistory(
-                conversationId: "930634c7-d453-41cb-beda-ecec6f8601f4",
-                completion: { result in
-                    guard result.getError() == nil else {
-                        self.mockChatServiceClient._stubbedFetchHistoryResult = .success(.history)
-                        sut.retryAction?()
-                        return
-                    }
-                    continuation.resume(returning: result)
-                }
-            )
-        }
-
-        let historyResult = try #require(try? result.get())
-        #expect(historyResult.answeredQuestions.count == 1)
-        #expect(historyResult.answeredQuestions.first?.id ==
-                History.history.answeredQuestions.first?.id)
     }
 
     @Test
