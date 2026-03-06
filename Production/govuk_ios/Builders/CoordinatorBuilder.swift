@@ -21,6 +21,8 @@ class CoordinatorBuilder {
             inactivityService: inactivityService,
             authenticationService: container.authenticationService.resolve(),
             localAuthenticationService: container.localAuthenticationService.resolve(),
+            notificationService: container.notificationService.resolve(),
+            userService: container.userService.resolve(),
             privacyPresenter: container.privacyService.resolve(),
             navigationController: navigationController
         )
@@ -31,6 +33,7 @@ class CoordinatorBuilder {
         PreAuthCoordinator(
             coordinatorBuilder: self,
             navigationController: navigationController,
+            appLaunchService: container.appLaunchService.resolve(),
             completion: completion
         )
     }
@@ -49,6 +52,7 @@ class CoordinatorBuilder {
         PostAuthCoordinator(
             coordinatorBuilder: self,
             analyticsService: container.analyticsService.resolve(),
+            notificationService: container.notificationService.resolve(),
             remoteConfigService: container.remoteConfigService.resolve(),
             navigationController: navigationController,
             completion: completion
@@ -131,6 +135,7 @@ class CoordinatorBuilder {
                   completion: @escaping () -> Void) -> BaseCoordinator {
         ReLaunchCoordinator(
             coordinatorBuilder: self,
+            authenticationService: container.authenticationService.resolve(),
             notificationService: container.notificationService.resolve(),
             navigationController: navigationController,
             completion: completion
@@ -147,12 +152,13 @@ class CoordinatorBuilder {
     }
 
     func appUnavailable(navigationController: UINavigationController,
-                        launchResponse: AppLaunchResponse,
+                        error: AppUnavailableError?,
+                        retryAction: @escaping (@escaping (Bool) -> Void) -> Void,
                         dismissAction: @escaping () -> Void) -> BaseCoordinator {
         AppUnavailableCoordinator(
             navigationController: navigationController,
-            appLaunchService: container.appLaunchService.resolve(),
-            launchResponse: launchResponse,
+            error: error,
+            retryAction: retryAction,
             dismissAction: dismissAction
         )
     }
@@ -262,6 +268,7 @@ class CoordinatorBuilder {
             notificationService: container.notificationService.resolve(),
             notificationOnboardingService: container.notificationsOnboardingService.resolve(),
             analyticsService: container.analyticsService.resolve(),
+            userService: container.userService.resolve(),
             viewControllerBuilder: ViewControllerBuilder(),
             coordinatorBuilder: self,
             completion: completion
@@ -302,6 +309,8 @@ class CoordinatorBuilder {
         WelcomeOnboardingCoordinator(
             navigationController: navigationController,
             authenticationService: container.authenticationService.resolve(),
+            userService: container.userService.resolve(),
+            notificationService: container.notificationService.resolve(),
             coordinatorBuilder: self,
             viewControllerBuilder: ViewControllerBuilder(),
             analyticsService: container.analyticsService.resolve(),

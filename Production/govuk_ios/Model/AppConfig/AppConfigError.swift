@@ -5,3 +5,13 @@ enum AppConfigError: Error {
     case invalidSignature
     case networkUnavailable
 }
+
+extension AppConfigError {
+    var asAppUnavailableError: AppUnavailableError {
+        if self == .networkUnavailable {
+            .networkUnavailable
+        } else {
+            .appConfig
+        }
+    }
+}

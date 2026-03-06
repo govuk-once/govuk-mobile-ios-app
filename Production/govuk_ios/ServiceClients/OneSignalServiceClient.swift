@@ -7,6 +7,8 @@ protocol OneSignalServiceClient: AnyObject {
     static func initialize(appId: String,
                            launchOptions: [UIApplication.LaunchOptionsKey: Any]?)
     static func setConsentGiven(_ given: Bool)
+    static func login(_ externalId: String)
+    static func logout()
 
     static var Notifications: any OSNotifications.Type { get }
 }

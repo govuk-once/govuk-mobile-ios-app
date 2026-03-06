@@ -20,8 +20,8 @@ class MockNotificationService: NotificationServiceInterface {
 
     }
 
-    var _receivedRequestPermissionsCompletion: (() -> Void)?
-    func requestPermissions(completion: (() -> Void)?) {
+    var _receivedRequestPermissionsCompletion: ((Bool) -> Void)?
+    func requestPermissions(completion: ((Bool) -> Void)?) {
         _receivedRequestPermissionsCompletion = completion
     }
 
@@ -38,6 +38,11 @@ class MockNotificationService: NotificationServiceInterface {
     var _onClickAction: ((URL) -> Void)?
     func addClickListener(onClickAction: @escaping (URL) -> Void) {
         _onClickAction = onClickAction
+    }
+
+    var _receivedOnConsentChangedAction: ((Bool) -> Void)?
+    func addConsentChangedListener(action: @escaping (Bool) -> Void) {
+        _receivedOnConsentChangedAction = action
     }
 
     var _acceptConsentCalled: Bool = false
@@ -63,5 +68,14 @@ class MockNotificationService: NotificationServiceInterface {
     var _stubbedFetchConsentAlignmentResult: NotificationConsentResult = .aligned
     func fetchConsentAlignment() async -> NotificationConsentResult {
         _stubbedFetchConsentAlignmentResult
+    }
+
+    var _stubbedNotificationId: String? = nil
+    func register(notificationId: String) {
+        _stubbedNotificationId = notificationId
+    }
+
+    func unregisterNotificationId() {
+        _stubbedNotificationId = nil
     }
 }

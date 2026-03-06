@@ -8,7 +8,7 @@ import Testing
 struct ReLaunchCoordinatorTests {
     @Test
     @MainActor
-    func start_alignedConsent_completes() async {
+    func start_signedInAndAlignedConsent_completes() async {
         let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
         let mockNavigationController = UINavigationController()
         let mockConsentCoordinator = MockBaseCoordinator(
@@ -17,9 +17,12 @@ struct ReLaunchCoordinatorTests {
         mockCoordinatorBuilder._stubbedNotificationConsentCoordinator = mockConsentCoordinator
         let mockNotificationService = MockNotificationService()
         mockNotificationService._stubbedFetchConsentAlignmentResult = .aligned
+        let mockAuthenticationService = MockAuthenticationService()
+        mockAuthenticationService._stubbedIsSignedIn = true
         await withCheckedContinuation { continuation in
             let subject = ReLaunchCoordinator(
                 coordinatorBuilder: mockCoordinatorBuilder,
+                authenticationService: mockAuthenticationService,
                 notificationService: mockNotificationService,
                 navigationController: mockNavigationController,
                 completion: {

@@ -27,12 +27,9 @@ enum ChatError: LocalizedError {
 
 struct ChatServiceClient: ChatServiceClientInterface {
     private let serviceClient: APIServiceClientInterface
-    private let authenticationService: AuthenticationServiceInterface
 
-    init(serviceClient: APIServiceClientInterface,
-         authenticationService: AuthenticationServiceInterface) {
+    init(serviceClient: APIServiceClientInterface) {
         self.serviceClient = serviceClient
-        self.authenticationService = authenticationService
     }
 
     func askQuestion(_ question: String,
@@ -40,8 +37,7 @@ struct ChatServiceClient: ChatServiceClientInterface {
                      completion: @escaping (ChatQuestionResult) -> Void) {
         let request = GOVRequest.askQuestion(
             question,
-            conversationId: conversationId,
-            accessToken: authenticationService.accessToken
+            conversationId: conversationId
         )
         serviceClient.send(
             request: request,
@@ -56,8 +52,7 @@ struct ChatServiceClient: ChatServiceClientInterface {
                      completion: @escaping (ChatAnswerResult) -> Void) {
         let request = GOVRequest.getAnswer(
             conversationId: conversationId,
-            questionId: questionId,
-            accessToken: authenticationService.accessToken
+            questionId: questionId
         )
         serviceClient.send(
             request: request,
@@ -70,8 +65,7 @@ struct ChatServiceClient: ChatServiceClientInterface {
     func fetchHistory(conversationId: String,
                       completion: @escaping (ChatHistoryResult) -> Void) {
         let request = GOVRequest.getChatHistory(
-            conversationId: conversationId,
-            accessToken: authenticationService.accessToken
+            conversationId: conversationId
         )
         serviceClient.send(
             request: request,

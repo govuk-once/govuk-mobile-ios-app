@@ -10,22 +10,57 @@ import UIKit
 struct PostAuthCoordinatorTests {
 
     @Test
-    func start_startsAnalyticsConsent() {
+    func start_startsNotificationConsentCheck() async {
         let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
         let subject = PostAuthCoordinator(
             coordinatorBuilder: mockCoordinatorBuilder,
             analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService(),
             remoteConfigService: MockRemoteConfigService(),
             navigationController: MockNavigationController(),
             completion: { }
         )
+        let mockNotificationConsentCoordinator = MockBaseCoordinator()
+        mockCoordinatorBuilder._stubbedNotificationConsentCoordinator = mockNotificationConsentCoordinator
+
+        let notificationConsentCoordinatorStartCalled = await withCheckedContinuation { continuation in
+            mockNotificationConsentCoordinator._startCalledAction = {
+                continuation.resume(returning: true)
+            }
+            subject.start(url: nil)
+        }
+        #expect(notificationConsentCoordinatorStartCalled == true)
+    }
+
+    @Test
+    func notificationConsentCheckCompletion_startsAnalyticsConsent() async {
+        let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
+        let mockNotificationService = MockNotificationService()
+        let subject = PostAuthCoordinator(
+            coordinatorBuilder: mockCoordinatorBuilder,
+            analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService(), 
+            remoteConfigService: MockRemoteConfigService(),
+            navigationController: MockNavigationController(),
+            completion: { }
+        )
+        let mockNotificationConsentCoordinator = MockBaseCoordinator()
+        mockCoordinatorBuilder._stubbedNotificationConsentCoordinator = mockNotificationConsentCoordinator
+        mockNotificationConsentCoordinator._startCalledAction = {
+            mockCoordinatorBuilder._receivedNotificationConsentCompletion?()
+        }
 
         let mockAnalyticsConsentCoordinator = MockBaseCoordinator()
         mockCoordinatorBuilder._stubbedAnalyticsConsentCoordinator = mockAnalyticsConsentCoordinator
+        mockNotificationService._stubbedFetchConsentAlignmentResult = .aligned
 
-        subject.start(url: nil)
-
-        #expect(mockAnalyticsConsentCoordinator._startCalled)
+        let analyticsConsentCoordinatorStartCalled = await withCheckedContinuation { continuation in
+            mockAnalyticsConsentCoordinator._startCalledAction = {
+                continuation.resume(returning: true)
+            }
+            subject.start(url: nil)
+        }
+        #expect(analyticsConsentCoordinatorStartCalled == true)
     }
     
     @Test
@@ -36,10 +71,18 @@ struct PostAuthCoordinatorTests {
         let subject = PostAuthCoordinator(
             coordinatorBuilder: mockCoordinatorBuilder,
             analyticsService: mockAnalyticsService,
+            notificationService: MockNotificationService(),
             remoteConfigService: mockRemoteConfigService,
             navigationController: MockNavigationController(),
             completion: { }
         )
+
+        let mockNotificationConsentCoordinator = MockBaseCoordinator()
+        mockCoordinatorBuilder._stubbedNotificationConsentCoordinator = mockNotificationConsentCoordinator
+        mockNotificationConsentCoordinator._startCalledAction = {
+            mockCoordinatorBuilder._receivedNotificationConsentCompletion?()
+            mockCoordinatorBuilder._receivedAnalyticsConsentCompletion?()
+        }
 
         mockAnalyticsService._stubbedPermissionState = .accepted
 
@@ -48,7 +91,6 @@ struct PostAuthCoordinatorTests {
                 continuation.resume()
             }
             subject.start(url: nil)
-            mockCoordinatorBuilder._receivedAnalyticsConsentCompletion?()
         }
 
         #expect(mockRemoteConfigService._activateCallCount == 1)
@@ -62,17 +104,26 @@ struct PostAuthCoordinatorTests {
         let subject = PostAuthCoordinator(
             coordinatorBuilder: mockCoordinatorBuilder,
             analyticsService: mockAnalyticsService,
+            notificationService: MockNotificationService(),
             remoteConfigService: mockRemoteConfigService,
             navigationController: MockNavigationController(),
             completion: { }
         )
-
         mockAnalyticsService._stubbedPermissionState = .denied
         let mockTopicOnboardingCoordinator = MockBaseCoordinator()
         mockCoordinatorBuilder._stubbedTopicOnboardingCoordinator = mockTopicOnboardingCoordinator
 
-        subject.start(url: nil)
-        mockCoordinatorBuilder._receivedAnalyticsConsentCompletion?()
+        let mockNotificationConsentCoordinator = MockBaseCoordinator()
+        mockCoordinatorBuilder._stubbedNotificationConsentCoordinator = mockNotificationConsentCoordinator
+
+        await withCheckedContinuation { continuation in
+            mockNotificationConsentCoordinator._startCalledAction = {
+                mockCoordinatorBuilder._receivedNotificationConsentCompletion?()
+                mockCoordinatorBuilder._receivedAnalyticsConsentCompletion?()
+                continuation.resume()
+            }
+            subject.start(url: nil)
+        }
 
         #expect(mockRemoteConfigService._activateCallCount == 0)
         #expect(mockTopicOnboardingCoordinator._startCalled)
@@ -85,10 +136,17 @@ struct PostAuthCoordinatorTests {
         let subject = PostAuthCoordinator(
             coordinatorBuilder: mockCoordinatorBuilder,
             analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService(),
             remoteConfigService: mockRemoteConfigService,
             navigationController: MockNavigationController(),
             completion: { }
         )
+        let mockNotificationConsentCoordinator = MockBaseCoordinator()
+        mockCoordinatorBuilder._stubbedNotificationConsentCoordinator = mockNotificationConsentCoordinator
+        mockNotificationConsentCoordinator._startCalledAction = {
+            mockCoordinatorBuilder._receivedNotificationConsentCompletion?()
+            mockCoordinatorBuilder._receivedAnalyticsConsentCompletion?()
+        }
 
         let mockTopicOnboardingCoordinator = MockBaseCoordinator()
         mockCoordinatorBuilder._stubbedTopicOnboardingCoordinator = mockTopicOnboardingCoordinator
@@ -98,7 +156,6 @@ struct PostAuthCoordinatorTests {
                 continuation.resume()
             }
             subject.start(url: nil)
-            mockCoordinatorBuilder._receivedAnalyticsConsentCompletion?()
         }
 
         #expect(mockTopicOnboardingCoordinator._startCalled)
@@ -111,10 +168,17 @@ struct PostAuthCoordinatorTests {
         let subject = PostAuthCoordinator(
             coordinatorBuilder: mockCoordinatorBuilder,
             analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService(),
             remoteConfigService: mockRemoteConfigService,
             navigationController: MockNavigationController(),
             completion: { }
         )
+        let mockNotificationConsentCoordinator = MockBaseCoordinator()
+        mockCoordinatorBuilder._stubbedNotificationConsentCoordinator = mockNotificationConsentCoordinator
+        mockNotificationConsentCoordinator._startCalledAction = {
+            mockCoordinatorBuilder._receivedNotificationConsentCompletion?()
+            mockCoordinatorBuilder._receivedAnalyticsConsentCompletion?()
+        }
 
         let mockTopicOnboardingCoordinator = MockBaseCoordinator()
         mockCoordinatorBuilder._stubbedTopicOnboardingCoordinator = mockTopicOnboardingCoordinator
@@ -124,7 +188,6 @@ struct PostAuthCoordinatorTests {
                 continuation.resume()
             }
             subject.start(url: nil)
-            mockCoordinatorBuilder._receivedAnalyticsConsentCompletion?()
         }
 
         mockCoordinatorBuilder._receivedTopicOnboardingDidDismissAction?()
@@ -140,12 +203,19 @@ struct PostAuthCoordinatorTests {
         let subject = PostAuthCoordinator(
             coordinatorBuilder: mockCoordinatorBuilder,
             analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService(),
             remoteConfigService: mockRemoteConfigService,
             navigationController: MockNavigationController(),
             completion: {
                 completionCalled = true
             }
         )
+        let mockNotificationConsentCoordinator = MockBaseCoordinator()
+        mockCoordinatorBuilder._stubbedNotificationConsentCoordinator = mockNotificationConsentCoordinator
+        mockNotificationConsentCoordinator._startCalledAction = {
+            mockCoordinatorBuilder._receivedNotificationConsentCompletion?()
+            mockCoordinatorBuilder._receivedAnalyticsConsentCompletion?()
+        }
 
         let mockTopicOnboardingCoordinator = MockBaseCoordinator()
         mockCoordinatorBuilder._stubbedTopicOnboardingCoordinator = mockTopicOnboardingCoordinator
@@ -155,7 +225,6 @@ struct PostAuthCoordinatorTests {
                 continuation.resume()
             }
             subject.start(url: nil)
-            mockCoordinatorBuilder._receivedAnalyticsConsentCompletion?()
         }
 
         mockCoordinatorBuilder._receivedTopicOnboardingDidDismissAction?()

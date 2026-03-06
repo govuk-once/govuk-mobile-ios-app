@@ -529,5 +529,130 @@ class NotificationServiceTests {
 
         #expect(alignment == .misaligned(.consentGrantedNotificationsOff))
     }
+
+    @Test
+    func registerNotificationId_hasGivenConsent_callsLogin() {
+        MockOneSignalServiceClient._stubbedExternalId = nil
+
+        let sut = NotificationService(
+            environmentService: MockAppEnvironmentService(),
+            notificationCenter: MockUserNotificationCenter(),
+            configService: MockAppConfigService(),
+            userDefaultsService: MockUserDefaultsService(),
+            oneSignalServiceClient: MockOneSignalServiceClient.self
+        )
+        sut.acceptConsent()
+        sut.register(notificationId: "test_user_id")
+        #expect(MockOneSignalServiceClient._stubbedExternalId == "test_user_id")
+    }
+
+    @Test
+    func registerNotificationId_hasNotGivenConsent_doesNotCallLogin() {
+        MockOneSignalServiceClient._stubbedExternalId = nil
+
+        let sut = NotificationService(
+            environmentService: MockAppEnvironmentService(),
+            notificationCenter: MockUserNotificationCenter(),
+            configService: MockAppConfigService(),
+            userDefaultsService: MockUserDefaultsService(),
+            oneSignalServiceClient: MockOneSignalServiceClient.self
+        )
+
+        sut.register(notificationId: "test_user_id")
+        #expect(MockOneSignalServiceClient._stubbedExternalId == nil)
+    }
+
+    @Test
+    func unregisterNotificationId_callsLogin() {
+        MockOneSignalServiceClient._stubbedExternalId = "test_user_id"
+        let sut = NotificationService(
+            environmentService: MockAppEnvironmentService(),
+            notificationCenter: MockUserNotificationCenter(),
+            configService: MockAppConfigService(),
+            userDefaultsService: MockUserDefaultsService(),
+            oneSignalServiceClient: MockOneSignalServiceClient.self
+        )
+
+        sut.unregisterNotificationId()
+        #expect(MockOneSignalServiceClient._stubbedExternalId == nil)
+    }
+
+    @Test
+    func acceptConsent_consentNotGiven_triggersOnConsentChangedAction() {
+        let mockUserDefaultsService = MockUserDefaultsService()
+        mockUserDefaultsService.set(bool: false, forKey: .notificationsConsentGranted)
+        let sut = NotificationService(
+            environmentService: MockAppEnvironmentService(),
+            notificationCenter: MockUserNotificationCenter(),
+            configService: MockAppConfigService(),
+            userDefaultsService: mockUserDefaultsService,
+            oneSignalServiceClient: MockOneSignalServiceClient.self
+        )
+        var wasConsentChangedActionCalled = false
+        sut.addConsentChangedListener { _ in
+            wasConsentChangedActionCalled = true
+        }
+        sut.acceptConsent()
+        #expect(wasConsentChangedActionCalled == true)
+    }
+
+    @Test
+    func acceptConsent_consentGiven_doesNotTriggerOnConsentChangedAction() {
+        let mockUserDefaultsService = MockUserDefaultsService()
+        mockUserDefaultsService.set(bool: true, forKey: .notificationsConsentGranted)
+        let sut = NotificationService(
+            environmentService: MockAppEnvironmentService(),
+            notificationCenter: MockUserNotificationCenter(),
+            configService: MockAppConfigService(),
+            userDefaultsService: mockUserDefaultsService,
+            oneSignalServiceClient: MockOneSignalServiceClient.self
+        )
+        var wasConsentChangedActionCalled = false
+        sut.addConsentChangedListener { _ in
+            wasConsentChangedActionCalled = true
+        }
+        sut.acceptConsent()
+        #expect(wasConsentChangedActionCalled == false)
+    }
+
+    @Test
+    func rejectConsent_consentGiven_triggersOnConsentChangedAction() async {
+        let mockUserDefaultsService = MockUserDefaultsService()
+        mockUserDefaultsService.set(bool: true, forKey: .notificationsConsentGranted)
+        let sut = NotificationService(
+            environmentService: MockAppEnvironmentService(),
+            notificationCenter: MockUserNotificationCenter(),
+            configService: MockAppConfigService(),
+            userDefaultsService: mockUserDefaultsService,
+            oneSignalServiceClient: MockOneSignalServiceClient.self
+        )
+
+        var wasConsentChangedActionCalled = false
+        sut.addConsentChangedListener { _ in
+            wasConsentChangedActionCalled = true
+        }
+        sut.rejectConsent()
+        #expect(wasConsentChangedActionCalled == true)
+    }
+
+    @Test
+    func rejectConsent_consentNotGiven_doesNotTriggerOnConsentChangedAction() async {
+        let mockUserDefaultsService = MockUserDefaultsService()
+        mockUserDefaultsService.set(bool: false, forKey: .notificationsConsentGranted)
+        let sut = NotificationService(
+            environmentService: MockAppEnvironmentService(),
+            notificationCenter: MockUserNotificationCenter(),
+            configService: MockAppConfigService(),
+            userDefaultsService: mockUserDefaultsService,
+            oneSignalServiceClient: MockOneSignalServiceClient.self
+        )
+
+        var wasConsentChangedActionCalled = false
+        sut.addConsentChangedListener { _ in
+            wasConsentChangedActionCalled = true
+        }
+        sut.rejectConsent()
+        #expect(wasConsentChangedActionCalled == false)
+    }
 }
 

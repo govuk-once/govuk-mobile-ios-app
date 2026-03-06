@@ -34,57 +34,15 @@ class AuthenticationCoordinatorTests {
                 analyticsService: mockAnalyticsService, 
                 topicsService: mockTopicsService,
                 chatService: mockChatService,
-                completionAction: { },
+                completionAction: {
+                    continuation.resume()
+                },
                 errorAction: { _ in }
             )
             sut.start(url: nil)
-            mockCoordinatorBuilder._signInSuccessCallAction = {
-                continuation.resume()
-            }
         }
 
         #expect(mockAuthenticationService._encryptRefreshTokenCallSuccess)
-    }
-
-    @Test
-    func start_signinSuccess_startsSignInSuccess() async {
-        let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
-        let mockSignInSuccessCoordinator = MockBaseCoordinator()
-        mockCoordinatorBuilder._stubbedSignInSuccessCoordinator = mockSignInSuccessCoordinator
-        let mockAuthenticationService = MockAuthenticationService()
-        let mockTopicsService = MockTopicsService()
-        let mockChatService = MockChatService()
-        let mockLocalAuthenticationService = MockLocalAuthenticationService()
-        let mockNavigationController =  MockNavigationController()
-        mockLocalAuthenticationService._stubbedCanEvaluateBiometricsPolicy = true
-        mockLocalAuthenticationService._stubbedAuthenticationOnboardingSeen = false
-        mockAuthenticationService._stubbedAuthenticationResult = .success(
-            .init(returningUser: true)
-        )
-        let mockAnalyticsService = MockAnalyticsService()
-        let newWindow = UIWindow(frame: UIScreen.main.bounds)
-        newWindow.rootViewController = mockNavigationController
-        newWindow.makeKeyAndVisible()
-        await withCheckedContinuation { continuation in
-            let sut = AuthenticationCoordinator(
-                navigationController: mockNavigationController,
-                coordinatorBuilder: mockCoordinatorBuilder,
-                authenticationService: mockAuthenticationService,
-                localAuthenticationService: mockLocalAuthenticationService,
-                analyticsService: mockAnalyticsService,
-                topicsService: mockTopicsService,
-                chatService: mockChatService,
-                completionAction: { },
-                errorAction: { _ in }
-            )
-            sut.start(url: nil)
-            mockCoordinatorBuilder._signInSuccessCallAction = {
-                continuation.resume()
-            }
-        }
-
-        #expect(mockSignInSuccessCoordinator._startCalled)
-        #expect(mockAnalyticsService._setExistingConsentCalled)
     }
 
     @Test
@@ -116,13 +74,12 @@ class AuthenticationCoordinatorTests {
                 analyticsService: mockAnalyticsService,
                 topicsService: mockTopicsService,
                 chatService: mockChatService,
-                completionAction: { },
+                completionAction: {
+                    continuation.resume()
+                },
                 errorAction: { _ in }
             )
             sut.start(url: nil)
-            mockCoordinatorBuilder._signInSuccessCallAction = {
-                continuation.resume()
-            }
         }
 
         #expect(mockAnalyticsService._resetConsentCalled)
@@ -158,57 +115,17 @@ class AuthenticationCoordinatorTests {
                 analyticsService: mockAnalyticsService,
                 topicsService: mockTopicsService,
                 chatService: mockChatService,
-                completionAction: { },
+                completionAction: {
+                    continuation.resume()
+                },
                 errorAction: { _ in }
             )
             sut.start(url: nil)
-            mockCoordinatorBuilder._signInSuccessCallAction = {
-                continuation.resume()
-            }
         }
 
         #expect(!mockAnalyticsService._resetConsentCalled)
         #expect(!mockTopicsService._resetOnboardingCalled)
-    }
-
-    @Test
-    func signinSuccessCompletion_completesCoordinator() async {
-        let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
-        let mockSignInCoordinator = MockBaseCoordinator()
-        mockCoordinatorBuilder._stubbedSignInSuccessCoordinator = mockSignInCoordinator
-        let mockAuthenticationService = MockAuthenticationService()
-        let mockTopicsService = MockTopicsService()
-        let mockChatService = MockChatService()
-        let mockLocalAuthenticationService = MockLocalAuthenticationService()
-        let mockNavigationController =  MockNavigationController()
-        mockLocalAuthenticationService._stubbedCanEvaluateBiometricsPolicy = true
-        mockLocalAuthenticationService._stubbedAuthenticationOnboardingSeen = false
-        mockAuthenticationService._stubbedAuthenticationResult = .success(
-            .init(returningUser: true)
-        )
-        let mockAnalyticsService = MockAnalyticsService()
-        let newWindow = UIWindow(frame: UIScreen.main.bounds)
-        newWindow.rootViewController = mockNavigationController
-        newWindow.makeKeyAndVisible()
-        let completion = await withCheckedContinuation { continuation in
-            let sut = AuthenticationCoordinator(
-                navigationController: mockNavigationController,
-                coordinatorBuilder: mockCoordinatorBuilder,
-                authenticationService: mockAuthenticationService,
-                localAuthenticationService: mockLocalAuthenticationService,
-                analyticsService: mockAnalyticsService,
-                topicsService: mockTopicsService,
-                chatService: mockChatService,
-                completionAction: { continuation.resume(returning: true) },
-                errorAction: { _ in }
-            )
-            sut.start(url: nil)
-            mockCoordinatorBuilder._signInSuccessCallAction = {
-                mockCoordinatorBuilder._receivedSignInSuccessCompletion?()
-            }
-        }
-
-        #expect(completion)
+        #expect(mockAnalyticsService._setExistingConsentCalled)
     }
 
     @Test
@@ -237,13 +154,12 @@ class AuthenticationCoordinatorTests {
                 analyticsService: mockAnalyticsService,
                 topicsService: mockTopicsService,
                 chatService: mockChatService,
-                completionAction: { },
+                completionAction: {
+                    continuation.resume()
+                },
                 errorAction: { _ in }
             )
             sut.start(url: nil)
-            mockCoordinatorBuilder._signInSuccessCallAction = {
-                continuation.resume()
-            }
         }
 
         #expect(mockAuthenticationService._encryptRefreshTokenCallSuccess)
@@ -274,13 +190,12 @@ class AuthenticationCoordinatorTests {
                 analyticsService: mockAnalyticsService,
                 topicsService: mockTopicsService,
                 chatService: mockChatService,
-                completionAction: { },
+                completionAction: {
+                    continuation.resume()
+                },
                 errorAction: { _ in }
             )
             sut.start(url: nil)
-            mockCoordinatorBuilder._signInSuccessCallAction = {
-                continuation.resume()
-            }
         }
 
         #expect(!mockAuthenticationService._encryptRefreshTokenCallSuccess)

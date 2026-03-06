@@ -52,13 +52,7 @@ class NotificationConsentCoordinator: BaseCoordinator {
             viewPrivacyAction: { [weak self] in
                 self?.openPrivacy()
             },
-            grantConsentAction: { [weak self] in
-                self?.notificationService.acceptConsent()
-                self?.root.dismiss(
-                    animated: true,
-                    completion: self?.completion
-                )
-            },
+            grantConsentAction: grantConsentAction,
             openSettingsAction: { [weak self] viewController in
                 self?.presentSettingsAlert(viewController: viewController)
             }
@@ -75,9 +69,7 @@ class NotificationConsentCoordinator: BaseCoordinator {
         alert.addAction(.cancel(handler: nil))
         alert.addAction(
             .continueAction(
-                handler: { [weak self] in
-                    self?.openSettings()
-                }
+                handler: openSettings
             )
         )
         viewController.present(alert, animated: true)
@@ -110,8 +102,12 @@ class NotificationConsentCoordinator: BaseCoordinator {
         urlOpener.openNotificationSettings()
     }
 
-    private func acceptConsent() {
+    private func grantConsentAction() {
         notificationService.acceptConsent()
+        root.dismiss(
+            animated: true,
+            completion: completion
+        )
     }
 
     @MainActor

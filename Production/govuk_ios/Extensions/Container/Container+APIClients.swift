@@ -75,8 +75,19 @@ extension Container {
                 baseUrl: self.appEnvironmentService().chatBaseURL,
                 session: self.urlSession(),
                 requestBuilder: RequestBuilder(),
-                responseHandler: ChatResponseHandler()
+                responseHandler: ChatResponseHandler(),
+                tokenProvider: self.authenticationService()
             )
+        }
+    }
+
+    var userAPIClient: Factory<APIServiceClientInterface> {
+        Factory(self) {
+            APIServiceClient(baseUrl: self.appEnvironmentService().flexBaseURL,
+                             session: self.urlSession(),
+                             requestBuilder: RequestBuilder(),
+                             responseHandler: UserResponseHandler(),
+                             tokenProvider: self.authenticationService())
         }
     }
 

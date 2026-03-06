@@ -23,6 +23,7 @@ class NotificationOnboardingCoordinatorTests {
                 notificationService: mockNotificationService,
                 notificationOnboardingService: mockNotificationOnboardingService,
                 analyticsService: MockAnalyticsService(),
+                userService: MockUserService(),
                 viewControllerBuilder: mockViewControllerBuilder,
                 coordinatorBuilder: MockCoordinatorBuilder.mock,
                 completion: { }
@@ -38,6 +39,40 @@ class NotificationOnboardingCoordinatorTests {
 
     @Test
     @MainActor
+    func start_userNotificationConsentUnknownAndOnboardingSeen_callsUserServiceSetConsent() async {
+        let mockUserService = MockUserService()
+        mockUserService._stubbedNotificationsConsentStatus = .unknown
+        let mockNotificationOnboardingService = MockNotificationsOnboardingService()
+        mockNotificationOnboardingService.hasSeenNotificationsOnboarding = true
+        let mockNotificationService = MockNotificationService()
+        mockNotificationService._stubbedhasGivenConsent = true
+        mockNotificationService._stubbededPermissionState = .authorized
+
+        let mockNavigationController = MockNavigationController()
+
+        let sut = NotificationOnboardingCoordinator(
+            navigationController: mockNavigationController,
+            notificationService: mockNotificationService,
+            notificationOnboardingService: mockNotificationOnboardingService,
+            analyticsService: MockAnalyticsService(),
+            userService: mockUserService,
+            viewControllerBuilder: MockViewControllerBuilder(),
+            coordinatorBuilder: MockCoordinatorBuilder.mock,
+            completion: { }
+        )
+
+        await withCheckedContinuation { continuation in
+            mockUserService._setNotificationConsentCompletionBlock = {
+                continuation.resume()
+            }
+            sut.start(url: nil)
+        }
+        #expect(mockUserService._receivedNotificationConsent == .accepted)
+
+    }
+
+    @Test
+    @MainActor
     func start_shouldRequestPermissionFalse_completesCoordinator() async {
         let mockNotificationService = MockNotificationService()
         let mockNavigationController = MockNavigationController()
@@ -49,6 +84,7 @@ class NotificationOnboardingCoordinatorTests {
                 notificationService: mockNotificationService,
                 notificationOnboardingService: mockNotificationOnboardingService,
                 analyticsService: MockAnalyticsService(),
+                userService: MockUserService(),
                 viewControllerBuilder: MockViewControllerBuilder(),
                 coordinatorBuilder: MockCoordinatorBuilder.mock,
                 completion: {
@@ -74,6 +110,7 @@ class NotificationOnboardingCoordinatorTests {
                 notificationService: mockNotificationService,
                 notificationOnboardingService: mockNotificationOnboardingService,
                 analyticsService: MockAnalyticsService(),
+                userService: MockUserService(),
                 viewControllerBuilder: MockViewControllerBuilder(),
                 coordinatorBuilder: MockCoordinatorBuilder.mock,
                 completion: {
@@ -99,6 +136,7 @@ class NotificationOnboardingCoordinatorTests {
                 notificationService: mockNotificationService,
                 notificationOnboardingService: mockNotificationOnboardingService,
                 analyticsService: MockAnalyticsService(),
+                userService: MockUserService(),
                 viewControllerBuilder: MockViewControllerBuilder(),
                 coordinatorBuilder: MockCoordinatorBuilder.mock,
                 completion: {
@@ -131,6 +169,7 @@ class NotificationOnboardingCoordinatorTests {
                 notificationService: mockNotificationService,
                 notificationOnboardingService: mockNotificationOnboardingService,
                 analyticsService: MockAnalyticsService(),
+                userService: MockUserService(),
                 viewControllerBuilder: mockViewControllerBuilder,
                 coordinatorBuilder: mockCoordinatorBuilder,
                 completion: { }

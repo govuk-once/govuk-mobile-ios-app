@@ -6,10 +6,11 @@ extension GOVRequest {
         GOVRequest(
             urlPath: "/config/appinfo/ios",
             method: .get,
-            bodyParameters: nil,
+            body: nil,
             queryParameters: nil,
             additionalHeaders: nil,
-            signingKey: Constants.SigningKey.govUK
+            signingKey: Constants.SigningKey.govUK,
+            requiresAuthentication: false
         )
     }
 }

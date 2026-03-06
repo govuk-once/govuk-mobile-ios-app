@@ -32,7 +32,9 @@ class NotificationSettingsCoordinator: BaseCoordinator {
             completeAction: { [weak self] in
                 self?.requestPermission()
             },
-            dismissAction: dismissAction,
+            dismissAction: { [weak self] in
+                self?.dismissAction()
+            },
             viewPrivacyAction: { [weak self] in
                 self?.openPrivacy()
             }
@@ -50,8 +52,8 @@ class NotificationSettingsCoordinator: BaseCoordinator {
     }
 
     private func requestPermission() {
-        notificationService.requestPermissions(
-            completion: completeAction
-        )
+        notificationService.requestPermissions { [weak self] _ in
+            self?.completeAction()
+        }
     }
 }

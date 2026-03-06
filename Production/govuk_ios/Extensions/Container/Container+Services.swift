@@ -111,6 +111,15 @@ extension Container {
         }
     }
 
+    var userService: Factory<UserServiceInterface> {
+        Factory(self) {
+            UserService(
+                appConfigService: self.appConfigService.resolve(),
+                userServiceClient: self.userServiceClient.resolve()
+            )
+        }.scope(.singleton)
+    }
+
     var topicsService: Factory<TopicsServiceInterface> {
         Factory(self) {
             TopicsService(
@@ -144,7 +153,7 @@ extension Container {
                 userDefaultsService: self.userDefaultsService.resolve(),
                 oneSignalServiceClient: OneSignal.self
             )
-        }
+        }.scope(.singleton)
     }
 
     var notificationsOnboardingService: Factory<NotificationsOnboardingServiceInterface> {
