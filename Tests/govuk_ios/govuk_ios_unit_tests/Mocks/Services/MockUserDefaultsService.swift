@@ -32,10 +32,10 @@ class MockUserDefaultsService: UserDefaultsServiceInterface {
     }
 
     func markSeen(banner: DismissibleBanner) {
-
+        store[banner.id] = Date.now
     }
 
     func hasSeen(banner: DismissibleBanner) -> Bool {
-        false
+        store[banner.id] != nil
     }
 }
