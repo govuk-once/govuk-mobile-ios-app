@@ -16,7 +16,11 @@ class ChatInfoOnboardingViewModel: InfoViewModelInterface {
     }
 
     var rightBarButtonItem: UIBarButtonItem {
-        .cancel(target: self, action: #selector(cancelOnboarding))
+        .cancel(
+            target: self,
+            action: #selector(cancelOnboarding),
+            tintColour: .govUK.text.linkSecondary
+        )
     }
 
     var contentAlignment: Alignment {
