@@ -49,6 +49,7 @@ struct ViewControllerBuilderTests {
             recentActivityAction: {},
             localAuthorityAction: {},
             editLocalAuthorityAction: {},
+            editLocalWasteAction: {},
             openURLAction: { _ in },
             openSearchAction: { _ in }
         )
@@ -148,6 +149,17 @@ struct ViewControllerBuilderTests {
             dismissAction: {}
         )
         let rootView = (result as? HostingViewController<LocalAuthorityPostcodeEntryView>)?.rootView
+        #expect(rootView != nil)
+    }
+
+    @Test
+    func localWastePostcodeEntryView_returnsExpectedResult() {
+        let subject = ViewControllerBuilder()
+        let result = subject.localWastePostcodeEntryView(
+            analyticsService: MockAnalyticsService(),
+            dismissAction: {}
+        )
+        let rootView = (result as? HostingViewController<LocalWastePostcodeEntryView>)?.rootView
         #expect(rootView != nil)
     }
 

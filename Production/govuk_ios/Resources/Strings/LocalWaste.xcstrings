@@ -12,13 +12,79 @@
         }
       }
     },
-    "unsetLocalWasteWidgetViewTitle" : {
+    "localWastePostcodeEntryViewDescriptionBody" : {
       "extractionState" : "manual",
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Never miss a bin day"
+            "value" : "We use your address to find the bin collection schedule for your area. This information is stored only on your phone and is not shared with other organisations."
+          }
+        }
+      }
+    },
+    "localWastePostcodeEntryViewDescriptionTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How we use this information"
+          }
+        }
+      }
+    },
+    "localWastePostcodeEntryViewEmptyPostcode" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter your postcode"
+          }
+        }
+      }
+    },
+    "localWastePostcodeEntryViewEntryAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Postcode entry field"
+          }
+        }
+      }
+    },
+    "localWastePostcodeEntryViewExampleText" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "For example SW1A 2AA"
+          }
+        }
+      }
+    },
+    "localWastePostcodeEntryViewPrimaryButton" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Find address"
+          }
+        }
+      }
+    },
+    "localWastePostcodeEntryViewTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What is your postcode?"
           }
         }
       }
@@ -29,7 +95,7 @@
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Enter your postcode to see your next collection date and bin colour."
+            "value" : "Tell us your address to see your next collection date and bin colour."
           }
         }
       }
@@ -41,6 +107,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Find my bin day"
+          }
+        }
+      }
+    },
+    "unsetLocalWasteWidgetViewTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Never miss a bin day"
           }
         }
       }

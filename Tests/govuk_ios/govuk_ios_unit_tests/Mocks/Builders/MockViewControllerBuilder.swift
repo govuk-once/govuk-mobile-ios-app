@@ -22,11 +22,13 @@ class MockViewControllerBuilder: ViewControllerBuilder {
     var _stubbedHomeViewController: UIViewController?
     var _receivedHomeSearchAction: ((SearchItem) -> Void)?
     var _receivedEditLocalAuthorityAction: (() -> Void)?
+    var _receivedEditLocalWasteAction: (() -> Void)?
     var _receivedHomeRecentActivityAction: (() -> Void)?
     var _receivedTopicWidgetViewModel: TopicsWidgetViewModel?
     override func home(dependencies: HomeDependencies,
                        actions: HomeActions) -> UIViewController {
         _receivedEditLocalAuthorityAction = actions.editLocalAuthorityAction
+        _receivedEditLocalWasteAction = actions.editLocalWasteAction
         _receivedHomeRecentActivityAction = actions.recentActivityAction
         _receivedHomeSearchAction = actions.openSearchAction
         _receivedTopicWidgetViewModel = dependencies.topicsWidgetViewModel
@@ -123,6 +125,14 @@ class MockViewControllerBuilder: ViewControllerBuilder {
     ) -> UIViewController {
         _receivedAmbiguousAddressDismissAction = dismissAction
         return _stubbedAmbiguousAddressSelectionViewController ?? UIViewController()
+    }
+
+    var _stubbedLocalWastePostcodeEntryViewController: UIViewController?
+    var _receivedLocalWasteDismissAction: (() -> Void)?
+    override func localWastePostcodeEntryView(analyticsService: AnalyticsServiceInterface,
+                                                  dismissAction: @escaping () -> Void) -> UIViewController {
+        _receivedLocalWasteDismissAction = dismissAction
+        return _stubbedLocalWastePostcodeEntryViewController ?? UIViewController()
     }
 
     var _receivedTopicOnboardingDismissAction: (() -> Void)?

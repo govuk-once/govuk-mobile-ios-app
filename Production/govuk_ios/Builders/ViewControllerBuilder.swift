@@ -38,6 +38,7 @@ class ViewControllerBuilder {
         let recentActivityAction: () -> Void
         let localAuthorityAction: () -> Void
         let editLocalAuthorityAction: () -> Void
+        let editLocalWasteAction: () -> Void
         let openURLAction: (URL) -> Void
         let openSearchAction: (SearchItem) -> Void
     }
@@ -57,6 +58,7 @@ class ViewControllerBuilder {
             chatService: dependencies.chatService,
             localAuthorityAction: actions.localAuthorityAction,
             editLocalAuthorityAction: actions.editLocalAuthorityAction,
+            editLocalWasteAction: actions.editLocalWasteAction,
             feedbackAction: actions.feedbackAction,
             notificationsAction: actions.notificationsAction,
             recentActivityAction: actions.recentActivityAction,
@@ -191,6 +193,25 @@ class ViewControllerBuilder {
         let viewController = HostingViewController(
             rootView: view,
             navigationBarTintColor: .govUK.text.linkSecondary
+        )
+        viewController.view.backgroundColor = .govUK.fills.surfaceModal
+        return viewController
+    }
+
+    func localWastePostcodeEntryView(
+        analyticsService: AnalyticsServiceInterface,
+        dismissAction: @escaping () -> Void
+    ) -> UIViewController {
+        let viewModel = LocalWastePostcodeEntryViewModel(
+            analyticsService: analyticsService,
+            dismissAction: dismissAction
+        )
+        let view = LocalWastePostcodeEntryView(
+            viewModel: viewModel
+        )
+        let viewController  = HostingViewController(
+            rootView: view,
+            navigationBarHidden: true
         )
         viewController.view.backgroundColor = .govUK.fills.surfaceModal
         return viewController

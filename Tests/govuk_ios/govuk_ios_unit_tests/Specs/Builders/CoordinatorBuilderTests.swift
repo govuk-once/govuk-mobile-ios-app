@@ -2,6 +2,7 @@ import Foundation
 import Testing
 import FactoryKit
 import UIKit
+import XCTest
 
 @testable import govuk_ios
 
@@ -224,6 +225,18 @@ struct CoordinatorBuilderTests {
             dismissAction: {}
         )
         #expect(coordinator is EditLocalAuthorityCoordinator)
+    }
+
+    @Test
+    func editLocalWaste_returnsExpectedResult() {
+        let subject = CoordinatorBuilder(container: Container())
+        let mockNavigationController = MockNavigationController()
+        let coordinator = subject.editLocalWaste(
+            navigationController: mockNavigationController,
+            dismissAction: {}
+        )
+        let isExpectedType = coordinator is EditLocalWasteCoordinator
+        #expect(isExpectedType)
     }
 
     @Test
