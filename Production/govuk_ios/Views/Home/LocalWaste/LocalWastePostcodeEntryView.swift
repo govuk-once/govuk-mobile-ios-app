@@ -1,0 +1,92 @@
+import SwiftUI
+import GovKit
+import GovKitUI
+
+struct LocalWastePostcodeEntryView: View {
+    @StateObject private var viewModel: LocalWastePostcodeEntryViewModel
+    @Environment(\.verticalSizeClass) var verticalSizeClass
+    @AccessibilityFocusState(for: .voiceOver)
+    private var isErrorFocused: Bool
+
+    init(viewModel: LocalWastePostcodeEntryViewModel) {
+        _viewModel = StateObject(wrappedValue: viewModel)
+    }
+    var body: some View {
+        ZStack {
+            Color(uiColor: .govUK.fills.surfaceModal)
+            VStack {
+                HStack {
+                    Spacer()
+                    Button(
+                        action: {
+                            viewModel.dismissAction()
+                        }, label: {
+                            Text(viewModel.cancelButton)
+                                .foregroundColor(
+                                    Color(UIColor.govUK.text.linkSecondary)
+                                )
+                                .font(Font.govUK.subheadlineSemibold)
+                        }
+                    )
+                }
+                .padding(16)
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 15) {
+                        Text(viewModel.viewTitle)
+                            .foregroundColor(Color(UIColor.govUK.text.primary))
+                            .font(Font.govUK.title1Bold)
+                            .accessibilityAddTraits(.isHeader)
+                        Text(viewModel.exampleText)
+                            .font(Font.govUK.body)
+                            .foregroundColor(Color(UIColor.govUK.text.secondary))
+                        if let errorCase = viewModel.error {
+                            withAnimation {
+                                Text(errorCase.errorMessage)
+                                    .accessibilityFocused($isErrorFocused)
+                                    .foregroundColor(
+                                        Color(uiColor: UIColor.govUK.text.buttonDestructive)
+                                    )
+                                    .font(Font.govUK.body)
+                            }
+                        }
+                        TextField("", text: $viewModel.postCode)
+                            .textContentType(.postalCode)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 10)
+                            .background(Color(UIColor.govUK.fills.surfaceSearch))
+                            .roundedBorder(
+                                cornerRadius: 4,
+                                borderColor: Color(UIColor.govUK.strokes.listDivider))
+                            .accessibilityLabel(viewModel.entryFieldAccessibilityLabel)
+                        Text(viewModel.descriptionTitle)
+                            .font(Font.govUK.bodySemibold)
+                            .accessibilityAddTraits(.isHeader)
+                        Text(viewModel.descriptionBody)
+                            .font(Font.govUK.body)
+                        Spacer()
+                    }.padding()
+                }.onReceive(viewModel.$error) { error in
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        if error != nil {
+                            isErrorFocused = true
+                        }
+                    }
+                }
+                PrimaryButtonView(
+                    viewModel: viewModel.primaryButtonViewModel
+                )
+                .disabled(viewModel.postCode.isEmpty)
+                .padding(.bottom, 16)
+            }
+            .navigationBarTitleDisplayMode(.inline)
+            .onAppear {
+                viewModel.trackScreen(screen: self)
+            }
+        }
+    }
+}
+
+extension LocalWastePostcodeEntryView: TrackableScreen {
+    var trackingTitle: String? { "What is your postcode" }
+    var trackingName: String { "What is your postcode" }
+}

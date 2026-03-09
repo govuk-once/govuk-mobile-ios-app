@@ -52,6 +52,7 @@ final class HomeContentViewControllerSnapshotTests: SnapshotTestCase {
             chatService: MockChatService(),
             localAuthorityAction: { },
             editLocalAuthorityAction: { },
+            editLocalWasteAction: { },
             feedbackAction: { },
             notificationsAction: {},
             recentActivityAction: { } ,

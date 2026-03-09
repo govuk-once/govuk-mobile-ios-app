@@ -252,6 +252,17 @@ class CoordinatorBuilder {
         )
     }
 
+    func editLocalWaste(navigationController: UINavigationController,
+                        dismissAction: @escaping () -> Void) -> BaseCoordinator {
+        EditLocalWasteCoordinator(
+            navigationController: navigationController,
+            viewControllerBuilder: ViewControllerBuilder(),
+            analyticsService: container.analyticsService.resolve(),
+            coordinatorBuilder: self,
+            dismissed: dismissAction
+        )
+    }
+
     func topicOnboarding(navigationController: UINavigationController,
                          didDismissAction: @escaping () -> Void) -> BaseCoordinator {
         TopicOnboardingCoordinator(

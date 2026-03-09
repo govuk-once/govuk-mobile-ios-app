@@ -71,6 +71,7 @@ class HomeCoordinator: TabItemCoordinator {
             recentActivityAction: startRecentActivityCoordinator,
             localAuthorityAction: presentLocalAuthorityCoordinator,
             editLocalAuthorityAction: presentEditLocalAuthorityCoordinator,
+            editLocalWasteAction: presentEditLocalWasteCoordinator,
             openURLAction: { [weak self] url in
                 self?.presentWebView(url: url)
             },
@@ -198,6 +199,21 @@ class HomeCoordinator: TabItemCoordinator {
             guard let self = self else { return }
             let navigationController = UINavigationController()
             let coordinator = self.coordinatorBuilder.editLocalAuthority(
+                navigationController: navigationController,
+                dismissAction: {
+                    self.root.viewWillReAppear()
+                }
+            )
+            present(coordinator)
+        }
+    }
+
+    private var presentEditLocalWasteCoordinator: () -> Void {
+        return { [weak self] in
+            self?.trackWidgetNavigation(text: "Edit your local waste")
+            guard let self = self else { return }
+            let navigationController = UINavigationController()
+            let coordinator = self.coordinatorBuilder.editLocalWaste(
                 navigationController: navigationController,
                 dismissAction: {
                     self.root.viewWillReAppear()

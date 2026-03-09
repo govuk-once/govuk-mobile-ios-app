@@ -10,10 +10,10 @@ struct UnsetLocalWasteWidgetViewModelTests {
         let sut = UnsetLocalWasteWidgetViewModel(
             primaryAction: {}
         )
-        let title = String.localWaste.localized(
+        let expected = String.localWaste.localized(
             "localWasteTitle"
         )
-        #expect(sut.title == title)
+        #expect(sut.title == expected)
     }
 
     @Test
@@ -21,10 +21,10 @@ struct UnsetLocalWasteWidgetViewModelTests {
         let sut = UnsetLocalWasteWidgetViewModel(
             primaryAction: {}
         )
-        let widgetTitle = String.localWaste.localized(
+        let expected = String.localWaste.localized(
             "unsetLocalWasteWidgetViewTitle"
         )
-        #expect(sut.widgetTitle == widgetTitle)
+        #expect(sut.widgetTitle == expected)
     }
 
     @Test
@@ -32,10 +32,10 @@ struct UnsetLocalWasteWidgetViewModelTests {
         let sut = UnsetLocalWasteWidgetViewModel(
             primaryAction: {}
         )
-        let widgetDescription = String.localWaste.localized(
+        let expected = String.localWaste.localized(
             "unsetLocalWasteWidgetViewDescription"
         )
-        #expect(sut.widgetDescription == widgetDescription)
+        #expect(sut.widgetDescription == expected)
     }
 
     @Test
@@ -43,10 +43,10 @@ struct UnsetLocalWasteWidgetViewModelTests {
         let sut = UnsetLocalWasteWidgetViewModel(
             primaryAction: {}
         )
-        let primaryButton = String.localWaste.localized(
+        let expected = String.localWaste.localized(
             "unsetLocalWasteWidgetViewPrimaryButton"
         )
-        #expect(sut.primaryButtonViewModel.localisedTitle == primaryButton)
+        #expect(sut.primaryButtonViewModel.localisedTitle == expected)
     }
 
     @Test

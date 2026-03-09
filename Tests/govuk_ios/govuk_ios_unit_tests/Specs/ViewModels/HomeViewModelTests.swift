@@ -62,6 +62,7 @@ struct HomeViewModelTests {
             chatService: MockChatService(),
             localAuthorityAction: { },
             editLocalAuthorityAction: { },
+            editLocalWasteAction: { },
             feedbackAction: { },
             notificationsAction: {},
             recentActivityAction: { } ,
@@ -72,7 +73,7 @@ struct HomeViewModelTests {
         let widgets = subject.widgets
       
         #expect((widgets as Any) is [HomepageWidget])
-        #expect(widgets.count == 6)
+        #expect(widgets.count == 7)
     }
 
     @Test
@@ -99,6 +100,7 @@ struct HomeViewModelTests {
             chatService: MockChatService(),
             localAuthorityAction: { },
             editLocalAuthorityAction: { },
+            editLocalWasteAction: { },
             feedbackAction: { },
             notificationsAction: {},
             recentActivityAction: { } ,
@@ -154,6 +156,7 @@ struct HomeViewModelTests {
             chatService: MockChatService(),
             localAuthorityAction: { },
             editLocalAuthorityAction: { },
+            editLocalWasteAction: { },
             feedbackAction: { },
             notificationsAction: {},
             recentActivityAction: { } ,
