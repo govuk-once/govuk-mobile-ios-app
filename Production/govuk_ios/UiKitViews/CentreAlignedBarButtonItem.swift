@@ -67,4 +67,3 @@ class CenterAlignedBarButtonItem: UIBarButtonItem {
         fatalError("init(coder:) has not been implemented")
     }
 }
-
