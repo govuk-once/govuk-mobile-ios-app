@@ -1,12 +1,21 @@
 # frozen_string_literal: true
 
 require 'yaml'
+require_relative './configuration_arguments_validator.rb'
 
 # Configuration class to interface with .build.yml
 class Configuration
   def initialize(lane_name, yaml)
     @lane_name = lane_name
     @yaml = YAML.load_file(yaml, aliases: true)[lane]
+  end
+
+  def app_args
+    validate_args
+    formatted_args = raw_args.map do |key, value|
+      "#{key}=\"#{value}\""
+    end
+    (formatted_args + ['-allowProvisioningUpdates']).join(' ')
   end
 
   def app_scheme
@@ -63,27 +72,6 @@ class Configuration
 
   def app_additional_swift_flags
     setting(:app, :additional_swift_flags)
-  end
-
-  def app_args
-    [
-      "BASE_URL=\"#{app_base_url}\"",
-      "ONESIGNAL_APP_ID=\"#{app_onesignal_app_id}\"",
-      "ASSETCATALOG_COMPILER_APPICON_NAME=\"#{app_assetcatalog_compiler_appicon_name}\"",
-      "AUTHENTICATION_BASE_URL=\"#{app_authentication_base_url}\"",
-      "AUTHENTICATION_CLIENT_ID=\"#{app_authentication_client_id}\"",
-      "CHAT_BASE_URL=\"#{app_chat_base_url}\"",
-      "TOKEN_BASE_URL=\"#{app_token_base_url}\"",
-      "GOOGLE_SERVICES_FILE=\"#{app_google_services_file}\"",
-      "PRODUCT_BUNDLE_IDENTIFIER_APP=\"#{app_bundle_identifier}\"",
-      "PRODUCT_BUNDLE_IDENTIFIER_NOTIFICATION_SERVICE=\"#{app_bundle_identifier_notification_service}\"",
-      "PROFILE_SPECIFIER_APP=\"#{app_profile_specifiers[app_bundle_identifier]}\"",
-      "PROFILE_SPECIFIER_NOTIFICATION_SERVICE=\"#{app_profile_specifiers[app_bundle_identifier_notification_service]}\"",
-      "CODE_SIGN_ENTITLEMENTS_APP=\"#{app_entitlements[app_bundle_identifier]}\"",
-      "CODE_SIGN_ENTITLEMENTS_NOTIFICATION_SERVICE=\"#{app_entitlements[app_bundle_identifier_notification_service]}\"",
-      "ADDITIONAL_SWIFT_FLAGS=\"#{app_additional_swift_flags.join(' ')}\"",
-      '-allowProvisioningUpdates'
-    ].join(' ')
   end
 
   def app_configuration
@@ -154,6 +142,30 @@ class Configuration
   private
 
   attr_reader :lane_name, :yaml
+
+  def validate_args
+    ConfigurationArgumentsValidator.run(raw_args)
+  end
+
+  def raw_args
+    {
+      BASE_URL: app_base_url,
+      ONESIGNAL_APP_ID: app_onesignal_app_id,
+      ASSETCATALOG_COMPILER_APPICON_NAME: app_assetcatalog_compiler_appicon_name,
+      AUTHENTICATION_BASE_URL: app_authentication_base_url,
+      AUTHENTICATION_CLIENT_ID: app_authentication_client_id,
+      CHAT_BASE_URL: app_chat_base_url,
+      TOKEN_BASE_URL: app_token_base_url,
+      GOOGLE_SERVICES_FILE: app_google_services_file,
+      PRODUCT_BUNDLE_IDENTIFIER_APP: app_bundle_identifier,
+      PRODUCT_BUNDLE_IDENTIFIER_NOTIFICATION_SERVICE: app_bundle_identifier_notification_service,
+      PROFILE_SPECIFIER_APP: app_profile_specifiers[app_bundle_identifier],
+      PROFILE_SPECIFIER_NOTIFICATION_SERVICE: app_profile_specifiers[app_bundle_identifier_notification_service],
+      CODE_SIGN_ENTITLEMENTS_APP: app_entitlements[app_bundle_identifier],
+      CODE_SIGN_ENTITLEMENTS_NOTIFICATION_SERVICE: app_entitlements[app_bundle_identifier_notification_service],
+      ADDITIONAL_SWIFT_FLAGS: app_additional_swift_flags.join(' ')
+    }
+  end
 
   def app_profile_specifiers
     setting(:app, :profile_specifiers)
