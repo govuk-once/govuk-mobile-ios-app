@@ -13,6 +13,7 @@ class TopicDetailViewSnapshotTests: SnapshotTestCase {
             topicsService: MockTopicsService(),
             analyticsService: MockAnalyticsService(),
             activityService: MockActivityService(),
+            topicAction: { _ in },
             subtopicAction: { _ in },
             stepByStepAction: { _ in },
             openAction: { _ in }
@@ -35,6 +36,7 @@ class TopicDetailViewSnapshotTests: SnapshotTestCase {
             topicsService: mockTopicsService,
             analyticsService: MockAnalyticsService(),
             activityService: MockActivityService(),
+            topicAction: { _ in },
             subtopicAction: { _ in },
             stepByStepAction: { _ in },
             openAction: { _ in }
@@ -57,6 +59,7 @@ class TopicDetailViewSnapshotTests: SnapshotTestCase {
             topicsService: mockTopicsService,
             analyticsService: MockAnalyticsService(),
             activityService: MockActivityService(),
+            topicAction: { _ in },
             subtopicAction: { _ in },
             stepByStepAction: { _ in },
             openAction: { _ in }
@@ -79,6 +82,7 @@ class TopicDetailViewSnapshotTests: SnapshotTestCase {
             topicsService: mockTopicsService,
             analyticsService: MockAnalyticsService(),
             activityService: MockActivityService(),
+            topicAction: { _ in },
             subtopicAction: { _ in },
             stepByStepAction: { _ in },
             openAction: { _ in }
@@ -99,6 +103,7 @@ class TopicDetailViewSnapshotTests: SnapshotTestCase {
             topicsService: mockTopicsService,
             analyticsService: MockAnalyticsService(),
             activityService: MockActivityService(),
+            topicAction: { _ in },
             subtopicAction: { _ in },
             stepByStepAction: { _ in },
             openAction: { _ in }
@@ -119,6 +124,7 @@ class TopicDetailViewSnapshotTests: SnapshotTestCase {
             topicsService: mockTopicsService,
             analyticsService: MockAnalyticsService(),
             activityService: MockActivityService(),
+            topicAction: { _ in },
             subtopicAction: { _ in },
             stepByStepAction: { _ in },
             openAction: { _ in }
@@ -138,6 +144,7 @@ class TopicDetailViewSnapshotTests: SnapshotTestCase {
             topicsService: mockTopicsService,
             analyticsService: MockAnalyticsService(),
             activityService: MockActivityService(),
+            topicAction: { _ in },
             subtopicAction: { _ in },
             stepByStepAction: { _ in },
             openAction: { _ in }

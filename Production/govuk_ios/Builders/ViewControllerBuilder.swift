@@ -360,11 +360,13 @@ class ViewControllerBuilder {
                      topicsService: TopicsServiceInterface,
                      analyticsService: AnalyticsServiceInterface,
                      activityService: ActivityServiceInterface,
+                     topicAction: @escaping (DisplayableTopic) -> Void,
                      subtopicAction: @escaping (DisplayableTopic) -> Void,
                      stepByStepAction: @escaping ([TopicDetailResponse.Content]) -> Void,
                      openAction: @escaping (URL) -> Void
     ) -> UIViewController {
         let actions = TopicDetailViewModel.Actions(
+            topicAction: topicAction,
             subtopicAction: subtopicAction,
             stepByStepAction: stepByStepAction,
             openAction: openAction
@@ -587,6 +589,26 @@ class ViewControllerBuilder {
         )
 
         viewController.isModalInPresentation = true
+        return viewController
+    }
+
+    func dvlaAccountLinking(
+        dvlaService: DVLAServiceInterface,
+        linkId: String,
+        completeAction: @escaping () -> Void,
+        dismissAction: @escaping () -> Void
+    ) -> UIViewController {
+        let viewModel = DVLAAccountLinkingViewModel(
+            dvlaService: dvlaService,
+            linkId: linkId,
+            completeAction: completeAction,
+            dismissAction: dismissAction
+        )
+        let view = DVLAAccountLinkingView(viewModel: viewModel)
+        let viewController = HostingViewController(
+            rootView: view,
+            navigationBarHidden: false
+        )
         return viewController
     }
 }

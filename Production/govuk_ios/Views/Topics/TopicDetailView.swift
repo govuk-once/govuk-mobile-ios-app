@@ -55,6 +55,7 @@ struct TopicDetailView<T: TopicDetailViewModelInterface>: View {
         ScrollView {
             VStack(spacing: 0) {
                 titleView
+                topicActions
                 topicDetails
                 subtopics
             }
@@ -99,6 +100,23 @@ struct TopicDetailView<T: TopicDetailViewModelInterface>: View {
             )
             .padding([.top, .horizontal], 16)
             .background(Color(UIColor.govUK.fills.surfaceBackground))
+    }
+
+    @ViewBuilder
+    private var topicActions: some View {
+        if viewModel.topicActionCards.isEmpty {
+            EmptyView()
+        } else {
+            VStack(spacing: 8) {
+                ForEach(viewModel.topicActionCards) { cardModel in
+                    ListCardView(viewModel: cardModel)
+                }
+                .padding(.vertical, 8)
+            }
+            .padding([.top, .horizontal], 16)
+            .background(Color(UIColor.govUK.fills.surfaceBackground))
+            .opacity(viewModel.topicActionCards.isEmpty ? 0 : 1)
+        }
     }
 
     private var subtopics: some View {

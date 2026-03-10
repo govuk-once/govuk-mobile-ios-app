@@ -137,6 +137,7 @@ struct TopicDetailViewModelTests {
             )
         )
         let actions = TopicDetailViewModel.Actions(
+            topicAction: { _ in },
             subtopicAction: { _ in
                 didNavigate = true
             },
@@ -232,6 +233,7 @@ struct TopicDetailViewModelTests {
 extension TopicDetailViewModel.Actions {
     static var empty: TopicDetailViewModel.Actions {
         .init(
+            topicAction: { _ in },
             subtopicAction: { _ in },
             stepByStepAction: { _ in },
             openAction: { _ in }

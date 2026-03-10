@@ -441,4 +441,12 @@ class CoordinatorBuilder {
             navigationController: navigationController
         )
     }
+
+    func dvlaAccount(navigationController: UINavigationController) -> BaseCoordinator {
+        DVLAAccountCoordinator(
+            navigationController: navigationController,
+            viewControllerBuilder: ViewControllerBuilder(),
+            dvlaService: container.dvlaService.resolve()
+        )
+    }
 }

@@ -114,6 +114,7 @@ struct ViewControllerBuilderTests {
             topicsService: MockTopicsService(),
             analyticsService: MockAnalyticsService(),
             activityService: MockActivityService(),
+            topicAction: { _ in },
             subtopicAction: { _ in },
             stepByStepAction: { _ in },
             openAction: { _ in }

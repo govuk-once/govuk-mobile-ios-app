@@ -3,6 +3,7 @@ import GovKit
 
 // swiftlint:disable:next type_body_length
 class TopicDetailViewModel: TopicDetailViewModelInterface {
+    @Published private(set) var topicActionCards = [ListCardViewModel]()
     @Published private(set) var sections = [GroupedListSection]()
     @Published private(set) var errorViewModel: AppErrorViewModel?
     @Published private(set) var subtopicCards = [ListCardViewModel]()
@@ -15,6 +16,7 @@ class TopicDetailViewModel: TopicDetailViewModelInterface {
     private let analyticsService: AnalyticsServiceInterface
     private let activityService: ActivityServiceInterface
     private let urlOpener: URLOpener
+    private let topicAction: (DisplayableTopic) -> Void
     private let subtopicAction: (DisplayableTopic) -> Void
     private let stepByStepAction: ([TopicDetailResponse.Content]) -> Void
     private let openAction: (URL) -> Void
@@ -47,6 +49,7 @@ class TopicDetailViewModel: TopicDetailViewModelInterface {
         self.analyticsService = analyticsService
         self.activityService = activityService
         self.urlOpener = urlOpener
+        topicAction = actions.topicAction
         subtopicAction = actions.subtopicAction
         stepByStepAction = actions.stepByStepAction
         openAction = actions.openAction
@@ -60,6 +63,7 @@ class TopicDetailViewModel: TopicDetailViewModelInterface {
             completion: { result in
                 if case let .success(detail) = result {
                     self.topicDetail = detail
+                    self.createTopicActionCards()
                     self.configureSections()
                     self.createSubtopicCards()
                     self.isLoaded = true
@@ -162,6 +166,22 @@ class TopicDetailViewModel: TopicDetailViewModelInterface {
                 }
             )
         }
+    }
+
+    // todo: add a feature flag to hide this?
+    private func createTopicActionCards() {
+        guard topic.ref == "driving-transport" else { return }
+        let content = TopicDetailResponse.Subtopic(
+            ref: "dvla-link-account",
+            title: "Add your driver and vehicles account",
+            topicDescription: nil)
+        let dvlaAccountLinkingCard = ListCardViewModel(
+            title: content.title,
+            action: { [weak self] in
+                self?.topicAction(content)
+            }
+        )
+        topicActionCards = [dvlaAccountLinkingCard]
     }
 
     private func createRelatedSubtopicsSection() -> GroupedListSection? {
@@ -311,6 +331,7 @@ class TopicDetailViewModel: TopicDetailViewModelInterface {
 
 extension TopicDetailViewModel {
     struct Actions {
+        let topicAction: (DisplayableTopic) -> Void
         let subtopicAction: (DisplayableTopic) -> Void
         let stepByStepAction: ([TopicDetailResponse.Content]) -> Void
         let openAction: (URL) -> Void

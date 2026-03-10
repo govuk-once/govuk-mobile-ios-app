@@ -258,6 +258,14 @@ extension Container {
         }
     }
 
+    var dvlaService: Factory<DVLAServiceInterface> {
+        Factory(self) {
+            DVLAService(
+                dvlaServiceClient: self.dvlaServiceClient.resolve()
+            )
+        }
+    }
+
     var jailbreakDetectionService: Factory<JailbreakDetectionServiceInterface> {
         let application = UIApplication.shared
         return Factory(self) {
