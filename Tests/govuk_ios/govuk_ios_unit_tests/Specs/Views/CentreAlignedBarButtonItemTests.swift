@@ -1,8 +1,7 @@
 import Foundation
-
-@testable import govuk_ios
 import Testing
 
+@testable import govuk_ios
 
 @MainActor
 @Suite
