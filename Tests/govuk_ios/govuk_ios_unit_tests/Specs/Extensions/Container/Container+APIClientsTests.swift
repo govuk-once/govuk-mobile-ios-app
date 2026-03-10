@@ -147,4 +147,35 @@ struct Container_APIClientTests {
             )
         }
     }
+
+    @Test
+    func dvlaAPIClient_createsExpectedRequest() async throws {
+        let container = Container()
+        let mockAuthenticationService = MockAuthenticationService()
+        mockAuthenticationService._stubbedAccessToken = "testToken"
+        container.authenticationService.register {
+            mockAuthenticationService
+        }
+        container.urlSession.register { URLSession.mock }
+        container.appEnvironmentService.register {
+            MockAppEnvironmentService()
+        }
+        let sut = container.dvlaAPIClient()
+        await withCheckedContinuation { continuation in
+            MockURLProtocol.registerHandler(forUrl:"https://www.flex.gov.uk/app/v1/udp/identity/dvla/testLinkId1") { request in
+                #expect(request.httpMethod == "POST")
+                #expect(request.allHTTPHeaderFields?["Authorization"] == "Bearer testToken")
+                return (.arrangeSuccess, nil, nil)
+            }
+
+            let request = GOVRequest.linkAccount(linkId: "testLinkId1")
+
+            sut.send(
+                request: request,
+                completion: { result in
+                    continuation.resume()
+                }
+            )
+        }
+    }
 }

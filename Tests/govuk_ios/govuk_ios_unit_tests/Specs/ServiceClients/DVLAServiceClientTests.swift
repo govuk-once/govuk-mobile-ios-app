@@ -54,4 +54,18 @@ struct DVLAServiceClientTests {
         let error = result.getError()
         #expect(error == .authenticationError)
     }
+
+    @Test
+    func linkAccount_networkUnavailable_returnsExpectedError() async {
+        mockAPI._stubbedSendResponse = .failure(
+            NSError(domain: "TestError", code: NSURLErrorNotConnectedToInternet)
+        )
+
+        let result = await withCheckedContinuation { continuation in
+            sut.linkAccount(linkId: "test-link-id") { result in
+                continuation.resume(returning: result)
+            }
+        }
+        #expect(result.getError() == .networkUnavailable)
+    }
 }

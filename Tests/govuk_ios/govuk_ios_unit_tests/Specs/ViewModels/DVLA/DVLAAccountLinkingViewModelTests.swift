@@ -51,6 +51,9 @@ struct DVLAAccountLinkingViewModelTests {
             "accountLinkingErrorButtonTitle"
         ))
         #expect(errorViewModel.isWebLink == false)
+
+        errorViewModel.action?()
+        #expect(mockDvlaService._linkAccountCallCount == 2)
     }
 
     @Test

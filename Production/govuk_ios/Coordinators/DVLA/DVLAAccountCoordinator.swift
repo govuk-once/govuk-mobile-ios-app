@@ -24,8 +24,7 @@ final class DVLAAccountCoordinator: BaseCoordinator {
             },
             dismissAction: dismissModal
         )
-        let navigationController = UINavigationController(rootViewController: viewController)
-        root.present(navigationController, animated: true)
+        set(viewController)
     }
 
     private func dismissModal() {

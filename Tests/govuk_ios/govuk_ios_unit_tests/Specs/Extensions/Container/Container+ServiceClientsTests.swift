@@ -30,4 +30,13 @@ struct Container_ServiceClientsTests {
         #expect(sut is RemoteConfigServiceClient)
     }
 
+    @Test
+    func dvlaServiceClient_returnsExpectedValue() {
+        let container = Container()
+        container.authenticationService.register { MockAuthenticationService() }
+        container.dvlaAPIClient.register { MockAPIServiceClient() }
+        let sut = container.dvlaServiceClient.resolve()
+        #expect(sut is DVLAServiceClient)
+    }
+
 }

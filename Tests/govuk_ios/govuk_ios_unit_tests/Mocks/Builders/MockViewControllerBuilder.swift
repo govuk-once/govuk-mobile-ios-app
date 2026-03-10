@@ -58,6 +58,7 @@ class MockViewControllerBuilder: ViewControllerBuilder {
         return _stubbedRecentActivityViewController ?? UIViewController()
     }
 
+    var _receivedTopicDetailTopicAction: ((DisplayableTopic) -> Void)?
     var _receivedTopicDetailOpenAction: ((URL) -> Void)?
     var _receivedTopicDetailStepByStepAction: (([TopicDetailResponse.Content]) -> Void)?
     var _stubbedTopicDetailViewController: UIViewController?
@@ -69,6 +70,7 @@ class MockViewControllerBuilder: ViewControllerBuilder {
                               subtopicAction: @escaping (any DisplayableTopic) -> Void,
                               stepByStepAction: @escaping ([TopicDetailResponse.Content]) -> Void,
                               openAction: @escaping (URL) -> Void) -> UIViewController {
+        _receivedTopicDetailTopicAction = topicAction
         _receivedTopicDetailOpenAction = openAction
         _receivedTopicDetailStepByStepAction = stepByStepAction
         return _stubbedTopicDetailViewController ?? UIViewController()
@@ -312,6 +314,18 @@ class MockViewControllerBuilder: ViewControllerBuilder {
     ) -> UIViewController {
         _receivedTermsOpenUrlAction = openURLAction
         return _stubbedChatTermsOnboardingController ?? UIViewController()
+    }
+
+    var _stubbedDvlaAccountLinkingController: UIViewController?
+    var _receivedDvlaAccountLinkingDismissAction: (() -> Void)?
+    override func dvlaAccountLinking(
+        dvlaService: DVLAServiceInterface,
+        linkId: String,
+        completeAction: @escaping () -> Void,
+        dismissAction: @escaping () -> Void
+    ) -> UIViewController {
+        _receivedDvlaAccountLinkingDismissAction = dismissAction
+        return _stubbedDvlaAccountLinkingController ?? UIViewController()
     }
 
 }

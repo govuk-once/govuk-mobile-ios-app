@@ -38,7 +38,7 @@ final class TopicDetailsCoordinator: BaseCoordinator {
                 topicsService: self.topicsService,
                 analyticsService: self.analyticsService,
                 activityService: self.activityService,
-                topicAction: self.startTopicAction,
+                topicAction: self.presentTopicAction,
                 subtopicAction: self.pushTopic,
                 stepByStepAction: self.pushStepBySteps,
                 openAction: { [weak self] url in
@@ -65,14 +65,15 @@ final class TopicDetailsCoordinator: BaseCoordinator {
         }
     }
 
-    private var startTopicAction: (DisplayableTopic) -> Void {
+    private var presentTopicAction: (DisplayableTopic) -> Void {
         // DVLA account linking action hard coded for now
         return { [weak self] content in
             guard let self = self, content.ref == "dvla-link-account"
             else { return }
+            let navigationController = UINavigationController()
             let coordinator = coordinatorBuilder.dvlaAccount(
-                navigationController: root)
-            start(coordinator)
+                navigationController: navigationController)
+            present(coordinator)
         }
     }
 

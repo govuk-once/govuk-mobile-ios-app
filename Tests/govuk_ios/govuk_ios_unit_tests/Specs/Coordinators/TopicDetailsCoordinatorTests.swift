@@ -118,4 +118,37 @@ struct TopicDetailsCoordinatorTests {
 
         #expect(mockSafariCoordinator._startCalled)
     }
+
+    @Test
+    @MainActor
+    func dvlaTopicAction_startsDvlaAccountCoordinator() {
+        let mockNavigationController = MockNavigationController()
+        let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
+        let mockViewControllerBuilder = MockViewControllerBuilder()
+        let mockDvlaAccountCoordinator = MockBaseCoordinator()
+        mockCoordinatorBuilder._stubbedDvlaAccountCoordinator = mockDvlaAccountCoordinator
+        let mockCoreDataRepository = CoreDataRepository.arrangeAndLoad
+        let dvlaTopic = Topic.arrange(
+            context: mockCoreDataRepository.viewContext,
+            ref: "driving-transport"
+        )
+        let subject = TopicDetailsCoordinator(
+            navigationController: mockNavigationController,
+            analyticsService: MockAnalyticsService(),
+            topicsService: MockTopicsService(),
+            activityService: MockActivityService(),
+            coordinatorBuilder: mockCoordinatorBuilder,
+            viewControllerBuilder: mockViewControllerBuilder,
+            topic: dvlaTopic
+        )
+
+        subject.start()
+
+        let dvlaAccountTopic = Topic.arrange(
+            context: mockCoreDataRepository.viewContext,
+            ref: "dvla-link-account")
+        mockViewControllerBuilder._receivedTopicDetailTopicAction?(dvlaAccountTopic)
+
+        #expect(mockDvlaAccountCoordinator._startCalled)
+    }
 }
