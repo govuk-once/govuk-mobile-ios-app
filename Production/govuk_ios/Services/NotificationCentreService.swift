@@ -2,9 +2,12 @@
 
 protocol NotificationCentreServiceInterface {
     func fetchNotifications(callback: @escaping (([Notification]) -> Void))
+    func fetchDetailedNotification(notificationId: String, callback: @escaping ((DetailedNotification?) -> Void))
 }
 
 class NotificationCentreService: NotificationCentreServiceInterface {
+  
+    
     let serviceClient: NotificationCentreServiceClientInterface
     let repository: NotificationCentreRepositoryInterface
     
@@ -15,7 +18,7 @@ class NotificationCentreService: NotificationCentreServiceInterface {
     
     func fetchNotifications(callback: @escaping ([Notification]) -> Void) {
         // TODO Implement properly when not using mock data
-        let cached = repository.fetch()
+        let cached = repository.fetchAll()
         
         if cached.isEmpty {
             return serviceClient.fetchNotifications { notifications in
@@ -24,6 +27,18 @@ class NotificationCentreService: NotificationCentreServiceInterface {
         }
         else {
             callback(cached)
+        }
+    }
+ 
+    func fetchDetailedNotification(notificationId: String, callback: @escaping (DetailedNotification?) -> Void) {
+        // TODO Implement properly when not using mock data        
+        if let cached = repository.fetchDetailedNotification(with: notificationId){
+            callback(cached)
+        }
+        else {
+            return serviceClient.fetchDetailedNotification(with: notificationId) { notification in
+                callback(notification)
+            }
         }
     }
     

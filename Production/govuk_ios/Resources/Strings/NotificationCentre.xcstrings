@@ -23,6 +23,28 @@
         }
       }
     },
+    "notificationDetailErrorBody" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We’re unable to load this notification right now. Try again later."
+          }
+        }
+      }
+    },
+    "notificationDetailTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notification"
+          }
+        }
+      }
+    },
     "notificationErrorBody" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -52,6 +74,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sorry, there is a problem"
+          }
+        }
+      }
+    },
+    "notificationNotFoundBody" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This notification has been deleted or is no longer available"
+          }
+        }
+      }
+    },
+    "notificationNotFoundTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notification not found"
           }
         }
       }
