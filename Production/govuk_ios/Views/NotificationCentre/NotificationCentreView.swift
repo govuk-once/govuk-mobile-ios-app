@@ -232,8 +232,6 @@ extension NotificationCentreContainerView: TrackableScreen {
 }
 
 #Preview("Loaded") {
-    let oneDay: Double = 60 * 60 * 24
-    let now = Date()
     let testNotifications = NotificationCentreViewModel.MockData.testNotifications
     
     NotificationCentreLoadedView(notifications: testNotifications, onNotificationTap: { _ in /* No-op */ })

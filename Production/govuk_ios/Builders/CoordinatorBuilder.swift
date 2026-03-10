@@ -465,6 +465,7 @@ class CoordinatorBuilder {
             navigationController: navigationController,
             viewControllerBuilder: ViewControllerBuilder(),
             notificationCentreService: container.notificationCentreService.resolve(),
-            analyticsService: container.analyticsService.resolve())
+            analyticsService: container.analyticsService.resolve(),
+            coordinatorBuilder: self)
     }
 }

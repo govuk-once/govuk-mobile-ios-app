@@ -645,15 +645,23 @@ class ViewControllerBuilder {
         return viewController
     }
     
-    func notificationCentreDetail(notification: Notification) -> UIViewController {
-        let viewModel = NotificationCentreDetailViewModel(notification: notification)
-
-        let viewController = HostingViewController(
-            rootView: NotificationCentreDetailContainerView(viewModel: viewModel),
-            navigationBarHidden: false
-        )
-        viewController.navigationItem.largeTitleDisplayMode = .always
-        return viewController
-    }
+    func notificationCentreDetail(
+        notification: Notification,
+        notificationService: NotificationCentreServiceInterface,
+        analyticsService: AnalyticsServiceInterface,
+        showUrlAction: @escaping (URL) -> Void) -> UIViewController {
+            let viewModel = NotificationCentreDetailViewModel(
+                notificationId: notification.id,
+                notificationService: notificationService,
+                analyticsService: analyticsService,
+                showUrlAction: showUrlAction)
+            
+            let viewController = HostingViewController(
+                rootView: NotificationCentreDetailContainerView(viewModel: viewModel),
+                navigationBarHidden: false
+            )
+            viewController.navigationItem.largeTitleDisplayMode = .always
+            return viewController
+        }
 }
 // swiftlint:enable file_length
