@@ -3,7 +3,7 @@ import GovKit
 
 typealias FetchUserStateCompletion = (UserStateResult) -> Void
 typealias UserStateResult = Result<UserState, UserStateError>
-typealias NotificationsPreferenceResult = Result<NotificationsPreferenceResponse, UserStateError>
+typealias NotificationsPreferenceResult = Result<UserNotificationsPreferences, UserStateError>
 
 protocol UserServiceClientInterface {
     func fetchUserState(completion: @escaping FetchUserStateCompletion)
