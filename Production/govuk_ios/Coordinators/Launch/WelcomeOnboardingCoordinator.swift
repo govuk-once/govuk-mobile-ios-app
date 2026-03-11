@@ -16,8 +16,6 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
     private let versionProvider: AppVersionProvider
     private let completionAction: () -> Void
 
-    private var shouldShowSignInSuccessScreen = false
-
     private lazy var welcomeOnboardingViewModel: WelcomeOnboardingViewModel = {
         WelcomeOnboardingViewModel(
             completeAction: { [weak self] in
@@ -75,7 +73,6 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
                 self?.showAuthenticationError(error)
             }
         )
-        shouldShowSignInSuccessScreen = true
         start(authenticationCoordinator)
         pendingAuthenticationCoordinator = authenticationCoordinator
     }
@@ -139,21 +136,8 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
         })
     }
 
-    @MainActor
-    private func startSignInSuccess() {
-        let coordinator = coordinatorBuilder.signInSuccess(
-            navigationController: root,
-            completion: completionAction
-        )
-        start(coordinator)
-    }
-
     private func handleUserStateFetched() {
-        if shouldShowSignInSuccessScreen {
-            startSignInSuccess()
-        } else {
-            completionAction()
-        }
+        completionAction()
     }
 
     private func startAppUnavailable(error: AppUnavailableError) {
