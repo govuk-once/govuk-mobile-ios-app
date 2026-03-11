@@ -46,7 +46,11 @@ class ChatConsentOnboardingViewModel: InfoViewModelInterface {
     }
 
     var rightBarButtonItem: UIBarButtonItem {
-        .cancel(target: self, action: #selector(cancelOnboarding))
+        .cancel(
+            target: self,
+            action: #selector(cancelOnboarding),
+            tintColour: .govUK.text.linkSecondary
+        )
     }
 
     var primaryButtonTitle: String {

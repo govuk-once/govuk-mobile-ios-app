@@ -3,30 +3,30 @@ import Foundation
 @testable import govuk_ios
 
 final class ChatInfoOnboardingViewControllerSnapshotTests: SnapshotTestCase {
+    let viewControllerBuilder = ViewControllerBuilder()
+
     func test_loadInNavigationController_light_rendersCorrectly() {
-        let viewModel = ChatInfoOnboardingViewModel(
+        let chatInfoOnboardingViewController = viewControllerBuilder.chatInfoOnboarding(
             analyticsService: MockAnalyticsService(),
             completionAction: { },
             cancelOnboardingAction: { }
         )
-        let chatInfoOnboardingView = InfoView(viewModel: viewModel)
 
         VerifySnapshotInNavigationController(
-            view: chatInfoOnboardingView,
+            viewController: chatInfoOnboardingViewController,
             mode: .light
         )
     }
 
     func test_loadInNavigationController_dark_rendersCorrectly() {
-        let viewModel = ChatInfoOnboardingViewModel(
+        let chatInfoOnboardingViewController = viewControllerBuilder.chatInfoOnboarding(
             analyticsService: MockAnalyticsService(),
             completionAction: { },
             cancelOnboardingAction: { }
         )
-        let chatInfoOnboardingView = InfoView(viewModel: viewModel)
 
         VerifySnapshotInNavigationController(
-            view: chatInfoOnboardingView,
+            viewController: chatInfoOnboardingViewController,
             mode: .dark
         )
     }
