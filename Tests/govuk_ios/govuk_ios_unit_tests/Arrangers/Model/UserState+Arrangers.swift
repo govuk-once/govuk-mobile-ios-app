@@ -9,7 +9,9 @@ extension UserState {
     
     static func arrange(userId: String = "user_id",
                         userNotificationsPreferences:
-                        UserNotificationsPreferences = UserNotificationsPreferences(consentStatus: .unknown, notificationId: "notification_id")) -> UserState {
+                        UserNotificationsPreferences =
+                        UserNotificationsPreferences(consentStatus: .unknown, notificationId: "notification_id")
+    ) -> UserState {
         .init(userId: userId, notifications: userNotificationsPreferences)
     }
     
