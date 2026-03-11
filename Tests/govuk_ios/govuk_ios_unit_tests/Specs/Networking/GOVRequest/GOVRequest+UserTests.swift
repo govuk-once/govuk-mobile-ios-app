@@ -23,7 +23,7 @@ struct GOVRequest_UserTests {
         #expect(request.method == .patch)
         #expect(request.requiresAuthentication == true)
 
-        let body = try #require(request.body as? UserNotificationsPreferences)
+        let body = try #require(request.body as? ConsentPreference)
         #expect(body.consentStatus == .accepted)
     }
 
@@ -35,7 +35,7 @@ struct GOVRequest_UserTests {
         #expect(request.method == .patch)
         #expect(request.requiresAuthentication == true)
 
-        let body = try #require(request.body as? UserNotificationsPreferences)
+        let body = try #require(request.body as? ConsentPreference)
         #expect(body.consentStatus == .denied)
     }
 }
