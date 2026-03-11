@@ -15,6 +15,7 @@ class TopicDetailViewModel: TopicDetailViewModelInterface {
     private let topicsService: TopicsServiceInterface
     private let analyticsService: AnalyticsServiceInterface
     private let activityService: ActivityServiceInterface
+    private let configService: AppConfigServiceInterface
     private let urlOpener: URLOpener
     private let topicAction: (DisplayableTopic) -> Void
     private let subtopicAction: (DisplayableTopic) -> Void
@@ -42,12 +43,14 @@ class TopicDetailViewModel: TopicDetailViewModelInterface {
          topicsService: TopicsServiceInterface,
          analyticsService: AnalyticsServiceInterface,
          activityService: ActivityServiceInterface,
+         configService: AppConfigServiceInterface,
          urlOpener: URLOpener,
          actions: Actions) {
         self.topic = topic
         self.topicsService = topicsService
         self.analyticsService = analyticsService
         self.activityService = activityService
+        self.configService = configService
         self.urlOpener = urlOpener
         topicAction = actions.topicAction
         subtopicAction = actions.subtopicAction
@@ -168,9 +171,10 @@ class TopicDetailViewModel: TopicDetailViewModelInterface {
         }
     }
 
-    // todo: add a feature flag to hide this?
     private func createTopicActionCards() {
-        guard topic.ref == "driving-transport" else { return }
+        // hard coded DVLA account linking action card
+        guard configService.isFeatureEnabled(key: .dvla),
+              topic.ref == "driving-transport" else { return }
         let content = TopicDetailResponse.Subtopic(
             ref: "dvla-link-account",
             title: "Add your driver and vehicles account",

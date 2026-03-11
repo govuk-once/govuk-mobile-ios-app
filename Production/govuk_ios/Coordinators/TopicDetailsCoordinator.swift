@@ -5,6 +5,7 @@ final class TopicDetailsCoordinator: BaseCoordinator {
     private let analyticsService: AnalyticsServiceInterface
     private let topicsService: TopicsServiceInterface
     private let activityService: ActivityServiceInterface
+    private let configService: AppConfigServiceInterface
     private let coordinatorBuilder: CoordinatorBuilder
     private let viewControllerBuilder: ViewControllerBuilder
     private let topic: Topic
@@ -13,6 +14,7 @@ final class TopicDetailsCoordinator: BaseCoordinator {
          analyticsService: AnalyticsServiceInterface,
          topicsService: TopicsServiceInterface,
          activityService: ActivityServiceInterface,
+         configService: AppConfigServiceInterface,
          coordinatorBuilder: CoordinatorBuilder,
          viewControllerBuilder: ViewControllerBuilder,
          topic: Topic) {
@@ -21,6 +23,7 @@ final class TopicDetailsCoordinator: BaseCoordinator {
         self.viewControllerBuilder = viewControllerBuilder
         self.topicsService = topicsService
         self.activityService = activityService
+        self.configService = configService
         self.topic = topic
         super.init(navigationController: navigationController)
     }
@@ -38,6 +41,7 @@ final class TopicDetailsCoordinator: BaseCoordinator {
                 topicsService: self.topicsService,
                 analyticsService: self.analyticsService,
                 activityService: self.activityService,
+                configService: self.configService,
                 topicAction: self.presentTopicAction,
                 subtopicAction: self.pushTopic,
                 stepByStepAction: self.pushStepBySteps,

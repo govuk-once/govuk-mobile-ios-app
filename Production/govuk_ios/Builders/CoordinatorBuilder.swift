@@ -219,6 +219,7 @@ class CoordinatorBuilder {
             analyticsService: container.analyticsService.resolve(),
             topicsService: container.topicsService.resolve(),
             activityService: container.activityService.resolve(),
+            configService: container.appConfigService.resolve(),
             coordinatorBuilder: self,
             viewControllerBuilder: ViewControllerBuilder(),
             topic: topic

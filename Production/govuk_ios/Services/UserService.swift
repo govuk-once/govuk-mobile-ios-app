@@ -12,11 +12,7 @@ protocol UserServiceInterface {
      private var userState: UserState?
 
      var isEnabled: Bool {
-        #if STAGING
          appConfigService.isFeatureEnabled(key: .flex)
-        #else
-         false
-        #endif
      }
 
      var notificationId: String? {

@@ -24,6 +24,7 @@ struct TopicDetailViewModelTests {
             topicsService: mockTopicsService,
             analyticsService: mockAnalyticsService,
             activityService: mockActivityService,
+            configService: MockAppConfigService(),
             urlOpener: mockURLOpener,
             actions: .empty
         )
@@ -54,6 +55,7 @@ struct TopicDetailViewModelTests {
             topicsService: mockTopicsService,
             analyticsService: mockAnalyticsService,
             activityService: mockActivityService,
+            configService: MockAppConfigService(),
             urlOpener: mockURLOpener,
             actions: .empty
         )
@@ -88,6 +90,7 @@ struct TopicDetailViewModelTests {
             topicsService: mockTopicsService,
             analyticsService: mockAnalyticsService,
             activityService: mockActivityService,
+            configService: MockAppConfigService(),
             urlOpener: mockURLOpener,
             actions: .empty
         )
@@ -119,6 +122,7 @@ struct TopicDetailViewModelTests {
             topicsService: mockTopicsService,
             analyticsService: mockAnalyticsService,
             activityService: mockActivityService,
+            configService: MockAppConfigService(),
             urlOpener: mockURLOpener,
             actions: .empty
         )
@@ -149,6 +153,7 @@ struct TopicDetailViewModelTests {
             topicsService: mockTopicsService,
             analyticsService: mockAnalyticsService,
             activityService: mockActivityService,
+            configService: MockAppConfigService(),
             urlOpener: mockURLOpener,
             actions: actions
         )
@@ -173,6 +178,7 @@ struct TopicDetailViewModelTests {
             topicsService: mockTopicsService,
             analyticsService: mockAnalyticsService,
             activityService: mockActivityService,
+            configService: MockAppConfigService(),
             urlOpener: mockURLOpener,
             actions: .empty
         )
@@ -192,6 +198,7 @@ struct TopicDetailViewModelTests {
             topicsService: mockTopicsService,
             analyticsService: mockAnalyticsService,
             activityService: mockActivityService,
+            configService: MockAppConfigService(),
             urlOpener: mockURLOpener,
             actions: .empty
         )
@@ -215,6 +222,7 @@ struct TopicDetailViewModelTests {
             topicsService: mockTopicsService,
             analyticsService: mockAnalyticsService,
             activityService: mockActivityService,
+            configService: MockAppConfigService(),
             urlOpener: mockURLOpener,
             actions: .empty
         )

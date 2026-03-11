@@ -20,6 +20,7 @@ struct TopicDetailsCoordinatorTests {
             analyticsService: MockAnalyticsService(),
             topicsService: MockTopicsService(),
             activityService: MockActivityService(),
+            configService: MockAppConfigService(),
             coordinatorBuilder: mockCoordinatorBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
             topic: topic
@@ -44,6 +45,7 @@ struct TopicDetailsCoordinatorTests {
             analyticsService: MockAnalyticsService(),
             topicsService: MockTopicsService(),
             activityService: MockActivityService(),
+            configService: MockAppConfigService(),
             coordinatorBuilder: mockCoordinatorBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
             topic: topic
@@ -73,6 +75,7 @@ struct TopicDetailsCoordinatorTests {
             analyticsService: MockAnalyticsService(),
             topicsService: MockTopicsService(),
             activityService: MockActivityService(),
+            configService: MockAppConfigService(),
             coordinatorBuilder: mockCoordinatorBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
             topic: topic
@@ -102,6 +105,7 @@ struct TopicDetailsCoordinatorTests {
             analyticsService: MockAnalyticsService(),
             topicsService: MockTopicsService(),
             activityService: MockActivityService(),
+            configService: MockAppConfigService(),
             coordinatorBuilder: mockCoordinatorBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
             topic: topic
@@ -137,6 +141,7 @@ struct TopicDetailsCoordinatorTests {
             analyticsService: MockAnalyticsService(),
             topicsService: MockTopicsService(),
             activityService: MockActivityService(),
+            configService: MockAppConfigService(),
             coordinatorBuilder: mockCoordinatorBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
             topic: dvlaTopic
