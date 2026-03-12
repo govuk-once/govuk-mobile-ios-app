@@ -131,7 +131,7 @@ struct Container_APIClientTests {
         }
         let sut = container.userAPIClient()
         await withCheckedContinuation { continuation in
-            MockURLProtocol.registerHandler(forUrl:"https://www.flex.gov.uk/app/v1/user") { request in
+            MockURLProtocol.registerHandler(forUrl:"https://www.flex.gov.uk/app/v1/users") { request in
                 #expect(request.httpMethod == "GET")
                 #expect(request.allHTTPHeaderFields?["Authorization"] == "Bearer testToken")
                 return (.arrangeSuccess, nil, nil)
