@@ -6,7 +6,7 @@ import UIKit
 @testable import govuk_ios
 
 @MainActor
-final class DVLAAccountLinkingViewControllerSnapshotTests: SnapshotTestCase {
+final class ServiceAccountLinkingViewControllerSnapshotTests: SnapshotTestCase {
     func test_loadInNavigationController_light_rendersCorrectly() {
         VerifySnapshotInNavigationController(
             viewController: viewController(),
@@ -25,15 +25,16 @@ final class DVLAAccountLinkingViewControllerSnapshotTests: SnapshotTestCase {
 
     func test_loadInNavigationController_error_light_rendersCorrectly() {
 
-        let mockDvlaService = MockDVLAService()
-        mockDvlaService._stubbedLinkAccountResult = .failure(DVLAError.apiUnavailable)
-        let viewModel = DVLAAccountLinkingViewModel(
-            dvlaService: mockDvlaService,
+        let mockUserService = MockUserService()
+        mockUserService._stubbedLinkAccountResult = .failure(UserStateError.apiUnavailable)
+        let viewModel = ServiceAccountLinkingViewModel(
+            userService: mockUserService,
+            accountType: .dvla,
             linkId: "test-link-id",
             completeAction: {},
             dismissAction: {}
         )
-        let view = DVLAAccountLinkingView(
+        let view = ServiceAccountLinkingView(
             viewModel: viewModel
         )
         viewModel.linkAccount()
@@ -52,15 +53,16 @@ final class DVLAAccountLinkingViewControllerSnapshotTests: SnapshotTestCase {
 
     func test_loadInNavigationController_error_dark_rendersCorrectly() {
 
-        let mockDvlaService = MockDVLAService()
-        mockDvlaService._stubbedLinkAccountResult = .failure(DVLAError.apiUnavailable)
-        let viewModel = DVLAAccountLinkingViewModel(
-            dvlaService: mockDvlaService,
+        let mockUserService = MockUserService()
+        mockUserService._stubbedLinkAccountResult = .failure(UserStateError.apiUnavailable)
+        let viewModel = ServiceAccountLinkingViewModel(
+            userService: mockUserService,
+            accountType: .dvla,
             linkId: "test-link-id",
             completeAction: {},
             dismissAction: {}
         )
-        let view = DVLAAccountLinkingView(
+        let view = ServiceAccountLinkingView(
             viewModel: viewModel
         )
         viewModel.linkAccount()
@@ -79,13 +81,14 @@ final class DVLAAccountLinkingViewControllerSnapshotTests: SnapshotTestCase {
     }
 
     private func viewController() -> UIViewController {
-        let viewModel = DVLAAccountLinkingViewModel(
-            dvlaService: MockDVLAService(),
+        let viewModel = ServiceAccountLinkingViewModel(
+            userService: MockUserService(),
+            accountType: .dvla,
             linkId: "test-link-id",
             completeAction: {},
             dismissAction: {}
         )
-        let view = DVLAAccountLinkingView(
+        let view = ServiceAccountLinkingView(
             viewModel: viewModel
         )
         viewModel.linkAccount()

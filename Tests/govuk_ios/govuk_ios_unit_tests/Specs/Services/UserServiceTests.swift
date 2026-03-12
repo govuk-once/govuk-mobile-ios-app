@@ -85,4 +85,35 @@ final class UserServiceTests {
         #expect(mockUserServiceClient._receivedNotificationConsent == nil)
     }
 
+    @Test
+    func linkAccount_success_returnsExpectedResult() {
+        mockUserServiceClient._stubbedLinkAccountResult = .success(())
+        let sut = UserService(appConfigService: mockAppConfigService,
+                              userServiceClient: mockUserServiceClient)
+        var wasSuccessful = false
+        sut.linkAccount(withType: .dvla,
+                        linkId: "test-link-id") { result in
+            switch result {
+            case .success:
+                wasSuccessful = true
+            case .failure:
+                Issue.record("Expected success")
+            }
+        }
+        #expect(wasSuccessful == true)
+    }
+
+    @Test
+    func linkAccount_failure_returnsExpectedError() {
+        mockUserServiceClient._stubbedLinkAccountResult = .failure(
+            UserStateError.authenticationError
+        )
+        let sut = UserService(appConfigService: mockAppConfigService,
+                              userServiceClient: mockUserServiceClient)
+        sut.linkAccount(withType: .dvla,
+                        linkId: "test-link-id") { result in
+            #expect(result.getError() == .authenticationError)
+        }
+    }
+
 }

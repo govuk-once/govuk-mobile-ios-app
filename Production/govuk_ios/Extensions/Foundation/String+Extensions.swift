@@ -92,9 +92,9 @@ extension String {
         )
     }
 
-    static var dvla: LocalStringBuilder {
+    static var serviceAccount: LocalStringBuilder {
         .init(
-            tableName: "DVLA",
+            tableName: "ServiceAccount",
             bundle: .main
         )
     }

@@ -1,14 +1,14 @@
 import GovKit
 
 extension AppErrorViewModel {
-    static func dvlaAccountErrorWithAction(
+    static func serviceAccountErrorWithAction(
         _ action: @escaping () -> Void
     ) -> AppErrorViewModel {
         AppErrorViewModel(
             title: String.common.localized("genericErrorTitle"),
-            body: String.dvla.localized("accountLinkingErrorBody"),
-            buttonTitle: String.dvla.localized("accountLinkingErrorButtonTitle"),
-            buttonAccessibilityLabel: String.dvla.localized(
+            body: String.serviceAccount.localized("accountLinkingErrorBody"),
+            buttonTitle: String.serviceAccount.localized("accountLinkingErrorButtonTitle"),
+            buttonAccessibilityLabel: String.serviceAccount.localized(
                 "accountLinkingErrorButtonTitle"
             ),
             isWebLink: false,

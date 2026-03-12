@@ -1,6 +1,9 @@
 protocol UserServiceInterface {
     func fetchUserState(completion: @escaping FetchUserStateCompletion)
     func setNotificationsConsent(_ consentStatus: ConsentStatus)
+    func linkAccount(withType accountType: ServiceAccountType,
+                     linkId: String,
+                     completion: @escaping LinkAccountCompletion)
     var notificationId: String? { get }
     var notificationsConsentStatus: ConsentStatus? { get }
     var isEnabled: Bool { get }
@@ -51,5 +54,15 @@ protocol UserServiceInterface {
                  print(error.localizedDescription)
              }
          }
+     }
+
+     func linkAccount(withType accountType: ServiceAccountType,
+                      linkId: String,
+                      completion: @escaping LinkAccountCompletion) {
+         userServiceClient.linkAccount(
+            serviceName: accountType.rawValue,
+            linkId: linkId,
+            completion: completion
+         )
      }
  }

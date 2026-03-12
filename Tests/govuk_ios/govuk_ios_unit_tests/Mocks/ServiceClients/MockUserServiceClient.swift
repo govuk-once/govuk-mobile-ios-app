@@ -16,5 +16,13 @@ class MockUserServiceClient: UserServiceClientInterface {
         _receivedNotificationConsent = consentStatus
     }
 
+    var _stubbedLinkAccountResult: LinkAccountResult?
+    func linkAccount(serviceName: String,
+                     linkId: String,
+                     completion: @escaping (LinkAccountResult) -> Void) {
+        if let result = _stubbedLinkAccountResult {
+            completion(result)
+        }
+    }
 }
 

@@ -5,21 +5,22 @@ import Testing
 @testable import GovKit
 
 @Suite
-struct DVLAAccountLinkingViewModelTests {
+struct ServiceAccountLinkingViewModelTests {
 
-    var mockDvlaService: MockDVLAService
+    var mockUserService: MockUserService
 
     init() {
-        mockDvlaService = MockDVLAService()
+        mockUserService = MockUserService()
     }
     
     @Test
     func linkAccount_success_callsCompleteAction() async {
         var didCallCompleteAction = false
 
-        mockDvlaService._stubbedLinkAccountResult = .success(())
-        let sut = DVLAAccountLinkingViewModel(
-            dvlaService: mockDvlaService,
+        mockUserService._stubbedLinkAccountResult = .success(())
+        let sut = ServiceAccountLinkingViewModel(
+            userService: mockUserService,
+            accountType: .dvla,
             linkId: "test-link-id",
             completeAction: {
                 didCallCompleteAction = true
@@ -34,9 +35,10 @@ struct DVLAAccountLinkingViewModelTests {
 
     @Test
     func linkAccount_authenticationError_setsErrorViewModel() async throws {
-        mockDvlaService._stubbedLinkAccountResult = .failure(.authenticationError)
-        let sut = DVLAAccountLinkingViewModel(
-            dvlaService: mockDvlaService,
+        mockUserService._stubbedLinkAccountResult = .failure(.authenticationError)
+        let sut = ServiceAccountLinkingViewModel(
+            userService: mockUserService,
+            accountType: .dvla,
             linkId: "test-link-id",
             completeAction: {},
             dismissAction: {}
@@ -45,22 +47,23 @@ struct DVLAAccountLinkingViewModelTests {
         sut.linkAccount()
         let errorViewModel = try #require(sut.errorViewModel)
         #expect(errorViewModel.title == String.common.localized("genericErrorTitle"))
-        #expect(errorViewModel.body == String.dvla.localized("accountLinkingErrorBody"))
-        #expect(errorViewModel.buttonTitle == String.dvla.localized("accountLinkingErrorButtonTitle"))
-        #expect(errorViewModel.buttonAccessibilityLabel == String.dvla.localized(
+        #expect(errorViewModel.body == String.serviceAccount.localized("accountLinkingErrorBody"))
+        #expect(errorViewModel.buttonTitle == String.serviceAccount.localized("accountLinkingErrorButtonTitle"))
+        #expect(errorViewModel.buttonAccessibilityLabel == String.serviceAccount.localized(
             "accountLinkingErrorButtonTitle"
         ))
         #expect(errorViewModel.isWebLink == false)
 
         errorViewModel.action?()
-        #expect(mockDvlaService._linkAccountCallCount == 2)
+        #expect(mockUserService._linkAccountCallCount == 2)
     }
 
     @Test
     func dismiss_callsDismissAction() {
         var didCallDismissAction = false
-        let sut = DVLAAccountLinkingViewModel(
-            dvlaService: mockDvlaService,
+        let sut = ServiceAccountLinkingViewModel(
+            userService: mockUserService,
+            accountType: .dvla,
             linkId: "test-link-id",
             completeAction: {},
             dismissAction: {

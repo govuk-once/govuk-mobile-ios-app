@@ -91,16 +91,6 @@ extension Container {
         }
     }
 
-    var dvlaAPIClient: Factory<APIServiceClientInterface> {
-        Factory(self) {
-            APIServiceClient(baseUrl: self.appEnvironmentService().flexBaseURL,
-                             session: self.urlSession(),
-                             requestBuilder: RequestBuilder(),
-                             responseHandler: DVLAResponseHandler(),
-                             tokenProvider: self.authenticationService())
-        }
-    }
-
     var urlSession: Factory<URLSession> {
         Factory(self) {
             URLSession(configuration: .default)

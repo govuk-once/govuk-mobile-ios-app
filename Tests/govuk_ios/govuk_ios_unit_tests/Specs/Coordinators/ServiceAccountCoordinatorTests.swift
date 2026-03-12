@@ -7,17 +7,18 @@ import Testing
 
 @Suite
 @MainActor
-struct DVLAAccountCoordinatorTests {
+struct ServiceAccountCoordinatorTests {
     @Test
     func start_setsAccountLinkingViewController() throws {
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let expectedViewController = UIViewController()
-        mockViewControllerBuilder._stubbedDvlaAccountLinkingController = expectedViewController
+        mockViewControllerBuilder._stubbedServiceAccountLinkingController = expectedViewController
         let navigationController = UINavigationController()
-        let sut = DVLAAccountCoordinator(
+        let sut = ServiceAccountCoordinator(
             navigationController: navigationController,
             viewControllerBuilder: mockViewControllerBuilder,
-            dvlaService: MockDVLAService()
+            userService: MockUserService(),
+            accountType: .dvla
         )
 
         sut.start()

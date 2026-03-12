@@ -1,10 +1,10 @@
 import GovKit
 import SwiftUI
 
-struct DVLAAccountLinkingView: View {
-    @StateObject private var viewModel: DVLAAccountLinkingViewModel
+struct ServiceAccountLinkingView: View {
+    @StateObject private var viewModel: ServiceAccountLinkingViewModel
 
-    init(viewModel: DVLAAccountLinkingViewModel) {
+    init(viewModel: ServiceAccountLinkingViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
 

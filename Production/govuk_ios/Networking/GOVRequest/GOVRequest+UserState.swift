@@ -36,6 +36,17 @@ extension GOVRequest {
             requiresAuthentication: true
         )
     }
+
+    static func linkAccount(serviceName: String, linkId: String) -> GOVRequest {
+        GOVRequest(
+            urlPath: "/app/v1/identity/\(serviceName)/\(linkId)",
+            method: .post,
+            body: nil,
+            queryParameters: nil,
+            additionalHeaders: nil,
+            requiresAuthentication: true
+        )
+    }
 }
 
 struct NotificationsPreferenceUpdate: Codable {

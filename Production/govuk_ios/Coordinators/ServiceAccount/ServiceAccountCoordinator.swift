@@ -1,22 +1,26 @@
 import UIKit
 import GovKit
 
-final class DVLAAccountCoordinator: BaseCoordinator {
+final class ServiceAccountCoordinator: BaseCoordinator {
     private let viewControllerBuilder: ViewControllerBuilder
-    private let dvlaService: DVLAServiceInterface
+    private let userService: UserServiceInterface
+    private let accountType: ServiceAccountType
 
     init(navigationController: UINavigationController,
          viewControllerBuilder: ViewControllerBuilder,
-         dvlaService: DVLAServiceInterface) {
+         userService: UserServiceInterface,
+         accountType: ServiceAccountType) {
         self.viewControllerBuilder = viewControllerBuilder
-        self.dvlaService = dvlaService
+        self.userService = userService
+        self.accountType = accountType
         super.init(navigationController: navigationController)
     }
 
     override func start(url: URL?) {
         let linkId = "test-link-id"
-        let viewController = viewControllerBuilder.dvlaAccountLinking(
-            dvlaService: dvlaService,
+        let viewController = viewControllerBuilder.serviceAccountLinking(
+            userService: userService,
+            accountType: accountType,
             linkId: linkId,
             completeAction: { [weak self] in
                 self?.dismissModal()

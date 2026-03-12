@@ -594,19 +594,21 @@ class ViewControllerBuilder {
         return viewController
     }
 
-    func dvlaAccountLinking(
-        dvlaService: DVLAServiceInterface,
+    func serviceAccountLinking(
+        userService: UserServiceInterface,
+        accountType: ServiceAccountType,
         linkId: String,
         completeAction: @escaping () -> Void,
         dismissAction: @escaping () -> Void
     ) -> UIViewController {
-        let viewModel = DVLAAccountLinkingViewModel(
-            dvlaService: dvlaService,
+        let viewModel = ServiceAccountLinkingViewModel(
+            userService: userService,
+            accountType: accountType,
             linkId: linkId,
             completeAction: completeAction,
             dismissAction: dismissAction
         )
-        let view = DVLAAccountLinkingView(viewModel: viewModel)
+        let view = ServiceAccountLinkingView(viewModel: viewModel)
         let viewController = HostingViewController(
             rootView: view,
             navigationBarHidden: false

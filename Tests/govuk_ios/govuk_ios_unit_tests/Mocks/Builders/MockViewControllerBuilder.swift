@@ -317,16 +317,17 @@ class MockViewControllerBuilder: ViewControllerBuilder {
         return _stubbedChatTermsOnboardingController ?? UIViewController()
     }
 
-    var _stubbedDvlaAccountLinkingController: UIViewController?
-    var _receivedDvlaAccountLinkingDismissAction: (() -> Void)?
-    override func dvlaAccountLinking(
-        dvlaService: DVLAServiceInterface,
+    var _stubbedServiceAccountLinkingController: UIViewController?
+    var _receivedServiceAccountLinkingDismissAction: (() -> Void)?
+    override func serviceAccountLinking(
+        userService: UserServiceInterface,
+        accountType: ServiceAccountType,
         linkId: String,
         completeAction: @escaping () -> Void,
         dismissAction: @escaping () -> Void
     ) -> UIViewController {
-        _receivedDvlaAccountLinkingDismissAction = dismissAction
-        return _stubbedDvlaAccountLinkingController ?? UIViewController()
+        _receivedServiceAccountLinkingDismissAction = dismissAction
+        return _stubbedServiceAccountLinkingController ?? UIViewController()
     }
 
 }

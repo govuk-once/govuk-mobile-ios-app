@@ -4,11 +4,16 @@ import GovKit
 typealias FetchUserStateCompletion = (UserStateResult) -> Void
 typealias UserStateResult = Result<UserState, UserStateError>
 typealias NotificationsPreferenceResult = Result<NotificationsPreferenceResponse, UserStateError>
+typealias LinkAccountResult = Result<Void, UserStateError>
+typealias LinkAccountCompletion = (LinkAccountResult) -> Void
 
 protocol UserServiceClientInterface {
     func fetchUserState(completion: @escaping FetchUserStateCompletion)
     func setNotificationsConsent(_ consentStatus: ConsentStatus,
                                  completion: @escaping (NotificationsPreferenceResult) -> Void)
+    func linkAccount(serviceName: String,
+                     linkId: String,
+                     completion: @escaping (LinkAccountResult) -> Void)
 }
 
 struct UserServiceClient: UserServiceClientInterface {
@@ -41,16 +46,37 @@ struct UserServiceClient: UserServiceClientInterface {
             }
     }
 
+    func linkAccount(serviceName: String,
+                     linkId: String,
+                     completion: @escaping (LinkAccountResult) -> Void) {
+        let request = GOVRequest.linkAccount(
+            serviceName: serviceName,
+            linkId: linkId
+        )
+        apiServiceClient.send(request: request, completion: { result in
+            switch result {
+            case .success:
+                completion(.success(()))
+            case .failure(let error):
+                completion(.failure(mapError(error)))
+            }
+        })
+    }
+
+    private func mapError(_ error: Error) -> UserStateError {
+        let nsError = (error as NSError)
+        if nsError.code == NSURLErrorNotConnectedToInternet {
+            return UserStateError.networkUnavailable
+        } else {
+            return (error as? UserStateError) ?? UserStateError.apiUnavailable
+        }
+    }
+
     private func mapResult<T: Decodable>(
         _ result: NetworkResult<Data>
     ) -> Result<T, UserStateError> {
-        return result.mapError { error in
-            let nsError = (error as NSError)
-            if nsError.code == NSURLErrorNotConnectedToInternet {
-                return UserStateError.networkUnavailable
-            } else {
-                return (error as? UserStateError) ?? UserStateError.apiUnavailable
-            }
+        return result.mapError {
+            mapError($0)
         }.flatMap {
             do {
                 let response = try JSONDecoder().decode(T.self, from: $0)

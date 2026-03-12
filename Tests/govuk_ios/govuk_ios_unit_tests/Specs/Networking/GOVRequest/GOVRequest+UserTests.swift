@@ -38,4 +38,13 @@ struct GOVRequest_UserTests {
         let body = try #require(request.body as? NotificationsPreferenceUpdate)
         #expect(body.preferences.notifications.consentStatus == .denied)
     }
+
+    @Test
+    func linkAccount_returnsExpectedValues() {
+        let request = GOVRequest.linkAccount(serviceName: "dvla", linkId: "test-link-id")
+
+        #expect(request.urlPath == "/app/v1/identity/dvla/test-link-id")
+        #expect(request.method == .post)
+        #expect(request.requiresAuthentication == true)
+    }
 }

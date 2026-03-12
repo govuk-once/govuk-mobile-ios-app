@@ -75,8 +75,9 @@ final class TopicDetailsCoordinator: BaseCoordinator {
             guard let self = self, content.ref == "dvla-link-account"
             else { return }
             let navigationController = UINavigationController()
-            let coordinator = coordinatorBuilder.dvlaAccount(
-                navigationController: navigationController)
+            let coordinator = coordinatorBuilder.serviceAccount(
+                navigationController: navigationController,
+                accountType: .dvla)
             present(coordinator)
         }
     }

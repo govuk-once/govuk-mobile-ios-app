@@ -112,6 +112,61 @@ struct UserServiceClientTests {
         #expect(userStateResponse == nil)
         #expect(result.getError() == .apiUnavailable)
     }
+
+    @Test
+    func linkAccount_sendsExpectedRequest() {
+        sut.linkAccount(serviceName: "dvla",
+                        linkId: "test-link-id") { _ in }
+        #expect(mockAPI._receivedSendRequest?.urlPath == "/app/v1/identity/dvla/test-link-id")
+        #expect(mockAPI._receivedSendRequest?.method == .post)
+    }
+
+    @Test
+    func linkAccount_returnsExpectedResult() async {
+        mockAPI._stubbedSendResponse = .success(Data())
+        let isSuccess = await withCheckedContinuation { continuation in
+            sut.linkAccount(serviceName: "dvla",
+                            linkId: "test-link-id") { result in
+                switch result {
+                case .success:
+                    continuation.resume(returning: true)
+                case .failure:
+                    continuation.resume(returning: false)
+                }
+            }
+        }
+        #expect(isSuccess == true)
+    }
+
+    @Test
+    func linkAccount_authenticationError_returnsExpectedError() async {
+        mockAPI._stubbedSendResponse = .failure(UserStateError.authenticationError)
+
+        let result = await withCheckedContinuation { continuation in
+            sut.linkAccount(serviceName: "dvla",
+                            linkId: "test-link-id") {
+                continuation.resume(returning: $0)
+            }
+        }
+
+        let error = result.getError()
+        #expect(error == .authenticationError)
+    }
+
+    @Test
+    func linkAccount_networkUnavailable_returnsExpectedError() async {
+        mockAPI._stubbedSendResponse = .failure(
+            NSError(domain: "TestError", code: NSURLErrorNotConnectedToInternet)
+        )
+
+        let result = await withCheckedContinuation { continuation in
+            sut.linkAccount(serviceName: "dvla",
+                            linkId: "test-link-id") { result in
+                continuation.resume(returning: result)
+            }
+        }
+        #expect(result.getError() == .networkUnavailable)
+    }
 }
 
 private extension UserServiceClientTests {

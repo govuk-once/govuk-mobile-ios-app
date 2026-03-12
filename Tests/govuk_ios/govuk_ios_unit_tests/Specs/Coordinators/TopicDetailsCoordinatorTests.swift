@@ -125,12 +125,12 @@ struct TopicDetailsCoordinatorTests {
 
     @Test
     @MainActor
-    func dvlaTopicAction_startsDvlaAccountCoordinator() {
+    func dvlaTopicAction_startsDvlaServiceAccountCoordinator() {
         let mockNavigationController = MockNavigationController()
         let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
         let mockViewControllerBuilder = MockViewControllerBuilder()
-        let mockDvlaAccountCoordinator = MockBaseCoordinator()
-        mockCoordinatorBuilder._stubbedDvlaAccountCoordinator = mockDvlaAccountCoordinator
+        let mockServiceAccountCoordinator = MockBaseCoordinator()
+        mockCoordinatorBuilder._stubbedServiceAccountCoordinator = mockServiceAccountCoordinator
         let mockCoreDataRepository = CoreDataRepository.arrangeAndLoad
         let dvlaTopic = Topic.arrange(
             context: mockCoreDataRepository.viewContext,
@@ -154,6 +154,6 @@ struct TopicDetailsCoordinatorTests {
             ref: "dvla-link-account")
         mockViewControllerBuilder._receivedTopicDetailTopicAction?(dvlaAccountTopic)
 
-        #expect(mockDvlaAccountCoordinator._startCalled)
+        #expect(mockServiceAccountCoordinator._startCalled)
     }
 }

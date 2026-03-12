@@ -1,8 +1,9 @@
 import Foundation
 import GovKit
 
-final class DVLAAccountLinkingViewModel: ObservableObject, ProgressIndicating {
-    private let dvlaService: DVLAServiceInterface
+final class ServiceAccountLinkingViewModel: ObservableObject, ProgressIndicating {
+    private let userService: UserServiceInterface
+    private let accountType: ServiceAccountType
     private let linkId: String
     private let completeAction: () -> Void
     private let dismissAction: () -> Void
@@ -17,11 +18,13 @@ final class DVLAAccountLinkingViewModel: ObservableObject, ProgressIndicating {
         String.onboarding.localized("loadingIndicatorAccessibilityTitle")
     }
 
-    init(dvlaService: DVLAServiceInterface,
+    init(userService: UserServiceInterface,
+         accountType: ServiceAccountType,
          linkId: String,
          completeAction: @escaping () -> Void,
          dismissAction: @escaping () -> Void) {
-        self.dvlaService = dvlaService
+        self.userService = userService
+        self.accountType = accountType
         self.linkId = linkId
         self.completeAction = completeAction
         self.dismissAction = dismissAction
@@ -30,7 +33,10 @@ final class DVLAAccountLinkingViewModel: ObservableObject, ProgressIndicating {
     func linkAccount() {
         showProgressView = true
         errorViewModel = nil
-        dvlaService.linkAccount(linkId: linkId) { [weak self] result in
+        userService.linkAccount(
+            withType: accountType,
+            linkId: linkId
+        ) { [weak self] result in
             self?.showProgressView = false
             switch result {
             case .success:
@@ -46,7 +52,7 @@ final class DVLAAccountLinkingViewModel: ObservableObject, ProgressIndicating {
     }
 
     private var accountLinkingErrorViewModel: AppErrorViewModel {
-        AppErrorViewModel.dvlaAccountErrorWithAction { [weak self] in
+        AppErrorViewModel.serviceAccountErrorWithAction { [weak self] in
             self?.linkAccount()
         }
     }

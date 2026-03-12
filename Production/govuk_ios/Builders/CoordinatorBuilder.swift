@@ -443,11 +443,13 @@ class CoordinatorBuilder {
         )
     }
 
-    func dvlaAccount(navigationController: UINavigationController) -> BaseCoordinator {
-        DVLAAccountCoordinator(
+    func serviceAccount(navigationController: UINavigationController,
+                        accountType: ServiceAccountType) -> BaseCoordinator {
+        ServiceAccountCoordinator(
             navigationController: navigationController,
             viewControllerBuilder: ViewControllerBuilder(),
-            dvlaService: container.dvlaService.resolve()
+            userService: container.userService.resolve(),
+            accountType: accountType
         )
     }
 }

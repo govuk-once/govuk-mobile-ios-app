@@ -289,8 +289,9 @@ class MockCoordinatorBuilder: CoordinatorBuilder {
         _stubbedPrivacyCoordinator ?? MockBaseCoordinator()
     }
 
-    var _stubbedDvlaAccountCoordinator: MockBaseCoordinator?
-    override func dvlaAccount(navigationController: UINavigationController) -> BaseCoordinator {
-        _stubbedDvlaAccountCoordinator ?? MockBaseCoordinator()
+    var _stubbedServiceAccountCoordinator: MockBaseCoordinator?
+    override func serviceAccount(navigationController: UINavigationController,
+                                 accountType: ServiceAccountType) -> BaseCoordinator {
+        _stubbedServiceAccountCoordinator ?? MockBaseCoordinator()
     }
 }
