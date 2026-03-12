@@ -140,6 +140,9 @@ extension ChatService {
         } set {
             if newValue {
                 userDefaultsService.set(bool: newValue, forKey: .chatOnboardingSeen)
+                if let chatBanner = configService.chatBanner {
+                    userDefaultsService.markSeen(banner: chatBanner)
+                }
             } else {
                 userDefaultsService.removeObject(forKey: .chatOnboardingSeen)
             }
