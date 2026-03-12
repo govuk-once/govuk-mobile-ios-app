@@ -82,6 +82,15 @@ extension Container {
         }
     }
 
+    var localWasteService: Factory<LocalWasteServiceInterface> {
+        Factory(self) {
+            LocalWasteService(
+                serviceClient: self.localWasteServiceClient(),
+                repository: self.localWasteRepository()
+            )
+        }
+    }
+
     var appLaunchService: Factory<AppLaunchServiceInterface> {
         Factory(self) {
             AppLaunchService(

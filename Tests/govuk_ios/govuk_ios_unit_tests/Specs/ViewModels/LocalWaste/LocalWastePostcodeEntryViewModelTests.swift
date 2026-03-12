@@ -1,19 +1,20 @@
-//import Combine
 import Foundation
-import GovKit
 import Testing
 import UIKit
 
 @testable import govuk_ios
 
+@MainActor
 @Suite
 struct LocalWastePostcodeEntryViewModelTests {
     
     @Test
     func cancelButton_returnsCorrectValue() throws {
         let sut = LocalWastePostcodeEntryViewModel(
+            service: MockLocalWasteService(),
             analyticsService: MockAnalyticsService(),
-            dismissAction: {}
+            dismissAction: {},
+            doneAction: { _ in }
         )
         let expected = String.common.localized(
             "cancel"
@@ -24,8 +25,10 @@ struct LocalWastePostcodeEntryViewModelTests {
     @Test
     func viewTitle_returnsCorrectValue() throws {
         let sut = LocalWastePostcodeEntryViewModel(
+            service: MockLocalWasteService(),
             analyticsService: MockAnalyticsService(),
-            dismissAction: {}
+            dismissAction: {},
+            doneAction: { _ in }
         )
         let expected = String.localWaste.localized(
             "localWastePostcodeEntryViewTitle"
@@ -36,8 +39,10 @@ struct LocalWastePostcodeEntryViewModelTests {
     @Test
     func exampleText_returnsCorrectValue() throws {
         let sut = LocalWastePostcodeEntryViewModel(
+            service: MockLocalWasteService(),
             analyticsService: MockAnalyticsService(),
-            dismissAction: {}
+            dismissAction: {},
+            doneAction: { _ in }
         )
         let expected = String.localWaste.localized(
             "localWastePostcodeEntryViewExampleText"
@@ -48,8 +53,10 @@ struct LocalWastePostcodeEntryViewModelTests {
     @Test
     func descriptionTitle_returnsCorrectTitle() throws {
         let sut = LocalWastePostcodeEntryViewModel(
+            service: MockLocalWasteService(),
             analyticsService: MockAnalyticsService(),
-            dismissAction: {}
+            dismissAction: {},
+            doneAction: { _ in }
         )
         let expected = String.localWaste.localized(
             "localWastePostcodeEntryViewDescriptionTitle"
@@ -60,8 +67,10 @@ struct LocalWastePostcodeEntryViewModelTests {
     @Test
     func descriptionBody_returnsCorrectTitle() throws {
         let sut = LocalWastePostcodeEntryViewModel(
+            service: MockLocalWasteService(),
             analyticsService: MockAnalyticsService(),
-            dismissAction: {}
+            dismissAction: {},
+            doneAction: { _ in }
         )
         let expected = String.localWaste.localized(
             "localWastePostcodeEntryViewDescriptionBody"
@@ -72,8 +81,10 @@ struct LocalWastePostcodeEntryViewModelTests {
     @Test
     func entryFieldAccessibilityLabel_returnsCorrectTitle() throws {
         let sut = LocalWastePostcodeEntryViewModel(
+            service: MockLocalWasteService(),
             analyticsService: MockAnalyticsService(),
-            dismissAction: {}
+            dismissAction: {},
+            doneAction: { _ in }
         )
         let expected = String.localWaste.localized(
             "localWastePostcodeEntryViewEntryAccessibilityLabel"
@@ -82,142 +93,300 @@ struct LocalWastePostcodeEntryViewModelTests {
     }
 
     @Test
-    func primaryButtonViewModel_returnsCorrectTitle() throws {
+    func primaryButton_returnsCorrectTitle() throws {
         let sut = LocalWastePostcodeEntryViewModel(
+            service: MockLocalWasteService(),
             analyticsService: MockAnalyticsService(),
-            dismissAction: {}
+            dismissAction: {},
+            doneAction: { _ in }
         )
         let expected = String.localWaste.localized(
             "localWastePostcodeEntryViewPrimaryButton"
         )
-        #expect(sut.primaryButtonViewModel.localisedTitle == expected)
+        #expect(sut.primaryButton == expected)
     }
 
-    /*
     @Test
-    func fetchLocalAuthority_addressList_returnsExpectedResults() async throws {
-        let addresses:[LocalAuthorityAddress] = [
-            LocalAuthorityAddress(
-                address: "address1",
-                slug: "slug1",
-                name: "name1"
-            ),
-            LocalAuthorityAddress(
-                address: "address2",
-                slug: "slug2",
-                name: "name2"
-            )
-        ]
-
-        let authorities = [
-            Authority(
-                name: "name1",
-                homepageUrl: "https://authority1",
-                tier: "tier1",
-                slug: "slug1"
-            ),
-            Authority(
-                name: "name2",
-                homepageUrl: "https://authority2",
-                tier: "tier2",
-                slug: "slug2"
-            )
-        ]
-
-        let expectedAddressResponse = LocalAuthorityResponse(localAuthorityAddresses: addresses)
-        let mockService = MockLocalAuthorityService()
-        mockService._stubbedFetchLocalPostcodeResult = .success(expectedAddressResponse)
-        mockService._stubbedLocalAuthoritiesResult = .success(authorities)
-
-        var expectedAddresses = [LocalAuthorityAddress]()
-        _ = await withCheckedContinuation { continuation in
-            let sut = LocalWastePostcodeEntryViewModel(
-                service: mockService,
-                analyticsService: MockAnalyticsService(),
-                resolveAmbiguityAction: { authorities, postCode in
-                    expectedAddresses = authorities.addresses
-                    continuation.resume()
-                }, localAuthoritySelected: {_ in },
-                dismissAction: {}
-            )
-            sut.postCode = "test"
-            sut.primaryButtonViewModel.action()
-        }
-        #expect(expectedAddresses.count == addresses.count)
-        #expect(expectedAddresses.first?.address == addresses.first?.address)
-    }
-     */
-
-    @Test
-    func returnErrorMessage_emptyString_returnsExpectedResult() async throws {
-        let mockAnalyticsService = MockAnalyticsService()
+    func fetchAddresses_emptyPostcode_showError() async throws {
+        let mockLocalWasteService = MockLocalWasteService()
+        mockLocalWasteService._dataFetchAddresses = []
+        var actualAddresses: [LocalWasteAddress]? = nil
         let sut = LocalWastePostcodeEntryViewModel(
-            analyticsService: mockAnalyticsService,
-            dismissAction: {}
+            service: mockLocalWasteService,
+            analyticsService: MockAnalyticsService(),
+            dismissAction: {},
+            doneAction: { receivedAddresses in
+                actualAddresses = receivedAddresses
+            }
         )
-        sut.primaryButtonViewModel.action()
-        #expect(sut.error?.errorMessage == "Enter your postcode")
+        sut.postcode = ""
+        await sut.fetchAddresses()
+        #expect(sut.error == .textFieldEmpty)
         #expect(sut.textFieldColour == UIColor.govUK.strokes.error)
-        #expect(mockAnalyticsService._trackedEvents.count == 0)
+        #expect(actualAddresses == nil)
+    }
+ 
+    @Test
+    func postcodeChanged_errorCleared() async throws {
+        let sut = LocalWastePostcodeEntryViewModel(
+            service: MockLocalWasteService(),
+            analyticsService: MockAnalyticsService(),
+            dismissAction: {},
+            doneAction: { _ in }
+        )
+        sut.postcode = ""
+        await sut.fetchAddresses()
+        #expect(sut.error != nil)
+        #expect(sut.textFieldColour == UIColor.govUK.strokes.error)
+
+        sut.postcode = "B"
+        #expect(sut.error == nil)
+        #expect(sut.textFieldColour == UIColor.govUK.strokes.listDivider)
     }
 
-    /*
     @Test
-    func returnErrorMessage_invalidPostcode_returnsExpectedResult() async throws {
-        let mockService = MockLocalAuthorityService()
-        mockService._stubbedFetchLocalPostcodeResult = .failure(.invalidPostcode)
+    func fetchAddresses_serviceThrowsUnknownPostcode_showError() async throws {
+        let mockLocalWasteService = MockLocalWasteService()
+        mockLocalWasteService._errorFetchAddresses = .unknownPostcode
+        var actualAddresses: [LocalWasteAddress]? = nil
+        
+        let sut = LocalWastePostcodeEntryViewModel(
+            service: mockLocalWasteService,
+            analyticsService: MockAnalyticsService(),
+            dismissAction: {},
+            doneAction: { receivedAddresses in
+                actualAddresses = receivedAddresses
+            }
+        )
+        sut.postcode = "ABC 123"
+        await sut.fetchAddresses()
+        #expect(sut.error == .pageNotWorking)
+        #expect(sut.textFieldColour == UIColor.govUK.strokes.error)
+        #expect(actualAddresses == nil)
+    }
+    
+    @Test
+    func fetchAddresses_serviceThrowsApiUnavailable_showError() async throws {
+        let mockLocalWasteService = MockLocalWasteService()
+        mockLocalWasteService._errorFetchAddresses = .apiUnavailable
+        var actualAddresses: [LocalWasteAddress]? = nil
+        
+        let sut = LocalWastePostcodeEntryViewModel(
+            service: mockLocalWasteService,
+            analyticsService: MockAnalyticsService(),
+            dismissAction: {},
+            doneAction: { receivedAddresses in
+                actualAddresses = receivedAddresses
+            }
+        )
+        sut.postcode = "ABC 123"
+        await sut.fetchAddresses()
+        #expect(sut.error == .pageNotWorking)
+        #expect(sut.textFieldColour == UIColor.govUK.strokes.error)
+        #expect(actualAddresses == nil)
+    }
+    
+    @Test
+    func fetchAddresses_serviceThrowsDecodingError_showError() async throws {
+        let mockLocalWasteService = MockLocalWasteService()
+        mockLocalWasteService._errorFetchAddresses = .decodingError
+        var actualAddresses: [LocalWasteAddress]? = nil
+        
+        let sut = LocalWastePostcodeEntryViewModel(
+            service: mockLocalWasteService,
+            analyticsService: MockAnalyticsService(),
+            dismissAction: {},
+            doneAction: { receivedAddresses in
+                actualAddresses = receivedAddresses
+            }
+        )
+        sut.postcode = "ABC 123"
+        await sut.fetchAddresses()
+        #expect(sut.error == .pageNotWorking)
+        #expect(sut.textFieldColour == UIColor.govUK.strokes.error)
+        #expect(actualAddresses == nil)
+    }
+    
+    @Test
+    func fetchAddresses_serviceThrowsInvalidPostcode_showError() async throws {
+        let mockLocalWasteService = MockLocalWasteService()
+        mockLocalWasteService._errorFetchAddresses = .invalidPostcode
+        var actualAddresses: [LocalWasteAddress]? = nil
+        
+        let sut = LocalWastePostcodeEntryViewModel(
+            service: mockLocalWasteService,
+            analyticsService: MockAnalyticsService(),
+            dismissAction: {},
+            doneAction: { receivedAddresses in
+                actualAddresses = receivedAddresses
+            }
+        )
+        sut.postcode = "ABC 123"
+        await sut.fetchAddresses()
+        #expect(sut.error == .pageNotWorking)
+        #expect(sut.textFieldColour == UIColor.govUK.strokes.error)
+        #expect(actualAddresses == nil)
+    }
+    
+    @Test
+    func fetchAddresses_serviceThrowsNetworkUnavailable_showError() async throws {
+        let mockLocalWasteService = MockLocalWasteService()
+        mockLocalWasteService._errorFetchAddresses = .networkUnavailable
+        var actualAddresses: [LocalWasteAddress]? = nil
+        
+        let sut = LocalWastePostcodeEntryViewModel(
+            service: mockLocalWasteService,
+            analyticsService: MockAnalyticsService(),
+            dismissAction: {},
+            doneAction: { receivedAddresses in
+                actualAddresses = receivedAddresses
+            }
+        )
+        sut.postcode = "ABC 123"
+        await sut.fetchAddresses()
+        #expect(sut.error == .pageNotWorking)
+        #expect(sut.textFieldColour == UIColor.govUK.strokes.error)
+        #expect(actualAddresses == nil)
+    }
+
+    @Test
+    func fetchAddresses_serviceReturnsEmptyArray_showError() async throws {
+        let mockLocalWasteService = MockLocalWasteService()
+        mockLocalWasteService._dataFetchAddresses = []
+        var actualAddresses: [LocalWasteAddress]? = nil
+        
+        let sut = LocalWastePostcodeEntryViewModel(
+            service: mockLocalWasteService,
+            analyticsService: MockAnalyticsService(),
+            dismissAction: {},
+            doneAction: { receivedAddresses in
+                actualAddresses = receivedAddresses
+            }
+        )
+        sut.postcode = "SW1A 0AA"
+        await sut.fetchAddresses()
+        #expect(sut.error == .pageNotWorking)
+        #expect(sut.textFieldColour == UIColor.govUK.strokes.error)
+        #expect(actualAddresses == nil)
+    }
+
+    @Test
+    func fetchAddresses_serviceThrows_isLoading() async throws {
+        let mockLocalWasteService = MockLocalWasteService()
+        mockLocalWasteService._errorFetchAddresses = .networkUnavailable
 
         let sut = LocalWastePostcodeEntryViewModel(
-            service: mockService,
+            service: mockLocalWasteService,
             analyticsService: MockAnalyticsService(),
-            resolveAmbiguityAction: { _, _ in },
-            localAuthoritySelected: {_ in },
-            dismissAction: {}
+            dismissAction: {},
+            doneAction: { _ in }
         )
+        sut.postcode = "SW1A 0AA"
+        mockLocalWasteService._fetchAddressesPreCall = {
+            #expect(sut.isLoading == true)
+        }
 
-        sut.postCode = "test"
-        sut.primaryButtonViewModel.action()
-        #expect(sut.error?.errorMessage == "Enter a postcode in the correct format")
+        #expect(sut.isLoading == false)
+
+        await sut.fetchAddresses()
+
+        #expect(sut.isLoading == false)
     }
 
-
     @Test
-    func returnErrorMessage_postcodeNotFound_returnsExpectedResult() async throws {
-        let mockService = MockLocalAuthorityService()
-        mockService._stubbedFetchLocalPostcodeResult = .failure(.unknownPostcode)
-
+    func fetchAddresses_sanitisedPostcodeIsSent() async throws {
+        let expectedAddresses: [LocalWasteAddress] = [
+            .init(addressFull: "address1", uprn: "uprn1", localCustodianCode: "code1")
+        ]
+        let mockLocalWasteService = MockLocalWasteService()
+        mockLocalWasteService._dataFetchAddresses = expectedAddresses
+        
         let sut = LocalWastePostcodeEntryViewModel(
-            service: mockService,
+            service: mockLocalWasteService,
             analyticsService: MockAnalyticsService(),
-            resolveAmbiguityAction: { _, _ in },
-            localAuthoritySelected: {_ in},
-            dismissAction: {}
+            dismissAction: {},
+            doneAction: { _ in }
         )
-        sut.postCode = "test"
-        sut.primaryButtonViewModel.action()
-        #expect(sut.error?.errorMessage == "We could not find a council for this postcode. Check the postcode and try again.")
+        sut.postcode = "sw1a 0aa"
+        await sut.fetchAddresses()
+        #expect(mockLocalWasteService._postcodeFetchAddresses == "SW1A0AA")
     }
-*/
+
     @Test
-    func primaryButtonViewModel_action_trackNavigationEvent() async throws {
+    func fetchAddresses_serviceReturnsNonEmptyArray_callDoneAction() async throws {
+        let expectedAddresses: [LocalWasteAddress] = [
+            .init(addressFull: "address1", uprn: "uprn1", localCustodianCode: "code1")
+        ]
+        let mockLocalWasteService = MockLocalWasteService()
+        mockLocalWasteService._dataFetchAddresses = expectedAddresses
+        var actualAddresses: [LocalWasteAddress]? = nil
+        
+        let sut = LocalWastePostcodeEntryViewModel(
+            service: mockLocalWasteService,
+            analyticsService: MockAnalyticsService(),
+            dismissAction: {},
+            doneAction: { receivedAddresses in
+                actualAddresses = receivedAddresses
+            }
+        )
+        sut.postcode = "SW1A 0AA"
+        await sut.fetchAddresses()
+        #expect(actualAddresses == expectedAddresses)
+    }
+
+    @Test
+    func fetchAddresses_serviceReturnsNonEmptyArray_isLoading() async throws {
+        let expectedAddresses: [LocalWasteAddress] = [
+            .init(addressFull: "address1", uprn: "uprn1", localCustodianCode: "code1")
+        ]
+        let mockLocalWasteService = MockLocalWasteService()
+        mockLocalWasteService._dataFetchAddresses = expectedAddresses
+        
+        let sut = LocalWastePostcodeEntryViewModel(
+            service: mockLocalWasteService,
+            analyticsService: MockAnalyticsService(),
+            dismissAction: {},
+            doneAction: { _ in }
+        )
+        sut.postcode = "SW1A 0AA"
+        mockLocalWasteService._fetchAddressesPreCall = {
+            #expect(sut.isLoading == true)
+        }
+
+        #expect(sut.isLoading == false)
+
+        await sut.fetchAddresses()
+
+        #expect(sut.isLoading == false)
+    }
+
+    @Test
+    func fetchAddresses_trackNavigationEvent() async throws {
+        let mockLocalWasteService = MockLocalWasteService()
+        mockLocalWasteService._dataFetchAddresses = [
+            .init(addressFull: "address1", uprn: "uprn1", localCustodianCode: "code1")
+        ]
         let mockAnalyticsService = MockAnalyticsService()
         let sut = LocalWastePostcodeEntryViewModel(
+            service: mockLocalWasteService,
             analyticsService: mockAnalyticsService,
-            dismissAction: {}
+            dismissAction: {},
+            doneAction: { _ in }
         )
-        sut.postCode = "SW1A 0AA"
-        sut.primaryButtonViewModel.action()
+        sut.postcode = "SW1A 0AA"
+        await sut.fetchAddresses()
         let receivedTitle = mockAnalyticsService._trackedEvents.first?.params?["text"] as? String
         #expect(receivedTitle == "Find address")
     }
 
-    @MainActor
     @Test
     func trackScreen_sendsEvent() async throws {
         let mockAnalyticsService = MockAnalyticsService()
         let sut = LocalWastePostcodeEntryViewModel(
+            service: MockLocalWasteService(),
             analyticsService: mockAnalyticsService,
-            dismissAction: {}
+            dismissAction: {},
+            doneAction: { _ in }
         )
         let view = LocalWastePostcodeEntryView(viewModel: sut)
         sut.trackScreen(screen: view)
@@ -232,6 +401,15 @@ struct LocalWastePostcodeEntryViewModelTests {
         let sut = LocalWastePostcodeEntryViewModel.PostcodeError.textFieldEmpty
         let expected = String.localWaste.localized(
             "localWastePostcodeEntryViewEmptyPostcode"
+        )
+        #expect(sut.errorMessage == expected)
+    }
+
+    @Test
+    func postcodeError_pageNotWorking_returnsCorrectTitle() throws {
+        let sut = LocalWastePostcodeEntryViewModel.PostcodeError.pageNotWorking
+        let expected = String.localWaste.localized(
+            "localWastePageNotWorking"
         )
         #expect(sut.errorMessage == expected)
     }

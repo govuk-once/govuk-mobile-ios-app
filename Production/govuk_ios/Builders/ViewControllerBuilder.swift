@@ -200,11 +200,15 @@ class ViewControllerBuilder {
 
     func localWastePostcodeEntryView(
         analyticsService: AnalyticsServiceInterface,
-        dismissAction: @escaping () -> Void
+        localWasteService: LocalWasteServiceInterface,
+        dismissAction: @escaping () -> Void,
+        doneAction: @escaping ([LocalWasteAddress]) -> Void
     ) -> UIViewController {
         let viewModel = LocalWastePostcodeEntryViewModel(
+            service: localWasteService,
             analyticsService: analyticsService,
-            dismissAction: dismissAction
+            dismissAction: dismissAction,
+            doneAction: doneAction
         )
         let view = LocalWastePostcodeEntryView(
             viewModel: viewModel
@@ -212,6 +216,29 @@ class ViewControllerBuilder {
         let viewController  = HostingViewController(
             rootView: view,
             navigationBarHidden: true
+        )
+        viewController.view.backgroundColor = .govUK.fills.surfaceModal
+        return viewController
+    }
+
+    func localWasteAddressSelectionView(
+        analyticsService: AnalyticsServiceInterface,
+        localWasteService: LocalWasteServiceInterface,
+        addresses: [LocalWasteAddress],
+        dismissAction: @escaping () -> Void
+    ) -> UIViewController {
+        let viewModel = LocalWasteAddressSelectionViewModel(
+            service: localWasteService,
+            analyticsService: analyticsService,
+            addresses: addresses,
+            dismissAction: dismissAction
+        )
+        let view = LocalWasteAddressSelectionView(
+            viewModel: viewModel
+        )
+        let viewController = HostingViewController(
+            rootView: view,
+            navigationBarTintColor: .govUK.text.linkSecondary
         )
         viewController.view.backgroundColor = .govUK.fills.surfaceModal
         return viewController
