@@ -3,7 +3,7 @@ import GovKit
 
 typealias FetchUserStateCompletion = (UserStateResult) -> Void
 typealias UserStateResult = Result<UserState, UserStateError>
-typealias NotificationsPreferenceResult = Result<NotificationsPreferenceResponse, UserStateError>
+typealias NotificationsPreferenceResult = Result<UserNotificationsPreferences, UserStateError>
 typealias LinkAccountResult = Result<Void, UserStateError>
 typealias LinkAccountCompletion = (LinkAccountResult) -> Void
 

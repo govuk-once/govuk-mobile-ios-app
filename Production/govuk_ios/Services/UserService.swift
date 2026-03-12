@@ -19,10 +19,10 @@ protocol UserServiceInterface {
      }
 
      var notificationId: String? {
-         userState?.notificationId
+         userState?.notifications.notificationId
      }
      var notificationsConsentStatus: ConsentStatus? {
-         userState?.preferences.notifications.consentStatus
+         userState?.notifications.consentStatus
      }
 
      init(appConfigService: AppConfigServiceInterface,
@@ -48,7 +48,7 @@ protocol UserServiceInterface {
          userServiceClient.setNotificationsConsent(consentStatus) { result in
              switch result {
              case .success(let response):
-                 let returnedConsentStatus = response.preferences.notifications.consentStatus
+                 let returnedConsentStatus = response.consentStatus
                  print("\(#function) successful, result: \(returnedConsentStatus.rawValue)")
              case .failure(let error):
                  print(error.localizedDescription)

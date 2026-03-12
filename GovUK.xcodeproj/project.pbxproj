@@ -297,7 +297,6 @@
 		8171AE472F1116A00024312B /* ScrollBottomIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8171AE462F11169A0024312B /* ScrollBottomIndicatorView.swift */; };
 		8181DBFA2EE214B100F47531 /* FactoryKit in Frameworks */ = {isa = PBXBuildFile; productRef = 8181DBF92EE214B100F47531 /* FactoryKit */; };
 		8181DBFC2EE214B100F47531 /* FactoryTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 8181DBFB2EE214B100F47531 /* FactoryTesting */; };
-		81D239732F2CD6B500AC7DA5 /* NotificationsPreferenceResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D239722F2CD6AF00AC7DA5 /* NotificationsPreferenceResponse.swift */; };
 		81DE66952F5B2A640087F48E /* ServiceAccountCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DE66942F5B2A5F0087F48E /* ServiceAccountCoordinator.swift */; };
 		81DE66982F5B3AB60087F48E /* ServiceAccountLinkingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DE66972F5B3AAF0087F48E /* ServiceAccountLinkingViewModel.swift */; };
 		81DE669B2F5B743B0087F48E /* ServiceAccountLinkingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DE669A2F5B74350087F48E /* ServiceAccountLinkingView.swift */; };
@@ -750,7 +749,6 @@
 		815C58672EE970DC00322705 /* RemoteConfigService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigService.swift; sourceTree = "<group>"; };
 		815C58692EE973F400322705 /* RemoteConfigServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigServiceClient.swift; sourceTree = "<group>"; };
 		8171AE462F11169A0024312B /* ScrollBottomIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollBottomIndicatorView.swift; sourceTree = "<group>"; };
-		81D239722F2CD6AF00AC7DA5 /* NotificationsPreferenceResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsPreferenceResponse.swift; sourceTree = "<group>"; };
 		81DE66942F5B2A5F0087F48E /* ServiceAccountCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountCoordinator.swift; sourceTree = "<group>"; };
 		81DE66972F5B3AAF0087F48E /* ServiceAccountLinkingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountLinkingViewModel.swift; sourceTree = "<group>"; };
 		81DE669A2F5B74350087F48E /* ServiceAccountLinkingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountLinkingView.swift; sourceTree = "<group>"; };
@@ -1982,7 +1980,6 @@
 		81D239712F2CD2D200AC7DA5 /* User */ = {
 			isa = PBXGroup;
 			children = (
-				81D239722F2CD6AF00AC7DA5 /* NotificationsPreferenceResponse.swift */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -2798,7 +2795,6 @@
 				D0EAB4FF2CDE5D5B007ACBCD /* AppEnvironmentService.swift in Sources */,
 				D0C1C1A22E9807C400651F1B /* TopicListItemView.swift in Sources */,
 				D056CE762D3A848A005845E0 /* InformationView.swift in Sources */,
-				81D239732F2CD6B500AC7DA5 /* NotificationsPreferenceResponse.swift in Sources */,
 				D02416452DEDB1C600F81C6D /* SignInSuccessViewModel.swift in Sources */,
 				D0E855D42DDB85C1003B4D7A /* URLEncodedRequestBuilder.swift in Sources */,
 				1677D4022E00643900FB1E56 /* LocalAuthenticationSettingsCoordinator.swift in Sources */,

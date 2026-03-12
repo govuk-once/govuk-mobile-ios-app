@@ -571,7 +571,9 @@ class ViewControllerBuilder {
             analyticsService: analyticsService,
             chatService: chatService,
             cancelOnboardingAction: cancelOnboardingAction,
-            completionAction: completionAction)
+            completionAction: completionAction,
+            openURLAction: openURLAction
+        )
 
         let containerView = InfoView<ChatTermsOnboardingViewModel>(
             viewModel: viewModel,
@@ -579,7 +581,7 @@ class ViewControllerBuilder {
                 AnyView(
                     InfoMarkdownView(
                         viewModel.markdownText,
-                        openUrlAction: openURLAction
+                        openUrlAction: viewModel.openTermsURLAction
                     )
                 )
             }

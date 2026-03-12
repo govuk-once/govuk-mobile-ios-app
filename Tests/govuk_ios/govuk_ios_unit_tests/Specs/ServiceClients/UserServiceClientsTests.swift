@@ -21,7 +21,7 @@ struct UserServiceClientTests {
     @Test
     func fetchUserState_sendsExpectedRequest() {
         sut.fetchUserState { _ in }
-        #expect(mockAPI._receivedSendRequest?.urlPath == "/app/v1/user")
+        #expect(mockAPI._receivedSendRequest?.urlPath == "/app/v1/users")
         #expect(mockAPI._receivedSendRequest?.method == .get)
     }
 
@@ -34,8 +34,8 @@ struct UserServiceClientTests {
             }
         }
         let userState = try? result.get()
-        #expect(userState?.notificationId == "test_user_id")
-        #expect(userState?.preferences.notifications.consentStatus == .unknown)
+        #expect(userState?.notifications.notificationId == "test_notification_id")
+        #expect(userState?.notifications.consentStatus == .unknown)
     }
 
     @Test
@@ -82,10 +82,10 @@ struct UserServiceClientTests {
     @Test
     func setNotificationsConsent_sendsExpectedRequest() throws {
         sut.setNotificationsConsent(.accepted) { _ in }
-        #expect(mockAPI._receivedSendRequest?.urlPath == "/app/v1/user")
+        #expect(mockAPI._receivedSendRequest?.urlPath == "/app/v1/users/notifications")
         #expect(mockAPI._receivedSendRequest?.method == .patch)
-        let body = try #require(mockAPI._receivedSendRequest?.body as? NotificationsPreferenceUpdate)
-        #expect(body.preferences.notifications.consentStatus == .accepted)
+        let body = try #require(mockAPI._receivedSendRequest?.body as? ConsentPreference)
+        #expect(body.consentStatus == .accepted)
     }
 
     @Test
@@ -97,7 +97,7 @@ struct UserServiceClientTests {
             }
         }
         let notificationsConsentResponse = try? result.get()
-        #expect(notificationsConsentResponse?.preferences.notifications.consentStatus == .accepted)
+        #expect(notificationsConsentResponse?.consentStatus == .accepted)
     }
 
     @Test
@@ -173,11 +173,10 @@ private extension UserServiceClientTests {
     static let userStateData =
     """
     {
-        "notificationId": "test_user_id",
-        "preferences": {
-            "notifications": {
-                "consentStatus": "unknown"
-            }
+        "userId": "test_user_id",
+        "notifications": {
+            "consentStatus": "unknown",
+            "notificationId": "test_notification_id"
         }
     }
     """.data(using: .utf8)!
@@ -185,11 +184,8 @@ private extension UserServiceClientTests {
     static let notificationConsentResponseData =
     """
     {
-        "preferences": {
-            "notifications": {
-                "consentStatus": "accepted"
-            }
-        }
+        "consentStatus": "accepted",
+        "notificationId": "test_notification_id"
     }
     """.data(using: .utf8)!
 

@@ -64,7 +64,7 @@ class WelcomeOnboardingCoordinatorTests {
         }
 
         #expect(completion)
-        #expect(mockNotificationService._stubbedNotificationId == "test_id")
+        #expect(mockNotificationService._stubbedNotificationId == "notification_id")
     }
 
     @Test
@@ -199,7 +199,7 @@ class WelcomeOnboardingCoordinatorTests {
         }
 
         #expect(completion)
-        #expect(mockNotificationService._stubbedNotificationId == "test_id")
+        #expect(mockNotificationService._stubbedNotificationId == "notification_id")
     }
 
     @Test

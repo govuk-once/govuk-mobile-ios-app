@@ -1,12 +1,13 @@
 import Foundation
 
 struct UserState: Codable {
-    let notificationId: String
-    let preferences: UserPreferences
+    let userId: String
+    let notifications: UserNotificationsPreferences
 }
 
-struct UserPreferences: Codable {
-    let notifications: ConsentPreference
+struct UserNotificationsPreferences: Codable {
+    let consentStatus: ConsentStatus
+    let notificationId: String
 }
 
 struct ConsentPreference: Codable {

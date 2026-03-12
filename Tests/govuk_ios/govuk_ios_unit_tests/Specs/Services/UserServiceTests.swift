@@ -27,7 +27,7 @@ final class UserServiceTests {
         }
 
         let userStateResponse = try #require(try? result.get())
-        #expect(userStateResponse.notificationId == "test_id")
+        #expect(userStateResponse.notifications.notificationId == "notification_id")
 
     }
 
@@ -55,7 +55,7 @@ final class UserServiceTests {
         let sut = UserService(appConfigService: mockAppConfigService,
                               userServiceClient: mockUserServiceClient)
 
-        mockUserServiceClient?._stubbedFetchUserStateResult = .success(UserState.arrange(notificationsConsentStatus: .accepted))
+        mockUserServiceClient?._stubbedFetchUserStateResult = .success(UserState.arrangeAccepted)
         await withCheckedContinuation { continuation in
             sut.fetchUserState(completion: { _ in
                 continuation.resume()
@@ -83,6 +83,18 @@ final class UserServiceTests {
 
         sut.setNotificationsConsent(.accepted)
         #expect(mockUserServiceClient._receivedNotificationConsent == nil)
+    }
+    
+    @Test
+    func fetchUserState_updatesNotificationId() async throws {
+        mockAppConfigService.features = [.flex]
+        let userService = UserService(appConfigService: mockAppConfigService,
+                                      userServiceClient: mockUserServiceClient)
+        mockUserServiceClient._stubbedFetchUserStateResult = .success(UserState.arrange(notificationId: "notification-id-1"))
+        
+        userService.fetchUserState { _ in }
+        
+        #expect(userService.notificationId == "notification-id-1")
     }
 
     @Test
