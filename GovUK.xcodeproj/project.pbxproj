@@ -287,6 +287,13 @@
 		619342C02F5B153200C5AB7F /* LocalWastePostcodeEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619342BF2F5B153200C5AB7F /* LocalWastePostcodeEntryView.swift */; };
 		619342C22F5B158600C5AB7F /* LocalWastePostcodeEntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619342C12F5B158600C5AB7F /* LocalWastePostcodeEntryViewModel.swift */; };
 		619342C42F5B1C5F00C5AB7F /* EditLocalWasteCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619342C32F5B1C5F00C5AB7F /* EditLocalWasteCoordinator.swift */; };
+		61B4B5942F5EFA7600C75ED4 /* LocalWasteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61B4B5932F5EFA7600C75ED4 /* LocalWasteService.swift */; };
+		61B4B5962F5EFB2300C75ED4 /* LocalWasteServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61B4B5952F5EFB2300C75ED4 /* LocalWasteServiceClient.swift */; };
+		61B4B5992F5EFBD400C75ED4 /* LocalWasteAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61B4B5982F5EFBD400C75ED4 /* LocalWasteAddress.swift */; };
+		61B4B59D2F600B8C00C75ED4 /* LocalWasteAddressSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61B4B59C2F600B8C00C75ED4 /* LocalWasteAddressSelectionView.swift */; };
+		61B4B59F2F600B9C00C75ED4 /* LocalWasteAddressSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61B4B59E2F600B9C00C75ED4 /* LocalWasteAddressSelectionViewModel.swift */; };
+		61B4B5AD2F61708700C75ED4 /* LocalWasteAddressItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61B4B5AC2F61708700C75ED4 /* LocalWasteAddressItem.swift */; };
+		61B4BC682F617AFE00C75ED4 /* LocalWasteRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61B4BC672F617AFE00C75ED4 /* LocalWasteRepository.swift */; };
 		61E69E782F5ADDBF00AACBFA /* View+Styling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E69E772F5ADDBF00AACBFA /* View+Styling.swift */; };
 		8101A23E2F28BAAB009E639B /* AppUnavailableError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8101A23D2F28BAA4009E639B /* AppUnavailableError.swift */; };
 		8101A2402F28BB58009E639B /* UserStateError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8101A23F2F28BB54009E639B /* UserStateError.swift */; };
@@ -751,6 +758,14 @@
 		619342BF2F5B153200C5AB7F /* LocalWastePostcodeEntryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalWastePostcodeEntryView.swift; sourceTree = "<group>"; };
 		619342C12F5B158600C5AB7F /* LocalWastePostcodeEntryViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalWastePostcodeEntryViewModel.swift; sourceTree = "<group>"; };
 		619342C32F5B1C5F00C5AB7F /* EditLocalWasteCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditLocalWasteCoordinator.swift; sourceTree = "<group>"; };
+		61B4B5932F5EFA7600C75ED4 /* LocalWasteService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalWasteService.swift; sourceTree = "<group>"; };
+		61B4B5952F5EFB2300C75ED4 /* LocalWasteServiceClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalWasteServiceClient.swift; sourceTree = "<group>"; };
+		61B4B5982F5EFBD400C75ED4 /* LocalWasteAddress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalWasteAddress.swift; sourceTree = "<group>"; };
+		61B4B59C2F600B8C00C75ED4 /* LocalWasteAddressSelectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalWasteAddressSelectionView.swift; sourceTree = "<group>"; };
+		61B4B59E2F600B9C00C75ED4 /* LocalWasteAddressSelectionViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalWasteAddressSelectionViewModel.swift; sourceTree = "<group>"; };
+		61B4B5AC2F61708700C75ED4 /* LocalWasteAddressItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalWasteAddressItem.swift; sourceTree = "<group>"; };
+		61B4B90A2F61723700C75ED4 /* GOV_v3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = GOV_v3.xcdatamodel; sourceTree = "<group>"; };
+		61B4BC672F617AFE00C75ED4 /* LocalWasteRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalWasteRepository.swift; sourceTree = "<group>"; };
 		61E69E772F5ADDBF00AACBFA /* View+Styling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "View+Styling.swift"; sourceTree = "<group>"; };
 		8101A23D2F28BAA4009E639B /* AppUnavailableError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUnavailableError.swift; sourceTree = "<group>"; };
 		8101A23F2F28BB54009E639B /* UserStateError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStateError.swift; sourceTree = "<group>"; };
@@ -1236,6 +1251,7 @@
 				D04DD5C92E0074E4002B5F19 /* Chat */,
 				D06C2A502DDF39C90045C674 /* LocalAuthorityResponseHandler.swift */,
 				4EBCA3282DAC546A0063A723 /* LocalAuthorityServiceClient.swift */,
+				61B4B5952F5EFB2300C75ED4 /* LocalWasteServiceClient.swift */,
 				5D056C232E5706EF00D28DAE /* OneSignalServiceClient.swift */,
 				5D0BD4582C9B1BBA00220625 /* SearchServiceClient.swift */,
 				D04191852CA6A5910034722A /* TopicsServiceClient.swift */,
@@ -1499,6 +1515,7 @@
 				D06C49B52DE5D2510045C674 /* JailbreakDetectionService.swift */,
 				169842D72DAEAAD500E3EA66 /* LocalAuthenticationService.swift */,
 				4EBCA3262DAC541B0063A723 /* LocalAuthorityService.swift */,
+				61B4B5932F5EFA7600C75ED4 /* LocalWasteService.swift */,
 				4EA1E27F2D8C611D0062453D /* Notifications */,
 				16A788B12DCC288400CA64E2 /* ReturningUserService.swift */,
 				5DD09EC72C9ADB8500494550 /* SearchService.swift */,
@@ -1547,6 +1564,7 @@
 				D0D9CFD42D302F2A0051EDDD /* SearchHistoryRepository.swift */,
 				D028CCF32CB4247100742620 /* TopicsRepository.swift */,
 				D07E7A572DAE662A00B92D40 /* LocalAuthorityRepository.swift */,
+				61B4BC672F617AFE00C75ED4 /* LocalWasteRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -1916,6 +1934,7 @@
 				D04DD32C2E0046DC002B5F19 /* Chat */,
 				1631DE982C2B0D020050CB9D /* DeviceInformationProvider.swift */,
 				4E265F142DB0E6B70089CF9E /* LocalAuthority */,
+				61B4B5972F5EFBB800C75ED4 /* LocalWaste */,
 				5DCCCBBC2EA0F5690097430C /* ReturningUserServiceError.swift */,
 				D0D9CB922D3024C00051EDDD /* Search */,
 				16FCDE772DC4E38F000E870D /* TokenRefreshResponse.swift */,
@@ -1984,6 +2003,15 @@
 			path = UserNotifications;
 			sourceTree = "<group>";
 		};
+		61B4B5972F5EFBB800C75ED4 /* LocalWaste */ = {
+			isa = PBXGroup;
+			children = (
+				61B4B5982F5EFBD400C75ED4 /* LocalWasteAddress.swift */,
+				61B4B5AC2F61708700C75ED4 /* LocalWasteAddressItem.swift */,
+			);
+			path = LocalWaste;
+			sourceTree = "<group>";
+		};
 		8101BEEA2F2A24B8009E639B /* RemoteConfig */ = {
 			isa = PBXGroup;
 			children = (
@@ -2039,6 +2067,7 @@
 		C8A1E0252F55B4CF00730517 /* LocalWaste */ = {
 			isa = PBXGroup;
 			children = (
+				61B4B59C2F600B8C00C75ED4 /* LocalWasteAddressSelectionView.swift */,
 				619342BF2F5B153200C5AB7F /* LocalWastePostcodeEntryView.swift */,
 				C8A1E0262F55B68800730517 /* UnsetLocalWasteWidgetView.swift */,
 			);
@@ -2048,6 +2077,7 @@
 		C8A1E0282F55B8B500730517 /* LocalWaste */ = {
 			isa = PBXGroup;
 			children = (
+				61B4B59E2F600B9C00C75ED4 /* LocalWasteAddressSelectionViewModel.swift */,
 				619342C12F5B158600C5AB7F /* LocalWastePostcodeEntryViewModel.swift */,
 				C8A1E0292F55B8D400730517 /* UnsetLocalWasteWidgetViewModel.swift */,
 			);
@@ -2663,6 +2693,7 @@
 				168F6FA82C4FC1D200A0D7F7 /* HomeViewModel.swift in Sources */,
 				D04DD32D2E0046DC002B5F19 /* PendingQuestion.swift in Sources */,
 				D04DD32E2E0046DC002B5F19 /* AnsweredQuestion.swift in Sources */,
+				61B4B5992F5EFBD400C75ED4 /* LocalWasteAddress.swift in Sources */,
 				D0A35E0A2E740DFD007D3D27 /* ChatMarkdownTheme.swift in Sources */,
 				D04DD32F2E0046DC002B5F19 /* Answer.swift in Sources */,
 				D04DD3302E0046DC002B5F19 /* History.swift in Sources */,
@@ -2671,6 +2702,7 @@
 				1677D4062E006B8000FB1E56 /* TouchIdSettingsView.swift in Sources */,
 				5D54A82E2BFCAA4E003D0C21 /* LaunchViewController.swift in Sources */,
 				167D0DC52E9D41340064A39E /* TopicSelectionCardViewModel.swift in Sources */,
+				61B4B59F2F600B9C00C75ED4 /* LocalWasteAddressSelectionViewModel.swift in Sources */,
 				5D8100892CEB3FE600EE7D15 /* AppLaunchResponse.swift in Sources */,
 				4EEC0F322DBB7C6E00D745F2 /* StoredLocalAuthorityWidgetView.swift in Sources */,
 				5DCCCBB92EA0DC300097430C /* LoginErrorV2+Extensions.swift in Sources */,
@@ -2724,17 +2756,20 @@
 				5D15A8E82C6A47770050C780 /* GOVRequest.swift in Sources */,
 				D06C56092DE70F4D0045C674 /* AppAttestService.swift in Sources */,
 				D06C2A4F2DDF2FCF0045C674 /* ResponseHandler.swift in Sources */,
+				61B4B5AD2F61708700C75ED4 /* LocalWasteAddressItem.swift in Sources */,
 				D08A9A802DB9286D002E9C78 /* SignOutConfirmationCoordinator.swift in Sources */,
 				4EBE646B2D15AAD6007A6E97 /* MinimumLengthValidator.swift in Sources */,
 				4E15340D2E3A248E002DEDB9 /* TopicsWidgetViewModel.swift in Sources */,
 				5D8100872CEB3FD600EE7D15 /* AppLaunchService.swift in Sources */,
 				5D9E67C42C5A2C6E00DB7877 /* UITabBarItemAppearance+GOVUK.swift in Sources */,
+				61B4BC682F617AFE00C75ED4 /* LocalWasteRepository.swift in Sources */,
 				5D0BD4592C9B1BBA00220625 /* SearchServiceClient.swift in Sources */,
 				61E69E782F5ADDBF00AACBFA /* View+Styling.swift in Sources */,
 				5D66D19A2CBFF51100006723 /* AppEvent+Topics.swift in Sources */,
 				5DFE5F1E2D6DE5900041E3B4 /* UNUserNotificationCenter+Interface.swift in Sources */,
 				4EBCA3272DAC541B0063A723 /* LocalAuthorityService.swift in Sources */,
 				16A98EA52D30333F00C72DEB /* SuggestionCell.swift in Sources */,
+				61B4B5942F5EFA7600C75ED4 /* LocalWasteService.swift in Sources */,
 				4E6663C82C7370750063E81C /* AppConfig.swift in Sources */,
 				4E837E252E7D8C8600B3CC5A /* RecentActivityHomepageViewModel.swift in Sources */,
 				D0D9B87B2D2D547D0051EDDD /* StringValidator.swift in Sources */,
@@ -2755,6 +2790,7 @@
 				D08F2C7E2E6AF8C800133121 /* CGImageSource+Extensions.swift in Sources */,
 				5D8683952C340F1B0024F2D8 /* DeeplinkRoute.swift in Sources */,
 				16A5E9D02E02D68C00D5FD0C /* FaceIdSettingsView.swift in Sources */,
+				61B4B5962F5EFB2300C75ED4 /* LocalWasteServiceClient.swift in Sources */,
 				16624BAB2DDCDD4C00E9B60D /* InactivityService.swift in Sources */,
 				D04DD3322E0046FB002B5F19 /* GOVRequest+Chat.swift in Sources */,
 				D0F5FF7E2D64D22400C3BF51 /* AppEvent+ECommerce.swift in Sources */,
@@ -2792,6 +2828,7 @@
 				164091FC2DA41B3000E3BE99 /* AuthenticationService.swift in Sources */,
 				D0ECB4012DCE0F6600A9707E /* AmbiguousAuthoritySelectionViewModel.swift in Sources */,
 				3D15E7B22CB562E40046CE64 /* AppRecommendUpdateContainerView.swift in Sources */,
+				61B4B59D2F600B8C00C75ED4 /* LocalWasteAddressSelectionView.swift in Sources */,
 				D016F29B2E0C51B000659AC3 /* ChatViewModel.swift in Sources */,
 				16A39A2E2DA9D05200C71F43 /* AppAuthSessionWrapper.swift in Sources */,
 				4E996D302D11AB00007F21A8 /* ValidatorProvider.swift in Sources */,
@@ -3589,8 +3626,9 @@
 			children = (
 				D0EB04822D37F34200B310D8 /* GOV.xcdatamodel */,
 				D0EB04832D37F34200B310D8 /* GOV_v2.xcdatamodel */,
+				61B4B90A2F61723700C75ED4 /* GOV_v3.xcdatamodel */,
 			);
-			currentVersion = D0EB04832D37F34200B310D8 /* GOV_v2.xcdatamodel */;
+			currentVersion = 61B4B90A2F61723700C75ED4 /* GOV_v3.xcdatamodel */;
 			path = GOV.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

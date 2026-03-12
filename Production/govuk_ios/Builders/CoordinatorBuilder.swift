@@ -258,6 +258,7 @@ class CoordinatorBuilder {
             navigationController: navigationController,
             viewControllerBuilder: ViewControllerBuilder(),
             analyticsService: container.analyticsService.resolve(),
+            localWasteService: container.localWasteService.resolve(),
             coordinatorBuilder: self,
             dismissed: dismissAction
         )

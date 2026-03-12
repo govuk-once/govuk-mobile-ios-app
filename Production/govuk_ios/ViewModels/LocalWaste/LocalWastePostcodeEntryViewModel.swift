@@ -3,12 +3,33 @@ import GovKitUI
 import GovKit
 import SwiftUI
 
+@MainActor
 class LocalWastePostcodeEntryViewModel: ObservableObject {
-    @Published var postCode: String = ""
-    @Published var error: PostcodeError?
-    @Published var textFieldColour: UIColor = UIColor.govUK.strokes.listDivider
+    
+    @Published
+    var postcode: String = "" {
+        didSet {
+            if postcode != oldValue {
+                populateErrorMessage(nil)
+            }
+        }
+    }
+    
+    @Published
+    var error: PostcodeError?
+    
+    @Published
+    var textFieldColour: UIColor = UIColor.govUK.strokes.listDivider
+
+    @Published
+    var isLoading = false
+    
+    @Published
+    var isPrimaryButtonEnabled = false
 
     private let analyticsService: AnalyticsServiceInterface
+    private let service: LocalWasteServiceInterface
+    private let doneAction: ([LocalWasteAddress]) -> Void
 
     let dismissAction: () -> Void
 
@@ -30,18 +51,23 @@ class LocalWastePostcodeEntryViewModel: ObservableObject {
     let entryFieldAccessibilityLabel: String = String.localWaste.localized(
         "localWastePostcodeEntryViewEntryAccessibilityLabel"
     )
-    private let primaryButton: String = String.localWaste.localized(
+    let primaryButton: String = String.localWaste.localized(
         "localWastePostcodeEntryViewPrimaryButton"
     )
 
-    init(analyticsService: AnalyticsServiceInterface,
-         dismissAction: @escaping () -> Void) {
+    init(service: LocalWasteServiceInterface,
+         analyticsService: AnalyticsServiceInterface,
+         dismissAction: @escaping () -> Void,
+         doneAction: @escaping ([LocalWasteAddress]) -> Void) {
+        self.service = service
         self.analyticsService = analyticsService
         self.dismissAction = dismissAction
+        self.doneAction = doneAction
     }
 
     enum PostcodeError: String {
         case textFieldEmpty = "localWastePostcodeEntryViewEmptyPostcode"
+        case pageNotWorking = "localWastePageNotWorking"
 
         var errorMessage: String {
             String.localWaste.localized(
@@ -54,25 +80,34 @@ class LocalWastePostcodeEntryViewModel: ObservableObject {
         analyticsService.track(screen: screen)
     }
 
-    var primaryButtonViewModel: GOVUKButton.ButtonViewModel {
-        .init(
-            localisedTitle: primaryButton,
-            action: { [weak self] in
-                guard let self = self else { return }
-                if postCode.isEmpty {
-                    self.error = .textFieldEmpty
-                    self.setErrorTextFieldColour()
-                    return
-                }
-                let buttonTitle = self.primaryButton
-                self.trackNavigationEvent(buttonTitle)
-                
-//                let sanitisedPostcode = self.preprocessTextInput(
-//                    postcode: postCode
-//                )
-                // TODO fetch addresses here
+    func fetchAddresses() async {
+        if postcode.isEmpty {
+            populateErrorMessage(.textFieldEmpty)
+            return
+        }
+        
+        do {
+            isLoading = true
+            let sanitisedPostcode = preprocessTextInput(postcode: postcode)
+            let addresses = try await service.fetchAddresses(postcode: sanitisedPostcode)
+            if addresses.count == 0 {
+                throw LocalWasteAddressSearchError.unknownPostcode
             }
-        )
+            
+            trackNavigationEvent(primaryButton)
+            doneAction(addresses)
+            isLoading = false
+        } catch {
+            isLoading = false
+            populateErrorMessage(.pageNotWorking)
+        }
+    }
+
+    private func populateErrorMessage(_ error: PostcodeError?) {
+        self.error = error
+        textFieldColour = error == nil
+        ? UIColor.govUK.strokes.listDivider
+        : UIColor.govUK.strokes.error
     }
 
     private func trackNavigationEvent(_ title: String) {
@@ -83,17 +118,13 @@ class LocalWastePostcodeEntryViewModel: ObservableObject {
         analyticsService.track(event: event)
     }
 
-//    private func preprocessTextInput(postcode: String) -> String {
-//        let upperCasedText = postcode.uppercased()
-//        let textWithoutUnderScores = upperCasedText.replacingOccurrences(
-//            of: "_",
-//            with: ""
-//        )
-//        let removedWhiteSpace = textWithoutUnderScores.filter {!$0.isWhitespace}
-//        return removedWhiteSpace
-//    }
-
-    private func setErrorTextFieldColour() {
-        textFieldColour = UIColor.govUK.strokes.error
+    private func preprocessTextInput(postcode: String) -> String {
+        let upperCasedText = postcode.uppercased()
+        let textWithoutUnderScores = upperCasedText.replacingOccurrences(
+            of: "_",
+            with: ""
+        )
+        let removedWhiteSpace = textWithoutUnderScores.filter {!$0.isWhitespace}
+        return removedWhiteSpace
     }
 }

@@ -154,17 +154,6 @@ struct ViewControllerBuilderTests {
     }
 
     @Test
-    func localWastePostcodeEntryView_returnsExpectedResult() {
-        let subject = ViewControllerBuilder()
-        let result = subject.localWastePostcodeEntryView(
-            analyticsService: MockAnalyticsService(),
-            dismissAction: {}
-        )
-        let rootView = (result as? HostingViewController<LocalWastePostcodeEntryView>)?.rootView
-        #expect(rootView != nil)
-    }
-
-    @Test
     func localAuthorityConfirmationView_returnsExpectedResult() {
         let authority = Authority(
             name: "Test",
@@ -195,6 +184,32 @@ struct ViewControllerBuilderTests {
         let rootView = (result as? HostingViewController<LocalAuthorityExplainerView>)?.rootView
         #expect(rootView != nil)
 
+    }
+
+    @Test
+    func localWastePostcodeEntryView_returnsExpectedResult() {
+        let subject = ViewControllerBuilder()
+        let result = subject.localWastePostcodeEntryView(
+            analyticsService: MockAnalyticsService(),
+            localWasteService: MockLocalWasteService(),
+            dismissAction: {},
+            doneAction: { _ in }
+        )
+        let rootView = (result as? HostingViewController<LocalWastePostcodeEntryView>)?.rootView
+        #expect(rootView != nil)
+    }
+
+    @Test
+    func localWasteAddressSelectionView_returnsExpectedResult() {
+        let subject = ViewControllerBuilder()
+        let result = subject.localWasteAddressSelectionView(
+            analyticsService: MockAnalyticsService(),
+            localWasteService: MockLocalWasteService(),
+            addresses: [],
+            dismissAction: {}
+        )
+        let rootView = (result as? HostingViewController<LocalWasteAddressSelectionView>)?.rootView
+        #expect(rootView != nil)
     }
 
     @Test

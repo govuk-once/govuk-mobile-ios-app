@@ -58,6 +58,12 @@ extension Container {
         }
     }
 
+    var localWasteServiceClient: Factory<LocalWasteServiceClientInterface> {
+        Factory(self) {
+            LocalWasteServiceClient(session: URLSession.shared)
+        }
+    }
+
     var chatServiceClient: Factory<ChatServiceClientInterface> {
         Factory(self) {
             ChatServiceClient(

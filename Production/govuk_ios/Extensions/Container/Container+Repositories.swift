@@ -22,6 +22,11 @@ extension Container {
         }
     }
 
+    var localWasteRepository: Factory<LocalWasteRepositoryInterface> {
+        Factory(self) {
+            LocalWasteRepository(coreData: self.coreDataRepository())
+        }
+    }
 
     var searchHistoryRepository: Factory<SearchHistoryRepositoryInterface> {
         Factory(self) {

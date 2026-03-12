@@ -1,6 +1,39 @@
 {
   "sourceLanguage" : "en-GB",
   "strings" : {
+    "localWasteAddressSelectionViewPrimaryButton" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confirm address"
+          }
+        }
+      }
+    },
+    "localWasteAddressSelectionViewSubtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We'll use your address to find your bin collections"
+          }
+        }
+      }
+    },
+    "localWasteAddressSelectionViewTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What is your address?"
+          }
+        }
+      }
+    },
     "localWasteTitle" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -8,6 +41,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bin collections"
+          }
+        }
+      }
+    },
+    "localWastePageNotWorking" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This page is not working. Try again later."
           }
         }
       }

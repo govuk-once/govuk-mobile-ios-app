@@ -158,13 +158,29 @@ class MockViewControllerBuilder: ViewControllerBuilder {
     }
 
     var _stubbedLocalWastePostcodeEntryViewController: UIViewController?
-    var _receivedLocalWasteDismissAction: (() -> Void)?
-    override func localWastePostcodeEntryView(analyticsService: AnalyticsServiceInterface,
-                                                  dismissAction: @escaping () -> Void) -> UIViewController {
-        _receivedLocalWasteDismissAction = dismissAction
+    var _receivedLocalWastePostcodeDismissAction: (() -> Void)?
+    var _receivedLocalWastePostcodeDoneAction: (([LocalWasteAddress]) -> Void)?
+    override func localWastePostcodeEntryView(analyticsService: any AnalyticsServiceInterface,
+                                              localWasteService: any LocalWasteServiceInterface,
+                                              dismissAction: @escaping () -> Void,
+                                              doneAction: @escaping ([LocalWasteAddress]) -> Void) -> UIViewController {
+        _receivedLocalWastePostcodeDismissAction = dismissAction
+        _receivedLocalWastePostcodeDoneAction = doneAction
         return _stubbedLocalWastePostcodeEntryViewController ?? UIViewController()
     }
 
+    var _stubbedLocalWasteAddressSelectionEntryViewController: UIViewController?
+    var _receivedLocalWasteAddressSelectionAddresses: [LocalWasteAddress]?
+    var _receivedLocalWasteAddressSelectionDismissAction: (() -> Void)?
+    override func localWasteAddressSelectionView(analyticsService: AnalyticsServiceInterface,
+                                                 localWasteService: LocalWasteServiceInterface,
+                                                 addresses: [LocalWasteAddress],
+                                                 dismissAction: @escaping () -> Void) -> UIViewController {
+        _receivedLocalWasteAddressSelectionAddresses = addresses
+        _receivedLocalWasteAddressSelectionDismissAction = dismissAction
+        return _stubbedLocalWasteAddressSelectionEntryViewController ?? UIViewController()
+    }
+    
     var _receivedTopicOnboardingDismissAction: (() -> Void)?
     var _receivedTopicOnboardingTopics: [Topic]?
     var _stubbedTopicOnboardingViewController: UIViewController?

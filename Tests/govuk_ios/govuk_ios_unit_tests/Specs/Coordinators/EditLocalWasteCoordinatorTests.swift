@@ -10,7 +10,6 @@ struct EditLocalWasteCoordinatorTests {
     @Test
     func start_setsLocalWastePostcodeEntryView() throws {
         let mockViewControllerBuilder = MockViewControllerBuilder()
-        let mockAnalyticsService = MockAnalyticsService()
         let expectedViewController = UIViewController()
         let navigationController = UINavigationController()
         let mockCoordinatorBuilder = CoordinatorBuilder.mock
@@ -19,7 +18,8 @@ struct EditLocalWasteCoordinatorTests {
         let subject = EditLocalWasteCoordinator(
             navigationController: navigationController,
             viewControllerBuilder: mockViewControllerBuilder,
-            analyticsService: mockAnalyticsService,
+            analyticsService: MockAnalyticsService(),
+            localWasteService: MockLocalWasteService(),
             coordinatorBuilder: mockCoordinatorBuilder,
             dismissed: {}
         )
@@ -38,18 +38,19 @@ struct EditLocalWasteCoordinatorTests {
 
         mockViewControllerBuilder._stubbedLocalWastePostcodeEntryViewController = expectedViewController
         var sut: EditLocalWasteCoordinator!
-        let dismissed = await  withCheckedContinuation { continuation in
+        let dismissed = await withCheckedContinuation { continuation in
               sut = EditLocalWasteCoordinator(
                 navigationController: mockNavigationController,
                 viewControllerBuilder: mockViewControllerBuilder,
                 analyticsService: MockAnalyticsService(),
+                localWasteService: MockLocalWasteService(),
                 coordinatorBuilder: mockCoordinatorBuilder,
                 dismissed: {
                     continuation.resume(returning: true)
                 }
             )
             mockCoordinator.start(sut)
-            mockViewControllerBuilder._receivedLocalWasteDismissAction?()
+            mockViewControllerBuilder._receivedLocalWastePostcodeDismissAction?()
         }
         
         #expect(dismissed)
@@ -73,6 +74,7 @@ struct EditLocalWasteCoordinatorTests {
                 navigationController: navigationController,
                 viewControllerBuilder: mockViewControllerBuilder,
                 analyticsService: MockAnalyticsService(),
+                localWasteService: MockLocalWasteService(),
                 coordinatorBuilder: mockCoordinatorBuilder,
                 dismissed: {
                     continuation.resume(returning: true)
@@ -82,5 +84,31 @@ struct EditLocalWasteCoordinatorTests {
             sut.presentationControllerDidDismiss(sut.root.presentationController!)
         }
         #expect(dismissed)
+    }
+
+    @Test
+    func postcodeEntryView_doneAction_navigatesToAddressSelectionView() async throws {
+        let expectedAddresses = [
+            LocalWasteAddress(addressFull: "address1", uprn: "uprn1", localCustodianCode: "code1")
+        ]
+        let mockViewControllerBuilder = MockViewControllerBuilder()
+        let expectedViewController = UIViewController()
+        let navigationController = UINavigationController()
+        let mockCoordinatorBuilder = CoordinatorBuilder.mock
+        let mockCoordinator = MockBaseCoordinator()
+        mockViewControllerBuilder._stubbedLocalWasteAddressSelectionEntryViewController = expectedViewController
+
+        let sut = EditLocalWasteCoordinator(
+            navigationController: navigationController,
+            viewControllerBuilder: mockViewControllerBuilder,
+            analyticsService: MockAnalyticsService(),
+            localWasteService: MockLocalWasteService(),
+            coordinatorBuilder: mockCoordinatorBuilder,
+            dismissed: {}
+        )
+        mockCoordinator.start(sut)
+        mockViewControllerBuilder._receivedLocalWastePostcodeDoneAction?(expectedAddresses)
+        #expect(navigationController.viewControllers.last == expectedViewController)
+        #expect(mockViewControllerBuilder._receivedLocalWasteAddressSelectionAddresses == expectedAddresses)
     }
 }
