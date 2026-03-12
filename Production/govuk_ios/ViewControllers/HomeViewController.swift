@@ -93,7 +93,7 @@ class HomeViewController: BaseViewController {
             rootView: contentView,
             navigationBarHidden: true
         )
-        contentViewController.view.backgroundColor = .clear
+        contentViewController.view.backgroundColor = UIColor.govUK.fills.surfaceBackground
         homeContentViewController = contentViewController
     }
 
