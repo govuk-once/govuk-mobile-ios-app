@@ -25,12 +25,19 @@ struct ServiceAccountLinkingView: View {
         }
     }
 
+    private var progressOpacity: CGFloat {
+        viewModel.showProgressView ? 1.0 : 0.0
+    }
+
     private var loadingView: some View {
         ZStack {
             Color(UIColor.govUK.fills.surfaceModal)
             ProgressView()
                 .accessibilityLabel(viewModel.accessibilityLabel)
         }
+        .opacity(progressOpacity)
+        .animation(.easeOut.delay(viewModel.animationDelay),
+                   value: progressOpacity)
     }
 
     private func errorView(with errorViewModel: AppErrorViewModel) -> some View {

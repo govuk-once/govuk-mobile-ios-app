@@ -15,7 +15,7 @@ final class ServiceAccountLinkingViewModel: ObservableObject, ProgressIndicating
     }
 
     var accessibilityLabel: String {
-        String.onboarding.localized("loadingIndicatorAccessibilityTitle")
+        String.serviceAccount.localized("loadingIndicatorAccessibilityTitle")
     }
 
     init(userService: UserServiceInterface,

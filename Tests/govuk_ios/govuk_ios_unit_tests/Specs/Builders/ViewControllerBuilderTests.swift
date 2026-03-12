@@ -347,4 +347,19 @@ struct ViewControllerBuilderTests {
         (result as? HostingViewController<InfoView<ChatTermsOnboardingViewModel>>)?.rootView
         #expect(rootView != nil)
     }
+
+    @Test
+    func serviceAccountLinking_returnsExpectedResult() {
+        let subject = ViewControllerBuilder()
+        let result = subject.serviceAccountLinking(
+            userService: MockUserService(),
+            accountType: .dvla,
+            linkId: "linkId",
+            completeAction: {},
+            dismissAction: {}
+        )
+
+        let rootView = (result as? HostingViewController<ServiceAccountLinkingView>)?.rootView
+        #expect(rootView != nil)
+    }
 }

@@ -318,6 +318,7 @@ class MockViewControllerBuilder: ViewControllerBuilder {
     }
 
     var _stubbedServiceAccountLinkingController: UIViewController?
+    var _receivedServiceAccountLinkingCompleteAction: (() -> Void)?
     var _receivedServiceAccountLinkingDismissAction: (() -> Void)?
     override func serviceAccountLinking(
         userService: UserServiceInterface,
