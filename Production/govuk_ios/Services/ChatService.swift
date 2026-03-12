@@ -127,11 +127,7 @@ extension ChatService {
     }
 
     var isEnabled: Bool {
-        #if STAGING
         configService.isFeatureEnabled(key: .chat)
-        #else
-        false
-        #endif
     }
 
     var chatOnboardingSeen: Bool {
