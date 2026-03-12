@@ -18,5 +18,10 @@ extension UserState {
     static var arrangeAccepted: UserState {
         .arrange(userNotificationsPreferences: UserNotificationsPreferences(consentStatus: .accepted, notificationId: "notification_id"))
     }
+    
+    static func arrange(notificationId: String = "notification_id") -> UserState {
+        .init(userId: "user_id", notifications: UserNotificationsPreferences(consentStatus: .unknown, notificationId: notificationId))
+    }
+    
 }
 

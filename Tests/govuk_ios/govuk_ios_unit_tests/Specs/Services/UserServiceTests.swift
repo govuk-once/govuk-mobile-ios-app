@@ -84,5 +84,17 @@ final class UserServiceTests {
         sut.setNotificationsConsent(.accepted)
         #expect(mockUserServiceClient._receivedNotificationConsent == nil)
     }
+    
+    @Test
+    func fetchUserState_updatesNotificationId() async throws {
+        mockAppConfigService.features = [.flex]
+        let userService = UserService(appConfigService: mockAppConfigService,
+                                      userServiceClient: mockUserServiceClient)
+        mockUserServiceClient._stubbedFetchUserStateResult = .success(UserState.arrange(notificationId: "notification-id-1"))
+        
+        userService.fetchUserState { _ in }
+        
+        #expect(userService.notificationId == "notification-id-1")
+    }
 
 }
