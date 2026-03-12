@@ -6,6 +6,7 @@ protocol TopicDetailViewModelInterface: ObservableObject {
     var title: String { get }
     var isLoaded: Bool { get }
     var description: String? { get }
+    var topicActionCards: [ListCardViewModel] { get }
     var sections: [GroupedListSection] { get }
     var subtopicCards: [ListCardViewModel] { get }
     var errorViewModel: AppErrorViewModel? { get }
@@ -15,6 +16,9 @@ protocol TopicDetailViewModelInterface: ObservableObject {
 }
 
 extension TopicDetailViewModelInterface {
+    var topicActionCards: [ListCardViewModel] {
+        []
+    }
     var subtopicCards: [ListCardViewModel] {
         []
     }

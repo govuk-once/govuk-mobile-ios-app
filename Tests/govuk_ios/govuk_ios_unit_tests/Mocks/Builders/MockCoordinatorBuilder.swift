@@ -288,4 +288,10 @@ class MockCoordinatorBuilder: CoordinatorBuilder {
     override func privacy(navigationController: UINavigationController) -> BaseCoordinator & PrivacyProviding {
         _stubbedPrivacyCoordinator ?? MockBaseCoordinator()
     }
+
+    var _stubbedServiceAccountCoordinator: MockBaseCoordinator?
+    override func serviceAccount(navigationController: UINavigationController,
+                                 accountType: ServiceAccountType) -> BaseCoordinator {
+        _stubbedServiceAccountCoordinator ?? MockBaseCoordinator()
+    }
 }

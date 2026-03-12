@@ -58,6 +58,7 @@ class MockViewControllerBuilder: ViewControllerBuilder {
         return _stubbedRecentActivityViewController ?? UIViewController()
     }
 
+    var _receivedTopicDetailTopicAction: ((DisplayableTopic) -> Void)?
     var _receivedTopicDetailOpenAction: ((URL) -> Void)?
     var _receivedTopicDetailStepByStepAction: (([TopicDetailResponse.Content]) -> Void)?
     var _stubbedTopicDetailViewController: UIViewController?
@@ -65,9 +66,12 @@ class MockViewControllerBuilder: ViewControllerBuilder {
                               topicsService: any TopicsServiceInterface,
                               analyticsService: any AnalyticsServiceInterface,
                               activityService: any ActivityServiceInterface,
+                              configService: AppConfigServiceInterface,
+                              topicAction: @escaping (DisplayableTopic) -> Void,
                               subtopicAction: @escaping (any DisplayableTopic) -> Void,
                               stepByStepAction: @escaping ([TopicDetailResponse.Content]) -> Void,
                               openAction: @escaping (URL) -> Void) -> UIViewController {
+        _receivedTopicDetailTopicAction = topicAction
         _receivedTopicDetailOpenAction = openAction
         _receivedTopicDetailStepByStepAction = stepByStepAction
         return _stubbedTopicDetailViewController ?? UIViewController()
@@ -311,6 +315,20 @@ class MockViewControllerBuilder: ViewControllerBuilder {
     ) -> UIViewController {
         _receivedTermsOpenUrlAction = openURLAction
         return _stubbedChatTermsOnboardingController ?? UIViewController()
+    }
+
+    var _stubbedServiceAccountLinkingController: UIViewController?
+    var _receivedServiceAccountLinkingCompleteAction: (() -> Void)?
+    var _receivedServiceAccountLinkingDismissAction: (() -> Void)?
+    override func serviceAccountLinking(
+        userService: UserServiceInterface,
+        accountType: ServiceAccountType,
+        linkId: String,
+        completeAction: @escaping () -> Void,
+        dismissAction: @escaping () -> Void
+    ) -> UIViewController {
+        _receivedServiceAccountLinkingDismissAction = dismissAction
+        return _stubbedServiceAccountLinkingController ?? UIViewController()
     }
 
 }

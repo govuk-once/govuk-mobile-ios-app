@@ -147,6 +147,7 @@ struct AppConfigServiceTests {
     @Test
     func isFeatureEnabled_whenFeatureFlagIsSetToUnavailable_returnsFalse() {
         let result = Config.arrange(releaseFlags: ["search": false]).toResult()
+        sut.fetchAppConfig(completion: { _ in })
         mockAppConfigServiceClient._receivedFetchAppConfigCompletion?(result)
 
         #expect(sut.isFeatureEnabled(key: .search) == false)
@@ -155,17 +156,18 @@ struct AppConfigServiceTests {
     @Test
     func isFeatureEnabled_whenFeatureFlagIsNotInConfig_returnsFalse() {
         let result = Config.arrange(releaseFlags: ["test": false]).toResult()
+        sut.fetchAppConfig(completion: { _ in })
         mockAppConfigServiceClient._receivedFetchAppConfigCompletion?(result)
 
         #expect(sut.isFeatureEnabled(key: .search) == false)
     }
 
     @Test
-    func isFeatureEnabled_whenFeatureFlagIsChat_returnsFalse() {
-        let result = Config.arrange(releaseFlags: ["chat": true]).toResult()
+    func isFeatureEnabled_whenFeatureFlagIsSetToUnavailable_dvla_returnsFalse() {
+        let result = Config.arrange(releaseFlags: ["dvla": false]).toResult()
         mockAppConfigServiceClient._receivedFetchAppConfigCompletion?(result)
 
-        #expect(sut.isFeatureEnabled(key: .chat) == false)
+        #expect(sut.isFeatureEnabled(key: .dvla) == false)
     }
 }
 

@@ -219,6 +219,7 @@ class CoordinatorBuilder {
             analyticsService: container.analyticsService.resolve(),
             topicsService: container.topicsService.resolve(),
             activityService: container.activityService.resolve(),
+            configService: container.appConfigService.resolve(),
             coordinatorBuilder: self,
             viewControllerBuilder: ViewControllerBuilder(),
             topic: topic
@@ -439,6 +440,16 @@ class CoordinatorBuilder {
     ) -> BaseCoordinator & PrivacyProviding {
         PrivacyCoordinator(
             navigationController: navigationController
+        )
+    }
+
+    func serviceAccount(navigationController: UINavigationController,
+                        accountType: ServiceAccountType) -> BaseCoordinator {
+        ServiceAccountCoordinator(
+            navigationController: navigationController,
+            viewControllerBuilder: ViewControllerBuilder(),
+            userService: container.userService.resolve(),
+            accountType: accountType
         )
     }
 }

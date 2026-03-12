@@ -10,4 +10,5 @@ enum Feature: String {
     case notifications
     case chat
     case flex
+    case dvla
 }

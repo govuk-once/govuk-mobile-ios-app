@@ -360,11 +360,14 @@ class ViewControllerBuilder {
                      topicsService: TopicsServiceInterface,
                      analyticsService: AnalyticsServiceInterface,
                      activityService: ActivityServiceInterface,
+                     configService: AppConfigServiceInterface,
+                     topicAction: @escaping (DisplayableTopic) -> Void,
                      subtopicAction: @escaping (DisplayableTopic) -> Void,
                      stepByStepAction: @escaping ([TopicDetailResponse.Content]) -> Void,
                      openAction: @escaping (URL) -> Void
     ) -> UIViewController {
         let actions = TopicDetailViewModel.Actions(
+            topicAction: topicAction,
             subtopicAction: subtopicAction,
             stepByStepAction: stepByStepAction,
             openAction: openAction
@@ -374,6 +377,7 @@ class ViewControllerBuilder {
             topicsService: topicsService,
             analyticsService: analyticsService,
             activityService: activityService,
+            configService: configService,
             urlOpener: UIApplication.shared,
             actions: actions
         )
@@ -589,6 +593,28 @@ class ViewControllerBuilder {
         )
 
         viewController.isModalInPresentation = true
+        return viewController
+    }
+
+    func serviceAccountLinking(
+        userService: UserServiceInterface,
+        accountType: ServiceAccountType,
+        linkId: String,
+        completeAction: @escaping () -> Void,
+        dismissAction: @escaping () -> Void
+    ) -> UIViewController {
+        let viewModel = ServiceAccountLinkingViewModel(
+            userService: userService,
+            accountType: accountType,
+            linkId: linkId,
+            completeAction: completeAction,
+            dismissAction: dismissAction
+        )
+        let view = ServiceAccountLinkingView(viewModel: viewModel)
+        let viewController = HostingViewController(
+            rootView: view,
+            navigationBarHidden: false
+        )
         return viewController
     }
 }
