@@ -61,4 +61,9 @@ extension Theme {
                     FontSize(.em(1))
                 }
         }
+
+    static let govUKBasic: Theme = Theme.basic
+        .link {
+            ForegroundColor(Color(UIColor.govUK.text.linkSecondary))
+        }
 }

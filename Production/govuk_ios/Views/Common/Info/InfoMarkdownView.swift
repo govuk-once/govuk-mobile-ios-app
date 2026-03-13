@@ -3,20 +3,20 @@ import MarkdownUI
 
 struct InfoMarkdownView: View {
     private let markdownText: String
+    private let markdownTheme: Theme
     private let openUrlAction: (URL) -> Void
 
     init(_ markdownText: String,
+         markdownTheme: Theme = .basic,
          openUrlAction: @escaping (URL) -> Void) {
         self.markdownText = markdownText
+        self.markdownTheme = markdownTheme
         self.openUrlAction = openUrlAction
     }
     var body: some View {
         Markdown(markdownText)
+            .markdownTheme(markdownTheme)
             .fixedSize(horizontal: false, vertical: true)
-            .markdownTheme(Theme.basic
-                .link {
-                    ForegroundColor(Color(UIColor.govUK.text.linkSecondary))
-                })
             .multilineTextAlignment(.center)
             .environment(\.openURL, OpenURLAction { url in
                 openUrlAction(url)

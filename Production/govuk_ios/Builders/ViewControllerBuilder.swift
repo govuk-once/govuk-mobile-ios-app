@@ -5,6 +5,7 @@ import SwiftUI
 import FactoryKit
 import GovKit
 import SafariServices
+import MarkdownUI
 
 @MainActor
 // swiftlint:disable:next type_body_length
@@ -473,7 +474,16 @@ class ViewControllerBuilder {
 
     func welcomeOnboarding(viewModel: WelcomeOnboardingViewModel) -> UIViewController {
         let containerView = InfoView(
-            viewModel: viewModel
+            viewModel: viewModel,
+            customView: {
+                AnyView(
+                    InfoMarkdownView(
+                        viewModel.markdownText,
+                        markdownTheme: Theme.govUK,
+                        openUrlAction: viewModel.openURLAction
+                    )
+                )
+            }
         )
         return HostingViewController(
             rootView: containerView
@@ -575,6 +585,7 @@ class ViewControllerBuilder {
                 AnyView(
                     InfoMarkdownView(
                         viewModel.markdownText,
+                        markdownTheme: Theme.govUKBasic,
                         openUrlAction: openURLAction
                     )
                 )
