@@ -3,10 +3,9 @@ import GovKit
 import GovKitUI
 
 struct LocalWasteAddressSelectionView: View {
-    
     @StateObject
     private var viewModel: LocalWasteAddressSelectionViewModel
-    
+
     @Environment(\.verticalSizeClass)
     var verticalSizeClass
 

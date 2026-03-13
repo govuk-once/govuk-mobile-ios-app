@@ -4,12 +4,11 @@ import GovKit
 import SwiftUI
 
 class LocalWasteAddressSelectionViewModel: ObservableObject {
-    
     @Published
     var addresses: [LocalWasteAddress]
     @Published
     var selectedAddress: LocalWasteAddress?
-    
+
     private let analyticsService: AnalyticsServiceInterface
     private let service: LocalWasteServiceInterface
 
@@ -42,12 +41,12 @@ class LocalWasteAddressSelectionViewModel: ObservableObject {
     func trackScreen(screen: TrackableScreen) {
         analyticsService.track(screen: screen)
     }
-    
+
     func confirmAddress() {
         guard let selectedAddress = selectedAddress else { return }
 
         service.saveAddress(selectedAddress)
-        
+
         trackNavigationEvent(primaryButton)
         dismissAction()
     }
