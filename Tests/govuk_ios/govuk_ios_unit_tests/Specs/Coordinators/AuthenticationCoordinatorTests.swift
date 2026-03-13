@@ -89,7 +89,6 @@ class AuthenticationCoordinatorTests {
         #expect(mockAnalyticsService._resetConsentCalled)
         #expect(!mockAnalyticsService._setExistingConsentCalled)
         #expect(mockTopicsService._resetOnboardingCalled)
-        #expect(mockTermsAndConditionsService._didResetAcceptanceDate)
     }
 
     @Test

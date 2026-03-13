@@ -129,7 +129,6 @@ class WelcomeOnboardingCoordinatorTests {
     func authenticationSuccess_userStateRequestSuccess_startsSignInSuccessCoordinator() async {
         let mockUserService = MockUserService()
         let mockCoordinatorBuilder = CoordinatorBuilder.mock
-        let mockSignInSuccessCoordinator = MockBaseCoordinator()
         mockUserService._stubbedFetchUserStateResult = .success(UserState.arrange)
 
         let mockViewControllerBuilder = MockViewControllerBuilder()
@@ -165,7 +164,6 @@ class WelcomeOnboardingCoordinatorTests {
         let mockNotificationService = MockNotificationService()
         let mockUserService = MockUserService()
         let mockCoordinatorBuilder = CoordinatorBuilder.mock
-        let mockSignInSuccessCoordinator = MockBaseCoordinator()
         mockUserService._stubbedFetchUserStateResult = .success(UserState.arrange)
 
         let mockViewControllerBuilder = MockViewControllerBuilder()

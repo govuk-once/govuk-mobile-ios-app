@@ -55,6 +55,7 @@ class AuthenticationCoordinator: BaseCoordinator {
             }
             handleAnalyticsConsent(response: response)
             handleOnboarding(response: response)
+            termsAndConditonsService.saveAcceptanceDate()
             completionAction()
         case .failure(let error):
             DispatchQueue.main.async {
@@ -76,7 +77,6 @@ class AuthenticationCoordinator: BaseCoordinator {
         topicsService.resetOnboarding()
         localAuthenticationService.clear()
         chatService.clear()
-        termsAndConditonsService.resetAcceptanceDate()
     }
 
     private var shouldEncryptRefreshToken: Bool {
