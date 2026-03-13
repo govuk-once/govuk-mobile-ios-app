@@ -8,6 +8,7 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
     private let authenticationService: AuthenticationServiceInterface
     private let userService: UserServiceInterface
     private let notificationService: NotificationServiceInterface
+    private let termsAndConditionsService: TermsAndConditionsServiceInterface
     private let coordinatorBuilder: CoordinatorBuilder
     private let viewControllerBuilder: ViewControllerBuilder
     private let analyticsService: AnalyticsServiceInterface
@@ -20,7 +21,11 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
         WelcomeOnboardingViewModel(
             completeAction: { [weak self] in
                 self?.startAuthentication()
-            }
+            },
+            openURLAction: { [weak self] url in
+                self?.presentWebView(url: url)
+            },
+            termsURL: termsAndConditionsService.termsAndConditionsURL
         )
     }()
 
@@ -28,6 +33,7 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
          authenticationService: AuthenticationServiceInterface,
          userService: UserServiceInterface,
          notificationService: NotificationServiceInterface,
+         termsAndConditionsService: TermsAndConditionsServiceInterface,
          coordinatorBuilder: CoordinatorBuilder,
          viewControllerBuilder: ViewControllerBuilder,
          analyticsService: AnalyticsServiceInterface,
@@ -38,6 +44,7 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
         self.authenticationService = authenticationService
         self.userService = userService
         self.notificationService = notificationService
+        self.termsAndConditionsService = termsAndConditionsService
         self.coordinatorBuilder = coordinatorBuilder
         self.viewControllerBuilder = viewControllerBuilder
         self.analyticsService = analyticsService
@@ -160,5 +167,14 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
             }
         )
         start(coordinator)
+    }
+
+    private func presentWebView(url: URL) {
+        let coordinator = coordinatorBuilder.safari(
+            navigationController: root,
+            url: url,
+            fullScreen: true
+        )
+        start(coordinator, url: url)
     }
 }

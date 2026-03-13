@@ -331,13 +331,24 @@
         }
       }
     },
-    "welcomeBody" : {
+    "welcomeButtonTitle" : {
       "extractionState" : "manual",
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Government information and services for you"
+            "value" : "Accept and continue"
+          }
+        }
+      }
+    },
+    "welcomeSubtitleText" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To get started, accept the [terms and conditions](%1$@)\n\n[Read the privacy notice](%2$@)"
           }
         }
       }
