@@ -225,7 +225,9 @@ struct ViewControllerBuilderTests {
         let subject = ViewControllerBuilder()
         let result = subject.welcomeOnboarding(
             viewModel: WelcomeOnboardingViewModel(
-                completeAction: { }
+                completeAction: { },
+                openURLAction: { _ in },
+                termsURL: Constants.API.govukBaseUrl
             )
         )
 

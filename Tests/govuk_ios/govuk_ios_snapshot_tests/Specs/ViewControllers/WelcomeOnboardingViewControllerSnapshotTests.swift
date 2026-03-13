@@ -8,7 +8,9 @@ import GovKit
 class WelcomeOnboardingViewControllerSnapshotTests: SnapshotTestCase {
     func test_loadInNavigationController_light_rendersCorrectly() {
         let viewModel = WelcomeOnboardingViewModel(
-            completeAction: { }
+            completeAction: { },
+            openURLAction: { _ in },
+            termsURL: Constants.API.govukBaseUrl
         )
         let welcomeOnboardingView = InfoView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
@@ -24,7 +26,9 @@ class WelcomeOnboardingViewControllerSnapshotTests: SnapshotTestCase {
 
     func test_loadInNavigationController_dark_rendersCorrectly() {
         let viewModel = WelcomeOnboardingViewModel(
-            completeAction: { }
+            completeAction: { },
+            openURLAction: { _ in },
+            termsURL: Constants.API.govukBaseUrl
         )
         let welcomeOnboardingView = InfoView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
