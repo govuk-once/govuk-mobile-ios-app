@@ -87,6 +87,8 @@
 		33A323E82F51FBF60022BAFC /* NotificationCentreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A323E72F51FBEF0022BAFC /* NotificationCentreService.swift */; };
 		33A323EA2F51FE450022BAFC /* NotificationCentreServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A323E92F51FE3E0022BAFC /* NotificationCentreServiceClient.swift */; };
 		33CA98542F61E6190060DCDB /* AppEvent+NotificationCentre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CA98532F61E6150060DCDB /* AppEvent+NotificationCentre.swift */; };
+		33CA98562F646D480060DCDB /* NotificationCentreDeeplinkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CA98552F646D480060DCDB /* NotificationCentreDeeplinkRoute.swift */; };
+		33CA985C2F646D8D0060DCDB /* NotificationCentreDetailDeeplinkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CA985B2F646D8D0060DCDB /* NotificationCentreDetailDeeplinkRoute.swift */; };
 		3D09A6DB2C9DC877005858D0 /* AppConfigServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D09A6DA2C9DC873005858D0 /* AppConfigServiceClient.swift */; };
 		3D15E7B22CB562E40046CE64 /* AppRecommendUpdateContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D15E7B12CB562E40046CE64 /* AppRecommendUpdateContainerView.swift */; };
 		3D15E7B42CB5630D0046CE64 /* AppRecommendUpdateContainerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D15E7B32CB5630D0046CE64 /* AppRecommendUpdateContainerViewModel.swift */; };
@@ -555,6 +557,8 @@
 		33A323E72F51FBEF0022BAFC /* NotificationCentreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCentreService.swift; sourceTree = "<group>"; };
 		33A323E92F51FE3E0022BAFC /* NotificationCentreServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCentreServiceClient.swift; sourceTree = "<group>"; };
 		33CA98532F61E6150060DCDB /* AppEvent+NotificationCentre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppEvent+NotificationCentre.swift"; sourceTree = "<group>"; };
+		33CA98552F646D480060DCDB /* NotificationCentreDeeplinkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCentreDeeplinkRoute.swift; sourceTree = "<group>"; };
+		33CA985B2F646D8D0060DCDB /* NotificationCentreDetailDeeplinkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCentreDetailDeeplinkRoute.swift; sourceTree = "<group>"; };
 		3D09A6DA2C9DC873005858D0 /* AppConfigServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfigServiceClient.swift; sourceTree = "<group>"; };
 		3D15E7B12CB562E40046CE64 /* AppRecommendUpdateContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRecommendUpdateContainerView.swift; sourceTree = "<group>"; };
 		3D15E7B32CB5630D0046CE64 /* AppRecommendUpdateContainerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRecommendUpdateContainerViewModel.swift; sourceTree = "<group>"; };
@@ -1659,6 +1663,8 @@
 				3D9FD4BD2E79C37B00928E92 /* ChatDeeplinkRoute.swift */,
 				5D8683942C340F1B0024F2D8 /* DeeplinkRoute.swift */,
 				16C34B422C492FF90031AD32 /* HomeDeepLinkRoute.swift */,
+				33CA98552F646D480060DCDB /* NotificationCentreDeeplinkRoute.swift */,
+				33CA985B2F646D8D0060DCDB /* NotificationCentreDetailDeeplinkRoute.swift */,
 				16C34B442C4954910031AD32 /* SettingsDeepLinkRoute.swift */,
 				B04C2E7F2DA9141400F0F63E /* WebDeeplinkRoute.swift */,
 				945E1F042F714E830064CA22 /* SearchDeepLinkRoute.swift */,
@@ -2684,6 +2690,7 @@
 				4EEC0F322DBB7C6E00D745F2 /* StoredLocalAuthorityWidgetView.swift in Sources */,
 				5DCCCBB92EA0DC300097430C /* LoginErrorV2+Extensions.swift in Sources */,
 				D04C54302D70821D0070EE79 /* HomeCommerceItem.swift in Sources */,
+				33CA985C2F646D8D0060DCDB /* NotificationCentreDetailDeeplinkRoute.swift in Sources */,
 				33A323E22F51E1590022BAFC /* NotificationCentreDetailView.swift in Sources */,
 				4EE5F3E72DAFD42A008C60ED /* LocalAuthorityExplainerView.swift in Sources */,
 				3D9C933E2CB0172400EFA337 /* AppForcedUpdateContainerView.swift in Sources */,
@@ -2872,6 +2879,7 @@
 				166BDDB62C330D1C00437AE0 /* HomeViewController.swift in Sources */,
 				4EA1E2812D8C61630062453D /* NotificationPermissionState.swift in Sources */,
 				5D3B457F2E6097EF0026936A /* AlertBannerWidgetViewModel.swift in Sources */,
+				33CA98562F646D480060DCDB /* NotificationCentreDeeplinkRoute.swift in Sources */,
 				5DB637082D7732A800A44E36 /* GOVRequest+Topics.swift in Sources */,
 				5D66D1842CBFC12400006723 /* AppEvent+Function.swift in Sources */,
 				B0AD6F202DDA86D80077849F /* NotificationsOnboardingService.swift in Sources */,

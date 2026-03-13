@@ -23,6 +23,17 @@
         }
       }
     },
+    "notificationCentreNavTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notification Centre"
+          }
+        }
+      }
+    },
     "notificationDetailErrorBody" : {
       "extractionState" : "manual",
       "localizations" : {

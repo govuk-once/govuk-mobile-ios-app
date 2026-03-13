@@ -80,7 +80,8 @@ class HomeCoordinator: TabItemCoordinator {
             notificationCentreAction: { [weak self] in
                     guard let self = self
                     else { return }
-                let coordinator = coordinatorBuilder.notificationCenterCoordinator(navigationController: root)
+                let coordinator = coordinatorBuilder
+                    .notificationCenterCoordinator(navigationController: root)
                 start(coordinator)
             }
         )

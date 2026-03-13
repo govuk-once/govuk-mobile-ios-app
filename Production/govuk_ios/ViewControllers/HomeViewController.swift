@@ -14,7 +14,7 @@ class HomeViewController: BaseViewController {
         uiImageView.accessibilityTraits = .header
         return uiImageView
     }()
-    
+
     private lazy var notificationButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -23,7 +23,7 @@ class HomeViewController: BaseViewController {
         button.accessibilityLabel = String.home.localized("notificationButtonAccessibilityLabel")
         return button
     }()
-    
+
     private lazy var searchBar: UISearchBar = {
         let localSearchBar = UISearchBar()
         localSearchBar.searchTextField.backgroundColor = UIColor.govUK.fills.surfaceSearch
@@ -137,16 +137,18 @@ class HomeViewController: BaseViewController {
         view.addSubview(logoImageView)
         navigationController?.navigationBar.prefersLargeTitles = false
         view.backgroundColor = UIColor.govUK.fills.surfaceHomeHeaderBackground
-        
+
         view.addSubview(notificationButton)
         NSLayoutConstraint.activate([
-            notificationButton.leadingAnchor.constraint(greaterThanOrEqualTo: logoImageView.trailingAnchor, constant: 16),
-            notificationButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            notificationButton.leadingAnchor.constraint(
+                greaterThanOrEqualTo: logoImageView.trailingAnchor, constant: 16),
+            notificationButton.trailingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             notificationButton.centerYAnchor.constraint(equalTo: logoImageView.centerYAnchor),
             notificationButton.heightAnchor.constraint(equalToConstant: 48),
             notificationButton.widthAnchor.constraint(equalTo: notificationButton.heightAnchor)
         ])
-        
+
         notificationButton.addAction(UIAction { [weak self] _ in
             self?.viewModel.notificationCentreAction()
         }, for: .touchUpInside)

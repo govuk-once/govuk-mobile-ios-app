@@ -567,7 +567,6 @@ class ViewControllerBuilder {
         viewController.isModalInPresentation = true
         return viewController
     }
-<<<<<<< HEAD
 
     func chatTermsOnboarding(
         analyticsService: AnalyticsServiceInterface,
@@ -626,7 +625,6 @@ class ViewControllerBuilder {
         return viewController
     }
 
-    
     func notificationCentre(
         showNotificationAction: @escaping (Notification) -> Void,
         notificationService: NotificationCentreServiceInterface,
@@ -644,18 +642,18 @@ class ViewControllerBuilder {
         viewController.navigationItem.largeTitleDisplayMode = .never
         return viewController
     }
-    
+
     func notificationCentreDetail(
-        notification: Notification,
+        notificationId: String,
         notificationService: NotificationCentreServiceInterface,
         analyticsService: AnalyticsServiceInterface,
         showUrlAction: @escaping (URL) -> Void) -> UIViewController {
             let viewModel = NotificationCentreDetailViewModel(
-                notificationId: notification.id,
+                notificationId: notificationId,
                 notificationService: notificationService,
                 analyticsService: analyticsService,
                 showUrlAction: showUrlAction)
-            
+
             let viewController = HostingViewController(
                 rootView: NotificationCentreDetailContainerView(viewModel: viewModel),
                 navigationBarHidden: false

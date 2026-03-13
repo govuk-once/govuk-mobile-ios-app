@@ -16,13 +16,14 @@ struct DetailedNotification: Identifiable {
     var id: String {
         notification.id
     }
-    
+
     let notification: Notification
     let messageTitle: String?
     let messageBody: String?
 }
 
 class NotificationCentreViewModel: ObservableObject {
+    // swiftlint:disable line_length
     struct MockData {
         static let testNotifications: [Notification] = {
             let oneDay: Double = 60 * 60 * 24
@@ -34,13 +35,12 @@ class NotificationCentreViewModel: ObservableObject {
                     .init(id: "5", title: "Test 5 with an alternate title", body: "Body 5", date: now.addingTimeInterval(-1 * oneDay * 4), isUnread: false),
                     .init(id: "6", title: "Test 6 with an alternate body", body: "Body 6", date: now.addingTimeInterval(-1 * oneDay * 5), isUnread: false),
                     .init(id: "7", title: "Test 7 with an alternate title and body", body: "Body 7", date: now.addingTimeInterval(-1 * oneDay * 6), isUnread: false),
-
             ]
         }()
-        
+
         static let testDetailedNotifications: [DetailedNotification] = {
             let notifications = testNotifications
-            
+
             return [
                 .init(notification: notifications[0], messageTitle: nil, messageBody: nil),
                 .init(notification: notifications[1], messageTitle: nil, messageBody: nil),
@@ -52,16 +52,18 @@ class NotificationCentreViewModel: ObservableObject {
             ]
         }()
     }
+    // swiftlint:enable line_length
+
     enum State {
         case new, loading, empty, loaded(notifications: [Notification]), error
     }
-    
+
     @Published public private(set) var state: State = .new
-    
+
     private let actions: Actions
     private let notificationService: NotificationCentreServiceInterface
     private let analyticsService: AnalyticsServiceInterface
-    
+
     init(
         actions: Actions,
         notificationService: NotificationCentreServiceInterface,
@@ -70,37 +72,37 @@ class NotificationCentreViewModel: ObservableObject {
             self.notificationService = notificationService
             self.analyticsService = analyticsService
         }
-    
+
     func onViewAppear() {
         if case .new = state {
             loadData()
         }
     }
-    
+
     func onTapRetry() {
         guard case .error = state else {
             return
         }
-        
+
         loadData()
     }
-    
+
     func onTapNotification(notification: Notification) {
         actions.showNotification(notification)
     }
-    
+
     private func changeState(state: State) async {
         await MainActor.run {
             self.state = state
         }
     }
-    
+
     func loadData() {
         Task {
             await changeState(state: .loading)
-            
+
             try await Task.sleep(for: .seconds(0.5))
-            
+
             notificationService.fetchNotifications { notifications in
                 Task {
                     if notifications.isEmpty {
@@ -113,10 +115,9 @@ class NotificationCentreViewModel: ObservableObject {
                     }
                 }
             }
-            
         }
     }
-    
+
     func track(screen: TrackableScreen) {
         analyticsService.track(screen: screen)
     }

@@ -43,7 +43,7 @@ class HomeViewModel: ObservableObject {
          recentActivityAction: @escaping () -> Void,
          openURLAction: @escaping (URL) -> Void,
          openAction: @escaping (SearchItem) -> Void,
-         notificationCentreAction: @escaping() -> Void) {
+         notificationCentreAction: @escaping () -> Void) {
         self.analyticsService = analyticsService
         self.configService = configService
         self.notificationService = notificationService
