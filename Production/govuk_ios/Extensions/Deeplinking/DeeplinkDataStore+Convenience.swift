@@ -7,7 +7,9 @@ extension DeeplinkDataStore {
         DeeplinkDataStore(
             routes: [
                 HomeDeeplinkRoute(coordinatorBuilder: coordinatorBuilder),
-                WebDeeplinkRoute(coordinatorBuilder: coordinatorBuilder)
+                WebDeeplinkRoute(coordinatorBuilder: coordinatorBuilder),
+                NotificationCentreDeeplinkRoute(coordinatorBuilder: coordinatorBuilder),
+                NotificationCentreDetailDeeplinkRoute(coordinatorBuilder: coordinatorBuilder)
             ],
             root: root
         )
@@ -32,4 +34,15 @@ extension DeeplinkDataStore {
             root: root
         )
     }
+
+//    static func notificationCentre(coordinatorBuilder: CoordinatorBuilder,
+//                                   root: UIViewController) -> DeeplinkDataStore {
+//        DeeplinkDataStore(
+//            routes: [
+//                NotificationCentreDeeplinkRoute(coordinatorBuilder: coordinatorBuilder),
+//                NotificationCentreDetailDeeplinkRoute(coordinatorBuilder: coordinatorBuilder)
+//            ],
+//            root: root
+//        )
+//    }
 }

@@ -6,40 +6,47 @@ import GovKit
 
 struct NotificationCentreDetailContainerView: View {
     @ObservedObject var viewModel: NotificationCentreDetailViewModel
-    
+
     var body: some View {
         VStack { // Hides the splash of white when you overscroll the list
             GeometryReader { geometry in
                 ScrollView {
                     VStack(spacing: 0) {
                         titleView
-                        
+
                         switch viewModel.state {
                         case .loading, .new:
                             NotificationCentreDetailLoadingView()
                                 .onAppear {
-                                    UIAccessibility.post(notification: .screenChanged, argument: "Loading")
+                                    UIAccessibility.post(notification: .screenChanged,
+                                                         argument: "Loading")
                                 }
                         case .notFound:
                             NotificationCentreDetailNotFoundView()
                                 .onAppear {
-                                    UIAccessibility.post(notification: .screenChanged, argument: "No Notifications")
+                                    UIAccessibility.post(notification: .screenChanged,
+                                                         argument: "No Notifications")
                                 }
                         case .loaded(notification: let notification):
-                            NotificationCentreDetailLoadedView(notification: notification, onLinkTapped: {
-                                    // TODO Combine these
-                                    viewModel.show(url:$0)
+                            NotificationCentreDetailLoadedView(
+                                notification: notification,
+                                onLinkTapped: {
+                                    // swiftlint:disable:next todo
+                                    // TODO Combine these?
+                                    viewModel.show(url: $0)
                                     viewModel.track(url: $0)
                                 })
-                                .onAppear {
-                                    UIAccessibility.post(notification: .screenChanged, argument: "Loading complete")
-                                }
-                                .padding(.horizontal, 16)
-                                .padding(.vertical, 32)
+                            .onAppear {
+                                UIAccessibility.post(notification: .screenChanged,
+                                                     argument: "Loading complete")
+                            }
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 32)
                         case .error:
                             NotificationCentreDetailErrorView(onRetry: viewModel.onTapRetry)
                                 .onAppear {
-                                    UIAccessibility.post(notification: .screenChanged, argument: "Error")
+                                    UIAccessibility.post(notification: .screenChanged,
+                                                         argument: "Error")
                                 }
                         }
                     }
@@ -55,8 +62,8 @@ struct NotificationCentreDetailContainerView: View {
             viewModel.track(screen: self)
         }
     }
-    
-    
+
+
     private var titleView: some View {
         VStack(spacing: 0) {
             HStack {
@@ -72,7 +79,7 @@ struct NotificationCentreDetailContainerView: View {
             .background(Color(UIColor.govUK.fills.surfaceHomeHeaderBackground))
         }
     }
-    
+
     // Hides the splash of white when you overscroll the title
     private var gradient: Gradient {
         Gradient(stops: [
@@ -92,21 +99,23 @@ struct NotificationCentreDetailContainerView: View {
     }
 }
 
-fileprivate struct NotificationCentreDetailLoadedView: View {
+private struct NotificationCentreDetailLoadedView: View {
     let notification: DetailedNotification
     let onLinkTapped: (URL) -> Void
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             Text(notification.messageTitle ?? notification.notification.title)
                 .font(Font.govUK.title1Bold)
                 .padding(.bottom, 16)
                 .foregroundStyle(Color(UIColor.govUK.text.primary))
-            Text(.NotificationCentre.notificationSentDateFormat(DateFormatter.notificationSent.string(from: notification.notification.date)))
+            Text(.NotificationCentre.notificationSentDateFormat(
+                DateFormatter.notificationSent.string(from: notification.notification.date)))
                 .font(Font.govUK.callout)
                 .foregroundStyle(Color(UIColor.govUK.text.secondary))
                 .padding(.bottom, 32)
-            Text((notification.messageBody ?? notification.notification.body).toDetectedAttributedString())
+            Text((notification.messageBody ?? notification.notification.body)
+                .toDetectedAttributedString())
                 .font(Font.govUK.body)
                 .foregroundStyle(Color(UIColor.govUK.text.primary))
                 .environment(\.openURL, OpenURLAction { url in
@@ -124,7 +133,7 @@ fileprivate struct NotificationCentreDetailLoadedView: View {
     }
 }
 
-fileprivate struct NotificationCentreDetailLoadingView: View {
+private struct NotificationCentreDetailLoadingView: View {
     var body: some View {
         VStack(alignment: .center) {
             Spacer()
@@ -136,9 +145,9 @@ fileprivate struct NotificationCentreDetailLoadingView: View {
 }
 
 
-fileprivate struct NotificationCentreDetailErrorView: View {
+private struct NotificationCentreDetailErrorView: View {
     let onRetry: () -> Void
-    
+
     var body: some View {
         VStack(alignment: .center) {
             Spacer()
@@ -157,8 +166,12 @@ fileprivate struct NotificationCentreDetailErrorView: View {
                 .font(Font.govUK.body)
                 .multilineTextAlignment(.center)
                 .foregroundStyle(Color(UIColor.govUK.text.secondary))
-            
-            SwiftUIButton(.primary, viewModel: .init(localisedTitle: String(localized: .NotificationCentre.notificationErrorButtonRetry), action: onRetry))
+
+            SwiftUIButton(.primary,
+                          viewModel: .init(
+                            localisedTitle: String(
+                                localized: .NotificationCentre.notificationErrorButtonRetry),
+                            action: onRetry))
             .padding(.top, 32)
             Spacer()
         }
@@ -166,7 +179,7 @@ fileprivate struct NotificationCentreDetailErrorView: View {
     }
 }
 
-fileprivate struct NotificationCentreDetailNotFoundView: View {
+private struct NotificationCentreDetailNotFoundView: View {
     var body: some View {
         VStack(alignment: .center) {
             Spacer()
@@ -200,20 +213,23 @@ extension NotificationCentreDetailContainerView: TrackableScreen {
 extension String {
     // Borrowed from https://fatbobman.com/en/posts/open_url_in_swiftui/
     func toDetectedAttributedString() -> AttributedString {
-        
         var attributedString = AttributedString(self)
-        
+
         let types = NSTextCheckingResult.CheckingType.link.rawValue
-        
+
         guard let detector = try? NSDataDetector(types: types) else {
             return attributedString
         }
-        
-        let matches = detector.matches(in: self, options: [], range: NSRange(location: 0, length: count))
-        
+
+        let matches = detector.matches(
+            in: self,
+            options: [],
+            range: NSRange(location: 0, length: count))
+
         for match in matches {
             let range = match.range
-            let startIndex = attributedString.index(attributedString.startIndex, offsetByCharacters: range.lowerBound)
+            let startIndex = attributedString
+                .index(attributedString.startIndex, offsetByCharacters: range.lowerBound)
             let endIndex = attributedString.index(startIndex, offsetByCharacters: range.length)
             // Setting URL for link
             if match.resultType == .link, let url = match.url {
@@ -230,8 +246,10 @@ extension String {
 
 #Preview("Loaded") {
     let testNotification = NotificationCentreViewModel.MockData.testDetailedNotifications.first!
-    
-    NotificationCentreDetailLoadedView(notification: testNotification, onLinkTapped: { _ in /* no-op */ })
+
+    NotificationCentreDetailLoadedView(
+        notification: testNotification,
+        onLinkTapped: { _ in /* no-op */ })
 }
 
 #Preview("Not Found") {

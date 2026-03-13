@@ -22,18 +22,27 @@ class NotificationCentreCoordinator: BaseCoordinator {
     }
 
     override func start(url: URL?) {
-        let viewController = self.viewControllerBuilder.notificationCentre(showNotificationAction: { [weak self] notification in
-            self?.showDetail(notification: notification)
+        let viewController = self
+            .viewControllerBuilder
+            .notificationCentre(showNotificationAction: { [weak self] notification in
+                self?.showDetail(for: notification.id)
         }, notificationService: notificationCentreService, analyticsService: analyticsService)
-        viewController.navigationItem.backButtonTitle = "Notification Centre" // TODO Localise
+        viewController
+            .navigationItem
+            .backButtonTitle = String.notificationCentre.localized("notificationCentreNavTitle")
         self.push(viewController, animated: true)
     }
-    
-    func showDetail(notification: Notification) {
-        let viewController = self.viewControllerBuilder.notificationCentreDetail(notification: notification, notificationService: notificationCentreService, analyticsService: analyticsService, showUrlAction: presentWebView(url:))
+
+    func showDetail(for notificationId: String) {
+        let viewController = self.viewControllerBuilder
+            .notificationCentreDetail(
+                notificationId: notificationId,
+                notificationService: notificationCentreService,
+                analyticsService: analyticsService,
+                showUrlAction: presentWebView(url:))
         self.push(viewController, animated: true)
     }
-    
+
     private func presentWebView(url: URL) {
         let coordinator = coordinatorBuilder.safari(
             navigationController: root,
