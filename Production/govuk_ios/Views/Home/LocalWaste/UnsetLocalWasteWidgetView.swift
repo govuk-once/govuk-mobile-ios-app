@@ -44,29 +44,3 @@ struct UnsetLocalWasteWidgetView: View {
         }
     }
 }
-
-#Preview("Light") {
-    createPreview()
-        .preferredColorScheme(.light)
-}
-
-#Preview("Dark") {
-    createPreview()
-        .preferredColorScheme(.dark)
-}
-
-private func createPreview() -> some View {
-    let viewModel = UnsetLocalWasteWidgetViewModel(
-        primaryAction: {})
-
-    return VStack(alignment: .center, spacing: 0) {
-        Spacer().frame(minHeight: 0)
-
-        UnsetLocalWasteWidgetView(viewModel: viewModel)
-
-        Spacer().frame(minHeight: 0)
-    }
-    .padding(.horizontal, 16)
-    .frame(maxWidth: .infinity)
-    .background(Color(uiColor: UIColor.govUK.fills.surfaceBackground))
-}
