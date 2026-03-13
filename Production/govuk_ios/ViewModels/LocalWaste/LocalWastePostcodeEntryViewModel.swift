@@ -5,7 +5,6 @@ import SwiftUI
 
 @MainActor
 class LocalWastePostcodeEntryViewModel: ObservableObject {
-    
     @Published
     var postcode: String = "" {
         didSet {
@@ -14,16 +13,16 @@ class LocalWastePostcodeEntryViewModel: ObservableObject {
             }
         }
     }
-    
+
     @Published
     var error: PostcodeError?
-    
+
     @Published
     var textFieldColour: UIColor = UIColor.govUK.strokes.listDivider
 
     @Published
     var isLoading = false
-    
+
     @Published
     var isPrimaryButtonEnabled = false
 
@@ -85,7 +84,7 @@ class LocalWastePostcodeEntryViewModel: ObservableObject {
             populateErrorMessage(.textFieldEmpty)
             return
         }
-        
+
         do {
             isLoading = true
             let sanitisedPostcode = preprocessTextInput(postcode: postcode)
@@ -93,7 +92,7 @@ class LocalWastePostcodeEntryViewModel: ObservableObject {
             if addresses.count == 0 {
                 throw LocalWasteAddressSearchError.unknownPostcode
             }
-            
+
             trackNavigationEvent(primaryButton)
             doneAction(addresses)
             isLoading = false

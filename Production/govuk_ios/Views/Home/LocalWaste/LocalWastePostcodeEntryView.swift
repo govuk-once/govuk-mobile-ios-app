@@ -3,16 +3,15 @@ import GovKit
 import GovKitUI
 
 struct LocalWastePostcodeEntryView: View {
-    
     @StateObject
     private var viewModel: LocalWastePostcodeEntryViewModel
-    
+
     @Environment(\.verticalSizeClass)
     var verticalSizeClass
-    
+
     @AccessibilityFocusState(for: .voiceOver)
     private var isErrorFocused: Bool
-    
+
     @FocusState
     private var isTextFieldFocused: Bool
 
@@ -78,7 +77,7 @@ struct LocalWastePostcodeEntryView: View {
                                 borderColor: Color(viewModel.textFieldColour))
                             .accessibilityLabel(viewModel.entryFieldAccessibilityLabel)
                             .disabled(viewModel.isLoading)
-                        
+
                         if viewModel.isLoading {
                             ProgressView()
                                 .padding(.top, 28)
@@ -93,7 +92,7 @@ struct LocalWastePostcodeEntryView: View {
                                 .font(Font.govUK.body)
                                 .foregroundColor(Color(UIColor.govUK.text.primary))
                         }
-                        
+
                         Spacer()
                     }.padding()
                 }.onReceive(viewModel.$error) { error in

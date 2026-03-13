@@ -1,7 +1,8 @@
 import Foundation
 
 protocol LocalWasteServiceInterface {
-    func fetchAddresses(postcode: String) async throws(LocalWasteAddressSearchError) -> [LocalWasteAddress]
+    func fetchAddresses(
+        postcode: String) async throws(LocalWasteAddressSearchError) -> [LocalWasteAddress]
     func fetchAddress() -> LocalWasteAddress?
     func saveAddress(_ address: LocalWasteAddress)
 }
@@ -16,10 +17,11 @@ class LocalWasteService: LocalWasteServiceInterface {
         self.repository = repository
     }
 
-    func fetchAddresses(postcode: String) async throws(LocalWasteAddressSearchError) -> [LocalWasteAddress] {
+    func fetchAddresses(
+        postcode: String) async throws(LocalWasteAddressSearchError) -> [LocalWasteAddress] {
         try await serviceClient.fetchAddresses(postcode: postcode)
     }
-    
+
     func fetchAddress() -> LocalWasteAddress? {
         repository.fetchAddress()
     }

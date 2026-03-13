@@ -1,7 +1,8 @@
 import Foundation
 
 protocol LocalWasteServiceClientInterface {
-    func fetchAddresses(postcode: String) async throws(LocalWasteAddressSearchError) -> [LocalWasteAddress]
+    func fetchAddresses(
+        postcode: String) async throws(LocalWasteAddressSearchError) -> [LocalWasteAddress]
 }
 
 enum LocalWasteAddressSearchError: LocalizedError {
@@ -19,13 +20,14 @@ struct LocalWasteServiceClient: LocalWasteServiceClientInterface {
         self.session = session
     }
 
-    func fetchAddresses(postcode: String) async throws(LocalWasteAddressSearchError) -> [LocalWasteAddress] {
+    func fetchAddresses(
+        postcode: String) async throws(LocalWasteAddressSearchError) -> [LocalWasteAddress] {
         guard let url = LocalWasteServiceClient.url(path: "api/address/\(postcode)") else {
             throw LocalWasteAddressSearchError.apiUnavailable
         }
         let request = URLRequest(url: url)
         let (data, httpResponse): (Data, URLResponse)
-        
+
         do {
             (data, httpResponse) = try await session.data(for: request)
         } catch let error as NSError where error.code == NSURLErrorNotConnectedToInternet {
@@ -33,7 +35,7 @@ struct LocalWasteServiceClient: LocalWasteServiceClientInterface {
         } catch {
             throw LocalWasteAddressSearchError.apiUnavailable
         }
-        
+
         guard let httpUrlResponse = httpResponse as? HTTPURLResponse else {
             throw LocalWasteAddressSearchError.apiUnavailable
         }
@@ -46,9 +48,6 @@ struct LocalWasteServiceClient: LocalWasteServiceClientInterface {
             } catch {
                 throw LocalWasteAddressSearchError.decodingError
             }
-        // TODO
-        // case 400:
-        //    break
         default:
             throw LocalWasteAddressSearchError.apiUnavailable
         }
