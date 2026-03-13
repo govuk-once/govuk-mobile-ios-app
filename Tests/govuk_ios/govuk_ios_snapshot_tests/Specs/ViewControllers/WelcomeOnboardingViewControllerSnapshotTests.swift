@@ -6,21 +6,21 @@ import GovKit
 @testable import govuk_ios
 
 class WelcomeOnboardingViewControllerSnapshotTests: SnapshotTestCase {
+    let viewControllerBuilder = ViewControllerBuilder()
+
     func test_loadInNavigationController_light_rendersCorrectly() {
         let viewModel = WelcomeOnboardingViewModel(
             completeAction: { },
             openURLAction: { _ in },
             termsURL: Constants.API.govukBaseUrl
         )
-        let welcomeOnboardingView = InfoView(viewModel: viewModel)
-        let hostingViewController =  HostingViewController(
-            rootView: welcomeOnboardingView,
-            statusBarStyle: .darkContent
+        let welcomeOnboardingViewController = viewControllerBuilder.welcomeOnboarding(
+            viewModel: viewModel
         )
+
         VerifySnapshotInNavigationController(
-            viewController: hostingViewController,
-            mode: .light,
-            prefersLargeTitles: true
+            viewController: welcomeOnboardingViewController,
+            mode: .light
         )
     }
 
@@ -30,15 +30,13 @@ class WelcomeOnboardingViewControllerSnapshotTests: SnapshotTestCase {
             openURLAction: { _ in },
             termsURL: Constants.API.govukBaseUrl
         )
-        let welcomeOnboardingView = InfoView(viewModel: viewModel)
-        let hostingViewController =  HostingViewController(
-            rootView: welcomeOnboardingView,
-            statusBarStyle: .darkContent
+        let welcomeOnboardingViewController = viewControllerBuilder.welcomeOnboarding(
+            viewModel: viewModel
         )
+
         VerifySnapshotInNavigationController(
-            viewController: hostingViewController,
-            mode: .dark,
-            prefersLargeTitles: true
+            viewController: welcomeOnboardingViewController,
+            mode: .dark
         )
     }
 }
