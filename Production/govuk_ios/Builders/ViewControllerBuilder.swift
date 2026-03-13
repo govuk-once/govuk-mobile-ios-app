@@ -591,5 +591,26 @@ class ViewControllerBuilder {
         viewController.isModalInPresentation = true
         return viewController
     }
+
+    func termsAndConditions(
+        termsAndConditionsService: TermsAndConditionsServiceInterface,
+        completionAction: @escaping () -> Void,
+        alertDismissAction: @escaping () -> Void,
+        openURLAction: @escaping (URL) -> Void,
+    ) -> UIViewController {
+        let viewModel = TermsAndConditionsViewModel(
+            termsAndConditionsService: termsAndConditionsService,
+            completionAction: completionAction,
+            alertDismissAction: alertDismissAction,
+            openURLAction: openURLAction
+        )
+        let termsView = TermsAndConditionsView(
+            viewModel: viewModel
+        )
+        let viewController = HostingViewController(
+            rootView: termsView
+        )
+        return viewController
+    }
 }
 // swiftlint:enable file_length

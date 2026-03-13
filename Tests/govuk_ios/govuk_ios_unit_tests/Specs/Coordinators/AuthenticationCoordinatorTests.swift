@@ -15,6 +15,7 @@ class AuthenticationCoordinatorTests {
         let mockTopicsService = MockTopicsService()
         let mockChatService = MockChatService()
         let mockLocalAuthenticationService = MockLocalAuthenticationService()
+        let mockTermsAndConditionsService = MockTermsAndConditionsService()
         let mockNavigationController =  MockNavigationController()
         mockLocalAuthenticationService._stubbedCanEvaluateBiometricsPolicy = true
         mockLocalAuthenticationService.setLocalAuthenticationOnboarded()
@@ -34,6 +35,7 @@ class AuthenticationCoordinatorTests {
                 analyticsService: mockAnalyticsService, 
                 topicsService: mockTopicsService,
                 chatService: mockChatService,
+                termsAndConditionsService: mockTermsAndConditionsService,
                 completionAction: {
                     continuation.resume()
                 },
@@ -54,6 +56,7 @@ class AuthenticationCoordinatorTests {
         let mockTopicsService = MockTopicsService()
         let mockChatService = MockChatService()
         let mockLocalAuthenticationService = MockLocalAuthenticationService()
+        let mockTermsAndConditionsService = MockTermsAndConditionsService()
         let mockNavigationController =  MockNavigationController()
         mockLocalAuthenticationService._stubbedCanEvaluateBiometricsPolicy = true
         mockLocalAuthenticationService._stubbedAuthenticationOnboardingSeen = false
@@ -74,6 +77,7 @@ class AuthenticationCoordinatorTests {
                 analyticsService: mockAnalyticsService,
                 topicsService: mockTopicsService,
                 chatService: mockChatService,
+                termsAndConditionsService: mockTermsAndConditionsService,
                 completionAction: {
                     continuation.resume()
                 },
@@ -85,6 +89,7 @@ class AuthenticationCoordinatorTests {
         #expect(mockAnalyticsService._resetConsentCalled)
         #expect(!mockAnalyticsService._setExistingConsentCalled)
         #expect(mockTopicsService._resetOnboardingCalled)
+        #expect(mockTermsAndConditionsService._didResetAcceptanceDate)
     }
 
     @Test
@@ -96,6 +101,7 @@ class AuthenticationCoordinatorTests {
         let mockTopicsService = MockTopicsService()
         let mockChatService = MockChatService()
         let mockLocalAuthenticationService = MockLocalAuthenticationService()
+        let mockTermsAndConditionsService = MockTermsAndConditionsService()
         let mockNavigationController =  MockNavigationController()
         mockLocalAuthenticationService._stubbedCanEvaluateBiometricsPolicy = true
         mockLocalAuthenticationService._stubbedAuthenticationOnboardingSeen = false
@@ -115,6 +121,7 @@ class AuthenticationCoordinatorTests {
                 analyticsService: mockAnalyticsService,
                 topicsService: mockTopicsService,
                 chatService: mockChatService,
+                termsAndConditionsService: mockTermsAndConditionsService,
                 completionAction: {
                     continuation.resume()
                 },
@@ -125,7 +132,7 @@ class AuthenticationCoordinatorTests {
 
         #expect(!mockAnalyticsService._resetConsentCalled)
         #expect(!mockTopicsService._resetOnboardingCalled)
-        #expect(mockAnalyticsService._setExistingConsentCalled)
+        #expect(!mockTermsAndConditionsService._didResetAcceptanceDate)
     }
 
     @Test
@@ -135,6 +142,7 @@ class AuthenticationCoordinatorTests {
         let mockTopicsService = MockTopicsService()
         let mockChatService = MockChatService()
         let mockLocalAuthenticationService = MockLocalAuthenticationService()
+        let mockTermsAndConditionsService = MockTermsAndConditionsService()
         let mockNavigationController =  MockNavigationController()
         mockLocalAuthenticationService._stubbedCanEvaluateBiometricsPolicy = true
         mockLocalAuthenticationService._stubbedAuthenticationOnboardingSeen = true
@@ -154,6 +162,7 @@ class AuthenticationCoordinatorTests {
                 analyticsService: mockAnalyticsService,
                 topicsService: mockTopicsService,
                 chatService: mockChatService,
+                termsAndConditionsService: mockTermsAndConditionsService,
                 completionAction: {
                     continuation.resume()
                 },
@@ -171,6 +180,7 @@ class AuthenticationCoordinatorTests {
         let mockTopicsService = MockTopicsService()
         let mockChatService = MockChatService()
         let mockLocalAuthenticationService = MockLocalAuthenticationService()
+        let mockTermsAndConditionsService = MockTermsAndConditionsService()
         let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
         let mockNavigationController =  MockNavigationController()
         mockLocalAuthenticationService._stubbedAuthenticationOnboardingSeen = false
@@ -190,6 +200,7 @@ class AuthenticationCoordinatorTests {
                 analyticsService: mockAnalyticsService,
                 topicsService: mockTopicsService,
                 chatService: mockChatService,
+                termsAndConditionsService: mockTermsAndConditionsService,
                 completionAction: {
                     continuation.resume()
                 },
@@ -207,6 +218,7 @@ class AuthenticationCoordinatorTests {
         let mockTopicsService = MockTopicsService()
         let mockChatService = MockChatService()
         let mockLocalAuthenticationService = MockLocalAuthenticationService()
+        let mockTermsAndConditionsService = MockTermsAndConditionsService()
         let mockNavigationController =  MockNavigationController()
 
         mockLocalAuthenticationService._stubbedAuthenticationOnboardingSeen = true
@@ -227,6 +239,7 @@ class AuthenticationCoordinatorTests {
                 analyticsService: mockAnalyticsService,
                 topicsService: mockTopicsService,
                 chatService: mockChatService,
+                termsAndConditionsService: mockTermsAndConditionsService,
                 completionAction: { continuation.resume(returning: true) },
                 errorAction: { error in
                     authError = error

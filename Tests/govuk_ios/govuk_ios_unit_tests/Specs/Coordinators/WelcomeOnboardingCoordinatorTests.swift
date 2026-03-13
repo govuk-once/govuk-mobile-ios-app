@@ -130,7 +130,6 @@ class WelcomeOnboardingCoordinatorTests {
         let mockUserService = MockUserService()
         let mockCoordinatorBuilder = CoordinatorBuilder.mock
         let mockSignInSuccessCoordinator = MockBaseCoordinator()
-        mockCoordinatorBuilder._stubbedSignInSuccessCoordinator = mockSignInSuccessCoordinator
         mockUserService._stubbedFetchUserStateResult = .success(UserState.arrange)
 
         let mockViewControllerBuilder = MockViewControllerBuilder()
@@ -148,19 +147,17 @@ class WelcomeOnboardingCoordinatorTests {
                 analyticsService: MockAnalyticsService(),
                 deviceInformationProvider: MockDeviceInformationProvider(),
                 versionProvider: MockAppVersionProvider(),
-                completionAction: { }
+                completionAction: {
+                    continuation.resume(returning: true)
+                }
             )
             sut.start(url: nil)
-            mockCoordinatorBuilder._signInSuccessCallAction = {
-                continuation.resume(returning: true)
-            }
 
             mockViewControllerBuilder._stubbedWelcomeOnboardingViewModel?.completeAction()
             mockCoordinatorBuilder._receivedAuthenticationCompletion?()
         }
 
         #expect(completion)
-        #expect(mockSignInSuccessCoordinator._startCalled)
     }
 
     @Test
@@ -169,7 +166,6 @@ class WelcomeOnboardingCoordinatorTests {
         let mockUserService = MockUserService()
         let mockCoordinatorBuilder = CoordinatorBuilder.mock
         let mockSignInSuccessCoordinator = MockBaseCoordinator()
-        mockCoordinatorBuilder._stubbedSignInSuccessCoordinator = mockSignInSuccessCoordinator
         mockUserService._stubbedFetchUserStateResult = .success(UserState.arrange)
 
         let mockViewControllerBuilder = MockViewControllerBuilder()
@@ -187,12 +183,11 @@ class WelcomeOnboardingCoordinatorTests {
                 analyticsService: MockAnalyticsService(),
                 deviceInformationProvider: MockDeviceInformationProvider(),
                 versionProvider: MockAppVersionProvider(),
-                completionAction: { }
+                completionAction: {
+                    continuation.resume(returning: true)
+                }
             )
             sut.start(url: nil)
-            mockCoordinatorBuilder._signInSuccessCallAction = {
-                continuation.resume(returning: true)
-            }
 
             mockViewControllerBuilder._stubbedWelcomeOnboardingViewModel?.completeAction()
             mockCoordinatorBuilder._receivedAuthenticationCompletion?()
