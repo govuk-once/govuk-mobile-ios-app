@@ -23,6 +23,7 @@ struct TopicsDetailCoordinatorTests {
             analyticsService: mockAnalyticsService,
             topicsService: mockTopicsService,
             activityService: mockActivityService,
+            configService: MockAppConfigService(),
             coordinatorBuilder: MockCoordinatorBuilder.mock,
             viewControllerBuilder: mockViewControllerBuilder,
             topic: Topic(context: coreData.viewContext)

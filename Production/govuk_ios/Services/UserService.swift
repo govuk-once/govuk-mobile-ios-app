@@ -1,6 +1,9 @@
 protocol UserServiceInterface {
     func fetchUserState(completion: @escaping FetchUserStateCompletion)
     func setNotificationsConsent(_ consentStatus: ConsentStatus)
+    func linkAccount(withType accountType: ServiceAccountType,
+                     linkId: String,
+                     completion: @escaping LinkAccountCompletion)
     var notificationId: String? { get }
     var notificationsConsentStatus: ConsentStatus? { get }
     var isEnabled: Bool { get }
@@ -12,11 +15,7 @@ protocol UserServiceInterface {
      private var userState: UserState?
 
      var isEnabled: Bool {
-        #if STAGING
          appConfigService.isFeatureEnabled(key: .flex)
-        #else
-         false
-        #endif
      }
 
      var notificationId: String? {
@@ -55,5 +54,15 @@ protocol UserServiceInterface {
                  print(error.localizedDescription)
              }
          }
+     }
+
+     func linkAccount(withType accountType: ServiceAccountType,
+                      linkId: String,
+                      completion: @escaping LinkAccountCompletion) {
+         userServiceClient.linkAccount(
+            serviceName: accountType.rawValue,
+            linkId: linkId,
+            completion: completion
+         )
      }
  }

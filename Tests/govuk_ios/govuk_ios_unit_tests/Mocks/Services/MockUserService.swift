@@ -29,4 +29,14 @@ class MockUserService: UserServiceInterface {
         _setNotificationConsentCompletionBlock?()
     }
 
+    var _linkAccountCallCount = 0
+    var _stubbedLinkAccountResult: LinkAccountResult?
+    func linkAccount(withType accountType: ServiceAccountType,
+                     linkId: String,
+                     completion: @escaping LinkAccountCompletion) {
+        _linkAccountCallCount += 1
+        if let result = _stubbedLinkAccountResult {
+            completion(result)
+        }
+    }
 }

@@ -114,6 +114,8 @@ struct ViewControllerBuilderTests {
             topicsService: MockTopicsService(),
             analyticsService: MockAnalyticsService(),
             activityService: MockActivityService(),
+            configService: MockAppConfigService(),
+            topicAction: { _ in },
             subtopicAction: { _ in },
             stepByStepAction: { _ in },
             openAction: { _ in }
@@ -343,6 +345,21 @@ struct ViewControllerBuilderTests {
 
         let rootView =
         (result as? HostingViewController<InfoView<ChatTermsOnboardingViewModel>>)?.rootView
+        #expect(rootView != nil)
+    }
+
+    @Test
+    func serviceAccountLinking_returnsExpectedResult() {
+        let subject = ViewControllerBuilder()
+        let result = subject.serviceAccountLinking(
+            userService: MockUserService(),
+            accountType: .dvla,
+            linkId: "linkId",
+            completeAction: {},
+            dismissAction: {}
+        )
+
+        let rootView = (result as? HostingViewController<ServiceAccountLinkingView>)?.rootView
         #expect(rootView != nil)
     }
 }
