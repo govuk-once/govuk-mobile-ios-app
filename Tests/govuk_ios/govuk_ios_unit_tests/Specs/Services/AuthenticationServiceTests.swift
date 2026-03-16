@@ -26,14 +26,14 @@ struct AuthenticationServiceTests {
         let expectedAccessToken = "access_token_value"
         let expectedRefreshToken = "refresh_token_value"
         let expectedIdToken = Self.idToken
-        let expectedExpiryDate = "2099-01-01T00:00:00Z"
+        let expectedExpiresIn: TimeInterval = 315619200
         let jsonString = """
         {
-            "accessToken": "\(expectedAccessToken)",
-            "refreshToken": "\(expectedRefreshToken)",
-            "idToken": "\(expectedIdToken)",
-            "tokenType": "id_token",
-            "expiryDate": "\(expectedExpiryDate)"
+            "access_token": "\(expectedAccessToken)",
+            "refresh_token": "\(expectedRefreshToken)",
+            "id_token": "\(expectedIdToken)",
+            "token_type": "id_token",
+            "expires_in": \(expectedExpiresIn)
         }
         """
         let jsonData = jsonString.data(using: .utf8)!
@@ -75,14 +75,14 @@ struct AuthenticationServiceTests {
         let expectedAccessToken = "access_token_value"
         let expectedRefreshToken = "refresh_token_value"
         let expectedIdToken = "id_token"
-        let expectedExpiryDate = "2099-01-01T00:00:00Z"
+        let expectedExpiresIn: TimeInterval = 315619200
         let jsonData = """
         {
-            "accessToken": "\(expectedAccessToken)",
-            "refreshToken": "\(expectedRefreshToken)",
-            "idToken": "\(expectedIdToken)",
-            "tokenType": "id_token",
-            "expiryDate": "\(expectedExpiryDate)"
+            "access_token": "\(expectedAccessToken)",
+            "refresh_token": "\(expectedRefreshToken)",
+            "id_token": "\(expectedIdToken)",
+            "token_type": "id_token",
+            "expires_in": \(expectedExpiresIn)
         }
         """.data(using: .utf8)!
         let tokenResponse = createTokenResponse(jsonData)
@@ -115,14 +115,14 @@ struct AuthenticationServiceTests {
         let expectedAccessToken = "access_token_value"
         let expectedRefreshToken = "refresh_token_value"
         let expectedIdToken = "id_token"
-        let expectedExpiryDate = "2099-01-01T00:00:00Z"
+        let expectedExpiresIn: TimeInterval = 315619200
         let jsonData = """
         {
-            "accessToken": "\(expectedAccessToken)",
-            "refreshToken": "\(expectedRefreshToken)",
-            "idToken": "\(expectedIdToken)",
-            "tokenType": "id_token",
-            "expiryDate": "\(expectedExpiryDate)"
+            "access_token": "\(expectedAccessToken)",
+            "refresh_token": "\(expectedRefreshToken)",
+            "id_token": "\(expectedIdToken)",
+            "token_type": "id_token",
+            "expires_in": \(expectedExpiresIn)
         }
         """.data(using: .utf8)!
         let tokenResponse = createTokenResponse(jsonData)
@@ -158,14 +158,14 @@ struct AuthenticationServiceTests {
         let expectedAccessToken = "access_token_value"
         let expectedRefreshToken = "refresh_token_value"
         let expectedIdToken = "id_token"
-        let expectedExpiryDate = "2099-01-01T00:00:00Z"
+        let expectedExpiresIn: TimeInterval = 315619200
         let jsonData = """
         {
-            "accessToken": "\(expectedAccessToken)",
-            "refreshToken": "\(expectedRefreshToken)",
-            "idToken": "\(expectedIdToken)",
-            "tokenType": "id_token",
-            "expiryDate": "\(expectedExpiryDate)"
+            "access_token": "\(expectedAccessToken)",
+            "refresh_token": "\(expectedRefreshToken)",
+            "id_token": "\(expectedIdToken)",
+            "token_type": "id_token",
+            "expires_in": \(expectedExpiresIn)
         }
         """.data(using: .utf8)!
         let tokenResponse = createTokenResponse(jsonData)
@@ -224,14 +224,14 @@ struct AuthenticationServiceTests {
         let expectedAccessToken = "access_token_value"
         let expectedRefreshToken = "refresh_token_value"
         let expectedIdToken = "id_token"
-        let expectedExpiryDate = "2099-01-01T00:00:00Z"
+        let expectedExpiresIn: TimeInterval = 315619200
         let jsonData = """
         {
-            "accessToken": "\(expectedAccessToken)",
-            "refreshToken": "\(expectedRefreshToken)",
-            "idToken": "\(expectedIdToken)",
-            "tokenType": "id_token",
-            "expiryDate": "\(expectedExpiryDate)"
+            "access_token": "\(expectedAccessToken)",
+            "refresh_token": "\(expectedRefreshToken)",
+            "id_token": "\(expectedIdToken)",
+            "token_type": "id_token",
+            "expires_in": \(expectedExpiresIn)
         }
         """.data(using: .utf8)!
         let tokenResponse = createTokenResponse(jsonData)
@@ -277,14 +277,14 @@ struct AuthenticationServiceTests {
         let expectedAccessToken = "access_token_value"
         let expectedRefreshToken = "refresh_token_value"
         let expectedIdToken = "id_token"
-        let expectedExpiryDate = "2099-01-01T00:00:00Z"
+        let expectedExpiresIn: TimeInterval = 315619200
         let jsonData = """
         {
-            "accessToken": "\(expectedAccessToken)",
-            "refreshToken": "\(expectedRefreshToken)",
-            "idToken": "\(expectedIdToken)",
-            "tokenType": "id_token",
-            "expiryDate": "\(expectedExpiryDate)"
+            "access_token": "\(expectedAccessToken)",
+            "refresh_token": "\(expectedRefreshToken)",
+            "id_token": "\(expectedIdToken)",
+            "token_type": "id_token",
+            "expires_in": \(expectedExpiresIn)
         }
         """.data(using: .utf8)!
         let tokenResponse = createTokenResponse(jsonData)
@@ -330,14 +330,14 @@ struct AuthenticationServiceTests {
         let expectedAccessToken = "access_token_value"
         let expectedRefreshToken = "refresh_token_value"
         let expectedIdToken = "id_token"
-        let expectedExpiryDate = "2099-01-01T00:00:00Z"
+        let expectedExpiresIn: TimeInterval = 315619200
         let jsonData = """
         {
-            "accessToken": "\(expectedAccessToken)",
-            "refreshToken": "\(expectedRefreshToken)",
-            "idToken": "\(expectedIdToken)",
-            "tokenType": "id_token",
-            "expiryDate": "\(expectedExpiryDate)"
+            "access_token": "\(expectedAccessToken)",
+            "refresh_token": "\(expectedRefreshToken)",
+            "id_token": "\(expectedIdToken)",
+            "token_type": "id_token",
+            "expires_in": \(expectedExpiresIn)
         }
         """.data(using: .utf8)!
         let tokenResponse = createTokenResponse(jsonData)
@@ -460,14 +460,14 @@ struct AuthenticationServiceTests {
         )
         let expectedAccessToken = "access_token_value"
         let expectedRefreshToken = "refresh_token_value"
-        let expectedExpiryDate = "2099-01-01T00:00:00Z"
+        let expectedExpiresIn: TimeInterval = 315619200
         let jsonData = """
         {
-            "accessToken": "\(expectedAccessToken)",
-            "refreshToken": "\(expectedRefreshToken)",
-            "idToken": "\(Self.idToken)",
-            "tokenType": "id_token",
-            "expiryDate": "\(expectedExpiryDate)"
+            "access_token": "\(expectedAccessToken)",
+            "refresh_token": "\(expectedRefreshToken)",
+            "id_token": "\(Self.idToken)",
+            "token_type": "id_token",
+            "expires_in": \(expectedExpiresIn)
         }
         """.data(using: .utf8)!
         let tokenResponse = createTokenResponse(jsonData)
@@ -651,14 +651,14 @@ struct AuthenticationServiceTests {
         let expectedAccessToken = "access_token_value"
         let expectedRefreshToken = "refresh_token_value"
         let expectedIdToken = "id_token"
-        let expectedExpiryDate = "2099-01-01T00:00:00Z"
+        let expectedExpiresIn: TimeInterval = 31536000
         let jsonData = """
         {
-            "accessToken": "\(expectedAccessToken)",
-            "refreshToken": "\(expectedRefreshToken)",
-            "idToken": "\(expectedIdToken)",
-            "tokenType": "id_token",
-            "expiryDate": "\(expectedExpiryDate)"
+            "access_token": "\(expectedAccessToken)",
+            "refresh_token": "\(expectedRefreshToken)",
+            "id_token": "\(expectedIdToken)",
+            "token_type": "id_token",
+            "expires_in": \(expectedExpiresIn)
         }
         """.data(using: .utf8)!
         let tokenResponse = createTokenResponse(jsonData)
