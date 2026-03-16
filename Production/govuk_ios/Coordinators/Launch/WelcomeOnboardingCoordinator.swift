@@ -135,7 +135,8 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
         userService.fetchUserState(completion: { [weak self] result in
             switch result {
             case .success(let userState):
-                self?.notificationService.register(notificationId: userState.notificationId)
+                self?.notificationService.register(notificationId:
+                                                    userState.notifications.notificationId)
                 self?.handleUserStateFetched()
             case .failure(let error):
                 self?.startAppUnavailable(error: error.asAppUnavailableError)
@@ -155,7 +156,8 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
                 self?.userService.fetchUserState { result in
                     switch result {
                     case .success(let userState):
-                        self?.notificationService.register(notificationId: userState.notificationId)
+                        self?.notificationService.register(notificationId:
+                                                            userState.notifications.notificationId)
                         completion(true)
                     case .failure:
                         completion(false)

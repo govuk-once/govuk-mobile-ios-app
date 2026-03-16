@@ -577,7 +577,9 @@ class ViewControllerBuilder {
             analyticsService: analyticsService,
             chatService: chatService,
             cancelOnboardingAction: cancelOnboardingAction,
-            completionAction: completionAction)
+            completionAction: completionAction,
+            openURLAction: openURLAction
+        )
 
         let containerView = InfoView<ChatTermsOnboardingViewModel>(
             viewModel: viewModel,

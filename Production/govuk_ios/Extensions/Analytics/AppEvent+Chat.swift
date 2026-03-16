@@ -33,4 +33,16 @@ extension AppEvent {
             ]
         )
     }
+
+    static func chatTermsLinkNavigation(text: String,
+                                        url: String) -> AppEvent {
+        navigation(
+            text: text,
+            type: "ChatOnboardingLink",
+            external: true,
+            additionalParams: [
+                "url": url
+            ]
+        )
+    }
 }

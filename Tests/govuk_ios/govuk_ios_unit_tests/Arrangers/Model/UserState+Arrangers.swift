@@ -6,17 +6,22 @@ extension UserState {
     static var arrange: UserState {
         .arrange()
     }
-
-    static func arrange(notificationId: String = "test_id",
-                        notificationsConsentStatus: ConsentStatus = .unknown) -> UserState {
-        .init(
-            notificationId: notificationId,
-            preferences: UserPreferences(
-                notifications: ConsentPreference(
-                    consentStatus: notificationsConsentStatus
-                )
-            )
-        )
+    
+    static func arrange(userId: String = "user_id",
+                        userNotificationsPreferences:
+                        UserNotificationsPreferences =
+                        UserNotificationsPreferences(consentStatus: .unknown, notificationId: "notification_id")
+    ) -> UserState {
+        .init(userId: userId, notifications: userNotificationsPreferences)
     }
+    
+    static var arrangeAccepted: UserState {
+        .arrange(userNotificationsPreferences: UserNotificationsPreferences(consentStatus: .accepted, notificationId: "notification_id"))
+    }
+    
+    static func arrange(notificationId: String = "notification_id") -> UserState {
+        .init(userId: "user_id", notifications: UserNotificationsPreferences(consentStatus: .unknown, notificationId: notificationId))
+    }
+    
 }
 

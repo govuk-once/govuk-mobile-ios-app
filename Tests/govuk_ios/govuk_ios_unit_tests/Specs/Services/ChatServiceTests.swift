@@ -250,6 +250,29 @@ final class ChatServiceTests {
     }
 
     @Test
+    func chatOnboarded_setTrue_marksBannerSeen() {
+        let banner = ChatBanner(
+            id: "Test_id",
+            title: "Chat",
+            body: "Chat",
+            link: mockConfigService.chatBannerLink
+        )
+
+        mockConfigService._stubbedChatBanner = banner
+
+        let sut = ChatService(
+            serviceClient: mockChatServiceClient,
+            chatRepository: mockChatRepository,
+            configService: mockConfigService,
+            userDefaultsService: mockUserDefaultsService
+        )
+
+        #expect(!mockUserDefaultsService.hasSeen(banner: banner))
+        sut.chatOnboardingSeen = true
+        #expect(mockUserDefaultsService.hasSeen(banner: banner))
+    }
+
+    @Test
     func chatOnboarded_setFalse_returnsFalse() {
         let sut = ChatService(
             serviceClient: mockChatServiceClient,
