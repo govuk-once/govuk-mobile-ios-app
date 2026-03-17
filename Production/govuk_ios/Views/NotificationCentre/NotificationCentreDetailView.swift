@@ -100,21 +100,21 @@ struct NotificationCentreDetailContainerView: View {
 }
 
 private struct NotificationCentreDetailLoadedView: View {
-    let notification: DetailedNotification
+    let notification: Notification
     let onLinkTapped: (URL) -> Void
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            Text(notification.messageTitle ?? notification.notification.title)
+            Text(notification.messageTitle ?? notification.title)
                 .font(Font.govUK.title1Bold)
                 .padding(.bottom, 16)
                 .foregroundStyle(Color(UIColor.govUK.text.primary))
             Text(.NotificationCentre.notificationSentDateFormat(
-                DateFormatter.notificationSent.string(from: notification.notification.date)))
+                DateFormatter.notificationSent.string(from: notification.date)))
                 .font(Font.govUK.callout)
                 .foregroundStyle(Color(UIColor.govUK.text.secondary))
                 .padding(.bottom, 32)
-            Text((notification.messageBody ?? notification.notification.body)
+            Text((notification.messageBody ?? notification.body)
                 .toDetectedAttributedString())
                 .font(Font.govUK.body)
                 .foregroundStyle(Color(UIColor.govUK.text.primary))
@@ -245,7 +245,7 @@ extension String {
 }
 
 #Preview("Loaded") {
-    let testNotification = NotificationCentreViewModel.MockData.testDetailedNotifications.first!
+    let testNotification = NotificationCentreViewModel.MockData.testNotifications.first!
 
     NotificationCentreDetailLoadedView(
         notification: testNotification,

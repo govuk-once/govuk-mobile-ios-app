@@ -1,18 +1,64 @@
 //
+import Foundation
 
 protocol NotificationCentreRepositoryInterface {
     func fetchAll() -> [Notification]
-    func fetchDetailedNotification(with id: String) -> DetailedNotification?
+    func fetchNotification(with id: String) -> Notification?
+
+    func store(notifications: [Notification])
+    func updateNotification(with id: String, isUnread: Bool)
 }
 
-// swiftlint:disable todo
-struct NotificationCentreRepository: NotificationCentreRepositoryInterface {
+
+class NotificationCentreRepository: NotificationCentreRepositoryInterface {
+    enum Constants {
+        static let notificationExpiration: TimeInterval = 30
+    }
+
+    private struct CacheEntry<T> {
+        let data: T
+        let lastUpdate: Date
+
+        var hasExpired: Bool {
+            Date().timeIntervalSince(lastUpdate) > Constants.notificationExpiration
+        }
+    }
+
+    private var notifications: CacheEntry<[Notification]>?
+    private var lastUpdate: Date?
+
     func fetchAll() -> [Notification] {
-        return [] // TODO Implement properly when not using mock data
+        guard let notifications else { return [] }
+        return notifications.hasExpired ? [] : notifications.data
     }
 
-    func fetchDetailedNotification(with id: String) -> DetailedNotification? {
-        return nil // TODO Implement properly when not using mock data
+    func fetchNotification(with id: String) -> Notification? {
+        return notifications?.hasExpired == false ?
+            notifications?.data.first(where: { $0.id == id }) :
+            nil
+    }
+
+    func store(notifications: [Notification]) {
+        self.notifications = .init(data: notifications, lastUpdate: .now)
+    }
+
+    func updateNotification(with id: String, isUnread: Bool) {
+        guard let notifications else { return }
+
+        let updatedNotifications = notifications.data.map {
+            let unread = $0.id == id ? isUnread : $0.isUnread
+            let status = unread ? "DELIVERED" : "READ"
+
+            return Notification(
+                id: $0.id,
+                title: $0.title,
+                body: $0.body,
+                date: $0.date,
+                status: status,
+                messageTitle: $0.messageTitle,
+                messageBody: $0.messageBody)
+        }
+
+        self.notifications = .init(data: updatedNotifications, lastUpdate: notifications.lastUpdate)
     }
 }
-// swiftlint:enable todo

@@ -77,7 +77,9 @@ extension Container {
 
     var notificationCentreServiceClient: Factory<NotificationCentreServiceClientInterface> {
         Factory(self) {
-            NotificationCentreServiceClient()
+            NotificationCentreServiceClient(
+                apiServiceClient: self.notificationCentreAPIClient()
+            )
         }
     }
 }

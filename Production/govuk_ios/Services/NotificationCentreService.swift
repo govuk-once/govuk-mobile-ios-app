@@ -1,9 +1,12 @@
 //
 
 protocol NotificationCentreServiceInterface {
-    func fetchNotifications(callback: @escaping (([Notification]) -> Void))
-    func fetchDetailedNotification(notificationId: String,
-                                   callback: @escaping ((DetailedNotification?) -> Void))
+    func fetchNotifications(callback: @escaping ((NotificationResult) -> Void))
+    func fetchNotification(with id: String,
+                           callback: @escaping (SingleNotificationResult) -> Void)
+
+    func markUnread(with id: String)
+    func markRead(with id: String)
 }
 
 class NotificationCentreService: NotificationCentreServiceInterface {
@@ -17,31 +20,41 @@ class NotificationCentreService: NotificationCentreServiceInterface {
         self.repository = repository
     }
 
-    func fetchNotifications(callback: @escaping ([Notification]) -> Void) {
-        // swiftlint:disable:next todo
-        // TODO Implement properly when not using mock data
+    func fetchNotifications(callback: @escaping (NotificationResult) -> Void) {
         let cached = repository.fetchAll()
 
-        if cached.isEmpty {
-            return serviceClient.fetchNotifications { notifications in
-                callback(notifications)
+        if cached.isEmpty == true {
+            return serviceClient.fetchNotifications { [weak self] in
+                if case let .success(notifications) = $0 {
+                    self?.repository.store(notifications: notifications)
+                }
+                callback($0)
             }
         } else {
-            callback(cached)
+            callback(.success(cached))
         }
     }
 
-    func fetchDetailedNotification(
-        notificationId: String, callback:
-        @escaping (DetailedNotification?) -> Void) {
-        // swiftlint:disable:next todo
-        // TODO Implement properly when not using mock data
-        if let cached = repository.fetchDetailedNotification(with: notificationId) {
-            callback(cached)
+    func fetchNotification(with id: String, callback:
+        @escaping (SingleNotificationResult) -> Void) {
+        if let cached = repository.fetchNotification(with: id) {
+            callback(.success(cached))
         } else {
-            return serviceClient.fetchDetailedNotification(with: notificationId) { notification in
-                callback(notification)
-            }
+            return serviceClient.fetchNotification(with: id, callback: callback)
+        }
+    }
+
+    func markUnread(with id: String) {
+        repository.updateNotification(with: id, isUnread: true)
+        serviceClient.updateNotification(status: .unread, for: id) {
+            /* No-op */
+        }
+    }
+
+    func markRead(with id: String) {
+        repository.updateNotification(with: id, isUnread: false)
+        serviceClient.updateNotification(status: .read, for: id) {
+            /* No-op */
         }
     }
 }

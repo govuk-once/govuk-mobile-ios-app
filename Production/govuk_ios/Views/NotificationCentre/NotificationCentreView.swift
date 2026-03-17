@@ -15,7 +15,7 @@ struct NotificationCentreContainerView: View {
                         titleView
 
                         switch viewModel.state {
-                        case .loading, .new:
+                        case .loading:
                             NotificationCentreLoadingView()
                                 .onAppear {
                                     UIAccessibility
@@ -262,12 +262,14 @@ extension NotificationCentreContainerView: TrackableScreen {
 
 #Preview("Unread notification") {
     let notification = Notification(
-        id: "1", title: "Test 1", body: "Body 1", date: Date(), isUnread: true)
+        id: "1", title: "Test 1", body: "Body 1", date: Date(), status: "UNREAD",
+        messageTitle: nil, messageBody: nil)
     NotificationCentreRow(notification: notification, onTap: { _ in /* no-op */ })
 }
 
 #Preview("Read notification") {
     let notification = Notification(
-        id: "1", title: "Test 1", body: "Body 1", date: Date(), isUnread: false)
+        id: "1", title: "Test 1", body: "Body 1", date: Date(), status: "READ",
+        messageTitle: nil, messageBody: nil)
     NotificationCentreRow(notification: notification, onTap: { _ in /* no-op */ })
 }

@@ -6,7 +6,7 @@ import GovKit
 
 class NotificationCentreDetailViewModel: ObservableObject {
     enum State {
-        case new, loading, notFound, loaded(notification: DetailedNotification), error
+        case new, loading, notFound, loaded(notification: Notification), error
     }
 
     @Published public private(set) var state: State = .new
@@ -36,8 +36,6 @@ class NotificationCentreDetailViewModel: ObservableObject {
     func onViewAppear() {
         if case .new = state {
             loadData()
-            // swiftlint:disable:next todo
-            // TODO Send read if necessary
         }
     }
 
@@ -59,15 +57,23 @@ class NotificationCentreDetailViewModel: ObservableObject {
         Task {
             await changeState(state: .loading)
 
-            try await Task.sleep(for: .seconds(0.5))
-
             notificationService
-                .fetchDetailedNotification(notificationId: notificationId) { notification in
+                .fetchNotification(with: notificationId) { [weak self] res in
                     Task {
-                        if let notification {
-                            await self.changeState(state: .loaded(notification: notification))
+                        if case let .success(notification) = res {
+                            if let notification {
+                                await self?.changeState(state: .loaded(notification: notification))
+                                if notification.isUnread {
+                                    self?.notificationService.markRead(with: notification.id)
+                                }
+                            } else {
+                                await self?.changeState(state: .notFound)
+                            }
+                        } else if case let .failure(error) = res,
+                                    error == NotificationCentreError.notFound {
+                            await self?.changeState(state: .notFound)
                         } else {
-                            await self.changeState(state: .notFound)
+                            await self?.changeState(state: .error)
                         }
                     }
                 }
@@ -85,8 +91,12 @@ class NotificationCentreDetailViewModel: ObservableObject {
     }
 
     func onMarkUnread() {
-        // swiftlint:disable:next todo
-        // TODO Send API call
+        if case .loaded(let notification) = state {
+            Task { [weak self] in
+                self?.notificationService.markUnread(with: notification.id)
+            }
+        }
+
         onUnreadAction()
     }
 

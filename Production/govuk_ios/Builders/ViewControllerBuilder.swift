@@ -672,7 +672,7 @@ class ViewControllerBuilder {
                 image: UIImage(
                     resource: .notcenUnread),
                 primaryAction: UIAction { [weak viewModel] _ in
-                    viewModel?.onDelete()
+                    viewModel?.onMarkUnread()
             })
             unreadButton.accessibilityLabel = String
                 .notificationCentre.localized("notificationCentreDetailUnreadA11yLabel")
@@ -689,7 +689,7 @@ class ViewControllerBuilder {
 
             viewController.navigationItem.rightBarButtonItems = [
                 unreadButton,
-                deleteButton
+//                deleteButton
             ]
             return viewController
         }
