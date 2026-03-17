@@ -17,6 +17,10 @@ final class ServiceAccountCoordinator: BaseCoordinator {
     }
 
     override func start(url: URL?) {
+
+    }
+
+    private func linkAccount() {
         let linkId = "test-link-id"
         let viewController = viewControllerBuilder.serviceAccountLinking(
             userService: userService,
@@ -25,6 +29,19 @@ final class ServiceAccountCoordinator: BaseCoordinator {
             completeAction: { [weak self] in
                 self?.dismissModal()
                 print("dvla account linked successfully")
+            },
+            dismissAction: dismissModal
+        )
+        set(viewController)
+    }
+
+    private func unlinkAccount() {
+        let viewController = viewControllerBuilder.serviceAccountUnlinking(
+            userService: userService,
+            accountType: accountType,
+            completeAction: { [weak self] in
+                self?.dismissModal()
+                print("dvla account unlinked successfully")
             },
             dismissAction: dismissModal
         )

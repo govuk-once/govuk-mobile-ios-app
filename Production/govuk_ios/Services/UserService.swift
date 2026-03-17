@@ -4,9 +4,12 @@ protocol UserServiceInterface {
     func linkAccount(withType accountType: ServiceAccountType,
                      linkId: String,
                      completion: @escaping LinkAccountCompletion)
+    func unlinkAccount(withType accountType: ServiceAccountType,
+                       completion: @escaping UnlinkAccountCompletion)
     var notificationId: String? { get }
     var notificationsConsentStatus: ConsentStatus? { get }
     var isEnabled: Bool { get }
+    var isAccountLinked: Bool { get }
 }
 
  class UserService: UserServiceInterface {
@@ -24,6 +27,8 @@ protocol UserServiceInterface {
      var notificationsConsentStatus: ConsentStatus? {
          userState?.notifications.consentStatus
      }
+
+     var isAccountLinked = false
 
      init(appConfigService: AppConfigServiceInterface,
           userServiceClient: UserServiceClientInterface) {
@@ -62,6 +67,14 @@ protocol UserServiceInterface {
          userServiceClient.linkAccount(
             serviceName: accountType.rawValue,
             linkId: linkId,
+            completion: completion
+         )
+     }
+
+     func unlinkAccount(withType accountType: ServiceAccountType,
+                        completion: @escaping UnlinkAccountCompletion) {
+         userServiceClient.unlinkAccount(
+            serviceName: accountType.rawValue,
             completion: completion
          )
      }

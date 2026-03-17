@@ -617,5 +617,25 @@ class ViewControllerBuilder {
         )
         return viewController
     }
+
+    func serviceAccountUnlinking(
+        userService: UserServiceInterface,
+        accountType: ServiceAccountType,
+        completeAction: @escaping () -> Void,
+        dismissAction: @escaping () -> Void
+    ) -> UIViewController {
+        let viewModel = ServiceAccountUnlinkingViewModel(
+            userService: userService,
+            accountType: accountType,
+            completeAction: completeAction,
+            dismissAction: dismissAction
+        )
+        let view = ServiceAccountUnlinkingView(viewModel: viewModel)
+        let viewController = HostingViewController(
+            rootView: view,
+            navigationBarHidden: false
+        )
+        return viewController
+    }
 }
 // swiftlint:enable file_length
