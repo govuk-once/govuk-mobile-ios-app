@@ -3,19 +3,22 @@ import GovKit
 import GovKitUI
 
 final class ChatTermsOnboardingViewModel: InfoViewModelInterface {
-    var analyticsService: (any GovKit.AnalyticsServiceInterface)?
+    var analyticsService: AnalyticsServiceInterface?
     private var chatService: ChatServiceInterface
     private let cancelOnboardingAction: () -> Void
     private let completionAction: () -> Void
+    private let openURLAction: (URL) -> Void
 
     init(analyticsService: AnalyticsServiceInterface,
          chatService: ChatServiceInterface,
          cancelOnboardingAction: @escaping () -> Void,
-         completionAction: @escaping () -> Void) {
+         completionAction: @escaping () -> Void,
+         openURLAction: @escaping (URL) -> Void) {
         self.analyticsService = analyticsService
         self.chatService = chatService
         self.cancelOnboardingAction = cancelOnboardingAction
         self.completionAction = completionAction
+        self.openURLAction = openURLAction
     }
 
     var title: String {
@@ -28,6 +31,14 @@ final class ChatTermsOnboardingViewModel: InfoViewModelInterface {
                 chatService.privacyPolicy.absoluteString
             )
         )
+    }
+
+    func openTermsURLAction(url: URL) {
+        analyticsService?.track(event: .chatTermsLinkNavigation(
+            text: "privacy notice",
+            url: url.absoluteString
+        ))
+        openURLAction(url)
     }
 
     var primaryButtonTitle: String {

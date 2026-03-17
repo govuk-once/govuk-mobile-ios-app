@@ -8,6 +8,7 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
     private let authenticationService: AuthenticationServiceInterface
     private let userService: UserServiceInterface
     private let notificationService: NotificationServiceInterface
+    private let termsAndConditionsService: TermsAndConditionsServiceInterface
     private let coordinatorBuilder: CoordinatorBuilder
     private let viewControllerBuilder: ViewControllerBuilder
     private let analyticsService: AnalyticsServiceInterface
@@ -16,13 +17,15 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
     private let versionProvider: AppVersionProvider
     private let completionAction: () -> Void
 
-    private var shouldShowSignInSuccessScreen = false
-
     private lazy var welcomeOnboardingViewModel: WelcomeOnboardingViewModel = {
         WelcomeOnboardingViewModel(
             completeAction: { [weak self] in
                 self?.startAuthentication()
-            }
+            },
+            openURLAction: { [weak self] url in
+                self?.presentWebView(url: url)
+            },
+            termsURL: termsAndConditionsService.termsAndConditionsURL
         )
     }()
 
@@ -30,6 +33,7 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
          authenticationService: AuthenticationServiceInterface,
          userService: UserServiceInterface,
          notificationService: NotificationServiceInterface,
+         termsAndConditionsService: TermsAndConditionsServiceInterface,
          coordinatorBuilder: CoordinatorBuilder,
          viewControllerBuilder: ViewControllerBuilder,
          analyticsService: AnalyticsServiceInterface,
@@ -40,6 +44,7 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
         self.authenticationService = authenticationService
         self.userService = userService
         self.notificationService = notificationService
+        self.termsAndConditionsService = termsAndConditionsService
         self.coordinatorBuilder = coordinatorBuilder
         self.viewControllerBuilder = viewControllerBuilder
         self.analyticsService = analyticsService
@@ -75,7 +80,6 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
                 self?.showAuthenticationError(error)
             }
         )
-        shouldShowSignInSuccessScreen = true
         start(authenticationCoordinator)
         pendingAuthenticationCoordinator = authenticationCoordinator
     }
@@ -131,7 +135,8 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
         userService.fetchUserState(completion: { [weak self] result in
             switch result {
             case .success(let userState):
-                self?.notificationService.register(notificationId: userState.notificationId)
+                self?.notificationService.register(notificationId:
+                                                    userState.notifications.notificationId)
                 self?.handleUserStateFetched()
             case .failure(let error):
                 self?.startAppUnavailable(error: error.asAppUnavailableError)
@@ -139,21 +144,8 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
         })
     }
 
-    @MainActor
-    private func startSignInSuccess() {
-        let coordinator = coordinatorBuilder.signInSuccess(
-            navigationController: root,
-            completion: completionAction
-        )
-        start(coordinator)
-    }
-
     private func handleUserStateFetched() {
-        if shouldShowSignInSuccessScreen {
-            startSignInSuccess()
-        } else {
-            completionAction()
-        }
+        completionAction()
     }
 
     private func startAppUnavailable(error: AppUnavailableError) {
@@ -164,7 +156,8 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
                 self?.userService.fetchUserState { result in
                     switch result {
                     case .success(let userState):
-                        self?.notificationService.register(notificationId: userState.notificationId)
+                        self?.notificationService.register(notificationId:
+                                                            userState.notifications.notificationId)
                         completion(true)
                     case .failure:
                         completion(false)
@@ -176,5 +169,14 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
             }
         )
         start(coordinator)
+    }
+
+    private func presentWebView(url: URL) {
+        let coordinator = coordinatorBuilder.safari(
+            navigationController: root,
+            url: url,
+            fullScreen: true
+        )
+        start(coordinator, url: url)
     }
 }

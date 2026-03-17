@@ -475,7 +475,7 @@ struct AppCoordinatorTests {
         let mockUserService = MockUserService()
         let mockAuthenticationService = MockAuthenticationService()
         mockAuthenticationService._stubbedIsSignedIn = true
-        mockUserService._stubbedNotificationId = "test_user_id"
+        mockUserService._stubbedNotificationId = "test_notification_id"
         let mockNotificationService = MockNotificationService()
         let subject = AppCoordinator(
             coordinatorBuilder: MockCoordinatorBuilder.mock,
@@ -489,6 +489,7 @@ struct AppCoordinatorTests {
         subject.start()
         mockNotificationService._receivedOnConsentChangedAction?(true)
         #expect(mockUserService._receivedNotificationConsent == .accepted)
+        #expect(mockUserService.notificationId == "test_notification_id")
     }
 
     @Test
@@ -496,7 +497,7 @@ struct AppCoordinatorTests {
         let mockUserService = MockUserService()
         let mockAuthenticationService = MockAuthenticationService()
         mockAuthenticationService._stubbedIsSignedIn = true
-        mockUserService._stubbedNotificationId = "test_user_id"
+        mockUserService._stubbedNotificationId = "test_notification_id"
         let mockNotificationService = MockNotificationService()
         let subject = AppCoordinator(
             coordinatorBuilder: MockCoordinatorBuilder.mock,
@@ -509,7 +510,8 @@ struct AppCoordinatorTests {
             navigationController: MockNavigationController())
         subject.start()
         mockNotificationService._receivedOnConsentChangedAction?(true)
-        #expect(mockNotificationService._stubbedNotificationId == "test_user_id")
+        #expect(mockNotificationService._stubbedNotificationId == "test_notification_id")
+        #expect(mockUserService.notificationId == "test_notification_id")
     }
 
     @Test
@@ -517,7 +519,7 @@ struct AppCoordinatorTests {
         let mockUserService = MockUserService()
         let mockAuthenticationService = MockAuthenticationService()
         mockAuthenticationService._stubbedIsSignedIn = false
-        mockUserService._stubbedNotificationId = "test_user_id"
+        mockUserService._stubbedNotificationId = "test_notification_id"
         let mockNotificationService = MockNotificationService()
         let subject = AppCoordinator(
             coordinatorBuilder: MockCoordinatorBuilder.mock,
@@ -531,5 +533,6 @@ struct AppCoordinatorTests {
         subject.start()
         mockNotificationService._receivedOnConsentChangedAction?(true)
         #expect(mockNotificationService._stubbedNotificationId == nil)
+        #expect(mockUserService.notificationId == "test_notification_id")
     }
 }

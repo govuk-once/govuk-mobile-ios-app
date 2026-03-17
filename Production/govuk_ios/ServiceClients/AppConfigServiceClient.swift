@@ -12,7 +12,11 @@ protocol AppConfigServiceClientInterface {
 
 struct AppConfigServiceClient: AppConfigServiceClientInterface {
     private let serviceClient: APIServiceClientInterface
-    private let decoder = JSONDecoder()
+    private let decoder: JSONDecoder = {
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        return decoder
+    }()
 
     init(serviceClient: APIServiceClientInterface) {
         self.serviceClient = serviceClient

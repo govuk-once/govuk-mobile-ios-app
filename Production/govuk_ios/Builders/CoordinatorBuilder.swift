@@ -98,7 +98,8 @@ class CoordinatorBuilder {
             deviceInformationProvider: DeviceInformationProvider(),
             authenticationService: container.authenticationService.resolve(),
             notificationService: container.notificationService.resolve(),
-            localAuthenticationService: container.localAuthenticationService.resolve()
+            localAuthenticationService: container.localAuthenticationService.resolve(),
+            appConfigService: container.appConfigService.resolve()
         )
     }
 
@@ -311,6 +312,7 @@ class CoordinatorBuilder {
             authenticationService: container.authenticationService.resolve(),
             userService: container.userService.resolve(),
             notificationService: container.notificationService.resolve(),
+            termsAndConditionsService: container.termsAndConditionsService.resolve(),
             coordinatorBuilder: self,
             viewControllerBuilder: ViewControllerBuilder(),
             analyticsService: container.analyticsService.resolve(),
@@ -331,6 +333,7 @@ class CoordinatorBuilder {
             analyticsService: container.analyticsService.resolve(),
             topicsService: container.topicsService.resolve(),
             chatService: container.chatService.resolve(),
+            termsAndConditionsService: container.termsAndConditionsService.resolve(),
             completionAction: completionAction,
             errorAction: errorAction
         )
@@ -376,6 +379,17 @@ class CoordinatorBuilder {
             authenticationService: container.authenticationService.resolve(),
             completion: completion
         )
+    }
+
+    func termsAndConditions(navigationController: UINavigationController,
+                            completion: @escaping () -> Void) -> BaseCoordinator {
+        TermsAndConditionsCoordinator(
+            navigationController: navigationController,
+            viewControllerBuilder: ViewControllerBuilder(),
+            coordinatorBuilder: self,
+            authenticationService: container.authenticationService.resolve(),
+            termsAndConditionsService: container.termsAndConditionsService.resolve(),
+            completion: completion)
     }
 
     func safari(navigationController: UINavigationController,
