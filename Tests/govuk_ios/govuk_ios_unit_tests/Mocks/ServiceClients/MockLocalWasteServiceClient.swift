@@ -5,9 +5,12 @@ import Foundation
 class MockLocalWasteServiceClient: LocalWasteServiceClientInterface {
     
     var _dataFetchAddresses: [LocalWasteAddress]?
-    var _errorFetchAddresses: LocalWasteAddressSearchError?
+    var _errorFetchAddresses: LocalWasteAddressesApiError?
     var _postcodeFetchAddresses: String?
-    func fetchAddresses(postcode: String) async throws(LocalWasteAddressSearchError) -> [LocalWasteAddress] {
+    func fetchAddresses(
+        postcode: String
+    ) async throws(LocalWasteAddressesApiError)
+    -> [LocalWasteAddress] {
         _postcodeFetchAddresses = postcode
         if let result = _dataFetchAddresses {
             return result
@@ -18,4 +21,22 @@ class MockLocalWasteServiceClient: LocalWasteServiceClientInterface {
         abort()
     }
 
+    var _dataFetchSchedule: [LocalWasteBin]?
+    var _errorFetchSchedule: LocalWasteScheduleApiError?
+    var _uprnFetchSchedule: String?
+    var _localCustodianCodeFetchSchedule: String?
+    func fetchSchedule(
+        uprn: String,
+        localCustodianCode: String
+    ) async throws(LocalWasteScheduleApiError) -> [LocalWasteBin] {
+        _uprnFetchSchedule = uprn
+        _localCustodianCodeFetchSchedule = localCustodianCode
+        if let result = _dataFetchSchedule {
+            return result
+        }
+        if let error = _errorFetchSchedule {
+            throw error
+        }
+        abort()
+    }
 }

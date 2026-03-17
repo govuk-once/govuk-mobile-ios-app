@@ -25,11 +25,14 @@ struct ViewControllerBuilderTests {
     @Test
     func home_returnsExpectedResult() {
         let subject = ViewControllerBuilder()
-        let viewModel = TopicsWidgetViewModel(
+        let topicsViewModel = TopicsWidgetViewModel(
             topicsService: MockTopicsService(),
             analyticsService: MockAnalyticsService(),
             topicAction: { _ in },
             dismissEditAction: { }
+        )
+        let localWasteViewModel = LocalWasteWidgetViewModel(
+            service: MockLocalWasteService()
         )
         let dependencies = ViewControllerBuilder.HomeDependencies(
             analyticsService: MockAnalyticsService(),
@@ -38,8 +41,10 @@ struct ViewControllerBuilderTests {
             userDefaultsService: MockUserDefaultsService(),
             searchService: MockSearchService(),
             activityService: MockActivityService(),
-            topicsWidgetViewModel: viewModel,
+            topicsWidgetViewModel: topicsViewModel,
+            localWasteWidgetViewModel: localWasteViewModel,
             localAuthorityService: MockLocalAuthorityService(),
+            localWasteService: MockLocalWasteService(),
             chatService: MockChatService()
         )
 

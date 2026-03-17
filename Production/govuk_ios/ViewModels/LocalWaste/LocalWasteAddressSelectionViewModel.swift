@@ -5,7 +5,7 @@ import SwiftUI
 
 class LocalWasteAddressSelectionViewModel: ObservableObject {
     @Published
-    var addresses: [LocalWasteAddress]
+    private(set) var addresses: [LocalWasteAddress]
     @Published
     var selectedAddress: LocalWasteAddress?
 

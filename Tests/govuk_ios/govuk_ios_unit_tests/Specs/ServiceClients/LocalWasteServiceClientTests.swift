@@ -14,18 +14,19 @@ struct LocalWasteServiceClientTests {
     func fetchAddresses_statusCode200_returnsAddresses() async throws {
 
         // given
-        let postcode = UUID().uuidString
+        let sessionId = UUID().uuidString
         let data = try! jsonEncoder().encode(Constants.addresses)
-        let url = LocalWasteServiceClient.url(path: "api/address/\(postcode)")!
-        MockURLProtocol.registerHandler(forUrl: url.absoluteString) { request in
+        let url = LocalWasteServiceClient.url(path: "api/address/\(Constants.postcode)")!
+        MockURLProtocol.registerHandler(sessionId: sessionId, forUrl: url.absoluteString) { request in
             #expect(request.httpMethod == "GET")
             return (.arrangeSuccess, data, nil)
         }
 
-        let sut = LocalWasteServiceClient(session: URLSession.mock)
+        let session = URLSession.mock(sessionId: sessionId)
+        let sut = LocalWasteServiceClient(session: session)
 
         // when
-        let actual = try await sut.fetchAddresses(postcode: postcode)
+        let actual = try await sut.fetchAddresses(postcode: Constants.postcode)
 
         // then
         #expect(actual == Constants.addresses)
@@ -35,17 +36,18 @@ struct LocalWasteServiceClientTests {
     func fetchAddresses_statusCode500_throwsError() async throws {
 
         // given
-        let postcode = UUID().uuidString
-        let url = LocalWasteServiceClient.url(path: "api/address/\(postcode)")!
-        MockURLProtocol.registerHandler(forUrl: url.absoluteString) { request in
+        let sessionId = UUID().uuidString
+        let url = LocalWasteServiceClient.url(path: "api/address/\(Constants.postcode)")!
+        MockURLProtocol.registerHandler(sessionId: sessionId, forUrl: url.absoluteString) { request in
             return (.arrange(statusCode: 500), nil, nil)
         }
 
-        let sut = LocalWasteServiceClient(session: URLSession.mock)
+        let session = URLSession.mock(sessionId: sessionId)
+        let sut = LocalWasteServiceClient(session: session)
 
         // when / then
-        await #expect(throws: LocalWasteAddressSearchError.apiUnavailable) {
-            let _ = try await sut.fetchAddresses(postcode: postcode)
+        await #expect(throws: LocalWasteAddressesApiError.apiUnavailable) {
+            let _ = try await sut.fetchAddresses(postcode: Constants.postcode)
         }
     }
 
@@ -53,17 +55,18 @@ struct LocalWasteServiceClientTests {
     func fetchAddresses_notConnectedToInternet_throwsError() async throws {
 
         // given
-        let postcode = UUID().uuidString
-        let url = LocalWasteServiceClient.url(path: "api/address/\(postcode)")!
-        MockURLProtocol.registerHandler(forUrl: url.absoluteString) { request in
+        let sessionId = UUID().uuidString
+        let url = LocalWasteServiceClient.url(path: "api/address/\(Constants.postcode)")!
+        MockURLProtocol.registerHandler(sessionId: sessionId, forUrl: url.absoluteString) { request in
             return (.arrange(statusCode: 500), nil, NSError(domain: "test", code: NSURLErrorNotConnectedToInternet))
         }
 
-        let sut = LocalWasteServiceClient(session: URLSession.mock)
+        let session = URLSession.mock(sessionId: sessionId)
+        let sut = LocalWasteServiceClient(session: session)
 
         // when / then
-        await #expect(throws: LocalWasteAddressSearchError.networkUnavailable) {
-            let _ = try await sut.fetchAddresses(postcode: postcode)
+        await #expect(throws: LocalWasteAddressesApiError.networkUnavailable) {
+            let _ = try await sut.fetchAddresses(postcode: Constants.postcode)
         }
     }
 
@@ -71,18 +74,107 @@ struct LocalWasteServiceClientTests {
     func fetchAddresses_decodingError_throwsError() async throws {
 
         // given
-        let postcode = UUID().uuidString
+        let sessionId = UUID().uuidString
         let data = try! jsonEncoder().encode(TestStruct(property: "test"))
-        let url = LocalWasteServiceClient.url(path: "api/address/\(postcode)")!
-        MockURLProtocol.registerHandler(forUrl: url.absoluteString) { request in
+        let url = LocalWasteServiceClient.url(path: "api/address/\(Constants.postcode)")!
+        MockURLProtocol.registerHandler(sessionId: sessionId, forUrl: url.absoluteString) { request in
             return (.arrangeSuccess, data, nil)
         }
 
-        let sut = LocalWasteServiceClient(session: URLSession.mock)
+        let session = URLSession.mock(sessionId: sessionId)
+        let sut = LocalWasteServiceClient(session: session)
 
         // when / then
-        await #expect(throws: LocalWasteAddressSearchError.decodingError) {
-            let _ = try await sut.fetchAddresses(postcode: postcode)
+        await #expect(throws: LocalWasteAddressesApiError.decodingError) {
+            let _ = try await sut.fetchAddresses(postcode: Constants.postcode)
+        }
+    }
+
+    @Test
+    func fetchSchedule_statusCode200_returnsAddresses() async throws {
+
+        // given
+        let sessionId = UUID().uuidString
+        let data = try! jsonEncoder().encode(Constants.bins)
+        let url = LocalWasteServiceClient.url(path: "api/schedule")!
+        MockURLProtocol.registerHandler(sessionId: sessionId, forUrl: url.absoluteString) { request in
+            #expect(request.httpMethod == "GET")
+
+            let queryItems = URLComponents(url: request.url!, resolvingAgainstBaseURL: true)?.queryItems
+            #expect(queryItems?.count == 2)
+            #expect(queryItems?[0].name == "uprn")
+            #expect(queryItems?[0].value == Constants.uprn)
+            #expect(queryItems?[1].name == "localCustodianCode")
+            #expect(queryItems?[1].value == Constants.custodianCode)
+
+            return (.arrangeSuccess, data, nil)
+        }
+
+        let session = URLSession.mock(sessionId: sessionId)
+        let sut = LocalWasteServiceClient(session: session)
+
+        // when
+        let actual = try await sut.fetchSchedule(uprn: Constants.uprn, localCustodianCode: Constants.custodianCode)
+
+        // then
+        #expect(actual == Constants.bins)
+    }
+
+    @Test
+    func fetchSchedule_statusCode500_throwsError() async throws {
+
+        // given
+        let sessionId = UUID().uuidString
+        let url = LocalWasteServiceClient.url(path: "api/schedule")!
+        MockURLProtocol.registerHandler(sessionId: sessionId, forUrl: url.absoluteString) { request in
+            return (.arrange(statusCode: 500), nil, nil)
+        }
+
+        let session = URLSession.mock(sessionId: sessionId)
+        let sut = LocalWasteServiceClient(session: session)
+
+        // when / then
+        await #expect(throws: LocalWasteScheduleApiError.apiUnavailable) {
+            let _ = try await sut.fetchSchedule(uprn: Constants.uprn, localCustodianCode: Constants.custodianCode)
+        }
+    }
+
+    @Test
+    func fetchSchedule_notConnectedToInternet_throwsError() async throws {
+
+        // given
+        let sessionId = UUID().uuidString
+        let url = LocalWasteServiceClient.url(path: "api/schedule")!
+        MockURLProtocol.registerHandler(sessionId: sessionId, forUrl: url.absoluteString) { request in
+            return (.arrange(statusCode: 500), nil, NSError(domain: "test", code: NSURLErrorNotConnectedToInternet))
+        }
+
+        let session = URLSession.mock(sessionId: sessionId)
+        let sut = LocalWasteServiceClient(session: session)
+
+        // when / then
+        await #expect(throws: LocalWasteScheduleApiError.networkUnavailable) {
+            let _ = try await sut.fetchSchedule(uprn: Constants.uprn, localCustodianCode: Constants.custodianCode)
+        }
+    }
+
+    @Test
+    func fetchSchedule_decodingError_throwsError() async throws {
+
+        // given
+        let sessionId = UUID().uuidString
+        let data = try! jsonEncoder().encode(TestStruct(property: "test"))
+        let url = LocalWasteServiceClient.url(path: "api/schedule")!
+        MockURLProtocol.registerHandler(sessionId: sessionId, forUrl: url.absoluteString) { request in
+            return (.arrangeSuccess, data, nil)
+        }
+
+        let session = URLSession.mock(sessionId: sessionId)
+        let sut = LocalWasteServiceClient(session: session)
+
+        // when / then
+        await #expect(throws: LocalWasteScheduleApiError.decodingError) {
+            let _ = try await sut.fetchSchedule(uprn: Constants.uprn, localCustodianCode: Constants.custodianCode)
         }
     }
 
@@ -97,11 +189,26 @@ struct LocalWasteServiceClientTests {
     }
     
     struct Constants {
-        static let postcode = "SE129PT"
-        
+        static let postcode = "the-postcode"
+        static let uprn = "the-uprn"
+        static let custodianCode = "the-code"
         static let addresses = [
-            LocalWasteAddress(addressFull: "address1", uprn: "uprn1", localCustodianCode: "code1"),
-            LocalWasteAddress(addressFull: "address2", uprn: "uprn2", localCustodianCode: "code2"),
+            LocalWasteAddress(addressFull: "address1",
+                              uprn: "uprn1",
+                              localCustodianCode: "code1"),
+            LocalWasteAddress(addressFull: "address2",
+                              uprn: "uprn2",
+                              localCustodianCode: "code2"),
+        ]
+        static let bins = [
+            LocalWasteBin(date: LocalWasteServiceClient.dateFormatter.date(from: "2026-03-16")!,
+                          name: "Black",
+                          color: .black,
+                          content: "general waste"),
+            LocalWasteBin(date: LocalWasteServiceClient.dateFormatter.date(from: "2026-03-15")!,
+                          name: "Green",
+                          color: .green,
+                          content: "recycling")
         ]
     }
 }

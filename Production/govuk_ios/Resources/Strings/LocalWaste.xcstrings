@@ -34,13 +34,90 @@
         }
       }
     },
-    "localWasteTitle" : {
+    "localWasteColorAccessibilityBlack" : {
       "extractionState" : "manual",
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Bin collections"
+            "value" : "Black"
+          }
+        }
+      }
+    },
+    "localWasteColorAccessibilityGreen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Green"
+          }
+        }
+      }
+    },
+    "localWasteColorAccessibilityRed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Red"
+          }
+        }
+      }
+    },
+    "localWasteColorAccessibilityBlue" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blue"
+          }
+        }
+      }
+    },
+    "localWasteColorAccessibilityBrown" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Brown"
+          }
+        }
+      }
+    },
+    "localWasteColorAccessibilityYellow" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yellow"
+          }
+        }
+      }
+    },
+    "localWasteColorAccessibilitySilver" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Silver"
+          }
+        }
+      }
+    },
+    "localWasteColorAccessibilityPurple" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Purple"
           }
         }
       }
@@ -111,6 +188,17 @@
         }
       }
     },
+    "localWastePostcodeEntryViewLoadingAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading addresses"
+          }
+        }
+      }
+    },
     "localWastePostcodeEntryViewPrimaryButton" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -129,6 +217,105 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "What is your postcode?"
+          }
+        }
+      }
+    },
+    "localWasteTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bin collections"
+          }
+        }
+      }
+    },
+    "localWasteWidgetViewAddressAccessibilityLabelFormat" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your address: %@"
+          }
+        }
+      }
+    },
+    "localWasteWidgetViewDueDateLabelFormat" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Due %@"
+          }
+        }
+      }
+    },
+    "localWasteWidgetViewDueTimeLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Put bins out by 7 am"
+          }
+        }
+      }
+    },
+    "localWasteWidgetViewDueToday" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "today"
+          }
+        }
+      }
+    },
+    "localWasteWidgetViewDueTomorrow" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "tomorrow"
+          }
+        }
+      }
+    },
+    "localWasteWidgetViewEmptyLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "There are no schedules at the moment.\nTry again later"
+          }
+        }
+      }
+    },
+    "localWasteWidgetViewErrorLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't load the data"
+          }
+        }
+      }
+    },
+    "localWasteWidgetViewLoadingAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading"
           }
         }
       }
@@ -162,6 +349,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Never miss a bin day"
+          }
+        }
+      }
+    },
+    "localWasteWidgetViewTryAgainButton" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try again"
           }
         }
       }

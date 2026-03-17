@@ -16,19 +16,25 @@ extension ViewControllerBuilder {
             topicAction: { _ in },
             dismissEditAction: { }
         )
+        let localWasteWidgetViewModel = LocalWasteWidgetViewModel(
+            service: MockLocalWasteService()
+        )
         let homeViewModel = HomeViewModel(
             analyticsService: MockAnalyticsService(),
             configService: MockAppConfigService(),
             notificationService: MockNotificationService(),
             userDefaultsService: MockUserDefaultsService(),
             topicsWidgetViewModel: topicsViewModel,
+            localWasteWidgetViewModel: localWasteWidgetViewModel,
             urlOpener: MockURLOpener(),
             searchService: MockSearchService(),
             activityService: MockActivityService(),
             localAuthorityService: MockLocalAuthorityService(),
+            localWasteService: MockLocalWasteService(),
             chatService: MockChatService(),
             localAuthorityAction: { },
             editLocalAuthorityAction: { },
+            editLocalWasteAction: { },
             feedbackAction: { },
             notificationsAction: { },
             recentActivityAction: { },

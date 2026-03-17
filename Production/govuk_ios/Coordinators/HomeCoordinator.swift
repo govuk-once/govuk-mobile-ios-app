@@ -15,6 +15,7 @@ class HomeCoordinator: TabItemCoordinator {
     private let searchService: SearchServiceInterface
     private let activityService: ActivityServiceInterface
     private let localAuthorityService: LocalAuthorityServiceInterface
+    private let localWasteService: LocalWasteServiceInterface
     private let userDefaultsService: UserDefaultsServiceInterface
     private let chatService: ChatServiceInterface
 
@@ -34,6 +35,7 @@ class HomeCoordinator: TabItemCoordinator {
          searchService: SearchServiceInterface,
          activityService: ActivityServiceInterface,
          localAuthorityService: LocalAuthorityServiceInterface,
+         localWasteService: LocalWasteServiceInterface,
          userDefaultsService: UserDefaultsServiceInterface,
          chatService: ChatServiceInterface) {
         self.coordinatorBuilder = coordinatorBuilder
@@ -47,6 +49,7 @@ class HomeCoordinator: TabItemCoordinator {
         self.searchService = searchService
         self.activityService = activityService
         self.localAuthorityService = localAuthorityService
+        self.localWasteService = localWasteService
         self.userDefaultsService = userDefaultsService
         self.chatService = chatService
         super.init(navigationController: navigationController)
@@ -61,7 +64,9 @@ class HomeCoordinator: TabItemCoordinator {
             searchService: searchService,
             activityService: activityService,
             topicsWidgetViewModel: topicWidgetViewModel,
+            localWasteWidgetViewModel: localWasteWidgetViewModel,
             localAuthorityService: localAuthorityService,
+            localWasteService: localWasteService,
             chatService: chatService
         )
 
@@ -231,6 +236,13 @@ class HomeCoordinator: TabItemCoordinator {
             dismissEditAction: { [weak self] in
                 self?.root.viewWillReAppear()
             }
+        )
+    }()
+
+
+    private lazy var localWasteWidgetViewModel: LocalWasteWidgetViewModel = {
+        LocalWasteWidgetViewModel(
+            service: localWasteService
         )
     }()
 

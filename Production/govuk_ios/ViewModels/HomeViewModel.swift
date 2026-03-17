@@ -10,6 +10,7 @@ class HomeViewModel: ObservableObject {
     let notificationService: NotificationServiceInterface
     let userDefaultsService: UserDefaultsServiceInterface
     let topicsWidgetViewModel: TopicsWidgetViewModel
+    let localWasteWidgetViewModel: LocalWasteWidgetViewModel
     let localAuthorityAction: () -> Void
     let editLocalAuthorityAction: () -> Void
     let editLocalWasteAction: () -> Void
@@ -22,6 +23,7 @@ class HomeViewModel: ObservableObject {
     let searchService: SearchServiceInterface
     let activityService: ActivityServiceInterface
     let localAuthorityService: LocalAuthorityServiceInterface
+    let localWasteService: LocalWasteServiceInterface
     let chatService: ChatServiceInterface
     @Published var homeContentScrollToTop: Bool = false
     @Published var widgets: [HomepageWidget] = []
@@ -31,10 +33,12 @@ class HomeViewModel: ObservableObject {
          notificationService: NotificationServiceInterface,
          userDefaultsService: UserDefaultsServiceInterface,
          topicsWidgetViewModel: TopicsWidgetViewModel,
+         localWasteWidgetViewModel: LocalWasteWidgetViewModel,
          urlOpener: URLOpener,
          searchService: SearchServiceInterface,
          activityService: ActivityServiceInterface,
          localAuthorityService: LocalAuthorityServiceInterface,
+         localWasteService: LocalWasteServiceInterface,
          chatService: ChatServiceInterface,
          localAuthorityAction: @escaping () -> Void,
          editLocalAuthorityAction: @escaping () -> Void,
@@ -49,6 +53,7 @@ class HomeViewModel: ObservableObject {
         self.notificationService = notificationService
         self.userDefaultsService = userDefaultsService
         self.topicsWidgetViewModel = topicsWidgetViewModel
+        self.localWasteWidgetViewModel = localWasteWidgetViewModel
         self.localAuthorityAction = localAuthorityAction
         self.editLocalAuthorityAction = editLocalAuthorityAction
         self.editLocalWasteAction = editLocalWasteAction
@@ -61,6 +66,7 @@ class HomeViewModel: ObservableObject {
         self.searchService = searchService
         self.activityService = activityService
         self.localAuthorityService = localAuthorityService
+        self.localWasteService = localWasteService
         self.chatService = chatService
         updateWidgets()
     }
@@ -72,6 +78,7 @@ class HomeViewModel: ObservableObject {
             addLocalAuthorityWidget,
             storedLocalAuthorityWidget,
             unsetLocalWasteWidget,
+            localWasteWidget,
             recentActivityWidget,
             feedbackWidget
         ].compactMap { $0 }
@@ -206,8 +213,20 @@ class HomeViewModel: ObservableObject {
         )
     }
 
+    private var localWasteWidget: HomepageWidget? {
+        guard featureEnabled(.localServices),
+              localWasteService.fetchAddress() != nil
+        else { return nil }
+        return HomepageWidget(
+            content: LocalWasteWidgetView(
+                viewModel: self.localWasteWidgetViewModel
+            )
+        )
+    }
+
     private var unsetLocalWasteWidget: HomepageWidget? {
-        guard featureEnabled(.localServices)
+        guard featureEnabled(.localServices),
+              localWasteService.fetchAddress() == nil
         else { return nil }
         let viewModel = UnsetLocalWasteWidgetViewModel { [weak self] in
             self?.editLocalWasteAction()

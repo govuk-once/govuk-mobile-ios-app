@@ -47,7 +47,7 @@ struct LocalWasteServiceTests {
     
     @Test
     func fetchAddresses_throwsError() async throws {
-        let expectedError = LocalWasteAddressSearchError.networkUnavailable
+        let expectedError = LocalWasteAddressesApiError.networkUnavailable
         let mockServiceClient = MockLocalWasteServiceClient()
         mockServiceClient._errorFetchAddresses = expectedError
         let sut = LocalWasteService(
@@ -55,7 +55,7 @@ struct LocalWasteServiceTests {
             repository: MockLocalWasteRepository()
         )
 
-        let actualError = try await #require(throws: LocalWasteAddressSearchError.self) {
+        let actualError = try await #require(throws: LocalWasteAddressesApiError.self) {
             try await sut.fetchAddresses(postcode: "BS153FL")
         }
         #expect(actualError == expectedError)

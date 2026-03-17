@@ -29,7 +29,9 @@ class ViewControllerBuilder {
         let searchService: SearchServiceInterface
         let activityService: ActivityServiceInterface
         let topicsWidgetViewModel: TopicsWidgetViewModel
+        let localWasteWidgetViewModel: LocalWasteWidgetViewModel
         let localAuthorityService: LocalAuthorityServiceInterface
+        let localWasteService: LocalWasteServiceInterface
         let chatService: ChatServiceInterface
     }
 
@@ -52,10 +54,12 @@ class ViewControllerBuilder {
             notificationService: dependencies.notificationService,
             userDefaultsService: dependencies.userDefaultsService,
             topicsWidgetViewModel: dependencies.topicsWidgetViewModel,
+            localWasteWidgetViewModel: dependencies.localWasteWidgetViewModel,
             urlOpener: UIApplication.shared,
             searchService: dependencies.searchService,
             activityService: dependencies.activityService,
             localAuthorityService: dependencies.localAuthorityService,
+            localWasteService: dependencies.localWasteService,
             chatService: dependencies.chatService,
             localAuthorityAction: actions.localAuthorityAction,
             editLocalAuthorityAction: actions.editLocalAuthorityAction,

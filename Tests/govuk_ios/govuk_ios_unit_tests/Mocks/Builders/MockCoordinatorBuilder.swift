@@ -95,6 +95,7 @@ class MockCoordinatorBuilder: CoordinatorBuilder {
             searchService: MockSearchService(),
             activityService: MockActivityService(),
             localAuthorityService: MockLocalAuthorityService(),
+            localWasteService: MockLocalWasteService(),
             userDefaultsService: MockUserDefaultsService(),
             chatService: MockChatService()
         )

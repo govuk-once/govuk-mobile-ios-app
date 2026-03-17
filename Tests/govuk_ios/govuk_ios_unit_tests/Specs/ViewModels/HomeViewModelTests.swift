@@ -4,6 +4,7 @@ import Testing
 
 @testable import govuk_ios
 
+@MainActor
 @Suite
 struct HomeViewModelTests {
     @Test
@@ -13,6 +14,9 @@ struct HomeViewModelTests {
             analyticsService: MockAnalyticsService(),
             topicAction: { _ in },
             dismissEditAction: { }
+        )
+        let localWasteViewModel = LocalWasteWidgetViewModel(
+            service: MockLocalWasteService()
         )
         let mockConfigService = MockAppConfigService()
         mockConfigService._stubbedEmergencyBanners =
@@ -55,10 +59,12 @@ struct HomeViewModelTests {
             notificationService: MockNotificationService(),
             userDefaultsService: MockUserDefaultsService(),
             topicsWidgetViewModel: topicsViewModel,
+            localWasteWidgetViewModel: localWasteViewModel,
             urlOpener: MockURLOpener(),
             searchService: MockSearchService(),
             activityService: MockActivityService(),
             localAuthorityService: MockLocalAuthorityService(),
+            localWasteService: MockLocalWasteService(),
             chatService: MockChatService(),
             localAuthorityAction: { },
             editLocalAuthorityAction: { },
@@ -87,16 +93,21 @@ struct HomeViewModelTests {
             topicAction: { _ in },
             dismissEditAction: { }
         )
+        let localWasteViewModel = LocalWasteWidgetViewModel(
+            service: MockLocalWasteService()
+        )
         let subject = HomeViewModel(
             analyticsService: MockAnalyticsService(),
             configService: configService,
             notificationService: MockNotificationService(),
             userDefaultsService: MockUserDefaultsService(),
             topicsWidgetViewModel: topicsViewModel,
+            localWasteWidgetViewModel: localWasteViewModel,
             urlOpener: MockURLOpener(),
             searchService: MockSearchService(),
             activityService: MockActivityService(),
             localAuthorityService: MockLocalAuthorityService(),
+            localWasteService: MockLocalWasteService(),
             chatService: MockChatService(),
             localAuthorityAction: { },
             editLocalAuthorityAction: { },
@@ -119,6 +130,9 @@ struct HomeViewModelTests {
             analyticsService: MockAnalyticsService(),
             topicAction: { _ in },
             dismissEditAction: { }
+        )
+        let localWasteViewModel = LocalWasteWidgetViewModel(
+            service: MockLocalWasteService()
         )
 
         let mockConfigService = MockAppConfigService()
@@ -149,10 +163,12 @@ struct HomeViewModelTests {
             notificationService: MockNotificationService(),
             userDefaultsService: MockUserDefaultsService(),
             topicsWidgetViewModel: topicsViewModel,
+            localWasteWidgetViewModel: localWasteViewModel,
             urlOpener: MockURLOpener(),
             searchService: MockSearchService(),
             activityService: MockActivityService(),
             localAuthorityService: MockLocalAuthorityService(),
+            localWasteService: MockLocalWasteService(),
             chatService: MockChatService(),
             localAuthorityAction: { },
             editLocalAuthorityAction: { },
@@ -184,19 +200,25 @@ struct HomeViewModelTests {
             dismissEditAction: { }
         )
         #expect(topicsViewModel.isEditingTopics == false)
+        let localWasteWidgetViewModel = LocalWasteWidgetViewModel(
+            service: MockLocalWasteService()
+        )
         let subject = HomeViewModel(
             analyticsService: MockAnalyticsService(),
             configService: configService,
             notificationService: MockNotificationService(),
             userDefaultsService: MockUserDefaultsService(),
             topicsWidgetViewModel: topicsViewModel,
+            localWasteWidgetViewModel: localWasteWidgetViewModel,
             urlOpener: MockURLOpener(),
             searchService: MockSearchService(),
             activityService: MockActivityService(),
             localAuthorityService: MockLocalAuthorityService(),
+            localWasteService: MockLocalWasteService(),
             chatService: MockChatService(),
             localAuthorityAction: { },
             editLocalAuthorityAction: { },
+            editLocalWasteAction: { },
             feedbackAction: { },
             notificationsAction: {},
             recentActivityAction: { } ,

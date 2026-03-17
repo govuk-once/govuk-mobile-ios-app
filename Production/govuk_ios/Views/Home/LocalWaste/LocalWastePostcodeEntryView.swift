@@ -83,6 +83,7 @@ struct LocalWastePostcodeEntryView: View {
                                 .padding(.top, 28)
                                 .frame(maxWidth: .infinity)
                                 .tint(Color(uiColor: UIColor.govUK.text.iconTertiary))
+                                .accessibilityLabel(viewModel.loadingAccessibilityLabel)
                         } else {
                             Text(viewModel.descriptionTitle)
                                 .font(Font.govUK.bodySemibold)

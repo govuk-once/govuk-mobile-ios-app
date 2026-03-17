@@ -15,16 +15,16 @@ class LocalWastePostcodeEntryViewModel: ObservableObject {
     }
 
     @Published
-    var error: PostcodeError?
+    private(set) var error: PostcodeError?
 
     @Published
-    var textFieldColour: UIColor = UIColor.govUK.strokes.listDivider
+    private(set) var textFieldColour: UIColor = UIColor.govUK.strokes.listDivider
 
     @Published
-    var isLoading = false
+    private(set) var isLoading = false
 
     @Published
-    var isPrimaryButtonEnabled = false
+    private(set) var isPrimaryButtonEnabled = false
 
     private let analyticsService: AnalyticsServiceInterface
     private let service: LocalWasteServiceInterface
@@ -49,6 +49,9 @@ class LocalWastePostcodeEntryViewModel: ObservableObject {
     )
     let entryFieldAccessibilityLabel: String = String.localWaste.localized(
         "localWastePostcodeEntryViewEntryAccessibilityLabel"
+    )
+    let loadingAccessibilityLabel: String = String.localWaste.localized(
+        "localWastePostcodeEntryViewLoadingAccessibilityLabel"
     )
     let primaryButton: String = String.localWaste.localized(
         "localWastePostcodeEntryViewPrimaryButton"
@@ -90,7 +93,9 @@ class LocalWastePostcodeEntryViewModel: ObservableObject {
             let sanitisedPostcode = preprocessTextInput(postcode: postcode)
             let addresses = try await service.fetchAddresses(postcode: sanitisedPostcode)
             if addresses.count == 0 {
-                throw LocalWasteAddressSearchError.unknownPostcode
+                isLoading = false
+                populateErrorMessage(.textFieldEmpty)
+                return
             }
 
             trackNavigationEvent(primaryButton)

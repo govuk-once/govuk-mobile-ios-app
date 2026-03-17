@@ -31,6 +31,9 @@ final class HomeContentViewControllerSnapshotTests: SnapshotTestCase {
             topicAction: {_ in },
             dismissEditAction: { }
         )
+        let localWasteWidgetViewModel = LocalWasteWidgetViewModel(
+            service: MockLocalWasteService()
+        )
         let configService = MockAppConfigService()
         configService._stubbedUserFeedbackBanner = UserFeedbackBanner(
             body: "",
@@ -45,10 +48,12 @@ final class HomeContentViewControllerSnapshotTests: SnapshotTestCase {
             notificationService: MockNotificationService(),
             userDefaultsService: MockUserDefaultsService(),
             topicsWidgetViewModel: topicsWidgetViewModel,
+            localWasteWidgetViewModel: localWasteWidgetViewModel,
             urlOpener: MockURLOpener(),
             searchService: MockSearchService(),
             activityService: MockActivityService(),
             localAuthorityService: MockLocalAuthorityService(),
+            localWasteService: MockLocalWasteService(),
             chatService: MockChatService(),
             localAuthorityAction: { },
             editLocalAuthorityAction: { },

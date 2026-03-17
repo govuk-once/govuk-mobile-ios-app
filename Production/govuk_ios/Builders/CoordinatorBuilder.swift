@@ -80,6 +80,7 @@ class CoordinatorBuilder {
             searchService: container.searchService.resolve(),
             activityService: container.activityService.resolve(),
             localAuthorityService: container.localAuthorityService.resolve(),
+            localWasteService: container.localWasteService.resolve(),
             userDefaultsService: container.userDefaultsService.resolve(),
             chatService: container.chatService.resolve()
         )

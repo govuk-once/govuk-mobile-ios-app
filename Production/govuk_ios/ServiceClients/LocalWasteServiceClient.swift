@@ -2,16 +2,24 @@ import Foundation
 
 protocol LocalWasteServiceClientInterface {
     func fetchAddresses(
-        postcode: String) async throws(LocalWasteAddressSearchError) -> [LocalWasteAddress]
+        postcode: String
+    ) async throws(LocalWasteAddressesApiError) -> [LocalWasteAddress]
+
+    func fetchSchedule(
+        uprn: String,
+        localCustodianCode: String
+    ) async throws(LocalWasteScheduleApiError) -> [LocalWasteBin]
 }
 
-enum LocalWasteAddressSearchError: LocalizedError {
+enum LocalWasteApiError<Message>: LocalizedError, Hashable where Message: Hashable {
     case networkUnavailable
     case apiUnavailable
     case decodingError
-    case unknownPostcode
-    case invalidPostcode
+    case apiError(Message)
 }
+
+typealias LocalWasteAddressesApiError = LocalWasteApiError<LocalWasteAddressesErrorMessage>
+typealias LocalWasteScheduleApiError = LocalWasteApiError<LocalWasteSearchErrorMessage>
 
 struct LocalWasteServiceClient: LocalWasteServiceClientInterface {
     private let session: URLSession
@@ -21,9 +29,10 @@ struct LocalWasteServiceClient: LocalWasteServiceClientInterface {
     }
 
     func fetchAddresses(
-        postcode: String) async throws(LocalWasteAddressSearchError) -> [LocalWasteAddress] {
+        postcode: String
+    ) async throws(LocalWasteAddressesApiError) -> [LocalWasteAddress] {
         guard let url = LocalWasteServiceClient.url(path: "api/address/\(postcode)") else {
-            throw LocalWasteAddressSearchError.apiUnavailable
+            throw LocalWasteAddressesApiError.apiUnavailable
         }
         let request = URLRequest(url: url)
         let (data, httpResponse): (Data, URLResponse)
@@ -31,13 +40,13 @@ struct LocalWasteServiceClient: LocalWasteServiceClientInterface {
         do {
             (data, httpResponse) = try await session.data(for: request)
         } catch let error as NSError where error.code == NSURLErrorNotConnectedToInternet {
-            throw LocalWasteAddressSearchError.networkUnavailable
+            throw LocalWasteAddressesApiError.networkUnavailable
         } catch {
-            throw LocalWasteAddressSearchError.apiUnavailable
+            throw LocalWasteAddressesApiError.apiUnavailable
         }
 
         guard let httpUrlResponse = httpResponse as? HTTPURLResponse else {
-            throw LocalWasteAddressSearchError.apiUnavailable
+            throw LocalWasteAddressesApiError.apiUnavailable
         }
         switch httpUrlResponse.statusCode {
         case 200..<300:
@@ -46,10 +55,46 @@ struct LocalWasteServiceClient: LocalWasteServiceClientInterface {
                     .jsonDecoder()
                     .decode([LocalWasteAddress].self, from: data)
             } catch {
-                throw LocalWasteAddressSearchError.decodingError
+                throw LocalWasteAddressesApiError.decodingError
             }
         default:
-            throw LocalWasteAddressSearchError.apiUnavailable
+            throw LocalWasteAddressesApiError.apiUnavailable
+        }
+    }
+
+    func fetchSchedule(
+        uprn: String,
+        localCustodianCode: String
+    ) async throws(LocalWasteScheduleApiError) -> [LocalWasteBin] {
+        guard let url = LocalWasteServiceClient.url(
+            path: "api/schedule?uprn=\(uprn)&localCustodianCode=\(localCustodianCode)") else {
+            throw LocalWasteScheduleApiError.apiUnavailable
+        }
+        let request = URLRequest(url: url)
+        let (data, httpResponse): (Data, URLResponse)
+
+        do {
+            (data, httpResponse) = try await session.data(for: request)
+        } catch let error as NSError where error.code == NSURLErrorNotConnectedToInternet {
+            throw LocalWasteScheduleApiError.networkUnavailable
+        } catch {
+            throw LocalWasteScheduleApiError.apiUnavailable
+        }
+
+        guard let httpUrlResponse = httpResponse as? HTTPURLResponse else {
+            throw LocalWasteScheduleApiError.apiUnavailable
+        }
+        switch httpUrlResponse.statusCode {
+        case 200..<300:
+            do {
+                return try LocalWasteServiceClient
+                    .jsonDecoder()
+                    .decode([LocalWasteBin].self, from: data)
+            } catch {
+                throw LocalWasteScheduleApiError.decodingError
+            }
+        default:
+            throw LocalWasteScheduleApiError.apiUnavailable
         }
     }
 }
@@ -73,38 +118,3 @@ extension LocalWasteServiceClient {
         return decoder
     }
 }
-
-/*
-struct FakeLocalWasteServiceClient: LocalWasteServiceClientInterface {
-    func fetchAddresses(postcode: String) async throws(LocalWasteAddressSearchError) -> [LocalWasteAddress] {
-        try? await Task.sleep(nanoseconds: 3_000_000_000)
-        
-        if postcode != "BS153FL" {
-            throw LocalWasteAddressSearchError.unknownPostcode
-        }
-        
-        return [
-            LocalWasteAddress(
-                addressFull: "12, KYNASTON VIEW, HANHAM, BRISTOL, BS15 3FL",
-                uprn: "662553",
-                localCustodianCode: "119"
-            ),
-            LocalWasteAddress(
-                addressFull: "14, KYNASTON VIEW, HANHAM, BRISTOL, BS15 3FL",
-                uprn: "662554",
-                localCustodianCode: "119"
-            ),
-            LocalWasteAddress(
-                addressFull: "15, KYNASTON VIEW, HANHAM, BRISTOL, BS15 3FL",
-                uprn: "662564",
-                localCustodianCode: "119"
-            ),
-            LocalWasteAddress(
-                addressFull: "16, KYNASTON VIEW, HANHAM, BRISTOL, BS15 3FL",
-                uprn: "662555",
-                localCustodianCode: "119"
-            )
-        ]
-    }
-}
-*/
