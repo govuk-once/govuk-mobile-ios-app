@@ -23,6 +23,28 @@
         }
       }
     },
+    "notificationCentreDetailDeleteA11yLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete notification"
+          }
+        }
+      }
+    },
+    "notificationCentreDetailUnreadA11yLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mark notification as unread"
+          }
+        }
+      }
+    },
     "notificationCentreNavTitle" : {
       "extractionState" : "manual",
       "localizations" : {

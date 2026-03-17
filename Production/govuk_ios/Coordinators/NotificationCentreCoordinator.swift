@@ -27,9 +27,7 @@ class NotificationCentreCoordinator: BaseCoordinator {
             .notificationCentre(showNotificationAction: { [weak self] notification in
                 self?.showDetail(for: notification.id)
         }, notificationService: notificationCentreService, analyticsService: analyticsService)
-        viewController
-            .navigationItem
-            .backButtonTitle = String.notificationCentre.localized("notificationCentreNavTitle")
+
         self.push(viewController, animated: true)
     }
 
@@ -39,7 +37,13 @@ class NotificationCentreCoordinator: BaseCoordinator {
                 notificationId: notificationId,
                 notificationService: notificationCentreService,
                 analyticsService: analyticsService,
-                showUrlAction: presentWebView(url:))
+                showUrlAction: presentWebView(url:),
+                onUnreadAction: {
+                    self.root.popViewController(animated: true)
+                },
+                onDeleteAction: {
+                    self.root.popViewController(animated: true)
+                })
         self.push(viewController, animated: true)
     }
 

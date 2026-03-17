@@ -15,16 +15,22 @@ class NotificationCentreDetailViewModel: ObservableObject {
     private let notificationService: NotificationCentreServiceInterface
     private let analyticsService: AnalyticsServiceInterface
     private let showUrlAction: (URL) -> Void
+    private let onUnreadAction: () -> Void
+    private let onDeleteAction: () -> Void
 
     init(
         notificationId: String,
         notificationService: NotificationCentreServiceInterface,
         analyticsService: AnalyticsServiceInterface,
-        showUrlAction: @escaping (URL) -> Void) {
+        showUrlAction: @escaping (URL) -> Void,
+        onUnreadAction: @escaping () -> Void,
+        onDeleteAction: @escaping () -> Void) {
             self.notificationId = notificationId
             self.notificationService = notificationService
             self.analyticsService = analyticsService
             self.showUrlAction = showUrlAction
+            self.onUnreadAction = onUnreadAction
+            self.onDeleteAction = onDeleteAction
         }
 
     func onViewAppear() {
@@ -70,6 +76,18 @@ class NotificationCentreDetailViewModel: ObservableObject {
 
     func show(url: URL) {
         showUrlAction(url)
+    }
+
+    func onDelete() {
+        // swiftlint:disable:next todo
+        // TODO Send API call
+        onDeleteAction()
+    }
+
+    func onMarkUnread() {
+        // swiftlint:disable:next todo
+        // TODO Send API call
+        onUnreadAction()
     }
 
     func track(screen: TrackableScreen) {
