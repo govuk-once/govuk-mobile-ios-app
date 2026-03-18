@@ -26,6 +26,7 @@ struct TopicDetailView<T: TopicDetailViewModelInterface>: View {
             // triggered in .onChange
             if viewModel.isLoaded {
                 viewModel.trackEcommerce()
+                (viewModel as? TopicDetailViewModel)?.updateTopicActionCards()
             }
         }
         .onChange(of: viewModel.isLoaded) { isLoaded in

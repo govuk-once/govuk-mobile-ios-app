@@ -361,6 +361,7 @@ class ViewControllerBuilder {
                      analyticsService: AnalyticsServiceInterface,
                      activityService: ActivityServiceInterface,
                      configService: AppConfigServiceInterface,
+                     userService: UserServiceInterface,
                      topicAction: @escaping (DisplayableTopic) -> Void,
                      subtopicAction: @escaping (DisplayableTopic) -> Void,
                      stepByStepAction: @escaping ([TopicDetailResponse.Content]) -> Void,
@@ -378,6 +379,7 @@ class ViewControllerBuilder {
             analyticsService: analyticsService,
             activityService: activityService,
             configService: configService,
+            userService: userService,
             urlOpener: UIApplication.shared,
             actions: actions
         )

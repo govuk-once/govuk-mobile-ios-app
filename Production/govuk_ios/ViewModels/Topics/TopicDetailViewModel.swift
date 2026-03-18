@@ -16,6 +16,7 @@ class TopicDetailViewModel: TopicDetailViewModelInterface {
     private let analyticsService: AnalyticsServiceInterface
     private let activityService: ActivityServiceInterface
     private let configService: AppConfigServiceInterface
+    private let userService: UserServiceInterface
     private let urlOpener: URLOpener
     private let topicAction: (DisplayableTopic) -> Void
     private let subtopicAction: (DisplayableTopic) -> Void
@@ -44,6 +45,7 @@ class TopicDetailViewModel: TopicDetailViewModelInterface {
          analyticsService: AnalyticsServiceInterface,
          activityService: ActivityServiceInterface,
          configService: AppConfigServiceInterface,
+         userService: UserServiceInterface,
          urlOpener: URLOpener,
          actions: Actions) {
         self.topic = topic
@@ -51,6 +53,7 @@ class TopicDetailViewModel: TopicDetailViewModelInterface {
         self.analyticsService = analyticsService
         self.activityService = activityService
         self.configService = configService
+        self.userService = userService
         self.urlOpener = urlOpener
         topicAction = actions.topicAction
         subtopicAction = actions.subtopicAction
@@ -66,7 +69,7 @@ class TopicDetailViewModel: TopicDetailViewModelInterface {
             completion: { result in
                 if case let .success(detail) = result {
                     self.topicDetail = detail
-                    self.createTopicActionCards()
+                    self.updateTopicActionCards()
                     self.configureSections()
                     self.createSubtopicCards()
                     self.isLoaded = true
@@ -171,13 +174,19 @@ class TopicDetailViewModel: TopicDetailViewModelInterface {
         }
     }
 
-    private func createTopicActionCards() {
+    func updateTopicActionCards() {
         // hard coded DVLA account linking action card
         guard configService.isFeatureEnabled(key: .dvla),
               topic.ref == "driving-transport" else { return }
+        let title: String
+        if !userService.isDvlaAccountLinked {
+            title = "Add your driver and vehicles account"
+        } else {
+            title = "Unlink your driver and vehicles account"
+        }
         let content = TopicDetailResponse.Subtopic(
             ref: "dvla-link-account",
-            title: "Add your driver and vehicles account",
+            title: title,
             topicDescription: nil)
         let dvlaAccountLinkingCard = ListCardViewModel(
             title: content.title,

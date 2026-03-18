@@ -48,7 +48,7 @@ final class ServiceAccountUnlinkingViewModel: ObservableObject, ProgressIndicati
     }
 
     private var accountUnlinkingErrorViewModel: AppErrorViewModel {
-        AppErrorViewModel.serviceAccountErrorWithAction { [weak self] in
+        AppErrorViewModel.serviceAccountUnlinkingErrorWithAction { [weak self] in
             self?.unlinkAccount()
         }
     }

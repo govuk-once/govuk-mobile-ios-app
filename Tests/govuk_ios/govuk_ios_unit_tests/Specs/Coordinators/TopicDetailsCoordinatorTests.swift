@@ -21,6 +21,7 @@ struct TopicDetailsCoordinatorTests {
             topicsService: MockTopicsService(),
             activityService: MockActivityService(),
             configService: MockAppConfigService(),
+            userService: MockUserService(),
             coordinatorBuilder: mockCoordinatorBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
             topic: topic
@@ -46,6 +47,7 @@ struct TopicDetailsCoordinatorTests {
             topicsService: MockTopicsService(),
             activityService: MockActivityService(),
             configService: MockAppConfigService(),
+            userService: MockUserService(),
             coordinatorBuilder: mockCoordinatorBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
             topic: topic
@@ -76,6 +78,7 @@ struct TopicDetailsCoordinatorTests {
             topicsService: MockTopicsService(),
             activityService: MockActivityService(),
             configService: MockAppConfigService(),
+            userService: MockUserService(),
             coordinatorBuilder: mockCoordinatorBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
             topic: topic
@@ -106,6 +109,7 @@ struct TopicDetailsCoordinatorTests {
             topicsService: MockTopicsService(),
             activityService: MockActivityService(),
             configService: MockAppConfigService(),
+            userService: MockUserService(),
             coordinatorBuilder: mockCoordinatorBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
             topic: topic
@@ -142,6 +146,7 @@ struct TopicDetailsCoordinatorTests {
             topicsService: MockTopicsService(),
             activityService: MockActivityService(),
             configService: MockAppConfigService(),
+            userService: MockUserService(),
             coordinatorBuilder: mockCoordinatorBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
             topic: dvlaTopic

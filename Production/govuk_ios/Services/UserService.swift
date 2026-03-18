@@ -9,7 +9,7 @@ protocol UserServiceInterface {
     var notificationId: String? { get }
     var notificationsConsentStatus: ConsentStatus? { get }
     var isEnabled: Bool { get }
-    var isAccountLinked: Bool { get }
+    var isDvlaAccountLinked: Bool { get }
 }
 
  class UserService: UserServiceInterface {
@@ -28,7 +28,8 @@ protocol UserServiceInterface {
          userState?.notifications.consentStatus
      }
 
-     var isAccountLinked = false
+     // temporary
+     var isDvlaAccountLinked = false
 
      init(appConfigService: AppConfigServiceInterface,
           userServiceClient: UserServiceClientInterface) {
@@ -67,7 +68,12 @@ protocol UserServiceInterface {
          userServiceClient.linkAccount(
             serviceName: accountType.rawValue,
             linkId: linkId,
-            completion: completion
+            completion: { [weak self] result in
+                if case .success = result {
+                    self?.isDvlaAccountLinked = true
+                }
+                completion(result)
+            }
          )
      }
 
@@ -75,7 +81,12 @@ protocol UserServiceInterface {
                         completion: @escaping UnlinkAccountCompletion) {
          userServiceClient.unlinkAccount(
             serviceName: accountType.rawValue,
-            completion: completion
+            completion: { [weak self] result in
+                if case .success = result {
+                    self?.isDvlaAccountLinked = false
+                }
+                completion(result)
+            }
          )
      }
  }

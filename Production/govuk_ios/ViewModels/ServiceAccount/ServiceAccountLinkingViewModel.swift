@@ -52,7 +52,7 @@ final class ServiceAccountLinkingViewModel: ObservableObject, ProgressIndicating
     }
 
     private var accountLinkingErrorViewModel: AppErrorViewModel {
-        AppErrorViewModel.serviceAccountErrorWithAction { [weak self] in
+        AppErrorViewModel.serviceAccountLinkingErrorWithAction { [weak self] in
             self?.linkAccount()
         }
     }

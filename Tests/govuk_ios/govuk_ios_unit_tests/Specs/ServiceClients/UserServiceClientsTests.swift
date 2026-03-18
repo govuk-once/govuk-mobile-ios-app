@@ -167,6 +167,34 @@ struct UserServiceClientTests {
         }
         #expect(result.getError() == .networkUnavailable)
     }
+
+    @Test
+    func unlinkAccount_sendsExpectedRequest() {
+        sut.unlinkAccount(serviceName: "dvla") { _ in }
+        #expect(mockAPI._receivedSendRequest?.urlPath == "/app/v1/identity/dvla")
+        #expect(mockAPI._receivedSendRequest?.method == .delete)
+    }
+
+    @Test
+    func unlinkAccount_returnsExpectedResult() async {
+        mockAPI._stubbedSendResponse = .success(Data())
+        var isSuccess: Bool = false
+        sut.unlinkAccount(serviceName: "dvla") { result in
+            if case .success = result {
+                isSuccess = true
+            }
+            #expect(isSuccess == true)
+        }
+    }
+
+    @Test
+    func unlinkAccount_apiUnavailable_returnsExpectedError() {
+        mockAPI._stubbedSendResponse = .failure(UserStateError.apiUnavailable)
+        sut.unlinkAccount(serviceName: "dvla") { result in
+            let error = result.getError()
+            #expect(error == .apiUnavailable)
+        }
+    }
 }
 
 private extension UserServiceClientTests {

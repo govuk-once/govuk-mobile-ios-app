@@ -44,7 +44,7 @@ extension GOVRequest {
     }
 
     static func unlinkAccount(serviceName: String) -> GOVRequest {
-        GOVRequest(urlPath: "app/v1/identity/\(serviceName)",
+        GOVRequest(urlPath: "/app/v1/identity/\(serviceName)",
                    method: .delete,
                    body: nil,
                    queryParameters: nil,

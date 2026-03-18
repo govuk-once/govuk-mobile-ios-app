@@ -220,6 +220,7 @@ class CoordinatorBuilder {
             topicsService: container.topicsService.resolve(),
             activityService: container.activityService.resolve(),
             configService: container.appConfigService.resolve(),
+            userService: container.userService.resolve(),
             coordinatorBuilder: self,
             viewControllerBuilder: ViewControllerBuilder(),
             topic: topic
@@ -444,12 +445,14 @@ class CoordinatorBuilder {
     }
 
     func serviceAccount(navigationController: UINavigationController,
-                        accountType: ServiceAccountType) -> BaseCoordinator {
+                        accountType: ServiceAccountType,
+                        completion: @escaping () -> Void) -> BaseCoordinator {
         ServiceAccountCoordinator(
             navigationController: navigationController,
             viewControllerBuilder: ViewControllerBuilder(),
             userService: container.userService.resolve(),
-            accountType: accountType
+            accountType: accountType,
+            completion: completion
         )
     }
 }

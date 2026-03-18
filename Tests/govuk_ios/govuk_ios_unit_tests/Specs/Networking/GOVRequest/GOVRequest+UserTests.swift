@@ -47,4 +47,13 @@ struct GOVRequest_UserTests {
         #expect(request.method == .post)
         #expect(request.requiresAuthentication == true)
     }
+
+    @Test
+    func unlinkAccount_returnsExpectedValues() {
+        let request = GOVRequest.unlinkAccount(serviceName: "dvla")
+
+        #expect(request.urlPath == "/app/v1/identity/dvla")
+        #expect(request.method == .delete)
+        #expect(request.requiresAuthentication == true)
+    }
 }
