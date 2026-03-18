@@ -254,6 +254,7 @@ class CoordinatorBuilder {
     }
 
     func editLocalWaste(navigationController: UINavigationController,
+                        addressSelectedAction: @escaping () -> Void,
                         dismissAction: @escaping () -> Void) -> BaseCoordinator {
         EditLocalWasteCoordinator(
             navigationController: navigationController,
@@ -261,6 +262,7 @@ class CoordinatorBuilder {
             analyticsService: container.analyticsService.resolve(),
             localWasteService: container.localWasteService.resolve(),
             coordinatorBuilder: self,
+            addressSelectedAction: addressSelectedAction,
             dismissed: dismissAction
         )
     }

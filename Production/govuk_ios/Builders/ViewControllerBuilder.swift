@@ -230,13 +230,15 @@ class ViewControllerBuilder {
         analyticsService: AnalyticsServiceInterface,
         localWasteService: LocalWasteServiceInterface,
         addresses: [LocalWasteAddress],
-        dismissAction: @escaping () -> Void
+        dismissAction: @escaping () -> Void,
+        doneAction: @escaping () -> Void
     ) -> UIViewController {
         let viewModel = LocalWasteAddressSelectionViewModel(
             service: localWasteService,
             analyticsService: analyticsService,
             addresses: addresses,
-            dismissAction: dismissAction
+            dismissAction: dismissAction,
+            doneAction: doneAction
         )
         let view = LocalWasteAddressSelectionView(
             viewModel: viewModel

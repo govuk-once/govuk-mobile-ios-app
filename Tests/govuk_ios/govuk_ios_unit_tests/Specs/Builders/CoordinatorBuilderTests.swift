@@ -233,6 +233,7 @@ struct CoordinatorBuilderTests {
         let mockNavigationController = MockNavigationController()
         let coordinator = subject.editLocalWaste(
             navigationController: mockNavigationController,
+            addressSelectedAction: {},
             dismissAction: {}
         )
         let isExpectedType = coordinator is EditLocalWasteCoordinator

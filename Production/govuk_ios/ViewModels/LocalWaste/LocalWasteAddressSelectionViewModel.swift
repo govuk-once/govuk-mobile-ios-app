@@ -11,6 +11,7 @@ class LocalWasteAddressSelectionViewModel: ObservableObject {
 
     private let analyticsService: AnalyticsServiceInterface
     private let service: LocalWasteServiceInterface
+    private let doneAction: () -> Void
 
     let dismissAction: () -> Void
 
@@ -30,12 +31,14 @@ class LocalWasteAddressSelectionViewModel: ObservableObject {
     init(service: LocalWasteServiceInterface,
          analyticsService: AnalyticsServiceInterface,
          addresses: [LocalWasteAddress],
-         dismissAction: @escaping () -> Void
+         dismissAction: @escaping () -> Void,
+         doneAction: @escaping () -> Void
      ) {
         self.analyticsService = analyticsService
         self.service = service
         self.addresses = addresses
         self.dismissAction = dismissAction
+        self.doneAction = doneAction
     }
 
     func trackScreen(screen: TrackableScreen) {
@@ -48,7 +51,7 @@ class LocalWasteAddressSelectionViewModel: ObservableObject {
         service.saveAddress(selectedAddress)
 
         trackNavigationEvent(primaryButton)
-        dismissAction()
+        doneAction()
     }
 
     private func trackNavigationEvent(_ title: String) {

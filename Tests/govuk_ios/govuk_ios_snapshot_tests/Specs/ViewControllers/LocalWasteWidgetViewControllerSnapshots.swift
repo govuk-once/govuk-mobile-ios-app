@@ -18,7 +18,9 @@ final class LocalWasteWidgetViewControllerSnapshots: SnapshotTestCase {
         service._dataFetchAddress = Constants.address
 
         viewModel = LocalWasteWidgetViewModel(
-            service: service)
+            service: service,
+            openEditViewAction: { }
+        )
     }
 
     func test_loadInNavigationController_light_rendersCorrectly() async throws {

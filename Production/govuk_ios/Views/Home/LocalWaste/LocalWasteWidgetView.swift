@@ -15,6 +15,11 @@ struct LocalWasteWidgetView: View {
             SectionHeaderLabelView(
                 model: SectionHeaderLabelViewModel(
                     title: viewModel.title,
+                    button: .init(
+                        localisedTitle: viewModel.editButton,
+                        localisedAccessibilityLabel: viewModel.editButtonAccessibilityLabel,
+                        action: { viewModel.openEditViewAction() }
+                    )
                 )
             )
             VStack(alignment: .leading, spacing: 0) {
@@ -39,7 +44,7 @@ struct LocalWasteWidgetView: View {
             )
         }
         .onAppear {
-            viewModel.initialBind()
+            viewModel.startLoadingIfViewStateInitial()
         }
     }
 
@@ -181,8 +186,8 @@ struct LocalWasteWidgetView: View {
                     .accessibilityLabel(item.accessibilityLabel)
                 },
                 separator: {
-                    Color(UIColor.govUK.strokes.listDivider)
-                        .frame(height: 1)
+                    Divider()
+                        .overlay(Color(UIColor.govUK.strokes.listDivider))
                         .padding(.leading, 56)
                 }
             )

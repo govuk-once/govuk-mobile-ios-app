@@ -215,11 +215,15 @@ class HomeCoordinator: TabItemCoordinator {
 
     private var presentEditLocalWasteCoordinator: () -> Void {
         return { [weak self] in
-            self?.trackWidgetNavigation(text: "Edit your local waste")
             guard let self = self else { return }
+            self.trackWidgetNavigation(text: "Edit your bin collection property address")
             let navigationController = UINavigationController()
             let coordinator = self.coordinatorBuilder.editLocalWaste(
                 navigationController: navigationController,
+                addressSelectedAction: {
+                    self.localWasteWidgetViewModel.resetViewState()
+                    self.localWasteWidgetViewModel.startLoadingIfViewStateInitial()
+                },
                 dismissAction: {
                     self.root.viewWillReAppear()
                 }
@@ -242,7 +246,8 @@ class HomeCoordinator: TabItemCoordinator {
 
     private lazy var localWasteWidgetViewModel: LocalWasteWidgetViewModel = {
         LocalWasteWidgetViewModel(
-            service: localWasteService
+            service: localWasteService,
+            openEditViewAction: presentEditLocalWasteCoordinator
         )
     }()
 

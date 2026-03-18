@@ -232,6 +232,17 @@
         }
       }
     },
+    "localWasteEditButtonAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit your bin collection property address"
+          }
+        }
+      }
+    },
     "localWasteWidgetViewAddressAccessibilityLabelFormat" : {
       "extractionState" : "manual",
       "localizations" : {

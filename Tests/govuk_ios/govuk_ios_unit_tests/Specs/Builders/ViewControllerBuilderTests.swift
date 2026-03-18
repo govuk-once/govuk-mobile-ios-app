@@ -32,7 +32,8 @@ struct ViewControllerBuilderTests {
             dismissEditAction: { }
         )
         let localWasteViewModel = LocalWasteWidgetViewModel(
-            service: MockLocalWasteService()
+            service: MockLocalWasteService(),
+            openEditViewAction: { }
         )
         let dependencies = ViewControllerBuilder.HomeDependencies(
             analyticsService: MockAnalyticsService(),
@@ -211,7 +212,8 @@ struct ViewControllerBuilderTests {
             analyticsService: MockAnalyticsService(),
             localWasteService: MockLocalWasteService(),
             addresses: [],
-            dismissAction: {}
+            dismissAction: {},
+            doneAction: { }
         )
         let rootView = (result as? HostingViewController<LocalWasteAddressSelectionView>)?.rootView
         #expect(rootView != nil)

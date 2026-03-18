@@ -51,7 +51,8 @@ final class LocalWasteAddressSelectionViewControllerSnapshotTests: SnapshotTestC
             service: MockLocalWasteService(),
             analyticsService: MockAnalyticsService(),
             addresses: addresses,
-            dismissAction: { }
+            dismissAction: { },
+            doneAction: { }
         )
 
         let view = LocalWasteAddressSelectionView(

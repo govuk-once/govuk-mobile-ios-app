@@ -59,8 +59,16 @@ final class LocalWasteWidgetViewModel: ObservableObject {
     @Published
     private(set) var items: [ItemViewModel] = []
 
+    let openEditViewAction: () -> Void
+
     let title: String = String.localWaste.localized(
         "localWasteTitle"
+    )
+    let editButton = String.common.localized(
+        "editButtonTitle"
+    )
+    let editButtonAccessibilityLabel = String.localWaste.localized(
+        "localWasteEditButtonAccessibilityLabel"
     )
     let loadingAccessibilityLabel: String = String.localWaste.localized(
         "localWasteWidgetViewLoadingAccessibilityLabel"
@@ -82,17 +90,28 @@ final class LocalWasteWidgetViewModel: ObservableObject {
 
     private var initialBindTask: Task<Void, Never>?
 
-    init(service: LocalWasteServiceInterface) {
+    init(service: LocalWasteServiceInterface,
+         openEditViewAction: @escaping () -> Void) {
         self.service = service
+        self.openEditViewAction = openEditViewAction
     }
 
-    func initialBind() {
+    func startLoadingIfViewStateInitial() {
         guard viewState == .initial else { return }
+        viewState = .loading
 
         initialBindTask = Task {
             await load()
             initialBindTask = nil
         }
+    }
+
+    func resetViewState() {
+        viewState = .initial
+        address = ""
+        addressAccessibilityLabel = ""
+        dueDate = ""
+        items = []
     }
 
     func load() async {

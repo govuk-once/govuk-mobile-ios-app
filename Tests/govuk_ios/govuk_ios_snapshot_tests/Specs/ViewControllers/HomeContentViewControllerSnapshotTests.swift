@@ -32,7 +32,8 @@ final class HomeContentViewControllerSnapshotTests: SnapshotTestCase {
             dismissEditAction: { }
         )
         let localWasteWidgetViewModel = LocalWasteWidgetViewModel(
-            service: MockLocalWasteService()
+            service: MockLocalWasteService(),
+            openEditViewAction: { }
         )
         let configService = MockAppConfigService()
         configService._stubbedUserFeedbackBanner = UserFeedbackBanner(

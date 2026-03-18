@@ -83,7 +83,8 @@ class HomeViewControllerSnapshotTests: SnapshotTestCase {
             dismissEditAction: { }
         )
         let localWasteWidgetViewModel = LocalWasteWidgetViewModel(
-            service: MockLocalWasteService()
+            service: MockLocalWasteService(),
+            openEditViewAction: { }
         )
         let mockNotificationService = MockNotificationService()
         mockNotificationService._stubbedShouldRequestPermission = true

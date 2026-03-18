@@ -7,6 +7,7 @@ class EditLocalWasteCoordinator: BaseCoordinator {
     private let analyticsService: AnalyticsServiceInterface
     private let localWasteService: LocalWasteServiceInterface
     private let coordinatorBuilder: CoordinatorBuilder
+    private let addressSelectedAction: () -> Void
     private let dismissed: () -> Void
 
     init(navigationController: UINavigationController,
@@ -15,11 +16,13 @@ class EditLocalWasteCoordinator: BaseCoordinator {
          localWasteService: LocalWasteServiceInterface,
          coordinatorBuilder: CoordinatorBuilder,
          tintColor: UIColor = UIColor.govUK.text.link,
+         addressSelectedAction: @escaping () -> Void,
          dismissed: @escaping () -> Void) {
         self.viewControllerBuilder = viewControllerBuilder
         self.analyticsService = analyticsService
         self.localWasteService = localWasteService
         self.coordinatorBuilder = coordinatorBuilder
+        self.addressSelectedAction = addressSelectedAction
         self.dismissed = dismissed
         navigationController.navigationBar.tintColor = tintColor
         super.init(navigationController: navigationController)
@@ -45,6 +48,10 @@ class EditLocalWasteCoordinator: BaseCoordinator {
             localWasteService: localWasteService,
             addresses: addresses,
             dismissAction: { [weak self] in
+                self?.dismissModal()
+            },
+            doneAction: { [weak self] in
+                self?.addressSelectedAction()
                 self?.dismissModal()
             }
         )

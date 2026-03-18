@@ -14,7 +14,8 @@ struct LocalWasteAddressSelectionViewModelTests {
             service: MockLocalWasteService(),
             analyticsService: MockAnalyticsService(),
             addresses: addresses,
-            dismissAction: {}
+            dismissAction: {},
+            doneAction: {}
         )
         let expected = String.common.localized(
             "cancel"
@@ -28,7 +29,8 @@ struct LocalWasteAddressSelectionViewModelTests {
             service: MockLocalWasteService(),
             analyticsService: MockAnalyticsService(),
             addresses: addresses,
-            dismissAction: {}
+            dismissAction: {},
+            doneAction: {}
         )
         let expected = String.localWaste.localized(
             "localWasteAddressSelectionViewTitle"
@@ -42,7 +44,8 @@ struct LocalWasteAddressSelectionViewModelTests {
             service: MockLocalWasteService(),
             analyticsService: MockAnalyticsService(),
             addresses: addresses,
-            dismissAction: {}
+            dismissAction: {},
+            doneAction: {}
         )
         let expected = String.localWaste.localized(
             "localWasteAddressSelectionViewSubtitle"
@@ -56,7 +59,8 @@ struct LocalWasteAddressSelectionViewModelTests {
             service: MockLocalWasteService(),
             analyticsService: MockAnalyticsService(),
             addresses: addresses,
-            dismissAction: {}
+            dismissAction: {},
+            doneAction: {}
         )
         let expected = String.localWaste.localized(
             "localWasteAddressSelectionViewPrimaryButton"
@@ -70,7 +74,8 @@ struct LocalWasteAddressSelectionViewModelTests {
             service: MockLocalWasteService(),
             analyticsService: MockAnalyticsService(),
             addresses: addresses,
-            dismissAction: {}
+            dismissAction: {},
+            doneAction: {}
         )
         #expect(sut.addresses == addresses)
     }
@@ -78,33 +83,43 @@ struct LocalWasteAddressSelectionViewModelTests {
     @Test
     func confirmAddress_noSelectedAddress() async throws {
         var dismissCalled = false
+        var doneCalled = false
         let sut = LocalWasteAddressSelectionViewModel(
             service: MockLocalWasteService(),
             analyticsService: MockAnalyticsService(),
             addresses: addresses,
             dismissAction: {
                 dismissCalled = true
+            },
+            doneAction: {
+                doneCalled = true
             }
         )
         sut.selectedAddress = nil
         sut.confirmAddress()
+        #expect(doneCalled == false)
         #expect(dismissCalled == false)
     }
  
     @Test
-    func confirmAddress_addressSelected_callsDismissAction() async throws {
+    func confirmAddress_addressSelected_callsDoneAction() async throws {
         var dismissCalled = false
+        var doneCalled = false
         let sut = LocalWasteAddressSelectionViewModel(
             service: MockLocalWasteService(),
             analyticsService: MockAnalyticsService(),
             addresses: addresses,
             dismissAction: {
                 dismissCalled = true
+            },
+            doneAction: {
+                doneCalled = true
             }
         )
         sut.selectedAddress = addresses[0]
         sut.confirmAddress()
-        #expect(dismissCalled == true)
+        #expect(doneCalled == true)
+        #expect(dismissCalled == false)
     }
     
     @Test
@@ -114,7 +129,8 @@ struct LocalWasteAddressSelectionViewModelTests {
            service: mockService,
            analyticsService: MockAnalyticsService(),
            addresses: addresses,
-           dismissAction: {}
+           dismissAction: {},
+           doneAction: {}
        )
        sut.selectedAddress = addresses[0]
        sut.confirmAddress()
@@ -128,7 +144,8 @@ struct LocalWasteAddressSelectionViewModelTests {
             service: MockLocalWasteService(),
             analyticsService: mockAnalyticsService,
             addresses: addresses,
-            dismissAction: {}
+            dismissAction: {},
+            doneAction: {}
         )
         sut.selectedAddress = addresses[0]
         sut.confirmAddress()
@@ -143,7 +160,8 @@ struct LocalWasteAddressSelectionViewModelTests {
             service: MockLocalWasteService(),
             analyticsService: mockAnalyticsService,
             addresses: addresses,
-            dismissAction: {}
+            dismissAction: {},
+            doneAction: {}
         )
         let view = LocalWasteAddressSelectionView(viewModel: sut)
         sut.trackScreen(screen: view)

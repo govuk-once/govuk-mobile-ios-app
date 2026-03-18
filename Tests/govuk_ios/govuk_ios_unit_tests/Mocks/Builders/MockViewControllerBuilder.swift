@@ -178,12 +178,15 @@ class MockViewControllerBuilder: ViewControllerBuilder {
     var _stubbedLocalWasteAddressSelectionEntryViewController: UIViewController?
     var _receivedLocalWasteAddressSelectionAddresses: [LocalWasteAddress]?
     var _receivedLocalWasteAddressSelectionDismissAction: (() -> Void)?
+    var _receivedLocalWasteAddressSelectionDoneAction: (() -> Void)?
     override func localWasteAddressSelectionView(analyticsService: AnalyticsServiceInterface,
                                                  localWasteService: LocalWasteServiceInterface,
                                                  addresses: [LocalWasteAddress],
-                                                 dismissAction: @escaping () -> Void) -> UIViewController {
+                                                 dismissAction: @escaping () -> Void,
+                                                 doneAction: @escaping () -> Void) -> UIViewController {
         _receivedLocalWasteAddressSelectionAddresses = addresses
         _receivedLocalWasteAddressSelectionDismissAction = dismissAction
+        _receivedLocalWasteAddressSelectionDoneAction = doneAction
         return _stubbedLocalWasteAddressSelectionEntryViewController ?? UIViewController()
     }
     

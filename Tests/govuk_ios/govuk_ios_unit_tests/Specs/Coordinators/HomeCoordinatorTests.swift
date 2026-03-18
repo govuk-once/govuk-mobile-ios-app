@@ -206,7 +206,7 @@ struct HomeCoordinatorTests {
 
         let navigationEvent = mockAnalyticsService._trackedEvents.first
 
-        #expect(navigationEvent?.params?["text"] as? String == "Edit your local waste")
+        #expect(navigationEvent?.params?["text"] as? String == "Edit your bin collection property address")
         #expect(navigationEvent?.params?["type"] as? String == "Widget")
         #expect(navigationEvent?.name == "Navigation")
     }
