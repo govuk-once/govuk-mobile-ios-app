@@ -11,8 +11,7 @@ struct APIServiceClientTests {
         let subject = APIServiceClient(
             baseUrl: URL(string: "https://www.google.com")!,
             session: URLSession.mock,
-            requestBuilder: RequestBuilder(),
-            analyticsService: MockAnalyticsService()
+            requestBuilder: RequestBuilder()
         )
         let govRequest = GOVRequest(
             urlPath: "/test/test",
@@ -46,8 +45,7 @@ struct APIServiceClientTests {
         let subject = APIServiceClient(
             baseUrl: URL(string: "https://www.google.com")!,
             session: URLSession.mock,
-            requestBuilder: RequestBuilder(),
-            analyticsService: MockAnalyticsService()
+            requestBuilder: RequestBuilder()
         )
         let request = GOVRequest(
             urlPath: "/test/111",
@@ -78,8 +76,7 @@ struct APIServiceClientTests {
         let subject = APIServiceClient(
             baseUrl: URL(string: "https://www.google.com")!,
             session: URLSession.mock,
-            requestBuilder: RequestBuilder(),
-            analyticsService: MockAnalyticsService()
+            requestBuilder: RequestBuilder()
         )
         let request = GOVRequest(
             urlPath: "/test/222",
@@ -111,8 +108,7 @@ struct APIServiceClientTests {
         let subject = APIServiceClient(
             baseUrl: URL(string: "https://www.google.com")!,
             session: URLSession.mock,
-            requestBuilder: RequestBuilder(),
-            analyticsService: MockAnalyticsService()
+            requestBuilder: RequestBuilder()
         )
         let request = GOVRequest(
             urlPath: "/test/333",
@@ -144,8 +140,7 @@ struct APIServiceClientTests {
         let subject = APIServiceClient(
             baseUrl: URL(string: "https://www.google.com")!,
             session: URLSession.mock,
-            requestBuilder: RequestBuilder(),
-            analyticsService: MockAnalyticsService()
+            requestBuilder: RequestBuilder()
         )
         let request = GOVRequest(
             urlPath: "/test/222",
@@ -181,8 +176,7 @@ struct APIServiceClientTests {
         let subject = APIServiceClient(
             baseUrl: URL(string: "https://www.google.com")!,
             session: URLSession.mock,
-            requestBuilder: RequestBuilder(),
-            analyticsService: MockAnalyticsService()
+            requestBuilder: RequestBuilder()
         )
         let request = GOVRequest(
             urlPath: "/test/444",
@@ -213,8 +207,7 @@ struct APIServiceClientTests {
         let subject = APIServiceClient(
             baseUrl: URL(string: "https://www.google.com")!,
             session: URLSession.mock,
-            requestBuilder: RequestBuilder(),
-            analyticsService: MockAnalyticsService()
+            requestBuilder: RequestBuilder()
         )
         let request = GOVRequest(
             urlPath: "/test/222",
@@ -251,8 +244,7 @@ struct APIServiceClientTests {
         let subject = APIServiceClient(
             baseUrl: URL(string: "https://www.google.com")!,
             session: URLSession.mock,
-            requestBuilder: RequestBuilder(),
-            analyticsService: MockAnalyticsService()
+            requestBuilder: RequestBuilder()
         )
         let request = GOVRequest(
             urlPath: "/test/222",
@@ -294,7 +286,6 @@ struct APIServiceClientTests {
             baseUrl: URL(string: "https://www.google.com")!,
             session: URLSession.mock,
             requestBuilder: RequestBuilder(),
-            analyticsService: MockAnalyticsService(),
             tokenProvider: mockAuthenticationService
         )
         let request = GOVRequest(
@@ -327,8 +318,7 @@ struct APIServiceClientTests {
             baseUrl: URL(string: "https://www.google.com")!,
             session: URLSession.mock,
             requestBuilder: RequestBuilder(),
-            analyticsService: MockAnalyticsService(),
-            tokenProvider: MockAuthenticationService()
+            tokenProvider: mockAuthenticationService
         )
         let request = GOVRequest(
             urlPath: "/test/test",
@@ -362,7 +352,6 @@ struct APIServiceClientTests {
             baseUrl: URL(string: "https://www.google.com")!,
             session: URLSession.mock,
             requestBuilder: RequestBuilder(),
-            analyticsService: MockAnalyticsService(),
             tokenProvider: mockAuthenticationService
         )
         let request = GOVRequest(
@@ -408,7 +397,6 @@ struct APIServiceClientTests {
             baseUrl: URL(string: "https://www.google.com")!,
             session: URLSession.mock,
             requestBuilder: RequestBuilder(),
-            analyticsService: MockAnalyticsService(),
             tokenProvider: mockAuthenticationService
         )
         let request = GOVRequest(
@@ -448,7 +436,6 @@ struct APIServiceClientTests {
             baseUrl: URL(string: "https://www.google.com")!,
             session: URLSession.mock,
             requestBuilder: RequestBuilder(),
-            analyticsService: MockAnalyticsService(),
             tokenProvider: mockAuthenticationService
         )
         let request = GOVRequest(
@@ -483,7 +470,6 @@ struct APIServiceClientTests {
             baseUrl: URL(string: "https://www.google.com")!,
             session: URLSession.mock,
             requestBuilder: RequestBuilder(),
-            analyticsService: MockAnalyticsService(),
             tokenProvider: mockAuthenticationService
         )
         let request = GOVRequest(

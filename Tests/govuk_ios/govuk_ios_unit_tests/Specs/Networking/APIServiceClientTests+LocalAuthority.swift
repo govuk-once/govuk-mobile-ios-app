@@ -11,7 +11,6 @@ struct APIServiceClientTests_LocalAuthority {
             baseUrl: URL(string: "https://www.google.com")!,
             session: URLSession.mock,
             requestBuilder: RequestBuilder(),
-            analyticsService:  MockAnalyticsService(),
             responseHandler: LocalAuthorityResponseHandler()
 
         )
@@ -50,7 +49,6 @@ struct APIServiceClientTests_LocalAuthority {
             baseUrl: URL(string: "https://www.google.com")!,
             session: URLSession.mock,
             requestBuilder: RequestBuilder(),
-            analyticsService: MockAnalyticsService(),
             responseHandler: LocalAuthorityResponseHandler()
         )
         let request = GOVRequest.localAuthority(postcode: "E18QS")

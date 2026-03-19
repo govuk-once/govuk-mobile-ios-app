@@ -14,7 +14,6 @@ struct APIServiceClientTests_Chat {
             baseUrl: URL(string: "https://www.google.com")!,
             session: URLSession.mock,
             requestBuilder: RequestBuilder(),
-            analyticsService: MockAnalyticsService(),
             responseHandler: ChatResponseHandler(),
             tokenProvider: mockAuthenticationService
 
@@ -46,7 +45,6 @@ struct APIServiceClientTests_Chat {
             baseUrl: URL(string: "https://www.google.com")!,
             session: URLSession.mock,
             requestBuilder: RequestBuilder(),
-            analyticsService: MockAnalyticsService(),
             responseHandler: ChatResponseHandler(),
             tokenProvider: mockAuthenticationService
 
@@ -86,7 +84,6 @@ struct APIServiceClientTests_Chat {
             baseUrl: URL(string: "https://www.google.com")!,
             session: URLSession.mock,
             requestBuilder: RequestBuilder(),
-            analyticsService:  MockAnalyticsService(),
             responseHandler: ChatResponseHandler()
         )
         let request = GOVRequest.askQuestion("What is your quest?")
