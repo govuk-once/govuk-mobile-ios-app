@@ -68,6 +68,8 @@ struct LocalWastePostcodeEntryView: View {
                         }
                         TextField("", text: $viewModel.postcode)
                             .textContentType(.postalCode)
+                            .textInputAutocapitalization(.characters)
+                            .disableAutocorrection(true)
                             .focused($isTextFieldFocused)
                             .padding(.horizontal, 8)
                             .padding(.vertical, 10)
