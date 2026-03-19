@@ -1,5 +1,5 @@
 import Foundation
 
 enum AccessTokenError: Error {
-    case noAccessTokenPresent(String?)
+    case noAccessTokenPresent
 }

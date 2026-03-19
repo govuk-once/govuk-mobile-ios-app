@@ -149,7 +149,7 @@ class AppCoordinator: BaseCoordinator {
         let accessToken = tokenProvider?.accessToken
         if accessToken == nil {
             analyticsService.track(
-                error: AccessTokenError.noAccessTokenPresent(nil)
+                error: AccessTokenError.noAccessTokenPresent
             )
         }
         start(tabCoordinator, url: pendingDeeplink)
