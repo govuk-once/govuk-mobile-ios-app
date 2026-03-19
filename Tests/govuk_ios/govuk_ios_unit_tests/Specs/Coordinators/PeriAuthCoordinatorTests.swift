@@ -90,13 +90,18 @@ struct PeriAuthCoordinatorTests {
         let stubbedWelcomeOnboardingCoordinator = MockBaseCoordinator()
         mockCoordinatorBuilder._stubbedWelcomeOnboardingCoordinator = stubbedWelcomeOnboardingCoordinator
 
+        let stubbedTermsAndConditionsCoordinator = MockBaseCoordinator()
+        mockCoordinatorBuilder._stubbedTermsAndConditionsCoordinator =
+        stubbedTermsAndConditionsCoordinator
+
         let stubbedLocalAuthenticationOnboardingCoordinator = MockBaseCoordinator()
-        mockCoordinatorBuilder._stubbedWelcomeOnboardingCoordinator = stubbedLocalAuthenticationOnboardingCoordinator
+        mockCoordinatorBuilder._stubbedLocalAuthenticationOnboardingCoordinator = stubbedLocalAuthenticationOnboardingCoordinator
 
         subject.start(url: nil)
 
         mockCoordinatorBuilder._receivedReauthenticationCompletion?()
         mockCoordinatorBuilder._receivedWelcomeOnboardingCompletion?()
+        mockCoordinatorBuilder._receivedTermsAndConditionsCompletion?()
         mockCoordinatorBuilder._receivedLocalAuthenticationOnboardingCompletion?()
 
         #expect(completionCalled)

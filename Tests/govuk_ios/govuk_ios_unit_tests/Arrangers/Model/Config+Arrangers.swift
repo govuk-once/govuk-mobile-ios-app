@@ -56,7 +56,10 @@ extension Config {
                 privacyNotice: URL(string: "https://example.com"),
                 about: URL(string: "https://example.com"),
                 feedback: URL(string: "https://example.com")
-            )
+            ),
+            termsAndConditions: TermsAndConditions(
+                url: URL(string: "https://example.com")!,
+                lastUpdated: Date.now)
         )
     }
 }

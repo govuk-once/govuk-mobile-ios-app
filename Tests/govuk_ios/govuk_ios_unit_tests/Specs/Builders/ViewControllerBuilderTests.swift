@@ -69,7 +69,8 @@ struct ViewControllerBuilderTests {
             authenticationService: MockAuthenticationService(),
             notificationService: MockNotificationService(),
             notificationCenter: .default,
-            localAuthenticationService: MockLocalAuthenticationService()
+            localAuthenticationService: MockLocalAuthenticationService(),
+            appConfigService: MockAppConfigService()
         )
         let result = subject.settings(
             viewModel: viewModel
@@ -226,7 +227,9 @@ struct ViewControllerBuilderTests {
         let subject = ViewControllerBuilder()
         let result = subject.welcomeOnboarding(
             viewModel: WelcomeOnboardingViewModel(
-                completeAction: { }
+                completeAction: { },
+                openURLAction: { _ in },
+                termsURL: Constants.API.govukBaseUrl
             )
         )
 

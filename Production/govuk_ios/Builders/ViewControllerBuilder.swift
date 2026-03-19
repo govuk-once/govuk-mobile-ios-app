@@ -5,6 +5,7 @@ import SwiftUI
 import FactoryKit
 import GovKit
 import SafariServices
+import MarkdownUI
 
 @MainActor
 // swiftlint:disable:next type_body_length
@@ -477,7 +478,16 @@ class ViewControllerBuilder {
 
     func welcomeOnboarding(viewModel: WelcomeOnboardingViewModel) -> UIViewController {
         let containerView = InfoView(
-            viewModel: viewModel
+            viewModel: viewModel,
+            customView: {
+                AnyView(
+                    InfoMarkdownView(
+                        viewModel.markdownText,
+                        markdownTheme: Theme.govUK,
+                        openUrlAction: viewModel.openURLAction
+                    )
+                )
+            }
         )
         return HostingViewController(
             rootView: containerView
@@ -581,7 +591,8 @@ class ViewControllerBuilder {
                 AnyView(
                     InfoMarkdownView(
                         viewModel.markdownText,
-                        openUrlAction: viewModel.openTermsURLAction
+                        markdownTheme: Theme.govUKBasic,
+                        openUrlAction: openURLAction
                     )
                 )
             }
@@ -614,6 +625,27 @@ class ViewControllerBuilder {
         let viewController = HostingViewController(
             rootView: view,
             navigationBarHidden: false
+        )
+        return viewController
+    }
+
+    func termsAndConditions(
+        termsAndConditionsService: TermsAndConditionsServiceInterface,
+        completionAction: @escaping () -> Void,
+        alertDismissAction: @escaping () -> Void,
+        openURLAction: @escaping (URL) -> Void,
+    ) -> UIViewController {
+        let viewModel = TermsAndConditionsViewModel(
+            termsAndConditionsService: termsAndConditionsService,
+            completionAction: completionAction,
+            alertDismissAction: alertDismissAction,
+            openURLAction: openURLAction
+        )
+        let termsView = TermsAndConditionsView(
+            viewModel: viewModel
+        )
+        let viewController = HostingViewController(
+            rootView: termsView
         )
         return viewController
     }
