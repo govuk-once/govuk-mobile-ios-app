@@ -68,8 +68,12 @@ class LocalWastePostcodeEntryViewModel: ObservableObject {
     }
 
     enum PostcodeError: String {
-        case textFieldEmpty = "localWastePostcodeEntryViewEmptyPostcode"
+        case emptyPostcode = "localWastePostcodeEntryViewErrorEmptyPostcode"
         case pageNotWorking = "localWastePageNotWorking"
+        case councilNotSupported = "localWastePostcodeEntryViewErrorCouncilNotSupported"
+        case networkUnavailable = "localWastePostcodeEntryViewErrorNetworkUnavailable"
+        case invalidPostcode = "localWastePostcodeEntryViewErrorInvalidPostcode"
+        case postcodeNotFound = "localWastePostcodeEntryViewErrorPostcodeNotFound"
 
         var errorMessage: String {
             String.localWaste.localized(
@@ -84,17 +88,18 @@ class LocalWastePostcodeEntryViewModel: ObservableObject {
 
     func fetchAddresses() async {
         if postcode.isEmpty {
-            populateErrorMessage(.textFieldEmpty)
+            populateErrorMessage(.emptyPostcode)
             return
         }
 
         do {
+            populateErrorMessage(nil)
             isLoading = true
             let sanitisedPostcode = preprocessTextInput(postcode: postcode)
             let addresses = try await service.fetchAddresses(postcode: sanitisedPostcode)
             if addresses.count == 0 {
                 isLoading = false
-                populateErrorMessage(.textFieldEmpty)
+                populateErrorMessage(.postcodeNotFound)
                 return
             }
 
@@ -103,7 +108,7 @@ class LocalWastePostcodeEntryViewModel: ObservableObject {
             isLoading = false
         } catch {
             isLoading = false
-            populateErrorMessage(.pageNotWorking)
+            populateErrorMessage(error.toPostcodeError())
         }
     }
 
@@ -130,5 +135,22 @@ class LocalWastePostcodeEntryViewModel: ObservableObject {
         )
         let removedWhiteSpace = textWithoutUnderScores.filter {!$0.isWhitespace}
         return removedWhiteSpace
+    }
+}
+
+extension LocalWasteAddressesApiError {
+    func toPostcodeError() -> LocalWastePostcodeEntryViewModel.PostcodeError {
+        switch self {
+        case .apiError(.councilNotSupported):
+            return .councilNotSupported
+        case .apiError(.invalidPostcode):
+            return .invalidPostcode
+        case .apiError(.postcodeNotFound):
+            return .postcodeNotFound
+        case .networkUnavailable:
+            return .networkUnavailable
+        case .apiError, .apiUnavailable, .decodingError:
+            return .pageNotWorking
+        }
     }
 }

@@ -155,13 +155,57 @@
         }
       }
     },
-    "localWastePostcodeEntryViewEmptyPostcode" : {
+    "localWastePostcodeEntryViewErrorCouncilNotSupported" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We don't support this area yet. Try again another time."
+          }
+        }
+      }
+    },
+    "localWastePostcodeEntryViewErrorEmptyPostcode" : {
       "extractionState" : "manual",
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Enter your postcode"
+          }
+        }
+      }
+    },
+    "localWastePostcodeEntryViewErrorInvalidPostcode" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter a postcode in the correct format."
+          }
+        }
+      }
+    },
+    "localWastePostcodeEntryViewErrorNetworkUnavailable" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You are not connected to the internet. Reconnect and try again."
+          }
+        }
+      }
+    },
+    "localWastePostcodeEntryViewErrorPostcodeNotFound" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We could not find that postcode. Check the postcode and try again."
           }
         }
       }

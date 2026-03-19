@@ -25,6 +25,12 @@ enum LocalWasteBinColor: String, Codable, Hashable {
     case purple
 }
 
-enum LocalWasteSearchErrorMessage: String, Codable, Hashable {
+struct LocalWasteScheduleError: Codable, Hashable {
+    let message: LocalWasteScheduleErrorMessage
+}
+
+enum LocalWasteScheduleErrorMessage: String, Codable, Hashable {
+    case councilNotSupported
+    case invalidUPRN
     case unknownError
 }

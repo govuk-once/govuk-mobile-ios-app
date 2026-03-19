@@ -19,7 +19,7 @@ enum LocalWasteApiError<Message>: LocalizedError, Hashable where Message: Hashab
 }
 
 typealias LocalWasteAddressesApiError = LocalWasteApiError<LocalWasteAddressesErrorMessage>
-typealias LocalWasteScheduleApiError = LocalWasteApiError<LocalWasteSearchErrorMessage>
+typealias LocalWasteScheduleApiError = LocalWasteApiError<LocalWasteScheduleErrorMessage>
 
 struct LocalWasteServiceClient: LocalWasteServiceClientInterface {
     private let session: URLSession
@@ -50,15 +50,35 @@ struct LocalWasteServiceClient: LocalWasteServiceClientInterface {
         }
         switch httpUrlResponse.statusCode {
         case 200..<300:
-            do {
-                return try LocalWasteServiceClient
-                    .jsonDecoder()
-                    .decode([LocalWasteAddress].self, from: data)
-            } catch {
-                throw LocalWasteAddressesApiError.decodingError
-            }
+            return try decodeLocalWasteAddresses(data)
+        case 400:
+            throw decodeLocalWasteAddressesError(data)
         default:
             throw LocalWasteAddressesApiError.apiUnavailable
+        }
+    }
+
+    private func decodeLocalWasteAddresses(_ data: Data)
+    throws(LocalWasteAddressesApiError)
+    -> [LocalWasteAddress] {
+        do {
+            return try LocalWasteServiceClient
+                .jsonDecoder()
+                .decode([LocalWasteAddress].self, from: data)
+        } catch {
+            throw LocalWasteAddressesApiError.decodingError
+        }
+    }
+
+    private func decodeLocalWasteAddressesError(_ data: Data)
+    -> LocalWasteAddressesApiError {
+        do {
+            let obj = try LocalWasteServiceClient
+                .jsonDecoder()
+                .decode(LocalWasteAddressError.self, from: data)
+            return .apiError(obj.message)
+        } catch {
+            return LocalWasteAddressesApiError.decodingError
         }
     }
 
@@ -86,15 +106,35 @@ struct LocalWasteServiceClient: LocalWasteServiceClientInterface {
         }
         switch httpUrlResponse.statusCode {
         case 200..<300:
-            do {
-                return try LocalWasteServiceClient
-                    .jsonDecoder()
-                    .decode([LocalWasteBin].self, from: data)
-            } catch {
-                throw LocalWasteScheduleApiError.decodingError
-            }
+            return try decodeLocalWasteSchedule(data)
+        case 400:
+            throw decodeLocalWasteScheduleError(data)
         default:
             throw LocalWasteScheduleApiError.apiUnavailable
+        }
+    }
+
+    private func decodeLocalWasteSchedule(_ data: Data)
+    throws(LocalWasteScheduleApiError)
+    -> [LocalWasteBin] {
+        do {
+            return try LocalWasteServiceClient
+                .jsonDecoder()
+                .decode([LocalWasteBin].self, from: data)
+        } catch {
+            throw LocalWasteScheduleApiError.decodingError
+        }
+    }
+
+    private func decodeLocalWasteScheduleError(_ data: Data)
+    -> LocalWasteScheduleApiError {
+        do {
+            let obj = try LocalWasteServiceClient
+                .jsonDecoder()
+                .decode(LocalWasteScheduleError.self, from: data)
+            return .apiError(obj.message)
+        } catch {
+            return LocalWasteScheduleApiError.decodingError
         }
     }
 }

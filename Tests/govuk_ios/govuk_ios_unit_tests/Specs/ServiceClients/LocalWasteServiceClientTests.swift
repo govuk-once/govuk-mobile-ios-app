@@ -33,6 +33,29 @@ struct LocalWasteServiceClientTests {
     }
 
     @Test
+    func fetchAddresses_statusCode400_throwsError() async throws {
+
+        // given
+        let sessionId = UUID().uuidString
+        let errorResponse = LocalWasteAddressError(
+            message: .councilNotSupported
+        )
+        let data = try! jsonEncoder().encode(errorResponse)
+        let url = LocalWasteServiceClient.url(path: "api/address/\(Constants.postcode)")!
+        MockURLProtocol.registerHandler(sessionId: sessionId, forUrl: url.absoluteString) { request in
+            return (.arrange(statusCode: 400), data, nil)
+        }
+
+        let session = URLSession.mock(sessionId: sessionId)
+        let sut = LocalWasteServiceClient(session: session)
+
+        // when / then
+        await #expect(throws: LocalWasteAddressesApiError.apiError(.councilNotSupported)) {
+            let _ = try await sut.fetchAddresses(postcode: Constants.postcode)
+        }
+    }
+
+    @Test
     func fetchAddresses_statusCode500_throwsError() async throws {
 
         // given
@@ -71,7 +94,7 @@ struct LocalWasteServiceClientTests {
     }
 
     @Test
-    func fetchAddresses_decodingError_throwsError() async throws {
+    func fetchAddresses_statusCode200_decodingError_throwsError() async throws {
 
         // given
         let sessionId = UUID().uuidString
@@ -91,7 +114,27 @@ struct LocalWasteServiceClientTests {
     }
 
     @Test
-    func fetchSchedule_statusCode200_returnsAddresses() async throws {
+    func fetchAddresses_statusCode400_decodingError_throwsError() async throws {
+
+        // given
+        let sessionId = UUID().uuidString
+        let data = try! jsonEncoder().encode(TestStruct(property: "test"))
+        let url = LocalWasteServiceClient.url(path: "api/address/\(Constants.postcode)")!
+        MockURLProtocol.registerHandler(sessionId: sessionId, forUrl: url.absoluteString) { request in
+            return (.arrange(statusCode: 400), data, nil)
+        }
+
+        let session = URLSession.mock(sessionId: sessionId)
+        let sut = LocalWasteServiceClient(session: session)
+
+        // when / then
+        await #expect(throws: LocalWasteAddressesApiError.decodingError) {
+            let _ = try await sut.fetchAddresses(postcode: Constants.postcode)
+        }
+    }
+
+    @Test
+    func fetchSchedule_statusCode200_returnsSchedule() async throws {
 
         // given
         let sessionId = UUID().uuidString
@@ -118,6 +161,29 @@ struct LocalWasteServiceClientTests {
 
         // then
         #expect(actual == Constants.bins)
+    }
+
+    @Test
+    func fetchSchedule_statusCode400_throwsError() async throws {
+
+        // given
+        let sessionId = UUID().uuidString
+        let errorResponse = LocalWasteScheduleError(
+            message: .councilNotSupported
+        )
+        let data = try! jsonEncoder().encode(errorResponse)
+        let url = LocalWasteServiceClient.url(path: "api/schedule")!
+        MockURLProtocol.registerHandler(sessionId: sessionId, forUrl: url.absoluteString) { request in
+            return (.arrange(statusCode: 400), data, nil)
+        }
+
+        let session = URLSession.mock(sessionId: sessionId)
+        let sut = LocalWasteServiceClient(session: session)
+
+        // when / then
+        await #expect(throws: LocalWasteScheduleApiError.apiError(.councilNotSupported)) {
+            let _ = try await sut.fetchSchedule(uprn: Constants.uprn, localCustodianCode: Constants.custodianCode)
+        }
     }
 
     @Test
@@ -159,7 +225,7 @@ struct LocalWasteServiceClientTests {
     }
 
     @Test
-    func fetchSchedule_decodingError_throwsError() async throws {
+    func fetchSchedule_statusCode200_decodingError_throwsError() async throws {
 
         // given
         let sessionId = UUID().uuidString
@@ -167,6 +233,26 @@ struct LocalWasteServiceClientTests {
         let url = LocalWasteServiceClient.url(path: "api/schedule")!
         MockURLProtocol.registerHandler(sessionId: sessionId, forUrl: url.absoluteString) { request in
             return (.arrangeSuccess, data, nil)
+        }
+
+        let session = URLSession.mock(sessionId: sessionId)
+        let sut = LocalWasteServiceClient(session: session)
+
+        // when / then
+        await #expect(throws: LocalWasteScheduleApiError.decodingError) {
+            let _ = try await sut.fetchSchedule(uprn: Constants.uprn, localCustodianCode: Constants.custodianCode)
+        }
+    }
+
+    @Test
+    func fetchSchedule_statusCode400_decodingError_throwsError() async throws {
+
+        // given
+        let sessionId = UUID().uuidString
+        let data = try! jsonEncoder().encode(TestStruct(property: "test"))
+        let url = LocalWasteServiceClient.url(path: "api/schedule")!
+        MockURLProtocol.registerHandler(sessionId: sessionId, forUrl: url.absoluteString) { request in
+            return (.arrange(statusCode: 400), data, nil)
         }
 
         let session = URLSession.mock(sessionId: sessionId)

@@ -135,7 +135,7 @@ struct LocalWastePostcodeEntryViewModelTests {
         )
         sut.postcode = ""
         await sut.fetchAddresses()
-        #expect(sut.error == .textFieldEmpty)
+        #expect(sut.error == .emptyPostcode)
         #expect(sut.textFieldColour == UIColor.govUK.strokes.error)
         #expect(actualAddresses == nil)
     }
@@ -174,7 +174,7 @@ struct LocalWastePostcodeEntryViewModelTests {
         )
         sut.postcode = "ABC 123"
         await sut.fetchAddresses()
-        #expect(sut.error == .pageNotWorking)
+        #expect(sut.error == .postcodeNotFound)
         #expect(sut.textFieldColour == UIColor.govUK.strokes.error)
         #expect(actualAddresses == nil)
     }
@@ -195,7 +195,7 @@ struct LocalWastePostcodeEntryViewModelTests {
         )
         sut.postcode = "ABC 123"
         await sut.fetchAddresses()
-        #expect(sut.error == .pageNotWorking)
+        #expect(sut.error == .invalidPostcode)
         #expect(sut.textFieldColour == UIColor.govUK.strokes.error)
         #expect(actualAddresses == nil)
     }
@@ -216,7 +216,7 @@ struct LocalWastePostcodeEntryViewModelTests {
         )
         sut.postcode = "ABC 123"
         await sut.fetchAddresses()
-        #expect(sut.error == .pageNotWorking)
+        #expect(sut.error == .councilNotSupported)
         #expect(sut.textFieldColour == UIColor.govUK.strokes.error)
         #expect(actualAddresses == nil)
     }
@@ -300,7 +300,7 @@ struct LocalWastePostcodeEntryViewModelTests {
         )
         sut.postcode = "ABC 123"
         await sut.fetchAddresses()
-        #expect(sut.error == .pageNotWorking)
+        #expect(sut.error == .networkUnavailable)
         #expect(sut.textFieldColour == UIColor.govUK.strokes.error)
         #expect(actualAddresses == nil)
     }
@@ -321,7 +321,7 @@ struct LocalWastePostcodeEntryViewModelTests {
         )
         sut.postcode = "SW1A 0AA"
         await sut.fetchAddresses()
-        #expect(sut.error == .textFieldEmpty)
+        #expect(sut.error == .postcodeNotFound)
         #expect(sut.textFieldColour == UIColor.govUK.strokes.error)
         #expect(actualAddresses == nil)
     }
@@ -453,10 +453,10 @@ struct LocalWastePostcodeEntryViewModelTests {
     }
 
     @Test
-    func postcodeError_textFieldEmpty_returnsCorrectTitle() throws {
-        let sut = LocalWastePostcodeEntryViewModel.PostcodeError.textFieldEmpty
+    func postcodeError_emptyPostcode_returnsCorrectTitle() throws {
+        let sut = LocalWastePostcodeEntryViewModel.PostcodeError.emptyPostcode
         let expected = String.localWaste.localized(
-            "localWastePostcodeEntryViewEmptyPostcode"
+            "localWastePostcodeEntryViewErrorEmptyPostcode"
         )
         #expect(sut.errorMessage == expected)
     }
@@ -466,6 +466,42 @@ struct LocalWastePostcodeEntryViewModelTests {
         let sut = LocalWastePostcodeEntryViewModel.PostcodeError.pageNotWorking
         let expected = String.localWaste.localized(
             "localWastePageNotWorking"
+        )
+        #expect(sut.errorMessage == expected)
+    }
+
+    @Test
+    func postcodeError_councilNotSupported_returnsCorrectTitle() throws {
+        let sut = LocalWastePostcodeEntryViewModel.PostcodeError.councilNotSupported
+        let expected = String.localWaste.localized(
+            "localWastePostcodeEntryViewErrorCouncilNotSupported"
+        )
+        #expect(sut.errorMessage == expected)
+    }
+
+    @Test
+    func postcodeError_networkUnavailable_returnsCorrectTitle() throws {
+        let sut = LocalWastePostcodeEntryViewModel.PostcodeError.networkUnavailable
+        let expected = String.localWaste.localized(
+            "localWastePostcodeEntryViewErrorNetworkUnavailable"
+        )
+        #expect(sut.errorMessage == expected)
+    }
+
+    @Test
+    func postcodeError_postcodeNotFound_returnsCorrectTitle() throws {
+        let sut = LocalWastePostcodeEntryViewModel.PostcodeError.postcodeNotFound
+        let expected = String.localWaste.localized(
+            "localWastePostcodeEntryViewErrorPostcodeNotFound"
+        )
+        #expect(sut.errorMessage == expected)
+    }
+
+    @Test
+    func postcodeError_invalidPostcode_returnsCorrectTitle() throws {
+        let sut = LocalWastePostcodeEntryViewModel.PostcodeError.invalidPostcode
+        let expected = String.localWaste.localized(
+            "localWastePostcodeEntryViewErrorInvalidPostcode"
         )
         #expect(sut.errorMessage == expected)
     }
