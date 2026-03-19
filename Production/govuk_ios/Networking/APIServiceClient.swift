@@ -1,5 +1,6 @@
 import Foundation
 import CryptoKit
+import GovKit
 
 public typealias NetworkResult<T> = Result<T, Error>
 public typealias NetworkResultCompletion<T> = (NetworkResult<T>) -> Void
@@ -21,10 +22,12 @@ struct APIServiceClient: APIServiceClientInterface {
     private let requestBuilder: RequestBuilderInterface
     private let responseHandler: ResponseHandler?
     private let tokenProvider: TokenProviding?
+    private let analyticsService: AnalyticsServiceInterface
 
     init(baseUrl: URL,
          session: URLSession,
          requestBuilder: RequestBuilderInterface,
+         analyticsService: AnalyticsServiceInterface,
          responseHandler: ResponseHandler? = nil,
          tokenProvider: TokenProviding? = nil) {
         self.baseUrl = baseUrl
@@ -32,6 +35,7 @@ struct APIServiceClient: APIServiceClientInterface {
         self.requestBuilder = requestBuilder
         self.responseHandler = responseHandler
         self.tokenProvider = tokenProvider
+        self.analyticsService = analyticsService
     }
 }
 
@@ -57,8 +61,16 @@ extension APIServiceClient {
                       isRetry: Bool,
                       completion: @escaping NetworkResultCompletion<Data>) {
         var request = request
-        if requiresAuthentication, let accessToken = tokenProvider?.accessToken {
-            request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
+        let accessToken = tokenProvider?.accessToken
+        if accessToken == nil {
+            analyticsService.track(
+                error: AccessTokenError.noAccessTokenPresent(
+                request.url?.host()
+                )
+            )
+        }
+        if requiresAuthentication {
+            request.setValue("Bearer \(String(describing: accessToken))", forHTTPHeaderField: "Authorization")
         }
 
         let task = session.dataTask(

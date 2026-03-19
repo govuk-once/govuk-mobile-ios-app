@@ -11,6 +11,7 @@ struct APIServiceClientTests_User {
             baseUrl: URL(string: "https://www.google.com")!,
             session: URLSession.mock,
             requestBuilder: RequestBuilder(),
+            analyticsService: MockAnalyticsService(),
             responseHandler: UserResponseHandler()
 
         )
@@ -49,6 +50,7 @@ struct APIServiceClientTests_User {
             baseUrl: URL(string: "https://www.google.com")!,
             session: URLSession.mock,
             requestBuilder: RequestBuilder(),
+            analyticsService: MockAnalyticsService(),
             responseHandler: UserResponseHandler()
         )
         let request = GOVRequest.userState

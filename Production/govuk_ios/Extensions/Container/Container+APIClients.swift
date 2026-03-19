@@ -9,7 +9,8 @@ extension Container {
             APIServiceClient(
                 baseUrl: Constants.API.govukBaseUrl,
                 session: URLSession(configuration: .default),
-                requestBuilder: RequestBuilder()
+                requestBuilder: RequestBuilder(),
+                analyticsService: self.analyticsService()
             )
         }
     }
@@ -19,7 +20,8 @@ extension Container {
             APIServiceClient(
                 baseUrl: self.appEnvironmentService().baseURL,
                 session: URLSession(configuration: .default),
-                requestBuilder: RequestBuilder()
+                requestBuilder: RequestBuilder(),
+                analyticsService: self.analyticsService()
             )
         }
     }
@@ -44,7 +46,8 @@ extension Container {
         APIServiceClient(
             baseUrl: url,
             session: self.urlSession(),
-            requestBuilder: RequestBuilder()
+            requestBuilder: RequestBuilder(),
+            analyticsService: self.analyticsService()
         )
     }
 
@@ -54,6 +57,7 @@ extension Container {
                 baseUrl: Constants.API.defaultLocalAuthorityURL,
                 session: self.urlSession(),
                 requestBuilder: RequestBuilder(),
+                analyticsService: self.analyticsService(),
                 responseHandler: LocalAuthorityResponseHandler()
             )
         }
@@ -64,7 +68,8 @@ extension Container {
             APIServiceClient(
                 baseUrl: self.appEnvironmentService().tokenBaseURL,
                 session: self.urlSession(),
-                requestBuilder: URLEncodedRequestBuilder()
+                requestBuilder: URLEncodedRequestBuilder(),
+                analyticsService: self.analyticsService()
             )
         }
     }
@@ -75,6 +80,7 @@ extension Container {
                 baseUrl: self.appEnvironmentService().chatBaseURL,
                 session: self.urlSession(),
                 requestBuilder: RequestBuilder(),
+                analyticsService: self.analyticsService(),
                 responseHandler: ChatResponseHandler(),
                 tokenProvider: self.authenticationService()
             )
@@ -86,6 +92,7 @@ extension Container {
             APIServiceClient(baseUrl: self.appEnvironmentService().flexBaseURL,
                              session: self.urlSession(),
                              requestBuilder: RequestBuilder(),
+                             analyticsService: self.analyticsService(),
                              responseHandler: UserResponseHandler(),
                              tokenProvider: self.authenticationService())
         }

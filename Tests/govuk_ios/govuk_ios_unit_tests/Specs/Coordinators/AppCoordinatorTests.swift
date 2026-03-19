@@ -27,6 +27,8 @@ struct AppCoordinatorTests {
             localAuthenticationService: mockLocalAuthenticationService,
             notificationService: mockNotificationService,
             userService: MockUserService(),
+            analyticsService: MockAnalyticsService(),
+            tokenProvider: MockAuthenticationService(),
             navigationController: mockNavigationController
         )
 
@@ -65,6 +67,8 @@ struct AppCoordinatorTests {
             localAuthenticationService: mockLocalAuthenticationService,
             notificationService: mockNotificationService,
             userService: MockUserService(),
+            analyticsService: MockAnalyticsService(),
+            tokenProvider: MockAuthenticationService(),
             navigationController: mockNavigationController
         )
 
@@ -119,6 +123,8 @@ struct AppCoordinatorTests {
             localAuthenticationService: mockLocalAuthenticationService,
             notificationService: mockNotificationService,
             userService: MockUserService(),
+            analyticsService: MockAnalyticsService(),
+            tokenProvider: MockAuthenticationService(),
             navigationController: mockNavigationController
         )
 
@@ -178,6 +184,8 @@ struct AppCoordinatorTests {
             localAuthenticationService: mockLocalAuthenticationService,
             notificationService: mockNotificationService,
             userService: MockUserService(),
+            analyticsService: MockAnalyticsService(),
+            tokenProvider: MockAuthenticationService(),
             navigationController: mockNavigationController
         )
 
@@ -240,6 +248,8 @@ struct AppCoordinatorTests {
             localAuthenticationService: mockLocalAuthenticationService,
             notificationService: mockNotificationService,
             userService: MockUserService(),
+            analyticsService: MockAnalyticsService(),
+            tokenProvider: MockAuthenticationService(),
             navigationController: mockNavigationController
         )
 
@@ -275,6 +285,8 @@ struct AppCoordinatorTests {
             localAuthenticationService: mockLocalAuthenticationService,
             notificationService: mockNotificationService,
             userService: MockUserService(),
+            analyticsService: MockAnalyticsService(),
+            tokenProvider: MockAuthenticationService(),
             navigationController: mockNavigationController
         )
 
@@ -310,6 +322,8 @@ struct AppCoordinatorTests {
             localAuthenticationService: mockLocalAuthenticationService,
             notificationService: mockNotificationService,
             userService: MockUserService(),
+            analyticsService: MockAnalyticsService(),
+            tokenProvider: MockAuthenticationService(),
             navigationController: mockNavigationController
         )
 
@@ -344,6 +358,8 @@ struct AppCoordinatorTests {
             localAuthenticationService: mockLocalAuthenticationService,
             notificationService: mockNotificationService,
             userService: MockUserService(),
+            analyticsService: MockAnalyticsService(),
+            tokenProvider: MockAuthenticationService(),
             privacyPresenter: mockPrivacyService,
             navigationController: mockNavigationController
         )
@@ -374,6 +390,8 @@ struct AppCoordinatorTests {
             localAuthenticationService: mockLocalAuthenticationService,
             notificationService: mockNotificationService,
             userService: MockUserService(),
+            analyticsService: MockAnalyticsService(),
+            tokenProvider: MockAuthenticationService(),
             privacyPresenter: mockPrivacyService,
             navigationController: mockNavigationController
         )
@@ -404,6 +422,8 @@ struct AppCoordinatorTests {
             localAuthenticationService: mockLocalAuthenticationService,
             notificationService: mockNotificationService,
             userService: MockUserService(),
+            analyticsService: MockAnalyticsService(),
+            tokenProvider: MockAuthenticationService(),
             privacyPresenter: mockPrivacyService,
             navigationController: mockNavigationController
         )
@@ -432,6 +452,8 @@ struct AppCoordinatorTests {
             localAuthenticationService: mockLocalAuthenticationService,
             notificationService: MockNotificationService(),
             userService: MockUserService(),
+            analyticsService: MockAnalyticsService(),
+            tokenProvider: MockAuthenticationService(),
             privacyPresenter: mockPrivacyService,
             navigationController: mockNavigationController
         )
@@ -460,6 +482,8 @@ struct AppCoordinatorTests {
             localAuthenticationService: mockLocalAuthenticationService,
             notificationService: MockNotificationService(),
             userService: MockUserService(),
+            analyticsService: MockAnalyticsService(),
+            tokenProvider: MockAuthenticationService(),
             privacyPresenter: mockPrivacyService,
             navigationController: mockNavigationController
         )
@@ -484,6 +508,8 @@ struct AppCoordinatorTests {
             localAuthenticationService: MockLocalAuthenticationService(),
             notificationService: mockNotificationService,
             userService: mockUserService,
+            analyticsService: MockAnalyticsService(),
+            tokenProvider: MockAuthenticationService(),
             privacyPresenter: MockPrivacyService(),
             navigationController: MockNavigationController())
         subject.start()
@@ -506,6 +532,8 @@ struct AppCoordinatorTests {
             localAuthenticationService: MockLocalAuthenticationService(),
             notificationService: mockNotificationService,
             userService: mockUserService,
+            analyticsService: MockAnalyticsService(),
+            tokenProvider: MockAuthenticationService(),
             privacyPresenter: MockPrivacyService(),
             navigationController: MockNavigationController())
         subject.start()
@@ -528,6 +556,8 @@ struct AppCoordinatorTests {
             localAuthenticationService: MockLocalAuthenticationService(),
             notificationService: mockNotificationService,
             userService: mockUserService,
+            analyticsService: MockAnalyticsService(),
+            tokenProvider: MockAuthenticationService(),
             privacyPresenter: MockPrivacyService(),
             navigationController: MockNavigationController())
         subject.start()
