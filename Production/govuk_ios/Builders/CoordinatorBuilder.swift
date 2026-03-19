@@ -11,6 +11,7 @@ class CoordinatorBuilder {
     init(container: Container) {
         self.container = container
     }
+    
     func app(
         navigationController: UINavigationController,
         inactivityService: InactivityServiceInterface

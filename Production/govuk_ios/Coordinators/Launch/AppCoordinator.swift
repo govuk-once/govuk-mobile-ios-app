@@ -146,14 +146,17 @@ class AppCoordinator: BaseCoordinator {
     }
 
     private func startTabs() {
+        start(tabCoordinator, url: pendingDeeplink)
+        pendingDeeplink = nil
+    }
+
+    private func trackEmptyTokenCase() {
         let accessToken = tokenProvider?.accessToken
         if accessToken == nil {
             analyticsService.track(
                 error: AccessTokenError.noAccessTokenPresent
             )
         }
-        start(tabCoordinator, url: pendingDeeplink)
-        pendingDeeplink = nil
     }
 
     private func startSession() {
