@@ -297,4 +297,14 @@ class MockCoordinatorBuilder: CoordinatorBuilder {
         _receivedServiceAccountCompletion = completion
         return _stubbedServiceAccountCoordinator ?? MockBaseCoordinator()
     }
+
+    var _receivedTermsAndConditionsCompletion: (() -> Void)?
+    var _termsAndConditionsCallAction: (() -> Void)?
+    var _stubbedTermsAndConditionsCoordinator: MockBaseCoordinator?
+    override func termsAndConditions(navigationController: UINavigationController,
+                                     completion: @escaping () -> Void) -> BaseCoordinator {
+        _receivedTermsAndConditionsCompletion = completion
+        _termsAndConditionsCallAction?()
+        return _stubbedTermsAndConditionsCoordinator ?? MockBaseCoordinator()
+    }
 }

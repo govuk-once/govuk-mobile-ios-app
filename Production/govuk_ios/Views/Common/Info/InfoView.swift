@@ -14,11 +14,12 @@ struct InfoView<Model>: View where Model: InfoViewModelInterface {
         _viewModel = StateObject(wrappedValue: viewModel)
         self.customView = customView
     }
+
     var body: some View {
         VStack {
             GeometryReader { geometry in
                 ScrollView {
-                    infoView
+                    contentView
                         .frame(width: geometry.size.width)
                         .frame(
                             minHeight: geometry.size.height,
@@ -96,7 +97,6 @@ struct InfoView<Model>: View where Model: InfoViewModelInterface {
         }
     }
 
-
     private var progressOpacity: CGFloat {
         guard let model = viewModel as? ProgressIndicating else {
             return 0.0
@@ -118,7 +118,7 @@ struct InfoView<Model>: View where Model: InfoViewModelInterface {
         return Text(model.accessibilityLabel)
     }
 
-    private var infoView: some View {
+    private var contentView: some View {
         VStack {
             if verticalSizeClass != .compact {
                 visualAssetView

@@ -6,11 +6,17 @@ import SwiftUI
 final class WelcomeOnboardingViewModel: InfoViewModelInterface,
                                         ProgressIndicating {
     let completeAction: () -> Void
+    let openURLAction: (URL) -> Void
+    let termsURL: URL
 
     @Published var showProgressView: Bool = false
 
-    init(completeAction: @escaping () -> Void) {
+    init(completeAction: @escaping () -> Void,
+         openURLAction: @escaping (URL) -> Void,
+         termsURL: URL) {
         self.completeAction = completeAction
+        self.openURLAction = openURLAction
+        self.termsURL = termsURL
     }
 
     var analyticsService: AnalyticsServiceInterface? { nil }
@@ -21,8 +27,13 @@ final class WelcomeOnboardingViewModel: InfoViewModelInterface,
         String.onboarding.localized("welcomeTitle")
     }
 
-    var subtitle: String {
-        String.onboarding.localized("welcomeBody")
+    var markdownText: String {
+        String(
+            localized: .Onboarding.welcomeSubtitleText(
+                termsURL.absoluteString,
+                Constants.API.privacyPolicyUrl.absoluteString
+            )
+        )
     }
 
     var primaryButtonTitle: String {
@@ -30,7 +41,7 @@ final class WelcomeOnboardingViewModel: InfoViewModelInterface,
     }
 
     var primaryButtonViewModel: GOVUKButton.ButtonViewModel {
-        let localTitle = String.common.localized("continue")
+        let localTitle = String(localized: .Onboarding.welcomeButtonTitle)
         return .init(
             localisedTitle: localTitle,
             action: { [weak self] in

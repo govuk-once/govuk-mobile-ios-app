@@ -24,6 +24,7 @@ class WelcomeOnboardingCoordinatorTests {
                 authenticationService: mockAuthenticationService,
                 userService: mockUserService,
                 notificationService: mockNotificationService,
+                termsAndConditionsService: MockTermsAndConditionsService(),
                 coordinatorBuilder: mockCoordinatorBuilder,
                 viewControllerBuilder: MockViewControllerBuilder(),
                 analyticsService: MockAnalyticsService(),
@@ -53,6 +54,7 @@ class WelcomeOnboardingCoordinatorTests {
                 authenticationService: mockAuthenticationService,
                 userService: mockUserService,
                 notificationService: mockNotificationService,
+                termsAndConditionsService: MockTermsAndConditionsService(),
                 coordinatorBuilder: mockCoordinatorBuilder,
                 viewControllerBuilder: MockViewControllerBuilder(),
                 analyticsService: MockAnalyticsService(),
@@ -82,6 +84,7 @@ class WelcomeOnboardingCoordinatorTests {
                 authenticationService: mockAuthenticationService,
                 userService: mockUserService,
                 notificationService: MockNotificationService(),
+                termsAndConditionsService: MockTermsAndConditionsService(),
                 coordinatorBuilder: mockCoordinatorBuilder,
                 viewControllerBuilder: MockViewControllerBuilder(),
                 analyticsService: MockAnalyticsService(),
@@ -113,6 +116,7 @@ class WelcomeOnboardingCoordinatorTests {
             authenticationService: mockAuthenticationService,
             userService: mockUserService,
             notificationService: mockNotificationService,
+            termsAndConditionsService: MockTermsAndConditionsService(),
             coordinatorBuilder: mockCoordinatorBuilder,
             viewControllerBuilder: MockViewControllerBuilder(),
             analyticsService: MockAnalyticsService(),
@@ -129,8 +133,6 @@ class WelcomeOnboardingCoordinatorTests {
     func authenticationSuccess_userStateRequestSuccess_startsSignInSuccessCoordinator() async {
         let mockUserService = MockUserService()
         let mockCoordinatorBuilder = CoordinatorBuilder.mock
-        let mockSignInSuccessCoordinator = MockBaseCoordinator()
-        mockCoordinatorBuilder._stubbedSignInSuccessCoordinator = mockSignInSuccessCoordinator
         mockUserService._stubbedFetchUserStateResult = .success(UserState.arrange)
 
         let mockViewControllerBuilder = MockViewControllerBuilder()
@@ -143,24 +145,23 @@ class WelcomeOnboardingCoordinatorTests {
                 authenticationService: MockAuthenticationService(),
                 userService: mockUserService,
                 notificationService: MockNotificationService(),
+                termsAndConditionsService: MockTermsAndConditionsService(),
                 coordinatorBuilder: mockCoordinatorBuilder,
                 viewControllerBuilder: mockViewControllerBuilder,
                 analyticsService: MockAnalyticsService(),
                 deviceInformationProvider: MockDeviceInformationProvider(),
                 versionProvider: MockAppVersionProvider(),
-                completionAction: { }
+                completionAction: {
+                    continuation.resume(returning: true)
+                }
             )
             sut.start(url: nil)
-            mockCoordinatorBuilder._signInSuccessCallAction = {
-                continuation.resume(returning: true)
-            }
 
             mockViewControllerBuilder._stubbedWelcomeOnboardingViewModel?.completeAction()
             mockCoordinatorBuilder._receivedAuthenticationCompletion?()
         }
 
         #expect(completion)
-        #expect(mockSignInSuccessCoordinator._startCalled)
     }
 
     @Test
@@ -168,8 +169,6 @@ class WelcomeOnboardingCoordinatorTests {
         let mockNotificationService = MockNotificationService()
         let mockUserService = MockUserService()
         let mockCoordinatorBuilder = CoordinatorBuilder.mock
-        let mockSignInSuccessCoordinator = MockBaseCoordinator()
-        mockCoordinatorBuilder._stubbedSignInSuccessCoordinator = mockSignInSuccessCoordinator
         mockUserService._stubbedFetchUserStateResult = .success(UserState.arrange)
 
         let mockViewControllerBuilder = MockViewControllerBuilder()
@@ -182,17 +181,17 @@ class WelcomeOnboardingCoordinatorTests {
                 authenticationService: MockAuthenticationService(),
                 userService: mockUserService,
                 notificationService: mockNotificationService,
+                termsAndConditionsService: MockTermsAndConditionsService(),
                 coordinatorBuilder: mockCoordinatorBuilder,
                 viewControllerBuilder: mockViewControllerBuilder,
                 analyticsService: MockAnalyticsService(),
                 deviceInformationProvider: MockDeviceInformationProvider(),
                 versionProvider: MockAppVersionProvider(),
-                completionAction: { }
+                completionAction: {
+                    continuation.resume(returning: true)
+                }
             )
             sut.start(url: nil)
-            mockCoordinatorBuilder._signInSuccessCallAction = {
-                continuation.resume(returning: true)
-            }
 
             mockViewControllerBuilder._stubbedWelcomeOnboardingViewModel?.completeAction()
             mockCoordinatorBuilder._receivedAuthenticationCompletion?()
@@ -220,6 +219,7 @@ class WelcomeOnboardingCoordinatorTests {
                 authenticationService: MockAuthenticationService(),
                 userService: mockUserService,
                 notificationService: MockNotificationService(),
+                termsAndConditionsService: MockTermsAndConditionsService(),
                 coordinatorBuilder: mockCoordinatorBuilder,
                 viewControllerBuilder: mockViewControllerBuilder,
                 analyticsService: MockAnalyticsService(),
@@ -255,6 +255,7 @@ class WelcomeOnboardingCoordinatorTests {
             authenticationService: MockAuthenticationService(),
             userService: mockUserService,
             notificationService: MockNotificationService(),
+            termsAndConditionsService: MockTermsAndConditionsService(),
             coordinatorBuilder: mockCoordinatorBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
             analyticsService: MockAnalyticsService(),
@@ -296,6 +297,7 @@ class WelcomeOnboardingCoordinatorTests {
             authenticationService: mockAuthenticationService,
             userService: mockUserService,
             notificationService: mockNotificationService,
+            termsAndConditionsService: MockTermsAndConditionsService(),
             coordinatorBuilder: mockCoordinatorBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
             analyticsService: MockAnalyticsService(),
@@ -333,6 +335,7 @@ class WelcomeOnboardingCoordinatorTests {
             authenticationService: mockAuthenticationService,
             userService: mockUserService,
             notificationService: mockNotificationService,
+            termsAndConditionsService: MockTermsAndConditionsService(),
             coordinatorBuilder: mockCoordinatorBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
             analyticsService: mockAnalyticsService,
@@ -370,6 +373,7 @@ class WelcomeOnboardingCoordinatorTests {
             authenticationService: mockAuthenticationService,
             userService: mockUserService,
             notificationService: mockNotificationService,
+            termsAndConditionsService: MockTermsAndConditionsService(),
             coordinatorBuilder: mockCoordinatorBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
             analyticsService: MockAnalyticsService(),
@@ -405,6 +409,7 @@ class WelcomeOnboardingCoordinatorTests {
             authenticationService: mockAuthenticationService,
             userService: mockUserService,
             notificationService: mockNotificationService,
+            termsAndConditionsService: MockTermsAndConditionsService(),
             coordinatorBuilder: mockCoordinatorBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
             analyticsService: MockAnalyticsService(),
@@ -444,6 +449,7 @@ class WelcomeOnboardingCoordinatorTests {
             authenticationService: mockAuthenticationService,
             userService: mockUserService,
             notificationService: mockNotificationService,
+            termsAndConditionsService: MockTermsAndConditionsService(),
             coordinatorBuilder: mockCoordinatorBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
             analyticsService: MockAnalyticsService(),
