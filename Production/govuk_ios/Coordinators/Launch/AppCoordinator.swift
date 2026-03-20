@@ -152,8 +152,7 @@ class AppCoordinator: BaseCoordinator {
     }
 
     private func checkForNilAccessToken() {
-        let accessToken = tokenProvider.accessToken
-        if accessToken == nil {
+        if tokenProvider.accessToken == nil {
             analyticsService.track(
                 error: AccessTokenError.noAccessTokenPresent
             )
