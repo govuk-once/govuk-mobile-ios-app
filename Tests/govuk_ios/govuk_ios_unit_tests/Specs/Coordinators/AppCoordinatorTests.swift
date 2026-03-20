@@ -297,7 +297,7 @@ struct AppCoordinatorTests {
     }
 
     @Test
-    func start_witAccessToken_doesNotTrackError() {
+    func start_withAccessToken_doesNotTrackError() {
         let mockAuthenticationService = MockAuthenticationService()
         let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
         let mockNavigationController = UINavigationController()
