@@ -265,7 +265,7 @@ struct AppCoordinatorTests {
     }
 
     @Test
-    func checkForNilAccessToken_tracksErrorCorrectly() {
+    func start_withMissingAccessToken_tracksError() {
         let mockAuthenticationService = MockAuthenticationService()
         let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
         let mockNavigationController = UINavigationController()
@@ -294,6 +294,37 @@ struct AppCoordinatorTests {
 
         let expectedError = AccessTokenError.noAccessTokenPresent
         #expect((analyticsService._trackErrorReceivedErrors.first as? AccessTokenError) == expectedError)
+    }
+
+    @Test
+    func start_witAccessToken_doesNotTrackError() {
+        let mockAuthenticationService = MockAuthenticationService()
+        let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
+        let mockNavigationController = UINavigationController()
+        let mockInactivityService = MockInactivityService()
+        let mockLocalAuthenticationService = MockLocalAuthenticationService()
+        let mockNotificationService = MockNotificationService()
+        let analyticsService = MockAnalyticsService()
+        let subject = AppCoordinator(
+            coordinatorBuilder: mockCoordinatorBuilder,
+            inactivityService: mockInactivityService,
+            authenticationService: mockAuthenticationService,
+            localAuthenticationService: mockLocalAuthenticationService,
+            notificationService: mockNotificationService,
+            userService: MockUserService(),
+            analyticsService: analyticsService,
+            tokenProvider: mockAuthenticationService,
+            navigationController: mockNavigationController
+        )
+        mockAuthenticationService._stubbedAccessToken = "test_token"
+
+        subject.start(url: nil)
+
+        mockCoordinatorBuilder._receivedPreAuthCompletion?()
+        mockCoordinatorBuilder._receivedPeriAuthCompletion?()
+        mockCoordinatorBuilder._receivedPostAuthCompletion?()
+
+        #expect(analyticsService._trackErrorReceivedErrors.count == 0)
     }
 
 
