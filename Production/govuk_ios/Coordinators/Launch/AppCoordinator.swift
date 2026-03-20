@@ -10,7 +10,7 @@ class AppCoordinator: BaseCoordinator {
     private let notificationService: NotificationServiceInterface
     private let userService: UserServiceInterface
     private let analyticsService: AnalyticsServiceInterface
-    private let tokenProvider: TokenProviding?
+    private let tokenProvider: TokenProviding
     private var initialLaunch: Bool = true
     private lazy var tabCoordinator: BaseCoordinator = {
         let coordinator = coordinatorBuilder.tab(
@@ -152,7 +152,7 @@ class AppCoordinator: BaseCoordinator {
     }
 
     private func checkForNilAccessToken() {
-        let accessToken = tokenProvider?.accessToken
+        let accessToken = tokenProvider.accessToken
         if accessToken == nil {
             analyticsService.track(
                 error: AccessTokenError.noAccessTokenPresent
