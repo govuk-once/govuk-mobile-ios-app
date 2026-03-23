@@ -85,9 +85,16 @@ class HomeCoordinator: TabItemCoordinator {
         )
         set([viewController], animated: false)
     }
+
     func editTopics() {
         if let homeViewController = root.children.first as? HomeViewController {
             homeViewController.editTopics()
+        }
+    }
+
+    func openSearch() {
+        if let homeViewController = root.children.first as? HomeViewController {
+            homeViewController.openSearch()
         }
     }
 

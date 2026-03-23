@@ -14,9 +14,7 @@ struct SearchDeeplinkRoute: DeeplinkRoute {
     @MainActor
     func action(parent: BaseCoordinator, params: [String: String]) {
         if let homeCoordinator = parent as? HomeCoordinator {
-            if let homeVC = homeCoordinator.root.topViewController as? HomeViewController {
-                homeVC.openSearch()
-            }
+            homeCoordinator.openSearch()
         }
     }
 }
