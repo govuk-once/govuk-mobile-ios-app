@@ -213,9 +213,14 @@ class HomeViewController: BaseViewController {
         viewWillReAppear()
         setLogoHidden(false)
     }
+
+    func openSearch() {
+        searchBarShouldBeginEditing(searchBar)
+    }
 }
 
 extension HomeViewController: UISearchBarDelegate {
+    @discardableResult
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
         searchBar.setShowsCancelButton(true, animated: true)
         removeController(homeContentViewController)

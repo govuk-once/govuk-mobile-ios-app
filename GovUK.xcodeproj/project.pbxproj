@@ -299,6 +299,7 @@
 		8171AE472F1116A00024312B /* ScrollBottomIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8171AE462F11169A0024312B /* ScrollBottomIndicatorView.swift */; };
 		8181DBFA2EE214B100F47531 /* FactoryKit in Frameworks */ = {isa = PBXBuildFile; productRef = 8181DBF92EE214B100F47531 /* FactoryKit */; };
 		8181DBFC2EE214B100F47531 /* FactoryTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 8181DBFB2EE214B100F47531 /* FactoryTesting */; };
+		945E1F052F714E920064CA22 /* SearchDeepLinkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945E1F042F714E830064CA22 /* SearchDeepLinkRoute.swift */; };
 		B04C2E802DA9141400F0F63E /* WebDeeplinkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = B04C2E7F2DA9141400F0F63E /* WebDeeplinkRoute.swift */; };
 		B0AD6F202DDA86D80077849F /* NotificationsOnboardingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0AD6F1F2DDA86D80077849F /* NotificationsOnboardingService.swift */; };
 		D00984F22D47BC9600D70FEE /* DeviceInformation+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00984F12D47BC9600D70FEE /* DeviceInformation+Convenience.swift */; };
@@ -750,6 +751,7 @@
 		815C58672EE970DC00322705 /* RemoteConfigService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigService.swift; sourceTree = "<group>"; };
 		815C58692EE973F400322705 /* RemoteConfigServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigServiceClient.swift; sourceTree = "<group>"; };
 		8171AE462F11169A0024312B /* ScrollBottomIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollBottomIndicatorView.swift; sourceTree = "<group>"; };
+		945E1F042F714E830064CA22 /* SearchDeepLinkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDeepLinkRoute.swift; sourceTree = "<group>"; };
 		B04C2E7F2DA9141400F0F63E /* WebDeeplinkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebDeeplinkRoute.swift; sourceTree = "<group>"; };
 		B0AD6F1F2DDA86D80077849F /* NotificationsOnboardingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsOnboardingService.swift; sourceTree = "<group>"; };
 		D00984F12D47BC9600D70FEE /* DeviceInformation+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DeviceInformation+Convenience.swift"; sourceTree = "<group>"; };
@@ -1611,6 +1613,7 @@
 				16C34B422C492FF90031AD32 /* HomeDeepLinkRoute.swift */,
 				16C34B442C4954910031AD32 /* SettingsDeepLinkRoute.swift */,
 				B04C2E7F2DA9141400F0F63E /* WebDeeplinkRoute.swift */,
+				945E1F042F714E830064CA22 /* SearchDeepLinkRoute.swift */,
 			);
 			path = DeeplinkRoutes;
 			sourceTree = "<group>";
@@ -2655,7 +2658,6 @@
 				4EBCA3362DAC5E2E0063A723 /* GOVRequest+LocalAuthority.swift in Sources */,
 				5DD4CB0C2D95483100459FB5 /* ActivityItemCreateParams.swift in Sources */,
 				1618EFAB2F44D661008EF26B /* TermsAndConditionsView.swift in Sources */,
-				81EADD9D2F04268300CA7B37 /* RemoteConfig.swift in Sources */,
 				16FD684A2D39AEB5002F1597 /* SuggestionHighlighterProcessor.swift in Sources */,
 				5D79AEC02C32B9180061F344 /* AnimationView.swift in Sources */,
 				5D9E67C82C5A2E1700DB7877 /* DividerView.swift in Sources */,
@@ -2699,6 +2701,7 @@
 				3D4A9E622E6735B0003ABE53 /* UserFeedbackWidgetViewModel.swift in Sources */,
 				D056CE742D3A83F2005845E0 /* NotificationsWidgetViewModel.swift in Sources */,
 				16EE1A412C6F8968005E820F /* SearchViewController.swift in Sources */,
+				945E1F052F714E920064CA22 /* SearchDeepLinkRoute.swift in Sources */,
 				4EA3C3502C91B8C4000D731C /* RecentActivityCoordinator.swift in Sources */,
 				D08F2C7E2E6AF8C800133121 /* CGImageSource+Extensions.swift in Sources */,
 				5D8683952C340F1B0024F2D8 /* DeeplinkRoute.swift in Sources */,
