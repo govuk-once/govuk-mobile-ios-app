@@ -97,6 +97,7 @@
 		4E0043142D9BE25E00DDDA8A /* NotificationSettingsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E0043132D9BE25D00DDDA8A /* NotificationSettingsCoordinator.swift */; };
 		4E00EEEF2CCB04B0007B61E8 /* TopicsOnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E00EEEE2CCB04B0007B61E8 /* TopicsOnboardingViewModel.swift */; };
 		4E00EF072CCB12CD007B61E8 /* BaseTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E00EF062CCB12CD007B61E8 /* BaseTabBarController.swift */; };
+		4E02D5AD2F6B89AB0083164C /* AccessTokenError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E02D5AC2F6B89AB0083164C /* AccessTokenError.swift */; };
 		4E11AC442F22653700838894 /* GOVUKColors+Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E11AC432F22653700838894 /* GOVUKColors+Chat.swift */; };
 		4E11AC4A2F22770C00838894 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E11AC492F22770C00838894 /* Constants.swift */; };
 		4E1534032E398073002DEDB9 /* TopicsWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1534022E398073002DEDB9 /* TopicsWidgetView.swift */; };
@@ -553,6 +554,7 @@
 		4E0043132D9BE25D00DDDA8A /* NotificationSettingsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsCoordinator.swift; sourceTree = "<group>"; };
 		4E00EEEE2CCB04B0007B61E8 /* TopicsOnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsOnboardingViewModel.swift; sourceTree = "<group>"; };
 		4E00EF062CCB12CD007B61E8 /* BaseTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBarController.swift; sourceTree = "<group>"; };
+		4E02D5AC2F6B89AB0083164C /* AccessTokenError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenError.swift; sourceTree = "<group>"; };
 		4E11AC432F22653700838894 /* GOVUKColors+Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GOVUKColors+Chat.swift"; sourceTree = "<group>"; };
 		4E11AC492F22770C00838894 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		4E1534022E398073002DEDB9 /* TopicsWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsWidgetView.swift; sourceTree = "<group>"; };
@@ -1221,6 +1223,7 @@
 				5D0BD4582C9B1BBA00220625 /* SearchServiceClient.swift */,
 				D04191852CA6A5910034722A /* TopicsServiceClient.swift */,
 				815935DC2F22351700F8D206 /* User */,
+				4E02D5AC2F6B89AB0083164C /* AccessTokenError.swift */,
 			);
 			path = ServiceClients;
 			sourceTree = "<group>";
@@ -2842,6 +2845,7 @@
 				4E6663CF2C73F3220063E81C /* AppConfigError.swift in Sources */,
 				D0F6813E2DD4CF8E004421C0 /* LocalAuthorityPostcodeEntryViewModel.swift in Sources */,
 				D052D2302E0B0DC80048F98A /* ButtonStackView.swift in Sources */,
+				4E02D5AD2F6B89AB0083164C /* AccessTokenError.swift in Sources */,
 				D0F6813F2DD4CF8E004421C0 /* LocalAuthorityWidgetViewModel.swift in Sources */,
 				D0F681402DD4CF8E004421C0 /* LocalAuthorityExplainerViewModel.swift in Sources */,
 				D052CA332E0B06F70048F98A /* ChatCoordinator.swift in Sources */,

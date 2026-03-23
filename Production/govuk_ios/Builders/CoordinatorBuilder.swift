@@ -23,6 +23,8 @@ class CoordinatorBuilder {
             localAuthenticationService: container.localAuthenticationService.resolve(),
             notificationService: container.notificationService.resolve(),
             userService: container.userService.resolve(),
+            analyticsService: container.analyticsService.resolve(),
+            tokenProvider: container.authenticationService(),
             privacyPresenter: container.privacyService.resolve(),
             navigationController: navigationController
         )
