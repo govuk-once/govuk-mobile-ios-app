@@ -86,7 +86,9 @@ class HomeCoordinator: TabItemCoordinator {
         set([viewController], animated: false)
     }
     func editTopics() {
-        topicWidgetViewModel.isEditingTopics = true
+        if let homeViewController = root.children.first as? HomeViewController {
+            homeViewController.editTopics()
+        }
     }
 
     private func presentWebView(url: URL) {

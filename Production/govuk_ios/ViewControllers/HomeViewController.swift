@@ -217,6 +217,10 @@ class HomeViewController: BaseViewController {
     func openSearch() {
         searchBarShouldBeginEditing(searchBar)
     }
+
+    func editTopics() {
+        viewModel.editTopics()
+    }
 }
 
 extension HomeViewController: UISearchBarDelegate {
