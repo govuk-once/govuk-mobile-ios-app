@@ -85,6 +85,9 @@ class HomeCoordinator: TabItemCoordinator {
         )
         set([viewController], animated: false)
     }
+    func editTopics() {
+        topicWidgetViewModel.isEditingTopics = true
+    }
 
     private func presentWebView(url: URL) {
         let coordinator = coordinatorBuilder.safari(
@@ -138,7 +141,7 @@ class HomeCoordinator: TabItemCoordinator {
         }
     }
 
-    private var startRecentActivityCoordinator: () -> Void {
+    var startRecentActivityCoordinator: () -> Void {
         return { [weak self] in
             self?.trackWidgetNavigation(text: "Pages you’ve visited")
             guard let self = self else { return }

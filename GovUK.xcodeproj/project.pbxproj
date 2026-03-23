@@ -300,6 +300,8 @@
 		8181DBFA2EE214B100F47531 /* FactoryKit in Frameworks */ = {isa = PBXBuildFile; productRef = 8181DBF92EE214B100F47531 /* FactoryKit */; };
 		8181DBFC2EE214B100F47531 /* FactoryTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 8181DBFB2EE214B100F47531 /* FactoryTesting */; };
 		945E1F052F714E920064CA22 /* SearchDeepLinkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945E1F042F714E830064CA22 /* SearchDeepLinkRoute.swift */; };
+		945E1F072F7176320064CA22 /* EditTopicsDeepLinkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945E1F062F7176240064CA22 /* EditTopicsDeepLinkRoute.swift */; };
+		945E1F092F7181070064CA22 /* RecentActivityDeepLinkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945E1F082F7180FA0064CA22 /* RecentActivityDeepLinkRoute.swift */; };
 		B04C2E802DA9141400F0F63E /* WebDeeplinkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = B04C2E7F2DA9141400F0F63E /* WebDeeplinkRoute.swift */; };
 		B0AD6F202DDA86D80077849F /* NotificationsOnboardingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0AD6F1F2DDA86D80077849F /* NotificationsOnboardingService.swift */; };
 		D00984F22D47BC9600D70FEE /* DeviceInformation+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00984F12D47BC9600D70FEE /* DeviceInformation+Convenience.swift */; };
@@ -752,6 +754,8 @@
 		815C58692EE973F400322705 /* RemoteConfigServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigServiceClient.swift; sourceTree = "<group>"; };
 		8171AE462F11169A0024312B /* ScrollBottomIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollBottomIndicatorView.swift; sourceTree = "<group>"; };
 		945E1F042F714E830064CA22 /* SearchDeepLinkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDeepLinkRoute.swift; sourceTree = "<group>"; };
+		945E1F062F7176240064CA22 /* EditTopicsDeepLinkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTopicsDeepLinkRoute.swift; sourceTree = "<group>"; };
+		945E1F082F7180FA0064CA22 /* RecentActivityDeepLinkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentActivityDeepLinkRoute.swift; sourceTree = "<group>"; };
 		B04C2E7F2DA9141400F0F63E /* WebDeeplinkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebDeeplinkRoute.swift; sourceTree = "<group>"; };
 		B0AD6F1F2DDA86D80077849F /* NotificationsOnboardingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsOnboardingService.swift; sourceTree = "<group>"; };
 		D00984F12D47BC9600D70FEE /* DeviceInformation+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DeviceInformation+Convenience.swift"; sourceTree = "<group>"; };
@@ -1614,6 +1618,8 @@
 				16C34B442C4954910031AD32 /* SettingsDeepLinkRoute.swift */,
 				B04C2E7F2DA9141400F0F63E /* WebDeeplinkRoute.swift */,
 				945E1F042F714E830064CA22 /* SearchDeepLinkRoute.swift */,
+				945E1F062F7176240064CA22 /* EditTopicsDeepLinkRoute.swift */,
+				945E1F082F7180FA0064CA22 /* RecentActivityDeepLinkRoute.swift */,
 			);
 			path = DeeplinkRoutes;
 			sourceTree = "<group>";
@@ -2642,6 +2648,7 @@
 				D04DD3362E00471C002B5F19 /* ChatResponseHandler.swift in Sources */,
 				5D49D4EA2DD3D2940071826B /* NotificationsOnboardingView.swift in Sources */,
 				5DBE08072C480CA700B58DBE /* UINavigationController+Convenience.swift in Sources */,
+				945E1F092F7181070064CA22 /* RecentActivityDeepLinkRoute.swift in Sources */,
 				5DA8ADE02DD4968100ECEB6B /* NotificationsOnboardingViewModel.swift in Sources */,
 				5DD09EC82C9ADB8500494550 /* SearchService.swift in Sources */,
 				D052CCE02E0B09AA0048F98A /* ChatCellView.swift in Sources */,
@@ -2715,6 +2722,7 @@
 				169842DA2DB0004800E3EA66 /* LocalAuthenticationOnboardingViewModel.swift in Sources */,
 				D028CCF62CB9619B00742620 /* Topic.swift in Sources */,
 				D0B929F62EA63C0E001E6FDC /* ListCardViewModel.swift in Sources */,
+				945E1F072F7176320064CA22 /* EditTopicsDeepLinkRoute.swift in Sources */,
 				4EE5F3E52DAFD36B008C60ED /* LocalAuthorityWidget.swift in Sources */,
 				4EE44BAD2E70332C0093D380 /* NonTappableCardView.swift in Sources */,
 				5D7D255F2D141CEC00BDC217 /* Redactor+Convenience.swift in Sources */,
