@@ -31,12 +31,13 @@ struct LocalWasteServiceClient: LocalWasteServiceClientInterface {
     func fetchAddresses(
         postcode: String
     ) async throws(LocalWasteAddressesApiError) -> [LocalWasteAddress] {
-        guard let url = LocalWasteServiceClient.url(path: "api/address/\(postcode)") else {
+        guard let url = Self.url(path: "api/address/\(postcode)") else {
             throw LocalWasteAddressesApiError.apiUnavailable
         }
-        let request = URLRequest(url: url)
-        let (data, httpResponse): (Data, URLResponse)
+        var request = URLRequest(url: url)
+        request.setValue(Self.securityValue, forHTTPHeaderField: Self.securityKey)
 
+        let (data, httpResponse): (Data, URLResponse)
         do {
             (data, httpResponse) = try await session.data(for: request)
         } catch let error as NSError where error.code == NSURLErrorNotConnectedToInternet {
@@ -62,7 +63,7 @@ struct LocalWasteServiceClient: LocalWasteServiceClientInterface {
     throws(LocalWasteAddressesApiError)
     -> [LocalWasteAddress] {
         do {
-            return try LocalWasteServiceClient
+            return try Self
                 .jsonDecoder()
                 .decode([LocalWasteAddress].self, from: data)
         } catch {
@@ -73,7 +74,7 @@ struct LocalWasteServiceClient: LocalWasteServiceClientInterface {
     private func decodeLocalWasteAddressesError(_ data: Data)
     -> LocalWasteAddressesApiError {
         do {
-            let obj = try LocalWasteServiceClient
+            let obj = try Self
                 .jsonDecoder()
                 .decode(LocalWasteAddressError.self, from: data)
             return .apiError(obj.message)
@@ -86,13 +87,14 @@ struct LocalWasteServiceClient: LocalWasteServiceClientInterface {
         uprn: String,
         localCustodianCode: String
     ) async throws(LocalWasteScheduleApiError) -> [LocalWasteBin] {
-        guard let url = LocalWasteServiceClient.url(
+        guard let url = Self.url(
             path: "api/schedule?uprn=\(uprn)&localCustodianCode=\(localCustodianCode)") else {
             throw LocalWasteScheduleApiError.apiUnavailable
         }
-        let request = URLRequest(url: url)
-        let (data, httpResponse): (Data, URLResponse)
+        var request = URLRequest(url: url)
+        request.setValue(Self.securityValue, forHTTPHeaderField: Self.securityKey)
 
+        let (data, httpResponse): (Data, URLResponse)
         do {
             (data, httpResponse) = try await session.data(for: request)
         } catch let error as NSError where error.code == NSURLErrorNotConnectedToInternet {
@@ -118,7 +120,7 @@ struct LocalWasteServiceClient: LocalWasteServiceClientInterface {
     throws(LocalWasteScheduleApiError)
     -> [LocalWasteBin] {
         do {
-            return try LocalWasteServiceClient
+            return try Self
                 .jsonDecoder()
                 .decode([LocalWasteBin].self, from: data)
         } catch {
@@ -129,7 +131,7 @@ struct LocalWasteServiceClient: LocalWasteServiceClientInterface {
     private func decodeLocalWasteScheduleError(_ data: Data)
     -> LocalWasteScheduleApiError {
         do {
-            let obj = try LocalWasteServiceClient
+            let obj = try Self
                 .jsonDecoder()
                 .decode(LocalWasteScheduleError.self, from: data)
             return .apiError(obj.message)
@@ -141,6 +143,11 @@ struct LocalWasteServiceClient: LocalWasteServiceClientInterface {
 
 extension LocalWasteServiceClient {
     static let baseUrl = URL(string: "https://emz0rzjkva.execute-api.eu-west-2.amazonaws.com")!
+
+    // hard-coded for the PoC
+    // in a production implementation we'd be using the OAuth token
+    static let securityKey = "x-api-key"
+    static let securityValue = "292b66db-ab9c-459d-bfc5-d1e157a1ffc9"
 
     static func url(path: String) -> URL? {
         URL(string: path, relativeTo: LocalWasteServiceClient.baseUrl)
