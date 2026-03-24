@@ -72,6 +72,16 @@ struct HomeCoordinatorTests {
         subject.showLastVisited()
         #expect(subject._didShowLastVisited == true)
     }
+    
+    @Test
+    @MainActor
+    func routeForURL() {
+        let mockCoodinatorBuilder = MockCoordinatorBuilder.mock
+        let subject = mockCoodinatorBuilder._mockHomeCoordinator
+        subject.start()
+        let route = subject.route(for: URL(string: "govuk://gov.uk/search")!)
+        #expect(route!.route.pattern == "/search")
+    }
 
     @Test
     @MainActor

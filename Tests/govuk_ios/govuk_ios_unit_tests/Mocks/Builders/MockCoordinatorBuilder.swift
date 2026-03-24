@@ -78,7 +78,10 @@ class MockCoordinatorBuilder: CoordinatorBuilder {
             navigationController: navigationController,
             coordinatorBuilder: mockCoodinatorBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
-            deeplinkStore: DeeplinkDataStore(routes: [], root: UIViewController()),
+            deeplinkStore: DeeplinkDataStore.home(
+                coordinatorBuilder: mockCoodinatorBuilder,
+                root: navigationController
+            ),
             analyticsService: MockAnalyticsService(),
             configService: MockAppConfigService(),
             topicsService: MockTopicsService(),
