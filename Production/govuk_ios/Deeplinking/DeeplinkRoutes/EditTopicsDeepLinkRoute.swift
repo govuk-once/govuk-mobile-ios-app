@@ -8,7 +8,7 @@ struct EditTopicsDeeplinkRoute: DeeplinkRoute {
     }
 
     var pattern: URLPattern {
-        "/edit-topics"
+        "/topics/edit"
     }
 
     @MainActor

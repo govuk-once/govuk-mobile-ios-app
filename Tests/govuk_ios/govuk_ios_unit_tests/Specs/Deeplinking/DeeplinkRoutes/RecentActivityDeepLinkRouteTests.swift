@@ -11,6 +11,6 @@ struct RecentActivityDeeplinkRouteTests {
         let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
         let subject = RecentActivityDeeplinkRoute(coordinatorBuilder: mockCoordinatorBuilder)
 
-        #expect(subject.pattern == "/recent-activity")
+        #expect(subject.pattern == "/visited")
     }
 }

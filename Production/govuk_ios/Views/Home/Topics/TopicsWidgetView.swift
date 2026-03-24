@@ -4,6 +4,7 @@ import GovKit
 
 struct TopicsWidgetView: View {
     @StateObject var viewModel: TopicsWidgetViewModel
+    @State var showingEditScreen: Bool = false
 
     var body: some View {
         VStack(spacing: 16) {
@@ -13,9 +14,7 @@ struct TopicsWidgetView: View {
                     button: .init(
                         localisedTitle: viewModel.editButtonTitle,
                         localisedAccessibilityLabel: viewModel.editButtonAccessibilityLabel,
-                        action: {
-                            viewModel.isEditingTopics.toggle()
-                        })
+                        action: { showingEditScreen.toggle() })
                 )
             )
             .opacity(viewModel.fetchTopicsError ? 0 : 1)
@@ -46,11 +45,13 @@ struct TopicsWidgetView: View {
         .onAppear {
             viewModel.refreshTopics()
             viewModel.initialLoadComplete = true
+            showingEditScreen = viewModel.isEditingTopics
         }
-        .sheet(isPresented: $viewModel.isEditingTopics,
+        .sheet(isPresented: $showingEditScreen,
                onDismiss: {
             viewModel.refreshTopics()
             viewModel.didDismissEdit()
+            viewModel.isEditingTopics = false
         }, content: {
             NavigationView {
                 EditTopicsView(
@@ -109,7 +110,7 @@ struct TopicsWidgetView: View {
 
     var emptyStateView: some View {
         Button {
-            viewModel.isEditingTopics.toggle()
+            showingEditScreen.toggle()
         } label: {
             VStack {
                 Spacer()

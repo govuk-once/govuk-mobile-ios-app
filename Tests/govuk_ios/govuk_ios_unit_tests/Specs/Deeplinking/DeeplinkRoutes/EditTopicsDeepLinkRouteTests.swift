@@ -11,6 +11,6 @@ struct EditTopicsDeeplinkRouteTests {
         let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
         let subject = EditTopicsDeeplinkRoute(coordinatorBuilder: mockCoordinatorBuilder)
 
-        #expect(subject.pattern == "/edit-topics")
+        #expect(subject.pattern == "/topics/edit")
     }
 }

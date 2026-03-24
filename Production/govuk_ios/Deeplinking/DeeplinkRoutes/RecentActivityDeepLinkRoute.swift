@@ -8,7 +8,7 @@ struct RecentActivityDeeplinkRoute: DeeplinkRoute {
     }
 
     var pattern: URLPattern {
-        "/recent-activity"
+        "/visited"
     }
 
     @MainActor
