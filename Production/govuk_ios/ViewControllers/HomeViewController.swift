@@ -215,6 +215,9 @@ class HomeViewController: BaseViewController {
     }
 
     func openSearch() {
+        if !view.subviews.contains(searchBar) {
+            configureSearchBar()
+        }
         searchBarShouldBeginEditing(searchBar)
     }
 
