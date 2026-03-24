@@ -13,6 +13,11 @@ extension View {
             .fixedSize(horizontal: false, vertical: true)
             .multilineTextAlignment(.leading)
     }
+    func title1BoldPrimary() -> some View {
+        self
+            .font(Font.govUK.title1Bold)
+            .foregroundColor(Color(UIColor.govUK.text.primary))
+    }
     func title3SemiboldPrimary() -> some View {
         self
             .font(Font.govUK.title3Semibold)

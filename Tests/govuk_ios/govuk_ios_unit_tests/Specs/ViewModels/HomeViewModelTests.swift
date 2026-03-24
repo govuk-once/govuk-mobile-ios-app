@@ -17,7 +17,8 @@ struct HomeViewModelTests {
         )
         let localWasteViewModel = LocalWasteWidgetViewModel(
             service: MockLocalWasteService(),
-            openEditViewAction: { }
+            openEditViewAction: { },
+            openScheduleViewAction: { }
         )
         let mockConfigService = MockAppConfigService()
         mockConfigService._stubbedEmergencyBanners =
@@ -96,7 +97,8 @@ struct HomeViewModelTests {
         )
         let localWasteViewModel = LocalWasteWidgetViewModel(
             service: MockLocalWasteService(),
-            openEditViewAction: { }
+            openEditViewAction: { },
+            openScheduleViewAction: { }
         )
         let subject = HomeViewModel(
             analyticsService: MockAnalyticsService(),
@@ -135,7 +137,8 @@ struct HomeViewModelTests {
         )
         let localWasteViewModel = LocalWasteWidgetViewModel(
             service: MockLocalWasteService(),
-            openEditViewAction: { }
+            openEditViewAction: { },
+            openScheduleViewAction: { }
         )
 
         let mockConfigService = MockAppConfigService()

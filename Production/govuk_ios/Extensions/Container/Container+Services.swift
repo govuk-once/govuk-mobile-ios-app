@@ -88,7 +88,7 @@ extension Container {
                 serviceClient: self.localWasteServiceClient(),
                 repository: self.localWasteRepository()
             )
-        }
+        }.singleton
     }
 
     var appLaunchService: Factory<AppLaunchServiceInterface> {

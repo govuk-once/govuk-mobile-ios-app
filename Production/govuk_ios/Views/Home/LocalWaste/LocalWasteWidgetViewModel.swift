@@ -11,32 +11,6 @@ final class LocalWasteWidgetViewModel: ObservableObject {
         case error
     }
 
-    struct ItemViewModel: Identifiable, Hashable {
-        let color: LocalWasteBinColor?
-        let title: String
-        let description: String?
-        let accessibilityLabel: String
-        let id: String
-
-        init(color: LocalWasteBinColor?,
-             title: String,
-             description: String?) {
-            self.color = color
-            self.title = title
-            self.description = description
-            self.id = "\(color?.rawValue ?? "")!\(title)!\(description ?? "")"
-
-            var accessibilityLabel = title
-            if let colorAccessibility = color?.accessibilityLabel {
-                accessibilityLabel += ", \(colorAccessibility)"
-            }
-            if let description {
-                accessibilityLabel += ", \(description)"
-            }
-            self.accessibilityLabel = accessibilityLabel
-        }
-    }
-
     @Published
     private(set) var viewState: ViewState = .initial
 
@@ -57,9 +31,14 @@ final class LocalWasteWidgetViewModel: ObservableObject {
     private(set) var dueDate: String = ""
 
     @Published
-    private(set) var items: [ItemViewModel] = []
+    private(set) var items: [LocalWasteScheduleItemViewModel] = []
+
+    @Published
+    private(set) var isScheduleAvailable: Bool = false
 
     let openEditViewAction: () -> Void
+
+    let openScheduleViewAction: () -> Void
 
     let title: String = String.localWaste.localized(
         "localWasteTitle"
@@ -85,15 +64,22 @@ final class LocalWasteWidgetViewModel: ObservableObject {
     let tryAgainButton: String = String.localWaste.localized(
         "localWasteWidgetViewTryAgainButton"
     )
+    let scheduleButton = String.localWaste.localized(
+        "localWasteWidgetViewScheduleButton"
+    )
 
     private let service: LocalWasteServiceInterface
 
     private var initialBindTask: Task<Void, Never>?
 
+    private var cachedSchedule: [LocalWasteBin]?
+
     init(service: LocalWasteServiceInterface,
-         openEditViewAction: @escaping () -> Void) {
+         openEditViewAction: @escaping () -> Void,
+         openScheduleViewAction: @escaping () -> Void) {
         self.service = service
         self.openEditViewAction = openEditViewAction
+        self.openScheduleViewAction = openScheduleViewAction
     }
 
     func startLoadingIfViewStateInitial() {
@@ -127,21 +113,22 @@ final class LocalWasteWidgetViewModel: ObservableObject {
             schedule = try await service.fetchSchedule(
                 uprn: addressObj.uprn,
                 localCustodianCode: addressObj.localCustodianCode)
+
+            cachedSchedule = schedule
         } catch {
             viewState = .error
             return
         }
 
-        let today = Calendar.current.startOfDay(for: Date())
-        let scheduleTodayOrLater = schedule.filter { $0.date >= today }
-        let nextDate = scheduleTodayOrLater.min(by: {$0.date < $1.date})?.date
-        let nextItems = scheduleTodayOrLater.filter { $0.date == nextDate }
+        let scheduleTodayOrLater = schedule.todayOrLater()
+        let nextDate = scheduleTodayOrLater.minDate()
+        let nextItems = scheduleTodayOrLater
+            .filter { $0.date == nextDate }
+            .sortedAscending()
 
-        items = nextItems.map {
-            .init(color: $0.color,
-                  title: $0.name,
-                  description: $0.content)
-        }
+        items = nextItems.toItemViewModels()
+
+        isScheduleAvailable = scheduleTodayOrLater.count > nextItems.count
 
         address = addressObj.addressFull
 
@@ -154,29 +141,19 @@ final class LocalWasteWidgetViewModel: ObservableObject {
         viewState = .ready
     }
 
-    private func formatDueDate(from date: Date) -> String {
-        let calendar = Calendar.current
-
-        if calendar.isDateInToday(date) {
-            return String.localWaste.localized("localWasteWidgetViewDueToday")
-        }
-        if calendar.isDateInTomorrow(date) {
-            return String.localWaste.localized("localWasteWidgetViewDueTomorrow")
-        }
-
-        let formatter = DateFormatter()
-        formatter.setLocalizedDateFormatFromTemplate("EEEE, MMMM d")
-
-        return formatter.string(from: date)
-    }
-
     private func dueDateLabel(from date: Date) -> String {
-        let dueDateString = formatDueDate(from: date)
+        let dueDateString = date.localWasteFormattedCollectionDate()
 
         let formatSting = String.localWaste.localized(
             "localWasteWidgetViewDueDateLabelFormat"
         )
         return String(format: formatSting, dueDateString)
+    }
+
+    func onViewScheduleTapped() {
+        guard let cachedSchedule = cachedSchedule else { return }
+        service.pushScheduleCache(cachedSchedule)
+        openScheduleViewAction()
     }
 }
 
@@ -208,5 +185,50 @@ extension LocalWasteBinColor {
             "localWasteColorAccessibilityPurple"
         )
         }
+    }
+}
+
+extension Array where Element == LocalWasteBin {
+    func todayOrLater() -> [LocalWasteBin] {
+        let minDate = Calendar.current.startOfDay(for: Date())
+        let maxDate = Calendar.current.date(byAdding: .day, value: 90, to: minDate)!
+        return self.filter { $0.date >= minDate && $0.date <= maxDate }
+    }
+    func minDate() -> Date? {
+        self.min(by: {$0.date < $1.date})?.date
+    }
+    func sortedAscending() -> [LocalWasteBin] {
+        self.sorted(by: {
+            if $0.date != $1.date {
+                return $0.date < $1.date
+            } else {
+                return $0.name < $1.name
+            }
+        })
+    }
+    func toItemViewModels() -> [LocalWasteScheduleItemViewModel] {
+        self.map {
+            .init(color: $0.color,
+                  title: $0.name,
+                  description: $0.content)
+        }
+    }
+}
+
+private extension Date {
+    func localWasteFormattedCollectionDate() -> String {
+        let calendar = Calendar.current
+
+        if calendar.isDateInToday(self) {
+            return String.localWaste.localized("localWasteWidgetViewDueToday")
+        }
+        if calendar.isDateInTomorrow(self) {
+            return String.localWaste.localized("localWasteWidgetViewDueTomorrow")
+        }
+
+        let formatter = DateFormatter()
+        formatter.setLocalizedDateFormatFromTemplate("EEEE, MMMM d")
+
+        return formatter.string(from: self)
     }
 }

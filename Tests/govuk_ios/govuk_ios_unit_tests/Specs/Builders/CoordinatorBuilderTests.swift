@@ -241,6 +241,18 @@ struct CoordinatorBuilderTests {
     }
 
     @Test
+    func localWasteSchedule_returnsExpectedResult() {
+        let subject = CoordinatorBuilder(container: Container())
+        let mockNavigationController = MockNavigationController()
+        let coordinator = subject.localWasteSchedule(
+            navigationController: mockNavigationController,
+            dismissAction: {}
+        )
+        let isExpectedType = coordinator is LocalWasteScheduleCoordinator
+        #expect(isExpectedType)
+    }
+
+    @Test
     func topicOnboarding_returnsExpectedResult() {
         let subject = CoordinatorBuilder(container: Container())
         let mockNavigationController = MockNavigationController()

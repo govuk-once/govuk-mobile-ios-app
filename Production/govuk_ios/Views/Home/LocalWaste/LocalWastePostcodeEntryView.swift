@@ -6,9 +6,6 @@ struct LocalWastePostcodeEntryView: View {
     @StateObject
     private var viewModel: LocalWastePostcodeEntryViewModel
 
-    @Environment(\.verticalSizeClass)
-    var verticalSizeClass
-
     @AccessibilityFocusState(for: .voiceOver)
     private var isErrorFocused: Bool
 
@@ -30,25 +27,11 @@ struct LocalWastePostcodeEntryView: View {
     init(viewModel: LocalWastePostcodeEntryViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
+
     var body: some View {
         ZStack {
             Color(uiColor: .govUK.fills.surfaceModal)
             VStack {
-                HStack {
-                    Spacer()
-                    Button(
-                        action: {
-                            viewModel.dismissAction()
-                        }, label: {
-                            Text(viewModel.cancelButton)
-                                .foregroundColor(
-                                    Color(UIColor.govUK.text.linkSecondary)
-                                )
-                                .font(Font.govUK.subheadlineSemibold)
-                        }
-                    )
-                }
-                .padding(16)
                 ScrollView {
                     VStack(alignment: .leading, spacing: 15) {
                         Text(viewModel.viewTitle)
@@ -110,10 +93,22 @@ struct LocalWastePostcodeEntryView: View {
                     .padding(.bottom, 16)
             }
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                cancelButton
+            }
             .onAppear {
                 viewModel.trackScreen(screen: self)
             }
             .animation(.linear, value: viewModel.error)
+        }
+    }
+
+    private var cancelButton: some ToolbarContent {
+        ToolbarItem(placement: ToolbarItemPlacement.confirmationAction) {
+            Button(viewModel.cancelButton) {
+                viewModel.dismissAction()
+            }
+            .foregroundColor(Color(UIColor.govUK.text.linkSecondary))
         }
     }
 }

@@ -220,7 +220,7 @@ class ViewControllerBuilder {
         )
         let viewController  = HostingViewController(
             rootView: view,
-            navigationBarHidden: true
+            navigationBarTintColor: .govUK.text.linkSecondary
         )
         viewController.view.backgroundColor = .govUK.fills.surfaceModal
         return viewController
@@ -241,6 +241,27 @@ class ViewControllerBuilder {
             doneAction: doneAction
         )
         let view = LocalWasteAddressSelectionView(
+            viewModel: viewModel
+        )
+        let viewController = HostingViewController(
+            rootView: view,
+            navigationBarTintColor: .govUK.text.linkSecondary
+        )
+        viewController.view.backgroundColor = .govUK.fills.surfaceModal
+        return viewController
+    }
+
+    func localWasteScheduleView(
+        analyticsService: AnalyticsServiceInterface,
+        localWasteService: LocalWasteServiceInterface,
+        dismissAction: @escaping () -> Void
+    ) -> UIViewController {
+        let viewModel = LocalWasteScheduleViewModel(
+            service: localWasteService,
+            analyticsService: analyticsService,
+            dismissAction: dismissAction
+        )
+        let view = LocalWasteScheduleView(
             viewModel: viewModel
         )
         let viewController = HostingViewController(

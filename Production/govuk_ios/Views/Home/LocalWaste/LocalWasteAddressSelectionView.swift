@@ -43,10 +43,6 @@ struct LocalWasteAddressSelectionView: View {
             .toolbar {
                 cancelButton
             }
-            .toolbarBackground(
-                Color(uiColor: .govUK.fills.surfaceModal),
-            )
-            .toolbarBackground(.visible)
             .onAppear {
                 viewModel.trackScreen(screen: self)
             }

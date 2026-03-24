@@ -292,6 +292,12 @@
 		619342C02F5B153200C5AB7F /* LocalWastePostcodeEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619342BF2F5B153200C5AB7F /* LocalWastePostcodeEntryView.swift */; };
 		619342C22F5B158600C5AB7F /* LocalWastePostcodeEntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619342C12F5B158600C5AB7F /* LocalWastePostcodeEntryViewModel.swift */; };
 		619342C42F5B1C5F00C5AB7F /* EditLocalWasteCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619342C32F5B1C5F00C5AB7F /* EditLocalWasteCoordinator.swift */; };
+		61A9DCEE2F6D82910051DC80 /* LocalWasteScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A9DCED2F6D82910051DC80 /* LocalWasteScheduleView.swift */; };
+		61A9DCF02F6D831B0051DC80 /* LocalWasteScheduleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A9DCEF2F6D831B0051DC80 /* LocalWasteScheduleViewModel.swift */; };
+		61A9DCF22F6D94760051DC80 /* LocalWasteScheduleItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A9DCF12F6D946C0051DC80 /* LocalWasteScheduleItemViewModel.swift */; };
+		61A9DCF42F6D96A20051DC80 /* LocalWasteScheduleCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A9DCF32F6D96A20051DC80 /* LocalWasteScheduleCoordinator.swift */; };
+		61A9DCFA2F71541E0051DC80 /* ModalNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A9DCF92F71541C0051DC80 /* ModalNavigationController.swift */; };
+		61A9DCFC2F7196510051DC80 /* LocalWasteScheduleItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A9DCFB2F7196510051DC80 /* LocalWasteScheduleItemView.swift */; };
 		61B4B5942F5EFA7600C75ED4 /* LocalWasteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61B4B5932F5EFA7600C75ED4 /* LocalWasteService.swift */; };
 		61B4B5962F5EFB2300C75ED4 /* LocalWasteServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61B4B5952F5EFB2300C75ED4 /* LocalWasteServiceClient.swift */; };
 		61B4B5992F5EFBD400C75ED4 /* LocalWasteAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61B4B5982F5EFBD400C75ED4 /* LocalWasteAddress.swift */; };
@@ -768,6 +774,12 @@
 		619342BF2F5B153200C5AB7F /* LocalWastePostcodeEntryView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalWastePostcodeEntryView.swift; sourceTree = "<group>"; };
 		619342C12F5B158600C5AB7F /* LocalWastePostcodeEntryViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalWastePostcodeEntryViewModel.swift; sourceTree = "<group>"; };
 		619342C32F5B1C5F00C5AB7F /* EditLocalWasteCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditLocalWasteCoordinator.swift; sourceTree = "<group>"; };
+		61A9DCED2F6D82910051DC80 /* LocalWasteScheduleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalWasteScheduleView.swift; sourceTree = "<group>"; };
+		61A9DCEF2F6D831B0051DC80 /* LocalWasteScheduleViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalWasteScheduleViewModel.swift; sourceTree = "<group>"; };
+		61A9DCF12F6D946C0051DC80 /* LocalWasteScheduleItemViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalWasteScheduleItemViewModel.swift; sourceTree = "<group>"; };
+		61A9DCF32F6D96A20051DC80 /* LocalWasteScheduleCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalWasteScheduleCoordinator.swift; sourceTree = "<group>"; };
+		61A9DCF92F71541C0051DC80 /* ModalNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalNavigationController.swift; sourceTree = "<group>"; };
+		61A9DCFB2F7196510051DC80 /* LocalWasteScheduleItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalWasteScheduleItemView.swift; sourceTree = "<group>"; };
 		61B4B5932F5EFA7600C75ED4 /* LocalWasteService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalWasteService.swift; sourceTree = "<group>"; };
 		61B4B5952F5EFB2300C75ED4 /* LocalWasteServiceClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalWasteServiceClient.swift; sourceTree = "<group>"; };
 		61B4B5982F5EFBD400C75ED4 /* LocalWasteAddress.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalWasteAddress.swift; sourceTree = "<group>"; };
@@ -954,6 +966,7 @@
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/LocalAuthorityWidgetViewControllerSnapshots.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/LocalWasteAddressSelectionViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/LocalWastePostcodeEntryViewControllerSnapshotTests.swift,
+				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/LocalWasteScheduleViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/LocalWasteWidgetViewControllerSnapshots.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/NonTappableCardViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/NotificationConsentAlertViewControllerSnapshotTests.swift,
@@ -1018,6 +1031,7 @@
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/LocalAuthorityWidgetViewControllerSnapshots.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/LocalWasteAddressSelectionViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/LocalWastePostcodeEntryViewControllerSnapshotTests.swift,
+				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/LocalWasteScheduleViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/LocalWasteWidgetViewControllerSnapshots.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/NonTappableCardViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/NotificationConsentAlertViewControllerSnapshotTests.swift,
@@ -1710,6 +1724,7 @@
 				166248232C4AC91E009F7E58 /* HomeCoordinator.swift */,
 				1677D4012E00643000FB1E56 /* LocalAuthenticationSettingsCoordinator.swift */,
 				4EB7D8502DB85A33002B6765 /* LocalAuthorityServiceCoordinator.swift */,
+				61A9DCF32F6D96A20051DC80 /* LocalWasteScheduleCoordinator.swift */,
 				5DDD58882D5A556A001C0B3E /* NotificationOnboardingCoordinator.swift */,
 				4E0043132D9BE25D00DDDA8A /* NotificationSettingsCoordinator.swift */,
 				D0AC166E2E8ADBDB00AACE5C /* PrivacyCoordinator.swift */,
@@ -1818,6 +1833,7 @@
 		5DAD71A82BD254730075F648 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				61A9DCF92F71541C0051DC80 /* ModalNavigationController.swift */,
 				5D6B90142DCB7F0000D36463 /* NotificationConsentAlertViewController.swift */,
 				166BDDB52C330D1C00437AE0 /* HomeViewController.swift */,
 				5D54A82D2BFCAA4E003D0C21 /* LaunchViewController.swift */,
@@ -2089,6 +2105,8 @@
 				61386A362F683AE500E190CE /* ForEachWithSeparator.swift */,
 				61B4B59C2F600B8C00C75ED4 /* LocalWasteAddressSelectionView.swift */,
 				619342BF2F5B153200C5AB7F /* LocalWastePostcodeEntryView.swift */,
+				61A9DCFB2F7196510051DC80 /* LocalWasteScheduleItemView.swift */,
+				61A9DCED2F6D82910051DC80 /* LocalWasteScheduleView.swift */,
 				6177F3212F62B7FB00C547F6 /* LocalWasteWidgetView.swift */,
 				C8A1E0262F55B68800730517 /* UnsetLocalWasteWidgetView.swift */,
 			);
@@ -2098,8 +2116,10 @@
 		C8A1E0282F55B8B500730517 /* LocalWaste */ = {
 			isa = PBXGroup;
 			children = (
+				61A9DCF12F6D946C0051DC80 /* LocalWasteScheduleItemViewModel.swift */,
 				61B4B59E2F600B9C00C75ED4 /* LocalWasteAddressSelectionViewModel.swift */,
 				619342C12F5B158600C5AB7F /* LocalWastePostcodeEntryViewModel.swift */,
+				61A9DCEF2F6D831B0051DC80 /* LocalWasteScheduleViewModel.swift */,
 				6177F3232F62B83600C547F6 /* LocalWasteWidgetViewModel.swift */,
 				C8A1E0292F55B8D400730517 /* UnsetLocalWasteWidgetViewModel.swift */,
 			);
@@ -2640,6 +2660,7 @@
 				D02416472DEDC0C500F81C6D /* SignInSuccessCoordinator.swift in Sources */,
 				D0EC94C72DCBAEE400A9707E /* SignInErrorViewModel.swift in Sources */,
 				5DE2BBBC2C982593003116B6 /* Bundle+Extensions.swift in Sources */,
+				61A9DCEE2F6D82910051DC80 /* LocalWasteScheduleView.swift in Sources */,
 				4EEC0F342DBB7CDA00D745F2 /* StoredLocalAuthorityCardView.swift in Sources */,
 				160EA7552C5B0401008F97AF /* SettingsViewModel.swift in Sources */,
 				5DC04B902C2D71440036EF2B /* ViewControllerBuilder.swift in Sources */,
@@ -2749,6 +2770,7 @@
 				D052CCE02E0B09AA0048F98A /* ChatCellView.swift in Sources */,
 				4EB7D8512DB85A33002B6765 /* LocalAuthorityServiceCoordinator.swift in Sources */,
 				D0D9CFD52D302F2A0051EDDD /* SearchHistoryRepository.swift in Sources */,
+				61A9DCFA2F71541E0051DC80 /* ModalNavigationController.swift in Sources */,
 				D09046812DBFD8480096EE66 /* InfoView.swift in Sources */,
 				D093BA632CB0499A004F489B /* EditTopicsView.swift in Sources */,
 				5DD4CB082D95483100459FB5 /* ActivityItem.swift in Sources */,
@@ -2762,6 +2784,7 @@
 				1618EFAB2F44D661008EF26B /* TermsAndConditionsView.swift in Sources */,
 				16FD684A2D39AEB5002F1597 /* SuggestionHighlighterProcessor.swift in Sources */,
 				5D79AEC02C32B9180061F344 /* AnimationView.swift in Sources */,
+				61A9DCF42F6D96A20051DC80 /* LocalWasteScheduleCoordinator.swift in Sources */,
 				5D9E67C82C5A2E1700DB7877 /* DividerView.swift in Sources */,
 				1633812A2E533A9300AC1CED /* AppEvent+Chat.swift in Sources */,
 				5DD4C7972D9547D600459FB5 /* AppEvent+RecentActivity.swift in Sources */,
@@ -2788,6 +2811,7 @@
 				61B4BC682F617AFE00C75ED4 /* LocalWasteRepository.swift in Sources */,
 				5D0BD4592C9B1BBA00220625 /* SearchServiceClient.swift in Sources */,
 				61E69E782F5ADDBF00AACBFA /* View+Styling.swift in Sources */,
+				61A9DCF02F6D831B0051DC80 /* LocalWasteScheduleViewModel.swift in Sources */,
 				5D66D19A2CBFF51100006723 /* AppEvent+Topics.swift in Sources */,
 				5DFE5F1E2D6DE5900041E3B4 /* UNUserNotificationCenter+Interface.swift in Sources */,
 				4EBCA3272DAC541B0063A723 /* LocalAuthorityService.swift in Sources */,
@@ -2835,6 +2859,7 @@
 				D07E7A582DAE662A00B92D40 /* LocalAuthorityRepository.swift in Sources */,
 				5DD4CB102D95485200459FB5 /* DateFormatter+Convenience.swift in Sources */,
 				16A435932F193EE1000AAAA6 /* AlertDetails.swift in Sources */,
+				61A9DCF22F6D94760051DC80 /* LocalWasteScheduleItemViewModel.swift in Sources */,
 				D0AC166F2E8ADBDB00AACE5C /* PrivacyCoordinator.swift in Sources */,
 				5D18E83E2CCFB68900F20419 /* Container+APIClients.swift in Sources */,
 				D0D9CB932D3024C00051EDDD /* SearchResult.swift in Sources */,
@@ -2860,6 +2885,7 @@
 				D028CD0E2CBFEA4E00742620 /* TopicDetailViewModel.swift in Sources */,
 				D052CA362E0B08CF0048F98A /* ChatCellViewModel.swift in Sources */,
 				4E5ED2012C6E06FB00750BDA /* AppConfigService.swift in Sources */,
+				61A9DCFC2F7196510051DC80 /* LocalWasteScheduleItemView.swift in Sources */,
 				4E9AFCE32C99D43B00DBF66F /* AnalyticsConsentContainerView.swift in Sources */,
 				D04C542E2D7082000070EE79 /* ECommerceItem.swift in Sources */,
 				5D899A222C946F8A0074C0AD /* UIBarButtonItem+Convenience.swift in Sources */,

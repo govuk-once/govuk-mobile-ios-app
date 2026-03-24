@@ -155,35 +155,8 @@ struct LocalWasteWidgetView: View {
             ForEachWithSeparator(
                 viewModel.items,
                 id: \.id,
-                content: { item in
-                    HStack(alignment: .center, spacing: 0) {
-                        if let color = item.color {
-                            color.toColor()
-                                .frame(width: 40, height: 40)
-                                .clipShape(Circle())
-                                .padding(.vertical, 16)
-                        } else {
-                            Image(.localUnknownIcon)
-                                .padding(.vertical, 16)
-                        }
-
-                        Spacer().frame(width: 16)
-
-                        VStack(alignment: .leading, spacing: 0) {
-                            Text(item.title)
-                                .headlineSemiboldPrimary()
-                                .maxWidthMultilineLeading()
-                            if let description = item.description {
-                                Text(description)
-                                    .subheadlineSecondary()
-                                    .maxWidthMultilineLeading()
-                            }
-                        }
-                        .padding(.vertical, 16)
-                    }
-                    .contentShape(Rectangle())
-                    .accessibilityElement(children: .ignore)
-                    .accessibilityLabel(item.accessibilityLabel)
+                content: {
+                    LocalWasteScheduleItemView(item: $0)
                 },
                 separator: {
                     Divider()
@@ -191,6 +164,17 @@ struct LocalWasteWidgetView: View {
                         .padding(.leading, 56)
                 }
             )
+
+            if viewModel.isScheduleAvailable {
+                Button(action: {
+                    viewModel.onViewScheduleTapped()
+                }, label: {
+                    Text(viewModel.scheduleButton)
+                        .font(Font.govUK.body)
+                        .foregroundColor(Color(UIColor.govUK.text.link))
+                        .padding(.vertical, 8)
+                })
+            }
         }
     }
 }
@@ -217,5 +201,3 @@ extension LocalWasteBinColor {
         }
     }
 }
-
-private typealias ItemViewModel = LocalWasteWidgetViewModel.ItemViewModel

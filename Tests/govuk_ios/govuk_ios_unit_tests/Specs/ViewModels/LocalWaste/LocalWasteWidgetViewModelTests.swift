@@ -12,7 +12,8 @@ struct LocalWasteWidgetViewModelTests {
     func title_returnsCorrectValue() throws {
         let sut = LocalWasteWidgetViewModel(
             service: MockLocalWasteService(),
-            openEditViewAction: { }
+            openEditViewAction: { },
+            openScheduleViewAction: { }
         )
         let expected = String.localWaste.localized(
             "localWasteTitle"
@@ -24,7 +25,8 @@ struct LocalWasteWidgetViewModelTests {
     func editButton_returnsCorrectValue() throws {
         let sut = LocalWasteWidgetViewModel(
             service: MockLocalWasteService(),
-            openEditViewAction: { }
+            openEditViewAction: { },
+            openScheduleViewAction: { }
         )
         let expected = String.common.localized(
             "editButtonTitle"
@@ -33,10 +35,24 @@ struct LocalWasteWidgetViewModelTests {
     }
 
     @Test
+    func scheduleButton_returnsCorrectValue() throws {
+        let sut = LocalWasteWidgetViewModel(
+            service: MockLocalWasteService(),
+            openEditViewAction: { },
+            openScheduleViewAction: { }
+        )
+        let expected = String.localWaste.localized(
+            "localWasteWidgetViewScheduleButton"
+        )
+        #expect(sut.scheduleButton == expected)
+    }
+
+    @Test
     func editButtonAccessibilityLabel_returnsCorrectValue() throws {
         let sut = LocalWasteWidgetViewModel(
             service: MockLocalWasteService(),
-            openEditViewAction: { }
+            openEditViewAction: { },
+            openScheduleViewAction: { }
         )
         let expected = String.localWaste.localized(
             "localWasteEditButtonAccessibilityLabel"
@@ -48,7 +64,8 @@ struct LocalWasteWidgetViewModelTests {
     func loadingAccessibilityLabel_returnsCorrectValue() throws {
         let sut = LocalWasteWidgetViewModel(
             service: MockLocalWasteService(),
-            openEditViewAction: { }
+            openEditViewAction: { },
+            openScheduleViewAction: { }
         )
         let expected = String.localWaste.localized(
             "localWasteWidgetViewLoadingAccessibilityLabel"
@@ -60,7 +77,8 @@ struct LocalWasteWidgetViewModelTests {
     func dueTimeLabel_returnsCorrectValue() throws {
         let sut = LocalWasteWidgetViewModel(
             service: MockLocalWasteService(),
-            openEditViewAction: { }
+            openEditViewAction: { },
+            openScheduleViewAction: { }
         )
         let expected = String.localWaste.localized(
             "localWasteWidgetViewDueTimeLabel"
@@ -72,7 +90,8 @@ struct LocalWasteWidgetViewModelTests {
     func emptyLabel_returnsCorrectValue() throws {
         let sut = LocalWasteWidgetViewModel(
             service: MockLocalWasteService(),
-            openEditViewAction: { }
+            openEditViewAction: { },
+            openScheduleViewAction: { }
         )
         let expected = String.localWaste.localized(
             "localWasteWidgetViewEmptyLabel"
@@ -84,7 +103,8 @@ struct LocalWasteWidgetViewModelTests {
     func errorLabel_returnsCorrectValue() throws {
         let sut = LocalWasteWidgetViewModel(
             service: MockLocalWasteService(),
-            openEditViewAction: { }
+            openEditViewAction: { },
+            openScheduleViewAction: { }
         )
         let expected = String.localWaste.localized(
             "localWasteWidgetViewErrorLabel"
@@ -96,7 +116,8 @@ struct LocalWasteWidgetViewModelTests {
     func tryAgainButton_returnsCorrectValue() throws {
         let sut = LocalWasteWidgetViewModel(
             service: MockLocalWasteService(),
-            openEditViewAction: { }
+            openEditViewAction: { },
+            openScheduleViewAction: { }
         )
         let expected = String.localWaste.localized(
             "localWasteWidgetViewTryAgainButton"
@@ -110,7 +131,8 @@ struct LocalWasteWidgetViewModelTests {
         mockLocalWasteService._dataFetchAddress = nil
         let sut = LocalWasteWidgetViewModel(
             service: mockLocalWasteService,
-            openEditViewAction: { }
+            openEditViewAction: { },
+            openScheduleViewAction: { }
         )
 
         await sut.load()
@@ -129,7 +151,8 @@ struct LocalWasteWidgetViewModelTests {
         mockLocalWasteService._errorFetchSchedule = .apiUnavailable
         let sut = LocalWasteWidgetViewModel(
             service: mockLocalWasteService,
-            openEditViewAction: { }
+            openEditViewAction: { },
+            openScheduleViewAction: { }
         )
 
         await sut.load()
@@ -137,6 +160,7 @@ struct LocalWasteWidgetViewModelTests {
         #expect(sut.address == "")
         #expect(sut.addressAccessibilityLabel == "")
         #expect(sut.dueDate == "")
+        #expect(sut.isScheduleAvailable == false)
         #expect(sut.items == [])
     }
 
@@ -147,7 +171,8 @@ struct LocalWasteWidgetViewModelTests {
         mockLocalWasteService._dataFetchSchedule = Constants.schedule
         let sut = LocalWasteWidgetViewModel(
             service: mockLocalWasteService,
-            openEditViewAction: { }
+            openEditViewAction: { },
+            openScheduleViewAction: { }
         )
 
         await sut.load()
@@ -164,7 +189,8 @@ struct LocalWasteWidgetViewModelTests {
         mockLocalWasteService._dataFetchSchedule = []
         let sut = LocalWasteWidgetViewModel(
             service: mockLocalWasteService,
-            openEditViewAction: { }
+            openEditViewAction: { },
+            openScheduleViewAction: { }
         )
 
         await sut.load()
@@ -173,6 +199,7 @@ struct LocalWasteWidgetViewModelTests {
         #expect(sut.dueDate == "")
         #expect(sut.address == Constants.address.addressFull)
         #expect(sut.addressAccessibilityLabel == "Your address: \(Constants.address.addressFull)")
+        #expect(sut.isScheduleAvailable == false)
         #expect(sut.viewState == .ready)
     }
 
@@ -183,7 +210,8 @@ struct LocalWasteWidgetViewModelTests {
         mockLocalWasteService._dataFetchSchedule = Constants.schedule
         let sut = LocalWasteWidgetViewModel(
             service: mockLocalWasteService,
-            openEditViewAction: { }
+            openEditViewAction: { },
+            openScheduleViewAction: { }
         )
         let expectedSchedule: [ItemViewModel] = [
             .init(color: .black,
@@ -210,13 +238,92 @@ struct LocalWasteWidgetViewModelTests {
         mockLocalWasteService._dataFetchSchedule = Constants.schedule
         let sut = LocalWasteWidgetViewModel(
             service: mockLocalWasteService,
-            openEditViewAction: { }
+            openEditViewAction: { },
+            openScheduleViewAction: { }
         )
 
         await sut.load()
 
         #expect(sut.dueDate == "Due today")
         #expect(sut.viewState == .ready)
+    }
+
+    @Test
+    func fetchSchedule_serviceReturnsSchedule_multipleDays_isScheduleAvailable() async throws {
+        let mockLocalWasteService = MockLocalWasteService()
+        mockLocalWasteService._dataFetchAddress = Constants.address
+        mockLocalWasteService._dataFetchSchedule = [
+            .init(date: Constants.today(),
+                  name: "General Waste",
+                  color: .black,
+                  content: "All waste"),
+            .init(date: Constants.tomorrow(),
+                  name: "Recycling",
+                  color: .green,
+                  content: "All recycling"),
+        ]
+
+        let sut = LocalWasteWidgetViewModel(
+            service: mockLocalWasteService,
+            openEditViewAction: { },
+            openScheduleViewAction: { }
+        )
+
+        await sut.load()
+
+        #expect(sut.isScheduleAvailable == true)
+    }
+
+    @Test
+    func fetchSchedule_serviceReturnsSchedule_multipleDaysIgnorePast_isScheduleAvailable() async throws {
+        let mockLocalWasteService = MockLocalWasteService()
+        mockLocalWasteService._dataFetchAddress = Constants.address
+        mockLocalWasteService._dataFetchSchedule = [
+            .init(date: Constants.yesterday(),
+                  name: "General Waste",
+                  color: .black,
+                  content: "All waste"),
+            .init(date: Constants.today(),
+                  name: "Recycling",
+                  color: .green,
+                  content: "All recycling"),
+        ]
+
+        let sut = LocalWasteWidgetViewModel(
+            service: mockLocalWasteService,
+            openEditViewAction: { },
+            openScheduleViewAction: { }
+        )
+
+        await sut.load()
+
+        #expect(sut.isScheduleAvailable == false)
+    }
+
+    @Test
+    func fetchSchedule_serviceReturnsSchedule_singleDay_isScheduleAvailable() async throws {
+        let mockLocalWasteService = MockLocalWasteService()
+        mockLocalWasteService._dataFetchAddress = Constants.address
+        mockLocalWasteService._dataFetchSchedule = [
+            .init(date: Constants.today(),
+                  name: "General Waste",
+                  color: .black,
+                  content: "All waste"),
+            .init(date: Constants.today(),
+                  name: "Recycling",
+                  color: .green,
+                  content: "All recycling"),
+        ]
+
+        let sut = LocalWasteWidgetViewModel(
+            service: mockLocalWasteService,
+            openEditViewAction: { },
+            openScheduleViewAction: { }
+        )
+
+        await sut.load()
+
+        #expect(sut.isScheduleAvailable == false)
     }
 
     @Test
@@ -232,7 +339,8 @@ struct LocalWasteWidgetViewModelTests {
 
         let sut = LocalWasteWidgetViewModel(
             service: mockLocalWasteService,
-            openEditViewAction: { }
+            openEditViewAction: { },
+            openScheduleViewAction: { }
         )
 
         await sut.load()
@@ -254,7 +362,8 @@ struct LocalWasteWidgetViewModelTests {
 
         let sut = LocalWasteWidgetViewModel(
             service: mockLocalWasteService,
-            openEditViewAction: { }
+            openEditViewAction: { },
+            openScheduleViewAction: { }
         )
 
         await sut.load()
@@ -280,7 +389,8 @@ struct LocalWasteWidgetViewModelTests {
 
         let sut = LocalWasteWidgetViewModel(
             service: mockLocalWasteService,
-            openEditViewAction: { }
+            openEditViewAction: { },
+            openScheduleViewAction: { }
         )
 
         await sut.load()
@@ -305,7 +415,8 @@ struct LocalWasteWidgetViewModelTests {
 
         let sut = LocalWasteWidgetViewModel(
             service: mockLocalWasteService,
-            openEditViewAction: { }
+            openEditViewAction: { },
+            openScheduleViewAction: { }
         )
 
         await sut.load()
@@ -341,7 +452,8 @@ struct LocalWasteWidgetViewModelTests {
 
         let sut = LocalWasteWidgetViewModel(
             service: mockLocalWasteService,
-            openEditViewAction: { }
+            openEditViewAction: { },
+            openScheduleViewAction: { }
         )
 
         await sut.load()
@@ -357,13 +469,51 @@ struct LocalWasteWidgetViewModelTests {
     }
 
     @Test
+    func onViewScheduleTapped_pushScheduleCache() async throws {
+        let mockLocalWasteService = MockLocalWasteService()
+        mockLocalWasteService._dataFetchAddress = Constants.address
+        mockLocalWasteService._dataFetchSchedule = Constants.schedule
+        let sut = LocalWasteWidgetViewModel(
+            service: mockLocalWasteService,
+            openEditViewAction: { },
+            openScheduleViewAction: { }
+        )
+        await sut.load()
+
+        sut.onViewScheduleTapped()
+
+        #expect(mockLocalWasteService._scheduleCache == Constants.schedule)
+    }
+
+    @Test
+    func onViewScheduleTapped_callsScheduleViewAction() async throws {
+        let mockLocalWasteService = MockLocalWasteService()
+        mockLocalWasteService._dataFetchAddress = Constants.address
+        mockLocalWasteService._dataFetchSchedule = Constants.schedule
+        var openScheduleViewActionCalled = false
+        let sut = LocalWasteWidgetViewModel(
+            service: mockLocalWasteService,
+            openEditViewAction: { },
+            openScheduleViewAction: {
+                openScheduleViewActionCalled = true
+            }
+        )
+        await sut.load()
+
+        sut.onViewScheduleTapped()
+
+        #expect(openScheduleViewActionCalled == true)
+    }
+
+    @Test
     func resetViewState_resetsProperties() async throws {
         let mockLocalWasteService = MockLocalWasteService()
         mockLocalWasteService._dataFetchAddress = Constants.address
         mockLocalWasteService._dataFetchSchedule = Constants.schedule
         let sut = LocalWasteWidgetViewModel(
             service: mockLocalWasteService,
-            openEditViewAction: { }
+            openEditViewAction: { },
+            openScheduleViewAction: { }
         )
 
         await sut.load()
@@ -512,7 +662,7 @@ struct LocalWasteWidgetViewModelTests {
         #expect(sut.accessibilityLabel == "Plastics")
     }
 
-    fileprivate typealias ItemViewModel = LocalWasteWidgetViewModel.ItemViewModel
+    fileprivate typealias ItemViewModel = LocalWasteScheduleItemViewModel
 
     fileprivate enum Constants {
         static func yesterday() -> Date {

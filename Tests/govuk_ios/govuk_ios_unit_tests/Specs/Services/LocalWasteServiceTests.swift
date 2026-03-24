@@ -82,4 +82,42 @@ struct LocalWasteServiceTests {
         sut.saveAddress(.init(addressFull: "1", uprn: "1", localCustodianCode: "1"))
         #expect(mockRepository._didSaveAddress)
     }
+
+    @Test
+    func popSchedule_whenEmpty_returnsNil() async throws {
+        let sut = LocalWasteService(
+            serviceClient: MockLocalWasteServiceClient(),
+            repository: MockLocalWasteRepository()
+        )
+        let actual = sut.popScheduleCache()
+        #expect(actual == nil)
+    }
+
+    @Test
+    func popSchedule_whenNotEmpty_returnsScheduleAndSetsCacheToNil() async throws {
+        let sut = LocalWasteService(
+            serviceClient: MockLocalWasteServiceClient(),
+            repository: MockLocalWasteRepository()
+        )
+        sut.pushScheduleCache(Constants.schedule)
+
+        let actual1 = sut.popScheduleCache()
+        #expect(actual1 == Constants.schedule)
+
+        let actual2 = sut.popScheduleCache()
+        #expect(actual2 == nil)
+    }
+
+    struct Constants {
+        static let schedule = [
+            LocalWasteBin(date: LocalWasteServiceClient.dateFormatter.date(from: "2026-03-16")!,
+                          name: "Black",
+                          color: .black,
+                          content: "general waste"),
+            LocalWasteBin(date: LocalWasteServiceClient.dateFormatter.date(from: "2026-03-15")!,
+                          name: "Green",
+                          color: .green,
+                          content: "recycling")
+        ]
+    }
 }

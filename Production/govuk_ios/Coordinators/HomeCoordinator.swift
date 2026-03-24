@@ -217,13 +217,28 @@ class HomeCoordinator: TabItemCoordinator {
         return { [weak self] in
             guard let self = self else { return }
             self.trackWidgetNavigation(text: "Edit your bin collection property address")
-            let navigationController = UINavigationController()
+            let navigationController = ModalNavigationController()
             let coordinator = self.coordinatorBuilder.editLocalWaste(
                 navigationController: navigationController,
                 addressSelectedAction: {
                     self.localWasteWidgetViewModel.resetViewState()
                     self.localWasteWidgetViewModel.startLoadingIfViewStateInitial()
                 },
+                dismissAction: {
+                    self.root.viewWillReAppear()
+                }
+            )
+            present(coordinator)
+        }
+    }
+
+    private var presentMoreLocalWasteCoordinator: () -> Void {
+        return { [weak self] in
+            guard let self = self else { return }
+            self.trackWidgetNavigation(text: "View your bin collection schedule")
+            let navigationController = ModalNavigationController()
+            let coordinator = self.coordinatorBuilder.localWasteSchedule(
+                navigationController: navigationController,
                 dismissAction: {
                     self.root.viewWillReAppear()
                 }
@@ -247,7 +262,8 @@ class HomeCoordinator: TabItemCoordinator {
     private lazy var localWasteWidgetViewModel: LocalWasteWidgetViewModel = {
         LocalWasteWidgetViewModel(
             service: localWasteService,
-            openEditViewAction: presentEditLocalWasteCoordinator
+            openEditViewAction: presentEditLocalWasteCoordinator,
+            openScheduleViewAction: presentMoreLocalWasteCoordinator
         )
     }()
 

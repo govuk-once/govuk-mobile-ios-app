@@ -56,4 +56,12 @@ class MockLocalWasteService: LocalWasteServiceInterface {
         }
         abort()
     }
+    
+    var _scheduleCache: [LocalWasteBin]?
+    func pushScheduleCache(_ schedule: [LocalWasteBin]?) {
+        _scheduleCache = schedule
+    }
+    func popScheduleCache() -> [LocalWasteBin]? {
+        return _scheduleCache
+    }
 }

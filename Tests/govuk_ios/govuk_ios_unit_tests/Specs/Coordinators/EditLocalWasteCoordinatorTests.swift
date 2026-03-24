@@ -12,7 +12,6 @@ struct EditLocalWasteCoordinatorTests {
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let expectedViewController = UIViewController()
         let navigationController = UINavigationController()
-        let mockCoordinatorBuilder = CoordinatorBuilder.mock
         mockViewControllerBuilder._stubbedLocalWastePostcodeEntryViewController = expectedViewController
 
         let subject = EditLocalWasteCoordinator(
@@ -20,7 +19,6 @@ struct EditLocalWasteCoordinatorTests {
             viewControllerBuilder: mockViewControllerBuilder,
             analyticsService: MockAnalyticsService(),
             localWasteService: MockLocalWasteService(),
-            coordinatorBuilder: mockCoordinatorBuilder,
             addressSelectedAction: {},
             dismissed: {}
         )
@@ -34,7 +32,6 @@ struct EditLocalWasteCoordinatorTests {
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let expectedViewController = UIViewController()
         let navigationController = UINavigationController()
-        let mockCoordinatorBuilder = CoordinatorBuilder.mock
         let mockCoordinator = MockBaseCoordinator()
         mockViewControllerBuilder._stubbedLocalWastePostcodeEntryViewController = expectedViewController
 
@@ -44,7 +41,6 @@ struct EditLocalWasteCoordinatorTests {
                 viewControllerBuilder: mockViewControllerBuilder,
                 analyticsService: MockAnalyticsService(),
                 localWasteService: MockLocalWasteService(),
-                coordinatorBuilder: mockCoordinatorBuilder,
                 addressSelectedAction: {},
                 dismissed: {
                     confirm()
@@ -60,7 +56,6 @@ struct EditLocalWasteCoordinatorTests {
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let expectedViewController = UIViewController()
         let mockNavigationController = MockNavigationController()
-        let mockCoordinatorBuilder = CoordinatorBuilder.mock
         let mockCoordinator = MockBaseCoordinator()
 
         mockViewControllerBuilder._stubbedLocalWastePostcodeEntryViewController = expectedViewController
@@ -72,7 +67,6 @@ struct EditLocalWasteCoordinatorTests {
                 viewControllerBuilder: mockViewControllerBuilder,
                 analyticsService: MockAnalyticsService(),
                 localWasteService: MockLocalWasteService(),
-                coordinatorBuilder: mockCoordinatorBuilder,
                 addressSelectedAction: {},
                 dismissed: {
                     confirm()
@@ -96,7 +90,6 @@ struct EditLocalWasteCoordinatorTests {
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let expectedViewController = UIViewController()
         let navigationController = UINavigationController()
-        let mockCoordinatorBuilder = CoordinatorBuilder.mock
         let mockCoordinator = MockBaseCoordinator()
         mockViewControllerBuilder._stubbedLocalWasteAddressSelectionEntryViewController = expectedViewController
 
@@ -105,7 +98,6 @@ struct EditLocalWasteCoordinatorTests {
             viewControllerBuilder: mockViewControllerBuilder,
             analyticsService: MockAnalyticsService(),
             localWasteService: MockLocalWasteService(),
-            coordinatorBuilder: mockCoordinatorBuilder,
             addressSelectedAction: {},
             dismissed: {}
         )
@@ -123,7 +115,6 @@ struct EditLocalWasteCoordinatorTests {
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let expectedViewController = UIViewController()
         let mockNavigationController = MockNavigationController()
-        let mockCoordinatorBuilder = CoordinatorBuilder.mock
         let mockCoordinator = MockBaseCoordinator()
         mockViewControllerBuilder._stubbedLocalWasteAddressSelectionEntryViewController = expectedViewController
 
@@ -136,7 +127,6 @@ struct EditLocalWasteCoordinatorTests {
                 viewControllerBuilder: mockViewControllerBuilder,
                 analyticsService: MockAnalyticsService(),
                 localWasteService: MockLocalWasteService(),
-                coordinatorBuilder: mockCoordinatorBuilder,
                 addressSelectedAction: {
                     addressSelectedCalled = true
                 },
@@ -167,7 +157,6 @@ struct EditLocalWasteCoordinatorTests {
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let expectedViewController = UIViewController()
         let mockNavigationController = MockNavigationController()
-        let mockCoordinatorBuilder = CoordinatorBuilder.mock
         let mockCoordinator = MockBaseCoordinator()
         mockViewControllerBuilder._stubbedLocalWasteAddressSelectionEntryViewController = expectedViewController
 
@@ -180,7 +169,6 @@ struct EditLocalWasteCoordinatorTests {
                 viewControllerBuilder: mockViewControllerBuilder,
                 analyticsService: MockAnalyticsService(),
                 localWasteService: MockLocalWasteService(),
-                coordinatorBuilder: mockCoordinatorBuilder,
                 addressSelectedAction: {
                     addressSelectedCalled = true
                 },

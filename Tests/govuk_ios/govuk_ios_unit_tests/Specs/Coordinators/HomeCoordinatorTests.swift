@@ -177,7 +177,7 @@ struct HomeCoordinatorTests {
 
     @Test
     @MainActor
-    func startEditLocalWaste_startsCoordinatorAndTrackEvent() {
+    func openEditViewAction_startsCoordinatorAndTrackEvent() {
         let mockCoodinatorBuilder = MockCoordinatorBuilder.mock
         let mockViewControllerBuilder = MockViewControllerBuilder()
         mockViewControllerBuilder._stubbedHomeViewController = UIViewController()
@@ -202,11 +202,47 @@ struct HomeCoordinatorTests {
         )
         subject.start()
 
-        mockViewControllerBuilder._receivedEditLocalWasteAction?()
+        mockViewControllerBuilder._receivedLocalWasteWidgetViewModel?.openEditViewAction()
 
         let navigationEvent = mockAnalyticsService._trackedEvents.first
 
         #expect(navigationEvent?.params?["text"] as? String == "Edit your bin collection property address")
+        #expect(navigationEvent?.params?["type"] as? String == "Widget")
+        #expect(navigationEvent?.name == "Navigation")
+    }
+
+    @Test
+    @MainActor
+    func openScheduleViewAction_startsCoordinatorAndTrackEvent() {
+        let mockCoodinatorBuilder = MockCoordinatorBuilder.mock
+        let mockViewControllerBuilder = MockViewControllerBuilder()
+        mockViewControllerBuilder._stubbedHomeViewController = UIViewController()
+        let mockAnalyticsService = MockAnalyticsService()
+        let navigationController = UINavigationController()
+        let subject = HomeCoordinator(
+            navigationController: navigationController,
+            coordinatorBuilder: mockCoodinatorBuilder,
+            viewControllerBuilder: mockViewControllerBuilder,
+            deeplinkStore: DeeplinkDataStore(routes: [], root: UIViewController()),
+            analyticsService: mockAnalyticsService,
+            configService: MockAppConfigService(),
+            topicsService: MockTopicsService(),
+            notificationService: MockNotificationService(),
+            deviceInformationProvider: MockDeviceInformationProvider(),
+            searchService: MockSearchService(),
+            activityService: MockActivityService(),
+            localAuthorityService: MockLocalAuthorityService(),
+            localWasteService: MockLocalWasteService(),
+            userDefaultsService: MockUserDefaultsService(),
+            chatService: MockChatService()
+        )
+        subject.start()
+
+        mockViewControllerBuilder._receivedLocalWasteWidgetViewModel?.openScheduleViewAction()
+
+        let navigationEvent = mockAnalyticsService._trackedEvents.first
+
+        #expect(navigationEvent?.params?["text"] as? String == "View your bin collection schedule")
         #expect(navigationEvent?.params?["type"] as? String == "Widget")
         #expect(navigationEvent?.name == "Navigation")
     }

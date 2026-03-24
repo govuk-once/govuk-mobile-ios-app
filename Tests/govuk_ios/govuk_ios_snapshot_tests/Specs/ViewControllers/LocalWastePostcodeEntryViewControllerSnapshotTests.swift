@@ -85,8 +85,7 @@ final class LocalWastePostcodeEntryViewControllerSnapshotTests: SnapshotTestCase
             viewModel: viewModel
         )
         let viewController = HostingViewController(
-            rootView: view,
-            navigationBarHidden: true
+            rootView: view
         )
         viewController.view.backgroundColor = .govUK.fills.surfaceModal
         return viewController

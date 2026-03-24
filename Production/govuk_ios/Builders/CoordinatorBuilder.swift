@@ -261,8 +261,18 @@ class CoordinatorBuilder {
             viewControllerBuilder: ViewControllerBuilder(),
             analyticsService: container.analyticsService.resolve(),
             localWasteService: container.localWasteService.resolve(),
-            coordinatorBuilder: self,
             addressSelectedAction: addressSelectedAction,
+            dismissed: dismissAction
+        )
+    }
+
+    func localWasteSchedule(navigationController: UINavigationController,
+                            dismissAction: @escaping () -> Void) -> BaseCoordinator {
+        LocalWasteScheduleCoordinator(
+            navigationController: navigationController,
+            viewControllerBuilder: ViewControllerBuilder(),
+            analyticsService: container.analyticsService.resolve(),
+            localWasteService: container.localWasteService.resolve(),
             dismissed: dismissAction
         )
     }

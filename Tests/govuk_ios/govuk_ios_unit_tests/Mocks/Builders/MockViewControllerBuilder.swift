@@ -60,6 +60,7 @@ class MockViewControllerBuilder: ViewControllerBuilder {
     var _receivedEditLocalAuthorityAction: (() -> Void)?
     var _receivedEditLocalWasteAction: (() -> Void)?
     var _receivedHomeRecentActivityAction: (() -> Void)?
+    var _receivedLocalWasteWidgetViewModel: LocalWasteWidgetViewModel?
     var _receivedTopicWidgetViewModel: TopicsWidgetViewModel?
     override func home(dependencies: HomeDependencies,
                        actions: HomeActions) -> UIViewController {
@@ -67,6 +68,7 @@ class MockViewControllerBuilder: ViewControllerBuilder {
         _receivedEditLocalWasteAction = actions.editLocalWasteAction
         _receivedHomeRecentActivityAction = actions.recentActivityAction
         _receivedHomeSearchAction = actions.openSearchAction
+        _receivedLocalWasteWidgetViewModel = dependencies.localWasteWidgetViewModel
         _receivedTopicWidgetViewModel = dependencies.topicsWidgetViewModel
         return _stubbedHomeViewController ?? UIViewController()
     }
@@ -189,7 +191,16 @@ class MockViewControllerBuilder: ViewControllerBuilder {
         _receivedLocalWasteAddressSelectionDoneAction = doneAction
         return _stubbedLocalWasteAddressSelectionEntryViewController ?? UIViewController()
     }
-    
+
+    var _stubbedLocalWasteScheduleViewController: UIViewController?
+    var _receivedLocalWasteScheduleDismissAction: (() -> Void)?
+    override func localWasteScheduleView(analyticsService: any AnalyticsServiceInterface,
+                                         localWasteService: any LocalWasteServiceInterface,
+                                         dismissAction: @escaping () -> Void) -> UIViewController {
+        _receivedLocalWasteScheduleDismissAction = dismissAction
+        return _stubbedLocalWasteScheduleViewController ?? UIViewController()
+    }
+
     var _receivedTopicOnboardingDismissAction: (() -> Void)?
     var _receivedTopicOnboardingTopics: [Topic]?
     var _stubbedTopicOnboardingViewController: UIViewController?

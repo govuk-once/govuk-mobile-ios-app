@@ -13,11 +13,16 @@ protocol LocalWasteServiceInterface {
         uprn: String,
         localCustodianCode: String
     ) async throws(LocalWasteScheduleApiError) -> [LocalWasteBin]
+
+    func pushScheduleCache(_ schedule: [LocalWasteBin]?)
+    func popScheduleCache() -> [LocalWasteBin]?
 }
 
 class LocalWasteService: LocalWasteServiceInterface {
     private let serviceClient: LocalWasteServiceClientInterface
     private let repository: LocalWasteRepositoryInterface
+
+    private var scheduleCache: [LocalWasteBin]?
 
     init(serviceClient: LocalWasteServiceClientInterface,
          repository: LocalWasteRepositoryInterface) {
@@ -44,15 +49,23 @@ class LocalWasteService: LocalWasteServiceInterface {
         uprn: String,
         localCustodianCode: String
     ) async throws(LocalWasteScheduleApiError) -> [LocalWasteBin] {
-        // empty
-//        []
-        // error
-//        try? await Task.sleep(nanoseconds: 3_000_000_000)
-//        throw LocalWasteScheduleApiError.apiError(.unknownError)
-        // mock
         try await serviceClient.fetchSchedule(
             uprn: uprn,
             localCustodianCode: localCustodianCode
         )
+    }
+
+    // In a production implementation, we'd build a proper cache in the repository
+    // with invalidation, reloading etc.
+    // For the purposes of the POC, just stash it in memory and clear it manually.
+
+    func pushScheduleCache(_ schedule: [LocalWasteBin]?) {
+        scheduleCache = schedule
+    }
+
+    func popScheduleCache() -> [LocalWasteBin]? {
+        let schedule = scheduleCache
+        scheduleCache = nil
+        return schedule
     }
 }

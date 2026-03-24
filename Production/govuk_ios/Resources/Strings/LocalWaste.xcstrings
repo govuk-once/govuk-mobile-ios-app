@@ -265,6 +265,39 @@
         }
       }
     },
+    "localWasteScheduleViewTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Collection schedule"
+          }
+        }
+      }
+    },
+    "localWasteScheduleViewToday" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Today"
+          }
+        }
+      }
+    },
+    "localWasteScheduleViewTomorrow" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tomorrow"
+          }
+        }
+      }
+    },
     "localWasteTitle" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -371,6 +404,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Loading"
+          }
+        }
+      }
+    },
+    "localWasteWidgetViewScheduleButton" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "View schedule"
           }
         }
       }

@@ -19,12 +19,13 @@ final class LocalWasteWidgetViewControllerSnapshots: SnapshotTestCase {
 
         viewModel = LocalWasteWidgetViewModel(
             service: service,
-            openEditViewAction: { }
+            openEditViewAction: { },
+            openScheduleViewAction: { }
         )
     }
 
     func test_loadInNavigationController_light_rendersCorrectly() async throws {
-        service._dataFetchSchedule = Constants.schedule
+        service._dataFetchSchedule = Constants.scheduleTodayOnly
 
         await viewModel.load()
 
@@ -36,7 +37,31 @@ final class LocalWasteWidgetViewControllerSnapshots: SnapshotTestCase {
     }
 
     func test_loadInNavigationController_dark_rendersCorrectly() async throws {
-        service._dataFetchSchedule = Constants.schedule
+        service._dataFetchSchedule = Constants.scheduleTodayOnly
+
+        await viewModel.load()
+
+        VerifySnapshotInNavigationController(
+            viewController: viewController(),
+            mode: .dark,
+            prefersLargeTitles: true
+        )
+    }
+
+    func test_loadInNavigationController_light_futureSchedule_rendersCorrectly() async throws {
+        service._dataFetchSchedule = Constants.scheduleTodayAndTomorrow
+
+        await viewModel.load()
+
+        VerifySnapshotInNavigationController(
+            viewController: viewController(),
+            mode: .light,
+            prefersLargeTitles: true
+        )
+    }
+
+    func test_loadInNavigationController_dark_futureSchedule_rendersCorrectly() async throws {
+        service._dataFetchSchedule = Constants.scheduleTodayAndTomorrow
 
         await viewModel.load()
 
@@ -106,13 +131,18 @@ final class LocalWasteWidgetViewControllerSnapshots: SnapshotTestCase {
         static func today() -> Date {
             Calendar.current.startOfDay(for: Date())
         }
+        static func tomorrow() -> Date {
+            Calendar.current.startOfDay(
+                for: Calendar.current.date(byAdding: .day, value: 1, to: Date())!
+            )
+        }
 
         static let address: LocalWasteAddress =
             .init(
                 addressFull: "1, MALPASS COURT, BS15 3LL",
                 uprn: "the-uprn",
                 localCustodianCode: "the-code")
-        static let schedule: [LocalWasteBin] = [
+        static let scheduleTodayOnly: [LocalWasteBin] = [
             .init(date: today(),
                   name: "General Waste",
                   color: .black,
@@ -122,6 +152,20 @@ final class LocalWasteWidgetViewControllerSnapshots: SnapshotTestCase {
                   color: .blue,
                   content: "Paper, cardboard"),
             .init(date: today(),
+                  name: "Plastics",
+                  color: nil,
+                  content: "Hard plastics only")
+        ]
+        static let scheduleTodayAndTomorrow: [LocalWasteBin] = [
+            .init(date: today(),
+                  name: "General Waste",
+                  color: .black,
+                  content: "All waste"),
+            .init(date: today(),
+                  name: "Paper",
+                  color: .blue,
+                  content: "Paper, cardboard"),
+            .init(date: tomorrow(),
                   name: "Plastics",
                   color: nil,
                   content: "Hard plastics only")

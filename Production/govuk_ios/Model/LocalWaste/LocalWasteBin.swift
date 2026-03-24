@@ -33,4 +33,5 @@ enum LocalWasteScheduleErrorMessage: String, Codable, Hashable {
     case councilNotSupported
     case invalidUPRN
     case unknownError
+    case missingParameter
 }

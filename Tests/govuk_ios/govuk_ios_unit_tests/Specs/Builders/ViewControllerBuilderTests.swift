@@ -33,7 +33,8 @@ struct ViewControllerBuilderTests {
         )
         let localWasteViewModel = LocalWasteWidgetViewModel(
             service: MockLocalWasteService(),
-            openEditViewAction: { }
+            openEditViewAction: { },
+            openScheduleViewAction: { }
         )
         let dependencies = ViewControllerBuilder.HomeDependencies(
             analyticsService: MockAnalyticsService(),
@@ -216,6 +217,18 @@ struct ViewControllerBuilderTests {
             doneAction: { }
         )
         let rootView = (result as? HostingViewController<LocalWasteAddressSelectionView>)?.rootView
+        #expect(rootView != nil)
+    }
+
+    @Test
+    func localWasteScheduleView_returnsExpectedResult() {
+        let subject = ViewControllerBuilder()
+        let result = subject.localWasteScheduleView(
+            analyticsService: MockAnalyticsService(),
+            localWasteService: MockLocalWasteService(),
+            dismissAction: {}
+        )
+        let rootView = (result as? HostingViewController<LocalWasteScheduleView>)?.rootView
         #expect(rootView != nil)
     }
 
