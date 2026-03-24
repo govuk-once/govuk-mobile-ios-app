@@ -14,7 +14,7 @@ struct RecentActivityDeeplinkRoute: DeeplinkRoute {
     @MainActor
     func action(parent: BaseCoordinator, params: [String: String]) {
         if let homeCoordinator = parent as? HomeCoordinator {
-            homeCoordinator.startRecentActivityCoordinator()
+            homeCoordinator.showLastVisited()
         }
     }
 }

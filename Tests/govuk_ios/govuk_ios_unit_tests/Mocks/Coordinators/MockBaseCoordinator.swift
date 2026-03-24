@@ -62,4 +62,9 @@ class MockHomeCoordinator: HomeCoordinator {
     override func openSearch() {
         _didOpenSearch = true
     }
+    
+    var _didShowLastVisited:Bool = false
+    override func showLastVisited() {
+        _didShowLastVisited = true
+    }
 }

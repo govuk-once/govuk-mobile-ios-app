@@ -61,6 +61,17 @@ struct HomeCoordinatorTests {
         subject.openSearch()
         #expect(subject._didOpenSearch == true)
     }
+    
+    @Test
+    @MainActor
+    func show_last_visited() {
+        let mockCoodinatorBuilder = MockCoordinatorBuilder.mock
+        let subject = mockCoodinatorBuilder._mockHomeCoordinator
+        subject.start()
+        #expect(subject._didShowLastVisited == false)
+        subject.showLastVisited()
+        #expect(subject._didShowLastVisited == true)
+    }
 
     @Test
     @MainActor

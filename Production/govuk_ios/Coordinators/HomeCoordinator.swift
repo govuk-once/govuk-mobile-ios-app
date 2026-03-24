@@ -98,6 +98,10 @@ class HomeCoordinator: TabItemCoordinator {
         }
     }
 
+    func showLastVisited() {
+        startRecentActivityCoordinator()
+    }
+
     private func presentWebView(url: URL) {
         let coordinator = coordinatorBuilder.safari(
             navigationController: root,
@@ -150,7 +154,7 @@ class HomeCoordinator: TabItemCoordinator {
         }
     }
 
-    var startRecentActivityCoordinator: () -> Void {
+    private var startRecentActivityCoordinator: () -> Void {
         return { [weak self] in
             self?.trackWidgetNavigation(text: "Pages you’ve visited")
             guard let self = self else { return }
