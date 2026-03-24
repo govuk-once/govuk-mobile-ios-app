@@ -57,4 +57,9 @@ class MockHomeCoordinator: HomeCoordinator {
     override func editTopics() {
         _didEditTopics = true
     }
+    
+    var _didOpenSearch: Bool = false
+    override func openSearch() {
+        _didOpenSearch = true
+    }
 }

@@ -68,6 +68,30 @@ class MockCoordinatorBuilder: CoordinatorBuilder {
             navigationController: .init()
         )
     }
+    var _mockHomeCoordinator: MockHomeCoordinator {
+        let mockCoodinatorBuilder = MockCoordinatorBuilder.mock
+        let mockViewControllerBuilder = MockViewControllerBuilder()
+        let expectedViewController = UIViewController()
+        mockViewControllerBuilder._stubbedHomeViewController = expectedViewController
+        let navigationController = UINavigationController()
+        let mockHomeCoordinator = MockHomeCoordinator(
+            navigationController: navigationController,
+            coordinatorBuilder: mockCoodinatorBuilder,
+            viewControllerBuilder: mockViewControllerBuilder,
+            deeplinkStore: DeeplinkDataStore(routes: [], root: UIViewController()),
+            analyticsService: MockAnalyticsService(),
+            configService: MockAppConfigService(),
+            topicsService: MockTopicsService(),
+            notificationService: MockNotificationService(),
+            deviceInformationProvider: MockDeviceInformationProvider(),
+            searchService: MockSearchService(),
+            activityService: MockActivityService(),
+            localAuthorityService: MockLocalAuthorityService(),
+            userDefaultsService: MockUserDefaultsService(),
+            chatService: MockChatService()
+        )
+        return mockHomeCoordinator
+    }
 
     var _stubbedSettingsCoordinator: TabItemCoordinator?
     override var settings: any TabItemCoordinator {
