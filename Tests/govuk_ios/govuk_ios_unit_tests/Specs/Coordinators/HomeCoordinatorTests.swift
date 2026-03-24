@@ -39,6 +39,36 @@ struct HomeCoordinatorTests {
 
         #expect(navigationController.viewControllers.first == expectedViewController)
     }
+    
+    @Test
+    @MainActor
+    func edit_topics() {
+        let mockCoodinatorBuilder = MockCoordinatorBuilder.mock
+        let mockViewControllerBuilder = MockViewControllerBuilder()
+        let expectedViewController = UIViewController()
+        mockViewControllerBuilder._stubbedHomeViewController = expectedViewController
+        let navigationController = UINavigationController()
+        let subject = MockHomeCoordinator(
+            navigationController: navigationController,
+            coordinatorBuilder: mockCoodinatorBuilder,
+            viewControllerBuilder: mockViewControllerBuilder,
+            deeplinkStore: DeeplinkDataStore(routes: [], root: UIViewController()),
+            analyticsService: MockAnalyticsService(),
+            configService: MockAppConfigService(),
+            topicsService: MockTopicsService(),
+            notificationService: MockNotificationService(),
+            deviceInformationProvider: MockDeviceInformationProvider(),
+            searchService: MockSearchService(),
+            activityService: MockActivityService(),
+            localAuthorityService: MockLocalAuthorityService(),
+            userDefaultsService: MockUserDefaultsService(),
+            chatService: MockChatService()
+        )
+        subject.start()
+        #expect(subject._didEditTopics == false)
+        subject.editTopics()
+        #expect(subject._didEditTopics == true)
+    }
 
     @Test
     @MainActor

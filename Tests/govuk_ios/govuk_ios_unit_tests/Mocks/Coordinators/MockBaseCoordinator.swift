@@ -50,3 +50,11 @@ class MockBaseCoordinator: BaseCoordinator,
         _previousTab = previousTabIndex
     }
 }
+
+class MockHomeCoordinator: HomeCoordinator {
+    
+    var _didEditTopics: Bool = false
+    override func editTopics() {
+        _didEditTopics = true
+    }
+}
