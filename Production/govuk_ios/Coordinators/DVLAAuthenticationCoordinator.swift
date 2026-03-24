@@ -6,6 +6,7 @@ enum DVLAAuthError: Error {
     case userCancelled
     case tokenNotFound
     case linkIdNotFound
+    case invalidCallbackUrl
     case unknown
 }
 
@@ -30,7 +31,9 @@ final class DVLAAuthenticationCoordinator: BaseCoordinator {
 
     private func authenticate() {
         Task {
-            let window = root.view.window ?? UIWindow()
+            guard let window = root.view.window else {
+                return
+            }
             let result = await authenticationService.authenticate(window: window)
             switch result {
             case .success(let linkId):

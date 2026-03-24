@@ -292,6 +292,9 @@
 		810A9ADC2F6C4F050039B4A4 /* LinkingIdPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810A9ADB2F6C4EF80039B4A4 /* LinkingIdPayload.swift */; };
 		810A9ADE2F6C50360039B4A4 /* LinkingIdExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810A9ADD2F6C502D0039B4A4 /* LinkingIdExtractor.swift */; };
 		8132DC392F62D1F800F24CB6 /* ServiceAccountType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8132DC382F62D1EE00F24CB6 /* ServiceAccountType.swift */; };
+		815559452F729409001E73CD /* DVLAAuthSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815559442F729404001E73CD /* DVLAAuthSession.swift */; };
+		815559472F72AB47001E73CD /* ASWebAuthenticationSession+Interface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815559462F72AB39001E73CD /* ASWebAuthenticationSession+Interface.swift */; };
+		815559492F72B087001E73CD /* DVLAAuthSessionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815559482F72B082001E73CD /* DVLAAuthSessionBuilder.swift */; };
 		815935D92F212EF700F8D206 /* UserServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815935D82F212EF300F8D206 /* UserServiceClient.swift */; };
 		815935DB2F213EC700F8D206 /* GOVRequest+UserState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815935DA2F213EBE00F8D206 /* GOVRequest+UserState.swift */; };
 		815935DE2F22353900F8D206 /* UserResponseHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815935DD2F22352B00F8D206 /* UserResponseHandler.swift */; };
@@ -758,6 +761,9 @@
 		810A9ADB2F6C4EF80039B4A4 /* LinkingIdPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkingIdPayload.swift; sourceTree = "<group>"; };
 		810A9ADD2F6C502D0039B4A4 /* LinkingIdExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkingIdExtractor.swift; sourceTree = "<group>"; };
 		8132DC382F62D1EE00F24CB6 /* ServiceAccountType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountType.swift; sourceTree = "<group>"; };
+		815559442F729404001E73CD /* DVLAAuthSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DVLAAuthSession.swift; sourceTree = "<group>"; };
+		815559462F72AB39001E73CD /* ASWebAuthenticationSession+Interface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ASWebAuthenticationSession+Interface.swift"; sourceTree = "<group>"; };
+		815559482F72B082001E73CD /* DVLAAuthSessionBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DVLAAuthSessionBuilder.swift; sourceTree = "<group>"; };
 		815935D82F212EF300F8D206 /* UserServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserServiceClient.swift; sourceTree = "<group>"; };
 		815935DA2F213EBE00F8D206 /* GOVRequest+UserState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GOVRequest+UserState.swift"; sourceTree = "<group>"; };
 		815935DD2F22352B00F8D206 /* UserResponseHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserResponseHandler.swift; sourceTree = "<group>"; };
@@ -1501,7 +1507,7 @@
 				164091FB2DA41B2700E3BE99 /* AuthenticationService.swift */,
 				D04DD3372E004737002B5F19 /* ChatService.swift */,
 				168176A22DCE685900A4B0E4 /* CoreDataDeletionService.swift */,
-				81DA111B2F713CF1001C4E09 /* DVLAAuthenticationService.swift */,
+				815566E72F72D8A7001E73CD /* DVLA */,
 				16624BAA2DDCDD4200E9B60D /* InactivityService.swift */,
 				D06C49B52DE5D2510045C674 /* JailbreakDetectionService.swift */,
 				169842D72DAEAAD500E3EA66 /* LocalAuthenticationService.swift */,
@@ -1885,6 +1891,7 @@
 			isa = PBXGroup;
 			children = (
 				5DCCCBB82EA0DC300097430C /* LoginErrorV2+Extensions.swift */,
+				815559462F72AB39001E73CD /* ASWebAuthenticationSession+Interface.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -1998,6 +2005,16 @@
 				8101BEE92F2A24B8009E639B /* RemoteConfigValue.swift */,
 			);
 			path = RemoteConfig;
+			sourceTree = "<group>";
+		};
+		815566E72F72D8A7001E73CD /* DVLA */ = {
+			isa = PBXGroup;
+			children = (
+				81DA111B2F713CF1001C4E09 /* DVLAAuthenticationService.swift */,
+				815559442F729404001E73CD /* DVLAAuthSession.swift */,
+				815559482F72B082001E73CD /* DVLAAuthSessionBuilder.swift */,
+			);
+			path = DVLA;
 			sourceTree = "<group>";
 		};
 		815935DC2F22351700F8D206 /* User */ = {
@@ -2612,6 +2629,7 @@
 				5DC04B902C2D71440036EF2B /* ViewControllerBuilder.swift in Sources */,
 				3D9D06D12E7AA36100D1FC4A /* Banners.swift in Sources */,
 				D0B920C72EA637B7001E6FDC /* ListCardView.swift in Sources */,
+				815559472F72AB47001E73CD /* ASWebAuthenticationSession+Interface.swift in Sources */,
 				5D3123862C85AEE20088B931 /* Container+Repositories.swift in Sources */,
 				D0A346D12E6F3038007D3D27 /* ChatEllipsesView.swift in Sources */,
 				16FB8CBF2E216E7500BBB970 /* DynamicTextEditor.swift in Sources */,
@@ -2637,6 +2655,7 @@
 				16D186A82E462D94006ACC7A /* ChatConsentOnboardingCoordinator.swift in Sources */,
 				16A788B22DCC288800CA64E2 /* ReturningUserService.swift in Sources */,
 				D0EB7EF22F3F968E00BEB0A1 /* TermsAndConditionsService.swift in Sources */,
+				815559452F729409001E73CD /* DVLAAuthSession.swift in Sources */,
 				D03D52FB2E32A2C900CE6008 /* RegexValidator.swift in Sources */,
 				4E00EF072CCB12CD007B61E8 /* BaseTabBarController.swift in Sources */,
 				5D0CFAA72C33E72C00B3DEFD /* DeeplinkDataStore.swift in Sources */,
@@ -2663,6 +2682,7 @@
 				D08AA4242DB94A4E002E9C78 /* BulletView.swift in Sources */,
 				16F961A32C92FD15005CFB04 /* SearchResultCell.swift in Sources */,
 				5DD4CB182D95491600459FB5 /* RecentActivityListViewController.swift in Sources */,
+				815559492F72B087001E73CD /* DVLAAuthSessionBuilder.swift in Sources */,
 				3D7E2D142C81DB2D0016BEEC /* AnalyticsConsentContainerViewModel.swift in Sources */,
 				5D8EAC252DD746C2003089F5 /* SafariCoordinator.swift in Sources */,
 				5D49D4ED2DD479410071826B /* URLOpener+Extensions.swift in Sources */,
