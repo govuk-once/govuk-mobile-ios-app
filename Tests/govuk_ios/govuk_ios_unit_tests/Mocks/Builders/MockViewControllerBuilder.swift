@@ -347,4 +347,17 @@ class MockViewControllerBuilder: ViewControllerBuilder {
         return _stubbedServiceAccountUnlinkingController ?? UIViewController()
     }
 
+    var _stubbedServiceAccountConsentController: UIViewController?
+    var _receivedServiceAccountConsentCompletionAction: (() -> Void)?
+    var _receivedServiceAccountConsentCancelAction: (() -> Void)?
+    override func serviceAccountConsent(
+        analyticsService: AnalyticsServiceInterface,
+        completionAction: @escaping () -> Void,
+        cancelAction: @escaping () -> Void
+    ) -> UIViewController {
+        _receivedServiceAccountConsentCompletionAction = completionAction
+        _receivedServiceAccountConsentCancelAction = cancelAction
+        return _stubbedServiceAccountConsentController ?? UIViewController()
+    }
+
 }

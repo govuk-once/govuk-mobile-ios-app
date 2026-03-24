@@ -289,6 +289,8 @@
 		8101BEEC2F2A24B8009E639B /* RemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8101BEE82F2A24B8009E639B /* RemoteConfig.swift */; };
 		810A83752F68A46D0039B4A4 /* ServiceAccountUnlinkingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810A83742F68A4650039B4A4 /* ServiceAccountUnlinkingViewModel.swift */; };
 		810A83772F68A57E0039B4A4 /* ServiceAccountUnlinkingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810A83762F68A5720039B4A4 /* ServiceAccountUnlinkingView.swift */; };
+		810A9ADC2F6C4F050039B4A4 /* LinkingIdPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810A9ADB2F6C4EF80039B4A4 /* LinkingIdPayload.swift */; };
+		810A9ADE2F6C50360039B4A4 /* LinkingIdExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810A9ADD2F6C502D0039B4A4 /* LinkingIdExtractor.swift */; };
 		8132DC392F62D1F800F24CB6 /* ServiceAccountType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8132DC382F62D1EE00F24CB6 /* ServiceAccountType.swift */; };
 		815935D92F212EF700F8D206 /* UserServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815935D82F212EF300F8D206 /* UserServiceClient.swift */; };
 		815935DB2F213EC700F8D206 /* GOVRequest+UserState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815935DA2F213EBE00F8D206 /* GOVRequest+UserState.swift */; };
@@ -301,6 +303,9 @@
 		8171AE472F1116A00024312B /* ScrollBottomIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8171AE462F11169A0024312B /* ScrollBottomIndicatorView.swift */; };
 		8181DBFA2EE214B100F47531 /* FactoryKit in Frameworks */ = {isa = PBXBuildFile; productRef = 8181DBF92EE214B100F47531 /* FactoryKit */; };
 		8181DBFC2EE214B100F47531 /* FactoryTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 8181DBFB2EE214B100F47531 /* FactoryTesting */; };
+		81DA111C2F713CF6001C4E09 /* DVLAAuthenticationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DA111B2F713CF1001C4E09 /* DVLAAuthenticationService.swift */; };
+		81DAF9472F6D7387001C4E09 /* ServiceAccountConsentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DAF9462F6D737E001C4E09 /* ServiceAccountConsentViewModel.swift */; };
+		81DAF94B2F6D885C001C4E09 /* DVLAAuthenticationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DAF94A2F6D8855001C4E09 /* DVLAAuthenticationCoordinator.swift */; };
 		81DE66952F5B2A640087F48E /* ServiceAccountCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DE66942F5B2A5F0087F48E /* ServiceAccountCoordinator.swift */; };
 		81DE66982F5B3AB60087F48E /* ServiceAccountLinkingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DE66972F5B3AAF0087F48E /* ServiceAccountLinkingViewModel.swift */; };
 		81DE669B2F5B743B0087F48E /* ServiceAccountLinkingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DE669A2F5B74350087F48E /* ServiceAccountLinkingView.swift */; };
@@ -750,6 +755,8 @@
 		8101BEE92F2A24B8009E639B /* RemoteConfigValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigValue.swift; sourceTree = "<group>"; };
 		810A83742F68A4650039B4A4 /* ServiceAccountUnlinkingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountUnlinkingViewModel.swift; sourceTree = "<group>"; };
 		810A83762F68A5720039B4A4 /* ServiceAccountUnlinkingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountUnlinkingView.swift; sourceTree = "<group>"; };
+		810A9ADB2F6C4EF80039B4A4 /* LinkingIdPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkingIdPayload.swift; sourceTree = "<group>"; };
+		810A9ADD2F6C502D0039B4A4 /* LinkingIdExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkingIdExtractor.swift; sourceTree = "<group>"; };
 		8132DC382F62D1EE00F24CB6 /* ServiceAccountType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountType.swift; sourceTree = "<group>"; };
 		815935D82F212EF300F8D206 /* UserServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserServiceClient.swift; sourceTree = "<group>"; };
 		815935DA2F213EBE00F8D206 /* GOVRequest+UserState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GOVRequest+UserState.swift"; sourceTree = "<group>"; };
@@ -759,6 +766,9 @@
 		815C58672EE970DC00322705 /* RemoteConfigService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigService.swift; sourceTree = "<group>"; };
 		815C58692EE973F400322705 /* RemoteConfigServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigServiceClient.swift; sourceTree = "<group>"; };
 		8171AE462F11169A0024312B /* ScrollBottomIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollBottomIndicatorView.swift; sourceTree = "<group>"; };
+		81DA111B2F713CF1001C4E09 /* DVLAAuthenticationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DVLAAuthenticationService.swift; sourceTree = "<group>"; };
+		81DAF9462F6D737E001C4E09 /* ServiceAccountConsentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountConsentViewModel.swift; sourceTree = "<group>"; };
+		81DAF94A2F6D8855001C4E09 /* DVLAAuthenticationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DVLAAuthenticationCoordinator.swift; sourceTree = "<group>"; };
 		81DE66942F5B2A5F0087F48E /* ServiceAccountCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountCoordinator.swift; sourceTree = "<group>"; };
 		81DE66972F5B3AAF0087F48E /* ServiceAccountLinkingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountLinkingViewModel.swift; sourceTree = "<group>"; };
 		81DE669A2F5B74350087F48E /* ServiceAccountLinkingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountLinkingView.swift; sourceTree = "<group>"; };
@@ -1491,6 +1501,7 @@
 				164091FB2DA41B2700E3BE99 /* AuthenticationService.swift */,
 				D04DD3372E004737002B5F19 /* ChatService.swift */,
 				168176A22DCE685900A4B0E4 /* CoreDataDeletionService.swift */,
+				81DA111B2F713CF1001C4E09 /* DVLAAuthenticationService.swift */,
 				16624BAA2DDCDD4200E9B60D /* InactivityService.swift */,
 				D06C49B52DE5D2510045C674 /* JailbreakDetectionService.swift */,
 				169842D72DAEAAD500E3EA66 /* LocalAuthenticationService.swift */,
@@ -1663,6 +1674,7 @@
 			isa = PBXGroup;
 			children = (
 				5D962D572C29BD0B0038BC0A /* BaseCoordinator.swift */,
+				81DAF94A2F6D8855001C4E09 /* DVLAAuthenticationCoordinator.swift */,
 				4E4089872DBBEF78003ECB3B /* EditLocalAuthorityCoordinator.swift */,
 				166248232C4AC91E009F7E58 /* HomeCoordinator.swift */,
 				1677D4012E00643000FB1E56 /* LocalAuthenticationSettingsCoordinator.swift */,
@@ -2015,6 +2027,7 @@
 		81DE66962F5B3AA80087F48E /* ServiceAccount */ = {
 			isa = PBXGroup;
 			children = (
+				81DAF9462F6D737E001C4E09 /* ServiceAccountConsentViewModel.swift */,
 				81DE66972F5B3AAF0087F48E /* ServiceAccountLinkingViewModel.swift */,
 				810A83742F68A4650039B4A4 /* ServiceAccountUnlinkingViewModel.swift */,
 			);
@@ -2186,6 +2199,8 @@
 			children = (
 				D09046702DBBC1AC0096EE66 /* IdTokenPayload.swift */,
 				D09046742DBBC1AC0096EE66 /* TokenExtractor.swift */,
+				810A9ADB2F6C4EF80039B4A4 /* LinkingIdPayload.swift */,
+				810A9ADD2F6C502D0039B4A4 /* LinkingIdExtractor.swift */,
 			);
 			path = JWT;
 			sourceTree = "<group>";
@@ -2627,6 +2642,7 @@
 				5D0CFAA72C33E72C00B3DEFD /* DeeplinkDataStore.swift in Sources */,
 				5DFA017B2D89651100EAC839 /* ActivityItemCreateParams+Extensions.swift in Sources */,
 				5DFA017C2D89651100EAC839 /* ActivityService+Extensions.swift in Sources */,
+				81DAF9472F6D7387001C4E09 /* ServiceAccountConsentViewModel.swift in Sources */,
 				4EBCA3292DAC546A0063A723 /* LocalAuthorityServiceClient.swift in Sources */,
 				D0AC16712E8ADD0D00AACE5C /* PrivacyView.swift in Sources */,
 				16A3C2C92E6AF40A009CFF06 /* Image+Extensions.swift in Sources */,
@@ -2635,6 +2651,7 @@
 				D02578772EB8CB73008AD2BF /* EmergencyBannerWidgetViewModel.swift in Sources */,
 				16C34B432C492FF90031AD32 /* HomeDeepLinkRoute.swift in Sources */,
 				4E19C85E2E65109900D56C33 /* ChatWidgetView.swift in Sources */,
+				81DAF94B2F6D885C001C4E09 /* DVLAAuthenticationCoordinator.swift in Sources */,
 				D0E7923B2D6CD66600EAB81F /* TopicDetailViewModelInterface.swift in Sources */,
 				4E8A2A962E74979100BD14A9 /* RecentActivityWidgetView.swift in Sources */,
 				5DC70CBD2CD52BCA00083544 /* UIEdgeInsets+Convenience.swift in Sources */,
@@ -2680,6 +2697,7 @@
 				4EE5F3E72DAFD42A008C60ED /* LocalAuthorityExplainerView.swift in Sources */,
 				3D9C933E2CB0172400EFA337 /* AppForcedUpdateContainerView.swift in Sources */,
 				8101BEEB2F2A24B8009E639B /* RemoteConfigValue.swift in Sources */,
+				810A9ADC2F6C4F050039B4A4 /* LinkingIdPayload.swift in Sources */,
 				8101BEEC2F2A24B8009E639B /* RemoteConfig.swift in Sources */,
 				5D51C8352C5BB9A80011ABE9 /* UIScrollView+Extensions.swift in Sources */,
 				4EF874E42F5F0DF200968044 /* CentreAlignedBarButtonItem.swift in Sources */,
@@ -2706,7 +2724,6 @@
 				4EBCA3362DAC5E2E0063A723 /* GOVRequest+LocalAuthority.swift in Sources */,
 				5DD4CB0C2D95483100459FB5 /* ActivityItemCreateParams.swift in Sources */,
 				1618EFAB2F44D661008EF26B /* TermsAndConditionsView.swift in Sources */,
-				81EADD9D2F04268300CA7B37 /* RemoteConfig.swift in Sources */,
 				16FD684A2D39AEB5002F1597 /* SuggestionHighlighterProcessor.swift in Sources */,
 				5D79AEC02C32B9180061F344 /* AnimationView.swift in Sources */,
 				5D9E67C82C5A2E1700DB7877 /* DividerView.swift in Sources */,
@@ -2802,6 +2819,7 @@
 				D04C542E2D7082000070EE79 /* ECommerceItem.swift in Sources */,
 				5D899A222C946F8A0074C0AD /* UIBarButtonItem+Convenience.swift in Sources */,
 				5DBE08082C480CA700B58DBE /* UITabBarItem+Convenience.swift in Sources */,
+				81DA111C2F713CF6001C4E09 /* DVLAAuthenticationService.swift in Sources */,
 				D03678C02E33A208009BCC32 /* RegexValidator+PII.swift in Sources */,
 				5DBE08052C480CA700B58DBE /* UIAlertAction+Convenience.swift in Sources */,
 				164091FE2DA41C1000E3BE99 /* AuthenticationServiceClient.swift in Sources */,
@@ -2845,6 +2863,7 @@
 				5DA4FB072CCBAF2100804C8A /* SettingsView.swift in Sources */,
 				16161FD12E2FF97D00228028 /* EnvironmentValues+Extensions.swift in Sources */,
 				D03678C62E33CD60009BCC32 /* CompoundRegexValidator.swift in Sources */,
+				810A9ADE2F6C50360039B4A4 /* LinkingIdExtractor.swift in Sources */,
 				5D8683992C3431050024F2D8 /* ResolvedDeeplinkRoute.swift in Sources */,
 				5D08A9002C9AFABB0049D798 /* Result+Extensions.swift in Sources */,
 				5DE597B62C2EF422003613C8 /* APIServiceClient.swift in Sources */,
