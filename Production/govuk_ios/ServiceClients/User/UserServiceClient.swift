@@ -57,14 +57,17 @@ struct UserServiceClient: UserServiceClientInterface {
             serviceName: serviceName,
             linkId: linkId
         )
-        apiServiceClient.send(request: request, completion: { result in
-            switch result {
-            case .success:
-                completion(.success(()))
-            case .failure(let error):
-                completion(.failure(mapError(error)))
+        apiServiceClient.send(
+            request: request,
+            completion: { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case .failure(let error):
+                    completion(.failure(mapError(error)))
+                }
             }
-        })
+        )
     }
 
     func unlinkAccount(serviceName: String,
@@ -72,14 +75,17 @@ struct UserServiceClient: UserServiceClientInterface {
         let request = GOVRequest.unlinkAccount(
             serviceName: serviceName
         )
-        apiServiceClient.send(request: request, completion: { result in
-            switch result {
-            case .success:
-                completion(.success(()))
-            case .failure(let error):
-                completion(.failure(mapError(error)))
+        apiServiceClient.send(
+            request: request,
+            completion: { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case .failure(let error):
+                    completion(.failure(mapError(error)))
+                }
             }
-        })
+        )
     }
 
     private func mapError(_ error: Error) -> UserStateError {

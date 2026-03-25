@@ -13,6 +13,7 @@ protocol TopicDetailViewModelInterface: ObservableObject {
     var commerceItems: [TopicCommerceItem] { get set }
     func trackScreen(screen: TrackableScreen)
     func trackEcommerce()
+    func viewDidAppear()
 }
 
 extension TopicDetailViewModelInterface {
@@ -46,4 +47,6 @@ extension TopicDetailViewModelInterface {
         )
         commerceItems.append(appEventItem)
     }
+
+    func viewDidAppear() {}
 }
