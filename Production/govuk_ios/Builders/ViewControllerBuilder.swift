@@ -362,6 +362,7 @@ class ViewControllerBuilder {
                      analyticsService: AnalyticsServiceInterface,
                      activityService: ActivityServiceInterface,
                      configService: AppConfigServiceInterface,
+                     userService: UserServiceInterface,
                      topicAction: @escaping (DisplayableTopic) -> Void,
                      subtopicAction: @escaping (DisplayableTopic) -> Void,
                      stepByStepAction: @escaping ([TopicDetailResponse.Content]) -> Void,
@@ -379,6 +380,7 @@ class ViewControllerBuilder {
             analyticsService: analyticsService,
             activityService: activityService,
             configService: configService,
+            userService: userService,
             urlOpener: UIApplication.shared,
             actions: actions
         )
@@ -622,6 +624,26 @@ class ViewControllerBuilder {
             dismissAction: dismissAction
         )
         let view = ServiceAccountLinkingView(viewModel: viewModel)
+        let viewController = HostingViewController(
+            rootView: view,
+            navigationBarHidden: false
+        )
+        return viewController
+    }
+
+    func serviceAccountUnlinking(
+        userService: UserServiceInterface,
+        accountType: ServiceAccountType,
+        completeAction: @escaping () -> Void,
+        dismissAction: @escaping () -> Void
+    ) -> UIViewController {
+        let viewModel = ServiceAccountUnlinkingViewModel(
+            userService: userService,
+            accountType: accountType,
+            completeAction: completeAction,
+            dismissAction: dismissAction
+        )
+        let view = ServiceAccountUnlinkingView(viewModel: viewModel)
         let viewController = HostingViewController(
             rootView: view,
             navigationBarHidden: false

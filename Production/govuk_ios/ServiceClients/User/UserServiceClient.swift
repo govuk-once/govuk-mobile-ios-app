@@ -6,6 +6,8 @@ typealias UserStateResult = Result<UserState, UserStateError>
 typealias NotificationsPreferenceResult = Result<UserNotificationsPreferences, UserStateError>
 typealias LinkAccountResult = Result<Void, UserStateError>
 typealias LinkAccountCompletion = (LinkAccountResult) -> Void
+typealias UnlinkAccountResult = Result<Void, UserStateError>
+typealias UnlinkAccountCompletion = (UnlinkAccountResult) -> Void
 
 protocol UserServiceClientInterface {
     func fetchUserState(completion: @escaping FetchUserStateCompletion)
@@ -14,6 +16,8 @@ protocol UserServiceClientInterface {
     func linkAccount(serviceName: String,
                      linkId: String,
                      completion: @escaping (LinkAccountResult) -> Void)
+    func unlinkAccount(serviceName: String,
+                       completion: @escaping (UnlinkAccountCompletion))
 }
 
 struct UserServiceClient: UserServiceClientInterface {
@@ -48,19 +52,40 @@ struct UserServiceClient: UserServiceClientInterface {
 
     func linkAccount(serviceName: String,
                      linkId: String,
-                     completion: @escaping (LinkAccountResult) -> Void) {
+                     completion: @escaping (LinkAccountCompletion)) {
         let request = GOVRequest.linkAccount(
             serviceName: serviceName,
             linkId: linkId
         )
-        apiServiceClient.send(request: request, completion: { result in
-            switch result {
-            case .success:
-                completion(.success(()))
-            case .failure(let error):
-                completion(.failure(mapError(error)))
+        apiServiceClient.send(
+            request: request,
+            completion: { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case .failure(let error):
+                    completion(.failure(mapError(error)))
+                }
             }
-        })
+        )
+    }
+
+    func unlinkAccount(serviceName: String,
+                       completion: @escaping (UnlinkAccountCompletion)) {
+        let request = GOVRequest.unlinkAccount(
+            serviceName: serviceName
+        )
+        apiServiceClient.send(
+            request: request,
+            completion: { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case .failure(let error):
+                    completion(.failure(mapError(error)))
+                }
+            }
+        )
     }
 
     private func mapError(_ error: Error) -> UserStateError {

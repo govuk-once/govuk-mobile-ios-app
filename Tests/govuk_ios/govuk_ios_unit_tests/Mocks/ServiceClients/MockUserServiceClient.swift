@@ -24,5 +24,13 @@ class MockUserServiceClient: UserServiceClientInterface {
             completion(result)
         }
     }
+
+    var _stubbedUnlinkAccountResult: UnlinkAccountResult?
+    func unlinkAccount(serviceName: String,
+                       completion: @escaping (UnlinkAccountResult) -> Void) {
+        if let result = _stubbedUnlinkAccountResult {
+            completion(result)
+        }
+    }
 }
 

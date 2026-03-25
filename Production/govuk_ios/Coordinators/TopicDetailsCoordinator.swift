@@ -6,6 +6,7 @@ final class TopicDetailsCoordinator: BaseCoordinator {
     private let topicsService: TopicsServiceInterface
     private let activityService: ActivityServiceInterface
     private let configService: AppConfigServiceInterface
+    private let userService: UserServiceInterface
     private let coordinatorBuilder: CoordinatorBuilder
     private let viewControllerBuilder: ViewControllerBuilder
     private let topic: Topic
@@ -15,6 +16,7 @@ final class TopicDetailsCoordinator: BaseCoordinator {
          topicsService: TopicsServiceInterface,
          activityService: ActivityServiceInterface,
          configService: AppConfigServiceInterface,
+         userService: UserServiceInterface,
          coordinatorBuilder: CoordinatorBuilder,
          viewControllerBuilder: ViewControllerBuilder,
          topic: Topic) {
@@ -24,6 +26,7 @@ final class TopicDetailsCoordinator: BaseCoordinator {
         self.topicsService = topicsService
         self.activityService = activityService
         self.configService = configService
+        self.userService = userService
         self.topic = topic
         super.init(navigationController: navigationController)
     }
@@ -42,6 +45,7 @@ final class TopicDetailsCoordinator: BaseCoordinator {
                 analyticsService: self.analyticsService,
                 activityService: self.activityService,
                 configService: self.configService,
+                userService: self.userService,
                 topicAction: self.presentTopicAction,
                 subtopicAction: self.pushTopic,
                 stepByStepAction: self.pushStepBySteps,
@@ -75,9 +79,13 @@ final class TopicDetailsCoordinator: BaseCoordinator {
             guard let self = self, content.ref == "dvla-link-account"
             else { return }
             let navigationController = UINavigationController()
+            navigationController.modalPresentationStyle = .fullScreen
             let coordinator = coordinatorBuilder.serviceAccount(
                 navigationController: navigationController,
-                accountType: .dvla)
+                accountType: .dvla, completion: {
+                    print("service account linking dismissed")
+                }
+            )
             present(coordinator)
         }
     }

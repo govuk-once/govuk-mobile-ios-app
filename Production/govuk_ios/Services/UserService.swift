@@ -4,9 +4,12 @@ protocol UserServiceInterface {
     func linkAccount(withType accountType: ServiceAccountType,
                      linkId: String,
                      completion: @escaping LinkAccountCompletion)
+    func unlinkAccount(withType accountType: ServiceAccountType,
+                       completion: @escaping UnlinkAccountCompletion)
     var notificationId: String? { get }
     var notificationsConsentStatus: ConsentStatus? { get }
     var isEnabled: Bool { get }
+    var isDvlaAccountLinked: Bool { get }
 }
 
  class UserService: UserServiceInterface {
@@ -24,6 +27,9 @@ protocol UserServiceInterface {
      var notificationsConsentStatus: ConsentStatus? {
          userState?.notifications.consentStatus
      }
+
+     // temporary
+     var isDvlaAccountLinked = false
 
      init(appConfigService: AppConfigServiceInterface,
           userServiceClient: UserServiceClientInterface) {
@@ -62,7 +68,25 @@ protocol UserServiceInterface {
          userServiceClient.linkAccount(
             serviceName: accountType.rawValue,
             linkId: linkId,
-            completion: completion
+            completion: { [weak self] result in
+                if case .success = result {
+                    self?.isDvlaAccountLinked = true
+                }
+                completion(result)
+            }
+         )
+     }
+
+     func unlinkAccount(withType accountType: ServiceAccountType,
+                        completion: @escaping UnlinkAccountCompletion) {
+         userServiceClient.unlinkAccount(
+            serviceName: accountType.rawValue,
+            completion: { [weak self] result in
+                if case .success = result {
+                    self?.isDvlaAccountLinked = false
+                }
+                completion(result)
+            }
          )
      }
  }

@@ -128,4 +128,42 @@ final class UserServiceTests {
         }
     }
 
+    @Test
+    func linkAccount_success_updatesIdDvlaAccountLinked() {
+        mockUserServiceClient._stubbedLinkAccountResult = .success(())
+        let sut = UserService(appConfigService: mockAppConfigService,
+                              userServiceClient: mockUserServiceClient)
+        #expect(sut.isDvlaAccountLinked == false)
+
+        sut.linkAccount(withType: .dvla, linkId: "test-link-id") { _ in
+            #expect(sut.isDvlaAccountLinked == true)
+        }
+    }
+
+    @Test
+    func unlinkAccount_success_returnsExpectedResult() {
+        mockUserServiceClient._stubbedUnlinkAccountResult = .success(())
+        let sut = UserService(appConfigService: mockAppConfigService,
+                              userServiceClient: mockUserServiceClient)
+        var wasSuccessful = false
+        sut.unlinkAccount(withType: .dvla) { result in
+            if case .success = result {
+                wasSuccessful = true
+            }
+            #expect(wasSuccessful == true)
+        }
+    }
+
+    @Test
+    func unlinkAccount_failure_returnsExpectedError() {
+        mockUserServiceClient._stubbedUnlinkAccountResult = .failure(
+            UserStateError.apiUnavailable
+        )
+        let sut =  UserService(appConfigService: mockAppConfigService,
+                               userServiceClient: mockUserServiceClient)
+        sut.unlinkAccount(withType: .dvla) { result in
+            #expect(result.getError() == .apiUnavailable)
+        }
+    }
+
 }

@@ -67,6 +67,7 @@ class MockViewControllerBuilder: ViewControllerBuilder {
                               analyticsService: any AnalyticsServiceInterface,
                               activityService: any ActivityServiceInterface,
                               configService: AppConfigServiceInterface,
+                              userService: UserServiceInterface,
                               topicAction: @escaping (DisplayableTopic) -> Void,
                               subtopicAction: @escaping (any DisplayableTopic) -> Void,
                               stepByStepAction: @escaping ([TopicDetailResponse.Content]) -> Void,
@@ -327,8 +328,23 @@ class MockViewControllerBuilder: ViewControllerBuilder {
         completeAction: @escaping () -> Void,
         dismissAction: @escaping () -> Void
     ) -> UIViewController {
+        _receivedServiceAccountLinkingCompleteAction = completeAction
         _receivedServiceAccountLinkingDismissAction = dismissAction
         return _stubbedServiceAccountLinkingController ?? UIViewController()
+    }
+
+    var _stubbedServiceAccountUnlinkingController: UIViewController?
+    var _receivedServiceAccountUnlinkingCompleteAction: (() -> Void)?
+    var _receivedServiceAccountUnlinkingDismissAction: (() -> Void)?
+    override func serviceAccountUnlinking(
+        userService: UserServiceInterface,
+        accountType: ServiceAccountType,
+        completeAction: @escaping () -> Void,
+        dismissAction: @escaping () -> Void
+    ) -> UIViewController {
+        _receivedServiceAccountUnlinkingCompleteAction = completeAction
+        _receivedServiceAccountUnlinkingDismissAction = dismissAction
+        return _stubbedServiceAccountUnlinkingController ?? UIViewController()
     }
 
 }
