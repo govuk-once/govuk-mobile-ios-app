@@ -178,12 +178,9 @@ class TopicDetailViewModel: TopicDetailViewModelInterface {
         // hard coded DVLA account linking action card
         guard configService.isFeatureEnabled(key: .dvla),
               topic.ref == "driving-transport" else { return }
-        let title: String
-        if !userService.isDvlaAccountLinked {
-            title = "Add your driver and vehicles account"
-        } else {
-            title = "Unlink your driver and vehicles account"
-        }
+        let title = userService.isDvlaAccountLinked
+        ? "Unlink your driver and vehicles account"
+        : "Add your driver and vehicles account"
         let content = TopicDetailResponse.Subtopic(
             ref: "dvla-link-account",
             title: title,
@@ -264,6 +261,12 @@ class TopicDetailViewModel: TopicDetailViewModelInterface {
                 self?.subtopicAction(content)
             }
         )
+    }
+
+    func viewDidAppear() {
+        if isLoaded {
+            updateTopicActionCards()
+        }
     }
 
     func trackScreen(screen: TrackableScreen) {
