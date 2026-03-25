@@ -219,6 +219,7 @@ class HomeViewController: BaseViewController {
             configureSearchBar()
         }
         searchBarShouldBeginEditing(searchBar)
+        searchBar.becomeFirstResponder()
     }
 
     func editTopics() {
