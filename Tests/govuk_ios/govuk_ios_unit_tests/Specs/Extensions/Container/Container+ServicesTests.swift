@@ -105,4 +105,12 @@ struct Container_ServicesTests {
         let sut = container.inactivityService.resolve()
         #expect(sut is InactivityService)
     }
+
+    @Test
+    func dvlaAuthenticationService_returnsExpectedValue() {
+        let container = Container()
+        let sut = container.dvlaAuthenticationService.resolve()
+        #expect(sut is DVLAAuthenticationService)
+
+    }
 }
