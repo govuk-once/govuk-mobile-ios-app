@@ -57,22 +57,28 @@ struct HomeCoordinatorTests {
     @MainActor
     func edit_topics() {
         let mockCoodinatorBuilder = MockCoordinatorBuilder.mock
-        let subject = mockCoodinatorBuilder._mockHomeCoordinator
+        let homeViewController = ViewControllerBuilder.homeViewController
+        let subject = mockCoodinatorBuilder.mockHomeCoordinator(homeViewController: homeViewController)
         subject.start()
         #expect(subject._didEditTopics == false)
+        #expect(homeViewController._didEditTopics == false)
         subject.editTopics()
         #expect(subject._didEditTopics == true)
+        #expect(homeViewController._didEditTopics == true)
     }
     
     @Test
     @MainActor
     func open_search() {
         let mockCoodinatorBuilder = MockCoordinatorBuilder.mock
-        let subject = mockCoodinatorBuilder._mockHomeCoordinator
+        let homeViewController = ViewControllerBuilder.homeViewController
+        let subject = mockCoodinatorBuilder.mockHomeCoordinator(homeViewController: homeViewController)
         subject.start()
         #expect(subject._didOpenSearch == false)
+        #expect(homeViewController._didOpenSearch == false)
         subject.openSearch()
         #expect(subject._didOpenSearch == true)
+        #expect(homeViewController._didOpenSearch == true)
     }
     
     @Test
@@ -209,28 +215,8 @@ struct HomeCoordinatorTests {
     @MainActor
     func didReselectTab_resetsToDefaultState_whenOnHomeScreen() {
         let mockCoodinatorBuilder = MockCoordinatorBuilder.mock
-        let mockViewControllerBuilder = MockViewControllerBuilder()
-        let navigationController = UINavigationController()
-
-        let homeViewController = MockHomeViewController()
-        mockViewControllerBuilder._stubbedHomeViewController = homeViewController
-
-        let subject = HomeCoordinator(
-            navigationController: navigationController,
-            coordinatorBuilder: mockCoodinatorBuilder,
-            viewControllerBuilder: mockViewControllerBuilder,
-            deeplinkStore: DeeplinkDataStore(routes: [], root: UIViewController()),
-            analyticsService: MockAnalyticsService(),
-            configService: MockAppConfigService(),
-            topicsService: MockTopicsService(),
-            notificationService: MockNotificationService(),
-            deviceInformationProvider: MockDeviceInformationProvider(),
-            searchService: MockSearchService(),
-            activityService: MockActivityService(),
-            localAuthorityService: MockLocalAuthorityService(),
-            userDefaultsService: MockUserDefaultsService(),
-            chatService: MockChatService()
-        )
+        let homeViewController = ViewControllerBuilder.homeViewController
+        let subject = mockCoodinatorBuilder.mockHomeCoordinator(homeViewController: homeViewController)
 
         subject.start()
         subject.didSelectTab(0, previousTabIndex: 0)
@@ -245,7 +231,7 @@ struct HomeCoordinatorTests {
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let navigationController = UINavigationController()
 
-        let homeViewController = MockHomeViewController()
+        let homeViewController = ViewControllerBuilder.homeViewController
         mockViewControllerBuilder._stubbedHomeViewController = homeViewController
 
         let subject = HomeCoordinator(
@@ -274,12 +260,12 @@ struct HomeCoordinatorTests {
 
     @Test
     @MainActor
-    func openSearchAction_oresentsWebView() {
+    func openSearchAction_presentsWebView() {
         let mockCoodinatorBuilder = MockCoordinatorBuilder.mock
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let navigationController = UINavigationController()
 
-        let homeViewController = MockHomeViewController()
+        let homeViewController = ViewControllerBuilder.homeViewController
         mockViewControllerBuilder._stubbedHomeViewController = homeViewController
 
         let subject = HomeCoordinator(

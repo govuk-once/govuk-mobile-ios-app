@@ -68,11 +68,16 @@ class MockCoordinatorBuilder: CoordinatorBuilder {
             navigationController: .init()
         )
     }
+    
     var _mockHomeCoordinator: MockHomeCoordinator {
+        mockHomeCoordinator(homeViewController: ViewControllerBuilder.homeViewController)
+    }
+    
+    func mockHomeCoordinator(homeViewController: HomeViewController) -> MockHomeCoordinator {
         let mockCoodinatorBuilder = MockCoordinatorBuilder.mock
         let mockViewControllerBuilder = MockViewControllerBuilder()
-        let expectedViewController = UIViewController()
-        mockViewControllerBuilder._stubbedHomeViewController = expectedViewController
+        
+        mockViewControllerBuilder._stubbedHomeViewController = homeViewController
         let navigationController = UINavigationController()
         let mockHomeCoordinator = MockHomeCoordinator(
             navigationController: navigationController,

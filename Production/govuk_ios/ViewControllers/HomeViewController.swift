@@ -243,7 +243,7 @@ extension HomeViewController: UISearchBarDelegate {
 }
 
 extension HomeViewController: ResetsToDefault {
-    func resetState() {
+    @objc func resetState() {
         if viewModel.searchEnabled {
             cancelSearch()
         }
