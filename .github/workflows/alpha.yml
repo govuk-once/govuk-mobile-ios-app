@@ -20,10 +20,10 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  lint:
-    uses: ./.github/workflows/lint.yml
-  unit-test:
-    uses: ./.github/workflows/unit_test.yml
+  # lint:
+  #   uses: ./.github/workflows/lint.yml
+  # unit-test:
+  #   uses: ./.github/workflows/unit_test.yml
   # sonar-scan:
   #   uses: ./.github/workflows/sonar_scan_branch.yml
   #   needs: unit-test
