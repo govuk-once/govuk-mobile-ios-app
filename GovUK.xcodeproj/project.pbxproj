@@ -112,6 +112,8 @@
 		4E5E79A62DEF011500CA9B4D /* LocalAuthorityConfirmationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5E79A52DEF011500CA9B4D /* LocalAuthorityConfirmationViewModel.swift */; };
 		4E5E79A82DEF063800CA9B4D /* LocalAuthorityConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5E79A72DEF063800CA9B4D /* LocalAuthorityConfirmationView.swift */; };
 		4E5ED2012C6E06FB00750BDA /* AppConfigService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5ED2002C6E06FB00750BDA /* AppConfigService.swift */; };
+		4E6200652F72131500BE7FF4 /* GovUKHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E6200642F72131500BE7FF4 /* GovUKHeaderView.swift */; };
+		4E6200672F72134400BE7FF4 /* AlignedBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E6200662F72134400BE7FF4 /* AlignedBarButtonItem.swift */; };
 		4E6663C52C736ABD0063E81C /* Feature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E6663C42C736ABD0063E81C /* Feature.swift */; };
 		4E6663C82C7370750063E81C /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E6663C72C7370750063E81C /* AppConfig.swift */; };
 		4E6663CA2C737EF50063E81C /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E6663C92C737EF50063E81C /* Config.swift */; };
@@ -569,6 +571,8 @@
 		4E5E79A52DEF011500CA9B4D /* LocalAuthorityConfirmationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthorityConfirmationViewModel.swift; sourceTree = "<group>"; };
 		4E5E79A72DEF063800CA9B4D /* LocalAuthorityConfirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthorityConfirmationView.swift; sourceTree = "<group>"; };
 		4E5ED2002C6E06FB00750BDA /* AppConfigService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfigService.swift; sourceTree = "<group>"; };
+		4E6200642F72131500BE7FF4 /* GovUKHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GovUKHeaderView.swift; path = Production/govuk_ios/UIKitViews/GovUKHeaderView.swift; sourceTree = SOURCE_ROOT; };
+		4E6200662F72134400BE7FF4 /* AlignedBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AlignedBarButtonItem.swift; path = Production/govuk_ios/UIKitViews/AlignedBarButtonItem.swift; sourceTree = SOURCE_ROOT; };
 		4E6663C42C736ABD0063E81C /* Feature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Feature.swift; sourceTree = "<group>"; };
 		4E6663C72C7370750063E81C /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
 		4E6663C92C737EF50063E81C /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
@@ -1331,6 +1335,8 @@
 			isa = PBXGroup;
 			children = (
 				4EF874E32F5F0DF200968044 /* CenterAlignedBarButtonItem.swift */,
+				4E6200642F72131500BE7FF4 /* GovUKHeaderView.swift */,
+				4E6200662F72134400BE7FF4 /* AlignedBarButtonItem.swift */,
 			);
 			path = UiKitViews;
 			sourceTree = "<group>";
@@ -2678,6 +2684,7 @@
 				5D66D1862CBFC13100006723 /* AppEvent+Navigation.swift in Sources */,
 				D08F2C7C2E6AF84F00133121 /* AnimatedAPNGImageView.swift in Sources */,
 				D0D655E82D26A79000571841 /* UIApplication+URLOpener.swift in Sources */,
+				4E6200652F72131500BE7FF4 /* GovUKHeaderView.swift in Sources */,
 				815935E02F22381A00F8D206 /* UserService.swift in Sources */,
 				D00984F22D47BC9600D70FEE /* DeviceInformation+Convenience.swift in Sources */,
 				5DC250662C91D802009E9E7F /* FirebaseClient.swift in Sources */,
@@ -2745,6 +2752,7 @@
 				D0D9CB952D3024C00051EDDD /* SearchHistoryItem.swift in Sources */,
 				815935E22F225B9F00F8D206 /* UserState.swift in Sources */,
 				5D41DB5D2C0870020011E691 /* Container+Aliases.swift in Sources */,
+				4E6200672F72134400BE7FF4 /* AlignedBarButtonItem.swift in Sources */,
 				3D4A9E602E672975003ABE53 /* UserFeedbackWidgetView.swift in Sources */,
 				5DBE08042C480CA700B58DBE /* AnimationView+Convenience.swift in Sources */,
 				4E5E79A62DEF011500CA9B4D /* LocalAuthorityConfirmationViewModel.swift in Sources */,
