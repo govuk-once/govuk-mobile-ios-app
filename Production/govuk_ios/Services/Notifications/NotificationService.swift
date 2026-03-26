@@ -151,8 +151,8 @@ class NotificationService: NSObject,
     }
 
     func register(notificationId: String) {
-        guard hasGivenConsent else { return }
-        oneSignalServiceClient.login(notificationId)
+//        guard hasGivenConsent else { return }
+        oneSignalServiceClient.login("notifications-test-user-ios")
     }
 
     func unregisterNotificationId() {

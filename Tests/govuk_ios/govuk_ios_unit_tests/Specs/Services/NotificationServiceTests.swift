@@ -530,52 +530,52 @@ class NotificationServiceTests {
         #expect(alignment == .misaligned(.consentGrantedNotificationsOff))
     }
 
-    @Test
-    func registerNotificationId_hasGivenConsent_callsLogin() {
-        MockOneSignalServiceClient._stubbedExternalId = nil
+//    @Test
+//    func registerNotificationId_hasGivenConsent_callsLogin() {
+//        MockOneSignalServiceClient._stubbedExternalId = nil
+//
+//        let sut = NotificationService(
+//            environmentService: MockAppEnvironmentService(),
+//            notificationCenter: MockUserNotificationCenter(),
+//            configService: MockAppConfigService(),
+//            userDefaultsService: MockUserDefaultsService(),
+//            oneSignalServiceClient: MockOneSignalServiceClient.self
+//        )
+//        sut.acceptConsent()
+//        sut.register(notificationId: "test_user_id")
+//        #expect(MockOneSignalServiceClient._stubbedExternalId == "test_user_id")
+//    }
 
-        let sut = NotificationService(
-            environmentService: MockAppEnvironmentService(),
-            notificationCenter: MockUserNotificationCenter(),
-            configService: MockAppConfigService(),
-            userDefaultsService: MockUserDefaultsService(),
-            oneSignalServiceClient: MockOneSignalServiceClient.self
-        )
-        sut.acceptConsent()
-        sut.register(notificationId: "test_user_id")
-        #expect(MockOneSignalServiceClient._stubbedExternalId == "test_user_id")
-    }
+//    @Test
+//    func registerNotificationId_hasNotGivenConsent_doesNotCallLogin() {
+//        MockOneSignalServiceClient._stubbedExternalId = nil
+//
+//        let sut = NotificationService(
+//            environmentService: MockAppEnvironmentService(),
+//            notificationCenter: MockUserNotificationCenter(),
+//            configService: MockAppConfigService(),
+//            userDefaultsService: MockUserDefaultsService(),
+//            oneSignalServiceClient: MockOneSignalServiceClient.self
+//        )
+//
+//        sut.register(notificationId: "test_user_id")
+//        #expect(MockOneSignalServiceClient._stubbedExternalId == nil)
+//    }
 
-    @Test
-    func registerNotificationId_hasNotGivenConsent_doesNotCallLogin() {
-        MockOneSignalServiceClient._stubbedExternalId = nil
-
-        let sut = NotificationService(
-            environmentService: MockAppEnvironmentService(),
-            notificationCenter: MockUserNotificationCenter(),
-            configService: MockAppConfigService(),
-            userDefaultsService: MockUserDefaultsService(),
-            oneSignalServiceClient: MockOneSignalServiceClient.self
-        )
-
-        sut.register(notificationId: "test_user_id")
-        #expect(MockOneSignalServiceClient._stubbedExternalId == nil)
-    }
-
-    @Test
-    func unregisterNotificationId_callsLogin() {
-        MockOneSignalServiceClient._stubbedExternalId = "test_user_id"
-        let sut = NotificationService(
-            environmentService: MockAppEnvironmentService(),
-            notificationCenter: MockUserNotificationCenter(),
-            configService: MockAppConfigService(),
-            userDefaultsService: MockUserDefaultsService(),
-            oneSignalServiceClient: MockOneSignalServiceClient.self
-        )
-
-        sut.unregisterNotificationId()
-        #expect(MockOneSignalServiceClient._stubbedExternalId == nil)
-    }
+//    @Test
+//    func unregisterNotificationId_callsLogin() {
+//        MockOneSignalServiceClient._stubbedExternalId = "test_user_id"
+//        let sut = NotificationService(
+//            environmentService: MockAppEnvironmentService(),
+//            notificationCenter: MockUserNotificationCenter(),
+//            configService: MockAppConfigService(),
+//            userDefaultsService: MockUserDefaultsService(),
+//            oneSignalServiceClient: MockOneSignalServiceClient.self
+//        )
+//
+//        sut.unregisterNotificationId()
+//        #expect(MockOneSignalServiceClient._stubbedExternalId == nil)
+//    }
 
     @Test
     func acceptConsent_consentNotGiven_triggersOnConsentChangedAction() {

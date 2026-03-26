@@ -2,7 +2,7 @@
 
 
 extension GOVRequest {
-    private static let notificationsPath = "/notifications"
+    private static let notificationsPath = "/app/uns/v1/notifications"
 
     private static var additionalHeaders: [String: String] {
         ["Content-Type": "application/json"]
