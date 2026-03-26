@@ -1,6 +1,5 @@
 import Foundation
 import GovKit
-import GovKitUI
 
 final class ServiceAccountLinkingViewModel: ObservableObject, ProgressIndicating {
     private let userService: UserServiceInterface

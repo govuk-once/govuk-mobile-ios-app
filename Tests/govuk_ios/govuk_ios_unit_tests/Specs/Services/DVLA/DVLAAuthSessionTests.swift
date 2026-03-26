@@ -7,7 +7,6 @@ import Testing
 
 @Suite(.serialized)
 struct DVLAAuthSessionTests {
-
     init() {
         MockASWebAuthenticationSession.lastInstance = nil
         MockASWebAuthenticationSession._stubbedCallbackUrl = nil
@@ -22,15 +21,12 @@ struct DVLAAuthSessionTests {
             authenticationUrl: URL(string: "www.dvla.gov.uk")!,
             callbackUrlScheme: "govuk"
         )
-
         MockASWebAuthenticationSession._stubbedCallbackUrl = URL(string: "govuk://returnedToken?token=test")!
         let sut = DVLAAuthSession(window: window, sessionType: MockASWebAuthenticationSession.self)
         let result = try await sut.start(config: config)
-
         let receivedAuthenticationSession = MockASWebAuthenticationSession.lastInstance
         #expect(receivedAuthenticationSession?._receivedUrl == URL(string: "www.dvla.gov.uk")!)
         #expect(receivedAuthenticationSession?._receivedCallbackURLScheme == "govuk")
-
         #expect(result == URL(string: "govuk://returnedToken?token=test"))
     }
 
@@ -42,10 +38,8 @@ struct DVLAAuthSessionTests {
             authenticationUrl: URL(string: "www.dvla.gov.uk")!,
             callbackUrlScheme: "govuk"
         )
-
         MockASWebAuthenticationSession._stubbedError = ASWebAuthenticationSessionError(.canceledLogin)
         let sut = DVLAAuthSession(window: window, sessionType: MockASWebAuthenticationSession.self)
-
         await #expect(throws: DVLAAuthError.userCancelled) {
             try await sut.start(config: config)
         }
@@ -59,11 +53,8 @@ struct DVLAAuthSessionTests {
             authenticationUrl: URL(string: "www.dvla.gov.uk")!,
             callbackUrlScheme: "govuk"
         )
-
         MockASWebAuthenticationSession._stubbedCallbackUrl = nil
-
         let sut = DVLAAuthSession(window: window, sessionType: MockASWebAuthenticationSession.self)
-
         await #expect(throws: DVLAAuthError.invalidCallbackUrl) {
             try await sut.start(config: config)
         }

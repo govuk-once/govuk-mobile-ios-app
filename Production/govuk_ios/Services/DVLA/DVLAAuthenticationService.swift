@@ -50,8 +50,11 @@ class DVLAAuthenticationService: DVLAAuthenticationServiceInterface {
 
     private func extractLinkId(from token: String) async throws -> String {
         do {
-            let linkIdPayload = try await JWTLinkingIdExtractor().extract(jwt: token)
-            return linkIdPayload.linkingId
+            let payload = try await JWTExtractor().extract(
+                jwt: token,
+                as: LinkingIdPayload.self
+            )
+            return payload.linkingId
         } catch {
             throw DVLAAuthError.linkIdNotFound
         }

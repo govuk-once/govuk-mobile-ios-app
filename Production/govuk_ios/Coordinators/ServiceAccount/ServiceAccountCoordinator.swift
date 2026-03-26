@@ -49,9 +49,10 @@ final class ServiceAccountCoordinator: BaseCoordinator {
         let coordinator = coordinatorBuilder.dvlaAuthentication(
             navigationController: root,
             completion: linkAccount,
-            errorAction: { _ in
-                print("auth failed")
-                self.dismissModal()
+            errorAction: { error in
+                if error != .userCancelled {
+                    print("auth failed")
+                }
             })
         start(coordinator)
     }
