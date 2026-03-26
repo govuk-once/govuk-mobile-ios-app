@@ -53,14 +53,12 @@ final class LocalWasteScheduleViewControllerSnapshotTests: SnapshotTestCase {
     }
 
     enum Constants {
+        static func today() -> Date {
+            Calendar.current.startOfDay(for: Date())
+        }
         static func tomorrow() -> Date {
             Calendar.current.startOfDay(
                 for: Calendar.current.date(byAdding: .day, value: 1, to: Date())!
-            )
-        }
-        static func dayAfterTomorrow() -> Date {
-            Calendar.current.startOfDay(
-                for: Calendar.current.date(byAdding: .day, value: 2, to: Date())!
             )
         }
 
@@ -70,15 +68,15 @@ final class LocalWasteScheduleViewControllerSnapshotTests: SnapshotTestCase {
                 uprn: "the-uprn",
                 localCustodianCode: "the-code")
         static let schedule: [LocalWasteBin] = [
-            .init(date: tomorrow(),
+            .init(date: today(),
                   name: "General Waste",
                   color: .black,
                   content: "All waste"),
-            .init(date: tomorrow(),
+            .init(date: today(),
                   name: "Paper",
                   color: .blue,
                   content: "Paper, cardboard"),
-            .init(date: dayAfterTomorrow(),
+            .init(date: tomorrow(),
                   name: "Plastics",
                   color: nil,
                   content: "Hard plastics only")

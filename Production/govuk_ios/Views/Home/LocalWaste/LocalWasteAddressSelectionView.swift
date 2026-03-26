@@ -59,6 +59,7 @@ struct LocalWasteAddressSelectionView: View {
                 selected: isSelected(address.uprn),
                 isLastRow: viewModel.addresses.last?.uprn == address.uprn
             )
+            .contentShape(Rectangle())
             .onTapGesture {
                 viewModel.selectedAddress = address
             }

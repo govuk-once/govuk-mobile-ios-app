@@ -276,6 +276,17 @@
         }
       }
     },
+    "localWasteScheduleViewSubtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your next collections. Put bins out by 7 am."
+          }
+        }
+      }
+    },
     "localWasteScheduleViewToday" : {
       "extractionState" : "manual",
       "localizations" : {

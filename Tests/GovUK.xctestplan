@@ -25,6 +25,8 @@
         "value" : "$(SOURCE_ROOT)\/Tests\/govuk_ios\/govuk_ios_snapshot_tests\/ReferenceImages"
       }
     ],
+    "language" : "en-GB",
+    "region" : "GB",
     "targetForVariableExpansion" : {
       "containerPath" : "container:GovUK.xcodeproj",
       "identifier" : "5DAD71732BD250DB0075F648",

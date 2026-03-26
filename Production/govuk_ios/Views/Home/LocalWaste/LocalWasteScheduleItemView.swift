@@ -10,12 +10,14 @@ struct LocalWasteScheduleItemView: View {
                     .frame(width: 40, height: 40)
                     .clipShape(Circle())
                     .padding(.vertical, 16)
+
+                Spacer().frame(width: 16)
             } else {
                 Image(.localUnknownIcon)
                     .padding(.vertical, 16)
-            }
 
-            Spacer().frame(width: 16)
+                Spacer().frame(width: 16)
+            }
 
             VStack(alignment: .leading, spacing: 0) {
                 Text(item.title)
@@ -27,6 +29,7 @@ struct LocalWasteScheduleItemView: View {
                         .maxWidthMultilineLeading()
                 }
             }
+            .frame(minHeight: 40)
             .padding(.vertical, 16)
         }
         .contentShape(Rectangle())

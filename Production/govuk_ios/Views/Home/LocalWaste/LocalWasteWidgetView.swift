@@ -92,7 +92,9 @@ struct LocalWasteWidgetView: View {
 
     private func ready() -> some View {
         VStack(alignment: .leading, spacing: 0) {
-            address()
+            LocalWasteAddressPillView(
+                addressString: viewModel.address
+            )
 
             Spacer().frame(height: 16)
 
@@ -102,25 +104,6 @@ struct LocalWasteWidgetView: View {
                 items()
             }
         }
-    }
-
-    private func address() -> some View {
-        HStack(alignment: .center, spacing: 0) {
-            Image(.localLocationIcon)
-                .padding(8)
-            Text(viewModel.address)
-                .padding(.vertical, 8)
-                .padding(.trailing, 8)
-                .font(Font.govUK.footnote)
-                .foregroundColor(Color(UIColor.govUK.text.header))
-                .fixedSize(horizontal: false, vertical: true)
-                .multilineTextAlignment(.leading)
-        }
-        .background(
-            RoundedRectangle(cornerRadius: 8)
-                .fill(Color(UIColor.govUK.fills.textIconSurroundPrimary)))
-        .accessibilityElement(children: .ignore)
-        .accessibilityLabel(viewModel.addressAccessibilityLabel)
     }
 
     private func itemsEmpty() -> some View {
@@ -156,7 +139,9 @@ struct LocalWasteWidgetView: View {
                 viewModel.items,
                 id: \.id,
                 content: {
-                    LocalWasteScheduleItemView(item: $0)
+                    LocalWasteScheduleItemView(
+                        item: $0
+                    )
                 },
                 separator: {
                     Divider()

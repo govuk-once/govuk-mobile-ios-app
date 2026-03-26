@@ -305,6 +305,7 @@
 		61B4B59F2F600B9C00C75ED4 /* LocalWasteAddressSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61B4B59E2F600B9C00C75ED4 /* LocalWasteAddressSelectionViewModel.swift */; };
 		61B4B5AD2F61708700C75ED4 /* LocalWasteAddressItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61B4B5AC2F61708700C75ED4 /* LocalWasteAddressItem.swift */; };
 		61B4BC682F617AFE00C75ED4 /* LocalWasteRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61B4BC672F617AFE00C75ED4 /* LocalWasteRepository.swift */; };
+		61C7650B2F74146C002FFB50 /* LocalWasteAddressPillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C7650A2F74146C002FFB50 /* LocalWasteAddressPillView.swift */; };
 		61E69E782F5ADDBF00AACBFA /* View+Styling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61E69E772F5ADDBF00AACBFA /* View+Styling.swift */; };
 		8101A23E2F28BAAB009E639B /* AppUnavailableError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8101A23D2F28BAA4009E639B /* AppUnavailableError.swift */; };
 		8101A2402F28BB58009E639B /* UserStateError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8101A23F2F28BB54009E639B /* UserStateError.swift */; };
@@ -788,6 +789,7 @@
 		61B4B5AC2F61708700C75ED4 /* LocalWasteAddressItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalWasteAddressItem.swift; sourceTree = "<group>"; };
 		61B4B90A2F61723700C75ED4 /* GOV_v3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = GOV_v3.xcdatamodel; sourceTree = "<group>"; };
 		61B4BC672F617AFE00C75ED4 /* LocalWasteRepository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalWasteRepository.swift; sourceTree = "<group>"; };
+		61C7650A2F74146C002FFB50 /* LocalWasteAddressPillView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalWasteAddressPillView.swift; sourceTree = "<group>"; };
 		61E69E772F5ADDBF00AACBFA /* View+Styling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "View+Styling.swift"; sourceTree = "<group>"; };
 		8101A23D2F28BAA4009E639B /* AppUnavailableError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUnavailableError.swift; sourceTree = "<group>"; };
 		8101A23F2F28BB54009E639B /* UserStateError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStateError.swift; sourceTree = "<group>"; };
@@ -2103,6 +2105,7 @@
 			isa = PBXGroup;
 			children = (
 				61386A362F683AE500E190CE /* ForEachWithSeparator.swift */,
+				61C7650A2F74146C002FFB50 /* LocalWasteAddressPillView.swift */,
 				61B4B59C2F600B8C00C75ED4 /* LocalWasteAddressSelectionView.swift */,
 				619342BF2F5B153200C5AB7F /* LocalWastePostcodeEntryView.swift */,
 				61A9DCFB2F7196510051DC80 /* LocalWasteScheduleItemView.swift */,
@@ -2865,6 +2868,7 @@
 				D0D9CB932D3024C00051EDDD /* SearchResult.swift in Sources */,
 				61386A372F683AF300E190CE /* ForEachWithSeparator.swift in Sources */,
 				D0D9CB942D3024C00051EDDD /* SearchItem.swift in Sources */,
+				61C7650B2F74146C002FFB50 /* LocalWasteAddressPillView.swift in Sources */,
 				D0D9CB952D3024C00051EDDD /* SearchHistoryItem.swift in Sources */,
 				815935E22F225B9F00F8D206 /* UserState.swift in Sources */,
 				5D41DB5D2C0870020011E691 /* Container+Aliases.swift in Sources */,

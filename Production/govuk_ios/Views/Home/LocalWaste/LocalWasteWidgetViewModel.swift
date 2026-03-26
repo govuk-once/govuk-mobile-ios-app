@@ -15,17 +15,7 @@ final class LocalWasteWidgetViewModel: ObservableObject {
     private(set) var viewState: ViewState = .initial
 
     @Published
-    private(set) var address: String = "" {
-        didSet {
-            let format = String.localWaste.localized(
-                "localWasteWidgetViewAddressAccessibilityLabelFormat"
-            )
-            addressAccessibilityLabel = String(format: format, address)
-        }
-    }
-
-    @Published
-    private(set) var addressAccessibilityLabel: String = ""
+    private(set) var address: String = ""
 
     @Published
     private(set) var dueDate: String = ""
@@ -95,7 +85,6 @@ final class LocalWasteWidgetViewModel: ObservableObject {
     func resetViewState() {
         viewState = .initial
         address = ""
-        addressAccessibilityLabel = ""
         dueDate = ""
         items = []
     }

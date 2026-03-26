@@ -139,7 +139,6 @@ struct LocalWasteWidgetViewModelTests {
 
         #expect(sut.viewState == .error)
         #expect(sut.address == "")
-        #expect(sut.addressAccessibilityLabel == "")
         #expect(sut.dueDate == "")
         #expect(sut.items == [])
     }
@@ -158,7 +157,6 @@ struct LocalWasteWidgetViewModelTests {
         await sut.load()
 
         #expect(sut.address == "")
-        #expect(sut.addressAccessibilityLabel == "")
         #expect(sut.dueDate == "")
         #expect(sut.isScheduleAvailable == false)
         #expect(sut.items == [])
@@ -178,7 +176,6 @@ struct LocalWasteWidgetViewModelTests {
         await sut.load()
 
         #expect(sut.address == Constants.address.addressFull)
-        #expect(sut.addressAccessibilityLabel == "Your address: \(Constants.address.addressFull)")
         #expect(sut.viewState == .ready)
     }
 
@@ -198,7 +195,6 @@ struct LocalWasteWidgetViewModelTests {
         #expect(sut.items == [])
         #expect(sut.dueDate == "")
         #expect(sut.address == Constants.address.addressFull)
-        #expect(sut.addressAccessibilityLabel == "Your address: \(Constants.address.addressFull)")
         #expect(sut.isScheduleAvailable == false)
         #expect(sut.viewState == .ready)
     }
@@ -398,7 +394,6 @@ struct LocalWasteWidgetViewModelTests {
         #expect(sut.items == [])
         #expect(sut.dueDate == "")
         #expect(sut.address == Constants.address.addressFull)
-        #expect(sut.addressAccessibilityLabel == "Your address: \(Constants.address.addressFull)")
         #expect(sut.viewState == .ready)
     }
 
@@ -522,7 +517,6 @@ struct LocalWasteWidgetViewModelTests {
 
         #expect(sut.items == [])
         #expect(sut.address == "")
-        #expect(sut.addressAccessibilityLabel == "")
         #expect(sut.dueDate == "")
         #expect(sut.viewState == .initial)
     }

@@ -25,6 +25,22 @@ struct LocalWasteScheduleViewModelTests {
     }
 
     @Test
+    func viewSubtitle_returnsCorrectValue() throws {
+        let mockLocalWasteService = MockLocalWasteService()
+        mockLocalWasteService._dataFetchAddress = Constants.address
+        mockLocalWasteService._scheduleCache = Constants.schedule
+        let sut = LocalWasteScheduleViewModel(
+            service: mockLocalWasteService,
+            analyticsService: MockAnalyticsService(),
+            dismissAction: { }
+        )
+        let expected = String.localWaste.localized(
+            "localWasteScheduleViewSubtitle"
+        )
+        #expect(sut.viewSubtitle == expected)
+    }
+
+    @Test
     func cancelButton_returnsCorrectValue() throws {
         let mockLocalWasteService = MockLocalWasteService()
         mockLocalWasteService._dataFetchAddress = Constants.address

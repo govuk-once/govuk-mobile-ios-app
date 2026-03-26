@@ -23,9 +23,15 @@ struct LocalWasteScheduleView: View {
 
                         Spacer().frame(height: 16)
 
-                        Text(viewModel.address)
-                            .bodySecondary()
-                            .maxWidthMultilineLeading()
+                        Text(viewModel.viewSubtitle)
+                            .font(Font.govUK.body)
+                            .foregroundColor(Color(UIColor.govUK.text.secondary))
+
+                        Spacer().frame(height: 16)
+
+                        LocalWasteAddressPillView(
+                            addressString: viewModel.address
+                        )
 
                         Spacer().frame(height: 16)
 

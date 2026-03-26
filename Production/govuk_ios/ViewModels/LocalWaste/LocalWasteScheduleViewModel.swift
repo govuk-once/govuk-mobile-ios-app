@@ -15,6 +15,9 @@ class LocalWasteScheduleViewModel: ObservableObject {
     let viewTitle: String =  String.localWaste.localized(
         "localWasteScheduleViewTitle"
     )
+    let viewSubtitle: String =  String.localWaste.localized(
+        "localWasteScheduleViewSubtitle"
+    )
 
     private let service: LocalWasteServiceInterface
     private let analyticsService: AnalyticsServiceInterface
