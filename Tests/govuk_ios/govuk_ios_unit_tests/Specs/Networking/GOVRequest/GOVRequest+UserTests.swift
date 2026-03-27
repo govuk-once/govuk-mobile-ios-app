@@ -10,7 +10,7 @@ struct GOVRequest_UserTests {
     func userState_returnsExpectedValues() {
         let request = GOVRequest.userState
 
-        #expect(request.urlPath == "/app/v1/users")
+        #expect(request.urlPath == "/app/udp/v1/users")
         #expect(request.method == .get)
         #expect(request.requiresAuthentication == true)
     }
@@ -19,7 +19,7 @@ struct GOVRequest_UserTests {
     func setNotificationsConsent_accepted_returnsExpectedValues() throws {
         let request = GOVRequest.setNotificationsConsent(consentStatus: .accepted)
 
-        #expect(request.urlPath == "/app/v1/users/notifications")
+        #expect(request.urlPath == "/app/udp/v1/users/notifications")
         #expect(request.method == .patch)
         #expect(request.requiresAuthentication == true)
 
@@ -31,7 +31,7 @@ struct GOVRequest_UserTests {
     func setNotificationsConsent_denied_returnsExpectedValues() throws {
         let request = GOVRequest.setNotificationsConsent(consentStatus: .denied)
 
-        #expect(request.urlPath == "/app/v1/users/notifications")
+        #expect(request.urlPath == "/app/udp/v1/users/notifications")
         #expect(request.method == .patch)
         #expect(request.requiresAuthentication == true)
 

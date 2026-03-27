@@ -21,7 +21,7 @@ struct UserServiceClientTests {
     @Test
     func fetchUserState_sendsExpectedRequest() {
         sut.fetchUserState { _ in }
-        #expect(mockAPI._receivedSendRequest?.urlPath == "/app/v1/users")
+        #expect(mockAPI._receivedSendRequest?.urlPath == "/app/udp/v1/users")
         #expect(mockAPI._receivedSendRequest?.method == .get)
     }
 
@@ -82,7 +82,7 @@ struct UserServiceClientTests {
     @Test
     func setNotificationsConsent_sendsExpectedRequest() throws {
         sut.setNotificationsConsent(.accepted) { _ in }
-        #expect(mockAPI._receivedSendRequest?.urlPath == "/app/v1/users/notifications")
+        #expect(mockAPI._receivedSendRequest?.urlPath == "/app/udp/v1/users/notifications")
         #expect(mockAPI._receivedSendRequest?.method == .patch)
         let body = try #require(mockAPI._receivedSendRequest?.body as? ConsentPreference)
         #expect(body.consentStatus == .accepted)
