@@ -218,4 +218,8 @@ class HomeViewModel: ObservableObject {
     func trackECommerce() {
         topicsWidgetViewModel.trackECommerce()
     }
+
+    func editTopics() {
+        topicsWidgetViewModel.isEditingTopics = true
+    }
 }
