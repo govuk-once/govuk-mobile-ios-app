@@ -7,6 +7,7 @@ protocol NotificationCentreServiceInterface {
 
     func markUnread(with id: String)
     func markRead(with id: String)
+    func delete(with id: String)
 }
 
 class NotificationCentreService: NotificationCentreServiceInterface {
@@ -54,6 +55,13 @@ class NotificationCentreService: NotificationCentreServiceInterface {
     func markRead(with id: String) {
         repository.updateNotification(with: id, isUnread: false)
         serviceClient.updateNotification(status: .read, for: id) {
+            /* No-op */
+        }
+    }
+
+    func delete(with id: String) {
+        repository.deleteNotification(with: id)
+        serviceClient.deleteNotification(with: id) {
             /* No-op */
         }
     }

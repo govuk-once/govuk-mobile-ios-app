@@ -6,7 +6,8 @@ import GovKit
 
 class NotificationCentreDetailViewModel: ObservableObject {
     enum State {
-        case new, loading, notFound, loaded(notification: Notification), error
+        case new, loading, notFound,
+             loaded(notification: Notification, showDeleteConfirmationSheet: Bool), error
     }
 
     @Published public private(set) var state: State = .new
@@ -62,11 +63,15 @@ class NotificationCentreDetailViewModel: ObservableObject {
                     Task {
                         if case let .success(notification) = res {
                             if let notification {
-                                await self?.changeState(state: .loaded(notification: notification))
+                                await self?.changeState(
+                                    state: .loaded(
+                                        notification: notification,
+                                        showDeleteConfirmationSheet: false))
                                 if notification.isUnread {
                                     self?.notificationService.markRead(with: notification.id)
                                 }
                             } else {
+                                self?.analyticsService.track(event: .notificationCentreNotFound())
                                 await self?.changeState(state: .notFound)
                             }
                         } else if case let .failure(error) = res,
@@ -85,13 +90,32 @@ class NotificationCentreDetailViewModel: ObservableObject {
     }
 
     func onDelete() {
-        // swiftlint:disable:next todo
-        // TODO Send API call
+        if case .loaded(let notification, _) = state {
+            self.analyticsService.track(event: .notificationCentreDelete())
+            self.state = .loaded(notification: notification, showDeleteConfirmationSheet: true)
+        }
+    }
+
+    func onConfirmDelete() {
+        if case .loaded(let notification, _) = state {
+            self.analyticsService.track(event: .notificationCentreConfirmDelete())
+            Task { [weak self] in
+                self?.notificationService.delete(with: notification.id)
+            }
+        }
+
         onDeleteAction()
     }
 
+    func onCancelDelete() {
+        if case .loaded(let notification, _) = state {
+            self.analyticsService.track(event: .notificationCentreCancelDelete())
+            self.state = .loaded(notification: notification, showDeleteConfirmationSheet: false)
+        }
+    }
+
     func onMarkUnread() {
-        if case .loaded(let notification) = state {
+        if case .loaded(let notification, _) = state {
             Task { [weak self] in
                 self?.notificationService.markUnread(with: notification.id)
             }

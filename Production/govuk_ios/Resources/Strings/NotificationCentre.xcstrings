@@ -1,6 +1,50 @@
 {
   "sourceLanguage" : "en-GB",
   "strings" : {
+    "deleteNotificationBody" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This notification will be permanently deleted. This action cannot be undone."
+          }
+        }
+      }
+    },
+    "deleteNotificationCancelButton" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        }
+      }
+    },
+    "deleteNotificationConfirmButton" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete notification"
+          }
+        }
+      }
+    },
+    "deleteNotificationTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete notification?"
+          }
+        }
+      }
+    },
     "noNotificationsBody" : {
       "extractionState" : "manual",
       "localizations" : {

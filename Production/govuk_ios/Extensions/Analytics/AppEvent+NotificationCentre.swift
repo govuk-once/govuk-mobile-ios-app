@@ -10,4 +10,24 @@ extension AppEvent {
               ]
         )
     }
+
+    static func notificationCentreNotFound() -> AppEvent {
+        .init(name: "NotificationCentreNotFound", params: nil)
+    }
+
+    static func notificationCentreMarkUnread() -> AppEvent {
+        .init(name: "NotificationCentreMarkUnread", params: nil)
+    }
+
+    static func notificationCentreDelete() -> AppEvent {
+        .init(name: "NotificationCentreDelete", params: nil)
+    }
+
+    static func notificationCentreConfirmDelete() -> AppEvent {
+        .init(name: "NotificationCentreConfirmDelete", params: nil)
+    }
+
+    static func notificationCentreCancelDelete() -> AppEvent {
+        .init(name: "NotificationCentreCancelDelete", params: nil)
+    }
 }

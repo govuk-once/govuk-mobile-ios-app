@@ -688,8 +688,8 @@ class ViewControllerBuilder {
 
 
             viewController.navigationItem.rightBarButtonItems = [
-                unreadButton,
-//                deleteButton
+                deleteButton,
+                unreadButton
             ]
             return viewController
         }

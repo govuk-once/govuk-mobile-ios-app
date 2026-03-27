@@ -7,6 +7,7 @@ protocol NotificationCentreRepositoryInterface {
 
     func store(notifications: [Notification])
     func updateNotification(with id: String, isUnread: Bool)
+    func deleteNotification(with id: String)
 }
 
 
@@ -58,6 +59,14 @@ class NotificationCentreRepository: NotificationCentreRepositoryInterface {
                 messageTitle: $0.messageTitle,
                 messageBody: $0.messageBody)
         }
+
+        self.notifications = .init(data: updatedNotifications, lastUpdate: notifications.lastUpdate)
+    }
+
+    func deleteNotification(with id: String) {
+        guard let notifications else { return }
+
+        let updatedNotifications = notifications.data.filter { $0.id != id }
 
         self.notifications = .init(data: updatedNotifications, lastUpdate: notifications.lastUpdate)
     }

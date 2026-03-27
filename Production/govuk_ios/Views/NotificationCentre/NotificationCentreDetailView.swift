@@ -27,7 +27,9 @@ struct NotificationCentreDetailContainerView: View {
                                     UIAccessibility.post(notification: .screenChanged,
                                                          argument: "No Notifications")
                                 }
-                        case .loaded(notification: let notification):
+                        case .loaded(
+                            notification: let notification,
+                            showDeleteConfirmationSheet: let showConfirmation):
                             NotificationCentreDetailLoadedView(
                                 notification: notification,
                                 onLinkTapped: {
@@ -35,7 +37,14 @@ struct NotificationCentreDetailContainerView: View {
                                     // TODO Combine these?
                                     viewModel.show(url: $0)
                                     viewModel.track(url: $0)
-                                })
+                                },
+                                onConfirmDelete: {
+                                    viewModel.onConfirmDelete()
+                                },
+                                onCancelDelete: {
+                                    viewModel.onCancelDelete()
+                                },
+                                showDeleteConfirmation: showConfirmation)
                             .onAppear {
                                 UIAccessibility.post(notification: .screenChanged,
                                                      argument: "Loading complete")
@@ -102,6 +111,11 @@ struct NotificationCentreDetailContainerView: View {
 private struct NotificationCentreDetailLoadedView: View {
     let notification: Notification
     let onLinkTapped: (URL) -> Void
+    let onConfirmDelete: () -> Void
+    let onCancelDelete: () -> Void
+    let showDeleteConfirmation: Bool
+
+    @State private var showSheet: Bool = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -130,6 +144,24 @@ private struct NotificationCentreDetailLoadedView: View {
         .padding(.horizontal, 16)
         .background(Color(UIColor.govUK.fills.surfaceCardEmergencyInfo))
         .clipShape(RoundedRectangle(cornerRadius: 10))
+        .confirmationDialog(.NotificationCentre.deleteNotificationTitle,
+                            isPresented: $showSheet,
+                            titleVisibility: .visible) {
+            Button(.NotificationCentre.deleteNotificationConfirmButton,
+                   role: .destructive,
+                   action: {
+                onConfirmDelete()
+            })
+            Button(.NotificationCentre.deleteNotificationCancelButton, role: .cancel, action: {
+                onCancelDelete()
+            })
+        } message: {
+            Text(.NotificationCentre.deleteNotificationBody)
+                .font(Font.govUK.body)
+                .multilineTextAlignment(.center)
+                .foregroundStyle(Color(GOVUKColors.text.secondary))
+        }
+        .onChange(of: showDeleteConfirmation) { showSheet = $0 }
     }
 }
 
@@ -249,7 +281,10 @@ extension String {
 
     NotificationCentreDetailLoadedView(
         notification: testNotification,
-        onLinkTapped: { _ in /* no-op */ })
+        onLinkTapped: { _ in /* no-op */ },
+        onConfirmDelete: { /* no-op */ },
+        onCancelDelete: { /* no-op */ },
+        showDeleteConfirmation: false)
 }
 
 #Preview("Not Found") {
