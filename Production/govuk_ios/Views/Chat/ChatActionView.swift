@@ -71,18 +71,15 @@ struct ChatActionView: View {
                     .padding(.trailing, 6)
                 }
             }
-            .overlay(alignment: .center) {
-                HStack {
-                    Spacer()
-                    if shouldShowMenu {
-                        ChatMenuView(
-                            viewModel: viewModel,
-                            menuDimensions: actionDimensions,
-                            showClearChatAlert: $showClearChatAlert,
-                            disableClearChat: $viewModel.requestInFlight
-                        )
-                        .padding(.trailing, 6)
-                    }
+            .overlay(alignment: .bottomTrailing) {
+                if shouldShowMenu {
+                    ChatMenuView(
+                        viewModel: viewModel,
+                        menuDimensions: actionDimensions,
+                        showClearChatAlert: $showClearChatAlert,
+                        disableClearChat: $viewModel.requestInFlight
+                    )
+                    .padding([.trailing, .bottom], 6)
                 }
             }
             .overlay(alignment: .bottomTrailing) {
