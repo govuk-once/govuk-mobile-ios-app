@@ -213,9 +213,22 @@ class HomeViewController: BaseViewController {
         viewWillReAppear()
         setLogoHidden(false)
     }
+
+    func openSearch() {
+        if !view.subviews.contains(searchBar) {
+            configureSearchBar()
+        }
+        searchBarShouldBeginEditing(searchBar)
+        searchBar.becomeFirstResponder()
+    }
+
+    func editTopics() {
+        viewModel.editTopics()
+    }
 }
 
 extension HomeViewController: UISearchBarDelegate {
+    @discardableResult
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
         searchBar.setShowsCancelButton(true, animated: true)
         removeController(homeContentViewController)
@@ -230,7 +243,7 @@ extension HomeViewController: UISearchBarDelegate {
 }
 
 extension HomeViewController: ResetsToDefault {
-    func resetState() {
+    @objc func resetState() {
         if viewModel.searchEnabled {
             cancelSearch()
         }

@@ -50,3 +50,24 @@ class MockBaseCoordinator: BaseCoordinator,
         _previousTab = previousTabIndex
     }
 }
+
+class MockHomeCoordinator: HomeCoordinator {
+    
+    var _didEditTopics: Bool = false
+    override func editTopics() {
+        super.editTopics()
+        _didEditTopics = true
+    }
+    
+    var _didOpenSearch: Bool = false
+    override func openSearch() {
+        super.openSearch()
+        _didOpenSearch = true
+    }
+    
+    var _didShowLastVisited:Bool = false
+    override func showLastVisited() {
+        super.showLastVisited()
+        _didShowLastVisited = true
+    }
+}

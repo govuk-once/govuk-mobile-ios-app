@@ -8,6 +8,36 @@ extension ViewControllerBuilder {
     static var mock: MockViewControllerBuilder {
         MockViewControllerBuilder()
     }
+    
+    static var homeViewController: MockHomeViewController {
+        let topicsViewModel = TopicsWidgetViewModel(
+            topicsService: MockTopicsService(),
+            analyticsService: MockAnalyticsService(),
+            topicAction: { _ in },
+            dismissEditAction: { }
+        )
+        let homeViewModel = HomeViewModel(
+            analyticsService: MockAnalyticsService(),
+            configService: MockAppConfigService(),
+            notificationService: MockNotificationService(),
+            userDefaultsService: MockUserDefaultsService(),
+            topicsWidgetViewModel: topicsViewModel,
+            urlOpener: MockURLOpener(),
+            searchService: MockSearchService(),
+            activityService: MockActivityService(),
+            localAuthorityService: MockLocalAuthorityService(),
+            chatService: MockChatService(),
+            localAuthorityAction: { },
+            editLocalAuthorityAction: { },
+            feedbackAction: { },
+            notificationsAction: { },
+            recentActivityAction: { },
+            openURLAction: { _ in },
+            openAction: { _ in }
+        )
+        let homeViewController = MockHomeViewController(viewModel: homeViewModel)
+        return homeViewController
+    }
 }
 
 class MockViewControllerBuilder: ViewControllerBuilder {
