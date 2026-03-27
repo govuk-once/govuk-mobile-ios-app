@@ -71,7 +71,7 @@ class AppCoordinator: BaseCoordinator {
         }
     }
 
-    override func start(url: URL?) {
+    override func start(url: URL? = nil) {
         startInactivityMonitoring()
         pendingDeeplink = url ?? pendingDeeplink
         if initialLaunch {

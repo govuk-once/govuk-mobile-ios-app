@@ -52,7 +52,7 @@ class HomeCoordinator: TabItemCoordinator {
         super.init(navigationController: navigationController)
     }
 
-    override func start(url: URL?) {
+    override func start(url: URL? = nil) {
         let dependencies = ViewControllerBuilder.HomeDependencies(
             analyticsService: analyticsService,
             configService: configService,
@@ -136,7 +136,7 @@ class HomeCoordinator: TabItemCoordinator {
             self.trackWidgetNavigation(
                 text: String.home.localized("notificationWidgetTitle")
             )
-            self.notificationService.requestPermissions { _ in self.start(url: nil) }
+            self.notificationService.requestPermissions { _ in self.start() }
         }
     }
 

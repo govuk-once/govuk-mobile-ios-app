@@ -15,11 +15,11 @@ class BaseCoordinator: NSObject,
         navigationController.presentationController?.delegate = self
     }
 
-    final func start() {
-        start(url: nil)
+    func start() {
+        assertionFailure("This needs overriding")
     }
 
-    func start(url: URL?) {
+    func start(url: URL? = nil) {
         assertionFailure("This needs overriding")
     }
 
@@ -32,7 +32,11 @@ class BaseCoordinator: NSObject,
         childCoordinators.append(coordinator)
         coordinator.root.delegate = coordinator
         coordinator.parentCoordinator = self
-        coordinator.start(url: url)
+        if url != nil {
+            coordinator.start(url: url)
+        } else {
+            coordinator.start()
+        }
     }
 
     func present(_ coordinator: BaseCoordinator,

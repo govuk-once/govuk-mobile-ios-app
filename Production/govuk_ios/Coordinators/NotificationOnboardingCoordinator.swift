@@ -30,7 +30,7 @@ class NotificationOnboardingCoordinator: BaseCoordinator {
         super.init(navigationController: navigationController)
     }
 
-    override func start(url: URL?) {
+    override func start() {
         Task {
             await startNotifications()
         }

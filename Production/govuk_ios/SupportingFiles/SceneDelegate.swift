@@ -72,7 +72,7 @@ class SceneDelegate: UIResponder,
 
     func sceneWillEnterForeground(_ scene: UIScene) {
         window?.makeKeyAndVisible()
-        appCoordinator.start(url: nil)
+        appCoordinator.start()
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {

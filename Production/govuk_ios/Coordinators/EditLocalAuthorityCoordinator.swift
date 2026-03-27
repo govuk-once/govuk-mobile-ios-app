@@ -25,7 +25,7 @@ class EditLocalAuthorityCoordinator: BaseCoordinator {
         super.init(navigationController: navigationController)
     }
 
-    override func start(url: URL?) {
+    override func start() {
         let viewController = viewControllerBuilder.localAuthorityPostcodeEntryView(
             analyticsService: analyticsService,
             localAuthorityService: localAuthorityService,

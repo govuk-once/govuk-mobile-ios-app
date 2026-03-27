@@ -23,7 +23,7 @@ class LocalAuthenticationSettingsCoordinator: BaseCoordinator {
         super.init(navigationController: navigationController)
     }
 
-    override func start(url: URL?) {
+    override func start() {
         switch localAuthenticationService.deviceCapableAuthType {
         case .faceID:
             faceIdSettings()

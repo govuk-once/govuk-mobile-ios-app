@@ -23,7 +23,7 @@ class LocalAuthorityServiceCoordinator: BaseCoordinator {
         super.init(navigationController: navigationController)
     }
 
-    override func start(url: URL?) {
+    override func start() {
         let viewController = viewControllerBuilder.localAuthorityExplainerView(
             analyticsService: analyticsService,
             navigateToPostCodeEntryViewAction: { [weak self] in
