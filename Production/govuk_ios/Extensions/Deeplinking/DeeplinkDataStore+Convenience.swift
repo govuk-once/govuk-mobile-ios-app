@@ -7,7 +7,10 @@ extension DeeplinkDataStore {
         DeeplinkDataStore(
             routes: [
                 HomeDeeplinkRoute(coordinatorBuilder: coordinatorBuilder),
-                WebDeeplinkRoute(coordinatorBuilder: coordinatorBuilder)
+                WebDeeplinkRoute(coordinatorBuilder: coordinatorBuilder),
+                SearchDeeplinkRoute(coordinatorBuilder: coordinatorBuilder),
+                EditTopicsDeeplinkRoute(coordinatorBuilder: coordinatorBuilder),
+                RecentActivityDeeplinkRoute(coordinatorBuilder: coordinatorBuilder)
             ],
             root: root
         )

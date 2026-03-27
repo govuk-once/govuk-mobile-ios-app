@@ -86,6 +86,22 @@ class HomeCoordinator: TabItemCoordinator {
         set([viewController], animated: false)
     }
 
+    func editTopics() {
+        if let homeViewController = root.children.first as? HomeViewController {
+            homeViewController.editTopics()
+        }
+    }
+
+    func openSearch() {
+        if let homeViewController = root.children.first as? HomeViewController {
+            homeViewController.openSearch()
+        }
+    }
+
+    func showLastVisited() {
+        startRecentActivityCoordinator()
+    }
+
     private func presentWebView(url: URL) {
         let coordinator = coordinatorBuilder.safari(
             navigationController: root,

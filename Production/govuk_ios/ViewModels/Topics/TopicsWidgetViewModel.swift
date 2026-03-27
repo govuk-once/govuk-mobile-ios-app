@@ -28,6 +28,7 @@ final class TopicsWidgetViewModel: ObservableObject {
     }
 
     @Published var initialLoadComplete = false
+    @Published var isEditingTopics = false
 
     var errorViewModel: AppErrorViewModel {
         .topicErrorWithAction { [weak self] in

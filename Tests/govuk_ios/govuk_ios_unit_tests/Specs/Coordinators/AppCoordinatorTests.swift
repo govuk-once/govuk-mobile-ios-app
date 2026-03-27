@@ -27,6 +27,8 @@ struct AppCoordinatorTests {
             localAuthenticationService: mockLocalAuthenticationService,
             notificationService: mockNotificationService,
             userService: MockUserService(),
+            analyticsService: MockAnalyticsService(),
+            tokenProvider: MockAuthenticationService(),
             navigationController: mockNavigationController
         )
 
@@ -65,6 +67,8 @@ struct AppCoordinatorTests {
             localAuthenticationService: mockLocalAuthenticationService,
             notificationService: mockNotificationService,
             userService: MockUserService(),
+            analyticsService: MockAnalyticsService(),
+            tokenProvider: MockAuthenticationService(),
             navigationController: mockNavigationController
         )
 
@@ -119,6 +123,8 @@ struct AppCoordinatorTests {
             localAuthenticationService: mockLocalAuthenticationService,
             notificationService: mockNotificationService,
             userService: MockUserService(),
+            analyticsService: MockAnalyticsService(),
+            tokenProvider: MockAuthenticationService(),
             navigationController: mockNavigationController
         )
 
@@ -178,6 +184,8 @@ struct AppCoordinatorTests {
             localAuthenticationService: mockLocalAuthenticationService,
             notificationService: mockNotificationService,
             userService: MockUserService(),
+            analyticsService: MockAnalyticsService(),
+            tokenProvider: MockAuthenticationService(),
             navigationController: mockNavigationController
         )
 
@@ -240,6 +248,8 @@ struct AppCoordinatorTests {
             localAuthenticationService: mockLocalAuthenticationService,
             notificationService: mockNotificationService,
             userService: MockUserService(),
+            analyticsService: MockAnalyticsService(),
+            tokenProvider: MockAuthenticationService(),
             navigationController: mockNavigationController
         )
 
@@ -252,6 +262,69 @@ struct AppCoordinatorTests {
 
         tabCoordinator.finish()
         #expect(periAuthCoordinator._startCalled)
+    }
+
+    @Test
+    func start_withMissingAccessToken_tracksError() {
+        let mockAuthenticationService = MockAuthenticationService()
+        let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
+        let mockNavigationController = UINavigationController()
+        let mockInactivityService = MockInactivityService()
+        let mockLocalAuthenticationService = MockLocalAuthenticationService()
+        let mockNotificationService = MockNotificationService()
+        let analyticsService = MockAnalyticsService()
+        let subject = AppCoordinator(
+            coordinatorBuilder: mockCoordinatorBuilder,
+            inactivityService: mockInactivityService,
+            authenticationService: mockAuthenticationService,
+            localAuthenticationService: mockLocalAuthenticationService,
+            notificationService: mockNotificationService,
+            userService: MockUserService(),
+            analyticsService: analyticsService,
+            tokenProvider: mockAuthenticationService,
+            navigationController: mockNavigationController
+        )
+        mockAuthenticationService._stubbedAccessToken = nil
+
+        subject.start(url: nil)
+
+        mockCoordinatorBuilder._receivedPreAuthCompletion?()
+        mockCoordinatorBuilder._receivedPeriAuthCompletion?()
+        mockCoordinatorBuilder._receivedPostAuthCompletion?()
+
+        let expectedError = AccessTokenError.noAccessTokenPresent
+        #expect((analyticsService._trackErrorReceivedErrors.first as? AccessTokenError) == expectedError)
+    }
+
+    @Test
+    func start_withAccessToken_doesNotTrackError() {
+        let mockAuthenticationService = MockAuthenticationService()
+        let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
+        let mockNavigationController = UINavigationController()
+        let mockInactivityService = MockInactivityService()
+        let mockLocalAuthenticationService = MockLocalAuthenticationService()
+        let mockNotificationService = MockNotificationService()
+        let analyticsService = MockAnalyticsService()
+        let subject = AppCoordinator(
+            coordinatorBuilder: mockCoordinatorBuilder,
+            inactivityService: mockInactivityService,
+            authenticationService: mockAuthenticationService,
+            localAuthenticationService: mockLocalAuthenticationService,
+            notificationService: mockNotificationService,
+            userService: MockUserService(),
+            analyticsService: analyticsService,
+            tokenProvider: mockAuthenticationService,
+            navigationController: mockNavigationController
+        )
+        mockAuthenticationService._stubbedAccessToken = "test_token"
+
+        subject.start(url: nil)
+
+        mockCoordinatorBuilder._receivedPreAuthCompletion?()
+        mockCoordinatorBuilder._receivedPeriAuthCompletion?()
+        mockCoordinatorBuilder._receivedPostAuthCompletion?()
+
+        #expect(analyticsService._trackErrorReceivedErrors.count == 0)
     }
 
 
@@ -275,6 +348,8 @@ struct AppCoordinatorTests {
             localAuthenticationService: mockLocalAuthenticationService,
             notificationService: mockNotificationService,
             userService: MockUserService(),
+            analyticsService: MockAnalyticsService(),
+            tokenProvider: MockAuthenticationService(),
             navigationController: mockNavigationController
         )
 
@@ -310,6 +385,8 @@ struct AppCoordinatorTests {
             localAuthenticationService: mockLocalAuthenticationService,
             notificationService: mockNotificationService,
             userService: MockUserService(),
+            analyticsService: MockAnalyticsService(),
+            tokenProvider: MockAuthenticationService(),
             navigationController: mockNavigationController
         )
 
@@ -344,6 +421,8 @@ struct AppCoordinatorTests {
             localAuthenticationService: mockLocalAuthenticationService,
             notificationService: mockNotificationService,
             userService: MockUserService(),
+            analyticsService: MockAnalyticsService(),
+            tokenProvider: MockAuthenticationService(),
             privacyPresenter: mockPrivacyService,
             navigationController: mockNavigationController
         )
@@ -374,6 +453,8 @@ struct AppCoordinatorTests {
             localAuthenticationService: mockLocalAuthenticationService,
             notificationService: mockNotificationService,
             userService: MockUserService(),
+            analyticsService: MockAnalyticsService(),
+            tokenProvider: MockAuthenticationService(),
             privacyPresenter: mockPrivacyService,
             navigationController: mockNavigationController
         )
@@ -404,6 +485,8 @@ struct AppCoordinatorTests {
             localAuthenticationService: mockLocalAuthenticationService,
             notificationService: mockNotificationService,
             userService: MockUserService(),
+            analyticsService: MockAnalyticsService(),
+            tokenProvider: MockAuthenticationService(),
             privacyPresenter: mockPrivacyService,
             navigationController: mockNavigationController
         )
@@ -432,6 +515,8 @@ struct AppCoordinatorTests {
             localAuthenticationService: mockLocalAuthenticationService,
             notificationService: MockNotificationService(),
             userService: MockUserService(),
+            analyticsService: MockAnalyticsService(),
+            tokenProvider: MockAuthenticationService(),
             privacyPresenter: mockPrivacyService,
             navigationController: mockNavigationController
         )
@@ -460,6 +545,8 @@ struct AppCoordinatorTests {
             localAuthenticationService: mockLocalAuthenticationService,
             notificationService: MockNotificationService(),
             userService: MockUserService(),
+            analyticsService: MockAnalyticsService(),
+            tokenProvider: MockAuthenticationService(),
             privacyPresenter: mockPrivacyService,
             navigationController: mockNavigationController
         )
@@ -484,6 +571,8 @@ struct AppCoordinatorTests {
             localAuthenticationService: MockLocalAuthenticationService(),
             notificationService: mockNotificationService,
             userService: mockUserService,
+            analyticsService: MockAnalyticsService(),
+            tokenProvider: MockAuthenticationService(),
             privacyPresenter: MockPrivacyService(),
             navigationController: MockNavigationController())
         subject.start()
@@ -506,6 +595,8 @@ struct AppCoordinatorTests {
             localAuthenticationService: MockLocalAuthenticationService(),
             notificationService: mockNotificationService,
             userService: mockUserService,
+            analyticsService: MockAnalyticsService(),
+            tokenProvider: MockAuthenticationService(),
             privacyPresenter: MockPrivacyService(),
             navigationController: MockNavigationController())
         subject.start()
@@ -528,6 +619,8 @@ struct AppCoordinatorTests {
             localAuthenticationService: MockLocalAuthenticationService(),
             notificationService: mockNotificationService,
             userService: mockUserService,
+            analyticsService: MockAnalyticsService(),
+            tokenProvider: MockAuthenticationService(),
             privacyPresenter: MockPrivacyService(),
             navigationController: MockNavigationController())
         subject.start()

@@ -1,5 +1,6 @@
 import UIKit
 import Foundation
+import GovKit
 
 class AppCoordinator: BaseCoordinator {
     private let coordinatorBuilder: CoordinatorBuilder
@@ -8,6 +9,8 @@ class AppCoordinator: BaseCoordinator {
     private let localAuthenticationService: LocalAuthenticationServiceInterface
     private let notificationService: NotificationServiceInterface
     private let userService: UserServiceInterface
+    private let analyticsService: AnalyticsServiceInterface
+    private let tokenProvider: TokenProviding
     private var initialLaunch: Bool = true
     private lazy var tabCoordinator: BaseCoordinator = {
         let coordinator = coordinatorBuilder.tab(
@@ -24,6 +27,8 @@ class AppCoordinator: BaseCoordinator {
          localAuthenticationService: LocalAuthenticationServiceInterface,
          notificationService: NotificationServiceInterface,
          userService: UserServiceInterface,
+         analyticsService: AnalyticsServiceInterface,
+         tokenProvider: TokenProviding,
          privacyPresenter: PrivacyPresenting? = nil,
          navigationController: UINavigationController) {
         self.coordinatorBuilder = coordinatorBuilder
@@ -32,7 +37,9 @@ class AppCoordinator: BaseCoordinator {
         self.localAuthenticationService = localAuthenticationService
         self.notificationService = notificationService
         self.userService = userService
+        self.analyticsService = analyticsService
         self.privacyPresenter = privacyPresenter
+        self.tokenProvider = tokenProvider
         super.init(navigationController: navigationController)
         configureObservers()
     }
@@ -139,8 +146,17 @@ class AppCoordinator: BaseCoordinator {
     }
 
     private func startTabs() {
+        checkForNilAccessToken()
         start(tabCoordinator, url: pendingDeeplink)
         pendingDeeplink = nil
+    }
+
+    private func checkForNilAccessToken() {
+        if tokenProvider.accessToken == nil {
+            analyticsService.track(
+                error: AccessTokenError.noAccessTokenPresent
+            )
+        }
     }
 
     private func startSession() {

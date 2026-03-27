@@ -168,4 +168,40 @@ struct HomeViewModelTests {
         let bannerTwo = try #require(widgets[1].content as? EmergencyBannerWidgetView)
         #expect(bannerTwo.viewModel.sortPriority == 10)
     }
+    
+    @Test
+    func edit_Topics() async {
+        let configService = MockAppConfigService()
+        configService.features = []
+
+        let topicsViewModel = TopicsWidgetViewModel(
+            topicsService: MockTopicsService(),
+            analyticsService: MockAnalyticsService(),
+            topicAction: { _ in },
+            dismissEditAction: { }
+        )
+        #expect(topicsViewModel.isEditingTopics == false)
+        let subject = HomeViewModel(
+            analyticsService: MockAnalyticsService(),
+            configService: configService,
+            notificationService: MockNotificationService(),
+            userDefaultsService: MockUserDefaultsService(),
+            topicsWidgetViewModel: topicsViewModel,
+            urlOpener: MockURLOpener(),
+            searchService: MockSearchService(),
+            activityService: MockActivityService(),
+            localAuthorityService: MockLocalAuthorityService(),
+            chatService: MockChatService(),
+            localAuthorityAction: { },
+            editLocalAuthorityAction: { },
+            feedbackAction: { },
+            notificationsAction: {},
+            recentActivityAction: { } ,
+            openURLAction: {_ in } ,
+            openAction: {_ in }
+        )
+        subject.editTopics()
+
+        #expect(topicsViewModel.isEditingTopics == true)
+    }
 }
