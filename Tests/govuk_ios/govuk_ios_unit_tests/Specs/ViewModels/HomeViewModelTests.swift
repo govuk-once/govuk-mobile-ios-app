@@ -207,7 +207,9 @@ struct HomeViewModelTests {
         )
         #expect(topicsViewModel.isEditingTopics == false)
         let localWasteWidgetViewModel = LocalWasteWidgetViewModel(
-            service: MockLocalWasteService()
+            service: MockLocalWasteService(),
+            openEditViewAction: { },
+            openScheduleViewAction: { }
         )
         let subject = HomeViewModel(
             analyticsService: MockAnalyticsService(),

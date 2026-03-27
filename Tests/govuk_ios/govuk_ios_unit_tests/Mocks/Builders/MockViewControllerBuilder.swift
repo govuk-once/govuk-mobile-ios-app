@@ -17,7 +17,9 @@ extension ViewControllerBuilder {
             dismissEditAction: { }
         )
         let localWasteWidgetViewModel = LocalWasteWidgetViewModel(
-            service: MockLocalWasteService()
+            service: MockLocalWasteService(),
+            openEditViewAction: { },
+            openScheduleViewAction: { }
         )
         let homeViewModel = HomeViewModel(
             analyticsService: MockAnalyticsService(),
