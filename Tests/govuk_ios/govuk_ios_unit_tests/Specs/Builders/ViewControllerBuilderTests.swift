@@ -366,4 +366,29 @@ struct ViewControllerBuilderTests {
         let rootView = (result as? HostingViewController<ServiceAccountLinkingView>)?.rootView
         #expect(rootView != nil)
     }
+
+    @Test
+    func serviceAccountUnlinking_returnsExpectedResult() {
+        let subject = ViewControllerBuilder()
+        let result = subject.serviceAccountUnlinking(
+            userService: MockUserService(),
+            accountType: .dvla,
+            completeAction: {},
+            dismissAction: {}
+        )
+        let rootView = (result as? HostingViewController<ServiceAccountUnlinkingView>)?.rootView
+        #expect(rootView != nil)
+    }
+
+    @Test
+    func serviceAccountConsent_returnsExpectedResult() {
+        let subject = ViewControllerBuilder()
+        let result = subject.serviceAccountConsent(
+            analyticsService: MockAnalyticsService(),
+            completionAction: {},
+            cancelAction: {}
+        )
+        let rootView = (result as? HostingViewController<InfoView<ServiceAccountConsentViewModel>>)?.rootView
+        #expect(rootView != nil)
+    }
 }

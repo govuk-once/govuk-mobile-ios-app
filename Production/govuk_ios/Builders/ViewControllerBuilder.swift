@@ -671,5 +671,26 @@ class ViewControllerBuilder {
         )
         return viewController
     }
+
+    func serviceAccountConsent(
+        analyticsService: AnalyticsServiceInterface,
+        completionAction: @escaping () -> Void,
+        cancelAction: @escaping () -> Void
+    ) -> UIViewController {
+        let viewModel = ServiceAccountConsentViewModel(
+            analyticsService: analyticsService,
+            completionAction: completionAction,
+            cancelAction: cancelAction
+        )
+        let containerView = InfoView<ServiceAccountConsentViewModel>(
+            viewModel: viewModel
+        )
+        let viewController = HostingViewController(
+            rootView: containerView
+        )
+        viewController.navigationItem.rightBarButtonItem = viewModel.rightBarButtonItem
+        viewController.isModalInPresentation = true
+        return viewController
+    }
 }
 // swiftlint:enable file_length

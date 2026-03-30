@@ -288,4 +288,12 @@ extension Container {
             )
         }
     }
+
+    var dvlaAuthenticationService: Factory<DVLAAuthenticationServiceInterface> {
+        Factory(self) {
+            DVLAAuthenticationService(
+                sessionBuilder: DVLAAuthSessionBuilder()
+            )
+        }
+    }
 }
