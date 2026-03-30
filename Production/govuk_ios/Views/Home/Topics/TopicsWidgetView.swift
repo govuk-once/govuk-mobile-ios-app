@@ -46,11 +46,13 @@ struct TopicsWidgetView: View {
         .onAppear {
             viewModel.refreshTopics()
             viewModel.initialLoadComplete = true
+            showingEditScreen = viewModel.isEditingTopics
         }
         .sheet(isPresented: $showingEditScreen,
                onDismiss: {
             viewModel.refreshTopics()
             viewModel.didDismissEdit()
+            viewModel.isEditingTopics = false
         }, content: {
             NavigationView {
                 EditTopicsView(
