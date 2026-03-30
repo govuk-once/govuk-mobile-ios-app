@@ -1903,8 +1903,6 @@
 				16FCDE772DC4E38F000E870D /* TokenRefreshResponse.swift */,
 				D041917C2CA57B3D0034722A /* Topics */,
 				81D239712F2CD2D200AC7DA5 /* User */,
-				815935E12F225B9A00F8D206 /* UserState.swift */,
-				8101A23F2F28BB54009E639B /* UserStateError.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1987,6 +1985,8 @@
 		81D239712F2CD2D200AC7DA5 /* User */ = {
 			isa = PBXGroup;
 			children = (
+				815935E12F225B9A00F8D206 /* UserState.swift */,
+				8101A23F2F28BB54009E639B /* UserStateError.swift */,
 			);
 			path = User;
 			sourceTree = "<group>";
