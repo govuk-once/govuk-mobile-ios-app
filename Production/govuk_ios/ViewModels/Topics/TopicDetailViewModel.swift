@@ -59,24 +59,50 @@ class TopicDetailViewModel: TopicDetailViewModelInterface {
         subtopicAction = actions.subtopicAction
         stepByStepAction = actions.stepByStepAction
         openAction = actions.openAction
-        fetchTopicDetails(topicRef: topic.ref)
     }
 
-    private func fetchTopicDetails(topicRef: String) {
+    private func fetchContent() async {
         self.isLoaded = false
-        topicsService.fetchDetails(
-            ref: topicRef,
-            completion: { result in
-                if case let .success(detail) = result {
-                    self.topicDetail = detail
-                    self.updateTopicActionCards()
-                    self.configureSections()
-                    self.createSubtopicCards()
-                    self.isLoaded = true
-                }
-                self.handleError(result.getError())
+        async let fetchTopicTask: () = fetchTopicDetails(topicRef: topic.ref)
+        async let fetchDvlaLinkStatusTask: () = fetchDvlaAccountLinkStatus()
+        _ = await (fetchTopicTask, fetchDvlaLinkStatusTask)
+        await self.contentFetched()
+    }
+
+    @MainActor
+    private func contentFetched() {
+        self.updateTopicActionCards()
+        self.configureSections()
+        self.createSubtopicCards()
+        self.isLoaded = true
+    }
+
+    private func fetchTopicDetails(topicRef: String) async {
+        let result = await withCheckedContinuation { continuation in
+            topicsService.fetchDetails(ref: topicRef) { result in
+                continuation.resume(returning: result)
             }
-        )
+        }
+        if case .success(let detail) = result {
+            self.topicDetail = detail
+        }
+        self.handleError(result.getError())
+    }
+
+    private func fetchDvlaAccountLinkStatus() async {
+        guard configService.isFeatureEnabled(key: .dvla),
+              topic.ref == "driving-transport" else {
+            return
+        }
+        await withCheckedContinuation { continuation in
+            userService.fetchAccountLinkStatus(
+                accountType: .dvla,
+                completion: { _ in
+                    continuation.resume()
+                }
+            )
+        }
+        // tbc: how to handle error?
     }
 
     private func configureSections() {
@@ -95,9 +121,13 @@ class TopicDetailViewModel: TopicDetailViewModelInterface {
         }
         switch error {
         case .networkUnavailable:
-            errorViewModel = AppErrorViewModel.networkUnavailable {
-                self.fetchTopicDetails(topicRef: self.topic.ref)
-            }
+            errorViewModel = AppErrorViewModel.networkUnavailable(
+                action: {
+                    Task {
+                        await self.fetchContent()
+                    }
+                }
+            )
         default:
             errorViewModel = topicErrorViewModel
         }
@@ -263,9 +293,12 @@ class TopicDetailViewModel: TopicDetailViewModelInterface {
         )
     }
 
-    func viewDidAppear() {
+    @MainActor
+    func viewDidAppear() async {
         if isLoaded {
             updateTopicActionCards()
+        } else {
+            await fetchContent()
         }
     }
 

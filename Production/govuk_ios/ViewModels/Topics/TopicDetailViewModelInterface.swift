@@ -13,7 +13,8 @@ protocol TopicDetailViewModelInterface: ObservableObject {
     var commerceItems: [TopicCommerceItem] { get set }
     func trackScreen(screen: TrackableScreen)
     func trackEcommerce()
-    func viewDidAppear()
+    @MainActor
+    func viewDidAppear() async
 }
 
 extension TopicDetailViewModelInterface {
@@ -48,5 +49,6 @@ extension TopicDetailViewModelInterface {
         commerceItems.append(appEventItem)
     }
 
-    func viewDidAppear() {}
+    @MainActor
+    func viewDidAppear() async {}
 }

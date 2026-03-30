@@ -166,4 +166,38 @@ final class UserServiceTests {
         }
     }
 
+    @Test
+    func fetchAccountLinkStatus_success_returnsExpectedResult() {
+        mockUserServiceClient._stubbedFetchAccountLinkStatusResult = .success(
+            .arrangeUnlinked
+        )
+        let sut = UserService(
+            appConfigService: mockAppConfigService,
+            userServiceClient: mockUserServiceClient
+        )
+        sut.fetchAccountLinkStatus(
+            accountType: .dvla,
+            completion: { result in
+                let accountLinkStatus = try? result.get()
+                #expect(accountLinkStatus?.linked == false)
+            }
+        )
+    }
+
+    @Test
+    func fetchAccountLinkStatus_apiUnavailable_returnsExpectedError() {
+        mockUserServiceClient._stubbedFetchAccountLinkStatusResult = .failure(
+            .apiUnavailable
+        )
+        let sut = UserService(
+            appConfigService: mockAppConfigService,
+            userServiceClient: mockUserServiceClient
+        )
+        sut.fetchAccountLinkStatus(
+            accountType: .dvla,
+            completion: { result in
+                #expect(result.getError() == .apiUnavailable)
+            }
+        )
+    }
 }
