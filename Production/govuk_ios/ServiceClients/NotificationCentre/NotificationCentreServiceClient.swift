@@ -70,12 +70,28 @@ struct NotificationCentreServiceClient: NotificationCentreServiceClientInterface
         }.flatMap {
             do {
                 let decoder = JSONDecoder()
-                decoder.dateDecodingStrategy = .iso8601
+                decoder.dateDecodingStrategy = .iso8601WithFractionalSeconds
                 let response = try decoder.decode(T.self, from: $0)
                 return .success(response)
             } catch {
                 return .failure(NotificationCentreError.decodingError)
             }
         }
+    }
+}
+
+extension JSONDecoder.DateDecodingStrategy {
+    // From https://stackoverflow.com/a/65974768
+    static var iso8601WithFractionalSeconds = custom { decoder in
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+
+        let dateStr = try decoder.singleValueContainer().decode(String.self)
+        if let date = formatter.date(from: dateStr) {
+            return date
+        }
+        throw DecodingError.dataCorrupted(
+            DecodingError.Context(codingPath: decoder.codingPath,
+                                  debugDescription: "Invalid date"))
     }
 }
