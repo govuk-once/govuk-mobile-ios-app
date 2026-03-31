@@ -25,7 +25,7 @@ class SafariCoordinator: BaseCoordinator {
     }
 
     override func start(url: URL?) {
-        if configService.isFeatureEnabled(key: .externalBrowser) {
+        if configService.isFeatureEnabled(key: .externalBrowser) || !httpURL {
             urlOpener.openIfPossible(self.url)
         } else {
             presentViewController(url: self.url)
@@ -38,5 +38,10 @@ class SafariCoordinator: BaseCoordinator {
         viewController.isModalInPresentation = true
         let presentedViewController = root.presentedViewController ?? root
         presentedViewController.present(viewController, animated: true)
+    }
+
+    private var httpURL: Bool {
+        guard let scheme = self.url.scheme else { return false }
+        return scheme.contains("http")
     }
 }

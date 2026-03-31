@@ -47,6 +47,24 @@ struct SafariCoordinatorTests {
 
     @Test
     @MainActor
+    func start_noneHttpURL_opensURL() {
+        let expectedNoneHttpURL = URL(string: "mailto:test@example.com")!
+        let mockURLOpener = MockURLOpener()
+        let subject = SafariCoordinator(
+            navigationController: MockNavigationController(),
+            viewControllerBuilder: MockViewControllerBuilder(),
+            configService: MockAppConfigService(),
+            urlOpener: mockURLOpener,
+            url: expectedNoneHttpURL,
+            fullScreen: true
+        )
+        subject.start()
+
+        #expect(mockURLOpener._receivedOpenIfPossibleUrl == expectedNoneHttpURL)
+    }
+
+    @Test
+    @MainActor
     func start_externalBrowserEnabled_opensURL() {
         let expectedURL = URL.arrange
         let mockConfigService = MockAppConfigService()
