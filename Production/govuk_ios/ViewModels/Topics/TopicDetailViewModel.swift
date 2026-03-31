@@ -61,32 +61,33 @@ class TopicDetailViewModel: TopicDetailViewModelInterface {
         openAction = actions.openAction
     }
 
-    private func fetchContent() async {
-        self.isLoaded = false
-        async let fetchTopicTask: () = fetchTopicDetails(topicRef: topic.ref)
-        async let fetchDvlaLinkStatusTask: () = fetchDvlaAccountLinkStatus()
-        _ = await (fetchTopicTask, fetchDvlaLinkStatusTask)
-        await self.contentFetched()
-    }
-
     @MainActor
-    private func contentFetched() {
-        self.updateTopicActionCards()
-        self.configureSections()
-        self.createSubtopicCards()
-        self.isLoaded = true
+    private func fetchContent() async {
+        isLoaded = false
+        async let topicDetailTask = fetchTopicDetails(topicRef: topic.ref)
+        async let dvlaLinkStatusTask: () = fetchDvlaAccountLinkStatus()
+        let (topicDetailResult, _) = await (topicDetailTask, dvlaLinkStatusTask)
+
+        if case .success(let detail) = topicDetailResult {
+            topicDetail = detail
+            contentFetched()
+        }
+        handleError(topicDetailResult.getError())
     }
 
-    private func fetchTopicDetails(topicRef: String) async {
-        let result = await withCheckedContinuation { continuation in
+    private func contentFetched() {
+        updateTopicActionCards()
+        configureSections()
+        createSubtopicCards()
+        isLoaded = true
+    }
+
+    private func fetchTopicDetails(topicRef: String) async -> FetchTopicDetailsResult {
+        await withCheckedContinuation { continuation in
             topicsService.fetchDetails(ref: topicRef) { result in
                 continuation.resume(returning: result)
             }
         }
-        if case .success(let detail) = result {
-            self.topicDetail = detail
-        }
-        self.handleError(result.getError())
     }
 
     private func fetchDvlaAccountLinkStatus() async {
@@ -94,14 +95,9 @@ class TopicDetailViewModel: TopicDetailViewModelInterface {
               topic.ref == "driving-transport" else {
             return
         }
-        await withCheckedContinuation { continuation in
-            userService.fetchAccountLinkStatus(
-                accountType: .dvla,
-                completion: { _ in
-                    continuation.resume()
-                }
-            )
-        }
+        await userService.fetchAccountLinkStatus(
+            accountType: .dvla
+        )
         // tbc: how to handle error?
     }
 
@@ -297,6 +293,7 @@ class TopicDetailViewModel: TopicDetailViewModelInterface {
     func viewDidAppear() async {
         if isLoaded {
             updateTopicActionCards()
+            trackEcommerce()
         } else {
             await fetchContent()
         }

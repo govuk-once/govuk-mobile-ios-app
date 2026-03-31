@@ -292,6 +292,7 @@
 		810A83772F68A57E0039B4A4 /* ServiceAccountUnlinkingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810A83762F68A5720039B4A4 /* ServiceAccountUnlinkingView.swift */; };
 		810A9ADC2F6C4F050039B4A4 /* LinkingIdPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810A9ADB2F6C4EF80039B4A4 /* LinkingIdPayload.swift */; };
 		8132DC392F62D1F800F24CB6 /* ServiceAccountType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8132DC382F62D1EE00F24CB6 /* ServiceAccountType.swift */; };
+		815011D52F7C346D00E7469C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5DAD71802BD250DE0075F648 /* Assets.xcassets */; };
 		815559452F729409001E73CD /* DVLAAuthSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815559442F729404001E73CD /* DVLAAuthSession.swift */; };
 		815559472F72AB47001E73CD /* ASWebAuthenticationSession+Interface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815559462F72AB39001E73CD /* ASWebAuthenticationSession+Interface.swift */; };
 		815559492F72B087001E73CD /* DVLAAuthSessionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815559482F72B082001E73CD /* DVLAAuthSessionBuilder.swift */; };
@@ -918,6 +919,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				govuk_ios/govuk_ios_snapshot_tests/Helpers/SnapshotTestCase.swift,
+				govuk_ios/govuk_ios_snapshot_tests/Mocks/MockTopicDetailViewModel.swift,
 				govuk_ios/govuk_ios_snapshot_tests/ReferenceImages_64,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/AmbiguousAddressSelectionViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/AmbiguousAuthorityViewControllerSnapshotTests.swift,
@@ -983,6 +985,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				govuk_ios/govuk_ios_snapshot_tests/Helpers/SnapshotTestCase.swift,
+				govuk_ios/govuk_ios_snapshot_tests/Mocks/MockTopicDetailViewModel.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/AmbiguousAddressSelectionViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/AmbiguousAuthorityViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/AnalyticsConsentViewControllerSnapshotTests.swift,
@@ -1048,6 +1051,7 @@
 				"govuk_ios/shared/Arrangers/Model/Chat+Arrangers.swift",
 				"govuk_ios/shared/Arrangers/Model/RecentActivity/ActivityItem+Arrangers.swift",
 				"govuk_ios/shared/Arrangers/Model/SearchItem+Arrangers.swift",
+				"govuk_ios/shared/Arrangers/Model/ServiceAccountLinkStatus+Arrange.swift",
 				"govuk_ios/shared/Arrangers/Model/Topic+Arrangers.swift",
 				"govuk_ios/shared/Arrangers/Model/TopicDetailResponse+Arrangers.swift",
 				"govuk_ios/shared/Arrangers/Repositories/CoreDataRepository+Arrangers.swift",
@@ -2457,6 +2461,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				815011D52F7C346D00E7469C /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

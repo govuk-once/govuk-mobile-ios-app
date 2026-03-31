@@ -197,36 +197,33 @@ struct UserServiceClientTests {
     }
 
     @Test
-    func fetchAccountLinkStatus_sendsExpectedRequest() {
-        sut.fetchAccountLinkStatus(serviceName: "dvla") { _ in }
+    func fetchAccountLinkStatus_sendsExpectedRequest() async {
+        mockAPI._stubbedSendResponse = .success(Data())
+        let _ = await sut.fetchAccountLinkStatus(serviceName: "dvla")
         #expect(mockAPI._receivedSendRequest?.urlPath == "/app/udp/v1/identity/dvla")
         #expect(mockAPI._receivedSendRequest?.method == .get)
     }
 
     @Test
-    func fetchAccountLinkStatus_success_returnsExpectedResult() {
+    func fetchAccountLinkStatus_success_returnsExpectedResult() async {
         mockAPI._stubbedSendResponse = .success(
             UserServiceClientTests.accountLinkStatusResponseData
         )
-        sut.fetchAccountLinkStatus(
-            serviceName: "dvla",
-            completion: { result in
-                let linkStatus = try! result.get()
-                #expect(linkStatus.linked == true)
-            }
+        let result = await sut.fetchAccountLinkStatus(
+            serviceName: "dvla"
         )
+        let linkStatus = try! result.get()
+        #expect(linkStatus.linked == true)
     }
 
     @Test
-    func fetchAccountLinkStatus_apiUnavailable_returnsExpectedError() {
+    func fetchAccountLinkStatus_apiUnavailable_returnsExpectedError() async {
         mockAPI._stubbedSendResponse = .failure(UserStateError.apiUnavailable)
-        sut.fetchAccountLinkStatus(
-            serviceName: "dvla",
-            completion: { result in
-                let error = result.getError()
-                #expect(error == .apiUnavailable)
-            }
+        let result = await sut.fetchAccountLinkStatus(
+            serviceName: "dvla"
         )
+        let error = result.getError()
+        #expect(error == .apiUnavailable)
     }
 }
 

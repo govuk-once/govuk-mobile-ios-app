@@ -9,7 +9,6 @@ typealias LinkAccountCompletion = (LinkAccountResult) -> Void
 typealias UnlinkAccountResult = Result<Void, UserStateError>
 typealias UnlinkAccountCompletion = (UnlinkAccountResult) -> Void
 typealias LinkStatusResult = Result<ServiceAccountLinkStatus, UserStateError>
-typealias LinkStatusCompletion = (LinkStatusResult) -> Void
 
 protocol UserServiceClientInterface {
     func fetchUserState(completion: @escaping FetchUserStateCompletion)
@@ -20,8 +19,7 @@ protocol UserServiceClientInterface {
                      completion: @escaping (LinkAccountResult) -> Void)
     func unlinkAccount(serviceName: String,
                        completion: @escaping (UnlinkAccountCompletion))
-    func fetchAccountLinkStatus(serviceName: String,
-                                completion: @escaping (LinkStatusCompletion))
+    func fetchAccountLinkStatus(serviceName: String) async -> LinkStatusResult
 }
 
 struct UserServiceClient: UserServiceClientInterface {
@@ -92,17 +90,20 @@ struct UserServiceClient: UserServiceClientInterface {
         )
     }
 
-    func fetchAccountLinkStatus(serviceName: String,
-                                completion: @escaping (LinkStatusCompletion)) {
+    func fetchAccountLinkStatus(serviceName: String) async -> LinkStatusResult {
         let request = GOVRequest.accountLinkStatus(
             serviceName: serviceName
         )
-        apiServiceClient.send(
-            request: request,
-            completion: { result in
-                completion(mapResult(result))
-            }
-        )
+        return await withCheckedContinuation { continuation in
+            apiServiceClient.send(
+                request: request,
+                completion: { result in
+                    continuation.resume(
+                        returning: mapResult(result)
+                    )
+                }
+            )
+        }
     }
 
     private func mapError(_ error: Error) -> UserStateError {
