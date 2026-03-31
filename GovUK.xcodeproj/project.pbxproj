@@ -80,6 +80,8 @@
 		3300A4F62F69B2B10042D340 /* GOVRequest+NotificationCentre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3300A4F52F69B2B10042D340 /* GOVRequest+NotificationCentre.swift */; };
 		3365BE5A2F3DCC3300817D7E /* NotificationCentreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3365BE592F3DCC2E00817D7E /* NotificationCentreViewModel.swift */; };
 		3365BE5C2F3E3A3900817D7E /* NotificationCentreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3365BE5B2F3E3A3400817D7E /* NotificationCentreView.swift */; };
+		33991AF22F7D3B2D00E264EC /* UserState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33991AF02F7D3B2D00E264EC /* UserState.swift */; };
+		33991AF32F7D3B2D00E264EC /* UserStateError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33991AF12F7D3B2D00E264EC /* UserStateError.swift */; };
 		33A323DD2F503D240022BAFC /* NotificationCentre.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 33A323DC2F503D240022BAFC /* NotificationCentre.xcstrings */; };
 		33A323E02F51E11D0022BAFC /* NotificationCentreDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A323DF2F51E1150022BAFC /* NotificationCentreDetailViewModel.swift */; };
 		33A323E22F51E1590022BAFC /* NotificationCentreDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A323E12F51E1380022BAFC /* NotificationCentreDetailView.swift */; };
@@ -87,6 +89,7 @@
 		33A323E62F51EF100022BAFC /* NotificationCentreRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A323E52F51EF090022BAFC /* NotificationCentreRepository.swift */; };
 		33A323E82F51FBF60022BAFC /* NotificationCentreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A323E72F51FBEF0022BAFC /* NotificationCentreService.swift */; };
 		33A323EA2F51FE450022BAFC /* NotificationCentreServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A323E92F51FE3E0022BAFC /* NotificationCentreServiceClient.swift */; };
+		33C777D82F7AEC7000B1E353 /* DebugClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C777D72F7AEC6D00B1E353 /* DebugClient.swift */; };
 		33CA98542F61E6190060DCDB /* AppEvent+NotificationCentre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CA98532F61E6150060DCDB /* AppEvent+NotificationCentre.swift */; };
 		33CA98562F646D480060DCDB /* NotificationCentreDeeplinkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CA98552F646D480060DCDB /* NotificationCentreDeeplinkRoute.swift */; };
 		33CA985C2F646D8D0060DCDB /* NotificationCentreDetailDeeplinkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CA985B2F646D8D0060DCDB /* NotificationCentreDetailDeeplinkRoute.swift */; };
@@ -300,14 +303,12 @@
 		5DFDEBF12CEE396D00F7A365 /* UserProperty+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFDEBF02CEE396D00F7A365 /* UserProperty+Convenience.swift */; };
 		5DFE5F1E2D6DE5900041E3B4 /* UNUserNotificationCenter+Interface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFE5F1D2D6DE5900041E3B4 /* UNUserNotificationCenter+Interface.swift */; };
 		8101A23E2F28BAAB009E639B /* AppUnavailableError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8101A23D2F28BAA4009E639B /* AppUnavailableError.swift */; };
-		8101A2402F28BB58009E639B /* UserStateError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8101A23F2F28BB54009E639B /* UserStateError.swift */; };
 		8101BEEB2F2A24B8009E639B /* RemoteConfigValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8101BEE92F2A24B8009E639B /* RemoteConfigValue.swift */; };
 		8101BEEC2F2A24B8009E639B /* RemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8101BEE82F2A24B8009E639B /* RemoteConfig.swift */; };
 		815935D92F212EF700F8D206 /* UserServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815935D82F212EF300F8D206 /* UserServiceClient.swift */; };
 		815935DB2F213EC700F8D206 /* GOVRequest+UserState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815935DA2F213EBE00F8D206 /* GOVRequest+UserState.swift */; };
 		815935DE2F22353900F8D206 /* UserResponseHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815935DD2F22352B00F8D206 /* UserResponseHandler.swift */; };
 		815935E02F22381A00F8D206 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815935DF2F22381400F8D206 /* UserService.swift */; };
-		815935E22F225B9F00F8D206 /* UserState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815935E12F225B9A00F8D206 /* UserState.swift */; };
 		815C58682EE970E200322705 /* RemoteConfigService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815C58672EE970DC00322705 /* RemoteConfigService.swift */; };
 		815C586A2EE973FC00322705 /* RemoteConfigServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815C58692EE973F400322705 /* RemoteConfigServiceClient.swift */; };
 		815C586C2EE9744E00322705 /* FirebaseRemoteConfig in Frameworks */ = {isa = PBXBuildFile; productRef = 815C586B2EE9744E00322705 /* FirebaseRemoteConfig */; };
@@ -553,6 +554,8 @@
 		3300A4F52F69B2B10042D340 /* GOVRequest+NotificationCentre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GOVRequest+NotificationCentre.swift"; sourceTree = "<group>"; };
 		3365BE592F3DCC2E00817D7E /* NotificationCentreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCentreViewModel.swift; sourceTree = "<group>"; };
 		3365BE5B2F3E3A3400817D7E /* NotificationCentreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCentreView.swift; sourceTree = "<group>"; };
+		33991AF02F7D3B2D00E264EC /* UserState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserState.swift; sourceTree = "<group>"; };
+		33991AF12F7D3B2D00E264EC /* UserStateError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStateError.swift; sourceTree = "<group>"; };
 		33A323DC2F503D240022BAFC /* NotificationCentre.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = NotificationCentre.xcstrings; sourceTree = "<group>"; };
 		33A323DF2F51E1150022BAFC /* NotificationCentreDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCentreDetailViewModel.swift; sourceTree = "<group>"; };
 		33A323E12F51E1380022BAFC /* NotificationCentreDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCentreDetailView.swift; sourceTree = "<group>"; };
@@ -560,6 +563,7 @@
 		33A323E52F51EF090022BAFC /* NotificationCentreRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCentreRepository.swift; sourceTree = "<group>"; };
 		33A323E72F51FBEF0022BAFC /* NotificationCentreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCentreService.swift; sourceTree = "<group>"; };
 		33A323E92F51FE3E0022BAFC /* NotificationCentreServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCentreServiceClient.swift; sourceTree = "<group>"; };
+		33C777D72F7AEC6D00B1E353 /* DebugClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugClient.swift; sourceTree = "<group>"; };
 		33CA98532F61E6150060DCDB /* AppEvent+NotificationCentre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppEvent+NotificationCentre.swift"; sourceTree = "<group>"; };
 		33CA98552F646D480060DCDB /* NotificationCentreDeeplinkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCentreDeeplinkRoute.swift; sourceTree = "<group>"; };
 		33CA985B2F646D8D0060DCDB /* NotificationCentreDetailDeeplinkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCentreDetailDeeplinkRoute.swift; sourceTree = "<group>"; };
@@ -772,14 +776,12 @@
 		5DFDEBF02CEE396D00F7A365 /* UserProperty+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserProperty+Convenience.swift"; sourceTree = "<group>"; };
 		5DFE5F1D2D6DE5900041E3B4 /* UNUserNotificationCenter+Interface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UNUserNotificationCenter+Interface.swift"; sourceTree = "<group>"; };
 		8101A23D2F28BAA4009E639B /* AppUnavailableError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUnavailableError.swift; sourceTree = "<group>"; };
-		8101A23F2F28BB54009E639B /* UserStateError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStateError.swift; sourceTree = "<group>"; };
 		8101BEE82F2A24B8009E639B /* RemoteConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfig.swift; sourceTree = "<group>"; };
 		8101BEE92F2A24B8009E639B /* RemoteConfigValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigValue.swift; sourceTree = "<group>"; };
 		815935D82F212EF300F8D206 /* UserServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserServiceClient.swift; sourceTree = "<group>"; };
 		815935DA2F213EBE00F8D206 /* GOVRequest+UserState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GOVRequest+UserState.swift"; sourceTree = "<group>"; };
 		815935DD2F22352B00F8D206 /* UserResponseHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserResponseHandler.swift; sourceTree = "<group>"; };
 		815935DF2F22381400F8D206 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
-		815935E12F225B9A00F8D206 /* UserState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserState.swift; sourceTree = "<group>"; };
 		815C58672EE970DC00322705 /* RemoteConfigService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigService.swift; sourceTree = "<group>"; };
 		815C58692EE973F400322705 /* RemoteConfigServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigServiceClient.swift; sourceTree = "<group>"; };
 		8171AE462F11169A0024312B /* ScrollBottomIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollBottomIndicatorView.swift; sourceTree = "<group>"; };
@@ -1479,6 +1481,7 @@
 		5D26A7602C92E069009902DD /* Analytics */ = {
 			isa = PBXGroup;
 			children = (
+				33C777D72F7AEC6D00B1E353 /* DebugClient.swift */,
 				5DC250672C91D80F009E9E7F /* CrashlyticsClient.swift */,
 				5DC250652C91D802009E9E7F /* FirebaseClient.swift */,
 			);
@@ -1979,8 +1982,6 @@
 				16FCDE772DC4E38F000E870D /* TokenRefreshResponse.swift */,
 				D041917C2CA57B3D0034722A /* Topics */,
 				81D239712F2CD2D200AC7DA5 /* User */,
-				815935E12F225B9A00F8D206 /* UserState.swift */,
-				8101A23F2F28BB54009E639B /* UserStateError.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2064,8 +2065,8 @@
 		81D239712F2CD2D200AC7DA5 /* User */ = {
 			isa = PBXGroup;
 			children = (
-				815935E12F225B9A00F8D206 /* UserState.swift */,
-				8101A23F2F28BB54009E639B /* UserStateError.swift */,
+				33991AF02F7D3B2D00E264EC /* UserState.swift */,
+				33991AF12F7D3B2D00E264EC /* UserStateError.swift */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -2678,6 +2679,7 @@
 				D0E7923B2D6CD66600EAB81F /* TopicDetailViewModelInterface.swift in Sources */,
 				4E8A2A962E74979100BD14A9 /* RecentActivityWidgetView.swift in Sources */,
 				5DC70CBD2CD52BCA00083544 /* UIEdgeInsets+Convenience.swift in Sources */,
+				33C777D82F7AEC7000B1E353 /* DebugClient.swift in Sources */,
 				D0ECAB042DCDF9EE00A9707E /* RadioButtonView.swift in Sources */,
 				4EAFCE532E437D2B00125755 /* HomepageWidget.swift in Sources */,
 				5D7D25612D141D1700BDC217 /* CompoundRedactor.swift in Sources */,
@@ -2828,7 +2830,6 @@
 				D0D9CB932D3024C00051EDDD /* SearchResult.swift in Sources */,
 				D0D9CB942D3024C00051EDDD /* SearchItem.swift in Sources */,
 				D0D9CB952D3024C00051EDDD /* SearchHistoryItem.swift in Sources */,
-				815935E22F225B9F00F8D206 /* UserState.swift in Sources */,
 				5D41DB5D2C0870020011E691 /* Container+Aliases.swift in Sources */,
 				3D4A9E602E672975003ABE53 /* UserFeedbackWidgetView.swift in Sources */,
 				5DBE08042C480CA700B58DBE /* AnimationView+Convenience.swift in Sources */,
@@ -2930,6 +2931,8 @@
 				5D54F4752CC84A5B00A3B6A7 /* TopicDetailsCoordinator.swift in Sources */,
 				5DAD717A2BD250DB0075F648 /* SceneDelegate.swift in Sources */,
 				D04DD3382E004737002B5F19 /* ChatService.swift in Sources */,
+				33991AF22F7D3B2D00E264EC /* UserState.swift in Sources */,
+				33991AF32F7D3B2D00E264EC /* UserStateError.swift in Sources */,
 				815C586A2EE973FC00322705 /* RemoteConfigServiceClient.swift in Sources */,
 				4E6663CF2C73F3220063E81C /* AppConfigError.swift in Sources */,
 				D0F6813E2DD4CF8E004421C0 /* LocalAuthorityPostcodeEntryViewModel.swift in Sources */,
@@ -2950,7 +2953,6 @@
 				8171AE472F1116A00024312B /* ScrollBottomIndicatorView.swift in Sources */,
 				168F85532DE9AE4B0040E6AF /* ScrollBounceBehaviourModifier.swift in Sources */,
 				16E912AF2DA72CE000CD2049 /* OIDAuthorizationServiceWrapper.swift in Sources */,
-				8101A2402F28BB58009E639B /* UserStateError.swift in Sources */,
 				164150AF2DE5DB6D00798DF3 /* WelcomeOnboardingViewModel.swift in Sources */,
 				5DF32E092E045F5F006C63E0 /* AccessibilityAnnouncerService.swift in Sources */,
 			);

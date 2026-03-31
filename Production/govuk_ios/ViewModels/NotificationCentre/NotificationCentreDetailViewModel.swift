@@ -76,6 +76,7 @@ class NotificationCentreDetailViewModel: ObservableObject {
                             }
                         } else if case let .failure(error) = res,
                                     error == NotificationCentreError.notFound {
+                            self?.analyticsService.track(event: .notificationCentreNotFound())
                             await self?.changeState(state: .notFound)
                         } else {
                             await self?.changeState(state: .error)
@@ -116,6 +117,7 @@ class NotificationCentreDetailViewModel: ObservableObject {
 
     func onMarkUnread() {
         if case .loaded(let notification, _) = state {
+            analyticsService.track(event: .notificationCentreMarkUnread())
             Task { [weak self] in
                 self?.notificationService.markUnread(with: notification.id)
             }

@@ -20,14 +20,20 @@ extension AppEvent {
     }
 
     static func notificationCentreDelete() -> AppEvent {
-        .init(name: "NotificationCentreDelete", params: nil)
+        .init(name: "NotificationCentreDelete", params: [
+            "action": "tap"
+        ])
     }
 
     static func notificationCentreConfirmDelete() -> AppEvent {
-        .init(name: "NotificationCentreConfirmDelete", params: nil)
+        .init(name: "NotificationCentreDelete", params: [
+            "action": "confirm"
+        ])
     }
 
     static func notificationCentreCancelDelete() -> AppEvent {
-        .init(name: "NotificationCentreCancelDelete", params: nil)
+        .init(name: "NotificationCentreDelete", params: [
+            "action": "cancel"
+        ])
     }
 }
