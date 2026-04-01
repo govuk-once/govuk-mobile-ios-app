@@ -70,12 +70,12 @@ class TopicDetailViewModel: TopicDetailViewModelInterface {
 
         if case .success(let detail) = topicDetailResult {
             topicDetail = detail
-            contentFetched()
+            displayFetchedContent()
         }
         handleError(topicDetailResult.getError())
     }
 
-    private func contentFetched() {
+    private func displayFetchedContent() {
         updateTopicActionCards()
         configureSections()
         createSubtopicCards()
@@ -95,10 +95,16 @@ class TopicDetailViewModel: TopicDetailViewModelInterface {
               topic.ref == "driving-transport" else {
             return
         }
-        await userService.fetchAccountLinkStatus(
+        let result = await userService.fetchAccountLinkStatus(
             accountType: .dvla
         )
-        // tbc: how to handle error?
+        switch result {
+        case .success(let status):
+            print("\(#function) successful, linked: \(status.linked)")
+        case .failure(let error):
+            print(error.localizedDescription)
+        }
+        // tbc: how to handle error
     }
 
     private func configureSections() {
