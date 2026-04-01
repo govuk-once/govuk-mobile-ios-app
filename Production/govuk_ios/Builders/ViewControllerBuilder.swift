@@ -363,11 +363,15 @@ class ViewControllerBuilder {
                      topicsService: TopicsServiceInterface,
                      analyticsService: AnalyticsServiceInterface,
                      activityService: ActivityServiceInterface,
+                     configService: AppConfigServiceInterface,
+                     userService: UserServiceInterface,
+                     topicAction: @escaping (DisplayableTopic) -> Void,
                      subtopicAction: @escaping (DisplayableTopic) -> Void,
                      stepByStepAction: @escaping ([TopicDetailResponse.Content]) -> Void,
                      openAction: @escaping (URL) -> Void
     ) -> UIViewController {
         let actions = TopicDetailViewModel.Actions(
+            topicAction: topicAction,
             subtopicAction: subtopicAction,
             stepByStepAction: stepByStepAction,
             openAction: openAction
@@ -377,6 +381,8 @@ class ViewControllerBuilder {
             topicsService: topicsService,
             analyticsService: analyticsService,
             activityService: activityService,
+            configService: configService,
+            userService: userService,
             urlOpener: UIApplication.shared,
             actions: actions
         )
@@ -605,6 +611,48 @@ class ViewControllerBuilder {
         return viewController
     }
 
+    func serviceAccountLinking(
+        userService: UserServiceInterface,
+        accountType: ServiceAccountType,
+        linkId: String,
+        completeAction: @escaping () -> Void,
+        dismissAction: @escaping () -> Void
+    ) -> UIViewController {
+        let viewModel = ServiceAccountLinkingViewModel(
+            userService: userService,
+            accountType: accountType,
+            linkId: linkId,
+            completeAction: completeAction,
+            dismissAction: dismissAction
+        )
+        let view = ServiceAccountLinkingView(viewModel: viewModel)
+        let viewController = HostingViewController(
+            rootView: view,
+            navigationBarHidden: false
+        )
+        return viewController
+    }
+
+    func serviceAccountUnlinking(
+        userService: UserServiceInterface,
+        accountType: ServiceAccountType,
+        completeAction: @escaping () -> Void,
+        dismissAction: @escaping () -> Void
+    ) -> UIViewController {
+        let viewModel = ServiceAccountUnlinkingViewModel(
+            userService: userService,
+            accountType: accountType,
+            completeAction: completeAction,
+            dismissAction: dismissAction
+        )
+        let view = ServiceAccountUnlinkingView(viewModel: viewModel)
+        let viewController = HostingViewController(
+            rootView: view,
+            navigationBarHidden: false
+        )
+        return viewController
+    }
+
     func termsAndConditions(
         termsAndConditionsService: TermsAndConditionsServiceInterface,
         completionAction: @escaping () -> Void,
@@ -693,5 +741,26 @@ class ViewControllerBuilder {
             ]
             return viewController
         }
+
+    func serviceAccountConsent(
+        analyticsService: AnalyticsServiceInterface,
+        completionAction: @escaping () -> Void,
+        cancelAction: @escaping () -> Void
+    ) -> UIViewController {
+        let viewModel = ServiceAccountConsentViewModel(
+            analyticsService: analyticsService,
+            completionAction: completionAction,
+            cancelAction: cancelAction
+        )
+        let containerView = InfoView<ServiceAccountConsentViewModel>(
+            viewModel: viewModel
+        )
+        let viewController = HostingViewController(
+            rootView: containerView
+        )
+        viewController.navigationItem.rightBarButtonItem = viewModel.rightBarButtonItem
+        viewController.isModalInPresentation = true
+        return viewController
+    }
 }
 // swiftlint:enable file_length

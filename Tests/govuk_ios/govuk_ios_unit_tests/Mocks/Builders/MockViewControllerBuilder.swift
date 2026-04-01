@@ -88,6 +88,7 @@ class MockViewControllerBuilder: ViewControllerBuilder {
         return _stubbedRecentActivityViewController ?? UIViewController()
     }
 
+    var _receivedTopicDetailTopicAction: ((DisplayableTopic) -> Void)?
     var _receivedTopicDetailOpenAction: ((URL) -> Void)?
     var _receivedTopicDetailStepByStepAction: (([TopicDetailResponse.Content]) -> Void)?
     var _stubbedTopicDetailViewController: UIViewController?
@@ -95,9 +96,13 @@ class MockViewControllerBuilder: ViewControllerBuilder {
                               topicsService: any TopicsServiceInterface,
                               analyticsService: any AnalyticsServiceInterface,
                               activityService: any ActivityServiceInterface,
+                              configService: AppConfigServiceInterface,
+                              userService: UserServiceInterface,
+                              topicAction: @escaping (DisplayableTopic) -> Void,
                               subtopicAction: @escaping (any DisplayableTopic) -> Void,
                               stepByStepAction: @escaping ([TopicDetailResponse.Content]) -> Void,
                               openAction: @escaping (URL) -> Void) -> UIViewController {
+        _receivedTopicDetailTopicAction = topicAction
         _receivedTopicDetailOpenAction = openAction
         _receivedTopicDetailStepByStepAction = stepByStepAction
         return _stubbedTopicDetailViewController ?? UIViewController()
@@ -341,6 +346,48 @@ class MockViewControllerBuilder: ViewControllerBuilder {
     ) -> UIViewController {
         _receivedTermsOpenUrlAction = openURLAction
         return _stubbedChatTermsOnboardingController ?? UIViewController()
+    }
+
+    var _stubbedServiceAccountLinkingController: UIViewController?
+    var _receivedServiceAccountLinkingCompleteAction: (() -> Void)?
+    var _receivedServiceAccountLinkingDismissAction: (() -> Void)?
+    override func serviceAccountLinking(
+        userService: UserServiceInterface,
+        accountType: ServiceAccountType,
+        linkId: String,
+        completeAction: @escaping () -> Void,
+        dismissAction: @escaping () -> Void
+    ) -> UIViewController {
+        _receivedServiceAccountLinkingCompleteAction = completeAction
+        _receivedServiceAccountLinkingDismissAction = dismissAction
+        return _stubbedServiceAccountLinkingController ?? UIViewController()
+    }
+
+    var _stubbedServiceAccountUnlinkingController: UIViewController?
+    var _receivedServiceAccountUnlinkingCompleteAction: (() -> Void)?
+    var _receivedServiceAccountUnlinkingDismissAction: (() -> Void)?
+    override func serviceAccountUnlinking(
+        userService: UserServiceInterface,
+        accountType: ServiceAccountType,
+        completeAction: @escaping () -> Void,
+        dismissAction: @escaping () -> Void
+    ) -> UIViewController {
+        _receivedServiceAccountUnlinkingCompleteAction = completeAction
+        _receivedServiceAccountUnlinkingDismissAction = dismissAction
+        return _stubbedServiceAccountUnlinkingController ?? UIViewController()
+    }
+
+    var _stubbedServiceAccountConsentController: UIViewController?
+    var _receivedServiceAccountConsentCompletionAction: (() -> Void)?
+    var _receivedServiceAccountConsentCancelAction: (() -> Void)?
+    override func serviceAccountConsent(
+        analyticsService: AnalyticsServiceInterface,
+        completionAction: @escaping () -> Void,
+        cancelAction: @escaping () -> Void
+    ) -> UIViewController {
+        _receivedServiceAccountConsentCompletionAction = completionAction
+        _receivedServiceAccountConsentCancelAction = cancelAction
+        return _stubbedServiceAccountConsentController ?? UIViewController()
     }
 
 }

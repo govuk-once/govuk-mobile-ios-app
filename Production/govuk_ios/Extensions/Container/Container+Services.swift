@@ -297,4 +297,12 @@ extension Container {
                 repository: self.notificationCentreRepository.resolve())
         }
     }
+
+    var dvlaAuthenticationService: Factory<DVLAAuthenticationServiceInterface> {
+        Factory(self) {
+            DVLAAuthenticationService(
+                sessionBuilder: DVLAAuthSessionBuilder()
+            )
+        }
+    }
 }

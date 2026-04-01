@@ -97,4 +97,103 @@ final class UserServiceTests {
         #expect(userService.notificationId == "notification-id-1")
     }
 
+    @Test
+    func linkAccount_success_returnsExpectedResult() {
+        mockUserServiceClient._stubbedLinkAccountResult = .success(())
+        let sut = UserService(appConfigService: mockAppConfigService,
+                              userServiceClient: mockUserServiceClient)
+        var wasSuccessful = false
+        sut.linkAccount(withType: .dvla,
+                        linkId: "test-link-id") { result in
+            switch result {
+            case .success:
+                wasSuccessful = true
+            case .failure:
+                Issue.record("Expected success")
+            }
+        }
+        #expect(wasSuccessful == true)
+    }
+
+    @Test
+    func linkAccount_failure_returnsExpectedError() {
+        mockUserServiceClient._stubbedLinkAccountResult = .failure(
+            UserStateError.authenticationError
+        )
+        let sut = UserService(appConfigService: mockAppConfigService,
+                              userServiceClient: mockUserServiceClient)
+        sut.linkAccount(withType: .dvla,
+                        linkId: "test-link-id") { result in
+            #expect(result.getError() == .authenticationError)
+        }
+    }
+
+    @Test
+    func linkAccount_success_updatesIdDvlaAccountLinked() {
+        mockUserServiceClient._stubbedLinkAccountResult = .success(())
+        let sut = UserService(appConfigService: mockAppConfigService,
+                              userServiceClient: mockUserServiceClient)
+        #expect(sut.isDvlaAccountLinked == false)
+
+        sut.linkAccount(withType: .dvla, linkId: "test-link-id") { _ in
+            #expect(sut.isDvlaAccountLinked == true)
+        }
+    }
+
+    @Test
+    func unlinkAccount_success_returnsExpectedResult() {
+        mockUserServiceClient._stubbedUnlinkAccountResult = .success(())
+        let sut = UserService(appConfigService: mockAppConfigService,
+                              userServiceClient: mockUserServiceClient)
+        var wasSuccessful = false
+        sut.unlinkAccount(withType: .dvla) { result in
+            if case .success = result {
+                wasSuccessful = true
+            }
+            #expect(wasSuccessful == true)
+        }
+    }
+
+    @Test
+    func unlinkAccount_failure_returnsExpectedError() {
+        mockUserServiceClient._stubbedUnlinkAccountResult = .failure(
+            UserStateError.apiUnavailable
+        )
+        let sut =  UserService(appConfigService: mockAppConfigService,
+                               userServiceClient: mockUserServiceClient)
+        sut.unlinkAccount(withType: .dvla) { result in
+            #expect(result.getError() == .apiUnavailable)
+        }
+    }
+
+    @Test
+    func fetchAccountLinkStatus_success_returnsExpectedResult() async {
+        mockUserServiceClient._stubbedFetchAccountLinkStatusResult = .success(
+            .arrangeUnlinked
+        )
+        let sut = UserService(
+            appConfigService: mockAppConfigService,
+            userServiceClient: mockUserServiceClient
+        )
+        let result = await sut.fetchAccountLinkStatus(
+            accountType: .dvla
+        )
+        let accountLinkStatus = try? result.get()
+        #expect(accountLinkStatus?.linked == false)
+    }
+
+    @Test
+    func fetchAccountLinkStatus_apiUnavailable_returnsExpectedError() async {
+        mockUserServiceClient._stubbedFetchAccountLinkStatusResult = .failure(
+            .apiUnavailable
+        )
+        let sut = UserService(
+            appConfigService: mockAppConfigService,
+            userServiceClient: mockUserServiceClient
+        )
+        let result = await sut.fetchAccountLinkStatus(
+            accountType: .dvla
+        )
+        #expect(result.getError() == .apiUnavailable)
+    }
 }

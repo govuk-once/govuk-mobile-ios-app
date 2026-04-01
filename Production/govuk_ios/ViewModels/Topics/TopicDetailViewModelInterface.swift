@@ -6,15 +6,21 @@ protocol TopicDetailViewModelInterface: ObservableObject {
     var title: String { get }
     var isLoaded: Bool { get }
     var description: String? { get }
+    var topicActionCards: [ListCardViewModel] { get }
     var sections: [GroupedListSection] { get }
     var subtopicCards: [ListCardViewModel] { get }
     var errorViewModel: AppErrorViewModel? { get }
     var commerceItems: [TopicCommerceItem] { get set }
     func trackScreen(screen: TrackableScreen)
     func trackEcommerce()
+    @MainActor
+    func viewDidAppear() async
 }
 
 extension TopicDetailViewModelInterface {
+    var topicActionCards: [ListCardViewModel] {
+        []
+    }
     var subtopicCards: [ListCardViewModel] {
         []
     }
@@ -42,4 +48,7 @@ extension TopicDetailViewModelInterface {
         )
         commerceItems.append(appEventItem)
     }
+
+    @MainActor
+    func viewDidAppear() async {}
 }

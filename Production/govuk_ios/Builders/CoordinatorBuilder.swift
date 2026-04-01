@@ -222,6 +222,8 @@ class CoordinatorBuilder {
             analyticsService: container.analyticsService.resolve(),
             topicsService: container.topicsService.resolve(),
             activityService: container.activityService.resolve(),
+            configService: container.appConfigService.resolve(),
+            userService: container.userService.resolve(),
             coordinatorBuilder: self,
             viewControllerBuilder: ViewControllerBuilder(),
             topic: topic
@@ -467,5 +469,29 @@ class CoordinatorBuilder {
             notificationCentreService: container.notificationCentreService.resolve(),
             analyticsService: container.analyticsService.resolve(),
             coordinatorBuilder: self)
+    }
+
+    func serviceAccount(navigationController: UINavigationController,
+                        accountType: ServiceAccountType,
+                        completion: @escaping () -> Void) -> BaseCoordinator {
+        ServiceAccountCoordinator(
+            navigationController: navigationController,
+            coordinatorBuilder: self,
+            viewControllerBuilder: ViewControllerBuilder(),
+            analyticsService: container.analyticsService.resolve(),
+            userService: container.userService.resolve(),
+            accountType: accountType,
+            completion: completion
+        )
+    }
+
+    func dvlaAuthentication(navigationController: UINavigationController,
+                            completion: @escaping (String) -> Void,
+                            errorAction: @escaping (DVLAAuthError) -> Void) -> BaseCoordinator {
+        DVLAAuthenticationCoordinator(
+            navigationController: navigationController,
+            authenticationService: container.dvlaAuthenticationService.resolve(),
+            completion: completion,
+            errorAction: errorAction)
     }
 }

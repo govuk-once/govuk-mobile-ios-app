@@ -98,6 +98,13 @@ extension String {
             bundle: .main
         )
     }
+
+    static var serviceAccount: LocalStringBuilder {
+        .init(
+            tableName: "ServiceAccount",
+            bundle: .main
+        )
+    }
 }
 
 extension String {

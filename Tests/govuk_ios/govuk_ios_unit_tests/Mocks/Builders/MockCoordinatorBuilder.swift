@@ -321,6 +321,15 @@ class MockCoordinatorBuilder: CoordinatorBuilder {
         _stubbedPrivacyCoordinator ?? MockBaseCoordinator()
     }
 
+    var _stubbedServiceAccountCoordinator: MockBaseCoordinator?
+    var _receivedServiceAccountCompletion: (() -> Void)?
+    override func serviceAccount(navigationController: UINavigationController,
+                                 accountType: ServiceAccountType,
+                                 completion: @escaping () -> Void) -> BaseCoordinator {
+        _receivedServiceAccountCompletion = completion
+        return _stubbedServiceAccountCoordinator ?? MockBaseCoordinator()
+    }
+
     var _receivedTermsAndConditionsCompletion: (() -> Void)?
     var _termsAndConditionsCallAction: (() -> Void)?
     var _stubbedTermsAndConditionsCoordinator: MockBaseCoordinator?
@@ -329,5 +338,14 @@ class MockCoordinatorBuilder: CoordinatorBuilder {
         _receivedTermsAndConditionsCompletion = completion
         _termsAndConditionsCallAction?()
         return _stubbedTermsAndConditionsCoordinator ?? MockBaseCoordinator()
+    }
+
+    var _receivedDvlaAuthenticationCompletion: ((String) -> Void)?
+    var _stubbedDvlaAuthenticationCoordinator: MockBaseCoordinator?
+    override func dvlaAuthentication(navigationController: UINavigationController,
+                                     completion: @escaping (String) -> Void,
+                                     errorAction: @escaping (DVLAAuthError) -> Void) -> BaseCoordinator {
+        _receivedDvlaAuthenticationCompletion = completion
+        return _stubbedDvlaAuthenticationCoordinator ?? MockBaseCoordinator()
     }
 }

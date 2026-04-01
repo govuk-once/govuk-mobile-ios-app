@@ -3,6 +3,7 @@ import GovKit
 
 // swiftlint:disable:next type_body_length
 class TopicDetailViewModel: TopicDetailViewModelInterface {
+    @Published private(set) var topicActionCards = [ListCardViewModel]()
     @Published private(set) var sections = [GroupedListSection]()
     @Published private(set) var errorViewModel: AppErrorViewModel?
     @Published private(set) var subtopicCards = [ListCardViewModel]()
@@ -14,7 +15,10 @@ class TopicDetailViewModel: TopicDetailViewModelInterface {
     private let topicsService: TopicsServiceInterface
     private let analyticsService: AnalyticsServiceInterface
     private let activityService: ActivityServiceInterface
+    private let configService: AppConfigServiceInterface
+    private let userService: UserServiceInterface
     private let urlOpener: URLOpener
+    private let topicAction: (DisplayableTopic) -> Void
     private let subtopicAction: (DisplayableTopic) -> Void
     private let stepByStepAction: ([TopicDetailResponse.Content]) -> Void
     private let openAction: (URL) -> Void
@@ -40,33 +44,67 @@ class TopicDetailViewModel: TopicDetailViewModelInterface {
          topicsService: TopicsServiceInterface,
          analyticsService: AnalyticsServiceInterface,
          activityService: ActivityServiceInterface,
+         configService: AppConfigServiceInterface,
+         userService: UserServiceInterface,
          urlOpener: URLOpener,
          actions: Actions) {
         self.topic = topic
         self.topicsService = topicsService
         self.analyticsService = analyticsService
         self.activityService = activityService
+        self.configService = configService
+        self.userService = userService
         self.urlOpener = urlOpener
+        topicAction = actions.topicAction
         subtopicAction = actions.subtopicAction
         stepByStepAction = actions.stepByStepAction
         openAction = actions.openAction
-        fetchTopicDetails(topicRef: topic.ref)
     }
 
-    private func fetchTopicDetails(topicRef: String) {
-        self.isLoaded = false
-        topicsService.fetchDetails(
-            ref: topicRef,
-            completion: { result in
-                if case let .success(detail) = result {
-                    self.topicDetail = detail
-                    self.configureSections()
-                    self.createSubtopicCards()
-                    self.isLoaded = true
-                }
-                self.handleError(result.getError())
+    @MainActor
+    private func fetchContent() async {
+        isLoaded = false
+        async let topicDetailTask = fetchTopicDetails(topicRef: topic.ref)
+        async let dvlaLinkStatusTask: () = fetchDvlaAccountLinkStatus()
+        let (topicDetailResult, _) = await (topicDetailTask, dvlaLinkStatusTask)
+
+        if case .success(let detail) = topicDetailResult {
+            topicDetail = detail
+            displayFetchedContent()
+        }
+        handleError(topicDetailResult.getError())
+    }
+
+    private func displayFetchedContent() {
+        updateTopicActionCards()
+        configureSections()
+        createSubtopicCards()
+        isLoaded = true
+    }
+
+    private func fetchTopicDetails(topicRef: String) async -> FetchTopicDetailsResult {
+        await withCheckedContinuation { continuation in
+            topicsService.fetchDetails(ref: topicRef) { result in
+                continuation.resume(returning: result)
             }
+        }
+    }
+
+    private func fetchDvlaAccountLinkStatus() async {
+        guard configService.isFeatureEnabled(key: .dvla),
+              topic.ref == "driving-transport" else {
+            return
+        }
+        let result = await userService.fetchAccountLinkStatus(
+            accountType: .dvla
         )
+        switch result {
+        case .success(let status):
+            print("\(#function) successful, linked: \(status.linked)")
+        case .failure(let error):
+            print(error.localizedDescription)
+        }
+        // tbc: how to handle error
     }
 
     private func configureSections() {
@@ -85,9 +123,13 @@ class TopicDetailViewModel: TopicDetailViewModelInterface {
         }
         switch error {
         case .networkUnavailable:
-            errorViewModel = AppErrorViewModel.networkUnavailable {
-                self.fetchTopicDetails(topicRef: self.topic.ref)
-            }
+            errorViewModel = AppErrorViewModel.networkUnavailable(
+                action: {
+                    Task {
+                        await self.fetchContent()
+                    }
+                }
+            )
         default:
             errorViewModel = topicErrorViewModel
         }
@@ -164,6 +206,26 @@ class TopicDetailViewModel: TopicDetailViewModelInterface {
         }
     }
 
+    func updateTopicActionCards() {
+        // hard coded DVLA account linking action card
+        guard configService.isFeatureEnabled(key: .dvla),
+              topic.ref == "driving-transport" else { return }
+        let title = userService.isDvlaAccountLinked
+        ? "Unlink your driver and vehicles account"
+        : "Add your driver and vehicles account"
+        let content = TopicDetailResponse.Subtopic(
+            ref: "dvla-link-account",
+            title: title,
+            topicDescription: nil)
+        let dvlaAccountLinkingCard = ListCardViewModel(
+            title: content.title,
+            action: { [weak self] in
+                self?.topicAction(content)
+            }
+        )
+        topicActionCards = [dvlaAccountLinkingCard]
+    }
+
     private func createRelatedSubtopicsSection() -> GroupedListSection? {
         guard let detail = topicDetail,
               detail.subtopics.count > 0,
@@ -231,6 +293,16 @@ class TopicDetailViewModel: TopicDetailViewModelInterface {
                 self?.subtopicAction(content)
             }
         )
+    }
+
+    @MainActor
+    func viewDidAppear() async {
+        if isLoaded {
+            updateTopicActionCards()
+            trackEcommerce()
+        } else {
+            await fetchContent()
+        }
     }
 
     func trackScreen(screen: TrackableScreen) {
@@ -311,6 +383,7 @@ class TopicDetailViewModel: TopicDetailViewModelInterface {
 
 extension TopicDetailViewModel {
     struct Actions {
+        let topicAction: (DisplayableTopic) -> Void
         let subtopicAction: (DisplayableTopic) -> Void
         let stepByStepAction: ([TopicDetailResponse.Content]) -> Void
         let openAction: (URL) -> Void

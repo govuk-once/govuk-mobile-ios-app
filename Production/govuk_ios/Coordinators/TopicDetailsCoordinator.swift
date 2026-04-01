@@ -5,6 +5,8 @@ final class TopicDetailsCoordinator: BaseCoordinator {
     private let analyticsService: AnalyticsServiceInterface
     private let topicsService: TopicsServiceInterface
     private let activityService: ActivityServiceInterface
+    private let configService: AppConfigServiceInterface
+    private let userService: UserServiceInterface
     private let coordinatorBuilder: CoordinatorBuilder
     private let viewControllerBuilder: ViewControllerBuilder
     private let topic: Topic
@@ -13,6 +15,8 @@ final class TopicDetailsCoordinator: BaseCoordinator {
          analyticsService: AnalyticsServiceInterface,
          topicsService: TopicsServiceInterface,
          activityService: ActivityServiceInterface,
+         configService: AppConfigServiceInterface,
+         userService: UserServiceInterface,
          coordinatorBuilder: CoordinatorBuilder,
          viewControllerBuilder: ViewControllerBuilder,
          topic: Topic) {
@@ -21,6 +25,8 @@ final class TopicDetailsCoordinator: BaseCoordinator {
         self.viewControllerBuilder = viewControllerBuilder
         self.topicsService = topicsService
         self.activityService = activityService
+        self.configService = configService
+        self.userService = userService
         self.topic = topic
         super.init(navigationController: navigationController)
     }
@@ -38,6 +44,9 @@ final class TopicDetailsCoordinator: BaseCoordinator {
                 topicsService: self.topicsService,
                 analyticsService: self.analyticsService,
                 activityService: self.activityService,
+                configService: self.configService,
+                userService: self.userService,
+                topicAction: self.presentTopicAction,
                 subtopicAction: self.pushTopic,
                 stepByStepAction: self.pushStepBySteps,
                 openAction: { [weak self] url in
@@ -61,6 +70,23 @@ final class TopicDetailsCoordinator: BaseCoordinator {
                 }
             )
             self.push(viewController, animated: true)
+        }
+    }
+
+    private var presentTopicAction: (DisplayableTopic) -> Void {
+        // DVLA account linking action hard coded for now
+        return { [weak self] content in
+            guard let self = self, content.ref == "dvla-link-account"
+            else { return }
+            let navigationController = UINavigationController()
+            navigationController.modalPresentationStyle = .fullScreen
+            let coordinator = coordinatorBuilder.serviceAccount(
+                navigationController: navigationController,
+                accountType: .dvla, completion: {
+                    print("service account linking dismissed")
+                }
+            )
+            present(coordinator)
         }
     }
 

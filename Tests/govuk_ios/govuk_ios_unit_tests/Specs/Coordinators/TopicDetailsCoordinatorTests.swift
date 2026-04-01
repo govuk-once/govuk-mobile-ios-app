@@ -20,6 +20,8 @@ struct TopicDetailsCoordinatorTests {
             analyticsService: MockAnalyticsService(),
             topicsService: MockTopicsService(),
             activityService: MockActivityService(),
+            configService: MockAppConfigService(),
+            userService: MockUserService(),
             coordinatorBuilder: mockCoordinatorBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
             topic: topic
@@ -44,6 +46,8 @@ struct TopicDetailsCoordinatorTests {
             analyticsService: MockAnalyticsService(),
             topicsService: MockTopicsService(),
             activityService: MockActivityService(),
+            configService: MockAppConfigService(),
+            userService: MockUserService(),
             coordinatorBuilder: mockCoordinatorBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
             topic: topic
@@ -73,6 +77,8 @@ struct TopicDetailsCoordinatorTests {
             analyticsService: MockAnalyticsService(),
             topicsService: MockTopicsService(),
             activityService: MockActivityService(),
+            configService: MockAppConfigService(),
+            userService: MockUserService(),
             coordinatorBuilder: mockCoordinatorBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
             topic: topic
@@ -102,6 +108,8 @@ struct TopicDetailsCoordinatorTests {
             analyticsService: MockAnalyticsService(),
             topicsService: MockTopicsService(),
             activityService: MockActivityService(),
+            configService: MockAppConfigService(),
+            userService: MockUserService(),
             coordinatorBuilder: mockCoordinatorBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
             topic: topic
@@ -117,5 +125,40 @@ struct TopicDetailsCoordinatorTests {
         mockViewControllerBuilder._receivedStepByStepSelectedAction?(expectedContent)
 
         #expect(mockSafariCoordinator._startCalled)
+    }
+
+    @Test
+    @MainActor
+    func dvlaTopicAction_startsDvlaServiceAccountCoordinator() {
+        let mockNavigationController = MockNavigationController()
+        let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
+        let mockViewControllerBuilder = MockViewControllerBuilder()
+        let mockServiceAccountCoordinator = MockBaseCoordinator()
+        mockCoordinatorBuilder._stubbedServiceAccountCoordinator = mockServiceAccountCoordinator
+        let mockCoreDataRepository = CoreDataRepository.arrangeAndLoad
+        let dvlaTopic = Topic.arrange(
+            context: mockCoreDataRepository.viewContext,
+            ref: "driving-transport"
+        )
+        let subject = TopicDetailsCoordinator(
+            navigationController: mockNavigationController,
+            analyticsService: MockAnalyticsService(),
+            topicsService: MockTopicsService(),
+            activityService: MockActivityService(),
+            configService: MockAppConfigService(),
+            userService: MockUserService(),
+            coordinatorBuilder: mockCoordinatorBuilder,
+            viewControllerBuilder: mockViewControllerBuilder,
+            topic: dvlaTopic
+        )
+
+        subject.start()
+
+        let dvlaAccountTopic = Topic.arrange(
+            context: mockCoreDataRepository.viewContext,
+            ref: "dvla-link-account")
+        mockViewControllerBuilder._receivedTopicDetailTopicAction?(dvlaAccountTopic)
+
+        #expect(mockServiceAccountCoordinator._startCalled)
     }
 }
