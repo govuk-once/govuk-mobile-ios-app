@@ -32,5 +32,10 @@ class MockUserServiceClient: UserServiceClientInterface {
             completion(result)
         }
     }
+    
+    var _stubbedFetchAccountLinkStatusResult: LinkStatusResult!
+    func fetchAccountLinkStatus(serviceName: String) async -> LinkStatusResult {
+        _stubbedFetchAccountLinkStatusResult
+    }
 }
 

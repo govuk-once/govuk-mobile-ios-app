@@ -6,6 +6,8 @@ protocol UserServiceInterface {
                      completion: @escaping LinkAccountCompletion)
     func unlinkAccount(withType accountType: ServiceAccountType,
                        completion: @escaping UnlinkAccountCompletion)
+    @discardableResult
+    func fetchAccountLinkStatus(accountType: ServiceAccountType) async -> LinkStatusResult
     var notificationId: String? { get }
     var notificationsConsentStatus: ConsentStatus? { get }
     var isEnabled: Bool { get }
@@ -88,5 +90,17 @@ protocol UserServiceInterface {
                 completion(result)
             }
          )
+     }
+
+     func fetchAccountLinkStatus(
+        accountType: ServiceAccountType
+     ) async -> LinkStatusResult {
+         let result = await userServiceClient.fetchAccountLinkStatus(
+            serviceName: accountType.rawValue
+         )
+         if case .success(let status) = result {
+             isDvlaAccountLinked = status.linked
+         }
+         return result
      }
  }

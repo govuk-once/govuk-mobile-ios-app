@@ -56,4 +56,12 @@ struct GOVRequest_UserTests {
         #expect(request.method == .delete)
         #expect(request.requiresAuthentication == true)
     }
+
+    @Test
+    func accountLinkStatus_returnsExpectedValues() {
+        let request = GOVRequest.accountLinkStatus(serviceName: "dvla")
+        #expect(request.urlPath == "/app/udp/v1/identity/dvla")
+        #expect(request.method == .get)
+        #expect(request.requiresAuthentication == true)
+    }
 }

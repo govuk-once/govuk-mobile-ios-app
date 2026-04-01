@@ -20,14 +20,9 @@ struct TopicDetailView<T: TopicDetailViewModelInterface>: View {
             }
         }
         .background(Color(UIColor.govUK.fills.surfaceBackground))
-        .onAppear {
-            viewModel.viewDidAppear()
+        .task {
             viewModel.trackScreen(screen: self)
-            // isLoaded == true on back navigation, otherwise e-commerce
-            // triggered in .onChange
-            if viewModel.isLoaded {
-                viewModel.trackEcommerce()
-            }
+            await viewModel.viewDidAppear()
         }
         .onChange(of: viewModel.isLoaded) { isLoaded in
             if isLoaded {

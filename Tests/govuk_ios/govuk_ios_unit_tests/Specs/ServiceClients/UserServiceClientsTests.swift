@@ -195,6 +195,36 @@ struct UserServiceClientTests {
             #expect(error == .apiUnavailable)
         }
     }
+
+    @Test
+    func fetchAccountLinkStatus_sendsExpectedRequest() async {
+        mockAPI._stubbedSendResponse = .success(Data())
+        let _ = await sut.fetchAccountLinkStatus(serviceName: "dvla")
+        #expect(mockAPI._receivedSendRequest?.urlPath == "/app/udp/v1/identity/dvla")
+        #expect(mockAPI._receivedSendRequest?.method == .get)
+    }
+
+    @Test
+    func fetchAccountLinkStatus_success_returnsExpectedResult() async {
+        mockAPI._stubbedSendResponse = .success(
+            UserServiceClientTests.accountLinkStatusResponseData
+        )
+        let result = await sut.fetchAccountLinkStatus(
+            serviceName: "dvla"
+        )
+        let linkStatus = try! result.get()
+        #expect(linkStatus.linked == true)
+    }
+
+    @Test
+    func fetchAccountLinkStatus_apiUnavailable_returnsExpectedError() async {
+        mockAPI._stubbedSendResponse = .failure(UserStateError.apiUnavailable)
+        let result = await sut.fetchAccountLinkStatus(
+            serviceName: "dvla"
+        )
+        let error = result.getError()
+        #expect(error == .apiUnavailable)
+    }
 }
 
 private extension UserServiceClientTests {
@@ -214,6 +244,13 @@ private extension UserServiceClientTests {
     {
         "consentStatus": "accepted",
         "notificationId": "test_notification_id"
+    }
+    """.data(using: .utf8)!
+
+    static let accountLinkStatusResponseData =
+    """
+    {
+        "linked": true
     }
     """.data(using: .utf8)!
 
