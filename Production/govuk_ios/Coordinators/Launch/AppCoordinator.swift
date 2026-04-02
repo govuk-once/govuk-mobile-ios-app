@@ -64,11 +64,11 @@ class AppCoordinator: BaseCoordinator {
 
     private func handleNotificationConsentChange(consentGiven: Bool) {
         guard authenticationService.isSignedIn else { return }
-//        if let notificationId = userService.notificationId {
-            notificationService.register(notificationId: "")
+        if let notificationId = userService.notificationId {
+            notificationService.register(notificationId: notificationId)
+        }
         let consentStatus: ConsentStatus = .accepted
-            userService.setNotificationsConsent(consentStatus)
-//        }
+        userService.setNotificationsConsent(consentStatus)
     }
 
     override func start(url: URL?) {

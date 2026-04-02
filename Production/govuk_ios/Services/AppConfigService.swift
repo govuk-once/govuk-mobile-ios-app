@@ -101,10 +101,11 @@ public final class AppConfigService: AppConfigServiceInterface {
     }
 
     private var developmentOverrides: [Feature: Bool] {
+        // MattM Kludge
     #if STAGING
         [
-            .flex: featureFlags[Feature.flex.rawValue] ?? false,
-            .dvla: featureFlags[Feature.dvla.rawValue] ?? false
+            .flex: true,
+            .dvla: true
         ]
     #else
         [
