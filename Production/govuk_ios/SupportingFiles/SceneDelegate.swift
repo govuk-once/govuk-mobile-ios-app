@@ -71,7 +71,7 @@ class SceneDelegate: UIResponder,
     }
 
     func sceneWillEnterForeground(_ scene: UIScene) {
-        window?.makeKeyAndVisible()
+        hidePrivacyScreen()
         appCoordinator.start(url: nil)
     }
 
@@ -97,6 +97,7 @@ extension SceneDelegate: PrivacyPresenting {
 
     func hidePrivacyScreen() {
         window?.makeKeyAndVisible()
+        privacyWindow?.isHidden = true
         privacyCoordinator.finish()
     }
 
