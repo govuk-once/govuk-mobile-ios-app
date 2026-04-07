@@ -296,4 +296,12 @@ extension Container {
             )
         }
     }
+
+    var dvlaService: Factory<DVLAService> {
+        Factory(self) {
+            DVLAService(
+                serviceClient: self.dvlaServiceClient.resolve()
+            )
+        }
+    }
 }

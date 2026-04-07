@@ -1,0 +1,17 @@
+import Foundation
+
+protocol DVLAServiceInterface {
+    func fetchDrivingLicence() async -> DrivingLicenceResult
+}
+
+class DVLAService: DVLAServiceInterface {
+    private let serviceClient: DVLAServiceClientInterface
+
+    init(serviceClient: DVLAServiceClientInterface) {
+        self.serviceClient = serviceClient
+    }
+
+    func fetchDrivingLicence() async -> DrivingLicenceResult {
+        await serviceClient.fetchDrivingLicence()
+    }
+}

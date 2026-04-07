@@ -1,0 +1,39 @@
+{
+  "sourceLanguage" : "en-GB",
+  "strings" : {
+    "dvlaAccountErrorBody" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We couldn’t fetch your driving licence right now."
+          }
+        }
+      }
+    },
+    "dvlaAccountErrorButtonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try again"
+          }
+        }
+      }
+    },
+    "dvlaAccountTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Driving Licence"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.1"
+}

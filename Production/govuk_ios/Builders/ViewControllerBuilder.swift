@@ -692,5 +692,20 @@ class ViewControllerBuilder {
         viewController.isModalInPresentation = true
         return viewController
     }
+
+    func dvlaAccount(
+        dvlaService: DVLAServiceInterface
+    ) -> UIViewController {
+        let viewModel = DVLAAccountViewModel(
+            dvlaService: dvlaService
+        )
+        let view = DVLAAccountView(
+            viewModel: viewModel
+        )
+        let viewController = HostingViewController(
+            rootView: view
+        )
+        return viewController
+    }
 }
 // swiftlint:enable file_length

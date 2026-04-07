@@ -98,6 +98,13 @@ extension String {
             bundle: .main
         )
     }
+
+    static var dvla: LocalStringBuilder {
+        .init(
+            tableName: "DVLA",
+            bundle: .main
+        )
+    }
 }
 
 extension String {

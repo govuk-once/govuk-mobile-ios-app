@@ -434,7 +434,7 @@ struct CoordinatorBuilderTests {
         let coordinator = subject.serviceAccount(
             navigationController: UINavigationController(),
             accountType: .dvla,
-            completion: {}
+            completion: { _ in }
         )
         #expect(coordinator is ServiceAccountCoordinator)
     }

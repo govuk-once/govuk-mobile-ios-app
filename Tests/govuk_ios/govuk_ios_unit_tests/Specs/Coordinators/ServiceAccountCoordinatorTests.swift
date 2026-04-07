@@ -24,7 +24,7 @@ struct ServiceAccountCoordinatorTests {
             analyticsService: MockAnalyticsService(),
             userService: mockUserService,
             accountType: .dvla,
-            completion: {}
+            completion: { _ in }
         )
 
         sut.start()
@@ -47,7 +47,7 @@ struct ServiceAccountCoordinatorTests {
             analyticsService: MockAnalyticsService(),
             userService: mockUserService,
             accountType: .dvla,
-            completion: {}
+            completion: { _ in }
         )
 
         sut.start()
@@ -73,7 +73,7 @@ struct ServiceAccountCoordinatorTests {
             analyticsService: MockAnalyticsService(),
             userService: MockUserService(),
             accountType: .dvla,
-            completion: {
+            completion: { _ in
                 hasCompleted = true
             }
         )
@@ -104,7 +104,7 @@ struct ServiceAccountCoordinatorTests {
             analyticsService: MockAnalyticsService(),
             userService: mockUserService,
             accountType: .dvla,
-            completion: {}
+            completion: { _ in }
         )
 
         sut.start()

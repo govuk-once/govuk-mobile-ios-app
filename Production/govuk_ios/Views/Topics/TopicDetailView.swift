@@ -107,9 +107,9 @@ struct TopicDetailView<T: TopicDetailViewModelInterface>: View {
                 ForEach(viewModel.topicActionCards) { cardModel in
                     ListCardView(viewModel: cardModel)
                 }
-                .padding(.vertical, 8)
             }
             .padding([.top, .horizontal], 16)
+            .padding(.bottom, 8)
             .background(Color(UIColor.govUK.fills.surfaceBackground))
             .opacity(viewModel.topicActionCards.isEmpty ? 0 : 1)
         }
