@@ -37,8 +37,7 @@ class DVLAAccountViewModel: ObservableObject {
             errorViewModel = nil
             return
         }
-        switch error {
-        case .networkUnavailable:
+        if error == .networkUnavailable {
             errorViewModel = AppErrorViewModel.networkUnavailable(
                 action: {
                     Task {
@@ -46,7 +45,7 @@ class DVLAAccountViewModel: ObservableObject {
                     }
                 }
             )
-        default:
+        } else {
             errorViewModel = drivingLicenseErrorViewModel
         }
     }

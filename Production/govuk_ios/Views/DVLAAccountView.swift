@@ -12,29 +12,51 @@ struct DVLAAccountView: View {
     var body: some View {
         ZStack {
             Color(UIColor.govUK.fills.surfaceBackground)
-            ScrollView {
+            if let errorViewModel = viewModel.errorViewModel {
+                errorView(with: errorViewModel)
+            } else {
                 listView
             }
         }
         .frame(maxHeight: .infinity)
         .overlay(content: {
-            ZStack {
-                Color(UIColor(light: .white, dark: .black))
-                ProgressView()
-            }
-            .opacity(viewModel.isLoading ? 1 : 0)
+            loadingView
         })
         .task {
             await viewModel.fetchDrivingLicence()
         }
     }
 
+    private func errorView(with errorViewModel: AppErrorViewModel) -> some View {
+        GeometryReader { geometry in
+            ScrollView {
+                VStack {
+                    Spacer()
+                    AppErrorView(viewModel: errorViewModel)
+                    Spacer()
+                }
+                .frame(minHeight: geometry.size.height)
+                .frame(width: geometry.size.width)
+            }
+        }
+    }
+
     private var listView: some View {
-        GroupedList(
-            content: viewModel.sections,
-            backgroundColor: UIColor.govUK.fills.surfaceBackground
-        )
-        .padding(.vertical, 24)
-        .padding(.horizontal, 16)
+        ScrollView {
+            GroupedList(
+                content: viewModel.sections,
+                backgroundColor: UIColor.govUK.fills.surfaceBackground
+            )
+            .padding(.vertical, 24)
+            .padding(.horizontal, 16)
+        }
+    }
+
+    private var loadingView: some View {
+        ZStack {
+            Color(UIColor(light: .white, dark: .black))
+            ProgressView()
+        }
+        .opacity(viewModel.isLoading ? 1 : 0)
     }
 }

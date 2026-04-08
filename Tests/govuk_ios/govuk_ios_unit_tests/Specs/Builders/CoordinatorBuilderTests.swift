@@ -449,4 +449,13 @@ struct CoordinatorBuilderTests {
         )
         #expect(coordinator is DVLAAuthenticationCoordinator)
     }
+
+    @Test
+    func dvlaAccount_returnsExpectedResult() {
+        let subject = CoordinatorBuilder(container: Container())
+        let coordinator = subject.dvlaAccount(
+            navigationController: UINavigationController()
+        )
+        #expect(coordinator is DVLAAccountCoordinator)
+    }
 }

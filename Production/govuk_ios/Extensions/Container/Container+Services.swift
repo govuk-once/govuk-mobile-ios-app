@@ -297,7 +297,7 @@ extension Container {
         }
     }
 
-    var dvlaService: Factory<DVLAService> {
+    var dvlaService: Factory<DVLAServiceInterface> {
         Factory(self) {
             DVLAService(
                 serviceClient: self.dvlaServiceClient.resolve()
