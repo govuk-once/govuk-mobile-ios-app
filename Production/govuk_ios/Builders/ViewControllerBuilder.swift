@@ -587,7 +587,7 @@ class ViewControllerBuilder {
                 AnyView(
                     InfoMarkdownView(
                         viewModel.markdownText,
-                        markdownTheme: Theme.govUKBasic,
+                        markdownTheme: Theme.govUK,
                         openUrlAction: openURLAction
                     )
                 )
