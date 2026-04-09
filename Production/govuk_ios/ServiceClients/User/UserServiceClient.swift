@@ -24,12 +24,9 @@ protocol UserServiceClientInterface {
 
 struct UserServiceClient: UserServiceClientInterface {
     private let apiServiceClient: APIServiceClientInterface
-    private let authenticationService: AuthenticationServiceInterface
 
-    init(apiServiceClient: APIServiceClientInterface,
-         authenticationService: AuthenticationServiceInterface) {
+    init(apiServiceClient: APIServiceClientInterface) {
         self.apiServiceClient = apiServiceClient
-        self.authenticationService = authenticationService
     }
 
     func fetchUserState(completion: @escaping FetchUserStateCompletion) {

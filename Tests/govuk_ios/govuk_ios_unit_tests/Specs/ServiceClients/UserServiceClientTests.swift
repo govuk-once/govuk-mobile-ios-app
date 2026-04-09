@@ -13,8 +13,7 @@ struct UserServiceClientTests {
         mockAPI = MockAPIServiceClient()
         mockAuthenticationService = MockAuthenticationService()
         sut = UserServiceClient(
-            apiServiceClient: mockAPI,
-            authenticationService: mockAuthenticationService
+            apiServiceClient: mockAPI
         )
     }
 

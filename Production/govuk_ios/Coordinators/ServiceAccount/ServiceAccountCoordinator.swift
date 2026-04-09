@@ -8,7 +8,7 @@ final class ServiceAccountCoordinator: BaseCoordinator {
     private let analyticsService: AnalyticsServiceInterface
     private let userService: UserServiceInterface
     private let accountType: ServiceAccountType
-    private let completion: () -> Void
+    private let completion: (Bool) -> Void
 
     init(navigationController: UINavigationController,
          coordinatorBuilder: CoordinatorBuilder,
@@ -16,7 +16,7 @@ final class ServiceAccountCoordinator: BaseCoordinator {
          analyticsService: AnalyticsServiceInterface,
          userService: UserServiceInterface,
          accountType: ServiceAccountType,
-         completion: @escaping () -> Void) {
+         completion: @escaping (Bool) -> Void) {
         self.coordinatorBuilder = coordinatorBuilder
         self.viewControllerBuilder = viewControllerBuilder
         self.analyticsService = analyticsService
@@ -63,9 +63,9 @@ final class ServiceAccountCoordinator: BaseCoordinator {
             accountType: accountType,
             linkId: linkId,
             completeAction: { [weak self] in
-                self?.dismissModal()
                 print("dvla account linked successfully")
-                self?.completion()
+                self?.dismissModal()
+                self?.completion(true)
             },
             dismissAction: dismissModal
         )
@@ -79,7 +79,7 @@ final class ServiceAccountCoordinator: BaseCoordinator {
             completeAction: { [weak self] in
                 self?.dismissModal()
                 print("dvla account unlinked successfully")
-                self?.completion()
+                self?.completion(false)
             },
             dismissAction: dismissModal
         )

@@ -113,4 +113,12 @@ struct Container_ServicesTests {
         #expect(sut is DVLAAuthenticationService)
 
     }
+
+    @Test
+    func dvlaService_returnsExpectedValue() {
+        let container = Container()
+        container.authenticationService.register { MockAuthenticationService() }
+        let sut = container.dvlaService.resolve()
+        #expect(sut is DVLAService)
+    }
 }

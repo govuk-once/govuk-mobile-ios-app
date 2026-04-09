@@ -462,7 +462,7 @@ class CoordinatorBuilder {
 
     func serviceAccount(navigationController: UINavigationController,
                         accountType: ServiceAccountType,
-                        completion: @escaping () -> Void) -> BaseCoordinator {
+                        completion: @escaping (Bool) -> Void) -> BaseCoordinator {
         ServiceAccountCoordinator(
             navigationController: navigationController,
             coordinatorBuilder: self,
@@ -474,13 +474,25 @@ class CoordinatorBuilder {
         )
     }
 
-    func dvlaAuthentication(navigationController: UINavigationController,
-                            completion: @escaping (String) -> Void,
-                            errorAction: @escaping (DVLAAuthError) -> Void) -> BaseCoordinator {
+    func dvlaAuthentication(
+        navigationController: UINavigationController,
+        completion: @escaping (String) -> Void,
+        errorAction: @escaping (DVLAAuthError) -> Void
+    ) -> BaseCoordinator {
         DVLAAuthenticationCoordinator(
             navigationController: navigationController,
             authenticationService: container.dvlaAuthenticationService.resolve(),
             completion: completion,
             errorAction: errorAction)
+    }
+
+    func dvlaAccount(
+        navigationController: UINavigationController
+    ) -> BaseCoordinator {
+        DVLAAccountCoordinator(
+            navigationController: navigationController,
+            viewControllerBuilder: ViewControllerBuilder(),
+            dvlaService: container.dvlaService.resolve()
+        )
     }
 }

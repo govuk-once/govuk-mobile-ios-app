@@ -76,18 +76,32 @@ final class TopicDetailsCoordinator: BaseCoordinator {
     private var presentTopicAction: (DisplayableTopic) -> Void {
         // DVLA account linking action hard coded for now
         return { [weak self] content in
-            guard let self = self, content.ref == "dvla-link-account"
-            else { return }
-            let navigationController = UINavigationController()
-            navigationController.modalPresentationStyle = .fullScreen
-            let coordinator = coordinatorBuilder.serviceAccount(
-                navigationController: navigationController,
-                accountType: .dvla, completion: {
-                    print("service account linking dismissed")
-                }
-            )
-            present(coordinator)
+            guard let self = self else { return }
+
+            if content.ref == "dvla-link-account" {
+                let navigationController = UINavigationController()
+                navigationController.modalPresentationStyle = .fullScreen
+                let coordinator = coordinatorBuilder.serviceAccount(
+                    navigationController: navigationController,
+                    accountType: .dvla, completion: { [weak self] hasLinkedAccount in
+                        print("service account linking dismissed")
+                        if hasLinkedAccount {
+                            self?.startDvlaAccount()
+                        }
+                    }
+                )
+                present(coordinator)
+            } else if content.ref == "dvla-view-account" {
+                startDvlaAccount()
+            }
         }
+    }
+
+    private func startDvlaAccount() {
+        let coordinator = coordinatorBuilder.dvlaAccount(
+            navigationController: root
+        )
+        start(coordinator)
     }
 
     private func presentWebView(url: URL) {

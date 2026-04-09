@@ -1,3 +1,4 @@
+// swiftlint:disable file_length
 import SwiftUI
 import GovKit
 
@@ -210,20 +211,38 @@ class TopicDetailViewModel: TopicDetailViewModelInterface {
         // hard coded DVLA account linking action card
         guard configService.isFeatureEnabled(key: .dvla),
               topic.ref == "driving-transport" else { return }
+        var dvlaTopicActionCards = [ListCardViewModel]()
+
         let title = userService.isDvlaAccountLinked
         ? "Unlink your driver and vehicles account"
         : "Add your driver and vehicles account"
         let content = TopicDetailResponse.Subtopic(
             ref: "dvla-link-account",
             title: title,
-            topicDescription: nil)
+            topicDescription: nil
+        )
         let dvlaAccountLinkingCard = ListCardViewModel(
             title: content.title,
             action: { [weak self] in
                 self?.topicAction(content)
             }
         )
-        topicActionCards = [dvlaAccountLinkingCard]
+        dvlaTopicActionCards.append(dvlaAccountLinkingCard)
+        if userService.isDvlaAccountLinked {
+            let content = TopicDetailResponse.Subtopic(
+                ref: "dvla-view-account",
+                title: "View your driver and vehicles account",
+                topicDescription: nil
+            )
+            let dvlaViewAccountCard = ListCardViewModel(
+                title: content.title,
+                action: { [weak self] in
+                    self?.topicAction(content)
+                }
+            )
+            dvlaTopicActionCards.append(dvlaViewAccountCard)
+        }
+        topicActionCards = dvlaTopicActionCards
     }
 
     private func createRelatedSubtopicsSection() -> GroupedListSection? {

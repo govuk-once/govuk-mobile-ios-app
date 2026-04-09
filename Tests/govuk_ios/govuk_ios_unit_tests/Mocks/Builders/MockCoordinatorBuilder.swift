@@ -322,10 +322,10 @@ class MockCoordinatorBuilder: CoordinatorBuilder {
     }
 
     var _stubbedServiceAccountCoordinator: MockBaseCoordinator?
-    var _receivedServiceAccountCompletion: (() -> Void)?
+    var _receivedServiceAccountCompletion: ((Bool) -> Void)?
     override func serviceAccount(navigationController: UINavigationController,
                                  accountType: ServiceAccountType,
-                                 completion: @escaping () -> Void) -> BaseCoordinator {
+                                 completion: @escaping (Bool) -> Void) -> BaseCoordinator {
         _receivedServiceAccountCompletion = completion
         return _stubbedServiceAccountCoordinator ?? MockBaseCoordinator()
     }
