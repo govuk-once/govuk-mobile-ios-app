@@ -370,7 +370,7 @@
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "We analyse questions and answers to improve Chat, as we’re still developing it.\n\nFind out more, including how to ask us to delete your data, in the [privacy notice.](%@)"
+            "value" : "We analyse questions and answers to improve Chat, as we’re still developing it.\n\nFind out more, including how to ask us to delete your data, in the [privacy notice](%@)."
           }
         }
       }
