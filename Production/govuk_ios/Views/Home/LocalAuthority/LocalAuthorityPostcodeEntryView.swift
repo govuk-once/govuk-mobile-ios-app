@@ -17,17 +17,12 @@ struct LocalAuthorityPostcodeEntryView: View {
             VStack {
                 HStack {
                     Spacer()
-                    Button(
-                        action: {
-                            viewModel.dismissAction()
-                        }, label: {
-                            Text(String.common.localized("cancel"))
-                                .foregroundColor(
-                                    Color(UIColor.govUK.text.linkSecondary)
-                                )
-                                .font(Font.govUK.subheadlineSemibold)
-                        }
-                    )
+                    if #available(iOS 26.0, *) {
+                        cancelButton
+                            .buttonStyle(.glass)
+                    } else {
+                        cancelButton
+                    }
                 }
                 .padding(16)
                 ScrollView {
@@ -85,13 +80,18 @@ struct LocalAuthorityPostcodeEntryView: View {
         }
     }
 
-    private var cancelButton: some ToolbarContent {
-        ToolbarItem(placement: ToolbarItemPlacement.confirmationAction) {
-            Button(viewModel.cancelButtonTitle) {
+    private var cancelButton: some View {
+        Button(
+            action: {
                 viewModel.dismissAction()
+            }, label: {
+                Text(String.common.localized("cancel"))
+                    .foregroundColor(
+                        Color(UIColor.govUK.text.linkSecondary)
+                    )
+                    .font(Font.govUK.subheadlineSemibold)
             }
-            .foregroundColor(Color(UIColor.govUK.text.linkSecondary))
-        }
+        )
     }
 }
 
