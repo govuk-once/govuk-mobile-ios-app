@@ -62,10 +62,10 @@ struct AmbiguousAuthoritySelectionView: View {
 
     private var cancelButton: some ToolbarContent {
         ToolbarItem(placement: ToolbarItemPlacement.confirmationAction) {
-                Button(viewModel.cancelButtonTitle) {
-                    viewModel.dismissAction()
-                }
-                .foregroundColor(Color(UIColor.govUK.text.linkSecondary))
+            Button(viewModel.cancelButtonTitle) {
+                viewModel.dismissAction()
+            }
+            .foregroundColor(Color(UIColor.govUK.text.linkSecondary))
         }
     }
 
