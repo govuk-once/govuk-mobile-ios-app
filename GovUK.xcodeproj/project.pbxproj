@@ -306,6 +306,7 @@
 		815559452F729409001E73CD /* DVLAAuthSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815559442F729404001E73CD /* DVLAAuthSession.swift */; };
 		815559472F72AB47001E73CD /* ASWebAuthenticationSession+Interface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815559462F72AB39001E73CD /* ASWebAuthenticationSession+Interface.swift */; };
 		815559492F72B087001E73CD /* DVLAAuthSessionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815559482F72B082001E73CD /* DVLAAuthSessionBuilder.swift */; };
+		8144120A2F8900D300103197 /* FirebasePerformance in Frameworks */ = {isa = PBXBuildFile; productRef = 814412092F8900D300103197 /* FirebasePerformance */; };
 		815935D92F212EF700F8D206 /* UserServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815935D82F212EF300F8D206 /* UserServiceClient.swift */; };
 		815935DB2F213EC700F8D206 /* GOVRequest+UserState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815935DA2F213EBE00F8D206 /* GOVRequest+UserState.swift */; };
 		815935DE2F22353900F8D206 /* UserResponseHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815935DD2F22352B00F8D206 /* UserResponseHandler.swift */; };
@@ -1135,6 +1136,7 @@
 				160AEAC52DA038030072BA43 /* Authentication in Frameworks */,
 				5DCAFA7A2D40088600C3F284 /* OneSignalFramework in Frameworks */,
 				5DC250602C91D395009E9E7F /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
+				8144120A2F8900D300103197 /* FirebasePerformance in Frameworks */,
 				5DBA1F782F212768002B90EB /* GovKitUI in Frameworks */,
 				D090467F2DBBC1ED0096EE66 /* JWTKit in Frameworks */,
 				815C586C2EE9744E00322705 /* FirebaseRemoteConfig in Frameworks */,
@@ -2391,6 +2393,7 @@
 				5DE2AD182F2015470036A1DD /* GovKit */,
 				5DBA1F752F212768002B90EB /* GovKit */,
 				5DBA1F772F212768002B90EB /* GovKitUI */,
+				814412092F8900D300103197 /* FirebasePerformance */,
 			);
 			productName = GovUK;
 			productReference = 5DAD71742BD250DB0075F648 /* govuk_ios.app */;
@@ -3667,6 +3670,11 @@
 		5DE2AD182F2015470036A1DD /* GovKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = GovKit;
+		};
+		814412092F8900D300103197 /* FirebasePerformance */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5DC2505E2C91D395009E9E7F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebasePerformance;
 		};
 		815C586B2EE9744E00322705 /* FirebaseRemoteConfig */ = {
 			isa = XCSwiftPackageProductDependency;
