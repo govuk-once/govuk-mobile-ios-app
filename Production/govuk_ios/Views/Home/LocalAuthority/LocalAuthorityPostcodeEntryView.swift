@@ -17,11 +17,11 @@ struct LocalAuthorityPostcodeEntryView: View {
             VStack {
                 HStack {
                     Spacer()
-                        CancelButton(
-                            action: {
-                                viewModel.dismissAction()
-                            }
-                        )
+                    CancelButton(
+                        action: {
+                            viewModel.dismissAction()
+                        }
+                    )
                 }
                 .padding(16)
                 ScrollView {
