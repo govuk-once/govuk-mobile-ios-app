@@ -15,12 +15,11 @@ struct LocalAuthorityExplainerView: View {
             VStack {
                 HStack {
                     Spacer()
-                    if #available(iOS 26.0, *) {
-                        cancelButton
-                            .buttonStyle(.glass)
-                    } else {
-                        cancelButton
-                    }
+                        CancelButton(
+                            action: {
+                                viewModel.dismissAction()
+                            }
+                        )
                 }
                 .padding(16)
                 GeometryReader { geometry in
@@ -58,20 +57,6 @@ struct LocalAuthorityExplainerView: View {
                 viewModel.trackScreen(screen: self)
             }
         }
-    }
-
-    private var cancelButton: some View {
-        Button(
-            action: {
-                viewModel.dismissAction()
-            }, label: {
-                Text(String.common.localized("cancel"))
-                    .foregroundColor(
-                        Color(UIColor.govUK.text.linkSecondary)
-                    )
-                    .font(Font.govUK.subheadlineSemibold)
-            }
-        )
     }
 }
 
