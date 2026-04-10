@@ -60,18 +60,10 @@ struct AmbiguousAddressSelectionView: View {
 
     private var cancelButton: some ToolbarContent {
         ToolbarItem(placement: ToolbarItemPlacement.confirmationAction) {
-            if #available(iOS 26.0, *) {
                 Button(viewModel.cancelButtonTitle) {
                     viewModel.dismissAction()
                 }
                 .foregroundColor(Color(UIColor.govUK.text.linkSecondary))
-                .buttonStyle(.glass)
-            } else {
-                Button(viewModel.cancelButtonTitle) {
-                    viewModel.dismissAction()
-                }
-                .foregroundColor(Color(UIColor.govUK.text.linkSecondary))
-            }
         }
     }
 
