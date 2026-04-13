@@ -28,6 +28,26 @@ struct PerformanceClientTests {
 
         #expect(mockPerformance._receivedIsDataCollectionEnabled == false)
     }
+
+    @Test
+    func launch_exists_doesNothing() {
+        let mockPerformance = MockPerformance()
+        let sut = PerformanceClient(
+            performance: mockPerformance
+        )
+        sut.launch()
+        #expect(mockPerformance._receivedIsDataCollectionEnabled == nil)
+    }
+
+    @Test
+    func trackEvent_exists_doesNothing() {
+        let mockPerformance = MockPerformance()
+        let sut = PerformanceClient(
+            performance: mockPerformance
+        )
+        sut.track(event: .init(name: "test", params: nil))
+        #expect(mockPerformance._receivedIsDataCollectionEnabled == nil)
+    }
 }
 
 class MockPerformance: PerformanceInterface {
