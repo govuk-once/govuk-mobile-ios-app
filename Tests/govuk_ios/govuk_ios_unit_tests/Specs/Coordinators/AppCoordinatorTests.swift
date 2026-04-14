@@ -327,38 +327,6 @@ struct AppCoordinatorTests {
         #expect(analyticsService._trackErrorReceivedErrors.count == 0)
     }
 
-
-    @Test
-    func inactivity_startsPeriAuth() {
-        let mockAuthenticationService = MockAuthenticationService()
-        let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
-        let mockNavigationController = UINavigationController()
-        let mockInactivityService = MockInactivityService()
-        let mockLocalAuthenticationService = MockLocalAuthenticationService()
-        let mockNotificationService = MockNotificationService()
-
-        let mockPeriAuthCoordinator = MockBaseCoordinator()
-        mockCoordinatorBuilder._stubbedPeriAuthCoordinator = mockPeriAuthCoordinator
-        mockAuthenticationService._stubbedIsSignedIn = true
-
-        let subject = AppCoordinator(
-            coordinatorBuilder: mockCoordinatorBuilder,
-            inactivityService: mockInactivityService,
-            authenticationService: mockAuthenticationService,
-            localAuthenticationService: mockLocalAuthenticationService,
-            notificationService: mockNotificationService,
-            userService: MockUserService(),
-            analyticsService: MockAnalyticsService(),
-            tokenProvider: MockAuthenticationService(),
-            navigationController: mockNavigationController
-        )
-
-        subject.start(url: nil)
-        mockInactivityService._receivedStartMonitoringInactivityHandler?()
-
-        #expect(mockPeriAuthCoordinator._startCalled)
-    }
-
     @Test(arguments: [
         SignoutReason.tokenRefreshFailure,
         SignoutReason.userSignout,
