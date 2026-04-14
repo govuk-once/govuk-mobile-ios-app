@@ -9,6 +9,7 @@ import Firebase
 import FirebaseAnalytics
 import FirebaseCrashlytics
 import FirebaseAppCheck
+import FirebasePerformance
 import FirebaseRemoteConfig
 import OneSignalFramework
 
@@ -26,7 +27,8 @@ extension Container {
             AnalyticsService(
                 clients: [
                     self.firebaseClient.resolve(),
-                    self.crashlyticsClient.resolve()
+                    self.crashlyticsClient.resolve(),
+                    self.performanceClient.resolve()
                 ],
                 userDefaultsService: self.userDefaultsService.resolve(),
                 isSignedIn: {
@@ -51,6 +53,12 @@ extension Container {
     var crashlyticsClient: Factory<AnalyticsClient> {
         Factory(self) {
             CrashlyticsClient(crashlytics: Crashlytics.crashlytics())
+        }
+    }
+
+    var performanceClient: Factory<AnalyticsClient> {
+        Factory(self) {
+            PerformanceClient(performance: Performance.sharedInstance())
         }
     }
 

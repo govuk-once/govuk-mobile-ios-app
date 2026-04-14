@@ -58,6 +58,13 @@ struct Container_ServicesTests {
     }
 
     @Test
+    func performanceClient_returnsExpectedValue() {
+        let container = Container()
+        let client = container.performanceClient.resolve()
+        #expect(client is PerformanceClient)
+    }
+
+    @Test
     @MainActor
     func privacyService_returnsExpectedValue() async {
         let container = Container()
