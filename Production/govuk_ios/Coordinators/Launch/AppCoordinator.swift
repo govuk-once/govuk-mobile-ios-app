@@ -85,9 +85,8 @@ class AppCoordinator: BaseCoordinator {
         inactivityService.startMonitoring(
             inactivityHandler: { [weak self] in
                 guard self?.authenticationService.isSignedIn == true else { return }
-                self?.authenticationService.clearRefreshToken()
+                self?.authenticationService.signOut(reason: .userSignout)
                 self?.showPrivacyScreen()
-                self?.startPeriAuthCoordinator()
             },
             alertHandler: { [weak self] in
                 guard self?.authenticationService.isSignedIn == true else { return }
