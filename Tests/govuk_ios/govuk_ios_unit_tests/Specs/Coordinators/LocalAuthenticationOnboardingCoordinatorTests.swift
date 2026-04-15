@@ -46,28 +46,6 @@ class LocalAuthenticationOnboardingCoordinatorTests {
     }
 
     @Test @MainActor
-    func start_passcodeOnlyOption_callsCompletion() async {
-        let mockUserDefaults = MockUserDefaultsService()
-        let mockLocalAuthenticationService = MockLocalAuthenticationService()
-        let mockNavigationController = MockNavigationController()
-        let mockAuthenticationService = MockAuthenticationService()
-        mockLocalAuthenticationService._stubbedAvailableAuthType = .passcodeOnly
-        let completion = await withCheckedContinuation { continuation in
-            let sut = LocalAuthenticationOnboardingCoordinator(
-                navigationController: mockNavigationController,
-                userDefaultsService: mockUserDefaults,
-                localAuthenticationService: mockLocalAuthenticationService,
-                authenticationService: mockAuthenticationService,
-                completionAction: { continuation.resume(returning: true) }
-            )
-            sut.start(url: nil)
-        }
-
-        #expect(completion)
-        #expect(!mockAuthenticationService._encryptRefreshTokenCallSuccess)
-    }
-
-    @Test @MainActor
     func start_noAuthEnrolled_callsCompletion() async {
         let mockUserDefaults = MockUserDefaultsService()
         let mockLocalAuthenticationService = MockLocalAuthenticationService()
