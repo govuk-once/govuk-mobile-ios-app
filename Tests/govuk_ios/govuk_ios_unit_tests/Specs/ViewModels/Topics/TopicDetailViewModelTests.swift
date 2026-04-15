@@ -351,6 +351,7 @@ struct TopicDetailViewModelTests {
         let mockAppConfigService = MockAppConfigService()
         mockAppConfigService.features = [.dvla]
         let mockUserService = MockUserService()
+        mockUserService._stubbedIsDvlaAccountLinked = true
         mockUserService._stubbedFetchAccountLinkStatusResult = .success(.arrangeLinked)
         mockTopicsService._stubbedFetchTopicDetailsResult = .success(
             .arrange(
@@ -389,7 +390,6 @@ struct TopicDetailViewModelTests {
                 fileName: "NoUnpopularContent"
             )
         )
-        var linkAccountActionTriggered = false
         let sut = TopicDetailViewModel(
             topic: MockDisplayableTopic(ref: "driving-transport", title: "", topicDescription: nil),
             topicsService: mockTopicsService,
