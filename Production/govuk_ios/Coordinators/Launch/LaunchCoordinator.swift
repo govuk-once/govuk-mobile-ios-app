@@ -36,6 +36,14 @@ class LaunchCoordinator: BaseCoordinator {
         )
     }
 
+    private func checkCoreData() {
+        if UIApplication.shared.isProtectedDataAvailable {
+            // Access your Core Data store safely
+        } else {
+            // Defer Core Data operations
+        }
+    }
+
     private func handleResponse() {
         guard let launchResponse
         else { return }

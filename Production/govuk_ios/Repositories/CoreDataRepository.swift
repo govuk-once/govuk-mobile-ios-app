@@ -1,6 +1,6 @@
 import CoreData
+import UIKit
 import Foundation
-import GovKit
 
 class CoreDataRepository: CoreDataRepositoryInterface {
     private let persistentContainer: NSPersistentContainer
@@ -12,23 +12,32 @@ class CoreDataRepository: CoreDataRepositoryInterface {
         self.notificationCenter = notificationCenter
     }
 
-    func load() -> Self {
+    func load() async {
+        if await !UIApplication.shared.isProtectedDataAvailable {
+            _ = await NotificationCenter.default.notifications(
+                named: UIApplication.protectedDataDidBecomeAvailableNotification
+            ).first { _ in true }
+            await initiliseStack()
+        }
+    }
+
+    private func initiliseStack() async {
         persistentContainer.persistentStoreDescriptions.forEach { [weak self] in
             self?.setDescriptionProtection(description: $0)
             $0.setOption(true as NSNumber, forKey: NSInferMappingModelAutomaticallyOption)
             $0.setOption(true as NSNumber, forKey: NSMigratePersistentStoresAutomaticallyOption)
         }
-        persistentContainer.loadPersistentStores(
-            completionHandler: { [weak self] description, error in
+        await withCheckedContinuation { continuation in
+            persistentContainer.loadPersistentStores { [weak self] description, error in
                 if let error = error {
                     fatalError("Unable to load persistent stores: \(error)")
                 }
                 self?.excludeStoreFromiTunesBackup(url: description.url)
+                continuation.resume()
             }
-        )
+        }
         addBackgroundObserver()
         addViewObserver()
-        return self
     }
 
     private func setDescriptionProtection(description: NSPersistentStoreDescription) {
@@ -84,4 +93,11 @@ class CoreDataRepository: CoreDataRepositoryInterface {
             }
         )
     }
+}
+
+public protocol CoreDataRepositoryInterface {
+    var viewContext: NSManagedObjectContext { get }
+    var backgroundContext: NSManagedObjectContext { get }
+
+    func load() async
 }

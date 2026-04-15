@@ -9,19 +9,23 @@ struct AppLaunchService: AppLaunchServiceInterface {
     private let topicService: TopicsServiceInterface
     private let notificationService: NotificationServiceInterface
     private let remoteConfigService: RemoteConfigServiceInterface
+    private let coredataService: CoreDataRepositoryInterface
 
     init(configService: AppConfigServiceInterface,
          topicService: TopicsServiceInterface,
          notificationService: NotificationServiceInterface,
-         remoteConfigService: RemoteConfigServiceInterface) {
+         remoteConfigService: RemoteConfigServiceInterface,
+         coredataService: CoreDataRepositoryInterface) {
         self.configService = configService
         self.topicService = topicService
         self.notificationService = notificationService
         self.remoteConfigService = remoteConfigService
+        self.coredataService = coredataService
     }
 
     func fetch(completion: @escaping (sending AppLaunchResponse) -> Void) {
         Task {
+            await coredataService.load()
             async let configResult = fetchConfig()
             async let topicResult = fetchTopics()
             async let notificationResult = notificationService.fetchConsentAlignment()
@@ -38,6 +42,9 @@ struct AppLaunchService: AppLaunchServiceInterface {
             }
         }
     }
+
+    // create call to core data load ()
+    // double check that i dont have to call it on the main cue..
 
     private func fetchTopics() async -> FetchTopicsListResult {
         await withCheckedContinuation { continuation in
