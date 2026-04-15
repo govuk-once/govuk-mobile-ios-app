@@ -366,13 +366,15 @@ class ViewControllerBuilder {
                      topicAction: @escaping (DisplayableTopic) -> Void,
                      subtopicAction: @escaping (DisplayableTopic) -> Void,
                      stepByStepAction: @escaping ([TopicDetailResponse.Content]) -> Void,
-                     openAction: @escaping (URL) -> Void
+                     openAction: @escaping (URL) -> Void,
+                     linkAccountAction: @escaping () -> Void
     ) -> UIViewController {
         let actions = TopicDetailViewModel.Actions(
             topicAction: topicAction,
             subtopicAction: subtopicAction,
             stepByStepAction: stepByStepAction,
-            openAction: openAction
+            openAction: openAction,
+            linkAccountAction: linkAccountAction
         )
         let viewModel = TopicDetailViewModel(
             topic: topic,

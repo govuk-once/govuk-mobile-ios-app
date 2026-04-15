@@ -4,6 +4,7 @@ import GovKit
 
 // swiftlint:disable:next type_body_length
 class TopicDetailViewModel: TopicDetailViewModelInterface {
+    @Published private(set) var linkAccountCard: ServiceAccountLinkCardViewModel?
     @Published private(set) var topicActionCards = [ListCardViewModel]()
     @Published private(set) var sections = [GroupedListSection]()
     @Published private(set) var errorViewModel: AppErrorViewModel?
@@ -23,6 +24,7 @@ class TopicDetailViewModel: TopicDetailViewModelInterface {
     private let subtopicAction: (DisplayableTopic) -> Void
     private let stepByStepAction: ([TopicDetailResponse.Content]) -> Void
     private let openAction: (URL) -> Void
+    private let linkAccountAction: () -> Void
 
     var isLoaded: Bool = false
 
@@ -60,6 +62,7 @@ class TopicDetailViewModel: TopicDetailViewModelInterface {
         subtopicAction = actions.subtopicAction
         stepByStepAction = actions.stepByStepAction
         openAction = actions.openAction
+        linkAccountAction = actions.linkAccountAction
     }
 
     @MainActor
@@ -208,41 +211,46 @@ class TopicDetailViewModel: TopicDetailViewModelInterface {
     }
 
     func updateTopicActionCards() {
-        // hard coded DVLA account linking action card
+        // hard coded DVLA account actions
         guard configService.isFeatureEnabled(key: .dvla),
               topic.ref == "driving-transport" else { return }
-        var dvlaTopicActionCards = [ListCardViewModel]()
-
-        let title = userService.isDvlaAccountLinked
-        ? "Unlink your driver and vehicles account"
-        : "Add your driver and vehicles account"
-        let content = TopicDetailResponse.Subtopic(
-            ref: "dvla-link-account",
-            title: title,
-            topicDescription: nil
-        )
-        let dvlaAccountLinkingCard = ListCardViewModel(
-            title: content.title,
-            action: { [weak self] in
-                self?.topicAction(content)
-            }
-        )
-        dvlaTopicActionCards.append(dvlaAccountLinkingCard)
         if userService.isDvlaAccountLinked {
-            let content = TopicDetailResponse.Subtopic(
+            let unlinkContent = TopicDetailResponse.Subtopic(
+                ref: "dvla-unlink-account",
+                title: "Unlink your driver and vehicles account",
+                topicDescription: nil
+            )
+            let unlinkCard = ListCardViewModel(
+                title: unlinkContent.title,
+                action: { [weak self] in
+                    self?.topicAction(unlinkContent)
+                }
+            )
+            let viewAccountContent = TopicDetailResponse.Subtopic(
                 ref: "dvla-view-account",
                 title: "View your driver and vehicles account",
                 topicDescription: nil
             )
-            let dvlaViewAccountCard = ListCardViewModel(
-                title: content.title,
+            let viewAccountCard = ListCardViewModel(
+                title: viewAccountContent.title,
                 action: { [weak self] in
-                    self?.topicAction(content)
+                    self?.topicAction(viewAccountContent)
                 }
             )
-            dvlaTopicActionCards.append(dvlaViewAccountCard)
+            linkAccountCard = nil
+            topicActionCards = [unlinkCard, viewAccountCard]
+        } else {
+            let title = String.dvla.localized("dvlaAccountLinkCardTitle")
+            let linkAccountCard = ServiceAccountLinkCardViewModel(
+                title: title,
+                subtitle: String.dvla.localized("dvlaAccountLinkCardSubtitle"),
+                action: { [weak self] in
+                    self?.trackLinkAccountNavigationEvent(title: title)
+                }
+            )
+            self.linkAccountCard = linkAccountCard
+            topicActionCards = []
         }
-        topicActionCards = dvlaTopicActionCards
     }
 
     private func createRelatedSubtopicsSection() -> GroupedListSection? {
@@ -369,6 +377,13 @@ class TopicDetailViewModel: TopicDetailViewModelInterface {
         analyticsService.track(event: commerceEvent)
     }
 
+    private func trackLinkAccountNavigationEvent(title: String) {
+        let event = AppEvent.linkServiceAccountNavigation(
+            title: title
+        )
+        analyticsService.track(event: event)
+    }
+
     private func createSubtopicCommerceItem(_ subtopic: TopicDetailResponse.Subtopic,
                                             category: String) {
         let appEventItem = TopicCommerceItem(
@@ -406,5 +421,6 @@ extension TopicDetailViewModel {
         let subtopicAction: (DisplayableTopic) -> Void
         let stepByStepAction: ([TopicDetailResponse.Content]) -> Void
         let openAction: (URL) -> Void
+        let linkAccountAction: () -> Void
     }
 }

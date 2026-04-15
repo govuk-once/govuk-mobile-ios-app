@@ -293,6 +293,8 @@
 		810A9ADC2F6C4F050039B4A4 /* LinkingIdPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810A9ADB2F6C4EF80039B4A4 /* LinkingIdPayload.swift */; };
 		8132DC392F62D1F800F24CB6 /* ServiceAccountType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8132DC382F62D1EE00F24CB6 /* ServiceAccountType.swift */; };
 		8144120A2F8900D300103197 /* FirebasePerformance in Frameworks */ = {isa = PBXBuildFile; productRef = 814412092F8900D300103197 /* FirebasePerformance */; };
+		8146FBBE2F8E603B00F87C76 /* ServiceAccountUnlinkCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8146FBBD2F8E603300F87C76 /* ServiceAccountUnlinkCoordinator.swift */; };
+		8146FC012F8EB2ED00F87C76 /* AppEvent+ServiceAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8146FC002F8EB2E400F87C76 /* AppEvent+ServiceAccount.swift */; };
 		815011D52F7C346D00E7469C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5DAD71802BD250DE0075F648 /* Assets.xcassets */; };
 		815011D72F7C4EF200E7469C /* DVLAServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815011D62F7C4EEC00E7469C /* DVLAServiceClient.swift */; };
 		815011D92F7C4F9600E7469C /* GOVRequest+DVLA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815011D82F7C4F8B00E7469C /* GOVRequest+DVLA.swift */; };
@@ -308,6 +310,9 @@
 		815559472F72AB47001E73CD /* ASWebAuthenticationSession+Interface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815559462F72AB39001E73CD /* ASWebAuthenticationSession+Interface.swift */; };
 		815559492F72B087001E73CD /* DVLAAuthSessionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815559482F72B082001E73CD /* DVLAAuthSessionBuilder.swift */; };
 		81583DB82F8CD54D009E6486 /* PerformanceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81583DB72F8CD543009E6486 /* PerformanceClient.swift */; };
+		815841562F8D0F5E009E6486 /* ServiceAccountLinkCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815841552F8D0F57009E6486 /* ServiceAccountLinkCardView.swift */; };
+		815841582F8D0FEF009E6486 /* ServiceAccountLinkCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815841572F8D0FE6009E6486 /* ServiceAccountLinkCardViewModel.swift */; };
+		815848922F8D3858009E6486 /* HighlightingButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815848912F8D3851009E6486 /* HighlightingButtonStyle.swift */; };
 		815935D92F212EF700F8D206 /* UserServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815935D82F212EF300F8D206 /* UserServiceClient.swift */; };
 		815935DB2F213EC700F8D206 /* GOVRequest+UserState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815935DA2F213EBE00F8D206 /* GOVRequest+UserState.swift */; };
 		815935DE2F22353900F8D206 /* UserResponseHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815935DD2F22352B00F8D206 /* UserResponseHandler.swift */; };
@@ -320,10 +325,11 @@
 		8178EA6C2F7AA655008AF03A /* ServiceAccountLinkStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8178EA6B2F7AA64A008AF03A /* ServiceAccountLinkStatus.swift */; };
 		8181DBFA2EE214B100F47531 /* FactoryKit in Frameworks */ = {isa = PBXBuildFile; productRef = 8181DBF92EE214B100F47531 /* FactoryKit */; };
 		8181DBFC2EE214B100F47531 /* FactoryTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 8181DBFB2EE214B100F47531 /* FactoryTesting */; };
+		81CAC4AE2F8F85BE00E6E6A3 /* GOVUKColors+ServiceAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81CAC4AD2F8F85B500E6E6A3 /* GOVUKColors+ServiceAccount.swift */; };
 		81DA111C2F713CF6001C4E09 /* DVLAAuthenticationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DA111B2F713CF1001C4E09 /* DVLAAuthenticationService.swift */; };
 		81DAF9472F6D7387001C4E09 /* ServiceAccountConsentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DAF9462F6D737E001C4E09 /* ServiceAccountConsentViewModel.swift */; };
 		81DAF94B2F6D885C001C4E09 /* DVLAAuthenticationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DAF94A2F6D8855001C4E09 /* DVLAAuthenticationCoordinator.swift */; };
-		81DE66952F5B2A640087F48E /* ServiceAccountCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DE66942F5B2A5F0087F48E /* ServiceAccountCoordinator.swift */; };
+		81DE66952F5B2A640087F48E /* ServiceAccountLinkCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DE66942F5B2A5F0087F48E /* ServiceAccountLinkCoordinator.swift */; };
 		81DE66982F5B3AB60087F48E /* ServiceAccountLinkingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DE66972F5B3AAF0087F48E /* ServiceAccountLinkingViewModel.swift */; };
 		81DE669B2F5B743B0087F48E /* ServiceAccountLinkingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DE669A2F5B74350087F48E /* ServiceAccountLinkingView.swift */; };
 		81DE669D2F5B7B1C0087F48E /* AppErrorViewModel+ServiceAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DE669C2F5B7AEF0087F48E /* AppErrorViewModel+ServiceAccount.swift */; };
@@ -778,6 +784,8 @@
 		810A83762F68A5720039B4A4 /* ServiceAccountUnlinkingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountUnlinkingView.swift; sourceTree = "<group>"; };
 		810A9ADB2F6C4EF80039B4A4 /* LinkingIdPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkingIdPayload.swift; sourceTree = "<group>"; };
 		8132DC382F62D1EE00F24CB6 /* ServiceAccountType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountType.swift; sourceTree = "<group>"; };
+		8146FBBD2F8E603300F87C76 /* ServiceAccountUnlinkCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountUnlinkCoordinator.swift; sourceTree = "<group>"; };
+		8146FC002F8EB2E400F87C76 /* AppEvent+ServiceAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppEvent+ServiceAccount.swift"; sourceTree = "<group>"; };
 		815011D62F7C4EEC00E7469C /* DVLAServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DVLAServiceClient.swift; sourceTree = "<group>"; };
 		815011D82F7C4F8B00E7469C /* GOVRequest+DVLA.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GOVRequest+DVLA.swift"; sourceTree = "<group>"; };
 		815011DA2F7C52BE00E7469C /* DVLAService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DVLAService.swift; sourceTree = "<group>"; };
@@ -792,6 +800,9 @@
 		815559462F72AB39001E73CD /* ASWebAuthenticationSession+Interface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ASWebAuthenticationSession+Interface.swift"; sourceTree = "<group>"; };
 		815559482F72B082001E73CD /* DVLAAuthSessionBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DVLAAuthSessionBuilder.swift; sourceTree = "<group>"; };
 		81583DB72F8CD543009E6486 /* PerformanceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceClient.swift; sourceTree = "<group>"; };
+		815841552F8D0F57009E6486 /* ServiceAccountLinkCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountLinkCardView.swift; sourceTree = "<group>"; };
+		815841572F8D0FE6009E6486 /* ServiceAccountLinkCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountLinkCardViewModel.swift; sourceTree = "<group>"; };
+		815848912F8D3851009E6486 /* HighlightingButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightingButtonStyle.swift; sourceTree = "<group>"; };
 		815935D82F212EF300F8D206 /* UserServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserServiceClient.swift; sourceTree = "<group>"; };
 		815935DA2F213EBE00F8D206 /* GOVRequest+UserState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GOVRequest+UserState.swift"; sourceTree = "<group>"; };
 		815935DD2F22352B00F8D206 /* UserResponseHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserResponseHandler.swift; sourceTree = "<group>"; };
@@ -801,10 +812,11 @@
 		815C58692EE973F400322705 /* RemoteConfigServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigServiceClient.swift; sourceTree = "<group>"; };
 		8171AE462F11169A0024312B /* ScrollBottomIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollBottomIndicatorView.swift; sourceTree = "<group>"; };
 		8178EA6B2F7AA64A008AF03A /* ServiceAccountLinkStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountLinkStatus.swift; sourceTree = "<group>"; };
+		81CAC4AD2F8F85B500E6E6A3 /* GOVUKColors+ServiceAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GOVUKColors+ServiceAccount.swift"; sourceTree = "<group>"; };
 		81DA111B2F713CF1001C4E09 /* DVLAAuthenticationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DVLAAuthenticationService.swift; sourceTree = "<group>"; };
 		81DAF9462F6D737E001C4E09 /* ServiceAccountConsentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountConsentViewModel.swift; sourceTree = "<group>"; };
 		81DAF94A2F6D8855001C4E09 /* DVLAAuthenticationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DVLAAuthenticationCoordinator.swift; sourceTree = "<group>"; };
-		81DE66942F5B2A5F0087F48E /* ServiceAccountCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountCoordinator.swift; sourceTree = "<group>"; };
+		81DE66942F5B2A5F0087F48E /* ServiceAccountLinkCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountLinkCoordinator.swift; sourceTree = "<group>"; };
 		81DE66972F5B3AAF0087F48E /* ServiceAccountLinkingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountLinkingViewModel.swift; sourceTree = "<group>"; };
 		81DE669A2F5B74350087F48E /* ServiceAccountLinkingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountLinkingView.swift; sourceTree = "<group>"; };
 		81DE669C2F5B7AEF0087F48E /* AppErrorViewModel+ServiceAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppErrorViewModel+ServiceAccount.swift"; sourceTree = "<group>"; };
@@ -982,6 +994,7 @@
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/SearchSuggestionsViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/SearchViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/ServiceAccountConsentViewControllerSnapshotTests.swift,
+				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/ServiceAccountLinkCardViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/ServiceAccountLinkingViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/ServiceAccountUnlinkingViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/SettingsViewControllerSnapshotTests.swift,
@@ -1049,6 +1062,7 @@
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/SearchSuggestionsViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/SearchViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/ServiceAccountConsentViewControllerSnapshotTests.swift,
+				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/ServiceAccountLinkCardViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/ServiceAccountLinkingViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/ServiceAccountUnlinkingViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/SettingsViewControllerSnapshotTests.swift,
@@ -1221,6 +1235,7 @@
 			isa = PBXGroup;
 			children = (
 				16A442192F1E8C6B000AAAA6 /* ExpandingButtonStyle.swift */,
+				815848912F8D3851009E6486 /* HighlightingButtonStyle.swift */,
 			);
 			path = Styles;
 			sourceTree = "<group>";
@@ -1618,6 +1633,7 @@
 				5D6991192DFAD8360050689E /* ButtonConfiguration+Convenience.swift */,
 				5D49D4EC2DD479410071826B /* URLOpener+Extensions.swift */,
 				4E11AC432F22653700838894 /* GOVUKColors+Chat.swift */,
+				81CAC4AD2F8F85B500E6E6A3 /* GOVUKColors+ServiceAccount.swift */,
 				4E11AC492F22770C00838894 /* Constants.swift */,
 			);
 			path = GovKit;
@@ -2007,6 +2023,7 @@
 				5DD4C7962D9547D600459FB5 /* AppEvent+RecentActivity.swift */,
 				5D66D1872CBFC15000006723 /* AppEvent+Search.swift */,
 				5D66D1952CBFF3D600006723 /* AppEvent+Topics.swift */,
+				8146FC002F8EB2E400F87C76 /* AppEvent+ServiceAccount.swift */,
 				5DFDEBF02CEE396D00F7A365 /* UserProperty+Convenience.swift */,
 			);
 			path = Analytics;
@@ -2103,7 +2120,8 @@
 		81DE66932F5B2A4F0087F48E /* ServiceAccount */ = {
 			isa = PBXGroup;
 			children = (
-				81DE66942F5B2A5F0087F48E /* ServiceAccountCoordinator.swift */,
+				81DE66942F5B2A5F0087F48E /* ServiceAccountLinkCoordinator.swift */,
+				8146FBBD2F8E603300F87C76 /* ServiceAccountUnlinkCoordinator.swift */,
 			);
 			path = ServiceAccount;
 			sourceTree = "<group>";
@@ -2111,6 +2129,7 @@
 		81DE66962F5B3AA80087F48E /* ServiceAccount */ = {
 			isa = PBXGroup;
 			children = (
+				815841572F8D0FE6009E6486 /* ServiceAccountLinkCardViewModel.swift */,
 				81DAF9462F6D737E001C4E09 /* ServiceAccountConsentViewModel.swift */,
 				81DE66972F5B3AAF0087F48E /* ServiceAccountLinkingViewModel.swift */,
 				810A83742F68A4650039B4A4 /* ServiceAccountUnlinkingViewModel.swift */,
@@ -2121,6 +2140,7 @@
 		81DE66992F5B742C0087F48E /* ServiceAccount */ = {
 			isa = PBXGroup;
 			children = (
+				815841552F8D0F57009E6486 /* ServiceAccountLinkCardView.swift */,
 				81DE669A2F5B74350087F48E /* ServiceAccountLinkingView.swift */,
 				810A83762F68A5720039B4A4 /* ServiceAccountUnlinkingView.swift */,
 			);
@@ -2657,6 +2677,7 @@
 				16FC6F0D2DDFE300007879E7 /* GovUIWindow.swift in Sources */,
 				4E9F5D032DB78DBA0063FA78 /* LocalAuthorityItem.swift in Sources */,
 				D08A9A862DB92F79002E9C78 /* SignOutConfirmationViewModel.swift in Sources */,
+				815841562F8D0F5E009E6486 /* ServiceAccountLinkCardView.swift in Sources */,
 				D0C36F8B2EB3901A005A2455 /* EmergencyBannerWidgetView.swift in Sources */,
 				D0EB04842D37F34200B310D8 /* GOV.xcdatamodeld in Sources */,
 				D04191782CA57A6F0034722A /* TopicsService.swift in Sources */,
@@ -2664,6 +2685,7 @@
 				4EBE64692D15AABA007A6E97 /* MaximumLengthValidator.swift in Sources */,
 				D0E85A862DDCD51D003B4D7A /* AmbiguousAddressSelectionView.swift in Sources */,
 				5DFB488C2DE9F7F600B41CDA /* NotificationConsentCoordinator.swift in Sources */,
+				8146FC012F8EB2ED00F87C76 /* AppEvent+ServiceAccount.swift in Sources */,
 				5DFB488D2DE9F7F600B41CDA /* AppForcedUpdateCoordinator.swift in Sources */,
 				5DFB488E2DE9F7F600B41CDA /* ReLaunchCoordinator.swift in Sources */,
 				D055FFFB2F4DBB46004659F6 /* ChatTermsOnboardingViewModel.swift in Sources */,
@@ -2761,6 +2783,7 @@
 				5D49D4ED2DD479410071826B /* URLOpener+Extensions.swift in Sources */,
 				4EEC0F302DBB7B9100D745F2 /* StoredLocalAuthorityWidgetViewModel.swift in Sources */,
 				3D211B8F2CB6B4FE005D1472 /* HeaderView.swift in Sources */,
+				8146FBBE2F8E603B00F87C76 /* ServiceAccountUnlinkCoordinator.swift in Sources */,
 				D076F9192D3544F0000278D5 /* SearchHistoryCell.swift in Sources */,
 				D04A8F4B2CD3949800685FD3 /* URLResponse+Extensions.swift in Sources */,
 				4EF407542CE278F900D654FC /* StickyFooterView.swift in Sources */,
@@ -2944,6 +2967,7 @@
 				5D41DB702C088FEB0011E691 /* Container+ServiceClients.swift in Sources */,
 				D0EAB4FF2CDE5D5B007ACBCD /* AppEnvironmentService.swift in Sources */,
 				D0C1C1A22E9807C400651F1B /* TopicListItemView.swift in Sources */,
+				81CAC4AE2F8F85BE00E6E6A3 /* GOVUKColors+ServiceAccount.swift in Sources */,
 				D056CE762D3A848A005845E0 /* InformationView.swift in Sources */,
 				D02416452DEDB1C600F81C6D /* SignInSuccessViewModel.swift in Sources */,
 				D0E855D42DDB85C1003B4D7A /* URLEncodedRequestBuilder.swift in Sources */,
@@ -2963,6 +2987,7 @@
 				5DE597B72C2EF44F003613C8 /* Container+DataStores.swift in Sources */,
 				81DE669D2F5B7B1C0087F48E /* AppErrorViewModel+ServiceAccount.swift in Sources */,
 				5DA4FB072CCBAF2100804C8A /* SettingsView.swift in Sources */,
+				815848922F8D3858009E6486 /* HighlightingButtonStyle.swift in Sources */,
 				16161FD12E2FF97D00228028 /* EnvironmentValues+Extensions.swift in Sources */,
 				D03678C62E33CD60009BCC32 /* CompoundRegexValidator.swift in Sources */,
 				5D8683992C3431050024F2D8 /* ResolvedDeeplinkRoute.swift in Sources */,
@@ -3006,12 +3031,13 @@
 				D04DD3382E004737002B5F19 /* ChatService.swift in Sources */,
 				815C586A2EE973FC00322705 /* RemoteConfigServiceClient.swift in Sources */,
 				4E6663CF2C73F3220063E81C /* AppConfigError.swift in Sources */,
+				815841582F8D0FEF009E6486 /* ServiceAccountLinkCardViewModel.swift in Sources */,
 				D0F6813E2DD4CF8E004421C0 /* LocalAuthorityPostcodeEntryViewModel.swift in Sources */,
 				D052D2302E0B0DC80048F98A /* ButtonStackView.swift in Sources */,
 				4E02D5AD2F6B89AB0083164C /* AccessTokenError.swift in Sources */,
 				D0F6813F2DD4CF8E004421C0 /* LocalAuthorityWidgetViewModel.swift in Sources */,
 				D0F681402DD4CF8E004421C0 /* LocalAuthorityExplainerViewModel.swift in Sources */,
-				81DE66952F5B2A640087F48E /* ServiceAccountCoordinator.swift in Sources */,
+				81DE66952F5B2A640087F48E /* ServiceAccountLinkCoordinator.swift in Sources */,
 				D052CA332E0B06F70048F98A /* ChatCoordinator.swift in Sources */,
 				4E1534052E3982E7002DEDB9 /* TopicCard.swift in Sources */,
 				3D9C933C2CB0155300EFA337 /* Bundle+AppVersionProvider.swift in Sources */,

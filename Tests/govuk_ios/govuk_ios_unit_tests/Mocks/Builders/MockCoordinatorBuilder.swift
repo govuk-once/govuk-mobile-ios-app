@@ -321,13 +321,13 @@ class MockCoordinatorBuilder: CoordinatorBuilder {
         _stubbedPrivacyCoordinator ?? MockBaseCoordinator()
     }
 
-    var _stubbedServiceAccountCoordinator: MockBaseCoordinator?
-    var _receivedServiceAccountCompletion: ((Bool) -> Void)?
-    override func serviceAccount(navigationController: UINavigationController,
-                                 accountType: ServiceAccountType,
-                                 completion: @escaping (Bool) -> Void) -> BaseCoordinator {
-        _receivedServiceAccountCompletion = completion
-        return _stubbedServiceAccountCoordinator ?? MockBaseCoordinator()
+    var _stubbedServiceAccountLinkCoordinator: MockBaseCoordinator?
+    var _receivedServiceAccountLinkCompletion: ((Bool) -> Void)?
+    override func serviceAccountLink(navigationController: UINavigationController,
+                                     accountType: ServiceAccountType,
+                                     completion: @escaping (Bool) -> Void) -> BaseCoordinator {
+        _receivedServiceAccountLinkCompletion = completion
+        return _stubbedServiceAccountLinkCoordinator ?? MockBaseCoordinator()
     }
 
     var _receivedTermsAndConditionsCompletion: (() -> Void)?

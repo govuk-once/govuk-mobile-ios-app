@@ -154,7 +154,8 @@ struct TopicDetailViewModelTests {
                 didNavigate = true
             },
             stepByStepAction: { _ in },
-            openAction: { _ in }
+            openAction: { _ in },
+            linkAccountAction: { }
         )
         let sut = TopicDetailViewModel(
             topic: MockDisplayableTopic(ref: "", title: "", topicDescription: nil),
@@ -315,7 +316,8 @@ extension TopicDetailViewModel.Actions {
             topicAction: { _ in },
             subtopicAction: { _ in },
             stepByStepAction: { _ in },
-            openAction: { _ in }
+            openAction: { _ in },
+            linkAccountAction: { }
         )
     }
 }

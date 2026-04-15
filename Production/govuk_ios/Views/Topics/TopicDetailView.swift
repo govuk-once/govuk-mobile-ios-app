@@ -51,6 +51,7 @@ struct TopicDetailView<T: TopicDetailViewModelInterface>: View {
         ScrollView {
             VStack(spacing: 0) {
                 titleView
+                serviceAccountView
                 topicActions
                 topicDetails
                 subtopics
@@ -112,6 +113,18 @@ struct TopicDetailView<T: TopicDetailViewModelInterface>: View {
             .padding(.bottom, 8)
             .background(Color(UIColor.govUK.fills.surfaceBackground))
             .opacity(viewModel.topicActionCards.isEmpty ? 0 : 1)
+        }
+    }
+
+    @ViewBuilder
+    private var serviceAccountView: some View {
+        if let linkAccountCard = viewModel.linkAccountCard {
+            ServiceAccountLinkCardView(
+                viewModel: linkAccountCard
+            )
+            .padding([.top, .horizontal], 16)
+            .padding(.bottom, 8)
+            .background(Color(UIColor.govUK.fills.surfaceBackground))
         }
     }
 

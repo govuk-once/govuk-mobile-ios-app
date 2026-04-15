@@ -7,22 +7,20 @@ import Testing
 
 @Suite
 @MainActor
-struct ServiceAccountCoordinatorTests {
+struct ServiceAccountLinkCoordinatorTests {
     @Test
-    func start_accountNotLinked_setsAccountConsentViewController() {
-        let mockUserService = MockUserService()
-        mockUserService._stubbedIsDvlaAccountLinked = false
+    func start_setsAccountConsentViewController() {
         let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let expectedViewController = UIViewController()
         mockViewControllerBuilder._stubbedServiceAccountConsentController = expectedViewController
         let mockNavigationController = MockNavigationController()
-        let sut = ServiceAccountCoordinator(
+        let sut = ServiceAccountLinkCoordinator(
             navigationController: mockNavigationController,
             coordinatorBuilder: mockCoordinatorBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
             analyticsService: MockAnalyticsService(),
-            userService: mockUserService,
+            userService: MockUserService(),
             accountType: .dvla,
             completion: { _ in }
         )
@@ -40,7 +38,7 @@ struct ServiceAccountCoordinatorTests {
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let authenticationCoordinator = MockBaseCoordinator()
         mockCoordinatorBuilder._stubbedDvlaAuthenticationCoordinator = authenticationCoordinator
-        let sut = ServiceAccountCoordinator(
+        let sut = ServiceAccountLinkCoordinator(
             navigationController: MockNavigationController(),
             coordinatorBuilder: mockCoordinatorBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
@@ -66,7 +64,7 @@ struct ServiceAccountCoordinatorTests {
         mockViewControllerBuilder._stubbedServiceAccountLinkingController = expectedViewController
         let mockNavigationController = MockNavigationController()
         var hasCompleted = false
-        let sut = ServiceAccountCoordinator(
+        let sut = ServiceAccountLinkCoordinator(
             navigationController: mockNavigationController,
             coordinatorBuilder: mockCoordinatorBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
@@ -87,30 +85,5 @@ struct ServiceAccountCoordinatorTests {
         mockViewControllerBuilder._receivedServiceAccountLinkingCompleteAction?()
         #expect(hasCompleted)
     }
-
-    @Test
-    func start_accountAlreadyLinked_setsAccountUnlinkingViewController() {
-        let mockUserService = MockUserService()
-        mockUserService._stubbedIsDvlaAccountLinked = true
-        let mockViewControllerBuilder = MockViewControllerBuilder()
-        let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
-        let expectedViewController = UIViewController()
-        mockViewControllerBuilder._stubbedServiceAccountUnlinkingController = expectedViewController
-        let mockNavigationController = MockNavigationController()
-        let sut = ServiceAccountCoordinator(
-            navigationController: mockNavigationController,
-            coordinatorBuilder: mockCoordinatorBuilder,
-            viewControllerBuilder: mockViewControllerBuilder,
-            analyticsService: MockAnalyticsService(),
-            userService: mockUserService,
-            accountType: .dvla,
-            completion: { _ in }
-        )
-
-        sut.start()
-        let firstViewController = mockNavigationController._setViewControllers?.first
-        #expect(firstViewController == expectedViewController)
-    }
-
 
 }

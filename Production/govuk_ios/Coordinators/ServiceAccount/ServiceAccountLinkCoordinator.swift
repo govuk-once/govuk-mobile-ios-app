@@ -2,7 +2,7 @@ import UIKit
 import GovKit
 import AuthenticationServices
 
-final class ServiceAccountCoordinator: BaseCoordinator {
+final class ServiceAccountLinkCoordinator: BaseCoordinator {
     private let coordinatorBuilder: CoordinatorBuilder
     private let viewControllerBuilder: ViewControllerBuilder
     private let analyticsService: AnalyticsServiceInterface
@@ -27,11 +27,7 @@ final class ServiceAccountCoordinator: BaseCoordinator {
     }
 
     override func start(url: URL?) {
-        if userService.isDvlaAccountLinked {
-            unlinkAccount()
-        } else {
-            showConsent()
-        }
+        showConsent()
     }
 
     private func showConsent() {
@@ -66,20 +62,6 @@ final class ServiceAccountCoordinator: BaseCoordinator {
                 print("dvla account linked successfully")
                 self?.dismissModal()
                 self?.completion(true)
-            },
-            dismissAction: dismissModal
-        )
-        set(viewController)
-    }
-
-    private func unlinkAccount() {
-        let viewController = viewControllerBuilder.serviceAccountUnlinking(
-            userService: userService,
-            accountType: accountType,
-            completeAction: { [weak self] in
-                self?.dismissModal()
-                print("dvla account unlinked successfully")
-                self?.completion(false)
             },
             dismissAction: dismissModal
         )
