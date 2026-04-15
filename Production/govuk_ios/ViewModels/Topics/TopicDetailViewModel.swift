@@ -217,7 +217,7 @@ class TopicDetailViewModel: TopicDetailViewModelInterface {
         if userService.isDvlaAccountLinked {
             let unlinkContent = TopicDetailResponse.Subtopic(
                 ref: "dvla-unlink-account",
-                title: "Unlink your driver and vehicles account",
+                title: "Unlink driver and vehicles account",
                 topicDescription: nil
             )
             let unlinkCard = ListCardViewModel(
@@ -228,7 +228,7 @@ class TopicDetailViewModel: TopicDetailViewModelInterface {
             )
             let viewAccountContent = TopicDetailResponse.Subtopic(
                 ref: "dvla-view-account",
-                title: "View your driver and vehicles account",
+                title: "View driver and vehicles account",
                 topicDescription: nil
             )
             let viewAccountCard = ListCardViewModel(
@@ -246,6 +246,7 @@ class TopicDetailViewModel: TopicDetailViewModelInterface {
                 subtitle: String.dvla.localized("dvlaAccountLinkCardSubtitle"),
                 action: { [weak self] in
                     self?.trackLinkAccountNavigationEvent(title: title)
+                    self?.linkAccountAction()
                 }
             )
             self.linkAccountCard = linkAccountCard

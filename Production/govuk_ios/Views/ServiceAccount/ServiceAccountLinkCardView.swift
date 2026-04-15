@@ -40,7 +40,7 @@ struct ServiceAccountLinkCardView: View {
             .font(.system(size: 19))
             .foregroundStyle(Color(uiColor: .govUK.text.linkAccountCard))
         Spacer()
-            .frame(width: 16)
+            .frame(width: 14)
     }
 
     @ViewBuilder
@@ -55,7 +55,7 @@ struct ServiceAccountLinkCardView: View {
                 .foregroundStyle(Color(uiColor: .govUK.text.linkAccountCard))
                 .multilineTextAlignment(.leading)
         }
-        .frame(minWidth: 285, alignment: .leading)
+        .frame(minWidth: 275, alignment: .leading)
         Spacer()
         Image(systemName: "chevron.right")
             .font(Font.govUK.bodySemibold)

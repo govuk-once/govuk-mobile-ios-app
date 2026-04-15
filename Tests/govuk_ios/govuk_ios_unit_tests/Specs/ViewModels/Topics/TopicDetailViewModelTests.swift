@@ -308,6 +308,107 @@ struct TopicDetailViewModelTests {
         await sut.viewDidAppear()
         #expect(mockUserService._fetchAccountLinkStatusCalled == false)
     }
+
+    @Test
+    func viewDidAppear_dvlaAccountNotLinked_doesCreateLinkAccountCard() async {
+        let mockAppConfigService = MockAppConfigService()
+        mockAppConfigService.features = [.dvla]
+        let mockUserService = MockUserService()
+        mockUserService._stubbedFetchAccountLinkStatusResult = .success(.arrangeUnlinked)
+        mockTopicsService._stubbedFetchTopicDetailsResult = .success(
+            .arrange(
+                fileName: "NoUnpopularContent"
+            )
+        )
+        var linkAccountActionTriggered = false
+        let sut = TopicDetailViewModel(
+            topic: MockDisplayableTopic(ref: "driving-transport", title: "", topicDescription: nil),
+            topicsService: mockTopicsService,
+            analyticsService: mockAnalyticsService,
+            activityService: mockActivityService,
+            configService: mockAppConfigService,
+            userService: mockUserService,
+            urlOpener: mockURLOpener,
+            actions: .init(
+                topicAction: { _ in },
+                subtopicAction: { _ in },
+                stepByStepAction: { _ in },
+                openAction: { _ in },
+                linkAccountAction: {
+                    linkAccountActionTriggered = true
+                }
+            )
+        )
+        await sut.viewDidAppear()
+        #expect(sut.linkAccountCard?.title == String.dvla.localized("dvlaAccountLinkCardTitle"))
+        #expect(sut.linkAccountCard?.subtitle == String.dvla.localized("dvlaAccountLinkCardSubtitle"))
+        sut.linkAccountCard?.action()
+        #expect(linkAccountActionTriggered == true)
+    }
+
+    @Test
+    func viewDidAppear_dvlaAccountLinked_doesCreateUnlinkActionCard() async {
+        let mockAppConfigService = MockAppConfigService()
+        mockAppConfigService.features = [.dvla]
+        let mockUserService = MockUserService()
+        mockUserService._stubbedFetchAccountLinkStatusResult = .success(.arrangeLinked)
+        mockTopicsService._stubbedFetchTopicDetailsResult = .success(
+            .arrange(
+                fileName: "NoUnpopularContent"
+            )
+        )
+        let sut = TopicDetailViewModel(
+            topic: MockDisplayableTopic(ref: "driving-transport", title: "", topicDescription: nil),
+            topicsService: mockTopicsService,
+            analyticsService: mockAnalyticsService,
+            activityService: mockActivityService,
+            configService: mockAppConfigService,
+            userService: mockUserService,
+            urlOpener: mockURLOpener,
+            actions: .init(
+                topicAction: { _ in },
+                subtopicAction: { _ in },
+                stepByStepAction: { _ in },
+                openAction: { _ in },
+                linkAccountAction: { }
+            )
+        )
+        await sut.viewDidAppear()
+        let unlinkActionCard = sut.topicActionCards.first
+        #expect(unlinkActionCard?.title == "Unlink driver and vehicles account")
+    }
+
+    @Test
+    func linkAccountCardAction_tracksNavigationEvent() async {
+        let mockAppConfigService = MockAppConfigService()
+        mockAppConfigService.features = [.dvla]
+        let mockUserService = MockUserService()
+        mockUserService._stubbedFetchAccountLinkStatusResult = .success(.arrangeLinked)
+        mockTopicsService._stubbedFetchTopicDetailsResult = .success(
+            .arrange(
+                fileName: "NoUnpopularContent"
+            )
+        )
+        var linkAccountActionTriggered = false
+        let sut = TopicDetailViewModel(
+            topic: MockDisplayableTopic(ref: "driving-transport", title: "", topicDescription: nil),
+            topicsService: mockTopicsService,
+            analyticsService: mockAnalyticsService,
+            activityService: mockActivityService,
+            configService: mockAppConfigService,
+            userService: mockUserService,
+            urlOpener: mockURLOpener,
+            actions: .empty
+        )
+        await sut.viewDidAppear()
+        sut.linkAccountCard?.action()
+        let navigationEvent = mockAnalyticsService._trackedEvents.first
+
+        #expect(navigationEvent?.params?["text"] as? String == "Add driver and vehicles account")
+        #expect(navigationEvent?.params?["type"] as? String == "trigger card")
+        #expect(navigationEvent?.params?["section"] as? String == "account link")
+        #expect(navigationEvent?.name == "Navigation")
+    }
 }
 
 extension TopicDetailViewModel.Actions {

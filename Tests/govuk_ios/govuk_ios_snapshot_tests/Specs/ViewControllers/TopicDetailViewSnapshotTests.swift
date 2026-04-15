@@ -108,4 +108,24 @@ class TopicDetailViewSnapshotTests: SnapshotTestCase {
             mode: .dark
         )
     }
+
+    func test_linkAccountCard_light_rendersCorrectly() {
+        let viewModel = MockTopicDetailViewModel.arrangeUnlinkedAccount
+        let view = TopicDetailView(viewModel: viewModel)
+        let viewController = HostingViewController(rootView: view)
+        VerifySnapshotInNavigationController(
+            viewController: viewController,
+            mode: .light
+        )
+    }
+
+    func test_linkAccountCard_dark_rendersCorrectly() {
+        let viewModel = MockTopicDetailViewModel.arrangeUnlinkedAccount
+        let view = TopicDetailView(viewModel: viewModel)
+        let viewController = HostingViewController(rootView: view)
+        VerifySnapshotInNavigationController(
+            viewController: viewController,
+            mode: .dark
+        )
+    }
 }
