@@ -25,7 +25,7 @@ struct AppLaunchService: AppLaunchServiceInterface {
 
     func fetch(completion: @escaping (sending AppLaunchResponse) -> Void) {
         Task {
-            await coredataService.load()
+            try await coredataService.load()
             async let configResult = fetchConfig()
             async let topicResult = fetchTopics()
             async let notificationResult = notificationService.fetchConsentAlignment()
