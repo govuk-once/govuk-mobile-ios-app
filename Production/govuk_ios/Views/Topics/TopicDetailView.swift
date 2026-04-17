@@ -118,9 +118,9 @@ struct TopicDetailView<T: TopicDetailViewModelInterface>: View {
 
     @ViewBuilder
     private var serviceAccountView: some View {
-        if let linkAccountCard = viewModel.linkAccountCard {
+        if let linkAccountCardViewModel = viewModel.linkAccountCardViewModel {
             ServiceAccountLinkCardView(
-                viewModel: linkAccountCard
+                viewModel: linkAccountCardViewModel
             )
             .padding([.top, .horizontal], 16)
             .padding(.bottom, 8)

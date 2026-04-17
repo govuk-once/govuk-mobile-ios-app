@@ -340,9 +340,9 @@ struct TopicDetailViewModelTests {
             )
         )
         await sut.viewDidAppear()
-        #expect(sut.linkAccountCard?.title == String.dvla.localized("dvlaAccountLinkCardTitle"))
-        #expect(sut.linkAccountCard?.subtitle == String.dvla.localized("dvlaAccountLinkCardSubtitle"))
-        sut.linkAccountCard?.action()
+        #expect(sut.linkAccountCardViewModel?.title == String.dvla.localized("dvlaAccountLinkCardTitle"))
+        #expect(sut.linkAccountCardViewModel?.subtitle == String.dvla.localized("dvlaAccountLinkCardSubtitle"))
+        sut.linkAccountCardViewModel?.action()
         #expect(linkAccountActionTriggered == true)
     }
 
@@ -401,7 +401,7 @@ struct TopicDetailViewModelTests {
             actions: .empty
         )
         await sut.viewDidAppear()
-        sut.linkAccountCard?.action()
+        sut.linkAccountCardViewModel?.action()
         let navigationEvent = mockAnalyticsService._trackedEvents.first
 
         #expect(navigationEvent?.params?["text"] as? String == "Add driver and vehicles account")

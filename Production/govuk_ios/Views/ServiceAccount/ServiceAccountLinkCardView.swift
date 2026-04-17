@@ -15,11 +15,11 @@ struct ServiceAccountLinkCardView: View {
         label: {
             ViewThatFits(in: .horizontal) {
                 HStack {
-                    leadingContent
-                    trailingContent
+                    leadingContentView
+                    trailingContentView
                 }
                 HStack {
-                    trailingContent
+                    trailingContentView
                 }
             }
             .padding(16)
@@ -35,7 +35,7 @@ struct ServiceAccountLinkCardView: View {
     }
 
     @ViewBuilder
-    private var leadingContent: some View {
+    private var leadingContentView: some View {
         Image(systemName: "link")
             .font(.system(size: 19))
             .foregroundStyle(Color(uiColor: .govUK.text.linkAccountCard))
@@ -44,7 +44,7 @@ struct ServiceAccountLinkCardView: View {
     }
 
     @ViewBuilder
-    private var trailingContent: some View {
+    private var trailingContentView: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(viewModel.title)
                 .font(Font.govUK.bodySemibold)
@@ -56,7 +56,7 @@ struct ServiceAccountLinkCardView: View {
                 .multilineTextAlignment(.leading)
         }
         .frame(minWidth: 275, alignment: .leading)
-        Spacer()
+        Spacer(minLength: 0)
         Image(systemName: "chevron.right")
             .font(Font.govUK.bodySemibold)
             .foregroundStyle(Color(uiColor: .govUK.text.linkAccountCard))

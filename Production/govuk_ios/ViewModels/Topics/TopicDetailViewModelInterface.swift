@@ -7,7 +7,7 @@ protocol TopicDetailViewModelInterface: ObservableObject {
     var isLoaded: Bool { get }
     var description: String? { get }
     var topicActionCards: [ListCardViewModel] { get }
-    var linkAccountCard: ServiceAccountLinkCardViewModel? { get }
+    var linkAccountCardViewModel: ServiceAccountLinkCardViewModel? { get }
     var sections: [GroupedListSection] { get }
     var subtopicCards: [ListCardViewModel] { get }
     var errorViewModel: AppErrorViewModel? { get }
@@ -19,7 +19,7 @@ protocol TopicDetailViewModelInterface: ObservableObject {
 }
 
 extension TopicDetailViewModelInterface {
-    var linkAccountCard: ServiceAccountLinkCardViewModel? {
+    var linkAccountCardViewModel: ServiceAccountLinkCardViewModel? {
         nil
     }
     var topicActionCards: [ListCardViewModel] {

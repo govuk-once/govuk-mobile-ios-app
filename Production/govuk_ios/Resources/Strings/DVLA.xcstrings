@@ -55,6 +55,28 @@
           }
         }
       }
+    },
+    "dvlaAccountUnlinkCardTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unlink driver and vehicles account"
+          }
+        }
+      }
+    },
+    "dvlaAccountViewCardTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "View driver and vehicles account"
+          }
+        }
+      }
     }
   },
   "version" : "1.1"

@@ -4,7 +4,7 @@ import GovKit
 
 // swiftlint:disable:next type_body_length
 class TopicDetailViewModel: TopicDetailViewModelInterface {
-    @Published private(set) var linkAccountCard: ServiceAccountLinkCardViewModel?
+    @Published private(set) var linkAccountCardViewModel: ServiceAccountLinkCardViewModel?
     @Published private(set) var topicActionCards = [ListCardViewModel]()
     @Published private(set) var sections = [GroupedListSection]()
     @Published private(set) var errorViewModel: AppErrorViewModel?
@@ -217,7 +217,7 @@ class TopicDetailViewModel: TopicDetailViewModelInterface {
         if userService.isDvlaAccountLinked {
             let unlinkContent = TopicDetailResponse.Subtopic(
                 ref: "dvla-unlink-account",
-                title: "Unlink driver and vehicles account",
+                title: String.dvla.localized("dvlaAccountUnlinkCardTitle"),
                 topicDescription: nil
             )
             let unlinkCard = ListCardViewModel(
@@ -228,7 +228,7 @@ class TopicDetailViewModel: TopicDetailViewModelInterface {
             )
             let viewAccountContent = TopicDetailResponse.Subtopic(
                 ref: "dvla-view-account",
-                title: "View driver and vehicles account",
+                title: String.dvla.localized("dvlaAccountViewCardTitle"),
                 topicDescription: nil
             )
             let viewAccountCard = ListCardViewModel(
@@ -237,11 +237,11 @@ class TopicDetailViewModel: TopicDetailViewModelInterface {
                     self?.topicAction(viewAccountContent)
                 }
             )
-            linkAccountCard = nil
+            linkAccountCardViewModel = nil
             topicActionCards = [unlinkCard, viewAccountCard]
         } else {
             let title = String.dvla.localized("dvlaAccountLinkCardTitle")
-            let linkAccountCard = ServiceAccountLinkCardViewModel(
+            let linkAccountCardViewModel = ServiceAccountLinkCardViewModel(
                 title: title,
                 subtitle: String.dvla.localized("dvlaAccountLinkCardSubtitle"),
                 action: { [weak self] in
@@ -249,7 +249,7 @@ class TopicDetailViewModel: TopicDetailViewModelInterface {
                     self?.linkAccountAction()
                 }
             )
-            self.linkAccountCard = linkAccountCard
+            self.linkAccountCardViewModel = linkAccountCardViewModel
             topicActionCards = []
         }
     }

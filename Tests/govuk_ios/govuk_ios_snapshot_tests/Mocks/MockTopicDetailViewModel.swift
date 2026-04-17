@@ -8,7 +8,7 @@ class MockTopicDetailViewModel: TopicDetailViewModelInterface {
     var title: String = ""
     var description: String? = nil
     var isLoaded: Bool = false
-    var linkAccountCard: ServiceAccountLinkCardViewModel? = nil
+    var linkAccountCardViewModel: ServiceAccountLinkCardViewModel? = nil
     var sections: [GroupedListSection] = []
     var subtopicCards: [ListCardViewModel] = []
     var errorViewModel: AppErrorViewModel? = nil
@@ -20,7 +20,7 @@ class MockTopicDetailViewModel: TopicDetailViewModelInterface {
         title: String = "",
         description: String? = nil,
         isLoaded: Bool = false,
-        linkAccountCard: ServiceAccountLinkCardViewModel? = nil,
+        linkAccountCardViewModel: ServiceAccountLinkCardViewModel? = nil,
         sections: [GroupedListSection] = [],
         subtopicCards: [ListCardViewModel] = [],
         errorViewModel: AppErrorViewModel? = nil
@@ -28,7 +28,7 @@ class MockTopicDetailViewModel: TopicDetailViewModelInterface {
         self.title = title
         self.description = description
         self.isLoaded = isLoaded
-        self.linkAccountCard = linkAccountCard
+        self.linkAccountCardViewModel = linkAccountCardViewModel
         self.sections = sections
         self.subtopicCards = subtopicCards
         self.errorViewModel = errorViewModel
@@ -224,7 +224,7 @@ class MockTopicDetailViewModel: TopicDetailViewModelInterface {
            rows: stepByStepRows,
            footer: nil
         )
-        let linkAccountCard = ServiceAccountLinkCardViewModel(
+        let linkAccountCardViewModel = ServiceAccountLinkCardViewModel(
             title: "Add driver and vehicles account",
             subtitle: "Your tax, MOT, penalty points",
             action: {}
@@ -233,7 +233,7 @@ class MockTopicDetailViewModel: TopicDetailViewModelInterface {
             title: "test_title",
             description: "test_description",
             isLoaded: true,
-            linkAccountCard: linkAccountCard,
+            linkAccountCardViewModel: linkAccountCardViewModel,
             sections: [popularSection, stepByStepSection]
          )
     }
