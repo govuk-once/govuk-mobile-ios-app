@@ -20,9 +20,9 @@ class CoreDataRepository: CoreDataRepositoryInterface {
            try await task.value
             return
         }
-        let task = Task<Void, Error> {
+        let task = Task<Void, Error> { @MainActor in
             do {
-                if await !UIApplication.shared.isProtectedDataAvailable {
+                if !UIApplication.shared.isProtectedDataAvailable {
                     _ = await NotificationCenter.default.notifications(
                         named: UIApplication.protectedDataDidBecomeAvailableNotification
                     ).first { _ in true }
