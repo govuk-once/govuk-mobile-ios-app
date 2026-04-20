@@ -40,7 +40,7 @@ class WelcomeOnboardingCoordinatorTests {
     }
 
     @Test
-    func start_signedIn_userStateRequestSuccess_setsNotificationExternalId() async {
+    func start_signedIn_userStateRequestSuccess_setsNotificationPushId() async {
         let mockAuthenticationService = MockAuthenticationService()
         let mockNotificationService = MockNotificationService()
         let mockUserService = MockUserService()
@@ -66,7 +66,7 @@ class WelcomeOnboardingCoordinatorTests {
         }
 
         #expect(completion)
-        #expect(mockNotificationService._stubbedNotificationId == "notification_id")
+        #expect(mockNotificationService._stubbedPushId == "push_id")
     }
 
     @Test
@@ -198,7 +198,7 @@ class WelcomeOnboardingCoordinatorTests {
         }
 
         #expect(completion)
-        #expect(mockNotificationService._stubbedNotificationId == "notification_id")
+        #expect(mockNotificationService._stubbedPushId == "push_id")
     }
 
     @Test

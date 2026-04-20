@@ -1,7 +1,7 @@
 protocol UserServiceInterface {
     func fetchUserState(completion: @escaping FetchUserStateCompletion)
     func setNotificationsConsent(_ consentStatus: ConsentStatus)
-    var notificationId: String? { get }
+    var pushId: String? { get }
     var notificationsConsentStatus: ConsentStatus? { get }
     var isEnabled: Bool { get }
 }
@@ -19,8 +19,8 @@ protocol UserServiceInterface {
         #endif
      }
 
-     var notificationId: String? {
-         userState?.notifications.notificationId
+     var pushId: String? {
+         userState?.notifications.pushId
      }
      var notificationsConsentStatus: ConsentStatus? {
          userState?.notifications.consentStatus
