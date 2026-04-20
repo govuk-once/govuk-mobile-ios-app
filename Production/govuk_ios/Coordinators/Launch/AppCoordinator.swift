@@ -53,7 +53,7 @@ class AppCoordinator: BaseCoordinator {
                 self?.hidePrivacyScreen()
                 return
             }
-            self?.notificationService.unregisterNotificationId()
+            self?.notificationService.unregisterPushId()
             self?.startPeriAuthCoordinator()
         }
 
@@ -64,8 +64,8 @@ class AppCoordinator: BaseCoordinator {
 
     private func handleNotificationConsentChange(consentGiven: Bool) {
         guard authenticationService.isSignedIn else { return }
-        if let notificationId = userService.notificationId {
-            notificationService.register(notificationId: notificationId)
+        if let pushId = userService.pushId {
+            notificationService.register(pushId: pushId)
             let consentStatus: ConsentStatus = consentGiven ? .accepted : .denied
             userService.setNotificationsConsent(consentStatus)
         }

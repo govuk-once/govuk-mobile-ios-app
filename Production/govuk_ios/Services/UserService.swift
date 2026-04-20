@@ -8,7 +8,7 @@ protocol UserServiceInterface {
                        completion: @escaping UnlinkAccountCompletion)
     @discardableResult
     func fetchAccountLinkStatus(accountType: ServiceAccountType) async -> LinkStatusResult
-    var notificationId: String? { get }
+    var pushId: String? { get }
     var notificationsConsentStatus: ConsentStatus? { get }
     var isEnabled: Bool { get }
     var isDvlaAccountLinked: Bool { get }
@@ -23,8 +23,8 @@ protocol UserServiceInterface {
          appConfigService.isFeatureEnabled(key: .flex)
      }
 
-     var notificationId: String? {
-         userState?.notifications.notificationId
+     var pushId: String? {
+         userState?.notifications.pushId
      }
      var notificationsConsentStatus: ConsentStatus? {
          userState?.notifications.consentStatus

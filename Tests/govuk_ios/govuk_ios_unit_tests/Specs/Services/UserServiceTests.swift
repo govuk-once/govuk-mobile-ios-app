@@ -27,7 +27,7 @@ final class UserServiceTests {
         }
 
         let userStateResponse = try #require(try? result.get())
-        #expect(userStateResponse.notifications.notificationId == "notification_id")
+        #expect(userStateResponse.notifications.pushId == "push_id")
 
     }
 
@@ -86,15 +86,15 @@ final class UserServiceTests {
     }
     
     @Test
-    func fetchUserState_updatesNotificationId() async throws {
+    func fetchUserState_updatesPushId() async throws {
         mockAppConfigService.features = [.flex]
         let userService = UserService(appConfigService: mockAppConfigService,
                                       userServiceClient: mockUserServiceClient)
-        mockUserServiceClient._stubbedFetchUserStateResult = .success(UserState.arrange(notificationId: "notification-id-1"))
-        
+        mockUserServiceClient._stubbedFetchUserStateResult = .success(UserState.arrange(pushId: "push-id-1"))
+
         userService.fetchUserState { _ in }
         
-        #expect(userService.notificationId == "notification-id-1")
+        #expect(userService.pushId == "push-id-1")
     }
 
     @Test

@@ -4,7 +4,6 @@ import LocalAuthentication
 enum LocalAuthenticationType {
     case touchID
     case faceID
-    case passcodeOnly
     case none
 }
 

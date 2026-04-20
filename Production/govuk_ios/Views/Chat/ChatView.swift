@@ -60,9 +60,7 @@ struct ChatView: View {
         }
         .onChange(of: viewModel.requestInFlight) { requestInFlight in
             if requestInFlight {
-                DispatchQueue.main.asyncAfter(deadline: .now()) {
-                    textAreaAccessibilityFocused = true
-                }
+                textAreaAccessibilityFocused = true
             }
         }
         .alert(
