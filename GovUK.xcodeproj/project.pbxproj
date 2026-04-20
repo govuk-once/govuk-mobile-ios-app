@@ -1408,14 +1408,6 @@
 			path = LocalAuthority;
 			sourceTree = "<group>";
 		};
-		4EF874E22F5F0DCC00968044 /* UiKitViews */ = {
-			isa = PBXGroup;
-			children = (
-				4EF874E32F5F0DF200968044 /* CentreAlignedBarButtonItem.swift */,
-			);
-			path = UiKitViews;
-			sourceTree = "<group>";
-		};
 		4EFE229F2D0CD07400136D56 /* Redactors */ = {
 			isa = PBXGroup;
 			children = (
@@ -1736,10 +1728,11 @@
 		5D925B192CB7CE4100A1E241 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				16AE517B2E6859D8002BCFD7 /* Info */,
 				5D79AEBF2C32B9180061F344 /* AnimationView.swift */,
-				5D9E67C72C5A2E1700DB7877 /* DividerView.swift */,
 				4E00EF062CCB12CD007B61E8 /* BaseTabBarController.swift */,
+				4EF874E32F5F0DF200968044 /* CentreAlignedBarButtonItem.swift */,
+				5D9E67C72C5A2E1700DB7877 /* DividerView.swift */,
+				16AE517B2E6859D8002BCFD7 /* Info */,
 				D0AC16702E8ADD0D00AACE5C /* PrivacyView.swift */,
 			);
 			path = Common;
@@ -1815,7 +1808,6 @@
 		5DAD71762BD250DB0075F648 /* govuk_ios */ = {
 			isa = PBXGroup;
 			children = (
-				4EF874E22F5F0DCC00968044 /* UiKitViews */,
 				5D4F97E92BFF771A002CBDDE /* Builders */,
 				5D26A75F2C92E054009902DD /* Clients */,
 				5D962D5E2C29BD0B0038BC0A /* Coordinators */,

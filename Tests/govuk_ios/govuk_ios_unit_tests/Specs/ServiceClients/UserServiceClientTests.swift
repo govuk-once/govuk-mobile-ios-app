@@ -33,7 +33,7 @@ struct UserServiceClientTests {
             }
         }
         let userState = try? result.get()
-        #expect(userState?.notifications.notificationId == "test_notification_id")
+        #expect(userState?.notifications.pushId == "test_push_id")
         #expect(userState?.notifications.consentStatus == .unknown)
     }
 
@@ -233,7 +233,7 @@ private extension UserServiceClientTests {
         "userId": "test_user_id",
         "notifications": {
             "consentStatus": "unknown",
-            "notificationId": "test_notification_id"
+            "pushId": "test_push_id"
         }
     }
     """.data(using: .utf8)!
@@ -242,7 +242,7 @@ private extension UserServiceClientTests {
     """
     {
         "consentStatus": "accepted",
-        "notificationId": "test_notification_id"
+        "pushId": "test_push_id"
     }
     """.data(using: .utf8)!
 

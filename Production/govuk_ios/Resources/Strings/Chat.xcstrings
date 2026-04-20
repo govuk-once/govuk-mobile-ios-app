@@ -166,6 +166,17 @@
         }
       }
     },
+    "generatingAnswerAccessibilityTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Generating your answer."
+          }
+        }
+      }
+    },
     "genericErrorBody" : {
       "extractionState" : "manual",
       "localizations" : {

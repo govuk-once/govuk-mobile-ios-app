@@ -78,7 +78,6 @@ class ChatViewModel: ObservableObject {
         scrollToBottom = true
         requestInFlight = true
         chatService.askQuestion(localQuestion) { [weak self] result in
-            self?.requestInFlight = false
             self?.removeCellModel(.loadingQuestion)
             switch result {
             case .success(let pendingQuestion):
@@ -104,6 +103,7 @@ class ChatViewModel: ObservableObject {
     private func pollForAnswer(_ question: PendingQuestion) {
         requestInFlight = true
         addCellModels([.gettingAnswer])
+        announceGeneratingAnswer()
         chatService.pollForAnswer(question) { [weak self] result in
             guard let self else { return }
             removeCellModel(.gettingAnswer)
@@ -328,6 +328,15 @@ class ChatViewModel: ObservableObject {
             UIAccessibility.post(
                 notification: .announcement,
                 argument: String.chat.localized("answerReceivedAccessibilityTitle")
+            )
+        }
+    }
+
+    private func announceGeneratingAnswer() {
+        DispatchQueue.main.async {
+            UIAccessibility.post(
+                notification: .announcement,
+                argument: String(localized: .Chat.generatingAnswerAccessibilityTitle)
             )
         }
     }
