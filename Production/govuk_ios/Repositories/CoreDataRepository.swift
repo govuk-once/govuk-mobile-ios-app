@@ -14,7 +14,6 @@ class CoreDataRepository: CoreDataRepositoryInterface {
     }
 
     func load() async throws {
-        // prevents the database being attatched twice
         if let task = loadingTask {
            try await task.value
             return
@@ -22,11 +21,11 @@ class CoreDataRepository: CoreDataRepositoryInterface {
         let task = Task<Void, Error> { @MainActor in
             do {
                 if !UIApplication.shared.isProtectedDataAvailable {
-                    _ = await NotificationCenter.default.notifications(
+                    _ = await notificationCenter.notifications(
                         named: UIApplication.protectedDataDidBecomeAvailableNotification
                     ).first { _ in true }
                 }
-                try await initiliseStack()
+                try await intialiseStack()
             } catch {
                 self.loadingTask = nil
                 throw error
@@ -36,7 +35,7 @@ class CoreDataRepository: CoreDataRepositoryInterface {
         try await task.value
     }
 
-    private func initiliseStack() async throws {
+    private func intialiseStack() async throws {
         persistentContainer.persistentStoreDescriptions.forEach { [weak self] in
             self?.setDescriptionProtection(description: $0)
             $0.setOption(true as NSNumber, forKey: NSInferMappingModelAutomaticallyOption)
