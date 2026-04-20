@@ -22,7 +22,7 @@ final class ServiceAccountUnlinkCoordinator: BaseCoordinator {
         super.init(navigationController: navigationController)
     }
 
-    override func start(url: URL?) {
+    override func start() {
         unlinkAccount()
     }
 

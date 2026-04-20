@@ -26,7 +26,7 @@ final class ServiceAccountLinkCoordinator: BaseCoordinator {
         super.init(navigationController: navigationController)
     }
 
-    override func start(url: URL?) {
+    override func start() {
         showConsent()
     }
 
