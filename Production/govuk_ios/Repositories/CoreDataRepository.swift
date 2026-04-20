@@ -5,7 +5,6 @@ import Foundation
 class CoreDataRepository: CoreDataRepositoryInterface {
     private let persistentContainer: NSPersistentContainer
     private let notificationCenter: NotificationCenter
-    private var isLoaded = false
     private var loadingTask: Task<Void, Error>?
 
     init(persistentContainer: NSPersistentContainer,

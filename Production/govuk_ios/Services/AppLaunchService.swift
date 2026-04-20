@@ -43,9 +43,6 @@ struct AppLaunchService: AppLaunchServiceInterface {
         }
     }
 
-    // create call to core data load ()
-    // double check that i dont have to call it on the main cue..
-
     private func fetchTopics() async -> FetchTopicsListResult {
         await withCheckedContinuation { continuation in
             topicService.fetchRemoteList(
