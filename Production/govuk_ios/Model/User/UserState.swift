@@ -7,7 +7,7 @@ struct UserState: Codable {
 
 struct UserNotificationsPreferences: Codable {
     let consentStatus: ConsentStatus
-    let notificationId: String
+    let pushId: String
 }
 
 struct ConsentPreference: Codable {

@@ -27,7 +27,7 @@ final class UserServiceTests {
         }
 
         let userStateResponse = try #require(try? result.get())
-        #expect(userStateResponse.notifications.notificationId == "notification_id")
+        #expect(userStateResponse.notifications.pushId == "notification_id")
 
     }
 

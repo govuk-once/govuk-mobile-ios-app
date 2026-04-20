@@ -136,7 +136,7 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
             switch result {
             case .success(let userState):
                 self?.notificationService.register(notificationId:
-                                                    userState.notifications.notificationId)
+                                                    userState.notifications.pushId)
                 self?.handleUserStateFetched()
             case .failure(let error):
                 self?.startAppUnavailable(error: error.asAppUnavailableError)
@@ -157,7 +157,7 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
                     switch result {
                     case .success(let userState):
                         self?.notificationService.register(notificationId:
-                                                            userState.notifications.notificationId)
+                                                            userState.notifications.pushId)
                         completion(true)
                     case .failure:
                         completion(false)
