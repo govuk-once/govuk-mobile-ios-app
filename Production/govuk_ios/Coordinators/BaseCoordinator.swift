@@ -15,7 +15,7 @@ class BaseCoordinator: NSObject,
         navigationController.presentationController?.delegate = self
     }
 
-    func start() {
+    final func start() {
         start(url: nil)
     }
 
