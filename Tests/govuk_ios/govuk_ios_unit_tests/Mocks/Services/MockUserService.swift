@@ -8,9 +8,9 @@ class MockUserService: UserServiceInterface {
     var notificationsConsentStatus: ConsentStatus? {
         _stubbedNotificationsConsentStatus
     }
-    var _stubbedNotificationId: String?
-    var notificationId: String? {
-        _stubbedNotificationId
+    var _stubbedPushId: String?
+    var pushId: String? {
+        _stubbedPushId
     }
 
     var _fetchUserStateCompletionBlock: (() -> Void)?

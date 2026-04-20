@@ -10,17 +10,17 @@ extension UserState {
     static func arrange(userId: String = "user_id",
                         userNotificationsPreferences:
                         UserNotificationsPreferences =
-                        UserNotificationsPreferences(consentStatus: .unknown, pushId: "notification_id")
+                        UserNotificationsPreferences(consentStatus: .unknown, pushId: "push_id")
     ) -> UserState {
         .init(userId: userId, notifications: userNotificationsPreferences)
     }
     
     static var arrangeAccepted: UserState {
-        .arrange(userNotificationsPreferences: UserNotificationsPreferences(consentStatus: .accepted, pushId: "notification_id"))
+        .arrange(userNotificationsPreferences: UserNotificationsPreferences(consentStatus: .accepted, pushId: "push_id"))
     }
     
-    static func arrange(notificationId: String = "notification_id") -> UserState {
-        .init(userId: "user_id", notifications: UserNotificationsPreferences(consentStatus: .unknown, pushId: notificationId))
+    static func arrange(pushId: String = "push_id") -> UserState {
+        .init(userId: "user_id", notifications: UserNotificationsPreferences(consentStatus: .unknown, pushId: pushId))
     }
     
 }

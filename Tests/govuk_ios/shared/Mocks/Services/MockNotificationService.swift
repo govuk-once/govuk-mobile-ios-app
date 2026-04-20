@@ -70,12 +70,12 @@ class MockNotificationService: NotificationServiceInterface {
         _stubbedFetchConsentAlignmentResult
     }
 
-    var _stubbedNotificationId: String? = nil
-    func register(notificationId: String) {
-        _stubbedNotificationId = notificationId
+    var _stubbedPushId: String? = nil
+    func register(pushId: String) {
+        _stubbedPushId = pushId
     }
 
-    func unregisterNotificationId() {
-        _stubbedNotificationId = nil
+    func unregisterPushId() {
+        _stubbedPushId = nil
     }
 }
