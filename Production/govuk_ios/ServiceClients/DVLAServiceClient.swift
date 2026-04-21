@@ -1,9 +1,11 @@
 import Foundation
 
 typealias DrivingLicenceResult = Result<DrivingLicence, DVLAError>
+typealias DriverSummaryResult = Result<DriverSummary, DVLAError>
 
 protocol DVLAServiceClientInterface {
     func fetchDrivingLicence() async -> DrivingLicenceResult
+    func fetchDriverSummary() async -> DriverSummaryResult
 }
 
 class DVLAServiceClient: DVLAServiceClientInterface {
@@ -17,6 +19,19 @@ class DVLAServiceClient: DVLAServiceClientInterface {
         await withCheckedContinuation { continuation in
             apiServiceClient.send(
                 request: .drivingLicence,
+                completion: {
+                    continuation.resume(
+                        returning: self.mapResult($0)
+                    )
+                }
+            )
+        }
+    }
+
+    func fetchDriverSummary() async -> DriverSummaryResult {
+        await withCheckedContinuation { continuation in
+            apiServiceClient.send(
+                request: .driverSummary,
                 completion: {
                     continuation.resume(
                         returning: self.mapResult($0)

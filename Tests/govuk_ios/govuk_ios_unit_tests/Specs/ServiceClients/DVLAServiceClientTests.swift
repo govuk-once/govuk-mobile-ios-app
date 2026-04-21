@@ -56,7 +56,42 @@ struct DVLAServiceClientTests {
         #expect(error == .networkUnavailable)
     }
 
+    @Test
+    func fetchDriverSummary_sendsExpectedRequest() async {
+        mockAPI._stubbedSendResponse = .success(Data())
+        _ = await sut.fetchDriverSummary()
+        #expect(mockAPI._receivedSendRequest?.urlPath == "/app/dvla/v1/driver-summary")
+        #expect(mockAPI._receivedSendRequest?.method == .get)
+        #expect(mockAPI._receivedSendRequest?.additionalHeaders == ["Content-Type": "application/json"])
+    }
+
+    @Test
+    func fetchDriverSummary_success_returnsExpectedResult() async throws {
+        mockAPI._stubbedSendResponse = .success(Self.driverSummaryResponse)
+        let expectedValidToDate = Date(timeIntervalSince1970: 2061590400)
+
+        let result = await sut.fetchDriverSummary()
+        let driverSummary = try #require(try? result.get())
+        #expect(driverSummary.driverViewResponse.driver.drivingLicenceNumber == "DECER607085K99AE")
+        #expect(driverSummary.driverViewResponse.driver.firstNames == "KENNETH")
+        #expect(driverSummary.driverViewResponse.driver.lastName == "DECERQUEIRA")
+        #expect(driverSummary.driverViewResponse.driver.penaltyPoints == 0)
+        #expect(driverSummary.driverViewResponse.token.validToDate == expectedValidToDate)
+    }
+
+    @Test
+    func fetchDriverSummary_apiUnavailable_returnsExpectedError() async {
+        mockAPI._stubbedSendResponse = .failure(DVLAError.apiUnavailable)
+        let result = await sut.fetchDriverSummary()
+        let error = result.getError()
+        #expect(error == .apiUnavailable)
+    }
+
     static var drivingLicenceResponse: Data = {
         .load(filename: "MockDrivingLicenceResponse")
+    }()
+
+    static var driverSummaryResponse: Data = {
+        .load(filename: "MockDriverSummaryResponse")
     }()
 }

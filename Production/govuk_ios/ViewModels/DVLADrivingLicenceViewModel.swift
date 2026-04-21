@@ -1,7 +1,7 @@
 import Foundation
 import GovKit
 
-class DVLAAccountViewModel: ObservableObject {
+class DVLADrivingLicenceViewModel: ObservableObject {
     @Published private(set) var sections = [GroupedListSection]()
     @Published private(set) var errorViewModel: AppErrorViewModel?
     @Published private(set) var isLoading: Bool = false

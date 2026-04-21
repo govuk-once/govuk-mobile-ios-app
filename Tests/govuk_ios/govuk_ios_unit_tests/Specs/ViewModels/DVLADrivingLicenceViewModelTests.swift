@@ -4,14 +4,14 @@ import Testing
 @testable import govuk_ios
 @testable import GovKit
 
-struct DVLAAccountViewModelTests {
+struct DVLADrivingLicenceViewModelTests {
 
     var mockDvlaService: MockDVLAService!
-    var sut: DVLAAccountViewModel!
+    var sut: DVLADrivingLicenceViewModel!
 
     init() {
         mockDvlaService = MockDVLAService()
-        sut = DVLAAccountViewModel(
+        sut = DVLADrivingLicenceViewModel(
             dvlaService: mockDvlaService
         )
     }

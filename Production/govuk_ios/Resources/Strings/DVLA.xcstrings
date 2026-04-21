@@ -67,13 +67,24 @@
         }
       }
     },
-    "dvlaAccountViewCardTitle" : {
+    "dvlaViewDriverSummaryCardTitle" : {
       "extractionState" : "manual",
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "View driver and vehicles account"
+            "value" : "View driver summary"
+          }
+        }
+      }
+    },
+    "dvlaViewDrivingLicenceCardTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "View driving licence"
           }
         }
       }

@@ -2,10 +2,10 @@ import SwiftUI
 import GovKitUI
 import GovKit
 
-struct DVLAAccountView: View {
-    @StateObject private var viewModel: DVLAAccountViewModel
+struct DVLADriverSummaryView: View {
+    @StateObject private var viewModel: DVLADriverSummaryViewModel
 
-    init(viewModel: DVLAAccountViewModel) {
+    init(viewModel: DVLADriverSummaryViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
 
@@ -23,7 +23,7 @@ struct DVLAAccountView: View {
             loadingView
         })
         .task {
-            await viewModel.fetchDrivingLicence()
+            await viewModel.fetchDriverSummary()
         }
     }
 

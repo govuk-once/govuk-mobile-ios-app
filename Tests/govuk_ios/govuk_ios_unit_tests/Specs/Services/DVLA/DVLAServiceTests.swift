@@ -34,5 +34,21 @@ struct DVLAServiceTests {
         #expect(error == .apiUnavailable)
     }
 
+    @Test
+    func fetchDriverSummary_success_returnsExpectedResult() async throws {
+        mockServiceClient._stubbedFetchDriverSummaryResult = .success(.arrange)
+        let result = await sut.fetchDriverSummary()
+        let driverSummary = try #require(try? result.get())
+        #expect(driverSummary.driverViewResponse.driver.penaltyPoints == 1)
+        #expect(driverSummary.driverViewResponse.driver.firstNames == "KENNETH")
+    }
+
+    @Test
+    func fetchDriverSummary_apiUnavailable_returnsExpectedError() async {
+        mockServiceClient._stubbedFetchDriverSummaryResult = .failure(DVLAError.apiUnavailable)
+        let result = await sut.fetchDriverSummary()
+        let error = result.getError()
+        #expect(error == .apiUnavailable)
+    }
 }
 

@@ -210,6 +210,7 @@ class TopicDetailViewModel: TopicDetailViewModelInterface {
         }
     }
 
+    // swiftlint:disable:next function_body_length
     func updateTopicActionCards() {
         // hard coded DVLA account actions
         guard configService.isFeatureEnabled(key: .dvla),
@@ -226,19 +227,30 @@ class TopicDetailViewModel: TopicDetailViewModelInterface {
                     self?.topicAction(unlinkContent)
                 }
             )
-            let viewAccountContent = TopicDetailResponse.Subtopic(
-                ref: "dvla-view-account",
-                title: String.dvla.localized("dvlaAccountViewCardTitle"),
+            let viewLicenceContent = TopicDetailResponse.Subtopic(
+                ref: "dvla-view-licence",
+                title: String.dvla.localized("dvlaViewDrivingLicenceCardTitle"),
                 topicDescription: nil
             )
-            let viewAccountCard = ListCardViewModel(
-                title: viewAccountContent.title,
+            let viewLicenceCard = ListCardViewModel(
+                title: viewLicenceContent.title,
                 action: { [weak self] in
-                    self?.topicAction(viewAccountContent)
+                    self?.topicAction(viewLicenceContent)
+                }
+            )
+            let viewDriverSummaryContent = TopicDetailResponse.Subtopic(
+                ref: "dvla-view-driver-summary",
+                title: String.dvla.localized("dvlaViewDriverSummaryCardTitle"),
+                topicDescription: nil
+            )
+            let viewDriverSummaryCard = ListCardViewModel(
+                title: viewDriverSummaryContent.title,
+                action: { [weak self] in
+                    self?.topicAction(viewDriverSummaryContent)
                 }
             )
             linkAccountCardViewModel = nil
-            topicActionCards = [unlinkCard, viewAccountCard]
+            topicActionCards = [unlinkCard, viewLicenceCard, viewDriverSummaryCard]
         } else {
             let title = String.dvla.localized("dvlaAccountLinkCardTitle")
             let linkAccountCardViewModel = ServiceAccountLinkCardViewModel(

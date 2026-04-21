@@ -1,13 +1,13 @@
 import Foundation
 
 struct DrivingLicence: Codable {
+    struct Driver: Codable {
+        let drivingLicenceNumber: String
+    }
+
     let driver: Driver
     let licence: Licence
     let token: DrivingLicenceToken
-}
-
-struct Driver: Codable {
-    let drivingLicenceNumber: String
 }
 
 struct Licence: Codable {
