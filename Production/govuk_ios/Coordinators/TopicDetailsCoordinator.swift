@@ -51,7 +51,8 @@ final class TopicDetailsCoordinator: BaseCoordinator {
                 stepByStepAction: self.pushStepBySteps,
                 openAction: { [weak self] url in
                     self?.presentWebView(url: url)
-                }
+                },
+                linkAccountAction: self.linkAccountAction
             )
             self.push(viewController, animated: true)
         }
@@ -73,21 +74,36 @@ final class TopicDetailsCoordinator: BaseCoordinator {
         }
     }
 
+    private var linkAccountAction: () -> Void {
+        return { [weak self] in
+            guard let self = self else { return }
+            let navigationController = UINavigationController()
+            navigationController.modalPresentationStyle = .fullScreen
+            let coordinator = coordinatorBuilder.serviceAccountLink(
+                navigationController: navigationController,
+                accountType: .dvla, completion: { [weak self] hasLinkedAccount in
+                    print("service account linking dismissed")
+                    if hasLinkedAccount {
+                        self?.startDvlaAccount()
+                    }
+                }
+            )
+            present(coordinator)
+        }
+    }
+
     private var presentTopicAction: (DisplayableTopic) -> Void {
         // DVLA account linking action hard coded for now
         return { [weak self] content in
             guard let self = self else { return }
 
-            if content.ref == "dvla-link-account" {
+            if content.ref == "dvla-unlink-account" {
                 let navigationController = UINavigationController()
                 navigationController.modalPresentationStyle = .fullScreen
-                let coordinator = coordinatorBuilder.serviceAccount(
+                let coordinator = coordinatorBuilder.serviceAccountUnlink(
                     navigationController: navigationController,
-                    accountType: .dvla, completion: { [weak self] hasLinkedAccount in
-                        print("service account linking dismissed")
-                        if hasLinkedAccount {
-                            self?.startDvlaAccount()
-                        }
+                    accountType: .dvla, completion: {
+                        print("service account unlinking dismissed")
                     }
                 )
                 present(coordinator)

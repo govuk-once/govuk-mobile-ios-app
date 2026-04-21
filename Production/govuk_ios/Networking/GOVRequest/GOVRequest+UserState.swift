@@ -16,7 +16,7 @@ extension GOVRequest {
             method: .get,
             body: nil,
             queryParameters: nil,
-            additionalHeaders: nil,
+            additionalHeaders: additionalHeaders,
             requiresAuthentication: true
         )
     }

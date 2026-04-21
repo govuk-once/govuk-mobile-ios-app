@@ -426,17 +426,17 @@ struct CoordinatorBuilderTests {
     }
 
     @Test
-    func serviceAccount_returnsExpectedResult() {
+    func serviceAccountLink_returnsExpectedResult() {
         let container = Container()
         container.userService.register { MockUserService() }
         container.analyticsService.register { MockAnalyticsService() }
         let subject = CoordinatorBuilder(container: container)
-        let coordinator = subject.serviceAccount(
+        let coordinator = subject.serviceAccountLink(
             navigationController: UINavigationController(),
             accountType: .dvla,
             completion: { _ in }
         )
-        #expect(coordinator is ServiceAccountCoordinator)
+        #expect(coordinator is ServiceAccountLinkCoordinator)
     }
 
     @Test

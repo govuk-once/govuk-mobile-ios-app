@@ -120,7 +120,8 @@ struct ViewControllerBuilderTests {
             topicAction: { _ in },
             subtopicAction: { _ in },
             stepByStepAction: { _ in },
-            openAction: { _ in }
+            openAction: { _ in },
+            linkAccountAction: { }
         )
 
         let rootView = (result as? HostingViewController<TopicDetailView<TopicDetailViewModel>>)?.rootView

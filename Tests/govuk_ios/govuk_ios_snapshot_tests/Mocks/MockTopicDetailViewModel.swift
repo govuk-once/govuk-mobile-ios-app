@@ -8,6 +8,7 @@ class MockTopicDetailViewModel: TopicDetailViewModelInterface {
     var title: String = ""
     var description: String? = nil
     var isLoaded: Bool = false
+    var linkAccountCardViewModel: ServiceAccountLinkCardViewModel? = nil
     var sections: [GroupedListSection] = []
     var subtopicCards: [ListCardViewModel] = []
     var errorViewModel: AppErrorViewModel? = nil
@@ -19,6 +20,7 @@ class MockTopicDetailViewModel: TopicDetailViewModelInterface {
         title: String = "",
         description: String? = nil,
         isLoaded: Bool = false,
+        linkAccountCardViewModel: ServiceAccountLinkCardViewModel? = nil,
         sections: [GroupedListSection] = [],
         subtopicCards: [ListCardViewModel] = [],
         errorViewModel: AppErrorViewModel? = nil
@@ -26,6 +28,7 @@ class MockTopicDetailViewModel: TopicDetailViewModelInterface {
         self.title = title
         self.description = description
         self.isLoaded = isLoaded
+        self.linkAccountCardViewModel = linkAccountCardViewModel
         self.sections = sections
         self.subtopicCards = subtopicCards
         self.errorViewModel = errorViewModel
@@ -186,5 +189,52 @@ class MockTopicDetailViewModel: TopicDetailViewModelInterface {
            sections: [popularSection, stepByStepSection, otherSection],
            subtopicCards: subtopicCards
         )
+    }
+
+    static var arrangeUnlinkedAccount: MockTopicDetailViewModel {
+        let popularRow = LinkRow(id: "1", title: "content_1", showLinkImage: false, action: {})
+        let popularSection = GroupedListSection(
+           heading: GroupedListHeader(
+               title: "Popular pages in this topic"
+           ),
+           rows: [popularRow],
+           footer: nil)
+        //step by step
+        let stepByStepRows = [
+           LinkRow(
+            id: "2",
+            title: "content_2",
+            imageName: "step_by_step",
+            showLinkImage: false,
+            action: {}
+           ),
+           LinkRow(
+            id: "7",
+            title: "content_7",
+            imageName: "step_by_step",
+            showLinkImage: false,
+            action: {}
+           )
+        ]
+        let stepByStepSection = GroupedListSection(
+           heading: GroupedListHeader(
+               title: "Step-by-step guides",
+               actionTitle: "See all"
+           ),
+           rows: stepByStepRows,
+           footer: nil
+        )
+        let linkAccountCardViewModel = ServiceAccountLinkCardViewModel(
+            title: "Add driver and vehicles account",
+            subtitle: "Your tax, MOT, penalty points",
+            action: {}
+        )
+        return .init(
+            title: "test_title",
+            description: "test_description",
+            isLoaded: true,
+            linkAccountCardViewModel: linkAccountCardViewModel,
+            sections: [popularSection, stepByStepSection]
+         )
     }
 }

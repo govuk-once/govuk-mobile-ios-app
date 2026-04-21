@@ -88,6 +88,7 @@ class MockViewControllerBuilder: ViewControllerBuilder {
         return _stubbedRecentActivityViewController ?? UIViewController()
     }
 
+    var _receivedTopicDetailLinkAccountAction: (() -> Void)?
     var _receivedTopicDetailTopicAction: ((DisplayableTopic) -> Void)?
     var _receivedTopicDetailOpenAction: ((URL) -> Void)?
     var _receivedTopicDetailStepByStepAction: (([TopicDetailResponse.Content]) -> Void)?
@@ -101,7 +102,9 @@ class MockViewControllerBuilder: ViewControllerBuilder {
                               topicAction: @escaping (DisplayableTopic) -> Void,
                               subtopicAction: @escaping (any DisplayableTopic) -> Void,
                               stepByStepAction: @escaping ([TopicDetailResponse.Content]) -> Void,
-                              openAction: @escaping (URL) -> Void) -> UIViewController {
+                              openAction: @escaping (URL) -> Void,
+                              linkAccountAction: @escaping () -> Void) -> UIViewController {
+        _receivedTopicDetailLinkAccountAction = linkAccountAction
         _receivedTopicDetailTopicAction = topicAction
         _receivedTopicDetailOpenAction = openAction
         _receivedTopicDetailStepByStepAction = stepByStepAction

@@ -460,14 +460,31 @@ class CoordinatorBuilder {
         )
     }
 
-    func serviceAccount(navigationController: UINavigationController,
-                        accountType: ServiceAccountType,
-                        completion: @escaping (Bool) -> Void) -> BaseCoordinator {
-        ServiceAccountCoordinator(
+    func serviceAccountLink(
+        navigationController: UINavigationController,
+        accountType: ServiceAccountType,
+        completion: @escaping (Bool) -> Void
+    ) -> BaseCoordinator {
+        ServiceAccountLinkCoordinator(
             navigationController: navigationController,
             coordinatorBuilder: self,
             viewControllerBuilder: ViewControllerBuilder(),
             analyticsService: container.analyticsService.resolve(),
+            userService: container.userService.resolve(),
+            accountType: accountType,
+            completion: completion
+        )
+    }
+
+    func serviceAccountUnlink(
+        navigationController: UINavigationController,
+        accountType: ServiceAccountType,
+        completion: @escaping () -> Void
+    ) -> BaseCoordinator {
+        ServiceAccountUnlinkCoordinator(
+            navigationController: navigationController,
+            coordinatorBuilder: self,
+            viewControllerBuilder: ViewControllerBuilder(),
             userService: container.userService.resolve(),
             accountType: accountType,
             completion: completion
