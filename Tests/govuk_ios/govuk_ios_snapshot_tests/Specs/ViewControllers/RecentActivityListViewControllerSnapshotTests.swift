@@ -6,9 +6,9 @@ import CoreData
 
 @MainActor
 final class RecentActivityListViewControllerSnapshotTests: SnapshotTestCase { 
-    func test_loadInNavigationController_light_rendersCorrectly() {
+    func test_loadInNavigationController_light_rendersCorrectly() async {
         let mockActivityService = MockActivityService()
-        let coreData = CoreDataRepository.arrangeAndLoad
+        let coreData = await CoreDataRepository.arrangeAndLoad
         _ = ActivityItem.arrange(
             title: "Test 1",
             date: .arrange("01/10/2023"), 
@@ -54,9 +54,9 @@ final class RecentActivityListViewControllerSnapshotTests: SnapshotTestCase {
         )
     }
 
-    func test_loadInNavigationController_dark_rendersCorrectly() {
+    func test_loadInNavigationController_dark_rendersCorrectly() async {
         let mockActivityService = MockActivityService()
-        let coreData = CoreDataRepository.arrangeAndLoad
+        let coreData = await CoreDataRepository.arrangeAndLoad
         _ = ActivityItem.arrange(
             title: "Test 5",
             date: .arrange("21/11/2024"),
@@ -107,9 +107,9 @@ final class RecentActivityListViewControllerSnapshotTests: SnapshotTestCase {
         )
     }
 
-    func test_loadInNavigationController_editing_rendersCorrectly() {
+    func test_loadInNavigationController_editing_rendersCorrectly() async {
         let mockActivityService = MockActivityService()
-        let coreData = CoreDataRepository.arrangeAndLoad
+        let coreData = await CoreDataRepository.arrangeAndLoad
         _ = ActivityItem.arrange(
             title: "Test 5",
             date: .arrange("21/11/2024"),
@@ -171,9 +171,9 @@ final class RecentActivityListViewControllerSnapshotTests: SnapshotTestCase {
         )
     }
 
-    func test_loadInNavigationController_editing_allSelected_rendersCorrectly() {
+    func test_loadInNavigationController_editing_allSelected_rendersCorrectly() async {
         let mockActivityService = MockActivityService()
-        let coreData = CoreDataRepository.arrangeAndLoad
+        let coreData = await CoreDataRepository.arrangeAndLoad
         _ = ActivityItem.arrange(
             title: "Test 1",
             date: .arrange("21/11/2024"),
