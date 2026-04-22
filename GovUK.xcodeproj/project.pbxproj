@@ -133,7 +133,6 @@
 		4EBE64692D15AABA007A6E97 /* MaximumLengthValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBE64682D15AABA007A6E97 /* MaximumLengthValidator.swift */; };
 		4EBE646B2D15AAD6007A6E97 /* MinimumLengthValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBE646A2D15AAD6007A6E97 /* MinimumLengthValidator.swift */; };
 		4EBE646D2D15AB05007A6E97 /* CharValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBE646C2D15AB05007A6E97 /* CharValidator.swift */; };
-		4EC0466D2F7B22650087C01F /* CentreAlignedBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC0466C2F7B22650087C01F /* CentreAlignedBarButtonItem.swift */; };
 		4EC0466F2F7B239E0087C01F /* GovUKHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC0466E2F7B239D0087C01F /* GovUKHeaderView.swift */; };
 		4EE44BAD2E70332C0093D380 /* NonTappableCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE44BAC2E70332C0093D380 /* NonTappableCardView.swift */; };
 		4EE5F3E52DAFD36B008C60ED /* LocalAuthorityWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE5F3E42DAFD36B008C60ED /* LocalAuthorityWidget.swift */; };
@@ -147,6 +146,7 @@
 		4EF407562CE2796900D654FC /* UIButton+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EF407552CE2796900D654FC /* UIButton+Extensions.swift */; };
 		4EF440392F894E7D00C29728 /* CancelButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EF440382F894E7D00C29728 /* CancelButton.swift */; };
 		4EF446FF2F8CEDE600C29728 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EF446FE2F8CEDE600C29728 /* View+Extensions.swift */; };
+		4EF472FB2F98DD3F00C29728 /* CentreAlignedBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EF472FA2F98DD3F00C29728 /* CentreAlignedBarButtonItem.swift */; };
 		4EFE22A12D0CD08900136D56 /* Redactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EFE22A02D0CD08900136D56 /* Redactor.swift */; };
 		4EFE22A52D0CD0D500136D56 /* RegexRedactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EFE22A42D0CD0D500136D56 /* RegexRedactor.swift */; };
 		5D0278372C29CB5800F2A4EB /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 5D0278362C29CB5800F2A4EB /* Lottie */; };
@@ -597,7 +597,6 @@
 		4EBE64682D15AABA007A6E97 /* MaximumLengthValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaximumLengthValidator.swift; sourceTree = "<group>"; };
 		4EBE646A2D15AAD6007A6E97 /* MinimumLengthValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinimumLengthValidator.swift; sourceTree = "<group>"; };
 		4EBE646C2D15AB05007A6E97 /* CharValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharValidator.swift; sourceTree = "<group>"; };
-		4EC0466C2F7B22650087C01F /* CentreAlignedBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CentreAlignedBarButtonItem.swift; sourceTree = "<group>"; };
 		4EC0466E2F7B239D0087C01F /* GovUKHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovUKHeaderView.swift; sourceTree = "<group>"; };
 		4EE44BAC2E70332C0093D380 /* NonTappableCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NonTappableCardView.swift; sourceTree = "<group>"; };
 		4EE5F3E42DAFD36B008C60ED /* LocalAuthorityWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthorityWidget.swift; sourceTree = "<group>"; };
@@ -611,6 +610,7 @@
 		4EF407552CE2796900D654FC /* UIButton+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extensions.swift"; sourceTree = "<group>"; };
 		4EF440382F894E7D00C29728 /* CancelButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelButton.swift; sourceTree = "<group>"; };
 		4EF446FE2F8CEDE600C29728 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
+		4EF472FA2F98DD3F00C29728 /* CentreAlignedBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CentreAlignedBarButtonItem.swift; sourceTree = "<group>"; };
 		4EFE22A02D0CD08900136D56 /* Redactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Redactor.swift; sourceTree = "<group>"; };
 		4EFE22A42D0CD0D500136D56 /* RegexRedactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegexRedactor.swift; sourceTree = "<group>"; };
 		5D02783B2C29D9BB00F2A4EB /* LaunchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewModel.swift; sourceTree = "<group>"; };
@@ -1326,7 +1326,6 @@
 		4EC0466B2F7B22340087C01F /* UIKitViews */ = {
 			isa = PBXGroup;
 			children = (
-				4EC0466C2F7B22650087C01F /* CentreAlignedBarButtonItem.swift */,
 				4EC0466E2F7B239D0087C01F /* GovUKHeaderView.swift */,
 			);
 			path = UIKitViews;
@@ -1660,10 +1659,10 @@
 			children = (
 				5D79AEBF2C32B9180061F344 /* AnimationView.swift */,
 				4E00EF062CCB12CD007B61E8 /* BaseTabBarController.swift */,
-				4EF874E32F5F0DF200968044 /* CentreAlignedBarButtonItem.swift */,
 				5D9E67C72C5A2E1700DB7877 /* DividerView.swift */,
 				16AE517B2E6859D8002BCFD7 /* Info */,
 				D0AC16702E8ADD0D00AACE5C /* PrivacyView.swift */,
+				4EF472FA2F98DD3F00C29728 /* CentreAlignedBarButtonItem.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -2598,7 +2597,6 @@
 				5D349F672C6B548200B7F747 /* RequestBuilder.swift in Sources */,
 				5DB6370D2D7736AD00A44E36 /* GOVRequest+App.swift in Sources */,
 				D028CCF42CB4247100742620 /* TopicsRepository.swift in Sources */,
-				4EC0466D2F7B22650087C01F /* CentreAlignedBarButtonItem.swift in Sources */,
 				5DD4CB1A2D95491E00459FB5 /* RecentActivityListViewModel.swift in Sources */,
 				16D186A82E462D94006ACC7A /* ChatConsentOnboardingCoordinator.swift in Sources */,
 				16A788B22DCC288800CA64E2 /* ReturningUserService.swift in Sources */,
@@ -2744,6 +2742,7 @@
 				169842DA2DB0004800E3EA66 /* LocalAuthenticationOnboardingViewModel.swift in Sources */,
 				D028CCF62CB9619B00742620 /* Topic.swift in Sources */,
 				D0B929F62EA63C0E001E6FDC /* ListCardViewModel.swift in Sources */,
+				4EF472FB2F98DD3F00C29728 /* CentreAlignedBarButtonItem.swift in Sources */,
 				945E1F072F7176320064CA22 /* EditTopicsDeepLinkRoute.swift in Sources */,
 				4EE5F3E52DAFD36B008C60ED /* LocalAuthorityWidget.swift in Sources */,
 				4EE44BAD2E70332C0093D380 /* NonTappableCardView.swift in Sources */,
