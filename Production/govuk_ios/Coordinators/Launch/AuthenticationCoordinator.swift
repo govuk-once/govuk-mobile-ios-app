@@ -80,6 +80,17 @@ class AuthenticationCoordinator: BaseCoordinator {
     }
 
     private var shouldEncryptRefreshToken: Bool {
-        localAuthenticationService.authenticationOnboardingFlowSeen
+        guard localAuthenticationService.authenticationOnboardingFlowSeen else {
+            return false
+        }
+
+        return switch localAuthenticationService.availableAuthType {
+        case .faceID:
+            !localAuthenticationService.faceIdSkipped
+        case .touchID:
+            localAuthenticationService.touchIdEnabled
+        default:
+            false
+        }
     }
 }

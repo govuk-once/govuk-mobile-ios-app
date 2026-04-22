@@ -1658,10 +1658,11 @@
 		5D925B192CB7CE4100A1E241 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				16AE517B2E6859D8002BCFD7 /* Info */,
 				5D79AEBF2C32B9180061F344 /* AnimationView.swift */,
-				5D9E67C72C5A2E1700DB7877 /* DividerView.swift */,
 				4E00EF062CCB12CD007B61E8 /* BaseTabBarController.swift */,
+				4EF874E32F5F0DF200968044 /* CentreAlignedBarButtonItem.swift */,
+				5D9E67C72C5A2E1700DB7877 /* DividerView.swift */,
+				16AE517B2E6859D8002BCFD7 /* Info */,
 				D0AC16702E8ADD0D00AACE5C /* PrivacyView.swift */,
 			);
 			path = Common;

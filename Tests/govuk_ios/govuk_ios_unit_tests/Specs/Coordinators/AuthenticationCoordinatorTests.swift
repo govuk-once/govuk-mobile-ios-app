@@ -174,6 +174,88 @@ class AuthenticationCoordinatorTests {
     }
 
     @Test
+    func start_authenticationOnboardingSeen_faceIdSkipped_shouldEncryptToken_doesntEncryptRefreshToken() async {
+        let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
+        let mockAuthenticationService = MockAuthenticationService()
+        let mockTopicsService = MockTopicsService()
+        let mockChatService = MockChatService()
+        let mockLocalAuthenticationService = MockLocalAuthenticationService()
+        let mockTermsAndConditionsService = MockTermsAndConditionsService()
+        let mockNavigationController =  MockNavigationController()
+        mockLocalAuthenticationService._stubbedCanEvaluateBiometricsPolicy = true
+        mockLocalAuthenticationService._stubbedAuthenticationOnboardingSeen = true
+        mockLocalAuthenticationService._stubbedFaceIdSkipped = true
+        mockLocalAuthenticationService._stubbedAvailableAuthType = .faceID
+        mockAuthenticationService._stubbedAuthenticationResult = .success(
+            .init(returningUser: true)
+        )
+        let mockAnalyticsService = MockAnalyticsService()
+        let newWindow = UIWindow(frame: UIScreen.main.bounds)
+        newWindow.rootViewController = mockNavigationController
+        newWindow.makeKeyAndVisible()
+        await withCheckedContinuation { continuation in
+            let sut = AuthenticationCoordinator(
+                navigationController: mockNavigationController,
+                coordinatorBuilder: mockCoordinatorBuilder,
+                authenticationService: mockAuthenticationService,
+                localAuthenticationService: mockLocalAuthenticationService,
+                analyticsService: mockAnalyticsService,
+                topicsService: mockTopicsService,
+                chatService: mockChatService,
+                termsAndConditionsService: mockTermsAndConditionsService,
+                completionAction: {
+                    continuation.resume()
+                },
+                errorAction: { _ in }
+            )
+            sut.start(url: nil)
+        }
+
+        #expect(!mockAuthenticationService._encryptRefreshTokenCallSuccess)
+    }
+
+    @Test
+    func start_authenticationOnboardingSeen_touchIdSkipped_shouldEncryptToken_doesntEncryptRefreshToken() async {
+        let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
+        let mockAuthenticationService = MockAuthenticationService()
+        let mockTopicsService = MockTopicsService()
+        let mockChatService = MockChatService()
+        let mockLocalAuthenticationService = MockLocalAuthenticationService()
+        let mockTermsAndConditionsService = MockTermsAndConditionsService()
+        let mockNavigationController =  MockNavigationController()
+        mockLocalAuthenticationService._stubbedCanEvaluateBiometricsPolicy = true
+        mockLocalAuthenticationService._stubbedAuthenticationOnboardingSeen = true
+        mockLocalAuthenticationService._stubbedTouchIdEnabled = false
+        mockLocalAuthenticationService._stubbedAvailableAuthType = .touchID
+        mockAuthenticationService._stubbedAuthenticationResult = .success(
+            .init(returningUser: true)
+        )
+        let mockAnalyticsService = MockAnalyticsService()
+        let newWindow = UIWindow(frame: UIScreen.main.bounds)
+        newWindow.rootViewController = mockNavigationController
+        newWindow.makeKeyAndVisible()
+        await withCheckedContinuation { continuation in
+            let sut = AuthenticationCoordinator(
+                navigationController: mockNavigationController,
+                coordinatorBuilder: mockCoordinatorBuilder,
+                authenticationService: mockAuthenticationService,
+                localAuthenticationService: mockLocalAuthenticationService,
+                analyticsService: mockAnalyticsService,
+                topicsService: mockTopicsService,
+                chatService: mockChatService,
+                termsAndConditionsService: mockTermsAndConditionsService,
+                completionAction: {
+                    continuation.resume()
+                },
+                errorAction: { _ in }
+            )
+            sut.start(url: nil)
+        }
+
+        #expect(!mockAuthenticationService._encryptRefreshTokenCallSuccess)
+    }
+
+    @Test
     func start_authenticationOnboardingNotSeen_shouldntEncryptToken_doesntEncryptRefreshToken() async {
         let mockAuthenticationService = MockAuthenticationService()
         let mockTopicsService = MockTopicsService()

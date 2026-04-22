@@ -15,8 +15,8 @@ protocol NotificationServiceInterface {
     var permissionState: NotificationPermissionState { get async }
     var isFeatureEnabled: Bool { get }
     func fetchConsentAlignment() async -> NotificationConsentResult
-    func register(notificationId: String)
-    func unregisterNotificationId()
+    func register(pushId: String)
+    func unregisterPushId()
     var hasGivenConsent: Bool { get }
     func addConsentChangedListener(action: @escaping (Bool) -> Void)
 }
@@ -150,12 +150,12 @@ class NotificationService: NSObject,
         }
     }
 
-    func register(notificationId: String) {
+    func register(pushId: String) {
         guard hasGivenConsent else { return }
-        oneSignalServiceClient.login(notificationId)
+        oneSignalServiceClient.login(pushId)
     }
 
-    func unregisterNotificationId() {
+    func unregisterPushId() {
         oneSignalServiceClient.logout()
     }
 }
