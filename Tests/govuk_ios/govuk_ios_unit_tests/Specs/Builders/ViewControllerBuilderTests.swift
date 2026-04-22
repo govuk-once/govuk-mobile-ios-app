@@ -394,22 +394,13 @@ struct ViewControllerBuilderTests {
     }
 
     @Test
-    func drivingLicence_returnsExpectedResult() {
+    func dvlaAccount_returnsExpectedResult() {
         let subject = ViewControllerBuilder()
-        let result = subject.drivingLicence(
-            dvlaService: MockDVLAService()
+        let result = subject.dvlaAccount(
+            dvlaService: MockDVLAService(),
+            viewType: .drivingLicence
         )
-        let rootView = (result as? HostingViewController<DVLADrivingLicenceView>)?.rootView
-        #expect(rootView != nil)
-    }
-
-    @Test
-    func driverSummary_returnsExpectedResult() {
-        let subject = ViewControllerBuilder()
-        let result = subject.driverSummary(
-            dvlaService: MockDVLAService()
-        )
-        let rootView = (result as? HostingViewController<DVLADriverSummaryView>)?.rootView
+        let rootView = (result as? HostingViewController<DVLAAccountView>)?.rootView
         #expect(rootView != nil)
     }
 }

@@ -23,24 +23,9 @@ final class DVLAAccountCoordinator: BaseCoordinator {
     }
 
     override func start(url: URL?) {
-        switch viewType {
-        case .drivingLicence:
-            pushDrivingLicence()
-        case .driverSummary:
-            pushDriverSummary()
-        }
-    }
-
-    private func pushDrivingLicence() {
-        let viewController = viewControllerBuilder.drivingLicence(
-            dvlaService: dvlaService
-        )
-        push(viewController)
-    }
-
-    private func pushDriverSummary() {
-        let viewController = viewControllerBuilder.driverSummary(
-            dvlaService: dvlaService
+        let viewController = viewControllerBuilder.dvlaAccount(
+            dvlaService: dvlaService,
+            viewType: viewType
         )
         push(viewController)
     }

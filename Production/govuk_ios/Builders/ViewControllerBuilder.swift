@@ -695,28 +695,17 @@ class ViewControllerBuilder {
         return viewController
     }
 
-    func drivingLicence(
-        dvlaService: DVLAServiceInterface
+    func dvlaAccount(
+        dvlaService: DVLAServiceInterface,
+        viewType: DVLAAccountViewType
     ) -> UIViewController {
-        let viewModel = DVLADrivingLicenceViewModel(
-            dvlaService: dvlaService
+        let viewModel = DVLAAccountViewModel(
+            dvlaService: dvlaService,
+            viewType: viewType
         )
-        let view = DVLADrivingLicenceView(
+        let view = DVLAAccountView(
             viewModel: viewModel
         )
-        let viewController = HostingViewController(
-            rootView: view
-        )
-        return viewController
-    }
-
-    func driverSummary(
-        dvlaService: DVLAServiceInterface
-    ) -> UIViewController {
-        let viewModel = DVLADriverSummaryViewModel(
-            dvlaService: dvlaService
-        )
-        let view = DVLADriverSummaryView(viewModel: viewModel)
         let viewController = HostingViewController(
             rootView: view
         )
