@@ -8,7 +8,7 @@ import Testing
 struct CenterAlignedBarButtonItemTests {
 
     @Test
-    func centreAlignedBarButtonItem_returnsExpectedConfiguration() {
+    func centerAlignedBarButtonItem_returnsExpectedConfiguration() {
         let sut = CenterAlignedBarButtonItem(
             title: "test",
             tint: .clear,
