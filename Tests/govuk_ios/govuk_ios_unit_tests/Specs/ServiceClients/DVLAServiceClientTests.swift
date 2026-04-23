@@ -107,7 +107,7 @@ struct DVLAServiceClientTests {
         #expect(customer.individualDetails.lastName == "DECERQUEIRA")
         #expect(customer.customerType == "Individual")
 
-        let vehicle = try #require(customerSummary.vehicleResponse.first)
+        let vehicle = try #require(customerSummary.vehicles.first)
         #expect(vehicle.registrationNumber == "RBZ5119")
         #expect(vehicle.make == "MITSUBISHI")
         #expect(vehicle.model == "MIRAGE")

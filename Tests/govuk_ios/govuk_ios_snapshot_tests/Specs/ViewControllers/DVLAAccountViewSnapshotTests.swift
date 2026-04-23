@@ -81,7 +81,7 @@ import GovKit
     func test_loadCustomerSummaryInNavigationController_light_rendersCorrectly() async {
         let mockDvlaService = MockDVLAService()
         mockDvlaService._stubbedFetchCustomerSummaryResult = .success(
-            .arrange(vehicleResponse: [.arrange])
+            .arrange(vehicles: [.arrange])
         )
         let viewModel = DVLAAccountViewModel(
             dvlaService: mockDvlaService,
@@ -101,7 +101,7 @@ import GovKit
     func test_loadCustomerSummaryInNavigationController_dark_rendersCorrectly() async {
         let mockDvlaService = MockDVLAService()
         mockDvlaService._stubbedFetchCustomerSummaryResult = .success(
-            .arrange(vehicleResponse: [.arrange])
+            .arrange(vehicles: [.arrange])
         )
         let viewModel = DVLAAccountViewModel(
             dvlaService: mockDvlaService,

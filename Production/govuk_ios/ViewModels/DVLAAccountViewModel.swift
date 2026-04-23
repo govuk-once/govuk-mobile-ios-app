@@ -38,7 +38,7 @@ class DVLAAccountViewModel: ObservableObject {
             if case .success(let customerSummary) = result {
                 sections = [
                     section(for: customerSummary.customerResponse.customer),
-                    section(for: customerSummary.vehicleResponse)
+                    section(for: customerSummary.vehicles)
                 ]
             }
         }
@@ -189,7 +189,7 @@ class DVLAAccountViewModel: ObservableObject {
         )
     }
 
-    private func section(for vehicles: [VehicleResponse]) -> GroupedListSection {
+    private func section(for vehicles: [Vehicle]) -> GroupedListSection {
         var rows = [InformationRow]()
         if vehicles.count == 0 {
             rows = [
@@ -212,7 +212,7 @@ class DVLAAccountViewModel: ObservableObject {
         )
     }
 
-    private func row(for vehicle: VehicleResponse) -> InformationRow {
+    private func row(for vehicle: Vehicle) -> InformationRow {
         InformationRow(
             id: "vehicle.\(vehicle.vehicleId).row",
             title: """

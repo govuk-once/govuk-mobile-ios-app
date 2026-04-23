@@ -2,14 +2,18 @@ import Foundation
 
 struct CustomerSummary: Codable {
     let customerResponse: CustomerResponse
-    let vehicleResponse: [VehicleResponse]
+    let vehicles: [Vehicle]
+    enum CodingKeys: String, CodingKey {
+        case customerResponse = "customerResponse"
+        case vehicles = "vehicleResponse"
+    }
 }
 
 struct CustomerResponse: Codable {
     let customer: Customer
 }
 
-struct VehicleResponse: Codable {
+struct Vehicle: Codable {
     let vehicleId: Int
     let registrationNumber: String
     let make: String

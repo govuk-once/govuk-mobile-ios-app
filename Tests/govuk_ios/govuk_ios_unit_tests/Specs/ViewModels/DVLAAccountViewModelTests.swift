@@ -89,7 +89,7 @@ struct DVLAAccountViewModelTests {
     @Test
     func fetchContent_customerSummary_success_createsSectionsCorrectly() async throws {
         mockDvlaService._stubbedFetchCustomerSummaryResult = .success(
-            .arrange(vehicleResponse: [.arrange])
+            .arrange(vehicles: [.arrange])
         )
         let sut = DVLAAccountViewModel(
             dvlaService: mockDvlaService,

@@ -11,7 +11,7 @@ extension CustomerSummary {
         firstNames: String = "KENNETH",
         lastName: String = "DECERQUEIRA",
         customerType: String = "Individual",
-        vehicleResponse: [VehicleResponse] = []
+        vehicles: [Vehicle] = []
     ) -> CustomerSummary {
         .init(
             customerResponse: .init(
@@ -23,13 +23,13 @@ extension CustomerSummary {
                     )
                 )
             ),
-            vehicleResponse: vehicleResponse
+            vehicles: vehicles
         )
     }
 }
 
-extension VehicleResponse {
-    static var arrange: VehicleResponse {
+extension Vehicle {
+    static var arrange: Vehicle {
         arrange()
     }
 
@@ -40,7 +40,7 @@ extension VehicleResponse {
         model: String = "MIRAGE",
         taxStatus: String = "Taxed",
         motStatus: String = "Not valid"
-    ) -> VehicleResponse {
+    ) -> Vehicle {
         .init(
             vehicleId: vehicleId,
             registrationNumber: registrationNumber,
