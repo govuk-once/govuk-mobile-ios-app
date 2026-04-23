@@ -31,7 +31,7 @@ struct DVLAServiceClientTests {
 
         let result = await sut.fetchDrivingLicence()
         let drivingLicence = try #require(try? result.get())
-        #expect(drivingLicence.driver.drivingLicenceNumber == "DECER607085K99AE")
+        #expect(drivingLicence.driver.licenceNo == "DECER607085K99AE")
         #expect(drivingLicence.licence.type == "Full")
         #expect(drivingLicence.licence.status == "Valid")
         #expect(drivingLicence.token.validFromDate == expectedValidFromDate)
@@ -72,11 +72,11 @@ struct DVLAServiceClientTests {
 
         let result = await sut.fetchDriverSummary()
         let driverSummary = try #require(try? result.get())
-        #expect(driverSummary.driverViewResponse.driver.drivingLicenceNumber == "DECER607085K99AE")
-        #expect(driverSummary.driverViewResponse.driver.firstNames == "KENNETH")
-        #expect(driverSummary.driverViewResponse.driver.lastName == "DECERQUEIRA")
-        #expect(driverSummary.driverViewResponse.driver.penaltyPoints == 0)
-        #expect(driverSummary.driverViewResponse.token.validToDate == expectedValidToDate)
+        #expect(driverSummary.response.driver.licenceNo == "DECER607085K99AE")
+        #expect(driverSummary.response.driver.firstNames == "KENNETH")
+        #expect(driverSummary.response.driver.lastName == "DECERQUEIRA")
+        #expect(driverSummary.response.driver.penaltyPoints == 0)
+        #expect(driverSummary.response.token.validToDate == expectedValidToDate)
     }
 
     @Test

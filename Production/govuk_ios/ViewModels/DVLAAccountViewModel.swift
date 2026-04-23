@@ -64,7 +64,7 @@ class DVLAAccountViewModel: ObservableObject {
                 InformationRow(
                     id: "licence.number.row",
                     title: "Licence number",
-                    body: drivingLicence.driver.drivingLicenceNumber,
+                    body: drivingLicence.driver.licenceNo,
                     detail: ""
                 ),
                 InformationRow(
@@ -108,38 +108,38 @@ class DVLAAccountViewModel: ObservableObject {
                 InformationRow(
                     id: "licence.number.row",
                     title: "Licence number",
-                    body: driverSummary.driverViewResponse.driver.drivingLicenceNumber,
+                    body: driverSummary.response.driver.licenceNo,
                     detail: ""
                 ),
                 InformationRow(
                     id: "licence.status.row",
                     title: "Status",
-                    body: driverSummary.driverViewResponse.licence.status,
+                    body: driverSummary.response.licence.status,
                     detail: ""
                 ),
                 InformationRow(
                     id: "driver.firstNames.row",
                     title: "First names",
-                    body: driverSummary.driverViewResponse.driver.firstNames,
+                    body: driverSummary.response.driver.firstNames,
                     detail: ""
                 ),
                 InformationRow(
                     id: "driver.lastName.row",
                     title: "Last name",
-                    body: driverSummary.driverViewResponse.driver.lastName,
+                    body: driverSummary.response.driver.lastName,
                     detail: ""
                 ),
                 InformationRow(
                     id: "licence.penaltyPoints.row",
                     title: "Penalty points",
-                    body: "\(driverSummary.driverViewResponse.driver.penaltyPoints)",
+                    body: "\(driverSummary.response.driver.penaltyPoints)",
                     detail: ""
                 ),
                 InformationRow(
                     id: "licence.valid.to.row",
                     title: "Valid to",
                     body: dateFormatter.string(
-                        from: driverSummary.driverViewResponse.token.validToDate
+                        from: driverSummary.response.token.validToDate
                     ),
                     detail: ""
                 )

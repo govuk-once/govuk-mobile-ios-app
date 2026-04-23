@@ -21,7 +21,7 @@ struct DVLAServiceTests {
         mockServiceClient._stubbedFetchDrivingLicenceResult = .success(.arrange)
         let result = await sut.fetchDrivingLicence()
         let drivingLicence = try #require(try? result.get())
-        #expect(drivingLicence.driver.drivingLicenceNumber == "DECER607085K99AE")
+        #expect(drivingLicence.driver.licenceNo == "DECER607085K99AE")
         #expect(drivingLicence.token.validFromDate == Date(timeIntervalSince1970: 0))
         #expect(drivingLicence.licence.type == "Full")
     }
@@ -39,8 +39,8 @@ struct DVLAServiceTests {
         mockServiceClient._stubbedFetchDriverSummaryResult = .success(.arrange)
         let result = await sut.fetchDriverSummary()
         let driverSummary = try #require(try? result.get())
-        #expect(driverSummary.driverViewResponse.driver.penaltyPoints == 1)
-        #expect(driverSummary.driverViewResponse.driver.firstNames == "KENNETH")
+        #expect(driverSummary.response.driver.penaltyPoints == 1)
+        #expect(driverSummary.response.driver.firstNames == "KENNETH")
     }
 
     @Test

@@ -8,7 +8,7 @@ extension DrivingLicence {
     }
 
     static func arrange(
-        licenceNumber: String = "DECER607085K99AE",
+        licenceNo: String = "DECER607085K99AE",
         licenceType: String = "Full",
         licenceStatus: String = "Valid",
         validFrom: Date = .init(timeIntervalSince1970: 0),
@@ -16,7 +16,7 @@ extension DrivingLicence {
     ) -> DrivingLicence {
         .init(
             driver: Driver(
-                drivingLicenceNumber: licenceNumber
+                licenceNo: licenceNo
             ),
             licence: Licence(
                 type: licenceType,

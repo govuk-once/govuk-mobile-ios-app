@@ -2,9 +2,11 @@ import Foundation
 
 struct DrivingLicence: Codable {
     struct Driver: Codable {
-        let drivingLicenceNumber: String
+        let licenceNo: String
+        enum CodingKeys: String, CodingKey {
+            case licenceNo = "drivingLicenceNumber"
+        }
     }
-
     let driver: Driver
     let licence: Licence
     let token: DrivingLicenceToken

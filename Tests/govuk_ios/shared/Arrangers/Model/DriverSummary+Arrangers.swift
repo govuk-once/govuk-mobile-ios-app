@@ -10,7 +10,7 @@ extension DriverSummary {
     static func arrange(
         firstNames: String = "KENNETH",
         lastName: String = "DECERQUEIRA",
-        licenceNumber: String = "DECER607085K99AE",
+        licenceNo: String = "DECER607085K99AE",
         licenceType: String = "Full",
         licenceStatus: String = "Valid",
         penaltyPoints: Int = 1,
@@ -18,9 +18,9 @@ extension DriverSummary {
         validTo: Date = .init(timeIntervalSince1970: 30)
     ) -> DriverSummary {
         .init(
-            driverViewResponse: .init(
+            response: .init(
                 driver: .init(
-                    drivingLicenceNumber: licenceNumber,
+                    licenceNo: licenceNo,
                     firstNames: firstNames,
                     lastName: lastName,
                     penaltyPoints: penaltyPoints
