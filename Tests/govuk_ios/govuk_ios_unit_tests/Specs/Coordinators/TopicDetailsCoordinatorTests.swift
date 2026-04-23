@@ -9,11 +9,11 @@ import SafariServices
 struct TopicDetailsCoordinatorTests {
     @Test
     @MainActor
-    func start_pushesTopicDetailspresentsSafariViewController() throws {
+    func start_pushesTopicDetailspresentsSafariViewController() async throws {
         let mockNavigationController = MockNavigationController()
         let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
         let mockViewControllerBuilder = MockViewControllerBuilder()
-        let mockCoreDataRepository = CoreDataRepository.arrangeAndLoad
+        let mockCoreDataRepository = await CoreDataRepository.arrangeAndLoad
         let topic = Topic.arrange(context: mockCoreDataRepository.viewContext)
         let subject = TopicDetailsCoordinator(
             navigationController: mockNavigationController,
@@ -33,11 +33,11 @@ struct TopicDetailsCoordinatorTests {
 
     @Test
     @MainActor
-    func openAction_startsSafari() throws {
+    func openAction_startsSafari() async throws {
         let mockNavigationController = MockNavigationController()
         let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
         let mockViewControllerBuilder = MockViewControllerBuilder()
-        let mockCoreDataRepository = CoreDataRepository.arrangeAndLoad
+        let mockCoreDataRepository = await CoreDataRepository.arrangeAndLoad
         let topic = Topic.arrange(context: mockCoreDataRepository.viewContext)
         let subject = TopicDetailsCoordinator(
             navigationController: mockNavigationController,
@@ -60,13 +60,13 @@ struct TopicDetailsCoordinatorTests {
 
     @Test
     @MainActor
-    func stepByStepAction_pushesStepBySteps() throws {
+    func stepByStepAction_pushesStepBySteps() async throws {
         let mockNavigationController = MockNavigationController()
         let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let expectedStepByStepsViewController = UIViewController()
         mockViewControllerBuilder._stubbedStepByStepViewController = expectedStepByStepsViewController
-        let mockCoreDataRepository = CoreDataRepository.arrangeAndLoad
+        let mockCoreDataRepository = await CoreDataRepository.arrangeAndLoad
         let topic = Topic.arrange(context: mockCoreDataRepository.viewContext)
         let subject = TopicDetailsCoordinator(
             navigationController: mockNavigationController,
@@ -89,13 +89,13 @@ struct TopicDetailsCoordinatorTests {
 
     @Test
     @MainActor
-    func stepByStep_OpenAction_startsSafari() throws {
+    func stepByStep_OpenAction_startsSafari() async throws {
         let mockNavigationController = MockNavigationController()
         let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let expectedStepByStepsViewController = UIViewController()
         mockViewControllerBuilder._stubbedStepByStepViewController = expectedStepByStepsViewController
-        let mockCoreDataRepository = CoreDataRepository.arrangeAndLoad
+        let mockCoreDataRepository = await CoreDataRepository.arrangeAndLoad
         let topic = Topic.arrange(context: mockCoreDataRepository.viewContext)
         let subject = TopicDetailsCoordinator(
             navigationController: mockNavigationController,

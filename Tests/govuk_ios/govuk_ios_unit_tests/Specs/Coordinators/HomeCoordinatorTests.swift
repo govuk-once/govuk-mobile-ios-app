@@ -174,7 +174,7 @@ struct HomeCoordinatorTests {
 
     @Test
     @MainActor
-    func topicAction_startsCoordinatorAndTracksEvent() {
+    func topicAction_startsCoordinatorAndTracksEvent() async throws {
         let mockCoodinatorBuilder = MockCoordinatorBuilder.mock
         let mockViewControllerBuilder = MockViewControllerBuilder()
         mockViewControllerBuilder._stubbedHomeViewController = UIViewController()
@@ -198,7 +198,7 @@ struct HomeCoordinatorTests {
         )
         subject.start()
 
-        let coreData = CoreDataRepository.arrange
+        let coreData = await CoreDataRepository.arrange
         let topic = Topic(context: coreData.viewContext)
         topic.ref = "123"
         topic.title = "test_title"

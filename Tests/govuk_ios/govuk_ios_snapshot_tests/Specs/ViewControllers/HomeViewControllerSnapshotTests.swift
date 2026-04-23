@@ -6,11 +6,11 @@ import UIKit
 
 @MainActor
 class HomeViewControllerSnapshotTests: SnapshotTestCase {
-    let coreData = CoreDataRepository.arrangeAndLoad
     let mockTopicService = MockTopicsService()
     let mockAnalyticsService = MockAnalyticsService()
 
-    func test_loadInNavigationController_light_rendersCorrectly() {
+    func test_loadInNavigationController_light_rendersCorrectly() async throws {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         mockTopicService._stubbedHasCustomisedTopics = true
         mockTopicService._stubbedFetchRemoteListResult = .success(TopicResponseItem.arrangeMultiple)
         var topics = Topic.arrangeMultipleFavourites(
@@ -28,7 +28,8 @@ class HomeViewControllerSnapshotTests: SnapshotTestCase {
         )
     }
 
-    func test_loadInNavigationController_dark_rendersCorrectly() {
+    func test_loadInNavigationController_dark_rendersCorrectly() async throws  {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         mockTopicService._stubbedFetchRemoteListResult = .success(TopicResponseItem.arrangeMultiple)
         let topics = Topic.arrangeMultipleFavourites(
             context: coreData.viewContext
@@ -43,7 +44,8 @@ class HomeViewControllerSnapshotTests: SnapshotTestCase {
         )
     }
 
-    func test_loadInNavigationController_deselectedAllTopics_rendersCorrectly() {
+    func test_loadInNavigationController_deselectedAllTopics_rendersCorrectly() async throws  {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let topics = Topic.arrangeMultipleFavourites(
             context: coreData.viewContext
         )
@@ -59,7 +61,8 @@ class HomeViewControllerSnapshotTests: SnapshotTestCase {
         )
     }
 
-    func test_loadInNavigationController_deselectedAllTopics_dark_rendersCorrectly() {
+    func test_loadInNavigationController_deselectedAllTopics_dark_rendersCorrectly() async throws {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let topics = Topic.arrangeMultipleFavourites(
             context: coreData.viewContext
         )

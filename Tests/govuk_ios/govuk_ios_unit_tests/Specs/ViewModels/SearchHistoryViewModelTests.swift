@@ -9,9 +9,9 @@ import CoreData
 struct SearchHistoryViewModelTests {
 
     @Test
-    func init_fetches_searchHistoryItems_from_searchService() throws {
+    func init_fetches_searchHistoryItems_from_searchService() async throws {
 
-        let coreData = CoreDataRepository.arrangeAndLoad
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let item = SearchHistoryItem(context: coreData.viewContext)
         item.searchText = UUID().uuidString
         item.date = Date()
@@ -66,7 +66,7 @@ struct SearchHistoryViewModelTests {
     }
 
     @Test
-    func delete_calls_delete_on_searchService() {
+    func delete_calls_delete_on_searchService() async throws {
         let mockSearchService = MockSearchService()
         let mockAnalyticsService = MockAnalyticsService()
         let sut = SearchHistoryViewModel(
@@ -74,7 +74,7 @@ struct SearchHistoryViewModelTests {
             analyticsService: mockAnalyticsService
         )
 
-        let coreData = CoreDataRepository.arrangeAndLoad
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let item = SearchHistoryItem(context: coreData.viewContext)
         sut.delete(item)
         #expect(mockSearchService._didCallDeleteSearchHistoryItem)
@@ -82,7 +82,7 @@ struct SearchHistoryViewModelTests {
 
     @Test
     @MainActor
-    func historyItemForObjectId_notFound_logsError() {
+    func historyItemForObjectId_notFound_logsError() async throws {
         let mockSearchService = MockSearchService()
         let mockAnalyticsService = MockAnalyticsService()
         let sut = SearchHistoryViewModel(
@@ -90,7 +90,7 @@ struct SearchHistoryViewModelTests {
             analyticsService: mockAnalyticsService
         )
 
-        let coreData = CoreDataRepository.arrangeAndLoad
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let item = SearchHistoryItem(context: coreData.viewContext)
         let expectedId: NSManagedObjectID = item.objectID.copy() as! NSManagedObjectID
 

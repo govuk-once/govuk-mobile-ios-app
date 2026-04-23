@@ -8,8 +8,8 @@ import GovKit
 @MainActor
 final class StoredLocalAuthorityWidgetViewSnapshotTests: SnapshotTestCase {
 
-    func test_loadInNavigationController_unitary_light_rendersCorrectly() {
-        let coreData = CoreDataRepository.arrangeAndLoad
+    func test_loadInNavigationController_unitary_light_rendersCorrectly() async throws {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let localAuthorityItem = LocalAuthorityItem(
             context: coreData.backgroundContext
         )
@@ -31,8 +31,8 @@ final class StoredLocalAuthorityWidgetViewSnapshotTests: SnapshotTestCase {
         )
     }
 
-    func test_loadInNavigationController_unitary_dark_rendersCorrectly() {
-        let coreData = CoreDataRepository.arrangeAndLoad
+    func test_loadInNavigationController_unitary_dark_rendersCorrectly() async throws {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let localAuthorityItem = LocalAuthorityItem(
             context: coreData.backgroundContext
         )
@@ -54,9 +54,8 @@ final class StoredLocalAuthorityWidgetViewSnapshotTests: SnapshotTestCase {
         )
     }
 
-    func test_loadInNavigationController_twoTier_light_rendersCorrectly() {
-        let coreData = CoreDataRepository.arrangeAndLoad
-
+    func test_loadInNavigationController_twoTier_light_rendersCorrectly() async throws {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let parentAuthority = LocalAuthorityItem(
             context: coreData.backgroundContext
         )
@@ -90,8 +89,8 @@ final class StoredLocalAuthorityWidgetViewSnapshotTests: SnapshotTestCase {
         )
     }
 
-    func test_loadInNavigationController_twoTier_dark_rendersCorrectly() {
-        let coreData = CoreDataRepository.arrangeAndLoad
+    func test_loadInNavigationController_twoTier_dark_rendersCorrectly() async throws {
+        let coreData = await CoreDataRepository.arrangeAndLoad
 
         let parentAuthority = LocalAuthorityItem(
             context: coreData.backgroundContext

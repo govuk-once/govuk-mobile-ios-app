@@ -2,10 +2,16 @@ import Testing
 
 @testable import govuk_ios
 
-struct EditTopicsViewModelTests {
-    let coreData = CoreDataRepository.arrangeAndLoad
+class EditTopicsViewModelTests {
     let mockTopicService = MockTopicsService()
     let mockAnalyticsService = MockAnalyticsService()
+    var coreData: CoreDataRepository!
+
+    init() {
+        Task {
+            self.coreData = await CoreDataRepository.arrangeAndLoad
+        }
+    }
 
     @Test
     func init_withTopics_createsTopicCardsCorrectly() {

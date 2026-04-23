@@ -1,6 +1,5 @@
 import Foundation
 import CoreData
-import GovKit
 
 @testable import govuk_ios
 
@@ -16,9 +15,8 @@ class MockCoreDataRepository: CoreDataRepositoryInterface {
     }
 
     var _stubbedLoadCalled = false
-    func load() -> Self {
+    func load() async throws {
         _stubbedLoadCalled = true
-        return self
     }
 
     init(entities: [NSEntityDescription] = [], storeType: String = NSSQLiteStoreType) {

@@ -22,7 +22,7 @@ struct RecentActivityListViewModelTests {
     }
 
     @Test
-    func selectItem_validURL_performsExpectedActions() {
+    func selectItem_validURL_performsExpectedActions() async {
         let mockService = MockActivityService()
         let mockAnalyticsService = MockAnalyticsService()
         var receivedURL: URL?
@@ -33,7 +33,7 @@ struct RecentActivityListViewModelTests {
                 receivedURL = url
             }
         )
-        let coreData = CoreDataRepository.arrangeAndLoad
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let item = ActivityItem.arrange(
             date: .arrange("01/01/2001"),
             context: coreData.viewContext
@@ -50,7 +50,7 @@ struct RecentActivityListViewModelTests {
     }
 
     @Test
-    func selectItem_invalidURL_callsService() {
+    func selectItem_invalidURL_callsService() async {
         let mockService = MockActivityService()
         let mockAnalyticsService = MockAnalyticsService()
         var receivedURL: URL?
@@ -61,7 +61,7 @@ struct RecentActivityListViewModelTests {
                 receivedURL = url
             }
         )
-        let coreData = CoreDataRepository.arrangeAndLoad
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let item = ActivityItem.arrange(
             url: "",
             context: coreData.viewContext
@@ -74,7 +74,7 @@ struct RecentActivityListViewModelTests {
     }
 
     @Test
-    func editItem_confirmDelete_removesExpectedItems() {
+    func editItem_confirmDelete_removesExpectedItems() async {
         let mockActivityService = MockActivityService()
         let mockAnalyticsService = MockAnalyticsService()
         let sut = RecentActivityListViewModel(
@@ -82,7 +82,7 @@ struct RecentActivityListViewModelTests {
             analyticsService: mockAnalyticsService,
             selectedAction: { _ in }
         )
-        let coreData = CoreDataRepository.arrangeAndLoad
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let item1 = ActivityItem.arrange(
             context: coreData.viewContext
         )
@@ -106,7 +106,7 @@ struct RecentActivityListViewModelTests {
 
     @Test
     @MainActor
-    func editItem_endEditing_removesSelectedItems() {
+    func editItem_endEditing_removesSelectedItems() async {
         let mockActivityService = MockActivityService()
         let mockAnalyticsService = MockAnalyticsService()
         let sut = RecentActivityListViewModel(
@@ -114,7 +114,7 @@ struct RecentActivityListViewModelTests {
             analyticsService: mockAnalyticsService,
             selectedAction: { _ in }
         )
-        let coreData = CoreDataRepository.arrangeAndLoad
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let item1 = ActivityItem.arrange(
             context: coreData.viewContext
         )
@@ -135,7 +135,7 @@ struct RecentActivityListViewModelTests {
 
     @Test
     @MainActor
-    func isEveryItemSelected_everyItemSelected_returnsTrue() {
+    func isEveryItemSelected_everyItemSelected_returnsTrue() async {
         let mockActivityService = MockActivityService()
         let mockAnalyticsService = MockAnalyticsService()
         let sut = RecentActivityListViewModel(
@@ -144,7 +144,7 @@ struct RecentActivityListViewModelTests {
             selectedAction: { _ in }
         )
 
-        let coreData = CoreDataRepository.arrangeAndLoad
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let item1 = ActivityItem.arrange(
             context: coreData.viewContext
         )
@@ -173,7 +173,7 @@ struct RecentActivityListViewModelTests {
 
     @Test
     @MainActor
-    func isEveryItemSelected_noItemsSelected_returnsFalse() {
+    func isEveryItemSelected_noItemsSelected_returnsFalse() async {
         let mockActivityService = MockActivityService()
         let mockAnalyticsService = MockAnalyticsService()
         let sut = RecentActivityListViewModel(
@@ -182,7 +182,7 @@ struct RecentActivityListViewModelTests {
             selectedAction: { _ in }
         )
 
-        let coreData = CoreDataRepository.arrangeAndLoad
+        let coreData = await CoreDataRepository.arrangeAndLoad
         _ = ActivityItem.arrange(
             context: coreData.viewContext
         )
@@ -208,7 +208,7 @@ struct RecentActivityListViewModelTests {
 
     @Test
     @MainActor
-    func activityItemForObjectId_notFound_logsError() {
+    func activityItemForObjectId_notFound_logsError() async {
         let mockActivityService = MockActivityService()
         let mockAnalyticsService = MockAnalyticsService()
         let sut = RecentActivityListViewModel(
@@ -217,7 +217,7 @@ struct RecentActivityListViewModelTests {
             selectedAction: { _ in }
         )
 
-        let coreData = CoreDataRepository.arrangeAndLoad
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let request = ActivityItem.fetchRequest()
         let item = ActivityItem.arrange(
             context: coreData.viewContext

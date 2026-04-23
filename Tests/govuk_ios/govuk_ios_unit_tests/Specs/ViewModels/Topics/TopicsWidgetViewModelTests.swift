@@ -6,11 +6,17 @@ import FactoryKit
 @testable import govuk_ios
 
 @Suite
-struct TopicsWidgetViewModelTests {
+class TopicsWidgetViewModelTests {
 
-    let coreData = CoreDataRepository.arrangeAndLoad
+    var coreData: CoreDataRepository!
     let mockTopicService = MockTopicsService()
     let mockAnalyticsService = MockAnalyticsService()
+
+    init() {
+        Task {
+            self.coreData = await CoreDataRepository.arrangeAndLoad
+        }
+    }
 
     @Test
     @MainActor

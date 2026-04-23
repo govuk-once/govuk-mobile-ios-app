@@ -213,7 +213,7 @@ struct SearchServiceTests {
     }
 
     @Test
-    func delete_searchHistory_deletesFromRepository() {
+    func delete_searchHistory_deletesFromRepository() async {
         let mockServiceClient = MockSearchServiceClient()
         let mockRepository = MockSearchHistoryRepository()
 
@@ -222,15 +222,15 @@ struct SearchServiceTests {
             repository: mockRepository
         )
 
-        let coreData = CoreDataRepository.arrangeAndLoad
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let item = SearchHistoryItem(context: coreData.viewContext)
         sut.delete(item)
         #expect(mockRepository._didDeleteSearchHistoryItem)
     }
 
     @Test
-    func historyItemForId_returnsExpectedItem() throws {
-        let coreData = CoreDataRepository.arrangeAndLoad
+    func historyItemForId_returnsExpectedItem() async throws {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let repostory = SearchHistoryRepository(
             coreData: coreData
         )
