@@ -5,8 +5,8 @@ import Testing
 
 @MainActor
 @Suite
-struct CentreAlignedBarButtonItemTests {
-    
+struct CenterAlignedBarButtonItemTests {
+
     @Test
     func centreAlignedBarButtonItem_returnsExpectedConfiguration() {
         let sut = CenterAlignedBarButtonItem(
