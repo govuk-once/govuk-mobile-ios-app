@@ -397,7 +397,8 @@ struct ViewControllerBuilderTests {
     func dvlaAccount_returnsExpectedResult() {
         let subject = ViewControllerBuilder()
         let result = subject.dvlaAccount(
-            dvlaService: MockDVLAService()
+            dvlaService: MockDVLAService(),
+            viewType: .drivingLicence
         )
         let rootView = (result as? HostingViewController<DVLAAccountView>)?.rootView
         #expect(rootView != nil)

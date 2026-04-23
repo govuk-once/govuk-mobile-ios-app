@@ -696,10 +696,12 @@ class ViewControllerBuilder {
     }
 
     func dvlaAccount(
-        dvlaService: DVLAServiceInterface
+        dvlaService: DVLAServiceInterface,
+        viewType: DVLAAccountViewType
     ) -> UIViewController {
         let viewModel = DVLAAccountViewModel(
-            dvlaService: dvlaService
+            dvlaService: dvlaService,
+            viewType: viewType
         )
         let view = DVLAAccountView(
             viewModel: viewModel

@@ -23,7 +23,7 @@ struct DVLAAccountView: View {
             loadingView
         })
         .task {
-            await viewModel.fetchDrivingLicence()
+            await viewModel.fetchContent()
         }
     }
 

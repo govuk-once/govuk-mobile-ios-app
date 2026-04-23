@@ -9,27 +9,32 @@ class DVLAAccountViewModel: ObservableObject {
 
     private var drivingLicence: DrivingLicence?
     private let dvlaService: DVLAServiceInterface
+    private let viewType: DVLAAccountViewType
 
-    init(dvlaService: DVLAServiceInterface) {
+    init(dvlaService: DVLAServiceInterface,
+         viewType: DVLAAccountViewType) {
         self.dvlaService = dvlaService
+        self.viewType = viewType
     }
 
     @MainActor
-    func fetchDrivingLicence() async {
+    func fetchContent() async {
         isLoading = true
-        let result = await dvlaService.fetchDrivingLicence()
-        if case .success(let drivingLicence) = result {
-            self.drivingLicence = drivingLicence
-            updateContent()
+        switch viewType {
+        case .drivingLicence:
+            let result = await dvlaService.fetchDrivingLicence()
+            if case .success(let drivingLicence) = result {
+                sections = [section(for: drivingLicence)]
+            }
+            handleError(result.getError())
+        case .driverSummary:
+            let result = await dvlaService.fetchDriverSummary()
+            if case .success(let driverSummary) = result {
+                sections = [section(for: driverSummary)]
+            }
+            handleError(result.getError())
         }
-        handleError(result.getError())
         isLoading = false
-    }
-
-    private func updateContent() {
-        sections = [
-            drivingLicenceSection
-        ].compactMap { $0 }
     }
 
     private func handleError(_ error: DVLAError?) {
@@ -41,17 +46,16 @@ class DVLAAccountViewModel: ObservableObject {
             errorViewModel = AppErrorViewModel.networkUnavailable(
                 action: {
                     Task {
-                        await self.fetchDrivingLicence()
+                        await self.fetchContent()
                     }
                 }
             )
         } else {
-            errorViewModel = drivingLicenseErrorViewModel
+            errorViewModel = dvlaAccountErrorViewModel
         }
     }
 
-    private var drivingLicenceSection: GroupedListSection? {
-        guard let drivingLicence = drivingLicence else { return nil }
+    private func section(for drivingLicence: DrivingLicence) -> GroupedListSection {
         return GroupedListSection(
             heading: GroupedListHeader(
                 title: String.dvla.localized("dvlaAccountTitle")
@@ -60,7 +64,7 @@ class DVLAAccountViewModel: ObservableObject {
                 InformationRow(
                     id: "licence.number.row",
                     title: "Licence number",
-                    body: drivingLicence.driver.drivingLicenceNumber,
+                    body: drivingLicence.driver.licenceNo,
                     detail: ""
                 ),
                 InformationRow(
@@ -95,10 +99,58 @@ class DVLAAccountViewModel: ObservableObject {
         )
     }
 
-    private var drivingLicenseErrorViewModel: AppErrorViewModel {
+    private func section(for driverSummary: DriverSummary) -> GroupedListSection {
+        return GroupedListSection(
+            heading: GroupedListHeader(
+                title: "Driver summary"
+            ),
+            rows: [
+                InformationRow(
+                    id: "licence.number.row",
+                    title: "Licence number",
+                    body: driverSummary.response.driver.licenceNo,
+                    detail: ""
+                ),
+                InformationRow(
+                    id: "licence.status.row",
+                    title: "Status",
+                    body: driverSummary.response.licence.status,
+                    detail: ""
+                ),
+                InformationRow(
+                    id: "driver.firstNames.row",
+                    title: "First names",
+                    body: driverSummary.response.driver.firstNames,
+                    detail: ""
+                ),
+                InformationRow(
+                    id: "driver.lastName.row",
+                    title: "Last name",
+                    body: driverSummary.response.driver.lastName,
+                    detail: ""
+                ),
+                InformationRow(
+                    id: "licence.penaltyPoints.row",
+                    title: "Penalty points",
+                    body: "\(driverSummary.response.driver.penaltyPoints)",
+                    detail: ""
+                ),
+                InformationRow(
+                    id: "licence.valid.to.row",
+                    title: "Valid to",
+                    body: dateFormatter.string(
+                        from: driverSummary.response.token.validToDate
+                    ),
+                    detail: ""
+                )
+            ], footer: nil
+        )
+    }
+
+    private var dvlaAccountErrorViewModel: AppErrorViewModel {
         .dvlaAccountErrorWithAction { [weak self] in
             Task {
-                await self?.fetchDrivingLicence()
+                await self?.fetchContent()
             }
         }
     }

@@ -13,4 +13,13 @@ class MockDVLAService: DVLAServiceInterface {
         return _stubbedFetchDrivingLicenceResult!
     }
 
+    var _fetchDriverSummaryCallCount = 0
+    var _fetchDriverSummaryCalledContinuation: CheckedContinuation<Void, Never>?
+    var _stubbedFetchDriverSummaryResult: DriverSummaryResult?
+    func fetchDriverSummary() async -> DriverSummaryResult {
+        _fetchDriverSummaryCallCount += 1
+        _fetchDriverSummaryCalledContinuation?.resume()
+        return _stubbedFetchDriverSummaryResult!
+    }
+
 }

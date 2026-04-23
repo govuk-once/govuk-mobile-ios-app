@@ -31,7 +31,7 @@ struct DVLAServiceClientTests {
 
         let result = await sut.fetchDrivingLicence()
         let drivingLicence = try #require(try? result.get())
-        #expect(drivingLicence.driver.drivingLicenceNumber == "DECER607085K99AE")
+        #expect(drivingLicence.driver.licenceNo == "DECER607085K99AE")
         #expect(drivingLicence.licence.type == "Full")
         #expect(drivingLicence.licence.status == "Valid")
         #expect(drivingLicence.token.validFromDate == expectedValidFromDate)
@@ -56,7 +56,42 @@ struct DVLAServiceClientTests {
         #expect(error == .networkUnavailable)
     }
 
+    @Test
+    func fetchDriverSummary_sendsExpectedRequest() async {
+        mockAPI._stubbedSendResponse = .success(Data())
+        _ = await sut.fetchDriverSummary()
+        #expect(mockAPI._receivedSendRequest?.urlPath == "/app/dvla/v1/driver-summary")
+        #expect(mockAPI._receivedSendRequest?.method == .get)
+        #expect(mockAPI._receivedSendRequest?.additionalHeaders == ["Content-Type": "application/json"])
+    }
+
+    @Test
+    func fetchDriverSummary_success_returnsExpectedResult() async throws {
+        mockAPI._stubbedSendResponse = .success(Self.driverSummaryResponse)
+        let expectedValidToDate = Date(timeIntervalSince1970: 2061590400)
+
+        let result = await sut.fetchDriverSummary()
+        let driverSummary = try #require(try? result.get())
+        #expect(driverSummary.response.driver.licenceNo == "DECER607085K99AE")
+        #expect(driverSummary.response.driver.firstNames == "KENNETH")
+        #expect(driverSummary.response.driver.lastName == "DECERQUEIRA")
+        #expect(driverSummary.response.driver.penaltyPoints == 0)
+        #expect(driverSummary.response.token.validToDate == expectedValidToDate)
+    }
+
+    @Test
+    func fetchDriverSummary_apiUnavailable_returnsExpectedError() async {
+        mockAPI._stubbedSendResponse = .failure(DVLAError.apiUnavailable)
+        let result = await sut.fetchDriverSummary()
+        let error = result.getError()
+        #expect(error == .apiUnavailable)
+    }
+
     static var drivingLicenceResponse: Data = {
         .load(filename: "MockDrivingLicenceResponse")
+    }()
+
+    static var driverSummaryResponse: Data = {
+        .load(filename: "MockDriverSummaryResponse")
     }()
 }

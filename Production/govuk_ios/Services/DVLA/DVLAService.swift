@@ -2,6 +2,7 @@ import Foundation
 
 protocol DVLAServiceInterface {
     func fetchDrivingLicence() async -> DrivingLicenceResult
+    func fetchDriverSummary() async -> DriverSummaryResult
 }
 
 class DVLAService: DVLAServiceInterface {
@@ -13,5 +14,9 @@ class DVLAService: DVLAServiceInterface {
 
     func fetchDrivingLicence() async -> DrivingLicenceResult {
         await serviceClient.fetchDrivingLicence()
+    }
+
+    func fetchDriverSummary() async -> DriverSummaryResult {
+        await serviceClient.fetchDriverSummary()
     }
 }

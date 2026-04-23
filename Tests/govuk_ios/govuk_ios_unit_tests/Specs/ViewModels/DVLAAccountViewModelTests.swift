@@ -7,19 +7,19 @@ import Testing
 struct DVLAAccountViewModelTests {
 
     var mockDvlaService: MockDVLAService!
-    var sut: DVLAAccountViewModel!
 
     init() {
         mockDvlaService = MockDVLAService()
-        sut = DVLAAccountViewModel(
-            dvlaService: mockDvlaService
-        )
     }
 
     @Test
-    func fetchDrivingLicence_success_createsSectionsCorrectly() async throws {
+    func fetchContent_drivingLicence_success_createsSectionsCorrectly() async throws {
         mockDvlaService._stubbedFetchDrivingLicenceResult = .success(.arrange)
-        await sut.fetchDrivingLicence()
+        let sut = DVLAAccountViewModel(
+            dvlaService: mockDvlaService,
+            viewType: .drivingLicence
+        )
+        await sut.fetchContent()
         try #require(sut.sections.count == 1)
         try #require(sut.sections[0].rows.count == 5)
         #expect(sut.sections[0].rows[0].title == "Licence number")
@@ -27,18 +27,26 @@ struct DVLAAccountViewModelTests {
     }
 
     @Test
-    func fetchDrivingLicence_apiUnavailable_setsExpectedErrorViewModel() async throws {
+    func fetchContent_drivingLicence_apiUnavailable_setsExpectedErrorViewModel() async throws {
         mockDvlaService._stubbedFetchDrivingLicenceResult = .failure(.apiUnavailable)
-        await sut.fetchDrivingLicence()
+        let sut = DVLAAccountViewModel(
+            dvlaService: mockDvlaService,
+            viewType: .drivingLicence
+        )
+        await sut.fetchContent()
         let errorViewModel = try #require(sut.errorViewModel)
         #expect(errorViewModel.title == String.common.localized("genericErrorTitle"))
         #expect(errorViewModel.body == String.dvla.localized("dvlaAccountErrorBody"))
     }
 
     @Test
-    func fetchDrivingLicence_networkUnavailable_setsExpectedErrorViewModel() async throws {
+    func fetchContent_drivingLicence_networkUnavailable_setsExpectedErrorViewModel() async throws {
         mockDvlaService._stubbedFetchDrivingLicenceResult = .failure(.networkUnavailable)
-        await sut.fetchDrivingLicence()
+        let sut = DVLAAccountViewModel(
+            dvlaService: mockDvlaService,
+            viewType: .drivingLicence
+        )
+        await sut.fetchContent()
         let errorViewModel = try #require(sut.errorViewModel)
         #expect(errorViewModel.title == String.common.localized("networkUnavailableErrorTitle"))
         #expect(errorViewModel.body == String.common.localized("networkUnavailableErrorBody"))
@@ -51,4 +59,30 @@ struct DVLAAccountViewModelTests {
         #expect(mockDvlaService._fetchDrivingLicenceCallCount == 2)
     }
 
+    @Test
+    func fetchContent_driverSummary_success_createsSectionsCorrectly() async throws {
+        mockDvlaService._stubbedFetchDriverSummaryResult = .success(.arrange)
+        let sut = DVLAAccountViewModel(
+            dvlaService: mockDvlaService,
+            viewType: .driverSummary
+        )
+        await sut.fetchContent()
+        try #require(sut.sections.count == 1)
+        try #require(sut.sections[0].rows.count == 6)
+        #expect(sut.sections[0].rows[2].title == "First names")
+        #expect(sut.sections[0].rows[2].body == "KENNETH")
+    }
+
+    @Test
+    func fetchContent_driverSummary_apiUnavailable_setsExpectedErrorViewModel() async throws {
+        mockDvlaService._stubbedFetchDriverSummaryResult = .failure(.apiUnavailable)
+        let sut = DVLAAccountViewModel(
+            dvlaService: mockDvlaService,
+            viewType: .driverSummary
+        )
+        await sut.fetchContent()
+        let errorViewModel = try #require(sut.errorViewModel)
+        #expect(errorViewModel.title == String.common.localized("genericErrorTitle"))
+        #expect(errorViewModel.body == String.dvla.localized("dvlaAccountErrorBody"))
+    }
 }

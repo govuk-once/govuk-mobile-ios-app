@@ -84,7 +84,7 @@ final class TopicDetailsCoordinator: BaseCoordinator {
                 accountType: .dvla, completion: { [weak self] hasLinkedAccount in
                     print("service account linking dismissed")
                     if hasLinkedAccount {
-                        self?.startDvlaAccount()
+                        self?.startDvlaAccount(viewType: .drivingLicence)
                     }
                 }
             )
@@ -107,15 +107,18 @@ final class TopicDetailsCoordinator: BaseCoordinator {
                     }
                 )
                 present(coordinator)
-            } else if content.ref == "dvla-view-account" {
-                startDvlaAccount()
+            } else if content.ref == "dvla-view-licence" {
+                startDvlaAccount(viewType: .drivingLicence)
+            } else if content.ref == "dvla-view-driver-summary" {
+                startDvlaAccount(viewType: .driverSummary)
             }
         }
     }
 
-    private func startDvlaAccount() {
+    private func startDvlaAccount(viewType: DVLAAccountViewType) {
         let coordinator = coordinatorBuilder.dvlaAccount(
-            navigationController: root
+            navigationController: root,
+            viewType: viewType
         )
         start(coordinator)
     }
