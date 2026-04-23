@@ -50,5 +50,23 @@ struct DVLAServiceTests {
         let error = result.getError()
         #expect(error == .apiUnavailable)
     }
+
+    @Test
+    func fetchCustomerSummary_success_returnsExpectedResult() async throws {
+        mockServiceClient._stubbedFetchCustomerSummaryResult = .success(.arrange)
+        let result = await sut.fetchCustomerSummary()
+        let customerSummary = try #require(try? result.get())
+        let customer = customerSummary.customerResponse.customer
+        #expect(customer.customerType == "Individual")
+        #expect(customer.individualDetails.firstNames == "KENNETH")
+    }
+
+    @Test
+    func fetchCustomerSummary_apiUnavailable_returnsExpectedError() async {
+        mockServiceClient._stubbedFetchCustomerSummaryResult = .failure(DVLAError.apiUnavailable)
+        let result = await sut.fetchCustomerSummary()
+        let error = result.getError()
+        #expect(error == .apiUnavailable)
+    }
 }
 

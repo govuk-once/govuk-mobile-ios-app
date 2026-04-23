@@ -25,6 +25,18 @@ extension GOVRequest {
             body: nil,
             queryParameters: nil,
             additionalHeaders: additionalHeaders,
-            requiresAuthentication: true)
+            requiresAuthentication: true
+        )
+    }
+
+    static var customerSummary: GOVRequest {
+        GOVRequest(
+            urlPath: "\(dvlaPath)/customer-summary",
+            method: .get,
+            body: nil,
+            queryParameters: nil,
+            additionalHeaders: additionalHeaders,
+            requiresAuthentication: true
+        )
     }
 }

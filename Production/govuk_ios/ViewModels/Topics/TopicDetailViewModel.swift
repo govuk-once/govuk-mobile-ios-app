@@ -249,8 +249,24 @@ class TopicDetailViewModel: TopicDetailViewModelInterface {
                     self?.topicAction(viewDriverSummaryContent)
                 }
             )
+            let viewCustomerSummaryContent = TopicDetailResponse.Subtopic(
+                ref: "dvla-view-customer-summary",
+                title: String.dvla.localized("dvlaViewCustomerSummaryCardTitle"),
+                topicDescription: nil
+            )
+            let viewCustomerSummaryCard = ListCardViewModel(
+                title: viewCustomerSummaryContent.title,
+                action: { [weak self] in
+                    self?.topicAction(viewCustomerSummaryContent)
+                }
+            )
             linkAccountCardViewModel = nil
-            topicActionCards = [unlinkCard, viewLicenceCard, viewDriverSummaryCard]
+            topicActionCards = [
+                unlinkCard,
+                viewLicenceCard,
+                viewDriverSummaryCard,
+                viewCustomerSummaryCard
+            ]
         } else {
             let title = String.dvla.localized("dvlaAccountLinkCardTitle")
             let linkAccountCardViewModel = ServiceAccountLinkCardViewModel(

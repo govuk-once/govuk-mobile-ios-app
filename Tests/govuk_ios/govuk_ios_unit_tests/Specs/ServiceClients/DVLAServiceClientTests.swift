@@ -87,11 +87,51 @@ struct DVLAServiceClientTests {
         #expect(error == .apiUnavailable)
     }
 
+    @Test
+    func fetchCustomerSummary_sendsExpectedRequest() async {
+        mockAPI._stubbedSendResponse = .success(Data())
+        _ = await sut.fetchCustomerSummary()
+        #expect(mockAPI._receivedSendRequest?.urlPath == "/app/dvla/v1/customer-summary")
+        #expect(mockAPI._receivedSendRequest?.method == .get)
+        #expect(mockAPI._receivedSendRequest?.additionalHeaders == ["Content-Type": "application/json"])
+    }
+
+    @Test
+    func fetchCustomerSummary_success_returnsExpectedResult() async throws {
+        mockAPI._stubbedSendResponse = .success(Self.customerSummaryResponse)
+
+        let result = await sut.fetchCustomerSummary()
+        let customerSummary = try #require(try? result.get())
+        let customer = customerSummary.customerResponse.customer
+        #expect(customer.individualDetails.firstNames == "KENNETH")
+        #expect(customer.individualDetails.lastName == "DECERQUEIRA")
+        #expect(customer.customerType == "Individual")
+
+        let vehicle = try #require(customerSummary.vehicleResponse.first)
+        #expect(vehicle.registrationNumber == "RBZ5119")
+        #expect(vehicle.make == "MITSUBISHI")
+        #expect(vehicle.model == "MIRAGE")
+        #expect(vehicle.taxStatus == "Taxed")
+        #expect(vehicle.motStatus == "Not valid")
+    }
+
+    @Test
+    func fetchCustomerSummary_apiUnavailable_returnsExpectedError() async {
+        mockAPI._stubbedSendResponse = .failure(DVLAError.apiUnavailable)
+        let result = await sut.fetchCustomerSummary()
+        let error = result.getError()
+        #expect(error == .apiUnavailable)
+    }
+
     static var drivingLicenceResponse: Data = {
         .load(filename: "MockDrivingLicenceResponse")
     }()
 
     static var driverSummaryResponse: Data = {
         .load(filename: "MockDriverSummaryResponse")
+    }()
+
+    static var customerSummaryResponse: Data = {
+        .load(filename: "MockCustomerSummaryResponse")
     }()
 }

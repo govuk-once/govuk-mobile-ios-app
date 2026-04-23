@@ -85,4 +85,29 @@ struct DVLAAccountViewModelTests {
         #expect(errorViewModel.title == String.common.localized("genericErrorTitle"))
         #expect(errorViewModel.body == String.dvla.localized("dvlaAccountErrorBody"))
     }
+
+    @Test
+    func fetchContent_customerSummary_success_createsSectionsCorrectly() async throws {
+        mockDvlaService._stubbedFetchCustomerSummaryResult = .success(
+            .arrange(vehicleResponse: [.arrange])
+        )
+        let sut = DVLAAccountViewModel(
+            dvlaService: mockDvlaService,
+            viewType: .customerSummary
+        )
+        await sut.fetchContent()
+        try #require(sut.sections.count == 2)
+        try #require(sut.sections[0].rows.count == 3)
+        try #require(sut.sections[1].rows.count == 1)
+        #expect(sut.sections[0].rows[2].title == "Customer type")
+        #expect(sut.sections[0].rows[2].body == "Individual")
+        let expectedVehicleRowTitle = """
+            Registration number: AB71 CDE
+            Make: MITSUBISHI
+            Model: MIRAGE
+            Tax status:  Taxed
+            MOT status: Not valid
+            """
+        #expect(sut.sections[1].rows[0].title == expectedVehicleRowTitle)
+    }
 }

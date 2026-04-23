@@ -77,4 +77,44 @@ import GovKit
             mode: .dark
         )
     }
+
+    func test_loadCustomerSummaryInNavigationController_light_rendersCorrectly() async {
+        let mockDvlaService = MockDVLAService()
+        mockDvlaService._stubbedFetchCustomerSummaryResult = .success(
+            .arrange(vehicleResponse: [.arrange])
+        )
+        let viewModel = DVLAAccountViewModel(
+            dvlaService: mockDvlaService,
+            viewType: .customerSummary
+        )
+        let view = DVLAAccountView(viewModel: viewModel)
+        let hostingViewController =  HostingViewController(
+            rootView: view
+        )
+        await viewModel.fetchContent()
+        VerifySnapshotInNavigationController(
+            viewController: hostingViewController,
+            mode: .light
+        )
+    }
+
+    func test_loadCustomerSummaryInNavigationController_dark_rendersCorrectly() async {
+        let mockDvlaService = MockDVLAService()
+        mockDvlaService._stubbedFetchCustomerSummaryResult = .success(
+            .arrange(vehicleResponse: [.arrange])
+        )
+        let viewModel = DVLAAccountViewModel(
+            dvlaService: mockDvlaService,
+            viewType: .customerSummary
+        )
+        let view = DVLAAccountView(viewModel: viewModel)
+        let hostingViewController =  HostingViewController(
+            rootView: view
+        )
+        await viewModel.fetchContent()
+        VerifySnapshotInNavigationController(
+            viewController: hostingViewController,
+            mode: .dark
+        )
+    }
 }
