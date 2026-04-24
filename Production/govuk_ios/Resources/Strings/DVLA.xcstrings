@@ -67,6 +67,17 @@
         }
       }
     },
+    "dvlaViewCustomerSummaryCardTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "View customer summary"
+          }
+        }
+      }
+    },
     "dvlaViewDriverSummaryCardTitle" : {
       "extractionState" : "manual",
       "localizations" : {

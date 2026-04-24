@@ -5,6 +5,7 @@ import GovKit
 enum DVLAAccountViewType {
     case drivingLicence
     case driverSummary
+    case customerSummary
 }
 
 final class DVLAAccountCoordinator: BaseCoordinator {

@@ -111,6 +111,8 @@ final class TopicDetailsCoordinator: BaseCoordinator {
                 startDvlaAccount(viewType: .drivingLicence)
             } else if content.ref == "dvla-view-driver-summary" {
                 startDvlaAccount(viewType: .driverSummary)
+            } else if content.ref == "dvla-view-customer-summary" {
+                startDvlaAccount(viewType: .customerSummary)
             }
         }
     }

@@ -33,6 +33,14 @@ class DVLAAccountViewModel: ObservableObject {
                 sections = [section(for: driverSummary)]
             }
             handleError(result.getError())
+        case .customerSummary:
+            let result = await dvlaService.fetchCustomerSummary()
+            if case .success(let customerSummary) = result {
+                sections = [
+                    section(for: customerSummary.customerResponse.customer),
+                    section(for: customerSummary.vehicles)
+                ]
+            }
         }
         isLoading = false
     }
@@ -55,7 +63,9 @@ class DVLAAccountViewModel: ObservableObject {
         }
     }
 
-    private func section(for drivingLicence: DrivingLicence) -> GroupedListSection {
+    private func section(
+        for drivingLicence: DrivingLicence
+    ) -> GroupedListSection {
         return GroupedListSection(
             heading: GroupedListHeader(
                 title: String.dvla.localized("dvlaAccountTitle")
@@ -99,7 +109,9 @@ class DVLAAccountViewModel: ObservableObject {
         )
     }
 
-    private func section(for driverSummary: DriverSummary) -> GroupedListSection {
+    private func section(
+        for driverSummary: DriverSummary
+    ) -> GroupedListSection {
         return GroupedListSection(
             heading: GroupedListHeader(
                 title: "Driver summary"
@@ -144,6 +156,74 @@ class DVLAAccountViewModel: ObservableObject {
                     detail: ""
                 )
             ], footer: nil
+        )
+    }
+
+    private func section(
+        for customer: Customer
+    ) -> GroupedListSection {
+        return GroupedListSection(
+            heading: GroupedListHeader(
+                title: "Customer summary"
+            ),
+            rows: [
+                InformationRow(
+                    id: "customer.firstNames.row",
+                    title: "First names",
+                    body: customer.individualDetails.firstNames,
+                    detail: ""
+                ),
+                InformationRow(
+                    id: "customer.lastName.row",
+                    title: "Last name",
+                    body: customer.individualDetails.lastName,
+                    detail: ""
+                ),
+                InformationRow(
+                    id: "customer.type.row",
+                    title: "Customer type",
+                    body: customer.customerType,
+                    detail: ""
+                )
+            ], footer: nil
+        )
+    }
+
+    private func section(for vehicles: [Vehicle]) -> GroupedListSection {
+        var rows = [InformationRow]()
+        if vehicles.count == 0 {
+            rows = [
+                InformationRow(
+                    id: "vehicle.empty.row",
+                    title: "None",
+                    body: nil,
+                    detail: ""
+                )
+            ]
+        } else {
+            rows = vehicles.map { row(for: $0) }
+        }
+        return GroupedListSection(
+            heading: GroupedListHeader(
+                title: "Vehicles"
+            ),
+            rows: rows,
+            footer: nil
+        )
+    }
+
+    private func row(for vehicle: Vehicle) -> InformationRow {
+        InformationRow(
+            id: "vehicle.\(vehicle.vehicleId).row",
+            title: """
+                Registration number: \(vehicle.registrationNumber)
+                Make: \(vehicle.make)
+                Model: \(vehicle.model ?? "nil")
+                Tax status:  \(vehicle.taxStatus)
+                MOT status: \(vehicle.motStatus)
+                """,
+            body: nil,
+            detail: ""
         )
     }
 
