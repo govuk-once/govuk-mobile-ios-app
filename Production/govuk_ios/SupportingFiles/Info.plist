@@ -33,8 +33,6 @@
 	<true/>
 	<key>TOKEN_BASE_URL</key>
 	<string>$(TOKEN_BASE_URL)</string>
-	<key>UIDesignRequiresCompatibility</key>
-	<true/>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -56,6 +54,8 @@
 	<array>
 		<string>remote-notification</string>
 	</array>
+	<key>UIDesignRequiresCompatibility</key>
+	<false/>
 	<key>UILaunchScreen</key>
 	<dict>
 		<key>UIColorName</key>
