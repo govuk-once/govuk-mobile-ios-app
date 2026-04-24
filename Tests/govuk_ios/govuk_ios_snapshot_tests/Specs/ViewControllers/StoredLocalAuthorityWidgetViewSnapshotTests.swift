@@ -7,9 +7,14 @@ import GovKit
 
 @MainActor
 final class StoredLocalAuthorityWidgetViewSnapshotTests: SnapshotTestCase {
+    var coreData: CoreDataRepository!
 
-    func test_loadInNavigationController_unitary_light_rendersCorrectly() async throws {
-        let coreData = await CoreDataRepository.arrangeAndLoad
+    override func setUp() async throws {
+        try await super.setUp()
+        self.coreData = await CoreDataRepository.arrangeAndLoad
+    }
+
+    func test_loadInNavigationController_unitary_light_rendersCorrectly() {
         let localAuthorityItem = LocalAuthorityItem(
             context: coreData.backgroundContext
         )
@@ -31,8 +36,7 @@ final class StoredLocalAuthorityWidgetViewSnapshotTests: SnapshotTestCase {
         )
     }
 
-    func test_loadInNavigationController_unitary_dark_rendersCorrectly() async throws {
-        let coreData = await CoreDataRepository.arrangeAndLoad
+    func test_loadInNavigationController_unitary_dark_rendersCorrectly() {
         let localAuthorityItem = LocalAuthorityItem(
             context: coreData.backgroundContext
         )
@@ -54,8 +58,7 @@ final class StoredLocalAuthorityWidgetViewSnapshotTests: SnapshotTestCase {
         )
     }
 
-    func test_loadInNavigationController_twoTier_light_rendersCorrectly() async throws {
-        let coreData = await CoreDataRepository.arrangeAndLoad
+    func test_loadInNavigationController_twoTier_light_rendersCorrectly() {
         let parentAuthority = LocalAuthorityItem(
             context: coreData.backgroundContext
         )
@@ -89,9 +92,7 @@ final class StoredLocalAuthorityWidgetViewSnapshotTests: SnapshotTestCase {
         )
     }
 
-    func test_loadInNavigationController_twoTier_dark_rendersCorrectly() async throws {
-        let coreData = await CoreDataRepository.arrangeAndLoad
-
+    func test_loadInNavigationController_twoTier_dark_rendersCorrectly() {
         let parentAuthority = LocalAuthorityItem(
             context: coreData.backgroundContext
         )

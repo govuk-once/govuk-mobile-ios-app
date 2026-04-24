@@ -5,16 +5,10 @@ import SwiftUI
 
 @Suite
 class TopicSelectionCardViewModelTests {
-    var coreData: CoreDataRepository!
-
-    init() {
-        Task {
-            self.coreData = await CoreDataRepository.arrangeAndLoad
-        }
-    }
 
     @Test
-    func isOn_update_callsTapAction() async {
+    func isOn_update_callsTapAction() async throws {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         await confirmation() { confirmation in
             let topic = Topic(context: coreData.backgroundContext)
             let sut = TopicSelectionCardViewModel(
@@ -26,7 +20,8 @@ class TopicSelectionCardViewModelTests {
     }
 
     @Test
-    func title_returnsTitle() {
+    func title_returnsTitle() async throws {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let topic = Topic(context: coreData.backgroundContext)
         topic.title = "Test title"
         let sut = TopicSelectionCardViewModel(
@@ -37,7 +32,8 @@ class TopicSelectionCardViewModelTests {
     }
 
     @Test
-    func iconName_returnsCorrectIconName() {
+    func iconName_returnsCorrectIconName() async throws {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let topic = Topic(context: coreData.backgroundContext)
         topic.ref = "business"
         let sut = TopicSelectionCardViewModel(
@@ -48,7 +44,8 @@ class TopicSelectionCardViewModelTests {
     }
 
     @Test
-    func iconName_favourite_returnsCorrectIconName() {
+    func iconName_favourite_returnsCorrectIconName() async throws {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let topic = Topic(context: coreData.backgroundContext)
         topic.ref = "business"
         topic.isFavourite = true
@@ -60,7 +57,8 @@ class TopicSelectionCardViewModelTests {
     }
 
     @Test
-    func backgroundColor_returnsCorrectColor() {
+    func backgroundColor_returnsCorrectColor() async throws {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let topic = Topic(context: coreData.backgroundContext)
         topic.isFavourite = false
         let sut = TopicSelectionCardViewModel(
@@ -71,7 +69,8 @@ class TopicSelectionCardViewModelTests {
     }
 
     @Test
-    func backgroundColor_favourite_returnsCorrectColor() {
+    func backgroundColor_favourite_returnsCorrectColor() async throws {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let topic = Topic(context: coreData.backgroundContext)
         topic.isFavourite = true
         let sut = TopicSelectionCardViewModel(
@@ -82,7 +81,8 @@ class TopicSelectionCardViewModelTests {
     }
 
     @Test
-    func titleColor_returnsCorrectColor() {
+    func titleColor_returnsCorrectColor() async throws {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let topic = Topic(context: coreData.backgroundContext)
         topic.isFavourite = false
         let sut = TopicSelectionCardViewModel(
@@ -93,7 +93,8 @@ class TopicSelectionCardViewModelTests {
     }
 
     @Test
-    func titleColor_favourite_returnsCorrectColor() {
+    func titleColor_favourite_returnsCorrectColor() async throws {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let topic = Topic(context: coreData.backgroundContext)
         topic.isFavourite = true
         let sut = TopicSelectionCardViewModel(
@@ -104,7 +105,8 @@ class TopicSelectionCardViewModelTests {
     }
 
     @Test
-    func accessibilityHint_returnsCorrectHint() {
+    func accessibilityHint_returnsCorrectHint() async throws {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let topic = Topic(context: coreData.backgroundContext)
         topic.isFavourite = false
         let sut = TopicSelectionCardViewModel(
@@ -115,7 +117,8 @@ class TopicSelectionCardViewModelTests {
     }
 
     @Test
-    func accessibilityHint_favourite_returnsCorrectHint() {
+    func accessibilityHint_favourite_returnsCorrectHint() async throws {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let topic = Topic(context: coreData.backgroundContext)
         topic.isFavourite = true
         let sut = TopicSelectionCardViewModel(

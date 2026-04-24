@@ -5,17 +5,11 @@ import Testing
 class EditTopicsViewModelTests {
     let mockTopicService = MockTopicsService()
     let mockAnalyticsService = MockAnalyticsService()
-    var coreData: CoreDataRepository!
-
-    init() {
-        Task {
-            self.coreData = await CoreDataRepository.arrangeAndLoad
-        }
-    }
+    var coreData: CoreDataRepository?
 
     @Test
-    func init_withTopics_createsTopicCardsCorrectly() {
-        mockTopicService._stubbedFetchAllTopics = createTopics()
+    func init_withTopics_createsTopicCardsCorrectly() async throws {
+        mockTopicService._stubbedFetchAllTopics = try await createTopics()
         let sut = EditTopicsViewModel(
             topicsService: mockTopicService,
             analyticsService: mockAnalyticsService
@@ -26,8 +20,8 @@ class EditTopicsViewModelTests {
     }
 
     @Test
-    func tapAction_savesTopic() {
-        mockTopicService._stubbedFetchAllTopics = createTopics()
+    func tapAction_savesTopic() async throws {
+        mockTopicService._stubbedFetchAllTopics = try await createTopics()
         let sut = EditTopicsViewModel(
             topicsService: mockTopicService,
             analyticsService: mockAnalyticsService
@@ -45,7 +39,8 @@ class EditTopicsViewModelTests {
 }
 
 private extension EditTopicsViewModelTests {
-    func createTopics() -> [Topic] {
+    func createTopics() async throws -> [Topic] {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         var topics = [Topic]()
         for index in 0..<3 {
             let topic = Topic(context: coreData.backgroundContext)

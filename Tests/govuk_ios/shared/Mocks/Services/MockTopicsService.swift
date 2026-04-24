@@ -8,12 +8,6 @@ class MockTopicsService: TopicsServiceInterface {
         _didCallRollback = true
     }
 
-    init() {
-        Task {
-            self.coreData = await CoreDataRepository.arrangeAndLoad
-        }
-    }
-
     var _setHasCustomisedTopicsCalled: Bool = false
     func setHasCustomisedTopics() {
         _setHasCustomisedTopicsCalled = true
