@@ -6,12 +6,6 @@ import CoreData
 class MockActivityRepository: ActivityRepositoryInterface {
     var coreData: CoreDataRepository!
 
-    init() {
-        Task {
-            self.coreData = await CoreDataRepository.arrangeAndLoad
-        }
-    }
-
     func returnContext() -> NSManagedObjectContext {
         return coreData.viewContext
     }
