@@ -23,7 +23,8 @@ struct ViewControllerBuilderTests {
     }
 
     @Test
-    func home_returnsExpectedResult() {
+    func home_returnsExpectedResult() async {
+        await MockActivityService.setup()
         let subject = ViewControllerBuilder()
         let viewModel = TopicsWidgetViewModel(
             topicsService: MockTopicsService(),

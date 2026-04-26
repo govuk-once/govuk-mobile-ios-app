@@ -8,23 +8,26 @@ import UIKit
 @MainActor
 final class HomeContentViewControllerSnapshotTests: SnapshotTestCase {
 
-    func test_loadInNavigationController_light_rendersCorrectly() {
+    func test_loadInNavigationController_light_rendersCorrectly() async {
+
+        let viewController = await viewController()
         VerifySnapshotInNavigationController(
-            viewController: viewController(),
+            viewController: viewController,
             mode: .light,
             prefersLargeTitles: true
         )
     }
 
-    func test_loadInNavigationController_dark_rendersCorrectly() {
+    func test_loadInNavigationController_dark_rendersCorrectly() async  {
+        let viewController = await viewController()
         VerifySnapshotInNavigationController(
-            viewController: viewController(),
+            viewController: viewController,
             mode: .dark,
             prefersLargeTitles: true
         )
     }
 
-    private func viewController() -> UIViewController {
+    private func viewController() async -> UIViewController {
         let topicsWidgetViewModel = TopicsWidgetViewModel(
             topicsService: MockTopicsService(),
             analyticsService: MockAnalyticsService(),
@@ -39,6 +42,9 @@ final class HomeContentViewControllerSnapshotTests: SnapshotTestCase {
                 url: URL(string: "https://www.gov.uk/")!)
         )
 
+        await MockActivityService.setup()
+        let activityService = MockActivityService()
+
         let viewModel = HomeViewModel(
             analyticsService: MockAnalyticsService(),
             configService: configService,
@@ -47,7 +53,7 @@ final class HomeContentViewControllerSnapshotTests: SnapshotTestCase {
             topicsWidgetViewModel: topicsWidgetViewModel,
             urlOpener: MockURLOpener(),
             searchService: MockSearchService(),
-            activityService: MockActivityService(),
+            activityService: activityService,
             localAuthorityService: MockLocalAuthorityService(),
             chatService: MockChatService(),
             localAuthorityAction: { },
