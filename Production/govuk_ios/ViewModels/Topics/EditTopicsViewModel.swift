@@ -18,6 +18,10 @@ final class EditTopicsViewModel {
         )
     }
 
+    let doneButtonaccessibilityLabel = String.topics.localized(
+        "doneButtonTitle"
+    )
+
     func trackScreen(screen: TrackableScreen) {
         analyticsService.track(screen: screen)
     }

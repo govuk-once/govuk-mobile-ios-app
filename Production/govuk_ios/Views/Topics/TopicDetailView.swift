@@ -78,12 +78,12 @@ struct TopicDetailView<T: TopicDetailViewModelInterface>: View {
                     .font(.govUK.largeTitleBold)
                     .multilineTextAlignment(.leading)
                     .accessibility(addTraits: .isHeader)
-                    .foregroundColor(Color(UIColor.govUK.text.header))
+                    .foregroundColor(Color(UIColor.govUK.text.primary))
                 Spacer()
             }
             .padding(.leading, 16)
             .padding(.bottom, viewModel.description == nil ? 8 : 0)
-            .background(Color(UIColor.govUK.fills.surfaceHomeHeaderBackground))
+            .background(Color(.clear))
             if let description = viewModel.description {
                 descriptionView(description: description)
             }
@@ -91,12 +91,12 @@ struct TopicDetailView<T: TopicDetailViewModelInterface>: View {
     }
 
     private var topicDetails: some View {
-            GroupedList(
-                content: viewModel.sections,
-                backgroundColor: UIColor.govUK.fills.surfaceBackground
-            )
-            .padding([.top, .horizontal], 16)
-            .background(Color(UIColor.govUK.fills.surfaceBackground))
+        GroupedList(
+            content: viewModel.sections,
+            backgroundColor: UIColor.govUK.fills.surfaceBackground
+        )
+        .padding([.top, .horizontal], 16)
+        .background(Color(UIColor.govUK.fills.surfaceBackground))
     }
 
     @ViewBuilder
@@ -151,23 +151,23 @@ struct TopicDetailView<T: TopicDetailViewModelInterface>: View {
         HStack {
             Text(description)
                 .font(.govUK.title3)
-                .foregroundColor(Color(UIColor.govUK.text.header))
+                .foregroundColor(Color(UIColor.govUK.text.secondary))
                 .multilineTextAlignment(.leading)
             Spacer()
         }
         .padding(.horizontal, 18)
         .padding(.top, 8)
         .padding(.bottom, 16)
-        .background(Color(UIColor.govUK.fills.surfaceHomeHeaderBackground))
+        .background(Color(.clear))
     }
 
     private var gradient: Gradient {
         Gradient(stops: [
             .init(
-                color: Color(UIColor.govUK.fills.surfaceHomeHeaderBackground),
+                color: Color(.clear),
                 location: 0),
             .init(
-                color: Color(UIColor.govUK.fills.surfaceHomeHeaderBackground),
+                color: Color(.clear),
                 location: 0.33),
             .init(
                 color: .clear,

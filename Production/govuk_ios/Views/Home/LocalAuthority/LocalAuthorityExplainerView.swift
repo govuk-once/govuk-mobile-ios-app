@@ -15,15 +15,9 @@ struct LocalAuthorityExplainerView: View {
             VStack {
                 HStack {
                     Spacer()
-                    Button(
+                    CancelButton(
                         action: {
                             viewModel.dismissAction()
-                        }, label: {
-                            Text(String.common.localized("cancel"))
-                                .foregroundColor(
-                                    Color(UIColor.govUK.text.linkSecondary)
-                                )
-                                .font(Font.govUK.subheadlineSemibold)
                         }
                     )
                 }
