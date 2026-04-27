@@ -15,7 +15,7 @@ class SnapshotTestCase: FBSnapshotTestCase {
         Container.shared.lottieConfiguration.register {
             LottieConfiguration(renderingEngine: .mainThread)
         }
- //       self.recordMode = true
+//        self.recordMode = true
     }
 
     func VerifySnapshotInNavigationController(view: some View,
