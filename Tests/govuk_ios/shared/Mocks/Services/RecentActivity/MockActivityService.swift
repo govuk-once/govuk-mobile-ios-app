@@ -7,7 +7,7 @@ import GovKit
 class MockActivityService: ActivityServiceInterface {
     private static var sharedRepository: CoreDataRepository?
 
-    static func setup() async {
+    static func setUp() async {
         if sharedRepository == nil {
             sharedRepository = await CoreDataRepository.arrangeAndLoad
         }

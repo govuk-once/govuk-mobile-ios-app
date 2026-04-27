@@ -91,7 +91,7 @@ class HomeViewControllerSnapshotTests: SnapshotTestCase {
         let mockNotificationService = MockNotificationService()
         mockNotificationService._stubbedShouldRequestPermission = true
 
-        await MockActivityService.setup()
+        await MockActivityService.setUp()
         let activityService = MockActivityService()
 
         let viewModel = HomeViewModel(

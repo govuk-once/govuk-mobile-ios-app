@@ -17,7 +17,7 @@ struct EditTopicsDeeplinkRouteTests {
     
     @Test
     func action_EditTopics() async {
-        await MockActivityService.setup()
+        await MockActivityService.setUp()
         let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
         let subject = EditTopicsDeeplinkRoute(coordinatorBuilder: mockCoordinatorBuilder)
         let parentCoordinator = mockCoordinatorBuilder._mockHomeCoordinator

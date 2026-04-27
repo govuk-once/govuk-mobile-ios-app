@@ -42,7 +42,7 @@ final class HomeContentViewControllerSnapshotTests: SnapshotTestCase {
                 url: URL(string: "https://www.gov.uk/")!)
         )
 
-        await MockActivityService.setup()
+        await MockActivityService.setUp()
         let activityService = MockActivityService()
 
         let viewModel = HomeViewModel(

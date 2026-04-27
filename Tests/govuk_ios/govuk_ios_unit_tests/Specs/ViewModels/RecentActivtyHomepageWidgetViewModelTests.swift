@@ -10,7 +10,7 @@ struct RecentActivtyHomepageWidgetViewModelTests {
     @Test
     func recentActivities_count_isLessOrEqualToThree() async throws {
         var cancellables = Set<AnyCancellable>()
-        await MockActivityService.setup()
+        await MockActivityService.setUp()
         let result = await withCheckedContinuation { continuation in
             let mockActivityService = MockActivityService()
             let sut = RecentActivityHomepageWidgetViewModel(

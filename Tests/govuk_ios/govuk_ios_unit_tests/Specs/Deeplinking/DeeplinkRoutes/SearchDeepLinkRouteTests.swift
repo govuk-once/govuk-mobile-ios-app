@@ -15,7 +15,8 @@ struct SearchDeeplinkRouteTests {
     }
     
     @Test
-    func open_search() {
+    func open_search() async {
+        await MockActivityService.setUp()
         let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
         let subject = SearchDeeplinkRoute(coordinatorBuilder: mockCoordinatorBuilder)
         let parent = mockCoordinatorBuilder._mockHomeCoordinator
