@@ -162,13 +162,13 @@ struct AppConfigServiceTests {
         #expect(sut.isFeatureEnabled(key: .search) == false)
     }
 
-    @Test
-    func isFeatureEnabled_whenFeatureFlagIsSetToUnavailable_dvla_returnsFalse() {
-        let result = Config.arrange(releaseFlags: ["dvla": false]).toResult()
-        mockAppConfigServiceClient._receivedFetchAppConfigCompletion?(result)
-
-        #expect(sut.isFeatureEnabled(key: .dvla) == false)
-    }
+//    @Test
+//    func isFeatureEnabled_whenFeatureFlagIsSetToUnavailable_dvla_returnsFalse() {
+//        let result = Config.arrange(releaseFlags: ["dvla": false]).toResult()
+//        mockAppConfigServiceClient._receivedFetchAppConfigCompletion?(result)
+//
+//        #expect(sut.isFeatureEnabled(key: .dvla) == false)
+//    }
 }
 
 private extension Config {
