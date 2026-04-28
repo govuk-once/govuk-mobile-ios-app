@@ -13,7 +13,7 @@ protocol UserServiceInterface {
 
      var isEnabled: Bool {
         #if STAGING
-         appConfigService.isFeatureEnabled(key: .flex)
+         appConfigService.isFeatureEnabled(key: .profile)
         #else
          false
         #endif

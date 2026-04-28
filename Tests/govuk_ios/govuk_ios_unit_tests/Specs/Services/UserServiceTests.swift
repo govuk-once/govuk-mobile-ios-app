@@ -15,7 +15,7 @@ final class UserServiceTests {
 
     @Test
     func fetchUserState_returnsExpectedValue() async throws {
-        mockAppConfigService.features = [.flex]
+        mockAppConfigService.features = [.profile]
         let sut = UserService(appConfigService: mockAppConfigService,
                               userServiceClient: mockUserServiceClient)
         mockUserServiceClient._stubbedFetchUserStateResult = .success(UserState.arrange)
@@ -33,7 +33,7 @@ final class UserServiceTests {
 
     @Test
     func fetchUserState_returnsExpectedError() async throws {
-        mockAppConfigService.features = [.flex]
+        mockAppConfigService.features = [.profile]
         let sut = UserService(appConfigService: mockAppConfigService,
                               userServiceClient: mockUserServiceClient)
 
@@ -51,7 +51,7 @@ final class UserServiceTests {
 
     @Test
     func fetchUserState_setsNotificationsConsent() async throws {
-        mockAppConfigService.features = [.flex]
+        mockAppConfigService.features = [.profile]
         let sut = UserService(appConfigService: mockAppConfigService,
                               userServiceClient: mockUserServiceClient)
 
@@ -67,7 +67,7 @@ final class UserServiceTests {
 
     @Test
     func setNotificationConsent_flexEnabled_callsClient() {
-        mockAppConfigService.features = [.flex]
+        mockAppConfigService.features = [.profile]
         let sut = UserService(appConfigService: mockAppConfigService,
                               userServiceClient: mockUserServiceClient)
 
@@ -87,7 +87,7 @@ final class UserServiceTests {
     
     @Test
     func fetchUserState_updatesPushId() async throws {
-        mockAppConfigService.features = [.flex]
+        mockAppConfigService.features = [.profile]
         let userService = UserService(appConfigService: mockAppConfigService,
                                       userServiceClient: mockUserServiceClient)
         mockUserServiceClient._stubbedFetchUserStateResult = .success(UserState.arrange(pushId: "push-id-1"))
