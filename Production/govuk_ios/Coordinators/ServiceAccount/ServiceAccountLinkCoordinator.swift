@@ -31,10 +31,9 @@ final class ServiceAccountLinkCoordinator: BaseCoordinator {
     }
 
     private func showConsent() {
-        // temporary placeholder landing screen
-        // used as a root for presenting the authentication session
         let viewController = viewControllerBuilder.serviceAccountConsent(
             analyticsService: analyticsService,
+            accountType: accountType,
             completionAction: authenticate,
             cancelAction: dismissModal
         )

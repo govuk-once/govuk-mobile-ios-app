@@ -26,10 +26,11 @@ final class ServiceAccountConsentViewControllerSnapshotTests: SnapshotTestCase {
     private func viewController() -> UIViewController {
         let viewModel = ServiceAccountConsentViewModel(
             analyticsService: MockAnalyticsService(),
+            accountType: .dvla,
             completionAction: {},
             cancelAction: {}
         )
-        let view = InfoView(
+        let view = ServiceAccountConsentView(
             viewModel: viewModel
         )
         let viewController = HostingViewController(

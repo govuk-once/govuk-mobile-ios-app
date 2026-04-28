@@ -328,6 +328,7 @@
 		8178EA6C2F7AA655008AF03A /* ServiceAccountLinkStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8178EA6B2F7AA64A008AF03A /* ServiceAccountLinkStatus.swift */; };
 		8181DBFA2EE214B100F47531 /* FactoryKit in Frameworks */ = {isa = PBXBuildFile; productRef = 8181DBF92EE214B100F47531 /* FactoryKit */; };
 		8181DBFC2EE214B100F47531 /* FactoryTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 8181DBFB2EE214B100F47531 /* FactoryTesting */; };
+		81AF5C232F9A706A003227BA /* ServiceAccountConsentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AF5C222F9A7051003227BA /* ServiceAccountConsentView.swift */; };
 		81CAC4AE2F8F85BE00E6E6A3 /* GOVUKColors+ServiceAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81CAC4AD2F8F85B500E6E6A3 /* GOVUKColors+ServiceAccount.swift */; };
 		81CAC8572F926C7E00E6E6A3 /* DriverSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81CAC8562F926C7500E6E6A3 /* DriverSummary.swift */; };
 		81CAFB422F98FBE300E6E6A3 /* CustomerSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81CAFB412F98FBDA00E6E6A3 /* CustomerSummary.swift */; };
@@ -820,6 +821,7 @@
 		815C58692EE973F400322705 /* RemoteConfigServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigServiceClient.swift; sourceTree = "<group>"; };
 		8171AE462F11169A0024312B /* ScrollBottomIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollBottomIndicatorView.swift; sourceTree = "<group>"; };
 		8178EA6B2F7AA64A008AF03A /* ServiceAccountLinkStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountLinkStatus.swift; sourceTree = "<group>"; };
+		81AF5C222F9A7051003227BA /* ServiceAccountConsentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountConsentView.swift; sourceTree = "<group>"; };
 		81CAC4AD2F8F85B500E6E6A3 /* GOVUKColors+ServiceAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GOVUKColors+ServiceAccount.swift"; sourceTree = "<group>"; };
 		81CAC8562F926C7500E6E6A3 /* DriverSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverSummary.swift; sourceTree = "<group>"; };
 		81CAFB412F98FBDA00E6E6A3 /* CustomerSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerSummary.swift; sourceTree = "<group>"; };
@@ -2160,6 +2162,7 @@
 		81DE66992F5B742C0087F48E /* ServiceAccount */ = {
 			isa = PBXGroup;
 			children = (
+				81AF5C222F9A7051003227BA /* ServiceAccountConsentView.swift */,
 				815841552F8D0F57009E6486 /* ServiceAccountLinkCardView.swift */,
 				81DE669A2F5B74350087F48E /* ServiceAccountLinkingView.swift */,
 				810A83762F68A5720039B4A4 /* ServiceAccountUnlinkingView.swift */,
@@ -3014,6 +3017,7 @@
 				815848922F8D3858009E6486 /* HighlightingButtonStyle.swift in Sources */,
 				16161FD12E2FF97D00228028 /* EnvironmentValues+Extensions.swift in Sources */,
 				D03678C62E33CD60009BCC32 /* CompoundRegexValidator.swift in Sources */,
+				81AF5C232F9A706A003227BA /* ServiceAccountConsentView.swift in Sources */,
 				5D8683992C3431050024F2D8 /* ResolvedDeeplinkRoute.swift in Sources */,
 				5D08A9002C9AFABB0049D798 /* Result+Extensions.swift in Sources */,
 				4EC0466F2F7B239E0087C01F /* GovUKHeaderView.swift in Sources */,

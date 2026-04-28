@@ -386,10 +386,11 @@ struct ViewControllerBuilderTests {
         let subject = ViewControllerBuilder()
         let result = subject.serviceAccountConsent(
             analyticsService: MockAnalyticsService(),
+            accountType: .dvla,
             completionAction: {},
             cancelAction: {}
         )
-        let rootView = (result as? HostingViewController<InfoView<ServiceAccountConsentViewModel>>)?.rootView
+        let rootView = (result as? HostingViewController<ServiceAccountConsentView>)?.rootView
         #expect(rootView != nil)
     }
 
