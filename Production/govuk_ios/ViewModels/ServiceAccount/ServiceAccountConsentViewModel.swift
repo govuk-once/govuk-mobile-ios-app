@@ -3,25 +3,39 @@ import GovKit
 import GovKitUI
 import SwiftUI
 
-final class ServiceAccountConsentViewModel: InfoViewModelInterface {
+final class ServiceAccountConsentViewModel: ObservableObject {
+    private let analyticsService: AnalyticsServiceInterface
+    private let accountType: ServiceAccountType
     private let completionAction: () -> Void
     private let cancelAction: () -> Void
-    var analyticsService: AnalyticsServiceInterface?
 
     init(analyticsService: AnalyticsServiceInterface,
+         accountType: ServiceAccountType,
          completionAction: @escaping () -> Void,
          cancelAction: @escaping () -> Void) {
         self.analyticsService = analyticsService
+        self.accountType = accountType
         self.completionAction = completionAction
         self.cancelAction = cancelAction
     }
 
-    var title: String {
-        String.serviceAccount.localized("dvlaConsentInfoTitle")
+    private var accountName: String {
+        accountType == .dvla ? String.dvla.localized("accountName") : ""
     }
 
-    var subtitle: String {
-        String.serviceAccount.localized("dvlaConsentInfoSubtitle")
+    var title: String {
+        let format = String.serviceAccount.localized("linkAccountFullScreenTitle")
+        return String.localizedStringWithFormat(format, accountName)
+    }
+
+    var descriptionTop: String {
+        accountType == .dvla
+        ? String.dvla.localized("linkAccountFullScreenDescriptionTop")
+        : ""
+    }
+
+    var descriptionBottom: String {
+        String.serviceAccount.localized("linkAccountFullScreenDescriptionBottom")
     }
 
     var primaryButtonTitle: String {
@@ -29,32 +43,37 @@ final class ServiceAccountConsentViewModel: InfoViewModelInterface {
     }
 
     var primaryButtonViewModel: GOVUKButton.ButtonViewModel {
-        GOVUKButton.ButtonViewModel(
+        .init(
             localisedTitle: primaryButtonTitle,
             action: { [weak self] in
+                self?.trackCompletionAction()
                 self?.completionAction()
             }
         )
     }
 
-    var showPrimaryButton: Bool {
-        true
-    }
-
-    var rightBarButtonItem: UIBarButtonItem {
-        .cancel(
-            target: self,
-            action: #selector(cancel),
-            tintColour: .govUK.text.linkSecondary
+    @MainActor
+    var primaryButtonConfiguration: GOVUKButton.ButtonConfiguration {
+        .init(
+            titleColorNormal: UIColor.govUK.text.linkAccountButton,
+            titleColorHighlighted: UIColor.govUK.text.linkAccountButtonHighlight,
+            titleColorFocused: UIColor.govUK.text.buttonPrimaryFocussed,
+            titleColorDisabled: UIColor.govUK.text.linkAccountButtonHighlight,
+            titleFont: UIFont.govUK.bodySemibold,
+            backgroundColorNormal: UIColor.govUK.fills.linkAccountButton,
+            backgroundColorHighlighted: UIColor.govUK.fills.linkAccountButtonHighlight,
+            backgroundColorFocused: UIColor.govUK.fills.surfaceButtonPrimaryFocussed,
+            backgroundColorDisabled: UIColor.govUK.fills.linkAccountButtonHighlight,
+            cornerRadius: 15,
+            accessibilityButtonShapesColor: UIColor.grey100,
+            shadowColor: UIColor.govUK.strokes.linkAccountButton.cgColor,
+            shadowHighLightedColor: UIColor.govUK.strokes.linkAccountButtonHighlight.cgColor,
+            shadowFocusedColor: UIColor.govUK.strokes.buttonFocused.cgColor
         )
     }
 
-    var navBarHidden: Bool {
-        false
-    }
-
-    var visualAssetContent: VisualAssetContent {
-        .decorativeImage("driving")
+    var closeButtonAccessibilityLabel: String {
+        String.common.localized("close")
     }
 
     var trackingTitle: String {
@@ -62,11 +81,34 @@ final class ServiceAccountConsentViewModel: InfoViewModelInterface {
     }
 
     var trackingName: String {
-        ""
+        title
+    }
+
+    func trackScreen(screen: TrackableScreen) {
+        analyticsService.track(screen: screen)
+    }
+
+    private func trackCompletionAction() {
+        let event = AppEvent.navigation(
+            text: primaryButtonTitle,
+            type: "Button",
+            external: false,
+            additionalParams: ["section": "continue"])
+        analyticsService.track(event: event)
+    }
+
+    private func trackCancelAction() {
+        let event = AppEvent.navigation(
+            text: "N/A",
+            type: "Close",
+            external: false
+        )
+        analyticsService.track(event: event)
     }
 
     @objc
     func cancel() {
+        trackCancelAction()
         cancelAction()
     }
 }

@@ -675,21 +675,22 @@ class ViewControllerBuilder {
 
     func serviceAccountConsent(
         analyticsService: AnalyticsServiceInterface,
+        accountType: ServiceAccountType,
         completionAction: @escaping () -> Void,
         cancelAction: @escaping () -> Void
     ) -> UIViewController {
         let viewModel = ServiceAccountConsentViewModel(
             analyticsService: analyticsService,
+            accountType: accountType,
             completionAction: completionAction,
             cancelAction: cancelAction
         )
-        let containerView = InfoView<ServiceAccountConsentViewModel>(
+        let containerView = ServiceAccountConsentView(
             viewModel: viewModel
         )
         let viewController = HostingViewController(
             rootView: containerView
         )
-        viewController.navigationItem.rightBarButtonItem = viewModel.rightBarButtonItem
         viewController.isModalInPresentation = true
         return viewController
     }

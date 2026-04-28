@@ -385,6 +385,7 @@ class MockViewControllerBuilder: ViewControllerBuilder {
     var _receivedServiceAccountConsentCancelAction: (() -> Void)?
     override func serviceAccountConsent(
         analyticsService: AnalyticsServiceInterface,
+        accountType: ServiceAccountType,
         completionAction: @escaping () -> Void,
         cancelAction: @escaping () -> Void
     ) -> UIViewController {
