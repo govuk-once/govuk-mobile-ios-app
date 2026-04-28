@@ -70,14 +70,14 @@ class WelcomeOnboardingCoordinatorTests {
     }
 
     @Test
-    func start_signedIn_userStateRequestFailure_startsAppUnavailableCoordinator() async {
+    func start_signedIn_userStateRequestFailure_logsCrashlyticsError() async {
         let mockAuthenticationService = MockAuthenticationService()
         let mockUserService = MockUserService()
         mockUserService._stubbedFetchUserStateResult = .failure(UserStateError.apiUnavailable)
-        let mockAppUnavailableCoordinator = MockBaseCoordinator()
+        let mockAnalyticsService = MockAnalyticsService()
         let mockCoordinatorBuilder = CoordinatorBuilder.mock
-        mockCoordinatorBuilder._stubbedAppUnavailableCoordinator = mockAppUnavailableCoordinator
         mockAuthenticationService._stubbedIsSignedIn = true
+        var didComplete = false
         await withCheckedContinuation { continuation in
             let sut = WelcomeOnboardingCoordinator(
                 navigationController: MockNavigationController(),
@@ -87,10 +87,10 @@ class WelcomeOnboardingCoordinatorTests {
                 termsAndConditionsService: MockTermsAndConditionsService(),
                 coordinatorBuilder: mockCoordinatorBuilder,
                 viewControllerBuilder: MockViewControllerBuilder(),
-                analyticsService: MockAnalyticsService(),
+                analyticsService: mockAnalyticsService,
                 deviceInformationProvider: MockDeviceInformationProvider(),
                 versionProvider: MockAppVersionProvider(),
-                completionAction: { }
+                completionAction: { didComplete = true }
             )
             mockUserService._fetchUserStateCompletionBlock = {
                 continuation.resume()
@@ -98,7 +98,9 @@ class WelcomeOnboardingCoordinatorTests {
             sut.start(url: nil)
         }
 
-        #expect(mockAppUnavailableCoordinator._startCalled == true)
+        #expect(didComplete)
+        #expect(mockAnalyticsService._trackErrorReceivedErrors.count == 1)
+        #expect(mockAnalyticsService._trackErrorReceivedErrors.first as? UserStateError == UserStateError.apiUnavailable)
     }
 
     @Test
