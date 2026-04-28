@@ -101,6 +101,35 @@ class WelcomeOnboardingCoordinatorTests {
         #expect(mockAppUnavailableCoordinator._startCalled == true)
     }
 
+    @Test
+    func start_signedIn_userServiceDisabled_doesNotFetchUserState() async {
+        let mockAuthenticationService = MockAuthenticationService()
+        let mockUserService = MockUserService()
+        mockUserService._stubbedIsEnabled = false
+        let mockNotificationService = MockNotificationService()
+        let mockCoordinatorBuilder = CoordinatorBuilder.mock
+        mockAuthenticationService._stubbedIsSignedIn = true
+        var didComplete = false
+        let sut = WelcomeOnboardingCoordinator(
+            navigationController: MockNavigationController(),
+            authenticationService: mockAuthenticationService,
+            userService: mockUserService,
+            notificationService: MockNotificationService(),
+            termsAndConditionsService: MockTermsAndConditionsService(),
+            coordinatorBuilder: mockCoordinatorBuilder,
+            viewControllerBuilder: MockViewControllerBuilder(),
+            analyticsService: MockAnalyticsService(),
+            deviceInformationProvider: MockDeviceInformationProvider(),
+            versionProvider: MockAppVersionProvider(),
+            completionAction: { didComplete = true }
+        )
+
+        sut.start(url: nil)
+
+        #expect(didComplete)
+        #expect(mockNotificationService._stubbedPushId == nil)
+    }
+
     // MARK: start not signed in
 
     @Test
