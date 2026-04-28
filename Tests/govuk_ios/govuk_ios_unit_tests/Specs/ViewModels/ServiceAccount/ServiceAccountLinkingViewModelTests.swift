@@ -12,7 +12,19 @@ struct ServiceAccountLinkingViewModelTests {
     init() {
         mockUserService = MockUserService()
     }
-    
+
+    @Test
+    func init_dvla_createsCorrectTitle() {
+        let sut = ServiceAccountLinkingViewModel(
+            userService: MockUserService(),
+            accountType: .dvla,
+            linkId: "",
+            completeAction: {},
+            dismissAction: {}
+        )
+        #expect(sut.title == "Adding driver and vehicles account…")
+    }
+
     @Test
     func linkAccount_success_callsCompleteAction() async {
         var didCallCompleteAction = false

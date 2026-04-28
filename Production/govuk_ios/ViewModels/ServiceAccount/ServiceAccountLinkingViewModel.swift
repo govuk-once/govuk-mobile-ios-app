@@ -1,7 +1,7 @@
 import Foundation
 import GovKit
 
-final class ServiceAccountLinkingViewModel: ObservableObject, ProgressIndicating {
+final class ServiceAccountLinkingViewModel: ObservableObject {
     private let userService: UserServiceInterface
     private let accountType: ServiceAccountType
     private let linkId: String
@@ -9,14 +9,6 @@ final class ServiceAccountLinkingViewModel: ObservableObject, ProgressIndicating
     private let dismissAction: () -> Void
     @Published var showProgressView: Bool = false
     @Published private(set) var errorViewModel: AppErrorViewModel?
-
-    var animationDelay: TimeInterval {
-        showProgressView ? 1.0 : 0.0
-    }
-
-    var accessibilityLabel: String {
-        String.serviceAccount.localized("linkingLoadingIndicatorAccessibilityTitle")
-    }
 
     init(userService: UserServiceInterface,
          accountType: ServiceAccountType,
@@ -28,6 +20,15 @@ final class ServiceAccountLinkingViewModel: ObservableObject, ProgressIndicating
         self.linkId = linkId
         self.completeAction = completeAction
         self.dismissAction = dismissAction
+    }
+
+    private var accountName: String {
+        accountType == .dvla ? String.dvla.localized("accountName") : ""
+    }
+
+    var title: String {
+        let format = String.serviceAccount.localized("accountLinkingTitle")
+        return String.localizedStringWithFormat(format, accountName)
     }
 
     func linkAccount() {
