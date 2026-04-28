@@ -116,18 +116,21 @@ struct ServiceAccountConsentView: View {
         Button {
             viewModel.cancel()
         } label: {
-            if #available(iOS 26.0, *) {
-                closeButtonImage
-            } else {
-                closeButtonImage
-                    .foregroundStyle(Color(UIColor.govUK.text.header))
-                    .font(.system(size: 19, weight: .medium))
-            }
+            closeButtonImage
         }
     }
 
     private var closeButtonImage: some View {
         Image(systemName: "xmark")
+            .applyStyle { view in
+                if #available(iOS 26.0, *) {
+                    view
+                } else {
+                    view
+                        .foregroundStyle(Color(UIColor.govUK.text.header))
+                        .font(.system(size: 19, weight: .medium))
+                }
+            }
     }
 
     private var shouldShowDivider: Bool {

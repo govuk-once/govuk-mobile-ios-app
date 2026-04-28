@@ -20,11 +20,7 @@ final class ServiceAccountConsentViewModel: ObservableObject {
     }
 
     private var accountName: String {
-        if accountType == .dvla {
-            return String.dvla.localized("accountName")
-        } else {
-            return ""
-        }
+        accountType == .dvla ? String.dvla.localized("accountName") : ""
     }
 
     var title: String {
@@ -33,11 +29,9 @@ final class ServiceAccountConsentViewModel: ObservableObject {
     }
 
     var descriptionTop: String {
-        if accountType == .dvla {
-            return String.dvla.localized("linkAccountFullScreenDescriptionTop")
-        } else {
-            return ""
-        }
+        accountType == .dvla
+        ? String.dvla.localized("linkAccountFullScreenDescriptionTop")
+        : ""
     }
 
     var descriptionBottom: String {
