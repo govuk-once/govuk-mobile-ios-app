@@ -126,10 +126,9 @@ public final class AppConfigService: AppConfigServiceInterface {
             termsAndConditions?.lastUpdated = terms.publicUpdatedAt
             return .success(())
         case .failure(let error):
-            switch error {
-            case TermsAndConditionsError.networkUnavailable:
+            if error == .networkUnavailable {
                 return .failure(.networkUnavailable)
-            default:
+            } else {
                 analyticsService.track(error: error)
                 return .failure(.termsAndConditionsAPI)
             }
