@@ -56,6 +56,9 @@
 		16AE517F2E6886D3002BCFD7 /* InfoIconListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AE517E2E6886CA002BCFD7 /* InfoIconListView.swift */; };
 		16C34B432C492FF90031AD32 /* HomeDeepLinkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C34B422C492FF90031AD32 /* HomeDeepLinkRoute.swift */; };
 		16C34B452C4954910031AD32 /* SettingsDeepLinkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C34B442C4954910031AD32 /* SettingsDeepLinkRoute.swift */; };
+		16C6BE812F965C3B0015E6F6 /* TermsAndConditionsServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C6BE802F965C290015E6F6 /* TermsAndConditionsServiceClient.swift */; };
+		16C6BE852F96600C0015E6F6 /* TermsAndConditionsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C6BE842F9660050015E6F6 /* TermsAndConditionsResponse.swift */; };
+		16C6BE872F9662870015E6F6 /* GOVRequest+TermsAndConditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C6BE862F96627B0015E6F6 /* GOVRequest+TermsAndConditions.swift */; };
 		16D186A62E461DC5006ACC7A /* ChatInfoOnboardingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D186A52E461DBB006ACC7A /* ChatInfoOnboardingCoordinator.swift */; };
 		16D186A82E462D94006ACC7A /* ChatConsentOnboardingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D186A72E462D86006ACC7A /* ChatConsentOnboardingCoordinator.swift */; };
 		16D186AC2E462F14006ACC7A /* ChatConsentOnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D186AB2E462F06006ACC7A /* ChatConsentOnboardingViewModel.swift */; };
@@ -516,6 +519,9 @@
 		16AE517E2E6886CA002BCFD7 /* InfoIconListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoIconListView.swift; sourceTree = "<group>"; };
 		16C34B422C492FF90031AD32 /* HomeDeepLinkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDeepLinkRoute.swift; sourceTree = "<group>"; };
 		16C34B442C4954910031AD32 /* SettingsDeepLinkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDeepLinkRoute.swift; sourceTree = "<group>"; };
+		16C6BE802F965C290015E6F6 /* TermsAndConditionsServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndConditionsServiceClient.swift; sourceTree = "<group>"; };
+		16C6BE842F9660050015E6F6 /* TermsAndConditionsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsAndConditionsResponse.swift; sourceTree = "<group>"; };
+		16C6BE862F96627B0015E6F6 /* GOVRequest+TermsAndConditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GOVRequest+TermsAndConditions.swift"; sourceTree = "<group>"; };
 		16D186A52E461DBB006ACC7A /* ChatInfoOnboardingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInfoOnboardingCoordinator.swift; sourceTree = "<group>"; };
 		16D186A72E462D86006ACC7A /* ChatConsentOnboardingCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatConsentOnboardingCoordinator.swift; sourceTree = "<group>"; };
 		16D186AB2E462F06006ACC7A /* ChatConsentOnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatConsentOnboardingViewModel.swift; sourceTree = "<group>"; };
@@ -1222,6 +1228,7 @@
 		3D09A6D92C9DC78A005858D0 /* ServiceClients */ = {
 			isa = PBXGroup;
 			children = (
+				16C6BE802F965C290015E6F6 /* TermsAndConditionsServiceClient.swift */,
 				3D09A6DA2C9DC873005858D0 /* AppConfigServiceClient.swift */,
 				815C58692EE973F400322705 /* RemoteConfigServiceClient.swift */,
 				164091FD2DA41C0700E3BE99 /* AuthenticationServiceClient.swift */,
@@ -1842,6 +1849,7 @@
 		5DC79FB32CA18AEA00014446 /* GOVRequest */ = {
 			isa = PBXGroup;
 			children = (
+				16C6BE862F96627B0015E6F6 /* GOVRequest+TermsAndConditions.swift */,
 				D04DD3312E0046FB002B5F19 /* GOVRequest+Chat.swift */,
 				815935DA2F213EBE00F8D206 /* GOVRequest+UserState.swift */,
 				D0E855D52DDB910A003B4D7A /* GovRequest+Authentication.swift */,
@@ -1898,6 +1906,7 @@
 		5DE970512C297637009D66C4 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				16C6BE842F9660050015E6F6 /* TermsAndConditionsResponse.swift */,
 				16A435922F193EDB000AAAA6 /* AlertDetails.swift */,
 				D04C542A2D7081C00070EE79 /* Analytics */,
 				4E003E7D2C75F497008FCBF2 /* AppConfig */,
@@ -2554,6 +2563,7 @@
 				5D66D1882CBFC15000006723 /* AppEvent+Search.swift in Sources */,
 				1677D4042E00695500FB1E56 /* LocalAuthenticationSettingsViewModel.swift in Sources */,
 				4EF407562CE2796900D654FC /* UIButton+Extensions.swift in Sources */,
+				16C6BE872F9662870015E6F6 /* GOVRequest+TermsAndConditions.swift in Sources */,
 				D08F157C2E67527000133121 /* ChatMenuView.swift in Sources */,
 				D0E6CA2F2F33ACED00010C17 /* SwiftUIAnimationView.swift in Sources */,
 				D02416472DEDC0C500F81C6D /* SignInSuccessCoordinator.swift in Sources */,
@@ -2679,6 +2689,7 @@
 				1633812A2E533A9300AC1CED /* AppEvent+Chat.swift in Sources */,
 				5DD4C7972D9547D600459FB5 /* AppEvent+RecentActivity.swift in Sources */,
 				5D66D1862CBFC13100006723 /* AppEvent+Navigation.swift in Sources */,
+				16C6BE812F965C3B0015E6F6 /* TermsAndConditionsServiceClient.swift in Sources */,
 				D08F2C7C2E6AF84F00133121 /* AnimatedAPNGImageView.swift in Sources */,
 				D0D655E82D26A79000571841 /* UIApplication+URLOpener.swift in Sources */,
 				815935E02F22381A00F8D206 /* UserService.swift in Sources */,
@@ -2832,6 +2843,7 @@
 				5D66D1842CBFC12400006723 /* AppEvent+Function.swift in Sources */,
 				B0AD6F202DDA86D80077849F /* NotificationsOnboardingService.swift in Sources */,
 				16D186AC2E462F14006ACC7A /* ChatConsentOnboardingViewModel.swift in Sources */,
+				16C6BE852F96600C0015E6F6 /* TermsAndConditionsResponse.swift in Sources */,
 				D0EC94C52DCBA5F700A9707E /* InfoViewModelInterface.swift in Sources */,
 				168176A32DCE68D800A4B0E4 /* CoreDataDeletionService.swift in Sources */,
 				D0E85A822DDCB266003B4D7A /* LocalAuthorityResponse.swift in Sources */,
