@@ -14,25 +14,28 @@ struct ServiceAccountConsentView: View {
     }
 
     var body: some View {
-        VStack {
-            ScrollView {
-                contentView
+        ScrollView {
+            contentView
+        }
+        .modifier(ScrollBounceBehaviorModifier())
+        .onGeometryChange(
+            for: CGFloat.self,
+            of: {
+                $0.size.height
+            },
+            action: {
+                scrollViewContainerHeight = $0
             }
-            .modifier(ScrollBounceBehaviorModifier())
-            .onGeometryChange(
-                for: CGFloat.self,
-                of: {
-                    $0.size.height
-                },
-                action: {
-                    scrollViewContainerHeight = $0
+        )
+        .safeAreaInset(edge: .bottom) {
+            VStack {
+                if shouldShowDivider {
+                    Divider()
+                        .overlay(Color(UIColor.govUK.strokes.linkAccountDivider))
                 }
-            )
-            if shouldShowDivider {
-                Divider()
-                    .overlay(Color(UIColor.govUK.strokes.linkAccountDivider))
+                primaryButtonView
             }
-            primaryButtonView
+            .background(Color(UIColor.govUK.fills.surfaceFullScreenLinkAccount))
         }
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
