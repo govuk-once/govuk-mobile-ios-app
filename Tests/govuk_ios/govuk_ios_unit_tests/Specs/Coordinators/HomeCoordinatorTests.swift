@@ -13,7 +13,7 @@ struct HomeCoordinatorTests {
 
     @Test
     @MainActor
-    func start_setsHomeViewController() {
+    func start_setsHomeViewController() async  {
         let mockCoodinatorBuilder = MockCoordinatorBuilder.mock
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let expectedViewController = UIViewController()
@@ -42,12 +42,12 @@ struct HomeCoordinatorTests {
     
     @Test
     @MainActor
-    func is_Enabled() {
+    func is_Enabled() async  {
         let mockCoodinatorBuilder = MockCoordinatorBuilder.mock
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let expectedViewController = UIViewController()
         mockViewControllerBuilder._stubbedHomeViewController = expectedViewController
-        let subject = mockCoodinatorBuilder._mockHomeCoordinator
+        let subject = await mockCoodinatorBuilder._mockHomeCoordinator
         subject.start()
 
         #expect(subject.isEnabled == true)
@@ -55,10 +55,10 @@ struct HomeCoordinatorTests {
     
     @Test
     @MainActor
-    func edit_topics() {
+    func edit_topics() async {
         let mockCoodinatorBuilder = MockCoordinatorBuilder.mock
         let homeViewController = ViewControllerBuilder.homeViewController
-        let subject = mockCoodinatorBuilder.mockHomeCoordinator(homeViewController: homeViewController)
+        let subject = await mockCoodinatorBuilder.mockHomeCoordinator(homeViewController: homeViewController)
         subject.start()
         #expect(subject._didEditTopics == false)
         #expect(homeViewController._didEditTopics == false)
@@ -69,10 +69,10 @@ struct HomeCoordinatorTests {
     
     @Test
     @MainActor
-    func open_search() {
+    func open_search() async {
         let mockCoodinatorBuilder = MockCoordinatorBuilder.mock
         let homeViewController = ViewControllerBuilder.homeViewController
-        let subject = mockCoodinatorBuilder.mockHomeCoordinator(homeViewController: homeViewController)
+        let subject = await  mockCoodinatorBuilder.mockHomeCoordinator(homeViewController: homeViewController)
         subject.start()
         #expect(subject._didOpenSearch == false)
         #expect(homeViewController._didOpenSearch == false)
@@ -83,9 +83,9 @@ struct HomeCoordinatorTests {
     
     @Test
     @MainActor
-    func show_last_visited() {
+    func show_last_visited() async {
         let mockCoodinatorBuilder = MockCoordinatorBuilder.mock
-        let subject = mockCoodinatorBuilder._mockHomeCoordinator
+        let subject = await mockCoodinatorBuilder._mockHomeCoordinator
         subject.start()
         #expect(subject._didShowLastVisited == false)
         subject.showLastVisited()
@@ -94,9 +94,9 @@ struct HomeCoordinatorTests {
     
     @Test
     @MainActor
-    func routeForURL() {
+    func routeForURL() async {
         let mockCoodinatorBuilder = MockCoordinatorBuilder.mock
-        let subject = mockCoodinatorBuilder._mockHomeCoordinator
+        let subject = await  mockCoodinatorBuilder._mockHomeCoordinator
         subject.start()
         let route = subject.route(for: URL(string: "govuk://gov.uk/search")!)
         #expect(route!.route.pattern == "/search")
@@ -104,7 +104,7 @@ struct HomeCoordinatorTests {
 
     @Test
     @MainActor
-    func startRecentActivity_startsCoordinatorAndTrackEvent() {
+    func startRecentActivity_startsCoordinatorAndTrackEvent() async {
         let mockCoodinatorBuilder = MockCoordinatorBuilder.mock
         let mockViewControllerBuilder = MockViewControllerBuilder()
         mockViewControllerBuilder._stubbedHomeViewController = UIViewController()
@@ -139,7 +139,8 @@ struct HomeCoordinatorTests {
 
     @Test
     @MainActor
-    func startEditLocalAuthority_startsCoordinatorAndTrackEvent() {
+    func startEditLocalAuthority_startsCoordinatorAndTrackEvent() async {
+
         let mockCoodinatorBuilder = MockCoordinatorBuilder.mock
         let mockViewControllerBuilder = MockViewControllerBuilder()
         mockViewControllerBuilder._stubbedHomeViewController = UIViewController()
@@ -166,7 +167,6 @@ struct HomeCoordinatorTests {
         mockViewControllerBuilder._receivedEditLocalAuthorityAction?()
 
         let navigationEvent = mockAnalyticsService._trackedEvents.first
-
         #expect(navigationEvent?.params?["text"] as? String == "Edit your local services")
         #expect(navigationEvent?.params?["type"] as? String == "Widget")
         #expect(navigationEvent?.name == "Navigation")
@@ -174,7 +174,7 @@ struct HomeCoordinatorTests {
 
     @Test
     @MainActor
-    func topicAction_startsCoordinatorAndTracksEvent() {
+    func topicAction_startsCoordinatorAndTracksEvent() async throws {
         let mockCoodinatorBuilder = MockCoordinatorBuilder.mock
         let mockViewControllerBuilder = MockViewControllerBuilder()
         mockViewControllerBuilder._stubbedHomeViewController = UIViewController()
@@ -198,7 +198,7 @@ struct HomeCoordinatorTests {
         )
         subject.start()
 
-        let coreData = CoreDataRepository.arrange
+        let coreData = await CoreDataRepository.arrange
         let topic = Topic(context: coreData.viewContext)
         topic.ref = "123"
         topic.title = "test_title"
@@ -213,7 +213,7 @@ struct HomeCoordinatorTests {
 
     @Test
     @MainActor
-    func didReselectTab_resetsToDefaultState_whenOnHomeScreen() {
+    func didReselectTab_resetsToDefaultState_whenOnHomeScreen() async  {
         let mockCoodinatorBuilder = MockCoordinatorBuilder.mock
         let homeViewController = ViewControllerBuilder.homeViewController
         let subject = mockCoodinatorBuilder.mockHomeCoordinator(homeViewController: homeViewController)
@@ -226,7 +226,7 @@ struct HomeCoordinatorTests {
 
     @Test
     @MainActor
-    func didReselectTab_doesNotResetToDefaultState_whenOnChildScreen() {
+    func didReselectTab_doesNotResetToDefaultState_whenOnChildScreen() async {
         let mockCoodinatorBuilder = MockCoordinatorBuilder.mock
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let navigationController = UINavigationController()
@@ -260,11 +260,10 @@ struct HomeCoordinatorTests {
 
     @Test
     @MainActor
-    func openSearchAction_presentsWebView() {
+    func openSearchAction_presentsWebView() async {
         let mockCoodinatorBuilder = MockCoordinatorBuilder.mock
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let navigationController = UINavigationController()
-
         let homeViewController = ViewControllerBuilder.homeViewController
         mockViewControllerBuilder._stubbedHomeViewController = homeViewController
 

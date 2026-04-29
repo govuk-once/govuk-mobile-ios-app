@@ -4,7 +4,7 @@ import CoreData
 @testable import govuk_ios
 
 class MockActivityRepository: ActivityRepositoryInterface {
-    let coreData = CoreDataRepository.arrangeAndLoad
+    var coreData: CoreDataRepository!
 
     func returnContext() -> NSManagedObjectContext {
         return coreData.viewContext

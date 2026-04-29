@@ -6,13 +6,20 @@ import UIKit
 
 @MainActor
 class TopicDetailViewSnapshotTests: SnapshotTestCase {
+    var coreData: CoreDataRepository!
+
+    override func setUp() async throws {
+        try await super.setUp()
+        await coreData = CoreDataRepository.arrangeAndLoad
+
+    }
     func test_topicDetail_light_fetching_rendersCorrectly() {
         let viewControllerBuilder = ViewControllerBuilder()
         let sut = viewControllerBuilder.topicDetail(
             topic: MockDisplayableTopic(ref: "test_ref", title: "test_title", topicDescription: nil),
             topicsService: MockTopicsService(),
             analyticsService: MockAnalyticsService(),
-            activityService: MockActivityService(),
+            activityService: MockActivityService(context: coreData.viewContext),
             subtopicAction: { _ in },
             stepByStepAction: { _ in },
             openAction: { _ in }
@@ -34,7 +41,7 @@ class TopicDetailViewSnapshotTests: SnapshotTestCase {
             ),
             topicsService: mockTopicsService,
             analyticsService: MockAnalyticsService(),
-            activityService: MockActivityService(),
+            activityService: MockActivityService(context: coreData.viewContext),
             subtopicAction: { _ in },
             stepByStepAction: { _ in },
             openAction: { _ in }
@@ -56,7 +63,7 @@ class TopicDetailViewSnapshotTests: SnapshotTestCase {
             ),
             topicsService: mockTopicsService,
             analyticsService: MockAnalyticsService(),
-            activityService: MockActivityService(),
+            activityService: MockActivityService(context: coreData.viewContext),
             subtopicAction: { _ in },
             stepByStepAction: { _ in },
             openAction: { _ in }
@@ -78,7 +85,7 @@ class TopicDetailViewSnapshotTests: SnapshotTestCase {
             ),
             topicsService: mockTopicsService,
             analyticsService: MockAnalyticsService(),
-            activityService: MockActivityService(),
+            activityService: MockActivityService(context: coreData.viewContext),
             subtopicAction: { _ in },
             stepByStepAction: { _ in },
             openAction: { _ in }
@@ -98,7 +105,7 @@ class TopicDetailViewSnapshotTests: SnapshotTestCase {
             topic: TopicDetailResponse.Subtopic(ref: "test_ref", title: "test_title", topicDescription: "test_description"),
             topicsService: mockTopicsService,
             analyticsService: MockAnalyticsService(),
-            activityService: MockActivityService(),
+            activityService: MockActivityService(context: coreData.viewContext),
             subtopicAction: { _ in },
             stepByStepAction: { _ in },
             openAction: { _ in }
@@ -118,7 +125,7 @@ class TopicDetailViewSnapshotTests: SnapshotTestCase {
             topic: TopicDetailResponse.Subtopic(ref: "test_ref", title: "test_title", topicDescription: "test_description"),
             topicsService: mockTopicsService,
             analyticsService: MockAnalyticsService(),
-            activityService: MockActivityService(),
+            activityService: MockActivityService(context: coreData.viewContext),
             subtopicAction: { _ in },
             stepByStepAction: { _ in },
             openAction: { _ in }
@@ -137,7 +144,7 @@ class TopicDetailViewSnapshotTests: SnapshotTestCase {
             topic: TopicDetailResponse.Subtopic(ref: "test_ref", title: "test_title", topicDescription: "test_description"),
             topicsService: mockTopicsService,
             analyticsService: MockAnalyticsService(),
-            activityService: MockActivityService(),
+            activityService: MockActivityService(context: coreData.viewContext),
             subtopicAction: { _ in },
             stepByStepAction: { _ in },
             openAction: { _ in }
@@ -162,7 +169,7 @@ class TopicDetailViewSnapshotTests: SnapshotTestCase {
                 .arrange(title: "content_8", description: "content_8", isStepByStep: true),
             ],
             analyticsService: MockAnalyticsService(),
-            activityService: MockActivityService(),
+            activityService: MockActivityService(context: coreData.viewContext),
             selectedAction: { _ in
 
             }
@@ -187,7 +194,7 @@ class TopicDetailViewSnapshotTests: SnapshotTestCase {
                 .arrange(title: "content_8", description: "content_8", isStepByStep: true),
             ],
             analyticsService: MockAnalyticsService(),
-            activityService: MockActivityService(),
+            activityService: MockActivityService(context: coreData.viewContext),
             selectedAction: { _ in
 
             }

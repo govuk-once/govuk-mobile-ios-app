@@ -8,10 +8,11 @@ import Testing
 @MainActor
 struct RecentActivityCoordinatorTests {
     @Test
-    func start_setsRecentActivityViewController() {
+    func start_setsRecentActivityViewController() async {
+        let coreData: CoreDataRepository = await CoreDataRepository.arrangeAndLoad
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let mockAnalyticsService = MockAnalyticsService()
-        let mockActivityService = MockActivityService()
+        let mockActivityService = MockActivityService(context: coreData.viewContext)
         let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
         let expectedViewController = UIViewController()
         let navigationController = UINavigationController()
@@ -32,10 +33,11 @@ struct RecentActivityCoordinatorTests {
     }
 
     @Test
-    func selectAction_opensSafari() {
+    func selectAction_opensSafari() async {
+        let coreData: CoreDataRepository = await CoreDataRepository.arrangeAndLoad
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let mockAnalyticsService = MockAnalyticsService()
-        let mockActivityService = MockActivityService()
+        let mockActivityService = MockActivityService(context: coreData.viewContext)
         let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
         let expectedViewController = UIViewController()
         let navigationController = UINavigationController()

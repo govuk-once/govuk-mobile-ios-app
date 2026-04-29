@@ -80,6 +80,7 @@ struct HomeViewModelTests {
         let configService = MockAppConfigService()
         configService.features = []
 
+
         let topicsViewModel = TopicsWidgetViewModel(
             topicsService: MockTopicsService(),
             analyticsService: MockAnalyticsService(),
@@ -111,7 +112,7 @@ struct HomeViewModelTests {
     }
 
     @Test
-    func emergencyBanners_have_correct_sort_priority() throws {
+    func emergencyBanners_have_correct_sort_priority() async  throws {
         let topicsViewModel = TopicsWidgetViewModel(
             topicsService: MockTopicsService(),
             analyticsService: MockAnalyticsService(),

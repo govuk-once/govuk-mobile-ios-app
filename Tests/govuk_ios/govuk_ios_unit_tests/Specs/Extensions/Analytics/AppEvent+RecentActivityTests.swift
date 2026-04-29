@@ -8,8 +8,8 @@ import CoreData
 @Suite
 struct AppEvent_RecentActivityTests {
     @Test
-    func recentActivityNavigation_returnsExpectedResult() {
-        let container = CoreDataRepository.arrangeAndLoad
+    func recentActivityNavigation_returnsExpectedResult() async throws {
+        let container = await CoreDataRepository.arrangeAndLoad
         let expectedActivity = ActivityItem.arrange(context: container.viewContext)
         let result = AppEvent.recentActivityNavigation(
             activity: expectedActivity

@@ -5,8 +5,8 @@ import Testing
 struct TopicListItemViewModelTests {
 
     @Test
-    func topicInitializer_initializesValues() {
-        let coreData = CoreDataRepository.arrange
+    func topicInitializer_initializesValues() async {
+        let coreData = await CoreDataRepository.arrange
 
         let topic = Topic(context: coreData.viewContext)
         topic.ref = "driving-transport"

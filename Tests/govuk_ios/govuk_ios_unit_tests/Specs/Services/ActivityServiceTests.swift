@@ -83,7 +83,7 @@ struct ActivityServiceTests {
     }
 
     @Test
-    func deleteObjectIds_callsRepository() throws {
+    func deleteObjectIds_callsRepository() async throws {
         let mockRepository = MockActivityRepository()
         let sut = ActivityService(
             repository: mockRepository
@@ -97,8 +97,8 @@ struct ActivityServiceTests {
     }
 
     @Test
-    func activityItemForId_returnsExpectedItem() throws {
-        let coreData = CoreDataRepository.arrangeAndLoad
+    func activityItemForId_returnsExpectedItem() async throws {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let activityRepository = ActivityRepository(
             coreData: coreData
         )

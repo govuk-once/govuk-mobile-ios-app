@@ -9,9 +9,14 @@ import GovKit
 final class EditTopicsViewControllerSnapshotTests: SnapshotTestCase {
     
     private let mockTopicsService = MockTopicsService()
+    var coreData: CoreDataRepository!
+
+    override func setUp() async throws {
+        try await super.setUp()
+        self.coreData = await CoreDataRepository.arrangeAndLoad
+    }
 
     func test_loadInNavigationController_light_rendersCorrectly() {
-        let coreData = CoreDataRepository.arrangeAndLoad
         let topics = Topic.arrangeMultipleFavourites(
             context: coreData.viewContext
         )
@@ -26,7 +31,6 @@ final class EditTopicsViewControllerSnapshotTests: SnapshotTestCase {
     }
 
     func test_loadInNavigationController_dark_rendersCorrectly() {
-        let coreData = CoreDataRepository.arrangeAndLoad
         let topics = Topic.arrangeMultipleFavourites(
             context: coreData.viewContext
         )
@@ -41,7 +45,6 @@ final class EditTopicsViewControllerSnapshotTests: SnapshotTestCase {
     }
 
     func test_loadInNavigationController_noFavourites_notCustomised_rendersCorrectly() {
-        let coreData = CoreDataRepository.arrangeAndLoad
         let topics = [
             Topic.arrange(
                 context: coreData.viewContext,
@@ -70,7 +73,6 @@ final class EditTopicsViewControllerSnapshotTests: SnapshotTestCase {
     }
 
     func test_loadInNavigationController_noFavourites_customised_rendersCorrectly() {
-        let coreData = CoreDataRepository.arrangeAndLoad
         let topics = [
             Topic.arrange(
                 context: coreData.viewContext,

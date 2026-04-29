@@ -70,10 +70,13 @@ class MockCoordinatorBuilder: CoordinatorBuilder {
     }
     
     var _mockHomeCoordinator: MockHomeCoordinator {
-        mockHomeCoordinator(homeViewController: ViewControllerBuilder.homeViewController)
+        get async {
+            await mockHomeCoordinator(homeViewController: ViewControllerBuilder.homeViewController)
+        }
     }
     
-    func mockHomeCoordinator(homeViewController: HomeViewController) -> MockHomeCoordinator {
+    func mockHomeCoordinator(homeViewController: HomeViewController) async -> MockHomeCoordinator {
+        let coreData: CoreDataRepository = await CoreDataRepository.arrangeAndLoad
         let mockCoodinatorBuilder = MockCoordinatorBuilder.mock
         let mockViewControllerBuilder = MockViewControllerBuilder()
         
@@ -93,7 +96,7 @@ class MockCoordinatorBuilder: CoordinatorBuilder {
             notificationService: MockNotificationService(),
             deviceInformationProvider: MockDeviceInformationProvider(),
             searchService: MockSearchService(),
-            activityService: MockActivityService(),
+            activityService: MockActivityService(context: coreData.viewContext),
             localAuthorityService: MockLocalAuthorityService(),
             userDefaultsService: MockUserDefaultsService(),
             chatService: MockChatService()

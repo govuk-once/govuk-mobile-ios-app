@@ -12,13 +12,13 @@ struct TopicDetailViewModelTests {
     let mockURLOpener = MockURLOpener()
     
     @Test
-    func init_noUnpopularContent_doesCreateSectionsCorrectly() throws {
+    func init_noUnpopularContent_doesCreateSectionsCorrectly() async throws {
         mockTopicsService._stubbedFetchTopicDetailsResult = .success(
             .arrange(
                 fileName: "NoUnpopularContent"
             )
         )
-        let coreData = CoreDataRepository.arrangeAndLoad
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let sut = TopicDetailViewModel(
             topic: Topic.arrange(context: coreData.viewContext),
             topicsService: mockTopicsService,
@@ -42,13 +42,13 @@ struct TopicDetailViewModelTests {
     }
     
     @Test
-    func init_fiveStepByStep_doesCreateSectionsCorrectly() throws {
+    func init_fiveStepByStep_doesCreateSectionsCorrectly() async throws {
         mockTopicsService._stubbedFetchTopicDetailsResult = .success(
             .arrange(
                 fileName: "FiveStepByStep"
             )
         )
-        let coreData = CoreDataRepository.arrangeAndLoad
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let sut = TopicDetailViewModel(
             topic: Topic.arrange(context: coreData.viewContext),
             topicsService: mockTopicsService,
@@ -76,13 +76,13 @@ struct TopicDetailViewModelTests {
     }
     
     @Test
-    func init_hasUnpopularContent_doesCreateSectionsCorrectly() throws {
+    func init_hasUnpopularContent_doesCreateSectionsCorrectly() async  throws {
         mockTopicsService._stubbedFetchTopicDetailsResult = .success(
             .arrange(
                 fileName: "UnpopularContent"
             )
         )
-        let coreData = CoreDataRepository.arrangeAndLoad
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let sut = TopicDetailViewModel(
             topic: Topic.arrange(context: coreData.viewContext),
             topicsService: mockTopicsService,
@@ -111,7 +111,7 @@ struct TopicDetailViewModelTests {
     }
 
     @Test
-    func init_subtopic_noOtherContent_returnsCorrectHeader() throws {
+    func init_subtopic_noOtherContent_returnsCorrectHeader() async throws {
         let expectedContent = TopicDetailResponse.arrange()
         mockTopicsService._stubbedFetchTopicDetailsResult = .success(expectedContent)
         let sut = TopicDetailViewModel(

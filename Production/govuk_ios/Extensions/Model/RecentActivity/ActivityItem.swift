@@ -19,8 +19,8 @@ public class ActivityItem: NSManagedObject,
         return request
     }
 
-    @nonobjc public class func homepagefetchRequest() -> NSFetchRequest<ActivityItem> {
-        let request: NSFetchRequest<ActivityItem> = .init(
+    @nonobjc public class func homepagefetchRequest<T>() -> NSFetchRequest<T> {
+        let request: NSFetchRequest<T> = .init(
             entityName: "ActivityItem"
         )
         request.sortDescriptors = [

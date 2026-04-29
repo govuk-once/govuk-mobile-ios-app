@@ -7,8 +7,8 @@ import Testing
 @MainActor
 struct SearchHistoryRepositoryTests {
 
-    @Test func save_newSearchHistoryItem_savesObject() throws {
-        let coreData = CoreDataRepository.arrangeAndLoad
+    @Test func save_newSearchHistoryItem_savesObject() async throws{
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let sut = SearchHistoryRepository(
             coreData: coreData
         )
@@ -26,8 +26,8 @@ struct SearchHistoryRepositoryTests {
     }
 
     @Test
-    func save_usingExistingSearchText_updatesObject() throws {
-        let coreData = CoreDataRepository.arrangeAndLoad
+    func save_usingExistingSearchText_updatesObject() async throws {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let sut = SearchHistoryRepository(
             coreData: coreData
         )
@@ -50,8 +50,8 @@ struct SearchHistoryRepositoryTests {
     }
     
     @Test
-    func save_prunesItems() throws {
-        let coreData = CoreDataRepository.arrangeAndLoad
+    func save_prunesItems() async throws {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let sut = SearchHistoryRepository(
             coreData: coreData
         )
@@ -72,8 +72,8 @@ struct SearchHistoryRepositoryTests {
     }
     
     @Test
-    func clear_removesAllItems() throws {
-        let coreData = CoreDataRepository.arrangeAndLoad
+    func clear_removesAllItems() async throws {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let sut = SearchHistoryRepository(
             coreData: coreData
         )
@@ -92,8 +92,8 @@ struct SearchHistoryRepositoryTests {
     }
 
     @Test
-    func delete_removesItem() throws {
-        let coreData = CoreDataRepository.arrangeAndLoad
+    func delete_removesItem() async throws{
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let sut = SearchHistoryRepository(
             coreData: coreData
         )
@@ -112,8 +112,8 @@ struct SearchHistoryRepositoryTests {
     }
 
     @Test
-    func historyItemForId_returnsExpectedItem() throws {
-        let coreData = CoreDataRepository.arrangeAndLoad
+    func historyItemForId_returnsExpectedItem() async throws {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let sut = SearchHistoryRepository(
             coreData: coreData
         )

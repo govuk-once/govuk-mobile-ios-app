@@ -8,6 +8,13 @@ import GovKitUI
 @MainActor
 final class SearchHistoryViewControllerSnapshotTests: SnapshotTestCase {
 
+    var coreData: CoreDataRepository!
+
+    override func setUp() async throws {
+        try await super.setUp()
+        self.coreData = await CoreDataRepository.arrangeAndLoad
+    }
+
     func test_loadInNavigationController_light_rendersCorrectly() {
         let mockSearchService = arrangeSearchService()
         let mockAnalyticsService = MockAnalyticsService()
@@ -54,7 +61,6 @@ final class SearchHistoryViewControllerSnapshotTests: SnapshotTestCase {
 
     private func arrangeSearchService() -> SearchServiceInterface {
         let service = MockSearchService()
-        let coreData = CoreDataRepository.arrangeAndLoad
         let item = SearchHistoryItem(context: coreData.viewContext)
         item.searchText = "Test search"
         item.date = Date()
