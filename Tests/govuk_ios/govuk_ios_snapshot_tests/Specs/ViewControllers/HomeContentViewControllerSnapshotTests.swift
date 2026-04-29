@@ -7,6 +7,12 @@ import UIKit
 
 @MainActor
 final class HomeContentViewControllerSnapshotTests: SnapshotTestCase {
+    var coreData: CoreDataRepository!
+
+    override func setUp() async throws {
+        try await super.setUp()
+        await coreData = CoreDataRepository.arrangeAndLoad
+    }
 
     func test_loadInNavigationController_light_rendersCorrectly() async {
 
@@ -42,9 +48,6 @@ final class HomeContentViewControllerSnapshotTests: SnapshotTestCase {
                 url: URL(string: "https://www.gov.uk/")!)
         )
 
-        await MockActivityService.setUp()
-        let activityService = MockActivityService()
-
         let viewModel = HomeViewModel(
             analyticsService: MockAnalyticsService(),
             configService: configService,
@@ -53,7 +56,7 @@ final class HomeContentViewControllerSnapshotTests: SnapshotTestCase {
             topicsWidgetViewModel: topicsWidgetViewModel,
             urlOpener: MockURLOpener(),
             searchService: MockSearchService(),
-            activityService: activityService,
+            activityService: MockActivityService(context: coreData.viewContext),
             localAuthorityService: MockLocalAuthorityService(),
             chatService: MockChatService(),
             localAuthorityAction: { },

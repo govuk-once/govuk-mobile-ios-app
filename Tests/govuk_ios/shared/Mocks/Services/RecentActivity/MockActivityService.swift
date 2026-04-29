@@ -5,20 +5,25 @@ import GovKit
 @testable import govuk_ios
 
 class MockActivityService: ActivityServiceInterface {
-    private static var sharedRepository: CoreDataRepository?
+    private let managedObjectContext: NSManagedObjectContext
 
-    static func setUp() async {
-        if sharedRepository == nil {
-            sharedRepository = await CoreDataRepository.arrangeAndLoad
-        }
+    init(context: NSManagedObjectContext) {
+        self.managedObjectContext = context
     }
 
-    func returnContext() -> NSManagedObjectContext {
-        guard let repository = Self.sharedRepository else {
-            fatalError("MockActivityService.setup() was not called!")
-        }
-        return repository.viewContext
-    }
+    var fetchRequest:
+    NSFetchRequest<NSFetchRequestResult> = ActivityItem.homepagefetchRequest()
+
+    internal lazy var activitiesFetchResultsController:
+    NSFetchedResultsController<NSFetchRequestResult> = {
+        let controller = NSFetchedResultsController(
+            fetchRequest: fetchRequest,
+            managedObjectContext: managedObjectContext,
+            sectionNameKeyPath: nil,
+            cacheName: nil
+        )
+        return controller
+    }()
 
     var _receivedSaveActivity: ActivityItemCreateParams?
     func save(activity: ActivityItemCreateParams) {

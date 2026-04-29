@@ -7,12 +7,13 @@ import Testing
 struct SearchViewModelTests{
 
     @Test
-    func selected_tracksEvent() {
+    func selected_tracksEvent() async  {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let mockAnalyticsService = MockAnalyticsService()
         let subject = SearchViewModel(
             analyticsService: mockAnalyticsService,
             searchService: MockSearchService(),
-            activityService: MockActivityService(),
+            activityService: MockActivityService(context: coreData.viewContext),
             urlOpener: MockURLOpener(),
             openAction: { _ in }
         )
@@ -35,7 +36,8 @@ struct SearchViewModelTests{
     }
 
     @Test
-    func selected_tracksEcommerceEvent() {
+    func selected_tracksEcommerceEvent() async {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let mockAnalyticsService = MockAnalyticsService()
         let mockSearchService = MockSearchService()
         let expectedTitle = UUID().uuidString
@@ -54,7 +56,7 @@ struct SearchViewModelTests{
         let subject = SearchViewModel(
             analyticsService: mockAnalyticsService,
             searchService: mockSearchService,
-            activityService: MockActivityService(),
+            activityService: MockActivityService(context: coreData.viewContext),
             urlOpener: MockURLOpener(),
             openAction: { _ in }
         )
@@ -78,8 +80,9 @@ struct SearchViewModelTests{
     }
 
     @Test
-    func selected_savesRecentActivity() {
-        let mockActivityService = MockActivityService()
+    func selected_savesRecentActivity() async {
+        let coreData = await CoreDataRepository.arrangeAndLoad
+        let mockActivityService = MockActivityService(context: coreData.viewContext)
         let subject = SearchViewModel(
             analyticsService: MockAnalyticsService(),
             searchService: MockSearchService(),
@@ -103,12 +106,13 @@ struct SearchViewModelTests{
 
     @Test
     func search_setsResults() {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let mockAnalyticsService = MockAnalyticsService()
         let mockService = MockSearchService()
         let subject = SearchViewModel(
             analyticsService: mockAnalyticsService,
             searchService: mockService,
-            activityService: MockActivityService(),
+            activityService: MockActivityService(context: coreData.viewContext),
             urlOpener: MockURLOpener(),
             openAction: { _ in }
         )
@@ -224,6 +228,7 @@ struct SearchViewModelTests{
 
     @Test
     func search_apiUnavailable_updatesErrorState() {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let mockAnalyticsService = MockAnalyticsService()
         let mockService = MockSearchService()
         let subject = SearchViewModel(

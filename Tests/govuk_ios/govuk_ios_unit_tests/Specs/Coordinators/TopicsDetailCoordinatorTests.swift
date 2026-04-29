@@ -12,7 +12,7 @@ struct TopicsDetailCoordinatorTests {
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let mockAnalyticsService = MockAnalyticsService()
         let mockTopicsService = MockTopicsService()
-        let mockActivityService = MockActivityService()
+        let mockActivityService = MockActivityService(context: coreData.viewContext)
         let expectedViewController = UIViewController()
         let navigationController = UINavigationController()
         

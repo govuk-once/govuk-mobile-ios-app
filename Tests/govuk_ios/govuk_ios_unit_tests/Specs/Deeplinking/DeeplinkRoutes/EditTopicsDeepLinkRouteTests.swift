@@ -17,10 +17,9 @@ struct EditTopicsDeeplinkRouteTests {
     
     @Test
     func action_EditTopics() async {
-        await MockActivityService.setUp()
         let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
         let subject = EditTopicsDeeplinkRoute(coordinatorBuilder: mockCoordinatorBuilder)
-        let parentCoordinator = mockCoordinatorBuilder._mockHomeCoordinator
+        let parentCoordinator = await mockCoordinatorBuilder._mockHomeCoordinator
         #expect(parentCoordinator._didEditTopics == false)
         subject.action(parent: parentCoordinator, params: [:])
         #expect(parentCoordinator._didEditTopics == true)

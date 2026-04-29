@@ -14,7 +14,6 @@ struct HomeViewModelTests {
             topicAction: { _ in },
             dismissEditAction: { }
         )
-        await MockActivityService.setUp()
         let mockConfigService = MockAppConfigService()
         mockConfigService._stubbedEmergencyBanners =
         [
@@ -80,7 +79,7 @@ struct HomeViewModelTests {
     func widgets_featureDisabled_doesntReturnWidget() async {
         let configService = MockAppConfigService()
         configService.features = []
-        await MockActivityService.setUp()
+
 
         let topicsViewModel = TopicsWidgetViewModel(
             topicsService: MockTopicsService(),
@@ -120,7 +119,6 @@ struct HomeViewModelTests {
             topicAction: { _ in },
             dismissEditAction: { }
         )
-        await MockActivityService.setUp()
 
         let mockConfigService = MockAppConfigService()
         mockConfigService._stubbedEmergencyBanners =
@@ -176,7 +174,6 @@ struct HomeViewModelTests {
     func edit_Topics() async {
         let configService = MockAppConfigService()
         configService.features = []
-        await MockActivityService.setUp()
 
         let topicsViewModel = TopicsWidgetViewModel(
             topicsService: MockTopicsService(),

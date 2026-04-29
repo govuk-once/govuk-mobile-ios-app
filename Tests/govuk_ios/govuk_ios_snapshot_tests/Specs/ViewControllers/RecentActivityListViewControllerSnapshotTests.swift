@@ -5,9 +5,17 @@ import CoreData
 @testable import govuk_ios
 
 @MainActor
-final class RecentActivityListViewControllerSnapshotTests: SnapshotTestCase { 
+final class RecentActivityListViewControllerSnapshotTests: SnapshotTestCase {
+    var coreData: CoreDataRepository!
+
+    override func setUp() async throws {
+        try await super.setUp()
+        await coreData = CoreDataRepository.arrangeAndLoad
+
+    }
+
     func test_loadInNavigationController_light_rendersCorrectly() async {
-        let mockActivityService = MockActivityService()
+        let mockActivityService = MockActivityService(context: coreData.viewContext)
         let coreData = await CoreDataRepository.arrangeAndLoad
         _ = ActivityItem.arrange(
             title: "Test 1",
@@ -55,8 +63,8 @@ final class RecentActivityListViewControllerSnapshotTests: SnapshotTestCase {
     }
 
     func test_loadInNavigationController_dark_rendersCorrectly() async {
-        let mockActivityService = MockActivityService()
         let coreData = await CoreDataRepository.arrangeAndLoad
+        let mockActivityService = MockActivityService(context: coreData.viewContext)
         _ = ActivityItem.arrange(
             title: "Test 5",
             date: .arrange("21/11/2024"),
@@ -108,8 +116,8 @@ final class RecentActivityListViewControllerSnapshotTests: SnapshotTestCase {
     }
 
     func test_loadInNavigationController_editing_rendersCorrectly() async {
-        let mockActivityService = MockActivityService()
         let coreData = await CoreDataRepository.arrangeAndLoad
+        let mockActivityService = MockActivityService(context: coreData.viewContext)
         _ = ActivityItem.arrange(
             title: "Test 5",
             date: .arrange("21/11/2024"),
@@ -172,8 +180,8 @@ final class RecentActivityListViewControllerSnapshotTests: SnapshotTestCase {
     }
 
     func test_loadInNavigationController_editing_allSelected_rendersCorrectly() async {
-        let mockActivityService = MockActivityService()
         let coreData = await CoreDataRepository.arrangeAndLoad
+        let mockActivityService = MockActivityService(context: coreData.viewContext)
         _ = ActivityItem.arrange(
             title: "Test 1",
             date: .arrange("21/11/2024"),

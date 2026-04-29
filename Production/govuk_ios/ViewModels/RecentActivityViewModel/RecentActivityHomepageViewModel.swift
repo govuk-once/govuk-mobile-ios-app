@@ -4,26 +4,14 @@ import GovKitUI
 import GovKit
 
 class RecentActivityHomepageWidgetViewModel: NSObject,
-                                            ObservableObject,
-                                            NSFetchedResultsControllerDelegate {
+                                             ObservableObject,
+                                             NSFetchedResultsControllerDelegate {
     @Published private(set) var sections = [GroupedListSection]()
     private let activityService: ActivityServiceInterface
     private let analyticsService: AnalyticsServiceInterface
     private let lastVisitedFormatter = DateFormatter.recentActivityLastVisited
     let seeAllAction: () -> Void
     let openURLAction: (URL) -> Void
-
-    private let fetchRequest = ActivityItem.homepagefetchRequest()
-    private lazy var activitiesFetchResultsController: NSFetchedResultsController = {
-        let controller = NSFetchedResultsController(
-            fetchRequest: fetchRequest,
-            managedObjectContext: self.activityService.returnContext(),
-            sectionNameKeyPath: nil,
-            cacheName: nil
-        )
-        controller.delegate = self
-        return controller
-    }()
 
     init(analyticsService: AnalyticsServiceInterface,
          activityService: ActivityServiceInterface,
@@ -46,11 +34,13 @@ class RecentActivityHomepageWidgetViewModel: NSObject,
     let seeAllButtonTitle: String = String.recentActivity.localized(
         "recentActivitySeeAllButtonTitle"
     )
-    private func setupFetchResultsController() {
-        try? activitiesFetchResultsController.performFetch()
-        let activities = activitiesFetchResultsController.fetchedObjects ?? []
-        sections = createSections(activities: activities)
-    }
+
+//    private func setupFetchResultsController() {
+//        try? activityService.activitiesFetchResultsController.performFetch()
+//        let activities = activityService.activitiesFetchResultsController.fetchedObjects ?? []
+//        let mappedActivities = activities.compactMap { $0 as? ActivityItem }
+//        sections = createSections(activities: mappedActivities )
+//    }
 
     private func createSections(activities: [ActivityItem]) -> [GroupedListSection] {
         guard activities.count > 0 else {
@@ -61,7 +51,7 @@ class RecentActivityHomepageWidgetViewModel: NSObject,
             GroupedListSection(
                 heading: nil,
                 rows: activities
-                    .prefix(fetchRequest.fetchLimit).map { activity in
+                    .prefix(activityService.fetchRequest.fetchLimit).map { activity in
                         LinkRow(
                             id: UUID().uuidString,
                             title: activity.title,
@@ -79,6 +69,13 @@ class RecentActivityHomepageWidgetViewModel: NSObject,
         ]
     }
 
+    func controllerDidChangeContent(
+        _ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+            let activities =  activityService.activitiesFetchResultsController.fetchedObjects ?? []
+            let mappedActivities = activities.compactMap { $0 as? ActivityItem }
+            sections = createSections(activities: mappedActivities)
+        }
+
     private func lastVisitedString(activity: ActivityItem) -> String {
         let copy = String.recentActivity.localized(
             "recentActivityFormattedDateStringComponent"
@@ -86,10 +83,4 @@ class RecentActivityHomepageWidgetViewModel: NSObject,
         let formattedDateString = lastVisitedFormatter.string(from: activity.date)
         return "\(copy) \(formattedDateString)"
     }
-
-    func controllerDidChangeContent(
-        _ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-            let activities =  activitiesFetchResultsController.fetchedObjects ?? []
-            sections = createSections(activities: activities)
-        }
 }
