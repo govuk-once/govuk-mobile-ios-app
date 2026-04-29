@@ -32,9 +32,6 @@ public final class AppConfigService: AppConfigServiceInterface {
     private(set) var refreshTokenExpirySeconds: Int?
     private(set) var termsAndConditions: TermsAndConditions?
 
-    typealias TermsAndConditionsResult =
-    Result<TermsAndConditionsResponse, TermsAndConditionsError>
-
     init(appConfigServiceClient: AppConfigServiceClientInterface,
          termsAndConditionsServiceClient: TermsAndConditionsServiceClientInterface,
          analyticsService: AnalyticsServiceInterface) {

@@ -6,6 +6,9 @@ enum TermsAndConditionsError: LocalizedError {
     case parsingError
 }
 
+typealias TermsAndConditionsResult =
+Result<TermsAndConditionsResponse, TermsAndConditionsError>
+
 protocol TermsAndConditionsServiceClientInterface {
     func termsAndConditions(path: String) async ->
     Result<TermsAndConditionsResponse, TermsAndConditionsError>
@@ -18,9 +21,7 @@ class TermsAndConditionsServiceClient: TermsAndConditionsServiceClientInterface 
         self.serviceClient = serviceClient
     }
 
-    func termsAndConditions(
-        path: String
-    ) async -> Result<TermsAndConditionsResponse, TermsAndConditionsError> {
+    func termsAndConditions(path: String) async -> TermsAndConditionsResult {
         let request = GOVRequest.termsAndConditions(path: path)
         return await withCheckedContinuation { continuation in
             serviceClient.send(request: request) { [weak self] result in
@@ -31,9 +32,7 @@ class TermsAndConditionsServiceClient: TermsAndConditionsServiceClientInterface 
         }
     }
 
-    private func mapResult(
-        _ result: NetworkResult<Data>
-    ) -> Result<TermsAndConditionsResponse, TermsAndConditionsError> {
+    private func mapResult(_ result: NetworkResult<Data>) -> TermsAndConditionsResult {
         return result.mapError { error in
             let nsError = (error as NSError)
             if nsError.code == NSURLErrorNotConnectedToInternet {
