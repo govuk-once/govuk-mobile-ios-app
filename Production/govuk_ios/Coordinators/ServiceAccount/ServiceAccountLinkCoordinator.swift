@@ -58,11 +58,21 @@ final class ServiceAccountLinkCoordinator: BaseCoordinator {
             accountType: accountType,
             linkId: linkId,
             completeAction: { [weak self] in
-                print("dvla account linked successfully")
-                self?.dismissModal()
-                self?.completion(true)
+                self?.showLinkSuccess()
             },
             dismissAction: dismissModal
+        )
+        set(viewController)
+    }
+
+    private func showLinkSuccess() {
+        let viewController = viewControllerBuilder.serviceAccountLinkSuccess(
+            analyticsService: analyticsService,
+            accountType: accountType,
+            completionAction: { [weak self] in
+                self?.dismissModal()
+                self?.completion(true)
+            }
         )
         set(viewController)
     }

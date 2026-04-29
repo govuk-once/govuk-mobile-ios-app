@@ -58,8 +58,57 @@ struct ServiceAccountLinkCoordinatorTests {
     func authenticationCompletion_setsAccountLinkingViewController() async {
         let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
         let mockViewControllerBuilder = MockViewControllerBuilder()
-        let authenticationCoordinator = MockBaseCoordinator()
-        mockCoordinatorBuilder._stubbedDvlaAuthenticationCoordinator = authenticationCoordinator
+        let expectedViewController = UIViewController()
+        mockViewControllerBuilder._stubbedServiceAccountLinkingController = expectedViewController
+        let mockNavigationController = MockNavigationController()
+        let sut = ServiceAccountLinkCoordinator(
+            navigationController: mockNavigationController,
+            coordinatorBuilder: mockCoordinatorBuilder,
+            viewControllerBuilder: mockViewControllerBuilder,
+            analyticsService: MockAnalyticsService(),
+            userService: MockUserService(),
+            accountType: .dvla,
+            completion: { _ in }
+        )
+
+        sut.start()
+        mockViewControllerBuilder._receivedServiceAccountConsentCompletionAction?()
+        mockCoordinatorBuilder._receivedDvlaAuthenticationCompletion?("link-id")
+
+        let firstViewController = mockNavigationController._setViewControllers?.first
+        #expect(firstViewController == expectedViewController)
+    }
+
+    @Test
+    func accountLinkingCompletion_setsLinkAccountSuccessViewController() {
+        let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
+        let mockViewControllerBuilder = MockViewControllerBuilder()
+        let expectedViewController = UIViewController()
+        mockViewControllerBuilder._stubbedServiceAccountLinkSuccessController = expectedViewController
+        let mockNavigationController = MockNavigationController()
+        let sut = ServiceAccountLinkCoordinator(
+            navigationController: mockNavigationController,
+            coordinatorBuilder: mockCoordinatorBuilder,
+            viewControllerBuilder: mockViewControllerBuilder,
+            analyticsService: MockAnalyticsService(),
+            userService: MockUserService(),
+            accountType: .dvla,
+            completion: { _ in }
+        )
+
+        sut.start()
+        mockViewControllerBuilder._receivedServiceAccountConsentCompletionAction?()
+        mockCoordinatorBuilder._receivedDvlaAuthenticationCompletion?("link-id")
+        mockViewControllerBuilder._receivedServiceAccountLinkingCompleteAction?()
+
+        let firstViewController = mockNavigationController._setViewControllers?.first
+        #expect(firstViewController == expectedViewController)
+    }
+
+    @Test
+    func linkAccountSuccessCompletionActions_callsCoordinatorCompletion() {
+        let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
+        let mockViewControllerBuilder = MockViewControllerBuilder()
         let expectedViewController = UIViewController()
         mockViewControllerBuilder._stubbedServiceAccountLinkingController = expectedViewController
         let mockNavigationController = MockNavigationController()
@@ -75,14 +124,12 @@ struct ServiceAccountLinkCoordinatorTests {
                 hasCompleted = true
             }
         )
-
         sut.start()
         mockViewControllerBuilder._receivedServiceAccountConsentCompletionAction?()
         mockCoordinatorBuilder._receivedDvlaAuthenticationCompletion?("link-id")
-
-        let firstViewController = mockNavigationController._setViewControllers?.first
-        #expect(firstViewController == expectedViewController)
         mockViewControllerBuilder._receivedServiceAccountLinkingCompleteAction?()
+        mockViewControllerBuilder._receivedServiceAccountLinkSuccessCompletionAction?()
+
         #expect(hasCompleted)
     }
 

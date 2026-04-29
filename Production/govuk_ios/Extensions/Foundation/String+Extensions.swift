@@ -130,4 +130,8 @@ extension String {
                 .compare(targetVersionArray.joined(separator: versionDelimiter), options: .numeric)
         }
     }
+
+    func sentenceCased() -> String {
+        return prefix(1).uppercased() + dropFirst()
+    }
 }
