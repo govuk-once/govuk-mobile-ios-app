@@ -43,34 +43,14 @@ final class ServiceAccountLinkSuccessViewModel: ObservableObject {
 
     @MainActor
     var primaryButtonConfiguration: GOVUKButton.ButtonConfiguration {
-        .init(
-            titleColorNormal: UIColor.govUK.text.linkAccountButton,
-            titleColorHighlighted: UIColor.govUK.text.linkAccountButtonHighlight,
-            titleColorFocused: UIColor.govUK.text.buttonPrimaryFocussed,
-            titleColorDisabled: UIColor.govUK.text.linkAccountButtonHighlight,
-            titleFont: UIFont.govUK.bodySemibold,
-            backgroundColorNormal: UIColor.govUK.fills.linkAccountButton,
-            backgroundColorHighlighted: UIColor.govUK.fills.linkAccountButtonHighlight,
-            backgroundColorFocused: UIColor.govUK.fills.surfaceButtonPrimaryFocussed,
-            backgroundColorDisabled: UIColor.govUK.fills.linkAccountButtonHighlight,
-            cornerRadius: 15,
-            accessibilityButtonShapesColor: UIColor.grey100,
-            shadowColor: UIColor.govUK.strokes.linkAccountButton.cgColor,
-            shadowHighLightedColor: UIColor.govUK.strokes.linkAccountButtonHighlight.cgColor,
-            shadowFocusedColor: UIColor.govUK.strokes.buttonFocused.cgColor
-        )
-    }
-
-    var closeButtonAccessibilityLabel: String {
-        String.common.localized("close")
+        .blackPrimaryButton
     }
 
     private func trackCompletionAction() {
-        let event = AppEvent.navigation(
+        let event = AppEvent.buttonNavigation(
             text: primaryButtonTitle,
-            type: "Button",
             external: false,
-            additionalParams: ["section": "account link success"]
+            section: "account link success"
         )
         analyticsService.track(event: event)
     }
