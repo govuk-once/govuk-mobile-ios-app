@@ -530,7 +530,7 @@ class NotificationServiceTests {
         #expect(alignment == .misaligned(.consentGrantedNotificationsOff))
     }
 
-    @Test
+    @Test(.disabled("GOVUKAPP-3485: For the time being, we don’t want to link FLEX and OneSignal with the notification id. "))
     func registerPushId_hasGivenConsent_doesNotCallLogin() {
         MockOneSignalServiceClient._stubbedExternalId = nil
 
@@ -543,10 +543,10 @@ class NotificationServiceTests {
         )
         sut.acceptConsent()
         sut.register(pushId: "test_user_id")
-        #expect(MockOneSignalServiceClient._stubbedExternalId == nil)
+        #expect(MockOneSignalServiceClient._stubbedExternalId == "test_user_id")
     }
 
-    @Test
+    @Test(.disabled("GOVUKAPP-3485: For the time being, we don’t want to link FLEX and OneSignal with the notification id. "))
     func registerPushId_hasNotGivenConsent_doesNotCallLogin() {
         MockOneSignalServiceClient._stubbedExternalId = nil
 
@@ -562,7 +562,7 @@ class NotificationServiceTests {
         #expect(MockOneSignalServiceClient._stubbedExternalId == nil)
     }
 
-    @Test
+    @Test(.disabled("GOVUKAPP-3485: For the time being, we don’t want to link FLEX and OneSignal with the notification id. "))
     func unregisterPushId_doesNotCallLogin() {
         MockOneSignalServiceClient._stubbedExternalId = "test_user_id"
         let sut = NotificationService(
@@ -574,7 +574,7 @@ class NotificationServiceTests {
         )
 
         sut.unregisterPushId()
-        #expect(MockOneSignalServiceClient._stubbedExternalId == "test_user_id")
+        #expect(MockOneSignalServiceClient._stubbedExternalId == nil)
     }
 
     @Test
