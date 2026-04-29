@@ -3,7 +3,7 @@ import FactoryKit
 import GovKit
 
 protocol AppConfigServiceInterface {
-    func fetchAppConfig(completion: @escaping FetchAppConfigCompletion)
+    func fetchAppConfig() async -> FetchAppConfigResult
     func isFeatureEnabled(key: Feature) -> Bool
     var chatPollIntervalSeconds: TimeInterval { get }
     var alertBanner: AlertBanner? { get }
@@ -19,6 +19,7 @@ public final class AppConfigService: AppConfigServiceInterface {
     private var featureFlags: [String: Bool] = [:]
 
     private let appConfigServiceClient: AppConfigServiceClientInterface
+    private let termsAndConditionsServiceClient: TermsAndConditionsServiceClientInterface
     private let analyticsService: AnalyticsServiceInterface
     private var retryInterval: Int?
 
@@ -32,26 +33,44 @@ public final class AppConfigService: AppConfigServiceInterface {
     private(set) var termsAndConditions: TermsAndConditions?
 
     init(appConfigServiceClient: AppConfigServiceClientInterface,
+         termsAndConditionsServiceClient: TermsAndConditionsServiceClientInterface,
          analyticsService: AnalyticsServiceInterface) {
         self.appConfigServiceClient = appConfigServiceClient
+        self.termsAndConditionsServiceClient = termsAndConditionsServiceClient
         self.analyticsService = analyticsService
     }
 
-    func fetchAppConfig(completion: @escaping FetchAppConfigCompletion) {
-        appConfigServiceClient.fetchAppConfig(
-            completion: { [weak self] result in
-                self?.handleResult(result)
-                completion(result)
-            }
-        )
+    func fetchAppConfig() async -> FetchAppConfigResult {
+        let result  = await withCheckedContinuation { continuation in
+            appConfigServiceClient.fetchAppConfig(
+                completion: { result in
+                    continuation.resume(returning: result)
+                }
+            )
+        }
+        return await configuredResult(result)
     }
 
-    private func handleResult(_ result: FetchAppConfigResult) {
+    private func configuredResult(_ result: FetchAppConfigResult) async -> FetchAppConfigResult {
         switch result {
         case .success(let appConfig):
-            setConfig(appConfig.config)
+            let config = appConfig.config
+            setConfig(config)
+
+            let termsResult = await updateTermsAndConditions(
+                config.termsAndConditions.contentItemApiPath
+            )
+
+            switch termsResult {
+            case .success:
+                return .success(appConfig)
+            case .failure(let error):
+                return .failure(error)
+            }
+
         case .failure(let error):
             analyticsService.track(error: error)
+            return .failure(error)
         }
     }
 
@@ -62,9 +81,11 @@ public final class AppConfigService: AppConfigServiceInterface {
                 new
             }
         )
+
         updateSearch(urlString: config.searchApiUrl)
         updateChatPollInterval(config.chatPollIntervalSeconds)
         updateTokenExpirySeconds(config.refreshTokenExpirySeconds)
+
         emergencyBanners = config.emergencyBanners
         chatBanner = config.chatBanner
         userFeedbackBanner = config.userFeedbackBanner
@@ -91,6 +112,24 @@ public final class AppConfigService: AppConfigServiceInterface {
         else { return }
         Constants.API.defaultSearchPath = components.path
         Container.shared.reregisterSearchAPIClient(url: url)
+    }
+
+    private func updateTermsAndConditions(_ path: String) async -> Result<Void, AppConfigError> {
+        let result: TermsAndConditionsResult = await
+        termsAndConditionsServiceClient.termsAndConditions(path: path)
+
+        switch result {
+        case .success(let terms):
+            termsAndConditions?.lastUpdated = terms.publicUpdatedAt
+            return .success(())
+        case .failure(let error):
+            if error == .networkUnavailable {
+                return .failure(.networkUnavailable)
+            } else {
+                analyticsService.track(error: error)
+                return .failure(.termsAndConditionsAPI)
+            }
+        }
     }
 
     func isFeatureEnabled(key: Feature) -> Bool {

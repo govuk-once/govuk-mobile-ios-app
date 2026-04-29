@@ -15,6 +15,7 @@ struct TermsAndConditionsServiceTests {
 
         mockAppConfigService._stubbedTermsAndConditions = .init(
             url: URL(string: "https://www.example.com")!,
+            contentItemApiPath: "/api/content/random",
             lastUpdated: configLastUpdated
         )
         mockUserDefaultService.set(
@@ -39,6 +40,7 @@ struct TermsAndConditionsServiceTests {
 
         mockAppConfigService._stubbedTermsAndConditions = .init(
             url: URL(string: "https://www.example.com")!,
+            contentItemApiPath: "/api/content/random",
             lastUpdated: configLastUpdated
         )
         mockUserDefaultService.set(
@@ -62,6 +64,7 @@ struct TermsAndConditionsServiceTests {
 
         mockAppConfigService._stubbedTermsAndConditions = .init(
             url: URL(string: "https://www.example.com")!,
+            contentItemApiPath: "/api/content/random",
             lastUpdated: configLastUpdated
         )
 
@@ -110,6 +113,7 @@ struct TermsAndConditionsServiceTests {
 
         mockAppConfigService._stubbedTermsAndConditions = .init(
             url: URL(string: "https://www.gov.uk")!,
+            contentItemApiPath: "/api/content/random",
             lastUpdated: .now
         )
         let expectedUrl = mockAppConfigService
@@ -132,6 +136,7 @@ struct TermsAndConditionsServiceTests {
 
         mockAppConfigService._stubbedTermsAndConditions = .init(
             url: URL(string: "https://www.example.com")!,
+            contentItemApiPath: "/api/content/random",
             lastUpdated: configLastUpdated
         )
 
@@ -152,6 +157,7 @@ struct TermsAndConditionsServiceTests {
 
         mockAppConfigService._stubbedTermsAndConditions = .init(
             url: URL(string: "https://www.example.com")!,
+            contentItemApiPath: "/api/content/random",
             lastUpdated: configLastUpdated
         )
 

@@ -45,5 +45,6 @@ struct ChatURLs: Decodable {
 
 struct TermsAndConditions: Decodable {
     let url: URL
-    let lastUpdated: Date
+    let contentItemApiPath: String
+    var lastUpdated: Date?
 }

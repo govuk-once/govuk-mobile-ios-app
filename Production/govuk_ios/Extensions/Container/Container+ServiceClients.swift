@@ -30,6 +30,14 @@ extension Container {
         }
     }
 
+    var termsAndConditionsServiceClient: Factory<TermsAndConditionsServiceClient> {
+        Factory(self) {
+            TermsAndConditionsServiceClient(
+                serviceClient: self.govukAPIClient()
+            )
+        }
+    }
+
     var topicsServiceClient: Factory<TopicsServiceClientInterface> {
         Factory(self) {
             TopicsServiceClient(
