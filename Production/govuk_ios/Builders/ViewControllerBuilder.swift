@@ -632,6 +632,24 @@ class ViewControllerBuilder {
         return viewController
     }
 
+    func serviceAccountLinkSuccess(
+        analyticsService: AnalyticsServiceInterface,
+        accountType: ServiceAccountType,
+        completionAction: @escaping () -> Void
+    ) -> UIViewController {
+        let viewModel = ServiceAccountLinkSuccessViewModel(
+            analyticsService: analyticsService,
+            accountType: accountType,
+            completionAction: completionAction
+        )
+        let view = ServiceAccountLinkSuccessView(viewModel: viewModel)
+        let viewController = HostingViewController(
+            rootView: view,
+            navigationBarHidden: true
+        )
+        return viewController
+    }
+
     func serviceAccountUnlinking(
         userService: UserServiceInterface,
         accountType: ServiceAccountType,
