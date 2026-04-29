@@ -65,14 +65,16 @@ final class UserServiceTests {
         #expect(sut.notificationsConsentStatus == .accepted)
     }
 
+    /// Temporarily disable sending of consent
+    /// https://govukverify.atlassian.net/browse/GOVUKAPP-3485
     @Test
-    func setNotificationConsent_flexEnabled_callsClient() {
+    func setNotificationConsent_flexEnabled_doesNotCallClient() {
         mockAppConfigService.features = [.profile]
         let sut = UserService(appConfigService: mockAppConfigService,
                               userServiceClient: mockUserServiceClient)
 
         sut.setNotificationsConsent(.accepted)
-        #expect(mockUserServiceClient._receivedNotificationConsent == .accepted)
+        #expect(mockUserServiceClient._receivedNotificationConsent ==  nil)
     }
 
     @Test

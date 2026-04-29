@@ -44,7 +44,11 @@ protocol UserServiceInterface {
          }
      }
 
+     /// Temporarily disable sending of consent
+     /// https://govukverify.atlassian.net/browse/GOVUKAPP-3485
      func setNotificationsConsent(_ consentStatus: ConsentStatus) {
+         return
+         /*
          guard isEnabled else { return }
          userServiceClient.setNotificationsConsent(consentStatus) { result in
              switch result {
@@ -55,5 +59,6 @@ protocol UserServiceInterface {
                  print(error.localizedDescription)
              }
          }
+        */
      }
  }
