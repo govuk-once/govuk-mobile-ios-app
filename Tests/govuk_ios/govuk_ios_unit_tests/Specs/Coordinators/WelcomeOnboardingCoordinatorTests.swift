@@ -195,7 +195,7 @@ class WelcomeOnboardingCoordinatorTests {
         #expect(completion)
     }
 
-    @Test
+    @Test(.disabled("GOVUKAPP-3485: For the time being, we don’t want to link FLEX and OneSignal with the notification id. "))
     func authenticationSuccess_userStateRequestSuccess_setNotificationExternalId() async {
         let mockNotificationService = MockNotificationService()
         let mockUserService = MockUserService()
@@ -232,7 +232,7 @@ class WelcomeOnboardingCoordinatorTests {
         #expect(mockNotificationService._stubbedPushId == "push_id")
     }
 
-    @Test
+    @Test(.disabled("GOVUKAPP-3484: For now, fail silently if UDP request fails"))
     func authenticationSuccess_userStateRequestFailure_startsAppUnavailableCoordinator() async {
         let mockUserService = MockUserService()
         let mockCoordinatorBuilder = CoordinatorBuilder.mock
@@ -270,7 +270,7 @@ class WelcomeOnboardingCoordinatorTests {
         #expect(mockAppUnavailableCoordinator._startCalled == true)
     }
 
-    @Test
+    @Test(.disabled("GOVUKAPP-3484: For now, fail silently if UDP request fails"))
     func appUnavailable_retrySuccess_returnsExpectedResult() async {
         let mockUserService = MockUserService()
         let mockNavigationController = MockNavigationController()
