@@ -531,7 +531,7 @@ class NotificationServiceTests {
     }
 
     @Test
-    func registerPushId_hasGivenConsent_callsLogin() {
+    func registerPushId_hasGivenConsent_doesNotCallLogin() {
         MockOneSignalServiceClient._stubbedExternalId = nil
 
         let sut = NotificationService(
@@ -543,7 +543,7 @@ class NotificationServiceTests {
         )
         sut.acceptConsent()
         sut.register(pushId: "test_user_id")
-        #expect(MockOneSignalServiceClient._stubbedExternalId == "test_user_id")
+        #expect(MockOneSignalServiceClient._stubbedExternalId == nil)
     }
 
     @Test
@@ -563,7 +563,7 @@ class NotificationServiceTests {
     }
 
     @Test
-    func unregisterPushId_callsLogin() {
+    func unregisterPushId_doesNotCallLogin() {
         MockOneSignalServiceClient._stubbedExternalId = "test_user_id"
         let sut = NotificationService(
             environmentService: MockAppEnvironmentService(),
@@ -574,7 +574,7 @@ class NotificationServiceTests {
         )
 
         sut.unregisterPushId()
-        #expect(MockOneSignalServiceClient._stubbedExternalId == nil)
+        #expect(MockOneSignalServiceClient._stubbedExternalId == "test_user_id")
     }
 
     @Test
