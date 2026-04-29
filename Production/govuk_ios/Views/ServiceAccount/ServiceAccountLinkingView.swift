@@ -9,16 +9,17 @@ struct ServiceAccountLinkingView: View {
     }
 
     var body: some View {
-        VStack {
+        Group {
             if let errorViewModel = viewModel.errorViewModel {
                 errorView(with: errorViewModel)
-            } else if viewModel.showProgressView {
-                loadingView
+            } else {
+                ZStack {
+                    Color(UIColor.govUK.fills.surfaceFullScreenLinkAccount)
+                        .ignoresSafeArea()
+                    loadingView
+                }
+                .ignoresSafeArea(edges: .vertical)
             }
-        }
-        .ignoresSafeArea(.all, edges: .bottom)
-        .toolbar {
-            cancelButton
         }
         .task {
             viewModel.linkAccount()
@@ -30,14 +31,18 @@ struct ServiceAccountLinkingView: View {
     }
 
     private var loadingView: some View {
-        ZStack {
-            Color(UIColor.govUK.fills.surfaceModal)
+        VStack(spacing: 20) {
             ProgressView()
-                .accessibilityLabel(viewModel.accessibilityLabel)
+                .controlSize(.large)
+                .tint(Color(UIColor.govUK.text.header))
+                .accessibilityHidden(true)
+            Text(viewModel.title)
+                .font(Font.govUK.largeTitleBold)
+                .foregroundStyle(Color(UIColor.govUK.text.header))
+                .multilineTextAlignment(.center)
         }
+        .padding(16)
         .opacity(progressOpacity)
-        .animation(.easeOut.delay(viewModel.animationDelay),
-                   value: progressOpacity)
     }
 
     private func errorView(with errorViewModel: AppErrorViewModel) -> some View {
@@ -52,6 +57,9 @@ struct ServiceAccountLinkingView: View {
                 .frame(width: geometry.size.width)
             }
             .background(Color(UIColor.govUK.fills.surfaceModal))
+            .toolbar {
+                cancelButton
+            }
         }
     }
 
