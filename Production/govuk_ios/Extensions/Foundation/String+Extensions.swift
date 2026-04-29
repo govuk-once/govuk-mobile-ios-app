@@ -132,6 +132,6 @@ extension String {
     }
 
     func sentenceCased() -> String {
-        return prefix(1).uppercased() + dropFirst()
+        prefix(1).uppercased() + dropFirst()
     }
 }
