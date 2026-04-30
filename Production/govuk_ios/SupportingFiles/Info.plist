@@ -8,6 +8,10 @@
 	<string>$(AUTHENTICATION_CLIENT_ID)</string>
 	<key>BaseURL</key>
 	<string>$(BASE_URL)</string>
+	<key>CFBundleGetInfoString</key>
+	<string></string>
+	<key>CFBundleIconFile</key>
+	<string>AppIconLiquidGlass</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
