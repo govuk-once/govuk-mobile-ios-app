@@ -97,6 +97,7 @@ extension Container {
         Factory(self) {
             AppConfigService(
                 appConfigServiceClient: self.appConfigServiceClient.resolve(),
+                termsAndConditionsServiceClient: self.termsAndConditionsServiceClient.resolve(),
                 analyticsService: self.analyticsService.resolve()
             )
         }.scope(.singleton)

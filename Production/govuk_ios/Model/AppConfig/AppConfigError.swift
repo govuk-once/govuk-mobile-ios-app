@@ -1,9 +1,11 @@
 import Foundation
 
 enum AppConfigError: Error {
-    case remoteJson
+    case configAPI
+    case parsingError
     case invalidSignature
     case networkUnavailable
+    case termsAndConditionsAPI
 }
 
 extension AppConfigError {

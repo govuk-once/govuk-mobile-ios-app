@@ -7,7 +7,7 @@ import Testing
 struct AppConfigErrorTests {
     @Test
     func remoteJson_asAppUnavailableError_returnsAppConfigError() {
-        let subject = AppConfigError.remoteJson
+        let subject = AppConfigError.configAPI
         let result = subject.asAppUnavailableError
 
         #expect(result == AppUnavailableError.appConfig)

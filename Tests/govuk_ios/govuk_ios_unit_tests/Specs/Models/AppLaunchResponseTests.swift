@@ -105,7 +105,7 @@ struct AppLaunchResponseTests {
     @Test
     func isUpdateRequired_error_returnsFalse() {
         let subject = AppLaunchResponse(
-            configResult: .failure(.remoteJson),
+            configResult: .failure(.configAPI),
             topicResult: .failure(.apiUnavailable),
             notificationConsentResult: .aligned,
             remoteConfigFetchResult: .success,
@@ -175,7 +175,7 @@ struct AppLaunchResponseTests {
     @Test
     func isUpdateRecommended_error_returnsFalse() {
         let subject = AppLaunchResponse(
-            configResult: .failure(.remoteJson),
+            configResult: .failure(.configAPI),
             topicResult: .failure(.apiUnavailable),
             notificationConsentResult: .aligned,
             remoteConfigFetchResult: .success,
