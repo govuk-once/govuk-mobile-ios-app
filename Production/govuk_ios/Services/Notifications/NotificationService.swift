@@ -156,21 +156,19 @@ class NotificationService: NSObject,
         }
     }
 
-    /// Temporarily disable sending of id to one signal
+    /// Temporarily disabled sending of id to one signal
     /// https://govukverify.atlassian.net/browse/GOVUKAPP-3485
     func register(pushId: String) {
-        /*
-        guard hasGivenConsent else { return }
-        oneSignalServiceClient.login(pushId)
-         */
+        return
+        // guard hasGivenConsent else { return }
+        // oneSignalServiceClient.login(pushId)
     }
 
-    /// Temporarily disable sending of id to one signal
+    /// Temporarily disabled sending of id to one signal
     /// https://govukverify.atlassian.net/browse/GOVUKAPP-3485
     func unregisterPushId() {
-        /*
-        oneSignalServiceClient.logout()
-        */
+        return
+        // oneSignalServiceClient.logout()
     }
 }
 
