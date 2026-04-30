@@ -329,6 +329,8 @@
 		8181DBFA2EE214B100F47531 /* FactoryKit in Frameworks */ = {isa = PBXBuildFile; productRef = 8181DBF92EE214B100F47531 /* FactoryKit */; };
 		8181DBFC2EE214B100F47531 /* FactoryTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 8181DBFB2EE214B100F47531 /* FactoryTesting */; };
 		81AF5C232F9A706A003227BA /* ServiceAccountConsentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AF5C222F9A7051003227BA /* ServiceAccountConsentView.swift */; };
+		81BF887E2FA1029C00249569 /* ServiceAccountLinkSuccessViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BF887D2FA1029400249569 /* ServiceAccountLinkSuccessViewModel.swift */; };
+		81BF88802FA10EB500249569 /* ServiceAccountLinkSuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BF887F2FA10EAE00249569 /* ServiceAccountLinkSuccessView.swift */; };
 		81CAC4AE2F8F85BE00E6E6A3 /* GOVUKColors+ServiceAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81CAC4AD2F8F85B500E6E6A3 /* GOVUKColors+ServiceAccount.swift */; };
 		81CAC8572F926C7E00E6E6A3 /* DriverSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81CAC8562F926C7500E6E6A3 /* DriverSummary.swift */; };
 		81CAFB422F98FBE300E6E6A3 /* CustomerSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81CAFB412F98FBDA00E6E6A3 /* CustomerSummary.swift */; };
@@ -822,6 +824,8 @@
 		8171AE462F11169A0024312B /* ScrollBottomIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollBottomIndicatorView.swift; sourceTree = "<group>"; };
 		8178EA6B2F7AA64A008AF03A /* ServiceAccountLinkStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountLinkStatus.swift; sourceTree = "<group>"; };
 		81AF5C222F9A7051003227BA /* ServiceAccountConsentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountConsentView.swift; sourceTree = "<group>"; };
+		81BF887D2FA1029400249569 /* ServiceAccountLinkSuccessViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountLinkSuccessViewModel.swift; sourceTree = "<group>"; };
+		81BF887F2FA10EAE00249569 /* ServiceAccountLinkSuccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountLinkSuccessView.swift; sourceTree = "<group>"; };
 		81CAC4AD2F8F85B500E6E6A3 /* GOVUKColors+ServiceAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GOVUKColors+ServiceAccount.swift"; sourceTree = "<group>"; };
 		81CAC8562F926C7500E6E6A3 /* DriverSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverSummary.swift; sourceTree = "<group>"; };
 		81CAFB412F98FBDA00E6E6A3 /* CustomerSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerSummary.swift; sourceTree = "<group>"; };
@@ -1010,6 +1014,7 @@
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/ServiceAccountConsentViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/ServiceAccountLinkCardViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/ServiceAccountLinkingViewControllerSnapshotTests.swift,
+				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/ServiceAccountLinkSuccessViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/ServiceAccountUnlinkingViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/SettingsViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/SignInErrorViewControllerSnapshotTests.swift,
@@ -1080,6 +1085,7 @@
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/ServiceAccountConsentViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/ServiceAccountLinkCardViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/ServiceAccountLinkingViewControllerSnapshotTests.swift,
+				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/ServiceAccountLinkSuccessViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/ServiceAccountUnlinkingViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/SettingsViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/SignInErrorViewControllerSnapshotTests.swift,
@@ -2152,6 +2158,7 @@
 			isa = PBXGroup;
 			children = (
 				815841572F8D0FE6009E6486 /* ServiceAccountLinkCardViewModel.swift */,
+				81BF887D2FA1029400249569 /* ServiceAccountLinkSuccessViewModel.swift */,
 				81DAF9462F6D737E001C4E09 /* ServiceAccountConsentViewModel.swift */,
 				81DE66972F5B3AAF0087F48E /* ServiceAccountLinkingViewModel.swift */,
 				810A83742F68A4650039B4A4 /* ServiceAccountUnlinkingViewModel.swift */,
@@ -2163,6 +2170,7 @@
 			isa = PBXGroup;
 			children = (
 				81AF5C222F9A7051003227BA /* ServiceAccountConsentView.swift */,
+				81BF887F2FA10EAE00249569 /* ServiceAccountLinkSuccessView.swift */,
 				815841552F8D0F57009E6486 /* ServiceAccountLinkCardView.swift */,
 				81DE669A2F5B74350087F48E /* ServiceAccountLinkingView.swift */,
 				810A83762F68A5720039B4A4 /* ServiceAccountUnlinkingView.swift */,
@@ -2787,6 +2795,7 @@
 				4E9F5D072DB79D370063FA78 /* PrimaryButtonView.swift in Sources */,
 				815935D92F212EF700F8D206 /* UserServiceClient.swift in Sources */,
 				D02578772EB8CB73008AD2BF /* EmergencyBannerWidgetViewModel.swift in Sources */,
+				81BF887E2FA1029C00249569 /* ServiceAccountLinkSuccessViewModel.swift in Sources */,
 				16C34B432C492FF90031AD32 /* HomeDeepLinkRoute.swift in Sources */,
 				4E19C85E2E65109900D56C33 /* ChatWidgetView.swift in Sources */,
 				8178EA6C2F7AA655008AF03A /* ServiceAccountLinkStatus.swift in Sources */,
@@ -2948,6 +2957,7 @@
 				815935E22F225B9F00F8D206 /* UserState.swift in Sources */,
 				5D41DB5D2C0870020011E691 /* Container+Aliases.swift in Sources */,
 				3D4A9E602E672975003ABE53 /* UserFeedbackWidgetView.swift in Sources */,
+				81BF88802FA10EB500249569 /* ServiceAccountLinkSuccessView.swift in Sources */,
 				5DBE08042C480CA700B58DBE /* AnimationView+Convenience.swift in Sources */,
 				4E5E79A62DEF011500CA9B4D /* LocalAuthorityConfirmationViewModel.swift in Sources */,
 				5DD4CB162D95490100459FB5 /* ActivityService.swift in Sources */,

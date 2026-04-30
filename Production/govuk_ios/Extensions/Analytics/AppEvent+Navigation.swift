@@ -11,11 +11,14 @@ extension AppEvent {
     }
 
     static func buttonNavigation(text: String,
-                                 external: Bool) -> AppEvent {
-        navigation(
+                                 external: Bool,
+                                 section: String? = nil) -> AppEvent {
+        let additionalParams = section.map {  ["section": $0] } ?? [:]
+        return navigation(
             text: text,
             type: "Button",
-            external: external
+            external: external,
+            additionalParams: additionalParams
         )
     }
 

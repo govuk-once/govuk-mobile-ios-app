@@ -81,11 +81,8 @@ final class TopicDetailsCoordinator: BaseCoordinator {
             navigationController.modalPresentationStyle = .fullScreen
             let coordinator = coordinatorBuilder.serviceAccountLink(
                 navigationController: navigationController,
-                accountType: .dvla, completion: { [weak self] hasLinkedAccount in
+                accountType: .dvla, completion: { _ in
                     print("service account linking dismissed")
-                    if hasLinkedAccount {
-                        self?.startDvlaAccount(viewType: .drivingLicence)
-                    }
                 }
             )
             present(coordinator)

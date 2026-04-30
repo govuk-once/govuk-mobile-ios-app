@@ -366,6 +366,17 @@ class MockViewControllerBuilder: ViewControllerBuilder {
         return _stubbedServiceAccountLinkingController ?? UIViewController()
     }
 
+    var _stubbedServiceAccountLinkSuccessController: UIViewController?
+    var _receivedServiceAccountLinkSuccessCompletionAction: (() -> Void)?
+    override func serviceAccountLinkSuccess(
+        analyticsService: AnalyticsServiceInterface,
+        accountType: ServiceAccountType,
+        completionAction: @escaping () -> Void
+    ) -> UIViewController {
+        _receivedServiceAccountLinkSuccessCompletionAction = completionAction
+        return _stubbedServiceAccountLinkSuccessController ?? UIViewController()
+    }
+
     var _stubbedServiceAccountUnlinkingController: UIViewController?
     var _receivedServiceAccountUnlinkingCompleteAction: (() -> Void)?
     var _receivedServiceAccountUnlinkingDismissAction: (() -> Void)?
