@@ -139,12 +139,17 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
                                                     userState.notifications.pushId)
                 self?.handleUserStateFetched()
             case .failure(let error):
-                self?.startAppUnavailable(error: error.asAppUnavailableError)
+                self?.handleUserStateFailure(error)
             }
         })
     }
 
     private func handleUserStateFetched() {
+        completionAction()
+    }
+
+    private func handleUserStateFailure(_ error: any Error) {
+        analyticsService.track(error: error)
         completionAction()
     }
 
