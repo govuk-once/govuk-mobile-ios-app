@@ -335,7 +335,8 @@ class SettingsViewModel: SettingsViewModelInterface {
                 privacyPolicyRow,
                 accessibilityStatementRow,
                 openSourceLicenceRow,
-                termsAndConditionsRow
+                termsAndConditionsRow,
+                sarRequestRow
             ],
             footer: nil
         )
@@ -412,6 +413,22 @@ class SettingsViewModel: SettingsViewModelInterface {
                         fullScreen: false
                     )
                 )
+            }
+        )
+    }
+
+    private var sarRequestRow: GroupedListRow {
+        NavigationRow(
+            id: "settings.biometrics.row",
+            title: String(localized: .Settings.sarRequestRowTitle),
+            body: nil,
+            action: { [weak self] in
+                guard let self = self else { return }
+                self.trackNavigationEvent(
+                    String.settings.localized(title),
+                    external: false
+                )
+                self.localAuthenticationAction?()
             }
         )
     }

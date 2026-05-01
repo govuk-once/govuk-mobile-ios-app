@@ -39,4 +39,14 @@ extension CoordinatorBuilder {
             analyticsService: container.analyticsService.resolve()
         )
     }
+
+    func sarSettingsCoordinator(
+        navigationController: UINavigationController
+    ) -> BaseCoordinator {
+        SARSettingsCoordinator(
+            navigationController: navigationController,
+            analyticsService: container.analyticsService.resolve(),
+            userService: container.userService.resolve()
+        )
+    }
 }
