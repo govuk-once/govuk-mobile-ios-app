@@ -363,20 +363,28 @@ class ViewControllerBuilder {
                      topicsService: TopicsServiceInterface,
                      analyticsService: AnalyticsServiceInterface,
                      activityService: ActivityServiceInterface,
+                     configService: AppConfigServiceInterface,
+                     userService: UserServiceInterface,
+                     topicAction: @escaping (DisplayableTopic) -> Void,
                      subtopicAction: @escaping (DisplayableTopic) -> Void,
                      stepByStepAction: @escaping ([TopicDetailResponse.Content]) -> Void,
-                     openAction: @escaping (URL) -> Void
+                     openAction: @escaping (URL) -> Void,
+                     linkAccountAction: @escaping () -> Void
     ) -> UIViewController {
         let actions = TopicDetailViewModel.Actions(
+            topicAction: topicAction,
             subtopicAction: subtopicAction,
             stepByStepAction: stepByStepAction,
-            openAction: openAction
+            openAction: openAction,
+            linkAccountAction: linkAccountAction
         )
         let viewModel = TopicDetailViewModel(
             topic: topic,
             topicsService: topicsService,
             analyticsService: analyticsService,
             activityService: activityService,
+            configService: configService,
+            userService: userService,
             urlOpener: UIApplication.shared,
             actions: actions
         )
@@ -604,6 +612,66 @@ class ViewControllerBuilder {
         return viewController
     }
 
+    func serviceAccountLinking(
+        userService: UserServiceInterface,
+        accountType: ServiceAccountType,
+        linkId: String,
+        completeAction: @escaping () -> Void,
+        dismissAction: @escaping () -> Void
+    ) -> UIViewController {
+        let viewModel = ServiceAccountLinkingViewModel(
+            userService: userService,
+            accountType: accountType,
+            linkId: linkId,
+            completeAction: completeAction,
+            dismissAction: dismissAction
+        )
+        let view = ServiceAccountLinkingView(viewModel: viewModel)
+        let viewController = HostingViewController(
+            rootView: view,
+            navigationBarHidden: false
+        )
+        return viewController
+    }
+
+    func serviceAccountLinkSuccess(
+        analyticsService: AnalyticsServiceInterface,
+        accountType: ServiceAccountType,
+        completionAction: @escaping () -> Void
+    ) -> UIViewController {
+        let viewModel = ServiceAccountLinkSuccessViewModel(
+            analyticsService: analyticsService,
+            accountType: accountType,
+            completionAction: completionAction
+        )
+        let view = ServiceAccountLinkSuccessView(viewModel: viewModel)
+        let viewController = HostingViewController(
+            rootView: view,
+            navigationBarHidden: true
+        )
+        return viewController
+    }
+
+    func serviceAccountUnlinking(
+        userService: UserServiceInterface,
+        accountType: ServiceAccountType,
+        completeAction: @escaping () -> Void,
+        dismissAction: @escaping () -> Void
+    ) -> UIViewController {
+        let viewModel = ServiceAccountUnlinkingViewModel(
+            userService: userService,
+            accountType: accountType,
+            completeAction: completeAction,
+            dismissAction: dismissAction
+        )
+        let view = ServiceAccountUnlinkingView(viewModel: viewModel)
+        let viewController = HostingViewController(
+            rootView: view,
+            navigationBarHidden: false
+        )
+        return viewController
+    }
+
     func termsAndConditions(
         termsAndConditionsService: TermsAndConditionsServiceInterface,
         completionAction: @escaping () -> Void,
@@ -627,12 +695,14 @@ class ViewControllerBuilder {
     func notificationCentre(
         showNotificationAction: @escaping (Notification) -> Void,
         notificationService: NotificationCentreServiceInterface,
-        analyticsService: AnalyticsServiceInterface) -> UIViewController {
+        analyticsService: AnalyticsServiceInterface,
+        dvlaService: DVLAServiceInterface) -> UIViewController {
         let actions = NotificationCentreViewModel.Actions(showNotification: showNotificationAction)
         let viewModel = NotificationCentreViewModel(
             actions: actions,
             notificationService: notificationService,
-            analyticsService: analyticsService)
+            analyticsService: analyticsService,
+            dvlaService: dvlaService)
 
         let viewController = HostingViewController(
             rootView: NotificationCentreContainerView(viewModel: viewModel),
@@ -692,5 +762,44 @@ class ViewControllerBuilder {
             ]
             return viewController
         }
+
+    func serviceAccountConsent(
+        analyticsService: AnalyticsServiceInterface,
+        accountType: ServiceAccountType,
+        completionAction: @escaping () -> Void,
+        cancelAction: @escaping () -> Void
+    ) -> UIViewController {
+        let viewModel = ServiceAccountConsentViewModel(
+            analyticsService: analyticsService,
+            accountType: accountType,
+            completionAction: completionAction,
+            cancelAction: cancelAction
+        )
+        let containerView = ServiceAccountConsentView(
+            viewModel: viewModel
+        )
+        let viewController = HostingViewController(
+            rootView: containerView
+        )
+        viewController.isModalInPresentation = true
+        return viewController
+    }
+
+    func dvlaAccount(
+        dvlaService: DVLAServiceInterface,
+        viewType: DVLAAccountViewType
+    ) -> UIViewController {
+        let viewModel = DVLAAccountViewModel(
+            dvlaService: dvlaService,
+            viewType: viewType
+        )
+        let view = DVLAAccountView(
+            viewModel: viewModel
+        )
+        let viewController = HostingViewController(
+            rootView: view
+        )
+        return viewController
+    }
 }
 // swiftlint:enable file_length

@@ -133,6 +133,23 @@ public final class AppConfigService: AppConfigServiceInterface {
     }
 
     func isFeatureEnabled(key: Feature) -> Bool {
+        if let override = developmentOverrides[key] {
+            return override
+        }
         return featureFlags[key.rawValue] ?? false
+    }
+
+    private var developmentOverrides: [Feature: Bool] {
+    #if STAGING
+        [
+            .flex: true,
+            .dvla: true
+        ]
+    #else
+        [
+            .flex: false,
+            .dvla: false
+        ]
+    #endif
     }
 }

@@ -46,7 +46,7 @@ class ReturningUserService: ReturningUserServiceInterface {
 
     private func currentPersistentUserIdentifier(idToken: String?) async -> String? {
         guard let idToken = idToken,
-              let payload = try? await JWTExtractor().extract(jwt: idToken)
+              let payload = try? await JWTExtractor().extract(jwt: idToken, as: IdTokenPayload.self)
         else { return nil }
         return payload.sub
     }

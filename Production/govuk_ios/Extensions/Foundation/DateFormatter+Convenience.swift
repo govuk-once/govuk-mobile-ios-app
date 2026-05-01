@@ -18,4 +18,10 @@ extension DateFormatter {
         formatter.dateFormat = "d MMM yyyy, h:mma"
         return formatter
     }
+
+    static var dvlaAccount: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "d MMMM yyyy"
+        return formatter
+    }
 }

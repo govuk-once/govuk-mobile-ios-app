@@ -1,0 +1,127 @@
+{
+  "sourceLanguage" : "en-GB",
+  "strings" : {
+    "accountName" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "driver and vehicles"
+          }
+        }
+      }
+    },
+    "dvlaAccountErrorBody" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We couldn’t fetch your driving licence right now."
+          }
+        }
+      }
+    },
+    "dvlaAccountErrorButtonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try again"
+          }
+        }
+      }
+    },
+    "dvlaAccountLinkCardSubtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your tax, MOT, penalty points"
+          }
+        }
+      }
+    },
+    "dvlaAccountLinkCardTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add driver and vehicles account"
+          }
+        }
+      }
+    },
+    "dvlaAccountTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Driving Licence"
+          }
+        }
+      }
+    },
+    "dvlaAccountUnlinkCardTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unlink driver and vehicles account"
+          }
+        }
+      }
+    },
+    "dvlaViewCustomerSummaryCardTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "View customer summary"
+          }
+        }
+      }
+    },
+    "dvlaViewDriverSummaryCardTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "View driver summary"
+          }
+        }
+      }
+    },
+    "dvlaViewDrivingLicenceCardTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "View driving licence"
+          }
+        }
+      }
+    },
+    "linkAccountFullScreenDescriptionTop" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep track of your penalty points, tax and MOT dates."
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.1"
+}

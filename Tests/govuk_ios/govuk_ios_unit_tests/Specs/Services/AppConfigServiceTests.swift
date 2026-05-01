@@ -160,7 +160,7 @@ struct AppConfigServiceTests {
         let result = Config.arrange(releaseFlags: ["chat": true]).toResult()
         mockAppConfigServiceClient._fetchAppConfigReturn = result
 
-        #expect(sut.isFeatureEnabled(key: .chat) == false)
+        #expect(sut.isFeatureEnabled(key: .dvla) == false)
     }
 }
 

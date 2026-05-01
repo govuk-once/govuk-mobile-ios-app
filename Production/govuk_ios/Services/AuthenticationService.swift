@@ -52,7 +52,10 @@ class AuthenticationService: AuthenticationServiceInterface {
     var userEmail: String? {
         get async {
             guard let idToken,
-                  let payload = try? await JWTExtractor().extract(jwt: idToken)
+                  let payload = try? await JWTExtractor().extract(
+                    jwt: idToken,
+                    as: IdTokenPayload.self
+                  )
             else {
                 return nil
             }
@@ -214,7 +217,7 @@ class AuthenticationService: AuthenticationServiceInterface {
     private func saveTokenIssueDate(jwt: String?) async {
         guard let jwt = jwt else { return }
         do {
-            let token = try await JWTExtractor().extract(jwt: jwt)
+            let token = try await JWTExtractor().extract(jwt: jwt, as: IdTokenPayload.self)
             saveTokenIssueDate(iat: token.iat)
         } catch {
             analyticsService.track(error: error)

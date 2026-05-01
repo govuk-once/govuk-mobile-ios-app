@@ -9,6 +9,7 @@ import Firebase
 import FirebaseAnalytics
 import FirebaseCrashlytics
 import FirebaseAppCheck
+import FirebasePerformance
 import FirebaseRemoteConfig
 import OneSignalFramework
 
@@ -27,7 +28,8 @@ extension Container {
                 clients: [
                     DebugClient(),
                     self.firebaseClient.resolve(),
-                    self.crashlyticsClient.resolve()
+                    self.crashlyticsClient.resolve(),
+                    self.performanceClient.resolve()
                 ],
                 userDefaultsService: self.userDefaultsService.resolve(),
                 isSignedIn: {
@@ -52,6 +54,12 @@ extension Container {
     var crashlyticsClient: Factory<AnalyticsClient> {
         Factory(self) {
             CrashlyticsClient(crashlytics: Crashlytics.crashlytics())
+        }
+    }
+
+    var performanceClient: Factory<AnalyticsClient> {
+        Factory(self) {
+            PerformanceClient(performance: Performance.sharedInstance())
         }
     }
 
@@ -296,6 +304,22 @@ extension Container {
             NotificationCentreService(
                 serviceClient: self.notificationCentreServiceClient.resolve(),
                 repository: self.notificationCentreRepository.resolve())
+        }
+    }
+
+    var dvlaAuthenticationService: Factory<DVLAAuthenticationServiceInterface> {
+        Factory(self) {
+            DVLAAuthenticationService(
+                sessionBuilder: DVLAAuthSessionBuilder()
+            )
+        }
+    }
+
+    var dvlaService: Factory<DVLAServiceInterface> {
+        Factory(self) {
+            DVLAService(
+                serviceClient: self.dvlaServiceClient.resolve()
+            )
         }
     }
 }

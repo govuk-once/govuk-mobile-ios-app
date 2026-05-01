@@ -58,6 +58,13 @@ struct Container_ServicesTests {
     }
 
     @Test
+    func performanceClient_returnsExpectedValue() {
+        let container = Container()
+        let client = container.performanceClient.resolve()
+        #expect(client is PerformanceClient)
+    }
+
+    @Test
     @MainActor
     func privacyService_returnsExpectedValue() async {
         let container = Container()
@@ -104,5 +111,21 @@ struct Container_ServicesTests {
         container.authenticationService.register { MockAuthenticationService() }
         let sut = container.inactivityService.resolve()
         #expect(sut is InactivityService)
+    }
+
+    @Test
+    func dvlaAuthenticationService_returnsExpectedValue() {
+        let container = Container()
+        let sut = container.dvlaAuthenticationService.resolve()
+        #expect(sut is DVLAAuthenticationService)
+
+    }
+
+    @Test
+    func dvlaService_returnsExpectedValue() {
+        let container = Container()
+        container.authenticationService.register { MockAuthenticationService() }
+        let sut = container.dvlaService.resolve()
+        #expect(sut is DVLAService)
     }
 }

@@ -77,8 +77,7 @@ extension Container {
     var userServiceClient: Factory<UserServiceClientInterface> {
         Factory(self) {
             UserServiceClient(
-                apiServiceClient: self.userAPIClient(),
-                authenticationService: self.authenticationService.resolve()
+                apiServiceClient: self.userAPIClient()
             )
         }
     }
@@ -88,6 +87,12 @@ extension Container {
             NotificationCentreServiceClient(
                 apiServiceClient: self.notificationCentreAPIClient()
             )
+        }
+    }
+
+    var dvlaServiceClient: Factory<DVLAServiceClientInterface> {
+        Factory(self) {
+            DVLAServiceClient(apiServiceClient: self.dvlaAPIClient())
         }
     }
 }

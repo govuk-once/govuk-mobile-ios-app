@@ -1,0 +1,170 @@
+{
+    "driver": {
+        "drivingLicenceNumber": "DECER607085K99AE",
+        "firstNames": "KENNETH",
+        "lastName": "DECERQUEIRA",
+        "gender": "Male",
+        "dateOfBirth": "1965-07-08",
+        "address": {
+            "unstructuredAddress": {
+                "line1": "9 FARRS LANE",
+                "line5": "BATH",
+                "postcode": "BA2 5AA"
+            }
+        }
+    },
+    "licence": {
+        "type": "Full",
+        "status": "Valid"
+    },
+    "entitlement": [
+        {
+            "categoryCode": "B",
+            "categoryLegalLiteral": "Vehicles up to 3,500 kg Maximum Authorised Mass (MAM) with up to 8 passenger seats and driver (with a trailer up to 750 kg). Can also tow heavier trailers if the total weight of vehicle and trailer isn't more than 3,500 kg. Provisional category B licences have no entitlement to tow a trailer. Physically disabled drivers with provisional category B entitlement will also have provisional entitlement to ride category A1 or A motor tricycles. Able-bodied drivers can no longer ride motor tricycles with a provisional category B licence",
+            "categoryType": "Full",
+            "fromDate": "1983-07-29",
+            "expiryDate": "2035-07-07"
+        },
+        {
+            "categoryCode": "A",
+            "categoryLegalLiteral": "A motorcycle of a power exceeding 35 kW or with a power to weight ratio exceeding 0.2 kW per kg, or A motorcycle of a power not exceeding 35 kW with a power to weight ratio not exceeding 0.2 kW per kg and derived from a vehicle of more than double its power. A motor tricycle with a power exceeding 15 kW",
+            "categoryType": "Full",
+            "fromDate": "1988-04-25",
+            "expiryDate": "2035-07-07"
+        },
+        {
+            "categoryCode": "P",
+            "categoryLegalLiteral": "Motor vehicles with fewer than 4 wheels with a maximum design speed exceeding 45 kilometres per hour (km/h) but not exceeding 50 km/h and which, if propelled by an internal combustion engine, has a cylinder capacity not exceeding 50 cc",
+            "categoryType": "Full",
+            "fromDate": "1983-07-29",
+            "expiryDate": "2035-07-07"
+        },
+        {
+            "categoryCode": "AM",
+            "categoryLegalLiteral": "2-wheel vehicles or 3-wheel vehicles with a maximum design speed of over 25km/h and not more than 45km/h; Light quadricycles with a mass in running order of not more than 425kg, not including the mass of the batteries in the case of electric vehicles, whose maximum design speed is over 25km/h and not more than 45km/h",
+            "categoryType": "Full",
+            "fromDate": "2015-04-28",
+            "expiryDate": "2035-07-07"
+        },
+        {
+            "categoryCode": "Q",
+            "categoryLegalLiteral": "Motor vehicles with fewer than 4 wheels which, if propelled by an internal combustion engine, has a cylinder capacity not exceeding 50 cc and, if not equipped with pedals by means of which the vehicle is capable of being propelled, has a maximum design speed not exceeding 25 km/h",
+            "categoryType": "Full",
+            "fromDate": "2015-04-28",
+            "expiryDate": "2035-07-07"
+        },
+        {
+            "categoryCode": "B1",
+            "categoryLegalLiteral": "Motor vehicles with 4 wheels up to 400 kg unladen or 550 kg if they're designed for carrying goods",
+            "categoryType": "Full",
+            "fromDate": "1983-07-29",
+            "expiryDate": "2035-07-07"
+        },
+        {
+            "categoryCode": "BE",
+            "categoryLegalLiteral": "Vehicles up to 3,500 kg Maximum Authorised Mass (MAM). You can drive a vehicle with a MAM of 3,500 kg with a trailer. The size of the trailer depends on the BE 'valid from' date shown on the licence. If the date is before 19 January 2013 can tow any size trailer within the towing limits of the vehicle. If on or after 19 January 2013 can tow a trailer with a MAM of up to 3,500 kg within the towing limits of the vehicle",
+            "categoryType": "Full",
+            "fromDate": "1983-07-29",
+            "expiryDate": "2035-07-07"
+        },
+        {
+            "categoryCode": "C1",
+            "categoryLegalLiteral": "Vehicles weighing between 3,500 and 7,500 kg (with a trailer up to 750 kg), with no more than 8 passengers and driver",
+            "categoryType": "Full",
+            "fromDate": "1983-07-29",
+            "expiryDate": "2035-07-07"
+        },
+        {
+            "categoryCode": "C1E",
+            "categoryLegalLiteral": "Vehicles weighing between 3,500 and 7,500 kg (with a trailer over 750 kg), with no more than 8 passengers and driver. The combined weight of both can't exceed 12,000 kg",
+            "categoryType": "Full",
+            "fromDate": "1983-07-29",
+            "expiryDate": "2035-07-07",
+            "restrictions": [
+                {
+                    "restrictionCode": "107",
+                    "restrictionLiteral": "Not more than 8250 kg"
+                }
+            ]
+        },
+        {
+            "categoryCode": "D1",
+            "categoryLegalLiteral": "Vehicles with no more than 16 passenger seats and driver and with a maximum length not exceeding 8 metres with a trailer up to 750 kg if 'valid from' date shown on the licence is on or after 19 January 2013. If date shown is before 19 January 2013 not limited to 8 m restriction",
+            "categoryType": "Full",
+            "fromDate": "1983-07-29",
+            "expiryDate": "2035-07-07",
+            "restrictions": [
+                {
+                    "restrictionCode": "101",
+                    "restrictionLiteral": "Not for Hire or reward"
+                }
+            ]
+        },
+        {
+            "categoryCode": "D1E",
+            "categoryLegalLiteral": "Vehicles with no more than 16 passenger seats and driver and with a maximum length not exceeding 8 metres with a trailer over 750 kg, provided that the Maximum Authorised Mass (MAM) of the combination formed does not exceed 12,000 kg if 'valid from' date shown on the licence is on or after 19 January 2013. If date shown is before 19 January 2013 not limited to 8 m restriction",
+            "categoryType": "Full",
+            "fromDate": "1983-07-29",
+            "expiryDate": "2035-07-07",
+            "restrictions": [
+                {
+                    "restrictionCode": "101",
+                    "restrictionLiteral": "Not for Hire or reward"
+                },
+                {
+                    "restrictionCode": "119",
+                    "restrictionLiteral": "Weight limit does not apply"
+                }
+            ]
+        },
+        {
+            "categoryCode": "F",
+            "categoryLegalLiteral": "Agricultural",
+            "categoryType": "Full",
+            "fromDate": "1983-07-29",
+            "expiryDate": "2035-07-07"
+        },
+        {
+            "categoryCode": "K",
+            "categoryLegalLiteral": "Mowing machine or vehicles controlled by someone on foot",
+            "categoryType": "Full",
+            "fromDate": "1983-07-29",
+            "expiryDate": "2035-07-07"
+        },
+        {
+            "categoryCode": "L",
+            "categoryLegalLiteral": "Electrically-propelled vehicle",
+            "categoryType": "Full",
+            "fromDate": "1983-07-29",
+            "expiryDate": "2035-07-07"
+        },
+        {
+            "categoryCode": "N",
+            "categoryLegalLiteral": "Vehicles exempt from Vehicle Excise Duty",
+            "categoryType": "Full",
+            "fromDate": "1983-07-29",
+            "expiryDate": "2035-07-07"
+        },
+        {
+            "categoryCode": "G",
+            "categoryLegalLiteral": "Road roller",
+            "categoryType": "Provisional",
+            "fromDate": "1983-05-12",
+            "expiryDate": "2035-07-07"
+        },
+        {
+            "categoryCode": "H",
+            "categoryLegalLiteral": "Tracked vehicles",
+            "categoryType": "Provisional",
+            "fromDate": "1983-05-12",
+            "expiryDate": "2035-07-07"
+        }
+    ],
+    "endorsements": [],
+    "testPass": [],
+    "token": {
+        "validFromDate": "2025-05-02",
+        "validToDate": "2035-05-01",
+        "issueNumber": "17"
+    }
+}

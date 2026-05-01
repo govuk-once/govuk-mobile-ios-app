@@ -116,9 +116,13 @@ struct ViewControllerBuilderTests {
             topicsService: MockTopicsService(),
             analyticsService: MockAnalyticsService(),
             activityService: MockActivityService(),
+            configService: MockAppConfigService(),
+            userService: MockUserService(),
+            topicAction: { _ in },
             subtopicAction: { _ in },
             stepByStepAction: { _ in },
-            openAction: { _ in }
+            openAction: { _ in },
+            linkAccountAction: { }
         )
 
         let rootView = (result as? HostingViewController<TopicDetailView<TopicDetailViewModel>>)?.rootView
@@ -347,6 +351,58 @@ struct ViewControllerBuilderTests {
 
         let rootView =
         (result as? HostingViewController<InfoView<ChatTermsOnboardingViewModel>>)?.rootView
+        #expect(rootView != nil)
+    }
+
+    @Test
+    func serviceAccountLinking_returnsExpectedResult() {
+        let subject = ViewControllerBuilder()
+        let result = subject.serviceAccountLinking(
+            userService: MockUserService(),
+            accountType: .dvla,
+            linkId: "linkId",
+            completeAction: {},
+            dismissAction: {}
+        )
+
+        let rootView = (result as? HostingViewController<ServiceAccountLinkingView>)?.rootView
+        #expect(rootView != nil)
+    }
+
+    @Test
+    func serviceAccountUnlinking_returnsExpectedResult() {
+        let subject = ViewControllerBuilder()
+        let result = subject.serviceAccountUnlinking(
+            userService: MockUserService(),
+            accountType: .dvla,
+            completeAction: {},
+            dismissAction: {}
+        )
+        let rootView = (result as? HostingViewController<ServiceAccountUnlinkingView>)?.rootView
+        #expect(rootView != nil)
+    }
+
+    @Test
+    func serviceAccountConsent_returnsExpectedResult() {
+        let subject = ViewControllerBuilder()
+        let result = subject.serviceAccountConsent(
+            analyticsService: MockAnalyticsService(),
+            accountType: .dvla,
+            completionAction: {},
+            cancelAction: {}
+        )
+        let rootView = (result as? HostingViewController<ServiceAccountConsentView>)?.rootView
+        #expect(rootView != nil)
+    }
+
+    @Test
+    func dvlaAccount_returnsExpectedResult() {
+        let subject = ViewControllerBuilder()
+        let result = subject.dvlaAccount(
+            dvlaService: MockDVLAService(),
+            viewType: .drivingLicence
+        )
+        let rootView = (result as? HostingViewController<DVLAAccountView>)?.rootView
         #expect(rootView != nil)
     }
 }

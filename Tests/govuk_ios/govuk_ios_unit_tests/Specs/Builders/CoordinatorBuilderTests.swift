@@ -424,4 +424,39 @@ struct CoordinatorBuilderTests {
 
         #expect(coordinator is TermsAndConditionsCoordinator)
     }
+
+    @Test
+    func serviceAccountLink_returnsExpectedResult() {
+        let container = Container()
+        container.userService.register { MockUserService() }
+        container.analyticsService.register { MockAnalyticsService() }
+        let subject = CoordinatorBuilder(container: container)
+        let coordinator = subject.serviceAccountLink(
+            navigationController: UINavigationController(),
+            accountType: .dvla,
+            completion: { _ in }
+        )
+        #expect(coordinator is ServiceAccountLinkCoordinator)
+    }
+
+    @Test
+    func dvlaAuthentication_returnsExpectedResult() {
+        let subject = CoordinatorBuilder(container: Container())
+        let coordinator = subject.dvlaAuthentication(
+            navigationController: UINavigationController(),
+            completion: { _ in },
+            errorAction: { _ in }
+        )
+        #expect(coordinator is DVLAAuthenticationCoordinator)
+    }
+
+    @Test
+    func dvlaAccount_returnsExpectedResult() {
+        let subject = CoordinatorBuilder(container: Container())
+        let coordinator = subject.dvlaAccount(
+            navigationController: UINavigationController(),
+            viewType: .drivingLicence
+        )
+        #expect(coordinator is DVLAAccountCoordinator)
+    }
 }

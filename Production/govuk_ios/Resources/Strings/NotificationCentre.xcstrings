@@ -45,6 +45,17 @@
         }
       }
     },
+    "linkingIdFormat" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Linking Id: %1$@"
+          }
+        }
+      }
+    },
     "noNotificationsBody" : {
       "extractionState" : "manual",
       "localizations" : {

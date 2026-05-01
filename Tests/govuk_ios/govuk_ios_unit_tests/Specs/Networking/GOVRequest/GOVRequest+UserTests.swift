@@ -38,4 +38,30 @@ struct GOVRequest_UserTests {
         let body = try #require(request.body as? ConsentPreference)
         #expect(body.consentStatus == .denied)
     }
+
+    @Test
+    func linkAccount_returnsExpectedValues() {
+        let request = GOVRequest.linkAccount(serviceName: "dvla", linkId: "test-link-id")
+
+        #expect(request.urlPath == "/app/udp/v1/identity/dvla/test-link-id")
+        #expect(request.method == .post)
+        #expect(request.requiresAuthentication == true)
+    }
+
+    @Test
+    func unlinkAccount_returnsExpectedValues() {
+        let request = GOVRequest.unlinkAccount(serviceName: "dvla")
+
+        #expect(request.urlPath == "/app/udp/v1/identity/dvla")
+        #expect(request.method == .delete)
+        #expect(request.requiresAuthentication == true)
+    }
+
+    @Test
+    func accountLinkStatus_returnsExpectedValues() {
+        let request = GOVRequest.accountLinkStatus(serviceName: "dvla")
+        #expect(request.urlPath == "/app/udp/v1/identity/dvla")
+        #expect(request.method == .get)
+        #expect(request.requiresAuthentication == true)
+    }
 }

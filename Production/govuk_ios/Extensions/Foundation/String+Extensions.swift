@@ -98,6 +98,20 @@ extension String {
             bundle: .main
         )
     }
+
+    static var serviceAccount: LocalStringBuilder {
+        .init(
+            tableName: "ServiceAccount",
+            bundle: .main
+        )
+    }
+
+    static var dvla: LocalStringBuilder {
+        .init(
+            tableName: "DVLA",
+            bundle: .main
+        )
+    }
 }
 
 extension String {
@@ -122,5 +136,9 @@ extension String {
             return versionArray.joined(separator: versionDelimiter)
                 .compare(targetVersionArray.joined(separator: versionDelimiter), options: .numeric)
         }
+    }
+
+    func sentenceCased() -> String {
+        prefix(1).uppercased() + dropFirst()
     }
 }

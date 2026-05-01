@@ -21,16 +21,17 @@ struct NotificationCentreContainerView: View {
                                     UIAccessibility
                                         .post(notification: .screenChanged, argument: "Loading")
                                 }
-                        case .empty:
-                            NotificationCentreEmptyView()
+                        case .empty(linkingId: let linkingId):
+                            NotificationCentreEmptyView(linkingId: linkingId)
                                 .onAppear {
                                     UIAccessibility
                                         .post(notification: .screenChanged,
                                               argument: "No Notifications")
                                 }
-                        case .loaded(notifications: let notifications):
+                        case .loaded(notifications: let notifications, linkingId: let linkingId):
                             NotificationCentreLoadedView(
                                 notifications: notifications,
+                                linkingId: linkingId,
                                 onNotificationTap: viewModel.onTapNotification(notification:))
                             .onAppear {
                                 UIAccessibility
@@ -96,9 +97,13 @@ struct NotificationCentreContainerView: View {
 
 private struct NotificationCentreLoadedView: View {
     let notifications: [Notification]
+    let linkingId: String?
     let onNotificationTap: (Notification) -> Void
 
     var body: some View {
+        if let linkingId {
+            NotificationCentreLinkingView(linkingId: linkingId)
+        }
         List(notifications) { not in
             NotificationCentreRow(notification: not,
                                   onTap: onNotificationTap)
@@ -161,8 +166,12 @@ private struct NotificationCentreErrorView: View {
 }
 
 private struct NotificationCentreEmptyView: View {
+    let linkingId: String?
     var body: some View {
         VStack(alignment: .center) {
+            if let linkingId {
+                NotificationCentreLinkingView(linkingId: linkingId)
+            }
             Spacer()
             Image(.notcenBell)
                 .resizable()
@@ -234,6 +243,16 @@ private struct NotificationCentreRow: View {
     }
 }
 
+private struct NotificationCentreLinkingView: View {
+    let linkingId: String
+
+    var body: some View {
+        ShareLink(item: linkingId) {
+            Text(.NotificationCentre.linkingIdFormat(linkingId))
+                .padding(.vertical, 16)
+        }
+    }
+}
 
 extension NotificationCentreContainerView: TrackableScreen {
     var trackingTitle: String? { trackingName }
@@ -249,11 +268,12 @@ extension NotificationCentreContainerView: TrackableScreen {
 
     NotificationCentreLoadedView(
         notifications: testNotifications,
+        linkingId: "12345",
         onNotificationTap: { _ in /* No-op */ })
 }
 
 #Preview("Empty") {
-    NotificationCentreEmptyView()
+    NotificationCentreEmptyView(linkingId: "12345")
 }
 
 #Preview("Error") {

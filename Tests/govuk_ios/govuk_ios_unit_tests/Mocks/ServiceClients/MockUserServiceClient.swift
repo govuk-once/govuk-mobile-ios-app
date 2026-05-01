@@ -16,5 +16,26 @@ class MockUserServiceClient: UserServiceClientInterface {
         _receivedNotificationConsent = consentStatus
     }
 
+    var _stubbedLinkAccountResult: LinkAccountResult?
+    func linkAccount(serviceName: String,
+                     linkId: String,
+                     completion: @escaping (LinkAccountResult) -> Void) {
+        if let result = _stubbedLinkAccountResult {
+            completion(result)
+        }
+    }
+
+    var _stubbedUnlinkAccountResult: UnlinkAccountResult?
+    func unlinkAccount(serviceName: String,
+                       completion: @escaping (UnlinkAccountResult) -> Void) {
+        if let result = _stubbedUnlinkAccountResult {
+            completion(result)
+        }
+    }
+    
+    var _stubbedFetchAccountLinkStatusResult: LinkStatusResult!
+    func fetchAccountLinkStatus(serviceName: String) async -> LinkStatusResult {
+        _stubbedFetchAccountLinkStatusResult
+    }
 }
 

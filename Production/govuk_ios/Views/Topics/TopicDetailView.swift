@@ -20,13 +20,9 @@ struct TopicDetailView<T: TopicDetailViewModelInterface>: View {
             }
         }
         .background(Color(UIColor.govUK.fills.surfaceBackground))
-        .onAppear {
+        .task {
             viewModel.trackScreen(screen: self)
-            // isLoaded == true on back navigation, otherwise e-commerce
-            // triggered in .onChange
-            if viewModel.isLoaded {
-                viewModel.trackEcommerce()
-            }
+            await viewModel.viewDidAppear()
         }
         .onChange(of: viewModel.isLoaded) { isLoaded in
             if isLoaded {
@@ -55,6 +51,8 @@ struct TopicDetailView<T: TopicDetailViewModelInterface>: View {
         ScrollView {
             VStack(spacing: 0) {
                 titleView
+                serviceAccountView
+                topicActions
                 topicDetails
                 subtopics
             }
@@ -99,6 +97,35 @@ struct TopicDetailView<T: TopicDetailViewModelInterface>: View {
         )
         .padding([.top, .horizontal], 16)
         .background(Color(UIColor.govUK.fills.surfaceBackground))
+    }
+
+    @ViewBuilder
+    private var topicActions: some View {
+        if viewModel.topicActionCards.isEmpty {
+            EmptyView()
+        } else {
+            VStack(spacing: 8) {
+                ForEach(viewModel.topicActionCards) { cardModel in
+                    ListCardView(viewModel: cardModel)
+                }
+            }
+            .padding([.top, .horizontal], 16)
+            .padding(.bottom, 8)
+            .background(Color(UIColor.govUK.fills.surfaceBackground))
+            .opacity(viewModel.topicActionCards.isEmpty ? 0 : 1)
+        }
+    }
+
+    @ViewBuilder
+    private var serviceAccountView: some View {
+        if let linkAccountCardViewModel = viewModel.linkAccountCardViewModel {
+            ServiceAccountLinkCardView(
+                viewModel: linkAccountCardViewModel
+            )
+            .padding([.top, .horizontal], 16)
+            .padding(.bottom, 8)
+            .background(Color(UIColor.govUK.fills.surfaceBackground))
+        }
     }
 
     private var subtopics: some View {

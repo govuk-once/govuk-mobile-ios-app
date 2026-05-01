@@ -47,7 +47,10 @@ class NotificationCentreViewModel: ObservableObject {
     // swiftlint:enable line_length
 
     enum State {
-        case loading, empty, loaded(notifications: [Notification]), error
+        case loading,
+             empty(linkingId: String?),
+             loaded(notifications: [Notification],
+                    linkingId: String?), error
     }
 
     @Published public private(set) var state: State = .loading
@@ -55,14 +58,17 @@ class NotificationCentreViewModel: ObservableObject {
     private let actions: Actions
     private let notificationService: NotificationCentreServiceInterface
     private let analyticsService: AnalyticsServiceInterface
+    private let dvlaService: DVLAServiceInterface
 
     init(
         actions: Actions,
         notificationService: NotificationCentreServiceInterface,
-        analyticsService: AnalyticsServiceInterface) {
+        analyticsService: AnalyticsServiceInterface,
+        dvlaService: DVLAServiceInterface) {
             self.actions = actions
             self.notificationService = notificationService
             self.analyticsService = analyticsService
+            self.dvlaService = dvlaService
         }
 
     func onViewAppear() {
@@ -91,16 +97,23 @@ class NotificationCentreViewModel: ObservableObject {
         Task {
             await changeState(state: .loading)
 
+            var linkingId: String?
+
+            if case let .success(summary) = await dvlaService.fetchCustomerSummary() {
+                linkingId = summary.linkingId
+            }
+
             notificationService.fetchNotifications { res in
                 Task {
                     if case let .success(notifications) = res {
                         if notifications.isEmpty {
-                            await self.changeState(state: .empty)
+                            await self.changeState(state: .empty(linkingId: linkingId))
                         } else {
                             let sorted = notifications.sorted {
                                 $0.date > $1.date
                             }
-                            await self.changeState(state: .loaded(notifications: sorted))
+                            await self.changeState(
+                                state: .loaded(notifications: sorted, linkingId: linkingId))
                         }
                     } else {
                         await self.changeState(state: .error)
