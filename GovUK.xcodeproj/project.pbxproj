@@ -381,8 +381,8 @@
 		D0A35E0A2E740DFD007D3D27 /* ChatMarkdownTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A35E092E740DFD007D3D27 /* ChatMarkdownTheme.swift */; };
 		D0A8B3C22C9DC66E00849304 /* integration_pubkey.der in Resources */ = {isa = PBXBuildFile; fileRef = D0A8B3C12C9DC66E00849304 /* integration_pubkey.der */; };
 		D0A8B3C42C9DD01200849304 /* Codable+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A8B3C32C9DD01200849304 /* Codable+Extensions.swift */; };
-		D0ABA5CE2FA4E76000C5A244 /* SARView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ABA5CD2FA4E76000C5A244 /* SARView.swift */; };
-		D0ABA5D22FA4E8AB00C5A244 /* SARViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ABA5D12FA4E8AB00C5A244 /* SARViewModel.swift */; };
+		D0ABA5CE2FA4E76000C5A244 /* SARSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ABA5CD2FA4E76000C5A244 /* SARSettingsView.swift */; };
+		D0ABA5D22FA4E8AB00C5A244 /* SARSettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ABA5D12FA4E8AB00C5A244 /* SARSettingsViewModel.swift */; };
 		D0ABA5D42FA4F95000C5A244 /* SARSettingsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ABA5D32FA4F95000C5A244 /* SARSettingsCoordinator.swift */; };
 		D0ABA5D62FA5105000C5A244 /* CoordinatorBuilder+Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ABA5D52FA5104700C5A244 /* CoordinatorBuilder+Settings.swift */; };
 		D0ABA5D82FA9F96F00C5A244 /* ViewControllerBuilder+Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ABA5D72FA9F96400C5A244 /* ViewControllerBuilder+Settings.swift */; };
@@ -843,8 +843,8 @@
 		D0A35E092E740DFD007D3D27 /* ChatMarkdownTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMarkdownTheme.swift; sourceTree = "<group>"; };
 		D0A8B3C12C9DC66E00849304 /* integration_pubkey.der */ = {isa = PBXFileReference; lastKnownFileType = file; path = integration_pubkey.der; sourceTree = "<group>"; };
 		D0A8B3C32C9DD01200849304 /* Codable+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Codable+Extensions.swift"; sourceTree = "<group>"; };
-		D0ABA5CD2FA4E76000C5A244 /* SARView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SARView.swift; sourceTree = "<group>"; };
-		D0ABA5D12FA4E8AB00C5A244 /* SARViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SARViewModel.swift; sourceTree = "<group>"; };
+		D0ABA5CD2FA4E76000C5A244 /* SARSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SARSettingsView.swift; sourceTree = "<group>"; };
+		D0ABA5D12FA4E8AB00C5A244 /* SARSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SARSettingsViewModel.swift; sourceTree = "<group>"; };
 		D0ABA5D32FA4F95000C5A244 /* SARSettingsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SARSettingsCoordinator.swift; sourceTree = "<group>"; };
 		D0ABA5D52FA5104700C5A244 /* CoordinatorBuilder+Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoordinatorBuilder+Settings.swift"; sourceTree = "<group>"; };
 		D0ABA5D72FA9F96400C5A244 /* ViewControllerBuilder+Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewControllerBuilder+Settings.swift"; sourceTree = "<group>"; };
@@ -1185,7 +1185,7 @@
 			children = (
 				16A5E9CF2E02D67D00D5FD0C /* FaceIdSettingsView.swift */,
 				1677D4052E006B7700FB1E56 /* TouchIdSettingsView.swift */,
-				D0ABA5CD2FA4E76000C5A244 /* SARView.swift */,
+				D0ABA5CD2FA4E76000C5A244 /* SARSettingsView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -2191,7 +2191,7 @@
 				160EA7542C5B0401008F97AF /* SettingsViewModel.swift */,
 				D08A9A852DB92F6F002E9C78 /* SignOutConfirmationViewModel.swift */,
 				1677D4032E00694B00FB1E56 /* LocalAuthenticationSettingsViewModel.swift */,
-				D0ABA5D12FA4E8AB00C5A244 /* SARViewModel.swift */,
+				D0ABA5D12FA4E8AB00C5A244 /* SARSettingsViewModel.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -2588,7 +2588,7 @@
 				4EBE646D2D15AB05007A6E97 /* CharValidator.swift in Sources */,
 				4E11AC4A2F22770C00838894 /* Constants.swift in Sources */,
 				16FCDE782DC4E39A000E870D /* TokenRefreshResponse.swift in Sources */,
-				D0ABA5D22FA4E8AB00C5A244 /* SARViewModel.swift in Sources */,
+				D0ABA5D22FA4E8AB00C5A244 /* SARSettingsViewModel.swift in Sources */,
 				5D66D1882CBFC15000006723 /* AppEvent+Search.swift in Sources */,
 				1677D4042E00695500FB1E56 /* LocalAuthenticationSettingsViewModel.swift in Sources */,
 				4EF407562CE2796900D654FC /* UIButton+Extensions.swift in Sources */,
@@ -2680,7 +2680,7 @@
 				D090467C2DBBC1AC0096EE66 /* IdTokenPayload.swift in Sources */,
 				1677D4062E006B8000FB1E56 /* TouchIdSettingsView.swift in Sources */,
 				5D54A82E2BFCAA4E003D0C21 /* LaunchViewController.swift in Sources */,
-				D0ABA5CE2FA4E76000C5A244 /* SARView.swift in Sources */,
+				D0ABA5CE2FA4E76000C5A244 /* SARSettingsView.swift in Sources */,
 				167D0DC52E9D41340064A39E /* TopicSelectionCardViewModel.swift in Sources */,
 				5D8100892CEB3FE600EE7D15 /* AppLaunchResponse.swift in Sources */,
 				4EEC0F322DBB7C6E00D745F2 /* StoredLocalAuthorityWidgetView.swift in Sources */,
