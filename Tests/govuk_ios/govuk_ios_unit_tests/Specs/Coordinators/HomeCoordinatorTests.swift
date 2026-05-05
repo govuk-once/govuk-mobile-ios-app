@@ -14,6 +14,7 @@ struct HomeCoordinatorTests {
     @Test
     @MainActor
     func start_setsHomeViewController() async  {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let mockCoodinatorBuilder = MockCoordinatorBuilder.mock
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let expectedViewController = UIViewController()
@@ -30,7 +31,7 @@ struct HomeCoordinatorTests {
                     notificationService: MockNotificationService(),
                     deviceInformationProvider: MockDeviceInformationProvider(),
                     searchService: MockSearchService(),
-                    activityService: MockActivityService(),
+                    activityService: MockActivityService(context: coreData.viewContext),
                     localAuthorityService: MockLocalAuthorityService(),
                     userDefaultsService: MockUserDefaultsService(),
                     chatService: MockChatService()
@@ -57,7 +58,7 @@ struct HomeCoordinatorTests {
     @MainActor
     func edit_topics() async {
         let mockCoodinatorBuilder = MockCoordinatorBuilder.mock
-        let homeViewController = ViewControllerBuilder.homeViewController
+        let homeViewController = await ViewControllerBuilder.homeViewController
         let subject = await mockCoodinatorBuilder.mockHomeCoordinator(homeViewController: homeViewController)
         subject.start()
         #expect(subject._didEditTopics == false)
@@ -71,7 +72,7 @@ struct HomeCoordinatorTests {
     @MainActor
     func open_search() async {
         let mockCoodinatorBuilder = MockCoordinatorBuilder.mock
-        let homeViewController = ViewControllerBuilder.homeViewController
+        let homeViewController = await ViewControllerBuilder.homeViewController
         let subject = await  mockCoodinatorBuilder.mockHomeCoordinator(homeViewController: homeViewController)
         subject.start()
         #expect(subject._didOpenSearch == false)
@@ -105,6 +106,7 @@ struct HomeCoordinatorTests {
     @Test
     @MainActor
     func startRecentActivity_startsCoordinatorAndTrackEvent() async {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let mockCoodinatorBuilder = MockCoordinatorBuilder.mock
         let mockViewControllerBuilder = MockViewControllerBuilder()
         mockViewControllerBuilder._stubbedHomeViewController = UIViewController()
@@ -121,7 +123,7 @@ struct HomeCoordinatorTests {
             notificationService: MockNotificationService(),
             deviceInformationProvider: MockDeviceInformationProvider(),
             searchService: MockSearchService(),
-            activityService: MockActivityService(),
+            activityService: MockActivityService(context: coreData.viewContext),
             localAuthorityService: MockLocalAuthorityService(),
             userDefaultsService: MockUserDefaultsService(),
             chatService: MockChatService()
@@ -140,7 +142,7 @@ struct HomeCoordinatorTests {
     @Test
     @MainActor
     func startEditLocalAuthority_startsCoordinatorAndTrackEvent() async {
-
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let mockCoodinatorBuilder = MockCoordinatorBuilder.mock
         let mockViewControllerBuilder = MockViewControllerBuilder()
         mockViewControllerBuilder._stubbedHomeViewController = UIViewController()
@@ -157,7 +159,7 @@ struct HomeCoordinatorTests {
             notificationService: MockNotificationService(),
             deviceInformationProvider: MockDeviceInformationProvider(),
             searchService: MockSearchService(),
-            activityService: MockActivityService(),
+            activityService: MockActivityService(context: coreData.viewContext),
             localAuthorityService: MockLocalAuthorityService(),
             userDefaultsService: MockUserDefaultsService(),
             chatService: MockChatService()
@@ -175,6 +177,7 @@ struct HomeCoordinatorTests {
     @Test
     @MainActor
     func topicAction_startsCoordinatorAndTracksEvent() async throws {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let mockCoodinatorBuilder = MockCoordinatorBuilder.mock
         let mockViewControllerBuilder = MockViewControllerBuilder()
         mockViewControllerBuilder._stubbedHomeViewController = UIViewController()
@@ -191,14 +194,13 @@ struct HomeCoordinatorTests {
             notificationService: MockNotificationService(),
             deviceInformationProvider: MockDeviceInformationProvider(),
             searchService: MockSearchService(),
-            activityService: MockActivityService(),
+            activityService: MockActivityService(context: coreData.viewContext),
             localAuthorityService: MockLocalAuthorityService(),
             userDefaultsService: MockUserDefaultsService(),
             chatService: MockChatService()
         )
         subject.start()
 
-        let coreData = await CoreDataRepository.arrange
         let topic = Topic(context: coreData.viewContext)
         topic.ref = "123"
         topic.title = "test_title"
@@ -215,8 +217,8 @@ struct HomeCoordinatorTests {
     @MainActor
     func didReselectTab_resetsToDefaultState_whenOnHomeScreen() async  {
         let mockCoodinatorBuilder = MockCoordinatorBuilder.mock
-        let homeViewController = ViewControllerBuilder.homeViewController
-        let subject = mockCoodinatorBuilder.mockHomeCoordinator(homeViewController: homeViewController)
+        let homeViewController = await ViewControllerBuilder.homeViewController
+        let subject = await mockCoodinatorBuilder.mockHomeCoordinator(homeViewController: homeViewController)
 
         subject.start()
         subject.didSelectTab(0, previousTabIndex: 0)
@@ -227,11 +229,12 @@ struct HomeCoordinatorTests {
     @Test
     @MainActor
     func didReselectTab_doesNotResetToDefaultState_whenOnChildScreen() async {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let mockCoodinatorBuilder = MockCoordinatorBuilder.mock
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let navigationController = UINavigationController()
 
-        let homeViewController = ViewControllerBuilder.homeViewController
+        let homeViewController = await ViewControllerBuilder.homeViewController
         mockViewControllerBuilder._stubbedHomeViewController = homeViewController
 
         let subject = HomeCoordinator(
@@ -245,7 +248,7 @@ struct HomeCoordinatorTests {
             notificationService: MockNotificationService(),
             deviceInformationProvider: MockDeviceInformationProvider(),
             searchService: MockSearchService(),
-            activityService: MockActivityService(),
+            activityService: MockActivityService(context: coreData.viewContext),
             localAuthorityService: MockLocalAuthorityService(),
             userDefaultsService: MockUserDefaultsService(),
             chatService: MockChatService()
@@ -261,10 +264,11 @@ struct HomeCoordinatorTests {
     @Test
     @MainActor
     func openSearchAction_presentsWebView() async {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let mockCoodinatorBuilder = MockCoordinatorBuilder.mock
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let navigationController = UINavigationController()
-        let homeViewController = ViewControllerBuilder.homeViewController
+        let homeViewController = await ViewControllerBuilder.homeViewController
         mockViewControllerBuilder._stubbedHomeViewController = homeViewController
 
         let subject = HomeCoordinator(
@@ -278,7 +282,7 @@ struct HomeCoordinatorTests {
             notificationService: MockNotificationService(),
             deviceInformationProvider: MockDeviceInformationProvider(),
             searchService: MockSearchService(),
-            activityService: MockActivityService(),
+            activityService: MockActivityService(context: coreData.viewContext),
             localAuthorityService: MockLocalAuthorityService(),
             userDefaultsService: MockUserDefaultsService(),
             chatService: MockChatService()
