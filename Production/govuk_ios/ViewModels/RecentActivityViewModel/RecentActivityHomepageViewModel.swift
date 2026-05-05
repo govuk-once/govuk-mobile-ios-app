@@ -35,12 +35,12 @@ class RecentActivityHomepageWidgetViewModel: NSObject,
         "recentActivitySeeAllButtonTitle"
     )
 
-//    private func setupFetchResultsController() {
-//        try? activityService.activitiesFetchResultsController.performFetch()
-//        let activities = activityService.activitiesFetchResultsController.fetchedObjects ?? []
-//        let mappedActivities = activities.compactMap { $0 as? ActivityItem }
-//        sections = createSections(activities: mappedActivities )
-//    }
+    private func setupFetchResultsController() {
+        try? activityService.activitiesFetchResultsController.performFetch()
+        let activities = activityService.activitiesFetchResultsController.fetchedObjects ?? []
+        let mappedActivities = activities.compactMap { $0 as? ActivityItem }
+        sections = createSections(activities: mappedActivities )
+    }
 
     private func createSections(activities: [ActivityItem]) -> [GroupedListSection] {
         guard activities.count > 0 else {
