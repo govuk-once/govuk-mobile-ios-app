@@ -4,14 +4,11 @@ import GovKitUI
 
 class SARSettingsViewModel: ObservableObject {
     private let analyticsService: AnalyticsServiceInterface
-    private let userService: UserServiceInterface
     private var sarAction: (() -> Void)
 
     init(analyticsService: AnalyticsServiceInterface,
-         userService: UserServiceInterface,
          sarAction: @escaping (() -> Void)) {
         self.analyticsService = analyticsService
-        self.userService = userService
         self.sarAction = sarAction
     }
 
