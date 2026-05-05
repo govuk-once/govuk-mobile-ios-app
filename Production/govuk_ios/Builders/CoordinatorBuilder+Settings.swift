@@ -3,7 +3,6 @@ import Foundation
 import FactoryKit
 
 extension CoordinatorBuilder {
-
     func localAuthenticationSettings(
         navigationController: UINavigationController
     ) -> BaseCoordinator {
@@ -46,6 +45,7 @@ extension CoordinatorBuilder {
         SARSettingsCoordinator(
             navigationController: navigationController,
             analyticsService: container.analyticsService.resolve(),
+            viewControllerBuilder: ViewControllerBuilder(),
             userService: container.userService.resolve()
         )
     }

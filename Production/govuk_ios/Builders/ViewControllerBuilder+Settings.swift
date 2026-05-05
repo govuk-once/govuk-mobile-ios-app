@@ -89,4 +89,24 @@ extension ViewControllerBuilder {
         viewController.hidesBottomBarWhenPushed = true
         return viewController
     }
+
+    func sarSettings(analyticsService: AnalyticsServiceInterface,
+                     userService: UserServiceInterface,
+                     sarAction: @escaping () -> Void) -> UIViewController {
+        let viewModel = SARSettingsViewModel(analyticsService: analyticsService,
+                                     userService: userService,
+                                     sarAction: sarAction)
+        let sarSettingsView = SARSettingsView(
+            viewModel: viewModel
+        )
+
+        let viewController = HostingViewController(
+            rootView: sarSettingsView,
+            statusBarStyle: .darkContent
+        )
+        viewController.title = viewModel.title
+
+        viewController.navigationItem.largeTitleDisplayMode = .always
+        return viewController
+    }
 }
