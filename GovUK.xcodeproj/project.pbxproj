@@ -998,11 +998,11 @@
 			membershipExceptions = (
 				govuk_ios/govuk_ios_unit_tests/Resources/MockAppConfigResponse.json,
 				govuk_ios/govuk_ios_unit_tests/Resources/MockAppConfigResponseInvalid.json,
-				govuk_ios/govuk_ios_unit_tests/Resources/MockTermsAndConditionsResponse.json,
-				govuk_ios/govuk_ios_unit_tests/Resources/MockTermsAndConditionsResponseInvalid.json,
 				govuk_ios/govuk_ios_unit_tests/Resources/MockCustomerSummaryResponse.json,
 				govuk_ios/govuk_ios_unit_tests/Resources/MockDriverSummaryResponse.json,
 				govuk_ios/govuk_ios_unit_tests/Resources/MockDrivingLicenceResponse.json,
+				govuk_ios/govuk_ios_unit_tests/Resources/MockTermsAndConditionsResponse.json,
+				govuk_ios/govuk_ios_unit_tests/Resources/MockTermsAndConditionsResponseInvalid.json,
 				govuk_ios/govuk_ios_unit_tests/Resources/MockTopicDetailsResponses/FiveStepByStep.json,
 				govuk_ios/govuk_ios_unit_tests/Resources/MockTopicDetailsResponses/NoUnpopularContent.json,
 				govuk_ios/govuk_ios_unit_tests/Resources/MockTopicDetailsResponses/UnpopularContent.json,
@@ -1071,11 +1071,11 @@
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/WelcomeOnboardingViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_unit_tests/Resources/MockAppConfigResponse.json,
 				govuk_ios/govuk_ios_unit_tests/Resources/MockAppConfigResponseInvalid.json,
-				govuk_ios/govuk_ios_unit_tests/Resources/MockTermsAndConditionsResponse.json,
-				govuk_ios/govuk_ios_unit_tests/Resources/MockTermsAndConditionsResponseInvalid.json,
 				govuk_ios/govuk_ios_unit_tests/Resources/MockCustomerSummaryResponse.json,
 				govuk_ios/govuk_ios_unit_tests/Resources/MockDriverSummaryResponse.json,
 				govuk_ios/govuk_ios_unit_tests/Resources/MockDrivingLicenceResponse.json,
+				govuk_ios/govuk_ios_unit_tests/Resources/MockTermsAndConditionsResponse.json,
+				govuk_ios/govuk_ios_unit_tests/Resources/MockTermsAndConditionsResponseInvalid.json,
 				govuk_ios/govuk_ios_unit_tests/Resources/MockTopicDetailsResponses/FiveStepByStep.json,
 				govuk_ios/govuk_ios_unit_tests/Resources/MockTopicDetailsResponses/NoUnpopularContent.json,
 				govuk_ios/govuk_ios_unit_tests/Resources/MockTopicDetailsResponses/UnpopularContent.json,
@@ -1159,8 +1159,8 @@
 				"govuk_ios/shared/Arrangers/Model/DrivingLicence+Arrangers.swift",
 				"govuk_ios/shared/Arrangers/Model/RecentActivity/ActivityItem+Arrangers.swift",
 				"govuk_ios/shared/Arrangers/Model/SearchItem+Arrangers.swift",
-				"govuk_ios/shared/Arrangers/Model/TermsAndConditionsResponse+Arrangers.swift",
 				"govuk_ios/shared/Arrangers/Model/ServiceAccountLinkStatus+Arrange.swift",
+				"govuk_ios/shared/Arrangers/Model/TermsAndConditionsResponse+Arrangers.swift",
 				"govuk_ios/shared/Arrangers/Model/Topic+Arrangers.swift",
 				"govuk_ios/shared/Arrangers/Model/TopicDetailResponse+Arrangers.swift",
 				"govuk_ios/shared/Arrangers/Repositories/CoreDataRepository+Arrangers.swift",
@@ -3743,8 +3743,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-once/govuk-mobile-ios-gov-kit";
 			requirement = {
-				branch = main;
-				kind = branch;
+				kind = revision;
+				revision = 0443eb84b1a6679fe6781a9f6aac3f99948acd99;
 			};
 		};
 		5DC2505E2C91D395009E9E7F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
