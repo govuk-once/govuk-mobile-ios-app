@@ -11,7 +11,7 @@
 	<key>CFBundleGetInfoString</key>
 	<string></string>
 	<key>CFBundleIconFile</key>
-	<string>AppIconLiquidGlass</string>
+	<string>AppIconRelease</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
