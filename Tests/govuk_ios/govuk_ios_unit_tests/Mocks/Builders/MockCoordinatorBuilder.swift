@@ -330,6 +330,13 @@ class MockCoordinatorBuilder: CoordinatorBuilder {
         return _stubbedServiceAccountLinkCoordinator ?? MockBaseCoordinator()
     }
 
+    var _stubbedServiceAccountUnlinkCoordinator: MockBaseCoordinator?
+    override func serviceAccountUnlink(navigationController: UINavigationController,
+                                       accountType: ServiceAccountType,
+                                       completion: @escaping () -> Void) -> BaseCoordinator {
+          return _stubbedServiceAccountUnlinkCoordinator ?? MockBaseCoordinator()
+    }
+
     var _receivedTermsAndConditionsCompletion: (() -> Void)?
     var _termsAndConditionsCallAction: (() -> Void)?
     var _stubbedTermsAndConditionsCoordinator: MockBaseCoordinator?

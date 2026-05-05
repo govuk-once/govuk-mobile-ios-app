@@ -217,17 +217,31 @@ class CoordinatorBuilder {
 
     func topicDetail(_ topic: Topic,
                      navigationController: UINavigationController) -> BaseCoordinator {
-        TopicDetailsCoordinator(
-            navigationController: navigationController,
-            analyticsService: container.analyticsService.resolve(),
-            topicsService: container.topicsService.resolve(),
-            activityService: container.activityService.resolve(),
-            configService: container.appConfigService.resolve(),
-            userService: container.userService.resolve(),
-            coordinatorBuilder: self,
-            viewControllerBuilder: ViewControllerBuilder(),
-            topic: topic
-        )
+        if topic.ref == "driving-transport" {
+            DrivingTopicDetailCoordinator(
+                navigationController: navigationController,
+                analyticsService: container.analyticsService.resolve(),
+                topicsService: container.topicsService.resolve(),
+                activityService: container.activityService.resolve(),
+                configService: container.appConfigService.resolve(),
+                userService: container.userService.resolve(),
+                dvlaService: container.dvlaService.resolve(),
+                coordinatorBuilder: self,
+                viewControllerBuilder: ViewControllerBuilder(),
+                widgetViewBuilder: WidgetViewBuilder(),
+                topic: topic
+            )
+        } else {
+            TopicDetailsCoordinator(
+                navigationController: navigationController,
+                analyticsService: container.analyticsService.resolve(),
+                topicsService: container.topicsService.resolve(),
+                activityService: container.activityService.resolve(),
+                coordinatorBuilder: self,
+                viewControllerBuilder: ViewControllerBuilder(),
+                topic: topic
+            )
+        }
     }
 
     func localAuthority(navigationController: UINavigationController,

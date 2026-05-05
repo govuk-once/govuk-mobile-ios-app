@@ -1,5 +1,6 @@
 import Foundation
 import UIKit
+import SwiftUI
 import GovKit
 
 @testable import govuk_ios
@@ -88,8 +89,6 @@ class MockViewControllerBuilder: ViewControllerBuilder {
         return _stubbedRecentActivityViewController ?? UIViewController()
     }
 
-    var _receivedTopicDetailLinkAccountAction: (() -> Void)?
-    var _receivedTopicDetailTopicAction: ((DisplayableTopic) -> Void)?
     var _receivedTopicDetailOpenAction: ((URL) -> Void)?
     var _receivedTopicDetailStepByStepAction: (([TopicDetailResponse.Content]) -> Void)?
     var _stubbedTopicDetailViewController: UIViewController?
@@ -97,15 +96,11 @@ class MockViewControllerBuilder: ViewControllerBuilder {
                               topicsService: any TopicsServiceInterface,
                               analyticsService: any AnalyticsServiceInterface,
                               activityService: any ActivityServiceInterface,
-                              configService: AppConfigServiceInterface,
-                              userService: UserServiceInterface,
-                              topicAction: @escaping (DisplayableTopic) -> Void,
                               subtopicAction: @escaping (any DisplayableTopic) -> Void,
                               stepByStepAction: @escaping ([TopicDetailResponse.Content]) -> Void,
                               openAction: @escaping (URL) -> Void,
-                              linkAccountAction: @escaping () -> Void) -> UIViewController {
-        _receivedTopicDetailLinkAccountAction = linkAccountAction
-        _receivedTopicDetailTopicAction = topicAction
+                              accountWidgetView: AnyView?
+    ) -> UIViewController {
         _receivedTopicDetailOpenAction = openAction
         _receivedTopicDetailStepByStepAction = stepByStepAction
         return _stubbedTopicDetailViewController ?? UIViewController()

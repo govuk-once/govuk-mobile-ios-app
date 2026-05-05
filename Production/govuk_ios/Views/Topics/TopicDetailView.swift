@@ -4,19 +4,25 @@ import GovKit
 
 struct TopicDetailView<T: TopicDetailViewModelInterface>: View {
     @StateObject var viewModel: T
+    let accountWidgetView: AnyView?
 
-    init(viewModel: T) {
+    init(viewModel: T, accountWidgetView: AnyView?) {
         _viewModel = StateObject(wrappedValue: viewModel)
+        self.accountWidgetView = accountWidgetView
     }
 
     var body: some View {
-        VStack {
-            if let errorViewModel = viewModel.errorViewModel {
-                showErrorView(with: errorViewModel)
-            } else if viewModel.isLoaded {
-                showLoadedContent()
-            } else {
-                showLoadingView()
+        ScrollView {
+            VStack {
+                titleView
+                accountWidgetView
+                if let errorViewModel = viewModel.errorViewModel {
+                    showErrorView(with: errorViewModel)
+                } else if viewModel.isLoaded {
+                    showLoadedContent()
+                } else {
+                    showLoadingView()
+                }
             }
         }
         .background(Color(UIColor.govUK.fills.surfaceBackground))
@@ -32,43 +38,32 @@ struct TopicDetailView<T: TopicDetailViewModelInterface>: View {
     }
 
     private func showErrorView(with errorViewModel: AppErrorViewModel) -> some View {
-        GeometryReader { geometry in
-            ScrollView {
-                VStack {
-                    titleView
-                    Spacer()
-                    AppErrorView(viewModel: errorViewModel)
-                    Spacer()
-                }
-                .background(Color(UIColor.govUK.fills.surfaceBackground))
-                .frame(minHeight: geometry.size.height)
-            }
-            .background(gradient)
+        ZStack {
+            AppErrorView(viewModel: errorViewModel)
+                .padding(.vertical, 20)
         }
+        .frame(maxWidth: .infinity)
+        .background(Color(UIColor.govUK.fills.surfaceList))
+        .clipShape(RoundedRectangle(cornerRadius: 10))
+        .padding(16)
     }
 
     private func showLoadedContent() -> some View {
-        ScrollView {
-            VStack(spacing: 0) {
-                titleView
-                serviceAccountView
-                topicActions
-                topicDetails
-                subtopics
-            }
+        VStack(spacing: 0) {
+            topicDetails
+            subtopics
         }
-        .background(gradient)
     }
 
     private func showLoadingView() -> some View {
-        VStack(spacing: 0) {
-            titleView
-            ZStack {
-                Color(UIColor.govUK.fills.surfaceBackground)
-                ProgressView()
-                    .accessibilityLabel(String.topics.localized("loading"))
-            }
+        ZStack {
+            Color(UIColor.govUK.fills.surfaceList)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+            ProgressView()
+                .accessibilityLabel(viewModel.loadingAccessibilityLabel)
         }
+        .frame(height: 200)
+        .padding(16)
     }
 
     private var titleView: some View {
@@ -97,35 +92,6 @@ struct TopicDetailView<T: TopicDetailViewModelInterface>: View {
         )
         .padding([.top, .horizontal], 16)
         .background(Color(UIColor.govUK.fills.surfaceBackground))
-    }
-
-    @ViewBuilder
-    private var topicActions: some View {
-        if viewModel.topicActionCards.isEmpty {
-            EmptyView()
-        } else {
-            VStack(spacing: 8) {
-                ForEach(viewModel.topicActionCards) { cardModel in
-                    ListCardView(viewModel: cardModel)
-                }
-            }
-            .padding([.top, .horizontal], 16)
-            .padding(.bottom, 8)
-            .background(Color(UIColor.govUK.fills.surfaceBackground))
-            .opacity(viewModel.topicActionCards.isEmpty ? 0 : 1)
-        }
-    }
-
-    @ViewBuilder
-    private var serviceAccountView: some View {
-        if let linkAccountCardViewModel = viewModel.linkAccountCardViewModel {
-            ServiceAccountLinkCardView(
-                viewModel: linkAccountCardViewModel
-            )
-            .padding([.top, .horizontal], 16)
-            .padding(.bottom, 8)
-            .background(Color(UIColor.govUK.fills.surfaceBackground))
-        }
     }
 
     private var subtopics: some View {
@@ -157,7 +123,7 @@ struct TopicDetailView<T: TopicDetailViewModelInterface>: View {
         }
         .padding(.horizontal, 18)
         .padding(.top, 8)
-        .padding(.bottom, 16)
+        .padding(.bottom, 8)
         .background(Color(.clear))
     }
 
