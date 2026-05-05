@@ -385,6 +385,7 @@
 		D0ABA5D22FA4E8AB00C5A244 /* SARViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ABA5D12FA4E8AB00C5A244 /* SARViewModel.swift */; };
 		D0ABA5D42FA4F95000C5A244 /* SARSettingsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ABA5D32FA4F95000C5A244 /* SARSettingsCoordinator.swift */; };
 		D0ABA5D62FA5105000C5A244 /* CoordinatorBuilder+Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ABA5D52FA5104700C5A244 /* CoordinatorBuilder+Settings.swift */; };
+		D0ABA5D82FA9F96F00C5A244 /* ViewControllerBuilder+Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ABA5D72FA9F96400C5A244 /* ViewControllerBuilder+Settings.swift */; };
 		D0AC166F2E8ADBDB00AACE5C /* PrivacyCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AC166E2E8ADBDB00AACE5C /* PrivacyCoordinator.swift */; };
 		D0AC16712E8ADD0D00AACE5C /* PrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AC16702E8ADD0D00AACE5C /* PrivacyView.swift */; };
 		D0B920C72EA637B7001E6FDC /* ListCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B920C62EA637B7001E6FDC /* ListCardView.swift */; };
@@ -846,6 +847,7 @@
 		D0ABA5D12FA4E8AB00C5A244 /* SARViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SARViewModel.swift; sourceTree = "<group>"; };
 		D0ABA5D32FA4F95000C5A244 /* SARSettingsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SARSettingsCoordinator.swift; sourceTree = "<group>"; };
 		D0ABA5D52FA5104700C5A244 /* CoordinatorBuilder+Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoordinatorBuilder+Settings.swift"; sourceTree = "<group>"; };
+		D0ABA5D72FA9F96400C5A244 /* ViewControllerBuilder+Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewControllerBuilder+Settings.swift"; sourceTree = "<group>"; };
 		D0AC166E2E8ADBDB00AACE5C /* PrivacyCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyCoordinator.swift; sourceTree = "<group>"; };
 		D0AC16702E8ADD0D00AACE5C /* PrivacyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyView.swift; sourceTree = "<group>"; };
 		D0B3EBFD2CE226AC00A8F321 /* GoogleService-Info-Dev.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Dev.plist"; sourceTree = "<group>"; };
@@ -1575,6 +1577,7 @@
 		5D4F97E92BFF771A002CBDDE /* Builders */ = {
 			isa = PBXGroup;
 			children = (
+				D0ABA5D72FA9F96400C5A244 /* ViewControllerBuilder+Settings.swift */,
 				D0ABA5D52FA5104700C5A244 /* CoordinatorBuilder+Settings.swift */,
 				5D4F97EA2BFF7725002CBDDE /* CoordinatorBuilder.swift */,
 				5DC04B8E2C2D71400036EF2B /* ViewControllerBuilder.swift */,
@@ -2652,6 +2655,7 @@
 				5DD4CB182D95491600459FB5 /* RecentActivityListViewController.swift in Sources */,
 				3D7E2D142C81DB2D0016BEEC /* AnalyticsConsentContainerViewModel.swift in Sources */,
 				5D8EAC252DD746C2003089F5 /* SafariCoordinator.swift in Sources */,
+				D0ABA5D82FA9F96F00C5A244 /* ViewControllerBuilder+Settings.swift in Sources */,
 				5D49D4ED2DD479410071826B /* URLOpener+Extensions.swift in Sources */,
 				4EEC0F302DBB7B9100D745F2 /* StoredLocalAuthorityWidgetViewModel.swift in Sources */,
 				3D211B8F2CB6B4FE005D1472 /* HeaderView.swift in Sources */,
