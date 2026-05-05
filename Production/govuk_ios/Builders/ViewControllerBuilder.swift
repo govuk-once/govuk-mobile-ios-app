@@ -384,7 +384,6 @@ class ViewControllerBuilder {
             rootView: view
         )
         viewController.navigationItem.largeTitleDisplayMode = .never
-        viewController.navigationItem.backButtonTitle = viewModel.title
         return viewController
     }
 

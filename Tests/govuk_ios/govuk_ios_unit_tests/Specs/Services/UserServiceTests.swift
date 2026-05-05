@@ -15,7 +15,7 @@ final class UserServiceTests {
 
     @Test
     func fetchUserState_returnsExpectedValue() async throws {
-        mockAppConfigService.features = [.flex]
+        mockAppConfigService.features = [.profile]
         let sut = UserService(appConfigService: mockAppConfigService,
                               userServiceClient: mockUserServiceClient)
         mockUserServiceClient._stubbedFetchUserStateResult = .success(UserState.arrange)
@@ -27,13 +27,13 @@ final class UserServiceTests {
         }
 
         let userStateResponse = try #require(try? result.get())
-        #expect(userStateResponse.notifications.notificationId == "notification_id")
+        #expect(userStateResponse.notifications.pushId == "push_id")
 
     }
 
     @Test
     func fetchUserState_returnsExpectedError() async throws {
-        mockAppConfigService.features = [.flex]
+        mockAppConfigService.features = [.profile]
         let sut = UserService(appConfigService: mockAppConfigService,
                               userServiceClient: mockUserServiceClient)
 
@@ -51,7 +51,7 @@ final class UserServiceTests {
 
     @Test
     func fetchUserState_setsNotificationsConsent() async throws {
-        mockAppConfigService.features = [.flex]
+        mockAppConfigService.features = [.profile]
         let sut = UserService(appConfigService: mockAppConfigService,
                               userServiceClient: mockUserServiceClient)
 
@@ -65,14 +65,16 @@ final class UserServiceTests {
         #expect(sut.notificationsConsentStatus == .accepted)
     }
 
+    /// Temporarily disable sending of consent
+    /// https://govukverify.atlassian.net/browse/GOVUKAPP-3485
     @Test
-    func setNotificationConsent_flexEnabled_callsClient() {
-        mockAppConfigService.features = [.flex]
+    func setNotificationConsent_flexEnabled_doesNotCallClient() {
+        mockAppConfigService.features = [.profile]
         let sut = UserService(appConfigService: mockAppConfigService,
                               userServiceClient: mockUserServiceClient)
 
         sut.setNotificationsConsent(.accepted)
-        #expect(mockUserServiceClient._receivedNotificationConsent == .accepted)
+        #expect(mockUserServiceClient._receivedNotificationConsent ==  nil)
     }
 
     @Test
@@ -86,15 +88,15 @@ final class UserServiceTests {
     }
     
     @Test
-    func fetchUserState_updatesNotificationId() async throws {
-        mockAppConfigService.features = [.flex]
+    func fetchUserState_updatesPushId() async throws {
+        mockAppConfigService.features = [.profile]
         let userService = UserService(appConfigService: mockAppConfigService,
                                       userServiceClient: mockUserServiceClient)
-        mockUserServiceClient._stubbedFetchUserStateResult = .success(UserState.arrange(notificationId: "notification-id-1"))
-        
+        mockUserServiceClient._stubbedFetchUserStateResult = .success(UserState.arrange(pushId: "push-id-1"))
+
         userService.fetchUserState { _ in }
         
-        #expect(userService.notificationId == "notification-id-1")
+        #expect(userService.pushId == "push-id-1")
     }
 
 }

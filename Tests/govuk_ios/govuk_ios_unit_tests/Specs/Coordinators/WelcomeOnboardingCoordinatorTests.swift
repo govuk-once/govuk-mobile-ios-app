@@ -40,7 +40,7 @@ class WelcomeOnboardingCoordinatorTests {
     }
 
     @Test
-    func start_signedIn_userStateRequestSuccess_setsNotificationExternalId() async {
+    func start_signedIn_userStateRequestSuccess_setsNotificationPushId() async {
         let mockAuthenticationService = MockAuthenticationService()
         let mockNotificationService = MockNotificationService()
         let mockUserService = MockUserService()
@@ -66,18 +66,18 @@ class WelcomeOnboardingCoordinatorTests {
         }
 
         #expect(completion)
-        #expect(mockNotificationService._stubbedNotificationId == "notification_id")
+        #expect(mockNotificationService._stubbedPushId == "push_id")
     }
 
     @Test
-    func start_signedIn_userStateRequestFailure_startsAppUnavailableCoordinator() async {
+    func start_signedIn_userStateRequestFailure_logsCrashlyticsError() async {
         let mockAuthenticationService = MockAuthenticationService()
         let mockUserService = MockUserService()
         mockUserService._stubbedFetchUserStateResult = .failure(UserStateError.apiUnavailable)
-        let mockAppUnavailableCoordinator = MockBaseCoordinator()
+        let mockAnalyticsService = MockAnalyticsService()
         let mockCoordinatorBuilder = CoordinatorBuilder.mock
-        mockCoordinatorBuilder._stubbedAppUnavailableCoordinator = mockAppUnavailableCoordinator
         mockAuthenticationService._stubbedIsSignedIn = true
+        var didComplete = false
         await withCheckedContinuation { continuation in
             let sut = WelcomeOnboardingCoordinator(
                 navigationController: MockNavigationController(),
@@ -87,10 +87,10 @@ class WelcomeOnboardingCoordinatorTests {
                 termsAndConditionsService: MockTermsAndConditionsService(),
                 coordinatorBuilder: mockCoordinatorBuilder,
                 viewControllerBuilder: MockViewControllerBuilder(),
-                analyticsService: MockAnalyticsService(),
+                analyticsService: mockAnalyticsService,
                 deviceInformationProvider: MockDeviceInformationProvider(),
                 versionProvider: MockAppVersionProvider(),
-                completionAction: { }
+                completionAction: { didComplete = true }
             )
             mockUserService._fetchUserStateCompletionBlock = {
                 continuation.resume()
@@ -98,7 +98,38 @@ class WelcomeOnboardingCoordinatorTests {
             sut.start(url: nil)
         }
 
-        #expect(mockAppUnavailableCoordinator._startCalled == true)
+        #expect(didComplete)
+        #expect(mockAnalyticsService._trackErrorReceivedErrors.count == 1)
+        #expect(mockAnalyticsService._trackErrorReceivedErrors.first as? UserStateError == UserStateError.apiUnavailable)
+    }
+
+    @Test
+    func start_signedIn_userServiceDisabled_doesNotFetchUserState() async {
+        let mockAuthenticationService = MockAuthenticationService()
+        let mockUserService = MockUserService()
+        mockUserService._stubbedIsEnabled = false
+        let mockNotificationService = MockNotificationService()
+        let mockCoordinatorBuilder = CoordinatorBuilder.mock
+        mockAuthenticationService._stubbedIsSignedIn = true
+        var didComplete = false
+        let sut = WelcomeOnboardingCoordinator(
+            navigationController: MockNavigationController(),
+            authenticationService: mockAuthenticationService,
+            userService: mockUserService,
+            notificationService: MockNotificationService(),
+            termsAndConditionsService: MockTermsAndConditionsService(),
+            coordinatorBuilder: mockCoordinatorBuilder,
+            viewControllerBuilder: MockViewControllerBuilder(),
+            analyticsService: MockAnalyticsService(),
+            deviceInformationProvider: MockDeviceInformationProvider(),
+            versionProvider: MockAppVersionProvider(),
+            completionAction: { didComplete = true }
+        )
+
+        sut.start(url: nil)
+
+        #expect(didComplete)
+        #expect(mockNotificationService._stubbedPushId == nil)
     }
 
     // MARK: start not signed in
@@ -164,7 +195,7 @@ class WelcomeOnboardingCoordinatorTests {
         #expect(completion)
     }
 
-    @Test
+    @Test(.disabled("GOVUKAPP-3485: For the time being, we don’t want to link FLEX and OneSignal with the notification id. "))
     func authenticationSuccess_userStateRequestSuccess_setNotificationExternalId() async {
         let mockNotificationService = MockNotificationService()
         let mockUserService = MockUserService()
@@ -198,10 +229,10 @@ class WelcomeOnboardingCoordinatorTests {
         }
 
         #expect(completion)
-        #expect(mockNotificationService._stubbedNotificationId == "notification_id")
+        #expect(mockNotificationService._stubbedPushId == "push_id")
     }
 
-    @Test
+    @Test(.disabled("GOVUKAPP-3484: For now, fail silently if UDP request fails"))
     func authenticationSuccess_userStateRequestFailure_startsAppUnavailableCoordinator() async {
         let mockUserService = MockUserService()
         let mockCoordinatorBuilder = CoordinatorBuilder.mock
@@ -239,7 +270,7 @@ class WelcomeOnboardingCoordinatorTests {
         #expect(mockAppUnavailableCoordinator._startCalled == true)
     }
 
-    @Test
+    @Test(.disabled("GOVUKAPP-3484: For now, fail silently if UDP request fails"))
     func appUnavailable_retrySuccess_returnsExpectedResult() async {
         let mockUserService = MockUserService()
         let mockNavigationController = MockNavigationController()

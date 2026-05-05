@@ -530,8 +530,10 @@ class NotificationServiceTests {
         #expect(alignment == .misaligned(.consentGrantedNotificationsOff))
     }
 
+    /// Temporarily disabled sending of id to one signal
+    /// https://govukverify.atlassian.net/browse/GOVUKAPP-3485
     @Test
-    func registerNotificationId_hasGivenConsent_callsLogin() {
+    func registerPushId_hasGivenConsent_doesNotCallLogin() {
         MockOneSignalServiceClient._stubbedExternalId = nil
 
         let sut = NotificationService(
@@ -542,12 +544,14 @@ class NotificationServiceTests {
             oneSignalServiceClient: MockOneSignalServiceClient.self
         )
         sut.acceptConsent()
-        sut.register(notificationId: "test_user_id")
-        #expect(MockOneSignalServiceClient._stubbedExternalId == "test_user_id")
+        sut.register(pushId: "test_user_id")
+        #expect(MockOneSignalServiceClient._stubbedExternalId == nil)
     }
 
+    /// Temporarily disabled sending of id to one signal
+    /// https://govukverify.atlassian.net/browse/GOVUKAPP-3485
     @Test
-    func registerNotificationId_hasNotGivenConsent_doesNotCallLogin() {
+    func registerPushId_hasNotGivenConsent_doesNotCallLogin() {
         MockOneSignalServiceClient._stubbedExternalId = nil
 
         let sut = NotificationService(
@@ -558,12 +562,14 @@ class NotificationServiceTests {
             oneSignalServiceClient: MockOneSignalServiceClient.self
         )
 
-        sut.register(notificationId: "test_user_id")
+        sut.register(pushId: "test_user_id")
         #expect(MockOneSignalServiceClient._stubbedExternalId == nil)
     }
 
+    /// Temporarily disabled sending of id to one signal
+    /// https://govukverify.atlassian.net/browse/GOVUKAPP-3485
     @Test
-    func unregisterNotificationId_callsLogin() {
+    func unregisterPushId_doesNothing() {
         MockOneSignalServiceClient._stubbedExternalId = "test_user_id"
         let sut = NotificationService(
             environmentService: MockAppEnvironmentService(),
@@ -573,8 +579,8 @@ class NotificationServiceTests {
             oneSignalServiceClient: MockOneSignalServiceClient.self
         )
 
-        sut.unregisterNotificationId()
-        #expect(MockOneSignalServiceClient._stubbedExternalId == nil)
+        sut.unregisterPushId()
+        #expect(MockOneSignalServiceClient._stubbedExternalId == "test_user_id")
     }
 
     @Test

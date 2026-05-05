@@ -3,7 +3,6 @@ import Foundation
 @testable import govuk_ios
 
 class MockAppConfigService: AppConfigServiceInterface {
-
     var refreshTokenExpirySeconds: Int?
 
     var _stubbedChatPollIntervalSeconds: TimeInterval = 3.0
@@ -72,17 +71,14 @@ class MockAppConfigService: AppConfigServiceInterface {
     }
 
     var _receivedFetchAppConfigCompletion: FetchAppConfigCompletion?
-    var _stubbedFetchAppConfigResult: FetchAppConfigResult?
+    var _stubbedFetchAppConfigResult: FetchAppConfigResult = .failure(.configAPI)
     var _stubbedTermsAndConditions: TermsAndConditions?
     var termsAndConditions: TermsAndConditions? {
         _stubbedTermsAndConditions
     }
     
-    func fetchAppConfig(completion: @escaping FetchAppConfigCompletion) {
-        _receivedFetchAppConfigCompletion = completion
-        if let result = _stubbedFetchAppConfigResult {
-            completion(result)
-        }
+    func fetchAppConfig() async -> FetchAppConfigResult {
+        _stubbedFetchAppConfigResult
     }
 
     func isFeatureEnabled(key: Feature) -> Bool {

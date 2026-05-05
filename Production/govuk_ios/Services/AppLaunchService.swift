@@ -52,11 +52,7 @@ struct AppLaunchService: AppLaunchServiceInterface {
     }
 
     private func fetchConfig() async -> FetchAppConfigResult {
-        await withCheckedContinuation { continuation in
-            configService.fetchAppConfig(
-                completion: continuation.resume
-            )
-        }
+        await configService.fetchAppConfig()
     }
 
     private func fetchRemoteConfig() async -> RemoteConfigFetchResult {

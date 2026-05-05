@@ -8,6 +8,10 @@
 	<string>$(AUTHENTICATION_CLIENT_ID)</string>
 	<key>BaseURL</key>
 	<string>$(BASE_URL)</string>
+	<key>CFBundleGetInfoString</key>
+	<string></string>
+	<key>CFBundleIconFile</key>
+	<string>AppIconRelease</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -33,8 +37,6 @@
 	<true/>
 	<key>TOKEN_BASE_URL</key>
 	<string>$(TOKEN_BASE_URL)</string>
-	<key>UIDesignRequiresCompatibility</key>
-	<true/>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -56,6 +58,8 @@
 	<array>
 		<string>remote-notification</string>
 	</array>
+	<key>UIDesignRequiresCompatibility</key>
+	<false/>
 	<key>UILaunchScreen</key>
 	<dict>
 		<key>UIColorName</key>

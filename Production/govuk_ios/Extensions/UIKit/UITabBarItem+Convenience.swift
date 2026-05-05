@@ -5,7 +5,7 @@ extension UITabBarItem {
     static var home: UITabBarItem {
         .init(
             title: String.home.localized("pageTitle"),
-            image: UIImage(systemName: "house"),
+            image: UIImage(systemName: "house.fill"),
             selectedImage: nil
         )
     }
@@ -13,7 +13,7 @@ extension UITabBarItem {
     static var settings: UITabBarItem {
         .init(
             title: String.settings.localized("pageTitle"),
-            image: UIImage(systemName: "gearshape"),
+            image: UIImage(systemName: "gearshape.fill"),
             selectedImage: nil
         )
     }

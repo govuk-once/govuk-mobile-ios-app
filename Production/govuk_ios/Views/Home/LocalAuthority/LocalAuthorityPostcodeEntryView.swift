@@ -17,15 +17,9 @@ struct LocalAuthorityPostcodeEntryView: View {
             VStack {
                 HStack {
                     Spacer()
-                    Button(
+                    CancelButton(
                         action: {
                             viewModel.dismissAction()
-                        }, label: {
-                            Text(String.common.localized("cancel"))
-                                .foregroundColor(
-                                    Color(UIColor.govUK.text.linkSecondary)
-                                )
-                                .font(Font.govUK.subheadlineSemibold)
                         }
                     )
                 }
@@ -82,15 +76,6 @@ struct LocalAuthorityPostcodeEntryView: View {
             .onAppear {
                 viewModel.trackScreen(screen: self)
             }
-        }
-    }
-
-    private var cancelButton: some ToolbarContent {
-        ToolbarItem(placement: ToolbarItemPlacement.confirmationAction) {
-            Button(viewModel.cancelButtonTitle) {
-                viewModel.dismissAction()
-            }
-            .foregroundColor(Color(UIColor.govUK.text.linkSecondary))
         }
     }
 }

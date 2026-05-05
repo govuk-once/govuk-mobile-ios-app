@@ -3,14 +3,15 @@ import Foundation
 @testable import govuk_ios
 
 class MockUserService: UserServiceInterface {
-    var isEnabled: Bool { true }
+    var _stubbedIsEnabled: Bool = true
+    var isEnabled: Bool { _stubbedIsEnabled }
     var _stubbedNotificationsConsentStatus: ConsentStatus?
     var notificationsConsentStatus: ConsentStatus? {
         _stubbedNotificationsConsentStatus
     }
-    var _stubbedNotificationId: String?
-    var notificationId: String? {
-        _stubbedNotificationId
+    var _stubbedPushId: String?
+    var pushId: String? {
+        _stubbedPushId
     }
 
     var _fetchUserStateCompletionBlock: (() -> Void)?

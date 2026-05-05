@@ -17,7 +17,7 @@ struct AppLaunchServiceTests {
             remoteConfigService: mockRemoteConfigService,
             coredataService: MockCoreDataRepository()
         )
-        mockConfigService._stubbedFetchAppConfigResult = .failure(.remoteJson)
+        mockConfigService._stubbedFetchAppConfigResult = .failure(.configAPI)
         let expectedTopics = TopicResponseItem.arrangeMultiple
         mockTopicsService._stubbedFetchRemoteListResult = .success(expectedTopics)
         let result = await withCheckedContinuation { continuation in
@@ -26,7 +26,7 @@ struct AppLaunchServiceTests {
             )
         }
 
-        #expect(result.configResult.getError() == .remoteJson)
+        #expect(result.configResult.getError() == .configAPI)
         #expect((try? result.topicResult.get()) == expectedTopics)
     }
 

@@ -15,8 +15,14 @@ protocol NotificationServiceInterface {
     var permissionState: NotificationPermissionState { get async }
     var isFeatureEnabled: Bool { get }
     func fetchConsentAlignment() async -> NotificationConsentResult
-    func register(notificationId: String)
-    func unregisterNotificationId()
+
+    /// This function is temporarily disabled
+    /// https://govukverify.atlassian.net/browse/GOVUKAPP-3485
+    func register(pushId: String)
+
+    /// This function is temporarily disabled
+    /// https://govukverify.atlassian.net/browse/GOVUKAPP-3485
+    func unregisterPushId()
     var hasGivenConsent: Bool { get }
     func addConsentChangedListener(action: @escaping (Bool) -> Void)
 }
@@ -150,13 +156,19 @@ class NotificationService: NSObject,
         }
     }
 
-    func register(notificationId: String) {
-        guard hasGivenConsent else { return }
-        oneSignalServiceClient.login(notificationId)
+    /// Temporarily disabled sending of id to one signal
+    /// https://govukverify.atlassian.net/browse/GOVUKAPP-3485
+    func register(pushId: String) {
+        return
+        // guard hasGivenConsent else { return }
+        // oneSignalServiceClient.login(pushId)
     }
 
-    func unregisterNotificationId() {
-        oneSignalServiceClient.logout()
+    /// Temporarily disabled sending of id to one signal
+    /// https://govukverify.atlassian.net/browse/GOVUKAPP-3485
+    func unregisterPushId() {
+        return
+        // oneSignalServiceClient.logout()
     }
 }
 

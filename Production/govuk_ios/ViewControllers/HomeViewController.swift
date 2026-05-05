@@ -21,7 +21,8 @@ class HomeViewController: BaseViewController {
         localSearchBar.translatesAutoresizingMaskIntoConstraints = false
         localSearchBar.barTintColor = UIColor.govUK.fills.surfaceHomeHeaderBackground
         localSearchBar.layer.borderColor = UIColor.govUK.fills.surfaceHomeHeaderBackground.cgColor
-        localSearchBar.layer.borderWidth = 1
+        localSearchBar.searchBarStyle = .minimal
+        localSearchBar.layer.borderWidth = 0
         localSearchBar.searchTextField.defaultTextAttributes = [
             NSAttributedString.Key.foregroundColor: UIColor.govUK.text.primary,
             NSAttributedString.Key.font: UIFont.govUK.body,
@@ -53,6 +54,11 @@ class HomeViewController: BaseViewController {
             constant: 16
         )
     }()
+
+
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
 
     public init(viewModel: HomeViewModel) {
         self.viewModel = viewModel

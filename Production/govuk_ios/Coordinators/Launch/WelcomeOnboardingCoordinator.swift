@@ -135,16 +135,21 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
         userService.fetchUserState(completion: { [weak self] result in
             switch result {
             case .success(let userState):
-                self?.notificationService.register(notificationId:
-                                                    userState.notifications.notificationId)
+                self?.notificationService.register(pushId:
+                                                    userState.notifications.pushId)
                 self?.handleUserStateFetched()
             case .failure(let error):
-                self?.startAppUnavailable(error: error.asAppUnavailableError)
+                self?.handleUserStateFailure(error)
             }
         })
     }
 
     private func handleUserStateFetched() {
+        completionAction()
+    }
+
+    private func handleUserStateFailure(_ error: any Error) {
+        analyticsService.track(error: error)
         completionAction()
     }
 
@@ -156,8 +161,8 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
                 self?.userService.fetchUserState { result in
                     switch result {
                     case .success(let userState):
-                        self?.notificationService.register(notificationId:
-                                                            userState.notifications.notificationId)
+                        self?.notificationService.register(pushId:
+                                                            userState.notifications.pushId)
                         completion(true)
                     case .failure:
                         completion(false)
