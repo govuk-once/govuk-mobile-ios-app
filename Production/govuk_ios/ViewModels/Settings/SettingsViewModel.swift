@@ -15,6 +15,7 @@ protocol SettingsViewModelInterface: ObservableObject {
     var localAuthenticationAction: (() -> Void)? { get set }
     var signoutAction: (() -> Void)? { get set }
     var openAction: ((SettingsViewModelURLParameters) -> Void)? { get set }
+    var sarAction: (() -> Void)? { get set }
 
     func updateNotificationPermissionState()
     func handleNotificationAlertAction()
@@ -51,6 +52,7 @@ class SettingsViewModel: SettingsViewModelInterface {
     )
     var signoutAction: (() -> Void)?
     var openAction: ((SettingsViewModelURLParameters) -> Void)?
+    var sarAction: (() -> Void)?
     @Published var userEmail: String?
 
     init(analyticsService: AnalyticsServiceInterface,
@@ -428,7 +430,7 @@ class SettingsViewModel: SettingsViewModelInterface {
                     String.settings.localized(title),
                     external: false
                 )
-                self.localAuthenticationAction?()
+                self.sarAction?()
             }
         )
     }
