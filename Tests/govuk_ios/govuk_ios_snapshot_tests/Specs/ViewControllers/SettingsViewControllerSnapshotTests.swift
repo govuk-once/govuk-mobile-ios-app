@@ -232,6 +232,7 @@ class GroupedListViewModel: SettingsViewModelInterface {
     }
     var signoutAction: (() -> Void)?
     var openAction: ((SettingsViewModelURLParameters) -> Void)?
+    var sarAction: (() -> Void)?
     func updateEmail() {
 
     }

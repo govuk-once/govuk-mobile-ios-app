@@ -6,7 +6,7 @@ import FactoryKit
 @MainActor
 // swiftlint:disable:next type_body_length
 class CoordinatorBuilder {
-    let container: Container
+    private let container: Container
 
     init(container: Container) {
         self.container = container
@@ -293,6 +293,20 @@ class CoordinatorBuilder {
         )
     }
 
+    func notificationSettings(navigationController: UINavigationController,
+                              completionAction: @escaping () -> Void,
+                              dismissAction: @escaping () -> Void) -> BaseCoordinator {
+        NotificationSettingsCoordinator(
+            navigationController: navigationController,
+            viewControllerBuilder: ViewControllerBuilder(),
+            analyticsService: container.analyticsService.resolve(),
+            notificationService: container.notificationService.resolve(),
+            coordinatorBuilder: self,
+            completeAction: completionAction,
+            dismissAction: dismissAction
+        )
+    }
+
     func welcomeOnboarding(navigationController: UINavigationController,
                            completionAction: @escaping () -> Void) -> BaseCoordinator {
         WelcomeOnboardingCoordinator(
@@ -350,6 +364,15 @@ class CoordinatorBuilder {
         )
     }
 
+    func signOutConfirmation() -> BaseCoordinator {
+        SignOutConfirmationCoordinator(
+            navigationController: UINavigationController(),
+            viewControllerBuilder: ViewControllerBuilder(),
+            authenticationService: container.authenticationService.resolve(),
+            analyticsService: container.analyticsService.resolve()
+        )
+    }
+
     func signInSuccess(navigationController: UINavigationController,
                        completion: @escaping () -> Void) -> BaseCoordinator {
         SignInSuccessCoordinator(
@@ -384,6 +407,19 @@ class CoordinatorBuilder {
         )
     }
 
+    func localAuthenticationSettings(
+        navigationController: UINavigationController
+    ) -> BaseCoordinator {
+        LocalAuthenticationSettingsCoordinator(
+            navigationController: navigationController,
+            authenticationService: container.authenticationService.resolve(),
+            localAuthenticationService: container.localAuthenticationService.resolve(),
+            analyticsService: container.analyticsService.resolve(),
+            viewControllerBuilder: ViewControllerBuilder(),
+            urlOpener: UIApplication.shared
+        )
+    }
+
     func chatInfoOnboarding(
         cancelOnboardingAction: @escaping () -> Void,
         setChatViewControllerAction: @escaping (Bool) -> Void
@@ -411,6 +447,17 @@ class CoordinatorBuilder {
             chatService: container.chatService.resolve(),
             cancelOnboardingAction: cancelOnboardingAction,
             completionAction: completionAction
+        )
+    }
+
+    func sarSettingsCoordinator(
+        navigationController: UINavigationController
+    ) -> BaseCoordinator {
+        SARSettingsCoordinator(
+            navigationController: navigationController,
+            analyticsService: container.analyticsService.resolve(),
+            viewControllerBuilder: ViewControllerBuilder(),
+            userService: container.userService.resolve()
         )
     }
 
