@@ -287,6 +287,83 @@
         }
       }
     },
+    "sarBulletOne" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "your notification settings"
+          }
+        }
+      }
+    },
+    "sarBulletTwo" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "a unique ID for this app (Push ID)"
+          }
+        }
+      }
+    },
+    "sarButtonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Request data"
+          }
+        }
+      }
+    },
+    "sarDescriptionOne" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We store a small amount of data about you to improve your experience in the app, like:"
+          }
+        }
+      }
+    },
+    "sarDescriptionTwo" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This does not include any other information you have shared with us or with other government services.\n\nYou can ask us to delete your data at any time. Read more about this in the privacy notice."
+          }
+        }
+      }
+    },
+    "sarRequestRowTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your app data"
+          }
+        }
+      }
+    },
+    "sarTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your app data"
+          }
+        }
+      }
+    },
     "signOutRowTitle" : {
       "extractionState" : "manual",
       "localizations" : {
