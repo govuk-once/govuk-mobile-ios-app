@@ -1,4 +1,5 @@
 import UIKit
+import SwiftUI
 import Foundation
 import Testing
 import SafariServices
@@ -7,30 +8,33 @@ import SafariServices
 
 @Suite
 struct TopicDetailsCoordinatorTests {
-    @Test
     @MainActor
-    func start_pushesTopicDetailspresentsSafariViewController() throws {
-        let mockNavigationController = MockNavigationController()
-        let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
+    @Test
+    func start_setsTopicDetailViewController() throws {
+        let coreData = CoreDataRepository.arrangeAndLoad
         let mockViewControllerBuilder = MockViewControllerBuilder()
-        let mockCoreDataRepository = CoreDataRepository.arrangeAndLoad
-        let topic = Topic.arrange(context: mockCoreDataRepository.viewContext)
-        let subject = TopicDetailsCoordinator(
-            navigationController: mockNavigationController,
-            analyticsService: MockAnalyticsService(),
-            topicsService: MockTopicsService(),
-            activityService: MockActivityService(),
-            configService: MockAppConfigService(),
-            userService: MockUserService(),
-            coordinatorBuilder: mockCoordinatorBuilder,
-            viewControllerBuilder: mockViewControllerBuilder,
-            topic: topic
-        )
+        let mockAnalyticsService = MockAnalyticsService()
+        let mockTopicsService = MockTopicsService()
+        let mockActivityService = MockActivityService()
         let expectedViewController = UIViewController()
+        let navigationController = UINavigationController()
+
         mockViewControllerBuilder._stubbedTopicDetailViewController = expectedViewController
+
+        let subject = TopicDetailsCoordinator(
+            navigationController: navigationController,
+            analyticsService: mockAnalyticsService,
+            topicsService: mockTopicsService,
+            activityService: mockActivityService,
+            coordinatorBuilder: MockCoordinatorBuilder.mock,
+            viewControllerBuilder: mockViewControllerBuilder,
+            topicWidgetProvider: nil,
+            topic: Topic(context: coreData.viewContext)
+        )
+
         subject.start()
 
-        #expect(mockNavigationController._pushedViewController == expectedViewController)
+        #expect(navigationController.viewControllers.first == expectedViewController)
     }
 
     @Test
@@ -46,10 +50,9 @@ struct TopicDetailsCoordinatorTests {
             analyticsService: MockAnalyticsService(),
             topicsService: MockTopicsService(),
             activityService: MockActivityService(),
-            configService: MockAppConfigService(),
-            userService: MockUserService(),
             coordinatorBuilder: mockCoordinatorBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
+            topicWidgetProvider: nil,
             topic: topic
         )
         subject.start()
@@ -77,10 +80,9 @@ struct TopicDetailsCoordinatorTests {
             analyticsService: MockAnalyticsService(),
             topicsService: MockTopicsService(),
             activityService: MockActivityService(),
-            configService: MockAppConfigService(),
-            userService: MockUserService(),
             coordinatorBuilder: mockCoordinatorBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
+            topicWidgetProvider: nil,
             topic: topic
         )
 
@@ -108,10 +110,9 @@ struct TopicDetailsCoordinatorTests {
             analyticsService: MockAnalyticsService(),
             topicsService: MockTopicsService(),
             activityService: MockActivityService(),
-            configService: MockAppConfigService(),
-            userService: MockUserService(),
             coordinatorBuilder: mockCoordinatorBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
+            topicWidgetProvider: nil,
             topic: topic
         )
 
@@ -127,34 +128,24 @@ struct TopicDetailsCoordinatorTests {
         #expect(mockSafariCoordinator._startCalled)
     }
 
-    @Test
     @MainActor
-    func dvlaLinkAccountAction_startsDvlaServiceAccountLinkCoordinator() {
-        let mockNavigationController = MockNavigationController()
-        let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
-        let mockViewControllerBuilder = MockViewControllerBuilder()
-        let mockServiceAccountLinkCoordinator = MockBaseCoordinator()
-        mockCoordinatorBuilder._stubbedServiceAccountLinkCoordinator = mockServiceAccountLinkCoordinator
-        let mockCoreDataRepository = CoreDataRepository.arrangeAndLoad
-        let dvlaTopic = Topic.arrange(
-            context: mockCoreDataRepository.viewContext,
-            ref: "driving-transport"
-        )
+    @Test
+    func start_pushTopic_callsWidgetProvider() {
+        let coreData = CoreDataRepository.arrangeAndLoad
+        let mockTopicWidgetProvider = MockTopicWidgetProvider()
+        mockTopicWidgetProvider._stubbedWidget = AnyView(EmptyView())
+
         let subject = TopicDetailsCoordinator(
-            navigationController: mockNavigationController,
+            navigationController: UINavigationController(),
             analyticsService: MockAnalyticsService(),
             topicsService: MockTopicsService(),
             activityService: MockActivityService(),
-            configService: MockAppConfigService(),
-            userService: MockUserService(),
-            coordinatorBuilder: mockCoordinatorBuilder,
-            viewControllerBuilder: mockViewControllerBuilder,
-            topic: dvlaTopic
+            coordinatorBuilder: MockCoordinatorBuilder.mock,
+            viewControllerBuilder: MockViewControllerBuilder(),
+            topicWidgetProvider: mockTopicWidgetProvider,
+            topic: Topic(context: coreData.viewContext)
         )
-
         subject.start()
-        mockViewControllerBuilder._receivedTopicDetailLinkAccountAction?()
-
-        #expect(mockServiceAccountLinkCoordinator._startCalled)
+        #expect(mockTopicWidgetProvider._widgetCalled == true)
     }
 }

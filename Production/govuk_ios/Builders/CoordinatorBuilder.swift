@@ -1,5 +1,6 @@
 // swiftlint:disable file_length
 import UIKit
+import SwiftUI
 import Foundation
 import FactoryKit
 
@@ -222,11 +223,31 @@ class CoordinatorBuilder {
             analyticsService: container.analyticsService.resolve(),
             topicsService: container.topicsService.resolve(),
             activityService: container.activityService.resolve(),
-            configService: container.appConfigService.resolve(),
-            userService: container.userService.resolve(),
             coordinatorBuilder: self,
             viewControllerBuilder: ViewControllerBuilder(),
+            topicWidgetProvider: topicWidgetProvider(
+                topic: topic,
+                navigationController: navigationController
+            ),
             topic: topic
+        )
+    }
+
+    func topicWidgetProvider(
+        topic: Topic,
+        navigationController: UINavigationController
+    ) -> TopicWidgetProvider? {
+        guard topic.ref == "driving-transport" else {
+            return nil
+        }
+        return DrivingTopicWidgetCoordinator(
+            navigationController: navigationController,
+            analyticsService: container.analyticsService.resolve(),
+            configService: container.appConfigService.resolve(),
+            userService: container.userService.resolve(),
+            dvlaService: container.dvlaService.resolve(),
+            coordinatorBuilder: self,
+            widgetViewBuilder: WidgetViewBuilder()
         )
     }
 

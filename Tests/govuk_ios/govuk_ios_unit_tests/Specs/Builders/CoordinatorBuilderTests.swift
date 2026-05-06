@@ -459,4 +459,23 @@ struct CoordinatorBuilderTests {
         )
         #expect(coordinator is DVLAAccountCoordinator)
     }
+
+    @Test
+    func topicWidgetProvider_forDrivingTopic_returnsDrivingTopicWidgetCoordinator() {
+        let mockCoreDataViewContext = CoreDataRepository.arrangeAndLoad.viewContext
+        let drivingTopic = Topic.arrange(
+            context: mockCoreDataViewContext,
+            ref: "driving-transport"
+        )
+        let container = Container()
+        container.analyticsService.register(factory: { MockAnalyticsService() })
+        container.userService.register(factory: { MockUserService() })
+        container.dvlaService.register(factory: { MockDVLAService() })
+        let subject = CoordinatorBuilder(container: container)
+        let topicWidgetProvider = subject.topicWidgetProvider(
+            topic: drivingTopic,
+            navigationController: UINavigationController()
+        )
+        #expect(topicWidgetProvider is DrivingTopicWidgetCoordinator)
+    }
 }
