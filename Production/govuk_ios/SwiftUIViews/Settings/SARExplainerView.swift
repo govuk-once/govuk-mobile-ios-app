@@ -2,10 +2,10 @@ import SwiftUI
 import GovKit
 import GovKitUI
 
-struct SARSettingsView: View {
-    @StateObject private var viewModel: SARSettingsViewModel
+struct SARExplainerView: View {
+    @StateObject private var viewModel: SARExplainerViewModel
 
-    init(viewModel: SARSettingsViewModel) {
+    init(viewModel: SARExplainerViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
 
@@ -37,7 +37,7 @@ struct SARSettingsView: View {
     }
 }
 
-extension SARSettingsView: TrackableScreen {
+extension SARExplainerView: TrackableScreen {
     var trackingTitle: String? { "Your app data" }
     var trackingName: String { "Your app data" }
 }

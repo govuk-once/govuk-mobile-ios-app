@@ -2,7 +2,7 @@ import Foundation
 import GovKit
 import GovKitUI
 
-class SARSettingsViewModel: ObservableObject {
+class SARExplainerViewModel: ObservableObject {
     private let analyticsService: AnalyticsServiceInterface
     private var sarAction: (() -> Void)
 

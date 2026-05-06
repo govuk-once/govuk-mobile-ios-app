@@ -604,11 +604,11 @@ class ViewControllerBuilder {
 
     func sarSettings(analyticsService: AnalyticsServiceInterface,
                      sarAction: @escaping () -> Void) -> UIViewController {
-        let viewModel = SARSettingsViewModel(
+        let viewModel = SARExplainerViewModel(
             analyticsService: analyticsService,
             sarAction: sarAction
         )
-        let sarSettingsView = SARSettingsView(
+        let sarSettingsView = SARExplainerView(
             viewModel: viewModel
         )
 

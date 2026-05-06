@@ -357,7 +357,7 @@ struct ViewControllerBuilderTests {
             sarAction: { }
         )
 
-        let rootView = (result as? HostingViewController<SARSettingsView>)?.rootView
+        let rootView = (result as? HostingViewController<SARExplainerView>)?.rootView
         #expect(rootView != nil)
     }
 }
