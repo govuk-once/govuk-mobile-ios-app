@@ -338,8 +338,8 @@ class SettingsViewModel: SettingsViewModelInterface {
                 accessibilityStatementRow,
                 openSourceLicenceRow,
                 termsAndConditionsRow,
-                sarRequestRow
-            ],
+                appConfigService.isFeatureEnabled(key: .profile) ? sarRow : nil
+            ].compactMap { $0 },
             footer: nil
         )
     }
@@ -419,15 +419,16 @@ class SettingsViewModel: SettingsViewModelInterface {
         )
     }
 
-    private var sarRequestRow: GroupedListRow {
-        NavigationRow(
-            id: "settings.biometrics.row",
-            title: String(localized: .Settings.sarRequestRowTitle),
+    private var sarRow: GroupedListRow {
+        let rowTitle = String(localized: .Settings.sarRowTitle)
+        return NavigationRow(
+            id: "settings.sar.row",
+            title: String(localized: .Settings.sarRowTitle),
             body: nil,
             action: { [weak self] in
                 guard let self = self else { return }
                 self.trackNavigationEvent(
-                    String.settings.localized(title),
+                    String.settings.localized(rowTitle),
                     external: false
                 )
                 self.sarAction?()

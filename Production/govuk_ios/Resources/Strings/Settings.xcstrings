@@ -342,7 +342,7 @@
         }
       }
     },
-    "sarRequestRowTitle" : {
+    "sarRowTitle" : {
       "extractionState" : "manual",
       "localizations" : {
         "en-GB" : {

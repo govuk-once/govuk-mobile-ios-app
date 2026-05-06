@@ -6,7 +6,7 @@ final class SARSettingsCoordinator: BaseCoordinator {
     private let analyticsService: AnalyticsServiceInterface
     private let userService: UserServiceInterface
     private let viewControllerBuilder: ViewControllerBuilder
-    private var userState: UserStateResult?
+    private(set) var userState: UserState?
 
     init(navigationController: UINavigationController,
          analyticsService: AnalyticsServiceInterface,
@@ -23,8 +23,13 @@ final class SARSettingsCoordinator: BaseCoordinator {
             analyticsService: analyticsService
         ) { [weak self] in
             self?.userService.fetchUserState { userState in
-                self?.userState = userState
-                print("userState = \(userState)")
+                switch userState {
+                case .success(let userState):
+                    self?.userState = userState
+                    print("User state = \(userState)")
+                case .failure(let error):
+                    print("user state error: \(error.localizedDescription)")
+                }
             }
         }
         push(viewController)
