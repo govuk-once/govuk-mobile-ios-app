@@ -384,6 +384,8 @@
 		D0ABA5CE2FA4E76000C5A244 /* SARExplainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ABA5CD2FA4E76000C5A244 /* SARExplainerView.swift */; };
 		D0ABA5D22FA4E8AB00C5A244 /* SARExplainerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ABA5D12FA4E8AB00C5A244 /* SARExplainerViewModel.swift */; };
 		D0ABA5D42FA4F95000C5A244 /* SARSettingsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ABA5D32FA4F95000C5A244 /* SARSettingsCoordinator.swift */; };
+		D0ABA94D2FAB6B6100C5A244 /* SARResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ABA94C2FAB6B6100C5A244 /* SARResultView.swift */; };
+		D0ABA94F2FAB6EF700C5A244 /* SARResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ABA94E2FAB6EF000C5A244 /* SARResultViewModel.swift */; };
 		D0AC166F2E8ADBDB00AACE5C /* PrivacyCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AC166E2E8ADBDB00AACE5C /* PrivacyCoordinator.swift */; };
 		D0AC16712E8ADD0D00AACE5C /* PrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AC16702E8ADD0D00AACE5C /* PrivacyView.swift */; };
 		D0B920C72EA637B7001E6FDC /* ListCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0B920C62EA637B7001E6FDC /* ListCardView.swift */; };
@@ -844,6 +846,8 @@
 		D0ABA5CD2FA4E76000C5A244 /* SARExplainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SARExplainerView.swift; sourceTree = "<group>"; };
 		D0ABA5D12FA4E8AB00C5A244 /* SARExplainerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SARExplainerViewModel.swift; sourceTree = "<group>"; };
 		D0ABA5D32FA4F95000C5A244 /* SARSettingsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SARSettingsCoordinator.swift; sourceTree = "<group>"; };
+		D0ABA94C2FAB6B6100C5A244 /* SARResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SARResultView.swift; sourceTree = "<group>"; };
+		D0ABA94E2FAB6EF000C5A244 /* SARResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SARResultViewModel.swift; sourceTree = "<group>"; };
 		D0AC166E2E8ADBDB00AACE5C /* PrivacyCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyCoordinator.swift; sourceTree = "<group>"; };
 		D0AC16702E8ADD0D00AACE5C /* PrivacyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyView.swift; sourceTree = "<group>"; };
 		D0B3EBFD2CE226AC00A8F321 /* GoogleService-Info-Dev.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-Dev.plist"; sourceTree = "<group>"; };
@@ -939,6 +943,8 @@
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/PrivacyViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/RecentActivityListViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/RecentActivityWidgetViewSnapshotTests.swift,
+				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/SARExplainerViewControllerSnapshotTests.swift,
+				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/SARResultViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/SearchHistoryViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/SearchSuggestionsViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/SearchViewControllerSnapshotTests.swift,
@@ -1002,6 +1008,8 @@
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/PrivacyViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/RecentActivityListViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/RecentActivityWidgetViewSnapshotTests.swift,
+				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/SARExplainerViewControllerSnapshotTests.swift,
+				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/SARResultViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/SearchHistoryViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/SearchSuggestionsViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/SearchViewControllerSnapshotTests.swift,
@@ -1182,6 +1190,7 @@
 				16A5E9CF2E02D67D00D5FD0C /* FaceIdSettingsView.swift */,
 				1677D4052E006B7700FB1E56 /* TouchIdSettingsView.swift */,
 				D0ABA5CD2FA4E76000C5A244 /* SARExplainerView.swift */,
+				D0ABA94C2FAB6B6100C5A244 /* SARResultView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -1470,8 +1479,8 @@
 				D0B929F52EA63C0E001E6FDC /* ListCardViewModel.swift */,
 				169842D92DB0003C00E3EA66 /* LocalAuthenticationOnboardingViewModel.swift */,
 				D0ECB3FF2DCE0F2000A9707E /* LocalAuthority */,
-				5DA8ADDE2DD4968100ECEB6B /* NotificationsOnboardingViewModel.swift */,
 				D056CE732D3A83F2005845E0 /* NotificationsWidgetViewModel.swift */,
+				5DA8ADDE2DD4968100ECEB6B /* NotificationsOnboardingViewModel.swift */,
 				5DD4CB192D95491E00459FB5 /* RecentActivityListViewModel.swift */,
 				4E837E232E7D8C5500B3CC5A /* RecentActivityViewModel */,
 				D0ABA5D02FA4E7ED00C5A244 /* Settings */,
@@ -2182,6 +2191,7 @@
 		D0ABA5D02FA4E7ED00C5A244 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				D0ABA94E2FAB6EF000C5A244 /* SARResultViewModel.swift */,
 				160EA7542C5B0401008F97AF /* SettingsViewModel.swift */,
 				D08A9A852DB92F6F002E9C78 /* SignOutConfirmationViewModel.swift */,
 				1677D4032E00694B00FB1E56 /* LocalAuthenticationSettingsViewModel.swift */,
@@ -2826,6 +2836,7 @@
 				D028CD122CC14A0100742620 /* DisplayableTopic.swift in Sources */,
 				5D349F692C6B550000B7F747 /* URL+Extensions.swift in Sources */,
 				5D41DB702C088FEB0011E691 /* Container+ServiceClients.swift in Sources */,
+				D0ABA94F2FAB6EF700C5A244 /* SARResultViewModel.swift in Sources */,
 				D0EAB4FF2CDE5D5B007ACBCD /* AppEnvironmentService.swift in Sources */,
 				D0C1C1A22E9807C400651F1B /* TopicListItemView.swift in Sources */,
 				D056CE762D3A848A005845E0 /* InformationView.swift in Sources */,
@@ -2904,6 +2915,7 @@
 				8171AE472F1116A00024312B /* ScrollBottomIndicatorView.swift in Sources */,
 				4EF446FF2F8CEDE600C29728 /* View+Extensions.swift in Sources */,
 				168F85532DE9AE4B0040E6AF /* ScrollBounceBehaviourModifier.swift in Sources */,
+				D0ABA94D2FAB6B6100C5A244 /* SARResultView.swift in Sources */,
 				16E912AF2DA72CE000CD2049 /* OIDAuthorizationServiceWrapper.swift in Sources */,
 				8101A2402F28BB58009E639B /* UserStateError.swift in Sources */,
 				164150AF2DE5DB6D00798DF3 /* WelcomeOnboardingViewModel.swift in Sources */,

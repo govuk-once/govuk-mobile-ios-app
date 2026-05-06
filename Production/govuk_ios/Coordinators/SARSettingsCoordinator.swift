@@ -19,19 +19,23 @@ final class SARSettingsCoordinator: BaseCoordinator {
     }
 
     override func start(url: URL?) {
-        let viewController = viewControllerBuilder.sarSettings(
+        let viewController = viewControllerBuilder.sarExplainer(
             analyticsService: analyticsService
         ) { [weak self] in
-            self?.userService.fetchUserState { userState in
-                switch userState {
-                case .success(let userState):
-                    self?.userState = userState
-                    print("User state = \(userState)")
-                case .failure(let error):
-                    print("user state error: \(error.localizedDescription)")
-                }
-            }
+            self?.pushResultView()
         }
+        push(viewController)
+    }
+
+    private func pushResultView() {
+        let viewController = viewControllerBuilder.sarResults(
+            analyticsService: analyticsService,
+            userService: userService,
+            sarResultAction: { [weak self] in
+                self?.root.popToRootViewController(animated: true)
+                self?.finish()
+            }
+        )
         push(viewController)
     }
 }

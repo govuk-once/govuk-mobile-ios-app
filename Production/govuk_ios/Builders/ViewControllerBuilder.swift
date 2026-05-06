@@ -602,8 +602,8 @@ class ViewControllerBuilder {
         return viewController
     }
 
-    func sarSettings(analyticsService: AnalyticsServiceInterface,
-                     sarAction: @escaping () -> Void) -> UIViewController {
+    func sarExplainer(analyticsService: AnalyticsServiceInterface,
+                      sarAction: @escaping () -> Void) -> UIViewController {
         let viewModel = SARExplainerViewModel(
             analyticsService: analyticsService,
             sarAction: sarAction
@@ -614,6 +614,28 @@ class ViewControllerBuilder {
 
         let viewController = HostingViewController(
             rootView: sarSettingsView,
+            statusBarStyle: .darkContent
+        )
+        viewController.title = viewModel.title
+
+        viewController.navigationItem.largeTitleDisplayMode = .always
+        return viewController
+    }
+
+    func sarResults(analyticsService: AnalyticsServiceInterface,
+                    userService: UserServiceInterface,
+                    sarResultAction: @escaping () -> Void) -> UIViewController {
+        let viewModel = SARResultViewModel(
+            analyticsService: analyticsService,
+            userService: userService,
+            sarResultAction: sarResultAction
+        )
+        let sarResultView = SARResultView(
+            viewModel: viewModel
+        )
+
+        let viewController = HostingViewController(
+            rootView: sarResultView,
             statusBarStyle: .darkContent
         )
         viewController.title = viewModel.title
