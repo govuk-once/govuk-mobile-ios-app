@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 import Testing
-
+import GovKit
 @testable import govuk_ios
 
 @Suite
@@ -10,46 +10,36 @@ struct SARSettingsCoordinatorTests {
     @Test
     func start_setsSARViewController() {
         let mockViewControllerBuilder = MockViewControllerBuilder()
-        let stubbedSARSettings = UIViewController()
-        mockViewControllerBuilder._stubbedSARSettings = stubbedSARSettings
+        let stubbedSARExplainer = UIViewController()
+        mockViewControllerBuilder._stubbedSARExplainer = stubbedSARExplainer
         let root = UINavigationController()
-        let coordinator = SARSettingsCoordinator(
+        let sut = SARSettingsCoordinator(
             navigationController: root,
             analyticsService: MockAnalyticsService(),
             viewControllerBuilder: mockViewControllerBuilder,
             userService: MockUserService()
         )
 
-        coordinator.start(url: nil)
-        #expect(root.topViewController == stubbedSARSettings)
+        sut.start(url: nil)
+        #expect(root.topViewController == stubbedSARExplainer)
     }
 
     @Test
-    func sarAction_invokesUserInfoRequest() {
+    func sarAction_pushesResultView() {
         let mockViewControllerBuilder = MockViewControllerBuilder()
-        let stubbedSARSettings = UIViewController()
-        mockViewControllerBuilder._stubbedSARSettings = stubbedSARSettings
+        let stubbedSARResults = UIViewController()
+        mockViewControllerBuilder._stubbedSARResults = stubbedSARResults
         let root = UINavigationController()
-        let mockUserService = MockUserService()
-        mockUserService._stubbedFetchUserStateResult = .success(
-            UserState(
-                userId: "ID",
-                notifications: UserNotificationsPreferences(
-                    consentStatus: .accepted,
-                    pushId: "pushId"
-                )
-            )
-        )
-
-        let coordinator = SARSettingsCoordinator(
+        let sut = SARSettingsCoordinator(
             navigationController: root,
             analyticsService: MockAnalyticsService(),
             viewControllerBuilder: mockViewControllerBuilder,
-            userService: mockUserService
+            userService: MockUserService()
         )
 
-        coordinator.start(url: nil)
+        sut.start(url: nil)
         mockViewControllerBuilder._receivedSARAction?()
-        #expect(coordinator.userState?.userId == "ID")
+        #expect(root.viewControllers.count == 2)
+        #expect(root.topViewController == stubbedSARResults)
     }
 }
