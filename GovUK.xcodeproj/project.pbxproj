@@ -3174,7 +3174,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.5;
+				MARKETING_VERSION = 1.1.6;
 				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				OTHER_SWIFT_FLAGS = "$(ADDITIONAL_SWIFT_FLAGS)";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_APP)";
@@ -3220,7 +3220,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.5;
+				MARKETING_VERSION = 1.1.6;
 				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				OTHER_SWIFT_FLAGS = "$(ADDITIONAL_SWIFT_FLAGS)";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_APP)";
@@ -3300,7 +3300,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.5;
+				MARKETING_VERSION = 1.1.6;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_NOTIFICATION_SERVICE)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -3333,7 +3333,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.1.5;
+				MARKETING_VERSION = 1.1.6;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_NOTIFICATION_SERVICE)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "$(PROFILE_SPECIFIER_NOTIFICATION_SERVICE)";
