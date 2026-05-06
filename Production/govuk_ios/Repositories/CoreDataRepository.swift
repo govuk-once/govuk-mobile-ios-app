@@ -2,6 +2,12 @@ import CoreData
 import UIKit
 import Foundation
 
+public protocol CoreDataRepositoryInterface {
+    var viewContext: NSManagedObjectContext { get }
+    var backgroundContext: NSManagedObjectContext { get }
+    func load() async throws
+}
+
 class CoreDataRepository: CoreDataRepositoryInterface {
     private let persistentContainer: NSPersistentContainer
     private let notificationCenter: NotificationCenter
@@ -108,11 +114,4 @@ class CoreDataRepository: CoreDataRepositoryInterface {
             }
         )
     }
-}
-
-public protocol CoreDataRepositoryInterface {
-    var viewContext: NSManagedObjectContext { get }
-    var backgroundContext: NSManagedObjectContext { get }
-
-    func load() async throws
 }

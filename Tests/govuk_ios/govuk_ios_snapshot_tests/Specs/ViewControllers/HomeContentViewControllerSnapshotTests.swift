@@ -15,7 +15,6 @@ final class HomeContentViewControllerSnapshotTests: SnapshotTestCase {
     }
 
     func test_loadInNavigationController_light_rendersCorrectly() async {
-
         let viewController = await viewController()
         VerifySnapshotInNavigationController(
             viewController: viewController,

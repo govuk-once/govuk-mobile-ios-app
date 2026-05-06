@@ -12,7 +12,6 @@ final class RecentActivityListViewModel: NSObject,
     let analyticsService: AnalyticsServiceInterface
     private let recentActivityHeaderFormatter = DateFormatter.recentActivityHeader
     private var retainedResultsController: NSFetchedResultsController<ActivityItem>?
-
     private var selectedEditingItems: Set<NSManagedObjectID> = []
     private(set) var structure: RecentActivitiesViewStructure = .init(
         todaysActivites: [],

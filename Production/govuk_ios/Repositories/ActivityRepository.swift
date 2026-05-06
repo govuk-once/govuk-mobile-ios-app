@@ -10,9 +10,7 @@ protocol ActivityRepositoryInterface {
     func activityItem(for objectId: NSManagedObjectID) throws -> ActivityItem?
 }
 
-class ActivityRepository: NSObject,
-                          ActivityRepositoryInterface,
-                          NSFetchedResultsControllerDelegate {
+class ActivityRepository: ActivityRepositoryInterface {
     private let coreData: CoreDataRepositoryInterface
 
     init(coreData: CoreDataRepositoryInterface) {
@@ -63,21 +61,6 @@ class ActivityRepository: NSObject,
         try? controller.performFetch()
         return controller
     }
-
-    internal lazy var activitiesFetchResultsController:
-    NSFetchedResultsController<NSFetchRequestResult> = {
-        let controller = NSFetchedResultsController(
-            fetchRequest: activityFetchRequest,
-            managedObjectContext: self.returnContext(),
-            sectionNameKeyPath: nil,
-            cacheName: nil
-        )
-        controller.delegate = self
-        return controller
-    }()
-
-    var activityFetchRequest:
-    NSFetchRequest<NSFetchRequestResult> = ActivityItem.homepagefetchRequest()
 
     func delete(objectIds: [NSManagedObjectID]) {
         for objectId in objectIds {
