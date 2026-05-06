@@ -38,6 +38,24 @@ struct ActivityServiceTests {
     }
 
     @Test
+    func activitiesFetchResultsController_initilised_correctly() async  {
+        let coreData = await CoreDataRepository.arrangeAndLoad
+        let activityRepository = ActivityRepository(
+            coreData: coreData
+        )
+        let sut = ActivityService(
+            repository: activityRepository
+        )
+        let controller = sut.activitiesFetchResultsController
+
+        #expect(controller.delegate === sut)
+        #expect(controller.sectionNameKeyPath == nil)
+
+        let request = controller.fetchRequest
+        #expect(request.entityName == "ActivityItem")
+    }
+
+    @Test
     func save_topicContent_savesItem() throws {
         let mockRepository = MockActivityRepository()
         let sut = ActivityService(
