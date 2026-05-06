@@ -2,12 +2,13 @@ import UIKit
 import SwiftUI
 import GovKit
 
-class TopicDetailsCoordinator: BaseCoordinator {
+final class TopicDetailsCoordinator: BaseCoordinator {
     private let analyticsService: AnalyticsServiceInterface
     private let topicsService: TopicsServiceInterface
     private let activityService: ActivityServiceInterface
     private let coordinatorBuilder: CoordinatorBuilder
     private let viewControllerBuilder: ViewControllerBuilder
+    private let topicWidgetProvider: TopicWidgetProvider?
     private let topic: Topic
 
     init(navigationController: UINavigationController,
@@ -16,12 +17,14 @@ class TopicDetailsCoordinator: BaseCoordinator {
          activityService: ActivityServiceInterface,
          coordinatorBuilder: CoordinatorBuilder,
          viewControllerBuilder: ViewControllerBuilder,
+         topicWidgetProvider: TopicWidgetProvider?,
          topic: Topic) {
         self.analyticsService = analyticsService
         self.coordinatorBuilder = coordinatorBuilder
         self.viewControllerBuilder = viewControllerBuilder
         self.topicsService = topicsService
         self.activityService = activityService
+        self.topicWidgetProvider = topicWidgetProvider
         self.topic = topic
         super.init(navigationController: navigationController)
     }
@@ -44,7 +47,7 @@ class TopicDetailsCoordinator: BaseCoordinator {
                 openAction: { [weak self] url in
                     self?.presentWebView(url: url)
                 },
-                accountWidgetView: accountWidget(for: localTopic)
+                widgetView: widget(for: localTopic)
             )
             self.push(viewController, animated: true)
         }
@@ -75,7 +78,7 @@ class TopicDetailsCoordinator: BaseCoordinator {
         start(coordinator, url: url)
     }
 
-    func accountWidget(for topic: DisplayableTopic) -> AnyView? {
-         nil
+    private func widget(for topic: DisplayableTopic) -> AnyView? {
+        topicWidgetProvider?.widget(for: topic)
     }
 }

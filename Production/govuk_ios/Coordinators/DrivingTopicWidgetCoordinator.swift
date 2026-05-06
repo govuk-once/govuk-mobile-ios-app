@@ -2,7 +2,11 @@ import UIKit
 import SwiftUI
 import GovKit
 
-final class DrivingTopicDetailCoordinator: TopicDetailsCoordinator {
+protocol TopicWidgetProvider {
+    func widget(for topic: DisplayableTopic) -> AnyView?
+}
+
+final class DrivingTopicWidgetCoordinator: BaseCoordinator, TopicWidgetProvider {
     private let dvlaService: DVLAServiceInterface
     private let userService: UserServiceInterface
     private let widgetViewBuilder: WidgetViewBuilder
@@ -12,33 +16,25 @@ final class DrivingTopicDetailCoordinator: TopicDetailsCoordinator {
 
     init(navigationController: UINavigationController,
          analyticsService: AnalyticsServiceInterface,
-         topicsService: TopicsServiceInterface,
-         activityService: ActivityServiceInterface,
          configService: AppConfigServiceInterface,
          userService: UserServiceInterface,
          dvlaService: DVLAServiceInterface,
          coordinatorBuilder: CoordinatorBuilder,
-         viewControllerBuilder: ViewControllerBuilder,
-         widgetViewBuilder: WidgetViewBuilder,
-         topic: Topic) {
+         widgetViewBuilder: WidgetViewBuilder) {
         self.dvlaService = dvlaService
         self.analyticsService = analyticsService
         self.configService = configService
         self.userService = userService
         self.coordinatorBuilder = coordinatorBuilder
         self.widgetViewBuilder = widgetViewBuilder
-        super.init(
-            navigationController: navigationController,
-            analyticsService: analyticsService,
-            topicsService: topicsService,
-            activityService: activityService,
-            coordinatorBuilder: coordinatorBuilder,
-            viewControllerBuilder: viewControllerBuilder,
-            topic: topic
-        )
+        super.init(navigationController: navigationController)
     }
 
-    override func accountWidget(
+    override func start(url: URL?) {
+        /* do nothing */
+    }
+
+    func widget(
         for topic: DisplayableTopic
     ) -> AnyView? {
         guard topic.ref == "driving-transport",

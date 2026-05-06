@@ -1,5 +1,6 @@
 // swiftlint:disable file_length
 import UIKit
+import SwiftUI
 import Foundation
 import FactoryKit
 
@@ -217,31 +218,37 @@ class CoordinatorBuilder {
 
     func topicDetail(_ topic: Topic,
                      navigationController: UINavigationController) -> BaseCoordinator {
-        if topic.ref == "driving-transport" {
-            DrivingTopicDetailCoordinator(
-                navigationController: navigationController,
-                analyticsService: container.analyticsService.resolve(),
-                topicsService: container.topicsService.resolve(),
-                activityService: container.activityService.resolve(),
-                configService: container.appConfigService.resolve(),
-                userService: container.userService.resolve(),
-                dvlaService: container.dvlaService.resolve(),
-                coordinatorBuilder: self,
-                viewControllerBuilder: ViewControllerBuilder(),
-                widgetViewBuilder: WidgetViewBuilder(),
-                topic: topic
-            )
-        } else {
-            TopicDetailsCoordinator(
-                navigationController: navigationController,
-                analyticsService: container.analyticsService.resolve(),
-                topicsService: container.topicsService.resolve(),
-                activityService: container.activityService.resolve(),
-                coordinatorBuilder: self,
-                viewControllerBuilder: ViewControllerBuilder(),
-                topic: topic
-            )
+        TopicDetailsCoordinator(
+            navigationController: navigationController,
+            analyticsService: container.analyticsService.resolve(),
+            topicsService: container.topicsService.resolve(),
+            activityService: container.activityService.resolve(),
+            coordinatorBuilder: self,
+            viewControllerBuilder: ViewControllerBuilder(),
+            topicWidgetProvider: topicWidgetProvider(
+                topic: topic,
+                navigationController: navigationController
+            ),
+            topic: topic
+        )
+    }
+
+    func topicWidgetProvider(
+        topic: Topic,
+        navigationController: UINavigationController
+    ) -> TopicWidgetProvider? {
+        guard topic.ref == "driving-transport" else {
+            return nil
         }
+        return DrivingTopicWidgetCoordinator(
+            navigationController: navigationController,
+            analyticsService: container.analyticsService.resolve(),
+            configService: container.appConfigService.resolve(),
+            userService: container.userService.resolve(),
+            dvlaService: container.dvlaService.resolve(),
+            coordinatorBuilder: self,
+            widgetViewBuilder: WidgetViewBuilder()
+        )
     }
 
     func localAuthority(navigationController: UINavigationController,

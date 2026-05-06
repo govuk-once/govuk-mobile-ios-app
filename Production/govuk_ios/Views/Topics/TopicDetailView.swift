@@ -4,18 +4,18 @@ import GovKit
 
 struct TopicDetailView<T: TopicDetailViewModelInterface>: View {
     @StateObject var viewModel: T
-    let accountWidgetView: AnyView?
+    let widgetView: AnyView?
 
-    init(viewModel: T, accountWidgetView: AnyView?) {
+    init(viewModel: T, widgetView: AnyView?) {
         _viewModel = StateObject(wrappedValue: viewModel)
-        self.accountWidgetView = accountWidgetView
+        self.widgetView = widgetView
     }
 
     var body: some View {
         ScrollView {
             VStack {
                 titleView
-                accountWidgetView
+                widgetView
                 if let errorViewModel = viewModel.errorViewModel {
                     showErrorView(with: errorViewModel)
                 } else if viewModel.isLoaded {

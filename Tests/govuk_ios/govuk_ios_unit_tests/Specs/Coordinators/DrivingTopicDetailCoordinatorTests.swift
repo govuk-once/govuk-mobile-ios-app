@@ -6,95 +6,80 @@ import Testing
 
 @Suite
 @MainActor
-struct DrivingTopicDetailCoordinatorTests {
+struct DrivingTopicWidgetCoordinatorTests {
 
     let mockAnalyticsService = MockAnalyticsService()
-    let mockActivityService = MockActivityService()
-    let mockTopicsService = MockTopicsService()
     let mockConfigService = MockAppConfigService()
     let mockUserService = MockUserService()
     let mockDvlaService = MockDVLAService()
     let mockNavigationController = MockNavigationController()
     let mockWidgetViewBuilder = MockWidgetViewBuilder()
-    let mockViewControllerBuilder = MockViewControllerBuilder()
     let mockCoreDataViewContext = CoreDataRepository.arrangeAndLoad.viewContext
 
     @Test
-    func accountWidget_forDrivingTopic_whenFeatureSwitchIsEnabled_returnsWidget() {
+    func widget_forDrivingTopic_whenFeatureSwitchIsEnabled_returnsWidget() {
         let drivingTopic = Topic.arrange(
             context: mockCoreDataViewContext,
             ref: "driving-transport"
         )
         mockConfigService.features = [.dvla]
 
-        let sut = DrivingTopicDetailCoordinator(
+        let sut = DrivingTopicWidgetCoordinator(
             navigationController: UINavigationController(),
             analyticsService: mockAnalyticsService,
-            topicsService: mockTopicsService,
-            activityService: mockActivityService,
             configService: mockConfigService,
             userService: mockUserService,
             dvlaService: mockDvlaService,
             coordinatorBuilder: CoordinatorBuilder.mock,
-            viewControllerBuilder: mockViewControllerBuilder,
-            widgetViewBuilder: mockWidgetViewBuilder,
-            topic: drivingTopic
+            widgetViewBuilder: mockWidgetViewBuilder
         )
-        let widgetView = sut.accountWidget(for: drivingTopic)
+        let widgetView = sut.widget(for: drivingTopic)
         #expect(widgetView != nil)
     }
 
     @Test
-    func accountWidget_forDrivingTopic_whenFeatureSwitchIsDisabled_returnsNil() {
+    func widget_forDrivingTopic_whenFeatureSwitchIsDisabled_returnsNil() {
         let drivingTopic = Topic.arrange(
             context: mockCoreDataViewContext,
             ref: "driving-transport"
         )
         mockConfigService.features = []
 
-        let sut = DrivingTopicDetailCoordinator(
+        let sut = DrivingTopicWidgetCoordinator(
             navigationController: UINavigationController(),
             analyticsService: mockAnalyticsService,
-            topicsService: mockTopicsService,
-            activityService: mockActivityService,
             configService: mockConfigService,
             userService: mockUserService,
             dvlaService: mockDvlaService,
             coordinatorBuilder: CoordinatorBuilder.mock,
-            viewControllerBuilder: MockViewControllerBuilder(),
-            widgetViewBuilder: mockWidgetViewBuilder,
-            topic: drivingTopic
+            widgetViewBuilder: mockWidgetViewBuilder
         )
-        let widgetView = sut.accountWidget(for: drivingTopic)
+        let widgetView = sut.widget(for: drivingTopic)
         #expect(widgetView == nil)
     }
 
     @Test
-    func accountWidget_forNonDrivingTopic_returnsNil() {
+    func widget_forNonDrivingTopic_returnsNil() {
         let drivingTopic = Topic.arrange(
             context: mockCoreDataViewContext,
             ref: "business"
         )
 
-        let sut = DrivingTopicDetailCoordinator(
+        let sut = DrivingTopicWidgetCoordinator(
             navigationController: UINavigationController(),
             analyticsService: mockAnalyticsService,
-            topicsService: mockTopicsService,
-            activityService: mockActivityService,
             configService: mockConfigService,
             userService: mockUserService,
             dvlaService: mockDvlaService,
             coordinatorBuilder: CoordinatorBuilder.mock,
-            viewControllerBuilder: MockViewControllerBuilder(),
-            widgetViewBuilder: mockWidgetViewBuilder,
-            topic: drivingTopic
+            widgetViewBuilder: mockWidgetViewBuilder
         )
-        let widgetView = sut.accountWidget(for: drivingTopic)
+        let widgetView = sut.widget(for: drivingTopic)
         #expect(widgetView == nil)
     }
 
     @Test
-    func accountWidget_linkAction_startsLinkAccount() {
+    func widget_linkAction_startsLinkAccount() {
         let drivingTopic = Topic.arrange(
             context: mockCoreDataViewContext,
             ref: "driving-transport"
@@ -104,26 +89,22 @@ struct DrivingTopicDetailCoordinatorTests {
         let mockServiceAccountLinkCoordinator = MockBaseCoordinator()
         mockCoordinatorBuilder._stubbedServiceAccountLinkCoordinator = mockServiceAccountLinkCoordinator
 
-        let sut = DrivingTopicDetailCoordinator(
+        let sut = DrivingTopicWidgetCoordinator(
             navigationController: UINavigationController(),
             analyticsService: mockAnalyticsService,
-            topicsService: mockTopicsService,
-            activityService: mockActivityService,
             configService: mockConfigService,
             userService: mockUserService,
             dvlaService: mockDvlaService,
             coordinatorBuilder: mockCoordinatorBuilder,
-            viewControllerBuilder: mockViewControllerBuilder,
-            widgetViewBuilder: mockWidgetViewBuilder,
-            topic: drivingTopic
+            widgetViewBuilder: mockWidgetViewBuilder
         )
-        let _ = sut.accountWidget(for: drivingTopic)
+        let _ = sut.widget(for: drivingTopic)
         mockWidgetViewBuilder._receivedDvlaAccountWidgetLinkAction?()
         #expect(mockServiceAccountLinkCoordinator._startCalled == true)
     }
 
     @Test
-    func accountWidget_unlinkAction_startsUnlinkAccount() {
+    func widget_unlinkAction_startsUnlinkAccount() {
         let drivingTopic = Topic.arrange(
             context: mockCoreDataViewContext,
             ref: "driving-transport"
@@ -133,20 +114,16 @@ struct DrivingTopicDetailCoordinatorTests {
         let mockServiceAccountUnlinkCoordinator = MockBaseCoordinator()
         mockCoordinatorBuilder._stubbedServiceAccountUnlinkCoordinator = mockServiceAccountUnlinkCoordinator
 
-        let sut = DrivingTopicDetailCoordinator(
+        let sut = DrivingTopicWidgetCoordinator(
             navigationController: UINavigationController(),
             analyticsService: mockAnalyticsService,
-            topicsService: mockTopicsService,
-            activityService: mockActivityService,
             configService: mockConfigService,
             userService: mockUserService,
             dvlaService: mockDvlaService,
             coordinatorBuilder: mockCoordinatorBuilder,
-            viewControllerBuilder: mockViewControllerBuilder,
-            widgetViewBuilder: mockWidgetViewBuilder,
-            topic: drivingTopic
+            widgetViewBuilder: mockWidgetViewBuilder
         )
-        let _ = sut.accountWidget(for: drivingTopic)
+        let _ = sut.widget(for: drivingTopic)
         mockWidgetViewBuilder._receivedDvlaAccountWidgetUnlinkAction?()
         #expect(mockServiceAccountUnlinkCoordinator._startCalled == true)
     }

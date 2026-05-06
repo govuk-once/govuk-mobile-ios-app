@@ -364,7 +364,7 @@ class ViewControllerBuilder {
                      subtopicAction: @escaping (DisplayableTopic) -> Void,
                      stepByStepAction: @escaping ([TopicDetailResponse.Content]) -> Void,
                      openAction: @escaping (URL) -> Void,
-                     accountWidgetView: AnyView?
+                     widgetView: AnyView?
     ) -> UIViewController {
         let actions = TopicDetailViewModel.Actions(
             subtopicAction: subtopicAction,
@@ -382,7 +382,7 @@ class ViewControllerBuilder {
 
         let view = TopicDetailView(
             viewModel: viewModel,
-            accountWidgetView: accountWidgetView
+            widgetView: widgetView
         )
         let viewController = HostingViewController(
             rootView: view
@@ -404,7 +404,7 @@ class ViewControllerBuilder {
         )
         let view = TopicDetailView(
             viewModel: viewModel,
-            accountWidgetView: nil
+            widgetView: nil
         )
         let viewController = HostingViewController(
             rootView: view

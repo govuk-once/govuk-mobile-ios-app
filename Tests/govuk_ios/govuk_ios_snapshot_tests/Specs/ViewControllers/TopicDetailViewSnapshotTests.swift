@@ -15,7 +15,7 @@ class TopicDetailViewSnapshotTests: SnapshotTestCase {
         )
         let view = TopicDetailView(
             viewModel: mockViewModel,
-            accountWidgetView: nil
+            widgetView: nil
         )
         let viewController = HostingViewController(rootView: view)
         VerifySnapshotInNavigationController(
@@ -31,7 +31,7 @@ class TopicDetailViewSnapshotTests: SnapshotTestCase {
         )
         let view = TopicDetailView(
             viewModel: mockViewModel,
-            accountWidgetView: nil
+            widgetView: nil
         )
         let viewController = HostingViewController(rootView: view)
         VerifySnapshotInNavigationController(
@@ -44,7 +44,7 @@ class TopicDetailViewSnapshotTests: SnapshotTestCase {
         let mockViewModel = MockTopicDetailViewModel.arrangeFetched
         let view = TopicDetailView(
             viewModel: mockViewModel,
-            accountWidgetView: nil
+            widgetView: nil
         )
         let viewController = HostingViewController(
             rootView: view
@@ -59,7 +59,7 @@ class TopicDetailViewSnapshotTests: SnapshotTestCase {
         let mockViewModel = MockTopicDetailViewModel.arrangeManyStepBySteps
         let view = TopicDetailView(
             viewModel: mockViewModel,
-            accountWidgetView: nil
+            widgetView: nil
         )
         let viewController = HostingViewController(rootView: view)
         VerifySnapshotInNavigationController(
@@ -72,7 +72,7 @@ class TopicDetailViewSnapshotTests: SnapshotTestCase {
         let mockViewModel = MockTopicDetailViewModel.arrangeManyStepBySteps
         let view = TopicDetailView(
             viewModel: mockViewModel,
-            accountWidgetView: nil
+            widgetView: nil
         )
         let viewController = HostingViewController(rootView: view)
         VerifySnapshotInNavigationController(
@@ -85,7 +85,7 @@ class TopicDetailViewSnapshotTests: SnapshotTestCase {
         let mockViewModel = MockTopicDetailViewModel.arrangeOnlySubtopics
         let view = TopicDetailView(
             viewModel: mockViewModel,
-            accountWidgetView: nil
+            widgetView: nil
         )
         let viewController = HostingViewController(rootView: view)
         VerifySnapshotInNavigationController(
@@ -102,7 +102,7 @@ class TopicDetailViewSnapshotTests: SnapshotTestCase {
 
         let view = TopicDetailView(
             viewModel: mockViewModel,
-            accountWidgetView: nil
+            widgetView: nil
         )
         let viewController = HostingViewController(rootView: view)
         VerifySnapshotInNavigationController(
@@ -118,7 +118,7 @@ class TopicDetailViewSnapshotTests: SnapshotTestCase {
         )
         let view = TopicDetailView(
             viewModel: mockViewModel,
-            accountWidgetView: nil
+            widgetView: nil
         )
         let viewController = HostingViewController(rootView: view)
         VerifySnapshotInNavigationController(
@@ -131,7 +131,7 @@ class TopicDetailViewSnapshotTests: SnapshotTestCase {
         let viewModel = MockTopicDetailViewModel.arrangeStepByStep
         let view = TopicDetailView(
             viewModel: viewModel,
-            accountWidgetView: nil
+            widgetView: nil
         )
         let viewController = HostingViewController(rootView: view)
         VerifySnapshotInNavigationController(
@@ -144,7 +144,7 @@ class TopicDetailViewSnapshotTests: SnapshotTestCase {
         let viewModel = MockTopicDetailViewModel.arrangeStepByStep
         let view = TopicDetailView(
             viewModel: viewModel,
-            accountWidgetView: nil
+            widgetView: nil
         )
         let viewController = HostingViewController(rootView: view)
         VerifySnapshotInNavigationController(
@@ -162,7 +162,7 @@ class TopicDetailViewSnapshotTests: SnapshotTestCase {
         let viewModel = MockTopicDetailViewModel.arrangeFetched
         let view = TopicDetailView(
             viewModel: viewModel,
-            accountWidgetView: AnyView(mockWidget)
+            widgetView: AnyView(mockWidget)
         )
         let viewController = HostingViewController(rootView: view)
         VerifySnapshotInNavigationController(
@@ -180,7 +180,7 @@ class TopicDetailViewSnapshotTests: SnapshotTestCase {
         let viewModel = MockTopicDetailViewModel.arrangeFetched
         let view = TopicDetailView(
             viewModel: viewModel,
-            accountWidgetView: AnyView(mockWidget)
+            widgetView: AnyView(mockWidget)
         )
         let viewController = HostingViewController(rootView: view)
         VerifySnapshotInNavigationController(

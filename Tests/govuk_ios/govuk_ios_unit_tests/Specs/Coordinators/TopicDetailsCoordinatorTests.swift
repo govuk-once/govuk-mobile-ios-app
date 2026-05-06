@@ -1,4 +1,5 @@
 import UIKit
+import SwiftUI
 import Foundation
 import Testing
 import SafariServices
@@ -27,6 +28,7 @@ struct TopicDetailsCoordinatorTests {
             activityService: mockActivityService,
             coordinatorBuilder: MockCoordinatorBuilder.mock,
             viewControllerBuilder: mockViewControllerBuilder,
+            topicWidgetProvider: nil,
             topic: Topic(context: coreData.viewContext)
         )
 
@@ -50,6 +52,7 @@ struct TopicDetailsCoordinatorTests {
             activityService: MockActivityService(),
             coordinatorBuilder: mockCoordinatorBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
+            topicWidgetProvider: nil,
             topic: topic
         )
         subject.start()
@@ -79,6 +82,7 @@ struct TopicDetailsCoordinatorTests {
             activityService: MockActivityService(),
             coordinatorBuilder: mockCoordinatorBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
+            topicWidgetProvider: nil,
             topic: topic
         )
 
@@ -108,6 +112,7 @@ struct TopicDetailsCoordinatorTests {
             activityService: MockActivityService(),
             coordinatorBuilder: mockCoordinatorBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
+            topicWidgetProvider: nil,
             topic: topic
         )
 
@@ -121,5 +126,26 @@ struct TopicDetailsCoordinatorTests {
         mockViewControllerBuilder._receivedStepByStepSelectedAction?(expectedContent)
 
         #expect(mockSafariCoordinator._startCalled)
+    }
+
+    @MainActor
+    @Test
+    func start_pushTopic_callsWidgetProvider() {
+        let coreData = CoreDataRepository.arrangeAndLoad
+        let mockTopicWidgetProvider = MockTopicWidgetProvider()
+        mockTopicWidgetProvider._stubbedWidget = AnyView(EmptyView())
+
+        let subject = TopicDetailsCoordinator(
+            navigationController: UINavigationController(),
+            analyticsService: MockAnalyticsService(),
+            topicsService: MockTopicsService(),
+            activityService: MockActivityService(),
+            coordinatorBuilder: MockCoordinatorBuilder.mock,
+            viewControllerBuilder: MockViewControllerBuilder(),
+            topicWidgetProvider: mockTopicWidgetProvider,
+            topic: Topic(context: coreData.viewContext)
+        )
+        subject.start()
+        #expect(mockTopicWidgetProvider._widgetCalled == true)
     }
 }

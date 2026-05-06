@@ -99,7 +99,7 @@ class MockViewControllerBuilder: ViewControllerBuilder {
                               subtopicAction: @escaping (any DisplayableTopic) -> Void,
                               stepByStepAction: @escaping ([TopicDetailResponse.Content]) -> Void,
                               openAction: @escaping (URL) -> Void,
-                              accountWidgetView: AnyView?
+                              widgetView: AnyView?
     ) -> UIViewController {
         _receivedTopicDetailOpenAction = openAction
         _receivedTopicDetailStepByStepAction = stepByStepAction
