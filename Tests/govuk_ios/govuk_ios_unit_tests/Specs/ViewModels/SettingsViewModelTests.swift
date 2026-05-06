@@ -96,6 +96,25 @@ class SettingsViewModelTests {
     }
 
     @Test
+    func profileDisabled_hidesSARRow() {
+        mockAppConfigService.features = []
+        let localSut = SettingsViewModel(
+            analyticsService: mockAnalyticsService,
+            urlOpener: mockURLOpener,
+            versionProvider: mockVersionProvider,
+            deviceInformationProvider: mockDeviceInformationProvider,
+            authenticationService: mockAuthenticationService,
+            notificationService: mockNotificationsService,
+            notificationCenter: .default,
+            localAuthenticationService: mockLocalAuthenticationService,
+            appConfigService: mockAppConfigService
+        )
+
+        let privacyAndLegalSection = localSut.listContent[4]
+        #expect(privacyAndLegalSection.rows.last?.title == "Terms and conditions")
+    }
+
+    @Test
     func analytics_toggledOnThenOff_deniesPermissions() throws {
         mockAnalyticsService.setAcceptedAnalytics(accepted: true)
         let appOptionsSection = sut.listContent[2]

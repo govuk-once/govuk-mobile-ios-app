@@ -286,7 +286,7 @@ class MockViewControllerBuilder: ViewControllerBuilder {
 
     var _stubbedSARSettings: UIViewController?
     var _receivedSARAction: (() -> Void)?
-    override func sarSettings(
+    override func sarExplainer(
         analyticsService: AnalyticsServiceInterface,
         sarAction: @escaping () -> Void
     ) -> UIViewController {

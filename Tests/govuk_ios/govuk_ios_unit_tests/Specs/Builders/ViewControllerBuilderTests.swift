@@ -352,7 +352,7 @@ struct ViewControllerBuilderTests {
     @Test
     func sarSettings_returnsExpectedResult() {
         let subject = ViewControllerBuilder()
-        let result = subject.sarSettings(
+        let result = subject.sarExplainer(
             analyticsService: MockAnalyticsService(),
             sarAction: { }
         )
