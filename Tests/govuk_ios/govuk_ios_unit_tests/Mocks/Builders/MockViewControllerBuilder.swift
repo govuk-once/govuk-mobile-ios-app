@@ -284,6 +284,16 @@ class MockViewControllerBuilder: ViewControllerBuilder {
         return _stubbedTouchIdSettingsController ?? UIViewController()
     }
 
+    var _stubbedSARSettings: UIViewController?
+    var _receivedSARAction: (() -> Void)?
+    override func sarSettings(
+        analyticsService: AnalyticsServiceInterface,
+        sarAction: @escaping () -> Void
+    ) -> UIViewController {
+        _receivedSARAction = sarAction
+        return _stubbedSARSettings ?? UIViewController()
+    }
+
     var _stubbedChatController: UIViewController?
     var _receivedChatOpenURLAction: ((URL) -> Void)?
     var _receivedChatHandleError: ((ChatError) -> Void)?
