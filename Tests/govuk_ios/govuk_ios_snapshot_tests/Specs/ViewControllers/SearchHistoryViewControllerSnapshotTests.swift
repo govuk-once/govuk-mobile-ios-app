@@ -7,7 +7,6 @@ import GovKitUI
 
 @MainActor
 final class SearchHistoryViewControllerSnapshotTests: SnapshotTestCase {
-
     var coreData: CoreDataRepository!
 
     override func setUp() async throws {

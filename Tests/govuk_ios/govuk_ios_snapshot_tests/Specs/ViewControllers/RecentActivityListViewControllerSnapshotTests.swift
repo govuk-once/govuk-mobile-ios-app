@@ -11,7 +11,6 @@ final class RecentActivityListViewControllerSnapshotTests: SnapshotTestCase {
     override func setUp() async throws {
         try await super.setUp()
         await coreData = CoreDataRepository.arrangeAndLoad
-
     }
 
     func test_loadInNavigationController_light_rendersCorrectly() async {

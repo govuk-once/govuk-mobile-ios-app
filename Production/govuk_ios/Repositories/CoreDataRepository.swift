@@ -31,7 +31,7 @@ class CoreDataRepository: CoreDataRepositoryInterface {
                         named: UIApplication.protectedDataDidBecomeAvailableNotification
                     ).first { _ in true }
                 }
-                try await intialiseStack()
+                try await initialiseStack()
             } catch {
                 self.loadingTask = nil
                 throw error
@@ -41,7 +41,7 @@ class CoreDataRepository: CoreDataRepositoryInterface {
         try await task.value
     }
 
-    private func intialiseStack() async throws {
+    private func initialiseStack() async throws {
         persistentContainer.persistentStoreDescriptions.forEach { [weak self] in
             self?.setDescriptionProtection(description: $0)
             $0.setOption(true as NSNumber, forKey: NSInferMappingModelAutomaticallyOption)
@@ -50,10 +50,9 @@ class CoreDataRepository: CoreDataRepositoryInterface {
         await withCheckedContinuation { continuation in
             persistentContainer.loadPersistentStores { [weak self] description, error in
                 if let error = error {
-                    fatalError("Error loading load persistent stores: \(error)")
+                    fatalError("Unable to load persistent stores: \(error)")
                 }
                 self?.excludeStoreFromiTunesBackup(url: description.url)
-
                 continuation.resume()
             }
         }

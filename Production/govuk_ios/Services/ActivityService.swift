@@ -14,7 +14,6 @@ class ActivityService: NSObject,
                        ActivityServiceInterface,
                        NSFetchedResultsControllerDelegate {
     private let repository: ActivityRepositoryInterface
-    private var retainedResultsController: NSFetchedResultsController<ActivityItem>?
 
     init(repository: ActivityRepositoryInterface) {
         self.repository = repository
