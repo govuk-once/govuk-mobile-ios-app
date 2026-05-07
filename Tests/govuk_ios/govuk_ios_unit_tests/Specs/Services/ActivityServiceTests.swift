@@ -48,7 +48,7 @@ struct ActivityServiceTests {
         )
         let controller = sut.activitiesFetchResultsController
 
-        #expect(controller.delegate === sut)
+        #expect(controller.delegate == nil)
         #expect(controller.sectionNameKeyPath == nil)
 
         let request = controller.fetchRequest
