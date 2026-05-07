@@ -14,25 +14,23 @@ final class HomeContentViewControllerSnapshotTests: SnapshotTestCase {
         await coreData = CoreDataRepository.arrangeAndLoad
     }
 
-    func test_loadInNavigationController_light_rendersCorrectly() async {
-        let viewController = await viewController()
+    func test_loadInNavigationController_light_rendersCorrectly() {
         VerifySnapshotInNavigationController(
-            viewController: viewController,
+            viewController: viewController(),
             mode: .light,
             prefersLargeTitles: true
         )
     }
 
-    func test_loadInNavigationController_dark_rendersCorrectly() async  {
-        let viewController = await viewController()
+    func test_loadInNavigationController_dark_rendersCorrectly() {
         VerifySnapshotInNavigationController(
-            viewController: viewController,
+            viewController: viewController(),
             mode: .dark,
             prefersLargeTitles: true
         )
     }
 
-    private func viewController() async -> UIViewController {
+    private func viewController() -> UIViewController {
         let topicsWidgetViewModel = TopicsWidgetViewModel(
             topicsService: MockTopicsService(),
             analyticsService: MockAnalyticsService(),

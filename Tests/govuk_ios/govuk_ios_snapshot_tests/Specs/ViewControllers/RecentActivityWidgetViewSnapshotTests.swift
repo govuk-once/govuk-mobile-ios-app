@@ -16,7 +16,7 @@ final class RecentActivityWidgetViewSnapshotTests: SnapshotTestCase {
         self.coreData = await CoreDataRepository.arrangeAndLoad
     }
 
-    func test_loadInNavigationController_activities_light_renderCorrectly() async {
+    func test_loadInNavigationController_activities_light_renderCorrectly() {
         VerifySnapshotInNavigationController(
             viewController: viewController(true),
             mode: .light,
@@ -24,7 +24,7 @@ final class RecentActivityWidgetViewSnapshotTests: SnapshotTestCase {
         )
     }
 
-    func test_loadInNavigationController_activities_dark_renderCorrectly() async {
+    func test_loadInNavigationController_activities_dark_renderCorrectly() {
         VerifySnapshotInNavigationController(
             viewController: viewController(true),
             mode: .dark,
@@ -40,7 +40,7 @@ final class RecentActivityWidgetViewSnapshotTests: SnapshotTestCase {
         )
     }
 
-    func test_loadInNavigationController_emptyActivities_dark_rendersCorrectly() throws {
+    func test_loadInNavigationController_emptyActivities_dark_rendersCorrectly() {
         VerifySnapshotInNavigationController(
             viewController: viewController(false),
             mode: .dark,
