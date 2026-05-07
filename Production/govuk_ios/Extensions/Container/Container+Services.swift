@@ -89,7 +89,7 @@ extension Container {
                 topicService: self.topicsService.resolve(),
                 notificationService: self.notificationService.resolve(),
                 remoteConfigService: self.remoteConfigService.resolve(),
-                coredataService: self.coreDataRepository.resolve()
+                coreDataRepository: self.coreDataRepository.resolve()
             )
         }.scope(.singleton)
     }
