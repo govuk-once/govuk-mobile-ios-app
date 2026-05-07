@@ -85,6 +85,9 @@ class SettingsCoordinator: TabItemCoordinator {
                 fullScreen: params.fullScreen
             )
         }
+        settingsViewModel.sarAction = { [weak self] in
+            self?.startSARSettings()
+        }
     }
 
     private func startNotificationsSettings() {
@@ -102,6 +105,13 @@ class SettingsCoordinator: TabItemCoordinator {
 
     private func startLocalAuthenticationSettings() {
         let coordinator = coordinatorBuilder.localAuthenticationSettings(
+            navigationController: root
+        )
+        start(coordinator)
+    }
+
+    private func startSARSettings() {
+        let coordinator = coordinatorBuilder.sarSettingsCoordinator(
             navigationController: root
         )
         start(coordinator)

@@ -15,6 +15,7 @@ protocol SettingsViewModelInterface: ObservableObject {
     var localAuthenticationAction: (() -> Void)? { get set }
     var signoutAction: (() -> Void)? { get set }
     var openAction: ((SettingsViewModelURLParameters) -> Void)? { get set }
+    var sarAction: (() -> Void)? { get set }
 
     func updateNotificationPermissionState()
     func handleNotificationAlertAction()
@@ -51,6 +52,7 @@ class SettingsViewModel: SettingsViewModelInterface {
     )
     var signoutAction: (() -> Void)?
     var openAction: ((SettingsViewModelURLParameters) -> Void)?
+    var sarAction: (() -> Void)?
     @Published var userEmail: String?
 
     init(analyticsService: AnalyticsServiceInterface,
@@ -144,10 +146,11 @@ class SettingsViewModel: SettingsViewModelInterface {
             signoutSection,
             appOptionsSection,
             aboutSection,
-            privacyBottomSection
+            policiesSection
         ].compactMap { $0 }
     }
 
+    // MARK: - Account
     private var accountSection: GroupedListSection? {
         guard authenticationService.isSignedIn else { return nil }
         let rowTitle = String(localized: .Settings.manageAccountRowTitle)
@@ -178,6 +181,7 @@ class SettingsViewModel: SettingsViewModelInterface {
             footer: String(localized: .Settings.accountSectionFooter))
     }
 
+    // MARK: - Sign out
     private var signoutSection: GroupedListSection? {
         guard authenticationService.isSignedIn else { return nil }
         return GroupedListSection(
@@ -197,100 +201,26 @@ class SettingsViewModel: SettingsViewModelInterface {
             footer: nil)
     }
 
-    private var aboutSection: GroupedListSection {
-        GroupedListSection(
-            heading: nil,
-            rows: [
-                InformationRow(
-                    id: "settings.version.row",
-                    title: String(localized: .Settings.appVersionTitle),
-                    body: nil,
-                    detail: versionProvider.fullBuildNumber ?? "-"
-                ),
-                helpAndFeedbackRow()
-            ],
-            footer: nil
+    private func handleSignOutPressed() {
+        trackNavigationEvent(
+            String.settings.localized(
+                String(localized: .Settings.signOutRowTitle)
+            ),
+            external: false
         )
+        signoutAction?()
     }
 
+    // MARK: - App Options
     private var appOptionsSection: GroupedListSection? {
         return GroupedListSection(
             heading: nil,
-            rows: appOptionsRows(),
+            rows: appOptionsRows,
             footer: String(localized: .Settings.appUsageFooter)
         )
     }
 
-    private var privacyBottomSection: GroupedListSection {
-        GroupedListSection(
-            heading: nil,
-            rows: [
-                privacyPolicyRow,
-                accessibilityStatementRow(),
-                openSourceLicenceRow(),
-                termsAndConditionsRow()
-            ],
-            footer: nil
-        )
-    }
-
-    private var privacyPolicyRow: GroupedListRow {
-        let rowTitle = String(localized: .Settings.privacyPolicyRowTitle)
-        return LinkRow(
-            id: "settings.policy.row",
-            title: rowTitle,
-            body: nil,
-            action: { [weak self] in
-                self?.openAction?(
-                    .init(
-                        url: Constants.API.privacyPolicyUrl,
-                        trackingTitle: rowTitle,
-                        fullScreen: false
-                    )
-                )
-            }
-        )
-    }
-
-    private func helpAndFeedbackRow() -> GroupedListRow {
-        let rowTitle = String(localized: .Settings.helpAndFeedbackSettingsTitle)
-        return LinkRow(
-            id: "settings.helpAndfeedback.row",
-            title: rowTitle,
-            body: nil,
-            action: { [weak self] in
-                guard let self else { return }
-                let url = self.deviceInformationProvider
-                    .helpAndFeedbackURL(versionProvider: self.versionProvider)
-                self.openAction?(
-                    .init(
-                        url: url,
-                        trackingTitle: rowTitle,
-                        fullScreen: false
-                    )
-                )
-            }
-        )
-    }
-
-    private func openSourceLicenceRow() -> GroupedListRow {
-        let rowTitle = String(localized: .Settings.openSourceLicenceRowTitle)
-        return LinkRow(
-            id: "settings.licence.row",
-            title: rowTitle,
-            body: nil,
-            action: { [weak self] in
-                if self?.urlOpener.openSettings() == true {
-                    self?.trackNavigationEvent(
-                        rowTitle,
-                        external: true
-                    )
-                }
-            }
-        )
-    }
-
-    private func appOptionsRows() -> [GroupedListRow] {
+    private var appOptionsRows: [GroupedListRow] {
         var appOptionRows = [GroupedListRow]()
 
         if notificationService.isFeatureEnabled {
@@ -361,17 +291,113 @@ class SettingsViewModel: SettingsViewModelInterface {
         }
     }
 
-    private func handleSignOutPressed() {
-        trackNavigationEvent(
-            String.settings.localized(
-                String(localized: .Settings.signOutRowTitle)
-            ),
-            external: false
+    // MARK: - About
+    private var aboutSection: GroupedListSection {
+        GroupedListSection(
+            heading: nil,
+            rows: [
+                InformationRow(
+                    id: "settings.version.row",
+                    title: String(localized: .Settings.appVersionTitle),
+                    body: nil,
+                    detail: versionProvider.fullBuildNumber ?? "-"
+                ),
+                helpAndFeedbackRow
+            ],
+            footer: nil
         )
-        signoutAction?()
     }
 
-    private func termsAndConditionsRow() -> GroupedListRow {
+    private var helpAndFeedbackRow: GroupedListRow {
+        let rowTitle = String(localized: .Settings.helpAndFeedbackSettingsTitle)
+        return LinkRow(
+            id: "settings.helpAndfeedback.row",
+            title: rowTitle,
+            body: nil,
+            action: { [weak self] in
+                guard let self else { return }
+                let url = self.deviceInformationProvider
+                    .helpAndFeedbackURL(versionProvider: self.versionProvider)
+                self.openAction?(
+                    .init(
+                        url: url,
+                        trackingTitle: rowTitle,
+                        fullScreen: false
+                    )
+                )
+            }
+        )
+    }
+
+    // MARK: - Policies
+    private var policiesSection: GroupedListSection {
+        GroupedListSection(
+            heading: nil,
+            rows: [
+                privacyPolicyRow,
+                accessibilityStatementRow,
+                openSourceLicenceRow,
+                termsAndConditionsRow,
+                appConfigService.isFeatureEnabled(key: .profile) ? sarRow : nil
+            ].compactMap { $0 },
+            footer: nil
+        )
+    }
+
+    private var privacyPolicyRow: GroupedListRow {
+        let rowTitle = String(localized: .Settings.privacyPolicyRowTitle)
+        return LinkRow(
+            id: "settings.policy.row",
+            title: rowTitle,
+            body: nil,
+            action: { [weak self] in
+                self?.openAction?(
+                    .init(
+                        url: Constants.API.privacyPolicyUrl,
+                        trackingTitle: rowTitle,
+                        fullScreen: false
+                    )
+                )
+            }
+        )
+    }
+
+    private var accessibilityStatementRow: GroupedListRow {
+        let rowTitle = String(localized: .Settings.accessibilityStatementRowTitle)
+        return LinkRow(
+            id: "settings.accessibility.row",
+            title: rowTitle,
+            body: nil,
+            action: { [weak self] in
+                self?.openAction?(
+                    .init(
+                        url: Constants.API.accessibilityStatementUrl,
+                        trackingTitle: rowTitle,
+                        fullScreen: false
+                    )
+                )
+            }
+        )
+    }
+
+    private var openSourceLicenceRow: GroupedListRow {
+        let rowTitle = String(localized: .Settings.openSourceLicenceRowTitle)
+        return LinkRow(
+            id: "settings.licence.row",
+            title: rowTitle,
+            body: nil,
+            action: { [weak self] in
+                if self?.urlOpener.openSettings() == true {
+                    self?.trackNavigationEvent(
+                        rowTitle,
+                        external: true
+                    )
+                }
+            }
+        )
+    }
+
+    private var termsAndConditionsRow: GroupedListRow {
         let rowTitle = String(localized: .Settings.termsAndConditionsRowTitle)
         return LinkRow(
             id: "settings.terms.row",
@@ -393,24 +419,24 @@ class SettingsViewModel: SettingsViewModelInterface {
         )
     }
 
-    private func accessibilityStatementRow() -> GroupedListRow {
-        let rowTitle = String(localized: .Settings.accessibilityStatementRowTitle)
-        return LinkRow(
-            id: "settings.accessibility.row",
-            title: rowTitle,
+    private var sarRow: GroupedListRow {
+        let rowTitle = String(localized: .Settings.sarRowTitle)
+        return NavigationRow(
+            id: "settings.sar.row",
+            title: String(localized: .Settings.sarRowTitle),
             body: nil,
             action: { [weak self] in
-                self?.openAction?(
-                    .init(
-                        url: Constants.API.accessibilityStatementUrl,
-                        trackingTitle: rowTitle,
-                        fullScreen: false
-                    )
+                guard let self = self else { return }
+                self.trackNavigationEvent(
+                    String.settings.localized(rowTitle),
+                    external: false
                 )
+                self.sarAction?()
             }
         )
     }
 
+    // MARK: - Analytics
     private func trackNavigationEvent(_ title: String,
                                       external: Bool) {
         let event = AppEvent.buttonNavigation(
