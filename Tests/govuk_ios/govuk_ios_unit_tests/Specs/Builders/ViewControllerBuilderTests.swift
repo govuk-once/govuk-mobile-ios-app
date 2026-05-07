@@ -23,7 +23,8 @@ struct ViewControllerBuilderTests {
     }
 
     @Test
-    func home_returnsExpectedResult() {
+    func home_returnsExpectedResult() async {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let subject = ViewControllerBuilder()
         let viewModel = TopicsWidgetViewModel(
             topicsService: MockTopicsService(),
@@ -37,7 +38,7 @@ struct ViewControllerBuilderTests {
             notificationService: MockNotificationService(),
             userDefaultsService: MockUserDefaultsService(),
             searchService: MockSearchService(),
-            activityService: MockActivityService(),
+            activityService: MockActivityService(context: coreData.viewContext),
             topicsWidgetViewModel: viewModel,
             localAuthorityService: MockLocalAuthorityService(),
             chatService: MockChatService()
@@ -81,11 +82,12 @@ struct ViewControllerBuilderTests {
     }
 
     @Test
-    func recentActivity_returnsExpectedResult() {
+    func recentActivity_returnsExpectedResult() async {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let subject = ViewControllerBuilder()
         let result = subject.recentActivity(
             analyticsService: MockAnalyticsService(),
-            activityService: MockActivityService(),
+            activityService: MockActivityService(context: coreData.viewContext),
             selectedAction: { _ in }
         ) as? TrackableScreen
 
@@ -108,13 +110,14 @@ struct ViewControllerBuilderTests {
     }
 
     @Test
-    func topicDetail_returnsExpectedResult() {
+    func topicDetail_returnsExpectedResult() async {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let subject = ViewControllerBuilder()
         let result = subject.topicDetail(
             topic: MockDisplayableTopic(ref: "", title: "", topicDescription: nil),
             topicsService: MockTopicsService(),
             analyticsService: MockAnalyticsService(),
-            activityService: MockActivityService(),
+            activityService: MockActivityService(context: coreData.viewContext),
             subtopicAction: { _ in },
             stepByStepAction: { _ in },
             openAction: { _ in }

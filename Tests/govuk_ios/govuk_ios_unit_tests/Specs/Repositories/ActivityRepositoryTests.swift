@@ -7,8 +7,8 @@ import Testing
 @MainActor
 struct ActivityRepositoryTests {
     @Test
-    func save_existingObject_overwritesObject() throws {
-        let coreData = CoreDataRepository.arrangeAndLoad
+    func save_existingObject_overwritesObject() async throws {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let sut = ActivityRepository(
             coreData: coreData
         )
@@ -37,8 +37,8 @@ struct ActivityRepositoryTests {
     }
 
     @Test
-    func save_newObject_savesObject() throws {
-        let coreData = CoreDataRepository.arrangeAndLoad
+    func save_newObject_savesObject() async throws {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let sut = ActivityRepository(
             coreData: coreData
         )
@@ -72,8 +72,8 @@ struct ActivityRepositoryTests {
     }
 
     @Test
-    func deleteObjectIds_removesExpectedObject() throws {
-        let coreData = CoreDataRepository.arrangeAndLoad
+    func deleteObjectIds_removesExpectedObject() async throws {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let sut = ActivityRepository(
             coreData: coreData
         )
@@ -102,7 +102,7 @@ struct ActivityRepositoryTests {
 
     @Test
     func fetch_returnsControllerWithExpectedObjects() async throws {
-        let coreData = CoreDataRepository.arrangeAndLoad
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let sut = ActivityRepository(
             coreData: coreData
         )
@@ -132,8 +132,8 @@ struct ActivityRepositoryTests {
     }
 
     @Test
-    func activityItemForId_returnsExpectedItem() throws {
-        let coreData = CoreDataRepository.arrangeAndLoad
+    func activityItemForId_returnsExpectedItem() async throws {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let sut = ActivityRepository(
             coreData: coreData
         )

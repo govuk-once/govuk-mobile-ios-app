@@ -38,6 +38,24 @@ struct ActivityServiceTests {
     }
 
     @Test
+    func activitiesFetchResultsController_initilised_correctly() async  {
+        let coreData = await CoreDataRepository.arrangeAndLoad
+        let activityRepository = ActivityRepository(
+            coreData: coreData
+        )
+        let sut = ActivityService(
+            repository: activityRepository
+        )
+        let controller = sut.activitiesFetchResultsController
+
+        #expect(controller.delegate === sut)
+        #expect(controller.sectionNameKeyPath == nil)
+
+        let request = controller.fetchRequest
+        #expect(request.entityName == "ActivityItem")
+    }
+
+    @Test
     func save_topicContent_savesItem() throws {
         let mockRepository = MockActivityRepository()
         let sut = ActivityService(
@@ -83,7 +101,7 @@ struct ActivityServiceTests {
     }
 
     @Test
-    func deleteObjectIds_callsRepository() throws {
+    func deleteObjectIds_callsRepository() async throws {
         let mockRepository = MockActivityRepository()
         let sut = ActivityService(
             repository: mockRepository
@@ -97,8 +115,8 @@ struct ActivityServiceTests {
     }
 
     @Test
-    func activityItemForId_returnsExpectedItem() throws {
-        let coreData = CoreDataRepository.arrangeAndLoad
+    func activityItemForId_returnsExpectedItem() async throws {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let activityRepository = ActivityRepository(
             coreData: coreData
         )

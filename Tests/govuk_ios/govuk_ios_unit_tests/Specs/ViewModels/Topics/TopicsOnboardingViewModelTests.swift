@@ -6,8 +6,8 @@ import Testing
 @Suite
 struct TopicsOnboardingViewModelTests {
     @Test
-    func init_loadsTopicSelectionCards() {
-        let coreData = CoreDataRepository.arrangeAndLoad
+    func init_loadsTopicSelectionCards() async {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let topicOne = Topic.arrange(context: coreData.backgroundContext)
         let sut = TopicsOnboardingViewModel(
             topics: [topicOne],
@@ -20,8 +20,8 @@ struct TopicsOnboardingViewModelTests {
     }
 
     @Test
-    func topicSelectionCard_tapAction_tracksPress() {
-        let coreData = CoreDataRepository.arrangeAndLoad
+    func topicSelectionCard_tapAction_tracksPress() async {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let topic = Topic.arrange(context: coreData.backgroundContext)
         let mockAnalyticsService = MockAnalyticsService()
         let sut = TopicsOnboardingViewModel(
@@ -41,8 +41,8 @@ struct TopicsOnboardingViewModelTests {
     }
 
     @Test
-    func topicSelectionCard_tapAction_true_setsFavourite() {
-        let coreData = CoreDataRepository.arrangeAndLoad
+    func topicSelectionCard_tapAction_true_setsFavourite() async {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let topic = Topic.arrange(context: coreData.backgroundContext)
         topic.isFavourite = false
         let sut = TopicsOnboardingViewModel(
@@ -57,8 +57,8 @@ struct TopicsOnboardingViewModelTests {
     }
 
     @Test
-    func topicSelectionCard_tapAction_false_unsetsFavourite() {
-        let coreData = CoreDataRepository.arrangeAndLoad
+    func topicSelectionCard_tapAction_false_unsetsFavourite() async {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let topic = Topic.arrange(context: coreData.backgroundContext)
         topic.isFavourite = true
         let sut = TopicsOnboardingViewModel(
@@ -73,8 +73,8 @@ struct TopicsOnboardingViewModelTests {
     }
 
     @Test
-    func topicSelectionCard_tapAction_true_setsIsTopicSelected() {
-        let coreData = CoreDataRepository.arrangeAndLoad
+    func topicSelectionCard_tapAction_true_setsIsTopicSelected() async {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let topic = Topic.arrange(context: coreData.backgroundContext)
         let sut = TopicsOnboardingViewModel(
             topics: [topic],
@@ -88,7 +88,7 @@ struct TopicsOnboardingViewModelTests {
     }
 
     @Test
-    func primaryAction_tracksEvent() {
+    func primaryAction_tracksEvent() async {
         let mockAnalyticsService = MockAnalyticsService()
         let sut = TopicsOnboardingViewModel(
             topics: [],
@@ -104,8 +104,8 @@ struct TopicsOnboardingViewModelTests {
     }
 
     @Test
-    func primaryAction_savesSelectedFavourites() {
-        let coreData = CoreDataRepository.arrangeAndLoad
+    func primaryAction_savesSelectedFavourites() async {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let topicOne = Topic.arrange(context: coreData.backgroundContext)
         let topicTwo = Topic.arrange(context: coreData.backgroundContext)
         let topicThree = Topic.arrange(context: coreData.backgroundContext)
@@ -132,7 +132,7 @@ struct TopicsOnboardingViewModelTests {
     }
 
     @Test
-    func secondaryAction_tracksEvent() {
+    func secondaryAction_tracksEvent() async {
         let mockAnalyticsService = MockAnalyticsService()
         let sut = TopicsOnboardingViewModel(
             topics: [],
@@ -149,8 +149,8 @@ struct TopicsOnboardingViewModelTests {
 
     @Test
     @MainActor
-    func secondaryAction_doenstSaveSelectedFavourites() {
-        let coreData = CoreDataRepository.arrangeAndLoad
+    func secondaryAction_doenstSaveSelectedFavourites() async {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let topicOne = Topic.arrange(
             context: coreData.viewContext,
             isFavourite: false

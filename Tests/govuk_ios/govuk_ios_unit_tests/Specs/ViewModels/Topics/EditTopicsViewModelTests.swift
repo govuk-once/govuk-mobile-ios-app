@@ -2,14 +2,13 @@ import Testing
 
 @testable import govuk_ios
 
-struct EditTopicsViewModelTests {
-    let coreData = CoreDataRepository.arrangeAndLoad
+class EditTopicsViewModelTests {
     let mockTopicService = MockTopicsService()
     let mockAnalyticsService = MockAnalyticsService()
 
     @Test
-    func init_withTopics_createsTopicCardsCorrectly() {
-        mockTopicService._stubbedFetchAllTopics = createTopics()
+    func init_withTopics_createsTopicCardsCorrectly() async throws {
+        mockTopicService._stubbedFetchAllTopics = try await createTopics()
         let sut = EditTopicsViewModel(
             topicsService: mockTopicService,
             analyticsService: mockAnalyticsService
@@ -20,8 +19,8 @@ struct EditTopicsViewModelTests {
     }
 
     @Test
-    func tapAction_savesTopic() {
-        mockTopicService._stubbedFetchAllTopics = createTopics()
+    func tapAction_savesTopic() async throws {
+        mockTopicService._stubbedFetchAllTopics = try await createTopics()
         let sut = EditTopicsViewModel(
             topicsService: mockTopicService,
             analyticsService: mockAnalyticsService
@@ -39,7 +38,8 @@ struct EditTopicsViewModelTests {
 }
 
 private extension EditTopicsViewModelTests {
-    func createTopics() -> [Topic] {
+    func createTopics() async throws -> [Topic] {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         var topics = [Topic]()
         for index in 0..<3 {
             let topic = Topic(context: coreData.backgroundContext)

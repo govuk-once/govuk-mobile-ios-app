@@ -8,6 +8,7 @@ import Testing
 struct HomeViewModelTests {
     @Test
     func widgets_returnsArrayOfWidgets() async {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let topicsViewModel = TopicsWidgetViewModel(
             topicsService: MockTopicsService(),
             analyticsService: MockAnalyticsService(),
@@ -57,7 +58,7 @@ struct HomeViewModelTests {
             topicsWidgetViewModel: topicsViewModel,
             urlOpener: MockURLOpener(),
             searchService: MockSearchService(),
-            activityService: MockActivityService(),
+            activityService: MockActivityService(context: coreData.viewContext),
             localAuthorityService: MockLocalAuthorityService(),
             chatService: MockChatService(),
             localAuthorityAction: { },
@@ -77,8 +78,10 @@ struct HomeViewModelTests {
 
     @Test
     func widgets_featureDisabled_doesntReturnWidget() async {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let configService = MockAppConfigService()
         configService.features = []
+
 
         let topicsViewModel = TopicsWidgetViewModel(
             topicsService: MockTopicsService(),
@@ -94,7 +97,7 @@ struct HomeViewModelTests {
             topicsWidgetViewModel: topicsViewModel,
             urlOpener: MockURLOpener(),
             searchService: MockSearchService(),
-            activityService: MockActivityService(),
+            activityService: MockActivityService(context: coreData.viewContext),
             localAuthorityService: MockLocalAuthorityService(),
             chatService: MockChatService(),
             localAuthorityAction: { },
@@ -111,7 +114,8 @@ struct HomeViewModelTests {
     }
 
     @Test
-    func emergencyBanners_have_correct_sort_priority() throws {
+    func emergencyBanners_have_correct_sort_priority() async  throws {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let topicsViewModel = TopicsWidgetViewModel(
             topicsService: MockTopicsService(),
             analyticsService: MockAnalyticsService(),
@@ -149,7 +153,7 @@ struct HomeViewModelTests {
             topicsWidgetViewModel: topicsViewModel,
             urlOpener: MockURLOpener(),
             searchService: MockSearchService(),
-            activityService: MockActivityService(),
+            activityService: MockActivityService(context: coreData.viewContext),
             localAuthorityService: MockLocalAuthorityService(),
             chatService: MockChatService(),
             localAuthorityAction: { },
@@ -171,6 +175,7 @@ struct HomeViewModelTests {
     
     @Test
     func edit_Topics() async {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let configService = MockAppConfigService()
         configService.features = []
 
@@ -189,7 +194,7 @@ struct HomeViewModelTests {
             topicsWidgetViewModel: topicsViewModel,
             urlOpener: MockURLOpener(),
             searchService: MockSearchService(),
-            activityService: MockActivityService(),
+            activityService: MockActivityService(context: coreData.viewContext),
             localAuthorityService: MockLocalAuthorityService(),
             chatService: MockChatService(),
             localAuthorityAction: { },

@@ -9,8 +9,14 @@ import SwiftUI
 
 @MainActor
 final class RecentActivityWidgetViewSnapshotTests: SnapshotTestCase {
+    var coreData: CoreDataRepository!
 
-    func test_loadInNavigationController_activities_light_renderCorrectly() {
+    override func setUp() async throws {
+        try await super.setUp()
+        self.coreData = await CoreDataRepository.arrangeAndLoad
+    }
+
+    func test_loadInNavigationController_activities_light_renderCorrectly() async {
         VerifySnapshotInNavigationController(
             viewController: viewController(true),
             mode: .light,
@@ -18,7 +24,7 @@ final class RecentActivityWidgetViewSnapshotTests: SnapshotTestCase {
         )
     }
 
-    func test_loadInNavigationController_activities_dark_renderCorrectly() {
+    func test_loadInNavigationController_activities_dark_renderCorrectly() async {
         VerifySnapshotInNavigationController(
             viewController: viewController(true),
             mode: .dark,
@@ -26,7 +32,7 @@ final class RecentActivityWidgetViewSnapshotTests: SnapshotTestCase {
         )
     }
 
-    func test_loadInNavigationController_emptyActivities_light_rendersCorrectly() {
+    func test_loadInNavigationController_emptyActivities_light_rendersCorrectly() throws {
         VerifySnapshotInNavigationController(
             viewController: viewController(false),
             mode: .light,
@@ -34,7 +40,7 @@ final class RecentActivityWidgetViewSnapshotTests: SnapshotTestCase {
         )
     }
 
-    func test_loadInNavigationController_emptyActivities_dark_rendersCorrectly() {
+    func test_loadInNavigationController_emptyActivities_dark_rendersCorrectly() throws {
         VerifySnapshotInNavigationController(
             viewController: viewController(false),
             mode: .dark,
@@ -43,29 +49,27 @@ final class RecentActivityWidgetViewSnapshotTests: SnapshotTestCase {
     }
 
     private func viewController(_ loadActivities: Bool) -> UIViewController {
-        let mockActivityService = MockActivityService()
-
         if (loadActivities) {
             _ = ActivityItem.arrange(
                 title: "Test 1",
                 date: .arrange("01/10/2023"),
-                context: mockActivityService.returnContext()
+                context: coreData.viewContext
             )
             _ = ActivityItem.arrange(
                 title: "Test 2",
                 date: .arrange("02/02/2024"),
-                context: mockActivityService.returnContext()
+                context: coreData.viewContext
             )
             _ = ActivityItem.arrange(
                 title: "Test 3",
                 date: .arrange("10/04/2024"),
-                context: mockActivityService.returnContext()
+                context: coreData.viewContext
             )
         }
 
         let viewModel = RecentActivityHomepageWidgetViewModel(
             analyticsService: MockAnalyticsService(),
-            activityService: mockActivityService,
+            activityService: MockActivityService(context: coreData.viewContext),
             seeAllAction: {},
             openURLAction: { _ in }
         )

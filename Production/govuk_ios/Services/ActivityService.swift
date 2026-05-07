@@ -5,11 +5,14 @@ protocol ActivityServiceInterface {
     func fetch() -> NSFetchedResultsController<ActivityItem>
     func save(activity: ActivityItemCreateParams)
     func delete(objectIds: [NSManagedObjectID])
-    func returnContext() -> NSManagedObjectContext
     func activityItem(for objectId: NSManagedObjectID) throws -> ActivityItem?
+    var activitiesFetchResultsController: NSFetchedResultsController<NSFetchRequestResult> { get }
+    var fetchRequest: NSFetchRequest<NSFetchRequestResult> { get }
 }
 
-struct ActivityService: ActivityServiceInterface {
+class ActivityService: NSObject,
+                       ActivityServiceInterface,
+                       NSFetchedResultsControllerDelegate {
     private let repository: ActivityRepositoryInterface
 
     init(repository: ActivityRepositoryInterface) {
@@ -24,9 +27,20 @@ struct ActivityService: ActivityServiceInterface {
         repository.save(params: activity)
     }
 
-    func returnContext() -> NSManagedObjectContext {
-        repository.returnContext()
-    }
+    var fetchRequest:
+    NSFetchRequest<NSFetchRequestResult> = ActivityItem.homepagefetchRequest()
+
+    internal lazy var activitiesFetchResultsController:
+    NSFetchedResultsController<NSFetchRequestResult> = {
+        let controller = NSFetchedResultsController(
+            fetchRequest: fetchRequest,
+            managedObjectContext: self.repository.returnContext(),
+            sectionNameKeyPath: nil,
+            cacheName: nil
+        )
+        controller.delegate = self
+        return controller
+    }()
 
     func delete(objectIds: [NSManagedObjectID]) {
         repository.delete(objectIds: objectIds)

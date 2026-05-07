@@ -14,7 +14,8 @@ struct AppLaunchServiceTests {
             configService: mockConfigService,
             topicService: mockTopicsService,
             notificationService: MockNotificationService(),
-            remoteConfigService: mockRemoteConfigService
+            remoteConfigService: mockRemoteConfigService,
+            coredataService: MockCoreDataRepository()
         )
         mockConfigService._stubbedFetchAppConfigResult = .failure(.configAPI)
         let expectedTopics = TopicResponseItem.arrangeMultiple
@@ -38,7 +39,8 @@ struct AppLaunchServiceTests {
             configService: mockConfigService,
             topicService: mockTopicsService,
             notificationService: MockNotificationService(),
-            remoteConfigService: mockRemoteConfigService
+            remoteConfigService: mockRemoteConfigService,
+            coredataService: MockCoreDataRepository()
         )
         let expectedConfig = AppConfig.arrange
         mockConfigService._stubbedFetchAppConfigResult = .success(expectedConfig)
@@ -62,7 +64,8 @@ struct AppLaunchServiceTests {
             configService: mockConfigService,
             topicService: mockTopicsService,
             notificationService: MockNotificationService(),
-            remoteConfigService: mockRemoteConfigService
+            remoteConfigService: mockRemoteConfigService,
+            coredataService: MockCoreDataRepository()
         )
         
         mockConfigService._stubbedFetchAppConfigResult = .success(AppConfig.arrange)

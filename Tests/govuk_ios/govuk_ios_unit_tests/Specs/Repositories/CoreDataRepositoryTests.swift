@@ -9,19 +9,19 @@ import Testing
 @MainActor
 struct CoreDataRepositoryTests {
     @Test
-    func load_returnsExpectedResult() {
-        let sut = CoreDataRepository.arrange
-        let result = sut.load()
+    func load_enablesDatabaseOperations() async throws {
+        let sut = await CoreDataRepository.arrange
 
-        #expect(sut === result)
+        #expect(sut.viewContext.concurrencyType == .mainQueueConcurrencyType)
     }
 
     @Test
-    func load_addsViewContextObserver() {
+    func load_addsViewContextObserver() async throws{
         let mockNotificationCenter = MockNotificationCenter()
-        let sut = CoreDataRepository.arrange(
+        let sut = await CoreDataRepository.arrange(
             notificationCenter: mockNotificationCenter
-        ).load()
+        )
+        try await sut.load()
 
         #expect(mockNotificationCenter._receivedObservers.count == 2)
 
@@ -35,11 +35,13 @@ struct CoreDataRepositoryTests {
     }
 
     @Test
-    func load_addsBackgroundContextObserver() {
+    func load_addsBackgroundContextObserver() async throws {
         let mockNotificationCenter = MockNotificationCenter()
-        let sut = CoreDataRepository.arrange(
+        let sut = await CoreDataRepository.arrange(
             notificationCenter: mockNotificationCenter
-        ).load()
+        )
+
+        try await sut.load()
 
         #expect(mockNotificationCenter._receivedObservers.count == 2)
 
@@ -53,8 +55,8 @@ struct CoreDataRepositoryTests {
     }
 
     @Test
-    func save_viewContext_mergesChanges() throws {
-        let sut = CoreDataRepository.arrangeAndLoad
+    func save_viewContext_mergesChanges() async throws {
+        let sut = await CoreDataRepository.arrangeAndLoad
 
         let item = ActivityItem.arrange(
             context: sut.viewContext
@@ -74,8 +76,8 @@ struct CoreDataRepositoryTests {
     }
 
     @Test
-    func save_backgroundContext_mergesChanges() throws {
-        let sut = CoreDataRepository.arrangeAndLoad
+    func save_backgroundContext_mergesChanges() async throws{
+        let sut = await CoreDataRepository.arrangeAndLoad
 
         let item = ActivityItem.arrange(
             context: sut.backgroundContext

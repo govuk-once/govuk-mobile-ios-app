@@ -7,8 +7,8 @@ import CoreData
 struct ChatRespositoryTests {
 
     @Test
-    func save_chatItem_savesConversationId() throws {
-        let coreData = CoreDataRepository.arrangeAndLoad
+    func save_chatItem_savesConversationId() async throws {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let sut = ChatRepository(coreData: coreData)
         let expectedConversationId = "conversation_id"
 
@@ -25,8 +25,8 @@ struct ChatRespositoryTests {
     }
 
     @Test
-    func save_chatItem_savesOnlyOneConversationId() throws {
-        let coreData = CoreDataRepository.arrangeAndLoad
+    func save_chatItem_savesOnlyOneConversationId() async throws {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let sut = ChatRepository(coreData: coreData)
         let expectedConversationId = "conversation_id"
         let secondExpectedConversationId = "second_conversation_id"
@@ -45,8 +45,8 @@ struct ChatRespositoryTests {
     }
 
     @Test
-    func save_chatItem_savesNilConversationId() throws {
-        let coreData = CoreDataRepository.arrangeAndLoad
+    func save_chatItem_savesNilConversationId() async throws {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let sut = ChatRepository(coreData: coreData)
 
         sut.saveConversation(nil)
@@ -62,8 +62,8 @@ struct ChatRespositoryTests {
     }
 
     @Test
-    func fetchConversation_fetchesExpectedItem() {
-        let coreData = CoreDataRepository.arrangeAndLoad
+    func fetchConversation_fetchesExpectedItem() async throws {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let sut = ChatRepository(coreData: coreData)
         let expectedConversationId = "conversation_id"
 

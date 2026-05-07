@@ -25,7 +25,9 @@ struct TermsAndConditionsServiceClientTests {
 
     @Test
     func termsAndConditions_validJson_returnsCorrectConfig() async throws {
-        let mockJsonData = getJsonData(filename: "MockTermsAndConditionsResponse", bundle: .main)
+        let mockJsonData = getJsonData(
+            filename: "MockTermsAndConditionsResponse", bundle: .main
+        )
         mockServiceClient._stubbedSendResponse = .success(mockJsonData)
         let result = await sut.termsAndConditions(path: "/api/content/guidance/govuk-app-terms-and-conditions")
         let unwrappedResult = try result.get()
