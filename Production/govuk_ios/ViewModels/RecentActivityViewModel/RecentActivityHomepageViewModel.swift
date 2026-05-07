@@ -23,6 +23,7 @@ class RecentActivityHomepageWidgetViewModel: NSObject,
         self.openURLAction = openURLAction
         super.init()
         self.setupFetchResultsController()
+        activityService.activitiesFetchResultsController.delegate = self
     }
 
     let title: String = String.recentActivity.localized(

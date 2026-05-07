@@ -11,8 +11,7 @@ protocol ActivityServiceInterface {
 }
 
 class ActivityService: NSObject,
-                       ActivityServiceInterface,
-                       NSFetchedResultsControllerDelegate {
+                       ActivityServiceInterface {
     private let repository: ActivityRepositoryInterface
 
     init(repository: ActivityRepositoryInterface) {
@@ -38,7 +37,6 @@ class ActivityService: NSObject,
             sectionNameKeyPath: nil,
             cacheName: nil
         )
-        controller.delegate = self
         return controller
     }()
 
