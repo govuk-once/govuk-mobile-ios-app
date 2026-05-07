@@ -23,7 +23,6 @@ class RecentActivityHomepageWidgetViewModel: NSObject,
         self.openURLAction = openURLAction
         super.init()
         self.setupFetchResultsController()
-        activityService.activitiesFetchResultsController.delegate = self
     }
 
     let title: String = String.recentActivity.localized(
@@ -37,6 +36,7 @@ class RecentActivityHomepageWidgetViewModel: NSObject,
     )
 
     private func setupFetchResultsController() {
+        activityService.activitiesFetchResultsController.delegate = self
         try? activityService.activitiesFetchResultsController.performFetch()
         let activities = activityService.activitiesFetchResultsController.fetchedObjects ?? []
         let mappedActivities = activities.compactMap { $0 as? ActivityItem }
