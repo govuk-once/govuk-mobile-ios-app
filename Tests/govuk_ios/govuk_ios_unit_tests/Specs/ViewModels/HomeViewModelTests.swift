@@ -114,7 +114,7 @@ struct HomeViewModelTests {
     }
 
     @Test
-    func emergencyBanners_have_correct_sort_priority() async  throws {
+    func emergencyBanners_have_correct_sort_priority() async throws {
         let coreData = await CoreDataRepository.arrangeAndLoad
         let topicsViewModel = TopicsWidgetViewModel(
             topicsService: MockTopicsService(),

@@ -88,7 +88,7 @@ struct TopicsOnboardingViewModelTests {
     }
 
     @Test
-    func primaryAction_tracksEvent() async {
+    func primaryAction_tracksEvent() {
         let mockAnalyticsService = MockAnalyticsService()
         let sut = TopicsOnboardingViewModel(
             topics: [],
@@ -132,7 +132,7 @@ struct TopicsOnboardingViewModelTests {
     }
 
     @Test
-    func secondaryAction_tracksEvent() async {
+    func secondaryAction_tracksEvent() {
         let mockAnalyticsService = MockAnalyticsService()
         let sut = TopicsOnboardingViewModel(
             topics: [],

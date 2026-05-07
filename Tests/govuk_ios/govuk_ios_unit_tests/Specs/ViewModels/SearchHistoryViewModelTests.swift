@@ -66,7 +66,7 @@ struct SearchHistoryViewModelTests {
     }
 
     @Test
-    func delete_calls_delete_on_searchService() async throws {
+    func delete_calls_delete_on_searchService() async {
         let mockSearchService = MockSearchService()
         let mockAnalyticsService = MockAnalyticsService()
         let sut = SearchHistoryViewModel(
@@ -82,7 +82,7 @@ struct SearchHistoryViewModelTests {
 
     @Test
     @MainActor
-    func historyItemForObjectId_notFound_logsError() async throws {
+    func historyItemForObjectId_notFound_logsError() async {
         let mockSearchService = MockSearchService()
         let mockAnalyticsService = MockAnalyticsService()
         let sut = SearchHistoryViewModel(

@@ -7,7 +7,7 @@ import SwiftUI
 class TopicSelectionCardViewModelTests {
 
     @Test
-    func isOn_update_callsTapAction() async throws {
+    func isOn_update_callsTapAction() async {
         let coreData = await CoreDataRepository.arrangeAndLoad
         await confirmation() { confirmation in
             let topic = Topic(context: coreData.backgroundContext)
@@ -32,7 +32,7 @@ class TopicSelectionCardViewModelTests {
     }
 
     @Test
-    func iconName_returnsCorrectIconName() async throws {
+    func iconName_returnsCorrectIconName() async {
         let coreData = await CoreDataRepository.arrangeAndLoad
         let topic = Topic(context: coreData.backgroundContext)
         topic.ref = "business"
@@ -44,7 +44,7 @@ class TopicSelectionCardViewModelTests {
     }
 
     @Test
-    func iconName_favourite_returnsCorrectIconName() async throws {
+    func iconName_favourite_returnsCorrectIconName() async {
         let coreData = await CoreDataRepository.arrangeAndLoad
         let topic = Topic(context: coreData.backgroundContext)
         topic.ref = "business"
@@ -57,7 +57,7 @@ class TopicSelectionCardViewModelTests {
     }
 
     @Test
-    func backgroundColor_returnsCorrectColor() async throws {
+    func backgroundColor_returnsCorrectColor() async {
         let coreData = await CoreDataRepository.arrangeAndLoad
         let topic = Topic(context: coreData.backgroundContext)
         topic.isFavourite = false
@@ -69,7 +69,7 @@ class TopicSelectionCardViewModelTests {
     }
 
     @Test
-    func backgroundColor_favourite_returnsCorrectColor() async throws {
+    func backgroundColor_favourite_returnsCorrectColor() async {
         let coreData = await CoreDataRepository.arrangeAndLoad
         let topic = Topic(context: coreData.backgroundContext)
         topic.isFavourite = true
@@ -81,7 +81,7 @@ class TopicSelectionCardViewModelTests {
     }
 
     @Test
-    func titleColor_returnsCorrectColor() async throws {
+    func titleColor_returnsCorrectColor() async {
         let coreData = await CoreDataRepository.arrangeAndLoad
         let topic = Topic(context: coreData.backgroundContext)
         topic.isFavourite = false
@@ -93,7 +93,7 @@ class TopicSelectionCardViewModelTests {
     }
 
     @Test
-    func titleColor_favourite_returnsCorrectColor() async throws {
+    func titleColor_favourite_returnsCorrectColor() async {
         let coreData = await CoreDataRepository.arrangeAndLoad
         let topic = Topic(context: coreData.backgroundContext)
         topic.isFavourite = true
@@ -105,7 +105,7 @@ class TopicSelectionCardViewModelTests {
     }
 
     @Test
-    func accessibilityHint_returnsCorrectHint() async throws {
+    func accessibilityHint_returnsCorrectHint() async {
         let coreData = await CoreDataRepository.arrangeAndLoad
         let topic = Topic(context: coreData.backgroundContext)
         topic.isFavourite = false
@@ -117,7 +117,7 @@ class TopicSelectionCardViewModelTests {
     }
 
     @Test
-    func accessibilityHint_favourite_returnsCorrectHint() async throws {
+    func accessibilityHint_favourite_returnsCorrectHint() async {
         let coreData = await CoreDataRepository.arrangeAndLoad
         let topic = Topic(context: coreData.backgroundContext)
         topic.isFavourite = true

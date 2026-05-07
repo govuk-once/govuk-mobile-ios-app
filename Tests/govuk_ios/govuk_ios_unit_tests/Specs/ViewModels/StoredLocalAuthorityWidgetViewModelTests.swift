@@ -8,7 +8,7 @@ import Testing
 struct StoredLocalAuthorityWidgetViewModelTests {
 
     @Test
-    func openURL_opensCorrectURL() async throws {
+    func openURL_opensCorrectURL() async {
         let coreData = await CoreDataRepository.arrangeAndLoad
         let localAuthorityItem = LocalAuthorityItem(
             context: coreData.backgroundContext
@@ -36,7 +36,7 @@ struct StoredLocalAuthorityWidgetViewModelTests {
 
 
     @Test
-    func openURL_tracksEventCorrectly() async throws {
+    func openURL_tracksEventCorrectly() async {
         let coreData = await CoreDataRepository.arrangeAndLoad
         let mockAnalyticsService: MockAnalyticsService = MockAnalyticsService()
         let localAuthorityItem = LocalAuthorityItem(
@@ -61,7 +61,7 @@ struct StoredLocalAuthorityWidgetViewModelTests {
     }
 
     @Test
-    func convertModel_unitaryAuthority_returnsExpectedResult() async throws {
+    func convertModel_unitaryAuthority_returnsExpectedResult() async {
         let coreData = await CoreDataRepository.arrangeAndLoad
         let mockAuthorityItem = LocalAuthorityItem(
             context: coreData.backgroundContext
@@ -85,7 +85,7 @@ struct StoredLocalAuthorityWidgetViewModelTests {
     }
 
     @Test
-    func convertModel_twoTier_returnsExpectedResult() async throws {
+    func convertModel_twoTier_returnsExpectedResult() async {
         let coreData = await CoreDataRepository.arrangeAndLoad
         let parentAuthority = LocalAuthorityItem(
             context: coreData.backgroundContext
