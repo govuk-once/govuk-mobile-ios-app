@@ -3174,7 +3174,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.6;
+				MARKETING_VERSION = 1.2.0;
 				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				OTHER_SWIFT_FLAGS = "$(ADDITIONAL_SWIFT_FLAGS)";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_APP)";
@@ -3220,7 +3220,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.6;
+				MARKETING_VERSION = 1.2.0;
 				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				OTHER_SWIFT_FLAGS = "$(ADDITIONAL_SWIFT_FLAGS)";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_APP)";
