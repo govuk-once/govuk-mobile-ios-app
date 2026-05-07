@@ -5,7 +5,6 @@ import Testing
 class EditTopicsViewModelTests {
     let mockTopicService = MockTopicsService()
     let mockAnalyticsService = MockAnalyticsService()
-    var coreData: CoreDataRepository?
 
     @Test
     func init_withTopics_createsTopicCardsCorrectly() async throws {

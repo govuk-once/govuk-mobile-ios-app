@@ -6,7 +6,7 @@ import Testing
 @Suite
 struct AppLaunchServiceTests {
     @Test
-    func fetch_configFetchFail_remoteJson_returnsExpectedResult() async throws {
+    func fetch_configFetchFail_remoteJson_returnsExpectedResult() async {
         let mockConfigService = MockAppConfigService()
         let mockTopicsService = MockTopicsService()
         let mockRemoteConfigService = MockRemoteConfigService()
