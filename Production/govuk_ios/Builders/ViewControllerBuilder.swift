@@ -622,9 +622,9 @@ class ViewControllerBuilder {
         return viewController
     }
 
-    func sarResults(analyticsService: AnalyticsServiceInterface,
-                    userService: UserServiceInterface,
-                    sarResultAction: @escaping () -> Void) -> UIViewController {
+    func sarResult(analyticsService: AnalyticsServiceInterface,
+                   userService: UserServiceInterface,
+                   sarResultAction: @escaping () -> Void) -> UIViewController {
         let viewModel = SARResultViewModel(
             analyticsService: analyticsService,
             userService: userService,

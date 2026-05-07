@@ -428,7 +428,7 @@ struct CoordinatorBuilderTests {
     @Test
     func sarSettings_returnsExpectedResult() {
         let subject = CoordinatorBuilder(container: Container())
-        let coordinator = subject.sarSettingsCoordinator(
+        let coordinator = subject.sarSettings(
             navigationController: UINavigationController()
         )
 

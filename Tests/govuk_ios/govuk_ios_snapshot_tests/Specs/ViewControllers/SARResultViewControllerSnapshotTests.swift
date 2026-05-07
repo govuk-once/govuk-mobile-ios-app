@@ -22,7 +22,8 @@ final class SARResultViewControllerSnapshotTests: SnapshotTestCase {
         let viewModel = SARResultViewModel(
             analyticsService: MockAnalyticsService(),
             userService: mockUserService,
-            sarResultAction: { } )
+            sarResultAction: { }
+        )
         let sarResultView = SARResultView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
             rootView: sarResultView,
@@ -50,7 +51,8 @@ final class SARResultViewControllerSnapshotTests: SnapshotTestCase {
         let viewModel = SARResultViewModel(
             analyticsService: MockAnalyticsService(),
             userService: mockUserService,
-            sarResultAction: { } )
+            sarResultAction: { }
+        )
         let sarResultView = SARResultView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
             rootView: sarResultView,

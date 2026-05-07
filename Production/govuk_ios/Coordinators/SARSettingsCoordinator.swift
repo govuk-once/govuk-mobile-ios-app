@@ -28,7 +28,7 @@ final class SARSettingsCoordinator: BaseCoordinator {
     }
 
     private func pushResultView() {
-        let viewController = viewControllerBuilder.sarResults(
+        let viewController = viewControllerBuilder.sarResult(
             analyticsService: analyticsService,
             userService: userService,
             sarResultAction: { [weak self] in

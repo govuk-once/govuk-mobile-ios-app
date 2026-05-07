@@ -112,6 +112,8 @@ class SettingsViewModelTests {
 
         let privacyAndLegalSection = localSut.listContent[4]
         #expect(privacyAndLegalSection.rows.last?.title == "Terms and conditions")
+        let rowIds = privacyAndLegalSection.rows.map { $0.id }
+        #expect(!rowIds.contains("settings.sar.row"))
     }
 
     @Test

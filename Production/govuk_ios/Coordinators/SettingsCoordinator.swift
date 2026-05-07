@@ -111,7 +111,7 @@ class SettingsCoordinator: TabItemCoordinator {
     }
 
     private func startSARSettings() {
-        let coordinator = coordinatorBuilder.sarSettingsCoordinator(
+        let coordinator = coordinatorBuilder.sarSettings(
             navigationController: root
         )
         start(coordinator)

@@ -450,7 +450,7 @@ class CoordinatorBuilder {
         )
     }
 
-    func sarSettingsCoordinator(
+    func sarSettings(
         navigationController: UINavigationController
     ) -> BaseCoordinator {
         SARSettingsCoordinator(
