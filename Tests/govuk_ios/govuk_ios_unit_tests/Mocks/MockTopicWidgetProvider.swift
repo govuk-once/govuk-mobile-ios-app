@@ -5,9 +5,9 @@ import SwiftUI
 
 class MockTopicWidgetProvider: TopicWidgetProvider {
     var _stubbedWidget: AnyView?
-    var _widgetCalled = false
-    func widget(for topic: DisplayableTopic) -> AnyView? {
-        _widgetCalled = true
+    var _makeWidgetCalled = false
+    func makeWidget(for topic: DisplayableTopic) -> AnyView? {
+        _makeWidgetCalled = true
         return _stubbedWidget
     }
 }

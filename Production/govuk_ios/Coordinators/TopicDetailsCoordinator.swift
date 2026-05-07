@@ -47,7 +47,7 @@ final class TopicDetailsCoordinator: BaseCoordinator {
                 openAction: { [weak self] url in
                     self?.presentWebView(url: url)
                 },
-                widgetView: widget(for: localTopic)
+                widgetView: topicWidgetProvider?.makeWidget(for: topic)
             )
             self.push(viewController, animated: true)
         }
@@ -76,9 +76,5 @@ final class TopicDetailsCoordinator: BaseCoordinator {
             fullScreen: true
         )
         start(coordinator, url: url)
-    }
-
-    private func widget(for topic: DisplayableTopic) -> AnyView? {
-        topicWidgetProvider?.widget(for: topic)
     }
 }

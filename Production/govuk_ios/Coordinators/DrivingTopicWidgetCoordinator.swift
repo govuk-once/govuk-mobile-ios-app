@@ -3,7 +3,7 @@ import SwiftUI
 import GovKit
 
 protocol TopicWidgetProvider {
-    func widget(for topic: DisplayableTopic) -> AnyView?
+    func makeWidget(for topic: DisplayableTopic) -> AnyView?
 }
 
 final class DrivingTopicWidgetCoordinator: BaseCoordinator, TopicWidgetProvider {
@@ -34,7 +34,7 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator, TopicWidgetProvider 
         /* do nothing */
     }
 
-    func widget(
+    func makeWidget(
         for topic: DisplayableTopic
     ) -> AnyView? {
         guard topic.ref == "driving-transport",

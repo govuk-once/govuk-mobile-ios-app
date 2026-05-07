@@ -146,6 +146,6 @@ struct TopicDetailsCoordinatorTests {
             topic: Topic(context: coreData.viewContext)
         )
         subject.start()
-        #expect(mockTopicWidgetProvider._widgetCalled == true)
+        #expect(mockTopicWidgetProvider._makeWidgetCalled == true)
     }
 }

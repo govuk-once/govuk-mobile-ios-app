@@ -17,7 +17,7 @@ struct DrivingTopicWidgetCoordinatorTests {
     let mockCoreDataViewContext = CoreDataRepository.arrangeAndLoad.viewContext
 
     @Test
-    func widget_forDrivingTopic_whenFeatureSwitchIsEnabled_returnsWidget() {
+    func makeWidget_forDrivingTopic_whenFeatureSwitchIsEnabled_returnsWidget() {
         let drivingTopic = Topic.arrange(
             context: mockCoreDataViewContext,
             ref: "driving-transport"
@@ -33,12 +33,12 @@ struct DrivingTopicWidgetCoordinatorTests {
             coordinatorBuilder: CoordinatorBuilder.mock,
             widgetViewBuilder: mockWidgetViewBuilder
         )
-        let widgetView = sut.widget(for: drivingTopic)
+        let widgetView = sut.makeWidget(for: drivingTopic)
         #expect(widgetView != nil)
     }
 
     @Test
-    func widget_forDrivingTopic_whenFeatureSwitchIsDisabled_returnsNil() {
+    func makeWidget_forDrivingTopic_whenFeatureSwitchIsDisabled_returnsNil() {
         let drivingTopic = Topic.arrange(
             context: mockCoreDataViewContext,
             ref: "driving-transport"
@@ -54,12 +54,12 @@ struct DrivingTopicWidgetCoordinatorTests {
             coordinatorBuilder: CoordinatorBuilder.mock,
             widgetViewBuilder: mockWidgetViewBuilder
         )
-        let widgetView = sut.widget(for: drivingTopic)
+        let widgetView = sut.makeWidget(for: drivingTopic)
         #expect(widgetView == nil)
     }
 
     @Test
-    func widget_forNonDrivingTopic_returnsNil() {
+    func makeWidget_forNonDrivingTopic_returnsNil() {
         let drivingTopic = Topic.arrange(
             context: mockCoreDataViewContext,
             ref: "business"
@@ -74,12 +74,12 @@ struct DrivingTopicWidgetCoordinatorTests {
             coordinatorBuilder: CoordinatorBuilder.mock,
             widgetViewBuilder: mockWidgetViewBuilder
         )
-        let widgetView = sut.widget(for: drivingTopic)
+        let widgetView = sut.makeWidget(for: drivingTopic)
         #expect(widgetView == nil)
     }
 
     @Test
-    func widget_linkAction_startsLinkAccount() {
+    func makeWidget_linkAction_startsLinkAccount() {
         let drivingTopic = Topic.arrange(
             context: mockCoreDataViewContext,
             ref: "driving-transport"
@@ -98,13 +98,13 @@ struct DrivingTopicWidgetCoordinatorTests {
             coordinatorBuilder: mockCoordinatorBuilder,
             widgetViewBuilder: mockWidgetViewBuilder
         )
-        let _ = sut.widget(for: drivingTopic)
+        let _ = sut.makeWidget(for: drivingTopic)
         mockWidgetViewBuilder._receivedDvlaAccountWidgetLinkAction?()
         #expect(mockServiceAccountLinkCoordinator._startCalled == true)
     }
 
     @Test
-    func widget_unlinkAction_startsUnlinkAccount() {
+    func makeWidget_unlinkAction_startsUnlinkAccount() {
         let drivingTopic = Topic.arrange(
             context: mockCoreDataViewContext,
             ref: "driving-transport"
@@ -123,7 +123,7 @@ struct DrivingTopicWidgetCoordinatorTests {
             coordinatorBuilder: mockCoordinatorBuilder,
             widgetViewBuilder: mockWidgetViewBuilder
         )
-        let _ = sut.widget(for: drivingTopic)
+        let _ = sut.makeWidget(for: drivingTopic)
         mockWidgetViewBuilder._receivedDvlaAccountWidgetUnlinkAction?()
         #expect(mockServiceAccountUnlinkCoordinator._startCalled == true)
     }
