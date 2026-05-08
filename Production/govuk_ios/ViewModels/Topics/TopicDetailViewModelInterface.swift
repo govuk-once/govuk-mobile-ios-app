@@ -6,12 +6,11 @@ protocol TopicDetailViewModelInterface: ObservableObject {
     var title: String { get }
     var isLoaded: Bool { get }
     var description: String? { get }
-    var topicActionCards: [ListCardViewModel] { get }
-    var linkAccountCardViewModel: ServiceAccountLinkCardViewModel? { get }
     var sections: [GroupedListSection] { get }
     var subtopicCards: [ListCardViewModel] { get }
     var errorViewModel: AppErrorViewModel? { get }
     var commerceItems: [TopicCommerceItem] { get set }
+    var loadingAccessibilityLabel: String { get }
     func trackScreen(screen: TrackableScreen)
     func trackEcommerce()
     @MainActor
@@ -19,14 +18,13 @@ protocol TopicDetailViewModelInterface: ObservableObject {
 }
 
 extension TopicDetailViewModelInterface {
-    var linkAccountCardViewModel: ServiceAccountLinkCardViewModel? {
-        nil
-    }
-    var topicActionCards: [ListCardViewModel] {
-        []
-    }
     var subtopicCards: [ListCardViewModel] {
         []
+    }
+
+    var loadingAccessibilityLabel: String {
+        let format = String.topics.localized("loading")
+        return String.localizedStringWithFormat(format, title)
     }
 
     func createCommerceEvent(_ name: String) -> AppEvent? {

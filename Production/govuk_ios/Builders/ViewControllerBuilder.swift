@@ -361,33 +361,29 @@ class ViewControllerBuilder {
                      topicsService: TopicsServiceInterface,
                      analyticsService: AnalyticsServiceInterface,
                      activityService: ActivityServiceInterface,
-                     configService: AppConfigServiceInterface,
-                     userService: UserServiceInterface,
-                     topicAction: @escaping (DisplayableTopic) -> Void,
                      subtopicAction: @escaping (DisplayableTopic) -> Void,
                      stepByStepAction: @escaping ([TopicDetailResponse.Content]) -> Void,
                      openAction: @escaping (URL) -> Void,
-                     linkAccountAction: @escaping () -> Void
+                     widgetView: AnyView?
     ) -> UIViewController {
         let actions = TopicDetailViewModel.Actions(
-            topicAction: topicAction,
             subtopicAction: subtopicAction,
             stepByStepAction: stepByStepAction,
             openAction: openAction,
-            linkAccountAction: linkAccountAction
         )
         let viewModel = TopicDetailViewModel(
             topic: topic,
             topicsService: topicsService,
             analyticsService: analyticsService,
             activityService: activityService,
-            configService: configService,
-            userService: userService,
             urlOpener: UIApplication.shared,
             actions: actions
         )
 
-        let view = TopicDetailView(viewModel: viewModel)
+        let view = TopicDetailView(
+            viewModel: viewModel,
+            widgetView: widgetView
+        )
         let viewController = HostingViewController(
             rootView: view
         )
@@ -406,7 +402,10 @@ class ViewControllerBuilder {
             activityService: activityService,
             selectedAction: selectedAction
         )
-        let view = TopicDetailView(viewModel: viewModel)
+        let view = TopicDetailView(
+            viewModel: viewModel,
+            widgetView: nil
+        )
         let viewController = HostingViewController(
             rootView: view
         )

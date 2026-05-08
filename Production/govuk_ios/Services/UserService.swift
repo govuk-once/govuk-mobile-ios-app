@@ -11,7 +11,7 @@ protocol UserServiceInterface {
     var pushId: String? { get }
     var notificationsConsentStatus: ConsentStatus? { get }
     var isEnabled: Bool { get }
-    var isDvlaAccountLinked: Bool { get }
+    var isDvlaAccountLinked: Bool? { get }
 }
 
  class UserService: UserServiceInterface {
@@ -30,8 +30,8 @@ protocol UserServiceInterface {
          userState?.notifications.consentStatus
      }
 
-     // temporary
-     var isDvlaAccountLinked = false
+     // temporary, convert to dictionary look up when we have more accounts?
+     var isDvlaAccountLinked: Bool?
 
      init(appConfigService: AppConfigServiceInterface,
           userServiceClient: UserServiceClientInterface) {

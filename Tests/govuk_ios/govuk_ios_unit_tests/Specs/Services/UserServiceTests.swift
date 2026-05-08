@@ -133,7 +133,7 @@ final class UserServiceTests {
         mockUserServiceClient._stubbedLinkAccountResult = .success(())
         let sut = UserService(appConfigService: mockAppConfigService,
                               userServiceClient: mockUserServiceClient)
-        #expect(sut.isDvlaAccountLinked == false)
+        #expect(sut.isDvlaAccountLinked == nil)
 
         sut.linkAccount(withType: .dvla, linkId: "test-link-id") { _ in
             #expect(sut.isDvlaAccountLinked == true)

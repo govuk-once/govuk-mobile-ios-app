@@ -330,6 +330,21 @@ class MockCoordinatorBuilder: CoordinatorBuilder {
         return _stubbedServiceAccountLinkCoordinator ?? MockBaseCoordinator()
     }
 
+    var _stubbedServiceAccountUnlinkCoordinator: MockBaseCoordinator?
+    override func serviceAccountUnlink(navigationController: UINavigationController,
+                                       accountType: ServiceAccountType,
+                                       completion: @escaping () -> Void) -> BaseCoordinator {
+          return _stubbedServiceAccountUnlinkCoordinator ?? MockBaseCoordinator()
+    }
+
+    var _stubbedDvlaAccountCoordinator: MockBaseCoordinator?
+    override func dvlaAccount(
+        navigationController: UINavigationController,
+        viewType: DVLAAccountViewType
+    ) -> BaseCoordinator {
+        return _stubbedDvlaAccountCoordinator ?? MockBaseCoordinator()
+    }
+
     var _receivedTermsAndConditionsCompletion: (() -> Void)?
     var _termsAndConditionsCallAction: (() -> Void)?
     var _stubbedTermsAndConditionsCoordinator: MockBaseCoordinator?

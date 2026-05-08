@@ -3,8 +3,8 @@ import Foundation
 @testable import govuk_ios
 
 class MockUserService: UserServiceInterface {
-    var _stubbedIsDvlaAccountLinked = false
-    var isDvlaAccountLinked: Bool {
+    var _stubbedIsDvlaAccountLinked: Bool?
+    var isDvlaAccountLinked: Bool? {
         _stubbedIsDvlaAccountLinked
     }
 

@@ -115,16 +115,28 @@ struct ViewControllerBuilderTests {
             topicsService: MockTopicsService(),
             analyticsService: MockAnalyticsService(),
             activityService: MockActivityService(),
-            configService: MockAppConfigService(),
-            userService: MockUserService(),
-            topicAction: { _ in },
             subtopicAction: { _ in },
             stepByStepAction: { _ in },
             openAction: { _ in },
-            linkAccountAction: { }
+            widgetView: nil
         )
 
         let rootView = (result as? HostingViewController<TopicDetailView<TopicDetailViewModel>>)?.rootView
+        #expect(rootView != nil)
+    }
+
+    @Test
+    func stepByStep_returnsExpectedResult() throws {
+        let subject = ViewControllerBuilder()
+        let topicDetailResponse = TopicDetailResponse.arrangeLotsOfStepBySteps()
+        let content = try #require(topicDetailResponse.stepByStepContent)
+        let result = subject.stepByStep(
+            content: content,
+            analyticsService: MockAnalyticsService(),
+            activityService: MockActivityService(),
+            selectedAction: { _ in }
+        )
+        let rootView = (result as? HostingViewController<TopicDetailView<StepByStepsViewModel>>)?.rootView
         #expect(rootView != nil)
     }
 
