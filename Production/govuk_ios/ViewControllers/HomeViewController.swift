@@ -23,20 +23,7 @@ class HomeViewController: BaseViewController {
         localSearchBar.layer.borderColor = UIColor.govUK.fills.surfaceHomeHeaderBackground.cgColor
         localSearchBar.searchBarStyle = .minimal
         localSearchBar.layer.borderWidth = 0
-        localSearchBar.searchTextField.defaultTextAttributes = [
-            NSAttributedString.Key.foregroundColor: UIColor.govUK.text.primary,
-            NSAttributedString.Key.font: UIFont.govUK.body,
-        ]
-        localSearchBar.searchTextField.attributedPlaceholder = NSAttributedString(
-            string: String.search.localized("searchBarPlaceholder"),
-            attributes: [
-                NSAttributedString.Key.foregroundColor: UIColor.govUK.text.secondary,
-                NSAttributedString.Key.font: UIFont.govUK.body
-            ]
-        )
-        localSearchBar.searchTextField.leftView?.tintColor = UIColor.govUK.text.secondary
-        localSearchBar.searchTextField.rightView?.tintColor = UIColor.govUK.text.secondary
-        localSearchBar.tintColor = UIColor.govUK.text.secondary
+        configureAppearance(for: localSearchBar)
         colorSearchBarButton()
         localSearchBar.delegate = self
         return localSearchBar
@@ -172,6 +159,7 @@ class HomeViewController: BaseViewController {
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         if viewModel.searchEnabled {
+            configureAppearance(for: searchBar)
             setLogoHidden(searchBar.searchTextField.isEditing)
             if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
                 searchBar.layer.borderColor = UIColor.govUK
@@ -207,6 +195,27 @@ class HomeViewController: BaseViewController {
             [NSAttributedString.Key(rawValue: foregroundColor): UIColor.govUK.text.linkHeader],
             for: .normal
         )
+    }
+
+    private func configureAppearance(for searchBar: UISearchBar) {
+        // manually resolve colours to fix liquid glass UIKit glitch
+        let primaryTextColor = UIColor.govUK.text.primary.resolvedColor(with: traitCollection)
+        let secondaryTextColor = UIColor.govUK.text.secondary.resolvedColor(with: traitCollection)
+
+        searchBar.searchTextField.defaultTextAttributes = [
+            NSAttributedString.Key.foregroundColor: primaryTextColor,
+            NSAttributedString.Key.font: UIFont.govUK.body,
+        ]
+        searchBar.searchTextField.attributedPlaceholder = NSAttributedString(
+            string: String.search.localized("searchBarPlaceholder"),
+            attributes: [
+                NSAttributedString.Key.foregroundColor: secondaryTextColor,
+                NSAttributedString.Key.font: UIFont.govUK.body
+            ]
+        )
+        searchBar.searchTextField.leftView?.tintColor = secondaryTextColor
+        searchBar.searchTextField.rightView?.tintColor = secondaryTextColor
+        searchBar.tintColor = secondaryTextColor
     }
 
     private func cancelSearch() {
