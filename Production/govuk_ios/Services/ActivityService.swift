@@ -29,7 +29,7 @@ class ActivityService: NSObject,
     var fetchRequest:
     NSFetchRequest<NSFetchRequestResult> = ActivityItem.homepagefetchRequest()
 
-    internal lazy var activitiesFetchResultsController:
+    lazy var activitiesFetchResultsController:
     NSFetchedResultsController<NSFetchRequestResult> = {
         let controller = NSFetchedResultsController(
             fetchRequest: fetchRequest,
