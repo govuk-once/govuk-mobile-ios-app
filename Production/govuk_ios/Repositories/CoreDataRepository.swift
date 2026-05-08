@@ -21,7 +21,7 @@ class CoreDataRepository: CoreDataRepositoryInterface {
 
     func load() async throws {
         if let task = loadingTask {
-           try await task.value
+            try await task.value
             return
         }
         let task = Task<Void, Error> { @MainActor in

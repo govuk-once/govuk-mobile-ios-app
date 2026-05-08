@@ -13,9 +13,8 @@ final class RecentActivityListViewControllerSnapshotTests: SnapshotTestCase {
         await coreData = CoreDataRepository.arrangeAndLoad
     }
 
-    func test_loadInNavigationController_light_rendersCorrectly() async {
+    func test_loadInNavigationController_light_rendersCorrectly()  {
         let mockActivityService = MockActivityService(context: coreData.viewContext)
-        let coreData = await CoreDataRepository.arrangeAndLoad
         _ = ActivityItem.arrange(
             title: "Test 1",
             date: .arrange("01/10/2023"), 
@@ -61,8 +60,7 @@ final class RecentActivityListViewControllerSnapshotTests: SnapshotTestCase {
         )
     }
 
-    func test_loadInNavigationController_dark_rendersCorrectly() async {
-        let coreData = await CoreDataRepository.arrangeAndLoad
+    func test_loadInNavigationController_dark_rendersCorrectly() {
         let mockActivityService = MockActivityService(context: coreData.viewContext)
         _ = ActivityItem.arrange(
             title: "Test 5",
@@ -114,8 +112,7 @@ final class RecentActivityListViewControllerSnapshotTests: SnapshotTestCase {
         )
     }
 
-    func test_loadInNavigationController_editing_rendersCorrectly() async {
-        let coreData = await CoreDataRepository.arrangeAndLoad
+    func test_loadInNavigationController_editing_rendersCorrectly() {
         let mockActivityService = MockActivityService(context: coreData.viewContext)
         _ = ActivityItem.arrange(
             title: "Test 5",
@@ -178,8 +175,7 @@ final class RecentActivityListViewControllerSnapshotTests: SnapshotTestCase {
         )
     }
 
-    func test_loadInNavigationController_editing_allSelected_rendersCorrectly() async {
-        let coreData = await CoreDataRepository.arrangeAndLoad
+    func test_loadInNavigationController_editing_allSelected_rendersCorrectly() {
         let mockActivityService = MockActivityService(context: coreData.viewContext)
         _ = ActivityItem.arrange(
             title: "Test 1",
