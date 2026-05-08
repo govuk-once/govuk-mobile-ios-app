@@ -7,6 +7,12 @@ import UIKit
 
 @MainActor
 final class HomeContentViewControllerSnapshotTests: SnapshotTestCase {
+    var coreData: CoreDataRepository!
+
+    override func setUp() async throws {
+        try await super.setUp()
+        await coreData = CoreDataRepository.arrangeAndLoad
+    }
 
     func test_loadInNavigationController_light_rendersCorrectly() {
         VerifySnapshotInNavigationController(
@@ -47,7 +53,7 @@ final class HomeContentViewControllerSnapshotTests: SnapshotTestCase {
             topicsWidgetViewModel: topicsWidgetViewModel,
             urlOpener: MockURLOpener(),
             searchService: MockSearchService(),
-            activityService: MockActivityService(),
+            activityService: MockActivityService(context: coreData.viewContext),
             localAuthorityService: MockLocalAuthorityService(),
             chatService: MockChatService(),
             localAuthorityAction: { },

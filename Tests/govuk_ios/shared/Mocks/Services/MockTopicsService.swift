@@ -7,6 +7,7 @@ class MockTopicsService: TopicsServiceInterface {
     func rollback() {
         _didCallRollback = true
     }
+
     var _setHasCustomisedTopicsCalled: Bool = false
     func setHasCustomisedTopics() {
         _setHasCustomisedTopicsCalled = true
@@ -27,7 +28,7 @@ class MockTopicsService: TopicsServiceInterface {
         _setHasOnboardedTopicsCalled = true
     }
 
-    let coreData = CoreDataRepository.arrangeAndLoad
+    var coreData: CoreDataRepository?
 
     var _stubbedFetchAllTopics: [Topic]?
     func fetchAll() -> [Topic] {

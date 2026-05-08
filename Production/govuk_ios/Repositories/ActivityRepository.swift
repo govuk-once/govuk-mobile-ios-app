@@ -10,7 +10,7 @@ protocol ActivityRepositoryInterface {
     func activityItem(for objectId: NSManagedObjectID) throws -> ActivityItem?
 }
 
-struct ActivityRepository: ActivityRepositoryInterface {
+class ActivityRepository: ActivityRepositoryInterface {
     private let coreData: CoreDataRepositoryInterface
 
     init(coreData: CoreDataRepositoryInterface) {

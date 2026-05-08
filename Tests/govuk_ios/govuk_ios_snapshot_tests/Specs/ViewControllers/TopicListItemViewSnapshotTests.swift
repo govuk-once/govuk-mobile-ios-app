@@ -7,7 +7,12 @@ import UIKit
 
 @MainActor
 final class TopicListItemViewSnapshotTests: SnapshotTestCase {
-    let coreData = CoreDataRepository.arrangeAndLoad
+    var coreData: CoreDataRepository!
+
+    override func setUp() async throws {
+        try await super.setUp()
+        self.coreData = await CoreDataRepository.arrangeAndLoad
+    }
 
     func test_loadInNavigationController_light_rendersCorrectly() {
         VerifySnapshotInNavigationController(

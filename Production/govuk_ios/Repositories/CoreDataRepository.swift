@@ -1,10 +1,17 @@
 import CoreData
+import UIKit
 import Foundation
-import GovKit
+
+public protocol CoreDataRepositoryInterface {
+    var viewContext: NSManagedObjectContext { get }
+    var backgroundContext: NSManagedObjectContext { get }
+    func load() async throws
+}
 
 class CoreDataRepository: CoreDataRepositoryInterface {
     private let persistentContainer: NSPersistentContainer
     private let notificationCenter: NotificationCenter
+    private var loadingTask: Task<Void, Error>?
 
     init(persistentContainer: NSPersistentContainer,
          notificationCenter: NotificationCenter) {
@@ -12,23 +19,45 @@ class CoreDataRepository: CoreDataRepositoryInterface {
         self.notificationCenter = notificationCenter
     }
 
-    func load() -> Self {
+    func load() async throws {
+        if let task = loadingTask {
+           try await task.value
+            return
+        }
+        let task = Task<Void, Error> { @MainActor in
+            do {
+                if !UIApplication.shared.isProtectedDataAvailable {
+                    _ = await notificationCenter.notifications(
+                        named: UIApplication.protectedDataDidBecomeAvailableNotification
+                    ).first { _ in true }
+                }
+                try await initialiseStack()
+            } catch {
+                self.loadingTask = nil
+                throw error
+            }
+        }
+        loadingTask = task
+        try await task.value
+    }
+
+    private func initialiseStack() async throws {
         persistentContainer.persistentStoreDescriptions.forEach { [weak self] in
             self?.setDescriptionProtection(description: $0)
             $0.setOption(true as NSNumber, forKey: NSInferMappingModelAutomaticallyOption)
             $0.setOption(true as NSNumber, forKey: NSMigratePersistentStoresAutomaticallyOption)
         }
-        persistentContainer.loadPersistentStores(
-            completionHandler: { [weak self] description, error in
+        await withCheckedContinuation { continuation in
+            persistentContainer.loadPersistentStores { [weak self] description, error in
                 if let error = error {
                     fatalError("Unable to load persistent stores: \(error)")
                 }
                 self?.excludeStoreFromiTunesBackup(url: description.url)
+                continuation.resume()
             }
-        )
+        }
         addBackgroundObserver()
         addViewObserver()
-        return self
     }
 
     private func setDescriptionProtection(description: NSPersistentStoreDescription) {

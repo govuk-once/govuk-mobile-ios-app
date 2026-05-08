@@ -8,35 +8,38 @@ extension ViewControllerBuilder {
     static var mock: MockViewControllerBuilder {
         MockViewControllerBuilder()
     }
-    
+
     static var homeViewController: MockHomeViewController {
-        let topicsViewModel = TopicsWidgetViewModel(
-            topicsService: MockTopicsService(),
-            analyticsService: MockAnalyticsService(),
-            topicAction: { _ in },
-            dismissEditAction: { }
-        )
-        let homeViewModel = HomeViewModel(
-            analyticsService: MockAnalyticsService(),
-            configService: MockAppConfigService(),
-            notificationService: MockNotificationService(),
-            userDefaultsService: MockUserDefaultsService(),
-            topicsWidgetViewModel: topicsViewModel,
-            urlOpener: MockURLOpener(),
-            searchService: MockSearchService(),
-            activityService: MockActivityService(),
-            localAuthorityService: MockLocalAuthorityService(),
-            chatService: MockChatService(),
-            localAuthorityAction: { },
-            editLocalAuthorityAction: { },
-            feedbackAction: { },
-            notificationsAction: { },
-            recentActivityAction: { },
-            openURLAction: { _ in },
-            openAction: { _ in }
-        )
-        let homeViewController = MockHomeViewController(viewModel: homeViewModel)
-        return homeViewController
+        get async {
+            let topicsViewModel = TopicsWidgetViewModel(
+                topicsService: MockTopicsService(),
+                analyticsService: MockAnalyticsService(),
+                topicAction: { _ in },
+                dismissEditAction: { }
+            )
+            let coreData = await CoreDataRepository.arrangeAndLoad
+            let homeViewModel = HomeViewModel(
+                analyticsService: MockAnalyticsService(),
+                configService: MockAppConfigService(),
+                notificationService: MockNotificationService(),
+                userDefaultsService: MockUserDefaultsService(),
+                topicsWidgetViewModel: topicsViewModel,
+                urlOpener: MockURLOpener(),
+                searchService: MockSearchService(),
+                activityService: MockActivityService(context: coreData.viewContext),
+                localAuthorityService: MockLocalAuthorityService(),
+                chatService: MockChatService(),
+                localAuthorityAction: { },
+                editLocalAuthorityAction: { },
+                feedbackAction: { },
+                notificationsAction: { },
+                recentActivityAction: { },
+                openURLAction: { _ in },
+                openAction: { _ in }
+            )
+            let homeViewController = MockHomeViewController(viewModel: homeViewModel)
+            return homeViewController
+        }
     }
 }
 

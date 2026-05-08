@@ -15,11 +15,11 @@ struct RecentActivityDeeplinkRouteTests {
     }
     
     @Test
-    func show_last_visited() {
+    func show_last_visited() async {
         let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
         let subject = RecentActivityDeeplinkRoute(coordinatorBuilder: mockCoordinatorBuilder)
 
-        let parentCoordinator = mockCoordinatorBuilder._mockHomeCoordinator
+        let parentCoordinator = await mockCoordinatorBuilder._mockHomeCoordinator
         #expect(parentCoordinator._didShowLastVisited == false)
         subject.action(parent: parentCoordinator, params: [:])
         #expect(parentCoordinator._didShowLastVisited == true)
