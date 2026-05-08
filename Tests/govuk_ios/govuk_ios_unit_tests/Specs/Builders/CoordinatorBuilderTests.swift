@@ -424,4 +424,14 @@ struct CoordinatorBuilderTests {
 
         #expect(coordinator is TermsAndConditionsCoordinator)
     }
+
+    @Test
+    func sarSettings_returnsExpectedResult() {
+        let subject = CoordinatorBuilder(container: Container())
+        let coordinator = subject.sarSettings(
+            navigationController: UINavigationController()
+        )
+
+        #expect(coordinator is SARSettingsCoordinator)
+    }
 }

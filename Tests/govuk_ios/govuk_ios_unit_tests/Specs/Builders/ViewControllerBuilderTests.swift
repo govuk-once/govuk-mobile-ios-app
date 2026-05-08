@@ -348,4 +348,16 @@ struct ViewControllerBuilderTests {
         (result as? HostingViewController<InfoView<ChatTermsOnboardingViewModel>>)?.rootView
         #expect(rootView != nil)
     }
+
+    @Test
+    func sarSettings_returnsExpectedResult() {
+        let subject = ViewControllerBuilder()
+        let result = subject.sarExplainer(
+            analyticsService: MockAnalyticsService(),
+            sarAction: { }
+        )
+
+        let rootView = (result as? HostingViewController<SARExplainerView>)?.rootView
+        #expect(rootView != nil)
+    }
 }
