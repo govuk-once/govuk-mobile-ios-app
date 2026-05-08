@@ -68,6 +68,28 @@ import GovKit
             mode: .light
         )
     }
+
+    func test_apiUnavailableError_light_rendersCorrectly() async {
+        let mockUserService = MockUserService()
+        mockUserService._stubbedFetchAccountLinkStatusResult = .failure(.apiUnavailable)
+
+        let viewModel = DVLAAccountWidgetViewModel(
+            analyticsService: MockAnalyticsService(),
+            userService: mockUserService,
+            dvlaService: MockDVLAService(),
+            actions: .empty
+        )
+        let view = DVLAAccountWidgetView(viewModel: viewModel)
+        let hostingViewController =  HostingViewController(
+            rootView: view
+        )
+        hostingViewController.view.backgroundColor = .govUK.fills.surfaceBackground
+        await viewModel.viewDidAppear()
+        VerifySnapshotInNavigationController(
+            viewController: hostingViewController,
+            mode: .light
+        )
+    }
 }
 
 extension DVLAAccountWidgetViewModel.Actions {

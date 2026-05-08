@@ -126,6 +126,21 @@ struct ViewControllerBuilderTests {
     }
 
     @Test
+    func stepByStep_returnsExpectedResult() throws {
+        let subject = ViewControllerBuilder()
+        let topicDetailResponse = TopicDetailResponse.arrangeLotsOfStepBySteps()
+        let content = try #require(topicDetailResponse.stepByStepContent)
+        let result = subject.stepByStep(
+            content: content,
+            analyticsService: MockAnalyticsService(),
+            activityService: MockActivityService(),
+            selectedAction: { _ in }
+        )
+        let rootView = (result as? HostingViewController<TopicDetailView<StepByStepsViewModel>>)?.rootView
+        #expect(rootView != nil)
+    }
+
+    @Test
     func topicsOnboardingView_returnsExpectedResult() {
         let subject = ViewControllerBuilder()
         let result = subject.topicOnboarding(
