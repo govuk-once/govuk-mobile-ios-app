@@ -337,8 +337,9 @@ class SettingsViewModel: SettingsViewModelInterface {
                 privacyPolicyRow,
                 accessibilityStatementRow,
                 openSourceLicenceRow,
-                termsAndConditionsRow,
-                appConfigService.isFeatureEnabled(key: .profile) ? sarRow : nil
+                termsAndConditionsRow
+                // Hide row until such time as it is determined we have info to present the user
+                // appConfigService.isFeatureEnabled(key: .profile) ? sarRow : nil
             ].compactMap { $0 },
             footer: nil
         )
