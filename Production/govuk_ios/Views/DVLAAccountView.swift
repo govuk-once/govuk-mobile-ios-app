@@ -11,17 +11,16 @@ struct DVLAAccountView: View {
 
     var body: some View {
         ZStack {
-            Color(UIColor.govUK.fills.surfaceBackground)
             if let errorViewModel = viewModel.errorViewModel {
                 errorView(with: errorViewModel)
+            } else if viewModel.isLoading {
+                loadingView
             } else {
                 listView
             }
         }
         .frame(maxHeight: .infinity)
-        .overlay(content: {
-            loadingView
-        })
+        .background(Color(UIColor.govUK.fills.surfaceBackground))
         .task {
             await viewModel.fetchContent()
         }
@@ -54,9 +53,8 @@ struct DVLAAccountView: View {
 
     private var loadingView: some View {
         ZStack {
-            Color(UIColor(light: .white, dark: .black))
+            Color(UIColor.govUK.fills.surfaceBackground)
             ProgressView()
         }
-        .opacity(viewModel.isLoading ? 1 : 0)
     }
 }

@@ -3,11 +3,13 @@ import Foundation
 typealias DrivingLicenceResult = Result<DrivingLicence, DVLAError>
 typealias DriverSummaryResult = Result<DriverSummary, DVLAError>
 typealias CustomerSummaryResult = Result<CustomerSummary, DVLAError>
+typealias VehicleResult = Result<Vehicle, DVLAError>
 
 protocol DVLAServiceClientInterface {
     func fetchDrivingLicence() async -> DrivingLicenceResult
     func fetchDriverSummary() async -> DriverSummaryResult
     func fetchCustomerSummary() async -> CustomerSummaryResult
+    func fetchVehicle(registration: String) async -> VehicleResult
 }
 
 class DVLAServiceClient: DVLAServiceClientInterface {
@@ -18,35 +20,27 @@ class DVLAServiceClient: DVLAServiceClientInterface {
     }
 
     func fetchDrivingLicence() async -> DrivingLicenceResult {
-        await withCheckedContinuation { continuation in
-            apiServiceClient.send(
-                request: .drivingLicence,
-                completion: {
-                    continuation.resume(
-                        returning: self.mapResult($0)
-                    )
-                }
-            )
-        }
+        await performRequest(.drivingLicence)
     }
 
     func fetchDriverSummary() async -> DriverSummaryResult {
-        await withCheckedContinuation { continuation in
-            apiServiceClient.send(
-                request: .driverSummary,
-                completion: {
-                    continuation.resume(
-                        returning: self.mapResult($0)
-                    )
-                }
-            )
-        }
+        await performRequest(.driverSummary)
     }
 
     func fetchCustomerSummary() async -> CustomerSummaryResult {
+        await performRequest(.customerSummary)
+    }
+
+    func fetchVehicle(registration: String) async -> VehicleResult {
+        await performRequest(.vehicle(registration: registration))
+    }
+
+    private func performRequest<T: Decodable>(
+        _ request: GOVRequest
+    ) async -> Result<T, DVLAError> {
         await withCheckedContinuation { continuation in
             apiServiceClient.send(
-                request: .customerSummary,
+                request: request,
                 completion: {
                     continuation.resume(
                         returning: self.mapResult($0)
@@ -68,18 +62,35 @@ class DVLAServiceClient: DVLAServiceClientInterface {
             }
         }.flatMap {
             do {
-                let jsonDecoder = JSONDecoder()
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "yyyy-MM-dd"
-                dateFormatter.locale = Locale(identifier: "en_US_POSIX")
-                dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
-                jsonDecoder.dateDecodingStrategy = .formatted(dateFormatter)
-
-                let response = try jsonDecoder.decode(T.self, from: $0)
+                let response = try decoder.decode(T.self, from: $0)
                 return .success(response)
             } catch {
                 return .failure(DVLAError.decodingError)
             }
         }
     }
+
+    private lazy var decoder: JSONDecoder = {
+        let decoder = JSONDecoder()
+
+        let shortDateFormatter = DateFormatter()
+            shortDateFormatter.dateFormat = "yyyy-MM-dd"
+            shortDateFormatter.locale = Locale(identifier: "en_US_POSIX")
+            shortDateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+
+        let isoFormatter = ISO8601DateFormatter()
+        isoFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+
+        decoder.dateDecodingStrategy = .custom { decoder in
+            let container = try decoder.singleValueContainer()
+            let dateString = try container.decode(String.self)
+            if let date = shortDateFormatter.date(from: dateString) {
+                return date
+            } else if let date = isoFormatter.date(from: dateString) {
+                return date
+            }
+            throw DecodingError.dataCorruptedError(in: container, debugDescription: "Unknown date format: \(dateString)")
+        }
+        return decoder
+    }()
 }

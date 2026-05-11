@@ -26,4 +26,9 @@ class MockDVLAService: DVLAServiceInterface {
     func fetchCustomerSummary() async -> CustomerSummaryResult {
         _stubbedFetchCustomerSummaryResult!
     }
+
+    var _stubbedFetchVehicleResult: VehicleResult?
+    func fetchVehicle(registration: String) async -> VehicleResult {
+        _stubbedFetchVehicleResult!
+    }
 }

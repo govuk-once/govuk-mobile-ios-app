@@ -68,5 +68,22 @@ struct DVLAServiceTests {
         let error = result.getError()
         #expect(error == .apiUnavailable)
     }
+
+    @Test
+    func fetchVehicle_success_returnsExpectedResult() async throws {
+        mockServiceClient._stubbedFetchVehicleResult = .success(.arrange)
+        let result = await sut.fetchVehicle(registration: "AA19AMP")
+        let vehicle = try #require(try? result.get())
+        #expect(vehicle.make == "FORD")
+        #expect(vehicle.fuelType == "DIESEL")
+    }
+
+    @Test
+    func fetchVehicle_apiUnavailable_returnsExpectedError() async {
+        mockServiceClient._stubbedFetchVehicleResult = .failure(DVLAError.apiUnavailable)
+        let result = await sut.fetchVehicle(registration: "AA19AMP")
+        let error = result.getError()
+        #expect(error == .apiUnavailable)
+    }
 }
 

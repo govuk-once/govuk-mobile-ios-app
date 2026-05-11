@@ -117,4 +117,22 @@ import GovKit
             mode: .dark
         )
     }
+
+    func test_loadVehicleInNavigationController_light_rendersCorrectly() async {
+        let mockDvlaService = MockDVLAService()
+        mockDvlaService._stubbedFetchVehicleResult = .success(.arrange)
+        let viewModel = DVLAAccountViewModel(
+            dvlaService: mockDvlaService,
+            viewType: .vehicle
+        )
+        let view = DVLAAccountView(viewModel: viewModel)
+        let hostingViewController =  HostingViewController(
+            rootView: view
+        )
+        await viewModel.fetchContent()
+        VerifySnapshotInNavigationController(
+            viewController: hostingViewController,
+            mode: .light
+        )
+    }
 }

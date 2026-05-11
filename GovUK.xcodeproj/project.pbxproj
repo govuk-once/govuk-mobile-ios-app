@@ -341,6 +341,7 @@
 		81BFBFED2FA4AB6900249569 /* DrivingTopicWidgetCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BFBFEC2FA4AB5D00249569 /* DrivingTopicWidgetCoordinator.swift */; };
 		81BFBFEF2FA4E1AA00249569 /* DVLAAccountWidgetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BFBFEE2FA4E1A300249569 /* DVLAAccountWidgetViewModel.swift */; };
 		81BFBFF52FA4FE5000249569 /* WidgetViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BFBFF42FA4FE4C00249569 /* WidgetViewBuilder.swift */; };
+		81BFE1302FAB8ED600249569 /* Vehicle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BFE12F2FAB8ECE00249569 /* Vehicle.swift */; };
 		81CAC4AE2F8F85BE00E6E6A3 /* GOVUKColors+ServiceAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81CAC4AD2F8F85B500E6E6A3 /* GOVUKColors+ServiceAccount.swift */; };
 		81CAC8572F926C7E00E6E6A3 /* DriverSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81CAC8562F926C7500E6E6A3 /* DriverSummary.swift */; };
 		81CAFB422F98FBE300E6E6A3 /* CustomerSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81CAFB412F98FBDA00E6E6A3 /* CustomerSummary.swift */; };
@@ -850,6 +851,7 @@
 		81BFBFEC2FA4AB5D00249569 /* DrivingTopicWidgetCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrivingTopicWidgetCoordinator.swift; sourceTree = "<group>"; };
 		81BFBFEE2FA4E1A300249569 /* DVLAAccountWidgetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DVLAAccountWidgetViewModel.swift; sourceTree = "<group>"; };
 		81BFBFF42FA4FE4C00249569 /* WidgetViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetViewBuilder.swift; sourceTree = "<group>"; };
+		81BFE12F2FAB8ECE00249569 /* Vehicle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vehicle.swift; sourceTree = "<group>"; };
 		81CAC4AD2F8F85B500E6E6A3 /* GOVUKColors+ServiceAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GOVUKColors+ServiceAccount.swift"; sourceTree = "<group>"; };
 		81CAC8562F926C7500E6E6A3 /* DriverSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverSummary.swift; sourceTree = "<group>"; };
 		81CAFB412F98FBDA00E6E6A3 /* CustomerSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerSummary.swift; sourceTree = "<group>"; };
@@ -997,6 +999,7 @@
 				govuk_ios/govuk_ios_unit_tests/Resources/MockTopicDetailsResponses/FiveStepByStep.json,
 				govuk_ios/govuk_ios_unit_tests/Resources/MockTopicDetailsResponses/NoUnpopularContent.json,
 				govuk_ios/govuk_ios_unit_tests/Resources/MockTopicDetailsResponses/UnpopularContent.json,
+				govuk_ios/govuk_ios_unit_tests/Resources/MockVehicleResponse.json,
 			);
 			target = 5DAD71732BD250DB0075F648 /* govuk_ios */;
 		};
@@ -1073,6 +1076,7 @@
 				govuk_ios/govuk_ios_unit_tests/Resources/MockTopicDetailsResponses/FiveStepByStep.json,
 				govuk_ios/govuk_ios_unit_tests/Resources/MockTopicDetailsResponses/NoUnpopularContent.json,
 				govuk_ios/govuk_ios_unit_tests/Resources/MockTopicDetailsResponses/UnpopularContent.json,
+				govuk_ios/govuk_ios_unit_tests/Resources/MockVehicleResponse.json,
 				GovUK.xctestplan,
 			);
 			target = 5DAD71892BD250DF0075F648 /* govuk_ios_unit_tests */;
@@ -1160,6 +1164,7 @@
 				"govuk_ios/shared/Arrangers/Model/TermsAndConditionsResponse+Arrangers.swift",
 				"govuk_ios/shared/Arrangers/Model/Topic+Arrangers.swift",
 				"govuk_ios/shared/Arrangers/Model/TopicDetailResponse+Arrangers.swift",
+				"govuk_ios/shared/Arrangers/Model/Vehicle+Arrangers.swift",
 				"govuk_ios/shared/Arrangers/Repositories/CoreDataRepository+Arrangers.swift",
 				"govuk_ios/shared/Extensions/Bundle+Tests.swift",
 				"govuk_ios/shared/Extensions/Data+Load.swift",
@@ -2166,6 +2171,7 @@
 		815018EA2F7D28F000E7469C /* DVLA */ = {
 			isa = PBXGroup;
 			children = (
+				81BFE12F2FAB8ECE00249569 /* Vehicle.swift */,
 				815011DC2F7C537A00E7469C /* DrivingLicence.swift */,
 				81CAC8562F926C7500E6E6A3 /* DriverSummary.swift */,
 				81CAFB412F98FBDA00E6E6A3 /* CustomerSummary.swift */,
@@ -2833,6 +2839,7 @@
 				815559472F72AB47001E73CD /* ASWebAuthenticationSession+Interface.swift in Sources */,
 				5D3123862C85AEE20088B931 /* Container+Repositories.swift in Sources */,
 				D0A346D12E6F3038007D3D27 /* ChatEllipsesView.swift in Sources */,
+				81BFE1302FAB8ED600249569 /* Vehicle.swift in Sources */,
 				16FB8CBF2E216E7500BBB970 /* DynamicTextEditor.swift in Sources */,
 				5D62ABC32C32F49F0072BE6C /* Container+Configs.swift in Sources */,
 				1618D8F52F3F7BB8008EF26B /* TermsAndConditionsViewModel.swift in Sources */,

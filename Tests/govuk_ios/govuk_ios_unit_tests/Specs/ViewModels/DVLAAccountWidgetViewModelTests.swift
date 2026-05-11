@@ -40,7 +40,7 @@ struct DVLAAccountWidgetViewModelTests {
             actions: .empty
         )
         await sut.viewDidAppear()
-        #expect(sut.actionCards.count == 4)
+        #expect(sut.actionCards.count == 5)
         #expect(sut.actionCards.first?.title == String.dvla.localized("dvlaAccountUnlinkCardTitle"))
     }
 
@@ -59,7 +59,8 @@ struct DVLAAccountWidgetViewModelTests {
                 unlinkAction: {},
                 viewLicenceAction: {},
                 viewDriverSummaryAction: {},
-                viewCustomerSummaryAction: {}
+                viewCustomerSummaryAction: {},
+                viewVehicleAction: {}
             )
         )
         await sut.viewDidAppear()
@@ -98,7 +99,8 @@ extension DVLAAccountWidgetViewModel.Actions {
             unlinkAction: {},
             viewLicenceAction: {},
             viewDriverSummaryAction: {},
-            viewCustomerSummaryAction: {}
+            viewCustomerSummaryAction: {},
+            viewVehicleAction: {}
         )
     }
 }
