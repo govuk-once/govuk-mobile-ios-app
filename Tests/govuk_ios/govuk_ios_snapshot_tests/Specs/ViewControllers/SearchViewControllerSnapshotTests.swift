@@ -6,6 +6,13 @@ import UIKit
 
 @MainActor
 class SearchViewControllerSnapshotTests: SnapshotTestCase {
+    var coreData: CoreDataRepository!
+
+    override func setUp() async throws {
+        try await super.setUp()
+        await coreData = CoreDataRepository.arrangeAndLoad
+    }
+
     func test_search_successResponse_withResults_rendersCorrectly() {
         let url = URL(string: "https://www.gov.uk")!
         let result = SearchResult(
@@ -96,7 +103,7 @@ class SearchViewControllerSnapshotTests: SnapshotTestCase {
         let viewModel = SearchViewModel(
             analyticsService: MockAnalyticsService(),
             searchService: mockSearchService,
-            activityService: MockActivityService(),
+            activityService: MockActivityService(context: coreData.viewContext),
             urlOpener: MockURLOpener(),
             openAction: { _ in }
         )

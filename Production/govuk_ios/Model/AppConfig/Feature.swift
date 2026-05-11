@@ -9,6 +9,6 @@ enum Feature: String {
     case externalBrowser
     case notifications
     case chat
-    case flex
+    case profile
     case dvla
 }

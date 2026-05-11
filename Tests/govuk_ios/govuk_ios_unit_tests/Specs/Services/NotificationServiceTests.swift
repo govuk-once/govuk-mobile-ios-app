@@ -530,8 +530,10 @@ class NotificationServiceTests {
         #expect(alignment == .misaligned(.consentGrantedNotificationsOff))
     }
 
+    /// Temporarily disabled sending of id to one signal
+    /// https://govukverify.atlassian.net/browse/GOVUKAPP-3485
     @Test
-    func registerPushId_hasGivenConsent_callsLogin() {
+    func registerPushId_hasGivenConsent_doesNotCallLogin() {
         MockOneSignalServiceClient._stubbedExternalId = nil
 
         let sut = NotificationService(
@@ -543,9 +545,11 @@ class NotificationServiceTests {
         )
         sut.acceptConsent()
         sut.register(pushId: "test_user_id")
-        #expect(MockOneSignalServiceClient._stubbedExternalId == "test_user_id")
+        #expect(MockOneSignalServiceClient._stubbedExternalId == nil)
     }
 
+    /// Temporarily disabled sending of id to one signal
+    /// https://govukverify.atlassian.net/browse/GOVUKAPP-3485
     @Test
     func registerPushId_hasNotGivenConsent_doesNotCallLogin() {
         MockOneSignalServiceClient._stubbedExternalId = nil
@@ -562,8 +566,10 @@ class NotificationServiceTests {
         #expect(MockOneSignalServiceClient._stubbedExternalId == nil)
     }
 
+    /// Temporarily disabled sending of id to one signal
+    /// https://govukverify.atlassian.net/browse/GOVUKAPP-3485
     @Test
-    func unregisterPushId_callsLogin() {
+    func unregisterPushId_doesNothing() {
         MockOneSignalServiceClient._stubbedExternalId = "test_user_id"
         let sut = NotificationService(
             environmentService: MockAppEnvironmentService(),
@@ -574,7 +580,7 @@ class NotificationServiceTests {
         )
 
         sut.unregisterPushId()
-        #expect(MockOneSignalServiceClient._stubbedExternalId == nil)
+        #expect(MockOneSignalServiceClient._stubbedExternalId == "test_user_id")
     }
 
     @Test

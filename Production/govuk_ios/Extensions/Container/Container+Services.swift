@@ -96,7 +96,8 @@ extension Container {
                 configService: self.appConfigService.resolve(),
                 topicService: self.topicsService.resolve(),
                 notificationService: self.notificationService.resolve(),
-                remoteConfigService: self.remoteConfigService.resolve()
+                remoteConfigService: self.remoteConfigService.resolve(),
+                coreDataRepository: self.coreDataRepository.resolve()
             )
         }.scope(.singleton)
     }
@@ -105,6 +106,7 @@ extension Container {
         Factory(self) {
             AppConfigService(
                 appConfigServiceClient: self.appConfigServiceClient.resolve(),
+                termsAndConditionsServiceClient: self.termsAndConditionsServiceClient.resolve(),
                 analyticsService: self.analyticsService.resolve()
             )
         }.scope(.singleton)

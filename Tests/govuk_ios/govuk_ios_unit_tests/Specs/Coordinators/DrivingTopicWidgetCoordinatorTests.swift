@@ -14,12 +14,16 @@ struct DrivingTopicWidgetCoordinatorTests {
     let mockDvlaService = MockDVLAService()
     let mockNavigationController = MockNavigationController()
     let mockWidgetViewBuilder = MockWidgetViewBuilder()
-    let mockCoreDataViewContext = CoreDataRepository.arrangeAndLoad.viewContext
+    let coreDataRepository: CoreDataRepository
+
+    init() async {
+        coreDataRepository = await CoreDataRepository.arrangeAndLoad
+    }
 
     @Test
     func makeWidget_forDrivingTopic_whenFeatureSwitchIsEnabled_returnsWidget() {
         let drivingTopic = Topic.arrange(
-            context: mockCoreDataViewContext,
+            context: coreDataRepository.viewContext,
             ref: "driving-transport"
         )
         mockConfigService.features = [.dvla]
@@ -40,7 +44,7 @@ struct DrivingTopicWidgetCoordinatorTests {
     @Test
     func makeWidget_forDrivingTopic_whenFeatureSwitchIsDisabled_returnsNil() {
         let drivingTopic = Topic.arrange(
-            context: mockCoreDataViewContext,
+            context: coreDataRepository.viewContext,
             ref: "driving-transport"
         )
         mockConfigService.features = []
@@ -61,7 +65,7 @@ struct DrivingTopicWidgetCoordinatorTests {
     @Test
     func makeWidget_forNonDrivingTopic_returnsNil() {
         let drivingTopic = Topic.arrange(
-            context: mockCoreDataViewContext,
+            context: coreDataRepository.viewContext,
             ref: "business"
         )
 
@@ -81,7 +85,7 @@ struct DrivingTopicWidgetCoordinatorTests {
     @Test
     func makeWidget_linkAction_startsLinkAccount() {
         let drivingTopic = Topic.arrange(
-            context: mockCoreDataViewContext,
+            context: coreDataRepository.viewContext,
             ref: "driving-transport"
         )
         mockConfigService.features = [.dvla]
@@ -106,7 +110,7 @@ struct DrivingTopicWidgetCoordinatorTests {
     @Test
     func makeWidget_unlinkAction_startsUnlinkAccount() {
         let drivingTopic = Topic.arrange(
-            context: mockCoreDataViewContext,
+            context: coreDataRepository.viewContext,
             ref: "driving-transport"
         )
         mockConfigService.features = [.dvla]
@@ -131,7 +135,7 @@ struct DrivingTopicWidgetCoordinatorTests {
     @Test
     func makeWidget_viewLicenceAction_startsDvlaAccount() {
         let drivingTopic = Topic.arrange(
-            context: mockCoreDataViewContext,
+            context: coreDataRepository.viewContext,
             ref: "driving-transport"
         )
         mockConfigService.features = [.dvla]

@@ -20,7 +20,7 @@ protocol UserServiceInterface {
      private var userState: UserState?
 
      var isEnabled: Bool {
-         appConfigService.isFeatureEnabled(key: .flex)
+         appConfigService.isFeatureEnabled(key: .profile)
      }
 
      var pushId: String? {
@@ -51,7 +51,11 @@ protocol UserServiceInterface {
          }
      }
 
+     /// Temporarily disable sending of consent
+     /// https://govukverify.atlassian.net/browse/GOVUKAPP-3485
      func setNotificationsConsent(_ consentStatus: ConsentStatus) {
+         return
+         /*
          guard isEnabled else { return }
          userServiceClient.setNotificationsConsent(consentStatus) { result in
              switch result {
@@ -62,6 +66,7 @@ protocol UserServiceInterface {
                  print(error.localizedDescription)
              }
          }
+        */
      }
 
      func linkAccount(withType accountType: ServiceAccountType,

@@ -23,7 +23,8 @@ struct ViewControllerBuilderTests {
     }
 
     @Test
-    func home_returnsExpectedResult() {
+    func home_returnsExpectedResult() async {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let subject = ViewControllerBuilder()
         let viewModel = TopicsWidgetViewModel(
             topicsService: MockTopicsService(),
@@ -37,7 +38,7 @@ struct ViewControllerBuilderTests {
             notificationService: MockNotificationService(),
             userDefaultsService: MockUserDefaultsService(),
             searchService: MockSearchService(),
-            activityService: MockActivityService(),
+            activityService: MockActivityService(context: coreData.viewContext),
             topicsWidgetViewModel: viewModel,
             localAuthorityService: MockLocalAuthorityService(),
             chatService: MockChatService()
@@ -81,11 +82,12 @@ struct ViewControllerBuilderTests {
     }
 
     @Test
-    func recentActivity_returnsExpectedResult() {
+    func recentActivity_returnsExpectedResult() async {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let subject = ViewControllerBuilder()
         let result = subject.recentActivity(
             analyticsService: MockAnalyticsService(),
-            activityService: MockActivityService(),
+            activityService: MockActivityService(context: coreData.viewContext),
             selectedAction: { _ in }
         ) as? TrackableScreen
 
@@ -108,13 +110,14 @@ struct ViewControllerBuilderTests {
     }
 
     @Test
-    func topicDetail_returnsExpectedResult() {
+    func topicDetail_returnsExpectedResult() async {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let subject = ViewControllerBuilder()
         let result = subject.topicDetail(
             topic: MockDisplayableTopic(ref: "", title: "", topicDescription: nil),
             topicsService: MockTopicsService(),
             analyticsService: MockAnalyticsService(),
-            activityService: MockActivityService(),
+            activityService: MockActivityService(context: coreData.viewContext),
             subtopicAction: { _ in },
             stepByStepAction: { _ in },
             openAction: { _ in },
@@ -126,14 +129,15 @@ struct ViewControllerBuilderTests {
     }
 
     @Test
-    func stepByStep_returnsExpectedResult() throws {
+    func stepByStep_returnsExpectedResult() async throws {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let subject = ViewControllerBuilder()
         let topicDetailResponse = TopicDetailResponse.arrangeLotsOfStepBySteps()
         let content = try #require(topicDetailResponse.stepByStepContent)
         let result = subject.stepByStep(
             content: content,
             analyticsService: MockAnalyticsService(),
-            activityService: MockActivityService(),
+            activityService: MockActivityService(context: coreData.viewContext),
             selectedAction: { _ in }
         )
         let rootView = (result as? HostingViewController<TopicDetailView<StepByStepsViewModel>>)?.rootView
@@ -414,6 +418,17 @@ struct ViewControllerBuilderTests {
             viewType: .drivingLicence
         )
         let rootView = (result as? HostingViewController<DVLAAccountView>)?.rootView
+        #expect(rootView != nil)
+    }
+
+    func sarSettings_returnsExpectedResult() {
+        let subject = ViewControllerBuilder()
+        let result = subject.sarExplainer(
+            analyticsService: MockAnalyticsService(),
+            sarAction: { }
+        )
+
+        let rootView = (result as? HostingViewController<SARExplainerView>)?.rootView
         #expect(rootView != nil)
     }
 }

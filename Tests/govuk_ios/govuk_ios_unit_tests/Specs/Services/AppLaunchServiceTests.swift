@@ -14,9 +14,10 @@ struct AppLaunchServiceTests {
             configService: mockConfigService,
             topicService: mockTopicsService,
             notificationService: MockNotificationService(),
-            remoteConfigService: mockRemoteConfigService
+            remoteConfigService: mockRemoteConfigService,
+            coreDataRepository: MockCoreDataRepository()
         )
-        mockConfigService._stubbedFetchAppConfigResult = .failure(.remoteJson)
+        mockConfigService._stubbedFetchAppConfigResult = .failure(.configAPI)
         let expectedTopics = TopicResponseItem.arrangeMultiple
         mockTopicsService._stubbedFetchRemoteListResult = .success(expectedTopics)
         let result = await withCheckedContinuation { continuation in
@@ -25,7 +26,7 @@ struct AppLaunchServiceTests {
             )
         }
 
-        #expect(result.configResult.getError() == .remoteJson)
+        #expect(result.configResult.getError() == .configAPI)
         #expect((try? result.topicResult.get()) == expectedTopics)
     }
 
@@ -38,7 +39,8 @@ struct AppLaunchServiceTests {
             configService: mockConfigService,
             topicService: mockTopicsService,
             notificationService: MockNotificationService(),
-            remoteConfigService: mockRemoteConfigService
+            remoteConfigService: mockRemoteConfigService,
+            coreDataRepository: MockCoreDataRepository()
         )
         let expectedConfig = AppConfig.arrange
         mockConfigService._stubbedFetchAppConfigResult = .success(expectedConfig)
@@ -62,7 +64,8 @@ struct AppLaunchServiceTests {
             configService: mockConfigService,
             topicService: mockTopicsService,
             notificationService: MockNotificationService(),
-            remoteConfigService: mockRemoteConfigService
+            remoteConfigService: mockRemoteConfigService,
+            coreDataRepository: MockCoreDataRepository()
         )
         
         mockConfigService._stubbedFetchAppConfigResult = .success(AppConfig.arrange)

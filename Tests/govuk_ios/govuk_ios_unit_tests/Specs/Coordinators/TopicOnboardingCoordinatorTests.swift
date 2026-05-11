@@ -13,13 +13,13 @@ struct TopicOnboardingCoordinatorTests {
     }
 
     @Test
-    func start_hasntOnboardingTopic_topicsExist_setsTopicOnboardingViewController() {
+    func start_hasntOnboardingTopic_topicsExist_setsTopicOnboardingViewController() async throws {
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let expectedViewController = UIViewController()
         mockViewControllerBuilder._stubbedTopicOnboardingViewController = expectedViewController
         let navigationController = UINavigationController()
         let mockTopicsService = MockTopicsService()
-        let mockCoreDataRepository = CoreDataRepository.arrangeAndLoad
+        let mockCoreDataRepository = await CoreDataRepository.arrangeAndLoad
         mockTopicsService._stubbedFetchAllTopics = Topic.arrangeMultiple(
             context: mockCoreDataRepository.viewContext
         )
@@ -40,12 +40,12 @@ struct TopicOnboardingCoordinatorTests {
     }
 
     @Test
-    func start_topicsDisabled_callsDismiss()async {
+    func start_topicsDisabled_callsDismiss() async throws {
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let expectedViewController = UIViewController()
         mockViewControllerBuilder._stubbedTopicOnboardingViewController = expectedViewController
         let mockTopicsService = MockTopicsService()
-        let mockCoreDataRepository = CoreDataRepository.arrangeAndLoad
+        let mockCoreDataRepository = await CoreDataRepository.arrangeAndLoad
         mockTopicsService._stubbedFetchAllTopics = Topic.arrangeMultiple(
             context: mockCoreDataRepository.viewContext
         )
@@ -122,7 +122,7 @@ struct TopicOnboardingCoordinatorTests {
     func start_hasNotOnboardedTopics_setsTopicOnboarding() async throws {
         let mockTopicService = MockTopicsService()
         mockTopicService._stubbedHasOnboardedTopics = false
-        let mockCoreDataRepository = CoreDataRepository.arrangeAndLoad
+        let mockCoreDataRepository = await CoreDataRepository.arrangeAndLoad
         mockTopicService._stubbedFetchAllTopics = Topic.arrangeMultiple(
             context: mockCoreDataRepository.viewContext
         )
@@ -149,7 +149,7 @@ struct TopicOnboardingCoordinatorTests {
         let mockNavigationController = MockNavigationController()
         let mockTopicService = MockTopicsService()
         mockTopicService._stubbedHasOnboardedTopics = false
-        let mockCoreDataRepository = CoreDataRepository.arrangeAndLoad
+        let mockCoreDataRepository = await CoreDataRepository.arrangeAndLoad
         mockTopicService._stubbedFetchAllTopics = Topic.arrangeMultiple(
             context: mockCoreDataRepository.viewContext
         )

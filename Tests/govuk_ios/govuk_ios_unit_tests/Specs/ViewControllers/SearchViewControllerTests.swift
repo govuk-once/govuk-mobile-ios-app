@@ -12,12 +12,13 @@ import FactoryKit
 struct SearchViewControllerTests {
 
     @Test
-    func viewDidAppear_tracksScreen() {
+    func viewDidAppear_tracksScreen() async {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let mockAnalyticsService = MockAnalyticsService()
         let viewModel = SearchViewModel(
             analyticsService: mockAnalyticsService,
             searchService: MockSearchService(),
-            activityService: MockActivityService(),
+            activityService: MockActivityService(context: coreData.viewContext),
             urlOpener: MockURLOpener(),
             openAction: { _ in }
         )

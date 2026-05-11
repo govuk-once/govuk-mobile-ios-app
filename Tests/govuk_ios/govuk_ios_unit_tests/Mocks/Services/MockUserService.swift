@@ -8,7 +8,8 @@ class MockUserService: UserServiceInterface {
         _stubbedIsDvlaAccountLinked
     }
 
-    var isEnabled: Bool { true }
+    var _stubbedIsEnabled: Bool = true
+    var isEnabled: Bool { _stubbedIsEnabled }
     var _stubbedNotificationsConsentStatus: ConsentStatus?
     var notificationsConsentStatus: ConsentStatus? {
         _stubbedNotificationsConsentStatus

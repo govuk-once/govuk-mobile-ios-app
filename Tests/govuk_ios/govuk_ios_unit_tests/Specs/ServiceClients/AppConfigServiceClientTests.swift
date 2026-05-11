@@ -18,9 +18,9 @@ struct AppConfigServiceClientTests {
 
     @Test
     func fetchAppConfig_sendsRequest() {
-            sut.fetchAppConfig(
-                completion: { _ in }
-            )
+        sut.fetchAppConfig(
+            completion: { _ in }
+        )
         #expect(mockServiceClient._receivedSendRequest?.urlPath == "/config/appinfo/ios")
     }
 
@@ -54,6 +54,8 @@ struct AppConfigServiceClientTests {
         #expect(unwrappedResult.config.emergencyBanners?.last?.allowsDismissal == false)
         #expect(unwrappedResult.config.termsAndConditions.url ==
                 URL(string: "https://www.gov.uk/guidance/govuk-app-terms-and-conditions"))
+        #expect(unwrappedResult.config.termsAndConditions.contentItemApiPath ==
+                "/api/content/guidance/govuk-app-terms-and-conditions")
     }
 
     @Test
@@ -68,7 +70,7 @@ struct AppConfigServiceClientTests {
         }
 
         let error = result.getError()
-        #expect(error == AppConfigError.remoteJson)
+        #expect(error == AppConfigError.configAPI)
     }
 
     @Test
@@ -83,7 +85,7 @@ struct AppConfigServiceClientTests {
             mockServiceClient._receivedSendCompletion?(.success(mockJsonData))
         }
         let unwrappedResult = result.getError()
-        #expect(unwrappedResult == AppConfigError.remoteJson)
+        #expect(unwrappedResult == AppConfigError.parsingError)
     }
 
     @Test

@@ -6,9 +6,14 @@ import UIKit
 
 @MainActor
 class HomeViewControllerSnapshotTests: SnapshotTestCase {
-    let coreData = CoreDataRepository.arrangeAndLoad
     let mockTopicService = MockTopicsService()
     let mockAnalyticsService = MockAnalyticsService()
+    var coreData: CoreDataRepository!
+
+    override func setUp() async throws {
+        try await super.setUp()
+        await coreData = CoreDataRepository.arrangeAndLoad
+    }
 
     func test_loadInNavigationController_light_rendersCorrectly() {
         mockTopicService._stubbedHasCustomisedTopics = true
@@ -16,7 +21,6 @@ class HomeViewControllerSnapshotTests: SnapshotTestCase {
         var topics = Topic.arrangeMultipleFavourites(
             context: coreData.viewContext
         )
-
         mockTopicService._stubbedFetchAllTopics = topics
 
         topics.removeLast()
@@ -84,6 +88,7 @@ class HomeViewControllerSnapshotTests: SnapshotTestCase {
         )
         let mockNotificationService = MockNotificationService()
         mockNotificationService._stubbedShouldRequestPermission = true
+
         let viewModel = HomeViewModel(
             analyticsService: mockAnalyticsService,
             configService: MockAppConfigService(),
@@ -92,7 +97,7 @@ class HomeViewControllerSnapshotTests: SnapshotTestCase {
             topicsWidgetViewModel: topicsViewModel,
             urlOpener: MockURLOpener(),
             searchService: MockSearchService(),
-            activityService: MockActivityService(),
+            activityService: MockActivityService(context: coreData.viewContext),
             localAuthorityService: MockLocalAuthorityService(),
             chatService: MockChatService(),
             localAuthorityAction: { },

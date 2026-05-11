@@ -5,10 +5,25 @@ import GovKit
 @testable import govuk_ios
 
 class MockActivityService: ActivityServiceInterface {
-    let coreData = CoreDataRepository.arrangeAndLoad
-    func returnContext() -> NSManagedObjectContext {
-        return coreData.viewContext
+    private let managedObjectContext: NSManagedObjectContext
+
+    init(context: NSManagedObjectContext) {
+        self.managedObjectContext = context
     }
+
+    var fetchRequest:
+    NSFetchRequest<NSFetchRequestResult> = ActivityItem.homepagefetchRequest()
+
+    internal lazy var activitiesFetchResultsController:
+    NSFetchedResultsController<NSFetchRequestResult> = {
+        let controller = NSFetchedResultsController(
+            fetchRequest: fetchRequest,
+            managedObjectContext: managedObjectContext,
+            sectionNameKeyPath: nil,
+            cacheName: nil
+        )
+        return controller
+    }()
 
     var _receivedSaveActivity: ActivityItemCreateParams?
     func save(activity: ActivityItemCreateParams) {

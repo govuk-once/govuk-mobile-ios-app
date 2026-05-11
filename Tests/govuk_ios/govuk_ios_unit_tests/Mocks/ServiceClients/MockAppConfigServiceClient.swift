@@ -3,8 +3,10 @@ import Foundation
 @testable import govuk_ios
 
 class MockAppConfigServiceClient: AppConfigServiceClientInterface {
-    var _receivedFetchAppConfigCompletion: FetchAppConfigCompletion?
+    var _fetchAppConfigReturn: FetchAppConfigResult? = .failure(.configAPI)
     func fetchAppConfig(completion: @escaping FetchAppConfigCompletion) {
-        _receivedFetchAppConfigCompletion = completion
+        if let _fetchAppConfigReturn {
+            completion(_fetchAppConfigReturn)
+        }
     }
 }

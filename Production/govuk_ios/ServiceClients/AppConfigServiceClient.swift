@@ -42,7 +42,7 @@ struct AppConfigServiceClient: AppConfigServiceClientInterface {
             if error is SigningError {
                 return AppConfigError.invalidSignature
             } else {
-                return AppConfigError.remoteJson
+                return AppConfigError.configAPI
             }
         }.flatMap {
             self.decode(data: $0)
@@ -57,7 +57,7 @@ struct AppConfigServiceClient: AppConfigServiceClientInterface {
             )
             return .success(result)
         } catch {
-            return .failure(.remoteJson)
+            return .failure(.parsingError)
         }
     }
 }

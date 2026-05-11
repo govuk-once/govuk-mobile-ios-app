@@ -473,6 +473,17 @@ class CoordinatorBuilder {
         )
     }
 
+    func sarSettings(
+        navigationController: UINavigationController
+    ) -> BaseCoordinator {
+        SARSettingsCoordinator(
+            navigationController: navigationController,
+            analyticsService: container.analyticsService.resolve(),
+            viewControllerBuilder: ViewControllerBuilder(),
+            userService: container.userService.resolve()
+        )
+    }
+
     func privacy(
         navigationController: UINavigationController
     ) -> BaseCoordinator & PrivacyProviding {
