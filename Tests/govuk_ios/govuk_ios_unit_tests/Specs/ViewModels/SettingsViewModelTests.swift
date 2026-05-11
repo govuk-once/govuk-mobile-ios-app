@@ -52,7 +52,7 @@ class SettingsViewModelTests {
         try #require(sut.listContent[1].rows.count == 1)
         try #require(sut.listContent[2].rows.count == 3)
         try #require(sut.listContent[3].rows.count == 2)
-        try #require(sut.listContent[4].rows.count == 5)
+        try #require(sut.listContent[4].rows.count == 4)
 
         let manageAccountSection = sut.listContent[0]
         #expect(manageAccountSection.heading?.title == nil)
@@ -92,10 +92,9 @@ class SettingsViewModelTests {
         #expect(privacyAndLegalSection.rows[1].title == "Accessibility statement")
         #expect(privacyAndLegalSection.rows[2].title == "Open source licences")
         #expect(privacyAndLegalSection.rows[3].title == "Terms and conditions")
-        #expect(privacyAndLegalSection.rows[4].title == "Your app data")
     }
 
-    @Test
+    @Test(.disabled("Disabled until SAR row brought back into settings"))
     func profileDisabled_hidesSARRow() {
         mockAppConfigService.features = []
         let localSut = SettingsViewModel(
@@ -234,7 +233,7 @@ class SettingsViewModelTests {
         #expect(receivedTrackingTitle == signOutRow.title)
     }
 
-    @Test
+    @Test(.disabled("Disabled until SAR row brought back into settings"))
     func sar_action_tracksEvent() throws {
         let policySection = sut.listContent[4]
         let sarRow = try #require(policySection.rows[4] as? NavigationRow)
