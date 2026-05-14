@@ -12,11 +12,7 @@ protocol UserServiceInterface {
      private var userState: UserState?
 
      var isEnabled: Bool {
-        #if STAGING
          appConfigService.isFeatureEnabled(key: .profile)
-        #else
-         false
-        #endif
      }
 
      var pushId: String? {
