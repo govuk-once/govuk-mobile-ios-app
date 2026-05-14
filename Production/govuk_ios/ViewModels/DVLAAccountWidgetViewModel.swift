@@ -87,11 +87,11 @@ final class DVLAAccountWidgetViewModel: ObservableObject {
             action: actions.viewVehicleAction
         )
         let viewShareCodesCard = ListCardViewModel(
-            title: "View share codes",
+            title: "View check codes",
             action: actions.viewShareCodesAction
         )
         let createShareCodeCard = ListCardViewModel(
-            title: "Create share code",
+            title: "Create check code",
             action: actions.createShareCodeAction
         )
         actionCards = [

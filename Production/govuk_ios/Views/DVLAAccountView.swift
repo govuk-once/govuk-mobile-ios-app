@@ -24,6 +24,13 @@ struct DVLAAccountView: View {
         .task {
             await viewModel.fetchContent()
         }
+        .alert(viewModel.alertMessage, isPresented: $viewModel.showAlert) {
+            Button("OK") {
+                Task {
+                    await viewModel.handleShareCodeAlertDismissed()
+                }
+            }
+        }
     }
 
     private func errorView(with errorViewModel: AppErrorViewModel) -> some View {
@@ -48,13 +55,6 @@ struct DVLAAccountView: View {
             )
             .padding(.vertical, 24)
             .padding(.horizontal, 16)
-        }
-        .alert(viewModel.alertMessage, isPresented: $viewModel.showAlert) {
-            Button("OK") {
-                Task {
-                    await viewModel.handleShareCodeAlertDismissed()
-                }
-            }
         }
     }
 

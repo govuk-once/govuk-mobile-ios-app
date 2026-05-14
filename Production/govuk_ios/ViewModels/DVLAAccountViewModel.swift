@@ -58,7 +58,7 @@ final class DVLAAccountViewModel: ObservableObject {
                 sections = [
                     createSection(
                         for: response.shareCodes,
-                        title: "Share codes"
+                        title: "Check codes"
                     )
                 ]
             }
@@ -69,7 +69,7 @@ final class DVLAAccountViewModel: ObservableObject {
                 sections = [
                     createSection(
                         for: [response.shareCode],
-                        title: "New share code"
+                        title: "New check code"
                     )
                 ]
             }
