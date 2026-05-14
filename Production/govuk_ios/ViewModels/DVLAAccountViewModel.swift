@@ -354,11 +354,8 @@ final class DVLAAccountViewModel: ObservableObject {
                     """,
                 body: isValid ? "Cancel" : "",
                 accessibilityHint: "",
-                action: {
-                    guard isValid else { return }
-                    Task {
-                        await self.cancelShareCode(shareCode)
-                    }
+                action: { [weak self] in
+                    self?.handleCancelAction(for: shareCode)
                 }
             )
             return row
@@ -370,6 +367,13 @@ final class DVLAAccountViewModel: ObservableObject {
             rows: rows,
             footer: nil
         )
+    }
+
+    private func handleCancelAction(for shareCode: ShareCode) {
+        guard shareCode.state == "valid" else { return }
+        Task {
+            await cancelShareCode(shareCode)
+        }
     }
 
     private var dvlaAccountErrorViewModel: AppErrorViewModel {
