@@ -146,7 +146,7 @@ class SettingsViewModelTests {
         let linkSection = sut.listContent[4]
         let privacyPolicyRow = try #require(linkSection.rows[0] as? LinkRow)
         privacyPolicyRow.action()
-        #expect(receivedURL == Constants.API.privacyPolicyUrl)
+        #expect(receivedURL == Constants.API.betaPrivacyPolicyURL)
         #expect(receivedTitle == privacyPolicyRow.title)
     }
 

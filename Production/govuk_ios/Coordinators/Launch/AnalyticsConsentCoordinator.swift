@@ -41,7 +41,7 @@ class AnalyticsConsentCoordinator: BaseCoordinator {
     private func openPrivacy() {
         let coordinator = coordinatorBuilder.safari(
             navigationController: root,
-            url: Constants.API.privacyPolicyUrl,
+            url: Constants.API.betaPrivacyPolicyURL,
             fullScreen: false
         )
         start(coordinator)
