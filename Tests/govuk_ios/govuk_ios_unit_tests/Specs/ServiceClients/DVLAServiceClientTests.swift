@@ -153,6 +153,98 @@ struct DVLAServiceClientTests {
         #expect(error == .apiUnavailable)
     }
 
+    @Test
+    func fetchShareCodes_sendsExpectedRequest() async {
+        mockAPI._stubbedSendResponse = .success(Data())
+        _ = await sut.fetchShareCodes()
+        #expect(mockAPI._receivedSendRequest?.urlPath == "/app/dvla/v1/share-codes")
+        #expect(mockAPI._receivedSendRequest?.method == .get)
+        #expect(mockAPI._receivedSendRequest?.additionalHeaders == ["Content-Type": "application/json"])
+    }
+
+    @Test
+    func fetchShareCodes_success_returnsExpectedResult() async throws {
+        mockAPI._stubbedSendResponse = .success(Self.listShareCodesResponse)
+        let result = await sut.fetchShareCodes()
+        let response = try #require(try? result.get())
+        #expect(response.shareCodes.count == 2)
+        let shareCode = try #require(response.shareCodes.first)
+        #expect(shareCode.state == "cancelled")
+        #expect(shareCode.token == "kNvqM4Hr")
+        #expect(shareCode.tokenId == "cf3f210c-c542-4ed0-84c9-75caa1d76cc5")
+        let expectedCreatedDate = Date(timeIntervalSince1970: 1778497623)
+        #expect(shareCode.created == expectedCreatedDate)
+    }
+
+    @Test
+    func fetchShareCodes_apiUnavailable_returnsExpectedError() async {
+        mockAPI._stubbedSendResponse = .failure(DVLAError.apiUnavailable)
+        let result = await sut.fetchShareCodes()
+        let error = result.getError()
+        #expect(error == .apiUnavailable)
+    }
+
+    @Test
+    func createShareCode_sendsExpectedRequest() async {
+        mockAPI._stubbedSendResponse = .success(Data())
+        _ = await sut.createShareCode()
+        #expect(mockAPI._receivedSendRequest?.urlPath == "/app/dvla/v1/share-code")
+        #expect(mockAPI._receivedSendRequest?.method == .post)
+        #expect(mockAPI._receivedSendRequest?.additionalHeaders == ["Content-Type": "application/json"])
+    }
+
+    @Test
+    func createShareCode_success_returnsExpectedResult() async throws {
+        mockAPI._stubbedSendResponse = .success(Self.createShareCodeResponse)
+        let result = await sut.createShareCode()
+        let response = try #require(try? result.get())
+        let shareCode = response.shareCode
+        #expect(shareCode.state == "valid")
+        #expect(shareCode.token == "vVNxXP4R")
+        #expect(shareCode.tokenId == "2b923159-faff-4171-bc59-bd0ca84e3249")
+        let expectedCreatedDate = Date(timeIntervalSince1970: 1778574495)
+        #expect(shareCode.created == expectedCreatedDate)
+        let expectedExpiryDate = Date(timeIntervalSince1970: 1780388895)
+        #expect(shareCode.expiry == expectedExpiryDate)
+    }
+
+    @Test
+    func createShareCode_apiUnavailable_returnsExpectedError() async {
+        mockAPI._stubbedSendResponse = .failure(DVLAError.apiUnavailable)
+        let result = await sut.createShareCode()
+        let error = result.getError()
+        #expect(error == .apiUnavailable)
+    }
+
+    @Test
+    func cancelShareCode_sendsExpectedRequest() async {
+        mockAPI._stubbedSendResponse = .success(Data())
+        _ = await sut.cancelShareCode(id: "test-share-code-id")
+        #expect(mockAPI._receivedSendRequest?.urlPath == "/app/dvla/v1/share-code/test-share-code-id/cancel")
+        #expect(mockAPI._receivedSendRequest?.method == .post)
+        #expect(mockAPI._receivedSendRequest?.additionalHeaders == ["Content-Type": "application/json"])
+    }
+
+    @Test
+    func cancelShareCode_success_returnsExpectedResult() async throws {
+        mockAPI._stubbedSendResponse = .success(Self.cancelShareCodeResponse)
+        let result = await sut.cancelShareCode(id: "2b923159-test")
+        let response = try #require(try? result.get())
+        let shareCode = response.shareCode
+        #expect(shareCode.state == "cancelled")
+        #expect(shareCode.token == "vVNxXP4R")
+        let expectedCancelledDate = Date(timeIntervalSince1970: 1778574583)
+        #expect(shareCode.cancelled == expectedCancelledDate)
+    }
+
+    @Test
+    func cancelShareCode_apiUnavailable_returnsExpectedError() async {
+        mockAPI._stubbedSendResponse = .failure(DVLAError.apiUnavailable)
+        let result = await sut.cancelShareCode(id: "test-share-code-id")
+        let error = result.getError()
+        #expect(error == .apiUnavailable)
+    }
+
     static var drivingLicenceResponse: Data = {
         .load(filename: "MockDrivingLicenceResponse")
     }()
@@ -167,5 +259,17 @@ struct DVLAServiceClientTests {
 
     static var vehicleResponse: Data = {
         .load(filename: "MockVehicleResponse")
+    }()
+
+    static var listShareCodesResponse: Data = {
+        .load(filename: "MockListShareCodesResponse")
+    }()
+
+    static var createShareCodeResponse: Data = {
+        .load(filename: "MockCreateShareCodeResponse")
+    }()
+
+    static var cancelShareCodeResponse: Data = {
+        .load(filename: "MockCancelShareCodeResponse")
     }()
 }

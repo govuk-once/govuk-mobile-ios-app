@@ -49,6 +49,13 @@ struct DVLAAccountView: View {
             .padding(.vertical, 24)
             .padding(.horizontal, 16)
         }
+        .alert(viewModel.alertMessage, isPresented: $viewModel.showAlert) {
+            Button("OK") {
+                Task {
+                    await viewModel.handleShareCodeAlertDismissed()
+                }
+            }
+        }
     }
 
     private var loadingView: some View {

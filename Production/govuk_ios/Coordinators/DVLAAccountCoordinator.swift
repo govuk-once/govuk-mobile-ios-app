@@ -7,6 +7,8 @@ enum DVLAAccountViewType {
     case driverSummary
     case customerSummary
     case vehicle
+    case shareCodeList
+    case createShareCode
 }
 
 final class DVLAAccountCoordinator: BaseCoordinator {

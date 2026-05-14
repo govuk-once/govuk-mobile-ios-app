@@ -58,6 +58,12 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator, TopicWidgetProvider 
             },
             viewVehicleAction: { [weak self] in
                 self?.startDvlaAccount(viewType: .vehicle)
+            },
+            viewShareCodesAction: { [weak self] in
+                self?.startDvlaAccount(viewType: .shareCodeList)
+            },
+            createShareCodeAction: { [weak self] in
+                self?.startDvlaAccount(viewType: .createShareCode)
             }
         )
     }

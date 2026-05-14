@@ -7,6 +7,7 @@ class MockWidgetViewBuilder: WidgetViewBuilder {
     var _receivedDvlaAccountWidgetLinkAction: (() -> Void)?
     var _receivedDvlaAccountWidgetUnlinkAction: (() -> Void)?
     var _receivedDvlaAccountWidgetViewLicenceAction: (() -> Void)?
+    var _receivedDvlaAccountWidgetViewShareCodesAction: (() -> Void)?
     override func dvlaAccountWidget(
         analyticsService: AnalyticsServiceInterface,
         userService: UserServiceInterface,
@@ -16,11 +17,14 @@ class MockWidgetViewBuilder: WidgetViewBuilder {
         viewLicenceAction: @escaping () -> Void,
         viewDriverSummaryAction: @escaping () -> Void,
         viewCustomerSummaryAction: @escaping () -> Void,
-        viewVehicleAction: @escaping () -> Void
+        viewVehicleAction: @escaping () -> Void,
+        viewShareCodesAction: @escaping () -> Void,
+        createShareCodeAction: @escaping () -> Void
     ) -> AnyView? {
         _receivedDvlaAccountWidgetLinkAction = linkAction
         _receivedDvlaAccountWidgetUnlinkAction = unlinkAction
         _receivedDvlaAccountWidgetViewLicenceAction = viewLicenceAction
+        _receivedDvlaAccountWidgetViewShareCodesAction = viewShareCodesAction
         return AnyView(EmptyView())
     }
 }

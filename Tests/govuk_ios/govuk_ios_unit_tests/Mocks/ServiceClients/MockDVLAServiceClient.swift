@@ -23,4 +23,19 @@ class MockDVLAServiceClient: DVLAServiceClientInterface {
     func fetchVehicle(registration: String) async -> VehicleResult {
         _stubbedFetchVehicleResult!
     }
+
+    var _stubbedFetchShareCodesResult: ShareCodesResult?
+    func fetchShareCodes() async -> ShareCodesResult {
+        _stubbedFetchShareCodesResult!
+    }
+
+    var _stubbedCreateShareCodeResult: ShareCodeResult?
+    func createShareCode() async -> ShareCodeResult {
+        _stubbedCreateShareCodeResult!
+    }
+
+    var _stubbedCancelShareCodeResult: ShareCodeResult?
+    func cancelShareCode(id: String) async -> ShareCodeResult {
+        _stubbedCancelShareCodeResult!
+    }
 }

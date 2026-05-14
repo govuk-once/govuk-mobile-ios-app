@@ -6,6 +6,8 @@ final class DVLAAccountViewModel: ObservableObject {
     @Published private(set) var sections = [GroupedListSection]()
     @Published private(set) var errorViewModel: AppErrorViewModel?
     @Published private(set) var isLoading: Bool = false
+    @Published var showAlert: Bool = false
+    @Published private(set) var alertMessage: String = ""
     private let dateFormatter = DateFormatter.dvlaAccount
 
     private var drivingLicence: DrivingLicence?
@@ -18,28 +20,28 @@ final class DVLAAccountViewModel: ObservableObject {
         self.viewType = viewType
     }
 
-    @MainActor
-    func fetchContent() async {
+    // swiftlint:disable:next function_body_length cyclomatic_complexity
+    @MainActor func fetchContent() async {
         isLoading = true
         switch viewType {
         case .drivingLicence:
             let result = await dvlaService.fetchDrivingLicence()
             if case .success(let drivingLicence) = result {
-                sections = [section(for: drivingLicence)]
+                sections = [createSection(for: drivingLicence)]
             }
             handleError(result.getError())
         case .driverSummary:
             let result = await dvlaService.fetchDriverSummary()
             if case .success(let driverSummary) = result {
-                sections = [section(for: driverSummary)]
+                sections = [createSection(for: driverSummary)]
             }
             handleError(result.getError())
         case .customerSummary:
             let result = await dvlaService.fetchCustomerSummary()
             if case .success(let customerSummary) = result {
                 sections = [
-                    section(for: customerSummary.customerResponse.customer),
-                    section(for: customerSummary.vehicles)
+                    createSection(for: customerSummary.customerResponse.customer),
+                    createSection(for: customerSummary.vehicles)
                 ]
             }
             handleError(result.getError())
@@ -47,13 +49,53 @@ final class DVLAAccountViewModel: ObservableObject {
             // hard coded reg number, for proof of concept
             let result = await dvlaService.fetchVehicle(registration: "AA19AMP")
             if case .success(let vehicle) = result {
+                sections = [createSection(for: vehicle)]
+            }
+            handleError(result.getError())
+        case .shareCodeList:
+            let result = await dvlaService.fetchShareCodes()
+            if case .success(let response) = result {
                 sections = [
-                    section(for: vehicle)
+                    createSection(
+                        for: response.shareCodes,
+                        title: "Share codes"
+                    )
+                ]
+            }
+            handleError(result.getError())
+        case .createShareCode:
+            let result = await dvlaService.createShareCode()
+            if case .success(let response) = result {
+                sections = [
+                    createSection(
+                        for: [response.shareCode],
+                        title: "New share code"
+                    )
                 ]
             }
             handleError(result.getError())
         }
         isLoading = false
+    }
+
+    @MainActor
+    func handleShareCodeAlertDismissed() async {
+        showAlert = false
+        alertMessage = ""
+        await fetchContent()
+    }
+
+    @MainActor
+    func cancelShareCode(_ shareCode: ShareCode) async {
+        isLoading = true
+        let result = await dvlaService.cancelShareCode(id: shareCode.tokenId)
+        if case .success = result {
+            alertMessage = "Check code cancelled successfully"
+            showAlert = true
+        } else {
+            isLoading = false
+            handleError(result.getError())
+        }
     }
 
     private func handleError(_ error: DVLAError?) {
@@ -74,7 +116,7 @@ final class DVLAAccountViewModel: ObservableObject {
         }
     }
 
-    private func section(
+    private func createSection(
         for drivingLicence: DrivingLicence
     ) -> GroupedListSection {
         return GroupedListSection(
@@ -120,7 +162,7 @@ final class DVLAAccountViewModel: ObservableObject {
         )
     }
 
-    private func section(
+    private func createSection(
         for driverSummary: DriverSummary
     ) -> GroupedListSection {
         return GroupedListSection(
@@ -170,7 +212,7 @@ final class DVLAAccountViewModel: ObservableObject {
         )
     }
 
-    private func section(
+    private func createSection(
         for customer: Customer
     ) -> GroupedListSection {
         return GroupedListSection(
@@ -200,7 +242,9 @@ final class DVLAAccountViewModel: ObservableObject {
         )
     }
 
-    private func section(for vehicles: [CustomerSummary.Vehicle]) -> GroupedListSection {
+    private func createSection(
+        for vehicles: [CustomerSummary.Vehicle]
+    ) -> GroupedListSection {
         var rows = [InformationRow]()
         if vehicles.count == 0 {
             rows = [
@@ -212,7 +256,7 @@ final class DVLAAccountViewModel: ObservableObject {
                 )
             ]
         } else {
-            rows = vehicles.map { row(for: $0) }
+            rows = vehicles.map { createRow(for: $0) }
         }
         return GroupedListSection(
             heading: GroupedListHeader(
@@ -223,7 +267,7 @@ final class DVLAAccountViewModel: ObservableObject {
         )
     }
 
-    private func row(for vehicle: CustomerSummary.Vehicle) -> InformationRow {
+    private func createRow(for vehicle: CustomerSummary.Vehicle) -> InformationRow {
         InformationRow(
             id: "vehicle.\(vehicle.vehicleId).row",
             title: """
@@ -240,7 +284,7 @@ final class DVLAAccountViewModel: ObservableObject {
 
     // VES API
     // swiftlint:disable:next function_body_length
-    private func section(for vehicle: Vehicle) -> GroupedListSection {
+    private func createSection(for vehicle: Vehicle) -> GroupedListSection {
         return GroupedListSection(
             heading: GroupedListHeader(
                 title: vehicle.registrationNumber
@@ -291,6 +335,40 @@ final class DVLAAccountViewModel: ObservableObject {
                     detail: ""
                 )
             ], footer: nil
+        )
+    }
+
+    private func createSection(
+        for shareCodes: [ShareCode],
+        title: String
+    ) -> GroupedListSection {
+        let rows = shareCodes.map { shareCode in
+            let isValid = shareCode.state == "valid"
+            let row = DetailRow(
+                id: "shareCode.\(shareCode.tokenId).row",
+                title: """
+                    Token: \(shareCode.token)
+                    Created: \(dateFormatter.string(from: shareCode.created))
+                    Expiry: \(dateFormatter.string(from: shareCode.expiry))
+                    State: \(shareCode.state)
+                    """,
+                body: isValid ? "Cancel" : "",
+                accessibilityHint: "",
+                action: {
+                    guard isValid else { return }
+                    Task {
+                        await self.cancelShareCode(shareCode)
+                    }
+                }
+            )
+            return row
+        }
+        return GroupedListSection(
+            heading: GroupedListHeader(
+                title: title
+            ),
+            rows: rows,
+            footer: nil
         )
     }
 
