@@ -354,7 +354,7 @@ class SettingsViewModel: SettingsViewModelInterface {
             action: { [weak self] in
                 self?.openAction?(
                     .init(
-                        url: Constants.API.privacyPolicyUrl,
+                        url: Constants.API.betaPrivacyPolicyURL,
                         trackingTitle: rowTitle,
                         fullScreen: false
                     )

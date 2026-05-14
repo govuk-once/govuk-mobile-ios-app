@@ -31,7 +31,7 @@ final class WelcomeOnboardingViewModel: InfoViewModelInterface,
         String(
             localized: .Onboarding.welcomeSubtitleText(
                 termsURL.absoluteString,
-                Constants.API.privacyPolicyUrl.absoluteString
+                Constants.API.betaPrivacyPolicyURL.absoluteString
             )
         )
     }
