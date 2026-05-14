@@ -25,7 +25,7 @@ class SettingsViewModelTests {
         mockAuthenticationService._stubbedIsSignedIn = true
         mockAuthenticationService._stubbedUserEmail = "test@example.com"
         mockAppConfigService._stubbedTermsAndConditions = Config.arrange.termsAndConditions
-        mockAppConfigService.features = [.profile]
+        mockAppConfigService.features = [.profile, .dvla]
 
         sut = SettingsViewModel(
             analyticsService: mockAnalyticsService,
@@ -48,7 +48,7 @@ class SettingsViewModelTests {
     @Test
     func listContent_isCorrect() throws {
         try #require(sut.listContent.count == 5)
-        try #require(sut.listContent[0].rows.count == 2)
+        try #require(sut.listContent[0].rows.count == 3)
         try #require(sut.listContent[1].rows.count == 1)
         try #require(sut.listContent[2].rows.count == 3)
         try #require(sut.listContent[3].rows.count == 2)
@@ -56,9 +56,10 @@ class SettingsViewModelTests {
 
         let manageAccountSection = sut.listContent[0]
         #expect(manageAccountSection.heading?.title == nil)
-        try #require(manageAccountSection.rows.count == 2)
+        try #require(manageAccountSection.rows.count == 3)
         #expect(manageAccountSection.rows[0].title == "Your GOV.UK One Login")
-        #expect(manageAccountSection.rows[1].title == "Manage your GOV.UK One Login")
+        #expect(manageAccountSection.rows[1].title == "Your accounts")
+        #expect(manageAccountSection.rows[2].title == "Manage your GOV.UK One Login")
 
         let signOutSection = sut.listContent[1]
         let signOutRow = try #require(signOutSection.rows.first as? DetailRow)
