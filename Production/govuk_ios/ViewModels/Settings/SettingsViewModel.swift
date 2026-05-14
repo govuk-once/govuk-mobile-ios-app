@@ -163,6 +163,7 @@ class SettingsViewModel: SettingsViewModelInterface {
                     body: userEmail,
                     imageName: "account_icon",
                     detail: ""),
+                appConfigService.isFeatureEnabled(key: .dvla) ? accountsRow : nil,
                 LinkRow(
                     id: "settings.account.row",
                     title: rowTitle,
@@ -177,7 +178,7 @@ class SettingsViewModel: SettingsViewModelInterface {
                         self?.trackNavigationEvent(rowTitle, external: true)
                     }
                 )
-            ],
+            ].compactMap { $0 },
             footer: String(localized: .Settings.accountSectionFooter))
     }
 
@@ -394,6 +395,16 @@ class SettingsViewModel: SettingsViewModelInterface {
                     )
                 }
             }
+        )
+    }
+
+    private var accountsRow: GroupedListRow {
+        let rowTitle = String(localized: .Settings.linkAccountsTitle)
+        return NavigationRow(
+            id: "settings.accounts.row",
+            title: rowTitle,
+            body: nil,
+            action: {}
         )
     }
 
