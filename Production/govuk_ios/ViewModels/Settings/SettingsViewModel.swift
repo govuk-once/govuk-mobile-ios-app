@@ -143,6 +143,7 @@ class SettingsViewModel: SettingsViewModelInterface {
     private func getGroupedList() -> [GroupedListSection] {
         return [
             accountSection,
+            appConfigService.isFeatureEnabled(key: .dvla) ? linkedAccountsSection : nil,
             signoutSection,
             appOptionsSection,
             aboutSection,
@@ -163,7 +164,6 @@ class SettingsViewModel: SettingsViewModelInterface {
                     body: userEmail,
                     imageName: "account_icon",
                     detail: ""),
-                appConfigService.isFeatureEnabled(key: .dvla) ? accountsRow : nil,
                 LinkRow(
                     id: "settings.account.row",
                     title: rowTitle,
@@ -178,7 +178,7 @@ class SettingsViewModel: SettingsViewModelInterface {
                         self?.trackNavigationEvent(rowTitle, external: true)
                     }
                 )
-            ].compactMap { $0 },
+            ],
             footer: String(localized: .Settings.accountSectionFooter))
     }
 
@@ -305,6 +305,14 @@ class SettingsViewModel: SettingsViewModelInterface {
                 ),
                 helpAndFeedbackRow
             ],
+            footer: nil
+        )
+    }
+
+    private var linkedAccountsSection: GroupedListSection {
+        GroupedListSection(
+            heading: nil,
+            rows: [accountsRow],
             footer: nil
         )
     }

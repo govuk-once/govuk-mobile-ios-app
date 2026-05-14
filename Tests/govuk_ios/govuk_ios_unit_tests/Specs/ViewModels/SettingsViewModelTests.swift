@@ -118,6 +118,27 @@ class SettingsViewModelTests {
     }
 
     @Test
+    func dvlaDisabled_hidesYourAccountsRow() {
+        mockAppConfigService.features = []
+        let sut = SettingsViewModel(
+            analyticsService: mockAnalyticsService,
+            urlOpener: mockURLOpener,
+            versionProvider: mockVersionProvider,
+            deviceInformationProvider: mockDeviceInformationProvider,
+            authenticationService: mockAuthenticationService,
+            notificationService: mockNotificationsService,
+            notificationCenter: .default,
+            localAuthenticationService: mockLocalAuthenticationService,
+            appConfigService: mockAppConfigService
+        )
+
+        let yourAccountsRow = sut.listContent[1]
+        let rowIds = yourAccountsRow.rows.map { $0.id }
+        #expect(!rowIds.contains("settings.accounts.row"))
+    }
+
+
+    @Test
     func analytics_toggledOnThenOff_deniesPermissions() throws {
         mockAnalyticsService.setAcceptedAnalytics(accepted: true)
         let appOptionsSection = sut.listContent[2]
