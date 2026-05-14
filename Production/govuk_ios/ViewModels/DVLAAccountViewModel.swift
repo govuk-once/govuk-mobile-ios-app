@@ -2,7 +2,7 @@ import Foundation
 import GovKit
 
 // swiftlint:disable:next type_body_length
-class DVLAAccountViewModel: ObservableObject {
+final class DVLAAccountViewModel: ObservableObject {
     @Published private(set) var sections = [GroupedListSection]()
     @Published private(set) var errorViewModel: AppErrorViewModel?
     @Published private(set) var isLoading: Bool = false

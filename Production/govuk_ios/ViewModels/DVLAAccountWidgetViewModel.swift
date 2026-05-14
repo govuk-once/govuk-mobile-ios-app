@@ -1,7 +1,7 @@
 import GovKit
 import SwiftUI
 
-class DVLAAccountWidgetViewModel: ObservableObject {
+final class DVLAAccountWidgetViewModel: ObservableObject {
     @Published private(set) var actionCards = [ListCardViewModel]()
     @Published private(set) var errorViewModel: AppErrorViewModel?
     @Published private(set) var linkCardViewModel: ServiceAccountLinkCardViewModel?
