@@ -123,6 +123,36 @@ struct DVLAServiceClientTests {
         #expect(error == .apiUnavailable)
     }
 
+    @Test
+    func fetchVehicle_sendsExpectedRequest() async {
+        mockAPI._stubbedSendResponse = .success(Data())
+        _ = await sut.fetchVehicle(registration: "AA19AMP")
+        #expect(mockAPI._receivedSendRequest?.urlPath == "/app/dvla/v1/vehicle-enquiry/AA19AMP")
+        #expect(mockAPI._receivedSendRequest?.method == .get)
+        #expect(mockAPI._receivedSendRequest?.additionalHeaders == ["Content-Type": "application/json"])
+    }
+
+    @Test
+    func fetchVehicle_success_returnsExpectedResult() async throws {
+        mockAPI._stubbedSendResponse = .success(Self.vehicleResponse)
+
+        let result = await sut.fetchVehicle(registration: "AA19AMP")
+        let vehicle = try #require(try? result.get())
+        #expect(vehicle.make == "FORD")
+        #expect(vehicle.fuelType == "DIESEL")
+        #expect(vehicle.colour == "BLACK")
+        let expectedTaxDueDate = Date(timeIntervalSince1970: 1809648000)
+        #expect(vehicle.taxDueDate == expectedTaxDueDate)
+    }
+
+    @Test
+    func fetchVehicle_apiUnavailable_returnsExpectedError() async {
+        mockAPI._stubbedSendResponse = .failure(DVLAError.apiUnavailable)
+        let result = await sut.fetchVehicle(registration: "AA19AMP")
+        let error = result.getError()
+        #expect(error == .apiUnavailable)
+    }
+
     static var drivingLicenceResponse: Data = {
         .load(filename: "MockDrivingLicenceResponse")
     }()
@@ -133,5 +163,9 @@ struct DVLAServiceClientTests {
 
     static var customerSummaryResponse: Data = {
         .load(filename: "MockCustomerSummaryResponse")
+    }()
+
+    static var vehicleResponse: Data = {
+        .load(filename: "MockVehicleResponse")
     }()
 }

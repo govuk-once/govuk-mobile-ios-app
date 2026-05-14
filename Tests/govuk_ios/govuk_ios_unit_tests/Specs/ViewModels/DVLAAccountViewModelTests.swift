@@ -110,4 +110,18 @@ struct DVLAAccountViewModelTests {
             """
         #expect(sut.sections[1].rows[0].title == expectedVehicleRowTitle)
     }
+
+    @Test
+    func fetchContent_vehicle_success_createsSectionCorrectly() async throws {
+        mockDvlaService._stubbedFetchVehicleResult = .success(.arrange)
+        let sut = DVLAAccountViewModel(
+            dvlaService: mockDvlaService,
+            viewType: .vehicle
+        )
+        await sut.fetchContent()
+        try #require(sut.sections.count == 1)
+        try #require(sut.sections.first?.rows.count == 7)
+        #expect(sut.sections[0].rows[0].title == "Make")
+        #expect(sut.sections[0].rows[0].body == "FORD")
+    }
 }

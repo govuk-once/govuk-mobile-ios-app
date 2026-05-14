@@ -1,7 +1,8 @@
 import Foundation
 import GovKit
 
-class DVLAAccountViewModel: ObservableObject {
+// swiftlint:disable:next type_body_length
+final class DVLAAccountViewModel: ObservableObject {
     @Published private(set) var sections = [GroupedListSection]()
     @Published private(set) var errorViewModel: AppErrorViewModel?
     @Published private(set) var isLoading: Bool = false
@@ -41,6 +42,16 @@ class DVLAAccountViewModel: ObservableObject {
                     section(for: customerSummary.vehicles)
                 ]
             }
+            handleError(result.getError())
+        case .vehicle:
+            // hard coded reg number, for proof of concept
+            let result = await dvlaService.fetchVehicle(registration: "AA19AMP")
+            if case .success(let vehicle) = result {
+                sections = [
+                    section(for: vehicle)
+                ]
+            }
+            handleError(result.getError())
         }
         isLoading = false
     }
@@ -189,7 +200,7 @@ class DVLAAccountViewModel: ObservableObject {
         )
     }
 
-    private func section(for vehicles: [Vehicle]) -> GroupedListSection {
+    private func section(for vehicles: [CustomerSummary.Vehicle]) -> GroupedListSection {
         var rows = [InformationRow]()
         if vehicles.count == 0 {
             rows = [
@@ -212,7 +223,7 @@ class DVLAAccountViewModel: ObservableObject {
         )
     }
 
-    private func row(for vehicle: Vehicle) -> InformationRow {
+    private func row(for vehicle: CustomerSummary.Vehicle) -> InformationRow {
         InformationRow(
             id: "vehicle.\(vehicle.vehicleId).row",
             title: """
@@ -224,6 +235,62 @@ class DVLAAccountViewModel: ObservableObject {
                 """,
             body: nil,
             detail: ""
+        )
+    }
+
+    // VES API
+    // swiftlint:disable:next function_body_length
+    private func section(for vehicle: Vehicle) -> GroupedListSection {
+        return GroupedListSection(
+            heading: GroupedListHeader(
+                title: vehicle.registrationNumber
+            ),
+            rows: [
+                InformationRow(
+                    id: "vehicle.make.row",
+                    title: "Make",
+                    body: vehicle.make,
+                    detail: ""
+                ),
+                InformationRow(
+                    id: "vehicle.model.row",
+                    title: "Model",
+                    body: vehicle.model ?? "nil",
+                    detail: ""
+                ),
+                InformationRow(
+                    id: "vehicle.colour.row",
+                    title: "Colour",
+                    body: vehicle.colour,
+                    detail: ""
+                ),
+                InformationRow(
+                    id: "vehicle.fuelType.row",
+                    title: "Fuel type",
+                    body: vehicle.fuelType,
+                    detail: ""
+                ),
+                InformationRow(
+                    id: "vehicle.motStatus.row",
+                    title: "MOT Status",
+                    body: vehicle.motStatus,
+                    detail: ""
+                ),
+                InformationRow(
+                    id: "vehicle.taxStatus.row",
+                    title: "Tax Status",
+                    body: vehicle.taxStatus,
+                    detail: ""
+                ),
+                InformationRow(
+                    id: "vehicle.taxDue.row",
+                    title: "Tax Due",
+                    body: dateFormatter.string(
+                        from: vehicle.taxDueDate
+                    ),
+                    detail: ""
+                )
+            ], footer: nil
         )
     }
 

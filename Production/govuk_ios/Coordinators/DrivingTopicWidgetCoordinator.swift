@@ -55,6 +55,9 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator, TopicWidgetProvider 
             },
             viewCustomerSummaryAction: { [weak self] in
                 self?.startDvlaAccount(viewType: .customerSummary)
+            },
+            viewVehicleAction: { [weak self] in
+                self?.startDvlaAccount(viewType: .vehicle)
             }
         )
     }

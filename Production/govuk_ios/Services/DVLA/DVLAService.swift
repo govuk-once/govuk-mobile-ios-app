@@ -4,6 +4,7 @@ protocol DVLAServiceInterface {
     func fetchDrivingLicence() async -> DrivingLicenceResult
     func fetchDriverSummary() async -> DriverSummaryResult
     func fetchCustomerSummary() async -> CustomerSummaryResult
+    func fetchVehicle(registration: String) async -> VehicleResult
 }
 
 class DVLAService: DVLAServiceInterface {
@@ -23,5 +24,9 @@ class DVLAService: DVLAServiceInterface {
 
     func fetchCustomerSummary() async -> CustomerSummaryResult {
         await serviceClient.fetchCustomerSummary()
+    }
+
+    func fetchVehicle(registration: String) async -> VehicleResult {
+        await serviceClient.fetchVehicle(registration: registration)
     }
 }

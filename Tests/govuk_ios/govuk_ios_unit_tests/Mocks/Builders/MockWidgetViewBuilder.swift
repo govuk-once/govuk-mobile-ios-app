@@ -15,7 +15,8 @@ class MockWidgetViewBuilder: WidgetViewBuilder {
         unlinkAction: @escaping () -> Void,
         viewLicenceAction: @escaping () -> Void,
         viewDriverSummaryAction: @escaping () -> Void,
-        viewCustomerSummaryAction: @escaping () -> Void
+        viewCustomerSummaryAction: @escaping () -> Void,
+        viewVehicleAction: @escaping () -> Void
     ) -> AnyView? {
         _receivedDvlaAccountWidgetLinkAction = linkAction
         _receivedDvlaAccountWidgetUnlinkAction = unlinkAction
