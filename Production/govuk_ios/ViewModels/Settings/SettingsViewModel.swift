@@ -144,10 +144,10 @@ class SettingsViewModel: SettingsViewModelInterface {
         return [
             accountSection,
             appConfigService.isFeatureEnabled(key: .dvla) ? linkedAccountsSection : nil,
-            signoutSection,
             appOptionsSection,
             aboutSection,
-            policiesSection
+            policiesSection,
+            signOutSection,
         ].compactMap { $0 }
     }
 
@@ -183,7 +183,7 @@ class SettingsViewModel: SettingsViewModelInterface {
     }
 
     // MARK: - Sign out
-    private var signoutSection: GroupedListSection? {
+    private var signOutSection: GroupedListSection? {
         guard authenticationService.isSignedIn else { return nil }
         return GroupedListSection(
             heading: nil,

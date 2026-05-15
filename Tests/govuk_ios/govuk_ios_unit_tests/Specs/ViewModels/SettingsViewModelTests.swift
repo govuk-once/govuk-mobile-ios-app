@@ -47,23 +47,23 @@ class SettingsViewModelTests {
 
     @Test
     func listContent_isCorrect() throws {
-        try #require(sut.listContent.count == 5)
-        try #require(sut.listContent[0].rows.count == 3)
+        try #require(sut.listContent.count == 6)
+        try #require(sut.listContent[0].rows.count == 2)
         try #require(sut.listContent[1].rows.count == 1)
         try #require(sut.listContent[2].rows.count == 3)
         try #require(sut.listContent[3].rows.count == 2)
         try #require(sut.listContent[4].rows.count == 5)
+        try #require(sut.listContent[5].rows.count == 1)
 
         let manageAccountSection = sut.listContent[0]
         #expect(manageAccountSection.heading?.title == nil)
-        try #require(manageAccountSection.rows.count == 3)
+        try #require(manageAccountSection.rows.count == 2)
         #expect(manageAccountSection.rows[0].title == "Your GOV.UK One Login")
-        #expect(manageAccountSection.rows[1].title == "Your accounts")
-        #expect(manageAccountSection.rows[2].title == "Manage your GOV.UK One Login")
+        #expect(manageAccountSection.rows[1].title == "Manage your GOV.UK One Login")
 
-        let signOutSection = sut.listContent[1]
-        let signOutRow = try #require(signOutSection.rows.first as? DetailRow)
-        #expect(signOutRow.title == "Sign out")
+        let yourAccountSection = sut.listContent[1]
+        let yourAccountsRow = try #require(yourAccountSection.rows.first as? NavigationRow)
+        #expect(yourAccountsRow.title == "Your accounts")
 
         let notificationsSection = sut.listContent[2]
         #expect(notificationsSection.heading?.title == nil)
@@ -94,6 +94,9 @@ class SettingsViewModelTests {
         #expect(privacyAndLegalSection.rows[2].title == "Open source licences")
         #expect(privacyAndLegalSection.rows[3].title == "Terms and conditions")
         #expect(privacyAndLegalSection.rows[4].title == "Your app data")
+
+        let signOutSection = sut.listContent[5]
+        #expect(signOutSection.rows[0].title == "Sign out")
     }
 
     @Test
@@ -111,7 +114,7 @@ class SettingsViewModelTests {
             appConfigService: mockAppConfigService
         )
 
-        let privacyAndLegalSection = localSut.listContent[4]
+        let privacyAndLegalSection = localSut.listContent[3]
         #expect(privacyAndLegalSection.rows.last?.title == "Terms and conditions")
         let rowIds = privacyAndLegalSection.rows.map { $0.id }
         #expect(!rowIds.contains("settings.sar.row"))
@@ -247,7 +250,7 @@ class SettingsViewModelTests {
 
     @Test
     func signOut_action_tracksEvent() throws {
-        let signOutSection = sut.listContent[1]
+        let signOutSection = sut.listContent[5]
         let signOutRow = try #require(signOutSection.rows.last as? DetailRow)
 
         signOutRow.action()
