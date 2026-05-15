@@ -142,8 +142,8 @@ public final class AppConfigService: AppConfigServiceInterface {
     private var developmentOverrides: [Feature: Bool] {
     #if STAGING
         [
-            .profile: featureFlags[Feature.profile.rawValue] ?? true,
-            .dvla: featureFlags[Feature.dvla.rawValue] ?? true
+            .profile: featureFlags[Feature.profile.rawValue] ?? false,
+            .dvla: featureFlags[Feature.dvla.rawValue] ?? false
         ]
     #else
         [
