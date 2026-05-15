@@ -86,12 +86,22 @@ final class DVLAAccountWidgetViewModel: ObservableObject {
             title: "View vehicle",
             action: actions.viewVehicleAction
         )
+        let viewShareCodesCard = ListCardViewModel(
+            title: "View check codes",
+            action: actions.viewShareCodesAction
+        )
+        let createShareCodeCard = ListCardViewModel(
+            title: "Create check code",
+            action: actions.createShareCodeAction
+        )
         actionCards = [
             unlinkCard,
             viewLicenceCard,
             viewDriverSummaryCard,
             viewCustomerSummaryCard,
-            viewVehicleCard
+            viewVehicleCard,
+            viewShareCodesCard,
+            createShareCodeCard
         ]
     }
 
@@ -111,5 +121,7 @@ extension DVLAAccountWidgetViewModel {
         let viewDriverSummaryAction: () -> Void
         let viewCustomerSummaryAction: () -> Void
         let viewVehicleAction: () -> Void
+        let viewShareCodesAction: () -> Void
+        let createShareCodeAction: () -> Void
     }
 }

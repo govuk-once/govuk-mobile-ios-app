@@ -100,7 +100,9 @@ extension DVLAAccountWidgetViewModel.Actions {
             viewLicenceAction: {},
             viewDriverSummaryAction: {},
             viewCustomerSummaryAction: {},
-            viewVehicleAction: {}
+            viewVehicleAction: {},
+            viewShareCodesAction: {},
+            createShareCodeAction: {}
         )
     }
 }

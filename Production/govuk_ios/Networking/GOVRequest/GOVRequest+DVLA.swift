@@ -50,4 +50,37 @@ extension GOVRequest {
             requiresAuthentication: true
         )
     }
+
+    static var createShareCode: GOVRequest {
+        GOVRequest(
+            urlPath: "\(dvlaPath)/share-code",
+            method: .post,
+            body: nil,
+            queryParameters: nil,
+            additionalHeaders: additionalHeaders,
+            requiresAuthentication: true
+        )
+    }
+
+    static var listShareCodes: GOVRequest {
+        GOVRequest(
+            urlPath: "\(dvlaPath)/share-codes",
+            method: .get,
+            body: nil,
+            queryParameters: nil,
+            additionalHeaders: additionalHeaders,
+            requiresAuthentication: true
+        )
+    }
+
+    static func cancelShareCode(id: String) -> GOVRequest {
+        GOVRequest(
+            urlPath: "\(dvlaPath)/share-code/\(id)/cancel",
+            method: .post,
+            body: nil,
+            queryParameters: nil,
+            additionalHeaders: additionalHeaders,
+            requiresAuthentication: true
+        )
+    }
 }
