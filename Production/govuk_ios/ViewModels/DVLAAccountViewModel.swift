@@ -343,7 +343,8 @@ final class DVLAAccountViewModel: ObservableObject {
         title: String
     ) -> GroupedListSection {
         let rows = shareCodes.map { shareCode in
-            let isValid = shareCode.state == "valid"
+            let showCancelButton = shareCode.state == "valid"
+            && viewType == .shareCodeList
             let row = DetailRow(
                 id: "shareCode.\(shareCode.tokenId).row",
                 title: """
@@ -352,7 +353,7 @@ final class DVLAAccountViewModel: ObservableObject {
                     Expiry: \(dateFormatter.string(from: shareCode.expiry))
                     State: \(shareCode.state)
                     """,
-                body: isValid ? "Cancel" : "",
+                body: showCancelButton ? "Cancel" : "",
                 accessibilityHint: "",
                 action: { [weak self] in
                     self?.handleCancelAction(for: shareCode)
@@ -370,7 +371,8 @@ final class DVLAAccountViewModel: ObservableObject {
     }
 
     private func handleCancelAction(for shareCode: ShareCode) {
-        guard shareCode.state == "valid" else { return }
+        guard shareCode.state == "valid",
+        viewType == .shareCodeList else { return }
         Task {
             await cancelShareCode(shareCode)
         }
