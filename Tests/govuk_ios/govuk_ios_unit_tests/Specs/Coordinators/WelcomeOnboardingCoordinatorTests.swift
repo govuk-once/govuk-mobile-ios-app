@@ -195,7 +195,7 @@ class WelcomeOnboardingCoordinatorTests {
         #expect(completion)
     }
 
-    @Test(.disabled("GOVUKAPP-3485: For the time being, we don’t want to link FLEX and OneSignal with the notification id. "))
+    @Test
     func authenticationSuccess_userStateRequestSuccess_setNotificationExternalId() async {
         let mockNotificationService = MockNotificationService()
         let mockUserService = MockUserService()
