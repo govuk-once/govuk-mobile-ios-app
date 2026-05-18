@@ -326,15 +326,11 @@ class MockViewControllerBuilder: ViewControllerBuilder {
         return _stubbedChatController ?? UIViewController()
     }
 
-    var _stubbedChatErrorController: UIViewController?
-    var _receivedChatErrorAction: (() -> Void)?
-    override func chatError(
-        analyticsService: AnalyticsServiceInterface,
-        error: ChatError,
-        action: @escaping () -> Void
-    ) -> UIViewController {
-        _receivedChatErrorAction = action
-        return _stubbedChatErrorController ?? UIViewController()
+    var _stubbedErrorController: UIViewController?
+    var _receivedErrorViewModel: ErrorViewModel?
+    override func error(viewModel: ErrorViewModel) -> UIViewController {
+        _receivedErrorViewModel = viewModel
+        return _stubbedErrorController ?? UIViewController()
     }
 
     var _stubbedChatInfoOnboardingController: UIViewController?
@@ -375,6 +371,7 @@ class MockViewControllerBuilder: ViewControllerBuilder {
     var _receivedServiceAccountLinkingCompleteAction: (() -> Void)?
     var _receivedServiceAccountLinkingDismissAction: (() -> Void)?
     override func serviceAccountLinking(
+        analyticsService: AnalyticsServiceInterface,
         userService: UserServiceInterface,
         accountType: ServiceAccountType,
         linkId: String,

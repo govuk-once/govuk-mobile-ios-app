@@ -46,7 +46,7 @@ struct ServiceAccountUnlinkingViewModelTests {
         let errorViewModel = try #require(sut.errorViewModel)
         #expect(errorViewModel.title == String.common.localized("genericErrorTitle"))
         #expect(errorViewModel.body == String.serviceAccount.localized("accountUnlinkingErrorBody"))
-        #expect(errorViewModel.buttonTitle == String.serviceAccount.localized("accountLinkingErrorButtonTitle"))
+        #expect(errorViewModel.buttonTitle == String.dvla.localized("dvlaAccountErrorButtonTitle"))
         #expect(errorViewModel.buttonAccessibilityLabel == String.serviceAccount.localized(
             "accountLinkingErrorButtonTitle"
         ))

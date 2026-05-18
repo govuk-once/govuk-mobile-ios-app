@@ -54,6 +54,7 @@ final class ServiceAccountLinkCoordinator: BaseCoordinator {
 
     private func linkAccount(linkId: String) {
         let viewController = viewControllerBuilder.serviceAccountLinking(
+            analyticsService: analyticsService,
             userService: userService,
             accountType: accountType,
             linkId: linkId,

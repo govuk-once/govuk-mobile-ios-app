@@ -452,15 +452,8 @@ class ViewControllerBuilder {
         return viewController
     }
 
-    func chatError(analyticsService: AnalyticsServiceInterface,
-                   error: ChatError,
-                   action: @escaping () -> Void) -> UIViewController {
-        let viewModel = ChatErrorViewModel(
-            analyticsService: analyticsService,
-            error: error,
-            action: action
-        )
-        let view = InfoView<ChatErrorViewModel>(viewModel: viewModel)
+    func error(viewModel: ErrorViewModel) -> UIViewController {
+        let view = InfoView<ErrorViewModel>(viewModel: viewModel)
         let viewController = HostingViewController(
             rootView: view,
             navigationBarHidden: true
@@ -609,7 +602,9 @@ class ViewControllerBuilder {
         return viewController
     }
 
+    // swiftlint:disable:next function_parameter_count
     func serviceAccountLinking(
+        analyticsService: AnalyticsServiceInterface,
         userService: UserServiceInterface,
         accountType: ServiceAccountType,
         linkId: String,
@@ -617,6 +612,7 @@ class ViewControllerBuilder {
         dismissAction: @escaping () -> Void
     ) -> UIViewController {
         let viewModel = ServiceAccountLinkingViewModel(
+            analyticsService: analyticsService,
             userService: userService,
             accountType: accountType,
             linkId: linkId,

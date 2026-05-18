@@ -45,22 +45,8 @@ struct ServiceAccountLinkingView: View {
         .opacity(progressOpacity)
     }
 
-    private func errorView(with errorViewModel: AppErrorViewModel) -> some View {
-        GeometryReader { geometry in
-            ScrollView {
-                VStack {
-                    Spacer()
-                    AppErrorView(viewModel: errorViewModel)
-                    Spacer()
-                }
-                .frame(minHeight: geometry.size.height)
-                .frame(width: geometry.size.width)
-            }
-            .background(Color(UIColor.govUK.fills.surfaceModal))
-            .toolbar {
-                cancelButton
-            }
-        }
+    private func errorView(with errorViewModel: ErrorViewModel) -> some View {
+        InfoView(viewModel: errorViewModel)
     }
 
     private var cancelButton: some ToolbarContent {
