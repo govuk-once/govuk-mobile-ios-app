@@ -1,5 +1,5 @@
 {
-  "originHash" : "b5961627e55e3828e068e64e2608b0528dae7fcf0345ef82bf7256837b9fa906",
+  "originHash" : "97da4db4ba85e5829f48e4496d015672ca933ce26e658709bc048e5e022ef67e",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -224,6 +224,15 @@
       "state" : {
         "revision" : "540318ecedd63d883069ae7f1ed811a2df00b6ac",
         "version" : "2.4.0"
+      }
+    },
+    {
+      "identity" : "qualtrics-digital-ios-sdk",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/qualtrics/qualtrics-digital-ios-sdk",
+      "state" : {
+        "revision" : "b9637bbbb95aa12798cbb446f177b5ab02157f76",
+        "version" : "2.36.0"
       }
     },
     {
