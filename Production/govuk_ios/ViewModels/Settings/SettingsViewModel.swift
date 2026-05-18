@@ -143,10 +143,11 @@ class SettingsViewModel: SettingsViewModelInterface {
     private func getGroupedList() -> [GroupedListSection] {
         return [
             accountSection,
-            signoutSection,
+            appConfigService.isFeatureEnabled(key: .dvla) ? linkedAccountsSection : nil,
             appOptionsSection,
             aboutSection,
-            policiesSection
+            policiesSection,
+            signOutSection,
         ].compactMap { $0 }
     }
 
@@ -182,7 +183,7 @@ class SettingsViewModel: SettingsViewModelInterface {
     }
 
     // MARK: - Sign out
-    private var signoutSection: GroupedListSection? {
+    private var signOutSection: GroupedListSection? {
         guard authenticationService.isSignedIn else { return nil }
         return GroupedListSection(
             heading: nil,
@@ -308,6 +309,14 @@ class SettingsViewModel: SettingsViewModelInterface {
         )
     }
 
+    private var linkedAccountsSection: GroupedListSection {
+        GroupedListSection(
+            heading: nil,
+            rows: [accountsRow],
+            footer: nil
+        )
+    }
+
     private var helpAndFeedbackRow: GroupedListRow {
         let rowTitle = String(localized: .Settings.helpAndFeedbackSettingsTitle)
         return LinkRow(
@@ -394,6 +403,16 @@ class SettingsViewModel: SettingsViewModelInterface {
                     )
                 }
             }
+        )
+    }
+
+    private var accountsRow: GroupedListRow {
+        let rowTitle = String(localized: .Settings.linkAccountsTitle)
+        return NavigationRow(
+            id: "settings.accounts.row",
+            title: rowTitle,
+            body: nil,
+            action: {}
         )
     }
 
