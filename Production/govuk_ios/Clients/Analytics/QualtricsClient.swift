@@ -30,9 +30,7 @@ struct QualtricsClient: AnalyticsClient {
     }
 
     func track(event: GovKit.AppEvent) {
-        // Ignore e-commerce events
-        guard event.name != "view_item_list" &&
-        event.name != "select_item" else { return }
+        guard !event.isEcommerceEvent else { return }
         let params: [String: String] = event.params?.compactMapValues( { $0 as? String }) ?? [:]
         qualtricsService.evaluateClickEvent(params: params)
     }
