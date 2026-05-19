@@ -8,11 +8,12 @@ struct StepByStepsViewModelTests {
 
     let mockTopicsService = MockTopicsService()
     let mockAnalyticsService = MockAnalyticsService()
-    let mockActivityService = MockActivityService()
     let mockURLOpener = MockURLOpener()
 
     @Test
-    func init_hasCorrectParameters() {
+    func init_hasCorrectParameters() async {
+        let coreData = await CoreDataRepository.arrangeAndLoad
+        let mockActivityService = MockActivityService(context: coreData.viewContext)
         let sut = StepByStepsViewModel(
             content: [.arrange, .arrange],
             analyticsService: mockAnalyticsService,
@@ -27,7 +28,9 @@ struct StepByStepsViewModelTests {
     }
 
     @Test
-    func rowAction_hasCorrectParameters() {
+    func rowAction_hasCorrectParameters() async {
+        let coreData = await CoreDataRepository.arrangeAndLoad
+        let mockActivityService = MockActivityService(context: coreData.viewContext)
         var selectedContent: TopicDetailResponse.Content?
         let expectedContent = TopicDetailResponse.Content.arrange
         let mockAnalyticsServicez = MockAnalyticsService()

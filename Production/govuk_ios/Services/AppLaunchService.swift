@@ -9,19 +9,23 @@ struct AppLaunchService: AppLaunchServiceInterface {
     private let topicService: TopicsServiceInterface
     private let notificationService: NotificationServiceInterface
     private let remoteConfigService: RemoteConfigServiceInterface
+    private let coreDataRespository: CoreDataRepositoryInterface
 
     init(configService: AppConfigServiceInterface,
          topicService: TopicsServiceInterface,
          notificationService: NotificationServiceInterface,
-         remoteConfigService: RemoteConfigServiceInterface) {
+         remoteConfigService: RemoteConfigServiceInterface,
+         coreDataRepository: CoreDataRepositoryInterface) {
         self.configService = configService
         self.topicService = topicService
         self.notificationService = notificationService
         self.remoteConfigService = remoteConfigService
+        self.coreDataRespository = coreDataRepository
     }
 
     func fetch(completion: @escaping (sending AppLaunchResponse) -> Void) {
         Task {
+            try await coreDataRespository.load()
             async let configResult = fetchConfig()
             async let topicResult = fetchTopics()
             async let notificationResult = notificationService.fetchConsentAlignment()

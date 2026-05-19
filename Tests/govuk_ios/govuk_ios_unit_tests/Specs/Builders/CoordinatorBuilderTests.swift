@@ -192,8 +192,8 @@ struct CoordinatorBuilderTests {
     }
 
     @Test
-    func topicDetail_returnsExpectedResult() {
-        let coreData = CoreDataRepository.arrangeAndLoad
+    func topicDetail_returnsExpectedResult() async throws {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let subject = CoordinatorBuilder(container: Container())
         let mockNavigationController = MockNavigationController()
         let coordinator = subject.topicDetail(
@@ -423,5 +423,15 @@ struct CoordinatorBuilderTests {
         )
 
         #expect(coordinator is TermsAndConditionsCoordinator)
+    }
+
+    @Test
+    func sarSettings_returnsExpectedResult() {
+        let subject = CoordinatorBuilder(container: Container())
+        let coordinator = subject.sarSettings(
+            navigationController: UINavigationController()
+        )
+
+        #expect(coordinator is SARSettingsCoordinator)
     }
 }

@@ -7,12 +7,12 @@ import UIKit
 struct TopicsDetailCoordinatorTests {
     @MainActor
     @Test
-    func start_setsTopicDetailView() throws {
-        let coreData = CoreDataRepository.arrangeAndLoad
+    func start_setsTopicDetailView() async throws {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let mockAnalyticsService = MockAnalyticsService()
         let mockTopicsService = MockTopicsService()
-        let mockActivityService = MockActivityService()
+        let mockActivityService = MockActivityService(context: coreData.viewContext)
         let expectedViewController = UIViewController()
         let navigationController = UINavigationController()
         

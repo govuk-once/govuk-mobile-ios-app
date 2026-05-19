@@ -6,15 +6,13 @@ import FactoryKit
 @testable import govuk_ios
 
 @Suite
-struct TopicsWidgetViewModelTests {
-
-    let coreData = CoreDataRepository.arrangeAndLoad
+class TopicsWidgetViewModelTests {
     let mockTopicService = MockTopicsService()
     let mockAnalyticsService = MockAnalyticsService()
 
     @Test
     @MainActor
-    func fetchTopics_downloadSuccess_returnsExpectedData() async {
+    func fetchTopics_downloadSuccess_returnsExpectedData() async throws {
         var cancellables = Set<AnyCancellable>()
         let mockTopicService = MockTopicsService()
         mockTopicService._stubbedFetchRemoteListResult = .success(TopicResponseItem.arrangeMultiple)
@@ -41,7 +39,7 @@ struct TopicsWidgetViewModelTests {
 
     @Test
     @MainActor
-    func fetchTopics_downloadFailure_returnsExpectedResult() async  {
+    func fetchTopics_downloadFailure_returnsExpectedResult() async throws {
         var cancellables = Set<AnyCancellable>()
         let mockTopicService = MockTopicsService()
         mockTopicService._stubbedFetchRemoteListResult = .failure(.decodingError)
@@ -68,7 +66,8 @@ struct TopicsWidgetViewModelTests {
 
     @Test
     @MainActor
-    func didTapTopic_invokesExpectedAction() {
+    func didTapTopic_invokesExpectedAction() async throws {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         var expectedValue = false
         let sut = TopicsWidgetViewModel(
             topicsService: mockTopicService,
@@ -84,7 +83,8 @@ struct TopicsWidgetViewModelTests {
     }
 
     @Test
-    func fetchAllTopics_returnsCorrectCount() async {
+    func fetchAllTopics_returnsCorrectCount() async throws  {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         var cancellables = Set<AnyCancellable>()
         let result = await withCheckedContinuation { continuation in
 
@@ -112,7 +112,8 @@ struct TopicsWidgetViewModelTests {
     }
 
     @Test
-    func isThereFavouritedTopics_returnsCorrectValue() {
+    func isThereFavouritedTopics_returnsCorrectValue() async throws {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let favouriteOne = Topic.arrange(context: coreData.backgroundContext)
         let favouriteTwo = Topic.arrange(context: coreData.backgroundContext)
         mockTopicService._stubbedHasCustomisedTopics = true
@@ -134,7 +135,8 @@ struct TopicsWidgetViewModelTests {
 
 
     @Test
-    func topicsToBeDisplayed_topicsHaveBeenEdited_returnsFavourites() async {
+    func topicsToBeDisplayed_topicsHaveBeenEdited_returnsFavourites() async throws {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         var cancellables = Set<AnyCancellable>()
         let favouriteOne = Topic.arrange(context: coreData.backgroundContext)
         let favouriteTwo = Topic.arrange(context: coreData.backgroundContext)
@@ -181,7 +183,8 @@ struct TopicsWidgetViewModelTests {
 
     @Test
     @MainActor
-    func setTopicsScreen_allTopics_createsExpectedECommerceEvent() throws {
+    func setTopicsScreen_allTopics_createsExpectedECommerceEvent() async throws {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let allOne = Topic.arrange(context: coreData.backgroundContext)
         let allTwo = Topic.arrange(context: coreData.backgroundContext)
 
@@ -206,7 +209,8 @@ struct TopicsWidgetViewModelTests {
 
     @Test
     @MainActor
-    func setTopicsScreen_favouriteTopics_createsExpectedECommerceEvent() throws {
+    func setTopicsScreen_favouriteTopics_createsExpectedECommerceEvent() async throws {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let favouriteOne = Topic.arrange(
             context: coreData.backgroundContext,
             isFavourite: true
@@ -237,7 +241,8 @@ struct TopicsWidgetViewModelTests {
 
     @Test
     @MainActor
-    func setTopicsScreen_isTheSameAsOldValue_doesNotCreateECommerceEvent() throws {
+    func setTopicsScreen_isTheSameAsOldValue_doesNotCreateECommerceEvent() async throws {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let favouriteOne = Topic.arrange(
             context: coreData.backgroundContext,
             isFavourite: true
@@ -267,8 +272,9 @@ struct TopicsWidgetViewModelTests {
 
     @Test
     @MainActor
-    func setTopicsScreen_initialLoadCompleteIsFalse_andTopicsIsDifferentFromOldValue_doesNotcreateECommerceEvent() throws {
+    func setTopicsScreen_initialLoadCompleteIsFalse_andTopicsIsDifferentFromOldValue_doesNotcreateECommerceEvent() async throws {
 
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let allOne = Topic.arrange(context: coreData.backgroundContext)
         let allTwo = Topic.arrange(context: coreData.backgroundContext)
 
@@ -289,8 +295,8 @@ struct TopicsWidgetViewModelTests {
 
     @Test
     @MainActor
-    func selectingTopic_createsExpectedECommerceEvent() throws {
-
+    func selectingTopic_createsExpectedECommerceEvent() async throws {
+        let coreData = await CoreDataRepository.arrangeAndLoad
         let favouriteOne = Topic.arrange(
             context: coreData.backgroundContext,
             ref: "Care",

@@ -25,6 +25,7 @@ class SettingsViewModelTests {
         mockAuthenticationService._stubbedIsSignedIn = true
         mockAuthenticationService._stubbedUserEmail = "test@example.com"
         mockAppConfigService._stubbedTermsAndConditions = Config.arrange.termsAndConditions
+        mockAppConfigService.features = [.profile]
 
         sut = SettingsViewModel(
             analyticsService: mockAnalyticsService,
@@ -91,6 +92,27 @@ class SettingsViewModelTests {
         #expect(privacyAndLegalSection.rows[1].title == "Accessibility statement")
         #expect(privacyAndLegalSection.rows[2].title == "Open source licences")
         #expect(privacyAndLegalSection.rows[3].title == "Terms and conditions")
+    }
+
+    @Test(.disabled("Disabled until SAR row brought back into settings"))
+    func profileDisabled_hidesSARRow() {
+        mockAppConfigService.features = []
+        let localSut = SettingsViewModel(
+            analyticsService: mockAnalyticsService,
+            urlOpener: mockURLOpener,
+            versionProvider: mockVersionProvider,
+            deviceInformationProvider: mockDeviceInformationProvider,
+            authenticationService: mockAuthenticationService,
+            notificationService: mockNotificationsService,
+            notificationCenter: .default,
+            localAuthenticationService: mockLocalAuthenticationService,
+            appConfigService: mockAppConfigService
+        )
+
+        let privacyAndLegalSection = localSut.listContent[4]
+        #expect(privacyAndLegalSection.rows.last?.title == "Terms and conditions")
+        let rowIds = privacyAndLegalSection.rows.map { $0.id }
+        #expect(!rowIds.contains("settings.sar.row"))
     }
 
     @Test
@@ -209,6 +231,16 @@ class SettingsViewModelTests {
 
         let receivedTrackingTitle = mockAnalyticsService._trackedEvents.first?.params?["text"] as? String
         #expect(receivedTrackingTitle == signOutRow.title)
+    }
+
+    @Test(.disabled("Disabled until SAR row brought back into settings"))
+    func sar_action_tracksEvent() throws {
+        let policySection = sut.listContent[4]
+        let sarRow = try #require(policySection.rows[4] as? NavigationRow)
+        sarRow.action()
+
+        let receivedTrackingTitle = mockAnalyticsService._trackedEvents.first?.params?["text"] as? String
+        #expect(receivedTrackingTitle == sarRow.title)
     }
 
     @MainActor

@@ -26,7 +26,7 @@ extension Container {
             return CoreDataRepository(
                 persistentContainer: container,
                 notificationCenter: .default
-            ).load()
+            )
         }
         .scope(.singleton)
     }

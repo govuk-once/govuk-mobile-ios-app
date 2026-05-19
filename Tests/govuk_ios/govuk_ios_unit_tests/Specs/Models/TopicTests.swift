@@ -38,8 +38,8 @@ struct TopicTests {
         ]
     ))
     func topic_iconImage_returnsCorrectValue(ref: String,
-                                            icon: UIImage) {
-        let coreData = CoreDataRepository.arrange
+                                             icon: UIImage) async {
+        let coreData = await CoreDataRepository.arrange
         
         let topic = Topic(context: coreData.viewContext)
         topic.ref = ref
@@ -79,8 +79,8 @@ struct TopicTests {
         ]
     ))
     func topic_iconName_returnsCorrectValue(ref: String,
-                                            iconName: String) {
-        let coreData = CoreDataRepository.arrange
+                                            iconName: String) async {
+        let coreData = await CoreDataRepository.arrange
 
         let topic = Topic(context: coreData.viewContext)
         topic.ref = ref
