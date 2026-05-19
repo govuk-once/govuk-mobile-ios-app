@@ -67,8 +67,8 @@ extension Container {
     var qualtrics: Factory<QualtricsServiceInterface> {
         Factory(self) {
             QualtricsService(
-                brandId: "gdstrial",
-                projectId: "ZN_3CO4aDVa9KBZeka",
+                brandId: "yourBrandId",
+                projectId: "yourProjectId",
                 qualtrics: Qualtrics.shared
             )
         }
