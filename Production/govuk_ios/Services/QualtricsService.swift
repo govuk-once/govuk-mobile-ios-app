@@ -10,37 +10,17 @@ protocol QualtricsServiceInterface {
     func evaluateClickEvent(params: [String: String])
 }
 
-protocol QualtricsWrapperInterface {
-    static var shared: Qualtrics { get }
-    func evaluateProject(
-        completion: @escaping (
-            _ targetingResults: [String: TargetingResult]
-        ) -> Void
-    )
-    func initializeProject(
-        brandId: String,
-        projectId: String,
-        extRefId: String?,
-        completion: (
-            (
-                _ initializationResults: [String: InitializationResult]
-            ) -> Void
-        )?
-    )
-    func display(
-        viewController: UIViewController,
-        autoCloseSurvey: NSNumber
-    ) -> Bool
-    func registerViewVisit(viewName: String)
-    var properties: QualtricsProperties { get }
-}
-
 struct QualtricsService: QualtricsServiceInterface {
     private let brandId: String
     private let projectId: String
     private let qualtrics: QualtricsWrapperInterface
+    // presentationController is for testing only
+    private let presentationController: UIViewController?
 
     private var surveyController: UIViewController? {
+        if let controller = presentationController {
+            return controller
+        }
         guard let sceneDelegate = UIApplication
             .shared
             .connectedScenes
@@ -54,61 +34,108 @@ struct QualtricsService: QualtricsServiceInterface {
     init(
         brandId: String,
         projectId: String,
-        qualtrics: QualtricsWrapperInterface
+        qualtrics: QualtricsWrapperInterface,
+        completion: QualtricsInitializationResult? = nil,
+        presentationController: UIViewController? = nil
     ) {
         self.brandId = brandId
         self.projectId = projectId
         self.qualtrics = qualtrics
+        self.presentationController = presentationController
         qualtrics.initializeProject(
             brandId: brandId,
             projectId: projectId,
-            extRefId: nil) { result in
-                print(result.debugDescription)
-            }
+            extRefId: nil,
+            completion: completion
+        )
     }
 
     func evaluateViewEvent(
         screenName: String,
         params: [String: String]
     ) {
-        for (key, value) in params {
-            qualtrics.properties.setString(string: value, for: key)
-        }
-
+        setQualtricsProperties(params)
         qualtrics.registerViewVisit(viewName: screenName)
-        qualtrics.evaluateProject { targetingResults in
-            if targetingResults.contains(where: { (_: String, value: TargetingResult) in
-                value.passed()
-            }) {
-                guard let surveyController else { return }
-                _ = qualtrics.display(
-                    viewController: surveyController,
-                    autoCloseSurvey: false
-                )
-            }
+        qualtrics.evaluateProjectTargets { targetingResults in
+            guard targetingResults.first(
+                where: { result in
+                    result.value.passed()
+                }
+            ) != nil,
+                  let surveyController else { return }
+
+            _ = qualtrics.display(
+                viewController: surveyController,
+                autoCloseSurvey: false
+            )
         }
     }
 
     func evaluateClickEvent(params: [String: String]) {
-        for (key, value) in params {
-            qualtrics.properties.setString(string: value, for: key)
-        }
-        qualtrics.evaluateProject { targetingResults in
-            guard let targetingResult = targetingResults.first(
-                where: { (_: String, value: TargetingResult) in
-                    value.passed()
+        setQualtricsProperties(params)
+        qualtrics.evaluateProjectTargets { targetingResults in
+            guard let targetingResultDict = targetingResults.first(
+                where: { result in
+                    result.value.passed()
                 }
             ),
-            let url = targetingResult.value.getSurveyUrl(),
-            let surveyController else { return }
-            targetingResult.value.recordImpression()
+                  let url = targetingResultDict.value.getSurveyUrl(),
+                  let surveyController else { return }
+
+            targetingResultDict.value.recordImpression()
             Task { @MainActor in
+                // We are assuming the user clicked on a "Give feedback" button
+                // or other CTA that informs a survey is about to be presented,
+                // so we diplay the survey directly without the intitial prompt
                 let qualtricsController = QualtricsSurveyViewController(url: url)
                 qualtricsController.modalPresentationStyle = .overFullScreen
                 surveyController.present(qualtricsController, animated: true)
             }
         }
     }
-}
 
-extension Qualtrics: QualtricsWrapperInterface { }
+    /**
+     * The Qualtrics SDK data storage mechanism is implemented as a single (flat) map
+     * that is cached across events.  As a consequence, if a key is not overwritten in
+     * newer events it will be resent in subsequent events, causing incorrect event data to
+     * be 'leaked' across events.
+     *
+     * This seems to be a deliberate 'feature'.
+     *
+     * To date, the only solution to this seems to be creating a unique, defined and
+     * distinct set of keys that are set to the new events value or an empty string
+     * before being sent. It seems this is the only way to ensure that only valid
+     * data is sent.
+     */
+    private let analyticsParameterKeys = [
+        "action",
+        "external",
+        "item_list_id",
+        "item_list_name",
+        "language",
+        "screen_class",
+        "screen_name",
+        "screen_title",
+        "section",
+        "text",
+        "type",
+        "url"
+    ]
+
+    private func qualtricsParams(
+        from parameters: [String: String]
+    ) -> [String: String] {
+        var newParameters = [String: String]()
+        analyticsParameterKeys.forEach { key in
+            newParameters[key] = parameters[key] ?? ""
+        }
+        return newParameters
+    }
+
+    private func setQualtricsProperties(_ params: [String: String]) {
+        let qualtricsParams = qualtricsParams(from: params)
+        for (key, value) in qualtricsParams {
+            qualtrics.setString(string: value, for: key)
+        }
+    }
+}
