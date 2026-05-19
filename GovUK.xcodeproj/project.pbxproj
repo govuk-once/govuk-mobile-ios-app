@@ -385,6 +385,7 @@
 		D096BFEE2E03F60F00426C51 /* ChatRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D096BFED2E03F60F00426C51 /* ChatRepository.swift */; };
 		D096BFF22E04124E00426C51 /* ChatItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D096BFF12E04124E00426C51 /* ChatItem.swift */; };
 		D09725DC2FB4C60B00C19ACF /* QualtricsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09725DB2FB4C60B00C19ACF /* QualtricsService.swift */; };
+		D0976EB12FBC6C5700C19ACF /* QualtricsWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0976EB02FBC6C4A00C19ACF /* QualtricsWrapper.swift */; };
 		D0A346D12E6F3038007D3D27 /* ChatEllipsesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A346D02E6F3038007D3D27 /* ChatEllipsesView.swift */; };
 		D0A35E0A2E740DFD007D3D27 /* ChatMarkdownTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A35E092E740DFD007D3D27 /* ChatMarkdownTheme.swift */; };
 		D0A8B3C22C9DC66E00849304 /* integration_pubkey.der in Resources */ = {isa = PBXBuildFile; fileRef = D0A8B3C12C9DC66E00849304 /* integration_pubkey.der */; };
@@ -854,6 +855,7 @@
 		D096BFED2E03F60F00426C51 /* ChatRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRepository.swift; sourceTree = "<group>"; };
 		D096BFF12E04124E00426C51 /* ChatItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatItem.swift; sourceTree = "<group>"; };
 		D09725DB2FB4C60B00C19ACF /* QualtricsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QualtricsService.swift; sourceTree = "<group>"; };
+		D0976EB02FBC6C4A00C19ACF /* QualtricsWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QualtricsWrapper.swift; sourceTree = "<group>"; };
 		D0A346D02E6F3038007D3D27 /* ChatEllipsesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatEllipsesView.swift; sourceTree = "<group>"; };
 		D0A35E092E740DFD007D3D27 /* ChatMarkdownTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMarkdownTheme.swift; sourceTree = "<group>"; };
 		D0A8B3C12C9DC66E00849304 /* integration_pubkey.der */ = {isa = PBXFileReference; lastKnownFileType = file; path = integration_pubkey.der; sourceTree = "<group>"; };
@@ -1191,6 +1193,7 @@
 		16A39A2F2DA9D71000C71F43 /* Wrappers */ = {
 			isa = PBXGroup;
 			children = (
+				D0976EB02FBC6C4A00C19ACF /* QualtricsWrapper.swift */,
 				D0D2C6922E13F85B00620DC2 /* DynamicLibraryWrapper.swift */,
 				1658CA682DDF56FE00622BC3 /* TimerWrapper.swift */,
 				16A39A2D2DA9D04100C71F43 /* AppAuthSessionWrapper.swift */,
@@ -2611,6 +2614,7 @@
 				169842DE2DB05F2900E3EA66 /* LocalAuthenticationOnboardingView.swift in Sources */,
 				5DD4CB122D9548DF00459FB5 /* ActivityRepository.swift in Sources */,
 				D052CCE22E0B09BE0048F98A /* ChatActionView.swift in Sources */,
+				D0976EB12FBC6C5700C19ACF /* QualtricsWrapper.swift in Sources */,
 				1664A5642D36CF1200DB18A5 /* SearchSuggestionsViewController.swift in Sources */,
 				B04C2E802DA9141400F0F63E /* WebDeeplinkRoute.swift in Sources */,
 				5DBE08062C480CA700B58DBE /* UIAlertController+Convenience.swift in Sources */,
