@@ -453,7 +453,7 @@ class ViewControllerBuilder {
     }
 
     func error(viewModel: ErrorViewModel) -> UIViewController {
-        let view = InfoView<ErrorViewModel>(viewModel: viewModel)
+        let view = ErrorView(viewModel: viewModel)
         let viewController = HostingViewController(
             rootView: view,
             navigationBarHidden: true

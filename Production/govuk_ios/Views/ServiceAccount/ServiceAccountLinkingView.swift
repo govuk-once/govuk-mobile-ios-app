@@ -46,7 +46,7 @@ struct ServiceAccountLinkingView: View {
     }
 
     private func errorView(with errorViewModel: ErrorViewModel) -> some View {
-        InfoView(viewModel: errorViewModel)
+        ErrorView(viewModel: errorViewModel)
     }
 
     private var cancelButton: some ToolbarContent {

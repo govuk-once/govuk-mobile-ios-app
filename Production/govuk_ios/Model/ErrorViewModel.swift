@@ -3,11 +3,12 @@ import GovKit
 import GovKitUI
 import SwiftUI
 
-final class ErrorViewModel: InfoViewModelInterface {
-    let analyticsService: AnalyticsServiceInterface?
+final class ErrorViewModel: ObservableObject {
+    let analyticsService: AnalyticsServiceInterface
     let title: String
     let subtitle: String
-    let visualAssetContent: VisualAssetContent
+    let systemImageName: String?
+    let contentAlignment: Alignment
 
     let primaryButtonTitle: String
     let secondaryButtonTitle: String
@@ -21,21 +22,23 @@ final class ErrorViewModel: InfoViewModelInterface {
         analyticsService: AnalyticsServiceInterface,
         title: String,
         subtitle: String,
-        visualAssetContent: VisualAssetContent,
+        systemImageName: String? = nil,
         primaryButtonTitle: String,
         primaryAction: @escaping () -> Void,
         secondaryButtonTitle: String = "",
         secondaryAction: (() -> Void)? = nil,
+        contentAlignment: Alignment = .center,
         trackingName: String
     ) {
         self.analyticsService = analyticsService
         self.title = title
         self.subtitle = subtitle
-        self.visualAssetContent = visualAssetContent
+        self.systemImageName = systemImageName
         self.primaryButtonTitle = primaryButtonTitle
         self.primaryAction = primaryAction
         self.secondaryButtonTitle = secondaryButtonTitle
         self.secondaryAction = secondaryAction
+        self.contentAlignment = contentAlignment
         self.trackingName = trackingName
     }
 
@@ -64,5 +67,17 @@ final class ErrorViewModel: InfoViewModelInterface {
 
     var showPrimaryButton: Bool {
         primaryButtonTitle != ""
+    }
+
+    var textAlignment: TextAlignment {
+        if contentAlignment == .topLeading {
+            return .leading
+        } else {
+            return .center
+        }
+    }
+
+    func trackScreen(screen: TrackableScreen) {
+        analyticsService.track(screen: screen)
     }
 }

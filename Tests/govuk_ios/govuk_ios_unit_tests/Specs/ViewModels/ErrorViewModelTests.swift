@@ -15,7 +15,6 @@ struct ErrorViewModelTests {
             analyticsService: MockAnalyticsService(),
             title: "Test error title",
             subtitle: "Test error subtitle",
-            visualAssetContent: .none,
             primaryButtonTitle: "Test button",
             primaryAction: {
                 didCallCompletion = true
@@ -33,7 +32,6 @@ struct ErrorViewModelTests {
             analyticsService: MockAnalyticsService(),
             title: "Test error title",
             subtitle: "Test error subtitle",
-            visualAssetContent: .none,
             primaryButtonTitle: "",
             primaryAction: {},
             trackingName: ""
@@ -48,12 +46,11 @@ struct ErrorViewModelTests {
             analyticsService: mockAnalyticsService,
             title: "Test title",
             subtitle: "Test subtitle",
-            visualAssetContent: .none,
             primaryButtonTitle: "Test button",
             primaryAction: {},
             trackingName: "Chat error"
         )
-        let screen = InfoView(viewModel: sut)
+        let screen = ErrorView(viewModel: sut)
         sut.trackScreen(screen: screen)
 
         let screens = mockAnalyticsService._trackScreenReceivedScreens

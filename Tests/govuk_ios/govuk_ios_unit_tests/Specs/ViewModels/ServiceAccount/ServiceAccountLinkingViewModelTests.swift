@@ -48,7 +48,7 @@ struct ServiceAccountLinkingViewModelTests {
     }
 
     @Test
-    func linkAccount_apiUnavailable_setsLinkingErrorViewModel() async throws {
+    func linkAccount_apiUnavailable_setsCorrectErrorViewModel() async throws {
         mockUserService._stubbedLinkAccountResult = .failure(.apiUnavailable)
         var wasDismissed = false
         let mockUrlOpener = MockURLOpener()
@@ -74,6 +74,28 @@ struct ServiceAccountLinkingViewModelTests {
         #expect(wasDismissed == true)
         errorViewModel.secondaryButtonViewModel?.action()
         #expect(mockUrlOpener._receivedOpenIfPossibleUrl == Constants.API.govukBaseUrl)
+    }
+
+    @Test
+    func linkAccount_networkUnavailable_setsCorrectErrorViewModel() async throws {
+        mockUserService._stubbedLinkAccountResult = .failure(.networkUnavailable)
+        let sut = ServiceAccountLinkingViewModel(
+            analyticsService: MockAnalyticsService(),
+            userService: mockUserService,
+            accountType: .dvla,
+            linkId: "test-link-id",
+            completeAction: {},
+            dismissAction: {}
+        )
+        sut.linkAccount()
+        let errorViewModel = try #require(sut.errorViewModel)
+        #expect(errorViewModel.title == String.common.localized("networkUnavailableErrorTitle"))
+        #expect(errorViewModel.subtitle == String.common.localized("networkUnavailableErrorBody"))
+        #expect(errorViewModel.primaryButtonTitle == String.common.localized("networkUnavailableButtonTitle"))
+        #expect(errorViewModel.secondaryButtonTitle == "")
+        #expect(errorViewModel.systemImageName == nil)
+        errorViewModel.primaryButtonViewModel.action()
+        #expect(mockUserService._linkAccountCallCount == 2)
     }
 
     @Test
