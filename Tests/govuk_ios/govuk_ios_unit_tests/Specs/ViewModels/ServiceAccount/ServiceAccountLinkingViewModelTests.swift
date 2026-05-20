@@ -16,6 +16,7 @@ struct ServiceAccountLinkingViewModelTests {
     @Test
     func init_dvla_createsCorrectTitle() {
         let sut = ServiceAccountLinkingViewModel(
+            analyticsService: MockAnalyticsService(),
             userService: MockUserService(),
             accountType: .dvla,
             linkId: "",
@@ -31,6 +32,7 @@ struct ServiceAccountLinkingViewModelTests {
 
         mockUserService._stubbedLinkAccountResult = .success(())
         let sut = ServiceAccountLinkingViewModel(
+            analyticsService: MockAnalyticsService(),
             userService: mockUserService,
             accountType: .dvla,
             linkId: "test-link-id",
@@ -46,34 +48,39 @@ struct ServiceAccountLinkingViewModelTests {
     }
 
     @Test
-    func linkAccount_authenticationError_setsErrorViewModel() async throws {
-        mockUserService._stubbedLinkAccountResult = .failure(.authenticationError)
+    func linkAccount_apiUnavailable_setsLinkingErrorViewModel() async throws {
+        mockUserService._stubbedLinkAccountResult = .failure(.apiUnavailable)
+        var wasDismissed = false
+        let mockUrlOpener = MockURLOpener()
         let sut = ServiceAccountLinkingViewModel(
+            analyticsService: MockAnalyticsService(),
             userService: mockUserService,
+            urlOpener: mockUrlOpener,
             accountType: .dvla,
             linkId: "test-link-id",
             completeAction: {},
-            dismissAction: {}
+            dismissAction: {
+                wasDismissed = true
+            }
         )
 
         sut.linkAccount()
         let errorViewModel = try #require(sut.errorViewModel)
         #expect(errorViewModel.title == String.common.localized("genericErrorTitle"))
-        #expect(errorViewModel.body == String.serviceAccount.localized("accountLinkingErrorBody"))
-        #expect(errorViewModel.buttonTitle == String.serviceAccount.localized("accountLinkingErrorButtonTitle"))
-        #expect(errorViewModel.buttonAccessibilityLabel == String.serviceAccount.localized(
-            "accountLinkingErrorButtonTitle"
-        ))
-        #expect(errorViewModel.isWebLink == false)
-
-        errorViewModel.action?()
-        #expect(mockUserService._linkAccountCallCount == 2)
+        #expect(errorViewModel.subtitle == "We could not add your driver and vehicles account. Try again later, or go to the GOV.UK website.")
+        #expect(errorViewModel.primaryButtonTitle == "Go back to the driving topic")
+        #expect(errorViewModel.secondaryButtonTitle == "Go to the GOV.UK website")
+        errorViewModel.primaryButtonViewModel.action()
+        #expect(wasDismissed == true)
+        errorViewModel.secondaryButtonViewModel?.action()
+        #expect(mockUrlOpener._receivedOpenIfPossibleUrl == Constants.API.govukBaseUrl)
     }
 
     @Test
     func dismiss_callsDismissAction() {
         var didCallDismissAction = false
         let sut = ServiceAccountLinkingViewModel(
+            analyticsService: MockAnalyticsService(),
             userService: mockUserService,
             accountType: .dvla,
             linkId: "test-link-id",

@@ -312,15 +312,18 @@ struct ViewControllerBuilderTests {
     }
 
     @Test
-    func chatError_returnsExpectedResult() {
+    func error_returnsExpectedResult() {
         let subject = ViewControllerBuilder()
-        let result = subject.chatError(
+        let viewModel = ErrorViewModel.chatError(
+            .apiUnavailable,
             analyticsService: MockAnalyticsService(),
-            error: ChatError.apiUnavailable,
-            action: { }
+            action: {}
         )
-        
-        let rootView = (result as? HostingViewController<InfoView<ChatErrorViewModel>>)?.rootView
+        let result = subject.error(
+            viewModel: viewModel
+        )
+
+        let rootView = (result as? HostingViewController<InfoView<ErrorViewModel>>)?.rootView
         #expect(rootView != nil)
     }
 
@@ -373,6 +376,7 @@ struct ViewControllerBuilderTests {
     func serviceAccountLinking_returnsExpectedResult() {
         let subject = ViewControllerBuilder()
         let result = subject.serviceAccountLinking(
+            analyticsService: MockAnalyticsService(),
             userService: MockUserService(),
             accountType: .dvla,
             linkId: "linkId",

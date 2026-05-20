@@ -1,21 +1,28 @@
 import Foundation
+import UIKit
 import GovKit
 
 final class ServiceAccountLinkingViewModel: ObservableObject {
+    private let analyticsService: AnalyticsServiceInterface
     private let userService: UserServiceInterface
+    private let urlOpener: URLOpener
     private let accountType: ServiceAccountType
     private let linkId: String
     private let completeAction: () -> Void
     private let dismissAction: () -> Void
     @Published var showProgressView: Bool = false
-    @Published private(set) var errorViewModel: AppErrorViewModel?
+    @Published private(set) var errorViewModel: ErrorViewModel?
 
-    init(userService: UserServiceInterface,
+    init(analyticsService: AnalyticsServiceInterface,
+         userService: UserServiceInterface,
+         urlOpener: URLOpener = UIApplication.shared,
          accountType: ServiceAccountType,
          linkId: String,
          completeAction: @escaping () -> Void,
          dismissAction: @escaping () -> Void) {
+        self.analyticsService = analyticsService
         self.userService = userService
+        self.urlOpener = urlOpener
         self.accountType = accountType
         self.linkId = linkId
         self.completeAction = completeAction
@@ -52,9 +59,25 @@ final class ServiceAccountLinkingViewModel: ObservableObject {
         dismissAction()
     }
 
-    private var accountLinkingErrorViewModel: AppErrorViewModel {
-        AppErrorViewModel.serviceAccountLinkingErrorWithAction { [weak self] in
-            self?.linkAccount()
-        }
+    private func openGovUK() {
+        urlOpener.openIfPossible(Constants.API.govukBaseUrl)
+    }
+
+    private var accountLinkingErrorViewModel: ErrorViewModel {
+        let subtitleFormat = String.serviceAccount.localized("accountLinkingErrorSubtitle")
+        let subtitle = String.localizedStringWithFormat(subtitleFormat, accountName)
+        return ErrorViewModel(
+            analyticsService: analyticsService,
+            title: String.common.localized("genericErrorTitle"),
+            subtitle: subtitle,
+            visualAssetContent: .systemImage("exclamationmark.circle"),
+            primaryButtonTitle: .dvla
+                .localized("accountLinkingErrorPrimaryButtonTitle"),
+            primaryAction: dismissAction,
+            secondaryButtonTitle: .serviceAccount
+                .localized("accountLinkingErrorSecondaryButtonTitle"),
+            secondaryAction: openGovUK,
+            trackingName: "Account linking error"
+        )
     }
 }

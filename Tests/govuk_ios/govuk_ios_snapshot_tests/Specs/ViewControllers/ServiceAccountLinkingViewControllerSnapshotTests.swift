@@ -28,6 +28,7 @@ final class ServiceAccountLinkingViewControllerSnapshotTests: SnapshotTestCase {
         let mockUserService = MockUserService()
         mockUserService._stubbedLinkAccountResult = .failure(UserStateError.apiUnavailable)
         let viewModel = ServiceAccountLinkingViewModel(
+            analyticsService: MockAnalyticsService(),
             userService: mockUserService,
             accountType: .dvla,
             linkId: "test-link-id",
@@ -56,6 +57,7 @@ final class ServiceAccountLinkingViewControllerSnapshotTests: SnapshotTestCase {
         let mockUserService = MockUserService()
         mockUserService._stubbedLinkAccountResult = .failure(UserStateError.apiUnavailable)
         let viewModel = ServiceAccountLinkingViewModel(
+            analyticsService: MockAnalyticsService(),
             userService: mockUserService,
             accountType: .dvla,
             linkId: "test-link-id",
@@ -82,6 +84,7 @@ final class ServiceAccountLinkingViewControllerSnapshotTests: SnapshotTestCase {
 
     private func viewController() -> UIViewController {
         let viewModel = ServiceAccountLinkingViewModel(
+            analyticsService: MockAnalyticsService(),
             userService: MockUserService(),
             accountType: .dvla,
             linkId: "test-link-id",
