@@ -52,4 +52,9 @@ extension AppEvent {
                      "items": items.map { $0.eventParameters() }]
         )
     }
+
+    var isEcommerceEvent: Bool {
+        name == "view_item_list" ||
+        name == "select_item"
+    }
 }

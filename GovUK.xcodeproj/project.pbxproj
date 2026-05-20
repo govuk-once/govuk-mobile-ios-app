@@ -335,6 +335,8 @@
 		D04C542C2D7081CC0070EE79 /* TopicCommerceItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04C542B2D7081CC0070EE79 /* TopicCommerceItem.swift */; };
 		D04C542E2D7082000070EE79 /* ECommerceItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04C542D2D7082000070EE79 /* ECommerceItem.swift */; };
 		D04C54302D70821D0070EE79 /* HomeCommerceItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04C542F2D70821D0070EE79 /* HomeCommerceItem.swift */; };
+		D04CC0952FB335F0000688FD /* Qualtrics in Frameworks */ = {isa = PBXBuildFile; productRef = D04CC0942FB335F0000688FD /* Qualtrics */; };
+		D04CC0972FB33771000688FD /* QualtricsClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04CC0962FB33771000688FD /* QualtricsClient.swift */; };
 		D04DD32D2E0046DC002B5F19 /* PendingQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04DD32B2E0046DC002B5F19 /* PendingQuestion.swift */; };
 		D04DD32E2E0046DC002B5F19 /* AnsweredQuestion.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04DD3292E0046DC002B5F19 /* AnsweredQuestion.swift */; };
 		D04DD32F2E0046DC002B5F19 /* Answer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04DD3282E0046DC002B5F19 /* Answer.swift */; };
@@ -380,6 +382,8 @@
 		D093BA652CB04C68004F489B /* EditTopicsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D093BA642CB04C68004F489B /* EditTopicsViewModel.swift */; };
 		D096BFEE2E03F60F00426C51 /* ChatRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D096BFED2E03F60F00426C51 /* ChatRepository.swift */; };
 		D096BFF22E04124E00426C51 /* ChatItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D096BFF12E04124E00426C51 /* ChatItem.swift */; };
+		D09725DC2FB4C60B00C19ACF /* QualtricsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09725DB2FB4C60B00C19ACF /* QualtricsService.swift */; };
+		D0976EB12FBC6C5700C19ACF /* QualtricsWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0976EB02FBC6C4A00C19ACF /* QualtricsWrapper.swift */; };
 		D0A346D12E6F3038007D3D27 /* ChatEllipsesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A346D02E6F3038007D3D27 /* ChatEllipsesView.swift */; };
 		D0A35E0A2E740DFD007D3D27 /* ChatMarkdownTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A35E092E740DFD007D3D27 /* ChatMarkdownTheme.swift */; };
 		D0A8B3C22C9DC66E00849304 /* integration_pubkey.der in Resources */ = {isa = PBXBuildFile; fileRef = D0A8B3C12C9DC66E00849304 /* integration_pubkey.der */; };
@@ -802,6 +806,7 @@
 		D04C542B2D7081CC0070EE79 /* TopicCommerceItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicCommerceItem.swift; sourceTree = "<group>"; };
 		D04C542D2D7082000070EE79 /* ECommerceItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ECommerceItem.swift; sourceTree = "<group>"; };
 		D04C542F2D70821D0070EE79 /* HomeCommerceItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCommerceItem.swift; sourceTree = "<group>"; };
+		D04CC0962FB33771000688FD /* QualtricsClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QualtricsClient.swift; sourceTree = "<group>"; };
 		D04DD3282E0046DC002B5F19 /* Answer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Answer.swift; sourceTree = "<group>"; };
 		D04DD3292E0046DC002B5F19 /* AnsweredQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnsweredQuestion.swift; sourceTree = "<group>"; };
 		D04DD32A2E0046DC002B5F19 /* History.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = History.swift; sourceTree = "<group>"; };
@@ -845,6 +850,8 @@
 		D093BA642CB04C68004F489B /* EditTopicsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTopicsViewModel.swift; sourceTree = "<group>"; };
 		D096BFED2E03F60F00426C51 /* ChatRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRepository.swift; sourceTree = "<group>"; };
 		D096BFF12E04124E00426C51 /* ChatItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatItem.swift; sourceTree = "<group>"; };
+		D09725DB2FB4C60B00C19ACF /* QualtricsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QualtricsService.swift; sourceTree = "<group>"; };
+		D0976EB02FBC6C4A00C19ACF /* QualtricsWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QualtricsWrapper.swift; sourceTree = "<group>"; };
 		D0A346D02E6F3038007D3D27 /* ChatEllipsesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatEllipsesView.swift; sourceTree = "<group>"; };
 		D0A35E092E740DFD007D3D27 /* ChatMarkdownTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMarkdownTheme.swift; sourceTree = "<group>"; };
 		D0A8B3C12C9DC66E00849304 /* integration_pubkey.der */ = {isa = PBXFileReference; lastKnownFileType = file; path = integration_pubkey.der; sourceTree = "<group>"; };
@@ -1099,6 +1106,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5DBA1F762F212768002B90EB /* GovKit in Frameworks */,
+				D04CC0952FB335F0000688FD /* Qualtrics in Frameworks */,
 				160AEACA2DA038550072BA43 /* SecureStore in Frameworks */,
 				D016F29E2E0C5C8B00659AC3 /* MarkdownUI in Frameworks */,
 				160AEAC52DA038030072BA43 /* Authentication in Frameworks */,
@@ -1174,6 +1182,7 @@
 		16A39A2F2DA9D71000C71F43 /* Wrappers */ = {
 			isa = PBXGroup;
 			children = (
+				D0976EB02FBC6C4A00C19ACF /* QualtricsWrapper.swift */,
 				D0D2C6922E13F85B00620DC2 /* DynamicLibraryWrapper.swift */,
 				1658CA682DDF56FE00622BC3 /* TimerWrapper.swift */,
 				16A39A2D2DA9D04100C71F43 /* AppAuthSessionWrapper.swift */,
@@ -1466,6 +1475,7 @@
 			children = (
 				5DC250672C91D80F009E9E7F /* CrashlyticsClient.swift */,
 				5DC250652C91D802009E9E7F /* FirebaseClient.swift */,
+				D04CC0962FB33771000688FD /* QualtricsClient.swift */,
 			);
 			path = Analytics;
 			sourceTree = "<group>";
@@ -1539,6 +1549,7 @@
 				D04191772CA57A6F0034722A /* TopicsService.swift */,
 				5D60E6AC2E4A46E20046C1A1 /* UserDefaultsService.swift */,
 				815935DF2F22381400F8D206 /* UserService.swift */,
+				D09725DB2FB4C60B00C19ACF /* QualtricsService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -2324,6 +2335,7 @@
 				5DE2AD182F2015470036A1DD /* GovKit */,
 				5DBA1F752F212768002B90EB /* GovKit */,
 				5DBA1F772F212768002B90EB /* GovKitUI */,
+				D04CC0942FB335F0000688FD /* Qualtrics */,
 			);
 			productName = GovUK;
 			productReference = 5DAD71742BD250DB0075F648 /* govuk_ios.app */;
@@ -2420,6 +2432,7 @@
 				8181DBF82EE214B100F47531 /* XCRemoteSwiftPackageReference "Factory" */,
 				4E6B2D642EEC332B00D61966 /* XCRemoteSwiftPackageReference "google-tag-manager-ios-sdk" */,
 				5DBA1F742F212768002B90EB /* XCRemoteSwiftPackageReference "govuk-mobile-ios-gov-kit" */,
+				D04CC0932FB335F0000688FD /* XCRemoteSwiftPackageReference "qualtrics-digital-ios-sdk" */,
 			);
 			productRefGroup = 5DAD71752BD250DB0075F648 /* Products */;
 			projectDirPath = "";
@@ -2578,6 +2591,7 @@
 				169842DE2DB05F2900E3EA66 /* LocalAuthenticationOnboardingView.swift in Sources */,
 				5DD4CB122D9548DF00459FB5 /* ActivityRepository.swift in Sources */,
 				D052CCE22E0B09BE0048F98A /* ChatActionView.swift in Sources */,
+				D0976EB12FBC6C5700C19ACF /* QualtricsWrapper.swift in Sources */,
 				1664A5642D36CF1200DB18A5 /* SearchSuggestionsViewController.swift in Sources */,
 				B04C2E802DA9141400F0F63E /* WebDeeplinkRoute.swift in Sources */,
 				5DBE08062C480CA700B58DBE /* UIAlertController+Convenience.swift in Sources */,
@@ -2761,6 +2775,7 @@
 				4EBE646B2D15AAD6007A6E97 /* MinimumLengthValidator.swift in Sources */,
 				4E15340D2E3A248E002DEDB9 /* TopicsWidgetViewModel.swift in Sources */,
 				5D8100872CEB3FD600EE7D15 /* AppLaunchService.swift in Sources */,
+				D04CC0972FB33771000688FD /* QualtricsClient.swift in Sources */,
 				5D9E67C42C5A2C6E00DB7877 /* UITabBarItemAppearance+GOVUK.swift in Sources */,
 				5D0BD4592C9B1BBA00220625 /* SearchServiceClient.swift in Sources */,
 				5D66D19A2CBFF51100006723 /* AppEvent+Topics.swift in Sources */,
@@ -2935,6 +2950,7 @@
 				8171AE472F1116A00024312B /* ScrollBottomIndicatorView.swift in Sources */,
 				4EF446FF2F8CEDE600C29728 /* View+Extensions.swift in Sources */,
 				168F85532DE9AE4B0040E6AF /* ScrollBounceBehaviourModifier.swift in Sources */,
+				D09725DC2FB4C60B00C19ACF /* QualtricsService.swift in Sources */,
 				D0ABA94D2FAB6B6100C5A244 /* SARResultView.swift in Sources */,
 				16E912AF2DA72CE000CD2049 /* OIDAuthorizationServiceWrapper.swift in Sources */,
 				8101A2402F28BB58009E639B /* UserStateError.swift in Sources */,
@@ -3515,6 +3531,14 @@
 				minimumVersion = 2.4.1;
 			};
 		};
+		D04CC0932FB335F0000688FD /* XCRemoteSwiftPackageReference "qualtrics-digital-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/qualtrics/qualtrics-digital-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.36.0;
+			};
+		};
 		D090467D2DBBC1ED0096EE66 /* XCRemoteSwiftPackageReference "jwt-kit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/vapor/jwt-kit.git";
@@ -3609,6 +3633,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D016F29C2E0C5C8B00659AC3 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */;
 			productName = MarkdownUI;
+		};
+		D04CC0942FB335F0000688FD /* Qualtrics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D04CC0932FB335F0000688FD /* XCRemoteSwiftPackageReference "qualtrics-digital-ios-sdk" */;
+			productName = Qualtrics;
 		};
 		D06C560A2DE711340045C674 /* FirebaseAppCheck */ = {
 			isa = XCSwiftPackageProductDependency;

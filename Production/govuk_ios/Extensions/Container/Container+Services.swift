@@ -11,6 +11,7 @@ import FirebaseCrashlytics
 import FirebaseAppCheck
 import FirebaseRemoteConfig
 import OneSignalFramework
+import Qualtrics
 
 extension Container {
     var activityService: Factory<ActivityServiceInterface> {
@@ -26,7 +27,8 @@ extension Container {
             AnalyticsService(
                 clients: [
                     self.firebaseClient.resolve(),
-                    self.crashlyticsClient.resolve()
+                    self.crashlyticsClient.resolve(),
+                    self.qualtricsClient.resolve()
                 ],
                 userDefaultsService: self.userDefaultsService.resolve(),
                 isSignedIn: {
@@ -51,6 +53,24 @@ extension Container {
     var crashlyticsClient: Factory<AnalyticsClient> {
         Factory(self) {
             CrashlyticsClient(crashlytics: Crashlytics.crashlytics())
+        }
+    }
+
+    var qualtricsClient: Factory<AnalyticsClient> {
+        Factory(self) {
+            QualtricsClient(
+                qualtricsService: self.qualtrics.resolve()
+            )
+        }
+    }
+
+    var qualtrics: Factory<QualtricsServiceInterface> {
+        Factory(self) {
+            QualtricsService(
+                brandId: "yourBrandId",
+                projectId: "yourProjectId",
+                qualtrics: Qualtrics.shared
+            )
         }
     }
 
