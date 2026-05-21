@@ -323,7 +323,7 @@ struct ViewControllerBuilderTests {
             viewModel: viewModel
         )
 
-        let rootView = (result as? HostingViewController<InfoView<ErrorViewModel>>)?.rootView
+        let rootView = (result as? HostingViewController<ErrorView>)?.rootView
         #expect(rootView != nil)
     }
 

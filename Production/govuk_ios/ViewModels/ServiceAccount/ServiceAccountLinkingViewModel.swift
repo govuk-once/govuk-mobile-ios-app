@@ -49,8 +49,8 @@ final class ServiceAccountLinkingViewModel: ObservableObject {
             switch result {
             case .success:
                 self?.completeAction()
-            case .failure:
-                self?.errorViewModel = self?.accountLinkingErrorViewModel
+            case .failure(let error):
+                self?.handleError(error)
             }
         }
     }
@@ -63,6 +63,12 @@ final class ServiceAccountLinkingViewModel: ObservableObject {
         urlOpener.openIfPossible(Constants.API.govukBaseUrl)
     }
 
+    private func handleError(_ error: UserStateError) {
+        errorViewModel = (error == .networkUnavailable)
+        ? internetConnectionErrorViewModel
+        : accountLinkingErrorViewModel
+    }
+
     private var accountLinkingErrorViewModel: ErrorViewModel {
         let subtitleFormat = String.serviceAccount.localized("accountLinkingErrorSubtitle")
         let subtitle = String.localizedStringWithFormat(subtitleFormat, accountName)
@@ -70,7 +76,7 @@ final class ServiceAccountLinkingViewModel: ObservableObject {
             analyticsService: analyticsService,
             title: String.common.localized("genericErrorTitle"),
             subtitle: subtitle,
-            visualAssetContent: .systemImage("exclamationmark.circle"),
+            systemImageName: "exclamationmark.circle",
             primaryButtonTitle: .dvla
                 .localized("accountLinkingErrorPrimaryButtonTitle"),
             primaryAction: dismissAction,
@@ -78,6 +84,18 @@ final class ServiceAccountLinkingViewModel: ObservableObject {
                 .localized("accountLinkingErrorSecondaryButtonTitle"),
             secondaryAction: openGovUK,
             trackingName: "Account linking error"
+        )
+    }
+
+    private var internetConnectionErrorViewModel: ErrorViewModel {
+        ErrorViewModel(
+            analyticsService: analyticsService,
+            title: String.common.localized("networkUnavailableErrorTitle"),
+            subtitle: String.common.localized("networkUnavailableErrorBody"),
+            primaryButtonTitle: String.common.localized("networkUnavailableButtonTitle"),
+            primaryAction: linkAccount,
+            contentAlignment: .topLeading,
+            trackingName: "Internet connection error"
         )
     }
 }

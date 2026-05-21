@@ -31,7 +31,7 @@ extension ErrorViewModel {
             analyticsService: analyticsService,
             title: title,
             subtitle: subtitle,
-            visualAssetContent: .systemImage("exclamationmark.circle"),
+            systemImageName: "exclamationmark.circle",
             primaryButtonTitle: buttonTitle,
             primaryAction: action,
             trackingName: "Chat Error"

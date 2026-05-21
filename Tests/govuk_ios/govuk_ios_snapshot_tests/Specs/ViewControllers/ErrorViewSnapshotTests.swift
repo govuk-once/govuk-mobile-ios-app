@@ -11,12 +11,12 @@ import GovKit
             analyticsService: MockAnalyticsService(),
             title: "There's a problem",
             subtitle: "GOV.UK Chat is not working.",
-            visualAssetContent: .systemImage("exclamationmark.circle"),
+            systemImageName: "exclamationmark.circle",
             primaryButtonTitle: "",
             primaryAction: {},
             trackingName: ""
         )
-        let view = InfoView(viewModel: viewModel)
+        let view = ErrorView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
             rootView: view,
             statusBarStyle: .darkContent
@@ -33,12 +33,12 @@ import GovKit
             analyticsService: MockAnalyticsService(),
             title: "There's a problem",
             subtitle: "GOV.UK Chat is not working.",
-            visualAssetContent: .systemImage("exclamationmark.circle"),
+            systemImageName: "exclamationmark.circle",
             primaryButtonTitle: "",
             primaryAction: {},
             trackingName: ""
         )
-        let view = InfoView(viewModel: viewModel)
+        let view = ErrorView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
             rootView: view,
             statusBarStyle: .darkContent
@@ -55,12 +55,12 @@ import GovKit
             analyticsService: MockAnalyticsService(),
             title: "There's a problem",
             subtitle: "GOV.UK Chat is not working.",
-            visualAssetContent: .systemImage("exclamationmark.circle"),
+            systemImageName: "exclamationmark.circle",
             primaryButtonTitle: "Try again",
             primaryAction: {},
             trackingName: ""
         )
-        let view = InfoView(viewModel: viewModel)
+        let view = ErrorView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
             rootView: view,
             statusBarStyle: .darkContent
@@ -77,12 +77,12 @@ import GovKit
             analyticsService: MockAnalyticsService(),
             title: "There's a problem",
             subtitle: "GOV.UK Chat is not working.",
-            visualAssetContent: .systemImage("exclamationmark.circle"),
+            systemImageName: "exclamationmark.circle",
             primaryButtonTitle: "Try again",
             primaryAction: {},
             trackingName: ""
         )
-        let view = InfoView(viewModel: viewModel)
+        let view = ErrorView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
             rootView: view,
             statusBarStyle: .darkContent
@@ -99,14 +99,14 @@ import GovKit
             analyticsService: MockAnalyticsService(),
             title: "There's a problem",
             subtitle: "GOV.UK Chat is not working.",
-            visualAssetContent: .systemImage("exclamationmark.circle"),
+            systemImageName: "exclamationmark.circle",
             primaryButtonTitle: "Try again",
             primaryAction: {},
             secondaryButtonTitle: "Dismiss",
             secondaryAction: {},
             trackingName: ""
         )
-        let view = InfoView(viewModel: viewModel)
+        let view = ErrorView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
             rootView: view,
             statusBarStyle: .darkContent
@@ -123,14 +123,14 @@ import GovKit
             analyticsService: MockAnalyticsService(),
             title: "There's a problem",
             subtitle: "GOV.UK Chat is not working.",
-            visualAssetContent: .systemImage("exclamationmark.circle"),
+            systemImageName: "exclamationmark.circle",
             primaryButtonTitle: "Try again",
             primaryAction: {},
             secondaryButtonTitle: "Dismiss",
             secondaryAction: {},
             trackingName: ""
         )
-        let view = InfoView(viewModel: viewModel)
+        let view = ErrorView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
             rootView: view,
             statusBarStyle: .darkContent
