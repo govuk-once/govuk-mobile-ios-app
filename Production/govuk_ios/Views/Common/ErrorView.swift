@@ -52,6 +52,7 @@ struct ErrorView: View {
         .background(Color(uiColor: UIColor.govUK.fills.surfaceFullscreen))
         .safeAreaInset(edge: .bottom) {
             buttonView
+                .background(Color(uiColor: UIColor.govUK.fills.surfaceFullscreen))
         }
         .onAppear {
             viewModel.trackScreen(screen: self)
