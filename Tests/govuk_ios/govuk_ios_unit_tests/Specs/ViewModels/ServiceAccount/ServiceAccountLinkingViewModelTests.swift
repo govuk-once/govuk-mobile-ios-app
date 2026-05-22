@@ -27,7 +27,7 @@ struct ServiceAccountLinkingViewModelTests {
     }
 
     @Test
-    func linkAccount_success_callsCompleteAction() async {
+    func linkAccount_success_callsCompleteAction() {
         var didCallCompleteAction = false
 
         mockUserService._stubbedLinkAccountResult = .success(())
@@ -48,7 +48,7 @@ struct ServiceAccountLinkingViewModelTests {
     }
 
     @Test
-    func linkAccount_apiUnavailable_setsCorrectErrorViewModel() async throws {
+    func linkAccount_apiUnavailable_setsCorrectErrorViewModel() throws {
         mockUserService._stubbedLinkAccountResult = .failure(.apiUnavailable)
         var wasDismissed = false
         let mockUrlOpener = MockURLOpener()
@@ -77,7 +77,7 @@ struct ServiceAccountLinkingViewModelTests {
     }
 
     @Test
-    func linkAccount_networkUnavailable_setsCorrectErrorViewModel() async throws {
+    func linkAccount_networkUnavailable_setsCorrectErrorViewModel() throws {
         mockUserService._stubbedLinkAccountResult = .failure(.networkUnavailable)
         let sut = ServiceAccountLinkingViewModel(
             analyticsService: MockAnalyticsService(),
@@ -96,6 +96,76 @@ struct ServiceAccountLinkingViewModelTests {
         #expect(errorViewModel.systemImageName == nil)
         errorViewModel.primaryButtonViewModel.action()
         #expect(mockUserService._linkAccountCallCount == 2)
+    }
+
+    @Test
+    func networkUnavailableError_action_tracksNavigationEvent() throws{
+        let mockAnalyticsService = MockAnalyticsService()
+        mockUserService._stubbedLinkAccountResult = .failure(.networkUnavailable)
+        let sut = ServiceAccountLinkingViewModel(
+            analyticsService: mockAnalyticsService,
+            userService: mockUserService,
+            accountType: .dvla,
+            linkId: "test-link-id",
+            completeAction: {},
+            dismissAction: {}
+        )
+        sut.linkAccount()
+        let errorViewModel = try #require(sut.errorViewModel)
+        errorViewModel.primaryButtonViewModel.action()
+
+        let event = try #require(mockAnalyticsService._trackedEvents.first)
+        #expect(event.name == "Navigation")
+        #expect(event.params?["type"] as? String == "Button")
+        #expect(event.params?["text"] as? String == String.common.localized("networkUnavailableButtonTitle"))
+        #expect(event.params?["section"] as? String == "account link fail")
+    }
+
+    @Test
+    func apiUnavailableError_primaryAction_tracksNavigationEvent() throws{
+        let mockAnalyticsService = MockAnalyticsService()
+        mockUserService._stubbedLinkAccountResult = .failure(.apiUnavailable)
+        let sut = ServiceAccountLinkingViewModel(
+            analyticsService: mockAnalyticsService,
+            userService: mockUserService,
+            accountType: .dvla,
+            linkId: "test-link-id",
+            completeAction: {},
+            dismissAction: {}
+        )
+        sut.linkAccount()
+        let errorViewModel = try #require(sut.errorViewModel)
+        errorViewModel.primaryButtonViewModel.action()
+
+        let event = try #require(mockAnalyticsService._trackedEvents.first)
+        #expect(event.name == "Navigation")
+        #expect(event.params?["type"] as? String == "Button")
+        #expect(event.params?["text"] as? String == "Go back to the driving topic")
+        #expect(event.params?["section"] as? String == "account link fail")
+    }
+
+    func apiUnavailableError_secondaryAction_tracksNavigationEvent() throws{
+        let mockAnalyticsService = MockAnalyticsService()
+        mockUserService._stubbedLinkAccountResult = .failure(.apiUnavailable)
+        let sut = ServiceAccountLinkingViewModel(
+            analyticsService: mockAnalyticsService,
+            userService: mockUserService,
+            accountType: .dvla,
+            linkId: "test-link-id",
+            completeAction: {},
+            dismissAction: {}
+        )
+        sut.linkAccount()
+        let errorViewModel = try #require(sut.errorViewModel)
+        errorViewModel.secondaryButtonViewModel?.action()
+
+        let event = try #require(mockAnalyticsService._trackedEvents.first)
+        #expect(event.name == "Navigation")
+        #expect(event.params?["type"] as? String == "Button")
+        #expect(event.params?["external"] as? Bool == true)
+        #expect(event.params?["url"] as? String == Constants.API.govukBaseUrl.absoluteString)
+        #expect(event.params?["text"] as? String == "Go to the GOV.UK website")
+        #expect(event.params?["section"] as? String == "account link fail")
     }
 
     @Test

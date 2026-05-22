@@ -60,43 +60,97 @@ final class ServiceAccountLinkingViewModel: ObservableObject {
         dismissAction()
     }
 
-    private func openGovUK() {
-        urlOpener.openIfPossible(Constants.API.govukBaseUrl)
-    }
-
     private func handleError(_ error: UserStateError) {
         errorViewModel = (error == .networkUnavailable)
         ? internetConnectionErrorViewModel
         : accountLinkingErrorViewModel
     }
 
+    private func trackNavigation(
+        text: String,
+        external: Bool,
+        url: String?,
+        section: String?
+    ) {
+        let event = AppEvent.buttonNavigation(
+            text: text,
+            external: external,
+            url: url,
+            section: section
+        )
+        analyticsService.track(event: event)
+    }
+
     private var accountLinkingErrorViewModel: ErrorViewModel {
+        let screenTitle = String.common.localized("genericErrorTitle")
+        let primaryButtonTitle = String.dvla
+            .localized("accountLinkingErrorPrimaryButtonTitle")
+        let secondaryButtonTitle = String.serviceAccount
+            .localized("accountLinkingErrorSecondaryButtonTitle")
         let subtitleFormat = String.serviceAccount.localized("accountLinkingErrorSubtitle")
         let subtitle = String.localizedStringWithFormat(subtitleFormat, accountName)
+
         return ErrorViewModel(
             analyticsService: analyticsService,
-            title: String.common.localized("genericErrorTitle"),
+            title: screenTitle,
             subtitle: subtitle,
             systemImageName: "exclamationmark.circle",
-            primaryButtonTitle: .dvla
-                .localized("accountLinkingErrorPrimaryButtonTitle"),
-            primaryAction: dismissAction,
-            secondaryButtonTitle: .serviceAccount
-                .localized("accountLinkingErrorSecondaryButtonTitle"),
-            secondaryAction: openGovUK,
-            trackingName: "Account linking error"
+            primaryButtonTitle: primaryButtonTitle,
+            primaryAction: { [weak self] in
+                self?.handleLinkingErrorPrimaryAction(title: primaryButtonTitle)
+            },
+            secondaryButtonTitle: secondaryButtonTitle,
+            secondaryAction: { [weak self] in
+                self?.handleLinkingErrorSecondaryAction(title: secondaryButtonTitle)
+            },
+            trackingName: screenTitle,
         )
     }
 
-    private var internetConnectionErrorViewModel: ErrorViewModel {
-        ErrorViewModel(
-            analyticsService: analyticsService,
-            title: String.common.localized("networkUnavailableErrorTitle"),
-            subtitle: String.common.localized("networkUnavailableErrorBody"),
-            primaryButtonTitle: String.common.localized("networkUnavailableButtonTitle"),
-            primaryAction: linkAccount,
-            contentAlignment: .topLeading,
-            trackingName: "Internet connection error"
+    private func handleLinkingErrorPrimaryAction(title: String) {
+        trackNavigation(
+            text: title,
+            external: false,
+            url: nil,
+            section: "account link fail"
         )
+        dismissAction()
+    }
+
+    private func handleLinkingErrorSecondaryAction(title: String) {
+        let url = Constants.API.govukBaseUrl
+        trackNavigation(
+            text: title,
+            external: true,
+            url: url.absoluteString,
+            section: "account link fail"
+        )
+        urlOpener.openIfPossible(url)
+    }
+
+    private var internetConnectionErrorViewModel: ErrorViewModel {
+        let screenTitle = String.common.localized("networkUnavailableErrorTitle")
+        let buttonTitle = String.common.localized("networkUnavailableButtonTitle")
+        return ErrorViewModel(
+            analyticsService: analyticsService,
+            title: screenTitle,
+            subtitle: String.common.localized("networkUnavailableErrorBody"),
+            primaryButtonTitle: buttonTitle,
+            primaryAction: { [weak self] in
+                self?.handleConnectionErrorPrimaryAction(title: buttonTitle)
+            },
+            contentAlignment: .topLeading,
+            trackingName: screenTitle,
+        )
+    }
+
+    private func handleConnectionErrorPrimaryAction(title: String) {
+        trackNavigation(
+            text: title,
+            external: false,
+            url: nil,
+            section: "account link fail"
+        )
+        linkAccount()
     }
 }
