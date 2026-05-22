@@ -45,12 +45,13 @@ final class ServiceAccountLinkingViewModel: ObservableObject {
             withType: accountType,
             linkId: linkId
         ) { [weak self] result in
-            self?.showProgressView = false
+            guard let self = self else { return }
+            self.showProgressView = false
             switch result {
             case .success:
-                self?.completeAction()
+                self.completeAction()
             case .failure(let error):
-                self?.handleError(error)
+                self.handleError(error)
             }
         }
     }
