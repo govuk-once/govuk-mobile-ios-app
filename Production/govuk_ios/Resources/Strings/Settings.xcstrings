@@ -111,6 +111,17 @@
         }
       }
     },
+    "linkAccountsViewDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accounts you've added to the app. Data from these accounts is not shared anywhere. You can remove them from the app at any time."
+          }
+        }
+      }
+    },
     "localAuthenticationFaceIdBody" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -404,6 +415,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Touch ID"
+          }
+        }
+      }
+    },
+    "yourAccountsCardTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Driver and vehicles account"
+          }
+        }
+      }
+    },
+    "yourAccountsErrorViewDesc" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accounts you add to the app will be added here"
+          }
+        }
+      }
+    },
+    "yourAccountsPageTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your Accounts"
+          }
+        }
+      }
+    },
+    "yourAccountsViewEditButtonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit"
           }
         }
       }
