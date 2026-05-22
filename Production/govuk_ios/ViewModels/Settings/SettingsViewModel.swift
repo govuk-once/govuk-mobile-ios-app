@@ -13,6 +13,7 @@ protocol SettingsViewModelInterface: ObservableObject {
     var notificationAlertButtonTitle: String { get }
     var notificationsAction: (() -> Void)? { get set }
     var localAuthenticationAction: (() -> Void)? { get set }
+    var yourAccountsAction: (() -> Void)? { get set }
     var signoutAction: (() -> Void)? { get set }
     var openAction: ((SettingsViewModelURLParameters) -> Void)? { get set }
     var sarAction: (() -> Void)? { get set }
@@ -31,6 +32,7 @@ struct SettingsViewModelURLParameters {
 
 // swiftlint:disable:next type_body_length
 class SettingsViewModel: SettingsViewModelInterface {
+    var yourAccountsAction: (() -> Void)?
     let title: String = String(localized: .Settings.pageTitle)
     private let analyticsService: AnalyticsServiceInterface
     private let urlOpener: URLOpener
@@ -413,7 +415,9 @@ class SettingsViewModel: SettingsViewModelInterface {
             id: "settings.accounts.row",
             title: rowTitle,
             body: nil,
-            action: {}
+            action: { [weak self] in
+                self?.yourAccountsAction?()
+            }
         )
     }
 

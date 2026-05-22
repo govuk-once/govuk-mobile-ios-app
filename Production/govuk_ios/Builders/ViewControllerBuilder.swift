@@ -387,7 +387,6 @@ class ViewControllerBuilder {
         let viewController = HostingViewController(
             rootView: view
         )
-        viewController.navigationItem.largeTitleDisplayMode = .never
         return viewController
     }
 
@@ -704,6 +703,25 @@ class ViewControllerBuilder {
         viewController.title = viewModel.title
 
         viewController.navigationItem.largeTitleDisplayMode = .always
+        return viewController
+    }
+
+    func yourAccountSettings(
+        analyticsService: AnalyticsServiceInterface,
+        userService: UserServiceInterface,
+        dismissAction: @escaping () -> Void) -> UIViewController {
+        let viewModel = YourAccountsSettingsViewModel(
+            userService: userService,
+            dismissAction: dismissAction,
+        )
+        let view = YourAccountsView(
+            viewModel: viewModel
+        )
+        let viewController = HostingViewController(
+            rootView: view, navigationBarHidden: true,
+            statusBarStyle: .darkContent
+        )
+
         return viewController
     }
 
