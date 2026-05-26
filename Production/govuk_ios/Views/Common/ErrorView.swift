@@ -79,6 +79,7 @@ struct ErrorView: View {
         } else if viewModel.showPrimaryButton {
             VStack {
                 Divider()
+                    .ignoresSafeArea()
                     .overlay(Color(UIColor.govUK.strokes.fixedContainer))
                 SwiftUIButton(
                     .primary,
