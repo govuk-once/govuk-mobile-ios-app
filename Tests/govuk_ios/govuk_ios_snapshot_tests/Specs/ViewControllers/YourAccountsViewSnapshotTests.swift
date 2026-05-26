@@ -102,54 +102,6 @@ final class YourAccountsViewSnapshotTests: SnapshotTestCase {
         )
     }
 
-    func test_loadInNavigationController_loading_light_rendersCorrectly() {
-        let viewModel = YourAccountsSettingsViewModel(
-            userService: MockUserService(),
-            dismissAction: {}
-        )
-
-        viewModel.state = .loading
-
-        let view = YourAccountsView(
-            viewModel: viewModel
-        )
-        let viewController = HostingViewController(
-            rootView: view,
-            navigationBarHidden: true
-        )
-
-        VerifySnapshotInNavigationController(
-            viewController: viewController,
-            mode: .light,
-            prefersLargeTitles: true
-        )
-    }
-
-    func test_loadInNavigationController_loading_dark_rendersCorrectly() {
-
-        let viewModel = YourAccountsSettingsViewModel(
-            userService: MockUserService(),
-            dismissAction: {}
-        )
-
-        viewModel.state = .loading
-
-        let view = YourAccountsView(
-            viewModel: viewModel
-        )
-        let viewController = HostingViewController(
-            rootView: view,
-            navigationBarHidden: true
-        )
-
-        VerifySnapshotInNavigationController(
-            viewController: viewController,
-            mode: .dark,
-            prefersLargeTitles: true
-        )
-    }
-
-
     private func viewController() -> UIViewController {
         let viewModel = YourAccountsSettingsViewModel(
             userService: MockUserService(),

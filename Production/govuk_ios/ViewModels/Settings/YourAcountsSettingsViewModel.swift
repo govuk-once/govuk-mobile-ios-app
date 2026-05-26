@@ -4,7 +4,7 @@ import LocalAuthentication
 
 final class YourAccountsSettingsViewModel: ObservableObject {
     private var userService: UserServiceInterface
-    @Published var state: State = .loading
+    @Published var state: State = .failure
     let dismissAction: () -> Void
     let title = String(localized: .Settings.linkAccountsTitle)
     let errorViewDescription = String(localized: .Settings.yourAccountsErrorViewDesc)
@@ -18,7 +18,6 @@ final class YourAccountsSettingsViewModel: ObservableObject {
     }
 
     enum State {
-        case loading
         case success
         case failure
     }

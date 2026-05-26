@@ -10,17 +10,11 @@ struct YourAccountsView: View {
     var body: some View {
         VStack {
             switch viewModel.state {
-            case .loading:
-                ProgressView()
             case .success:
                 successView
             case .failure:
                 errorView
             }
-        }
-        .background {
-            Color(UIColor.govUK.fills.surfaceBackground)
-                .ignoresSafeArea()
         }
         .onAppear {
             Task {
@@ -56,6 +50,9 @@ struct YourAccountsView: View {
             }
             NonTappableCardView(text: viewModel.errorViewDescription)
             Spacer()
+        }.background {
+            Color(UIColor.govUK.fills.surfaceBackground)
+                .ignoresSafeArea()
         }
         .padding([.horizontal], 16)
     }
@@ -116,6 +113,9 @@ struct YourAccountsView: View {
                 )
                 .roundedBorder(borderColor: .clear)
                 Spacer()
+        }.background {
+            Color(UIColor.govUK.fills.surfaceBackground)
+                .ignoresSafeArea()
         }
         .padding([.horizontal], 16)
     }
