@@ -95,7 +95,6 @@
 		33A323EA2F51FE450022BAFC /* NotificationCentreServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A323E92F51FE3E0022BAFC /* NotificationCentreServiceClient.swift */; };
 		33C777D82F7AEC7000B1E353 /* DebugClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C777D72F7AEC6D00B1E353 /* DebugClient.swift */; };
 		33CA98542F61E6190060DCDB /* AppEvent+NotificationCentre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CA98532F61E6150060DCDB /* AppEvent+NotificationCentre.swift */; };
-		33CA98562F646D480060DCDB /* NotificationCentreDeeplinkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CA98552F646D480060DCDB /* NotificationCentreDeeplinkRoute.swift */; };
 		33CA985C2F646D8D0060DCDB /* NotificationCentreDetailDeeplinkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CA985B2F646D8D0060DCDB /* NotificationCentreDetailDeeplinkRoute.swift */; };
 		33D4AF292F6C210300C74038 /* NotificationCentreError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D4AF282F6C20FD00C74038 /* NotificationCentreError.swift */; };
 		33D4AF2C2F6C216300C74038 /* NotificationCentreResponseHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D4AF2B2F6C216300C74038 /* NotificationCentreResponseHandler.swift */; };
@@ -666,7 +665,6 @@
 		33A323E92F51FE3E0022BAFC /* NotificationCentreServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCentreServiceClient.swift; sourceTree = "<group>"; };
 		33C777D72F7AEC6D00B1E353 /* DebugClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugClient.swift; sourceTree = "<group>"; };
 		33CA98532F61E6150060DCDB /* AppEvent+NotificationCentre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppEvent+NotificationCentre.swift"; sourceTree = "<group>"; };
-		33CA98552F646D480060DCDB /* NotificationCentreDeeplinkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCentreDeeplinkRoute.swift; sourceTree = "<group>"; };
 		33CA985B2F646D8D0060DCDB /* NotificationCentreDetailDeeplinkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCentreDetailDeeplinkRoute.swift; sourceTree = "<group>"; };
 		33D4AF282F6C20FD00C74038 /* NotificationCentreError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCentreError.swift; sourceTree = "<group>"; };
 		33D4AF2B2F6C216300C74038 /* NotificationCentreResponseHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCentreResponseHandler.swift; sourceTree = "<group>"; };
@@ -1996,7 +1994,6 @@
 				16C34B422C492FF90031AD32 /* HomeDeepLinkRoute.swift */,
 				945E1F082F7180FA0064CA22 /* RecentActivityDeepLinkRoute.swift */,
 				945E1F042F714E830064CA22 /* SearchDeepLinkRoute.swift */,
-				33CA98552F646D480060DCDB /* NotificationCentreDeeplinkRoute.swift */,
 				33CA985B2F646D8D0060DCDB /* NotificationCentreDetailDeeplinkRoute.swift */,
 				16C34B442C4954910031AD32 /* SettingsDeepLinkRoute.swift */,
 				B04C2E7F2DA9141400F0F63E /* WebDeeplinkRoute.swift */,
@@ -3502,7 +3499,6 @@
 				4EA1E2812D8C61630062453D /* NotificationPermissionState.swift in Sources */,
 				810A83772F68A57E0039B4A4 /* ServiceAccountUnlinkingView.swift in Sources */,
 				5D3B457F2E6097EF0026936A /* AlertBannerWidgetViewModel.swift in Sources */,
-				33CA98562F646D480060DCDB /* NotificationCentreDeeplinkRoute.swift in Sources */,
 				5DB637082D7732A800A44E36 /* GOVRequest+Topics.swift in Sources */,
 				5D66D1842CBFC12400006723 /* AppEvent+Function.swift in Sources */,
 				815011DB2F7C52C200E7469C /* DVLAService.swift in Sources */,
