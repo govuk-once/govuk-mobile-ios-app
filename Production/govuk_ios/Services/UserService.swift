@@ -29,15 +29,17 @@ protocol UserServiceInterface {
      }
 
      func fetchUserState(completion: @escaping FetchUserStateCompletion) {
-         userServiceClient.fetchUserState { result in
-             switch result {
-             case .success(let userState):
-                 self.userState = userState
-                 completion(.success(userState))
-             case .failure(let error):
-                 completion(.failure(error))
-             }
-         }
+         userServiceClient.fetchUserState(
+            completion: { result in
+                switch result {
+                case .success(let userState):
+                    self.userState = userState
+                    completion(.success(userState))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+         )
      }
 
      /// Temporarily disable sending of consent

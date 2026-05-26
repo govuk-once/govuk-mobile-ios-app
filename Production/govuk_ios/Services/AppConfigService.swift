@@ -133,6 +133,6 @@ public final class AppConfigService: AppConfigServiceInterface {
     }
 
     func isFeatureEnabled(key: Feature) -> Bool {
-        return featureFlags[key.rawValue] ?? false
+        featureFlags[key.rawValue] ?? false
     }
 }

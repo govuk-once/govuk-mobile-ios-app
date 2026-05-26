@@ -27,7 +27,8 @@ struct UserServiceClient: UserServiceClientInterface {
             request: request,
             completion: { result in
                 completion(mapResult(result))
-            })
+            }
+        )
     }
 
     func setNotificationsConsent(_ consentStatus: ConsentStatus,
@@ -36,9 +37,11 @@ struct UserServiceClient: UserServiceClientInterface {
             consentStatus: consentStatus
         )
         apiServiceClient.send(
-            request: request) { result in
+            request: request,
+            completion: { result in
                 completion(mapResult(result))
             }
+        )
     }
 
     private func mapResult<T: Decodable>(
