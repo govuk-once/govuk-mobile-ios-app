@@ -6,7 +6,7 @@ import UIKit
 @testable import govuk_ios
 
 @MainActor
-final class YourAccounteViewSnapshotView: SnapshotTestCase {
+final class YourAccountsViewSnapshotTests: SnapshotTestCase {
 
     func test_loadInNavigationController_success_light_rendersCorrectly() {
 

@@ -57,7 +57,7 @@ struct YourAccountsView: View {
             NonTappableCardView(text: viewModel.errorViewDescription)
             Spacer()
         }
-        .padding([.horizontal])
+        .padding([.horizontal], 16)
     }
 
     @ViewBuilder
@@ -117,6 +117,6 @@ struct YourAccountsView: View {
                 .roundedBorder(borderColor: .clear)
                 Spacer()
         }
-        .padding([.horizontal])
+        .padding([.horizontal], 16)
     }
 }
