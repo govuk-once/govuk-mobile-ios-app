@@ -98,9 +98,6 @@ struct YourAccountsView: View {
                     .font(Font.govUK.largeTitleBold)
                 Spacer()
             }
-            VStack {
-                Text(viewModel.viewDescription)
-            }
                 VStack {
                     HStack {
                         Text(viewModel.yourAccountsCardTitle)

@@ -216,6 +216,7 @@ class SettingsViewControllerSnapshotTests: SnapshotTestCase {
 }
 
 class GroupedListViewModel: SettingsViewModelInterface {
+    var yourAccountsAction: (() -> Void)?
     var localAuthenticationAction: (() -> Void)?
     func updateNotificationPermissionState() {}
     var notificationsAction: (() -> Void)?

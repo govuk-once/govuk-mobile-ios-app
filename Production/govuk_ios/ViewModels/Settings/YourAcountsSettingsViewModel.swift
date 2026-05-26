@@ -3,10 +3,8 @@ import GovKit
 import LocalAuthentication
 
 final class YourAccountsSettingsViewModel: ObservableObject {
-    // still need to implement stats fire 
     private var userService: UserServiceInterface
     @Published var state: State = .loading
-    let viewDescription = String(localized: .Settings.linkAccountsViewDescription)
     let dismissAction: () -> Void
     let title = String(localized: .Settings.linkAccountsTitle)
     let errorViewDescription = String(localized: .Settings.yourAccountsErrorViewDesc)
@@ -27,6 +25,7 @@ final class YourAccountsSettingsViewModel: ObservableObject {
 
     @MainActor
     func fetchLinkStatus() async {
+        self.state = .success
         let result = await userService.fetchAccountLinkStatus(accountType: .dvla)
         switch result {
         case .success(let status):

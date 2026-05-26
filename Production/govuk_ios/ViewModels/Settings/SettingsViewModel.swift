@@ -416,7 +416,12 @@ class SettingsViewModel: SettingsViewModelInterface {
             title: rowTitle,
             body: nil,
             action: { [weak self] in
-                self?.yourAccountsAction?()
+                guard let self = self else { return }
+                self.trackNavigationEvent(
+                    String.settings.localized(rowTitle),
+                    external: false
+                )
+                self.yourAccountsAction?()
             }
         )
     }
