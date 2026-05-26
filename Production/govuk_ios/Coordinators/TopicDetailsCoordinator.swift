@@ -47,7 +47,7 @@ final class TopicDetailsCoordinator: BaseCoordinator {
                 openAction: { [weak self] url in
                     self?.presentWebView(url: url)
                 },
-                widgetView: topicWidgetProvider?.makeWidget(for: topic)
+                widgetView: topicWidgetProvider?.makeWidget(for: localTopic)
             )
             self.push(viewController, animated: true)
         }
