@@ -111,17 +111,6 @@
         }
       }
     },
-    "linkAccountsViewDescription" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Accounts you've added to the app. Data from these accounts is not shared anywhere. You can remove them from the app at any time."
-          }
-        }
-      }
-    },
     "localAuthenticationFaceIdBody" : {
       "extractionState" : "manual",
       "localizations" : {
