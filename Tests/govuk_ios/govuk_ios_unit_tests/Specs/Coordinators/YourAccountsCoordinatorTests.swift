@@ -17,7 +17,8 @@ struct YourAccountsCoordinatorTests {
         mockViewControllerBuilder._stubbedYourAccountsViewController = expectedViewController
 
         let sut = YourAccountsSettingsCoordinator(
-            navigationController: MockNavigationController(), viewControllerBuilder: MockViewControllerBuilder(),
+            navigationController: navigationController,
+            viewControllerBuilder: mockViewControllerBuilder,
             analyticsService: MockAnalyticsService(),
             userService: MockUserService(),
             coordinatorBuilder: mockCoordinatorBuilder,
