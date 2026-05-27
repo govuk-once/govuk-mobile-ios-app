@@ -6,17 +6,17 @@ import UIKit
 @testable import govuk_ios
 
 @MainActor
-final class YourAccountsViewSnapshotTests: SnapshotTestCase {
+final class YourAccountsViewControllerSnapshotTests: SnapshotTestCase {
 
     func test_loadInNavigationController_success_light_rendersCorrectly() {
+        let mockUserService = MockUserService()
+        mockUserService._stubbedFetchAccountLinkStatusResult = .success(.arrangeUnlinked)
 
         let viewModel = YourAccountsSettingsViewModel(
-            userService: MockUserService(),
+            userService: mockUserService,
             dismissAction: {}
         )
-
         viewModel.state = .success
-
         let view = YourAccountsView(
             viewModel: viewModel
         )
@@ -32,12 +32,13 @@ final class YourAccountsViewSnapshotTests: SnapshotTestCase {
     }
 
     func test_loadInNavigationController_success_dark_rendersCorrectly() {
+        let mockUserService = MockUserService()
+        mockUserService._stubbedFetchAccountLinkStatusResult = .success(.arrangeUnlinked)
 
         let viewModel = YourAccountsSettingsViewModel(
-            userService: MockUserService(),
+            userService: mockUserService,
             dismissAction: {}
         )
-
         viewModel.state = .success
 
         let view = YourAccountsView(
@@ -56,8 +57,10 @@ final class YourAccountsViewSnapshotTests: SnapshotTestCase {
     }
 
     func test_loadInNavigationController_failure_light_rendersCorrectly() {
+        let mockUserService = MockUserService()
+        mockUserService._stubbedFetchAccountLinkStatusResult = .failure(.apiUnavailable)
         let viewModel = YourAccountsSettingsViewModel(
-            userService: MockUserService(),
+            userService: mockUserService,
             dismissAction: {}
         )
 
@@ -79,14 +82,14 @@ final class YourAccountsViewSnapshotTests: SnapshotTestCase {
     }
 
     func test_loadInNavigationController_failure_dark_rendersCorrectly() {
+        let mockUserService = MockUserService()
+        mockUserService._stubbedFetchAccountLinkStatusResult = .failure(.apiUnavailable)
 
         let viewModel = YourAccountsSettingsViewModel(
-            userService: MockUserService(),
+            userService: mockUserService,
             dismissAction: {}
         )
-
         viewModel.state = .failure
-
         let view = YourAccountsView(
             viewModel: viewModel
         )
@@ -100,22 +103,6 @@ final class YourAccountsViewSnapshotTests: SnapshotTestCase {
             mode: .dark,
             prefersLargeTitles: true
         )
-    }
-
-    private func viewController() -> UIViewController {
-        let viewModel = YourAccountsSettingsViewModel(
-            userService: MockUserService(),
-            dismissAction: {}
-        )
-        let view = YourAccountsView(
-            viewModel: viewModel
-        )
-        let viewController = HostingViewController(
-            rootView: view,
-            navigationBarHidden: true
-        )
-        viewController.view.backgroundColor = .govUK.fills.surfaceModal
-        return viewController
     }
 }
 
