@@ -21,7 +21,7 @@ struct UserServiceClientTests {
     @Test
     func fetchUserState_sendsExpectedRequest() {
         sut.fetchUserState { _ in }
-        #expect(mockAPI._receivedSendRequest?.urlPath == "/app/udp/v1/users")
+        #expect(mockAPI._receivedSendRequest?.urlPath == "/app/udp/v1/users/me")
         #expect(mockAPI._receivedSendRequest?.method == .get)
     }
 
