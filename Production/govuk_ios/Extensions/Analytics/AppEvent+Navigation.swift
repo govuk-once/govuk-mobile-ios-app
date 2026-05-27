@@ -12,8 +12,13 @@ extension AppEvent {
 
     static func buttonNavigation(text: String,
                                  external: Bool,
+                                 url: String? = nil,
                                  section: String? = nil) -> AppEvent {
-        let additionalParams = section.map {  ["section": $0] } ?? [:]
+        let additionalParams = [
+            "section": section,
+            "url": url
+        ].compactMapValues({ $0 })
+
         return navigation(
             text: text,
             type: "Button",
