@@ -90,7 +90,7 @@ class SettingsCoordinator: TabItemCoordinator {
         }
 
         settingsViewModel.yourAccountsAction = { [weak self] in
-            self?.startYourAccountsPage()
+            self?.startYourAccountsSettings()
         }
     }
 

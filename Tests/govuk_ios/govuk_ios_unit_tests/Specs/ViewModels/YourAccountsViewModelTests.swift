@@ -1,6 +1,7 @@
 import Testing
 @testable import govuk_ios
 
+@Suite
 struct YourAccountsViewModelTests {
 
     @Test
