@@ -122,6 +122,18 @@ class MockViewControllerBuilder: ViewControllerBuilder {
         return _stubbedLocalAuthorityPostcodeEntryViewController ?? UIViewController()
     }
 
+    var _stubbedYourAccountsViewController: UIViewController?
+    var _receivedYourAccountsViewDismissAction: (() -> Void)?
+    override func yourAccountSettings(
+        analyticsService: AnalyticsServiceInterface,
+        userService: UserServiceInterface,
+        dismissAction: @escaping () -> Void
+    )
+    -> UIViewController {
+        _receivedYourAccountsViewDismissAction = dismissAction
+        return _stubbedYourAccountsViewController ?? UIViewController()
+    }
+
     var _stubbedLocalAuthorityExplainerViewController: UIViewController?
     var _receivedNavigateToPostCodeEntryViewAction: (() -> Void)?
     var _receivedLocalAuthorityExplainerDismissAction: (() -> Void)?
