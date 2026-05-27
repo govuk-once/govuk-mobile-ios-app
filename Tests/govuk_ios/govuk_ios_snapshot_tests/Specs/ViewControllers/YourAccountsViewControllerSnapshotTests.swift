@@ -40,7 +40,6 @@ final class YourAccountsViewControllerSnapshotTests: SnapshotTestCase {
             dismissAction: {}
         )
         viewModel.state = .success
-
         let view = YourAccountsView(
             viewModel: viewModel
         )
@@ -48,7 +47,6 @@ final class YourAccountsViewControllerSnapshotTests: SnapshotTestCase {
             rootView: view,
             navigationBarHidden: true
         )
-
         VerifySnapshotInNavigationController(
             viewController: viewController,
             mode: .dark,
@@ -63,9 +61,7 @@ final class YourAccountsViewControllerSnapshotTests: SnapshotTestCase {
             userService: mockUserService,
             dismissAction: {}
         )
-
         viewModel.state = .failure
-
         let view = YourAccountsView(
             viewModel: viewModel
         )
@@ -73,7 +69,6 @@ final class YourAccountsViewControllerSnapshotTests: SnapshotTestCase {
             rootView: view,
             navigationBarHidden: true
         )
-
         VerifySnapshotInNavigationController(
             viewController: viewController,
             mode: .light,
@@ -97,7 +92,6 @@ final class YourAccountsViewControllerSnapshotTests: SnapshotTestCase {
             rootView: view,
             navigationBarHidden: true
         )
-
         VerifySnapshotInNavigationController(
             viewController: viewController,
             mode: .dark,
