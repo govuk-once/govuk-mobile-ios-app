@@ -12,7 +12,7 @@ final class YourAccountsViewControllerSnapshotTests: SnapshotTestCase {
         let mockUserService = MockUserService()
         mockUserService._stubbedFetchAccountLinkStatusResult = .success(.arrangeUnlinked)
 
-        let viewModel = YourAccountsSettingsViewModel(
+        let viewModel = YourAccountsViewViewModel(
             userService: mockUserService,
             dismissAction: {}
         )
@@ -35,7 +35,7 @@ final class YourAccountsViewControllerSnapshotTests: SnapshotTestCase {
         let mockUserService = MockUserService()
         mockUserService._stubbedFetchAccountLinkStatusResult = .success(.arrangeUnlinked)
 
-        let viewModel = YourAccountsSettingsViewModel(
+        let viewModel = YourAccountsViewViewModel(
             userService: mockUserService,
             dismissAction: {}
         )
@@ -59,7 +59,7 @@ final class YourAccountsViewControllerSnapshotTests: SnapshotTestCase {
     func test_loadInNavigationController_failure_light_rendersCorrectly() {
         let mockUserService = MockUserService()
         mockUserService._stubbedFetchAccountLinkStatusResult = .failure(.apiUnavailable)
-        let viewModel = YourAccountsSettingsViewModel(
+        let viewModel = YourAccountsViewViewModel(
             userService: mockUserService,
             dismissAction: {}
         )
@@ -85,7 +85,7 @@ final class YourAccountsViewControllerSnapshotTests: SnapshotTestCase {
         let mockUserService = MockUserService()
         mockUserService._stubbedFetchAccountLinkStatusResult = .failure(.apiUnavailable)
 
-        let viewModel = YourAccountsSettingsViewModel(
+        let viewModel = YourAccountsViewViewModel(
             userService: mockUserService,
             dismissAction: {}
         )

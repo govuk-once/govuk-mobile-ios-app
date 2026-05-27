@@ -2,9 +2,9 @@ import SwiftUI
 import GovKitUI
 
 struct YourAccountsView: View {
-    @StateObject var viewModel: YourAccountsSettingsViewModel
+    @StateObject var viewModel: YourAccountsViewViewModel
 
-    init(viewModel: YourAccountsSettingsViewModel) {
+    init(viewModel: YourAccountsViewViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
     var body: some View {

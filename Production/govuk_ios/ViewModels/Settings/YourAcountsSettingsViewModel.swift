@@ -2,7 +2,7 @@ import SwiftUI
 import GovKit
 import LocalAuthentication
 
-final class YourAccountsSettingsViewModel: ObservableObject {
+final class YourAccountsViewViewModel: ObservableObject {
     private var userService: UserServiceInterface
     @Published var state: State = .failure
     let dismissAction: () -> Void

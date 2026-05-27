@@ -47,7 +47,6 @@ struct YourAccountsCoordinatorTests {
                 coordinatorBuilder: mockCoordinatorBuilder,
                 dismissAction: {
                     continuation.resume(returning: true)
-
                 }
             )
             mockCoordinator.start(sut)

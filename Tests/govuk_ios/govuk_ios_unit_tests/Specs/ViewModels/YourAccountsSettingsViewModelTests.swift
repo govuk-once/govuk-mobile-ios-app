@@ -8,7 +8,7 @@ struct YourAccountsViewModelTests {
         let mockUserService = MockUserService()
         mockUserService._stubbedFetchAccountLinkStatusResult = .success(.arrangeLinked)
 
-        let sut = YourAccountsSettingsViewModel(
+        let sut = YourAccountsViewViewModel(
             userService: mockUserService,
             dismissAction: {}
         )
@@ -21,7 +21,7 @@ struct YourAccountsViewModelTests {
     func fetchLinkStatus_failure_updatesStateCorrectly() async throws {
         let mockUserService = MockUserService()
         mockUserService._stubbedFetchAccountLinkStatusResult = .failure(.apiUnavailable)
-        let sut = YourAccountsSettingsViewModel(
+        let sut = YourAccountsViewViewModel(
             userService: mockUserService,
             dismissAction: {}
         )

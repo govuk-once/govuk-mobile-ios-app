@@ -107,7 +107,7 @@ class SettingsCoordinator: TabItemCoordinator {
         start(coordinator)
     }
 
-    private func startYourAccountsPage() {
+    private func startYourAccountsSettings() {
         let coordinator = coordinatorBuilder.yourAccountsSettings(
             navigationController: root) { [weak self] in
                 self?.root.popToRootViewController(animated: true)
