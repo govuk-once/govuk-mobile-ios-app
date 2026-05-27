@@ -14,12 +14,25 @@ struct YourAccountsView: View {
                 successView
             case .failure:
                 errorView
+            case .loading:
+                loadingView
             }
+        }.background {
+            Color(UIColor.govUK.fills.surfaceBackground)
+                .ignoresSafeArea()
         }
         .onAppear {
             Task {
                 await viewModel.fetchLinkStatus()
             }
+        }
+    }
+
+    @ViewBuilder
+    private var loadingView: some View {
+        ZStack {
+            Color(UIColor.govUK.fills.surfaceBackground)
+            ProgressView()
         }
     }
 
