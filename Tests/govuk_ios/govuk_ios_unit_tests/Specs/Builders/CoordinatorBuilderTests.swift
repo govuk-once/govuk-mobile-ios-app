@@ -193,7 +193,11 @@ struct CoordinatorBuilderTests {
 
     @Test
     func yourAccountsSettings_returnsExpectedResult() {
-        let subject = CoordinatorBuilder(container: Container())
+        let container = Container()
+        container.userService.reset()
+        container.userService.register { MockUserService() }
+
+        let subject = CoordinatorBuilder(container: container)
         let mockNavigationController = MockNavigationController()
         let coordinator = subject.yourAccountsSettings(
             navigationController: mockNavigationController,
