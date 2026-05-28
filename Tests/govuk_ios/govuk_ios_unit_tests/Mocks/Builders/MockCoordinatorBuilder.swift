@@ -211,6 +211,14 @@ class MockCoordinatorBuilder: CoordinatorBuilder {
         return _stubbedNotificationSettingsCoordinator ?? MockBaseCoordinator()
     }
 
+    var _stubbedYourAccountsSettingsCoordinator: MockBaseCoordinator?
+    var _receivedYourAccountsSettingsDismissAction: (() -> Void)?
+    override func yourAccountsSettings(navigationController: UINavigationController,
+                                       dismissAction: @escaping () -> Void) -> BaseCoordinator {
+        _receivedYourAccountsSettingsDismissAction = dismissAction
+        return _stubbedYourAccountsSettingsCoordinator ?? MockBaseCoordinator()
+    }
+
     var _receivedWelcomeOnboardingCompletion: (() -> Void)?
     var _stubbedWelcomeOnboardingCoordinator: MockBaseCoordinator?
     override func welcomeOnboarding(navigationController: UINavigationController,

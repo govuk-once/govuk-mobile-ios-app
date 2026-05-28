@@ -192,6 +192,17 @@ struct CoordinatorBuilderTests {
     }
 
     @Test
+    func yourAccountsSettings_returnsExpectedResult() {
+        let subject = CoordinatorBuilder(container: Container())
+        let mockNavigationController = MockNavigationController()
+        let coordinator = subject.yourAccountsSettings(
+            navigationController: mockNavigationController,
+            dismissAction: {}
+        )
+        #expect(coordinator is YourAccountsSettingsCoordinator)
+    }
+
+    @Test
     func topicDetail_returnsExpectedResult() async throws {
         let coreData = await CoreDataRepository.arrangeAndLoad
         let subject = CoordinatorBuilder(container: Container())
