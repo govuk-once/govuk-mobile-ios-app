@@ -19,7 +19,6 @@ struct YourAccountsCoordinatorTests {
         let sut = YourAccountsSettingsCoordinator(
             navigationController: navigationController,
             viewControllerBuilder: mockViewControllerBuilder,
-            analyticsService: MockAnalyticsService(),
             userService: MockUserService(),
             coordinatorBuilder: mockCoordinatorBuilder,
             dismissAction: {}
