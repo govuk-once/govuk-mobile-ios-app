@@ -45,7 +45,12 @@ struct YourAccountsView: View {
                         viewModel.dismissAction()
                     }, label: {
                         Image(systemName: "chevron.left")
-                            .font(Font.govUK.title2)
+                            .font(Font.govUK.body)
+                            .foregroundColor(
+                                Color(
+                                    UIColor.govUK.text.primary
+                                )
+                            )
                     }
                 ).applyStyle {
                     if #available(iOS 26.0, *) {
@@ -59,6 +64,11 @@ struct YourAccountsView: View {
             HStack {
                 Text(viewModel.title)
                     .font(Font.govUK.largeTitleBold)
+                    .foregroundColor(
+                        Color(
+                            UIColor.govUK.text.primary
+                        )
+                    )
                 Spacer()
             }
             NonTappableCardView(text: viewModel.errorViewDescription)
@@ -79,7 +89,13 @@ struct YourAccountsView: View {
                         viewModel.dismissAction()
                     }, label: {
                         Image(systemName: "chevron.left")
-                            .font(Font.govUK.title2)
+                            .frame(minHeight: 24)
+                            .font(Font.govUK.body)
+                            .foregroundColor(
+                                Color(
+                                    UIColor.govUK.text.primary
+                                )
+                            )
                     }
                 ).applyStyle {
                     if #available(iOS 26.0, *) {
@@ -94,6 +110,13 @@ struct YourAccountsView: View {
                         viewModel.dismissAction()
                     }, label: {
                         Text(viewModel.editButtonTitle)
+                            .frame(minHeight: 24)
+                            .font(Font.govUK.body)
+                            .foregroundColor(
+                                Color(
+                                    UIColor.govUK.text.primary
+                                )
+                            )
                     }
                 ).applyStyle {
                     if #available(iOS 26.0, *) {
@@ -106,6 +129,11 @@ struct YourAccountsView: View {
             HStack {
                 Text(viewModel.title)
                     .font(Font.govUK.largeTitleBold)
+                    .foregroundColor(
+                        Color(
+                            UIColor.govUK.text.primary
+                        )
+                    )
                 Spacer()
             }
                 VStack {
