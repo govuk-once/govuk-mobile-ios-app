@@ -173,6 +173,17 @@ struct ViewControllerBuilderTests {
     }
 
     @Test
+    func yourAccountsView_returnsExpectedResult() {
+        let subject = ViewControllerBuilder()
+        let result = subject.yourAccountsSettings(
+            userService: MockUserService(),
+            dismissAction: {}
+        )
+        let rootView = (result as? HostingViewController<YourAccountsView>)?.rootView
+        #expect(rootView != nil)
+    }
+
+    @Test
     func localAuthorityConfirmationView_returnsExpectedResult() {
         let authority = Authority(
             name: "Test",
