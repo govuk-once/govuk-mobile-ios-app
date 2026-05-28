@@ -23,7 +23,7 @@ struct YourAccountsView: View {
         }
         .onAppear {
             Task {
-                await viewModel.fetchLinkStatus()
+                await viewModel.fetchAccountLinkStatus()
             }
         }
     }
