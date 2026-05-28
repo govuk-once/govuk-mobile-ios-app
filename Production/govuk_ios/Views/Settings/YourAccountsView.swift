@@ -40,10 +40,11 @@ struct YourAccountsView: View {
     private var errorView: some View {
         VStack {
             HStack {
-                Button(
+                ToolbarGlassButton(
                     action: {
                         viewModel.dismissAction()
-                    }, label: {
+                    },
+                    label: {
                         Image(systemName: "chevron.left")
                             .font(Font.govUK.body)
                             .foregroundColor(
@@ -52,13 +53,7 @@ struct YourAccountsView: View {
                                 )
                             )
                     }
-                ).applyStyle {
-                    if #available(iOS 26.0, *) {
-                        $0.buttonStyle(.glass)
-                    } else {
-                        $0
-                    }
-                }
+                )
                 Spacer()
             }
             HStack {
@@ -84,31 +79,21 @@ struct YourAccountsView: View {
     private var successView: some View {
         VStack {
             HStack {
-                Button(
+                ToolbarGlassButton(
                     action: {
                         viewModel.dismissAction()
-                    }, label: {
+                    },
+                    label: {
                         Image(systemName: "chevron.left")
                             .frame(minHeight: 24)
                             .font(Font.govUK.body)
-                            .foregroundColor(
-                                Color(
-                                    UIColor.govUK.text.primary
-                                )
-                            )
+                            .foregroundColor(Color(UIColor.govUK.text.primary))
                     }
-                ).applyStyle {
-                    if #available(iOS 26.0, *) {
-                        $0.buttonStyle(.glass)
-                    } else {
-                        $0
-                    }
-                }
+                )
                 Spacer()
-                Button(
-                    action: {
-                        viewModel.dismissAction()
-                    }, label: {
+                ToolbarGlassButton(
+                    action: { },
+                    label: {
                         Text(viewModel.editButtonTitle)
                             .frame(minHeight: 24)
                             .font(Font.govUK.body)
@@ -118,13 +103,7 @@ struct YourAccountsView: View {
                                 )
                             )
                     }
-                ).applyStyle {
-                    if #available(iOS 26.0, *) {
-                        $0.buttonStyle(.glass)
-                    } else {
-                        $0
-                    }
-                }
+                )
             }
             HStack {
                 Text(viewModel.title)

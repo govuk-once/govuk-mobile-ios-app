@@ -1,6 +1,5 @@
 import SwiftUI
 import GovKit
-import LocalAuthentication
 
 final class YourAccountsViewViewModel: ObservableObject {
     private var userService: UserServiceInterface
