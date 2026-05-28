@@ -24,7 +24,9 @@ final class YourAccountsViewViewModel: ObservableObject {
 
     @MainActor
     func fetchLinkStatus() async {
-        let result = await userService.fetchAccountLinkStatus(accountType: .dvla)
+        let result = await userService.fetchAccountLinkStatus(
+            accountType: .dvla
+        )
         switch result {
         case .success(let status):
             if status.linked == true {

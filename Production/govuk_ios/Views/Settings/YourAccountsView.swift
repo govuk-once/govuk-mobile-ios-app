@@ -38,7 +38,7 @@ struct YourAccountsView: View {
 
     @ViewBuilder
     private var errorView: some View {
-        VStack {
+        VStack(spacing: 20) {
             HStack {
                 ToolbarGlassButton(
                     action: {
