@@ -708,7 +708,6 @@ class ViewControllerBuilder {
     }
 
     func yourAccountSettings(
-        analyticsService: AnalyticsServiceInterface,
         userService: UserServiceInterface,
         dismissAction: @escaping () -> Void) -> UIViewController {
         let viewModel = YourAccountsViewViewModel(
