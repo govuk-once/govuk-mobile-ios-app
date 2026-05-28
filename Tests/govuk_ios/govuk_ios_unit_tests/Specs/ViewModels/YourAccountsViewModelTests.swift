@@ -19,13 +19,14 @@ struct YourAccountsViewModelTests {
 
 
     @Test
-    func fetchLinkStatus_failure_updatesStateCorrectly() async throws {
+    func fetchLinkStatus_failure_updatesStateCorrectly() async {
         let mockUserService = MockUserService()
         mockUserService._stubbedFetchAccountLinkStatusResult = .failure(.apiUnavailable)
         let sut = YourAccountsViewViewModel(
             userService: mockUserService,
             dismissAction: {}
         )
+        await sut.fetchLinkStatus()
         #expect(sut.state == .failure)
     }
 
