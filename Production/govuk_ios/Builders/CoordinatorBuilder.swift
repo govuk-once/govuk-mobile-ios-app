@@ -336,7 +336,6 @@ class CoordinatorBuilder {
         YourAccountsSettingsCoordinator(
             navigationController: navigationController,
             viewControllerBuilder: ViewControllerBuilder(),
-            analyticsService: container.analyticsService.resolve(),
             userService: container.userService.resolve(),
             coordinatorBuilder: self,
             dismissAction: dismissAction
