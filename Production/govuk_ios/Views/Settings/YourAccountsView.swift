@@ -123,7 +123,6 @@ struct YourAccountsView: View {
                             .foregroundColor(
                                 Color(UIColor.govUK.text.primary)
                             )
-
                         Spacer()
                     }
                     .padding(16)

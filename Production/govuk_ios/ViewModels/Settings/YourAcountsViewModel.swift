@@ -2,7 +2,7 @@ import SwiftUI
 import GovKit
 
 final class YourAccountsViewViewModel: ObservableObject {
-    private var userService: UserServiceInterface
+    private let userService: UserServiceInterface
     @Published var state: State = .loading
     let dismissAction: () -> Void
     let title = String(

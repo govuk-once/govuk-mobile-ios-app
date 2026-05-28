@@ -8,7 +8,7 @@ import UIKit
 @MainActor
 struct YourAccountsCoordinatorTests {
 
-    @Test func navigateToYourAccounts_pushesYourAccountsViewController() {
+    @Test func start_pushesYourAccountsViewController() {
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let expectedViewController = UIViewController()
         let navigationController = UINavigationController()
