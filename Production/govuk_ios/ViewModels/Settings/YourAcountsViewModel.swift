@@ -5,10 +5,21 @@ final class YourAccountsViewViewModel: ObservableObject {
     private var userService: UserServiceInterface
     @Published var state: State = .loading
     let dismissAction: () -> Void
-    let title = String(localized: .Settings.linkAccountsTitle)
-    let errorViewDescription = String(localized: .Settings.yourAccountsErrorViewDesc)
-    let yourAccountsCardTitle = String(localized: .Settings.yourAccountsCardTitle)
-    let editButtonTitle = String(localized: .Settings.yourAccountsViewEditButtonTitle)
+    let title = String(
+        localized: .Settings.yourAccountsTitle
+    )
+    let errorViewDescription = String(
+        localized: .Settings.yourAccountsErrorViewDesc
+    )
+    let yourAccountsCardTitle = String(
+        localized: .Settings.yourAccountsCardTitle
+    )
+    let editButtonTitle = String(
+        localized: .Settings.yourAccountsViewEditButtonTitle
+    )
+    let backButtonAccessibilityLabel = String(
+        localized: .Settings.yourAccountsBackButtonLabel
+    )
 
     init(userService: UserServiceInterface,
          dismissAction: @escaping () -> Void) {

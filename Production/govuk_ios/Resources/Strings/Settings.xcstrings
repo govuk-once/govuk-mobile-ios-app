@@ -100,17 +100,6 @@
         }
       }
     },
-    "linkAccountsTitle" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Your accounts"
-          }
-        }
-      }
-    },
     "localAuthenticationFaceIdBody" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -408,6 +397,17 @@
         }
       }
     },
+    "yourAccountsBackButtonLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Back"
+          }
+        }
+      }
+    },
     "yourAccountsCardTitle" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -437,6 +437,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Your Accounts"
+          }
+        }
+      }
+    },
+    "yourAccountsTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your accounts"
           }
         }
       }

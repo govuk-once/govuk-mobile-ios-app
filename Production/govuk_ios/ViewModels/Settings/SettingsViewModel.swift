@@ -410,7 +410,7 @@ class SettingsViewModel: SettingsViewModelInterface {
     }
 
     private var accountsRow: GroupedListRow {
-        let rowTitle = String(localized: .Settings.linkAccountsTitle)
+        let rowTitle = String(localized: .Settings.yourAccountsTitle)
         return NavigationRow(
             id: "settings.accounts.row",
             title: rowTitle,

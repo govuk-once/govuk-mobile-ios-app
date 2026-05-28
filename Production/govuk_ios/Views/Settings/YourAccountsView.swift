@@ -53,7 +53,7 @@ struct YourAccountsView: View {
                                 )
                             )
                     }
-                )
+                ).accessibilityLabel(viewModel.backButtonAccessibilityLabel)
                 Spacer()
             }
             HStack {
@@ -89,7 +89,7 @@ struct YourAccountsView: View {
                             .font(Font.govUK.body)
                             .foregroundColor(Color(UIColor.govUK.text.primary))
                     }
-                )
+                ).accessibilityLabel(viewModel.backButtonAccessibilityLabel)
                 Spacer()
                 ToolbarGlassButton(
                     action: { },
@@ -103,7 +103,7 @@ struct YourAccountsView: View {
                                 )
                             )
                     }
-                )
+                ).accessibilityLabel(viewModel.editButtonTitle)
             }
             HStack {
                 Text(viewModel.title)
