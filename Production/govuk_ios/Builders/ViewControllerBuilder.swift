@@ -707,7 +707,7 @@ class ViewControllerBuilder {
         return viewController
     }
 
-    func yourAccountSettings(
+    func yourAccountsSettings(
         userService: UserServiceInterface,
         dismissAction: @escaping () -> Void) -> UIViewController {
         let viewModel = YourAccountsViewViewModel(

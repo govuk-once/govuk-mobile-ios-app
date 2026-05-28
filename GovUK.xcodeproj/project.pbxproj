@@ -141,7 +141,7 @@
 		4EC0466F2F7B239E0087C01F /* GovUKHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC0466E2F7B239D0087C01F /* GovUKHeaderView.swift */; };
 		4ED2DB652FBCC62C005CF6FD /* YourAccountsSettingsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ED2DB642FBCC62C005CF6FD /* YourAccountsSettingsCoordinator.swift */; };
 		4ED2DB692FBCCE82005CF6FD /* YourAccountsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ED2DB682FBCCE82005CF6FD /* YourAccountsView.swift */; };
-		4ED2DB6B2FBCCF05005CF6FD /* YourAcountsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ED2DB6A2FBCCF05005CF6FD /* YourAcountsViewModel.swift */; };
+		4ED2DB6B2FBCCF05005CF6FD /* YourAccountsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ED2DB6A2FBCCF05005CF6FD /* YourAccountsViewModel.swift */; };
 		4EE44BAD2E70332C0093D380 /* NonTappableCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE44BAC2E70332C0093D380 /* NonTappableCardView.swift */; };
 		4EE5F3E52DAFD36B008C60ED /* LocalAuthorityWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE5F3E42DAFD36B008C60ED /* LocalAuthorityWidget.swift */; };
 		4EE5F3E72DAFD42A008C60ED /* LocalAuthorityExplainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE5F3E62DAFD42A008C60ED /* LocalAuthorityExplainerView.swift */; };
@@ -667,7 +667,7 @@
 		4EC0466E2F7B239D0087C01F /* GovUKHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovUKHeaderView.swift; sourceTree = "<group>"; };
 		4ED2DB642FBCC62C005CF6FD /* YourAccountsSettingsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourAccountsSettingsCoordinator.swift; sourceTree = "<group>"; };
 		4ED2DB682FBCCE82005CF6FD /* YourAccountsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourAccountsView.swift; sourceTree = "<group>"; };
-		4ED2DB6A2FBCCF05005CF6FD /* YourAcountsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourAcountsViewModel.swift; sourceTree = "<group>"; };
+		4ED2DB6A2FBCCF05005CF6FD /* YourAccountsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourAccountsViewModel.swift; sourceTree = "<group>"; };
 		4EE44BAC2E70332C0093D380 /* NonTappableCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NonTappableCardView.swift; sourceTree = "<group>"; };
 		4EE5F3E42DAFD36B008C60ED /* LocalAuthorityWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthorityWidget.swift; sourceTree = "<group>"; };
 		4EE5F3E62DAFD42A008C60ED /* LocalAuthorityExplainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthorityExplainerView.swift; sourceTree = "<group>"; };
@@ -2453,7 +2453,7 @@
 				D08A9A852DB92F6F002E9C78 /* SignOutConfirmationViewModel.swift */,
 				1677D4032E00694B00FB1E56 /* LocalAuthenticationSettingsViewModel.swift */,
 				D0ABA5D12FA4E8AB00C5A244 /* SARExplainerViewModel.swift */,
-				4ED2DB6A2FBCCF05005CF6FD /* YourAcountsViewModel.swift */,
+				4ED2DB6A2FBCCF05005CF6FD /* YourAccountsViewModel.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -3222,7 +3222,7 @@
 				D0ECB3FE2DCE0F0F00A9707E /* AmbiguousAuthoritySelectionView.swift in Sources */,
 				5DCCCBBE2EA0F5690097430C /* ReturningUserServiceError.swift in Sources */,
 				D0D2C6952E13FBE000620DC2 /* JailbreakCoordinator.swift in Sources */,
-				4ED2DB6B2FBCCF05005CF6FD /* YourAcountsViewModel.swift in Sources */,
+				4ED2DB6B2FBCCF05005CF6FD /* YourAccountsViewModel.swift in Sources */,
 				16AE517F2E6886D3002BCFD7 /* InfoIconListView.swift in Sources */,
 				4E4089882DBBEF78003ECB3B /* EditLocalAuthorityCoordinator.swift in Sources */,
 				4E00EEEF2CCB04B0007B61E8 /* TopicsOnboardingViewModel.swift in Sources */,

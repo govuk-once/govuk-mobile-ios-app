@@ -124,8 +124,7 @@ class MockViewControllerBuilder: ViewControllerBuilder {
 
     var _stubbedYourAccountsViewController: UIViewController?
     var _receivedYourAccountsViewDismissAction: (() -> Void)?
-    override func yourAccountSettings(
-        analyticsService: AnalyticsServiceInterface,
+    override func yourAccountsSettings(
         userService: UserServiceInterface,
         dismissAction: @escaping () -> Void
     )
