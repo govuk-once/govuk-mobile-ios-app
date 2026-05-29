@@ -28,7 +28,6 @@ struct YourAccountsView: View {
         }
     }
 
-    @ViewBuilder
     private var loadingView: some View {
         ZStack {
             Color(UIColor.govUK.fills.surfaceBackground)
@@ -36,7 +35,6 @@ struct YourAccountsView: View {
         }
     }
 
-    @ViewBuilder
     private var errorView: some View {
         VStack(spacing: 20) {
             HStack {
@@ -47,11 +45,7 @@ struct YourAccountsView: View {
                     label: {
                         Image(systemName: "chevron.left")
                             .font(Font.govUK.body)
-                            .foregroundColor(
-                                Color(
-                                    UIColor.govUK.text.primary
-                                )
-                            )
+                            .foregroundColor(Color(UIColor.govUK.text.primary))
                     }
                 ).accessibilityLabel(viewModel.backButtonAccessibilityLabel)
                 Spacer()
@@ -75,7 +69,6 @@ struct YourAccountsView: View {
         .padding([.horizontal], 16)
     }
 
-    @ViewBuilder
     private var successView: some View {
         VStack {
             HStack {
@@ -89,7 +82,8 @@ struct YourAccountsView: View {
                             .font(Font.govUK.body)
                             .foregroundColor(Color(UIColor.govUK.text.primary))
                     }
-                ).accessibilityLabel(viewModel.backButtonAccessibilityLabel)
+                )
+                .accessibilityLabel(viewModel.backButtonAccessibilityLabel)
                 Spacer()
                 ToolbarGlassButton(
                     action: { },
@@ -97,45 +91,36 @@ struct YourAccountsView: View {
                         Text(viewModel.editButtonTitle)
                             .frame(minHeight: 24)
                             .font(Font.govUK.body)
-                            .foregroundColor(
-                                Color(
-                                    UIColor.govUK.text.primary
-                                )
-                            )
+                            .foregroundColor(Color(UIColor.govUK.text.primary))
                     }
-                ).accessibilityLabel(viewModel.editButtonTitle)
+                )
+                .accessibilityLabel(viewModel.editButtonTitle)
             }
             HStack {
                 Text(viewModel.title)
                     .font(Font.govUK.largeTitleBold)
-                    .foregroundColor(
-                        Color(
-                            UIColor.govUK.text.primary
-                        )
-                    )
+                    .foregroundColor(Color(UIColor.govUK.text.primary))
                 Spacer()
             }
-                VStack {
-                    HStack {
-                        Text(viewModel.yourAccountsCardTitle)
-                            .font(Font.govUK.body)
-                            .multilineTextAlignment(.leading)
-                            .foregroundColor(
-                                Color(UIColor.govUK.text.primary)
-                            )
-                        Spacer()
-                    }
-                    .padding(16)
+            VStack {
+                HStack {
+                    Text(viewModel.yourAccountsCardTitle)
+                        .font(Font.govUK.body)
+                        .multilineTextAlignment(.leading)
+                        .foregroundColor(Color(UIColor.govUK.text.primary))
+                    Spacer()
                 }
-                .background(
-                    Color(uiColor: UIColor.govUK.fills.surfaceList)
-                )
-                .roundedBorder(borderColor: .clear)
-                Spacer()
-        }.background {
+                .padding(16)
+            }
+            .background(Color(uiColor: UIColor.govUK.fills.surfaceList))
+            .roundedBorder(borderColor: .clear)
+            Spacer()
+        }
+        .background {
             Color(UIColor.govUK.fills.surfaceBackground)
                 .ignoresSafeArea()
         }
         .padding([.horizontal], 16)
     }
 }
+

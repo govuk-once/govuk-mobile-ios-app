@@ -42,6 +42,8 @@ final class YourAccountsViewViewModel: ObservableObject {
         case .success(let status):
             if status.linked == true {
                 self.state = .success
+            } else {
+                self.state = .failure
             }
         case .failure:
             self.state = .failure
