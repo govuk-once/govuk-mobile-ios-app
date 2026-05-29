@@ -425,7 +425,7 @@
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Accounts you add to the app will be added here"
+            "value" : "Accounts you add to the app will appear here"
           }
         }
       }
