@@ -19,7 +19,7 @@ class AnalyticsConsentContainerViewModel: ObservableObject {
     let privacyPolicyLinkAccessibilityTitle =
     String.onboarding.localized("privacyPolicyLinkAccessibilityTitle")
     let privacyPolicyLinkHint = String.common.localized("openWebLinkHint")
-    let privacyPolicyLinkUrl = Constants.API.betaPrivacyPolicyURL
+    let privacyPolicyLinkUrl = Constants.API.privacyPolicyUrl
     let allowButtonTitle = String.onboarding.localized("allowAnalyticsButtonTitle")
     let dontAllowButtonTitle = String.onboarding.localized("dontAllowAnalyticsButtonTitle")
 

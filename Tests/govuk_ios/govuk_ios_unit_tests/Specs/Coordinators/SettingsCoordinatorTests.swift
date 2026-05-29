@@ -138,13 +138,13 @@ struct SettingsCoordinatorTests {
         subject.start()
         let settingsViewModel = mockViewControllerBuilder._receivedSettingsViewModel!
         let params = SettingsViewModelURLParameters(
-            url: Constants.API.betaPrivacyPolicyURL,
+            url: Constants.API.privacyPolicyUrl,
             trackingTitle: "Privacy Policy",
             fullScreen: false
         )
         settingsViewModel.openAction?(params)
         #expect(mockSafariCoordinator._startCalled)
-        #expect(mockCoordinatorBuilder._receivedSafariCoordinatorURL == Constants.API.betaPrivacyPolicyURL)
+        #expect(mockCoordinatorBuilder._receivedSafariCoordinatorURL == Constants.API.privacyPolicyUrl)
         #expect(mockCoordinatorBuilder._receivedSafariCoordinatorFullScreen == .some(false))
     }
 
