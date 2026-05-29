@@ -9,7 +9,7 @@ class MockSecureStoreService: SecureStorable {
         return _stubbedItemExistsResult
     }
 
-    var _stubbedReadItemResult: Result<String, Error> = .failure(NSError())
+    var _stubbedReadItemResult: Result<String, Error> = .failure(NSError.init(domain: "GovUKApp", code: -1))
     func readItem(itemName: String) throws -> String {
         switch _stubbedReadItemResult {
         case .success(let value):
@@ -41,7 +41,7 @@ class MockSecureStoreService: SecureStorable {
     func delete() throws {
         _stubbedDeleteCalled = true
         if _stubbedDeleteFailure {
-            throw NSError()
+            throw NSError.init(domain: "GovUKApp", code: -1)
         }
     }
 }
