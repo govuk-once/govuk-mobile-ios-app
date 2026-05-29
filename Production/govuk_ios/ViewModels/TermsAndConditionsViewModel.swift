@@ -57,7 +57,7 @@ class TermsAndConditionsViewModel: ObservableObject {
                 text: String(
                     localized: .TermsAndConditions.privacyNoticeTitle
                 ),
-                url: Constants.API.betaPrivacyPolicyURL
+                url: Constants.API.privacyPolicyUrl
             )
         ]
     }

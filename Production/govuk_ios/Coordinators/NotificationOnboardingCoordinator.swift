@@ -87,7 +87,7 @@ class NotificationOnboardingCoordinator: BaseCoordinator {
     private func openPrivacy() {
         let coordinator = coordinatorBuilder.safari(
             navigationController: root,
-            url: Constants.API.betaPrivacyPolicyURL,
+            url: Constants.API.privacyPolicyUrl,
             fullScreen: false
         )
         start(coordinator)
