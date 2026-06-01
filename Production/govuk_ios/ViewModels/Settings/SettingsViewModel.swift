@@ -12,6 +12,7 @@ protocol SettingsViewModelInterface: ObservableObject {
     var notificationSettingsAlertBody: String { get }
     var notificationAlertButtonTitle: String { get }
     var notificationsAction: (() -> Void)? { get set }
+    var notificationCentreAction: (() -> Void)? { get set }
     var localAuthenticationAction: (() -> Void)? { get set }
     var signoutAction: (() -> Void)? { get set }
     var openAction: ((SettingsViewModelURLParameters) -> Void)? { get set }
@@ -46,6 +47,7 @@ class SettingsViewModel: SettingsViewModelInterface {
     private let notificationService: NotificationServiceInterface
     private let notificationCenter: NotificationCenter
     var notificationsAction: (() -> Void)?
+    var notificationCentreAction: (() -> Void)?
     var localAuthenticationAction: (() -> Void)?
     var notificationAlertButtonTitle: String = String(
         localized: .Settings.notificationAlertPrimaryButtonTitle
@@ -143,6 +145,7 @@ class SettingsViewModel: SettingsViewModelInterface {
     private func getGroupedList() -> [GroupedListSection] {
         return [
             accountSection,
+            messagesSection,
             appConfigService.isFeatureEnabled(key: .dvla) ? linkedAccountsSection : nil,
             appOptionsSection,
             aboutSection,
@@ -180,6 +183,22 @@ class SettingsViewModel: SettingsViewModelInterface {
                 )
             ],
             footer: String(localized: .Settings.accountSectionFooter))
+    }
+
+    private var messagesSection: GroupedListSection? {
+        // TO DO Implement check of linking
+
+        return GroupedListSection(
+            heading: nil, rows: [
+                CountRow(
+                    id: "settings.messages.row",
+                    title: String(localized: .Settings.messagesTitle),
+                    count: 42, // TO DO Implement
+                    showIndicator: true, // TO DO Implement
+                    action: { [weak self] in
+                        self?.notificationCentreAction?()
+                    })
+            ], footer: nil)
     }
 
     // MARK: - Sign out
