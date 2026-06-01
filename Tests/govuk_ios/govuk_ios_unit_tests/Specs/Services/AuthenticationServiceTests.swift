@@ -397,7 +397,7 @@ struct AuthenticationServiceTests {
             idToken: idToken
         )
         mockAuthClient._stubbedTokenRefreshResult = .success(tokenResponse)
-        mockSecureStoreService._stubbedReadItemResult = .failure(NSError())
+        mockSecureStoreService._stubbedReadItemResult = .failure(NSError.init(domain: "GovUKApp", code: -1))
         let sut = AuthenticationService(
             authenticationServiceClient: mockAuthClient,
             authenticatedSecureStoreService: mockSecureStoreService,
