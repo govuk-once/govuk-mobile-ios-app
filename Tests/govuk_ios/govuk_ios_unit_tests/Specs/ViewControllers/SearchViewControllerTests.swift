@@ -26,7 +26,8 @@ struct SearchViewControllerTests {
             viewModel: viewModel,
             searchBar: UISearchBar()
         )
-        subject.viewDidAppear(false)
+        subject.beginAppearanceTransition(true, animated: false)
+        subject.endAppearanceTransition()
 
         let screens = mockAnalyticsService._trackScreenReceivedScreens
         #expect(screens.count == 1)
