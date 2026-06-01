@@ -25,7 +25,7 @@ class AnimationViewTests {
     @Test
     @MainActor
     func animationsEnabled_callsPlay() {
-        let subject = AnimationView(resourceName: "app_splash")
+        let subject = AnimationView(resourceName: "app_crown_splash")
 
         mockAccessibilityManager.animationsEnabled = true
 
@@ -41,7 +41,7 @@ class AnimationViewTests {
     @Test
     @MainActor
     func animationsDisabled_delaysCompletion() async {
-        let subject = AnimationView(resourceName: "app_splash")
+        let subject = AnimationView(resourceName: "app_crown_splash")
 
         mockAccessibilityManager.animationsEnabled = false
 
@@ -59,7 +59,7 @@ class AnimationViewTests {
     @MainActor
     func hasAnimationBegun_animationStopped_returnsFalse() {
         let subject = AnimationView(
-            resourceName: "app_splash",
+            resourceName: "app_crown_splash",
             reducedAnimationProgress: 0
         )
 
