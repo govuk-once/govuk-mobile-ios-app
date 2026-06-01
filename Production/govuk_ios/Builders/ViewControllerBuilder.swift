@@ -41,7 +41,6 @@ class ViewControllerBuilder {
         let editLocalAuthorityAction: () -> Void
         let openURLAction: (URL) -> Void
         let openSearchAction: (SearchItem) -> Void
-        let notificationCentreAction: () -> Void
     }
 
     func home(dependencies: HomeDependencies,
@@ -63,8 +62,7 @@ class ViewControllerBuilder {
             notificationsAction: actions.notificationsAction,
             recentActivityAction: actions.recentActivityAction,
             openURLAction: actions.openURLAction,
-            openAction: actions.openSearchAction,
-            notificationCentreAction: actions.notificationCentreAction
+            openAction: actions.openSearchAction
         )
         return HomeViewController(
             viewModel: viewModel
