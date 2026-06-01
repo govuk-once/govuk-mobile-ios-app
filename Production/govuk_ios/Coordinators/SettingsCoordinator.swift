@@ -73,6 +73,9 @@ class SettingsCoordinator: TabItemCoordinator {
         settingsViewModel.notificationsAction = { [weak self] in
             self?.startNotificationsSettings()
         }
+        settingsViewModel.notificationCentreAction = { [weak self] in
+            self?.startNotificationCentre()
+        }
         settingsViewModel.localAuthenticationAction = { [weak self] in
             self?.startLocalAuthenticationSettings()
         }
@@ -110,6 +113,11 @@ class SettingsCoordinator: TabItemCoordinator {
         let coordinator = coordinatorBuilder.yourAccountsSettings(
             navigationController: root
         )
+    }
+    
+    private func startNotificationCentre() {
+        let coordinator = coordinatorBuilder
+            .notificationCenterCoordinator(navigationController: root)
         start(coordinator)
     }
 

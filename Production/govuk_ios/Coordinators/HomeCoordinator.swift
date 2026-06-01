@@ -76,13 +76,6 @@ class HomeCoordinator: TabItemCoordinator {
             },
             openSearchAction: { [weak self] item in
                 self?.presentWebView(url: item.link)
-            },
-            notificationCentreAction: { [weak self] in
-                    guard let self = self
-                    else { return }
-                let coordinator = coordinatorBuilder
-                    .notificationCenterCoordinator(navigationController: root)
-                start(coordinator)
             }
         )
 
