@@ -58,12 +58,16 @@ struct NotificationConsentCoordinatorTests {
     }
 
     @Test
-    func start_misaligned_consentNotGrantedNotificationsOn_presentsAlert() {
+    func start_misaligned_consentNotGrantedNotificationsOn_presentsAlert() throws {
         let mockNavigationController = MockNavigationController()
         let mockNotificationService = MockNotificationService()
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let expectedConsentAlertViewController = UIViewController()
         mockViewControllerBuilder._stubbedNotificationConsentAlertViewController = expectedConsentAlertViewController
+
+        let window = try #require(UIApplication.shared.window)
+        window.rootViewController = mockNavigationController
+        window.makeKeyAndVisible()
 
         var completionCalled = false
         let subject = NotificationConsentCoordinator(
@@ -87,10 +91,14 @@ struct NotificationConsentCoordinatorTests {
     }
 
     @Test
-    func grantConsent_acceptsConsent() async {
+    func grantConsent_acceptsConsent() async throws {
         let mockNavigationController = MockNavigationController()
         let mockNotificationService = MockNotificationService()
         let mockViewControllerBuilder = MockViewControllerBuilder()
+
+        let window = try #require(UIApplication.shared.window)
+        window.rootViewController = mockNavigationController
+        window.makeKeyAndVisible()
 
         let subject = NotificationConsentCoordinator(
             navigationController: mockNavigationController,
