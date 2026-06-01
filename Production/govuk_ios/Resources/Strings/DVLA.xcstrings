@@ -23,6 +23,17 @@
         }
       }
     },
+    "detailsButtonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Details"
+          }
+        }
+      }
+    },
     "dvlaAccountErrorBody" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -129,6 +140,83 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Keep track of your penalty points, tax and MOT dates."
+          }
+        }
+      }
+    },
+    "loadingVehiclesAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading vehicles information"
+          }
+        }
+      }
+    },
+    "moreOptionsButtonAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "More options"
+          }
+        }
+      }
+    },
+    "motStatusTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MOT"
+          }
+        }
+      }
+    },
+    "registrationNumberAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Number plate: %1$(registrationNumber)@"
+          }
+        }
+      }
+    },
+    "taxStatusTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tax"
+          }
+        }
+      }
+    },
+    "unknown" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unknown"
+          }
+        }
+      }
+    },
+    "vehicleSummaryValidUntil" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Valid until %1$(date)@"
           }
         }
       }

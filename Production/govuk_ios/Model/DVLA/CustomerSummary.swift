@@ -7,7 +7,9 @@ struct CustomerSummary: Codable {
         let make: String
         let model: String?
         let taxStatus: String
+        let taxedUntil: Date?
         let motStatus: String
+        let motExpiryDate: Date?
     }
 
     let customerResponse: CustomerResponse

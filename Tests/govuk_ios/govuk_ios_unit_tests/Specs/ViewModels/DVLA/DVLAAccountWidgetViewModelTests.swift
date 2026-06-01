@@ -31,7 +31,7 @@ struct DVLAAccountWidgetViewModelTests {
     }
 
     @Test
-    func viewDidAppear_accountIsLinked_createsActionCards() async {
+    func viewDidAppear_accountIsLinked_createsActionCards() async throws {
         mockUserService._stubbedIsDvlaAccountLinked = true
         let sut = DVLAAccountWidgetViewModel(
             analyticsService: mockAnalyticsService,
@@ -40,8 +40,13 @@ struct DVLAAccountWidgetViewModelTests {
             actions: .empty
         )
         await sut.viewDidAppear()
-        #expect(sut.actionCards.count == 7)
-        #expect(sut.actionCards.first?.title == String.dvla.localized("dvlaAccountUnlinkCardTitle"))
+
+        var actionCards: [ListCardViewModel]?
+        if case .linked(let cards,_) = sut.viewState {
+            actionCards = cards
+        }
+        #expect(actionCards?.count == 7)
+        #expect(actionCards?.first?.title == String.dvla.localized("dvlaAccountUnlinkCardTitle"))
     }
 
     @Test
@@ -66,10 +71,13 @@ struct DVLAAccountWidgetViewModelTests {
             )
         )
         await sut.viewDidAppear()
-        let linkCardViewModel = try #require(sut.linkCardViewModel)
-        #expect(linkCardViewModel.title == String.dvla.localized("dvlaAccountLinkCardTitle"))
-        #expect(linkCardViewModel.subtitle == String.dvla.localized("dvlaAccountLinkCardSubtitle"))
-        linkCardViewModel.action()
+        var linkCardViewModel: ServiceAccountLinkCardViewModel?
+        if case .unlinked(let linkCard) = sut.viewState {
+            linkCardViewModel = linkCard
+        }
+        #expect(linkCardViewModel?.title == String.dvla.localized("dvlaAccountLinkCardTitle"))
+        #expect(linkCardViewModel?.subtitle == String.dvla.localized("dvlaAccountLinkCardSubtitle"))
+        linkCardViewModel?.action()
         #expect(linkActionCalled == true)
     }
 
@@ -83,7 +91,12 @@ struct DVLAAccountWidgetViewModelTests {
             actions: .empty
         )
         await sut.viewDidAppear()
-        sut.linkCardViewModel?.action()
+
+        var linkCardViewModel: ServiceAccountLinkCardViewModel?
+        if case .unlinked(let linkCard) = sut.viewState {
+            linkCardViewModel = linkCard
+        }
+        linkCardViewModel?.action()
 
         let navigationEvent = mockAnalyticsService._trackedEvents.first
         #expect(navigationEvent?.params?["text"] as? String == "Add driver and vehicles account")
