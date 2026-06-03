@@ -4,8 +4,8 @@ struct VehicleSummaryViewModel: Identifiable {
     private let vehicle: CustomerSummary.Vehicle
     private let dateFormatter = DateFormatter.dvlaAccount
 
-    var id: String {
-        vehicle.registrationNumber
+    var id: Int {
+        vehicle.vehicleId
     }
 
     var registrationNumber: String {
