@@ -142,20 +142,19 @@ struct TopicsRepositoryTests {
         let sut = TopicsRepository(coreData: coreData)
         Topic.arrange(context: coreData.viewContext)
 
-        let request = Topic.fetchRequest()
         let context = coreData.backgroundContext
-        var topics: [Topic]?
-
         context.performAndWait {
-            topics = try? context.fetch(request)
+            let request = Topic.fetchRequest()
+            let topics = try? context.fetch(request)
+            #expect(topics?.count == 0)
         }
-        #expect(topics?.count == 0)
 
         sut.save()
 
         context.performAndWait {
-            topics = try? context.fetch(request)
+            let request = Topic.fetchRequest()
+            let topics = try? context.fetch(request)
+            #expect(topics?.count == 1)
         }
-        #expect(topics?.count == 1)
     }
 }
