@@ -1,55 +1,36 @@
 import Foundation
 
 struct VehicleSummaryViewModel: Identifiable {
-    private let vehicle: CustomerSummary.Vehicle
-    private let dateFormatter = DateFormatter.dvlaAccount
+    let id: Int
+    let registrationNumber: String
+    let registrationNumberAccessibilityLabel: String
+    let vehicleMake: String
+    let vehicleModel: String
+    let taxStatusViewModel: ValidityStatusViewModel
+    let motStatusViewModel: ValidityStatusViewModel
 
-    var id: Int {
-        vehicle.vehicleId
-    }
+    init(
+        vehicle: CustomerSummary.Vehicle,
+        statusFormatter: DVLAValidityStatusFormatter = DVLAValidityStatusFormatter()
+    ) {
+        self.id = vehicle.vehicleId
+        self.registrationNumber = vehicle.registrationNumber
+        self.vehicleMake = vehicle.make
+        self.vehicleModel = vehicle.model ?? String.dvla.localized("unknown")
 
-    var registrationNumber: String {
-        vehicle.registrationNumber
-    }
-
-    var registrationNumberAccessibilityLabel: String {
-        let format = String.dvla.localized("registrationNumberAccessibilityLabel")
-        return String.localizedStringWithFormat(format, registrationNumber)
-    }
-
-    var vehicleMake: String {
-        vehicle.make
-    }
-
-    var vehicleModel: String {
-        vehicle.model ?? String.dvla.localized("unknown")
-    }
-
-    var taxStatusViewModel: ValidityStatusViewModel {
-        .init(
+        self.taxStatusViewModel = ValidityStatusViewModel(
             title: String.dvla.localized("taxStatusTitle"),
-            status: formatValidityStatus(from: vehicle.taxedUntil)
+            status: statusFormatter.formatStatus(from: vehicle.taxedUntil)
         )
-    }
-
-    var motStatusViewModel: ValidityStatusViewModel {
-        .init(
+        self.motStatusViewModel = ValidityStatusViewModel(
             title: String.dvla.localized("motStatusTitle"),
-            status: formatValidityStatus(from: vehicle.motExpiryDate)
+            status: statusFormatter.formatStatus(from: vehicle.motExpiryDate)
         )
-    }
 
-    init(vehicle: CustomerSummary.Vehicle) {
-        self.vehicle = vehicle
-    }
-
-    private func formatValidityStatus(from expiryDate: Date?) -> String {
-        if let expiryDate = expiryDate {
-            let expiryDateString = dateFormatter.string(from: expiryDate)
-            let format = String.dvla.localized("vehicleSummaryValidUntil")
-            return String.localizedStringWithFormat(format, expiryDateString)
-        } else {
-            return String.dvla.localized("unknown")
-        }
+        let format = String.dvla.localized("registrationNumberAccessibilityLabel")
+        self.registrationNumberAccessibilityLabel = .localizedStringWithFormat(
+            format,
+            vehicle.registrationNumber
+        )
     }
 }

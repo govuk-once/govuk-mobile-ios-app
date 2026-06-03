@@ -210,7 +210,7 @@
         }
       }
     },
-    "vehicleSummaryValidUntil" : {
+    "validUntil" : {
       "extractionState" : "manual",
       "localizations" : {
         "en-GB" : {

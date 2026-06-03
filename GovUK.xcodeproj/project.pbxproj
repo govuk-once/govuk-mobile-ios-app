@@ -339,6 +339,7 @@
 		8178EA6C2F7AA655008AF03A /* ServiceAccountLinkStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8178EA6B2F7AA64A008AF03A /* ServiceAccountLinkStatus.swift */; };
 		8181DBFA2EE214B100F47531 /* FactoryKit in Frameworks */ = {isa = PBXBuildFile; productRef = 8181DBF92EE214B100F47531 /* FactoryKit */; };
 		8181DBFC2EE214B100F47531 /* FactoryTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 8181DBFB2EE214B100F47531 /* FactoryTesting */; };
+		81A6E3232FD07583006FB0F0 /* DVLAValidityStatusFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A6E3222FD07578006FB0F0 /* DVLAValidityStatusFormatter.swift */; };
 		81AF5C232F9A706A003227BA /* ServiceAccountConsentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AF5C222F9A7051003227BA /* ServiceAccountConsentView.swift */; };
 		81BF887E2FA1029C00249569 /* ServiceAccountLinkSuccessViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BF887D2FA1029400249569 /* ServiceAccountLinkSuccessViewModel.swift */; };
 		81BF88802FA10EB500249569 /* ServiceAccountLinkSuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BF887F2FA10EAE00249569 /* ServiceAccountLinkSuccessView.swift */; };
@@ -862,6 +863,7 @@
 		815C58692EE973F400322705 /* RemoteConfigServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigServiceClient.swift; sourceTree = "<group>"; };
 		8171AE462F11169A0024312B /* ScrollBottomIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollBottomIndicatorView.swift; sourceTree = "<group>"; };
 		8178EA6B2F7AA64A008AF03A /* ServiceAccountLinkStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountLinkStatus.swift; sourceTree = "<group>"; };
+		81A6E3222FD07578006FB0F0 /* DVLAValidityStatusFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DVLAValidityStatusFormatter.swift; sourceTree = "<group>"; };
 		81AF5C222F9A7051003227BA /* ServiceAccountConsentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountConsentView.swift; sourceTree = "<group>"; };
 		81BF887D2FA1029400249569 /* ServiceAccountLinkSuccessViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountLinkSuccessViewModel.swift; sourceTree = "<group>"; };
 		81BF887F2FA10EAE00249569 /* ServiceAccountLinkSuccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountLinkSuccessView.swift; sourceTree = "<group>"; };
@@ -1951,6 +1953,7 @@
 				5D962D5E2C29BD0B0038BC0A /* Coordinators */,
 				5D8683932C340F0A0024F2D8 /* Deeplinking */,
 				5D1353AE2BE0D9A700414441 /* Extensions */,
+				81A6E31E2FD07549006FB0F0 /* Formatters */,
 				5DE970512C297637009D66C4 /* Model */,
 				5D41DB672C087F850011E691 /* Networking */,
 				16FD684B2D39B5F6002F1597 /* Processors */,
@@ -2245,6 +2248,22 @@
 				815935D82F212EF300F8D206 /* UserServiceClient.swift */,
 			);
 			path = User;
+			sourceTree = "<group>";
+		};
+		81A6E31E2FD07549006FB0F0 /* Formatters */ = {
+			isa = PBXGroup;
+			children = (
+				81A6E3212FD07573006FB0F0 /* DVLA */,
+			);
+			path = Formatters;
+			sourceTree = "<group>";
+		};
+		81A6E3212FD07573006FB0F0 /* DVLA */ = {
+			isa = PBXGroup;
+			children = (
+				81A6E3222FD07578006FB0F0 /* DVLAValidityStatusFormatter.swift */,
+			);
+			path = DVLA;
 			sourceTree = "<group>";
 		};
 		81D239712F2CD2D200AC7DA5 /* User */ = {
@@ -3162,6 +3181,7 @@
 				D04C542E2D7082000070EE79 /* ECommerceItem.swift in Sources */,
 				5D899A222C946F8A0074C0AD /* UIBarButtonItem+Convenience.swift in Sources */,
 				815011D72F7C4EF200E7469C /* DVLAServiceClient.swift in Sources */,
+				81A6E3232FD07583006FB0F0 /* DVLAValidityStatusFormatter.swift in Sources */,
 				5DBE08082C480CA700B58DBE /* UITabBarItem+Convenience.swift in Sources */,
 				81DA111C2F713CF6001C4E09 /* DVLAAuthenticationService.swift in Sources */,
 				D03678C02E33A208009BCC32 /* RegexValidator+PII.swift in Sources */,
