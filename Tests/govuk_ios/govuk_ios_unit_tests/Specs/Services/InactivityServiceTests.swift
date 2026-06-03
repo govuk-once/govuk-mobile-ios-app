@@ -92,6 +92,7 @@ class InactivityServiceTests {
     }
 
     @Test
+    @MainActor
     func startMonitoring_appDidEnterBackground_setsBackgroundedTime() {
         let mockTimer = MockTimerWrapper()
         let mockWarningTimer = MockTimerWrapper()

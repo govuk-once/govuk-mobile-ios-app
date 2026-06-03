@@ -79,7 +79,6 @@ struct ChatErrorViewModelTests {
 
         let screens = mockAnalyticsService._trackScreenReceivedScreens
         #expect(screens.count == 1)
-        #expect(screens.first?.trackingName == sut.trackingName)
-        #expect(screens.first?.trackingTitle == sut.trackingTitle)
+        #expect(screens.first?.trackingClass == screen.trackingClass)
     }
 }

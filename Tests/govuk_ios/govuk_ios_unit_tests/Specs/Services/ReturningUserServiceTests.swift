@@ -89,7 +89,7 @@ struct ReturningUserServiceTests {
         let mockLocalAuthenticationService = MockLocalAuthenticationService()
         mockLocalAuthenticationService._stubbedAuthenticationOnboardingSeen = true
         mockSecureStoreService._stubbedReadItemResult = .success(UUID().uuidString)
-        mockCoreDataDeletionService._deleteAllObjectsError = NSError()
+        mockCoreDataDeletionService._deleteAllObjectsError = NSError.init(domain: "GovUKApp", code: -1)
         let sut = ReturningUserService(
             openSecureStoreService: mockSecureStoreService,
             localAuthenticationService: mockLocalAuthenticationService,
@@ -134,7 +134,7 @@ struct ReturningUserServiceTests {
         let mockSecureStoreService = MockSecureStoreService()
         let mockLocalAuthenticationService = MockLocalAuthenticationService()
         mockLocalAuthenticationService._stubbedAuthenticationOnboardingSeen = true
-        mockSecureStoreService._stubbedReadItemResult = .failure(NSError())
+        mockSecureStoreService._stubbedReadItemResult = .failure(NSError.init(domain: "GovUKApp", code: -1))
         let sut = ReturningUserService(
             openSecureStoreService: mockSecureStoreService,
             localAuthenticationService: mockLocalAuthenticationService,
@@ -158,7 +158,7 @@ struct ReturningUserServiceTests {
         let mockSecureStoreService = MockSecureStoreService()
         let mockLocalAuthenticationService = MockLocalAuthenticationService()
         mockLocalAuthenticationService._stubbedAuthenticationOnboardingSeen = true
-        mockSecureStoreService._stubbedSaveItemResult = .failure(NSError())
+        mockSecureStoreService._stubbedSaveItemResult = .failure(NSError.init(domain: "GovUKApp", code: -1))
         mockSecureStoreService._stubbedReadItemResult = .success(UUID().uuidString)
         let sut = ReturningUserService(
             openSecureStoreService: mockSecureStoreService,

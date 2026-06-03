@@ -70,13 +70,16 @@ struct HomeCoordinatorTests {
     
     @Test
     @MainActor
-    func open_search() async {
+    func open_search() async throws {
         let mockCoodinatorBuilder = MockCoordinatorBuilder.mock
         let homeViewController = await ViewControllerBuilder.homeViewController
         let subject = await  mockCoodinatorBuilder.mockHomeCoordinator(homeViewController: homeViewController)
         subject.start()
         #expect(subject._didOpenSearch == false)
         #expect(homeViewController._didOpenSearch == false)
+        let window = try #require(UIApplication.shared.window)
+        window.rootViewController = homeViewController
+        window.makeKeyAndVisible()
         subject.openSearch()
         #expect(subject._didOpenSearch == true)
         #expect(homeViewController._didOpenSearch == true)

@@ -174,7 +174,7 @@ struct SettingsCoordinatorTests {
     }
 
     @Test
-    func selecting_signOut_starts_signOutConfirmation() {
+    func selecting_signOut_starts_signOutConfirmation() throws {
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let expectedViewController = UIViewController()
         mockViewControllerBuilder._stubbedSettingsViewController = expectedViewController
@@ -182,6 +182,11 @@ struct SettingsCoordinatorTests {
         let mockSignOutConfirmationCoordinator = MockBaseCoordinator()
         mockCoordinatorBuilder._stubbedSignOutConfirmationCoordinator = mockSignOutConfirmationCoordinator
         let navigationController = UINavigationController()
+
+        let window = try #require(UIApplication.shared.window)
+        window.rootViewController = navigationController
+        window.makeKeyAndVisible()
+
         let subject = SettingsCoordinator(
             navigationController: navigationController,
             viewControllerBuilder: mockViewControllerBuilder,

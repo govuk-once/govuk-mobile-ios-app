@@ -105,12 +105,16 @@ struct SafariCoordinatorTests {
 
     @Test
     @MainActor
-    func start_notFullScreen_configuresCorrectly() {
+    func start_notFullScreen_configuresCorrectly() throws {
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let expectedViewController = UIViewController()
         mockViewControllerBuilder._stubbedSafariViewController = expectedViewController
+        let mockNavigationController = MockNavigationController()
+        let window = try #require(UIApplication.shared.window)
+        window.rootViewController = mockNavigationController
+        window.makeKeyAndVisible()
         let subject = SafariCoordinator(
-            navigationController: MockNavigationController(),
+            navigationController: mockNavigationController,
             viewControllerBuilder: mockViewControllerBuilder,
             configService: MockAppConfigService(),
             urlOpener: MockURLOpener(),

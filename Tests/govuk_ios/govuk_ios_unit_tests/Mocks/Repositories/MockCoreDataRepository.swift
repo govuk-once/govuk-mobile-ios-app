@@ -20,6 +20,7 @@ class MockCoreDataRepository: CoreDataRepositoryInterface {
     }
 
     init(entities: [NSEntityDescription] = [], storeType: String = NSSQLiteStoreType) {
+        self.storeType = storeType
         let tempDir = NSTemporaryDirectory()
         let uuid = UUID().uuidString
         let tempStoreURL = URL(fileURLWithPath: tempDir).appendingPathComponent(
@@ -28,7 +29,7 @@ class MockCoreDataRepository: CoreDataRepositoryInterface {
         self.storeURL = tempStoreURL
         let managedObjectModel = NSManagedObjectModel()
         managedObjectModel.entities = entities
-        let persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
+        persistentStoreCoordinator = NSPersistentStoreCoordinator(managedObjectModel: managedObjectModel)
         do {
             try persistentStoreCoordinator.addPersistentStore(
                 ofType: storeType,
@@ -49,8 +50,18 @@ class MockCoreDataRepository: CoreDataRepositoryInterface {
     }
 
     private var storeURL: URL?
-    func cleanUp() {
+    private var persistentStoreCoordinator: NSPersistentStoreCoordinator
+    private let storeType: String
+
+    deinit {
         guard let storeURL = self.storeURL else { return }
+        try? persistentStoreCoordinator.destroyPersistentStore(
+            at: storeURL,
+            type: NSPersistentStore.StoreType(rawValue: storeType))
         try? FileManager.default.removeItem(at: storeURL)
+        var nextFilePath = storeURL.deletingPathExtension().appendingPathExtension("sqlite-shm")
+        try? FileManager.default.removeItem(at: nextFilePath)
+        nextFilePath = storeURL.deletingPathExtension().appendingPathExtension("sqlite-wal")
+        try? FileManager.default.removeItem(at: nextFilePath)
     }
 }

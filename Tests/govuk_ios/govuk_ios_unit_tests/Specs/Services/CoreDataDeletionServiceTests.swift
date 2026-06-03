@@ -7,10 +7,6 @@ import Testing
 class CoreDataDeletionServiceTests {
     var mockCoreDataRepository: MockCoreDataRepository!
 
-    deinit {
-        mockCoreDataRepository.cleanUp()
-    }
-
     @Test
     func deleteAllObjects_isSuccessful() throws {
         let entity1 = NSEntityDescription()
