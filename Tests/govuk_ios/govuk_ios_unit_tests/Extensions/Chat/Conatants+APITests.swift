@@ -24,4 +24,9 @@ struct Conatants_APITests {
     func defaultChatFeedbackUrl_returnsExpectedResult() {
         #expect(Constants.API.defaultChatFeedbackUrl.absoluteString == "https://surveys.publishing.service.gov.uk/s/SUIEH2/")
     }
+    
+    @Test
+    func betaPrivacyPolicyUrl_returnsExpectedResult() {
+        #expect(Constants.API.betaPrivacyPolicyURL.absoluteString == "https://www.gov.uk/government/publications/govuk-test-app-privacy-notice")
+    }
 }

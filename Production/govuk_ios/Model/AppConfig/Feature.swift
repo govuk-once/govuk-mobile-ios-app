@@ -9,5 +9,5 @@ enum Feature: String {
     case externalBrowser
     case notifications
     case chat
-    case profile
+    case profile = "profile_v2"
 }
