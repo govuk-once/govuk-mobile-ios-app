@@ -3,11 +3,11 @@ import GovKitUI
 import GovKit
 
 struct SettingsView<T: SettingsViewModelInterface>: View {
-    @StateObject var viewModel: T
+    @ObservedObject var viewModel: T
     @Namespace var topID
 
     init(viewModel: T) {
-        _viewModel = StateObject(wrappedValue: viewModel)
+        _viewModel = ObservedObject(wrappedValue: viewModel)
     }
 
     var body: some View {
