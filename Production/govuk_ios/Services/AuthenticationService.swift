@@ -176,6 +176,9 @@ class AuthenticationService: AuthenticationServiceInterface {
         if tokenResponse.idToken?.isEmpty == true {
             analyticsService.track(error: AuthenticationError.emptyIdToken)
         }
+        if tokenResponse.accessToken.isEmpty {
+            analyticsService.track(error: AuthenticationError.emptyAccessToken)
+        }
         if tokenResponse.refreshToken == nil {
             analyticsService.track(error: AuthenticationError.missingRefreshToken)
         }

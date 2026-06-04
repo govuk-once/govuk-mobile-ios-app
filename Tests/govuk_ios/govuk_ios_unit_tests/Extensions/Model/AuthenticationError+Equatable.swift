@@ -13,6 +13,12 @@ extension AuthenticationError: @retroactive Equatable {
             return lhsError == rhsError
         case (.unknown(let lhsError), .unknown(let rhsError)):
             return lhsError.localizedDescription == rhsError.localizedDescription
+        case (.emptyAccessToken, .emptyAccessToken):
+            return true
+        case (.emptyRefreshToken, .emptyRefreshToken):
+            return true
+        case (.emptyIdToken, .emptyIdToken):
+            return true
         default:
             return false
         }
