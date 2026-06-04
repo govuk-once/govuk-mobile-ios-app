@@ -32,6 +32,8 @@ final class SignInErrorViewModel: InfoViewModelInterface {
             return "1"
         case .missingIdToken, .missingRefreshToken:
             return "-"
+        case .emptyIdToken, .emptyAccessToken, .emptyRefreshToken:
+            return "-"
         }
     }
 
