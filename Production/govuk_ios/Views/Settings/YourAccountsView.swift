@@ -1,5 +1,6 @@
 import SwiftUI
 import GovKitUI
+import GovKit
 
 struct YourAccountsView: View {
     @StateObject var viewModel: YourAccountsViewViewModel
@@ -13,9 +14,11 @@ struct YourAccountsView: View {
             case .success:
                 successView
             case .failure:
-                errorView
+                failureView
             case .loading:
                 loadingView
+            case .emptyView:
+                emptyView
             }
         }.background {
             Color(UIColor.govUK.fills.surfaceBackground)
@@ -35,31 +38,32 @@ struct YourAccountsView: View {
         }
     }
 
-    private var errorView: some View {
+    private var failureView: some View {
+        VStack {
+            VStack(spacing: 8) {
+                Image(systemName: "exclamationmark.circle")
+                    .font(.title)
+                    .foregroundColor(Color(uiColor: UIColor.govUK.text.iconTertiary))
+                VStack(spacing: 2) {
+                    Text("Your accounts are not working")
+                        .font(Font.govUK.bodySemibold)
+                        .foregroundColor(Color(uiColor: .govUK.text.primary))
+                    Text("Try again later")
+                        .font(Font.govUK.body)
+                        .foregroundColor(Color(uiColor: .govUK.text.primary))
+                }
+            }
+            .padding(.vertical, 24)
+            .frame(maxWidth: .infinity)
+            .background(Color(uiColor: UIColor.govUK.fills.surfaceList))
+            .roundedBorder(borderColor: .clear)
+            Spacer()
+        }.padding(.top, 20)
+        .padding(.horizontal, 16)
+    }
+
+    private var emptyView: some View {
         VStack(spacing: 20) {
-            HStack {
-                ToolbarGlassButton(
-                    action: {
-                        viewModel.dismissAction()
-                    },
-                    label: {
-                        Image(systemName: "chevron.left")
-                            .font(Font.govUK.body)
-                            .foregroundColor(Color(UIColor.govUK.text.primary))
-                    }
-                ).accessibilityLabel(viewModel.backButtonAccessibilityLabel)
-                Spacer()
-            }
-            HStack {
-                Text(viewModel.title)
-                    .font(Font.govUK.largeTitleBold)
-                    .foregroundColor(
-                        Color(
-                            UIColor.govUK.text.primary
-                        )
-                    )
-                Spacer()
-            }
             NonTappableCardView(text: viewModel.errorViewDescription)
             Spacer()
         }.background {
@@ -71,37 +75,6 @@ struct YourAccountsView: View {
 
     private var successView: some View {
         VStack {
-            HStack {
-                ToolbarGlassButton(
-                    action: {
-                        viewModel.dismissAction()
-                    },
-                    label: {
-                        Image(systemName: "chevron.left")
-                            .frame(minHeight: 24)
-                            .font(Font.govUK.body)
-                            .foregroundColor(Color(UIColor.govUK.text.primary))
-                    }
-                )
-                .accessibilityLabel(viewModel.backButtonAccessibilityLabel)
-                Spacer()
-                ToolbarGlassButton(
-                    action: { },
-                    label: {
-                        Text(viewModel.editButtonTitle)
-                            .frame(minHeight: 24)
-                            .font(Font.govUK.body)
-                            .foregroundColor(Color(UIColor.govUK.text.primary))
-                    }
-                )
-                .accessibilityLabel(viewModel.editButtonTitle)
-            }
-            HStack {
-                Text(viewModel.title)
-                    .font(Font.govUK.largeTitleBold)
-                    .foregroundColor(Color(UIColor.govUK.text.primary))
-                Spacer()
-            }
             VStack {
                 HStack {
                     Text(viewModel.yourAccountsCardTitle)
@@ -121,5 +94,15 @@ struct YourAccountsView: View {
                 .ignoresSafeArea()
         }
         .padding([.horizontal], 16)
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button(
+                    action: {},
+                    label: {
+                        Text(viewModel.editButtonTitle)
+                    }
+                )
+            }
+        }
     }
 }

@@ -718,9 +718,13 @@ class ViewControllerBuilder {
             viewModel: viewModel
         )
         let viewController = HostingViewController(
-            rootView: view, navigationBarHidden: true,
+            rootView: view,
             statusBarStyle: .darkContent
         )
+
+            viewController.title = viewModel.title
+
+            viewController.navigationItem.largeTitleDisplayMode = .always
         return viewController
     }
 
