@@ -17,7 +17,7 @@ struct YourAccountsView: View {
                 failureView
             case .loading:
                 loadingView
-            case .emptyView:
+            case .empty:
                 emptyView
             }
         }.background {
@@ -58,13 +58,14 @@ struct YourAccountsView: View {
             .background(Color(uiColor: UIColor.govUK.fills.surfaceList))
             .roundedBorder(borderColor: .clear)
             Spacer()
-        }.padding(.top, 20)
+        }.padding(.top, 8)
         .padding(.horizontal, 16)
     }
 
     private var emptyView: some View {
-        VStack(spacing: 20) {
+        VStack {
             NonTappableCardView(text: viewModel.errorViewDescription)
+                .padding(.top, 8)
             Spacer()
         }.background {
             Color(UIColor.govUK.fills.surfaceBackground)
@@ -93,6 +94,7 @@ struct YourAccountsView: View {
             Color(UIColor.govUK.fills.surfaceBackground)
                 .ignoresSafeArea()
         }
+        .padding(.top, 8)
         .padding([.horizontal], 16)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {

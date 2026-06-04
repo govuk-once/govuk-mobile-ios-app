@@ -29,7 +29,7 @@ final class YourAccountsViewViewModel: ObservableObject {
 
     enum State {
         case loading
-        case emptyView
+        case empty
         case success
         case failure
     }
@@ -44,7 +44,7 @@ final class YourAccountsViewViewModel: ObservableObject {
             if status.linked == true {
                 self.state = .success
             } else {
-                self.state = .emptyView
+                self.state = .empty
             }
         case .failure:
             self.state = .failure

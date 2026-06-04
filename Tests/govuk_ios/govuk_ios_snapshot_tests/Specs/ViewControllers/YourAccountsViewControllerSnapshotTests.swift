@@ -98,6 +98,51 @@ final class YourAccountsViewControllerSnapshotTests: SnapshotTestCase {
             prefersLargeTitles: true
         )
     }
+
+    func test_loadInNavigationController_empty_light_rendersCorrectly() {
+        let mockUserService = MockUserService()
+        mockUserService._stubbedFetchAccountLinkStatusResult = .success(.arrangeUnlinked)
+        let viewModel = YourAccountsViewViewModel(
+            userService: mockUserService,
+            dismissAction: {}
+        )
+        viewModel.state = .failure
+        let view = YourAccountsView(
+            viewModel: viewModel
+        )
+        let viewController = HostingViewController(
+            rootView: view,
+            navigationBarHidden: true
+        )
+        VerifySnapshotInNavigationController(
+            viewController: viewController,
+            mode: .light,
+            prefersLargeTitles: true
+        )
+    }
+
+    func test_loadInNavigationController_empty_dark_rendersCorrectly() {
+        let mockUserService = MockUserService()
+        mockUserService._stubbedFetchAccountLinkStatusResult = .success(.arrangeUnlinked)
+
+        let viewModel = YourAccountsViewViewModel(
+            userService: mockUserService,
+            dismissAction: {}
+        )
+        viewModel.state = .failure
+        let view = YourAccountsView(
+            viewModel: viewModel
+        )
+        let viewController = HostingViewController(
+            rootView: view,
+            navigationBarHidden: true
+        )
+        VerifySnapshotInNavigationController(
+            viewController: viewController,
+            mode: .dark,
+            prefersLargeTitles: true
+        )
+    }
 }
 
 

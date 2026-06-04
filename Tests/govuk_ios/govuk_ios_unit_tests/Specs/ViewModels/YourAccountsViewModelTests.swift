@@ -5,7 +5,7 @@ import Testing
 struct YourAccountsViewModelTests {
 
     @Test
-    func fetchAccountLinkStatus_success_updatesStateCorrectly() async {
+    func fetchAccountLinkStatus_success_linked_updatesStateCorrectly() async {
         let mockUserService = MockUserService()
         mockUserService._stubbedFetchAccountLinkStatusResult = .success(.arrangeLinked)
 
@@ -15,6 +15,19 @@ struct YourAccountsViewModelTests {
         )
         await sut.fetchAccountLinkStatus()
         #expect(sut.state == .success)
+    }
+
+    @Test
+    func fetchAccountLinkStatus_success_unliked_updatesStateCorrectly() async {
+        let mockUserService = MockUserService()
+        mockUserService._stubbedFetchAccountLinkStatusResult = .success(.arrangeUnlinked)
+
+        let sut = YourAccountsViewViewModel(
+            userService: mockUserService,
+            dismissAction: {}
+        )
+        await sut.fetchAccountLinkStatus()
+        #expect(sut.state == .empty)
     }
 
 
