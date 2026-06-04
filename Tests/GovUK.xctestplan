@@ -48,13 +48,6 @@
         "identifier" : "5DAD71892BD250DF0075F648",
         "name" : "govuk_ios_unit_tests"
       }
-    },
-    {
-      "target" : {
-        "containerPath" : "container:GOVKit",
-        "identifier" : "GOVKitTests",
-        "name" : "GOVKitTests"
-      }
     }
   ],
   "version" : 1

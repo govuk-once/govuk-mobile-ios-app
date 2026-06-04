@@ -10,7 +10,7 @@ struct GOVRequest_UserTests {
     func userState_returnsExpectedValues() {
         let request = GOVRequest.userState
 
-        #expect(request.urlPath == "/app/udp/v1/users")
+        #expect(request.urlPath == "/app/udp/v1/users/me")
         #expect(request.method == .get)
         #expect(request.requiresAuthentication == true)
     }

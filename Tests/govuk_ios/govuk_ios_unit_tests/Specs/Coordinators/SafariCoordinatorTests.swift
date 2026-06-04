@@ -47,6 +47,24 @@ struct SafariCoordinatorTests {
 
     @Test
     @MainActor
+    func start_noneHttpURL_opensURL() {
+        let expectedNoneHttpURL = URL(string: "mailto:test@example.com")!
+        let mockURLOpener = MockURLOpener()
+        let subject = SafariCoordinator(
+            navigationController: MockNavigationController(),
+            viewControllerBuilder: MockViewControllerBuilder(),
+            configService: MockAppConfigService(),
+            urlOpener: mockURLOpener,
+            url: expectedNoneHttpURL,
+            fullScreen: true
+        )
+        subject.start()
+
+        #expect(mockURLOpener._receivedOpenIfPossibleUrl == expectedNoneHttpURL)
+    }
+
+    @Test
+    @MainActor
     func start_externalBrowserEnabled_opensURL() {
         let expectedURL = URL.arrange
         let mockConfigService = MockAppConfigService()
@@ -87,12 +105,16 @@ struct SafariCoordinatorTests {
 
     @Test
     @MainActor
-    func start_notFullScreen_configuresCorrectly() {
+    func start_notFullScreen_configuresCorrectly() throws {
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let expectedViewController = UIViewController()
         mockViewControllerBuilder._stubbedSafariViewController = expectedViewController
+        let mockNavigationController = MockNavigationController()
+        let window = try #require(UIApplication.shared.window)
+        window.rootViewController = mockNavigationController
+        window.makeKeyAndVisible()
         let subject = SafariCoordinator(
-            navigationController: MockNavigationController(),
+            navigationController: mockNavigationController,
             viewControllerBuilder: mockViewControllerBuilder,
             configService: MockAppConfigService(),
             urlOpener: MockURLOpener(),

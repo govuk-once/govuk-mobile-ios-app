@@ -129,7 +129,7 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
 
     func fetchUserState() {
         guard userService.isEnabled else {
-            handleUserStateFetched()
+            completionAction()
             return
         }
         userService.fetchUserState(completion: { [weak self] result in
@@ -142,15 +142,13 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
                 self?.handleUserStateFailure(error)
             }
         })
-    }
-
-    private func handleUserStateFetched() {
         completionAction()
     }
+
+    private func handleUserStateFetched() { /* Do nothing */ }
 
     private func handleUserStateFailure(_ error: any Error) {
         analyticsService.track(error: error)
-        completionAction()
     }
 
     private func startAppUnavailable(error: AppUnavailableError) {
@@ -170,7 +168,7 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
                 }
             },
             dismissAction: { [weak self] in
-                self?.handleUserStateFetched()
+                self?.completionAction()
             }
         )
         start(coordinator)

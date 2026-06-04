@@ -1,16 +1,24 @@
 import Testing
-
+import FactoryKit
 @testable import govuk_ios
 
 class EditTopicsViewModelTests {
-    let mockTopicService = MockTopicsService()
     let mockAnalyticsService = MockAnalyticsService()
-
     @Test
     func init_withTopics_createsTopicCardsCorrectly() async throws {
-        mockTopicService._stubbedFetchAllTopics = try await createTopics()
+        let coreData = await CoreDataRepository.arrangeAndLoad
+        let topicService = TopicsService(
+            topicsServiceClient: MockTopicsServiceClient(),
+            analyticsService: mockAnalyticsService,
+            userDefaultsService: MockUserDefaultsService(),
+            topicsRepository: {
+                TopicsRepository(coreData: coreData)
+            })
+
+        try createTopics(coreData)
+
         let sut = EditTopicsViewModel(
-            topicsService: mockTopicService,
+            topicsService: topicService,
             analyticsService: mockAnalyticsService
         )
 
@@ -20,15 +28,25 @@ class EditTopicsViewModelTests {
 
     @Test
     func tapAction_savesTopic() async throws {
-        mockTopicService._stubbedFetchAllTopics = try await createTopics()
+        let coreData = await CoreDataRepository.arrangeAndLoad
+        let topicService = TopicsService(
+            topicsServiceClient: MockTopicsServiceClient(),
+            analyticsService: mockAnalyticsService,
+            userDefaultsService: MockUserDefaultsService(),
+            topicsRepository: {
+                TopicsRepository(coreData: coreData)
+            })
+
+        try createTopics(coreData)
+
         let sut = EditTopicsViewModel(
-            topicsService: mockTopicService,
+            topicsService: topicService,
             analyticsService: mockAnalyticsService
         )
 
         let topicCard = sut.topicSelectionCards[0]
         topicCard.tapAction(true)
-        #expect(mockTopicService._saveCalled)
+        #expect(topicService.fetchFavourites().count == 1)
         let trackedEvent = mockAnalyticsService._trackedEvents.first
         #expect(trackedEvent?.params?["text"] as? String == topicCard.title)
         #expect(trackedEvent?.params?["type"] as? String == "Button")
@@ -38,8 +56,7 @@ class EditTopicsViewModelTests {
 }
 
 private extension EditTopicsViewModelTests {
-    func createTopics() async throws -> [Topic] {
-        let coreData = await CoreDataRepository.arrangeAndLoad
+    func createTopics(_ coreData: CoreDataRepository) throws {
         var topics = [Topic]()
         for index in 0..<3 {
             let topic = Topic(context: coreData.backgroundContext)
@@ -48,6 +65,6 @@ private extension EditTopicsViewModelTests {
             topic.isFavourite = false
             topics.append(topic)
         }
-        return topics
+        try coreData.backgroundContext.save()
     }
 }

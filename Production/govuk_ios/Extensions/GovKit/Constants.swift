@@ -28,6 +28,14 @@ extension Constants.API {
 
     public static let defaultChatFeedbackUrl: URL =
     URL(string: "https://surveys.publishing.service.gov.uk/s/SUIEH2/")!
+
+    public static let betaPrivacyPolicyURL: URL = {
+        var components = govukBaseComponents
+        components.path = """
+            /government/publications/govuk-test-app-privacy-notice
+            """
+        return components.url!
+    }()
 }
 
 extension Constants {

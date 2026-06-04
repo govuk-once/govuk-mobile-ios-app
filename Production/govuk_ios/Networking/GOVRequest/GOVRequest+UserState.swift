@@ -2,7 +2,7 @@ import Foundation
 import GovKit
 
 extension GOVRequest {
-    private static let userPath = "/app/udp/v1/users"
+    private static let userPath = "/app/udp/v1/users/me"
     private static let identityPath = "/app/udp/v1/identity"
     private static let userNotificationsPath = "/app/udp/v1/users/notifications"
 
