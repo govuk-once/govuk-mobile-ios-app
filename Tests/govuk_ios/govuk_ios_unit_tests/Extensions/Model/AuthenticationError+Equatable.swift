@@ -19,6 +19,8 @@ extension AuthenticationError: @retroactive Equatable {
             return true
         case (.emptyIdToken, .emptyIdToken):
             return true
+        case (.missingIdToken, .missingIdToken):
+            return true
         default:
             return false
         }

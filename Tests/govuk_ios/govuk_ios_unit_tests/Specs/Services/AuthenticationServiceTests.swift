@@ -752,6 +752,102 @@ struct AuthenticationServiceTests {
     }
 
     @Test
+    func tokenRefreshRequest_success_emptyAccessToken_tracksError() async {
+        let mockAuthenticationServiceClient = MockAuthenticationServiceClient()
+        let token = TokenRefreshResponse.arrange(
+            accessToken: "",
+            idToken: "a_token"
+        )
+        mockAuthenticationServiceClient._stubbedTokenRefreshResult = .success(token)
+        let mockSecureStoreService = MockSecureStoreService()
+        let refreshToken = UUID().uuidString
+        mockSecureStoreService._stubbedReadItemResult = .success(refreshToken)
+        let mockAnalyticsService = MockAnalyticsService()
+        let sut = AuthenticationService(
+            authenticationServiceClient: mockAuthenticationServiceClient,
+            authenticatedSecureStoreService: mockSecureStoreService,
+            returningUserService: MockReturningUserService(),
+            userDefaultsService: MockUserDefaultsService(),
+            analyticsService: mockAnalyticsService,
+            appConfigService: MockAppConfigService(),
+        )
+
+        let _ = await sut.tokenRefreshRequest()
+        let receivedErrors = mockAnalyticsService._trackErrorReceivedErrors
+            .compactMap { $0 as? AuthenticationError }
+
+        #expect(receivedErrors.count == 1)
+        #expect(
+            receivedErrors.contains(
+                where: { $0 == .emptyAccessToken }
+            )
+        )
+    }
+
+    @Test
+    func tokenRefreshRequest_success_noIdToken_tracksError() async {
+        let mockAuthenticationServiceClient = MockAuthenticationServiceClient()
+        let token = TokenRefreshResponse.arrange(
+            idToken: nil
+        )
+        mockAuthenticationServiceClient._stubbedTokenRefreshResult = .success(token)
+        let mockSecureStoreService = MockSecureStoreService()
+        let refreshToken = UUID().uuidString
+        mockSecureStoreService._stubbedReadItemResult = .success(refreshToken)
+        let mockAnalyticsService = MockAnalyticsService()
+        let sut = AuthenticationService(
+            authenticationServiceClient: mockAuthenticationServiceClient,
+            authenticatedSecureStoreService: mockSecureStoreService,
+            returningUserService: MockReturningUserService(),
+            userDefaultsService: MockUserDefaultsService(),
+            analyticsService: mockAnalyticsService,
+            appConfigService: MockAppConfigService(),
+        )
+
+        let _ = await sut.tokenRefreshRequest()
+        let receivedErrors = mockAnalyticsService._trackErrorReceivedErrors
+            .compactMap { $0 as? AuthenticationError }
+
+        #expect(receivedErrors.count == 1)
+        #expect(
+            receivedErrors.contains(
+                where: { $0 == .missingIdToken }
+            )
+        )
+    }
+
+    @Test
+    func tokenRefreshRequest_success_emptyIdToken_tracksError() async {
+        let mockAuthenticationServiceClient = MockAuthenticationServiceClient()
+        let token = TokenRefreshResponse.arrange(
+            idToken: ""
+        )
+        mockAuthenticationServiceClient._stubbedTokenRefreshResult = .success(token)
+        let mockAnalyticsService = MockAnalyticsService()
+        let mockSecureStoreService = MockSecureStoreService()
+        let refreshToken = UUID().uuidString
+        mockSecureStoreService._stubbedReadItemResult = .success(refreshToken)
+        let sut = AuthenticationService(
+            authenticationServiceClient: mockAuthenticationServiceClient,
+            authenticatedSecureStoreService: mockSecureStoreService,
+            returningUserService: MockReturningUserService(),
+            userDefaultsService: MockUserDefaultsService(),
+            analyticsService: mockAnalyticsService,
+            appConfigService: MockAppConfigService(),
+        )
+        let _ = await sut.tokenRefreshRequest()
+        let receivedErrors = mockAnalyticsService._trackErrorReceivedErrors
+            .compactMap { $0 as? AuthenticationError }
+
+        #expect(receivedErrors.count == 1)
+        #expect(
+            receivedErrors.contains(
+                where: { $0 == .emptyIdToken }
+            )
+        )
+    }
+
+    @Test
     func clearRefreshToken_setsRefreshTokenToNil() async {
         let mockReturningUserService = MockReturningUserService()
         let mockAuthClient = MockAuthenticationServiceClient()
