@@ -10,14 +10,18 @@ struct DVLAAccountWidgetView: View {
 
     var body: some View {
         Group {
-            if let errorViewModel = viewModel.errorViewModel {
-                errorView(for: errorViewModel)
-            } else if viewModel.isLoading {
+            switch viewModel.viewState {
+            case .loading:
                 loadingView
-            } else if let linkCardViewModel = viewModel.linkCardViewModel {
-                linkCardView(for: linkCardViewModel)
-            } else {
-                listView
+            case .linked(let actionCards, let accountSummaryViewModel):
+                VStack {
+                    makeAccountSummaryView(for: accountSummaryViewModel)
+                    makeListView(for: actionCards)
+                }
+            case .unlinked(let linkCardViewModel):
+                makeLinkCardView(for: linkCardViewModel)
+            case .error(let errorViewModel):
+                makeErrorView(for: errorViewModel)
             }
         }
         .task {
@@ -25,7 +29,7 @@ struct DVLAAccountWidgetView: View {
         }
     }
 
-    private func errorView(for errorViewModel: AppErrorViewModel) -> some View {
+    private func makeErrorView(for errorViewModel: AppErrorViewModel) -> some View {
         AppErrorView(viewModel: errorViewModel)
             .frame(maxWidth: .infinity, minHeight: 200)
             .background(Color(UIColor.govUK.fills.surfaceList))
@@ -33,9 +37,13 @@ struct DVLAAccountWidgetView: View {
             .padding(.horizontal, 16)
     }
 
-    private var listView: some View {
+    private func makeAccountSummaryView(for viewModel: DVLAAccountSummaryViewModel) -> some View {
+        DVLAAccountSummaryView(viewModel: viewModel)
+    }
+
+    private func makeListView(for actionCards: [ListCardViewModel]) -> some View {
         VStack(spacing: 8) {
-            ForEach(viewModel.actionCards) { cardModel in
+            ForEach(actionCards) { cardModel in
                 ListCardView(viewModel: cardModel)
             }
         }
@@ -44,8 +52,8 @@ struct DVLAAccountWidgetView: View {
         .background(Color(UIColor.govUK.fills.surfaceBackground))
     }
 
-    private func linkCardView(for linkCardViewModel: ServiceAccountLinkCardViewModel) -> some View {
-        ServiceAccountLinkCardView(viewModel: linkCardViewModel)
+    private func makeLinkCardView(for viewModel: ServiceAccountLinkCardViewModel) -> some View {
+        ServiceAccountLinkCardView(viewModel: viewModel)
             .padding(.horizontal, 16)
     }
 

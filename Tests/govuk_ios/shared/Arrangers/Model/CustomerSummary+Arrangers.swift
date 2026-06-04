@@ -37,9 +37,11 @@ extension CustomerSummary.Vehicle {
         vehicleId: Int = 1,
         registrationNumber: String = "AB71 CDE",
         make: String = "MITSUBISHI",
-        model: String = "MIRAGE",
+        model: String? = "MIRAGE",
         taxStatus: String = "Taxed",
-        motStatus: String = "Not valid"
+        taxedUntil: Date? = nil,
+        motStatus: String = "Not valid",
+        motExpiryDate: Date? = nil
     ) -> CustomerSummary.Vehicle {
         .init(
             vehicleId: vehicleId,
@@ -47,7 +49,9 @@ extension CustomerSummary.Vehicle {
             make: make,
             model: model,
             taxStatus: taxStatus,
-            motStatus: motStatus
+            taxedUntil: taxedUntil,
+            motStatus: motStatus,
+            motExpiryDate: motExpiryDate
         )
     }
 }

@@ -1,22 +1,28 @@
 import GovKit
 import SwiftUI
 
-final class DVLAAccountWidgetViewModel: ObservableObject {
-    @Published private(set) var actionCards = [ListCardViewModel]()
-    @Published private(set) var errorViewModel: AppErrorViewModel?
-    @Published private(set) var linkCardViewModel: ServiceAccountLinkCardViewModel?
-    @Published private(set) var isLoading: Bool = false
-    private let dateFormatter = DateFormatter.dvlaAccount
+class DVLAAccountWidgetViewModel: ObservableObject {
+    enum ViewState {
+        case loading
+        case linked(actionCards: [ListCardViewModel], accountSummary: DVLAAccountSummaryViewModel)
+        case unlinked(linkCard: ServiceAccountLinkCardViewModel)
+        case error(AppErrorViewModel)
+    }
 
+    @Published private(set) var viewState: ViewState
+
+    private let dateFormatter = DateFormatter.dvlaAccount
     private let analyticsService: AnalyticsServiceInterface
     private let userService: UserServiceInterface
     private let dvlaService: DVLAServiceInterface
     private let actions: Actions
 
-    init(analyticsService: AnalyticsServiceInterface,
+    init(viewState: ViewState = .loading,
+         analyticsService: AnalyticsServiceInterface,
          userService: UserServiceInterface,
          dvlaService: DVLAServiceInterface,
          actions: Actions) {
+        self.viewState = viewState
         self.analyticsService = analyticsService
         self.userService = userService
         self.dvlaService = dvlaService
@@ -34,38 +40,50 @@ final class DVLAAccountWidgetViewModel: ObservableObject {
 
     @MainActor
     func fetchLinkStatus() async {
-        isLoading = true
+        viewState = .loading
         let result = await userService.fetchAccountLinkStatus(accountType: .dvla)
-        isLoading = false
         switch result {
         case .success(let linkStatus):
             update(isAccountLinked: linkStatus.linked)
         case .failure:
-            errorViewModel = AppErrorViewModel.dvlaAccountErrorWithAction {
-                Task { await self.fetchLinkStatus() }
-            }
+            viewState = .error(dvlaAccountErrorViewModel)
         }
     }
 
     private func update(isAccountLinked: Bool) {
         if isAccountLinked {
-            linkCardViewModel = nil
-            createAccountSection()
-        } else {
-            actionCards = []
-            let linkCardTitle = String.dvla.localized("dvlaAccountLinkCardTitle")
-            linkCardViewModel = ServiceAccountLinkCardViewModel(
-                title: linkCardTitle,
-                subtitle: String.dvla.localized("dvlaAccountLinkCardSubtitle"),
-                action: { [weak self] in
-                    self?.trackLinkAccountNavigationEvent(title: linkCardTitle)
-                    self?.actions.linkAction()
-                }
+            let accountSummaryViewModel = DVLAAccountSummaryViewModel(
+                analyticsService: analyticsService,
+                dvlaService: dvlaService
             )
+            viewState = .linked(
+                actionCards: accountActionCards,
+                accountSummary: accountSummaryViewModel
+            )
+        } else {
+            viewState = .unlinked(linkCard: linkCardViewModel)
         }
     }
 
-    private func createAccountSection() {
+    private var linkCardViewModel: ServiceAccountLinkCardViewModel {
+        let linkCardTitle = String.dvla.localized("dvlaAccountLinkCardTitle")
+        return ServiceAccountLinkCardViewModel(
+            title: linkCardTitle,
+            subtitle: String.dvla.localized("dvlaAccountLinkCardSubtitle"),
+            action: { [weak self] in
+                self?.trackLinkAccountNavigationEvent(title: linkCardTitle)
+                self?.actions.linkAction()
+            }
+        )
+    }
+
+    private var dvlaAccountErrorViewModel: AppErrorViewModel {
+        AppErrorViewModel.dvlaAccountErrorWithAction { [weak self] in
+            Task { await self?.fetchLinkStatus() }
+        }
+    }
+
+    private var accountActionCards: [ListCardViewModel] {
         let unlinkCard = ListCardViewModel(
             title: String.dvla.localized("dvlaAccountUnlinkCardTitle"),
             action: actions.unlinkAction
@@ -94,7 +112,7 @@ final class DVLAAccountWidgetViewModel: ObservableObject {
             title: "Create check code",
             action: actions.createShareCodeAction
         )
-        actionCards = [
+        return [
             unlinkCard,
             viewLicenceCard,
             viewDriverSummaryCard,

@@ -22,9 +22,11 @@ class MockDVLAService: DVLAServiceInterface {
         return _stubbedFetchDriverSummaryResult!
     }
 
+    var _fetchCustomerSummaryCallCount = 0
     var _stubbedFetchCustomerSummaryResult: CustomerSummaryResult?
     func fetchCustomerSummary() async -> CustomerSummaryResult {
-        _stubbedFetchCustomerSummaryResult!
+        _fetchCustomerSummaryCallCount += 1
+        return _stubbedFetchCustomerSummaryResult!
     }
 
     var _stubbedFetchVehicleResult: VehicleResult?
