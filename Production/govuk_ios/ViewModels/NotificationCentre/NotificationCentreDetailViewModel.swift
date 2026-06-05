@@ -5,9 +5,12 @@ import Foundation
 import GovKit
 
 class NotificationCentreDetailViewModel: ObservableObject {
-    enum State {
-        case new, loading, notFound,
-             loaded(notification: Notification, showDeleteConfirmationSheet: Bool), error
+    enum State: Equatable {
+        case new,
+             loading,
+             loaded(notification: Notification, showDeleteConfirmationSheet: Bool),
+             error,
+             noInternet
     }
 
     @Published public private(set) var state: State = .new
@@ -40,14 +43,6 @@ class NotificationCentreDetailViewModel: ObservableObject {
         }
     }
 
-    func onTapRetry() {
-        guard case .error = state else {
-            return
-        }
-
-        loadData()
-    }
-
     private func changeState(state: State) async {
         await MainActor.run {
             self.state = state
@@ -61,7 +56,8 @@ class NotificationCentreDetailViewModel: ObservableObject {
             notificationService
                 .fetchNotification(with: notificationId) { [weak self] res in
                     Task {
-                        if case let .success(notification) = res {
+                        switch res {
+                        case .success(let notification):
                             if let notification {
                                 await self?.changeState(
                                     state: .loaded(
@@ -72,14 +68,15 @@ class NotificationCentreDetailViewModel: ObservableObject {
                                 }
                             } else {
                                 self?.analyticsService.track(event: .notificationCentreNotFound())
-                                await self?.changeState(state: .notFound)
+                                await self?.changeState(state: .error)
                             }
-                        } else if case let .failure(error) = res,
-                                    error == NotificationCentreError.notFound {
-                            self?.analyticsService.track(event: .notificationCentreNotFound())
-                            await self?.changeState(state: .notFound)
-                        } else {
-                            await self?.changeState(state: .error)
+                        case .failure(let error):
+                            switch error {
+                            case .networkUnavailable:
+                                await self?.changeState(state: .noInternet)
+                            default:
+                                await self?.changeState(state: .error)
+                            }
                         }
                     }
                 }
