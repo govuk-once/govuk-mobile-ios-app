@@ -3,6 +3,7 @@
 import SwiftUI
 import GovKitUI
 import GovKit
+import MarkdownUI
 
 struct NotificationCentreDetailContainerView: View {
     @ObservedObject var viewModel: NotificationCentreDetailViewModel
@@ -12,8 +13,6 @@ struct NotificationCentreDetailContainerView: View {
             GeometryReader { geometry in
                 ScrollView {
                     VStack(spacing: 0) {
-                        titleView
-
                         switch viewModel.state {
                         case .loading, .new:
                             NotificationCentreDetailLoadingView()
@@ -49,8 +48,6 @@ struct NotificationCentreDetailContainerView: View {
                                 UIAccessibility.post(notification: .screenChanged,
                                                      argument: "Loading complete")
                             }
-                            .padding(.horizontal, 16)
-                            .padding(.vertical, 32)
                         case .error:
                             NotificationCentreDetailErrorView(onRetry: viewModel.onTapRetry)
                                 .onAppear {
@@ -60,32 +57,13 @@ struct NotificationCentreDetailContainerView: View {
                         }
                     }
                     .frame(minWidth: geometry.size.width, minHeight: geometry.size.height)
-                    .background(Color(uiColor: UIColor.govUK.fills.surfaceBackground))
                 }
-                .background(gradient)
             }
         }
-        .background(Color(UIColor.govUK.fills.surfaceBackground))
+        .background(Color(UIColor.govUK.fills.surfaceCardEmergencyInfo))
         .onAppear {
             viewModel.onViewAppear()
             viewModel.track(screen: self)
-        }
-    }
-
-
-    private var titleView: some View {
-        VStack(spacing: 0) {
-            HStack {
-                Text(.NotificationCentre.notificationDetailTitle)
-                    .font(.govUK.largeTitleBold)
-                    .multilineTextAlignment(.leading)
-                    .accessibility(addTraits: .isHeader)
-                    .foregroundColor(Color(UIColor.govUK.text.header))
-                Spacer()
-            }
-            .padding(.leading, 16)
-            .padding(.bottom, 8)
-            .background(Color(UIColor.govUK.fills.surfaceHomeHeaderBackground))
         }
     }
 
@@ -119,31 +97,50 @@ private struct NotificationCentreDetailLoadedView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            Text(notification.messageTitle ?? notification.title)
-                .font(Font.govUK.title1Bold)
-                .padding(.bottom, 16)
-                .foregroundStyle(Color(UIColor.govUK.text.primary))
-            Text(.NotificationCentre.notificationSentDateFormat(
-                DateFormatter.notificationSent.string(from: notification.date)))
-                .font(Font.govUK.callout)
-                .foregroundStyle(Color(UIColor.govUK.text.secondary))
-                .padding(.bottom, 32)
-            Text((notification.messageBody ?? notification.body)
-                .toDetectedAttributedString())
-                .font(Font.govUK.body)
-                .foregroundStyle(Color(UIColor.govUK.text.primary))
-                .environment(\.openURL, OpenURLAction { url in
-                        onLinkTapped(url)
-                        return .handled
-                    })
+            HStack {
+                VStack(alignment: .leading, spacing: 0) {
+                    Text(notification.date.formatMessageDetailDate())
+                    .font(Font.govUK.callout)
+                    .foregroundStyle(Color(UIColor.govUK.text.secondary))
+                    .padding(.top, 16)
+                    .padding(.bottom, 4)
+
+                    Text("DVLA")
+                        .font(Font.govUK.bodySemibold)
+                        .foregroundStyle(Color(UIColor.govUK.text.primary))
+                        .padding(.bottom, 16)
+                }
+                .padding(.horizontal, 16)
+                Spacer()
+            }
+            .background(Color(UIColor.govUK.fills.surfaceCardMsgHeader))
+            .clipShape(RoundedRectangle(cornerSize: CGSize(width: 10, height: 10)))
+
+            VStack(alignment: .leading) {
+                Text(notification.messageTitle ?? notification.title)
+                    .font(Font.govUK.title1Bold)
+                    .padding(.bottom, 16)
+                    .foregroundStyle(Color(UIColor.govUK.text.primary))
+
+
+                Markdown(
+                    notification.messageBody ?? notification.body)
+                .markdownTheme(.govUKNotification)
+                .environment(
+                    \.openURL,
+                     OpenURLAction { url in
+                         onLinkTapped(url)
+                         return .handled
+                     }
+                )
+            }
+            .padding(.top, 24)
+            .padding(.horizontal, 16)
 
             Spacer()
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.vertical, 16)
         .padding(.horizontal, 16)
-        .background(Color(UIColor.govUK.fills.surfaceCardEmergencyInfo))
-        .clipShape(RoundedRectangle(cornerRadius: 10))
         .confirmationDialog(.NotificationCentre.deleteNotificationTitle,
                             isPresented: $showSheet,
                             titleVisibility: .visible) {
@@ -239,37 +236,7 @@ private struct NotificationCentreDetailNotFoundView: View {
 
 extension NotificationCentreDetailContainerView: TrackableScreen {
     var trackingTitle: String? { trackingName }
-    var trackingName: String { "Notification Centre Detail" }
-}
-
-extension String {
-    // Borrowed from https://fatbobman.com/en/posts/open_url_in_swiftui/
-    func toDetectedAttributedString() -> AttributedString {
-        var attributedString = AttributedString(self)
-
-        let types = NSTextCheckingResult.CheckingType.link.rawValue
-
-        guard let detector = try? NSDataDetector(types: types) else {
-            return attributedString
-        }
-
-        let matches = detector.matches(
-            in: self,
-            options: [],
-            range: NSRange(location: 0, length: count))
-
-        for match in matches {
-            let range = match.range
-            let startIndex = attributedString
-                .index(attributedString.startIndex, offsetByCharacters: range.lowerBound)
-            let endIndex = attributedString.index(startIndex, offsetByCharacters: range.length)
-            // Setting URL for link
-            if match.resultType == .link, let url = match.url {
-                attributedString[startIndex..<endIndex].link = url
-            }
-        }
-        return attributedString
-    }
+    var trackingName: String { "Notification Centre Detail" } // TO DO Update this
 }
 
 #Preview("Loading") {
@@ -277,7 +244,7 @@ extension String {
 }
 
 #Preview("Loaded") {
-    let testNotification = NotificationCentreViewModel.MockData.testNotifications.first!
+    let testNotification = NotificationCentreViewModel.MockData.testNotifications.recent.first!
 
     NotificationCentreDetailLoadedView(
         notification: testNotification,

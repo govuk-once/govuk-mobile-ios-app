@@ -48,7 +48,7 @@ struct NotificationCentreContainerView: View {
                     .frame(minHeight: geometry.size.height)
                     .background(Color(uiColor: UIColor.govUK.fills.surfaceBackground))
                 }
-                .background(gradient)
+//                .background(gradient)
             }
         }
         .background(Color(UIColor.govUK.fills.surfaceBackground))
@@ -62,16 +62,16 @@ struct NotificationCentreContainerView: View {
     private var titleView: some View {
         VStack(spacing: 0) {
             HStack {
-                Text(self.trackingName)
+                Text("Messages") // TO DO Put in strings file
                     .font(.govUK.largeTitleBold)
                     .multilineTextAlignment(.leading)
                     .accessibility(addTraits: .isHeader)
-                    .foregroundColor(Color(UIColor.govUK.text.header))
+                    .foregroundColor(Color(UIColor.govUK.text.primary))
                 Spacer()
             }
             .padding(.leading, 16)
-            .padding(.bottom, 8)
-            .background(Color(UIColor.govUK.fills.surfaceHomeHeaderBackground))
+            .padding(.bottom, 0)
+            .background(Color(.clear))
         }
     }
 
@@ -95,21 +95,56 @@ struct NotificationCentreContainerView: View {
 }
 
 private struct NotificationCentreLoadedView: View {
-    let notifications: [Notification]
+    let notifications: NotificationCentreViewModel.NotificationGroups
     let onNotificationTap: (Notification) -> Void
 
     var body: some View {
-        List(notifications) { not in
-            NotificationCentreRow(notification: not,
-                                  onTap: onNotificationTap)
-            .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
-            .listRowSeparatorTint(Color(GOVUKColors.text.secondary), edges: .all)
-            .alignmentGuide(.listRowSeparatorLeading) { _ in
-                24 // Align it with the left edge of the content
+        ScrollView {
+            LazyVStack(spacing: 8) {
+                if !notifications.recent.isEmpty {
+                    SectionHeader(title: "Recent")
+
+                    ForEach(notifications.recent) { not in
+                        NotificationCentreRow(notification: not,
+                                              onTap: onNotificationTap)
+                    }
+                }
+
+                if !notifications.older.isEmpty {
+                    SectionHeader(title: "Last 30 days")
+
+                    ForEach(notifications.older) { not in
+                        NotificationCentreRow(notification: not,
+                                              onTap: onNotificationTap)
+                    }
+                }
+
+                Text("Messages are deleted after 30 days.")
+                    .font(.govUK.callout)
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(Color(UIColor.govUK.text.secondary))
+                    .clipShape(Rectangle())
+                    .padding(.top, 8)
             }
-            .alignmentGuide(.listRowSeparatorTrailing) { dim in
-                dim[.listRowSeparatorTrailing] - 16 // Align with edge of chevron
-            }
+            .padding(.horizontal, 16)
+            .background(Color(UIColor.govUK.fills.surfaceBackground))
+        }
+    }
+}
+
+private struct SectionHeader: View {
+    let title: String
+
+    var body: some View {
+        HStack {
+            Text(title)
+                .font(.govUK.title3Semibold)
+                .multilineTextAlignment(.leading)
+                .accessibility(addTraits: .isHeader)
+                .foregroundColor(Color(UIColor.govUK.text.primary))
+                .padding(.top, 28)
+                .padding(.bottom, 16)
+            Spacer()
         }
     }
 }
@@ -194,50 +229,42 @@ private struct NotificationCentreRow: View {
             onTap(notification)
         } label: {
             HStack {
-                Rectangle()
-                    .fill(notification.isUnread
-                          ? Color(GOVUKColors.fills.surfaceListSelected)
-                          : .clear)
-                    .frame(width: 8)
-                    .padding(.vertical, 1)
+                Circle()
+                    .fill(notification.isUnread ?
+                          Color(UIColor.govUK.fills.msgUnread) :
+                            Color(UIColor.govUK.fills.msgRead))
+                    .frame(width: 10, height: 10)
+                    .padding(.leading, 16)
+                    .padding(.trailing, 16)
                     .accessibilityHidden(!notification.isUnread)
                     .accessibilityLabel(Text(.NotificationCentre.notificationUnreadA11YLabel))
 
                 VStack(alignment: .leading, spacing: 0) {
                     Text(notification.title)
-                        .lineLimit(2)
-                        .font(Font.govUK.headlineSemibold)
+                        .lineLimit(1)
+                        .font(Font.govUK.bodySemibold)
                         .padding(.bottom, 4)
                         .foregroundStyle(Color(UIColor.govUK.text.primary))
-                    Text(notification.body)
-                        .lineLimit(3)
+
+                    Text(notification.date.formatMessageListDate())
                         .font(Font.govUK.subheadline)
-                        .padding(.bottom, 8)
-                        .foregroundStyle(Color(UIColor.govUK.text.secondary))
-                    Text(.NotificationCentre.notificationSentDateFormat(
-                        DateFormatter.notificationSent.string(from: notification.date)))
-                        .font(Font.govUK.footnote)
                         .foregroundStyle(Color(UIColor.govUK.text.secondary))
                 }
-                .padding(.vertical, 16)
-                .padding(.horizontal, 8)
+                .padding(.trailing, 16)
 
                 Spacer()
-                Image(systemName: "chevron.right")
-                    .imageScale(.small)
-                    .padding(.trailing, 16)
-                    .accessibilityHidden(true)
-                    .foregroundStyle(Color(GOVUKColors.fills.surfaceListSelected))
             }
+            .padding(.vertical, 16)
+            .background(Color(UIColor.govUK.fills.surfaceList))
+            .cornerRadius(10)
             .accessibilityElement(children: .combine)
         }
     }
 }
 
-
 extension NotificationCentreContainerView: TrackableScreen {
     var trackingTitle: String? { trackingName }
-    var trackingName: String { "Notification Centre" }
+    var trackingName: String { "Notification Centre" } // TO DO Update this
 }
 
 #Preview("Loading") {

@@ -777,12 +777,8 @@ class ViewControllerBuilder {
 
         let viewController = HostingViewController(
             rootView: NotificationCentreContainerView(viewModel: viewModel),
-            navigationBarHidden: false
         )
         viewController.navigationItem.largeTitleDisplayMode = .never
-        viewController
-            .navigationItem
-            .backButtonTitle = String.notificationCentre.localized("notificationCentreNavTitle")
 
         return viewController
     }
@@ -805,9 +801,9 @@ class ViewControllerBuilder {
 
             let viewController = HostingViewController(
                 rootView: NotificationCentreDetailContainerView(viewModel: viewModel),
-                navigationBarHidden: false
             )
-            viewController.navigationItem.largeTitleDisplayMode = .always
+            viewController.navigationItem.largeTitleDisplayMode = .never
+
             let unreadButton = UIBarButtonItem(
                 image: UIImage(
                     resource: .notcenUnread),

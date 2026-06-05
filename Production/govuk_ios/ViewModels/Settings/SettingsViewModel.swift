@@ -22,6 +22,7 @@ protocol SettingsViewModelInterface: ObservableObject {
     func handleNotificationAlertAction()
     func trackScreen(screen: TrackableScreen)
     func updateEmail()
+    func loadMessages()
 }
 
 struct SettingsViewModelURLParameters {
@@ -32,6 +33,12 @@ struct SettingsViewModelURLParameters {
 
 // swiftlint:disable:next type_body_length
 class SettingsViewModel: SettingsViewModelInterface {
+    private enum MessagesState {
+        case notDetermined, loading, error, success(unreadCount: Int), unlinked
+    }
+
+    @Published private var messagesState: MessagesState = .unlinked
+
     let title: String = String(localized: .Settings.pageTitle)
     private let analyticsService: AnalyticsServiceInterface
     private let urlOpener: URLOpener
@@ -40,6 +47,9 @@ class SettingsViewModel: SettingsViewModelInterface {
     private let authenticationService: AuthenticationServiceInterface
     private let localAuthenticationService: LocalAuthenticationServiceInterface
     private let appConfigService: AppConfigServiceInterface
+    private let userService: UserService
+    private let notificationCentreService: NotificationCentreService
+
     @Published var scrollToTop: Bool = false
     @Published var displayNotificationSettingsAlert: Bool = false
     @Published private(set) var notificationsPermissionState: NotificationPermissionState
@@ -65,7 +75,9 @@ class SettingsViewModel: SettingsViewModelInterface {
          notificationService: NotificationServiceInterface,
          notificationCenter: NotificationCenter,
          localAuthenticationService: LocalAuthenticationServiceInterface,
-         appConfigService: AppConfigServiceInterface) {
+         appConfigService: AppConfigServiceInterface,
+         userService: UserService,
+         notificationCentreService: NotificationCentreService) {
         self.analyticsService = analyticsService
         self.urlOpener = urlOpener
         self.versionProvider = versionProvider
@@ -75,6 +87,8 @@ class SettingsViewModel: SettingsViewModelInterface {
         self.notificationCenter = notificationCenter
         self.localAuthenticationService = localAuthenticationService
         self.appConfigService = appConfigService
+        self.userService = userService
+        self.notificationCentreService = notificationCentreService
         updateNotificationPermissionState()
         observeAppMoveToForeground()
     }
@@ -142,6 +156,43 @@ class SettingsViewModel: SettingsViewModelInterface {
         }
     }
 
+    func loadMessages() {
+        guard case .notDetermined = messagesState else { return }
+
+        Task {
+            messagesState = .loading
+
+            if let linked = userService.isDvlaAccountLinked {
+                loadMessageCount(isLinked: linked)
+            } else {
+                let linked = await userService.fetchAccountLinkStatus(accountType: .dvla)
+
+                switch linked {
+                case .success(let linkStatus):
+                    loadMessageCount(isLinked: linkStatus.linked)
+                case .failure:
+                    messagesState = .error
+                }
+            }
+        }
+    }
+
+    private func loadMessageCount(isLinked: Bool) {
+        guard isLinked else {
+            messagesState = .unlinked
+            return
+        }
+
+        notificationCentreService.fetchNotifications { [weak self] res in
+            if case .success(let notifications) = res {
+                let unreadCount = notifications.count(where: \.isUnread)
+                self?.messagesState = .success(unreadCount: unreadCount)
+            } else {
+                self?.messagesState = .error
+            }
+        }
+    }
+
     private func getGroupedList() -> [GroupedListSection] {
         return [
             accountSection,
@@ -186,15 +237,22 @@ class SettingsViewModel: SettingsViewModelInterface {
     }
 
     private var messagesSection: GroupedListSection? {
-        // TO DO Implement check of linking
+        var state: CountRow.State
 
+        switch messagesState {
+        case .notDetermined, .loading:
+             state = .loading
+        case .success(let unreadCount):
+           state = .idle(showIndicator: unreadCount > 0, count: unreadCount)
+        case .error, .unlinked:
+            return nil
+        }
         return GroupedListSection(
             heading: nil, rows: [
                 CountRow(
                     id: "settings.messages.row",
                     title: String(localized: .Settings.messagesTitle),
-                    count: 42, // TO DO Implement
-                    showIndicator: true, // TO DO Implement
+                    state: state,
                     action: { [weak self] in
                         self?.notificationCentreAction?()
                     })
