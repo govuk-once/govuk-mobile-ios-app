@@ -330,6 +330,18 @@ class CoordinatorBuilder {
         )
     }
 
+    func yourAccountsSettings(
+        navigationController: UINavigationController,
+        dismissAction: @escaping () -> Void) -> BaseCoordinator {
+        YourAccountsSettingsCoordinator(
+            navigationController: navigationController,
+            viewControllerBuilder: ViewControllerBuilder(),
+            userService: container.userService.resolve(),
+            coordinatorBuilder: self,
+            dismissAction: dismissAction
+        )
+    }
+
     func welcomeOnboarding(navigationController: UINavigationController,
                            completionAction: @escaping () -> Void) -> BaseCoordinator {
         WelcomeOnboardingCoordinator(

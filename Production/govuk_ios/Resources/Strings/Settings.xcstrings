@@ -100,17 +100,6 @@
         }
       }
     },
-    "linkAccountsTitle" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Your accounts"
-          }
-        }
-      }
-    },
     "localAuthenticationFaceIdBody" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -404,6 +393,83 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Touch ID"
+          }
+        }
+      }
+    },
+    "yourAccountsBackButtonLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Back"
+          }
+        }
+      }
+    },
+    "yourAccountsCardTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Driver and vehicles account"
+          }
+        }
+      }
+    },
+    "yourAccountsErrorViewDesc" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accounts you add to the app will appear here"
+          }
+        }
+      }
+    },
+    "yourAccountsfailureViewDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try again later"
+          }
+        }
+      }
+    },
+    "yourAccountsFailureViewTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your accounts are not working"
+          }
+        }
+      }
+    },
+    "yourAccountsTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your accounts"
+          }
+        }
+      }
+    },
+    "yourAccountsViewEditButtonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit"
           }
         }
       }

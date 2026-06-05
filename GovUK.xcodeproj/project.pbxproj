@@ -139,6 +139,9 @@
 		4EBE646B2D15AAD6007A6E97 /* MinimumLengthValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBE646A2D15AAD6007A6E97 /* MinimumLengthValidator.swift */; };
 		4EBE646D2D15AB05007A6E97 /* CharValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBE646C2D15AB05007A6E97 /* CharValidator.swift */; };
 		4EC0466F2F7B239E0087C01F /* GovUKHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC0466E2F7B239D0087C01F /* GovUKHeaderView.swift */; };
+		4ED2DB652FBCC62C005CF6FD /* YourAccountsSettingsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ED2DB642FBCC62C005CF6FD /* YourAccountsSettingsCoordinator.swift */; };
+		4ED2DB692FBCCE82005CF6FD /* YourAccountsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ED2DB682FBCCE82005CF6FD /* YourAccountsView.swift */; };
+		4ED2DB6B2FBCCF05005CF6FD /* YourAccountsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ED2DB6A2FBCCF05005CF6FD /* YourAccountsViewModel.swift */; };
 		4EE44BAD2E70332C0093D380 /* NonTappableCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE44BAC2E70332C0093D380 /* NonTappableCardView.swift */; };
 		4EE5F3E52DAFD36B008C60ED /* LocalAuthorityWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE5F3E42DAFD36B008C60ED /* LocalAuthorityWidget.swift */; };
 		4EE5F3E72DAFD42A008C60ED /* LocalAuthorityExplainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE5F3E62DAFD42A008C60ED /* LocalAuthorityExplainerView.swift */; };
@@ -671,6 +674,9 @@
 		4EBE646A2D15AAD6007A6E97 /* MinimumLengthValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinimumLengthValidator.swift; sourceTree = "<group>"; };
 		4EBE646C2D15AB05007A6E97 /* CharValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharValidator.swift; sourceTree = "<group>"; };
 		4EC0466E2F7B239D0087C01F /* GovUKHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovUKHeaderView.swift; sourceTree = "<group>"; };
+		4ED2DB642FBCC62C005CF6FD /* YourAccountsSettingsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourAccountsSettingsCoordinator.swift; sourceTree = "<group>"; };
+		4ED2DB682FBCCE82005CF6FD /* YourAccountsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourAccountsView.swift; sourceTree = "<group>"; };
+		4ED2DB6A2FBCCF05005CF6FD /* YourAccountsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourAccountsViewModel.swift; sourceTree = "<group>"; };
 		4EE44BAC2E70332C0093D380 /* NonTappableCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NonTappableCardView.swift; sourceTree = "<group>"; };
 		4EE5F3E42DAFD36B008C60ED /* LocalAuthorityWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthorityWidget.swift; sourceTree = "<group>"; };
 		4EE5F3E62DAFD42A008C60ED /* LocalAuthorityExplainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthorityExplainerView.swift; sourceTree = "<group>"; };
@@ -1101,6 +1107,7 @@
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/TopicsWidgetViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/TouchIdSettingsViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/WelcomeOnboardingViewControllerSnapshotTests.swift,
+				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/YourAccountsViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_unit_tests/Resources/MockAppConfigResponse.json,
 				govuk_ios/govuk_ios_unit_tests/Resources/MockAppConfigResponseInvalid.json,
 				govuk_ios/govuk_ios_unit_tests/Resources/MockCancelShareCodeResponse.json,
@@ -1185,6 +1192,7 @@
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/TopicsWidgetViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/TouchIdSettingsViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/WelcomeOnboardingViewControllerSnapshotTests.swift,
+				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/YourAccountsViewControllerSnapshotTests.swift,
 				"govuk_ios/govuk_ios_unit_tests/Arrangers/Model/LocalAuthority/AmbiguousAuthorities+Arrangers.swift",
 				"govuk_ios/govuk_ios_unit_tests/Arrangers/Model/TopicResponseItem+Arrangers.swift",
 				govuk_ios/govuk_ios_unit_tests/Mocks/Repositories/MockLocalAuthorityRepository.swift,
@@ -1878,6 +1886,7 @@
 		5D962D5E2C29BD0B0038BC0A /* Coordinators */ = {
 			isa = PBXGroup;
 			children = (
+				4ED2DB642FBCC62C005CF6FD /* YourAccountsSettingsCoordinator.swift */,
 				5D962D572C29BD0B0038BC0A /* BaseCoordinator.swift */,
 				81DAF94A2F6D8855001C4E09 /* DVLAAuthenticationCoordinator.swift */,
 				81501C7E2F7E815200E7469C /* DVLAAccountCoordinator.swift */,
@@ -1917,6 +1926,7 @@
 			isa = PBXGroup;
 			children = (
 				5DA4FB062CCBAF2100804C8A /* SettingsView.swift */,
+				4ED2DB682FBCCE82005CF6FD /* YourAccountsView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -2518,6 +2528,7 @@
 				D08A9A852DB92F6F002E9C78 /* SignOutConfirmationViewModel.swift */,
 				1677D4032E00694B00FB1E56 /* LocalAuthenticationSettingsViewModel.swift */,
 				D0ABA5D12FA4E8AB00C5A244 /* SARExplainerViewModel.swift */,
+				4ED2DB6A2FBCCF05005CF6FD /* YourAccountsViewModel.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -2972,6 +2983,7 @@
 				16D186A82E462D94006ACC7A /* ChatConsentOnboardingCoordinator.swift in Sources */,
 				16A788B22DCC288800CA64E2 /* ReturningUserService.swift in Sources */,
 				D0EB7EF22F3F968E00BEB0A1 /* TermsAndConditionsService.swift in Sources */,
+				4ED2DB652FBCC62C005CF6FD /* YourAccountsSettingsCoordinator.swift in Sources */,
 				815018F02F7D6AA900E7469C /* DVLAAccountViewModel.swift in Sources */,
 				815559452F729409001E73CD /* DVLAAuthSession.swift in Sources */,
 				D0ABA5D42FA4F95000C5A244 /* SARSettingsCoordinator.swift in Sources */,
@@ -3249,6 +3261,7 @@
 				81DE66982F5B3AB60087F48E /* ServiceAccountLinkingViewModel.swift in Sources */,
 				1631DE992C2B0D020050CB9D /* DeviceInformationProvider.swift in Sources */,
 				5D51C8382C5BBF600011ABE9 /* WidgetView.swift in Sources */,
+				4ED2DB692FBCCE82005CF6FD /* YourAccountsView.swift in Sources */,
 				166BDDB62C330D1C00437AE0 /* HomeViewController.swift in Sources */,
 				4EA1E2812D8C61630062453D /* NotificationPermissionState.swift in Sources */,
 				810A83772F68A57E0039B4A4 /* ServiceAccountUnlinkingView.swift in Sources */,
@@ -3292,6 +3305,7 @@
 				D0ECB3FE2DCE0F0F00A9707E /* AmbiguousAuthoritySelectionView.swift in Sources */,
 				5DCCCBBE2EA0F5690097430C /* ReturningUserServiceError.swift in Sources */,
 				D0D2C6952E13FBE000620DC2 /* JailbreakCoordinator.swift in Sources */,
+				4ED2DB6B2FBCCF05005CF6FD /* YourAccountsViewModel.swift in Sources */,
 				16AE517F2E6886D3002BCFD7 /* InfoIconListView.swift in Sources */,
 				4E4089882DBBEF78003ECB3B /* EditLocalAuthorityCoordinator.swift in Sources */,
 				4E00EEEF2CCB04B0007B61E8 /* TopicsOnboardingViewModel.swift in Sources */,

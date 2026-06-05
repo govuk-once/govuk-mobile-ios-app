@@ -707,6 +707,24 @@ class ViewControllerBuilder {
         return viewController
     }
 
+    func yourAccountsSettings(
+        userService: UserServiceInterface
+    ) -> UIViewController {
+        let viewModel = YourAccountsViewViewModel(
+            userService: userService
+        )
+        let view = YourAccountsView(
+            viewModel: viewModel
+        )
+        let viewController = HostingViewController(
+            rootView: view,
+            statusBarStyle: .darkContent
+        )
+        viewController.title = viewModel.title
+        viewController.navigationItem.largeTitleDisplayMode = .always
+        return viewController
+    }
+
     func termsAndConditions(
         termsAndConditionsService: TermsAndConditionsServiceInterface,
         completionAction: @escaping () -> Void,

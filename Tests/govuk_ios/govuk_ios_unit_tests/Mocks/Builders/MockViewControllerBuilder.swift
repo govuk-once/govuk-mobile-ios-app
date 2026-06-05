@@ -122,6 +122,14 @@ class MockViewControllerBuilder: ViewControllerBuilder {
         return _stubbedLocalAuthorityPostcodeEntryViewController ?? UIViewController()
     }
 
+    var _stubbedYourAccountsViewController: UIViewController?
+    override func yourAccountsSettings(
+        userService: UserServiceInterface
+    )
+    -> UIViewController {
+        return _stubbedYourAccountsViewController ?? UIViewController()
+    }
+
     var _stubbedLocalAuthorityExplainerViewController: UIViewController?
     var _receivedNavigateToPostCodeEntryViewAction: (() -> Void)?
     var _receivedLocalAuthorityExplainerDismissAction: (() -> Void)?
