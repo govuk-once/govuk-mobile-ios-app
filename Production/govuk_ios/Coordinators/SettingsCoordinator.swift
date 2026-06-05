@@ -88,7 +88,6 @@ class SettingsCoordinator: TabItemCoordinator {
         settingsViewModel.sarAction = { [weak self] in
             self?.startSARSettings()
         }
-
         settingsViewModel.yourAccountsAction = { [weak self] in
             self?.startYourAccountsSettings()
         }

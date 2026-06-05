@@ -106,7 +106,7 @@ final class YourAccountsViewControllerSnapshotTests: SnapshotTestCase {
             userService: mockUserService,
             dismissAction: {}
         )
-        viewModel.state = .failure
+        viewModel.state = .empty
         let view = YourAccountsView(
             viewModel: viewModel
         )
@@ -129,7 +129,7 @@ final class YourAccountsViewControllerSnapshotTests: SnapshotTestCase {
             userService: mockUserService,
             dismissAction: {}
         )
-        viewModel.state = .failure
+        viewModel.state = .empty
         let view = YourAccountsView(
             viewModel: viewModel
         )

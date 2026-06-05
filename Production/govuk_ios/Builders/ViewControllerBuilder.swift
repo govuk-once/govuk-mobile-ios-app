@@ -710,23 +710,21 @@ class ViewControllerBuilder {
     func yourAccountsSettings(
         userService: UserServiceInterface,
         dismissAction: @escaping () -> Void) -> UIViewController {
-        let viewModel = YourAccountsViewViewModel(
-            userService: userService,
-            dismissAction: dismissAction,
-        )
-        let view = YourAccountsView(
-            viewModel: viewModel
-        )
-        let viewController = HostingViewController(
-            rootView: view,
-            statusBarStyle: .darkContent
-        )
-
+            let viewModel = YourAccountsViewViewModel(
+                userService: userService,
+                dismissAction: dismissAction,
+            )
+            let view = YourAccountsView(
+                viewModel: viewModel
+            )
+            let viewController = HostingViewController(
+                rootView: view,
+                statusBarStyle: .darkContent
+            )
             viewController.title = viewModel.title
-
             viewController.navigationItem.largeTitleDisplayMode = .always
-        return viewController
-    }
+            return viewController
+        }
 
     func termsAndConditions(
         termsAndConditionsService: TermsAndConditionsServiceInterface,

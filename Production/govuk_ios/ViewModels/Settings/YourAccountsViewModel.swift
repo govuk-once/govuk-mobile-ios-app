@@ -20,11 +20,9 @@ final class YourAccountsViewViewModel: ObservableObject {
     let backButtonAccessibilityLabel = String(
         localized: .Settings.yourAccountsBackButtonLabel
     )
-
     let failureViewTitle = String(
         localized: .Settings.yourAccountsFailureViewTitle
     )
-
     let failureViewDescription = String(
         localized: .Settings.yourAccountsfailureViewDescription
     )
