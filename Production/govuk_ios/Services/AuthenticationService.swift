@@ -161,14 +161,29 @@ class AuthenticationService: AuthenticationServiceInterface {
         if tokenResponse.idToken == nil {
             analyticsService.track(error: AuthenticationError.missingIdToken)
         }
+        if tokenResponse.idToken?.isEmpty == true {
+            analyticsService.track(error: AuthenticationError.emptyIdToken)
+        }
+        if tokenResponse.accessToken.isEmpty {
+            analyticsService.track(error: AuthenticationError.emptyAccessToken)
+        }
     }
 
     private func trackTokenResponseErrors(tokenResponse: TokenResponse) {
         if tokenResponse.idToken == nil {
             analyticsService.track(error: AuthenticationError.missingIdToken)
         }
+        if tokenResponse.idToken?.isEmpty == true {
+            analyticsService.track(error: AuthenticationError.emptyIdToken)
+        }
+        if tokenResponse.accessToken.isEmpty {
+            analyticsService.track(error: AuthenticationError.emptyAccessToken)
+        }
         if tokenResponse.refreshToken == nil {
             analyticsService.track(error: AuthenticationError.missingRefreshToken)
+        }
+        if tokenResponse.refreshToken?.isEmpty == true {
+            analyticsService.track(error: AuthenticationError.emptyRefreshToken)
         }
     }
 
