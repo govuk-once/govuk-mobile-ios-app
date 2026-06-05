@@ -44,6 +44,7 @@ struct YourAccountsView: View {
                 Image(systemName: "exclamationmark.circle")
                     .font(.title)
                     .foregroundColor(Color(uiColor: UIColor.govUK.text.iconTertiary))
+                    .accessibilityHidden(true)
                 VStack(spacing: 2) {
                     Text(viewModel.failureViewTitle)
                         .font(Font.govUK.bodySemibold)
