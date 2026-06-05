@@ -452,17 +452,6 @@
         }
       }
     },
-    "yourAccountsPageTitle" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Your Accounts"
-          }
-        }
-      }
-    },
     "yourAccountsTitle" : {
       "extractionState" : "manual",
       "localizations" : {
