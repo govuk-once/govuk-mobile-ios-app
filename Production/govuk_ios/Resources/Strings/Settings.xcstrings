@@ -430,6 +430,28 @@
         }
       }
     },
+    "yourAccountsfailureViewDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try again later"
+          }
+        }
+      }
+    },
+    "yourAccountsFailureViewTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your accounts are not working"
+          }
+        }
+      }
+    },
     "yourAccountsPageTitle" : {
       "extractionState" : "manual",
       "localizations" : {

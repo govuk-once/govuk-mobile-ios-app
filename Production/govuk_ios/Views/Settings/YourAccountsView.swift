@@ -45,10 +45,10 @@ struct YourAccountsView: View {
                     .font(.title)
                     .foregroundColor(Color(uiColor: UIColor.govUK.text.iconTertiary))
                 VStack(spacing: 2) {
-                    Text("Your accounts are not working")
+                    Text(viewModel.failureViewTitle)
                         .font(Font.govUK.bodySemibold)
                         .foregroundColor(Color(uiColor: .govUK.text.primary))
-                    Text("Try again later")
+                    Text(viewModel.failureViewDescription)
                         .font(Font.govUK.body)
                         .foregroundColor(Color(uiColor: .govUK.text.primary))
                 }
@@ -64,7 +64,7 @@ struct YourAccountsView: View {
 
     private var emptyView: some View {
         VStack {
-            NonTappableCardView(text: viewModel.errorViewDescription)
+            NonTappableCardView(text: viewModel.emptyViewDescription)
                 .padding(.top, 8)
             Spacer()
         }.background {

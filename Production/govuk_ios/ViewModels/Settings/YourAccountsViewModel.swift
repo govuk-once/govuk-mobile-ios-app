@@ -8,7 +8,7 @@ final class YourAccountsViewViewModel: ObservableObject {
     let title = String(
         localized: .Settings.yourAccountsTitle
     )
-    let errorViewDescription = String(
+    let emptyViewDescription = String(
         localized: .Settings.yourAccountsErrorViewDesc
     )
     let yourAccountsCardTitle = String(
@@ -19,6 +19,14 @@ final class YourAccountsViewViewModel: ObservableObject {
     )
     let backButtonAccessibilityLabel = String(
         localized: .Settings.yourAccountsBackButtonLabel
+    )
+
+    let failureViewTitle = String(
+        localized: .Settings.yourAccountsFailureViewTitle
+    )
+
+    let failureViewDescription = String(
+        localized: .Settings.yourAccountsfailureViewDescription
     )
 
     init(userService: UserServiceInterface,
