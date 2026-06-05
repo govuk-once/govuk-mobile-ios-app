@@ -51,8 +51,7 @@ struct ViewControllerBuilderTests {
             localAuthorityAction: {},
             editLocalAuthorityAction: {},
             openURLAction: { _ in },
-            openSearchAction: { _ in },
-            notificationCentreAction: { }
+            openSearchAction: { _ in }
         )
 
         let result = subject.home(dependencies: dependencies, actions: actions)
@@ -72,7 +71,9 @@ struct ViewControllerBuilderTests {
             notificationService: MockNotificationService(),
             notificationCenter: .default,
             localAuthenticationService: MockLocalAuthenticationService(),
-            appConfigService: MockAppConfigService()
+            appConfigService: MockAppConfigService(),
+            userService: MockUserService(),
+            notificationCentreService: MockNotificationCentreService()
         )
         let result = subject.settings(
             viewModel: viewModel

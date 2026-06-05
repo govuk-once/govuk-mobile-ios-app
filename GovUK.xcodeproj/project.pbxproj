@@ -81,6 +81,7 @@
 		16FD684A2D39AEB5002F1597 /* SuggestionHighlighterProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FD68482D39AEAE002F1597 /* SuggestionHighlighterProcessor.swift */; };
 		16FE77672EBB72A7009D02B1 /* TopicsOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FE77662EBB7290009D02B1 /* TopicsOnboardingView.swift */; };
 		3300A4F62F69B2B10042D340 /* GOVRequest+NotificationCentre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3300A4F52F69B2B10042D340 /* GOVRequest+NotificationCentre.swift */; };
+		333A5D262FCF071C0018BA1D /* NotificationCentreDetailMarkdownTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333A5D252FCF071C0018BA1D /* NotificationCentreDetailMarkdownTheme.swift */; };
 		3365BE5A2F3DCC3300817D7E /* NotificationCentreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3365BE592F3DCC2E00817D7E /* NotificationCentreViewModel.swift */; };
 		3365BE5C2F3E3A3900817D7E /* NotificationCentreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3365BE5B2F3E3A3400817D7E /* NotificationCentreView.swift */; };
 		33991AF22F7D3B2D00E264EC /* UserState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33991AF02F7D3B2D00E264EC /* UserState.swift */; };
@@ -92,6 +93,7 @@
 		33A323E62F51EF100022BAFC /* NotificationCentreRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A323E52F51EF090022BAFC /* NotificationCentreRepository.swift */; };
 		33A323E82F51FBF60022BAFC /* NotificationCentreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A323E72F51FBEF0022BAFC /* NotificationCentreService.swift */; };
 		33A323EA2F51FE450022BAFC /* NotificationCentreServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A323E92F51FE3E0022BAFC /* NotificationCentreServiceClient.swift */; };
+		33C2627A2FD8676B00574491 /* NotificationCentreErrorViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C262792FD8676400574491 /* NotificationCentreErrorViews.swift */; };
 		33C777D82F7AEC7000B1E353 /* DebugClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33C777D72F7AEC6D00B1E353 /* DebugClient.swift */; };
 		33CA98542F61E6190060DCDB /* AppEvent+NotificationCentre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CA98532F61E6150060DCDB /* AppEvent+NotificationCentre.swift */; };
 		33CA985C2F646D8D0060DCDB /* NotificationCentreDetailDeeplinkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CA985B2F646D8D0060DCDB /* NotificationCentreDetailDeeplinkRoute.swift */; };
@@ -570,6 +572,7 @@
 		16FD68482D39AEAE002F1597 /* SuggestionHighlighterProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionHighlighterProcessor.swift; sourceTree = "<group>"; };
 		16FE77662EBB7290009D02B1 /* TopicsOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsOnboardingView.swift; sourceTree = "<group>"; };
 		3300A4F52F69B2B10042D340 /* GOVRequest+NotificationCentre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GOVRequest+NotificationCentre.swift"; sourceTree = "<group>"; };
+		333A5D252FCF071C0018BA1D /* NotificationCentreDetailMarkdownTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCentreDetailMarkdownTheme.swift; sourceTree = "<group>"; };
 		3365BE592F3DCC2E00817D7E /* NotificationCentreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCentreViewModel.swift; sourceTree = "<group>"; };
 		3365BE5B2F3E3A3400817D7E /* NotificationCentreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCentreView.swift; sourceTree = "<group>"; };
 		33991AF02F7D3B2D00E264EC /* UserState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserState.swift; sourceTree = "<group>"; };
@@ -581,6 +584,7 @@
 		33A323E52F51EF090022BAFC /* NotificationCentreRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCentreRepository.swift; sourceTree = "<group>"; };
 		33A323E72F51FBEF0022BAFC /* NotificationCentreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCentreService.swift; sourceTree = "<group>"; };
 		33A323E92F51FE3E0022BAFC /* NotificationCentreServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCentreServiceClient.swift; sourceTree = "<group>"; };
+		33C262792FD8676400574491 /* NotificationCentreErrorViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCentreErrorViews.swift; sourceTree = "<group>"; };
 		33C777D72F7AEC6D00B1E353 /* DebugClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugClient.swift; sourceTree = "<group>"; };
 		33CA98532F61E6150060DCDB /* AppEvent+NotificationCentre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppEvent+NotificationCentre.swift"; sourceTree = "<group>"; };
 		33CA985B2F646D8D0060DCDB /* NotificationCentreDetailDeeplinkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCentreDetailDeeplinkRoute.swift; sourceTree = "<group>"; };
@@ -1072,6 +1076,7 @@
 				govuk_ios/govuk_ios_unit_tests/Mocks/Repositories/MockTopicsRepository.swift,
 				govuk_ios/govuk_ios_unit_tests/Mocks/Services/MockAuthenticationService.swift,
 				govuk_ios/govuk_ios_unit_tests/Mocks/Services/MockLocalAuthenticationService.swift,
+				govuk_ios/govuk_ios_unit_tests/Mocks/Services/MockNotificationCentreService.swift,
 				govuk_ios/govuk_ios_unit_tests/Mocks/Services/MockUserDefaultsService.swift,
 				govuk_ios/govuk_ios_unit_tests/Mocks/Services/MockUserService.swift,
 				govuk_ios/govuk_ios_unit_tests/Specs/Views/CentreAlignedBarButtonItemTests.swift,
@@ -1296,7 +1301,9 @@
 		3365BE582F3DCC0E00817D7E /* NotificationCentre */ = {
 			isa = PBXGroup;
 			children = (
+				333A5D252FCF071C0018BA1D /* NotificationCentreDetailMarkdownTheme.swift */,
 				33A323E12F51E1380022BAFC /* NotificationCentreDetailView.swift */,
+				33C262792FD8676400574491 /* NotificationCentreErrorViews.swift */,
 				3365BE5B2F3E3A3400817D7E /* NotificationCentreView.swift */,
 			);
 			path = NotificationCentre;
@@ -1720,8 +1727,6 @@
 				4EE5F3EF2DAFDB80008C60ED /* LocalAuthority.xcstrings */,
 				D08AA4252DB950F2002E9C78 /* SignOut.xcstrings */,
 				33A323DC2F503D240022BAFC /* NotificationCentre.xcstrings */,
-				81E2E78C2F5F6D90009D96A0 /* ServiceAccount.xcstrings */,
-				815018F42F7D96F100E7469C /* DVLA.xcstrings */,
 			);
 			path = Strings;
 			sourceTree = "<group>";
@@ -1984,7 +1989,6 @@
 				5DB637072D7732A800A44E36 /* GOVRequest+Topics.swift */,
 				4EBCA3352DAC5E2E0063A723 /* GOVRequest+LocalAuthority.swift */,
 				3300A4F52F69B2B10042D340 /* GOVRequest+NotificationCentre.swift */,
-				815011D82F7C4F8B00E7469C /* GOVRequest+DVLA.swift */,
 			);
 			path = GOVRequest;
 			sourceTree = "<group>";
@@ -2770,6 +2774,7 @@
 				4E9F5D072DB79D370063FA78 /* PrimaryButtonView.swift in Sources */,
 				815935D92F212EF700F8D206 /* UserServiceClient.swift in Sources */,
 				D02578772EB8CB73008AD2BF /* EmergencyBannerWidgetViewModel.swift in Sources */,
+				333A5D262FCF071C0018BA1D /* NotificationCentreDetailMarkdownTheme.swift in Sources */,
 				16C34B432C492FF90031AD32 /* HomeDeepLinkRoute.swift in Sources */,
 				4E19C85E2E65109900D56C33 /* ChatWidgetView.swift in Sources */,
 				D0E7923B2D6CD66600EAB81F /* TopicDetailViewModelInterface.swift in Sources */,
@@ -3006,7 +3011,6 @@
 				5D14B1FE2EB0BA65003C151F /* SecureStoreable+Convenience.swift in Sources */,
 				33A323E42F51E34C0022BAFC /* NotificationCentreCoordinator.swift in Sources */,
 				33A323E62F51EF100022BAFC /* NotificationCentreRepository.swift in Sources */,
-				81DE66982F5B3AB60087F48E /* ServiceAccountLinkingViewModel.swift in Sources */,
 				1631DE992C2B0D020050CB9D /* DeviceInformationProvider.swift in Sources */,
 				5D51C8382C5BBF600011ABE9 /* WidgetView.swift in Sources */,
 				166BDDB62C330D1C00437AE0 /* HomeViewController.swift in Sources */,
@@ -3025,6 +3029,7 @@
 				D0E85A842DDCD199003B4D7A /* AmbiguousAddressSelectionViewModel.swift in Sources */,
 				5DA6E5332C47BD2700D41263 /* DeeplinkRouteProvider.swift in Sources */,
 				5DFDEBF12CEE396D00F7A365 /* UserProperty+Convenience.swift in Sources */,
+				33C2627A2FD8676B00574491 /* NotificationCentreErrorViews.swift in Sources */,
 				D06C49B62DE5D2510045C674 /* JailbreakDetectionService.swift in Sources */,
 				4E11AC442F22653700838894 /* GOVUKColors+Chat.swift in Sources */,
 				4E265D2A2DB0E6510089CF9E /* Authority.swift in Sources */,

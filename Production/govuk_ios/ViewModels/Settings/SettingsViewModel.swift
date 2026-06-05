@@ -2,6 +2,7 @@
 import UIKit
 import GovKit
 import LocalAuthentication
+import Combine
 
 protocol SettingsViewModelInterface: ObservableObject {
     var title: String { get }
@@ -22,6 +23,7 @@ protocol SettingsViewModelInterface: ObservableObject {
     func handleNotificationAlertAction()
     func trackScreen(screen: TrackableScreen)
     func updateEmail()
+    func loadMessages()
 }
 
 struct SettingsViewModelURLParameters {
@@ -32,6 +34,13 @@ struct SettingsViewModelURLParameters {
 
 // swiftlint:disable:next type_body_length
 class SettingsViewModel: SettingsViewModelInterface {
+    private enum MessagesState {
+        case notDetermined, loading, error, success(unreadCount: Int), unlinked
+    }
+
+    @Published private var messagesState: MessagesState = .notDetermined
+    private var messagesStateCancelable: AnyCancellable?
+
     let title: String = String(localized: .Settings.pageTitle)
     private let analyticsService: AnalyticsServiceInterface
     private let urlOpener: URLOpener
@@ -40,6 +49,10 @@ class SettingsViewModel: SettingsViewModelInterface {
     private let authenticationService: AuthenticationServiceInterface
     private let localAuthenticationService: LocalAuthenticationServiceInterface
     private let appConfigService: AppConfigServiceInterface
+    private let userService: UserServiceInterface
+    private let notificationCentreService: NotificationCentreServiceInterface
+
+    @Published var listContent: [GroupedListSection] = []
     @Published var scrollToTop: Bool = false
     @Published var displayNotificationSettingsAlert: Bool = false
     @Published private(set) var notificationsPermissionState: NotificationPermissionState
@@ -65,7 +78,9 @@ class SettingsViewModel: SettingsViewModelInterface {
          notificationService: NotificationServiceInterface,
          notificationCenter: NotificationCenter,
          localAuthenticationService: LocalAuthenticationServiceInterface,
-         appConfigService: AppConfigServiceInterface) {
+         appConfigService: AppConfigServiceInterface,
+         userService: UserServiceInterface,
+         notificationCentreService: NotificationCentreServiceInterface) {
         self.analyticsService = analyticsService
         self.urlOpener = urlOpener
         self.versionProvider = versionProvider
@@ -75,8 +90,20 @@ class SettingsViewModel: SettingsViewModelInterface {
         self.notificationCenter = notificationCenter
         self.localAuthenticationService = localAuthenticationService
         self.appConfigService = appConfigService
+        self.userService = userService
+        self.notificationCentreService = notificationCentreService
         updateNotificationPermissionState()
         observeAppMoveToForeground()
+
+        messagesStateCancelable = $messagesState.sink { [weak self] _ in
+            Task { @MainActor in
+                guard let self else { return }
+                self.listContent = self.getGroupedList()
+            }
+        }
+
+        // Set the initial state
+        self.listContent = self.getGroupedList()
     }
 
     private func observeAppMoveToForeground() {
@@ -132,13 +159,51 @@ class SettingsViewModel: SettingsViewModelInterface {
         }
     }
 
-    var listContent: [GroupedListSection] {
-        getGroupedList()
-    }
-
     func updateEmail() {
         Task { @MainActor in
             userEmail = await self.authenticationService.userEmail
+        }
+    }
+
+    func loadMessages() {
+        guard case .notDetermined = messagesState else { return }
+
+        Task {
+//            messagesState = .loading
+
+            // None of this will work because the DVLA changes have been removed from this branch
+            // so it can go into review
+//            if let linked = userService.isDvlaAccountLinked {
+//                loadMessageCount(isLinked: linked)
+//            } else {
+//                let linked = await userService.fetchAccountLinkStatus(accountType: .dvla)
+//
+//                switch linked {
+//                case .success(let linkStatus):
+//
+//                case .failure:
+//                    messagesState = .error
+//                }
+//            }
+
+            // Hardcode to linked for now so the row appears
+            loadMessageCount(isLinked: true)
+        }
+    }
+
+    private func loadMessageCount(isLinked: Bool) {
+        guard isLinked else {
+            messagesState = .unlinked
+            return
+        }
+
+        notificationCentreService.fetchNotifications { [weak self] res in
+            if case .success(let notifications) = res {
+                let unreadCount = notifications.count(where: \.isUnread)
+                self?.messagesState = .success(unreadCount: unreadCount)
+            } else {
+                self?.messagesState = .error
+            }
         }
     }
 
@@ -185,15 +250,22 @@ class SettingsViewModel: SettingsViewModelInterface {
     }
 
     private var messagesSection: GroupedListSection? {
-        // TO DO Implement check of linking
+        var state: CountRow.State
 
+        switch messagesState {
+        case .notDetermined, .loading:
+             state = .loading
+        case .success(let unreadCount):
+           state = .idle(showIndicator: unreadCount > 0, count: unreadCount)
+        case .error, .unlinked:
+            return nil
+        }
         return GroupedListSection(
             heading: nil, rows: [
                 CountRow(
                     id: "settings.messages.row",
                     title: String(localized: .Settings.messagesTitle),
-                    count: 42, // TO DO Implement
-                    showIndicator: true, // TO DO Implement
+                    state: state,
                     action: { [weak self] in
                         self?.notificationCentreAction?()
                     })

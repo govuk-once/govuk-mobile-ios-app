@@ -66,7 +66,12 @@ struct NotificationCentreServiceClient: NotificationCentreServiceClientInterface
         _ result: NetworkResult<Data>
     ) -> Result<T, NotificationCentreError> {
         return result.mapError { error in
-            return (error as? NotificationCentreError) ?? NotificationCentreError.apiUnavailable
+            let nsError = (error as NSError)
+            if nsError.code == NSURLErrorNotConnectedToInternet {
+                return NotificationCentreError.networkUnavailable
+            } else {
+                return (error as? NotificationCentreError) ?? NotificationCentreError.apiUnavailable
+            }
         }.flatMap {
             do {
                 let decoder = JSONDecoder()

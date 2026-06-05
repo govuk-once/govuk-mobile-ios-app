@@ -38,17 +38,21 @@ struct NotificationCentreContainerView: View {
                                           argument: "Loading complete")
                             }
                         case .error:
-                            NotificationCentreErrorView(onRetry: viewModel.onTapRetry)
+                            NotificationCentreErrorView()
                                 .onAppear {
                                     UIAccessibility.post(notification: .screenChanged,
                                                          argument: "Error")
                                 }
+                        case .noInternet:
+                            NotificationCentreNoInternetView()
+                                .onAppear {
+                                    UIAccessibility.post(notification: .screenChanged,
+                                                         argument: "No internet connection")
+                                }
                         }
                     }
                     .frame(minHeight: geometry.size.height)
-                    .background(Color(uiColor: UIColor.govUK.fills.surfaceBackground))
                 }
-                .background(gradient)
             }
         }
         .background(Color(UIColor.govUK.fills.surfaceBackground))
@@ -62,54 +66,71 @@ struct NotificationCentreContainerView: View {
     private var titleView: some View {
         VStack(spacing: 0) {
             HStack {
-                Text(self.trackingName)
+                Text(.NotificationCentre.notificationCentreNavTitle)
                     .font(.govUK.largeTitleBold)
                     .multilineTextAlignment(.leading)
                     .accessibility(addTraits: .isHeader)
-                    .foregroundColor(Color(UIColor.govUK.text.header))
+                    .foregroundColor(Color(UIColor.govUK.text.primary))
                 Spacer()
             }
             .padding(.leading, 16)
-            .padding(.bottom, 8)
-            .background(Color(UIColor.govUK.fills.surfaceHomeHeaderBackground))
+            .padding(.vertical, 10)
+            .background(Color(.clear))
         }
-    }
-
-    // Hides the splash of white when you overscroll the title
-    private var gradient: Gradient {
-        Gradient(stops: [
-            .init(
-                color: Color(UIColor.govUK.fills.surfaceHomeHeaderBackground),
-                location: 0),
-            .init(
-                color: Color(UIColor.govUK.fills.surfaceHomeHeaderBackground),
-                location: 0.33),
-            .init(
-                color: .clear,
-                location: 0.33),
-            .init(
-                color: .clear,
-                location: 1)
-        ])
     }
 }
 
 private struct NotificationCentreLoadedView: View {
-    let notifications: [Notification]
+    let notifications: NotificationCentreViewModel.NotificationGroups
     let onNotificationTap: (Notification) -> Void
 
     var body: some View {
-        List(notifications) { not in
-            NotificationCentreRow(notification: not,
-                                  onTap: onNotificationTap)
-            .listRowInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 0))
-            .listRowSeparatorTint(Color(GOVUKColors.text.secondary), edges: .all)
-            .alignmentGuide(.listRowSeparatorLeading) { _ in
-                24 // Align it with the left edge of the content
+        ScrollView {
+            LazyVStack(spacing: 8) {
+                if !notifications.recent.isEmpty {
+                    SectionHeader(title: .NotificationCentre.notificationCentreSectionRecent)
+
+                    ForEach(notifications.recent) { not in
+                        NotificationCentreRow(notification: not,
+                                              onTap: onNotificationTap)
+                    }
+                }
+
+                if !notifications.older.isEmpty {
+                    SectionHeader(title: .NotificationCentre.notificationCentreSectionOlder)
+
+                    ForEach(notifications.older) { not in
+                        NotificationCentreRow(notification: not,
+                                              onTap: onNotificationTap)
+                    }
+                }
+
+                Text(.NotificationCentre.notificationsFooter)
+                    .font(.govUK.callout)
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(Color(UIColor.govUK.text.secondary))
+                    .clipShape(Rectangle())
+                    .padding(.top, 8)
             }
-            .alignmentGuide(.listRowSeparatorTrailing) { dim in
-                dim[.listRowSeparatorTrailing] - 16 // Align with edge of chevron
-            }
+            .padding(.horizontal, 16)
+            .background(Color(UIColor.govUK.fills.surfaceBackground))
+        }
+    }
+}
+
+private struct SectionHeader: View {
+    let title: LocalizedStringResource
+
+    var body: some View {
+        HStack {
+            Text(title)
+                .font(.govUK.title3Semibold)
+                .multilineTextAlignment(.leading)
+                .accessibility(addTraits: .isHeader)
+                .foregroundColor(Color(UIColor.govUK.text.primary))
+                .padding(.top, 28)
+                .padding(.bottom, 16)
+            Spacer()
         }
     }
 }
@@ -125,63 +146,33 @@ private struct NotificationCentreLoadingView: View {
     }
 }
 
-
-private struct NotificationCentreErrorView: View {
-    let onRetry: () -> Void
-
-    var body: some View {
-        VStack(alignment: .center) {
-            Spacer()
-            Image(systemName: "exclamationmark.circle")
-                .resizable()
-                .frame(width: 64, height: 64)
-                .padding(.bottom, 16)
-                .foregroundStyle(Color(GOVUKColors.fills.surfaceCardEmergencyLocal))
-            Text(.NotificationCentre.notificationErrorTitle)
-                .padding(.bottom, 16)
-                .font(Font.govUK.title1)
-                .fontWeight(.bold)
-                .multilineTextAlignment(.center)
-                .foregroundStyle(Color(GOVUKColors.text.primary))
-            Text(.NotificationCentre.notificationErrorBody)
-                .font(Font.govUK.body)
-                .multilineTextAlignment(.center)
-                .foregroundStyle(Color(UIColor.govUK.text.secondary))
-
-            SwiftUIButton(.primary,
-                          viewModel: .init(
-                            localisedTitle: String(
-                                localized: .NotificationCentre.notificationErrorButtonRetry),
-                            action: onRetry))
-            .padding(.top, 32)
-            Spacer()
-        }
-        .padding(.horizontal, 32)
-    }
-}
-
 private struct NotificationCentreEmptyView: View {
     var body: some View {
         VStack(alignment: .center) {
-            Spacer()
-            Image(.notcenBell)
-                .resizable()
-                .frame(width: 64, height: 64)
-                .padding(.bottom, 16)
-                .foregroundStyle(Color(GOVUKColors.fills.surfaceCardEmergencyLocal))
-            Text(.NotificationCentre.noNotificationsTitle)
-                .padding(.bottom, 16)
-                .font(Font.govUK.title1)
-                .fontWeight(.bold)
+            HStack {
+                Spacer()
+                Text(.NotificationCentre.noNotificationsTitle)
+                    .font(Font.govUK.body)
+                    .padding(.all, 16)
+                    .multilineTextAlignment(.center)
+                    .foregroundStyle(Color(GOVUKColors.text.secondary))
+
+                Spacer()
+            }
+            .background(Color(UIColor.govUK.fills.surfaceCardNonTappable))
+            .clipShape(RoundedRectangle(cornerSize: CGSize(width: 10, height: 10)))
+
+            Text(.NotificationCentre.notificationsFooter)
+                .font(.govUK.callout)
                 .multilineTextAlignment(.center)
-                .foregroundStyle(Color(GOVUKColors.text.primary))
-            Text(.NotificationCentre.noNotificationsBody)
-                .font(Font.govUK.body)
-                .multilineTextAlignment(.center)
-                .foregroundStyle(Color(GOVUKColors.text.secondary))
+                .foregroundColor(Color(UIColor.govUK.text.secondary))
+                .clipShape(Rectangle())
+                .padding(.top, 8)
+
             Spacer()
         }
         .padding(.horizontal, 32)
+        .padding(.top, 16)
     }
 }
 
@@ -194,50 +185,42 @@ private struct NotificationCentreRow: View {
             onTap(notification)
         } label: {
             HStack {
-                Rectangle()
-                    .fill(notification.isUnread
-                          ? Color(GOVUKColors.fills.surfaceListSelected)
-                          : .clear)
-                    .frame(width: 8)
-                    .padding(.vertical, 1)
+                Circle()
+                    .fill(notification.isUnread ?
+                          Color(UIColor.govUK.fills.msgUnread) :
+                            Color(UIColor.govUK.fills.msgRead))
+                    .frame(width: 10, height: 10)
+                    .padding(.leading, 16)
+                    .padding(.trailing, 16)
                     .accessibilityHidden(!notification.isUnread)
                     .accessibilityLabel(Text(.NotificationCentre.notificationUnreadA11YLabel))
 
                 VStack(alignment: .leading, spacing: 0) {
                     Text(notification.title)
-                        .lineLimit(2)
-                        .font(Font.govUK.headlineSemibold)
+                        .lineLimit(1)
+                        .font(Font.govUK.bodySemibold)
                         .padding(.bottom, 4)
                         .foregroundStyle(Color(UIColor.govUK.text.primary))
-                    Text(notification.body)
-                        .lineLimit(3)
+
+                    Text(notification.date.formatMessageListDate())
                         .font(Font.govUK.subheadline)
-                        .padding(.bottom, 8)
-                        .foregroundStyle(Color(UIColor.govUK.text.secondary))
-                    Text(.NotificationCentre.notificationSentDateFormat(
-                        DateFormatter.notificationSent.string(from: notification.date)))
-                        .font(Font.govUK.footnote)
                         .foregroundStyle(Color(UIColor.govUK.text.secondary))
                 }
-                .padding(.vertical, 16)
-                .padding(.horizontal, 8)
+                .padding(.trailing, 16)
 
                 Spacer()
-                Image(systemName: "chevron.right")
-                    .imageScale(.small)
-                    .padding(.trailing, 16)
-                    .accessibilityHidden(true)
-                    .foregroundStyle(Color(GOVUKColors.fills.surfaceListSelected))
             }
+            .padding(.vertical, 16)
+            .background(Color(UIColor.govUK.fills.surfaceList))
+            .cornerRadius(10)
             .accessibilityElement(children: .combine)
         }
     }
 }
 
-
 extension NotificationCentreContainerView: TrackableScreen {
     var trackingTitle: String? { trackingName }
-    var trackingName: String { "Notification Centre" }
+    var trackingName: String { "Messages" }
 }
 
 #Preview("Loading") {
@@ -254,10 +237,6 @@ extension NotificationCentreContainerView: TrackableScreen {
 
 #Preview("Empty") {
     NotificationCentreEmptyView()
-}
-
-#Preview("Error") {
-    NotificationCentreErrorView(onRetry: { /* no-op */ })
 }
 
 #Preview("Unread notification") {
