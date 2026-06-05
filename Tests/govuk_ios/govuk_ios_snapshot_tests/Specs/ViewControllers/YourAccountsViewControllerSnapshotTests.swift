@@ -13,8 +13,7 @@ final class YourAccountsViewControllerSnapshotTests: SnapshotTestCase {
         mockUserService._stubbedFetchAccountLinkStatusResult = .success(.arrangeUnlinked)
 
         let viewModel = YourAccountsViewViewModel(
-            userService: mockUserService,
-            dismissAction: {}
+            userService: mockUserService
         )
         viewModel.state = .success
         let view = YourAccountsView(
@@ -36,8 +35,7 @@ final class YourAccountsViewControllerSnapshotTests: SnapshotTestCase {
         mockUserService._stubbedFetchAccountLinkStatusResult = .success(.arrangeUnlinked)
 
         let viewModel = YourAccountsViewViewModel(
-            userService: mockUserService,
-            dismissAction: {}
+            userService: mockUserService
         )
         viewModel.state = .success
         let view = YourAccountsView(
@@ -58,8 +56,7 @@ final class YourAccountsViewControllerSnapshotTests: SnapshotTestCase {
         let mockUserService = MockUserService()
         mockUserService._stubbedFetchAccountLinkStatusResult = .failure(.apiUnavailable)
         let viewModel = YourAccountsViewViewModel(
-            userService: mockUserService,
-            dismissAction: {}
+            userService: mockUserService
         )
         viewModel.state = .failure
         let view = YourAccountsView(
@@ -81,8 +78,7 @@ final class YourAccountsViewControllerSnapshotTests: SnapshotTestCase {
         mockUserService._stubbedFetchAccountLinkStatusResult = .failure(.apiUnavailable)
 
         let viewModel = YourAccountsViewViewModel(
-            userService: mockUserService,
-            dismissAction: {}
+            userService: mockUserService
         )
         viewModel.state = .failure
         let view = YourAccountsView(
@@ -103,8 +99,7 @@ final class YourAccountsViewControllerSnapshotTests: SnapshotTestCase {
         let mockUserService = MockUserService()
         mockUserService._stubbedFetchAccountLinkStatusResult = .success(.arrangeUnlinked)
         let viewModel = YourAccountsViewViewModel(
-            userService: mockUserService,
-            dismissAction: {}
+            userService: mockUserService
         )
         viewModel.state = .empty
         let view = YourAccountsView(
@@ -126,8 +121,7 @@ final class YourAccountsViewControllerSnapshotTests: SnapshotTestCase {
         mockUserService._stubbedFetchAccountLinkStatusResult = .success(.arrangeUnlinked)
 
         let viewModel = YourAccountsViewViewModel(
-            userService: mockUserService,
-            dismissAction: {}
+            userService: mockUserService
         )
         viewModel.state = .empty
         let view = YourAccountsView(

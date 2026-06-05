@@ -10,8 +10,7 @@ struct YourAccountsViewModelTests {
         mockUserService._stubbedFetchAccountLinkStatusResult = .success(.arrangeLinked)
 
         let sut = YourAccountsViewViewModel(
-            userService: mockUserService,
-            dismissAction: {}
+            userService: mockUserService
         )
         await sut.fetchAccountLinkStatus()
         #expect(sut.state == .success)
@@ -23,8 +22,7 @@ struct YourAccountsViewModelTests {
         mockUserService._stubbedFetchAccountLinkStatusResult = .success(.arrangeUnlinked)
 
         let sut = YourAccountsViewViewModel(
-            userService: mockUserService,
-            dismissAction: {}
+            userService: mockUserService
         )
         await sut.fetchAccountLinkStatus()
         #expect(sut.state == .empty)
@@ -36,8 +34,7 @@ struct YourAccountsViewModelTests {
         let mockUserService = MockUserService()
         mockUserService._stubbedFetchAccountLinkStatusResult = .failure(.apiUnavailable)
         let sut = YourAccountsViewViewModel(
-            userService: mockUserService,
-            dismissAction: {}
+            userService: mockUserService
         )
         await sut.fetchAccountLinkStatus()
         #expect(sut.state == .failure)

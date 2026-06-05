@@ -24,10 +24,8 @@ struct YourAccountsView: View {
             Color(UIColor.govUK.fills.surfaceBackground)
                 .ignoresSafeArea()
         }
-        .onAppear {
-            Task {
-                await viewModel.fetchAccountLinkStatus()
-            }
+        .task {
+            await viewModel.fetchAccountLinkStatus()
         }
     }
 
@@ -59,7 +57,8 @@ struct YourAccountsView: View {
             .background(Color(uiColor: UIColor.govUK.fills.surfaceList))
             .roundedBorder(borderColor: .clear)
             Spacer()
-        }.padding(.top, 8)
+        }
+        .padding(.top, 8)
         .padding(.horizontal, 16)
     }
 
@@ -72,7 +71,7 @@ struct YourAccountsView: View {
             Color(UIColor.govUK.fills.surfaceBackground)
                 .ignoresSafeArea()
         }
-        .padding([.horizontal], 16)
+        .padding(.horizontal, 16)
     }
 
     private var successView: some View {
@@ -96,7 +95,7 @@ struct YourAccountsView: View {
                 .ignoresSafeArea()
         }
         .padding(.top, 8)
-        .padding([.horizontal], 16)
+        .padding(.horizontal, 16)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button(

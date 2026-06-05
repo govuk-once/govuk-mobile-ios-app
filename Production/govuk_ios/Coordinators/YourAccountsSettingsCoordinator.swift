@@ -22,10 +22,7 @@ class YourAccountsSettingsCoordinator: BaseCoordinator {
 
     override func start(url: URL?) {
         let viewController = viewControllerBuilder.yourAccountsSettings(
-            userService: userService,
-            dismissAction: { [weak self] in
-                self?.dismissAction()
-            }
+            userService: userService
         )
         push(viewController, animated: true)
     }

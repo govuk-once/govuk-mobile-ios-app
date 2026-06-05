@@ -123,13 +123,10 @@ class MockViewControllerBuilder: ViewControllerBuilder {
     }
 
     var _stubbedYourAccountsViewController: UIViewController?
-    var _receivedYourAccountsViewDismissAction: (() -> Void)?
     override func yourAccountsSettings(
-        userService: UserServiceInterface,
-        dismissAction: @escaping () -> Void
+        userService: UserServiceInterface
     )
     -> UIViewController {
-        _receivedYourAccountsViewDismissAction = dismissAction
         return _stubbedYourAccountsViewController ?? UIViewController()
     }
 

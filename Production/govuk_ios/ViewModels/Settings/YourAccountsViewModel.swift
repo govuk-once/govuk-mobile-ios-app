@@ -4,7 +4,6 @@ import GovKit
 final class YourAccountsViewViewModel: ObservableObject {
     private let userService: UserServiceInterface
     @Published var state: State = .loading
-    let dismissAction: () -> Void
     let title = String(
         localized: .Settings.yourAccountsTitle
     )
@@ -27,10 +26,8 @@ final class YourAccountsViewViewModel: ObservableObject {
         localized: .Settings.yourAccountsfailureViewDescription
     )
 
-    init(userService: UserServiceInterface,
-         dismissAction: @escaping () -> Void) {
+    init(userService: UserServiceInterface) {
         self.userService = userService
-        self.dismissAction = dismissAction
     }
 
     enum State {

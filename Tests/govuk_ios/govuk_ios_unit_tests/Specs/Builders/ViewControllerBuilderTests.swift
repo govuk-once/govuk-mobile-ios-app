@@ -176,8 +176,7 @@ struct ViewControllerBuilderTests {
     func yourAccountsView_returnsExpectedResult() {
         let subject = ViewControllerBuilder()
         let result = subject.yourAccountsSettings(
-            userService: MockUserService(),
-            dismissAction: {}
+            userService: MockUserService()
         )
         let rootView = (result as? HostingViewController<YourAccountsView>)?.rootView
         #expect(rootView != nil)
