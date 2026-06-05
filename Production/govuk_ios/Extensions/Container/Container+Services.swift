@@ -307,7 +307,7 @@ extension Container {
             )
         }
     }
-    
+
     var notificationCentreService: Factory<NotificationCentreServiceInterface> {
         Factory(self) {
             NotificationCentreService(

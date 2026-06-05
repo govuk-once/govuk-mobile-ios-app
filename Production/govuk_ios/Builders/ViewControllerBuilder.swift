@@ -807,17 +807,13 @@ class ViewControllerBuilder {
         let actions = NotificationCentreViewModel.Actions(showNotification: showNotificationAction)
         let viewModel = NotificationCentreViewModel(
             actions: actions,
-            notificationService: notificationService,
+            notificationCentreService: notificationService,
             analyticsService: analyticsService)
 
         let viewController = HostingViewController(
             rootView: NotificationCentreContainerView(viewModel: viewModel),
-            navigationBarHidden: false
         )
         viewController.navigationItem.largeTitleDisplayMode = .never
-        viewController
-            .navigationItem
-            .backButtonTitle = String.notificationCentre.localized("notificationCentreNavTitle")
 
         return viewController
     }
@@ -840,9 +836,9 @@ class ViewControllerBuilder {
 
             let viewController = HostingViewController(
                 rootView: NotificationCentreDetailContainerView(viewModel: viewModel),
-                navigationBarHidden: false
             )
-            viewController.navigationItem.largeTitleDisplayMode = .always
+            viewController.navigationItem.largeTitleDisplayMode = .never
+
             let unreadButton = UIBarButtonItem(
                 image: UIImage(
                     resource: .notcenUnread),
@@ -862,10 +858,14 @@ class ViewControllerBuilder {
                 .notificationCentre.localized("notificationCentreDetailDeleteA11yLabel")
 
 
-            viewController.navigationItem.rightBarButtonItems = [
-                deleteButton,
-                unreadButton
-            ]
+            // Removed temporarily as there's a further ticket to implement this properly
+            // with respect to Liquid Glass too
+            // NOT-238
+            // NOT-230
+//            viewController.navigationItem.rightBarButtonItems = [
+//                deleteButton,
+//                unreadButton
+//            ]
             return viewController
         }
 }

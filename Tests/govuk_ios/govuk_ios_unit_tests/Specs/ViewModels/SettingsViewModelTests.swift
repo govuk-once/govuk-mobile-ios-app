@@ -9,7 +9,7 @@ import Combine
 @Suite(.serialized)
 class SettingsViewModelTests {
 
-    let sut: SettingsViewModel
+    var sut: SettingsViewModel!
     let mockAnalyticsService: MockAnalyticsService = MockAnalyticsService()
     let mockURLOpener: MockURLOpener = MockURLOpener()
     let mockVersionProvider = MockAppVersionProvider()
@@ -26,7 +26,10 @@ class SettingsViewModelTests {
         mockAuthenticationService._stubbedUserEmail = "test@example.com"
         mockAppConfigService._stubbedTermsAndConditions = Config.arrange.termsAndConditions
         mockAppConfigService.features = [.profile, .dvla]
+        assembleSUT()
+    }
 
+    private func assembleSUT() {
         sut = SettingsViewModel(
             analyticsService: mockAnalyticsService,
             urlOpener: mockURLOpener,
@@ -36,8 +39,22 @@ class SettingsViewModelTests {
             notificationService: mockNotificationsService,
             notificationCenter: .default,
             localAuthenticationService: mockLocalAuthenticationService,
-            appConfigService: mockAppConfigService
+            appConfigService: mockAppConfigService,
+            userService: MockUserService(),
+            notificationCentreService: MockNotificationCentreService()
         )
+    }
+
+    private struct SectionIndexes {
+        static let manageAccounts = 0
+        static let messages = SectionIndexes.manageAccounts + 1
+
+        static let yourAccounts = SectionIndexes.messages + 1
+        static let appOptions = SectionIndexes.yourAccounts + 1
+        static let about = SectionIndexes.appOptions + 1
+        static let policies = SectionIndexes.about + 1
+        static let signOut = SectionIndexes.policies + 1
+
     }
 
     @Test
@@ -47,30 +64,40 @@ class SettingsViewModelTests {
 
     @Test
     func listContent_isCorrect() throws {
-        try #require(sut.listContent.count == 6)
-        try #require(sut.listContent[0].rows.count == 2)
-        try #require(sut.listContent[1].rows.count == 1)
-        try #require(sut.listContent[2].rows.count == 3)
-        try #require(sut.listContent[3].rows.count == 2)
-        try #require(sut.listContent[4].rows.count == 4)
-        try #require(sut.listContent[5].rows.count == 1)
+        try #require(sut.listContent.count == SectionIndexes.signOut + 1)
+        try #require(sut.listContent[SectionIndexes.manageAccounts].rows.count == 2)
+        try #require(sut.listContent[SectionIndexes.messages].rows.count == 1)
+        try #require(sut.listContent[SectionIndexes.yourAccounts].rows.count == 1)
+        try #require(sut.listContent[SectionIndexes.appOptions].rows.count == 3)
+        try #require(sut.listContent[SectionIndexes.about].rows.count == 2)
+        try #require(sut.listContent[SectionIndexes.policies].rows.count == 4)
+        try #require(sut.listContent[SectionIndexes.signOut].rows.count == 1)
 
-        let manageAccountSection = sut.listContent[0]
+        let manageAccountSection = sut.listContent[SectionIndexes.manageAccounts]
         #expect(manageAccountSection.heading?.title == nil)
         try #require(manageAccountSection.rows.count == 2)
         #expect(manageAccountSection.rows[0].title == "Your GOV.UK One Login")
         #expect(manageAccountSection.rows[1].title == "Manage your GOV.UK One Login")
 
-        let yourAccountSection = sut.listContent[1]
+        let signOutSection = sut.listContent[SectionIndexes.signOut]
+        let signOutRow = try #require(signOutSection.rows.first as? DetailRow)
+        #expect(signOutRow.title == "Sign out")
+        
+        let messagesSection = sut.listContent[SectionIndexes.messages]
+        #expect(messagesSection.heading?.title == nil)
+        try #require(messagesSection.rows.count == 1)
+        #expect(messagesSection.rows[0].title == "Messages")
+
+        let yourAccountSection = sut.listContent[SectionIndexes.yourAccounts]
         let yourAccountsRow = try #require(yourAccountSection.rows.first as? NavigationRow)
         #expect(yourAccountsRow.title == "Your accounts")
 
-        let notificationsSection = sut.listContent[2]
-        #expect(notificationsSection.heading?.title == nil)
-        let notificationRow = try #require(notificationsSection.rows.first as? DetailRow)
+        let appOptionsSection = sut.listContent[SectionIndexes.appOptions]
+        #expect(appOptionsSection.heading?.title == nil)
+        let notificationRow = try #require(appOptionsSection.rows.first as? DetailRow)
         #expect(notificationRow.title == "Notifications")
 
-        let aboutSection = sut.listContent[3]
+        let aboutSection = sut.listContent[SectionIndexes.about]
         let helpAndFeedbackRow = try #require(aboutSection.rows.last as? LinkRow)
         var openedURL: URL?
         var openedTitle: String?
@@ -88,14 +115,11 @@ class SettingsViewModelTests {
         #expect(appBundleInformation.title == "App version number")
         #expect(appBundleInformation.detail == "123 (456)")
 
-        let privacyAndLegalSection = sut.listContent[4]
+        let privacyAndLegalSection = sut.listContent[SectionIndexes.policies]
         #expect(privacyAndLegalSection.rows[0].title == "Privacy notice")
         #expect(privacyAndLegalSection.rows[1].title == "Accessibility statement")
         #expect(privacyAndLegalSection.rows[2].title == "Open source licences")
         #expect(privacyAndLegalSection.rows[3].title == "Terms and conditions")
-
-        let signOutSection = sut.listContent[5]
-        #expect(signOutSection.rows[0].title == "Sign out")
     }
 
     @Test(.disabled("Disabled until SAR row brought back into settings"))
@@ -110,10 +134,12 @@ class SettingsViewModelTests {
             notificationService: mockNotificationsService,
             notificationCenter: .default,
             localAuthenticationService: mockLocalAuthenticationService,
-            appConfigService: mockAppConfigService
+            appConfigService: mockAppConfigService,
+            userService: MockUserService(),
+            notificationCentreService: MockNotificationCentreService()
         )
 
-        let privacyAndLegalSection = localSut.listContent[3]
+        let privacyAndLegalSection = localSut.listContent[SectionIndexes.policies]
         #expect(privacyAndLegalSection.rows.last?.title == "Terms and conditions")
         let rowIds = privacyAndLegalSection.rows.map { $0.id }
         #expect(!rowIds.contains("settings.sar.row"))
@@ -131,10 +157,12 @@ class SettingsViewModelTests {
             notificationService: mockNotificationsService,
             notificationCenter: .default,
             localAuthenticationService: mockLocalAuthenticationService,
-            appConfigService: mockAppConfigService
+            appConfigService: mockAppConfigService,
+            userService: MockUserService(),
+            notificationCentreService: MockNotificationCentreService()
         )
 
-        let yourAccountsRow = sut.listContent[1]
+        let yourAccountsRow = sut.listContent[SectionIndexes.yourAccounts]
         let rowIds = yourAccountsRow.rows.map { $0.id }
         #expect(!rowIds.contains("settings.accounts.row"))
     }
@@ -143,7 +171,7 @@ class SettingsViewModelTests {
     @Test
     func analytics_toggledOnThenOff_deniesPermissions() throws {
         mockAnalyticsService.setAcceptedAnalytics(accepted: true)
-        let appOptionsSection = sut.listContent[2]
+        let appOptionsSection = sut.listContent[SectionIndexes.appOptions]
         let toggleRow = try #require(appOptionsSection.rows.last as? ToggleRow)
         #expect(toggleRow.isOn)
         toggleRow.isOn = false
@@ -153,7 +181,8 @@ class SettingsViewModelTests {
     @Test
     func analytics_toggledOffThenOn_acceptsPermissions() throws {
         mockAnalyticsService.setAcceptedAnalytics(accepted: false)
-        let appOptionsSection = sut.listContent[2]
+        assembleSUT()
+        let appOptionsSection = sut.listContent[SectionIndexes.appOptions]
         let toggleRow = try #require(appOptionsSection.rows.last as? ToggleRow)
         #expect(toggleRow.isOn == false)
         toggleRow.isOn = true
@@ -168,7 +197,7 @@ class SettingsViewModelTests {
             receivedURL = params.url
             receivedTitle = params.trackingTitle
         }
-        let linkSection = sut.listContent[4]
+        let linkSection = sut.listContent[SectionIndexes.policies]
         let privacyPolicyRow = try #require(linkSection.rows[0] as? LinkRow)
         privacyPolicyRow.action()
         #expect(receivedURL == Constants.API.privacyPolicyUrl)
@@ -183,7 +212,7 @@ class SettingsViewModelTests {
             receivedURL = params.url
             receivedTitle = params.trackingTitle
         }
-        let linkSection = sut.listContent[4]
+        let linkSection = sut.listContent[SectionIndexes.policies]
         let accessibilityStatementRow = try #require(linkSection.rows[1] as? LinkRow)
         accessibilityStatementRow.action()
         #expect(receivedURL == Constants.API.accessibilityStatementUrl)
@@ -192,7 +221,7 @@ class SettingsViewModelTests {
 
     @Test
     func openSourceLicences_action_tracksEvent() throws {
-        let linkSection = sut.listContent[4]
+        let linkSection = sut.listContent[SectionIndexes.policies]
         let openSourceLicencesRow = try #require(linkSection.rows[2] as? LinkRow)
         openSourceLicencesRow.action()
         let receivedTitle = mockAnalyticsService._trackedEvents.first?.params?["text"] as? String
@@ -207,7 +236,7 @@ class SettingsViewModelTests {
             receivedURL = params.url
             receivedTitle = params.trackingTitle
         }
-        let linkSection = sut.listContent[4]
+        let linkSection = sut.listContent[SectionIndexes.policies]
         let termsAndConditionsRow = try #require(linkSection.rows[3] as? LinkRow)
         termsAndConditionsRow.action()
         #expect(receivedURL == Config.arrange.termsAndConditions.url)
@@ -222,7 +251,7 @@ class SettingsViewModelTests {
             receivedURL = params.url
             receivedTitle = params.trackingTitle
         }
-        let aboutTheAppSection = sut.listContent[3]
+        let aboutTheAppSection = sut.listContent[SectionIndexes.about]
         let helpAndFeedbackRow = try #require(aboutTheAppSection.rows.last as? LinkRow)
         helpAndFeedbackRow.action()
         let expectedUrl = "https://www.gov.uk/contact/govuk-app?app_version=123%20(456)&phone=Apple%20iPhone16,2%2018.1"
@@ -236,7 +265,7 @@ class SettingsViewModelTests {
         sut.openAction = { params in
             receivedURL = params.url
         }
-        let accountSection = sut.listContent[0]
+        let accountSection = sut.listContent[SectionIndexes.manageAccounts]
         let manageAccountRow = try #require(accountSection.rows.last as? LinkRow)
 
         manageAccountRow.action()
@@ -249,7 +278,7 @@ class SettingsViewModelTests {
 
     @Test
     func signOut_action_tracksEvent() throws {
-        let signOutSection = sut.listContent[5]
+        let signOutSection = sut.listContent[SectionIndexes.signOut]
         let signOutRow = try #require(signOutSection.rows.last as? DetailRow)
 
         signOutRow.action()
@@ -260,8 +289,8 @@ class SettingsViewModelTests {
 
     @Test(.disabled("Disabled until SAR row brought back into settings"))
     func sar_action_tracksEvent() throws {
-        let policySection = sut.listContent[4]
-        let sarRow = try #require(policySection.rows[4] as? NavigationRow)
+        let aboutSection = sut.listContent[SectionIndexes.about]
+        let sarRow = try #require(aboutSection.rows[4] as? NavigationRow)
         sarRow.action()
 
         let receivedTrackingTitle = mockAnalyticsService._trackedEvents.first?.params?["text"] as? String
@@ -293,7 +322,9 @@ class SettingsViewModelTests {
                 notificationService: mockNotificationService,
                 notificationCenter: .init(),
                 localAuthenticationService: MockLocalAuthenticationService(),
-                appConfigService: MockAppConfigService()
+                appConfigService: MockAppConfigService(),
+                userService: MockUserService(),
+                notificationCentreService: MockNotificationCentreService()
             )
             subscription = sut.$notificationsPermissionState
                 .receive(on: DispatchQueue.main)
@@ -331,7 +362,9 @@ class SettingsViewModelTests {
                 notificationService: mockNotificationService,
                 notificationCenter: .init(),
                 localAuthenticationService: MockLocalAuthenticationService(),
-                appConfigService: MockAppConfigService()
+                appConfigService: MockAppConfigService(),
+                userService: MockUserService(),
+                notificationCentreService: MockNotificationCentreService()
             )
             subscription = sut.$notificationsPermissionState
                 .receive(on: DispatchQueue.main)
@@ -368,7 +401,9 @@ class SettingsViewModelTests {
                 notificationService: mockNotificationService,
                 notificationCenter: .init(),
                 localAuthenticationService: MockLocalAuthenticationService(),
-                appConfigService: MockAppConfigService()
+                appConfigService: MockAppConfigService(),
+                userService: MockUserService(),
+                notificationCentreService: MockNotificationCentreService()
             )
             subscription = sut.$notificationsPermissionState
                 .receive(on: DispatchQueue.main)
@@ -403,7 +438,9 @@ class SettingsViewModelTests {
                 notificationService: mockNotificationService,
                 notificationCenter: .init(),
                 localAuthenticationService: MockLocalAuthenticationService(),
-                appConfigService: MockAppConfigService()
+                appConfigService: MockAppConfigService(),
+                userService: MockUserService(),
+                notificationCentreService: MockNotificationCentreService()
             )
             sut.$notificationsPermissionState
                 .receive(on: DispatchQueue.main)
@@ -442,7 +479,9 @@ class SettingsViewModelTests {
                 notificationService: mockNotificationService,
                 notificationCenter: .init(),
                 localAuthenticationService: MockLocalAuthenticationService(),
-                appConfigService: MockAppConfigService()
+                appConfigService: MockAppConfigService(),
+                userService: MockUserService(),
+                notificationCentreService: MockNotificationCentreService()
             )
             sut.$notificationsPermissionState
                 .receive(on: DispatchQueue.main)
@@ -481,7 +520,9 @@ class SettingsViewModelTests {
                 notificationService: mockNotificationService,
                 notificationCenter: .init(),
                 localAuthenticationService: MockLocalAuthenticationService(),
-                appConfigService: MockAppConfigService()
+                appConfigService: MockAppConfigService(),
+                userService: MockUserService(),
+                notificationCentreService: MockNotificationCentreService()
              )
             sut.$notificationsPermissionState
                 .receive(on: DispatchQueue.main)
@@ -516,7 +557,9 @@ class SettingsViewModelTests {
                 notificationService: mockNotificationService,
                 notificationCenter: mockNotifcationCenter,
                 localAuthenticationService: MockLocalAuthenticationService(),
-                appConfigService: MockAppConfigService()
+                appConfigService: MockAppConfigService(),
+                userService: MockUserService(),
+                notificationCentreService: MockNotificationCentreService()
             )
             let tester = SettingsViewModelTester(settingsViewModel: sut)
             let expectedPermission: NotificationPermissionState = .denied
@@ -557,7 +600,9 @@ class SettingsViewModelTests {
                 notificationService: mockNotificationService,
                 notificationCenter: mockNotifcationCenter,
                 localAuthenticationService: MockLocalAuthenticationService(),
-                appConfigService: MockAppConfigService()
+                appConfigService: MockAppConfigService(),
+                userService: MockUserService(),
+                notificationCentreService: MockNotificationCentreService()
             )
             let tester = SettingsViewModelTester(settingsViewModel: sut)
             let expectedPermission: NotificationPermissionState = .denied
@@ -597,7 +642,9 @@ class SettingsViewModelTests {
                 notificationService: mockNotificationService,
                 notificationCenter: mockNotifcationCenter,
                 localAuthenticationService: MockLocalAuthenticationService(),
-                appConfigService: MockAppConfigService()
+                appConfigService: MockAppConfigService(),
+                userService: MockUserService(),
+                notificationCentreService: MockNotificationCentreService()
             )
             let tester = SettingsViewModelTester(settingsViewModel: sut)
             let expectedPermission: NotificationPermissionState = .authorized
@@ -637,7 +684,9 @@ class SettingsViewModelTests {
                 notificationService: mockNotificationService,
                 notificationCenter: mockNotifcationCenter,
                 localAuthenticationService: MockLocalAuthenticationService(),
-                appConfigService: MockAppConfigService()
+                appConfigService: MockAppConfigService(),
+                userService: MockUserService(),
+                notificationCentreService: MockNotificationCentreService()
             )
             let tester = SettingsViewModelTester(settingsViewModel: sut)
             let expectedPermission: NotificationPermissionState = .authorized

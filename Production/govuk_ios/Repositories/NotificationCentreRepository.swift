@@ -12,6 +12,12 @@ protocol NotificationCentreRepositoryInterface {
 
 
 class NotificationCentreRepository: NotificationCentreRepositoryInterface {
+    class DateProvider {
+        open var currentDate: Date {
+            Date()
+        }
+    }
+
     enum Constants {
         static let notificationExpiration: TimeInterval = 30
     }
@@ -20,27 +26,33 @@ class NotificationCentreRepository: NotificationCentreRepositoryInterface {
         let data: T
         let lastUpdate: Date
 
-        var hasExpired: Bool {
-            Date().timeIntervalSince(lastUpdate) > Constants.notificationExpiration
+        func hasExpired(with date: Date) -> Bool {
+            date.timeIntervalSince(lastUpdate) > Constants.notificationExpiration
         }
     }
 
     private var notifications: CacheEntry<[Notification]>?
     private var lastUpdate: Date?
 
+    private var dateProvider: DateProvider
+
+    init(dateProvider: DateProvider = .init()) {
+        self.dateProvider = dateProvider
+    }
+
     func fetchAll() -> [Notification] {
         guard let notifications else { return [] }
-        return notifications.hasExpired ? [] : notifications.data
+        return notifications.hasExpired(with: dateProvider.currentDate) ? [] : notifications.data
     }
 
     func fetchNotification(with id: String) -> Notification? {
-        return notifications?.hasExpired == false ?
+        return notifications?.hasExpired(with: dateProvider.currentDate) == false ?
             notifications?.data.first(where: { $0.id == id }) :
             nil
     }
 
     func store(notifications: [Notification]) {
-        self.notifications = .init(data: notifications, lastUpdate: .now)
+        self.notifications = .init(data: notifications, lastUpdate: dateProvider.currentDate)
     }
 
     func updateNotification(with id: String, isUnread: Bool) {

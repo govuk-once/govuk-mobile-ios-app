@@ -57,7 +57,7 @@ final class ServiceAccountRedirectCoordinator: BaseCoordinator {
     }
 
     private func postLinkSuccess() {
-        let notification = Notification.Name(rawValue: "dvla-account-linked")
+        let notification = Foundation.Notification.Name(rawValue: "dvla-account-linked")
         notificationCenter.post(name: notification, object: nil)
     }
 
