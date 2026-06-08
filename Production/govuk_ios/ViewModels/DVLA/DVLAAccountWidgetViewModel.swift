@@ -88,10 +88,6 @@ class DVLAAccountWidgetViewModel: ObservableObject {
             title: String.dvla.localized("dvlaAccountUnlinkCardTitle"),
             action: actions.unlinkAction
         )
-        let viewLicenceCard = ListCardViewModel(
-            title: String.dvla.localized("dvlaViewDrivingLicenceCardTitle"),
-            action: actions.viewLicenceAction
-        )
         let viewDriverSummaryCard = ListCardViewModel(
             title: String.dvla.localized("dvlaViewDriverSummaryCardTitle"),
             action: actions.viewDriverSummaryAction
@@ -114,7 +110,6 @@ class DVLAAccountWidgetViewModel: ObservableObject {
         )
         return [
             unlinkCard,
-            viewLicenceCard,
             viewDriverSummaryCard,
             viewCustomerSummaryCard,
             viewVehicleCard,
@@ -135,7 +130,6 @@ extension DVLAAccountWidgetViewModel {
     struct Actions {
         let linkAction: () -> Void
         let unlinkAction: () -> Void
-        let viewLicenceAction: () -> Void
         let viewDriverSummaryAction: () -> Void
         let viewCustomerSummaryAction: () -> Void
         let viewVehicleAction: () -> Void

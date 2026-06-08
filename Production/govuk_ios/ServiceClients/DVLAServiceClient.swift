@@ -1,6 +1,5 @@
 import Foundation
 
-typealias DrivingLicenceResult = Result<DrivingLicence, DVLAError>
 typealias DriverSummaryResult = Result<DriverSummary, DVLAError>
 typealias CustomerSummaryResult = Result<CustomerSummary, DVLAError>
 typealias VehicleResult = Result<Vehicle, DVLAError>
@@ -8,7 +7,6 @@ typealias ShareCodesResult = Result<ShareCodeListResponse, DVLAError>
 typealias ShareCodeResult = Result<ShareCodeResponse, DVLAError>
 
 protocol DVLAServiceClientInterface {
-    func fetchDrivingLicence() async -> DrivingLicenceResult
     func fetchDriverSummary() async -> DriverSummaryResult
     func fetchCustomerSummary() async -> CustomerSummaryResult
     func fetchVehicle(registration: String) async -> VehicleResult
@@ -22,10 +20,6 @@ class DVLAServiceClient: DVLAServiceClientInterface {
 
     init(apiServiceClient: APIServiceClientInterface) {
         self.apiServiceClient = apiServiceClient
-    }
-
-    func fetchDrivingLicence() async -> DrivingLicenceResult {
-        await performRequest(.drivingLicence)
     }
 
     func fetchDriverSummary() async -> DriverSummaryResult {
