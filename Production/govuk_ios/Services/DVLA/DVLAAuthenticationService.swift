@@ -6,6 +6,7 @@ typealias DVLAAuthResult = Result<String, DVLAAuthError>
 
 protocol DVLAAuthenticationServiceInterface {
     func authenticate(window: UIWindow) async -> DVLAAuthResult
+    func extractLinkId(from token: String) async throws -> String
 }
 
 class DVLAAuthenticationService: DVLAAuthenticationServiceInterface {
@@ -48,7 +49,7 @@ class DVLAAuthenticationService: DVLAAuthenticationServiceInterface {
         return token
     }
 
-    private func extractLinkId(from token: String) async throws -> String {
+    func extractLinkId(from token: String) async throws -> String {
         do {
             let payload = try await JWTExtractor().extract(
                 jwt: token,

@@ -27,6 +27,20 @@ class DVLAAccountWidgetViewModel: ObservableObject {
         self.userService = userService
         self.dvlaService = dvlaService
         self.actions = actions
+        addObservers()
+    }
+
+    private func addObservers() {
+        NotificationCenter.default.addObserver(
+            forName: .init(rawValue: "dvla-account-linked"),
+            object: nil,
+            queue: .main,
+            using: { [weak self] _ in
+                Task { @MainActor in
+                    await self?.fetchLinkStatus()
+                }
+            }
+        )
     }
 
     @MainActor

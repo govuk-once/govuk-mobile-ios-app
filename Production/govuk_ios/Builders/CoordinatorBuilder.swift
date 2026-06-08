@@ -558,4 +558,23 @@ class CoordinatorBuilder {
             viewType: viewType
         )
     }
+
+    func serviceAccountRedirect(
+        navigationController: UINavigationController,
+        accountType: ServiceAccountType,
+        token: String,
+        completion: @escaping (Bool) -> Void
+    ) -> BaseCoordinator {
+        ServiceAccountRedirectCoordinator(
+            navigationController: navigationController,
+            coordinatorBuilder: self,
+            viewControllerBuilder: ViewControllerBuilder(),
+            analyticsService: container.analyticsService.resolve(),
+            userService: container.userService.resolve(),
+            accountType: accountType,
+            token: token,
+            authenticationService: container.dvlaAuthenticationService.resolve(),
+            completion: completion
+        )
+    }
 }

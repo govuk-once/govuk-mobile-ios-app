@@ -25,22 +25,26 @@ final class DVLAAuthSession: NSObject, DVLAAuthSessionInterface {
     }
 
     func start(config: DVLAAuthSessionConfig) async throws -> URL {
-        try await withCheckedThrowingContinuation { continuation in
-            let session = sessionType.init(
-                url: config.authenticationUrl,
-                callbackURLScheme: config.callbackUrlScheme,
-                completionHandler: { [weak self] url, error in
-                    self?.handleContinuation(
-                        continuation,
-                        callbackUrl: url,
-                        error: error
-                    )
-                }
-            )
-            session.prefersEphemeralWebBrowserSession = true
-            session.presentationContextProvider = self
-            session.start()
+        Task { @MainActor in
+            await UIApplication.shared.open(config.authenticationUrl)
         }
+        return URL(string: "https://www.google.com")!
+//        try await withCheckedThrowingContinuation { continuation in
+//            let session = sessionType.init(
+//                url: config.authenticationUrl,
+//                callbackURLScheme: config.callbackUrlScheme,
+//                completionHandler: { [weak self] url, error in
+//                    self?.handleContinuation(
+//                        continuation,
+//                        callbackUrl: url,
+//                        error: error
+//                    )
+//                }
+//            )
+//            session.prefersEphemeralWebBrowserSession = true
+//            session.presentationContextProvider = self
+//            session.start()
+//        }
     }
 
     private func handleContinuation(

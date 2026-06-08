@@ -1,14 +1,18 @@
+import Foundation
 import UIKit
 import GovKit
-import AuthenticationServices
 
-final class ServiceAccountLinkCoordinator: BaseCoordinator {
+final class ServiceAccountRedirectCoordinator: BaseCoordinator {
     private let coordinatorBuilder: CoordinatorBuilder
     private let viewControllerBuilder: ViewControllerBuilder
     private let analyticsService: AnalyticsServiceInterface
     private let userService: UserServiceInterface
     private let accountType: ServiceAccountType
+    private let token: String
     private let completion: (Bool) -> Void
+
+    // To be removed
+    private let authenticationService: DVLAAuthenticationServiceInterface
 
     init(navigationController: UINavigationController,
          coordinatorBuilder: CoordinatorBuilder,
@@ -16,6 +20,8 @@ final class ServiceAccountLinkCoordinator: BaseCoordinator {
          analyticsService: AnalyticsServiceInterface,
          userService: UserServiceInterface,
          accountType: ServiceAccountType,
+         token: String,
+         authenticationService: DVLAAuthenticationServiceInterface,
          completion: @escaping (Bool) -> Void) {
         self.coordinatorBuilder = coordinatorBuilder
         self.viewControllerBuilder = viewControllerBuilder
@@ -23,34 +29,43 @@ final class ServiceAccountLinkCoordinator: BaseCoordinator {
         self.userService = userService
         self.accountType = accountType
         self.completion = completion
+        self.token = token
+        self.authenticationService = authenticationService
         super.init(navigationController: navigationController)
     }
 
     override func start(url: URL?) {
-        setConsent()
+        Task {
+            await setLinkAccount()
+        }
     }
 
-    private func setConsent() {
-        let viewController = viewControllerBuilder.serviceAccountConsent(
+    private func setLinkAccount() async {
+        guard let id = try? await authenticationService.extractLinkId(from: token)
+        else { return }
+        let viewController = viewControllerBuilder.serviceAccountLinking(
             analyticsService: analyticsService,
+            userService: userService,
             accountType: accountType,
-            completionAction: authenticate,
-            cancelAction: dismissModal
+            linkId: id,
+            completeAction: { [weak self] in
+                self?.showLinkSuccess()
+            },
+            dismissAction: dismissModal
         )
         set(viewController)
     }
 
-    private func authenticate() {
-        let coordinator = coordinatorBuilder.dvlaAuthentication(
-            navigationController: root,
-            completion: { _ in },
-            errorAction: { error in
-                if error != .userCancelled {
-                    print("auth failed")
-                }
+    private func showLinkSuccess() {
+        let viewController = viewControllerBuilder.serviceAccountLinkSuccess(
+            analyticsService: analyticsService,
+            accountType: accountType,
+            completionAction: { [weak self] in
+                self?.dismissModal()
+                self?.completion(true)
             }
         )
-        start(coordinator)
+        set(viewController)
     }
 
     private func dismissModal() {
