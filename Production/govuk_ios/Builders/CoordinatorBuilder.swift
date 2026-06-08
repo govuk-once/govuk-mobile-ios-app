@@ -537,14 +537,11 @@ class CoordinatorBuilder {
 
     func dvlaAuthentication(
         navigationController: UINavigationController,
-        completion: @escaping (String) -> Void,
-        errorAction: @escaping (DVLAAuthError) -> Void
     ) -> BaseCoordinator {
         DVLAAuthenticationCoordinator(
             navigationController: navigationController,
-            authenticationService: container.dvlaAuthenticationService.resolve(),
-            completion: completion,
-            errorAction: errorAction)
+            urlOpener: UIApplication.shared
+        )
     }
 
     func dvlaAccount(
@@ -563,7 +560,6 @@ class CoordinatorBuilder {
         navigationController: UINavigationController,
         accountType: ServiceAccountType,
         token: String,
-        completion: @escaping (Bool) -> Void
     ) -> BaseCoordinator {
         ServiceAccountRedirectCoordinator(
             navigationController: navigationController,
@@ -573,8 +569,7 @@ class CoordinatorBuilder {
             userService: container.userService.resolve(),
             accountType: accountType,
             token: token,
-            authenticationService: container.dvlaAuthenticationService.resolve(),
-            completion: completion
+            notificationCenter: .default,
         )
     }
 }

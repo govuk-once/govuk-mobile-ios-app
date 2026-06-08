@@ -3,12 +3,9 @@ import UIKit
 
 struct DVLAServiceDeeplinkRoute: DeeplinkRoute {
     private let coordinatorBuilder: CoordinatorBuilder
-    private let notificationCenter: NotificationCenter
 
-    init(coordinatorBuilder: CoordinatorBuilder,
-         notificationCenter: NotificationCenter) {
+    init(coordinatorBuilder: CoordinatorBuilder) {
         self.coordinatorBuilder = coordinatorBuilder
-        self.notificationCenter = notificationCenter
     }
 
     var pattern: URLPattern {
@@ -26,11 +23,6 @@ struct DVLAServiceDeeplinkRoute: DeeplinkRoute {
             navigationController: navigationController,
             accountType: .dvla,
             token: token,
-            completion: { success in
-                guard success else { return }
-                let notification = Notification.Name(rawValue: "dvla-account-linked")
-                notificationCenter.post(name: notification, object: nil)
-            }
         )
         parent.present(coordinator)
     }

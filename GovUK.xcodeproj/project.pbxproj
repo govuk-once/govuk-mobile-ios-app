@@ -325,9 +325,7 @@
 		8154B58F2FB727CF00792FB5 /* ErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154B58E2FB727CB00792FB5 /* ErrorViewModel.swift */; };
 		8154C5402FB78AB600792FB5 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154C53F2FB78AA700792FB5 /* ErrorView.swift */; };
 		8154FB5E2FBB611D00792FB5 /* AppIconAlpha.icon in Resources */ = {isa = PBXBuildFile; fileRef = 4E9972172FB6214500CC1712 /* AppIconAlpha.icon */; };
-		815559452F729409001E73CD /* DVLAAuthSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815559442F729404001E73CD /* DVLAAuthSession.swift */; };
 		815559472F72AB47001E73CD /* ASWebAuthenticationSession+Interface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815559462F72AB39001E73CD /* ASWebAuthenticationSession+Interface.swift */; };
-		815559492F72B087001E73CD /* DVLAAuthSessionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815559482F72B082001E73CD /* DVLAAuthSessionBuilder.swift */; };
 		81583DB82F8CD54D009E6486 /* PerformanceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81583DB72F8CD543009E6486 /* PerformanceClient.swift */; };
 		815841562F8D0F5E009E6486 /* ServiceAccountLinkCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815841552F8D0F57009E6486 /* ServiceAccountLinkCardView.swift */; };
 		815841582F8D0FEF009E6486 /* ServiceAccountLinkCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815841572F8D0FE6009E6486 /* ServiceAccountLinkCardViewModel.swift */; };
@@ -365,7 +363,6 @@
 		81D258442FC71B6200A4F988 /* VehicleSummaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D258432FC71B5C00A4F988 /* VehicleSummaryViewModel.swift */; };
 		81D258462FC7382800A4F988 /* ValidityStatusViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D258452FC7381D00A4F988 /* ValidityStatusViewModel.swift */; };
 		81D258482FC7385C00A4F988 /* ValidityStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D258472FC7383D00A4F988 /* ValidityStatusView.swift */; };
-		81DA111C2F713CF6001C4E09 /* DVLAAuthenticationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DA111B2F713CF1001C4E09 /* DVLAAuthenticationService.swift */; };
 		81DAF9472F6D7387001C4E09 /* ServiceAccountConsentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DAF9462F6D737E001C4E09 /* ServiceAccountConsentViewModel.swift */; };
 		81DAF94B2F6D885C001C4E09 /* DVLAAuthenticationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DAF94A2F6D8855001C4E09 /* DVLAAuthenticationCoordinator.swift */; };
 		81DE66952F5B2A640087F48E /* ServiceAccountLinkCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DE66942F5B2A5F0087F48E /* ServiceAccountLinkCoordinator.swift */; };
@@ -857,9 +854,7 @@
 		8154B58C2FB71F0F00792FB5 /* ErrorViewModel+Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ErrorViewModel+Chat.swift"; sourceTree = "<group>"; };
 		8154B58E2FB727CB00792FB5 /* ErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorViewModel.swift; sourceTree = "<group>"; };
 		8154C53F2FB78AA700792FB5 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
-		815559442F729404001E73CD /* DVLAAuthSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DVLAAuthSession.swift; sourceTree = "<group>"; };
 		815559462F72AB39001E73CD /* ASWebAuthenticationSession+Interface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ASWebAuthenticationSession+Interface.swift"; sourceTree = "<group>"; };
-		815559482F72B082001E73CD /* DVLAAuthSessionBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DVLAAuthSessionBuilder.swift; sourceTree = "<group>"; };
 		81583DB72F8CD543009E6486 /* PerformanceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceClient.swift; sourceTree = "<group>"; };
 		815841552F8D0F57009E6486 /* ServiceAccountLinkCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountLinkCardView.swift; sourceTree = "<group>"; };
 		815841572F8D0FE6009E6486 /* ServiceAccountLinkCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountLinkCardViewModel.swift; sourceTree = "<group>"; };
@@ -894,7 +889,6 @@
 		81D258432FC71B5C00A4F988 /* VehicleSummaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleSummaryViewModel.swift; sourceTree = "<group>"; };
 		81D258452FC7381D00A4F988 /* ValidityStatusViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidityStatusViewModel.swift; sourceTree = "<group>"; };
 		81D258472FC7383D00A4F988 /* ValidityStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidityStatusView.swift; sourceTree = "<group>"; };
-		81DA111B2F713CF1001C4E09 /* DVLAAuthenticationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DVLAAuthenticationService.swift; sourceTree = "<group>"; };
 		81DAF9462F6D737E001C4E09 /* ServiceAccountConsentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountConsentViewModel.swift; sourceTree = "<group>"; };
 		81DAF94A2F6D8855001C4E09 /* DVLAAuthenticationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DVLAAuthenticationCoordinator.swift; sourceTree = "<group>"; };
 		81DE66942F5B2A5F0087F48E /* ServiceAccountLinkCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountLinkCoordinator.swift; sourceTree = "<group>"; };
@@ -2249,9 +2243,6 @@
 			isa = PBXGroup;
 			children = (
 				815011DA2F7C52BE00E7469C /* DVLAService.swift */,
-				81DA111B2F713CF1001C4E09 /* DVLAAuthenticationService.swift */,
-				815559442F729404001E73CD /* DVLAAuthSession.swift */,
-				815559482F72B082001E73CD /* DVLAAuthSessionBuilder.swift */,
 			);
 			path = DVLA;
 			sourceTree = "<group>";
@@ -2991,7 +2982,6 @@
 				D0EB7EF22F3F968E00BEB0A1 /* TermsAndConditionsService.swift in Sources */,
 				4ED2DB652FBCC62C005CF6FD /* YourAccountsSettingsCoordinator.swift in Sources */,
 				815018F02F7D6AA900E7469C /* DVLAAccountViewModel.swift in Sources */,
-				815559452F729409001E73CD /* DVLAAuthSession.swift in Sources */,
 				D0ABA5D42FA4F95000C5A244 /* SARSettingsCoordinator.swift in Sources */,
 				D03D52FB2E32A2C900CE6008 /* RegexValidator.swift in Sources */,
 				4E00EF072CCB12CD007B61E8 /* BaseTabBarController.swift in Sources */,
@@ -3021,7 +3011,6 @@
 				D08AA4242DB94A4E002E9C78 /* BulletView.swift in Sources */,
 				16F961A32C92FD15005CFB04 /* SearchResultCell.swift in Sources */,
 				5DD4CB182D95491600459FB5 /* RecentActivityListViewController.swift in Sources */,
-				815559492F72B087001E73CD /* DVLAAuthSessionBuilder.swift in Sources */,
 				3D7E2D142C81DB2D0016BEEC /* AnalyticsConsentContainerViewModel.swift in Sources */,
 				5D8EAC252DD746C2003089F5 /* SafariCoordinator.swift in Sources */,
 				5D49D4ED2DD479410071826B /* URLOpener+Extensions.swift in Sources */,
@@ -3202,7 +3191,6 @@
 				815011D72F7C4EF200E7469C /* DVLAServiceClient.swift in Sources */,
 				81A6E3232FD07583006FB0F0 /* DVLAValidityStatusFormatter.swift in Sources */,
 				5DBE08082C480CA700B58DBE /* UITabBarItem+Convenience.swift in Sources */,
-				81DA111C2F713CF6001C4E09 /* DVLAAuthenticationService.swift in Sources */,
 				D03678C02E33A208009BCC32 /* RegexValidator+PII.swift in Sources */,
 				5DBE08052C480CA700B58DBE /* UIAlertAction+Convenience.swift in Sources */,
 				164091FE2DA41C1000E3BE99 /* AuthenticationServiceClient.swift in Sources */,

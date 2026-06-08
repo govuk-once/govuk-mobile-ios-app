@@ -8,11 +8,8 @@ final class ServiceAccountRedirectCoordinator: BaseCoordinator {
     private let analyticsService: AnalyticsServiceInterface
     private let userService: UserServiceInterface
     private let accountType: ServiceAccountType
+    private let notificationCenter: NotificationCenter
     private let token: String
-    private let completion: (Bool) -> Void
-
-    // To be removed
-    private let authenticationService: DVLAAuthenticationServiceInterface
 
     init(navigationController: UINavigationController,
          coordinatorBuilder: CoordinatorBuilder,
@@ -21,37 +18,32 @@ final class ServiceAccountRedirectCoordinator: BaseCoordinator {
          userService: UserServiceInterface,
          accountType: ServiceAccountType,
          token: String,
-         authenticationService: DVLAAuthenticationServiceInterface,
-         completion: @escaping (Bool) -> Void) {
+         notificationCenter: NotificationCenter) {
         self.coordinatorBuilder = coordinatorBuilder
         self.viewControllerBuilder = viewControllerBuilder
         self.analyticsService = analyticsService
         self.userService = userService
         self.accountType = accountType
-        self.completion = completion
         self.token = token
-        self.authenticationService = authenticationService
+        self.notificationCenter = notificationCenter
         super.init(navigationController: navigationController)
     }
 
     override func start(url: URL?) {
-        Task {
-            await setLinkAccount()
-        }
+        setLinkAccount()
     }
 
-    private func setLinkAccount() async {
-        guard let id = try? await authenticationService.extractLinkId(from: token)
-        else { return }
+    private func setLinkAccount() {
         let viewController = viewControllerBuilder.serviceAccountLinking(
             analyticsService: analyticsService,
             userService: userService,
             accountType: accountType,
-            linkId: id,
+            linkId: token,
             completeAction: { [weak self] in
                 self?.showLinkSuccess()
+                self?.postLinkSuccess()
             },
-            dismissAction: dismissModal
+            dismissAction: dismissModal,
         )
         set(viewController)
     }
@@ -62,13 +54,17 @@ final class ServiceAccountRedirectCoordinator: BaseCoordinator {
             accountType: accountType,
             completionAction: { [weak self] in
                 self?.dismissModal()
-                self?.completion(true)
             }
         )
         set(viewController)
     }
 
+    private func postLinkSuccess() {
+        let notification = Notification.Name(rawValue: "dvla-account-linked")
+        notificationCenter.post(name: notification, object: nil)
+    }
+
     private func dismissModal() {
-        root.dismiss(animated: true, completion: nil)
+        root.dismiss(animated: true)
     }
 }
