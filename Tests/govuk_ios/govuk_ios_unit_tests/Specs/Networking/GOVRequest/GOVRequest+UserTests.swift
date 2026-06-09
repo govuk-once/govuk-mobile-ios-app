@@ -41,9 +41,10 @@ struct GOVRequest_UserTests {
 
     @Test
     func linkAccount_returnsExpectedValues() {
-        let request = GOVRequest.linkAccount(serviceName: "dvla", linkId: "test-link-id")
+        let request = GOVRequest.linkAccount(serviceName: "dvla", token: "test-link-id")
 
-        #expect(request.urlPath == "/app/udp/v1/identity/dvla/test-link-id")
+        #expect(request.urlPath == "/app/udp/v1/identity/dvla")
+        #expect(request.additionalHeaders?["x-linking-token"] == "test-link-id")
         #expect(request.method == .post)
         #expect(request.requiresAuthentication == true)
     }

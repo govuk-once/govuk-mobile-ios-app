@@ -459,8 +459,6 @@ struct CoordinatorBuilderTests {
         let subject = CoordinatorBuilder(container: Container())
         let coordinator = subject.dvlaAuthentication(
             navigationController: UINavigationController(),
-            completion: { _ in },
-            errorAction: { _ in }
         )
         #expect(coordinator is DVLAAuthenticationCoordinator)
     }
@@ -470,9 +468,20 @@ struct CoordinatorBuilderTests {
         let subject = CoordinatorBuilder(container: Container())
         let coordinator = subject.dvlaAccount(
             navigationController: UINavigationController(),
-            viewType: .drivingLicence
+            viewType: .driverSummary
         )
         #expect(coordinator is DVLAAccountCoordinator)
+    }
+
+    @Test
+    func serviceAccountRedirect_returnsExpectedResult() {
+        let subject = CoordinatorBuilder(container: Container())
+        let coordinator = subject.serviceAccountRedirect(
+            navigationController: UINavigationController(),
+            accountType: .dvla,
+            token: "test_token"
+        )
+        #expect(coordinator is ServiceAccountRedirectCoordinator)
     }
 
     @Test

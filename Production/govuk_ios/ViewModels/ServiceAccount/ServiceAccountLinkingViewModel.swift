@@ -7,7 +7,7 @@ final class ServiceAccountLinkingViewModel: ObservableObject {
     private let userService: UserServiceInterface
     private let urlOpener: URLOpener
     private let accountType: ServiceAccountType
-    private let linkId: String
+    private let token: String
     private let completeAction: () -> Void
     private let dismissAction: () -> Void
     @Published var showProgressView: Bool = false
@@ -17,14 +17,14 @@ final class ServiceAccountLinkingViewModel: ObservableObject {
          userService: UserServiceInterface,
          urlOpener: URLOpener = UIApplication.shared,
          accountType: ServiceAccountType,
-         linkId: String,
+         token: String,
          completeAction: @escaping () -> Void,
          dismissAction: @escaping () -> Void) {
         self.analyticsService = analyticsService
         self.userService = userService
         self.urlOpener = urlOpener
         self.accountType = accountType
-        self.linkId = linkId
+        self.token = token
         self.completeAction = completeAction
         self.dismissAction = dismissAction
     }
@@ -43,7 +43,7 @@ final class ServiceAccountLinkingViewModel: ObservableObject {
         errorViewModel = nil
         userService.linkAccount(
             withType: accountType,
-            linkId: linkId
+            token: token
         ) { [weak self] result in
             guard let self = self else { return }
             self.showProgressView = false

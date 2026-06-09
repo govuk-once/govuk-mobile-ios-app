@@ -27,6 +27,20 @@ class DVLAAccountWidgetViewModel: ObservableObject {
         self.userService = userService
         self.dvlaService = dvlaService
         self.actions = actions
+        addObservers()
+    }
+
+    private func addObservers() {
+        NotificationCenter.default.addObserver(
+            forName: .init(rawValue: "dvla-account-linked"),
+            object: nil,
+            queue: .main,
+            using: { [weak self] _ in
+                Task { @MainActor in
+                    await self?.fetchLinkStatus()
+                }
+            }
+        )
     }
 
     @MainActor
@@ -96,10 +110,6 @@ class DVLAAccountWidgetViewModel: ObservableObject {
             title: String.dvla.localized("dvlaAccountUnlinkCardTitle"),
             action: actions.unlinkAction
         )
-        let viewLicenceCard = ListCardViewModel(
-            title: String.dvla.localized("dvlaViewDrivingLicenceCardTitle"),
-            action: actions.viewLicenceAction
-        )
         let viewDriverSummaryCard = ListCardViewModel(
             title: String.dvla.localized("dvlaViewDriverSummaryCardTitle"),
             action: actions.viewDriverSummaryAction
@@ -122,7 +132,6 @@ class DVLAAccountWidgetViewModel: ObservableObject {
         )
         return [
             unlinkCard,
-            viewLicenceCard,
             viewDriverSummaryCard,
             viewCustomerSummaryCard,
             viewVehicleCard,
@@ -143,7 +152,6 @@ extension DVLAAccountWidgetViewModel {
     struct Actions {
         let linkAction: () -> Void
         let unlinkAction: () -> Void
-        let viewLicenceAction: () -> Void
         let viewDriverSummaryAction: () -> Void
         let viewCustomerSummaryAction: () -> Void
         let viewVehicleAction: () -> Void

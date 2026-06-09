@@ -3,7 +3,6 @@ import UIKit
 import GovKit
 
 enum DVLAAccountViewType {
-    case drivingLicence
     case driverSummary
     case customerSummary
     case vehicle

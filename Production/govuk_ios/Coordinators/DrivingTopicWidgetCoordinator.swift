@@ -6,7 +6,8 @@ protocol TopicWidgetProvider {
     func makeWidget(for topic: DisplayableTopic) -> AnyView?
 }
 
-final class DrivingTopicWidgetCoordinator: BaseCoordinator, TopicWidgetProvider {
+final class DrivingTopicWidgetCoordinator: BaseCoordinator,
+                                           TopicWidgetProvider {
     private let dvlaService: DVLAServiceInterface
     private let userService: UserServiceInterface
     private let widgetViewBuilder: WidgetViewBuilder
@@ -47,9 +48,6 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator, TopicWidgetProvider 
             dvlaService: dvlaService,
             linkAction: startLinkAccount,
             unlinkAction: startUnlinkAccount,
-            viewLicenceAction: { [weak self] in
-                self?.startDvlaAccount(viewType: .drivingLicence)
-            },
             viewDriverSummaryAction: { [weak self] in
                 self?.startDvlaAccount(viewType: .driverSummary)
             },
@@ -73,7 +71,8 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator, TopicWidgetProvider 
         navigationController.modalPresentationStyle = .fullScreen
         let coordinator = coordinatorBuilder.serviceAccountLink(
             navigationController: navigationController,
-            accountType: .dvla, completion: { _ in
+            accountType: .dvla,
+            completion: { _ in
                 print("service account linking dismissed")
             }
         )
@@ -85,7 +84,8 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator, TopicWidgetProvider 
         navigationController.modalPresentationStyle = .fullScreen
         let coordinator = coordinatorBuilder.serviceAccountUnlink(
             navigationController: navigationController,
-            accountType: .dvla, completion: {
+            accountType: .dvla,
+            completion: {
                 print("service account unlinking dismissed")
             }
         )

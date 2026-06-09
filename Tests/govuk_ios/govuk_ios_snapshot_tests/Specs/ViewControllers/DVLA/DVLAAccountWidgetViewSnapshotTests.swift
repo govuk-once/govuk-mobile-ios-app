@@ -121,7 +121,6 @@ extension DVLAAccountWidgetViewModel.Actions {
         .init(
             linkAction: {},
             unlinkAction: {},
-            viewLicenceAction: {},
             viewDriverSummaryAction: {},
             viewCustomerSummaryAction: {},
             viewVehicleAction: {},
