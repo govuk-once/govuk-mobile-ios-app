@@ -20,16 +20,9 @@ final class DVLAAccountViewModel: ObservableObject {
         self.viewType = viewType
     }
 
-    // swiftlint:disable:next function_body_length cyclomatic_complexity
     @MainActor func fetchContent() async {
         isLoading = true
         switch viewType {
-        case .drivingLicence:
-            let result = await dvlaService.fetchDrivingLicence()
-            if case .success(let drivingLicence) = result {
-                sections = [createSection(for: drivingLicence)]
-            }
-            handleError(result.getError())
         case .driverSummary:
             let result = await dvlaService.fetchDriverSummary()
             if case .success(let driverSummary) = result {

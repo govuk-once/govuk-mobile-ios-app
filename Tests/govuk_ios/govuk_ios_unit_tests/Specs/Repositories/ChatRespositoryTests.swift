@@ -14,14 +14,13 @@ struct ChatRespositoryTests {
 
         sut.saveConversation(expectedConversationId)
 
-        var results: [ChatItem] = []
-        coreData.backgroundContext.performAndWait {
+        let context = coreData.backgroundContext
+        context.performAndWait {
             let fetchRequest = ChatItem.fetchRequest()
-            results = (try? coreData.backgroundContext.fetch(fetchRequest)) ?? []
+            let results = (try? context.fetch(fetchRequest)) ?? []
+            #expect(results.count == 1)
+            #expect(results.first?.conversationId == expectedConversationId)
         }
-
-        #expect(results.count == 1)
-        #expect(results.first?.conversationId == expectedConversationId)
     }
 
     @Test
@@ -34,14 +33,13 @@ struct ChatRespositoryTests {
         sut.saveConversation(expectedConversationId)
         sut.saveConversation(secondExpectedConversationId)
 
-        var results: [ChatItem] = []
-        coreData.backgroundContext.performAndWait {
+        let context = coreData.backgroundContext
+        context.performAndWait {
             let fetchRequest = ChatItem.fetchRequest()
-            results = (try? coreData.backgroundContext.fetch(fetchRequest)) ?? []
+            let  results = (try? context.fetch(fetchRequest)) ?? []
+            #expect(results.count == 1)
+            #expect(results.first?.conversationId == secondExpectedConversationId)
         }
-
-        #expect(results.count == 1)
-        #expect(results.first?.conversationId == secondExpectedConversationId)
     }
 
     @Test
@@ -51,14 +49,13 @@ struct ChatRespositoryTests {
 
         sut.saveConversation(nil)
 
-        var results: [ChatItem] = []
-        coreData.backgroundContext.performAndWait {
+        let context = coreData.backgroundContext
+        context.performAndWait {
             let fetchRequest = ChatItem.fetchRequest()
-            results = (try? coreData.backgroundContext.fetch(fetchRequest)) ?? []
+            let results = (try? context.fetch(fetchRequest)) ?? []
+            #expect(results.count == 1)
+            #expect(results.first?.conversationId == nil)
         }
-
-        #expect(results.count == 1)
-        #expect(results.first?.conversationId == nil)
     }
 
     @Test

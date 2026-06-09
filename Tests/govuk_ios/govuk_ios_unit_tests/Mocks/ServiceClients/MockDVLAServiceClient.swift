@@ -4,11 +4,6 @@ import Foundation
 
 class MockDVLAServiceClient: DVLAServiceClientInterface {
 
-    var _stubbedFetchDrivingLicenceResult: DrivingLicenceResult?
-    func fetchDrivingLicence() async -> DrivingLicenceResult {
-        _stubbedFetchDrivingLicenceResult!
-    }
-
     var _stubbedFetchDriverSummaryResult: DriverSummaryResult?
     func fetchDriverSummary() async -> DriverSummaryResult {
         _stubbedFetchDriverSummaryResult!

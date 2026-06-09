@@ -48,9 +48,6 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator,
             dvlaService: dvlaService,
             linkAction: startLinkAccount,
             unlinkAction: startUnlinkAccount,
-            viewLicenceAction: { [weak self] in
-                self?.startDvlaAccount(viewType: .drivingLicence)
-            },
             viewDriverSummaryAction: { [weak self] in
                 self?.startDvlaAccount(viewType: .driverSummary)
             },
