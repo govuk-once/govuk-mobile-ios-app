@@ -70,6 +70,7 @@ struct DrivingLicenceSummaryView: View {
             VStack(alignment: .leading, spacing: 0) {
                 Divider()
                     .overlay(Color(uiColor: .govUK.strokes.listDivider))
+                    .padding(.bottom, 8)
                 Text(viewModel.fullName)
                     .font(.govUK.title3Semibold)
                     .multilineTextAlignment(.leading)
