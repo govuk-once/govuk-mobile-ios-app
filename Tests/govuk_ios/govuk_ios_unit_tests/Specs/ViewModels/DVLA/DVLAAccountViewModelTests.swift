@@ -13,53 +13,6 @@ struct DVLAAccountViewModelTests {
     }
 
     @Test
-    func fetchContent_drivingLicence_success_createsSectionsCorrectly() async throws {
-        mockDvlaService._stubbedFetchDrivingLicenceResult = .success(.arrange)
-        let sut = DVLAAccountViewModel(
-            dvlaService: mockDvlaService,
-            viewType: .drivingLicence
-        )
-        await sut.fetchContent()
-        try #require(sut.sections.count == 1)
-        try #require(sut.sections[0].rows.count == 5)
-        #expect(sut.sections[0].rows[0].title == "Licence number")
-        #expect(sut.sections[0].rows[0].body == "DECER607085K99AE")
-    }
-
-    @Test
-    func fetchContent_drivingLicence_apiUnavailable_setsExpectedErrorViewModel() async throws {
-        mockDvlaService._stubbedFetchDrivingLicenceResult = .failure(.apiUnavailable)
-        let sut = DVLAAccountViewModel(
-            dvlaService: mockDvlaService,
-            viewType: .drivingLicence
-        )
-        await sut.fetchContent()
-        let errorViewModel = try #require(sut.errorViewModel)
-        #expect(errorViewModel.title == String.common.localized("genericErrorTitle"))
-        #expect(errorViewModel.body == String.dvla.localized("dvlaAccountErrorBody"))
-    }
-
-    @Test
-    func fetchContent_drivingLicence_networkUnavailable_setsExpectedErrorViewModel() async throws {
-        mockDvlaService._stubbedFetchDrivingLicenceResult = .failure(.networkUnavailable)
-        let sut = DVLAAccountViewModel(
-            dvlaService: mockDvlaService,
-            viewType: .drivingLicence
-        )
-        await sut.fetchContent()
-        let errorViewModel = try #require(sut.errorViewModel)
-        #expect(errorViewModel.title == String.common.localized("networkUnavailableErrorTitle"))
-        #expect(errorViewModel.body == String.common.localized("networkUnavailableErrorBody"))
-
-
-        await withCheckedContinuation { continuation in
-            mockDvlaService._fetchDrivingLicenceCalledContinuation = continuation
-            errorViewModel.action?()
-        }
-        #expect(mockDvlaService._fetchDrivingLicenceCallCount == 2)
-    }
-
-    @Test
     func fetchContent_driverSummary_success_createsSectionsCorrectly() async throws {
         mockDvlaService._stubbedFetchDriverSummaryResult = .success(.arrange)
         let sut = DVLAAccountViewModel(

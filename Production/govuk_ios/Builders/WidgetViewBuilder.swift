@@ -9,7 +9,6 @@ class WidgetViewBuilder {
         dvlaService: DVLAServiceInterface,
         linkAction: @escaping () -> Void,
         unlinkAction: @escaping () -> Void,
-        viewLicenceAction: @escaping () -> Void,
         viewDriverSummaryAction: @escaping () -> Void,
         viewCustomerSummaryAction: @escaping () -> Void,
         viewVehicleAction: @escaping () -> Void,
@@ -19,7 +18,6 @@ class WidgetViewBuilder {
         let actions = DVLAAccountWidgetViewModel.Actions(
             linkAction: linkAction,
             unlinkAction: unlinkAction,
-            viewLicenceAction: viewLicenceAction,
             viewDriverSummaryAction: viewDriverSummaryAction,
             viewCustomerSummaryAction: viewCustomerSummaryAction,
             viewVehicleAction: viewVehicleAction,

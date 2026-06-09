@@ -45,7 +45,7 @@ struct DVLAAccountWidgetViewModelTests {
         if case .linked(let cards,_) = sut.viewState {
             actionCards = cards
         }
-        #expect(actionCards?.count == 7)
+        #expect(actionCards?.count == 6)
         #expect(actionCards?.first?.title == String.dvla.localized("dvlaAccountUnlinkCardTitle"))
     }
 
@@ -62,7 +62,6 @@ struct DVLAAccountWidgetViewModelTests {
                     linkActionCalled = true
                 },
                 unlinkAction: {},
-                viewLicenceAction: {},
                 viewDriverSummaryAction: {},
                 viewCustomerSummaryAction: {},
                 viewVehicleAction: {},
@@ -112,7 +111,6 @@ extension DVLAAccountWidgetViewModel.Actions {
         .init(
             linkAction: {},
             unlinkAction: {},
-            viewLicenceAction: {},
             viewDriverSummaryAction: {},
             viewCustomerSummaryAction: {},
             viewVehicleAction: {},
