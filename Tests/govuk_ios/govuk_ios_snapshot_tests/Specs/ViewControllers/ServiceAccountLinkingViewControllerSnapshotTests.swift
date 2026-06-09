@@ -30,7 +30,7 @@ final class ServiceAccountLinkingViewControllerSnapshotTests: SnapshotTestCase {
             analyticsService: MockAnalyticsService(),
             userService: mockUserService,
             accountType: .dvla,
-            linkId: "test-link-id",
+            token: "test-link-id",
             completeAction: {},
             dismissAction: {}
         )
@@ -58,7 +58,7 @@ final class ServiceAccountLinkingViewControllerSnapshotTests: SnapshotTestCase {
             analyticsService: MockAnalyticsService(),
             userService: mockUserService,
             accountType: .dvla,
-            linkId: "test-link-id",
+            token: "test-link-id",
             completeAction: {},
             dismissAction: {}
         )
@@ -87,7 +87,7 @@ final class ServiceAccountLinkingViewControllerSnapshotTests: SnapshotTestCase {
             analyticsService: MockAnalyticsService(),
             userService: mockUserService,
             accountType: .dvla,
-            linkId: "test-link-id",
+            token: "test-link-id",
             completeAction: {},
             dismissAction: {}
         )
@@ -115,7 +115,7 @@ final class ServiceAccountLinkingViewControllerSnapshotTests: SnapshotTestCase {
             analyticsService: MockAnalyticsService(),
             userService: mockUserService,
             accountType: .dvla,
-            linkId: "test-link-id",
+            token: "test-link-id",
             completeAction: {},
             dismissAction: {}
         )
@@ -141,7 +141,7 @@ final class ServiceAccountLinkingViewControllerSnapshotTests: SnapshotTestCase {
             analyticsService: MockAnalyticsService(),
             userService: MockUserService(),
             accountType: .dvla,
-            linkId: "test-link-id",
+            token: "test-link-id",
             completeAction: {},
             dismissAction: {}
         )

@@ -158,6 +158,9 @@ enum AuthenticationError: Error {
     case attestation(AppAttestError)
     case missingIdToken
     case missingRefreshToken
+    case emptyAccessToken
+    case emptyIdToken
+    case emptyRefreshToken
     case unknown(Error)
 }
 

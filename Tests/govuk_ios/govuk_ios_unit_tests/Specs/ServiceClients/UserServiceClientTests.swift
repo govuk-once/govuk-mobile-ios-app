@@ -114,9 +114,12 @@ struct UserServiceClientTests {
 
     @Test
     func linkAccount_sendsExpectedRequest() {
-        sut.linkAccount(serviceName: "dvla",
-                        linkId: "test-link-id") { _ in }
-        #expect(mockAPI._receivedSendRequest?.urlPath == "/app/udp/v1/identity/dvla/test-link-id")
+        sut.linkAccount(
+            serviceName: "dvla",
+            token: "test-link-id",
+            completion: { _ in },
+        )
+        #expect(mockAPI._receivedSendRequest?.urlPath == "/app/udp/v1/identity/dvla")
         #expect(mockAPI._receivedSendRequest?.method == .post)
     }
 
@@ -125,7 +128,7 @@ struct UserServiceClientTests {
         mockAPI._stubbedSendResponse = .success(Data())
         let isSuccess = await withCheckedContinuation { continuation in
             sut.linkAccount(serviceName: "dvla",
-                            linkId: "test-link-id") { result in
+                            token: "test-link-id") { result in
                 switch result {
                 case .success:
                     continuation.resume(returning: true)
@@ -143,7 +146,7 @@ struct UserServiceClientTests {
 
         let result = await withCheckedContinuation { continuation in
             sut.linkAccount(serviceName: "dvla",
-                            linkId: "test-link-id") {
+                            token: "test-link-id") {
                 continuation.resume(returning: $0)
             }
         }
@@ -160,7 +163,7 @@ struct UserServiceClientTests {
 
         let result = await withCheckedContinuation { continuation in
             sut.linkAccount(serviceName: "dvla",
-                            linkId: "test-link-id") { result in
+                            token: "test-link-id") { result in
                 continuation.resume(returning: result)
             }
         }
