@@ -12,5 +12,8 @@ struct ChatDeeplinkRoute: DeeplinkRoute {
     }
 
     @MainActor
-    func action(parent: BaseCoordinator, params: [String: String]) {}
+    func action(parent: BaseCoordinator, params: [String: String]) {
+        guard let parent = parent as? ChatCoordinator else { return }
+        parent.showChatOnboardingIfNecessary()
+    }
 }

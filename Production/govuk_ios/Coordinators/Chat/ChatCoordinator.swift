@@ -50,9 +50,6 @@ class ChatCoordinator: TabItemCoordinator {
     }
 
     func route(for url: URL) -> ResolvedDeeplinkRoute? {
-        if !chatService.chatOnboardingSeen {
-            showChatOnboarding()
-        }
         return deeplinkStore.route(
             for: url,
             parent: self
@@ -71,16 +68,22 @@ class ChatCoordinator: TabItemCoordinator {
     func didReselectTab() { /* To be implemented */ }
     func didSelectTab(_ selectedTabIndex: Int,
                       previousTabIndex: Int) {
-        if !chatService.chatOnboardingSeen {
-            showChatOnboarding()
-        } else if selectedTabIndex != previousTabIndex && isShowingError {
+        if selectedTabIndex != previousTabIndex && isShowingError {
             setChatViewController()
             isShowingError = false
+        } else {
+            showChatOnboardingIfNecessary()
         }
     }
 
-    private func showChatOnboarding() {
-        DispatchQueue.main.async { [weak self] in
+    func showChatOnboardingIfNecessary() {
+        guard !chatService.chatOnboardingSeen else { return }
+        /*
+         The dispatch delay fixes an issue where the chat tab has not
+         had time to get added to the view heirarchy before
+         attempting to present the onboarding view controller from it.
+        */
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) { [weak self] in
             guard let self = self else { return }
             present(
                 coordinatorBuilder.chatInfoOnboarding(
