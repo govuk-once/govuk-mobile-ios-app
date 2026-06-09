@@ -1845,13 +1845,13 @@
 			children = (
 				3D9FD4BD2E79C37B00928E92 /* ChatDeeplinkRoute.swift */,
 				5D8683942C340F1B0024F2D8 /* DeeplinkRoute.swift */,
+				5DFE3C1E2FD319C500DDC5C8 /* DVLAServiceDeeplinkRoute.swift */,
+				945E1F062F7176240064CA22 /* EditTopicsDeepLinkRoute.swift */,
 				16C34B422C492FF90031AD32 /* HomeDeepLinkRoute.swift */,
+				945E1F082F7180FA0064CA22 /* RecentActivityDeepLinkRoute.swift */,
+				945E1F042F714E830064CA22 /* SearchDeepLinkRoute.swift */,
 				16C34B442C4954910031AD32 /* SettingsDeepLinkRoute.swift */,
 				B04C2E7F2DA9141400F0F63E /* WebDeeplinkRoute.swift */,
-				945E1F042F714E830064CA22 /* SearchDeepLinkRoute.swift */,
-				945E1F062F7176240064CA22 /* EditTopicsDeepLinkRoute.swift */,
-				945E1F082F7180FA0064CA22 /* RecentActivityDeepLinkRoute.swift */,
-				5DFE3C1E2FD319C500DDC5C8 /* DVLAServiceDeeplinkRoute.swift */,
 			);
 			path = DeeplinkRoutes;
 			sourceTree = "<group>";

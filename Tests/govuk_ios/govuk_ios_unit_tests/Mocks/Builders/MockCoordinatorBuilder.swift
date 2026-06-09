@@ -370,4 +370,13 @@ class MockCoordinatorBuilder: CoordinatorBuilder {
     override func dvlaAuthentication(navigationController: UINavigationController) -> BaseCoordinator {
         return _stubbedDvlaAuthenticationCoordinator ?? MockBaseCoordinator()
     }
+
+    var _receivedServiceAccountRedirectToken: String?
+    var _stubbedServiceAccountRedirectCoordinator: MockBaseCoordinator?
+    override func serviceAccountRedirect(navigationController: UINavigationController,
+                                         accountType: ServiceAccountType,
+                                         token: String) -> BaseCoordinator {
+        _receivedServiceAccountRedirectToken = token
+        return _stubbedServiceAccountRedirectCoordinator ?? MockBaseCoordinator()
+    }
 }
