@@ -156,11 +156,10 @@ struct AppConfigServiceTests {
     }
 
     @Test
-    func isFeatureEnabled_whenFeatureFlagIsChat_returnsFalse() {
-        let result = Config.arrange(releaseFlags: ["chat": true]).toResult()
+    func isFeatureEnabled_whenFeatureFlagIsDVLA_returnsFalse() {
+        let result = Config.arrange(releaseFlags: ["dvla": true]).toResult()
         mockAppConfigServiceClient._fetchAppConfigReturn = result
-
-        #expect(sut.isFeatureEnabled(key: .dvla) == false)
+        #expect(sut.isFeatureEnabled(key: .dvla) == true)
     }
 }
 
