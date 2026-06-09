@@ -52,7 +52,6 @@ extension DrivingLicenceSummaryViewModel {
             title: nil,
             status: licenceStatus
         )
-
         self.licenceTypeAccessibilityLabel = .localizedStringWithFormat(
             String.dvla.localized("licenceTypeAccessibilityLabel"),
             licenceType

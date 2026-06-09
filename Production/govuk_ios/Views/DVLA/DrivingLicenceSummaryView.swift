@@ -3,7 +3,6 @@ import GovKitUI
 
 struct DrivingLicenceSummaryView: View {
     let viewModel: DrivingLicenceSummaryViewModel
-
     private static let standardPadding: CGFloat = 16.0
     private static let iconSize: CGFloat = 36.0
 
