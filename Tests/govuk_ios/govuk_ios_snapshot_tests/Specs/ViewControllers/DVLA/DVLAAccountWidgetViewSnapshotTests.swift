@@ -7,12 +7,7 @@ import GovKit
 
 @MainActor class DVLAAccountWidgetViewSnapshotTests: SnapshotTestCase {
     func test_linkAccountCard_light_rendersCorrectly() {
-        let linkCardViewModel = ServiceAccountLinkCardViewModel(
-            title: "Add driver and vehicles account",
-            subtitle: "Your tax, MOT, penalty points",
-            action: {}
-        )
-        let viewModel = MockDVLAAccountWidgetViewModel(viewState: .unlinked(linkCard: linkCardViewModel))
+        let viewModel = makeUnlinkedStateViewModel()
         let view = DVLAAccountWidgetView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
             rootView: view
@@ -25,12 +20,7 @@ import GovKit
     }
 
     func test_linkAccountCard_dark_rendersCorrectly() {
-        let linkCardViewModel = ServiceAccountLinkCardViewModel(
-            title: "Add driver and vehicles account",
-            subtitle: "Your tax, MOT, penalty points",
-            action: {}
-        )
-        let viewModel = MockDVLAAccountWidgetViewModel(viewState: .unlinked(linkCard: linkCardViewModel))
+        let viewModel = makeUnlinkedStateViewModel()
         let view = DVLAAccountWidgetView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
             rootView: view
@@ -42,22 +32,8 @@ import GovKit
         )
     }
 
-    func test_vehicleSummaryView_light_rendersCorrectly() {
-        let mockVehicle = CustomerSummary.Vehicle.arrange(
-            registrationNumber: "AB12 CDE",
-            make: "LAND ROVER RANGE ROVER",
-            model: "SPORT 2.0 TD4 HSE DYNAMIC",
-            taxedUntil: Date(timeIntervalSince1970: 1779975444),
-            motExpiryDate: Date(timeIntervalSince1970: 1779975444)
-        )
-        let mockAccountSummaryViewModel = MockDVLAAccountSummaryViewModel(
-            viewState: .loaded(
-                vehicles: [
-                    VehicleSummaryViewModel(vehicle: mockVehicle)
-                ]
-            )
-        )
-        let viewModel = MockDVLAAccountWidgetViewModel(viewState: .linked(actionCards: [], accountSummary: mockAccountSummaryViewModel))
+    func test_accountSummaryView_light_rendersCorrectly() {
+        let viewModel = makeLinkedStateViewModel()
         let view = DVLAAccountWidgetView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
             rootView: view
@@ -69,22 +45,8 @@ import GovKit
         )
     }
 
-    func test_vehicleSummaryView_dark_rendersCorrectly() {
-        let mockVehicle = CustomerSummary.Vehicle.arrange(
-            registrationNumber: "AB12 CDE",
-            make: "LAND ROVER RANGE ROVER",
-            model: "SPORT 2.0 TD4 HSE DYNAMIC",
-            taxedUntil: Date(timeIntervalSince1970: 1779975444),
-            motExpiryDate: Date(timeIntervalSince1970: 1779975444)
-        )
-        let mockAccountSummaryViewModel = MockDVLAAccountSummaryViewModel(
-            viewState: .loaded(
-                vehicles: [
-                    VehicleSummaryViewModel(vehicle: mockVehicle)
-                ]
-            )
-        )
-        let viewModel = MockDVLAAccountWidgetViewModel(viewState: .linked(actionCards: [], accountSummary: mockAccountSummaryViewModel))
+    func test_accountSummaryView_dark_rendersCorrectly() {
+        let viewModel = makeLinkedStateViewModel()
         let view = DVLAAccountWidgetView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
             rootView: view
@@ -111,6 +73,45 @@ import GovKit
         VerifySnapshotInNavigationController(
             viewController: hostingViewController,
             mode: .light
+        )
+    }
+
+    private func makeUnlinkedStateViewModel() -> MockDVLAAccountWidgetViewModel {
+        let linkCardViewModel = ServiceAccountLinkCardViewModel(
+            title: "Add driver and vehicles account",
+            subtitle: "Your tax, MOT, penalty points",
+            action: {}
+        )
+        return MockDVLAAccountWidgetViewModel(viewState: .unlinked(linkCard: linkCardViewModel))
+    }
+
+    private func makeLinkedStateViewModel() -> MockDVLAAccountWidgetViewModel {
+        let mockVehicle = CustomerSummary.Vehicle.arrange(
+            registrationNumber: "AB12 CDE",
+            make: "LAND ROVER RANGE ROVER",
+            model: "SPORT 2.0 TD4 HSE DYNAMIC",
+            taxedUntil: .arrange("01/12/2027"),
+            motExpiryDate: .arrange("01/08/2027")
+        )
+
+        let mockVehiclesViewModel = MockVehiclesViewModel(
+            viewState: .loaded(
+                vehicles: [
+                    VehicleSummaryViewModel(vehicle: mockVehicle)
+                ]
+            )
+        )
+        let mockLicenceViewModel = MockDrivingLicenceViewModel(
+            viewState: .loaded(
+                licence: DrivingLicenceSummaryViewModel(driverSummary: .arrange)
+            )
+        )
+        let mockAccountSummaryViewModel = MockDVLAAccountSummaryViewModel(
+            vehiclesViewModel: mockVehiclesViewModel,
+            licenceViewModel: mockLicenceViewModel
+        )
+        return MockDVLAAccountWidgetViewModel(
+            viewState: .linked(actionCards: [], accountSummary: mockAccountSummaryViewModel)
         )
     }
 }

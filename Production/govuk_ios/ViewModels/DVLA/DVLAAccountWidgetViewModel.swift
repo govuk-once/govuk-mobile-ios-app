@@ -52,9 +52,17 @@ class DVLAAccountWidgetViewModel: ObservableObject {
 
     private func update(isAccountLinked: Bool) {
         if isAccountLinked {
-            let accountSummaryViewModel = DVLAAccountSummaryViewModel(
+            let vehiclesViewModel = VehiclesViewModel(
                 analyticsService: analyticsService,
                 dvlaService: dvlaService
+            )
+            let licenceViewModel = DrivingLicenceViewModel(
+                analyticsService: analyticsService,
+                dvlaService: dvlaService
+            )
+            let accountSummaryViewModel = DVLAAccountSummaryViewModel(
+                vehiclesViewModel: vehiclesViewModel,
+                licenceViewModel: licenceViewModel
             )
             viewState = .linked(
                 actionCards: accountActionCards,
