@@ -474,6 +474,17 @@ struct CoordinatorBuilderTests {
     }
 
     @Test
+    func serviceAccountRedirect_returnsExpectedResult() {
+        let subject = CoordinatorBuilder(container: Container())
+        let coordinator = subject.serviceAccountRedirect(
+            navigationController: UINavigationController(),
+            accountType: .dvla,
+            token: "test_token"
+        )
+        #expect(coordinator is ServiceAccountRedirectCoordinator)
+    }
+
+    @Test
     func topicWidgetProvider_forDrivingTopic_returnsDrivingTopicWidgetCoordinator() async {
         let mockCoreDataViewContext = await CoreDataRepository.arrangeAndLoad.viewContext
         let drivingTopic = Topic.arrange(

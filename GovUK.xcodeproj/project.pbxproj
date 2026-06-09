@@ -1885,12 +1885,14 @@
 		5D962D5E2C29BD0B0038BC0A /* Coordinators */ = {
 			isa = PBXGroup;
 			children = (
-				4ED2DB642FBCC62C005CF6FD /* YourAccountsSettingsCoordinator.swift */,
 				5D962D572C29BD0B0038BC0A /* BaseCoordinator.swift */,
-				81DAF94A2F6D8855001C4E09 /* DVLAAuthenticationCoordinator.swift */,
+				161D84D22E5886C800391FBC /* Chat */,
+				81BFBFEC2FA4AB5D00249569 /* DrivingTopicWidgetCoordinator.swift */,
 				81501C7E2F7E815200E7469C /* DVLAAccountCoordinator.swift */,
+				81DAF94A2F6D8855001C4E09 /* DVLAAuthenticationCoordinator.swift */,
 				4E4089872DBBEF78003ECB3B /* EditLocalAuthorityCoordinator.swift */,
 				166248232C4AC91E009F7E58 /* HomeCoordinator.swift */,
+				5DFB488B2DE9F7F600B41CDA /* Launch */,
 				1677D4012E00643000FB1E56 /* LocalAuthenticationSettingsCoordinator.swift */,
 				4EB7D8502DB85A33002B6765 /* LocalAuthorityServiceCoordinator.swift */,
 				5DDD58882D5A556A001C0B3E /* NotificationOnboardingCoordinator.swift */,
@@ -1899,16 +1901,14 @@
 				4EA3C34F2C91B8C4000D731C /* RecentActivityCoordinator.swift */,
 				5D8EAC242DD746C2003089F5 /* SafariCoordinator.swift */,
 				D0ABA5D32FA4F95000C5A244 /* SARSettingsCoordinator.swift */,
+				81DE66932F5B2A4F0087F48E /* ServiceAccount */,
 				1679D5742C3F5E6900AA2EB0 /* SettingsCoordinator.swift */,
 				D02416462DEDC0C500F81C6D /* SignInSuccessCoordinator.swift */,
 				D08A9A7F2DB9286D002E9C78 /* SignOutConfirmationCoordinator.swift */,
 				5D962D5D2C29BD0B0038BC0A /* TabCoordinator.swift */,
 				D0CF80A62F3F1E5100F8888D /* TermsAndConditionsCoordinator.swift */,
 				5D54F4742CC84A5B00A3B6A7 /* TopicDetailsCoordinator.swift */,
-				81BFBFEC2FA4AB5D00249569 /* DrivingTopicWidgetCoordinator.swift */,
-				161D84D22E5886C800391FBC /* Chat */,
-				5DFB488B2DE9F7F600B41CDA /* Launch */,
-				81DE66932F5B2A4F0087F48E /* ServiceAccount */,
+				4ED2DB642FBCC62C005CF6FD /* YourAccountsSettingsCoordinator.swift */,
 			);
 			path = Coordinators;
 			sourceTree = "<group>";

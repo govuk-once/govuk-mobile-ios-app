@@ -40,7 +40,7 @@ final class ServiceAccountRedirectCoordinator: BaseCoordinator {
             accountType: accountType,
             token: token,
             completeAction: { [weak self] in
-                self?.showLinkSuccess()
+                self?.setLinkSuccess()
                 self?.postLinkSuccess()
             },
             dismissAction: dismissModal,
@@ -48,7 +48,7 @@ final class ServiceAccountRedirectCoordinator: BaseCoordinator {
         set(viewController)
     }
 
-    private func showLinkSuccess() {
+    private func setLinkSuccess() {
         let viewController = viewControllerBuilder.serviceAccountLinkSuccess(
             analyticsService: analyticsService,
             accountType: accountType,
