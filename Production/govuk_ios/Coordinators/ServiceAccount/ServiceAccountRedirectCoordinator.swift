@@ -38,7 +38,7 @@ final class ServiceAccountRedirectCoordinator: BaseCoordinator {
             analyticsService: analyticsService,
             userService: userService,
             accountType: accountType,
-            linkId: token,
+            token: token,
             completeAction: { [weak self] in
                 self?.showLinkSuccess()
                 self?.postLinkSuccess()

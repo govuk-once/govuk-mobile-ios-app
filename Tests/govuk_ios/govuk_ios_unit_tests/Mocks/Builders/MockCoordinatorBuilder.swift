@@ -366,12 +366,8 @@ class MockCoordinatorBuilder: CoordinatorBuilder {
         return _stubbedTermsAndConditionsCoordinator ?? MockBaseCoordinator()
     }
 
-    var _receivedDvlaAuthenticationCompletion: ((String) -> Void)?
     var _stubbedDvlaAuthenticationCoordinator: MockBaseCoordinator?
-    override func dvlaAuthentication(navigationController: UINavigationController,
-                                     completion: @escaping (String) -> Void,
-                                     errorAction: @escaping (DVLAAuthError) -> Void) -> BaseCoordinator {
-        _receivedDvlaAuthenticationCompletion = completion
+    override func dvlaAuthentication(navigationController: UINavigationController) -> BaseCoordinator {
         return _stubbedDvlaAuthenticationCoordinator ?? MockBaseCoordinator()
     }
 }

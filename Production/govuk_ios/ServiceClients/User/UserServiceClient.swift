@@ -15,7 +15,7 @@ protocol UserServiceClientInterface {
     func setNotificationsConsent(_ consentStatus: ConsentStatus,
                                  completion: @escaping (NotificationsPreferenceResult) -> Void)
     func linkAccount(serviceName: String,
-                     linkId: String,
+                     token: String,
                      completion: @escaping (LinkAccountResult) -> Void)
     func unlinkAccount(serviceName: String,
                        completion: @escaping (UnlinkAccountCompletion))
@@ -50,11 +50,11 @@ struct UserServiceClient: UserServiceClientInterface {
     }
 
     func linkAccount(serviceName: String,
-                     linkId: String,
+                     token: String,
                      completion: @escaping (LinkAccountCompletion)) {
         let request = GOVRequest.linkAccount(
             serviceName: serviceName,
-            linkId: linkId
+            token: token
         )
         apiServiceClient.send(
             request: request,

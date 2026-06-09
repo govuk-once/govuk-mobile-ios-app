@@ -18,7 +18,7 @@ class MockUserServiceClient: UserServiceClientInterface {
 
     var _stubbedLinkAccountResult: LinkAccountResult?
     func linkAccount(serviceName: String,
-                     linkId: String,
+                     token: String,
                      completion: @escaping (LinkAccountResult) -> Void) {
         if let result = _stubbedLinkAccountResult {
             completion(result)

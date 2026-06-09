@@ -106,7 +106,7 @@ final class UserServiceTests {
                               userServiceClient: mockUserServiceClient)
         var wasSuccessful = false
         sut.linkAccount(withType: .dvla,
-                        linkId: "test-link-id") { result in
+                        token: "test-link-id") { result in
             switch result {
             case .success:
                 wasSuccessful = true
@@ -125,7 +125,7 @@ final class UserServiceTests {
         let sut = UserService(appConfigService: mockAppConfigService,
                               userServiceClient: mockUserServiceClient)
         sut.linkAccount(withType: .dvla,
-                        linkId: "test-link-id") { result in
+                        token: "test-link-id") { result in
             #expect(result.getError() == .authenticationError)
         }
     }
@@ -137,7 +137,7 @@ final class UserServiceTests {
                               userServiceClient: mockUserServiceClient)
         #expect(sut.isDvlaAccountLinked == nil)
 
-        sut.linkAccount(withType: .dvla, linkId: "test-link-id") { _ in
+        sut.linkAccount(withType: .dvla, token: "test-link-id") { _ in
             #expect(sut.isDvlaAccountLinked == true)
         }
     }

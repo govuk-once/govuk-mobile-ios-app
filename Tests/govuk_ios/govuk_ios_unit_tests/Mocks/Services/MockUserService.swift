@@ -38,7 +38,7 @@ class MockUserService: UserServiceInterface {
     var _linkAccountCallCount = 0
     var _stubbedLinkAccountResult: LinkAccountResult?
     func linkAccount(withType accountType: ServiceAccountType,
-                     linkId: String,
+                     token: String,
                      completion: @escaping LinkAccountCompletion) {
         _linkAccountCallCount += 1
         if let result = _stubbedLinkAccountResult {

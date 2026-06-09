@@ -459,8 +459,6 @@ struct CoordinatorBuilderTests {
         let subject = CoordinatorBuilder(container: Container())
         let coordinator = subject.dvlaAuthentication(
             navigationController: UINavigationController(),
-            completion: { _ in },
-            errorAction: { _ in }
         )
         #expect(coordinator is DVLAAuthenticationCoordinator)
     }
