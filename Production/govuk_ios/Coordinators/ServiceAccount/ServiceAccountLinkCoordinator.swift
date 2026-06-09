@@ -27,10 +27,10 @@ final class ServiceAccountLinkCoordinator: BaseCoordinator {
     }
 
     override func start(url: URL?) {
-        showConsent()
+        setConsent()
     }
 
-    private func showConsent() {
+    private func setConsent() {
         let viewController = viewControllerBuilder.serviceAccountConsent(
             analyticsService: analyticsService,
             accountType: accountType,
@@ -42,40 +42,9 @@ final class ServiceAccountLinkCoordinator: BaseCoordinator {
 
     private func authenticate() {
         let coordinator = coordinatorBuilder.dvlaAuthentication(
-            navigationController: root,
-            completion: linkAccount,
-            errorAction: { error in
-                if error != .userCancelled {
-                    print("auth failed")
-                }
-            })
+            navigationController: root
+        )
         start(coordinator)
-    }
-
-    private func linkAccount(linkId: String) {
-        let viewController = viewControllerBuilder.serviceAccountLinking(
-            analyticsService: analyticsService,
-            userService: userService,
-            accountType: accountType,
-            linkId: linkId,
-            completeAction: { [weak self] in
-                self?.showLinkSuccess()
-            },
-            dismissAction: dismissModal
-        )
-        set(viewController)
-    }
-
-    private func showLinkSuccess() {
-        let viewController = viewControllerBuilder.serviceAccountLinkSuccess(
-            analyticsService: analyticsService,
-            accountType: accountType,
-            completionAction: { [weak self] in
-                self?.dismissModal()
-                self?.completion(true)
-            }
-        )
-        set(viewController)
     }
 
     private func dismissModal() {

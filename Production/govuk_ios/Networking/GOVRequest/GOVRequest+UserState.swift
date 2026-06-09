@@ -33,13 +33,17 @@ extension GOVRequest {
         )
     }
 
-    static func linkAccount(serviceName: String, linkId: String) -> GOVRequest {
+    static func linkAccount(serviceName: String,
+                            token: String) -> GOVRequest {
         GOVRequest(
-            urlPath: "\(identityPath)/\(serviceName)/\(linkId)",
+            urlPath: "\(identityPath)/\(serviceName)",
             method: .post,
             body: nil,
             queryParameters: nil,
-            additionalHeaders: additionalHeaders,
+            additionalHeaders: [
+                "Content-Type": "application/json",
+                "x-linking-token": token
+            ],
             requiresAuthentication: true
         )
     }

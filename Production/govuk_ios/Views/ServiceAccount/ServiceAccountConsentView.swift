@@ -50,6 +50,9 @@ struct ServiceAccountConsentView: View {
         .onAppear {
             viewModel.trackScreen(screen: self)
         }
+        .onOpenURL { url in
+            print(url.absoluteString)
+        }
     }
 
     private var contentView: some View {

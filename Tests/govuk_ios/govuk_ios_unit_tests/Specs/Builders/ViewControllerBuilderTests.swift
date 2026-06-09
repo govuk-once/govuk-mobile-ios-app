@@ -389,7 +389,7 @@ struct ViewControllerBuilderTests {
             analyticsService: MockAnalyticsService(),
             userService: MockUserService(),
             accountType: .dvla,
-            linkId: "linkId",
+            token: "token",
             completeAction: {},
             dismissAction: {}
         )

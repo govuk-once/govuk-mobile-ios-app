@@ -299,14 +299,6 @@ extension Container {
         }
     }
 
-    var dvlaAuthenticationService: Factory<DVLAAuthenticationServiceInterface> {
-        Factory(self) {
-            DVLAAuthenticationService(
-                sessionBuilder: DVLAAuthSessionBuilder()
-            )
-        }
-    }
-
     var dvlaService: Factory<DVLAServiceInterface> {
         Factory(self) {
             DVLAService(

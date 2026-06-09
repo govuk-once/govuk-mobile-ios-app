@@ -19,7 +19,7 @@ struct ServiceAccountLinkingViewModelTests {
             analyticsService: MockAnalyticsService(),
             userService: MockUserService(),
             accountType: .dvla,
-            linkId: "",
+            token: "",
             completeAction: {},
             dismissAction: {}
         )
@@ -35,7 +35,7 @@ struct ServiceAccountLinkingViewModelTests {
             analyticsService: MockAnalyticsService(),
             userService: mockUserService,
             accountType: .dvla,
-            linkId: "test-link-id",
+            token: "test-link-id",
             completeAction: {
                 didCallCompleteAction = true
             },
@@ -57,7 +57,7 @@ struct ServiceAccountLinkingViewModelTests {
             userService: mockUserService,
             urlOpener: mockUrlOpener,
             accountType: .dvla,
-            linkId: "test-link-id",
+            token: "test-link-id",
             completeAction: {},
             dismissAction: {
                 wasDismissed = true
@@ -83,7 +83,7 @@ struct ServiceAccountLinkingViewModelTests {
             analyticsService: MockAnalyticsService(),
             userService: mockUserService,
             accountType: .dvla,
-            linkId: "test-link-id",
+            token: "test-link-id",
             completeAction: {},
             dismissAction: {}
         )
@@ -106,7 +106,7 @@ struct ServiceAccountLinkingViewModelTests {
             analyticsService: mockAnalyticsService,
             userService: mockUserService,
             accountType: .dvla,
-            linkId: "test-link-id",
+            token: "test-link-id",
             completeAction: {},
             dismissAction: {}
         )
@@ -129,7 +129,7 @@ struct ServiceAccountLinkingViewModelTests {
             analyticsService: mockAnalyticsService,
             userService: mockUserService,
             accountType: .dvla,
-            linkId: "test-link-id",
+            token: "test-link-id",
             completeAction: {},
             dismissAction: {}
         )
@@ -151,7 +151,7 @@ struct ServiceAccountLinkingViewModelTests {
             analyticsService: mockAnalyticsService,
             userService: mockUserService,
             accountType: .dvla,
-            linkId: "test-link-id",
+            token: "test-link-id",
             completeAction: {},
             dismissAction: {}
         )
@@ -175,7 +175,7 @@ struct ServiceAccountLinkingViewModelTests {
             analyticsService: MockAnalyticsService(),
             userService: mockUserService,
             accountType: .dvla,
-            linkId: "test-link-id",
+            token: "test-link-id",
             completeAction: {},
             dismissAction: {
                 didCallDismissAction = true

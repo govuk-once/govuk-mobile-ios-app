@@ -382,7 +382,7 @@ class MockViewControllerBuilder: ViewControllerBuilder {
         analyticsService: AnalyticsServiceInterface,
         userService: UserServiceInterface,
         accountType: ServiceAccountType,
-        linkId: String,
+        token: String,
         completeAction: @escaping () -> Void,
         dismissAction: @escaping () -> Void
     ) -> UIViewController {

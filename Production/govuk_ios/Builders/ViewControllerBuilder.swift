@@ -607,7 +607,7 @@ class ViewControllerBuilder {
         analyticsService: AnalyticsServiceInterface,
         userService: UserServiceInterface,
         accountType: ServiceAccountType,
-        linkId: String,
+        token: String,
         completeAction: @escaping () -> Void,
         dismissAction: @escaping () -> Void
     ) -> UIViewController {
@@ -615,7 +615,7 @@ class ViewControllerBuilder {
             analyticsService: analyticsService,
             userService: userService,
             accountType: accountType,
-            linkId: linkId,
+            token: token,
             completeAction: completeAction,
             dismissAction: dismissAction
         )

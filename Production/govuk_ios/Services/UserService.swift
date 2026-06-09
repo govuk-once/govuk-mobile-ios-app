@@ -2,7 +2,7 @@ protocol UserServiceInterface {
     func fetchUserState(completion: @escaping FetchUserStateCompletion)
     func setNotificationsConsent(_ consentStatus: ConsentStatus)
     func linkAccount(withType accountType: ServiceAccountType,
-                     linkId: String,
+                     token: String,
                      completion: @escaping LinkAccountCompletion)
     func unlinkAccount(withType accountType: ServiceAccountType,
                        completion: @escaping UnlinkAccountCompletion)
@@ -70,11 +70,11 @@ protocol UserServiceInterface {
      }
 
      func linkAccount(withType accountType: ServiceAccountType,
-                      linkId: String,
+                      token: String,
                       completion: @escaping LinkAccountCompletion) {
          userServiceClient.linkAccount(
             serviceName: accountType.rawValue,
-            linkId: linkId,
+            token: token,
             completion: { [weak self] result in
                 if case .success = result {
                     self?.isDvlaAccountLinked = true
