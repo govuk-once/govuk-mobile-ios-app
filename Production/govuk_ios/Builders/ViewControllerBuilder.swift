@@ -772,7 +772,7 @@ class ViewControllerBuilder {
         let actions = NotificationCentreViewModel.Actions(showNotification: showNotificationAction)
         let viewModel = NotificationCentreViewModel(
             actions: actions,
-            notificationService: notificationService,
+            notificationCentreService: notificationService,
             analyticsService: analyticsService)
 
         let viewController = HostingViewController(
@@ -823,10 +823,14 @@ class ViewControllerBuilder {
                 .notificationCentre.localized("notificationCentreDetailDeleteA11yLabel")
 
 
-            viewController.navigationItem.rightBarButtonItems = [
-                deleteButton,
-                unreadButton
-            ]
+            // Removed temporarily as there's a further ticket to implement this properly
+            // with respect to Liquid Glass too
+            // NOT-238
+            // NOT-230
+//            viewController.navigationItem.rightBarButtonItems = [
+//                deleteButton,
+//                unreadButton
+//            ]
             return viewController
         }
 }

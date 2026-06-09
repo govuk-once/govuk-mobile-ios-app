@@ -8,17 +8,34 @@ import Combine
 
 @MainActor
 class SettingsViewControllerSnapshotTests: SnapshotTestCase {
-    func test_loadInNavigationController_light_rendersCorrectly() async {
-        let mockVersionProvider = MockAppVersionProvider()
+    var mockVersionProvider: MockAppVersionProvider!
+    var notificationService: MockNotificationService!
+    var authenticationService: MockAuthenticationService!
+    var userService: MockUserService!
+    var notificationCentreService: MockNotificationCentreService!
+
+    override func setUp() {
+        super.setUp()
+
+        mockVersionProvider = MockAppVersionProvider()
         mockVersionProvider.versionNumber = "1.2.3"
         mockVersionProvider.buildNumber = "123"
-        let notificationService = MockNotificationService()
-        notificationService._stubbedIsFetureEnabled = false
-        let authenticationService = MockAuthenticationService()
+
+        notificationService = MockNotificationService()
+        notificationService._stubbedIsFetureEnabled = true
+        
+        authenticationService = MockAuthenticationService()
         authenticationService._stubbedIsSignedIn = true
         authenticationService._stubbedUserEmail = "test@example.com"
 
-        let viewModel = SettingsViewModel(
+        userService = MockUserService()
+        userService._stubbedFetchAccountLinkStatusResult = .success(.arrangeUnlinked)
+
+        notificationCentreService = MockNotificationCentreService()
+    }
+
+    private func assembleSUT() -> SettingsViewModel {
+        return SettingsViewModel(
             analyticsService: MockAnalyticsService(),
             urlOpener: MockURLOpener(),
             versionProvider: mockVersionProvider,
@@ -27,12 +44,20 @@ class SettingsViewControllerSnapshotTests: SnapshotTestCase {
             notificationService: notificationService,
             notificationCenter: .default,
             localAuthenticationService: MockLocalAuthenticationService(),
-            appConfigService: MockAppConfigService()
+            appConfigService: MockAppConfigService(),
+            userService: userService,
+            notificationCentreService: notificationCentreService
         )
+    }
+
+    func test_loadInNavigationController_light_rendersCorrectly() async {
+        let viewModel = assembleSUT()
+
         let settingsContentView = SettingsView(
             viewModel: viewModel
         )
-        let hostingViewController =  HostingViewController(
+
+        let hostingViewController = HostingViewController(
             rootView: settingsContentView,
             statusBarStyle: .darkContent
         )
@@ -56,27 +81,8 @@ class SettingsViewControllerSnapshotTests: SnapshotTestCase {
     }
 
     func test_loadInNavigationController_dark_rendersCorrectly() async {
-        let mockVersionProvider = MockAppVersionProvider()
-        mockVersionProvider.versionNumber = "1.2.3"
-        mockVersionProvider.buildNumber = "123"
-        let notificationService = MockNotificationService()
-        notificationService._stubbedIsFetureEnabled = false
-        let authenticationService = MockAuthenticationService()
-        authenticationService._stubbedIsSignedIn = true
-        authenticationService._stubbedUserEmail = "test@example.com"
+        let viewModel = assembleSUT()
 
-
-        let viewModel = SettingsViewModel(
-            analyticsService: MockAnalyticsService(),
-            urlOpener: MockURLOpener(),
-            versionProvider: mockVersionProvider,
-            deviceInformationProvider: MockDeviceInformationProvider(),
-            authenticationService: authenticationService,
-            notificationService: notificationService,
-            notificationCenter: .default,
-            localAuthenticationService: MockLocalAuthenticationService(),
-            appConfigService: MockAppConfigService()
-        )
         let settingsContentView = SettingsView(
             viewModel: viewModel
         )
@@ -106,26 +112,10 @@ class SettingsViewControllerSnapshotTests: SnapshotTestCase {
     }
 
     func test_loadInNavigationController_notificationsFeatureEnabled_light_rendersCorrectly() async {
-        let mockVersionProvider = MockAppVersionProvider()
-        mockVersionProvider.versionNumber = "1.2.3"
-        mockVersionProvider.buildNumber = "123"
-        let notificationService = MockNotificationService()
         notificationService._stubbedIsFetureEnabled = true
-        let authenticationService = MockAuthenticationService()
-        authenticationService._stubbedIsSignedIn = true
-        authenticationService._stubbedUserEmail = "test@example.com"
 
-        let viewModel = SettingsViewModel(
-            analyticsService: MockAnalyticsService(),
-            urlOpener: MockURLOpener(),
-            versionProvider: mockVersionProvider,
-            deviceInformationProvider: MockDeviceInformationProvider(),
-            authenticationService: authenticationService,
-            notificationService: notificationService,
-            notificationCenter: .default,
-            localAuthenticationService: MockLocalAuthenticationService(),
-            appConfigService: MockAppConfigService()
-        )
+        let viewModel = assembleSUT()
+
         let settingsContentView = SettingsView(
             viewModel: viewModel
         )
@@ -153,26 +143,9 @@ class SettingsViewControllerSnapshotTests: SnapshotTestCase {
     }
 
     func test_loadInNavigationController_notificationsFeatureEnabled_dark_rendersCorrectly() async {
-        let mockVersionProvider = MockAppVersionProvider()
-        mockVersionProvider.versionNumber = "1.2.3"
-        mockVersionProvider.buildNumber = "123"
-        let notificationService = MockNotificationService()
         notificationService._stubbedIsFetureEnabled = true
-        let authenticationService = MockAuthenticationService()
-        authenticationService._stubbedIsSignedIn = true
-        authenticationService._stubbedUserEmail = "test@example.com"
 
-        let viewModel = SettingsViewModel(
-            analyticsService: MockAnalyticsService(),
-            urlOpener: MockURLOpener(),
-            versionProvider: mockVersionProvider,
-            deviceInformationProvider: MockDeviceInformationProvider(),
-            authenticationService: authenticationService,
-            notificationService: notificationService,
-            notificationCenter: .default,
-            localAuthenticationService: MockLocalAuthenticationService(),
-            appConfigService: MockAppConfigService()
-        )
+        let viewModel = assembleSUT()
         
         let settingsContentView = SettingsView(
             viewModel: viewModel
@@ -191,6 +164,136 @@ class SettingsViewControllerSnapshotTests: SnapshotTestCase {
                     self.VerifySnapshotInNavigationController(
                         viewController: hostingViewController,
                         mode: .dark,
+                        prefersLargeTitles: true
+                    )
+                    continuation.resume()
+                    cancellables.removeAll()
+                })
+                .store(in: &cancellables)
+        }
+    }
+
+    func test_loadInNavigationController_messages_dark_rendersCorrectly() async {
+        userService._stubbedFetchAccountLinkStatusResult = .success(.arrangeLinked)
+        notificationCentreService._stubbedFetchNotificationsResult = .success(NotificationCentreViewModel.MockData.testNotifications.recent)
+        let viewModel = assembleSUT()
+        viewModel.loadMessages()
+
+        let settingsContentView = SettingsView(
+            viewModel: viewModel
+        )
+        let hostingViewController =  HostingViewController(
+            rootView: settingsContentView,
+            statusBarStyle: .darkContent
+        )
+
+        var cancellables = Set<AnyCancellable>()
+        viewModel.updateEmail()
+        await withCheckedContinuation { continuation in
+            viewModel.objectWillChange
+                .receive(on: DispatchQueue.main)
+                .sink(receiveValue: { _ in
+                    self.VerifySnapshotInNavigationController(
+                        viewController: hostingViewController,
+                        mode: .dark,
+                        prefersLargeTitles: true
+                    )
+                    continuation.resume()
+                    cancellables.removeAll()
+                })
+                .store(in: &cancellables)
+        }
+    }
+
+    func test_loadInNavigationController_messages_light_rendersCorrectly() async {
+        userService._stubbedFetchAccountLinkStatusResult = .success(.arrangeLinked)
+        notificationCentreService._stubbedFetchNotificationsResult = .success(NotificationCentreViewModel.MockData.testNotifications.recent)
+
+        let viewModel = assembleSUT()
+        viewModel.loadMessages()
+
+        let settingsContentView = SettingsView(
+            viewModel: viewModel
+        )
+        let hostingViewController =  HostingViewController(
+            rootView: settingsContentView,
+            statusBarStyle: .darkContent
+        )
+
+        var cancellables = Set<AnyCancellable>()
+        viewModel.updateEmail()
+        await withCheckedContinuation { continuation in
+            viewModel.objectWillChange
+                .receive(on: DispatchQueue.main)
+                .sink(receiveValue: { _ in
+                    self.VerifySnapshotInNavigationController(
+                        viewController: hostingViewController,
+                        mode: .light,
+                        prefersLargeTitles: true
+                    )
+                    continuation.resume()
+                    cancellables.removeAll()
+                })
+                .store(in: &cancellables)
+        }
+    }
+
+    func test_loadInNavigationController_messages_none_dark_rendersCorrectly() async {
+        userService._stubbedFetchAccountLinkStatusResult = .success(.arrangeLinked)
+        notificationCentreService._stubbedFetchNotificationsResult = .success([])
+        let viewModel = assembleSUT()
+        viewModel.loadMessages()
+
+        let settingsContentView = SettingsView(
+            viewModel: viewModel
+        )
+        let hostingViewController =  HostingViewController(
+            rootView: settingsContentView,
+            statusBarStyle: .darkContent
+        )
+
+        var cancellables = Set<AnyCancellable>()
+        viewModel.updateEmail()
+        await withCheckedContinuation { continuation in
+            viewModel.objectWillChange
+                .receive(on: DispatchQueue.main)
+                .sink(receiveValue: { _ in
+                    self.VerifySnapshotInNavigationController(
+                        viewController: hostingViewController,
+                        mode: .dark,
+                        prefersLargeTitles: true
+                    )
+                    continuation.resume()
+                    cancellables.removeAll()
+                })
+                .store(in: &cancellables)
+        }
+    }
+
+    func test_loadInNavigationController_messages_none_light_rendersCorrectly() async {
+        userService._stubbedFetchAccountLinkStatusResult = .success(.arrangeLinked)
+        notificationCentreService._stubbedFetchNotificationsResult = .success([])
+
+        let viewModel = assembleSUT()
+        viewModel.loadMessages()
+
+        let settingsContentView = SettingsView(
+            viewModel: viewModel
+        )
+        let hostingViewController =  HostingViewController(
+            rootView: settingsContentView,
+            statusBarStyle: .darkContent
+        )
+
+        var cancellables = Set<AnyCancellable>()
+        viewModel.updateEmail()
+        await withCheckedContinuation { continuation in
+            viewModel.objectWillChange
+                .receive(on: DispatchQueue.main)
+                .sink(receiveValue: { _ in
+                    self.VerifySnapshotInNavigationController(
+                        viewController: hostingViewController,
+                        mode: .light,
                         prefersLargeTitles: true
                     )
                     continuation.resume()
@@ -219,13 +322,14 @@ class GroupedListViewModel: SettingsViewModelInterface {
     var localAuthenticationAction: (() -> Void)?
     func updateNotificationPermissionState() {}
     var notificationsAction: (() -> Void)?
+    var notificationCentreAction: (() -> Void)?
     var displayNotificationSettingsAlert: Bool = false
     func handleNotificationAlertAction() { }
     var notificationSettingsAlertTitle: String = "Turn on notifications"
     var notificationSettingsAlertBody: String = "Continue to your phone’s notifications settings to turn off notifications from GOV.UK"
     var notificationAlertButtonTitle: String = "Continue"
     var title: String = "Settings"
-    var listContent: [GroupedListSection] = GroupedListSection_Previews.previewContent.dropLast()
+    var listContent: [GroupedListSection] = GroupedList_Previews.previewContent.dropLast()
     var scrollToTop: Bool = false
     func trackScreen(screen: any TrackableScreen) {
         // Do Nothing
@@ -234,7 +338,11 @@ class GroupedListViewModel: SettingsViewModelInterface {
     var openAction: ((SettingsViewModelURLParameters) -> Void)?
     var sarAction: (() -> Void)?
     func updateEmail() {
-
+        // Do Nothing
+    }
+    
+    func loadMessages() {
+        // Do Nothing
     }
 }
 

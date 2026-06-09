@@ -37,7 +37,15 @@ class NotificationCentreCoordinator: BaseCoordinator {
                 notificationId: notificationId,
                 notificationService: notificationCentreService,
                 analyticsService: analyticsService,
-                showUrlAction: presentWebView(url:),
+                showUrlAction: { [weak self] url in
+                    guard let self else { return }
+                    let coordinator = coordinatorBuilder.safari(
+                        navigationController: root,
+                        url: url,
+                        fullScreen: true
+                    )
+                    start(coordinator, url: url)
+                },
                 onUnreadAction: {
                     self.root.popViewController(animated: true)
                 },
@@ -45,14 +53,5 @@ class NotificationCentreCoordinator: BaseCoordinator {
                     self.root.popViewController(animated: true)
                 })
         self.push(viewController, animated: true)
-    }
-
-    private func presentWebView(url: URL) {
-        let coordinator = coordinatorBuilder.safari(
-            navigationController: root,
-            url: url,
-            fullScreen: true
-        )
-        start(coordinator, url: url)
     }
 }

@@ -4,7 +4,7 @@ import Combine
 import Foundation
 import GovKit
 
-struct Notification: Identifiable, Codable {
+struct Notification: Identifiable, Codable, Equatable {
     let id: String
     let title: String
     let body: String
@@ -15,6 +15,10 @@ struct Notification: Identifiable, Codable {
 
     var isUnread: Bool {
         status != "READ"
+    }
+
+    var senderName: String {
+        "Placeholder Sender"
     }
 
     enum CodingKeys: String, CodingKey {
@@ -55,39 +59,40 @@ class NotificationCentreViewModel: ObservableObject {
     }
     // swiftlint:enable line_length
 
-    enum State {
-        case loading, empty, loaded(notifications: NotificationGroups), error
+    enum State: Equatable {
+        case loading, empty, loaded(notifications: NotificationGroups), error, noInternet
     }
 
-    struct NotificationGroups {
+    struct NotificationGroups: Equatable {
         let recent: [Notification]
         let older: [Notification]
+    }
+
+    class DateProvider {
+        open var currentDate: Date {
+            Date()
+        }
     }
 
     @Published public private(set) var state: State = .loading
 
     private let actions: Actions
-    private let notificationService: NotificationCentreServiceInterface
+    private let notificationCentreService: NotificationCentreServiceInterface
     private let analyticsService: AnalyticsServiceInterface
+    private let dateProvider: DateProvider
 
     init(
         actions: Actions,
-        notificationService: NotificationCentreServiceInterface,
-        analyticsService: AnalyticsServiceInterface) {
+        notificationCentreService: NotificationCentreServiceInterface,
+        analyticsService: AnalyticsServiceInterface,
+        dateProvider: DateProvider = .init()) {
             self.actions = actions
-            self.notificationService = notificationService
+            self.notificationCentreService = notificationCentreService
             self.analyticsService = analyticsService
+            self.dateProvider = dateProvider
         }
 
     func onViewAppear() {
-        loadData()
-    }
-
-    func onTapRetry() {
-        guard case .error = state else {
-            return
-        }
-
         loadData()
     }
 
@@ -105,9 +110,11 @@ class NotificationCentreViewModel: ObservableObject {
         Task {
             await changeState(state: .loading)
 
-            notificationService.fetchNotifications { res in
+            notificationCentreService.fetchNotifications { [weak self] res in
                 Task {
-                    if case let .success(notifications) = res {
+                    guard let self else { return }
+                    switch res {
+                    case .success(let notifications):
                         if notifications.isEmpty {
                             await self.changeState(state: .empty)
                         } else {
@@ -115,7 +122,8 @@ class NotificationCentreViewModel: ObservableObject {
                                 $0.date > $1.date
                             }
 
-                            let sevenDaysBack = Date().addingTimeInterval(-7 * 24.0 * 60.0 * 60.0)
+                            let sevenDaysBack = self.dateProvider
+                                .currentDate.addingTimeInterval(-7 * 24.0 * 60.0 * 60.0)
 
                             let buckets = NotificationGroups(
                                 recent: sorted.filter {
@@ -127,8 +135,13 @@ class NotificationCentreViewModel: ObservableObject {
 
                             await self.changeState(state: .loaded(notifications: buckets))
                         }
-                    } else {
-                        await self.changeState(state: .error)
+                    case .failure(let error):
+                        switch error {
+                        case .networkUnavailable:
+                            await self.changeState(state: .noInternet)
+                        default:
+                            await self.changeState(state: .error)
+                        }
                     }
                 }
             }

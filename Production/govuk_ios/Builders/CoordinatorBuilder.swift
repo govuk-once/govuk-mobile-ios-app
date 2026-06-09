@@ -102,7 +102,9 @@ class CoordinatorBuilder {
             authenticationService: container.authenticationService.resolve(),
             notificationService: container.notificationService.resolve(),
             localAuthenticationService: container.localAuthenticationService.resolve(),
-            appConfigService: container.appConfigService.resolve()
+            appConfigService: container.appConfigService.resolve(),
+            userService: container.userService.resolve(),
+            notificationCentreService: container.notificationCentreService.resolve()
         )
     }
 

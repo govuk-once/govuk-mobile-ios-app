@@ -2,6 +2,7 @@
 import UIKit
 import GovKit
 import LocalAuthentication
+import Combine
 
 protocol SettingsViewModelInterface: ObservableObject {
     var title: String { get }
@@ -37,7 +38,8 @@ class SettingsViewModel: SettingsViewModelInterface {
         case notDetermined, loading, error, success(unreadCount: Int), unlinked
     }
 
-    @Published private var messagesState: MessagesState = .unlinked
+    @Published private var messagesState: MessagesState = .notDetermined
+    private var messagesStateCancelable: AnyCancellable?
 
     let title: String = String(localized: .Settings.pageTitle)
     private let analyticsService: AnalyticsServiceInterface
@@ -47,9 +49,10 @@ class SettingsViewModel: SettingsViewModelInterface {
     private let authenticationService: AuthenticationServiceInterface
     private let localAuthenticationService: LocalAuthenticationServiceInterface
     private let appConfigService: AppConfigServiceInterface
-    private let userService: UserService
-    private let notificationCentreService: NotificationCentreService
+    private let userService: UserServiceInterface
+    private let notificationCentreService: NotificationCentreServiceInterface
 
+    @Published var listContent: [GroupedListSection] = []
     @Published var scrollToTop: Bool = false
     @Published var displayNotificationSettingsAlert: Bool = false
     @Published private(set) var notificationsPermissionState: NotificationPermissionState
@@ -76,8 +79,8 @@ class SettingsViewModel: SettingsViewModelInterface {
          notificationCenter: NotificationCenter,
          localAuthenticationService: LocalAuthenticationServiceInterface,
          appConfigService: AppConfigServiceInterface,
-         userService: UserService,
-         notificationCentreService: NotificationCentreService) {
+         userService: UserServiceInterface,
+         notificationCentreService: NotificationCentreServiceInterface) {
         self.analyticsService = analyticsService
         self.urlOpener = urlOpener
         self.versionProvider = versionProvider
@@ -91,6 +94,16 @@ class SettingsViewModel: SettingsViewModelInterface {
         self.notificationCentreService = notificationCentreService
         updateNotificationPermissionState()
         observeAppMoveToForeground()
+
+        messagesStateCancelable = $messagesState.sink { [weak self] _ in
+            Task { @MainActor in
+                guard let self else { return }
+                self.listContent = self.getGroupedList()
+            }
+        }
+
+        // Set the initial state
+        self.listContent = self.getGroupedList()
     }
 
     private func observeAppMoveToForeground() {
@@ -144,10 +157,6 @@ class SettingsViewModel: SettingsViewModelInterface {
         case .accepted:
             return true
         }
-    }
-
-    var listContent: [GroupedListSection] {
-        getGroupedList()
     }
 
     func updateEmail() {

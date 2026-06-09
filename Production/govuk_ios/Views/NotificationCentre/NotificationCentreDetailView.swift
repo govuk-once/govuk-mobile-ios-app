@@ -20,12 +20,6 @@ struct NotificationCentreDetailContainerView: View {
                                     UIAccessibility.post(notification: .screenChanged,
                                                          argument: "Loading")
                                 }
-                        case .notFound:
-                            NotificationCentreDetailNotFoundView()
-                                .onAppear {
-                                    UIAccessibility.post(notification: .screenChanged,
-                                                         argument: "No Notifications")
-                                }
                         case .loaded(
                             notification: let notification,
                             showDeleteConfirmationSheet: let showConfirmation):
@@ -49,10 +43,16 @@ struct NotificationCentreDetailContainerView: View {
                                                      argument: "Loading complete")
                             }
                         case .error:
-                            NotificationCentreDetailErrorView(onRetry: viewModel.onTapRetry)
+                            NotificationCentreErrorView()
                                 .onAppear {
                                     UIAccessibility.post(notification: .screenChanged,
                                                          argument: "Error")
+                                }
+                        case .noInternet:
+                            NotificationCentreNoInternetView()
+                                .onAppear {
+                                    UIAccessibility.post(notification: .screenChanged,
+                                                         argument: "No internet connection")
                                 }
                         }
                     }
@@ -105,7 +105,7 @@ private struct NotificationCentreDetailLoadedView: View {
                     .padding(.top, 16)
                     .padding(.bottom, 4)
 
-                    Text("DVLA")
+                    Text(notification.senderName)
                         .font(Font.govUK.bodySemibold)
                         .foregroundStyle(Color(UIColor.govUK.text.primary))
                         .padding(.bottom, 16)
@@ -173,70 +173,9 @@ private struct NotificationCentreDetailLoadingView: View {
     }
 }
 
-
-private struct NotificationCentreDetailErrorView: View {
-    let onRetry: () -> Void
-
-    var body: some View {
-        VStack(alignment: .center) {
-            Spacer()
-            Image(systemName: "exclamationmark.circle")
-                .resizable()
-                .frame(width: 64, height: 64)
-                .padding(.bottom, 16)
-                .foregroundStyle(Color(GOVUKColors.fills.surfaceCardEmergencyLocal))
-            Text(.NotificationCentre.notificationErrorTitle)
-                .padding(.bottom, 16)
-                .font(Font.govUK.title1)
-                .fontWeight(.bold)
-                .multilineTextAlignment(.center)
-                .foregroundStyle(Color(GOVUKColors.text.primary))
-            Text(.NotificationCentre.notificationDetailErrorBody)
-                .font(Font.govUK.body)
-                .multilineTextAlignment(.center)
-                .foregroundStyle(Color(UIColor.govUK.text.secondary))
-
-            SwiftUIButton(.primary,
-                          viewModel: .init(
-                            localisedTitle: String(
-                                localized: .NotificationCentre.notificationErrorButtonRetry),
-                            action: onRetry))
-            .padding(.top, 32)
-            Spacer()
-        }
-        .padding(.horizontal, 32)
-    }
-}
-
-private struct NotificationCentreDetailNotFoundView: View {
-    var body: some View {
-        VStack(alignment: .center) {
-            Spacer()
-            Image(systemName: "exclamationmark.circle")
-                .resizable()
-                .frame(width: 64, height: 64)
-                .padding(.bottom, 16)
-                .foregroundStyle(Color(GOVUKColors.fills.surfaceCardEmergencyLocal))
-            Text(.NotificationCentre.notificationNotFoundTitle)
-                .padding(.bottom, 16)
-                .font(Font.govUK.title1)
-                .fontWeight(.bold)
-                .multilineTextAlignment(.center)
-                .foregroundStyle(Color(GOVUKColors.text.primary))
-            Text(.NotificationCentre.notificationNotFoundBody)
-                .font(Font.govUK.body)
-                .multilineTextAlignment(.center)
-                .foregroundStyle(Color(GOVUKColors.text.secondary))
-            Spacer()
-        }
-        .padding(.horizontal, 32)
-    }
-}
-
-
 extension NotificationCentreDetailContainerView: TrackableScreen {
     var trackingTitle: String? { trackingName }
-    var trackingName: String { "Notification Centre Detail" } // TO DO Update this
+    var trackingName: String { "Messages Detail" }
 }
 
 #Preview("Loading") {
@@ -252,12 +191,4 @@ extension NotificationCentreDetailContainerView: TrackableScreen {
         onConfirmDelete: { /* no-op */ },
         onCancelDelete: { /* no-op */ },
         showDeleteConfirmation: false)
-}
-
-#Preview("Not Found") {
-    NotificationCentreDetailNotFoundView()
-}
-
-#Preview("Error") {
-    NotificationCentreDetailErrorView(onRetry: { /* no-op */ })
 }

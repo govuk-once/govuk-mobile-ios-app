@@ -45,24 +45,13 @@
         }
       }
     },
-    "noNotificationsBody" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "You don’t have any notifications yet. When you receive notifications from government services, they’ll appear here."
-          }
-        }
-      }
-    },
     "noNotificationsTitle" : {
       "extractionState" : "manual",
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No notifications"
+            "value" : "Your messages will appear here"
           }
         }
       }
@@ -95,7 +84,29 @@
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Notification Centre"
+            "value" : "Messages"
+          }
+        }
+      }
+    },
+    "notificationCentreSectionOlder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Last 30 days"
+          }
+        }
+      }
+    },
+    "notificationCentreSectionRecent" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recent"
           }
         }
       }
@@ -128,7 +139,7 @@
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "We’re unable to load your notifications right now. Try again later."
+            "value" : "Try again later"
           }
         }
       }
@@ -150,7 +161,29 @@
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sorry, there is a problem"
+            "value" : "Messages are not working"
+          }
+        }
+      }
+    },
+    "notificationNoInternetBody" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reconnect and try again."
+          }
+        }
+      }
+    },
+    "notificationNoInternetTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You are not connected to the internet"
           }
         }
       }
@@ -184,6 +217,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sent: %@"
+          }
+        }
+      }
+    },
+    "notificationsFooter" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Messages are deleted after 30 days."
           }
         }
       }

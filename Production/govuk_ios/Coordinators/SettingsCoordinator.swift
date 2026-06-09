@@ -25,7 +25,9 @@ class SettingsCoordinator: TabItemCoordinator {
          authenticationService: AuthenticationServiceInterface,
          notificationService: NotificationServiceInterface,
          localAuthenticationService: LocalAuthenticationServiceInterface,
-         appConfigService: AppConfigServiceInterface) {
+         appConfigService: AppConfigServiceInterface,
+         userService: UserServiceInterface,
+         notificationCentreService: NotificationCentreServiceInterface) {
         self.viewControllerBuilder = viewControllerBuilder
         self.deeplinkStore = deeplinkStore
         self.analyticsService = analyticsService
@@ -42,7 +44,9 @@ class SettingsCoordinator: TabItemCoordinator {
             notificationService: notificationService,
             notificationCenter: .default,
             localAuthenticationService: localAuthenticationService,
-            appConfigService: appConfigService
+            appConfigService: appConfigService,
+            userService: userService,
+            notificationCentreService: notificationCentreService
         )
         super.init(navigationController: navigationController)
         setViewModelActions()
