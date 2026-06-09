@@ -243,4 +243,61 @@ struct ChatCoordinatorTests {
         #expect(firstViewController == expectedViewController)
         #expect(!sut.isShowingError)
     }
+
+    @Test
+    @MainActor
+    func didSelectTab_onboardingNotSeen_showsOnboarding() async throws {
+        let mockChatService = MockChatService()
+        mockChatService.chatOnboardingSeen = false
+        let mockCoordinatorBuilder = MockCoordinatorBuilder(container: .init())
+        let mockViewControllerBuilder = MockViewControllerBuilder()
+        let expectedViewController = UIViewController()
+        mockViewControllerBuilder._stubbedChatInfoOnboardingController = expectedViewController
+        let navigationController = MockNavigationController()
+        let sut = ChatCoordinator(
+            navigationController: navigationController,
+            coordinatorBuilder: mockCoordinatorBuilder,
+            viewControllerBuilder: mockViewControllerBuilder,
+            deepLinkStore: DeeplinkDataStore(routes: [], root: UIViewController()),
+            analyticsService: MockAnalyticsService(),
+            chatService: mockChatService,
+            authenticationService: MockAuthenticationService(),
+            cancelOnboardingAction: { }
+        )
+
+        sut.didSelectTab(1, previousTabIndex: 0)
+        try await Task.sleep(for: .seconds(1))
+        #expect(navigationController._presentedViewController != nil)
+        #expect(!sut.isShowingError)
+    }
+
+    @Test
+    @MainActor
+    func routeForURL() async {
+        let mockChatService = MockChatService()
+        mockChatService.chatOnboardingSeen = false
+        let mockCoordinatorBuilder = MockCoordinatorBuilder(container: .init())
+        let mockViewControllerBuilder = MockViewControllerBuilder()
+        let expectedViewController = UIViewController()
+        mockViewControllerBuilder._stubbedChatInfoOnboardingController = expectedViewController
+        let navigationController = UINavigationController()
+
+        let sut = ChatCoordinator(
+            navigationController: navigationController,
+            coordinatorBuilder: mockCoordinatorBuilder,
+            viewControllerBuilder: mockViewControllerBuilder,
+            deepLinkStore: DeeplinkDataStore.chat(
+                coordinatorBuilder: mockCoordinatorBuilder,
+                root: navigationController
+            ),
+            analyticsService: MockAnalyticsService(),
+            chatService: mockChatService,
+            authenticationService: MockAuthenticationService(),
+            cancelOnboardingAction: { }
+        )
+
+        let route = sut.route(for: URL(string: "govuk://gov.uk/chat")!)
+        #expect(route!.route.pattern == "/chat")
+    }
+
 }
