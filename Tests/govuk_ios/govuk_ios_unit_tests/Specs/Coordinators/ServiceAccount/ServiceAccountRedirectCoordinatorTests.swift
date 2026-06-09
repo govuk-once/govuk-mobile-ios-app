@@ -11,13 +11,11 @@ struct ServiceAccountRedirectCoordinatorTests {
     func start_setsLinkView() {
         let mockNavigationController = MockNavigationController()
         let mockAnalyticsService = MockAnalyticsService()
-        let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let expectedViewController = UIViewController()
         mockViewControllerBuilder._stubbedServiceAccountLinkingController = expectedViewController
         let sut = ServiceAccountRedirectCoordinator(
             navigationController: mockNavigationController,
-            coordinatorBuilder: mockCoordinatorBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
             analyticsService: mockAnalyticsService,
             userService: MockUserService(),
@@ -34,12 +32,10 @@ struct ServiceAccountRedirectCoordinatorTests {
     func linkAccountComplete_showsLinkSuccess() {
         let mockNavigationController = MockNavigationController()
         let mockAnalyticsService = MockAnalyticsService()
-        let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let mockNotificationCenter = MockNotificationCenter()
         let sut = ServiceAccountRedirectCoordinator(
             navigationController: mockNavigationController,
-            coordinatorBuilder: mockCoordinatorBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
             analyticsService: mockAnalyticsService,
             userService: MockUserService(),
@@ -63,12 +59,10 @@ struct ServiceAccountRedirectCoordinatorTests {
     func linkAccountDismiss_dismissedView() {
         let mockNavigationController = MockNavigationController()
         let mockAnalyticsService = MockAnalyticsService()
-        let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let mockNotificationCenter = MockNotificationCenter()
         let sut = ServiceAccountRedirectCoordinator(
             navigationController: mockNavigationController,
-            coordinatorBuilder: mockCoordinatorBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
             analyticsService: mockAnalyticsService,
             userService: MockUserService(),

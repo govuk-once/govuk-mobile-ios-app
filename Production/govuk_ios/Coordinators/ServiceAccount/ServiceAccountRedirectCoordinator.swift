@@ -3,7 +3,6 @@ import UIKit
 import GovKit
 
 final class ServiceAccountRedirectCoordinator: BaseCoordinator {
-    private let coordinatorBuilder: CoordinatorBuilder
     private let viewControllerBuilder: ViewControllerBuilder
     private let analyticsService: AnalyticsServiceInterface
     private let userService: UserServiceInterface
@@ -12,14 +11,12 @@ final class ServiceAccountRedirectCoordinator: BaseCoordinator {
     private let token: String
 
     init(navigationController: UINavigationController,
-         coordinatorBuilder: CoordinatorBuilder,
          viewControllerBuilder: ViewControllerBuilder,
          analyticsService: AnalyticsServiceInterface,
          userService: UserServiceInterface,
          accountType: ServiceAccountType,
          token: String,
          notificationCenter: NotificationCenter) {
-        self.coordinatorBuilder = coordinatorBuilder
         self.viewControllerBuilder = viewControllerBuilder
         self.analyticsService = analyticsService
         self.userService = userService

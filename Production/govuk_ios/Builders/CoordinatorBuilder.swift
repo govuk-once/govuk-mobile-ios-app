@@ -563,7 +563,6 @@ class CoordinatorBuilder {
     ) -> BaseCoordinator {
         ServiceAccountRedirectCoordinator(
             navigationController: navigationController,
-            coordinatorBuilder: self,
             viewControllerBuilder: ViewControllerBuilder(),
             analyticsService: container.analyticsService.resolve(),
             userService: container.userService.resolve(),
