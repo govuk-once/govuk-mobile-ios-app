@@ -110,6 +110,13 @@ struct BaseCoordinatorTests {
                 continuation.resume(returning: true)
             }
             navigationController.popViewController(animated: false)
+            // This fixes the timeout issue seen when running this test
+            // in CI/CD.  The underlying reason for the time out is that
+            // the childDidFinishHandler relies on navigationController:didShow:animated
+            // delegate method being invoked after popping the viewController,
+            // which would often fail because the view heirarchy didn't get a chance
+            // to get in the right state for the call back to happen
+            RunLoop.current.run(until: Date(timeIntervalSinceNow: 0.1))
         }
 
         #expect(completed)
@@ -127,12 +134,15 @@ struct BaseCoordinatorTests {
     }
 
     @Test
-    func presentCoordinator_startsCoordinator() {
+    func presentCoordinator_startsCoordinator() throws {
         let childNavigationController = UINavigationController()
         let child = MockBaseCoordinator(navigationController: childNavigationController)
 
         let navigationController = MockNavigationController()
         let subject = TestCoordinator(navigationController: navigationController)
+        let window = try #require(UIApplication.shared.window)
+        window.rootViewController = navigationController
+        window.makeKeyAndVisible()
 
         subject.present(
             child,
@@ -144,16 +154,19 @@ struct BaseCoordinatorTests {
     }
 
     @Test
-    func dismiss_modal_callsDismiss() {
+    func dismiss_modal_callsDismiss() throws {
         let mockNavigationController = MockNavigationController()
         let subject = TestCoordinator(navigationController: mockNavigationController)
 
         let parentNavigationController = UINavigationController()
         let parent = MockBaseCoordinator(navigationController: parentNavigationController)
+        let window = try #require(UIApplication.shared.window)
+        window.rootViewController = parentNavigationController
+        window.makeKeyAndVisible()
+
         parent.present(subject, animated: false)
 
         mockNavigationController._stubbedPresentingViewController = parentNavigationController
-
         subject.dismiss(animated: false)
 
         #expect(mockNavigationController._dismissCalled)
