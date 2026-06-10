@@ -11,13 +11,3 @@ struct DrivingLicence: Codable {
     let licence: Licence
     let token: DrivingLicenceToken
 }
-
-struct Licence: Codable {
-    let type: String
-    let status: String
-}
-
-struct DrivingLicenceToken: Codable {
-    let validFromDate: Date
-    let validToDate: Date
-}

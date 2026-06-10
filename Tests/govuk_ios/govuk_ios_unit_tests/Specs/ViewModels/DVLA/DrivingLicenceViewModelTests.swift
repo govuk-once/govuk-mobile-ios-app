@@ -1,0 +1,62 @@
+import Foundation
+import Testing
+
+@testable import govuk_ios
+@testable import GovKit
+
+@Suite
+struct DrivingLicenceViewModelTests {
+
+    var mockAnalyticsService: MockAnalyticsService!
+    var mockDvlaService: MockDVLAService!
+
+    init() {
+        mockAnalyticsService = MockAnalyticsService()
+        mockDvlaService = MockDVLAService()
+    }
+
+    @Test
+    func viewDidAppear_fetchesLicence() async {
+        mockDvlaService._stubbedFetchDriverSummaryResult = .success(.arrange)
+        let sut = DrivingLicenceViewModel(
+            analyticsService: mockAnalyticsService,
+            dvlaService: mockDvlaService
+        )
+        await sut.viewDidAppear()
+        #expect(mockDvlaService._fetchDriverSummaryCallCount == 1)
+    }
+
+    @Test
+    func viewDidAppear_fetchLicenceSuccess_createsDrivingLicenceSummaryViewModel() async throws {
+        mockDvlaService._stubbedFetchDriverSummaryResult = .success(
+            .arrange(licenceNo: "ABC123DE")
+        )
+        let sut = DrivingLicenceViewModel(
+            analyticsService: mockAnalyticsService,
+            dvlaService: mockDvlaService
+        )
+        await sut.viewDidAppear()
+        var licenceSummaryViewModel: DrivingLicenceSummaryViewModel?
+        if case .loaded(let licenceSummary) = sut.viewState {
+            licenceSummaryViewModel = licenceSummary
+        }
+        let unwrappedLicenceSummaryViewModel = try #require(licenceSummaryViewModel)
+        #expect(unwrappedLicenceSummaryViewModel.licenceNumber == "ABC123DE")
+    }
+
+    @Test
+    func viewDidAppear_fetchLicenceFailure_createsErrorViewModel() async throws {
+        mockDvlaService._stubbedFetchDriverSummaryResult = .failure(.apiUnavailable)
+        let sut = DrivingLicenceViewModel(
+            analyticsService: mockAnalyticsService,
+            dvlaService: mockDvlaService
+        )
+        await sut.viewDidAppear()
+        var errorViewModel: AppErrorViewModel?
+        if case .error(let error) = sut.viewState {
+            errorViewModel = error
+        }
+        #expect(errorViewModel?.title == String.common.localized("genericErrorTitle"))
+    }
+}
+

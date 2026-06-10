@@ -133,6 +133,72 @@
         }
       }
     },
+    "licenceAddressAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Address on licence: %@ "
+          }
+        }
+      }
+    },
+    "licenceFullNameAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name on licence: %@ "
+          }
+        }
+      }
+    },
+    "licenceNumberAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Licence number: "
+          }
+        }
+      }
+    },
+    "licenceStatusAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Licence: %@ "
+          }
+        }
+      }
+    },
+    "licenceType" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ licence"
+          }
+        }
+      }
+    },
+    "licenceTypeAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Licence type: %@ "
+          }
+        }
+      }
+    },
     "linkAccountFullScreenDescriptionTop" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -140,6 +206,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Keep track of your penalty points, tax and MOT dates."
+          }
+        }
+      }
+    },
+    "loadingLicenceAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading licence information"
           }
         }
       }

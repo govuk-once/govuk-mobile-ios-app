@@ -8,7 +8,9 @@ struct VehicleSummaryViewModel: Identifiable {
     let vehicleModel: String
     let taxStatusViewModel: ValidityStatusViewModel
     let motStatusViewModel: ValidityStatusViewModel
+}
 
+extension VehicleSummaryViewModel {
     init(
         vehicle: CustomerSummary.Vehicle,
         statusFormatter: DVLAValidityStatusFormatter = DVLAValidityStatusFormatter()
