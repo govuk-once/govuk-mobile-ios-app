@@ -6,6 +6,7 @@ import Testing
 
 @testable import govuk_ios
 
+@Suite(.serialized)
 struct QualtricsServiceTests {
 
     @Test
@@ -14,7 +15,8 @@ struct QualtricsServiceTests {
         _ = QualtricsService(
             brandId: "",
             projectId: "",
-            qualtrics: mockQualtrics
+            qualtrics: mockQualtrics,
+            firebaseAnalytics: MockFirebaseAnalytics.self
         )
 
         #expect(mockQualtrics._didInitializeProject)
@@ -22,19 +24,20 @@ struct QualtricsServiceTests {
 
     @Test
     @MainActor
-    func evaluateViewEvent_presentsSurveyIfTargetValid() {
+    func evaluateViewEvent_presentsSurveyIfTargetValid() async {
         let mockQualtrics = MockQualtricsWrapper()
         let sut = QualtricsService(
             brandId: "",
             projectId: "",
             qualtrics: mockQualtrics,
+            firebaseAnalytics: MockFirebaseAnalytics.self,
             presentationController: UIViewController()
         )
 
         let targetResult = MockTargetingResult()
         targetResult._stubbedTargetPassed = true
         mockQualtrics._stubbedTargetingResults = ["interceptId": targetResult]
-        sut.evaluateViewEvent(
+        await sut.evaluateViewEvent(
             screenName: "Test screen",
             params: ["test_key": "test_value"]
         )
@@ -45,12 +48,13 @@ struct QualtricsServiceTests {
 
     @Test
     @MainActor
-    func evaluateClickEvent_presentsSurveyIfTargetValid() {
+    func evaluateClickEvent_presentsSurveyIfTargetValid() async {
         let mockQualtrics = MockQualtricsWrapper()
         let sut = QualtricsService(
             brandId: "",
             projectId: "",
             qualtrics: mockQualtrics,
+            firebaseAnalytics: MockFirebaseAnalytics.self,
             presentationController: UIViewController()
         )
 
@@ -58,7 +62,7 @@ struct QualtricsServiceTests {
         targetResult._stubbedTargetPassed = true
         targetResult._stubbedSurveyUrl = "http://www.example.com"
         mockQualtrics._stubbedTargetingResults = ["interceptId": targetResult]
-        sut.evaluateClickEvent(
+        await sut.evaluateClickEvent(
             params: ["test_key": "test_value"]
         )
 
@@ -67,20 +71,21 @@ struct QualtricsServiceTests {
 
     @Test
     @MainActor
-    func qualtricPropertiesRefreshedForEachEvent() {
+    func qualtricPropertiesRefreshedForEachEvent() async {
         let mockQualtrics = MockQualtricsWrapper()
         let sut = QualtricsService(
             brandId: "",
             projectId: "",
-            qualtrics: mockQualtrics
+            qualtrics: mockQualtrics,
+            firebaseAnalytics: MockFirebaseAnalytics.self
         )
 
-        sut.evaluateViewEvent(
+        await sut.evaluateViewEvent(
             screenName: "test_screen",
             params: ["screen_class": "test_class"]
         )
 
-        #expect(mockQualtrics.properties.count == 12)
+        #expect(mockQualtrics.properties.count == 14)
         for property in mockQualtrics.properties {
             switch property.key {
             case "screen_class":
@@ -90,10 +95,10 @@ struct QualtricsServiceTests {
             }
         }
 
-        sut.evaluateClickEvent(params: ["text": "Give feedback",
-                                        "url": "http://www.example.com"])
+        await sut.evaluateClickEvent(params: ["text": "Give feedback",
+                                              "url": "http://www.example.com"])
 
-        #expect(mockQualtrics.properties.count == 12)
+        #expect(mockQualtrics.properties.count == 14)
         for property in mockQualtrics.properties {
             switch property.key {
             case "text":
@@ -104,5 +109,44 @@ struct QualtricsServiceTests {
                 #expect(property.value == "")
             }
         }
+    }
+
+    @Test
+    @MainActor
+    func qualtricProperties_sendFirebaseIds() async {
+        let mockQualtrics = MockQualtricsWrapper()
+        let expectedSessionId: Int64 = 123
+        let expectedAppId = "appId"
+        let analtytics = MockFirebaseAnalytics.self
+        analtytics._stubbedSessionId = expectedSessionId
+        analtytics._stubbedAppInstanceId = expectedAppId
+        let sut = QualtricsService(
+            brandId: "",
+            projectId: "",
+            qualtrics: mockQualtrics,
+            firebaseAnalytics: analtytics
+        )
+
+        await sut.evaluateViewEvent(
+            screenName: "test_screen",
+            params: ["screen_class": "test_class"]
+        )
+
+        #expect(mockQualtrics.properties.count == 14)
+        for property in mockQualtrics.properties {
+            switch property.key {
+            case "screen_class":
+                #expect(property.value == "test_class")
+            case "ga_app_instance_id":
+                #expect(property.value == expectedAppId)
+            case "ga_session_id":
+                #expect(property.value == "\(expectedSessionId)")
+            default:
+                #expect(property.value == "")
+            }
+        }
+        analtytics._stubbedSessionId = nil
+        analtytics._stubbedAppInstanceId = nil
+
     }
 }
