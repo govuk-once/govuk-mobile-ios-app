@@ -13,6 +13,9 @@ class VehiclesViewModel: ObservableObject {
     private var hasLoadedVehicles = false
     private let analyticsService: AnalyticsServiceInterface
     private let dvlaService: DVLAServiceInterface
+    let loadingAccessibilityLabel = String.dvla.localized(
+        "loadingVehiclesAccessibilityLabel"
+    )
 
     init(viewState: ViewState = .loading,
          analyticsService: AnalyticsServiceInterface,

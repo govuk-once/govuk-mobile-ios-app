@@ -28,7 +28,7 @@ struct VehiclesView: View {
     private var loadingView: some View {
         ZStack {
             ProgressView()
-                .accessibilityLabel(String.dvla.localized("loadingVehiclesAccessibilityLabel"))
+                .accessibilityLabel(viewModel.loadingAccessibilityLabel)
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 86)
         }

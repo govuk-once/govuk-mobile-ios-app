@@ -15,7 +15,7 @@ struct DrivingLicenceSummaryView: View {
                 .padding(.vertical, Self.standardPadding)
                 .padding(.horizontal, Self.standardPadding)
                 .accessibilityLabel(
-                    Text(String.dvla.localized("licenceNumberAccessibilityLabel")) +
+                    Text(viewModel.licenceNumberAccessibilityLabelPrefix) +
                     Text(viewModel.licenceNumber.lowercased())
                         .speechSpellsOutCharacters()
                 )
@@ -25,7 +25,7 @@ struct DrivingLicenceSummaryView: View {
                     Button {
                         viewModel.copyToClipboardAction?(viewModel.licenceNumber)
                     } label: {
-                        Text(String.chat.localized("copyToClipboardTitle"))
+                        Text(viewModel.copyToClipboardButtonTitle)
                         Image(systemName: "doc.on.doc.fill")
                     }
                 }
@@ -56,7 +56,7 @@ struct DrivingLicenceSummaryView: View {
                     )
                     .foregroundColor(Color(UIColor.govUK.text.link))
             }
-            .accessibilityLabel(String.dvla.localized("moreOptionsButtonAccessibilityLabel"))
+            .accessibilityLabel(viewModel.moreOptionsButtonAccessibilityLabel)
         }
         .padding(.top, Self.standardPadding)
         .padding(.bottom, 8)

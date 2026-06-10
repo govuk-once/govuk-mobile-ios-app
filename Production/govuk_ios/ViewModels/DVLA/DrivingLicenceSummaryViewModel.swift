@@ -7,6 +7,15 @@ struct DrivingLicenceSummaryViewModel {
     let address: [String]
     let licenceStatusViewModel: ValidityStatusViewModel
 
+    let copyToClipboardButtonTitle = String.chat.localized(
+        "copyToClipboardTitle"
+    )
+    let moreOptionsButtonAccessibilityLabel = String.dvla.localized(
+        "moreOptionsButtonAccessibilityLabel"
+    )
+    let licenceNumberAccessibilityLabelPrefix = String.dvla.localized(
+        "licenceNumberAccessibilityLabel"
+    )
     let licenceTypeAccessibilityLabel: String
     let licenceStatusAccessibilityLabel: String
     let addressAccessibilityLabel: String
