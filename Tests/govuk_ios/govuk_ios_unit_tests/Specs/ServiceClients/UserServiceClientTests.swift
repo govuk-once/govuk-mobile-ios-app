@@ -199,31 +199,27 @@ struct UserServiceClientTests {
     }
 
     @Test
-    func fetchAccountLinkStatus_sendsExpectedRequest() async {
+    func fetchLinkedAccounts_sendsExpectedRequest() async {
         mockAPI._stubbedSendResponse = .success(Data())
-        let _ = await sut.fetchAccountLinkStatus(serviceName: "dvla")
-        #expect(mockAPI._receivedSendRequest?.urlPath == "/app/udp/v1/identity/dvla")
+        let _ = await sut.fetchLinkedAccounts()
+        #expect(mockAPI._receivedSendRequest?.urlPath == "/app/udp/v1/identity")
         #expect(mockAPI._receivedSendRequest?.method == .get)
     }
 
     @Test
-    func fetchAccountLinkStatus_success_returnsExpectedResult() async {
+    func fetchLinkedAccounts_success_returnsExpectedResult() async {
         mockAPI._stubbedSendResponse = .success(
-            UserServiceClientTests.accountLinkStatusResponseData
+            UserServiceClientTests.linkedAccountsResponseData
         )
-        let result = await sut.fetchAccountLinkStatus(
-            serviceName: "dvla"
-        )
-        let linkStatus = try! result.get()
-        #expect(linkStatus.linked == true)
+        let result = await sut.fetchLinkedAccounts()
+        let response = try! result.get()
+        #expect(response.services == [.dvla])
     }
 
     @Test
-    func fetchAccountLinkStatus_apiUnavailable_returnsExpectedError() async {
+    func fetchLinkedAccounts_apiUnavailable_returnsExpectedError() async {
         mockAPI._stubbedSendResponse = .failure(UserStateError.apiUnavailable)
-        let result = await sut.fetchAccountLinkStatus(
-            serviceName: "dvla"
-        )
+        let result = await sut.fetchLinkedAccounts()
         let error = result.getError()
         #expect(error == .apiUnavailable)
     }
@@ -249,10 +245,10 @@ private extension UserServiceClientTests {
     }
     """.data(using: .utf8)!
 
-    static let accountLinkStatusResponseData =
+    static let linkedAccountsResponseData =
     """
     {
-        "linked": true
+        "services": ["dvla"]
     }
     """.data(using: .utf8)!
 

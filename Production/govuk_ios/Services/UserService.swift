@@ -6,12 +6,11 @@ protocol UserServiceInterface {
                      completion: @escaping LinkAccountCompletion)
     func unlinkAccount(withType accountType: ServiceAccountType,
                        completion: @escaping UnlinkAccountCompletion)
-    @discardableResult
-    func fetchAccountLinkStatus(accountType: ServiceAccountType) async -> LinkStatusResult
+    func fetchLinkedAccounts() async -> Result<[ServiceAccountType], UserStateError>
     var pushId: String? { get }
     var notificationsConsentStatus: ConsentStatus? { get }
     var isEnabled: Bool { get }
-    var isDvlaAccountLinked: Bool? { get }
+    var linkedAccounts: [ServiceAccountType]? { get }
 }
 
  class UserService: UserServiceInterface {
@@ -30,8 +29,8 @@ protocol UserServiceInterface {
          userState?.notifications.consentStatus
      }
 
-     // temporary, convert to dictionary look up when we have more accounts?
-     var isDvlaAccountLinked: Bool?
+     // lets move this out of here in the future
+     var linkedAccounts: [ServiceAccountType]?
 
      init(appConfigService: AppConfigServiceInterface,
           userServiceClient: UserServiceClientInterface) {
@@ -77,7 +76,7 @@ protocol UserServiceInterface {
             token: token,
             completion: { [weak self] result in
                 if case .success = result {
-                    self?.isDvlaAccountLinked = true
+                    self?.addLinkedAccount(accountType)
                 }
                 completion(result)
             }
@@ -90,22 +89,35 @@ protocol UserServiceInterface {
             serviceName: accountType.rawValue,
             completion: { [weak self] result in
                 if case .success = result {
-                    self?.isDvlaAccountLinked = false
+                    self?.removeLinkedAccount(accountType)
                 }
                 completion(result)
             }
          )
      }
 
-     func fetchAccountLinkStatus(
-        accountType: ServiceAccountType
-     ) async -> LinkStatusResult {
-         let result = await userServiceClient.fetchAccountLinkStatus(
-            serviceName: accountType.rawValue
-         )
-         if case .success(let status) = result {
-             isDvlaAccountLinked = status.linked
+     func fetchLinkedAccounts() async -> Result<[ServiceAccountType], UserStateError> {
+         let result = await userServiceClient.fetchLinkedAccounts()
+         switch result {
+         case .success(let response):
+             self.linkedAccounts = response.services
+             return .success(response.services)
+         case .failure(let error):
+             return .failure(error)
          }
-         return result
+     }
+
+     private func addLinkedAccount(_ accountType: ServiceAccountType) {
+         if linkedAccounts == nil {
+             linkedAccounts = [accountType]
+         } else {
+             linkedAccounts?.append(accountType)
+         }
+     }
+
+     private func removeLinkedAccount(_ accountType: ServiceAccountType) {
+         if let indexOfAccount = linkedAccounts?.firstIndex(of: accountType) {
+             linkedAccounts?.remove(at: indexOfAccount)
+         }
      }
  }

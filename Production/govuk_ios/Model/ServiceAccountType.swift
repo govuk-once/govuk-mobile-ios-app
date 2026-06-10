@@ -1,5 +1,5 @@
 import Foundation
 
-enum ServiceAccountType: String {
+enum ServiceAccountType: String, Codable {
     case dvla
 }

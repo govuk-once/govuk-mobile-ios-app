@@ -5,38 +5,38 @@ import Testing
 struct YourAccountsViewModelTests {
 
     @Test
-    func fetchAccountLinkStatus_success_linked_updatesStateCorrectly() async {
+    func fetchLinkedAccounts_success_linked_updatesStateCorrectly() async {
         let mockUserService = MockUserService()
-        mockUserService._stubbedFetchAccountLinkStatusResult = .success(.arrangeLinked)
+        mockUserService._stubbedFetchLinkedAccountsResult = .success([.dvla])
 
         let sut = YourAccountsViewViewModel(
             userService: mockUserService
         )
-        await sut.fetchAccountLinkStatus()
+        await sut.fetchLinkedAccounts()
         #expect(sut.state == .success)
     }
 
     @Test
-    func fetchAccountLinkStatus_success_unliked_updatesStateCorrectly() async {
+    func fetchLinkedAccounts_success_unliked_updatesStateCorrectly() async {
         let mockUserService = MockUserService()
-        mockUserService._stubbedFetchAccountLinkStatusResult = .success(.arrangeUnlinked)
+        mockUserService._stubbedFetchLinkedAccountsResult = .success([])
 
         let sut = YourAccountsViewViewModel(
             userService: mockUserService
         )
-        await sut.fetchAccountLinkStatus()
+        await sut.fetchLinkedAccounts()
         #expect(sut.state == .empty)
     }
 
 
     @Test
-    func fetchAccountLinkStatus_failure_updatesStateCorrectly() async {
+    func fetchLinkedAccounts_failure_updatesStateCorrectly() async {
         let mockUserService = MockUserService()
-        mockUserService._stubbedFetchAccountLinkStatusResult = .failure(.apiUnavailable)
+        mockUserService._stubbedFetchLinkedAccountsResult = .failure(.apiUnavailable)
         let sut = YourAccountsViewViewModel(
             userService: mockUserService
         )
-        await sut.fetchAccountLinkStatus()
+        await sut.fetchLinkedAccounts()
         #expect(sut.state == .failure)
     }
 

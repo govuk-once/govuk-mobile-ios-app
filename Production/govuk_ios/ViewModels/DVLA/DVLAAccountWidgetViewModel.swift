@@ -37,7 +37,7 @@ class DVLAAccountWidgetViewModel: ObservableObject {
             queue: .main,
             using: { [weak self] _ in
                 Task { @MainActor in
-                    await self?.fetchLinkStatus()
+                    await self?.fetchLinkedAccounts()
                 }
             }
         )
@@ -45,20 +45,21 @@ class DVLAAccountWidgetViewModel: ObservableObject {
 
     @MainActor
     func viewDidAppear() async {
-        if let isAccountLinked = userService.isDvlaAccountLinked {
+        if let isAccountLinked = userService.linkedAccounts?.contains(.dvla) {
             update(isAccountLinked: isAccountLinked)
         } else {
-            await fetchLinkStatus()
+            await fetchLinkedAccounts()
         }
     }
 
     @MainActor
-    func fetchLinkStatus() async {
+    func fetchLinkedAccounts() async {
         viewState = .loading
-        let result = await userService.fetchAccountLinkStatus(accountType: .dvla)
+        let result = await userService.fetchLinkedAccounts()
         switch result {
-        case .success(let linkStatus):
-            update(isAccountLinked: linkStatus.linked)
+        case .success(let linkedAccounts):
+            let isDVLAAccountLinked = linkedAccounts.contains(.dvla)
+            update(isAccountLinked: isDVLAAccountLinked)
         case .failure:
             viewState = .error(dvlaAccountErrorViewModel)
         }
@@ -93,7 +94,7 @@ class DVLAAccountWidgetViewModel: ObservableObject {
 
     private var dvlaAccountErrorViewModel: AppErrorViewModel {
         AppErrorViewModel.dvlaAccountErrorWithAction { [weak self] in
-            Task { await self?.fetchLinkStatus() }
+            Task { await self?.fetchLinkedAccounts() }
         }
     }
 

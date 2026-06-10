@@ -17,9 +17,9 @@ struct DVLAAccountWidgetViewModelTests {
     }
 
     @Test
-    func viewDidAppear_whenAccountLinkStatusNotCached_fetchesLinkStatus() async {
-        mockUserService._stubbedFetchAccountLinkStatusResult = .success(.arrangeLinked)
-        mockUserService._stubbedIsDvlaAccountLinked = nil
+    func viewDidAppear_whenLinkedAccountsNotCached_fetchesLinkedAccounts() async {
+        mockUserService._stubbedFetchLinkedAccountsResult = .success([.dvla])
+        mockUserService._stubbedLinkedAccounts = nil
         let sut = DVLAAccountWidgetViewModel(
             analyticsService: mockAnalyticsService,
             userService: mockUserService,
@@ -27,12 +27,12 @@ struct DVLAAccountWidgetViewModelTests {
             actions: .empty
         )
         await sut.viewDidAppear()
-        #expect(mockUserService._fetchAccountLinkStatusCalled == true)
+        #expect(mockUserService._fetchLinkedAccountsCalled == true)
     }
 
     @Test
     func viewDidAppear_accountIsLinked_createsActionCards() async throws {
-        mockUserService._stubbedIsDvlaAccountLinked = true
+        mockUserService._stubbedLinkedAccounts = [.dvla]
         let sut = DVLAAccountWidgetViewModel(
             analyticsService: mockAnalyticsService,
             userService: mockUserService,
@@ -51,7 +51,7 @@ struct DVLAAccountWidgetViewModelTests {
 
     @Test
     func viewDidAppear_accountIsNotLinked_createsLinkCardViewModel() async throws {
-        mockUserService._stubbedIsDvlaAccountLinked = false
+        mockUserService._stubbedLinkedAccounts = []
         var linkActionCalled = false
         let sut = DVLAAccountWidgetViewModel(
             analyticsService: mockAnalyticsService,
@@ -82,7 +82,7 @@ struct DVLAAccountWidgetViewModelTests {
 
     @Test
     func linkCardViewModelAction_tracksNavigationEvent() async {
-        mockUserService._stubbedIsDvlaAccountLinked = false
+        mockUserService._stubbedLinkedAccounts = []
         let sut = DVLAAccountWidgetViewModel(
             analyticsService: mockAnalyticsService,
             userService: mockUserService,

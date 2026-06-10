@@ -10,7 +10,7 @@ final class YourAccountsViewControllerSnapshotTests: SnapshotTestCase {
 
     func test_loadInNavigationController_success_light_rendersCorrectly() {
         let mockUserService = MockUserService()
-        mockUserService._stubbedFetchAccountLinkStatusResult = .success(.arrangeUnlinked)
+        mockUserService._stubbedFetchLinkedAccountsResult = .success([.dvla])
 
         let viewModel = YourAccountsViewViewModel(
             userService: mockUserService
@@ -32,7 +32,7 @@ final class YourAccountsViewControllerSnapshotTests: SnapshotTestCase {
 
     func test_loadInNavigationController_success_dark_rendersCorrectly() {
         let mockUserService = MockUserService()
-        mockUserService._stubbedFetchAccountLinkStatusResult = .success(.arrangeUnlinked)
+        mockUserService._stubbedFetchLinkedAccountsResult = .success([.dvla])
 
         let viewModel = YourAccountsViewViewModel(
             userService: mockUserService
@@ -54,7 +54,7 @@ final class YourAccountsViewControllerSnapshotTests: SnapshotTestCase {
 
     func test_loadInNavigationController_failure_light_rendersCorrectly() {
         let mockUserService = MockUserService()
-        mockUserService._stubbedFetchAccountLinkStatusResult = .failure(.apiUnavailable)
+        mockUserService._stubbedFetchLinkedAccountsResult = .failure(.apiUnavailable)
         let viewModel = YourAccountsViewViewModel(
             userService: mockUserService
         )
@@ -75,7 +75,7 @@ final class YourAccountsViewControllerSnapshotTests: SnapshotTestCase {
 
     func test_loadInNavigationController_failure_dark_rendersCorrectly() {
         let mockUserService = MockUserService()
-        mockUserService._stubbedFetchAccountLinkStatusResult = .failure(.apiUnavailable)
+        mockUserService._stubbedFetchLinkedAccountsResult = .failure(.apiUnavailable)
 
         let viewModel = YourAccountsViewViewModel(
             userService: mockUserService
@@ -97,7 +97,7 @@ final class YourAccountsViewControllerSnapshotTests: SnapshotTestCase {
 
     func test_loadInNavigationController_empty_light_rendersCorrectly() {
         let mockUserService = MockUserService()
-        mockUserService._stubbedFetchAccountLinkStatusResult = .success(.arrangeUnlinked)
+        mockUserService._stubbedFetchLinkedAccountsResult = .success([])
         let viewModel = YourAccountsViewViewModel(
             userService: mockUserService
         )
@@ -118,7 +118,7 @@ final class YourAccountsViewControllerSnapshotTests: SnapshotTestCase {
 
     func test_loadInNavigationController_empty_dark_rendersCorrectly() {
         let mockUserService = MockUserService()
-        mockUserService._stubbedFetchAccountLinkStatusResult = .success(.arrangeUnlinked)
+        mockUserService._stubbedFetchLinkedAccountsResult = .success([])
 
         let viewModel = YourAccountsViewViewModel(
             userService: mockUserService

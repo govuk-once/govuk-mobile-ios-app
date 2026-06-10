@@ -3,9 +3,9 @@ import Foundation
 @testable import govuk_ios
 
 class MockUserService: UserServiceInterface {
-    var _stubbedIsDvlaAccountLinked: Bool?
-    var isDvlaAccountLinked: Bool? {
-        _stubbedIsDvlaAccountLinked
+    var _stubbedLinkedAccounts: [ServiceAccountType]?
+    var linkedAccounts: [ServiceAccountType]? {
+        _stubbedLinkedAccounts
     }
 
     var _stubbedIsEnabled: Bool = true
@@ -56,12 +56,12 @@ class MockUserService: UserServiceInterface {
         }
     }
 
-    var _fetchAccountLinkStatusCalled = false
-    var _stubbedFetchAccountLinkStatusResult: LinkStatusResult!
-    func fetchAccountLinkStatus(
-        accountType: ServiceAccountType
-    ) async -> LinkStatusResult {
-        _fetchAccountLinkStatusCalled = true
-        return _stubbedFetchAccountLinkStatusResult
+    var _fetchLinkedAccountsCalled = false
+    var _fetchLinkedAccountsCalledContinuation: CheckedContinuation<Void, Never>?
+    var _stubbedFetchLinkedAccountsResult: Result<[ServiceAccountType], UserStateError> = .success([])
+    func fetchLinkedAccounts() async -> Result<[ServiceAccountType], UserStateError> {
+        _fetchLinkedAccountsCalled = true
+        _fetchLinkedAccountsCalledContinuation?.resume()
+        return _stubbedFetchLinkedAccountsResult
     }
 }
