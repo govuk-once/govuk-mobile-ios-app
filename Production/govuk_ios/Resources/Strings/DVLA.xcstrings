@@ -144,6 +144,17 @@
         }
       }
     },
+    "licenceFullNameAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name on licence: %@ "
+          }
+        }
+      }
+    },
     "licenceNumberAccessibilityLabel" : {
       "extractionState" : "manual",
       "localizations" : {

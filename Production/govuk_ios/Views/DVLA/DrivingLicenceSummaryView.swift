@@ -75,6 +75,7 @@ struct DrivingLicenceSummaryView: View {
                     .multilineTextAlignment(.leading)
                     .padding(.top, Self.standardPadding)
                     .padding(.bottom, 4)
+                    .accessibilityLabel(viewModel.fullNameAccessibilityLabel)
                 VStack(alignment: .leading, spacing: 0) {
                     ForEach(viewModel.address, id: \.self) { addressLine in
                         Text(addressLine)
@@ -104,6 +105,7 @@ struct DrivingLicenceSummaryView: View {
             title: nil,
             status: "Valid until 1 March 2027"
         ),
+        fullNameAccessibilityLabel: "",
         licenceTypeAccessibilityLabel: "",
         licenceStatusAccessibilityLabel: "",
         addressAccessibilityLabel: ""

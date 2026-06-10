@@ -16,6 +16,7 @@ struct DrivingLicenceSummaryViewModel {
     let licenceNumberAccessibilityLabelPrefix = String.dvla.localized(
         "licenceNumberAccessibilityLabel"
     )
+    let fullNameAccessibilityLabel: String
     let licenceTypeAccessibilityLabel: String
     let licenceStatusAccessibilityLabel: String
     let addressAccessibilityLabel: String
@@ -34,7 +35,7 @@ extension DrivingLicenceSummaryViewModel {
         self.licenceType = licenceType
 
         self.licenceNumber = driverSummary.response.driver.licenceNo
-        self.fullName = [
+        let fullName = [
             driverSummary.response.driver.title,
             driverSummary.response.driver.firstNames,
             driverSummary.response.driver.lastName
@@ -42,6 +43,7 @@ extension DrivingLicenceSummaryViewModel {
         .compactMap { $0 }
         .joined(separator: " ")
         .capitalized
+        self.fullName = fullName
         let driverAddress = driverSummary.response.driver.address.unstructuredAddress
         let addressArray = [
             driverAddress.line1?.capitalized,
@@ -60,6 +62,10 @@ extension DrivingLicenceSummaryViewModel {
         self.licenceStatusViewModel = ValidityStatusViewModel(
             title: nil,
             status: licenceStatus
+        )
+        self.fullNameAccessibilityLabel = .localizedStringWithFormat(
+            String.dvla.localized("licenceFullNameAccessibilityLabel"),
+            fullName
         )
         self.licenceTypeAccessibilityLabel = .localizedStringWithFormat(
             String.dvla.localized("licenceTypeAccessibilityLabel"),
