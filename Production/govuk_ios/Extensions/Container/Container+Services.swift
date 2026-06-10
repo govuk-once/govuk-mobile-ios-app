@@ -69,7 +69,8 @@ extension Container {
             QualtricsService(
                 brandId: "yourBrandId",
                 projectId: "yourProjectId",
-                qualtrics: Qualtrics.shared
+                qualtrics: Qualtrics.shared,
+                firebaseAnalytics: Analytics.self
             )
         }
     }

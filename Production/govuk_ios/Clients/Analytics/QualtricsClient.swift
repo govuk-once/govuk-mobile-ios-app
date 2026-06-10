@@ -22,17 +22,20 @@ struct QualtricsClient: AnalyticsClient {
                     .compactMapValues({ $0 as? String }),
                 uniquingKeysWith: { param, _ in param }
             )
-
-        qualtricsService.evaluateViewEvent(
-            screenName: screen.trackingName,
-            params: params
-        )
+        Task {
+            await qualtricsService.evaluateViewEvent(
+                screenName: screen.trackingName,
+                params: params
+            )
+        }
     }
 
     func track(event: GovKit.AppEvent) {
         guard !event.isEcommerceEvent else { return }
         let params: [String: String] = event.params?.compactMapValues( { $0 as? String }) ?? [:]
-        qualtricsService.evaluateClickEvent(params: params)
+        Task {
+            await qualtricsService.evaluateClickEvent(params: params)
+        }
     }
 
     func launch() { /* Do nothing */ }

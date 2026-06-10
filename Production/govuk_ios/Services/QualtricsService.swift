@@ -6,8 +6,8 @@ protocol QualtricsServiceInterface {
     func evaluateViewEvent(
         screenName: String,
         params: [String: String]
-    )
-    func evaluateClickEvent(params: [String: String])
+    ) async
+    func evaluateClickEvent(params: [String: String]) async
 }
 
 struct QualtricsService: QualtricsServiceInterface {
@@ -16,6 +16,7 @@ struct QualtricsService: QualtricsServiceInterface {
     private let qualtrics: QualtricsWrapperInterface
     // presentationController is for testing only
     private let presentationController: UIViewController?
+    private let firebaseAnalytics: FirebaseAnalyticsInterface.Type
 
     private var surveyController: UIViewController? {
         if let controller = presentationController {
@@ -35,12 +36,14 @@ struct QualtricsService: QualtricsServiceInterface {
         brandId: String,
         projectId: String,
         qualtrics: QualtricsWrapperInterface,
+        firebaseAnalytics: FirebaseAnalyticsInterface.Type,
         completion: QualtricsInitializationResult? = nil,
         presentationController: UIViewController? = nil
     ) {
         self.brandId = brandId
         self.projectId = projectId
         self.qualtrics = qualtrics
+        self.firebaseAnalytics = firebaseAnalytics
         self.presentationController = presentationController
         qualtrics.initializeProject(
             brandId: brandId,
@@ -53,8 +56,8 @@ struct QualtricsService: QualtricsServiceInterface {
     func evaluateViewEvent(
         screenName: String,
         params: [String: String]
-    ) {
-        setQualtricsProperties(params)
+    ) async {
+        await setQualtricsProperties(params)
         qualtrics.registerViewVisit(viewName: screenName)
         qualtrics.evaluateProjectTargets { targetingResults in
             guard targetingResults.first(
@@ -71,8 +74,8 @@ struct QualtricsService: QualtricsServiceInterface {
         }
     }
 
-    func evaluateClickEvent(params: [String: String]) {
-        setQualtricsProperties(params)
+    func evaluateClickEvent(params: [String: String]) async {
+        await setQualtricsProperties(params)
         qualtrics.evaluateProjectTargets { targetingResults in
             guard let targetingResultDict = targetingResults.first(
                 where: { result in
@@ -124,7 +127,7 @@ struct QualtricsService: QualtricsServiceInterface {
 
     private func qualtricsParams(
         from parameters: [String: String]
-    ) -> [String: String] {
+    ) async -> [String: String] {
         var newParameters = [String: String]()
         analyticsParameterKeys.forEach { key in
             newParameters[key] = parameters[key] ?? ""
@@ -132,10 +135,17 @@ struct QualtricsService: QualtricsServiceInterface {
         return newParameters
     }
 
-    private func setQualtricsProperties(_ params: [String: String]) {
-        let qualtricsParams = qualtricsParams(from: params)
+    private func setQualtricsProperties(_ params: [String: String]) async {
+        let qualtricsParams = await qualtricsParams(from: params)
         for (key, value) in qualtricsParams {
             qualtrics.setString(string: value, for: key)
         }
+        var gaSessionId = ""
+        if let sessionId = try? await firebaseAnalytics.sessionID() {
+            gaSessionId = "\(sessionId)"
+        }
+        qualtrics.setString(string: gaSessionId, for: "ga_session_id")
+        let appInstanceId = firebaseAnalytics.appInstanceID()
+        qualtrics.setString(string: appInstanceId ?? "", for: "ga_app_instance_id")
     }
 }
