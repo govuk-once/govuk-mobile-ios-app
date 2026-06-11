@@ -22,6 +22,7 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>govuk</string>
+				<string>tagmanager.c.com.govuk.govuk</string>
 			</array>
 		</dict>
 	</array>
