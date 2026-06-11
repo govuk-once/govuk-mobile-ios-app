@@ -65,7 +65,7 @@ protocol UserServiceInterface {
                  print(error.localizedDescription)
              }
          }
-        */
+         */
      }
 
      func linkAccount(withType accountType: ServiceAccountType,
