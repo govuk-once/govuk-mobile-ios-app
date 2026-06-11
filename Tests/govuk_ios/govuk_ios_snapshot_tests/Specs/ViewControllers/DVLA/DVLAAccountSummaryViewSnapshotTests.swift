@@ -6,29 +6,13 @@ import GovKit
 @testable import govuk_ios
 
 @MainActor class DVLAAccountSummaryViewSnapshotTests: SnapshotTestCase {
-<<<<<<< HEAD
     func test_vehicleTabSelected_light_rendersCorrectly() {
-=======
-    func test_vehiclesAndLicenceView_light_rendersCorrectly() {
->>>>>>> feature/dvla
         let mockVehiclesViewModel = MockVehiclesViewModel(
             viewState: .loaded(
                 vehicles: [
                     VehicleSummaryViewModel(vehicle: .arrange)
                 ]
             )
-<<<<<<< HEAD
-=======
-        )
-        let mockLicenceViewModel = MockDrivingLicenceViewModel(
-            viewState: .loaded(
-                licence: DrivingLicenceSummaryViewModel(driverSummary: .arrange)
-            )
-        )
-        let viewModel = MockDVLAAccountSummaryViewModel(
-            vehiclesViewModel: mockVehiclesViewModel,
-            licenceViewModel: mockLicenceViewModel
->>>>>>> feature/dvla
         )
         let mockLicenceViewModel = MockDrivingLicenceViewModel(
             viewState: .loaded(
@@ -50,7 +34,6 @@ import GovKit
             mode: .light
         )
     }
-<<<<<<< HEAD
 
     func test_vehicleTabSelected_dark_rendersCorrectly() {
         let mockVehiclesViewModel = MockVehiclesViewModel(
@@ -81,7 +64,7 @@ import GovKit
         )
     }
 
-    func test_licenceView_dark_rendersCorrectly() {
+    func test_licenceTabSelected_dark_rendersCorrectly() {
         let mockVehiclesViewModel = MockVehiclesViewModel(
             viewState: .loaded(
                 vehicles: [
@@ -111,7 +94,7 @@ import GovKit
         )
     }
 
-    func test_licenceView_light_rendersCorrectly() {
+    func test_licenceTabSelected_light_rendersCorrectly() {
         let mockVehiclesViewModel = MockVehiclesViewModel(
             viewState: .loaded(
                 vehicles: [
@@ -140,7 +123,5 @@ import GovKit
             mode: .light
         )
     }
-=======
->>>>>>> feature/dvla
 }
 
