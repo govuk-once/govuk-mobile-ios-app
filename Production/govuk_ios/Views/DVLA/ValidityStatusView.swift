@@ -10,9 +10,11 @@ struct ValidityStatusView: View {
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 8) {
-                Text(viewModel.title)
-                    .font(.govUK.title3Semibold)
-                    .multilineTextAlignment(.leading)
+                if let title = viewModel.title {
+                    Text(title)
+                        .font(.govUK.title3Semibold)
+                        .multilineTextAlignment(.leading)
+                }
                 Text("\(viewModel.status)")
                     .multilineTextAlignment(.leading)
             }

@@ -27,20 +27,6 @@ class DVLAAccountWidgetViewModel: ObservableObject {
         self.userService = userService
         self.dvlaService = dvlaService
         self.actions = actions
-        addObservers()
-    }
-
-    private func addObservers() {
-        NotificationCenter.default.addObserver(
-            forName: .init(rawValue: "dvla-account-linked"),
-            object: nil,
-            queue: .main,
-            using: { [weak self] _ in
-                Task { @MainActor in
-                    await self?.fetchLinkedAccounts()
-                }
-            }
-        )
     }
 
     @MainActor
@@ -67,9 +53,17 @@ class DVLAAccountWidgetViewModel: ObservableObject {
 
     private func update(isAccountLinked: Bool) {
         if isAccountLinked {
-            let accountSummaryViewModel = DVLAAccountSummaryViewModel(
+            let vehiclesViewModel = VehiclesViewModel(
                 analyticsService: analyticsService,
                 dvlaService: dvlaService
+            )
+            let licenceViewModel = DrivingLicenceViewModel(
+                analyticsService: analyticsService,
+                dvlaService: dvlaService
+            )
+            let accountSummaryViewModel = DVLAAccountSummaryViewModel(
+                vehiclesViewModel: vehiclesViewModel,
+                licenceViewModel: licenceViewModel
             )
             viewState = .linked(
                 actionCards: accountActionCards,

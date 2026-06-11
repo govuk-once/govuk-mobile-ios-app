@@ -31,7 +31,7 @@ struct DVLAAccountWidgetViewModelTests {
     }
 
     @Test
-    func viewDidAppear_accountIsLinked_createsActionCards() async throws {
+    func viewDidAppear_accountIsLinked_updatesStateToLinked() async throws {
         mockUserService._stubbedLinkedAccounts = [.dvla]
         let sut = DVLAAccountWidgetViewModel(
             analyticsService: mockAnalyticsService,
@@ -42,11 +42,14 @@ struct DVLAAccountWidgetViewModelTests {
         await sut.viewDidAppear()
 
         var actionCards: [ListCardViewModel]?
-        if case .linked(let cards,_) = sut.viewState {
+        var accountSummaryViewModel: DVLAAccountSummaryViewModel?
+        if case .linked(let cards, let accountSummary) = sut.viewState {
             actionCards = cards
+            accountSummaryViewModel = accountSummary
         }
         #expect(actionCards?.count == 6)
         #expect(actionCards?.first?.title == String.dvla.localized("dvlaAccountUnlinkCardTitle"))
+        #expect(accountSummaryViewModel != nil)
     }
 
     @Test
