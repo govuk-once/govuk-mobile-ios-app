@@ -74,6 +74,10 @@ class Configuration
     ENV['GOOGLE_SERVICES_FILE']
   end
 
+  def app_google_tag_manager_file
+    ENV['GOOGLE_TAG_MANAGER_FILE']
+  end
+
   def app_additional_swift_flags
     setting(:app, :additional_swift_flags)
   end
