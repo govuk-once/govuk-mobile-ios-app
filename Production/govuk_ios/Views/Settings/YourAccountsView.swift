@@ -4,6 +4,7 @@ import GovKit
 
 struct YourAccountsView: View {
     @StateObject var viewModel: YourAccountsViewViewModel
+    @State var isEditMode = false
 
     init(viewModel: YourAccountsViewViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
@@ -78,6 +79,10 @@ struct YourAccountsView: View {
         VStack {
             VStack {
                 HStack {
+                    if isEditMode {
+                        Text("x")
+                            .onTapGesture {}
+                    }
                     Text(viewModel.yourAccountsCardTitle)
                         .font(Font.govUK.body)
                         .multilineTextAlignment(.leading)
@@ -99,9 +104,15 @@ struct YourAccountsView: View {
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button(
-                    action: {},
+                    action: {
+                        isEditMode.toggle()
+                    },
                     label: {
-                        Text(viewModel.editButtonTitle)
+                        if isEditMode {
+                            Image(systemName: "check.circle")
+                        } else {
+                            Text(viewModel.editButtonTitle)
+                        }
                     }
                 )
             }
