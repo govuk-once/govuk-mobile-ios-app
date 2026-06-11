@@ -74,7 +74,7 @@ final class UserServiceTests {
                               userServiceClient: mockUserServiceClient)
 
         sut.setNotificationsConsent(.accepted)
-        #expect(mockUserServiceClient._receivedNotificationConsent ==  nil)
+        #expect(mockUserServiceClient._receivedNotificationConsent == nil)
     }
 
     @Test
