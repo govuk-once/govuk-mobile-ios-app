@@ -5,6 +5,7 @@ import GovKit
 struct YourAccountsView: View {
     @StateObject var viewModel: YourAccountsViewViewModel
     @State var isEditMode = false
+    @State private var showAlert = false
 
     init(viewModel: YourAccountsViewViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
@@ -81,12 +82,20 @@ struct YourAccountsView: View {
                 HStack {
                     if isEditMode {
                         Text("x")
-                            .onTapGesture {}
+                            .onTapGesture {
+                                showAlert.toggle()
+                            }
                     }
                     Text(viewModel.yourAccountsCardTitle)
                         .font(Font.govUK.body)
                         .multilineTextAlignment(.leading)
                         .foregroundColor(Color(UIColor.govUK.text.primary))
+                        .alert("Important!", isPresented: $showAlert) {
+                                Button("Option 1", role: .cancel) { }
+                                Button("Option 2", role: .destructive) { }
+                        } message: {
+                            Text("Do you want to proceed?")
+                        }
                     Spacer()
                 }
                 .padding(16)
