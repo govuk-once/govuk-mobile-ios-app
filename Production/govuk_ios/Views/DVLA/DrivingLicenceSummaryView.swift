@@ -3,7 +3,6 @@ import GovKitUI
 
 struct DrivingLicenceSummaryView: View {
     let viewModel: DrivingLicenceSummaryViewModel
-
     private static let standardPadding: CGFloat = 16.0
     private static let iconSize: CGFloat = 36.0
 
@@ -16,7 +15,7 @@ struct DrivingLicenceSummaryView: View {
                 .padding(.vertical, Self.standardPadding)
                 .padding(.horizontal, Self.standardPadding)
                 .accessibilityLabel(
-                    Text(String.dvla.localized("licenceNumberAccessibilityLabel")) +
+                    Text(viewModel.licenceNumberAccessibilityLabelPrefix) +
                     Text(viewModel.licenceNumber.lowercased())
                         .speechSpellsOutCharacters()
                 )
@@ -26,7 +25,7 @@ struct DrivingLicenceSummaryView: View {
                     Button {
                         viewModel.copyToClipboardAction?(viewModel.licenceNumber)
                     } label: {
-                        Text(String.chat.localized("copyToClipboardTitle"))
+                        Text(viewModel.copyToClipboardButtonTitle)
                         Image(systemName: "doc.on.doc.fill")
                     }
                 }
@@ -57,7 +56,7 @@ struct DrivingLicenceSummaryView: View {
                     )
                     .foregroundColor(Color(UIColor.govUK.text.link))
             }
-            .accessibilityLabel(String.dvla.localized("moreOptionsButtonAccessibilityLabel"))
+            .accessibilityLabel(viewModel.moreOptionsButtonAccessibilityLabel)
         }
         .padding(.top, Self.standardPadding)
         .padding(.bottom, 8)
@@ -76,6 +75,7 @@ struct DrivingLicenceSummaryView: View {
                     .multilineTextAlignment(.leading)
                     .padding(.top, Self.standardPadding)
                     .padding(.bottom, 4)
+                    .accessibilityLabel(viewModel.fullNameAccessibilityLabel)
                 VStack(alignment: .leading, spacing: 0) {
                     ForEach(viewModel.address, id: \.self) { addressLine in
                         Text(addressLine)
@@ -105,6 +105,7 @@ struct DrivingLicenceSummaryView: View {
             title: nil,
             status: "Valid until 1 March 2027"
         ),
+        fullNameAccessibilityLabel: "",
         licenceTypeAccessibilityLabel: "",
         licenceStatusAccessibilityLabel: "",
         addressAccessibilityLabel: ""
