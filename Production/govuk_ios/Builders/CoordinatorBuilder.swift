@@ -347,6 +347,7 @@ class CoordinatorBuilder {
         WelcomeOnboardingCoordinator(
             navigationController: navigationController,
             authenticationService: container.authenticationService.resolve(),
+            appConfigService: container.appConfigService.resolve(),
             userService: container.userService.resolve(),
             notificationService: container.notificationService.resolve(),
             termsAndConditionsService: container.termsAndConditionsService.resolve(),

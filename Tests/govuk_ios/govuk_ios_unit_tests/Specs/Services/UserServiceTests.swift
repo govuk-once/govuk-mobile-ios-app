@@ -131,14 +131,14 @@ final class UserServiceTests {
     }
 
     @Test
-    func linkAccount_success_updatesIdDvlaAccountLinked() {
+    func linkAccount_success_updatesLinkedAccounts() {
         mockUserServiceClient._stubbedLinkAccountResult = .success(())
         let sut = UserService(appConfigService: mockAppConfigService,
                               userServiceClient: mockUserServiceClient)
-        #expect(sut.isDvlaAccountLinked == nil)
+        #expect(sut.linkedAccounts == nil)
 
         sut.linkAccount(withType: .dvla, token: "test-link-id") { _ in
-            #expect(sut.isDvlaAccountLinked == true)
+            #expect(sut.linkedAccounts == [.dvla])
         }
     }
 
@@ -169,33 +169,29 @@ final class UserServiceTests {
     }
 
     @Test
-    func fetchAccountLinkStatus_success_returnsExpectedResult() async {
-        mockUserServiceClient._stubbedFetchAccountLinkStatusResult = .success(
-            .arrangeUnlinked
+    func fetchLinkedAccounts_success_returnsExpectedResult() async {
+        mockUserServiceClient._stubbedFetchLinkedAccountsResult = .success(
+            LinkedServiceAccounts(services: [])
         )
         let sut = UserService(
             appConfigService: mockAppConfigService,
             userServiceClient: mockUserServiceClient
         )
-        let result = await sut.fetchAccountLinkStatus(
-            accountType: .dvla
-        )
-        let accountLinkStatus = try? result.get()
-        #expect(accountLinkStatus?.linked == false)
+        let result = await sut.fetchLinkedAccounts()
+        let linkedAccounts = try? result.get()
+        #expect(linkedAccounts?.isEmpty == true)
     }
 
     @Test
-    func fetchAccountLinkStatus_apiUnavailable_returnsExpectedError() async {
-        mockUserServiceClient._stubbedFetchAccountLinkStatusResult = .failure(
+    func fetchLinkedAccounts_apiUnavailable_returnsExpectedError() async {
+        mockUserServiceClient._stubbedFetchLinkedAccountsResult = .failure(
             .apiUnavailable
         )
         let sut = UserService(
             appConfigService: mockAppConfigService,
             userServiceClient: mockUserServiceClient
         )
-        let result = await sut.fetchAccountLinkStatus(
-            accountType: .dvla
-        )
+        let result = await sut.fetchLinkedAccounts()
         #expect(result.getError() == .apiUnavailable)
     }
 }

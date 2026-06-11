@@ -38,19 +38,27 @@ final class YourAccountsViewViewModel: ObservableObject {
     }
 
     @MainActor
-    func fetchAccountLinkStatus() async {
-        let result = await userService.fetchAccountLinkStatus(
-            accountType: .dvla
-        )
-        switch result {
-        case .success(let status):
-            if status.linked == true {
-                self.state = .success
-            } else {
-                self.state = .empty
+    func fetchLinkedAccounts() async {
+        if let isDvlaAccountLinked = userService.linkedAccounts?.contains(.dvla) {
+            updateState(isAccountLinked: isDvlaAccountLinked)
+        } else {
+            let result = await userService.fetchLinkedAccounts()
+            switch result {
+            case .success(let linkedAccounts):
+                let isDvlaAccountLinked = linkedAccounts.contains(.dvla)
+                updateState(isAccountLinked: isDvlaAccountLinked)
+            case .failure:
+                self.state = .failure
             }
-        case .failure:
-            self.state = .failure
+        }
+    }
+
+    @MainActor
+    func updateState(isAccountLinked: Bool) {
+        if isAccountLinked {
+            self.state = .success
+        } else {
+            self.state = .empty
         }
     }
 }

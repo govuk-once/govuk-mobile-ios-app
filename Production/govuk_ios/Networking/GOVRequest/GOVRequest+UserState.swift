@@ -59,9 +59,9 @@ extension GOVRequest {
         )
     }
 
-    static func accountLinkStatus(serviceName: String) -> GOVRequest {
+    static var linkedAccounts: GOVRequest {
         GOVRequest(
-            urlPath: "\(identityPath)/\(serviceName)",
+            urlPath: identityPath,
             method: .get,
             body: nil,
             queryParameters: nil,

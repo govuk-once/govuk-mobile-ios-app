@@ -33,7 +33,7 @@ struct ServiceAccountLinkCoordinatorTests {
     @Test
     func accountConsentCompletion_startsAuthenticationCoordinator() {
         let mockUserService = MockUserService()
-        mockUserService._stubbedIsDvlaAccountLinked = false
+        mockUserService._stubbedLinkedAccounts = []
         let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let authenticationCoordinator = MockBaseCoordinator()

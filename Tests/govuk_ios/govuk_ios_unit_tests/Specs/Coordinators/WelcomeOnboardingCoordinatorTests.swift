@@ -22,6 +22,7 @@ class WelcomeOnboardingCoordinatorTests {
             let sut = WelcomeOnboardingCoordinator(
                 navigationController: mockNavigationController,
                 authenticationService: mockAuthenticationService,
+                appConfigService: MockAppConfigService(),
                 userService: mockUserService,
                 notificationService: mockNotificationService,
                 termsAndConditionsService: MockTermsAndConditionsService(),
@@ -52,6 +53,7 @@ class WelcomeOnboardingCoordinatorTests {
             let sut = WelcomeOnboardingCoordinator(
                 navigationController: mockNavigationController,
                 authenticationService: mockAuthenticationService,
+                appConfigService: MockAppConfigService(),
                 userService: mockUserService,
                 notificationService: mockNotificationService,
                 termsAndConditionsService: MockTermsAndConditionsService(),
@@ -70,6 +72,40 @@ class WelcomeOnboardingCoordinatorTests {
     }
 
     @Test
+    func start_signedIn_userStateRequestSuccess_dvlaFeatureFlagEnabled_fetchesLinkedAccounts() async {
+        let mockAuthenticationService = MockAuthenticationService()
+        let mockNotificationService = MockNotificationService()
+        let mockUserService = MockUserService()
+        let mockAppConfigService = MockAppConfigService()
+        mockAppConfigService.features = [.dvla]
+        mockUserService._stubbedFetchUserStateResult = .success(UserState.arrange)
+        mockUserService._stubbedFetchLinkedAccountsResult = .success([])
+        let mockNavigationController = MockNavigationController()
+        let mockCoordinatorBuilder = CoordinatorBuilder.mock
+        mockAuthenticationService._stubbedIsSignedIn = true
+        let sut = WelcomeOnboardingCoordinator(
+            navigationController: mockNavigationController,
+            authenticationService: mockAuthenticationService,
+            appConfigService: mockAppConfigService,
+            userService: mockUserService,
+            notificationService: mockNotificationService,
+            termsAndConditionsService: MockTermsAndConditionsService(),
+            coordinatorBuilder: mockCoordinatorBuilder,
+            viewControllerBuilder: MockViewControllerBuilder(),
+            analyticsService: MockAnalyticsService(),
+            deviceInformationProvider: MockDeviceInformationProvider(),
+            versionProvider: MockAppVersionProvider(),
+            completionAction: {}
+        )
+        await withCheckedContinuation { continuation in
+            mockUserService._fetchLinkedAccountsCalledContinuation = continuation
+            sut.start(url: nil)
+        }
+
+        #expect(mockUserService._fetchLinkedAccountsCalled == true)
+    }
+
+    @Test
     func start_signedIn_userStateRequestFailure_logsCrashlyticsError() async {
         let mockAuthenticationService = MockAuthenticationService()
         let mockUserService = MockUserService()
@@ -82,6 +118,7 @@ class WelcomeOnboardingCoordinatorTests {
             let sut = WelcomeOnboardingCoordinator(
                 navigationController: MockNavigationController(),
                 authenticationService: mockAuthenticationService,
+                appConfigService: MockAppConfigService(),
                 userService: mockUserService,
                 notificationService: MockNotificationService(),
                 termsAndConditionsService: MockTermsAndConditionsService(),
@@ -115,6 +152,7 @@ class WelcomeOnboardingCoordinatorTests {
         let sut = WelcomeOnboardingCoordinator(
             navigationController: MockNavigationController(),
             authenticationService: mockAuthenticationService,
+            appConfigService: MockAppConfigService(),
             userService: mockUserService,
             notificationService: MockNotificationService(),
             termsAndConditionsService: MockTermsAndConditionsService(),
@@ -145,6 +183,7 @@ class WelcomeOnboardingCoordinatorTests {
         let sut = WelcomeOnboardingCoordinator(
             navigationController: mockNavigationController,
             authenticationService: mockAuthenticationService,
+            appConfigService: MockAppConfigService(),
             userService: mockUserService,
             notificationService: mockNotificationService,
             termsAndConditionsService: MockTermsAndConditionsService(),
@@ -174,6 +213,7 @@ class WelcomeOnboardingCoordinatorTests {
             let sut = WelcomeOnboardingCoordinator(
                 navigationController: MockNavigationController(),
                 authenticationService: MockAuthenticationService(),
+                appConfigService: MockAppConfigService(),
                 userService: mockUserService,
                 notificationService: MockNotificationService(),
                 termsAndConditionsService: MockTermsAndConditionsService(),
@@ -191,8 +231,44 @@ class WelcomeOnboardingCoordinatorTests {
             mockViewControllerBuilder._stubbedWelcomeOnboardingViewModel?.completeAction()
             mockCoordinatorBuilder._receivedAuthenticationCompletion?()
         }
-
         #expect(completion)
+    }
+
+    @Test
+    func authenticationSuccess_userStateRequestSuccess_dvlaFeatureFlagEnabled_fetchesLinkedAccounts() async {
+        let mockUserService = MockUserService()
+        let mockCoordinatorBuilder = CoordinatorBuilder.mock
+        let mockAppConfigService = MockAppConfigService()
+        mockAppConfigService.features = [.dvla]
+        mockUserService._stubbedFetchUserStateResult = .success(UserState.arrange)
+        mockUserService._stubbedFetchLinkedAccountsResult = .success([])
+
+        let mockViewControllerBuilder = MockViewControllerBuilder()
+        let stubbedWelcomeOnboardingViewController = UIViewController()
+        mockViewControllerBuilder._stubbedWelcomeOnboardingViewController = stubbedWelcomeOnboardingViewController
+
+        let sut = WelcomeOnboardingCoordinator(
+            navigationController: MockNavigationController(),
+            authenticationService: MockAuthenticationService(),
+            appConfigService: mockAppConfigService,
+            userService: mockUserService,
+            notificationService: MockNotificationService(),
+            termsAndConditionsService: MockTermsAndConditionsService(),
+            coordinatorBuilder: mockCoordinatorBuilder,
+            viewControllerBuilder: mockViewControllerBuilder,
+            analyticsService: MockAnalyticsService(),
+            deviceInformationProvider: MockDeviceInformationProvider(),
+            versionProvider: MockAppVersionProvider(),
+            completionAction: {}
+        )
+        await withCheckedContinuation { continuation in
+            mockUserService._fetchLinkedAccountsCalledContinuation = continuation
+            sut.start(url: nil)
+            mockViewControllerBuilder._stubbedWelcomeOnboardingViewModel?.completeAction()
+            mockCoordinatorBuilder._receivedAuthenticationCompletion?()
+        }
+
+        #expect(mockUserService._fetchLinkedAccountsCalled == true)
     }
 
     @Test(.disabled("GOVUKAPP-3485: For the time being, we don’t want to link FLEX and OneSignal with the notification id. "))
@@ -210,6 +286,7 @@ class WelcomeOnboardingCoordinatorTests {
             let sut = WelcomeOnboardingCoordinator(
                 navigationController: MockNavigationController(),
                 authenticationService: MockAuthenticationService(),
+                appConfigService: MockAppConfigService(),
                 userService: mockUserService,
                 notificationService: mockNotificationService,
                 termsAndConditionsService: MockTermsAndConditionsService(),
@@ -248,6 +325,7 @@ class WelcomeOnboardingCoordinatorTests {
             let sut = WelcomeOnboardingCoordinator(
                 navigationController: MockNavigationController(),
                 authenticationService: MockAuthenticationService(),
+                appConfigService: MockAppConfigService(),
                 userService: mockUserService,
                 notificationService: MockNotificationService(),
                 termsAndConditionsService: MockTermsAndConditionsService(),
@@ -284,6 +362,7 @@ class WelcomeOnboardingCoordinatorTests {
         let sut = WelcomeOnboardingCoordinator(
             navigationController: mockNavigationController,
             authenticationService: MockAuthenticationService(),
+            appConfigService: MockAppConfigService(),
             userService: mockUserService,
             notificationService: MockNotificationService(),
             termsAndConditionsService: MockTermsAndConditionsService(),
@@ -326,6 +405,7 @@ class WelcomeOnboardingCoordinatorTests {
         let sut = WelcomeOnboardingCoordinator(
             navigationController: mockNavigationController,
             authenticationService: mockAuthenticationService,
+            appConfigService: MockAppConfigService(),
             userService: mockUserService,
             notificationService: mockNotificationService,
             termsAndConditionsService: MockTermsAndConditionsService(),
@@ -364,6 +444,7 @@ class WelcomeOnboardingCoordinatorTests {
         let sut = WelcomeOnboardingCoordinator(
             navigationController: mockNavigationController,
             authenticationService: mockAuthenticationService,
+            appConfigService: MockAppConfigService(),
             userService: mockUserService,
             notificationService: mockNotificationService,
             termsAndConditionsService: MockTermsAndConditionsService(),
@@ -402,6 +483,7 @@ class WelcomeOnboardingCoordinatorTests {
         let sut = WelcomeOnboardingCoordinator(
             navigationController: mockNavigationController,
             authenticationService: mockAuthenticationService,
+            appConfigService: MockAppConfigService(),
             userService: mockUserService,
             notificationService: mockNotificationService,
             termsAndConditionsService: MockTermsAndConditionsService(),
@@ -438,6 +520,7 @@ class WelcomeOnboardingCoordinatorTests {
         let sut = WelcomeOnboardingCoordinator(
             navigationController: mockNavigationController,
             authenticationService: mockAuthenticationService,
+            appConfigService: MockAppConfigService(),
             userService: mockUserService,
             notificationService: mockNotificationService,
             termsAndConditionsService: MockTermsAndConditionsService(),
@@ -478,6 +561,7 @@ class WelcomeOnboardingCoordinatorTests {
         let sut = WelcomeOnboardingCoordinator(
             navigationController: mockNavigationController,
             authenticationService: mockAuthenticationService,
+            appConfigService: MockAppConfigService(),
             userService: mockUserService,
             notificationService: mockNotificationService,
             termsAndConditionsService: MockTermsAndConditionsService(),

@@ -25,7 +25,7 @@ struct YourAccountsView: View {
                 .ignoresSafeArea()
         }
         .task {
-            await viewModel.fetchAccountLinkStatus()
+            await viewModel.fetchLinkedAccounts()
         }
     }
 

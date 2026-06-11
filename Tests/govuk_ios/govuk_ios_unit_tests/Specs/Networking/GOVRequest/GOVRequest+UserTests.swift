@@ -59,9 +59,9 @@ struct GOVRequest_UserTests {
     }
 
     @Test
-    func accountLinkStatus_returnsExpectedValues() {
-        let request = GOVRequest.accountLinkStatus(serviceName: "dvla")
-        #expect(request.urlPath == "/app/udp/v1/identity/dvla")
+    func linkedAccounts_returnsExpectedValues() {
+        let request = GOVRequest.linkedAccounts
+        #expect(request.urlPath == "/app/udp/v1/identity")
         #expect(request.method == .get)
         #expect(request.requiresAuthentication == true)
     }
