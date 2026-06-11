@@ -348,7 +348,6 @@ class WelcomeOnboardingCoordinatorTests {
         #expect(mockAppUnavailableCoordinator._startCalled == true)
     }
 
-    @Test(.disabled("GOVUKAPP-3484: For now, fail silently if UDP request fails"))
     func appUnavailable_retrySuccess_returnsExpectedResult() async {
         let mockUserService = MockUserService()
         let mockNavigationController = MockNavigationController()
