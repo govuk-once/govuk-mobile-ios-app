@@ -10,7 +10,7 @@ struct QualtricsClientTests {
 
     @Test
     @MainActor
-    func trackScreen_evaluatesViewEventWithParams() {
+    func trackScreen_evaluatesViewEventWithParams() async throws {
         let mockQualtricsService = MockQualtricsService()
         let sut = QualtricsClient(
             qualtricsService: mockQualtricsService
@@ -23,7 +23,7 @@ struct QualtricsClientTests {
         expectedScreen.title = expectedTitle
 
         sut.track(screen: expectedScreen)
-
+        try await Task.sleep(for: .seconds(1))
         #expect(mockQualtricsService._didCallEvaluateViewEvent)
         #expect(mockQualtricsService._stubbedScreenName == expectedScreen.trackingName)
         let params = mockQualtricsService._stubbedViewParams
@@ -35,7 +35,7 @@ struct QualtricsClientTests {
     }
 
     @Test
-    func trackEvent_evaluatesClickEventWithParams() {
+    func trackEvent_evaluatesClickEventWithParams() async throws {
         let mockQualtricsService = MockQualtricsService()
         let sut = QualtricsClient(
             qualtricsService: mockQualtricsService
@@ -48,6 +48,7 @@ struct QualtricsClientTests {
 
         sut.track(event: event)
 
+        try await Task.sleep(for: .seconds(1))
         #expect(mockQualtricsService._didCallEvaluateClickEvent)
         let params = mockQualtricsService._stubbedClickParams
         #expect(params?["text"] == "Test button")
