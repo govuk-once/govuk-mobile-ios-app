@@ -177,6 +177,17 @@
         }
       }
     },
+    "licenceTabTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Licence"
+          }
+        }
+      }
+    },
     "licenceType" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -294,6 +305,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Valid until %1$(date)@"
+          }
+        }
+      }
+    },
+    "vehiclesSegmentedPicker" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SegmentedPicker"
+          }
+        }
+      }
+    },
+    "vehiclesTabTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vehicles"
           }
         }
       }

@@ -38,13 +38,12 @@ struct VehiclesView: View {
     }
 
     private func makeVehiclesView(for vehicleViewModels: [VehicleSummaryViewModel]) -> some View {
-        LazyVStack {
+        LazyVStack(spacing: 16) {
             ForEach(vehicleViewModels) {
                 VehicleSummaryView(viewModel: $0)
             }
             .background(Color(UIColor.govUK.fills.surfaceList))
             .clipShape(RoundedRectangle(cornerRadius: 10))
-            .padding(.vertical, 6)
         }
         .padding(.horizontal, 16)
     }
