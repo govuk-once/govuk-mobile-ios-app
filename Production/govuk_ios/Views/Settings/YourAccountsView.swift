@@ -81,10 +81,15 @@ struct YourAccountsView: View {
             VStack {
                 HStack {
                     if isEditMode {
-                        Text("x")
-                            .onTapGesture {
-                                showAlert.toggle()
+                        Button(
+                            action: { showAlert.toggle() },
+                            label: {
+                                Image(systemName: "minus.circle.fill")
+                                    .symbolRenderingMode(.palette)
+                                    .foregroundStyle(.white, .red)
+                                    .font(.body)
                             }
+                        )
                     }
                     Text(viewModel.yourAccountsCardTitle)
                         .font(Font.govUK.body)
@@ -114,18 +119,25 @@ struct YourAccountsView: View {
         .padding(.horizontal, 16)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                Button(
-                    action: {
-                        isEditMode.toggle()
-                    },
-                    label: {
-                        if isEditMode {
-                            Image(systemName: "check.circle")
-                        } else {
-                            Text(viewModel.editButtonTitle)
+                if isEditMode {
+                    Button(
+                        action: { isEditMode.toggle() },
+                        label: {
+                            Image(systemName: "checkmark.circle.fill")
+                                .font(.body)
                         }
-                    }
-                )
+                    )
+                    .buttonStyle(.plain)
+                    .symbolRenderingMode(.palette)
+                    .foregroundStyle(.white, .blue)
+                } else {
+                    Button(
+                        action: { isEditMode.toggle() },
+                        label: {
+                            Text("Edit")
+                        }
+                    )
+                }
             }
         }
     }

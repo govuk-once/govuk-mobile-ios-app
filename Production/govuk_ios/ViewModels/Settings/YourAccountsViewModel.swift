@@ -56,8 +56,13 @@ final class YourAccountsViewViewModel: ObservableObject {
     @MainActor
     func unlinkAccount() {
         self.state = .loading
-        userService.unlinkAccount(withType: .dvla) { [weak self] _ in
-            self?.state = .empty
+        userService.unlinkAccount(withType: .dvla) { [weak self] result in
+            switch result {
+            case .success():
+                self?.state = .empty
+            case .failure(let error):
+                self?.state = .failure
+            }
         }
     }
 
