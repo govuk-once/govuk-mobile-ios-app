@@ -1,0 +1,69 @@
+{
+    "exportFormatVersion": 2,
+    "exportTime": "2026-06-11 09:54:20",
+    "containerVersion": {
+        "path": "accounts/6349115668/containers/254960981/versions/0",
+        "accountId": "6349115668",
+        "containerId": "254960981",
+        "containerVersionId": "0",
+        "container": {
+            "path": "accounts/6349115668/containers/254960981",
+            "accountId": "6349115668",
+            "containerId": "254960981",
+            "name": "GOV.UK App iOS [DEV]",
+            "publicId": "GTM-TB8S9CHC",
+            "usageContext": [
+                "IOS_SDK_5"
+            ],
+            "fingerprint": "1781011142264",
+            "tagManagerUrl": "https://tagmanager.google.com/#/container/accounts/6349115668/containers/254960981/workspaces?apiLink=container",
+            "features": {
+                "supportUserPermissions": true,
+                "supportEnvironments": true,
+                "supportWorkspaces": true,
+                "supportGtagConfigs": false,
+                "supportBuiltInVariables": true,
+                "supportClients": false,
+                "supportFolders": true,
+                "supportTags": true,
+                "supportTemplates": true,
+                "supportTriggers": true,
+                "supportVariables": true,
+                "supportVersions": true,
+                "supportZones": true,
+                "supportTransformations": false
+            },
+            "tagIds": [
+                "GTM-TB8S9CHC"
+            ]
+        },
+        "builtInVariable": [
+            {
+                "accountId": "6349115668",
+                "containerId": "254960981",
+                "type": "APP_ID",
+                "name": "App ID"
+            },
+            {
+                "accountId": "6349115668",
+                "containerId": "254960981",
+                "type": "APP_NAME",
+                "name": "App Name"
+            },
+            {
+                "accountId": "6349115668",
+                "containerId": "254960981",
+                "type": "APP_VERSION_CODE",
+                "name": "App Version Code"
+            },
+            {
+                "accountId": "6349115668",
+                "containerId": "254960981",
+                "type": "EVENT_NAME",
+                "name": "Event Name"
+            }
+        ],
+        "fingerprint": "1781171660339",
+        "tagManagerUrl": "https://tagmanager.google.com/#/versions/accounts/6349115668/containers/254960981/versions/0?apiLink=version"
+    }
+}
