@@ -92,7 +92,9 @@ struct YourAccountsView: View {
                         .foregroundColor(Color(UIColor.govUK.text.primary))
                         .alert("Important!", isPresented: $showAlert) {
                                 Button("Option 1", role: .cancel) { }
-                                Button("Option 2", role: .destructive) { }
+                                Button("Option 2", role: .destructive) {
+                                    viewModel.unlinkAccount()
+                                }
                         } message: {
                             Text("Do you want to proceed?")
                         }
