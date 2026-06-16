@@ -97,7 +97,10 @@ import GovKit
         let mockVehiclesViewModel = MockVehiclesViewModel(
             viewState: .loaded(
                 vehicles: [
-                    VehicleSummaryViewModel(vehicle: mockVehicle)
+                    VehicleSummaryViewModel(
+                        vehicle: mockVehicle,
+                        detailTappedAction: {}
+                    )
                 ]
             )
         )
@@ -121,8 +124,7 @@ extension DVLAAccountWidgetViewModel.Actions {
         .init(
             linkAction: {},
             unlinkAction: {},
-            viewDriverSummaryAction: {},
-            viewCustomerSummaryAction: {},
+            vehicleDetailTappedAction: { _ in },
             viewVehicleAction: {},
             viewShareCodesAction: {},
             createShareCodeAction: {}

@@ -12,7 +12,10 @@ class VehicleSummaryViewSnapshotTests: SnapshotTestCase {
             taxedUntil: Date(timeIntervalSince1970: 1779975444),
             motExpiryDate: Date(timeIntervalSince1970: 1779975444)
         )
-        let viewModel = VehicleSummaryViewModel(vehicle: mockVehicle)
+        let viewModel = VehicleSummaryViewModel(
+            vehicle: mockVehicle,
+            detailTappedAction: {}
+        )
         let view = VehicleSummaryView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
             rootView: view
@@ -28,7 +31,10 @@ class VehicleSummaryViewSnapshotTests: SnapshotTestCase {
             taxedUntil: Date(timeIntervalSince1970: 1779975444),
             motExpiryDate: Date(timeIntervalSince1970: 1779975444)
         )
-        let viewModel = VehicleSummaryViewModel(vehicle: mockVehicle)
+        let viewModel = VehicleSummaryViewModel(
+            vehicle: mockVehicle,
+            detailTappedAction: {}
+        )
         let view = VehicleSummaryView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
             rootView: view
@@ -44,7 +50,10 @@ class VehicleSummaryViewSnapshotTests: SnapshotTestCase {
             taxedUntil: nil,
             motExpiryDate: nil
         )
-        let viewModel = VehicleSummaryViewModel(vehicle: mockVehicle)
+        let viewModel = VehicleSummaryViewModel(
+            vehicle: mockVehicle,
+            detailTappedAction: {}
+        )
         let view = VehicleSummaryView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
             rootView: view
@@ -60,7 +69,10 @@ class VehicleSummaryViewSnapshotTests: SnapshotTestCase {
             taxedUntil: nil,
             motExpiryDate: nil
         )
-        let viewModel = VehicleSummaryViewModel(vehicle: mockVehicle)
+        let viewModel = VehicleSummaryViewModel(
+            vehicle: mockVehicle,
+            detailTappedAction: {}
+        )
         let view = VehicleSummaryView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
             rootView: view

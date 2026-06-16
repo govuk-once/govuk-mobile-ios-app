@@ -379,4 +379,12 @@ class MockCoordinatorBuilder: CoordinatorBuilder {
         _receivedServiceAccountRedirectToken = token
         return _stubbedServiceAccountRedirectCoordinator ?? MockBaseCoordinator()
     }
+
+    var _stubbedVehicleDetailCoordinator: MockBaseCoordinator?
+    override func vehicleDetail(
+        navigationController: UINavigationController,
+        vehicle: CustomerSummary.Vehicle
+    ) -> BaseCoordinator {
+        _stubbedVehicleDetailCoordinator ?? MockBaseCoordinator()
+    }
 }

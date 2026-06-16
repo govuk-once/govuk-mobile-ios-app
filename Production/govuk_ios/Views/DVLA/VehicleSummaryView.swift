@@ -53,7 +53,7 @@ struct VehicleSummaryView: View {
                     cornerRadius: 7,
                     borderColor: .black
                 )
-                .accessibilityLabel(viewModel.registrationNumberAccessibilityLabel)
+                .accessibilityLabel(registrationNumberAccessibilityLabel)
             Spacer()
             Button {
                 print("more options tapped - todo")
@@ -73,9 +73,9 @@ struct VehicleSummaryView: View {
         .padding(.horizontal, Self.standardPadding)
     }
 
-    var detailsButton: some View {
+    private var detailsButton: some View {
         Button {
-            print("details tapped - todo")
+            viewModel.detailTappedAction()
         } label: {
             HStack {
                 Text(String.dvla.localized("detailsButtonTitle"))
@@ -91,5 +91,10 @@ struct VehicleSummaryView: View {
             .padding(.vertical, 20)
             .padding(.horizontal, Self.standardPadding)
         }
+    }
+
+    private var registrationNumberAccessibilityLabel: Text {
+        Text(viewModel.regNumberAccessibilityLabelPrefix)
+        + Text(viewModel.registrationNumber.lowercased()).speechSpellsOutCharacters()
     }
 }

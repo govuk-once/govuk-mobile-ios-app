@@ -13,16 +13,19 @@ class VehiclesViewModel: ObservableObject {
     private var hasLoadedVehicles = false
     private let analyticsService: AnalyticsServiceInterface
     private let dvlaService: DVLAServiceInterface
+    private let detailTappedAction: (CustomerSummary.Vehicle) -> Void
     let loadingAccessibilityLabel = String.dvla.localized(
         "loadingVehiclesAccessibilityLabel"
     )
 
     init(viewState: ViewState = .loading,
          analyticsService: AnalyticsServiceInterface,
-         dvlaService: DVLAServiceInterface) {
+         dvlaService: DVLAServiceInterface,
+         detailTappedAction: @escaping (CustomerSummary.Vehicle) -> Void) {
         self.viewState = viewState
         self.analyticsService = analyticsService
         self.dvlaService = dvlaService
+        self.detailTappedAction = detailTappedAction
     }
 
     @MainActor
@@ -39,8 +42,13 @@ class VehiclesViewModel: ObservableObject {
 
         switch result {
         case .success(let customerSummary):
-            let vehicleSummaryViewModels = customerSummary.vehicles.map {
-                VehicleSummaryViewModel(vehicle: $0)
+            let vehicleSummaryViewModels = customerSummary.vehicles.map { vehicle in
+                VehicleSummaryViewModel(
+                    vehicle: vehicle,
+                    detailTappedAction: { [weak self] in
+                        self?.detailTappedAction(vehicle)
+                    }
+                )
             }
             hasLoadedVehicles = true
             viewState = .loaded(vehicles: vehicleSummaryViewModels)

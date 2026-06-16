@@ -48,11 +48,8 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator,
             dvlaService: dvlaService,
             linkAction: startLinkAccount,
             unlinkAction: startUnlinkAccount,
-            viewDriverSummaryAction: { [weak self] in
-                self?.startDvlaAccount(viewType: .driverSummary)
-            },
-            viewCustomerSummaryAction: { [weak self] in
-                self?.startDvlaAccount(viewType: .customerSummary)
+            vehicleDetailTappedAction: { [weak self] vehicle in
+                self?.startVehicleDetail(vehicle: vehicle)
             },
             viewVehicleAction: { [weak self] in
                 self?.startDvlaAccount(viewType: .vehicle)
@@ -64,6 +61,14 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator,
                 self?.startDvlaAccount(viewType: .createShareCode)
             }
         )
+    }
+
+    private func startVehicleDetail(vehicle: CustomerSummary.Vehicle) {
+        let coordinator = coordinatorBuilder.vehicleDetail(
+            navigationController: root,
+            vehicle: vehicle
+        )
+        start(coordinator)
     }
 
     private func startLinkAccount() {

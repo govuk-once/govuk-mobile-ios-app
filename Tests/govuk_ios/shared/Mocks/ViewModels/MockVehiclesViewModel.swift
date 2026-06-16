@@ -12,7 +12,8 @@ class MockVehiclesViewModel: VehiclesViewModel {
         self.init(
             viewState: viewState,
             analyticsService: MockAnalyticsService(),
-            dvlaService: MockDVLAService()
+            dvlaService: MockDVLAService(),
+            detailTappedAction: { _ in }
         )
     }
 }

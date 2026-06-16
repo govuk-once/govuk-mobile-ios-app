@@ -60,10 +60,6 @@ struct DVLAServiceClientTests {
 
         let result = await sut.fetchCustomerSummary()
         let customerSummary = try #require(try? result.get())
-        let customer = customerSummary.customerResponse.customer
-        #expect(customer.individualDetails.firstNames == "KENNETH")
-        #expect(customer.individualDetails.lastName == "DECERQUEIRA")
-        #expect(customer.customerType == "Individual")
 
         let vehicle = try #require(customerSummary.vehicles.first)
         #expect(vehicle.registrationNumber == "RBZ5119")

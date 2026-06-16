@@ -20,7 +20,8 @@ struct VehiclesViewModelTests {
         mockDvlaService._stubbedFetchCustomerSummaryResult = .success(.arrange)
         let sut = VehiclesViewModel(
             analyticsService: mockAnalyticsService,
-            dvlaService: mockDvlaService
+            dvlaService: mockDvlaService,
+            detailTappedAction: { _ in }
         )
         await sut.viewDidAppear()
         #expect(mockDvlaService._fetchCustomerSummaryCallCount == 1)
@@ -37,7 +38,8 @@ struct VehiclesViewModelTests {
         )
         let sut = VehiclesViewModel(
             analyticsService: mockAnalyticsService,
-            dvlaService: mockDvlaService
+            dvlaService: mockDvlaService,
+            detailTappedAction: { _ in }
         )
         await sut.viewDidAppear()
         var vehicleSummaryViewModels: [VehicleSummaryViewModel]?
@@ -54,7 +56,8 @@ struct VehiclesViewModelTests {
         mockDvlaService._stubbedFetchCustomerSummaryResult = .failure(.apiUnavailable)
         let sut = VehiclesViewModel(
             analyticsService: mockAnalyticsService,
-            dvlaService: mockDvlaService
+            dvlaService: mockDvlaService,
+            detailTappedAction: { _ in }
         )
         await sut.viewDidAppear()
         var errorViewModel: AppErrorViewModel?
