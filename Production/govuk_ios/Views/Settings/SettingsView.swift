@@ -20,8 +20,7 @@ struct SettingsView<T: SettingsViewModelInterface>: View {
                         EmptyView()
                             .id(topID)
                         GroupedList(
-                            content: viewModel.listContent,
-                            backgroundColor: UIColor.govUK.fills.surfaceBackground
+                            content: viewModel.listContent
                         )
                         .padding([.top, .bottom], 24)
                         .padding(.horizontal, 16)
