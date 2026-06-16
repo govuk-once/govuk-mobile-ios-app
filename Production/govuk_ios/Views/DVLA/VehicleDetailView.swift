@@ -80,6 +80,7 @@ struct VehicleDetailView: View {
                     .accessibilityLabel(
                         registrationNumberAccessibilityLabel
                     )
+                // todo: set grouped list section background colour
                 GroupedList(
                     content: [viewModel.specificationSection]
                 )
@@ -110,14 +111,16 @@ struct VehicleDetailView: View {
                     .multilineTextAlignment(.leading)
                     .padding(.top, Self.standardPadding)
                     .padding(.bottom, 4)
-                VStack(alignment: .leading, spacing: 0) {
-                    ForEach(viewModel.keeperAddress, id: \.self) { addressLine in
-                        Text(addressLine)
-                            .padding(.top, 4)
+                if !viewModel.keeperAddress.isEmpty {
+                    VStack(alignment: .leading, spacing: 0) {
+                        ForEach(viewModel.keeperAddress, id: \.self) { addressLine in
+                            Text(addressLine)
+                                .padding(.top, 4)
+                        }
                     }
+                    .accessibilityElement(children: .combine)
+                    .accessibilityLabel(viewModel.addressAccessibilityLabel)
                 }
-                .accessibilityElement(children: .combine)
-                .accessibilityLabel(viewModel.addressAccessibilityLabel)
             }
             .padding(.horizontal, Self.standardPadding)
             .padding(.bottom, Self.standardPadding)

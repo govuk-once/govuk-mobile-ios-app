@@ -64,24 +64,44 @@ struct VehicleSpecFormatter {
             )
         )
     }
-    func formatEmissions(from emissions: ExhaustEmissions?) -> String {
+    func formatEmissions(from emissions: ExhaustEmissions?) -> AccessibleString {
         guard let co2Emissions = emissions?.co2 else {
-            return String(localized: .DVLA.unknown)
+            return AccessibleString(String(localized: .DVLA.unknown))
         }
-        return String(
+        let displayText = String(
             localized: .DVLA.emissionsInGramsPerKm(
                 emissions: co2Emissions
             )
         )
+        let accessibilityLabel = String(
+            localized: .DVLA.emissionsInGramsPerKmAccessibilityLabel(
+                emissions: co2Emissions
+            )
+        )
+        return AccessibleString(displayText, accessibilityLabel: accessibilityLabel)
     }
-    func formatEngineSize(from engineCapacity: Int?) -> String {
+    func formatEngineSize(from engineCapacity: Int?) -> AccessibleString {
         guard let engineCapacity = engineCapacity else {
-            return String(localized: .DVLA.unknown)
+            return AccessibleString(String(localized: .DVLA.unknown))
         }
         if engineCapacity < 1000 {
-            return String(localized: .DVLA.engineCapacityCc(capacity: engineCapacity))
+            let engineCapacityInCc = String(
+                localized: .DVLA.engineCapacityCc(capacity: engineCapacity)
+            )
+            return AccessibleString(engineCapacityInCc)
         }
         let decimalValue = Double(engineCapacity) / 1000.0
-        return String(localized: .DVLA.engineCapacityLitres(capacity: decimalValue))
+        let displayText = String(localized: .DVLA.engineCapacityLitres(capacity: decimalValue))
+        let accessibilityLabel: String
+        if engineCapacity == 1000 {
+            accessibilityLabel = String(
+                localized: .DVLA.engineCapacityLitreAccessibilityLabel(capacity: decimalValue)
+            )
+        } else {
+            accessibilityLabel = String(
+                localized: .DVLA.engineCapacityLitresAccessibilityLabel(capacity: decimalValue)
+            )
+        }
+        return AccessibleString(displayText, accessibilityLabel: accessibilityLabel)
     }
 }

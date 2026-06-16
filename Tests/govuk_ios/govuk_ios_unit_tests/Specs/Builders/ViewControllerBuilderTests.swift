@@ -445,4 +445,14 @@ struct ViewControllerBuilderTests {
         let rootView = (result as? HostingViewController<SARExplainerView>)?.rootView
         #expect(rootView != nil)
     }
+
+    func vehicleDetail_returnsExpectedResult() {
+        let subject = ViewControllerBuilder()
+        let result = subject.vehicleDetail(
+            analyticsService: MockAnalyticsService(),
+            vehicle: .arrange
+        )
+        let rootView = (result as? HostingViewController<VehicleDetailView>)?.rootView
+        #expect(rootView != nil)
+    }
 }

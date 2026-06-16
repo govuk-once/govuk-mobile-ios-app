@@ -345,6 +345,7 @@
 		8171AE472F1116A00024312B /* ScrollBottomIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8171AE462F11169A0024312B /* ScrollBottomIndicatorView.swift */; };
 		8181DBFA2EE214B100F47531 /* FactoryKit in Frameworks */ = {isa = PBXBuildFile; productRef = 8181DBF92EE214B100F47531 /* FactoryKit */; };
 		8181DBFC2EE214B100F47531 /* FactoryTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 8181DBFB2EE214B100F47531 /* FactoryTesting */; };
+		818AEB982FE1820A005ECBC6 /* AccessibleString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818AEB972FE18203005ECBC6 /* AccessibleString.swift */; };
 		81A6DB212FCF3C4F006FB0F0 /* VehicleDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A6DB202FCF3C43006FB0F0 /* VehicleDetailViewModel.swift */; };
 		81A6DB232FCF40BE006FB0F0 /* VehicleDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A6DB222FCF40B9006FB0F0 /* VehicleDetailView.swift */; };
 		81A6DF202FD04E4A006FB0F0 /* DrivingLicenceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A6DF1F2FD04E40006FB0F0 /* DrivingLicenceViewModel.swift */; };
@@ -883,6 +884,7 @@
 		815C58672EE970DC00322705 /* RemoteConfigService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigService.swift; sourceTree = "<group>"; };
 		815C58692EE973F400322705 /* RemoteConfigServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigServiceClient.swift; sourceTree = "<group>"; };
 		8171AE462F11169A0024312B /* ScrollBottomIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollBottomIndicatorView.swift; sourceTree = "<group>"; };
+		818AEB972FE18203005ECBC6 /* AccessibleString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibleString.swift; sourceTree = "<group>"; };
 		81A6DB202FCF3C43006FB0F0 /* VehicleDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleDetailViewModel.swift; sourceTree = "<group>"; };
 		81A6DB222FCF40B9006FB0F0 /* VehicleDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleDetailView.swift; sourceTree = "<group>"; };
 		81A6DF1F2FD04E40006FB0F0 /* DrivingLicenceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrivingLicenceViewModel.swift; sourceTree = "<group>"; };
@@ -1086,6 +1088,8 @@
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/DVLAAccountSummaryViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/DVLAAccountViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/DVLAAccountWidgetViewSnapshotTests.swift,
+				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/VehicleDetailViewSnapshotTests.swift,
+				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/VehicleSpecViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/VehicleSummaryViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/VehiclesViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/EditTopicsViewControllerSnapshotTests.swift,
@@ -1173,6 +1177,8 @@
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/DVLAAccountSummaryViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/DVLAAccountViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/DVLAAccountWidgetViewSnapshotTests.swift,
+				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/VehicleDetailViewSnapshotTests.swift,
+				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/VehicleSpecViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/VehicleSummaryViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/VehiclesViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/EditTopicsViewControllerSnapshotTests.swift,
@@ -2164,6 +2170,7 @@
 		5DE970512C297637009D66C4 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				818AEB972FE18203005ECBC6 /* AccessibleString.swift */,
 				8154B58E2FB727CB00792FB5 /* ErrorViewModel.swift */,
 				16C6BE842F9660050015E6F6 /* TermsAndConditionsResponse.swift */,
 				16A435922F193EDB000AAAA6 /* AlertDetails.swift */,
@@ -3020,6 +3027,7 @@
 				5D69911A2DFAD8360050689E /* ButtonConfiguration+Convenience.swift in Sources */,
 				16EE1A432C6F89D9005E820F /* SearchViewModel.swift in Sources */,
 				D028CD0C2CBEC8F400742620 /* TopicDetailResponse.swift in Sources */,
+				818AEB982FE1820A005ECBC6 /* AccessibleString.swift in Sources */,
 				16D186A62E461DC5006ACC7A /* ChatInfoOnboardingCoordinator.swift in Sources */,
 				D0CF80A72F3F1E5100F8888D /* TermsAndConditionsCoordinator.swift in Sources */,
 				5D349F672C6B548200B7F747 /* RequestBuilder.swift in Sources */,

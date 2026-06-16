@@ -145,7 +145,7 @@ struct VehicleSpecFormatterTests {
     @Test
     func formatEmissions_emissionsIsNil_returnsUnknown() {
         let result = sut.formatEmissions(from: nil)
-        #expect(result == String(localized: .DVLA.unknown))
+        #expect(result.displayValue == String(localized: .DVLA.unknown))
     }
 
     @Test
@@ -156,26 +156,26 @@ struct VehicleSpecFormatterTests {
                 emissions: 100
             )
         )
-        #expect(result == expectedString)
+        #expect(result.displayValue == expectedString)
     }
 
     @Test
     func formatEngineSize_engineCapacityIsNil_returnsUnknown() {
         let result = sut.formatEngineSize(from: nil)
-        #expect(result == String(localized: .DVLA.unknown))
+        #expect(result.displayValue == String(localized: .DVLA.unknown))
     }
 
     @Test
     func formatEngineSize_engineCapacityLessThan1000_returnsExpectedResult() {
         let result = sut.formatEngineSize(from: 750)
         let expectedString = String(localized: .DVLA.engineCapacityCc(capacity: 750))
-        #expect(result == expectedString)
+        #expect(result.displayValue == expectedString)
     }
 
     @Test
     func formatEngineSize_engineCapacityGreaterThanOrEquals1000_returnsExpectedResult() {
         let result = sut.formatEngineSize(from: 2495)
         let expectedString = String(localized: .DVLA.engineCapacityLitres(capacity: 2.5))
-        #expect(result == expectedString)
+        #expect(result.displayValue == expectedString)
     }
 }

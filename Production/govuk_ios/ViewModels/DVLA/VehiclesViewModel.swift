@@ -46,6 +46,7 @@ class VehiclesViewModel: ObservableObject {
                 VehicleSummaryViewModel(
                     vehicle: vehicle,
                     detailTappedAction: { [weak self] in
+                        self?.trackDetailButtonTapped()
                         self?.detailTappedAction(vehicle)
                     }
                 )
@@ -55,6 +56,15 @@ class VehiclesViewModel: ObservableObject {
         case .failure:
             viewState = .error(dvlaAccountErrorViewModel)
         }
+    }
+
+    private func trackDetailButtonTapped() {
+        let event = AppEvent.buttonNavigation(
+            text: "Details",
+            external: false,
+            section: "Driving"
+        )
+        analyticsService.track(event: event)
     }
 
     private var dvlaAccountErrorViewModel: AppErrorViewModel {

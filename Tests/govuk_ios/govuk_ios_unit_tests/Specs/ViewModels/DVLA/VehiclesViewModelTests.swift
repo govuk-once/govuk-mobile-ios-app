@@ -52,6 +52,33 @@ struct VehiclesViewModelTests {
     }
 
     @Test
+    func vehicleSummaryViewModel_detailsButtonAction_tracksNavigationEvent() async {
+        let mockVehicles: [CustomerSummary.Vehicle] = [
+            .arrange(registrationNumber: "ABC 123")
+        ]
+        mockDvlaService._stubbedFetchCustomerSummaryResult = .success(
+            .arrange(vehicles: mockVehicles)
+        )
+        let sut = VehiclesViewModel(
+            analyticsService: mockAnalyticsService,
+            dvlaService: mockDvlaService,
+            detailTappedAction: { _ in }
+        )
+        await sut.viewDidAppear()
+        var vehicleSummaryViewModels: [VehicleSummaryViewModel]?
+        if case .loaded(let vehicles) = sut.viewState {
+            vehicleSummaryViewModels = vehicles
+        }
+        vehicleSummaryViewModels?.first?.detailTappedAction()
+
+        let navigationEvent = mockAnalyticsService._trackedEvents.first
+        #expect(navigationEvent?.params?["text"] as? String == "Details")
+        #expect(navigationEvent?.params?["type"] as? String == "Button")
+        #expect(navigationEvent?.params?["section"] as? String == "Driving")
+        #expect(navigationEvent?.name == "Navigation")
+    }
+
+    @Test
     func viewDidAppear_fetchVehiclesFailure_createsErrorViewModel() async throws {
         mockDvlaService._stubbedFetchCustomerSummaryResult = .failure(.apiUnavailable)
         let sut = VehiclesViewModel(

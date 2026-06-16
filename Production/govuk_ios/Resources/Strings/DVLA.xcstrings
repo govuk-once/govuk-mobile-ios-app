@@ -199,6 +199,17 @@
         }
       }
     },
+    "emissionsAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CO2 emissions: %1$(value)@"
+          }
+        }
+      }
+    },
     "emissionsInGramsPerKm" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -206,6 +217,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%1$(emissions)lld g/km"
+          }
+        }
+      }
+    },
+    "emissionsInGramsPerKmAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$(emissions)lld grams per kilometer"
           }
         }
       }
@@ -221,6 +243,17 @@
         }
       }
     },
+    "engineCapacityLitreAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$(capacity).1lf litre"
+          }
+        }
+      }
+    },
     "engineCapacityLitres" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -232,6 +265,17 @@
         }
       }
     },
+    "engineCapacityLitresAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$(capacity).1lf litres"
+          }
+        }
+      }
+    },
     "engineSize" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -239,6 +283,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Engine size"
+          }
+        }
+      }
+    },
+    "engineSizeAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Engine size: %1$(value)@"
           }
         }
       }

@@ -2,50 +2,25 @@ import Foundation
 import GovKit
 
 struct VehicleDetailViewModel: Identifiable {
+    private let vehicle: CustomerSummary.Vehicle
     private let analyticsService: AnalyticsServiceInterface?
-    let id: Int
-    let registrationNumber: String
-    let vehicleMake: String
-    let vehicleModel: String
-    let keeperFullName: String
-    let keeperAddress: [String]
-    let taxStatusViewModel: ValidityStatusViewModel
-    let motStatusViewModel: ValidityStatusViewModel
-    let vehicleSpecViewModel: VehicleSpecViewModel
-    let specificationSection: GroupedListSection
-    let addressAccessibilityLabel: String
-    let regNumberAccessibilityLabelPrefix = String(
-        localized: .DVLA.registrationNumberAccessibilityLabelPrefix
-    )
-    let moreOptionsAccessibilityLabel = String(
-        localized: .DVLA.moreOptionsButtonAccessibilityLabel
-    )
+    private let statusFormatter = DVLAValidityStatusFormatter()
+    private let specFormatter = VehicleSpecFormatter()
 
-    func trackScreen(screen: TrackableScreen) {
-        analyticsService?.track(screen: screen)
+    var id: Int {
+        vehicle.vehicleId
     }
-
-    // todo: move formatting out of this init?
-    // swiftlint:disable:next function_body_length
-    init(analyticsService: AnalyticsServiceInterface?,
-         vehicle: CustomerSummary.Vehicle,
-         statusFormatter: DVLAValidityStatusFormatter = DVLAValidityStatusFormatter(),
-         specFormatter: VehicleSpecFormatter = VehicleSpecFormatter()
-    ) {
-        self.analyticsService = analyticsService
-        self.id = vehicle.vehicleId
-        self.registrationNumber = vehicle.registrationNumber
-        self.vehicleMake = vehicle.make
-        self.vehicleModel = specFormatter.formatModel(from: vehicle.model)
-        self.taxStatusViewModel = ValidityStatusViewModel(
-            title: String.dvla.localized("taxStatusTitle"),
-            status: statusFormatter.formatStatus(from: vehicle.taxedUntil)
-        )
-        self.motStatusViewModel = ValidityStatusViewModel(
-            title: String.dvla.localized("motStatusTitle"),
-            status: statusFormatter.formatStatus(from: vehicle.motExpiryDate)
-        )
-        let fullName = [
+    var registrationNumber: String {
+        vehicle.registrationNumber
+    }
+    var vehicleMake: String {
+        vehicle.make
+    }
+    var vehicleModel: String {
+        specFormatter.formatModel(from: vehicle.model)
+    }
+    var keeperFullName: String {
+        [
             vehicle.keeper?.title,
             vehicle.keeper?.firstNames,
             vehicle.keeper?.lastName
@@ -53,9 +28,10 @@ struct VehicleDetailViewModel: Identifiable {
         .compactMap { $0 }
         .joined(separator: " ")
         .capitalized
-        self.keeperFullName = fullName
+    }
+    var keeperAddress: [String] {
         let driverAddress = vehicle.keeper?.address?.unstructuredAddress
-        let addressArray = [
+        return [
             driverAddress?.line1?.capitalized,
             driverAddress?.line2?.capitalized,
             driverAddress?.line3?.capitalized,
@@ -64,15 +40,29 @@ struct VehicleDetailViewModel: Identifiable {
             driverAddress?.postcode
         ]
         .compactMap { $0 }
-        self.keeperAddress = addressArray
-        self.addressAccessibilityLabel = addressArray.joined(separator: ", ")
-        self.vehicleSpecViewModel = VehicleSpecViewModel(
+    }
+    var taxStatusViewModel: ValidityStatusViewModel {
+        .init(
+            title: String.dvla.localized("taxStatusTitle"),
+            status: statusFormatter.formatStatus(from: vehicle.taxedUntil)
+        )
+    }
+    var motStatusViewModel: ValidityStatusViewModel {
+        .init(
+            title: String.dvla.localized("motStatusTitle"),
+            status: statusFormatter.formatStatus(from: vehicle.motExpiryDate)
+        )
+    }
+    var vehicleSpecViewModel: VehicleSpecViewModel {
+        .init(
             colour: vehicle.colour.capitalized,
             fuelTypeIcon: specFormatter.getIconForFuelType(vehicle.fuelType),
             fuelTypeName: specFormatter.formatFuelTypeShort(from: vehicle.fuelType),
             year: specFormatter.formatYearOfFirstRegistration(from: vehicle.dateOfFirstRegistration)
         )
-        self.specificationSection = GroupedListSection(
+    }
+    var specificationSection: GroupedListSection {
+        GroupedListSection(
             heading: nil,
             rows: [
                 InformationRow(
@@ -114,17 +104,55 @@ struct VehicleDetailViewModel: Identifiable {
                     id: "vehicle.engineSize.row",
                     title: String(localized: .DVLA.engineSize),
                     body: nil,
-                    detail: specFormatter.formatEngineSize(from: vehicle.engineCapacity)
+                    detail: engineSize.displayValue /*,
+                    accessibilityLabel: String(
+                        localized: .DVLA.engineSizeAccessibilityLabel(
+                            value: engineSize.accessibilityLabel
+                        )
+                    ) */
                 ),
                 // todo: override accessibility label
                 InformationRow(
                     id: "vehicle.emissions.row",
                     title: String(localized: .DVLA.co2Emissions),
                     body: nil,
-                    detail: specFormatter.formatEmissions(from: vehicle.exhaustEmissions)
+                    detail: emissions.displayValue /*,
+                    accessibilityLabel: String(
+                        localized: .DVLA.emissionsAccessibilityLabel(
+                            value: emissions.accessibilityLabel
+                        )
+                    ) */
                 )
             ],
             footer: nil
         )
+    }
+    var addressAccessibilityLabel: String {
+        keeperAddress.joined(separator: ", ")
+    }
+    let regNumberAccessibilityLabelPrefix = String(
+        localized: .DVLA.registrationNumberAccessibilityLabelPrefix
+    )
+    let moreOptionsAccessibilityLabel = String(
+        localized: .DVLA.moreOptionsButtonAccessibilityLabel
+    )
+
+    private var engineSize: AccessibleString {
+        specFormatter.formatEngineSize(from: vehicle.engineCapacity)
+    }
+
+    private var emissions: AccessibleString {
+        specFormatter.formatEmissions(from: vehicle.exhaustEmissions)
+    }
+
+    init(analyticsService: AnalyticsServiceInterface?,
+         vehicle: CustomerSummary.Vehicle
+    ) {
+        self.vehicle = vehicle
+        self.analyticsService = analyticsService
+    }
+
+    func trackScreen(screen: TrackableScreen) {
+        analyticsService?.track(screen: screen)
     }
 }
