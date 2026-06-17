@@ -13,16 +13,19 @@ class VehiclesViewModel: ObservableObject {
     private var hasLoadedVehicles = false
     private let analyticsService: AnalyticsServiceInterface
     private let dvlaService: DVLAServiceInterface
+    let openURLAction: (URL) -> Void
     let loadingAccessibilityLabel = String.dvla.localized(
         "loadingVehiclesAccessibilityLabel"
     )
 
     init(viewState: ViewState = .loading,
          analyticsService: AnalyticsServiceInterface,
-         dvlaService: DVLAServiceInterface) {
+         dvlaService: DVLAServiceInterface,
+         openURLAction: @escaping (URL) -> Void) {
         self.viewState = viewState
         self.analyticsService = analyticsService
         self.dvlaService = dvlaService
+        self.openURLAction = openURLAction
     }
 
     @MainActor
@@ -47,6 +50,11 @@ class VehiclesViewModel: ObservableObject {
         case .failure:
             viewState = .error(dvlaAccountErrorViewModel)
         }
+    }
+
+    func addNewVehiclesAction() {
+        let url = "https://driver-and-vehicles-account.service.gov.uk/add_vehicle?locale=en"
+        openURLAction(URL(string: url)!)
     }
 
     private var dvlaAccountErrorViewModel: AppErrorViewModel {

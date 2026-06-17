@@ -55,7 +55,8 @@ class DVLAAccountWidgetViewModel: ObservableObject {
         if isAccountLinked {
             let vehiclesViewModel = VehiclesViewModel(
                 analyticsService: analyticsService,
-                dvlaService: dvlaService
+                dvlaService: dvlaService,
+                openURLAction: actions.openURLAction
             )
             let licenceViewModel = DrivingLicenceViewModel(
                 analyticsService: analyticsService,
@@ -144,5 +145,6 @@ extension DVLAAccountWidgetViewModel {
         let viewVehicleAction: () -> Void
         let viewShareCodesAction: () -> Void
         let createShareCodeAction: () -> Void
+        let openURLAction: (URL) -> Void
     }
 }
