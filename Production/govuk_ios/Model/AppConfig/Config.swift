@@ -34,6 +34,7 @@ struct Config: Decodable {
     let emergencyBanners: [EmergencyBanner]?
     let chatUrls: ChatURLs?
     let termsAndConditions: TermsAndConditions
+    let dvlaUrls: DvlaURLs?
 }
 
 struct ChatURLs: Decodable {
@@ -41,6 +42,10 @@ struct ChatURLs: Decodable {
     let privacyNotice: URL?
     let about: URL?
     let feedback: URL?
+}
+
+struct DvlaURLs: Decodable {
+    let addVehicle: URL?
 }
 
 struct TermsAndConditions: Decodable {

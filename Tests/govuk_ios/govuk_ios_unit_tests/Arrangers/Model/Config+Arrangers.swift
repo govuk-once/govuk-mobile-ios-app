@@ -60,7 +60,11 @@ extension Config {
             termsAndConditions: TermsAndConditions(
                 url: URL(string: "https://example.com")!,
                 contentItemApiPath: "/api/content/random",
-                lastUpdated: Date.now)
+                lastUpdated: Date.now
+            ),
+            dvlaUrls: DvlaURLs(
+                addVehicle: URL(string: "https://example.com"),
+            )
         )
     }
 }
