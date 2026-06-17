@@ -146,7 +146,6 @@ platform :ios do
       notify_external_testers: true,
       expire_previous_builds: false,
       groups: configuration.deliver_groups,
-      changelog: 'Automated internal build',
       api_key: app_store_key
     )
   end
