@@ -137,7 +137,7 @@ struct VehicleDetailView: View {
 }
 
 extension VehicleDetailView: TrackableScreen {
-    var trackingTitle: String? { "VehicleDetailsScreen" }
+    var trackingTitle: String? { trackingName }
     var trackingName: String { "VehicleDetailsScreen" }
 }
 

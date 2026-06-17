@@ -430,4 +430,12 @@ class MockViewControllerBuilder: ViewControllerBuilder {
         return _stubbedServiceAccountConsentController ?? UIViewController()
     }
 
+    var _stubbedVehicleDetailController: UIViewController?
+    override func vehicleDetail(
+        analyticsService: AnalyticsServiceInterface,
+        vehicle: CustomerSummary.Vehicle
+    ) -> UIViewController {
+        _stubbedVehicleDetailController ?? UIViewController()
+    }
+
 }

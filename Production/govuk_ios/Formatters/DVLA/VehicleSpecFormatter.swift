@@ -1,6 +1,17 @@
 import Foundation
 
-struct VehicleSpecFormatter {
+protocol VehicleSpecFormatterInterface {
+    func formatYearOfFirstRegistration(from date: Date) -> String
+    func formatModel(from model: String?) -> String
+    func formatFuelTypeShort(from fuelType: FuelType) -> String
+    func formatFuelTypeLong(from fuelType: FuelType) -> String
+    func getIconForFuelType(_ fuelType: FuelType) -> String
+    func formatColour(primary: String, secondary: String?) -> String
+    func formatEmissions(from emissions: ExhaustEmissions?) -> AccessibleString
+    func formatEngineSize(from engineCapacity: Int?) -> AccessibleString
+}
+
+struct VehicleSpecFormatter: VehicleSpecFormatterInterface {
     func formatYearOfFirstRegistration(from date: Date) -> String {
         return date.formatted(.dateTime.year())
     }

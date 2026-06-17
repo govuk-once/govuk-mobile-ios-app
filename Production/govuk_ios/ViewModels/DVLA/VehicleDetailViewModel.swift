@@ -5,7 +5,7 @@ struct VehicleDetailViewModel: Identifiable {
     private let vehicle: CustomerSummary.Vehicle
     private let analyticsService: AnalyticsServiceInterface?
     private let statusFormatter = DVLAValidityStatusFormatter()
-    private let specFormatter = VehicleSpecFormatter()
+    private let specFormatter: VehicleSpecFormatterInterface
 
     var id: Int {
         vehicle.vehicleId
@@ -146,10 +146,12 @@ struct VehicleDetailViewModel: Identifiable {
     }
 
     init(analyticsService: AnalyticsServiceInterface?,
-         vehicle: CustomerSummary.Vehicle
+         vehicle: CustomerSummary.Vehicle,
+         specFormatter: VehicleSpecFormatterInterface = VehicleSpecFormatter()
     ) {
         self.vehicle = vehicle
         self.analyticsService = analyticsService
+        self.specFormatter = specFormatter
     }
 
     func trackScreen(screen: TrackableScreen) {
