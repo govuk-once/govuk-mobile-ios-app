@@ -411,6 +411,8 @@
 		D04DD3352E00471C002B5F19 /* ChatServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04DD3342E00471C002B5F19 /* ChatServiceClient.swift */; };
 		D04DD3362E00471C002B5F19 /* ChatResponseHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04DD3332E00471C002B5F19 /* ChatResponseHandler.swift */; };
 		D04DD3382E004737002B5F19 /* ChatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04DD3372E004737002B5F19 /* ChatService.swift */; };
+		D0526C0E2FDAEF9B005C99DC /* GTM-TB8S9CHC.json in Resources */ = {isa = PBXBuildFile; fileRef = D0526C0D2FDAEF9B005C99DC /* GTM-TB8S9CHC.json */; };
+		D05284822FDB0216005C99DC /* container in Resources */ = {isa = PBXBuildFile; fileRef = D05284812FDB0216005C99DC /* container */; };
 		D052CA332E0B06F70048F98A /* ChatCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D052CA322E0B06F00048F98A /* ChatCoordinator.swift */; };
 		D052CA362E0B08CF0048F98A /* ChatCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D052CA352E0B08CF0048F98A /* ChatCellViewModel.swift */; };
 		D052CCE02E0B09AA0048F98A /* ChatCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D052CCDF2E0B09AA0048F98A /* ChatCellView.swift */; };
@@ -942,6 +944,8 @@
 		D04DD3332E00471C002B5F19 /* ChatResponseHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatResponseHandler.swift; sourceTree = "<group>"; };
 		D04DD3342E00471C002B5F19 /* ChatServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatServiceClient.swift; sourceTree = "<group>"; };
 		D04DD3372E004737002B5F19 /* ChatService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatService.swift; sourceTree = "<group>"; };
+		D0526C0D2FDAEF9B005C99DC /* GTM-TB8S9CHC.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "GTM-TB8S9CHC.json"; sourceTree = "<group>"; };
+		D05284812FDB0216005C99DC /* container */ = {isa = PBXFileReference; lastKnownFileType = folder; path = container; sourceTree = "<group>"; };
 		D052CA322E0B06F00048F98A /* ChatCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCoordinator.swift; sourceTree = "<group>"; };
 		D052CA352E0B08CF0048F98A /* ChatCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCellViewModel.swift; sourceTree = "<group>"; };
 		D052CCDF2E0B09AA0048F98A /* ChatCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCellView.swift; sourceTree = "<group>"; };
@@ -1260,10 +1264,17 @@
 			);
 			target = 5D4B9D332C074207005F126A /* govuk_ios_snapshot_tests */;
 		};
+		D05284802FDB01FD005C99DC /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"GTM-TB8S9CHC.json",
+			);
+			target = 5DAD71732BD250DB0075F648 /* govuk_ios */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		4E6B2D742EF1A87400D61966 /* container */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = container; sourceTree = "<group>"; };
+		4E6B2D742EF1A87400D61966 /* container */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (D05284802FDB01FD005C99DC /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = container; sourceTree = "<group>"; };
 		5D9CDE3A2CD928FB0045DFC3 /* Tests */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (5D9CDF202CD928FB0045DFC3 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 5D9CDF212CD928FB0045DFC3 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 5D9CDF222CD928FB0045DFC3 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (govuk_ios/govuk_ios_snapshot_tests/ReferenceImages_64, ); path = Tests; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
@@ -1951,6 +1962,7 @@
 			isa = PBXGroup;
 			children = (
 				4E6B2D742EF1A87400D61966 /* container */,
+				D05284812FDB0216005C99DC /* container */,
 				5DAD71B42BD286730075F648 /* Production */,
 				5D9CDE3A2CD928FB0045DFC3 /* Tests */,
 				5D30CF982C64A64600361C97 /* TestFlight */,
@@ -2005,6 +2017,7 @@
 		5DAD71A72BD254460075F648 /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
+				D0526C0C2FDAEF88005C99DC /* GoogleTagManager */,
 				5DAD71772BD250DB0075F648 /* AppDelegate.swift */,
 				162DD75A2C247ACE00FA482D /* GoogleService-Info.plist */,
 				D0B3EBFD2CE226AC00A8F321 /* GoogleService-Info-Dev.plist */,
@@ -2460,6 +2473,14 @@
 			path = Chat;
 			sourceTree = "<group>";
 		};
+		D0526C0C2FDAEF88005C99DC /* GoogleTagManager */ = {
+			isa = PBXGroup;
+			children = (
+				D0526C0D2FDAEF9B005C99DC /* GTM-TB8S9CHC.json */,
+			);
+			path = GoogleTagManager;
+			sourceTree = "<group>";
+		};
 		D052CA312E0B04800048F98A /* Chat */ = {
 			isa = PBXGroup;
 			children = (
@@ -2784,6 +2805,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D05284822FDB0216005C99DC /* container in Resources */,
 				5D742BDE2C997ABB00E7B87A /* Onboarding.xcstrings in Resources */,
 				164F41E02E8AA83C0095299F /* app_wordmark_splash.json in Resources */,
 				4EE5F3F02DAFDB80008C60ED /* LocalAuthority.xcstrings in Resources */,
@@ -2794,6 +2816,7 @@
 				D0A8B3C22C9DC66E00849304 /* integration_pubkey.der in Resources */,
 				815018F52F7D96F100E7469C /* DVLA.xcstrings in Resources */,
 				5D41DB7C2C09BF340011E691 /* Settings.bundle in Resources */,
+				D0526C0E2FDAEF9B005C99DC /* GTM-TB8S9CHC.json in Resources */,
 				5DDD588B2D5A557D001C0B3E /* onboarding_stay_updated.json in Resources */,
 				D05506662F4E17B7004659F6 /* chat_onboarding_three_dark.json in Resources */,
 				D05506672F4E17B7004659F6 /* chat_onboarding_three_light.json in Resources */,
@@ -2900,7 +2923,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cp \"${PROJECT_DIR}/Production/govuk_ios/SupportingFiles/${GOOGLE_SERVICES_FILE}\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/GoogleService-Info.plist\"\n";
+			shellScript = "cp \"${PROJECT_DIR}/Production/govuk_ios/SupportingFiles/${GOOGLE_SERVICES_FILE}\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/GoogleService-Info.plist\"\ncp \"${PROJECT_DIR}/Production/govuk_ios/SupportingFiles/GoogleTagManager/${GOOGLE_TAG_MANAGER_FILE}\" \"${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app/container/${GOOGLE_TAG_MANAGER_FILE}\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -3598,6 +3621,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				FLEX_BASE_URL = "https://staging.bl.once.service.gov.uk";
 				GENERATE_INFOPLIST_FILE = YES;
+				GOOGLE_TAG_MANAGER_FILE = "GTM-TB8S9CHC.json";
 				INFOPLIST_FILE = Production/govuk_ios/SupportingFiles/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = GOV.UK;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
@@ -3613,7 +3637,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.4;
+				MARKETING_VERSION = 1.2.5;
 				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				OTHER_SWIFT_FLAGS = "$(ADDITIONAL_SWIFT_FLAGS)";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_APP)";
@@ -3644,6 +3668,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				FLEX_BASE_URL = "https://staging.bl.once.service.gov.uk";
 				GENERATE_INFOPLIST_FILE = YES;
+				GOOGLE_TAG_MANAGER_FILE = "GTM-TB8S9CHC.json";
 				INFOPLIST_FILE = Production/govuk_ios/SupportingFiles/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = GOV.UK;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
@@ -3659,7 +3684,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.4;
+				MARKETING_VERSION = 1.2.5;
 				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				OTHER_SWIFT_FLAGS = "$(ADDITIONAL_SWIFT_FLAGS)";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_APP)";
@@ -3739,7 +3764,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.2.4;
+				MARKETING_VERSION = 1.2.5;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_NOTIFICATION_SERVICE)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -3772,7 +3797,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.2.4;
+				MARKETING_VERSION = 1.2.5;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_NOTIFICATION_SERVICE)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "$(PROFILE_SPECIFIER_NOTIFICATION_SERVICE)";
