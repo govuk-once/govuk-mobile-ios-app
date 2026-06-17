@@ -41,6 +41,10 @@ final class YourAccountsViewViewModel: ObservableObject {
         localized: .Settings.yourAccountsAlertMessage
     )
 
+    let editModeAccessibilityText = String(
+        localized: .Settings.editModeAccessibilityText
+    )
+
     init(userService: UserServiceInterface,
          analyticsService: AnalyticsServiceInterface) {
         self.userService = userService
@@ -70,33 +74,21 @@ final class YourAccountsViewViewModel: ObservableObject {
         }
     }
 
-    func trackNavigationEvent(_ title: String,
-                              external: Bool) {
+    func trackNavigationEvent(text: String) {
         let event = AppEvent.buttonNavigation(
-            text: title,
-            external: external
+            text: text,
+            external: false,
+            section: "settings"
         )
         analyticsService.track(event: event)
     }
 
-    func trackEditEvent(_ title: String,
-                    type: String,
-                    section: String) {
+    func trackEvent(text: String) {
         let event = AppEvent.function(
-            text: "Edit",
+            text: text,
             type: "Button",
-            section: "settings",
-            action: <#String#>
-        )
-        analyticsService.track(event: event)
-    }
-    func trackAlertEvent(_ title: String,
-                        type: String,
-                        section: String) {
-        let event = AppEvent.function(
-            text: "DVLA unlink",
-            type: "Button",
-            section: "settings"
+            section: "Settings",
+            action: ""
         )
         analyticsService.track(event: event)
     }

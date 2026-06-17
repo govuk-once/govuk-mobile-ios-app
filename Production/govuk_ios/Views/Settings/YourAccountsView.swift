@@ -77,16 +77,11 @@ struct YourAccountsView: View {
 
     private var successView: some View {
         VStack {
-            HStack(spacing: 16) {
+            HStack(spacing: 10) {
                 if isEditMode {
                     Button {
                         showAlert.toggle()
-                        viewModel.trackEvent(
-                            "DVLA unlink",
-                            type: "Button",
-                            section: "false",
-                            action: "Settings"
-                        )
+                        viewModel.trackEvent(text: "DVLA unlink")
                     } label: {
                         Image(systemName: "minus.circle.fill")
                             .font(Font.govUK.body)
@@ -96,8 +91,6 @@ struct YourAccountsView: View {
                             .foregroundStyle(.white, .red)
                     }
                     .buttonStyle(.plain)
-                    .accessibilityLabel("Remove \(viewModel.yourAccountsCardTitle)")
-                    .accessibilityHint("Double tap to prompt account removal confirmation.")
                 }
                 Text(viewModel.yourAccountsCardTitle)
                     .font(Font.govUK.body)
@@ -105,11 +98,10 @@ struct YourAccountsView: View {
                     .foregroundColor(Color(uiColor: .govUK.text.primary))
 
                 Spacer()
-            }
+            }.accessibilityHint(isEditMode ? viewModel.editModeAccessibilityText: "")
             .padding(16)
             .background(Color(uiColor: .govUK.fills.surfaceList))
             .roundedBorder(borderColor: .clear)
-
             Spacer()
         }
         .padding(.top, 8)
@@ -117,23 +109,11 @@ struct YourAccountsView: View {
         .background(Color(uiColor: .govUK.fills.surfaceBackground).ignoresSafeArea())
         .alert(viewModel.alertMessageTitle, isPresented: $showAlert, actions: {
             Button(viewModel.alertCancelButtonTitle, role: .cancel) {
-                // wip
-                viewModel.trackEvent(
-                    "DVLA unlink",
-                    type: "Button",
-                    section: "false",
-                    action: "Settings"
-                )
+                viewModel.trackEvent(text: "DVLA Cancel")
             }
             Button(viewModel.alertRemoveButtonTitle, role: .destructive) {
                 viewModel.unlinkAccount()
-                // wip
-                viewModel.trackEvent(
-                    "DVLA unlink",
-                    type: "Button",
-                    section: "false",
-                    action: "Settings"
-                )
+                viewModel.trackNavigationEvent(text: "DVLA Remove account")
             }
         }, message: {
             Text(viewModel.alertMessage)
@@ -141,24 +121,25 @@ struct YourAccountsView: View {
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 if isEditMode {
-                    Button {
-                        isEditMode.toggle()
-                    } label: {
-                        Image(systemName: "checkmark.circle.fill")
-                            .font(.body)
+                    if #available(iOS 26.0, *) {
+                        Button(role: .confirm, action: {
+                            isEditMode.toggle()
+                        })
+                    } else {
+                        Button {
+                            isEditMode.toggle()
+                        } label: {
+                            Image(systemName: "checkmark.circle.fill")
+                                .font(.body)
+                        }
+                        .buttonStyle(.plain)
+                        .symbolRenderingMode(.palette)
+                        .foregroundStyle(.white, .blue)
                     }
-                    .buttonStyle(.plain)
-                    .symbolRenderingMode(.palette)
-                    .foregroundStyle(.white, .blue)
                 } else {
                     Button {
                         isEditMode.toggle()
-                        viewModel.trackEvent(
-                            "Edit",
-                            type: "Button",
-                            section: "settings",
-                            action: "false"
-                        )
+                        viewModel.trackEvent(text: viewModel.editButtonTitle)
                     } label: {
                         Text(viewModel.editButtonTitle)
                     }

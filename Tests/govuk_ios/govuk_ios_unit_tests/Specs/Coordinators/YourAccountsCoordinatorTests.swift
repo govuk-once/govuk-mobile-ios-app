@@ -21,6 +21,7 @@ struct YourAccountsCoordinatorTests {
             viewControllerBuilder: mockViewControllerBuilder,
             userService: MockUserService(),
             coordinatorBuilder: mockCoordinatorBuilder,
+            analyticsService: MockAnalyticsService(),
             dismissAction: {}
         )
         sut.start()

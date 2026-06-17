@@ -124,7 +124,8 @@ class MockViewControllerBuilder: ViewControllerBuilder {
 
     var _stubbedYourAccountsViewController: UIViewController?
     override func yourAccountsSettings(
-        userService: UserServiceInterface
+        userService: UserServiceInterface,
+        analyticsService: AnalyticsServiceInterface
     )
     -> UIViewController {
         return _stubbedYourAccountsViewController ?? UIViewController()

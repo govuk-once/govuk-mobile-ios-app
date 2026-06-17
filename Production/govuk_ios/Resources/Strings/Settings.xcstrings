@@ -78,6 +78,17 @@
         }
       }
     },
+    "editModeAccessibilityText" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove driver and vehicles account"
+          }
+        }
+      }
+    },
     "faceIdTitle" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -99,9 +110,6 @@
           }
         }
       }
-    },
-    "Key" : {
-      "extractionState" : "manual"
     },
     "localAuthenticationFaceIdBody" : {
       "extractionState" : "manual",
