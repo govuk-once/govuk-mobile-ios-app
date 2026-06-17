@@ -3,6 +3,7 @@ import GovKit
 
 final class YourAccountsViewViewModel: ObservableObject {
     private let userService: UserServiceInterface
+    private var analyticsService: AnalyticsServiceInterface
     @Published var state: State = .loading
     let title = String(
         localized: .Settings.yourAccountsTitle
@@ -26,8 +27,24 @@ final class YourAccountsViewViewModel: ObservableObject {
         localized: .Settings.yourAccountsfailureViewDescription
     )
 
-    init(userService: UserServiceInterface) {
+    let alertMessageTitle =  String(
+        localized: .Settings.yourAccountsAlertButtonTitle
+    )
+    let alertRemoveButtonTitle = String(
+        localized: .Settings.yourAccountsAlertRemoveButtonTitle
+    )
+    let alertCancelButtonTitle = String(
+        localized: .Settings.yourAccountsAlertCancelButtonTitle
+    )
+
+    let alertMessage = String(
+        localized: .Settings.yourAccountsAlertMessage
+    )
+
+    init(userService: UserServiceInterface,
+         analyticsService: AnalyticsServiceInterface) {
         self.userService = userService
+        self.analyticsService = analyticsService
     }
 
     enum State {
@@ -53,12 +70,43 @@ final class YourAccountsViewViewModel: ObservableObject {
         }
     }
 
+    func trackNavigationEvent(_ title: String,
+                              external: Bool) {
+        let event = AppEvent.buttonNavigation(
+            text: title,
+            external: external
+        )
+        analyticsService.track(event: event)
+    }
+
+    func trackEditEvent(_ title: String,
+                    type: String,
+                    section: String) {
+        let event = AppEvent.function(
+            text: "Edit",
+            type: "Button",
+            section: "settings",
+            action: <#String#>
+        )
+        analyticsService.track(event: event)
+    }
+    func trackAlertEvent(_ title: String,
+                        type: String,
+                        section: String) {
+        let event = AppEvent.function(
+            text: "DVLA unlink",
+            type: "Button",
+            section: "settings"
+        )
+        analyticsService.track(event: event)
+    }
+
     @MainActor
     func unlinkAccount() {
         self.state = .loading
         userService.unlinkAccount(withType: .dvla) { [weak self] result in
             switch result {
-            case .success():
+            case .success:
                 self?.state = .empty
             case .failure(let error):
                 self?.state = .failure

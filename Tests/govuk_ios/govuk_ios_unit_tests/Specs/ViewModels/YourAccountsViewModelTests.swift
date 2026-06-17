@@ -40,4 +40,33 @@ struct YourAccountsViewModelTests {
         #expect(sut.state == .failure)
     }
 
+    @Test
+    @MainActor
+    func unlinkAccount_success_updatesStateToEmpty() {
+        let mockUserService = MockUserService()
+        mockUserService._stubbedUnlinkAccountResult = .success(())
+
+        let sut = YourAccountsViewViewModel(userService: mockUserService)
+        sut.state = .success
+
+        sut.unlinkAccount()
+
+        #expect(mockUserService._unlinkAccountCallCount == 1)
+        #expect(sut.state == .empty)
+    }
+
+    @Test
+    @MainActor
+    func unlinkAccount_failure_updatesStateToFailure() async {
+        let mockUserService = MockUserService()
+        mockUserService._stubbedUnlinkAccountResult = .failure(.apiUnavailable)
+
+        let sut = YourAccountsViewViewModel(userService: mockUserService)
+        sut.state = .success
+
+        sut.unlinkAccount()
+
+        #expect(mockUserService._unlinkAccountCallCount == 1)
+        #expect(sut.state == .failure)
+    }
 }

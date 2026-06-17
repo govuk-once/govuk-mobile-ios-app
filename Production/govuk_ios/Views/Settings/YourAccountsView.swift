@@ -3,13 +3,14 @@ import GovKitUI
 import GovKit
 
 struct YourAccountsView: View {
-    @StateObject var viewModel: YourAccountsViewViewModel
-    @State var isEditMode = false
+    @StateObject private var viewModel: YourAccountsViewViewModel
+    @State private var isEditMode = false
     @State private var showAlert = false
 
     init(viewModel: YourAccountsViewViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
+
     var body: some View {
         VStack {
             switch viewModel.state {
@@ -22,10 +23,8 @@ struct YourAccountsView: View {
             case .empty:
                 emptyView
             }
-        }.background {
-            Color(UIColor.govUK.fills.surfaceBackground)
-                .ignoresSafeArea()
         }
+        .background(Color(uiColor: .govUK.fills.surfaceBackground).ignoresSafeArea())
         .task {
             await viewModel.fetchLinkedAccounts()
         }
@@ -33,7 +32,7 @@ struct YourAccountsView: View {
 
     private var loadingView: some View {
         ZStack {
-            Color(UIColor.govUK.fills.surfaceBackground)
+            Color(uiColor: .govUK.fills.surfaceBackground)
             ProgressView()
         }
     }
@@ -43,8 +42,9 @@ struct YourAccountsView: View {
             VStack(spacing: 8) {
                 Image(systemName: "exclamationmark.circle")
                     .font(.title)
-                    .foregroundColor(Color(uiColor: UIColor.govUK.text.iconTertiary))
+                    .foregroundColor(Color(uiColor: .govUK.text.iconTertiary))
                     .accessibilityHidden(true)
+
                 VStack(spacing: 2) {
                     Text(viewModel.failureViewTitle)
                         .font(Font.govUK.bodySemibold)
@@ -56,8 +56,9 @@ struct YourAccountsView: View {
             }
             .padding(.vertical, 24)
             .frame(maxWidth: .infinity)
-            .background(Color(uiColor: UIColor.govUK.fills.surfaceList))
+            .background(Color(uiColor: .govUK.fills.surfaceList))
             .roundedBorder(borderColor: .clear)
+
             Spacer()
         }
         .padding(.top, 8)
@@ -69,74 +70,98 @@ struct YourAccountsView: View {
             NonTappableCardView(text: viewModel.emptyViewDescription)
                 .padding(.top, 8)
             Spacer()
-        }.background {
-            Color(UIColor.govUK.fills.surfaceBackground)
-                .ignoresSafeArea()
         }
+        .background(Color(uiColor: .govUK.fills.surfaceBackground).ignoresSafeArea())
         .padding(.horizontal, 16)
     }
 
     private var successView: some View {
         VStack {
-            VStack {
-                HStack {
-                    if isEditMode {
-                        Button(
-                            action: { showAlert.toggle() },
-                            label: {
-                                Image(systemName: "minus.circle.fill")
-                                    .symbolRenderingMode(.palette)
-                                    .foregroundStyle(.white, .red)
-                                    .font(.body)
-                            }
+            HStack(spacing: 16) {
+                if isEditMode {
+                    Button {
+                        showAlert.toggle()
+                        viewModel.trackEvent(
+                            "DVLA unlink",
+                            type: "Button",
+                            section: "false",
+                            action: "Settings"
                         )
+                    } label: {
+                        Image(systemName: "minus.circle.fill")
+                            .font(Font.govUK.body)
+                            .imageScale(.large)
+                            .fontWeight(.medium)
+                            .symbolRenderingMode(.palette)
+                            .foregroundStyle(.white, .red)
                     }
-                    Text(viewModel.yourAccountsCardTitle)
-                        .font(Font.govUK.body)
-                        .multilineTextAlignment(.leading)
-                        .foregroundColor(Color(UIColor.govUK.text.primary))
-                        .alert("Important!", isPresented: $showAlert) {
-                                Button("Option 1", role: .cancel) { }
-                                Button("Option 2", role: .destructive) {
-                                    viewModel.unlinkAccount()
-                                }
-                        } message: {
-                            Text("Do you want to proceed?")
-                        }
-                    Spacer()
+                    .buttonStyle(.plain)
+                    .accessibilityLabel("Remove \(viewModel.yourAccountsCardTitle)")
+                    .accessibilityHint("Double tap to prompt account removal confirmation.")
                 }
-                .padding(16)
+                Text(viewModel.yourAccountsCardTitle)
+                    .font(Font.govUK.body)
+                    .multilineTextAlignment(.leading)
+                    .foregroundColor(Color(uiColor: .govUK.text.primary))
+
+                Spacer()
             }
-            .background(Color(uiColor: UIColor.govUK.fills.surfaceList))
+            .padding(16)
+            .background(Color(uiColor: .govUK.fills.surfaceList))
             .roundedBorder(borderColor: .clear)
+
             Spacer()
-        }
-        .background {
-            Color(UIColor.govUK.fills.surfaceBackground)
-                .ignoresSafeArea()
         }
         .padding(.top, 8)
         .padding(.horizontal, 16)
+        .background(Color(uiColor: .govUK.fills.surfaceBackground).ignoresSafeArea())
+        .alert(viewModel.alertMessageTitle, isPresented: $showAlert, actions: {
+            Button(viewModel.alertCancelButtonTitle, role: .cancel) {
+                // wip
+                viewModel.trackEvent(
+                    "DVLA unlink",
+                    type: "Button",
+                    section: "false",
+                    action: "Settings"
+                )
+            }
+            Button(viewModel.alertRemoveButtonTitle, role: .destructive) {
+                viewModel.unlinkAccount()
+                // wip
+                viewModel.trackEvent(
+                    "DVLA unlink",
+                    type: "Button",
+                    section: "false",
+                    action: "Settings"
+                )
+            }
+        }, message: {
+            Text(viewModel.alertMessage)
+        })
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 if isEditMode {
-                    Button(
-                        action: { isEditMode.toggle() },
-                        label: {
-                            Image(systemName: "checkmark.circle.fill")
-                                .font(.body)
-                        }
-                    )
+                    Button {
+                        isEditMode.toggle()
+                    } label: {
+                        Image(systemName: "checkmark.circle.fill")
+                            .font(.body)
+                    }
                     .buttonStyle(.plain)
                     .symbolRenderingMode(.palette)
                     .foregroundStyle(.white, .blue)
                 } else {
-                    Button(
-                        action: { isEditMode.toggle() },
-                        label: {
-                            Text("Edit")
-                        }
-                    )
+                    Button {
+                        isEditMode.toggle()
+                        viewModel.trackEvent(
+                            "Edit",
+                            type: "Button",
+                            section: "settings",
+                            action: "false"
+                        )
+                    } label: {
+                        Text(viewModel.editButtonTitle)
+                    }
                 }
             }
         }
