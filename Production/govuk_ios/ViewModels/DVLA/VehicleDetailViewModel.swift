@@ -27,7 +27,6 @@ struct VehicleDetailViewModel: Identifiable {
         ]
         .compactMap { $0 }
         .joined(separator: " ")
-        .capitalized
     }
     var keeperAddress: [String] {
         let driverAddress = vehicle.keeper?.address?.unstructuredAddress
@@ -104,24 +103,23 @@ struct VehicleDetailViewModel: Identifiable {
                     id: "vehicle.engineSize.row",
                     title: String(localized: .DVLA.engineSize),
                     body: nil,
-                    detail: engineSize.displayValue /*,
+                    detail: engineSize.displayValue,
                     accessibilityLabel: String(
                         localized: .DVLA.engineSizeAccessibilityLabel(
                             value: engineSize.accessibilityLabel
                         )
-                    ) */
+                    )
                 ),
-                // todo: override accessibility label
                 InformationRow(
                     id: "vehicle.emissions.row",
                     title: String(localized: .DVLA.co2Emissions),
                     body: nil,
-                    detail: emissions.displayValue /*,
+                    detail: emissions.displayValue,
                     accessibilityLabel: String(
                         localized: .DVLA.emissionsAccessibilityLabel(
                             value: emissions.accessibilityLabel
                         )
-                    ) */
+                    )
                 )
             ],
             footer: nil

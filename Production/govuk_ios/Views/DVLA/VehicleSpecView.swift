@@ -4,13 +4,6 @@ import SwiftUI
 struct VehicleSpecView: View {
     let viewModel: VehicleSpecViewModel
     private static let standardPadding: CGFloat = 16
-    // todo: move this to govkit
-    private static let surfaceListAlt: UIColor = {
-        .init(
-            light: .blueTint95,
-            dark: .blueShade70
-        )
-    }()
 
     var body: some View {
         ViewThatFits(in: .horizontal) {
@@ -40,7 +33,7 @@ struct VehicleSpecView: View {
             .accessibilityLabel(viewModel.colourAccessibilityLabel)
         }
         .fixedSize(horizontal: true, vertical: false)
-        .background(Color(uiColor: Self.surfaceListAlt))
+        .background(Color(uiColor: .govUK.fills.surfaceListAlt))
         .roundedBorder(borderColor: .clear)
         .padding(Self.standardPadding)
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -80,7 +73,7 @@ struct VehicleSpecView: View {
                 .accessibilityLabel(viewModel.colourAccessibilityLabel)
         }
         .fixedSize(horizontal: false, vertical: true)
-        .background(Color(uiColor: Self.surfaceListAlt))
+        .background(Color(uiColor: .govUK.fills.surfaceListAlt))
         .roundedBorder(borderColor: .clear)
         .padding(Self.standardPadding)
     }

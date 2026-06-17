@@ -30,7 +30,7 @@ struct DrivingLicenceSummaryViewModelTests {
             lastName: "BLOGGS"
         )
         let sut = DrivingLicenceSummaryViewModel(driverSummary: mockDriverSummary)
-        #expect(sut.fullName == "Mr Joe George Bloggs")
+        #expect(sut.fullName == "MR JOE GEORGE BLOGGS")
     }
 
     @Test

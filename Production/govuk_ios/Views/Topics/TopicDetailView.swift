@@ -87,8 +87,7 @@ struct TopicDetailView<T: TopicDetailViewModelInterface>: View {
 
     private var topicDetails: some View {
         GroupedList(
-            content: viewModel.sections,
-            backgroundColor: UIColor.govUK.fills.surfaceBackground
+            content: viewModel.sections
         )
         .padding([.top, .horizontal], 16)
         .background(Color(UIColor.govUK.fills.surfaceBackground))

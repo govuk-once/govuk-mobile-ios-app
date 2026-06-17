@@ -80,9 +80,9 @@ struct VehicleDetailView: View {
                     .accessibilityLabel(
                         registrationNumberAccessibilityLabel
                     )
-                // todo: set grouped list section background colour
                 GroupedList(
-                    content: [viewModel.specificationSection]
+                    content: [viewModel.specificationSection],
+                    sectionBackgroundColor: .govUK.fills.surfaceFullscreen
                 )
             }
         }

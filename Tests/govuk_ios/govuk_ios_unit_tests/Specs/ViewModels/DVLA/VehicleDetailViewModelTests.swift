@@ -38,7 +38,7 @@ struct VehicleDetailViewModelTests {
             analyticsService: MockAnalyticsService(),
             vehicle: mockVehicle
         )
-        #expect(sut.keeperFullName == "Mr Joe Bloggs")
+        #expect(sut.keeperFullName == "MR JOE BLOGGS")
     }
 
     // update this when new vehicle endpoint is provided with new address field

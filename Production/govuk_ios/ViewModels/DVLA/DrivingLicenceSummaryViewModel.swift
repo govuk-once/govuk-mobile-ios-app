@@ -42,7 +42,6 @@ extension DrivingLicenceSummaryViewModel {
         ]
         .compactMap { $0 }
         .joined(separator: " ")
-        .capitalized
         self.fullName = fullName
         let driverAddress = driverSummary.response.driver.address.unstructuredAddress
         let addressArray = [

@@ -51,7 +51,6 @@ struct DVLAAccountView: View {
         ScrollView {
             GroupedList(
                 content: viewModel.sections,
-                backgroundColor: UIColor.govUK.fills.surfaceBackground
             )
             .padding(.vertical, 24)
             .padding(.horizontal, 16)
