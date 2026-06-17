@@ -7,6 +7,7 @@ class WidgetViewBuilder {
         analyticsService: AnalyticsServiceInterface,
         userService: UserServiceInterface,
         dvlaService: DVLAServiceInterface,
+        configService: AppConfigServiceInterface,
         linkAction: @escaping () -> Void,
         unlinkAction: @escaping () -> Void,
         viewDriverSummaryAction: @escaping () -> Void,
@@ -30,6 +31,7 @@ class WidgetViewBuilder {
             analyticsService: analyticsService,
             userService: userService,
             dvlaService: dvlaService,
+            configService: configService,
             actions: actions
         )
         let view = DVLAAccountWidgetView(viewModel: viewModel)

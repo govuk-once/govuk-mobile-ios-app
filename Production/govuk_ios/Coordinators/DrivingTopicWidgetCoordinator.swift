@@ -46,6 +46,7 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator,
             analyticsService: analyticsService,
             userService: userService,
             dvlaService: dvlaService,
+            configService: configService,
             linkAction: startLinkAccount,
             unlinkAction: startUnlinkAccount,
             viewDriverSummaryAction: { [weak self] in

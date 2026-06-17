@@ -17,6 +17,7 @@ struct Config: Decodable {
         case emergencyBanners
         case chatUrls
         case termsAndConditions
+        case dvlaUrls
     }
 
     let available: Bool
