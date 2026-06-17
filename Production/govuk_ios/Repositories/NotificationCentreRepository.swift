@@ -31,7 +31,12 @@ class NotificationCentreRepository: NotificationCentreRepositoryInterface {
         }
     }
 
-    private var notifications: CacheEntry<[Notification]>?
+    private var notifications: CacheEntry<[Notification]>? =
+    CacheEntry(data:
+                NotificationCentreViewModel.MockData.tidyTestNotifications.recent
+               + NotificationCentreViewModel.MockData.tidyTestNotifications.older,
+               lastUpdate: Date().addingTimeInterval(36000000))
+
     private var lastUpdate: Date?
 
     private var dateProvider: DateProvider

@@ -56,6 +56,106 @@ class NotificationCentreViewModel: ObservableObject {
             ]
             return NotificationGroups(recent: recent, older: older)
         }()
+
+        static let tidyTestNotifications: NotificationGroups = {
+            let oneDay: Double = 60 * 60 * 24
+            let now = Date()
+
+            let recent: [Notification] = [
+                // Unread — urgent, long enough to ellipsise on one line
+                .init(
+                    id: "1",
+                    title: "Action required: your Universal Credit claim needs attention by 30th July 2026",
+                    body: "We need some additional information to continue processing your claim. Please sign in and upload the requested documents.",
+                    date: now,
+                    status: "UNREAD",
+                    messageTitle: nil,
+                    messageBody: nil
+                ),
+                // Unread — short title
+                .init(
+                    id: "2",
+                    title: "MOT reminder: your vehicle is due for its MOT test",
+                    body: "Your vehicle (**AB12 CDE**) is due for an MOT by *28 June 2026*. Book online or find an approved garage near you.",
+                    date: now.addingTimeInterval(-1 * oneDay),
+                    status: "UNREAD",
+                    messageTitle: nil,
+                    messageBody: nil
+                ),
+                // Read — uses messageTitle/messageBody to verify detail screen rendering
+                .init(
+                    id: "3",
+                    title: "Your Blue Badge application has been approved",
+                    body: "Your Blue Badge will arrive within 10 working days.",
+                    date: now.addingTimeInterval(-2 * oneDay),
+                    status: "READ",
+                    messageTitle: "Blue Badge approved",
+                    messageBody: "We're pleased to tell you that your Blue Badge application has been approved. Your badge will be posted to your registered address and should arrive within 10 working days.\n\nIf it has not arrived after 15 working days, contact your local council."
+                ),
+                // Read — short, no alternate content
+                .init(
+                    id: "4",
+                    title: "Tax credits payment of £342.00 has been processed",
+                    body: "Your payment will reach your account within 3 working days.",
+                    date: now.addingTimeInterval(-3 * oneDay),
+                    status: "READ",
+                    messageTitle: nil,
+                    messageBody: nil
+                ),
+                // Unread — slightly longer title to test ellipsis
+                .init(
+                    id: "6",
+                    title: "Reminder: your passport expires in 6 months — renew before travelling to the EU",
+                    body: "Some EU countries require your passport to be valid for at least 6 months. Renew now to avoid disruption.",
+                    date: now.addingTimeInterval(-5 * oneDay),
+                    status: "UNREAD",
+                    messageTitle: nil,
+                    messageBody: nil
+                ),
+                // Read — short
+                .init(
+                    id: "7",
+                    title: "Your driving licence has been updated",
+                    body: "Your updated photocard driving licence is being printed and will arrive within 3 weeks.",
+                    date: now.addingTimeInterval(-6 * oneDay),
+                    status: "READ",
+                    messageTitle: nil,
+                    messageBody: nil
+                ),
+            ]
+
+            let older: [Notification] = [
+                .init(
+                    id: "9",
+                    title: "Your child benefit payment of £102.40 has been processed",
+                    body: "This payment covers the 4-week period ending 14 June 2026.",
+                    date: now.addingTimeInterval(-14 * oneDay),
+                    status: "READ",
+                    messageTitle: nil,
+                    messageBody: nil
+                ),
+                .init(
+                    id: "10",
+                    title: "Electoral register: confirm your details before 30 April 2027",
+                    body: "Your local council requires you to _confirm or update_ your details on the electoral register. [Test link](https://gov.uk)",
+                    date: now.addingTimeInterval(-21 * oneDay),
+                    status: "READ",
+                    messageTitle: nil,
+                    messageBody: nil
+                ),
+                .init(
+                    id: "11",
+                    title: "Your State Pension forecast has been updated",
+                    body: "Sign in to your account to view your updated State Pension forecast and full National Insurance record.",
+                    date: now.addingTimeInterval(-28 * oneDay),
+                    status: "READ",
+                    messageTitle: nil,
+                    messageBody: nil
+                ),
+            ]
+
+            return NotificationGroups(recent: recent, older: older)
+        }()
     }
     // swiftlint:enable line_length
 
