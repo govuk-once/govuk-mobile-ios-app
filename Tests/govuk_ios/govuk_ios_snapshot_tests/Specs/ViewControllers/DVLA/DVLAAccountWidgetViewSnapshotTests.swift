@@ -125,7 +125,8 @@ extension DVLAAccountWidgetViewModel.Actions {
             viewCustomerSummaryAction: {},
             viewVehicleAction: {},
             viewShareCodesAction: {},
-            createShareCodeAction: {}
+            createShareCodeAction: {},
+            openURLAction: { _ in }
         )
     }
 }
