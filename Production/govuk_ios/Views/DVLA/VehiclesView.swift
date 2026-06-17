@@ -5,6 +5,8 @@ import GovKitUI
 struct VehiclesView: View {
     @StateObject private var viewModel: VehiclesViewModel
 
+    private static let iconSize: CGFloat = 36.0
+
     init(viewModel: VehiclesViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
@@ -61,25 +63,23 @@ struct VehiclesView: View {
         } label: {
             VStack(alignment: .center, spacing: 16) {
                 Image(systemName: "plus.circle")
-                    .font(.system(size: 32, weight: .light))
+                    .font(.govUK.largeTitle.weight(.light))
                     .foregroundColor(
-                        Color(
-                            UIColor.govUK.text.iconTertiary
-                        )
+                        Color(.govUK.text.iconTertiary)
                     )
                     .font(.title)
                     .accessibilityHidden(true)
                 Text(String.dvla.localized("dvlaAddNewVehiclesTitle"))
                     .multilineTextAlignment(.center)
-                    .font(Font.govUK.body)
+                    .font(.govUK.body)
                     .foregroundColor(
-                        Color(UIColor.govUK.text.primary))
+                        Color(.govUK.text.primary))
                     .padding(.horizontal, 32)
             }
             .frame(maxWidth: .infinity)
             .padding(.vertical, 52)
             .background {
-                Color(uiColor: UIColor.govUK.fills.surfaceList)
+                Color(.govUK.fills.surfaceList)
             }
             .roundedBorder(borderColor: .clear)
             .accessibilityElement(children: .combine)
@@ -93,20 +93,20 @@ struct VehiclesView: View {
         label: {
             HStack {
                 Text(String.dvla.localized("dvlaAddNewVehicleTitle"))
-                    .font(Font.govUK.body)
-                    .foregroundStyle(Color(uiColor: .govUK.text.primary))
+                    .font(.govUK.body)
+                    .foregroundStyle(Color(.govUK.text.primary))
                     .multilineTextAlignment(.leading)
                 Spacer()
                 Image(systemName: "plus.circle")
-                    .font(.system(size: 22, weight: .medium))
-                    .frame(width: 36, height: 36)
-                    .foregroundStyle(Color(uiColor: .govUK.text.iconTertiary))
+                    .font(.govUK.title3Semibold)
+                    .frame(minWidth: Self.iconSize, minHeight: Self.iconSize)
+                    .foregroundStyle(Color(.govUK.text.iconTertiary))
                     .accessibilityHidden(true)
             }
         })
         .padding(.horizontal)
         .padding(.vertical, 12)
-        .background(Color(uiColor: .govUK.fills.surfaceCardDefault))
+        .background(Color(.govUK.fills.surfaceCardDefault))
         .roundedBorder(borderColor: .clear)
         .accessibilityElement(children: .combine)
     }
@@ -114,7 +114,7 @@ struct VehiclesView: View {
     private func makeErrorView(for errorViewModel: AppErrorViewModel) -> some View {
         AppErrorView(viewModel: errorViewModel)
             .frame(maxWidth: .infinity, minHeight: 200)
-            .background(Color(UIColor.govUK.fills.surfaceList))
+            .background(Color(.govUK.fills.surfaceList))
             .clipShape(RoundedRectangle(cornerRadius: 10))
             .padding(.horizontal, 16)
     }
