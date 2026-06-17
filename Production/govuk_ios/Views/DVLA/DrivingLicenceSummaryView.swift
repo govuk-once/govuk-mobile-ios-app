@@ -71,7 +71,7 @@ struct DrivingLicenceSummaryView: View {
                     .overlay(Color(uiColor: .govUK.strokes.listDivider))
                     .padding(.bottom, 8)
                 Text(viewModel.fullName)
-                    .font(.govUK.title3Semibold)
+                    .font(.govUK.bodySemibold)
                     .multilineTextAlignment(.leading)
                     .padding(.top, Self.standardPadding)
                     .padding(.bottom, 4)
@@ -80,6 +80,7 @@ struct DrivingLicenceSummaryView: View {
                     VStack(alignment: .leading, spacing: 0) {
                         ForEach(viewModel.address, id: \.self) { addressLine in
                             Text(addressLine)
+                                .font(.govUK.body)
                                 .padding(.top, 4)
                         }
                     }

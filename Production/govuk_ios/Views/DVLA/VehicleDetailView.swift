@@ -36,6 +36,7 @@ struct VehicleDetailView: View {
                         alignment: .leading
                     )
                     .padding(.horizontal, Self.standardPadding)
+                    .padding(.top, 16)
                     .accessibilityAddTraits(.isHeader)
                 ValidityStatusView(viewModel: viewModel.taxStatusViewModel)
                 Divider()
@@ -49,7 +50,8 @@ struct VehicleDetailView: View {
                         maxWidth: .infinity,
                         alignment: .leading
                     )
-                    .padding([.top, .leading, .trailing], Self.standardPadding)
+                    .padding(.top, 32)
+                    .padding([.horizontal], Self.standardPadding)
                     .accessibilityAddTraits(.isHeader)
                 addressView
                     .frame(
@@ -62,7 +64,8 @@ struct VehicleDetailView: View {
                         maxWidth: .infinity,
                         alignment: .leading
                     )
-                    .padding([.top, .leading, .trailing], Self.standardPadding)
+                    .padding(.top, 32)
+                    .padding([.horizontal], Self.standardPadding)
                     .padding(.bottom, 8)
                     .accessibilityAddTraits(.isHeader)
                 Text(viewModel.registrationNumber)
@@ -107,7 +110,7 @@ struct VehicleDetailView: View {
         if !viewModel.keeperAddress.isEmpty || !viewModel.keeperFullName.isEmpty {
             VStack(alignment: .leading, spacing: 0) {
                 Text(viewModel.keeperFullName)
-                    .font(.govUK.title3Semibold)
+                    .font(.govUK.bodySemibold)
                     .multilineTextAlignment(.leading)
                     .padding(.top, Self.standardPadding)
                     .padding(.bottom, 4)
@@ -115,6 +118,7 @@ struct VehicleDetailView: View {
                     VStack(alignment: .leading, spacing: 0) {
                         ForEach(viewModel.keeperAddress, id: \.self) { addressLine in
                             Text(addressLine)
+                                .font(.govUK.body)
                                 .padding(.top, 4)
                         }
                     }
