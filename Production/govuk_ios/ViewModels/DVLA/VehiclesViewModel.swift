@@ -14,7 +14,7 @@ class VehiclesViewModel: ObservableObject {
     private let analyticsService: AnalyticsServiceInterface
     private let dvlaService: DVLAServiceInterface
     private let configService: AppConfigServiceInterface
-    let openURLAction: (URL) -> Void
+    private let openURLAction: (URL) -> Void
     let loadingAccessibilityLabel = String.dvla.localized(
         "loadingVehiclesAccessibilityLabel"
     )
@@ -57,6 +57,7 @@ class VehiclesViewModel: ObservableObject {
 
     func addNewVehiclesAction() {
         openURLAction(configService.dvlaUrls?.addVehicle ?? Constants.API.defaultDvlaAddVehicleAUrl)
+        hasLoadedVehicles = false
     }
 
     private var dvlaAccountErrorViewModel: AppErrorViewModel {

@@ -71,4 +71,26 @@ struct VehiclesViewModelTests {
         }
         #expect(errorViewModel?.title == String.common.localized("genericErrorTitle"))
     }
+
+    @Test
+    @MainActor
+    func addNewVehiclesAction_opensURLAndResetsVehiclesLoaded() async {
+        mockDvlaService._stubbedFetchCustomerSummaryResult = .success(.arrange)
+        await confirmation() { confirmation in
+            let sut = VehiclesViewModel(
+                analyticsService: mockAnalyticsService,
+                dvlaService: mockDvlaService,
+                configService: mockConfigService,
+                openURLAction: { _ in confirmation() }
+            )
+
+            await sut.viewDidAppear()
+            #expect(mockDvlaService._fetchCustomerSummaryCallCount == 1)
+
+            sut.addNewVehiclesAction()
+
+            await sut.viewDidAppear()
+            #expect(mockDvlaService._fetchCustomerSummaryCallCount == 2)
+        }
+    }
 }
