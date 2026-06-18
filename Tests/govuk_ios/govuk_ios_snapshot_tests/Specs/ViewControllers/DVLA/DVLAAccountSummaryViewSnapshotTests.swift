@@ -12,7 +12,7 @@ import GovKit
                 vehicles: [
                     VehicleSummaryViewModel(
                         vehicle: .arrange,
-                        detailTappedAction: {}
+                        detailAction: {}
                     )
                 ]
             )
@@ -44,7 +44,7 @@ import GovKit
                 vehicles: [
                     VehicleSummaryViewModel(
                         vehicle: .arrange,
-                        detailTappedAction: {}
+                        detailAction: {}
                     )
                 ]
             )
@@ -76,7 +76,7 @@ import GovKit
                 vehicles: [
                     VehicleSummaryViewModel(
                         vehicle: .arrange,
-                        detailTappedAction: {}
+                        detailAction: {}
                     )
                 ]
             )
@@ -109,7 +109,7 @@ import GovKit
                 vehicles: [
                     VehicleSummaryViewModel(
                         vehicle: .arrange,
-                        detailTappedAction: {}
+                        detailAction: {}
                     )
                 ]
             )

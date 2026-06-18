@@ -158,7 +158,7 @@ struct DrivingTopicWidgetCoordinatorTests {
     }
 
     @Test
-    func makeWidget_vehicleDetailTappedActions_startsVehicleDetail() {
+    func makeWidget_vehicleDetailActions_startsVehicleDetail() {
         let drivingTopic = Topic.arrange(
             context: coreDataRepository.viewContext,
             ref: "driving-transport"
@@ -178,7 +178,7 @@ struct DrivingTopicWidgetCoordinatorTests {
             widgetViewBuilder: mockWidgetViewBuilder
         )
         let _ = sut.makeWidget(for: drivingTopic)
-        mockWidgetViewBuilder._receivedVehicleDetailTappedAction?(CustomerSummary.Vehicle.arrange)
+        mockWidgetViewBuilder._receivedVehicleDetailAction?(CustomerSummary.Vehicle.arrange)
         #expect(mockVehicleDetailCoordinator._startCalled == true)
     }
 }

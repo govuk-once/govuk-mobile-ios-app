@@ -24,7 +24,7 @@ struct VehiclesViewModelTests {
             analyticsService: mockAnalyticsService,
             dvlaService: mockDvlaService,
             configService: mockConfigService,
-            detailTappedAction: { _ in },
+            detailAction: { _ in },
             openURLAction: { _ in }
         )
         await sut.viewDidAppear()
@@ -44,7 +44,7 @@ struct VehiclesViewModelTests {
             analyticsService: mockAnalyticsService,
             dvlaService: mockDvlaService,
             configService: mockConfigService,
-            detailTappedAction: { _ in },
+            detailAction: { _ in },
             openURLAction: { _ in }
         )
         await sut.viewDidAppear()
@@ -69,7 +69,7 @@ struct VehiclesViewModelTests {
             analyticsService: mockAnalyticsService,
             dvlaService: mockDvlaService,
             configService: mockConfigService,
-            detailTappedAction: { _ in },
+            detailAction: { _ in },
             openURLAction: { _ in }
         )
         await sut.viewDidAppear()
@@ -77,7 +77,7 @@ struct VehiclesViewModelTests {
         if case .loaded(let vehicles) = sut.viewState {
             vehicleSummaryViewModels = vehicles
         }
-        vehicleSummaryViewModels?.first?.detailTappedAction()
+        vehicleSummaryViewModels?.first?.detailAction()
 
         let navigationEvent = mockAnalyticsService._trackedEvents.first
         #expect(navigationEvent?.params?["text"] as? String == "Details")
@@ -93,7 +93,7 @@ struct VehiclesViewModelTests {
             analyticsService: mockAnalyticsService,
             dvlaService: mockDvlaService,
             configService: mockConfigService,
-            detailTappedAction: { _ in },
+            detailAction: { _ in },
             openURLAction: { _ in }
         )
         await sut.viewDidAppear()
@@ -113,7 +113,7 @@ struct VehiclesViewModelTests {
                 analyticsService: mockAnalyticsService,
                 dvlaService: mockDvlaService,
                 configService: mockConfigService,
-                detailTappedAction: { _ in },
+                detailAction: { _ in },
                 openURLAction: { _ in confirmation() }
             )
 
@@ -133,7 +133,7 @@ struct VehiclesViewModelTests {
             analyticsService: mockAnalyticsService,
             dvlaService: mockDvlaService,
             configService: mockConfigService,
-            detailTappedAction: { _ in },
+            detailAction: { _ in },
             openURLAction: { _ in }
         )
 

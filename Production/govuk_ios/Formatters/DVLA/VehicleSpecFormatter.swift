@@ -15,9 +15,11 @@ struct VehicleSpecFormatter: VehicleSpecFormatterInterface {
     func formatYearOfFirstRegistration(from date: Date) -> String {
         return date.formatted(.dateTime.year())
     }
+
     func formatModel(from model: String?) -> String {
         return model ?? String(localized: .DVLA.unknown)
     }
+
     func formatFuelTypeShort(from fuelType: FuelType) -> String {
         switch fuelType {
         case .petrolGas, .gasBiFuel, .gasDiesel:
@@ -30,6 +32,7 @@ struct VehicleSpecFormatter: VehicleSpecFormatterInterface {
             fuelType.rawValue.capitalized
         }
     }
+
     func formatFuelTypeLong(from fuelType: FuelType) -> String {
         switch fuelType {
         case .petrolGas:
@@ -48,6 +51,7 @@ struct VehicleSpecFormatter: VehicleSpecFormatterInterface {
             fuelType.rawValue.capitalized
         }
     }
+
     func getIconForFuelType(_ fuelType: FuelType) -> String {
         switch fuelType {
         case .diesel, .petrol:
@@ -64,6 +68,7 @@ struct VehicleSpecFormatter: VehicleSpecFormatterInterface {
             "fuelpump.fill"
         }
     }
+
     func formatColour(primary: String, secondary: String?) -> String {
         guard let secondary = secondary else {
             return primary.capitalized
@@ -75,6 +80,7 @@ struct VehicleSpecFormatter: VehicleSpecFormatterInterface {
             )
         )
     }
+
     func formatEmissions(from emissions: ExhaustEmissions?) -> AccessibleString {
         guard let co2Emissions = emissions?.co2 else {
             return AccessibleString(String(localized: .DVLA.unknown))
@@ -91,6 +97,7 @@ struct VehicleSpecFormatter: VehicleSpecFormatterInterface {
         )
         return AccessibleString(displayText, accessibilityLabel: accessibilityLabel)
     }
+
     func formatEngineSize(from engineCapacity: Int?) -> AccessibleString {
         guard let engineCapacity = engineCapacity else {
             return AccessibleString(String(localized: .DVLA.unknown))

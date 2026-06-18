@@ -49,7 +49,7 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator,
             configService: configService,
             linkAction: startLinkAccount,
             unlinkAction: startUnlinkAccount,
-            vehicleDetailTappedAction: { [weak self] vehicle in
+            vehicleDetailAction: { [weak self] vehicle in
                 self?.startVehicleDetail(vehicle: vehicle)
             },
             viewVehicleAction: { [weak self] in

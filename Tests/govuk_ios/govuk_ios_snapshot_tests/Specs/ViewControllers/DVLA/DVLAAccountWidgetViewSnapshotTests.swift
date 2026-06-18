@@ -99,7 +99,7 @@ import GovKit
                 vehicles: [
                     VehicleSummaryViewModel(
                         vehicle: mockVehicle,
-                        detailTappedAction: {}
+                        detailAction: {}
                     )
                 ]
             )
@@ -124,7 +124,7 @@ extension DVLAAccountWidgetViewModel.Actions {
         .init(
             linkAction: {},
             unlinkAction: {},
-            vehicleDetailTappedAction: { _ in },
+            vehicleDetailAction: { _ in },
             viewVehicleAction: {},
             viewShareCodesAction: {},
             createShareCodeAction: {},

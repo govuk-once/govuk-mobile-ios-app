@@ -75,7 +75,7 @@ struct VehicleSummaryView: View {
 
     private var detailsButton: some View {
         Button {
-            viewModel.detailTappedAction()
+            viewModel.detailAction()
         } label: {
             HStack {
                 Text(String.dvla.localized("detailsButtonTitle"))

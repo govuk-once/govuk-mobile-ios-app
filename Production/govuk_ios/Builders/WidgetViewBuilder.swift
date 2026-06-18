@@ -10,7 +10,7 @@ class WidgetViewBuilder {
         configService: AppConfigServiceInterface,
         linkAction: @escaping () -> Void,
         unlinkAction: @escaping () -> Void,
-        vehicleDetailTappedAction: @escaping (CustomerSummary.Vehicle) -> Void,
+        vehicleDetailAction: @escaping (CustomerSummary.Vehicle) -> Void,
         viewVehicleAction: @escaping () -> Void,
         viewShareCodesAction: @escaping () -> Void,
         createShareCodeAction: @escaping () -> Void,
@@ -19,7 +19,7 @@ class WidgetViewBuilder {
         let actions = DVLAAccountWidgetViewModel.Actions(
             linkAction: linkAction,
             unlinkAction: unlinkAction,
-            vehicleDetailTappedAction: vehicleDetailTappedAction,
+            vehicleDetailAction: vehicleDetailAction,
             viewVehicleAction: viewVehicleAction,
             viewShareCodesAction: viewShareCodesAction,
             createShareCodeAction: createShareCodeAction,

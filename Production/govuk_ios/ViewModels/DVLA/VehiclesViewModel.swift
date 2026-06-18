@@ -14,7 +14,7 @@ class VehiclesViewModel: ObservableObject {
     private let analyticsService: AnalyticsServiceInterface
     private let dvlaService: DVLAServiceInterface
     private let configService: AppConfigServiceInterface
-    private let detailTappedAction: (CustomerSummary.Vehicle) -> Void
+    private let detailAction: (CustomerSummary.Vehicle) -> Void
     private let openURLAction: (URL) -> Void
     let loadingAccessibilityLabel = String.dvla.localized(
         "loadingVehiclesAccessibilityLabel"
@@ -24,13 +24,13 @@ class VehiclesViewModel: ObservableObject {
          analyticsService: AnalyticsServiceInterface,
          dvlaService: DVLAServiceInterface,
          configService: AppConfigServiceInterface,
-         detailTappedAction: @escaping (CustomerSummary.Vehicle) -> Void,
+         detailAction: @escaping (CustomerSummary.Vehicle) -> Void,
          openURLAction: @escaping (URL) -> Void) {
         self.viewState = viewState
         self.analyticsService = analyticsService
         self.dvlaService = dvlaService
         self.configService = configService
-        self.detailTappedAction = detailTappedAction
+        self.detailAction = detailAction
         self.openURLAction = openURLAction
     }
 
@@ -51,9 +51,9 @@ class VehiclesViewModel: ObservableObject {
             let vehicleSummaryViewModels = customerSummary.vehicles.map { vehicle in
                 VehicleSummaryViewModel(
                     vehicle: vehicle,
-                    detailTappedAction: { [weak self] in
+                    detailAction: { [weak self] in
                         self?.trackDetailButtonTapped()
-                        self?.detailTappedAction(vehicle)
+                        self?.detailAction(vehicle)
                     }
                 )
             }

@@ -60,7 +60,7 @@ class DVLAAccountWidgetViewModel: ObservableObject {
                 analyticsService: analyticsService,
                 dvlaService: dvlaService,
                 configService: configService,
-                detailTappedAction: actions.vehicleDetailTappedAction,
+                detailAction: actions.vehicleDetailAction,
                 openURLAction: actions.openURLAction
             )
             let licenceViewModel = DrivingLicenceViewModel(
@@ -135,7 +135,7 @@ extension DVLAAccountWidgetViewModel {
     struct Actions {
         let linkAction: () -> Void
         let unlinkAction: () -> Void
-        let vehicleDetailTappedAction: (CustomerSummary.Vehicle) -> Void
+        let vehicleDetailAction: (CustomerSummary.Vehicle) -> Void
         let viewVehicleAction: () -> Void
         let viewShareCodesAction: () -> Void
         let createShareCodeAction: () -> Void

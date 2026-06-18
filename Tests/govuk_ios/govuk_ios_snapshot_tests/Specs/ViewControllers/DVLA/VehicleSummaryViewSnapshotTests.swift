@@ -14,7 +14,7 @@ class VehicleSummaryViewSnapshotTests: SnapshotTestCase {
         )
         let viewModel = VehicleSummaryViewModel(
             vehicle: mockVehicle,
-            detailTappedAction: {}
+            detailAction: {}
         )
         let view = VehicleSummaryView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
@@ -33,7 +33,7 @@ class VehicleSummaryViewSnapshotTests: SnapshotTestCase {
         )
         let viewModel = VehicleSummaryViewModel(
             vehicle: mockVehicle,
-            detailTappedAction: {}
+            detailAction: {}
         )
         let view = VehicleSummaryView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
@@ -52,7 +52,7 @@ class VehicleSummaryViewSnapshotTests: SnapshotTestCase {
         )
         let viewModel = VehicleSummaryViewModel(
             vehicle: mockVehicle,
-            detailTappedAction: {}
+            detailAction: {}
         )
         let view = VehicleSummaryView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
@@ -71,7 +71,7 @@ class VehicleSummaryViewSnapshotTests: SnapshotTestCase {
         )
         let viewModel = VehicleSummaryViewModel(
             vehicle: mockVehicle,
-            detailTappedAction: {}
+            detailAction: {}
         )
         let view = VehicleSummaryView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(

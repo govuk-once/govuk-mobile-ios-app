@@ -39,6 +39,13 @@ enum FuelType: String, Codable {
     case fuelCells = "FUEL CELLS"
     case electricDiesel = "ELECTRIC DIESEL"
     case other = "OTHER"
+    case unknown
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let rawValue = try container.decode(String.self)
+        self = FuelType(rawValue: rawValue) ?? .other
+    }
 }
 
 struct ExhaustEmissions: Codable {

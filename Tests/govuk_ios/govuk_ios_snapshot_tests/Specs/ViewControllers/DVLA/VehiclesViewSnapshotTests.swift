@@ -80,7 +80,7 @@ import GovKit
                 vehicles: [
                     VehicleSummaryViewModel(
                         vehicle: mockVehicle,
-                        detailTappedAction: {}
+                        detailAction: {}
                     )
                 ]
             )
@@ -109,7 +109,7 @@ import GovKit
                 vehicles: [
                     VehicleSummaryViewModel(
                         vehicle: mockVehicle,
-                        detailTappedAction: {}
+                        detailAction: {}
                     )
                 ]
             )

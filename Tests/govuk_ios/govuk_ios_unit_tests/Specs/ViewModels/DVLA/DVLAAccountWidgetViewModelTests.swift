@@ -70,7 +70,7 @@ struct DVLAAccountWidgetViewModelTests {
                     linkActionCalled = true
                 },
                 unlinkAction: {},
-                vehicleDetailTappedAction: { _ in },
+                vehicleDetailAction: { _ in },
                 viewVehicleAction: {},
                 viewShareCodesAction: {},
                 createShareCodeAction: {},
@@ -120,7 +120,7 @@ extension DVLAAccountWidgetViewModel.Actions {
         .init(
             linkAction: {},
             unlinkAction: {},
-            vehicleDetailTappedAction: { _ in },
+            vehicleDetailAction: { _ in },
             viewVehicleAction: {},
             viewShareCodesAction: {},
             createShareCodeAction: {},
