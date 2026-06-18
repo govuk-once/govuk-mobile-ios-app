@@ -30,7 +30,7 @@ extension Constants.API {
         string: "https://surveys.publishing.service.gov.uk/s/SUIEH2/"
     )!
 
-    public static let defaultDvlaAddVehicleAUrl: URL = URL(
+    public static let defaultDvlaAddVehicleUrl: URL = URL(
         string: "https://driver-and-vehicles-account.service.gov.uk/add_vehicle"
     )!
 
