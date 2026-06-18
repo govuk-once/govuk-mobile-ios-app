@@ -7,13 +7,15 @@ class WidgetViewBuilder {
         analyticsService: AnalyticsServiceInterface,
         userService: UserServiceInterface,
         dvlaService: DVLAServiceInterface,
+        configService: AppConfigServiceInterface,
         linkAction: @escaping () -> Void,
         unlinkAction: @escaping () -> Void,
         viewDriverSummaryAction: @escaping () -> Void,
         viewCustomerSummaryAction: @escaping () -> Void,
         viewVehicleAction: @escaping () -> Void,
         viewShareCodesAction: @escaping () -> Void,
-        createShareCodeAction: @escaping () -> Void
+        createShareCodeAction: @escaping () -> Void,
+        openURLAction: @escaping (URL) -> Void
     ) -> AnyView? {
         let actions = DVLAAccountWidgetViewModel.Actions(
             linkAction: linkAction,
@@ -22,12 +24,14 @@ class WidgetViewBuilder {
             viewCustomerSummaryAction: viewCustomerSummaryAction,
             viewVehicleAction: viewVehicleAction,
             viewShareCodesAction: viewShareCodesAction,
-            createShareCodeAction: createShareCodeAction
+            createShareCodeAction: createShareCodeAction,
+            openURLAction: openURLAction
         )
         let viewModel = DVLAAccountWidgetViewModel(
             analyticsService: analyticsService,
             userService: userService,
             dvlaService: dvlaService,
+            configService: configService,
             actions: actions
         )
         let view = DVLAAccountWidgetView(viewModel: viewModel)

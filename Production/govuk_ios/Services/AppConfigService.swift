@@ -11,6 +11,7 @@ protocol AppConfigServiceInterface {
     var userFeedbackBanner: UserFeedbackBanner? { get }
     var emergencyBanners: [EmergencyBanner]? { get }
     var chatUrls: ChatURLs? { get }
+    var dvlaUrls: DvlaURLs? { get }
     var refreshTokenExpirySeconds: Int? { get }
     var termsAndConditions: TermsAndConditions? { get }
 }
@@ -29,6 +30,7 @@ public final class AppConfigService: AppConfigServiceInterface {
     var userFeedbackBanner: UserFeedbackBanner?
     var emergencyBanners: [EmergencyBanner]?
     private(set) var chatUrls: ChatURLs?
+    private(set) var dvlaUrls: DvlaURLs?
     private(set) var refreshTokenExpirySeconds: Int?
     private(set) var termsAndConditions: TermsAndConditions?
 
@@ -90,6 +92,7 @@ public final class AppConfigService: AppConfigServiceInterface {
         chatBanner = config.chatBanner
         userFeedbackBanner = config.userFeedbackBanner
         chatUrls = config.chatUrls
+        dvlaUrls = config.dvlaUrls
         termsAndConditions = config.termsAndConditions
     }
 

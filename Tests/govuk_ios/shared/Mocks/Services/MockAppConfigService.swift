@@ -71,6 +71,11 @@ class MockAppConfigService: AppConfigServiceInterface {
         _stubbedChatUrls
     }
 
+    var _dvlaUrls: DvlaURLs?
+    var dvlaUrls: DvlaURLs? {
+        _dvlaUrls
+    }
+
     var _receivedFetchAppConfigCompletion: FetchAppConfigCompletion?
     var _stubbedFetchAppConfigResult: FetchAppConfigResult = .failure(.configAPI)
     var _stubbedTermsAndConditions: TermsAndConditions?

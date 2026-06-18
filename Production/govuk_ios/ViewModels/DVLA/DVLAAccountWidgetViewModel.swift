@@ -15,17 +15,20 @@ class DVLAAccountWidgetViewModel: ObservableObject {
     private let analyticsService: AnalyticsServiceInterface
     private let userService: UserServiceInterface
     private let dvlaService: DVLAServiceInterface
+    private let configService: AppConfigServiceInterface
     private let actions: Actions
 
     init(viewState: ViewState = .loading,
          analyticsService: AnalyticsServiceInterface,
          userService: UserServiceInterface,
          dvlaService: DVLAServiceInterface,
+         configService: AppConfigServiceInterface,
          actions: Actions) {
         self.viewState = viewState
         self.analyticsService = analyticsService
         self.userService = userService
         self.dvlaService = dvlaService
+        self.configService = configService
         self.actions = actions
     }
 
@@ -55,7 +58,9 @@ class DVLAAccountWidgetViewModel: ObservableObject {
         if isAccountLinked {
             let vehiclesViewModel = VehiclesViewModel(
                 analyticsService: analyticsService,
-                dvlaService: dvlaService
+                dvlaService: dvlaService,
+                configService: configService,
+                openURLAction: actions.openURLAction
             )
             let licenceViewModel = DrivingLicenceViewModel(
                 analyticsService: analyticsService,
@@ -144,5 +149,6 @@ extension DVLAAccountWidgetViewModel {
         let viewVehicleAction: () -> Void
         let viewShareCodesAction: () -> Void
         let createShareCodeAction: () -> Void
+        let openURLAction: (URL) -> Void
     }
 }

@@ -9,10 +9,12 @@ struct VehiclesViewModelTests {
 
     var mockAnalyticsService: MockAnalyticsService!
     var mockDvlaService: MockDVLAService!
+    var mockConfigService: MockAppConfigService!
 
     init() {
         mockAnalyticsService = MockAnalyticsService()
         mockDvlaService = MockDVLAService()
+        mockConfigService = MockAppConfigService()
     }
 
     @Test
@@ -20,7 +22,9 @@ struct VehiclesViewModelTests {
         mockDvlaService._stubbedFetchCustomerSummaryResult = .success(.arrange)
         let sut = VehiclesViewModel(
             analyticsService: mockAnalyticsService,
-            dvlaService: mockDvlaService
+            dvlaService: mockDvlaService,
+            configService: mockConfigService,
+            openURLAction: { _ in }
         )
         await sut.viewDidAppear()
         #expect(mockDvlaService._fetchCustomerSummaryCallCount == 1)
@@ -37,7 +41,9 @@ struct VehiclesViewModelTests {
         )
         let sut = VehiclesViewModel(
             analyticsService: mockAnalyticsService,
-            dvlaService: mockDvlaService
+            dvlaService: mockDvlaService,
+            configService: mockConfigService,
+            openURLAction: { _ in }
         )
         await sut.viewDidAppear()
         var vehicleSummaryViewModels: [VehicleSummaryViewModel]?
@@ -54,7 +60,9 @@ struct VehiclesViewModelTests {
         mockDvlaService._stubbedFetchCustomerSummaryResult = .failure(.apiUnavailable)
         let sut = VehiclesViewModel(
             analyticsService: mockAnalyticsService,
-            dvlaService: mockDvlaService
+            dvlaService: mockDvlaService,
+            configService: mockConfigService,
+            openURLAction: { _ in }
         )
         await sut.viewDidAppear()
         var errorViewModel: AppErrorViewModel?
@@ -62,5 +70,42 @@ struct VehiclesViewModelTests {
             errorViewModel = error
         }
         #expect(errorViewModel?.title == String.common.localized("genericErrorTitle"))
+    }
+
+    @Test
+    @MainActor
+    func addNewVehiclesAction_opensURLAndResetsVehiclesLoaded() async {
+        mockDvlaService._stubbedFetchCustomerSummaryResult = .success(.arrange)
+        await confirmation() { confirmation in
+            let sut = VehiclesViewModel(
+                analyticsService: mockAnalyticsService,
+                dvlaService: mockDvlaService,
+                configService: mockConfigService,
+                openURLAction: { _ in confirmation() }
+            )
+
+            await sut.viewDidAppear()
+            #expect(mockDvlaService._fetchCustomerSummaryCallCount == 1)
+
+            sut.addNewVehiclesAction()
+
+            await sut.viewDidAppear()
+            #expect(mockDvlaService._fetchCustomerSummaryCallCount == 2)
+        }
+    }
+
+    @Test
+    func addNewVehiclesAction_tracksEvent() async {
+        let sut = VehiclesViewModel(
+            analyticsService: mockAnalyticsService,
+            dvlaService: mockDvlaService,
+            configService: mockConfigService,
+            openURLAction: { _ in }
+        )
+
+        sut.addNewVehiclesAction()
+
+        #expect(mockAnalyticsService._trackedEvents.count == 1)
+        #expect(mockAnalyticsService._trackedEvents.first?.params?["text"] as? String == "Add your vehicle")
     }
 }
