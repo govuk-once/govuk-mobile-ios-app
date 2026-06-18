@@ -12,12 +12,14 @@ class MockWidgetViewBuilder: WidgetViewBuilder {
         analyticsService: AnalyticsServiceInterface,
         userService: UserServiceInterface,
         dvlaService: DVLAServiceInterface,
+        configService: AppConfigServiceInterface,
         linkAction: @escaping () -> Void,
         unlinkAction: @escaping () -> Void,
         vehicleDetailTappedAction: @escaping (CustomerSummary.Vehicle) -> Void,
         viewVehicleAction: @escaping () -> Void,
         viewShareCodesAction: @escaping () -> Void,
-        createShareCodeAction: @escaping () -> Void
+        createShareCodeAction: @escaping () -> Void,
+        openURLAction: @escaping (URL) -> Void
     ) -> AnyView? {
         _receivedDvlaAccountWidgetLinkAction = linkAction
         _receivedDvlaAccountWidgetUnlinkAction = unlinkAction

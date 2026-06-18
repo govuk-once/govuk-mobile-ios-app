@@ -13,7 +13,9 @@ class MockVehiclesViewModel: VehiclesViewModel {
             viewState: viewState,
             analyticsService: MockAnalyticsService(),
             dvlaService: MockDVLAService(),
-            detailTappedAction: { _ in }
+            configService: MockAppConfigService(),
+            detailTappedAction: { _ in },
+            openURLAction: { _ in }
         )
     }
 }

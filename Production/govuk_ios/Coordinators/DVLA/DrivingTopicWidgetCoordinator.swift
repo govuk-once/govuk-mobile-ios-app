@@ -46,6 +46,7 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator,
             analyticsService: analyticsService,
             userService: userService,
             dvlaService: dvlaService,
+            configService: configService,
             linkAction: startLinkAccount,
             unlinkAction: startUnlinkAccount,
             vehicleDetailTappedAction: { [weak self] vehicle in
@@ -59,6 +60,9 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator,
             },
             createShareCodeAction: { [weak self] in
                 self?.startDvlaAccount(viewType: .createShareCode)
+            },
+            openURLAction: { [weak self] url in
+                self?.presentWebView(url: url)
             }
         )
     }
@@ -101,6 +105,15 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator,
         let coordinator = coordinatorBuilder.dvlaAccount(
             navigationController: root,
             viewType: viewType
+        )
+        start(coordinator)
+    }
+
+    private func presentWebView(url: URL) {
+        let coordinator = coordinatorBuilder.safari(
+            navigationController: root,
+            url: url,
+            fullScreen: true
         )
         start(coordinator)
     }

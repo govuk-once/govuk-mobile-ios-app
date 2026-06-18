@@ -26,8 +26,13 @@ extension Constants.API {
         return components.url!
     }()
 
-    public static let defaultChatFeedbackUrl: URL =
-    URL(string: "https://surveys.publishing.service.gov.uk/s/SUIEH2/")!
+    public static let defaultChatFeedbackUrl: URL = URL(
+        string: "https://surveys.publishing.service.gov.uk/s/SUIEH2/"
+    )!
+
+    public static let defaultDvlaAddVehicleUrl: URL = URL(
+        string: "https://driver-and-vehicles-account.service.gov.uk/add_vehicle"
+    )!
 
     public static let betaPrivacyPolicyURL: URL = {
         var components = govukBaseComponents

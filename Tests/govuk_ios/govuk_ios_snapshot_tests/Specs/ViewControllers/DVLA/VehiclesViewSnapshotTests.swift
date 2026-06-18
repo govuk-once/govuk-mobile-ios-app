@@ -36,6 +36,36 @@ import GovKit
         )
     }
 
+    func test_vehicleSummaryView_emptyVehicles_light_rendersCorrectly() {
+        let viewModel = MockVehiclesViewModel(
+            viewState: .loaded(vehicles: [])
+        )
+        let view = VehiclesView(viewModel: viewModel)
+        let hostingViewController =  HostingViewController(
+            rootView: view
+        )
+        hostingViewController.view.backgroundColor = .govUK.fills.surfaceBackground
+        VerifySnapshotInNavigationController(
+            viewController: hostingViewController,
+            mode: .light
+        )
+    }
+
+    func test_vehicleSummaryView_emptyVehicles_dark_rendersCorrectly() {
+        let viewModel = MockVehiclesViewModel(
+            viewState: .loaded(vehicles: [])
+        )
+        let view = VehiclesView(viewModel: viewModel)
+        let hostingViewController =  HostingViewController(
+            rootView: view
+        )
+        hostingViewController.view.backgroundColor = .govUK.fills.surfaceBackground
+        VerifySnapshotInNavigationController(
+            viewController: hostingViewController,
+            mode: .dark
+        )
+    }
+
     func test_vehicleSummaryView_light_rendersCorrectly() {
         let mockVehicle = CustomerSummary.Vehicle.arrange(
             registrationNumber: "AB12 CDE",

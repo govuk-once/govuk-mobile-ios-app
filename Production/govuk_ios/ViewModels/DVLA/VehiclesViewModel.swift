@@ -13,7 +13,9 @@ class VehiclesViewModel: ObservableObject {
     private var hasLoadedVehicles = false
     private let analyticsService: AnalyticsServiceInterface
     private let dvlaService: DVLAServiceInterface
+    private let configService: AppConfigServiceInterface
     private let detailTappedAction: (CustomerSummary.Vehicle) -> Void
+    private let openURLAction: (URL) -> Void
     let loadingAccessibilityLabel = String.dvla.localized(
         "loadingVehiclesAccessibilityLabel"
     )
@@ -21,11 +23,15 @@ class VehiclesViewModel: ObservableObject {
     init(viewState: ViewState = .loading,
          analyticsService: AnalyticsServiceInterface,
          dvlaService: DVLAServiceInterface,
-         detailTappedAction: @escaping (CustomerSummary.Vehicle) -> Void) {
+         configService: AppConfigServiceInterface,
+         detailTappedAction: @escaping (CustomerSummary.Vehicle) -> Void,
+         openURLAction: @escaping (URL) -> Void) {
         self.viewState = viewState
         self.analyticsService = analyticsService
         self.dvlaService = dvlaService
+        self.configService = configService
         self.detailTappedAction = detailTappedAction
+        self.openURLAction = openURLAction
     }
 
     @MainActor
@@ -65,6 +71,18 @@ class VehiclesViewModel: ObservableObject {
             section: "Driving"
         )
         analyticsService.track(event: event)
+    }
+
+    func addNewVehiclesAction() {
+        let url = configService.dvlaUrls?.addVehicle ??
+        Constants.API.defaultDvlaAddVehicleUrl
+        openURLAction(url)
+        let event = AppEvent.drivingAccountCardNavigation(
+            text: "Add your vehicle",
+            url: url.absoluteString
+        )
+        analyticsService.track(event: event)
+        hasLoadedVehicles = false
     }
 
     private var dvlaAccountErrorViewModel: AppErrorViewModel {

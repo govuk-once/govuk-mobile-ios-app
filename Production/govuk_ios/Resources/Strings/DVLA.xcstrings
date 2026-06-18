@@ -155,6 +155,28 @@
         }
       }
     },
+    "dvlaAddNewVehiclesTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add your vehicles"
+          }
+        }
+      }
+    },
+    "dvlaAddNewVehicleTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add vehicle"
+          }
+        }
+      }
+    },
     "dvlaViewCustomerSummaryCardTitle" : {
       "extractionState" : "manual",
       "localizations" : {

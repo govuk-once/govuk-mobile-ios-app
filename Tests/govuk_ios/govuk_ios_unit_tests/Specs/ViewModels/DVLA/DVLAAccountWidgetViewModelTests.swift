@@ -9,11 +9,13 @@ struct DVLAAccountWidgetViewModelTests {
     var mockAnalyticsService: MockAnalyticsService
     var mockDvlaService: MockDVLAService
     var mockUserService: MockUserService
+    var mockConfigService: MockAppConfigService
 
     init() {
         mockAnalyticsService = MockAnalyticsService()
         mockDvlaService = MockDVLAService()
         mockUserService = MockUserService()
+        mockConfigService = MockAppConfigService()
     }
 
     @Test
@@ -24,7 +26,8 @@ struct DVLAAccountWidgetViewModelTests {
             analyticsService: mockAnalyticsService,
             userService: mockUserService,
             dvlaService: mockDvlaService,
-            actions: .empty
+            configService: mockConfigService,
+            actions: .empty,
         )
         await sut.viewDidAppear()
         #expect(mockUserService._fetchLinkedAccountsCalled == true)
@@ -37,6 +40,7 @@ struct DVLAAccountWidgetViewModelTests {
             analyticsService: mockAnalyticsService,
             userService: mockUserService,
             dvlaService: mockDvlaService,
+            configService: mockConfigService,
             actions: .empty
         )
         await sut.viewDidAppear()
@@ -60,6 +64,7 @@ struct DVLAAccountWidgetViewModelTests {
             analyticsService: mockAnalyticsService,
             userService: mockUserService,
             dvlaService: mockDvlaService,
+            configService: mockConfigService,
             actions: .init(
                 linkAction: {
                     linkActionCalled = true
@@ -68,7 +73,8 @@ struct DVLAAccountWidgetViewModelTests {
                 vehicleDetailTappedAction: { _ in },
                 viewVehicleAction: {},
                 viewShareCodesAction: {},
-                createShareCodeAction: {}
+                createShareCodeAction: {},
+                openURLAction: { _ in }
             )
         )
         await sut.viewDidAppear()
@@ -89,6 +95,7 @@ struct DVLAAccountWidgetViewModelTests {
             analyticsService: mockAnalyticsService,
             userService: mockUserService,
             dvlaService: mockDvlaService,
+            configService: mockConfigService,
             actions: .empty
         )
         await sut.viewDidAppear()
@@ -116,7 +123,8 @@ extension DVLAAccountWidgetViewModel.Actions {
             vehicleDetailTappedAction: { _ in },
             viewVehicleAction: {},
             viewShareCodesAction: {},
-            createShareCodeAction: {}
+            createShareCodeAction: {},
+            openURLAction: { _ in }
         )
     }
 }
