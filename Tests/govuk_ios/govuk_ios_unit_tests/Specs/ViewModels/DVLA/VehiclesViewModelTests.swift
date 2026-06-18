@@ -93,4 +93,19 @@ struct VehiclesViewModelTests {
             #expect(mockDvlaService._fetchCustomerSummaryCallCount == 2)
         }
     }
+
+    @Test
+    func addNewVehiclesAction_tracksEvent() async {
+        let sut = VehiclesViewModel(
+            analyticsService: mockAnalyticsService,
+            dvlaService: mockDvlaService,
+            configService: mockConfigService,
+            openURLAction: { _ in }
+        )
+
+        sut.addNewVehiclesAction()
+
+        #expect(mockAnalyticsService._trackedEvents.count == 1)
+        #expect(mockAnalyticsService._trackedEvents.first?.params?["text"] as? String == "Add your vehicle")
+    }
 }
