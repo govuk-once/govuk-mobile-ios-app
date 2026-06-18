@@ -14,6 +14,7 @@ class MockDVLAAccountWidgetViewModel: DVLAAccountWidgetViewModel {
             analyticsService: MockAnalyticsService(),
             userService: MockUserService(),
             dvlaService: MockDVLAService(),
+            configService: MockAppConfigService(),
             actions: .empty
         )
     }
