@@ -56,7 +56,14 @@ class VehiclesViewModel: ObservableObject {
     }
 
     func addNewVehiclesAction() {
-        openURLAction(configService.dvlaUrls?.addVehicle ?? Constants.API.defaultDvlaAddVehicleAUrl)
+        let url = configService.dvlaUrls?.addVehicle ??
+        Constants.API.defaultDvlaAddVehicleAUrl
+        openURLAction(url)
+        let event = AppEvent.drivingAccountCardNavigation(
+            text: "Add your vehicle",
+            url: url.absoluteString
+        )
+        analyticsService.track(event: event)
         hasLoadedVehicles = false
     }
 
