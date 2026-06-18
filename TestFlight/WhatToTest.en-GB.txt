@@ -1,5 +1,1 @@
-End-to-end app journey.
-- Splash screen animation
-- Onboarding (only visible on the first app launch, until the journey is completed or skipped)
-- Home screen (WIP)
-- Deep linking to home, settings, driving and permit screens
+This is a pre-release version of the Gov.UK app, meaning we may still making improvements and refining features ahead of the full release. You may occasionally notice small issues or changes as we continue to enhance the experience. Thanks for your understanding—and for any feedback you can share to help us make the app even better!
