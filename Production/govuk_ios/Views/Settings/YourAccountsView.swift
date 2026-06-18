@@ -88,7 +88,8 @@ struct YourAccountsView: View {
                             .imageScale(.large)
                             .fontWeight(.medium)
                             .symbolRenderingMode(.palette)
-                            .foregroundStyle(.white, .red)
+                            .foregroundStyle(Color(uiColor: .greyWhite),
+                                             Color(uiColor: .systemRed))
                     }
                     .buttonStyle(.plain)
                 }
@@ -123,22 +124,26 @@ struct YourAccountsView: View {
                 if isEditMode {
                     if #available(iOS 26.0, *) {
                         Button(role: .confirm, action: {
-                            isEditMode.toggle()
+                            withAnimation(.easeInOut) {
+                                isEditMode.toggle()
+                            }
                         })
                     } else {
                         Button {
-                            isEditMode.toggle()
+                            withAnimation(.easeInOut) {
+                                isEditMode.toggle()
+                            }
                         } label: {
-                            Image(systemName: "checkmark.circle.fill")
-                                .font(.body)
+                            Text(viewModel.editModeDoneButton)
+                                .font(Font.govUK.body)
+                                .foregroundColor(Color(uiColor: .govUK.text.linkHeader))
                         }
-                        .buttonStyle(.plain)
-                        .symbolRenderingMode(.palette)
-                        .foregroundStyle(.white, .blue)
                     }
                 } else {
                     Button {
-                        isEditMode.toggle()
+                        withAnimation(.easeInOut) {
+                            isEditMode.toggle()
+                        }
                         viewModel.trackEvent(text: viewModel.editButtonTitle)
                     } label: {
                         Text(viewModel.editButtonTitle)

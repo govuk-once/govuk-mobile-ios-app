@@ -26,7 +26,6 @@ final class YourAccountsViewViewModel: ObservableObject {
     let failureViewDescription = String(
         localized: .Settings.yourAccountsfailureViewDescription
     )
-
     let alertMessageTitle =  String(
         localized: .Settings.yourAccountsAlertButtonTitle
     )
@@ -36,13 +35,14 @@ final class YourAccountsViewViewModel: ObservableObject {
     let alertCancelButtonTitle = String(
         localized: .Settings.yourAccountsAlertCancelButtonTitle
     )
-
     let alertMessage = String(
         localized: .Settings.yourAccountsAlertMessage
     )
-
     let editModeAccessibilityText = String(
-        localized: .Settings.editModeAccessibilityText
+        localized: .Settings.yourAccountsEditModeAccessibilityText
+    )
+    let editModeDoneButton = String(
+        localized: .Settings.yourAccountsEditModeDoneButton
     )
 
     init(userService: UserServiceInterface,

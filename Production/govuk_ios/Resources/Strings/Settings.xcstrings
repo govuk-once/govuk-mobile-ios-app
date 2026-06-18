@@ -78,17 +78,6 @@
         }
       }
     },
-    "editModeAccessibilityText" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Remove driver and vehicles account"
-          }
-        }
-      }
-    },
     "faceIdTitle" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -470,6 +459,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Driver and vehicles account"
+          }
+        }
+      }
+    },
+    "yourAccountsEditModeAccessibilityText" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove driver and vehicles account"
+          }
+        }
+      }
+    },
+    "yourAccountsEditModeDoneButton" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
           }
         }
       }
