@@ -149,7 +149,7 @@ platform :ios do
       api_key: app_store_key,
       localized_build_info: {
         default: {
-          whats_new: File.open("../TestFlight/WhatToTest.en-GB.txt").read,
+          whats_new: File.read("../TestFlight/WhatToTest.en-GB.txt"),
         }
       }
     )
