@@ -31,7 +31,7 @@ struct FuelTypeTests {
     }
 
     @Test
-    func decode_unknownRawValue_fallsBackToOther() throws {
+    func decode_unknownRawValue_returnsUnknown() throws {
         let result = try decoder.decode(FuelType.self, from: encoded("ROCKET"))
         #expect(result == .unknown)
     }
