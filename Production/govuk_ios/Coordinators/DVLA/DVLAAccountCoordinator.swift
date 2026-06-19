@@ -3,7 +3,6 @@ import UIKit
 import GovKit
 
 enum DVLAAccountViewType {
-    case driverSummary
     case vehicle
     case shareCodeList
     case createShareCode

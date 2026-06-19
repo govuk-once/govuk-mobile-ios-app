@@ -62,9 +62,7 @@ extension Config {
                 contentItemApiPath: "/api/content/random",
                 lastUpdated: Date.now
             ),
-            dvlaUrls: DvlaURLs(
-                addVehicle: URL(string: "https://example.com"),
-            )
+            dvlaUrls: .arrange
         )
     }
 }

@@ -21,12 +21,6 @@ final class DVLAAccountViewModel: ObservableObject {
     @MainActor func fetchContent() async {
         isLoading = true
         switch viewType {
-        case .driverSummary:
-            let result = await dvlaService.fetchDriverSummary()
-            if case .success(let driverSummary) = result {
-                sections = [createSection(for: driverSummary)]
-            }
-            handleError(result.getError())
         case .vehicle:
             // hard coded reg number, for proof of concept
             let result = await dvlaService.fetchVehicle(registration: "AA19AMP")
@@ -96,56 +90,6 @@ final class DVLAAccountViewModel: ObservableObject {
         } else {
             errorViewModel = dvlaAccountErrorViewModel
         }
-    }
-
-    private func createSection(
-        for driverSummary: DriverSummary
-    ) -> GroupedListSection {
-        return GroupedListSection(
-            heading: GroupedListHeader(
-                title: "Driver summary"
-            ),
-            rows: [
-                InformationRow(
-                    id: "licence.number.row",
-                    title: "Licence number",
-                    body: driverSummary.response.driver.licenceNo,
-                    detail: ""
-                ),
-                InformationRow(
-                    id: "licence.status.row",
-                    title: "Status",
-                    body: driverSummary.response.licence.status,
-                    detail: ""
-                ),
-                InformationRow(
-                    id: "driver.firstNames.row",
-                    title: "First names",
-                    body: driverSummary.response.driver.firstNames,
-                    detail: ""
-                ),
-                InformationRow(
-                    id: "driver.lastName.row",
-                    title: "Last name",
-                    body: driverSummary.response.driver.lastName,
-                    detail: ""
-                ),
-                InformationRow(
-                    id: "licence.penaltyPoints.row",
-                    title: "Penalty points",
-                    body: "\(driverSummary.response.driver.penaltyPoints)",
-                    detail: ""
-                ),
-                InformationRow(
-                    id: "licence.valid.to.row",
-                    title: "Valid to",
-                    body: dateFormatter.string(
-                        from: driverSummary.response.token.validToDate
-                    ),
-                    detail: ""
-                )
-            ], footer: nil
-        )
     }
 
     // VES API

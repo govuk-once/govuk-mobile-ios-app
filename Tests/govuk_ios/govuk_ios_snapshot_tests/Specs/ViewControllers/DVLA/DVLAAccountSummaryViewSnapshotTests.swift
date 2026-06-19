@@ -19,7 +19,11 @@ import GovKit
         )
         let mockLicenceViewModel = MockDrivingLicenceViewModel(
             viewState: .loaded(
-                licence: DrivingLicenceSummaryViewModel(driverSummary: .arrange)
+                licence: DrivingLicenceSummaryViewModel(
+                    driverSummary: .arrange,
+                    statusBuilder: MockLicenceStatusViewModelBuilder(),
+                    openURLAction: { _, _ in }
+                )
             )
         )
         let viewModel = DVLAAccountSummaryViewModel(
@@ -51,7 +55,11 @@ import GovKit
         )
         let mockLicenceViewModel = MockDrivingLicenceViewModel(
             viewState: .loaded(
-                licence: DrivingLicenceSummaryViewModel(driverSummary: .arrange)
+                licence: DrivingLicenceSummaryViewModel(
+                    driverSummary: .arrange,
+                    statusBuilder: MockLicenceStatusViewModelBuilder(),
+                    openURLAction: { _, _ in }
+                )
             )
         )
         let viewModel = DVLAAccountSummaryViewModel(
@@ -83,7 +91,11 @@ import GovKit
         )
         let mockLicenceViewModel = MockDrivingLicenceViewModel(
             viewState: .loaded(
-                licence: DrivingLicenceSummaryViewModel(driverSummary: .arrange)
+                licence: DrivingLicenceSummaryViewModel(
+                    driverSummary: .arrange,
+                    statusBuilder: MockLicenceStatusViewModelBuilder(),
+                    openURLAction: { _, _ in }
+                )
             )
         )
 
@@ -116,7 +128,11 @@ import GovKit
         )
         let mockLicenceViewModel = MockDrivingLicenceViewModel(
             viewState: .loaded(
-                licence: DrivingLicenceSummaryViewModel(driverSummary: .arrange)
+                licence: DrivingLicenceSummaryViewModel(
+                    driverSummary: .arrange,
+                    statusBuilder: MockLicenceStatusViewModelBuilder(),
+                    openURLAction: { _, _ in }
+                )
             )
         )
 

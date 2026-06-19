@@ -34,7 +34,7 @@ struct DVLAServiceClientTests {
         #expect(driverSummary.response.driver.firstNames == "KENNETH")
         #expect(driverSummary.response.driver.lastName == "DECERQUEIRA")
         #expect(driverSummary.response.driver.penaltyPoints == 0)
-        #expect(driverSummary.response.token.validToDate == expectedValidToDate)
+        #expect(driverSummary.response.token?.validToDate == expectedValidToDate)
     }
 
     @Test

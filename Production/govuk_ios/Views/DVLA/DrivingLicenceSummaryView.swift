@@ -110,8 +110,7 @@ struct DrivingLicenceSummaryView: View {
         ),
         fullNameAccessibilityLabel: "",
         licenceTypeAccessibilityLabel: "",
-        licenceStatusAccessibilityLabel: "",
         addressAccessibilityLabel: ""
     )
-    return DrivingLicenceSummaryView(viewModel: viewModel)
+    DrivingLicenceSummaryView(viewModel: viewModel)
 }
