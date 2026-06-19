@@ -44,7 +44,7 @@ enum FuelType: String, Codable {
     init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         let rawValue = try container.decode(String.self)
-        self = FuelType(rawValue: rawValue) ?? .other
+        self = FuelType(rawValue: rawValue) ?? .unknown
     }
 }
 
