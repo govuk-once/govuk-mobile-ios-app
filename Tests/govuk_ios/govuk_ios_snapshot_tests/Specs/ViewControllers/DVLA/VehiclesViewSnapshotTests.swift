@@ -76,7 +76,14 @@ import GovKit
         )
 
         let viewModel = MockVehiclesViewModel(
-            viewState: .loaded(vehicles: [VehicleSummaryViewModel(vehicle: mockVehicle)])
+            viewState: .loaded(
+                vehicles: [
+                    VehicleSummaryViewModel(
+                        vehicle: mockVehicle,
+                        detailAction: {}
+                    )
+                ]
+            )
         )
         let view = VehiclesView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
@@ -98,7 +105,14 @@ import GovKit
             motExpiryDate: Date(timeIntervalSince1970: 1779975444)
         )
         let viewModel = MockVehiclesViewModel(
-            viewState: .loaded(vehicles: [VehicleSummaryViewModel(vehicle: mockVehicle)])
+            viewState: .loaded(
+                vehicles: [
+                    VehicleSummaryViewModel(
+                        vehicle: mockVehicle,
+                        detailAction: {}
+                    )
+                ]
+            )
         )
         let view = VehiclesView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(

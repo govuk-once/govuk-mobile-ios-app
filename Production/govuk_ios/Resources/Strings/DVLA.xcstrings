@@ -1,6 +1,17 @@
 {
   "sourceLanguage" : "en-GB",
   "strings" : {
+    ".gasBiFuel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gas bi-fuel"
+          }
+        }
+      }
+    },
     "accountLinkingErrorPrimaryButtonTitle" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -19,6 +30,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "driver and vehicles"
+          }
+        }
+      }
+    },
+    "biFuel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bi-fuel"
+          }
+        }
+      }
+    },
+    "co2Emissions" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CO2 emissions"
+          }
+        }
+      }
+    },
+    "colour" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Colour"
+          }
+        }
+      }
+    },
+    "colourAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Colour: %1$(colour)@"
           }
         }
       }
@@ -155,6 +210,204 @@
         }
       }
     },
+    "electricDiesel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Electric diesel"
+          }
+        }
+      }
+    },
+    "emissionsAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CO2 emissions: %1$(value)@"
+          }
+        }
+      }
+    },
+    "emissionsInGramsPerKm" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$(emissions)lld g/km"
+          }
+        }
+      }
+    },
+    "emissionsInGramsPerKmAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$(emissions)lld grams per kilometer"
+          }
+        }
+      }
+    },
+    "engineCapacityCc" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%(capacity)lldcc"
+          }
+        }
+      }
+    },
+    "engineCapacityLitreAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$(capacity).1lf litre"
+          }
+        }
+      }
+    },
+    "engineCapacityLitres" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%(capacity).1lfL"
+          }
+        }
+      }
+    },
+    "engineCapacityLitresAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$(capacity).1lf litres"
+          }
+        }
+      }
+    },
+    "engineSize" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Engine size"
+          }
+        }
+      }
+    },
+    "engineSizeAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Engine size: %1$(value)@"
+          }
+        }
+      }
+    },
+    "firstRegistered" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "First registered"
+          }
+        }
+      }
+    },
+    "firstRegisteredAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "First registered in %1$(year)@"
+          }
+        }
+      }
+    },
+    "fuelType" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fuel type"
+          }
+        }
+      }
+    },
+    "fuelTypeAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fuel type: %1$(fuelType)@"
+          }
+        }
+      }
+    },
+    "gasAndDiesel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gas and diesel"
+          }
+        }
+      }
+    },
+    "hybrid" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hybrid"
+          }
+        }
+      }
+    },
+    "hybridElectric" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hybrid electric"
+          }
+        }
+      }
+    },
+    "hydrogen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hydrogen"
+          }
+        }
+      }
+    },
     "licenceAddressAccessibilityLabel" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -287,13 +540,68 @@
         }
       }
     },
-    "registrationNumberAccessibilityLabel" : {
+    "petrolAndGas" : {
       "extractionState" : "manual",
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Number plate: %1$(registrationNumber)@"
+            "value" : "Petrol and gas"
+          }
+        }
+      }
+    },
+    "primaryAndSecondaryColour" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$(primary)@ and %2$(secondary)@"
+          }
+        }
+      }
+    },
+    "registeredTo" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registered to"
+          }
+        }
+      }
+    },
+    "registrationNumberAccessibilityLabelPrefix" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Number plate: "
+          }
+        }
+      }
+    },
+    "specification" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Specification"
+          }
+        }
+      }
+    },
+    "status" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Status"
           }
         }
       }
@@ -327,6 +635,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Valid until %1$(date)@"
+          }
+        }
+      }
+    },
+    "vehicleMake" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Make"
+          }
+        }
+      }
+    },
+    "vehicleModel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Model"
           }
         }
       }

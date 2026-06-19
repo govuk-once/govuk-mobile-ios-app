@@ -5,6 +5,7 @@ import GovKit
 
 class MockWidgetViewBuilder: WidgetViewBuilder {
     var _receivedDvlaAccountWidgetLinkAction: (() -> Void)?
+    var _receivedVehicleDetailAction: ((CustomerSummary.Vehicle) -> Void)?
     var _receivedDvlaAccountWidgetUnlinkAction: (() -> Void)?
     var _receivedDvlaAccountWidgetViewShareCodesAction: (() -> Void)?
     override func dvlaAccountWidget(
@@ -14,8 +15,7 @@ class MockWidgetViewBuilder: WidgetViewBuilder {
         configService: AppConfigServiceInterface,
         linkAction: @escaping () -> Void,
         unlinkAction: @escaping () -> Void,
-        viewDriverSummaryAction: @escaping () -> Void,
-        viewCustomerSummaryAction: @escaping () -> Void,
+        vehicleDetailAction: @escaping (CustomerSummary.Vehicle) -> Void,
         viewVehicleAction: @escaping () -> Void,
         viewShareCodesAction: @escaping () -> Void,
         createShareCodeAction: @escaping () -> Void,
@@ -24,6 +24,7 @@ class MockWidgetViewBuilder: WidgetViewBuilder {
         _receivedDvlaAccountWidgetLinkAction = linkAction
         _receivedDvlaAccountWidgetUnlinkAction = unlinkAction
         _receivedDvlaAccountWidgetViewShareCodesAction = viewShareCodesAction
+        _receivedVehicleDetailAction = vehicleDetailAction
         return AnyView(EmptyView())
     }
 }

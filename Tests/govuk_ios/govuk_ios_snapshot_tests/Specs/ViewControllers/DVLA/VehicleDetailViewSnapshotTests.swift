@@ -6,17 +6,17 @@ import GovKit
 @testable import govuk_ios
 
 @MainActor
-class VehicleSummaryViewSnapshotTests: SnapshotTestCase {
-    func test_vehicleSummaryView_validTaxAndMot_light_rendersCorrectly() {
+class VehicleDetailViewSnapshotTests: SnapshotTestCase {
+    func test_fullyPopulatedVehicle_light_rendersCorrectly() {
         let mockVehicle = CustomerSummary.Vehicle.arrange(
-            taxedUntil: Date(timeIntervalSince1970: 1779975444),
-            motExpiryDate: Date(timeIntervalSince1970: 1779975444)
+            taxedUntil: .arrange("12/12/2030"),
+            motExpiryDate: .arrange("12/12/2030")
         )
-        let viewModel = VehicleSummaryViewModel(
+        let viewModel = VehicleDetailViewModel(
+            analyticsService: nil,
             vehicle: mockVehicle,
-            detailAction: {}
         )
-        let view = VehicleSummaryView(viewModel: viewModel)
+        let view = VehicleDetailView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
             rootView: view
         )
@@ -26,16 +26,16 @@ class VehicleSummaryViewSnapshotTests: SnapshotTestCase {
         )
     }
 
-    func test_vehicleSummaryView_validTaxAndMot_dark_rendersCorrectly() {
+    func test_fullyPopulatedVehicle_dark_rendersCorrectly() {
         let mockVehicle = CustomerSummary.Vehicle.arrange(
-            taxedUntil: Date(timeIntervalSince1970: 1779975444),
-            motExpiryDate: Date(timeIntervalSince1970: 1779975444)
+            taxedUntil: .arrange("12/12/2030"),
+            motExpiryDate: .arrange("12/12/2030")
         )
-        let viewModel = VehicleSummaryViewModel(
+        let viewModel = VehicleDetailViewModel(
+            analyticsService: nil,
             vehicle: mockVehicle,
-            detailAction: {}
         )
-        let view = VehicleSummaryView(viewModel: viewModel)
+        let view = VehicleDetailView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
             rootView: view
         )
@@ -45,16 +45,21 @@ class VehicleSummaryViewSnapshotTests: SnapshotTestCase {
         )
     }
 
-    func test_vehicleSummaryView_unknownTaxAndMot_light_rendersCorrectly() {
+    func test_missingVehicleProperties_light_rendersCorrectly() {
         let mockVehicle = CustomerSummary.Vehicle.arrange(
+            model: nil,
             taxedUntil: nil,
-            motExpiryDate: nil
+            motExpiryDate: nil,
+            secondaryColour: nil,
+            exhaustEmissions: nil,
+            engineCapacity: nil,
+            keeper: nil
         )
-        let viewModel = VehicleSummaryViewModel(
+        let viewModel = VehicleDetailViewModel(
+            analyticsService: nil,
             vehicle: mockVehicle,
-            detailAction: {}
         )
-        let view = VehicleSummaryView(viewModel: viewModel)
+        let view = VehicleDetailView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
             rootView: view
         )
@@ -64,16 +69,21 @@ class VehicleSummaryViewSnapshotTests: SnapshotTestCase {
         )
     }
 
-    func test_vehicleSummaryView_unknownTaxAndMot_dark_rendersCorrectly() {
+    func test_missingVehicleProperties_dark_rendersCorrectly() {
         let mockVehicle = CustomerSummary.Vehicle.arrange(
+            model: nil,
             taxedUntil: nil,
-            motExpiryDate: nil
+            motExpiryDate: nil,
+            secondaryColour: nil,
+            exhaustEmissions: nil,
+            engineCapacity: nil,
+            keeper: nil
         )
-        let viewModel = VehicleSummaryViewModel(
+        let viewModel = VehicleDetailViewModel(
+            analyticsService: nil,
             vehicle: mockVehicle,
-            detailAction: {}
         )
-        let view = VehicleSummaryView(viewModel: viewModel)
+        let view = VehicleDetailView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
             rootView: view
         )

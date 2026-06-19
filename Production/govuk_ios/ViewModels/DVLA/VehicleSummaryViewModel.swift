@@ -3,22 +3,27 @@ import Foundation
 struct VehicleSummaryViewModel: Identifiable {
     let id: Int
     let registrationNumber: String
-    let registrationNumberAccessibilityLabel: String
     let vehicleMake: String
     let vehicleModel: String
     let taxStatusViewModel: ValidityStatusViewModel
     let motStatusViewModel: ValidityStatusViewModel
+    let detailAction: () -> Void
+    let regNumberAccessibilityLabelPrefix = String(
+        localized: .DVLA.registrationNumberAccessibilityLabelPrefix
+    )
 }
 
 extension VehicleSummaryViewModel {
     init(
         vehicle: CustomerSummary.Vehicle,
-        statusFormatter: DVLAValidityStatusFormatter = DVLAValidityStatusFormatter()
+        statusFormatter: DVLAValidityStatusFormatter = DVLAValidityStatusFormatter(),
+        specFormatter: VehicleSpecFormatter = VehicleSpecFormatter(),
+        detailAction: @escaping () -> Void
     ) {
         self.id = vehicle.vehicleId
         self.registrationNumber = vehicle.registrationNumber
         self.vehicleMake = vehicle.make
-        self.vehicleModel = vehicle.model ?? String.dvla.localized("unknown")
+        self.vehicleModel = specFormatter.formatModel(from: vehicle.model)
 
         self.taxStatusViewModel = ValidityStatusViewModel(
             title: String.dvla.localized("taxStatusTitle"),
@@ -28,11 +33,6 @@ extension VehicleSummaryViewModel {
             title: String.dvla.localized("motStatusTitle"),
             status: statusFormatter.formatStatus(from: vehicle.motExpiryDate)
         )
-
-        let format = String.dvla.localized("registrationNumberAccessibilityLabel")
-        self.registrationNumberAccessibilityLabel = .localizedStringWithFormat(
-            format,
-            vehicle.registrationNumber
-        )
+        self.detailAction = detailAction
     }
 }

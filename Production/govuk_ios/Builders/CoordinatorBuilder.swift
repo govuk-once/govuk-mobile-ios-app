@@ -572,4 +572,16 @@ class CoordinatorBuilder {
             notificationCenter: .default,
         )
     }
+
+    func vehicleDetail(
+        navigationController: UINavigationController,
+        vehicle: CustomerSummary.Vehicle
+    ) -> BaseCoordinator {
+        VehicleDetailCoordinator(
+            navigationController: navigationController,
+            viewControllerBuilder: ViewControllerBuilder(),
+            analyticsService: container.analyticsService.resolve(),
+            vehicle: vehicle
+        )
+    }
 }

@@ -4,7 +4,6 @@ import GovKit
 
 enum DVLAAccountViewType {
     case driverSummary
-    case customerSummary
     case vehicle
     case shareCodeList
     case createShareCode

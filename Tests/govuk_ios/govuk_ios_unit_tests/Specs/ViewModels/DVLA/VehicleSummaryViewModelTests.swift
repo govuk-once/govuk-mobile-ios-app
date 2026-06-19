@@ -12,7 +12,7 @@ struct VehicleSummaryViewModelTests {
             make: "FORD",
             model: "FOCUS"
         )
-        let sut = VehicleSummaryViewModel(vehicle: mockVehicle)
+        let sut = VehicleSummaryViewModel(vehicle: mockVehicle, detailAction: {})
         #expect(sut.vehicleMake == "FORD")
         #expect(sut.vehicleModel == "FOCUS")
         #expect(sut.registrationNumber == "AB12 CDE")
@@ -25,19 +25,8 @@ struct VehicleSummaryViewModelTests {
             make: "FORD",
             model: nil
         )
-        let sut = VehicleSummaryViewModel(vehicle: mockVehicle)
+        let sut = VehicleSummaryViewModel(vehicle: mockVehicle, detailAction: {})
         #expect(sut.vehicleModel == String.dvla.localized("unknown"))
-    }
-
-    @Test
-    func registrationNumberAccessibilityLabel_formatsCorrectly() {
-        let mockVehicle = CustomerSummary.Vehicle.arrange(
-            registrationNumber: "AB12 CDE"
-        )
-        let sut = VehicleSummaryViewModel(vehicle: mockVehicle)
-        let format = String.dvla.localized("registrationNumberAccessibilityLabel")
-        let expectedString = String.localizedStringWithFormat(format, "AB12 CDE")
-        #expect(sut.registrationNumberAccessibilityLabel == expectedString)
     }
 
     @Test
@@ -45,7 +34,7 @@ struct VehicleSummaryViewModelTests {
         let mockVehicle = CustomerSummary.Vehicle.arrange(
             taxedUntil: Date(timeIntervalSince1970: 1779975444)
         )
-        let sut = VehicleSummaryViewModel(vehicle: mockVehicle)
+        let sut = VehicleSummaryViewModel(vehicle: mockVehicle, detailAction: {})
         let expectedDate = Date(timeIntervalSince1970: 1779975444)
         let expectedDateString = DateFormatter.dvlaAccount.string(from: expectedDate)
         let format = String.dvla.localized("validUntil")
@@ -59,7 +48,7 @@ struct VehicleSummaryViewModelTests {
         let mockVehicle = CustomerSummary.Vehicle.arrange(
             taxedUntil: nil
         )
-        let sut = VehicleSummaryViewModel(vehicle: mockVehicle)
+        let sut = VehicleSummaryViewModel(vehicle: mockVehicle, detailAction: {})
         #expect(sut.taxStatusViewModel.status == String.dvla.localized("unknown"))
     }
 
@@ -68,7 +57,7 @@ struct VehicleSummaryViewModelTests {
         let mockVehicle = CustomerSummary.Vehicle.arrange(
             motExpiryDate: Date(timeIntervalSince1970: 1779975444)
         )
-        let sut = VehicleSummaryViewModel(vehicle: mockVehicle)
+        let sut = VehicleSummaryViewModel(vehicle: mockVehicle, detailAction: {})
         let expectedDate = Date(timeIntervalSince1970: 1779975444)
         let expectedDateString = DateFormatter.dvlaAccount.string(from: expectedDate)
         let format = String.dvla.localized("validUntil")
@@ -82,7 +71,7 @@ struct VehicleSummaryViewModelTests {
         let mockVehicle = CustomerSummary.Vehicle.arrange(
             motExpiryDate: nil
         )
-        let sut = VehicleSummaryViewModel(vehicle: mockVehicle)
+        let sut = VehicleSummaryViewModel(vehicle: mockVehicle, detailAction: {})
         #expect(sut.motStatusViewModel.status == String.dvla.localized("unknown"))
     }
 }

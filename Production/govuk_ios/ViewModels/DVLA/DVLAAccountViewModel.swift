@@ -1,7 +1,6 @@
 import Foundation
 import GovKit
 
-// swiftlint:disable:next type_body_length
 final class DVLAAccountViewModel: ObservableObject {
     @Published private(set) var sections = [GroupedListSection]()
     @Published private(set) var errorViewModel: AppErrorViewModel?
@@ -10,7 +9,6 @@ final class DVLAAccountViewModel: ObservableObject {
     @Published private(set) var alertMessage: String = ""
     private let dateFormatter = DateFormatter.dvlaAccount
 
-    private var drivingLicence: DrivingLicence?
     private let dvlaService: DVLAServiceInterface
     private let viewType: DVLAAccountViewType
 
@@ -27,15 +25,6 @@ final class DVLAAccountViewModel: ObservableObject {
             let result = await dvlaService.fetchDriverSummary()
             if case .success(let driverSummary) = result {
                 sections = [createSection(for: driverSummary)]
-            }
-            handleError(result.getError())
-        case .customerSummary:
-            let result = await dvlaService.fetchCustomerSummary()
-            if case .success(let customerSummary) = result {
-                sections = [
-                    createSection(for: customerSummary.customerResponse.customer),
-                    createSection(for: customerSummary.vehicles)
-                ]
             }
             handleError(result.getError())
         case .vehicle:
@@ -110,52 +99,6 @@ final class DVLAAccountViewModel: ObservableObject {
     }
 
     private func createSection(
-        for drivingLicence: DrivingLicence
-    ) -> GroupedListSection {
-        return GroupedListSection(
-            heading: GroupedListHeader(
-                title: String.dvla.localized("dvlaAccountTitle")
-            ),
-            rows: [
-                InformationRow(
-                    id: "licence.number.row",
-                    title: "Licence number",
-                    body: drivingLicence.driver.licenceNo,
-                    detail: ""
-                ),
-                InformationRow(
-                    id: "licence.type.row",
-                    title: "Type",
-                    body: drivingLicence.licence.type,
-                    detail: ""
-                ),
-                InformationRow(
-                    id: "licence.status.row",
-                    title: "Status",
-                    body: drivingLicence.licence.status,
-                    detail: ""
-                ),
-                InformationRow(
-                    id: "licence.valid.from.row",
-                    title: "Valid from",
-                    body: dateFormatter.string(
-                        from: drivingLicence.token.validFromDate
-                    ),
-                    detail: ""
-                ),
-                InformationRow(
-                    id: "licence.valid.to.row",
-                    title: "Valid to",
-                    body: dateFormatter.string(
-                        from: drivingLicence.token.validToDate
-                    ),
-                    detail: ""
-                )
-            ], footer: nil
-        )
-    }
-
-    private func createSection(
         for driverSummary: DriverSummary
     ) -> GroupedListSection {
         return GroupedListSection(
@@ -202,76 +145,6 @@ final class DVLAAccountViewModel: ObservableObject {
                     detail: ""
                 )
             ], footer: nil
-        )
-    }
-
-    private func createSection(
-        for customer: Customer
-    ) -> GroupedListSection {
-        return GroupedListSection(
-            heading: GroupedListHeader(
-                title: "Customer summary"
-            ),
-            rows: [
-                InformationRow(
-                    id: "customer.firstNames.row",
-                    title: "First names",
-                    body: customer.individualDetails.firstNames,
-                    detail: ""
-                ),
-                InformationRow(
-                    id: "customer.lastName.row",
-                    title: "Last name",
-                    body: customer.individualDetails.lastName,
-                    detail: ""
-                ),
-                InformationRow(
-                    id: "customer.type.row",
-                    title: "Customer type",
-                    body: customer.customerType,
-                    detail: ""
-                )
-            ], footer: nil
-        )
-    }
-
-    private func createSection(
-        for vehicles: [CustomerSummary.Vehicle]
-    ) -> GroupedListSection {
-        var rows = [InformationRow]()
-        if vehicles.count == 0 {
-            rows = [
-                InformationRow(
-                    id: "vehicle.empty.row",
-                    title: "None",
-                    body: nil,
-                    detail: ""
-                )
-            ]
-        } else {
-            rows = vehicles.map { createRow(for: $0) }
-        }
-        return GroupedListSection(
-            heading: GroupedListHeader(
-                title: "Vehicles"
-            ),
-            rows: rows,
-            footer: nil
-        )
-    }
-
-    private func createRow(for vehicle: CustomerSummary.Vehicle) -> InformationRow {
-        InformationRow(
-            id: "vehicle.\(vehicle.vehicleId).row",
-            title: """
-                Registration number: \(vehicle.registrationNumber)
-                Make: \(vehicle.make)
-                Model: \(vehicle.model ?? "nil")
-                Tax status:  \(vehicle.taxStatus)
-                MOT status: \(vehicle.motStatus)
-                """,
-            body: nil,
-            detail: ""
         )
     }
 

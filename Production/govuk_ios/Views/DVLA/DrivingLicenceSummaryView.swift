@@ -71,19 +71,22 @@ struct DrivingLicenceSummaryView: View {
                     .overlay(Color(uiColor: .govUK.strokes.listDivider))
                     .padding(.bottom, 8)
                 Text(viewModel.fullName)
-                    .font(.govUK.title3Semibold)
+                    .font(.govUK.bodySemibold)
                     .multilineTextAlignment(.leading)
                     .padding(.top, Self.standardPadding)
                     .padding(.bottom, 4)
                     .accessibilityLabel(viewModel.fullNameAccessibilityLabel)
-                VStack(alignment: .leading, spacing: 0) {
-                    ForEach(viewModel.address, id: \.self) { addressLine in
-                        Text(addressLine)
-                            .padding(.top, 4)
+                if !viewModel.address.isEmpty {
+                    VStack(alignment: .leading, spacing: 0) {
+                        ForEach(viewModel.address, id: \.self) { addressLine in
+                            Text(addressLine)
+                                .font(.govUK.body)
+                                .padding(.top, 4)
+                        }
                     }
+                    .accessibilityElement(children: .combine)
+                    .accessibilityLabel(viewModel.addressAccessibilityLabel)
                 }
-                .accessibilityElement(children: .combine)
-                .accessibilityLabel(viewModel.addressAccessibilityLabel)
             }
             .padding(.horizontal, Self.standardPadding)
             .padding(.bottom, Self.standardPadding)

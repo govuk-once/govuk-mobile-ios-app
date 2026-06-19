@@ -14,6 +14,7 @@ class MockVehiclesViewModel: VehiclesViewModel {
             analyticsService: MockAnalyticsService(),
             dvlaService: MockDVLAService(),
             configService: MockAppConfigService(),
+            detailAction: { _ in },
             openURLAction: { _ in }
         )
     }
