@@ -382,6 +382,7 @@
 		D09046812DBFD8480096EE66 /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09046802DBFD8480096EE66 /* InfoView.swift */; };
 		D093BA632CB0499A004F489B /* EditTopicsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D093BA622CB0499A004F489B /* EditTopicsView.swift */; };
 		D093BA652CB04C68004F489B /* EditTopicsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D093BA642CB04C68004F489B /* EditTopicsViewModel.swift */; };
+		D095D1D72FE54D040071FC4F /* QualtricsThemeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D095D1D62FE54D040071FC4F /* QualtricsThemeBuilder.swift */; };
 		D096BFEE2E03F60F00426C51 /* ChatRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D096BFED2E03F60F00426C51 /* ChatRepository.swift */; };
 		D096BFF22E04124E00426C51 /* ChatItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D096BFF12E04124E00426C51 /* ChatItem.swift */; };
 		D09725DC2FB4C60B00C19ACF /* QualtricsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D09725DB2FB4C60B00C19ACF /* QualtricsService.swift */; };
@@ -852,6 +853,7 @@
 		D09046802DBFD8480096EE66 /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		D093BA622CB0499A004F489B /* EditTopicsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTopicsView.swift; sourceTree = "<group>"; };
 		D093BA642CB04C68004F489B /* EditTopicsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTopicsViewModel.swift; sourceTree = "<group>"; };
+		D095D1D62FE54D040071FC4F /* QualtricsThemeBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QualtricsThemeBuilder.swift; sourceTree = "<group>"; };
 		D096BFED2E03F60F00426C51 /* ChatRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRepository.swift; sourceTree = "<group>"; };
 		D096BFF12E04124E00426C51 /* ChatItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatItem.swift; sourceTree = "<group>"; };
 		D09725DB2FB4C60B00C19ACF /* QualtricsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QualtricsService.swift; sourceTree = "<group>"; };
@@ -1622,6 +1624,7 @@
 			children = (
 				5D4F97EA2BFF7725002CBDDE /* CoordinatorBuilder.swift */,
 				5DC04B8E2C2D71400036EF2B /* ViewControllerBuilder.swift */,
+				D095D1D62FE54D040071FC4F /* QualtricsThemeBuilder.swift */,
 			);
 			path = Builders;
 			sourceTree = "<group>";
@@ -2882,6 +2885,7 @@
 				5D8683972C3430C90024F2D8 /* DeeplinkRoutingComponents.swift in Sources */,
 				5DAD71782BD250DB0075F648 /* AppDelegate.swift in Sources */,
 				5D899A202C946F540074C0AD /* UIViewController+Extensions.swift in Sources */,
+				D095D1D72FE54D040071FC4F /* QualtricsThemeBuilder.swift in Sources */,
 				4E2A875D2D48FC41002A01D7 /* UIApplication+Window.swift in Sources */,
 				3D9FD4BA2E799C9900928E92 /* ChatWidgetViewModel.swift in Sources */,
 				5D962D682C29BD0B0038BC0A /* TabCoordinator.swift in Sources */,
