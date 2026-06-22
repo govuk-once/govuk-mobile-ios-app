@@ -529,6 +529,39 @@
         }
       }
     },
+    "yourAccountsUnlinkingErrorButtonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Go back to your accounts"
+          }
+        }
+      }
+    },
+    "yourAccountsUnlinkingErrorDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We could not remove your driver and vehicles account. Try again later."
+          }
+        }
+      }
+    },
+    "yourAccountsUnlinkingErrorTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "There’s a problem"
+          }
+        }
+      }
+    },
     "yourAccountsViewEditButtonTitle" : {
       "extractionState" : "manual",
       "localizations" : {
