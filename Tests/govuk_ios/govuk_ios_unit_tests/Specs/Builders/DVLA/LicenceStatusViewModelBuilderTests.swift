@@ -20,8 +20,11 @@ struct LicenceStatusViewModelBuilderTests {
                 receivedButtonTitle = buttonTitle
             }
         )
+        let expectedStatus = String(localized: .DVLA.expiredOn(date: "1 January 2025"))
+        let expectedAccessibilityLabel = String(localized: .DVLA.licenceStatusAccessibilityLabel(expectedStatus))
         #expect(result.title == nil)
-        #expect(result.status == String(localized: .DVLA.expiredOn(date: "1 January 2025")))
+        #expect(result.status == expectedStatus)
+        #expect(result.statusAccessibilityLabel == expectedAccessibilityLabel)
         #expect(result.footer == String(localized: .DVLA.licenceStatusFooter))
         #expect(result.iconName == "exclamationmark.triangle.fill")
         #expect(result.iconTintColour == nil)
@@ -58,8 +61,11 @@ struct LicenceStatusViewModelBuilderTests {
             validToDate: .arrange("01/01/2025"),
             openURLAction:  { _, _ in }
         )
+        let expectedStatus = String(localized: .DVLA.validUntil(date: "1 January 2025"))
+        let expectedAccessibilityLabel = String(localized: .DVLA.licenceStatusAccessibilityLabel(expectedStatus))
         #expect(result.title == nil)
-        #expect(result.status == String(localized: .DVLA.validUntil(date: "1 January 2025")))
+        #expect(result.status == expectedStatus)
+        #expect(result.statusAccessibilityLabel == expectedAccessibilityLabel)
         #expect(result.footer == nil)
         #expect(result.buttonTitle == nil)
         #expect(result.buttonAction == nil)

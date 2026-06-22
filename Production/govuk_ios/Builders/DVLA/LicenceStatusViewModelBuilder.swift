@@ -30,7 +30,7 @@ struct LicenceStatusViewModelBuilder: LicenceStatusViewModelBuilderInterface {
         case .valid:
             return makeValidViewModel(validToDate: validToDate)
         default:
-            return ValidityStatusViewModel(status: String(localized: .DVLA.unknown))
+            return makeUnknownViewModel()
         }
     }
 
@@ -42,16 +42,20 @@ struct LicenceStatusViewModelBuilder: LicenceStatusViewModelBuilderInterface {
          }
      }
 
+    private func accessibilityLabel(for status: String) -> String {
+        String(localized: .DVLA.licenceStatusAccessibilityLabel(status))
+    }
+
      // MARK: - Expired
      private func makeExpiredViewModel(
          validToDate: Date?,
          openURLAction: @escaping (URL, String) -> Void
      ) -> ValidityStatusViewModel {
-         let statusText: String
+         let status: String
          if let dateString = formattedDate(validToDate) {
-             statusText = String(localized: .DVLA.expiredOn(date: dateString))
+             status = String(localized: .DVLA.expiredOn(date: dateString))
          } else {
-             statusText = String(localized: .DVLA.expired)
+             status = String(localized: .DVLA.expired)
          }
 
          var buttonTitle: String?
@@ -64,7 +68,8 @@ struct LicenceStatusViewModelBuilder: LicenceStatusViewModelBuilderInterface {
              }
          }
          return ValidityStatusViewModel(
-             status: statusText,
+             status: status,
+             statusAccessibilityLabel: accessibilityLabel(for: status),
              iconName: "exclamationmark.triangle.fill",
              footer: String(localized: .DVLA.licenceStatusFooter),
              buttonTitle: buttonTitle,
@@ -84,8 +89,18 @@ struct LicenceStatusViewModelBuilder: LicenceStatusViewModelBuilderInterface {
          }
          return ValidityStatusViewModel(
              status: status,
+             statusAccessibilityLabel: accessibilityLabel(for: status),
              iconName: "checkmark.circle.fill",
              iconTintColour: .govUK.fills.surfaceButtonPrimary
          )
      }
+
+    // MARK: - Unknown
+    private func makeUnknownViewModel() -> ValidityStatusViewModel {
+        let status = String(localized: .DVLA.unknown)
+        return ValidityStatusViewModel(
+            status: status,
+            statusAccessibilityLabel: accessibilityLabel(for: status)
+        )
+    }
  }

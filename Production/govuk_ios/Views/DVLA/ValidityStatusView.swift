@@ -16,8 +16,7 @@ struct ValidityStatusView: View {
                             .font(.govUK.title3Semibold)
                             .multilineTextAlignment(.leading)
                     }
-                    Text("\(viewModel.status)")
-                        .multilineTextAlignment(.leading)
+                    statusTextView
                 }
                 Spacer()
                 if let iconName = viewModel.iconName {
@@ -51,6 +50,18 @@ struct ValidityStatusView: View {
             }
         }
         .padding(Self.standardPadding)
+    }
+
+    @ViewBuilder
+    private var statusTextView: some View {
+        if let statusAccessibilityLabel = viewModel.statusAccessibilityLabel {
+            Text(viewModel.status)
+                .multilineTextAlignment(.leading)
+                .accessibilityLabel(statusAccessibilityLabel)
+        } else {
+            Text(viewModel.status)
+                .multilineTextAlignment(.leading)
+        }
     }
 }
 

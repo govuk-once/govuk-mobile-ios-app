@@ -18,11 +18,6 @@ struct DrivingLicenceSummaryViewModel {
     )
     let fullNameAccessibilityLabel: String
     let licenceTypeAccessibilityLabel: String
-    var licenceStatusAccessibilityLabel: String {
-        String(
-            localized: .DVLA.licenceStatusAccessibilityLabel(licenceStatusViewModel.status)
-        )
-    }
     let addressAccessibilityLabel: String
     var copyToClipboardAction: ((String) -> Void)?
 }

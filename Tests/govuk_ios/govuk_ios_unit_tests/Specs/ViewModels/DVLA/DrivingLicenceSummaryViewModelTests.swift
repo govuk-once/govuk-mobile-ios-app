@@ -127,25 +127,4 @@ struct DrivingLicenceSummaryViewModelTests {
         )
         #expect(sut.addressAccessibilityLabel == expectedAccessibilityLabel)
     }
-
-    @Test
-    func init_formatsLicenceStatusAccessibilityLabelCorrectly() {
-        let mockStatusViewModelBuilder = MockLicenceStatusViewModelBuilder()
-        mockStatusViewModelBuilder._stubbedViewModel = ValidityStatusViewModel(
-            status: "Mock licence status"
-        )
-
-        let mockDriverSummary = DriverSummary.arrange
-        let sut = DrivingLicenceSummaryViewModel(
-            driverSummary: mockDriverSummary,
-            statusBuilder: mockStatusViewModelBuilder,
-            openURLAction: { _, _ in }
-        )
-
-        let expectedAccessibilityLabel = String.localizedStringWithFormat(
-            String.dvla.localized("licenceStatusAccessibilityLabel"),
-            "Mock licence status"
-        )
-        #expect(sut.licenceStatusAccessibilityLabel == expectedAccessibilityLabel)
-    }
 }
