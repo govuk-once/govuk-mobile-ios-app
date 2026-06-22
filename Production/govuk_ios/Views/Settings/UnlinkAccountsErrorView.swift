@@ -16,11 +16,11 @@ struct UnlinkAccountsErrorView: View {
                     .foregroundColor(Color(uiColor: .govUK.text.primary))
                     .accessibilityHidden(true)
                 VStack(spacing: 12) {
-                    Text("There’s a problem")
+                    Text(viewModel.title)
                         .font(Font.govUK.largeTitleBold)
                         .multilineTextAlignment(.center)
                         .fixedSize(horizontal: false, vertical: true)
-                    Text("We could not remove your driver and vehicles account. Try again later.")
+                    Text(viewModel.description)
                         .font(Font.govUK.body)
                         .foregroundColor(Color(uiColor: .govUK.text.primary))
                         .multilineTextAlignment(.center)

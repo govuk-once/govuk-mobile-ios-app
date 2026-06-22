@@ -22,7 +22,7 @@ struct YourAccountsCoordinatorTests {
             userService: MockUserService(),
             coordinatorBuilder: mockCoordinatorBuilder,
             analyticsService: MockAnalyticsService(),
-            dismissAction: {}
+            unlinkErrorAction: {}
         )
         sut.start()
         #expect(navigationController.viewControllers.first == expectedViewController)

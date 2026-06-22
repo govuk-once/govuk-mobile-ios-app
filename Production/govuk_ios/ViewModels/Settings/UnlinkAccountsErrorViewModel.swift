@@ -4,7 +4,8 @@ import GovKitUI
 
 final class UnlinkAccountsErrorViewModel {
     private let unlinkErrorAction: () -> Void
-
+    let title = "There’s a problem"
+    let description = "We could not remove your driver and vehicles account. Try again later."
 
     init(unlinkErrorAction: @escaping () -> Void) {
         self.unlinkErrorAction = unlinkErrorAction

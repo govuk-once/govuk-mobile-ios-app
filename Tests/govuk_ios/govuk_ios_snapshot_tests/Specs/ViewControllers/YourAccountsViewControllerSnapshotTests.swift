@@ -14,7 +14,8 @@ final class YourAccountsViewControllerSnapshotTests: SnapshotTestCase {
 
         let viewModel = YourAccountsViewViewModel(
             userService: mockUserService,
-            analyticsService: MockAnalyticsService()
+            analyticsService: MockAnalyticsService(),
+            unlinkErrorAction: {}
         )
         viewModel.state = .success
         let view = YourAccountsView(
@@ -37,7 +38,7 @@ final class YourAccountsViewControllerSnapshotTests: SnapshotTestCase {
 
         let viewModel = YourAccountsViewViewModel(
             userService: mockUserService,
-            analyticsService: MockAnalyticsService()
+            analyticsService: MockAnalyticsService(), unlinkErrorAction: {}
         )
         viewModel.state = .success
         let view = YourAccountsView(
@@ -59,7 +60,8 @@ final class YourAccountsViewControllerSnapshotTests: SnapshotTestCase {
         mockUserService._stubbedFetchLinkedAccountsResult = .failure(.apiUnavailable)
         let viewModel = YourAccountsViewViewModel(
             userService: mockUserService,
-            analyticsService: MockAnalyticsService()
+            analyticsService: MockAnalyticsService(),
+            unlinkErrorAction: {}
         )
         viewModel.state = .failure
         let view = YourAccountsView(
@@ -82,7 +84,7 @@ final class YourAccountsViewControllerSnapshotTests: SnapshotTestCase {
 
         let viewModel = YourAccountsViewViewModel(
             userService: mockUserService,
-            analyticsService: MockAnalyticsService()
+            analyticsService: MockAnalyticsService(), unlinkErrorAction: {}
         )
         viewModel.state = .failure
         let view = YourAccountsView(
@@ -104,7 +106,7 @@ final class YourAccountsViewControllerSnapshotTests: SnapshotTestCase {
         mockUserService._stubbedFetchLinkedAccountsResult = .success([])
         let viewModel = YourAccountsViewViewModel(
             userService: mockUserService,
-            analyticsService: MockAnalyticsService()
+            analyticsService: MockAnalyticsService(), unlinkErrorAction: {}
         )
         viewModel.state = .empty
         let view = YourAccountsView(
@@ -127,7 +129,7 @@ final class YourAccountsViewControllerSnapshotTests: SnapshotTestCase {
 
         let viewModel = YourAccountsViewViewModel(
             userService: mockUserService,
-            analyticsService: MockAnalyticsService()
+            analyticsService: MockAnalyticsService(), unlinkErrorAction: {}
         )
         viewModel.state = .empty
         let view = YourAccountsView(

@@ -123,12 +123,15 @@ class MockViewControllerBuilder: ViewControllerBuilder {
     }
 
     var _stubbedYourAccountsViewController: UIViewController?
+    var _receivedunlinkErrorAction: (() -> Void)?
     override func yourAccountsSettings(
         userService: UserServiceInterface,
-        analyticsService: AnalyticsServiceInterface
+        analyticsService: AnalyticsServiceInterface,
+        unlinkErrorAction: @escaping () -> Void
     )
     -> UIViewController {
         return _stubbedYourAccountsViewController ?? UIViewController()
+        _receivedunlinkErrorAction = unlinkErrorAction
     }
 
     var _stubbedLocalAuthorityExplainerViewController: UIViewController?

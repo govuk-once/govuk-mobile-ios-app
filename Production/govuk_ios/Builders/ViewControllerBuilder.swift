@@ -145,7 +145,7 @@ class ViewControllerBuilder {
     func unlinkAccountsErrorView(
         unlinkErrorAction: @escaping () -> Void
     ) -> UIViewController {
-        let viewModel = UnlinkAccountsViewModel(
+        let viewModel = UnlinkAccountsErrorViewModel(
             unlinkErrorAction: unlinkErrorAction
         )
         let view = UnlinkAccountsErrorView(

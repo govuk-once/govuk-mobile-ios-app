@@ -11,7 +11,8 @@ struct YourAccountsViewModelTests {
 
         let sut = YourAccountsViewViewModel(
             userService: mockUserService,
-            analyticsService: MockAnalyticsService()
+            analyticsService: MockAnalyticsService(),
+            unlinkErrorAction: {}
         )
         await sut.fetchLinkedAccounts()
         #expect(sut.state == .success)
@@ -24,7 +25,8 @@ struct YourAccountsViewModelTests {
 
         let sut = YourAccountsViewViewModel(
             userService: mockUserService,
-            analyticsService: MockAnalyticsService()
+            analyticsService: MockAnalyticsService(),
+            unlinkErrorAction: {}
         )
         await sut.fetchLinkedAccounts()
         #expect(sut.state == .empty)
@@ -37,7 +39,8 @@ struct YourAccountsViewModelTests {
         mockUserService._stubbedFetchLinkedAccountsResult = .failure(.apiUnavailable)
         let sut = YourAccountsViewViewModel(
             userService: mockUserService,
-            analyticsService: MockAnalyticsService()
+            analyticsService: MockAnalyticsService(),
+            unlinkErrorAction: {}
         )
         await sut.fetchLinkedAccounts()
         #expect(sut.state == .failure)
@@ -51,10 +54,10 @@ struct YourAccountsViewModelTests {
 
         let sut = YourAccountsViewViewModel(
             userService: mockUserService,
-            analyticsService: MockAnalyticsService()
+            analyticsService: MockAnalyticsService(),
+            unlinkErrorAction: {}
         )
         sut.state = .success
-
         sut.unlinkAccount()
 
         #expect(mockUserService._unlinkAccountCallCount == 1)
@@ -69,10 +72,10 @@ struct YourAccountsViewModelTests {
 
         let sut = YourAccountsViewViewModel(
             userService: mockUserService,
-            analyticsService: MockAnalyticsService()
+            analyticsService: MockAnalyticsService(),
+            unlinkErrorAction: {}
         )
         sut.state = .success
-
         sut.unlinkAccount()
 
         #expect(mockUserService._unlinkAccountCallCount == 1)
@@ -83,6 +86,8 @@ struct YourAccountsViewModelTests {
         let mockAnalyticsService = MockAnalyticsService()
         let sut = YourAccountsViewViewModel(
             userService: MockUserService(),
-            analyticsService: MockAnalyticsService())
+            analyticsService: MockAnalyticsService(),
+            unlinkErrorAction: {}
+        )
     }
 }
