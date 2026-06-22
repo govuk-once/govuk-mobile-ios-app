@@ -1,5 +1,6 @@
 import SwiftUI
 import GovKit
+import GovKitUI
 
 struct EditTopicsView: View {
     @Environment(\.dismiss) var dismiss
@@ -59,6 +60,7 @@ struct EditTopicsView: View {
     var scrollView: some View {
         ScrollView {
             Text(String.topics.localized("editTopicsSubtitle"))
+                .font(.govUK.body)
                 .multilineTextAlignment(.leading)
                 .padding(.horizontal, 12)
                 .padding(.top, 10)
