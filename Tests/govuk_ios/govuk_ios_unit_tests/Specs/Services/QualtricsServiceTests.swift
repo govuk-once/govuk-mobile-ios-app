@@ -37,7 +37,7 @@ struct QualtricsServiceTests {
         let targetResult = MockTargetingResult()
         targetResult._stubbedTargetPassed = true
         mockQualtrics._stubbedTargetingResults = ["interceptId": targetResult]
-        await sut.evaluateViewEvent(
+        sut.evaluateViewEvent(
             screenName: "Test screen",
             params: ["test_key": "test_value"]
         )
@@ -62,7 +62,7 @@ struct QualtricsServiceTests {
         targetResult._stubbedTargetPassed = true
         targetResult._stubbedSurveyUrl = "http://www.example.com"
         mockQualtrics._stubbedTargetingResults = ["interceptId": targetResult]
-        await sut.evaluateClickEvent(
+        sut.evaluateClickEvent(
             params: ["test_key": "test_value"]
         )
 
@@ -71,7 +71,7 @@ struct QualtricsServiceTests {
 
     @Test
     @MainActor
-    func qualtricPropertiesRefreshedForEachEvent() async {
+    func qualtricPropertiesRefreshedForEachEvent() async throws {
         let mockQualtrics = MockQualtricsWrapper()
         let sut = QualtricsService(
             brandId: "",
@@ -80,11 +80,14 @@ struct QualtricsServiceTests {
             firebaseAnalytics: MockFirebaseAnalytics.self
         )
 
-        await sut.evaluateViewEvent(
+        sut.evaluateViewEvent(
             screenName: "test_screen",
             params: ["screen_class": "test_class"]
         )
 
+        // Delay required to allow for async fetching of sessionID.
+        // See QualtricsService.setQualtricsProperties
+        try await Task.sleep(for: .seconds(0.1))
         #expect(mockQualtrics.properties.count == 14)
         for property in mockQualtrics.properties {
             switch property.key {
@@ -95,9 +98,12 @@ struct QualtricsServiceTests {
             }
         }
 
-        await sut.evaluateClickEvent(params: ["text": "Give feedback",
+        sut.evaluateClickEvent(params: ["text": "Give feedback",
                                               "url": "http://www.example.com"])
 
+        // Delay required to allow for async fetching of sessionID.
+        // See QualtricsService.setQualtricsProperties
+        try await Task.sleep(for: .seconds(0.1))
         #expect(mockQualtrics.properties.count == 14)
         for property in mockQualtrics.properties {
             switch property.key {
@@ -113,7 +119,7 @@ struct QualtricsServiceTests {
 
     @Test
     @MainActor
-    func qualtricProperties_sendFirebaseIds() async {
+    func qualtricProperties_sendFirebaseIds() async throws {
         let mockQualtrics = MockQualtricsWrapper()
         let expectedSessionId: Int64 = 123
         let expectedAppId = "appId"
@@ -127,11 +133,14 @@ struct QualtricsServiceTests {
             firebaseAnalytics: analtytics
         )
 
-        await sut.evaluateViewEvent(
+        sut.evaluateViewEvent(
             screenName: "test_screen",
             params: ["screen_class": "test_class"]
         )
 
+        // Delay required to allow for async fetching of sessionID.
+        // See QualtricsService.setQualtricsProperties
+        try await Task.sleep(for: .seconds(0.1))
         #expect(mockQualtrics.properties.count == 14)
         for property in mockQualtrics.properties {
             switch property.key {

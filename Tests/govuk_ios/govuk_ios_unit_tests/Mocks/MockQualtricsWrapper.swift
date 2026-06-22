@@ -5,6 +5,11 @@ import Qualtrics
 @testable import govuk_ios
 
 class MockQualtricsWrapper: QualtricsWrapperInterface {
+    var _stubbedTheme: QualtricsTheme?
+    func setCreativeTheme(to theme: QualtricsTheme) {
+        _stubbedTheme = theme
+    }
+    
     var _didInitializeProject = false
     func initializeProject(
         brandId: String,

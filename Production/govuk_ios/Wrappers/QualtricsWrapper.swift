@@ -18,6 +18,8 @@ protocol QualtricsWrapperInterface {
         completion: @escaping ([String: TargetingResultInterface]) -> Void)
     func registerViewVisit(viewName: String)
     func setString(string: String, for: String)
+    // swiftlint:disable:next identifier_name
+    func setCreativeTheme(to: QualtricsTheme)
 }
 
 extension Qualtrics: QualtricsWrapperInterface {
