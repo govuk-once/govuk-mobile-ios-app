@@ -4,6 +4,7 @@ import GovKit
 final class YourAccountsViewViewModel: ObservableObject {
     private let userService: UserServiceInterface
     private var analyticsService: AnalyticsServiceInterface
+    private let unlinkErrorAction: () -> Void
     @Published var state: State = .loading
     let title = String(
         localized: .Settings.yourAccountsTitle
@@ -46,9 +47,11 @@ final class YourAccountsViewViewModel: ObservableObject {
     )
 
     init(userService: UserServiceInterface,
-         analyticsService: AnalyticsServiceInterface) {
+         analyticsService: AnalyticsServiceInterface,
+         unlinkErrorAction: @escaping () -> Void) {
         self.userService = userService
         self.analyticsService = analyticsService
+        self.unlinkErrorAction = unlinkErrorAction
     }
 
     enum State {
@@ -95,13 +98,14 @@ final class YourAccountsViewViewModel: ObservableObject {
 
     @MainActor
     func unlinkAccount() {
-        self.state = .loading
         userService.unlinkAccount(withType: .dvla) { [weak self] result in
+            guard let self else { return }
+            self.state = .loading
             switch result {
             case .success:
-                self?.state = .empty
-            case .failure(let error):
-                self?.state = .failure
+                self.state = .empty
+            case .failure:
+                self.unlinkErrorAction()
             }
         }
     }

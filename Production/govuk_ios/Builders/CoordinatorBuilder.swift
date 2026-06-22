@@ -339,7 +339,7 @@ class CoordinatorBuilder {
             userService: container.userService.resolve(),
             coordinatorBuilder: self,
             analyticsService: container.analyticsService.resolve(),
-            dismissAction: dismissAction
+            unlinkErrorAction: dismissAction
         )
     }
 
