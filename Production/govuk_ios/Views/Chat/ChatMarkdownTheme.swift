@@ -1,9 +1,13 @@
 import SwiftUI
 import MarkdownUI
 import GovKit
+import GovKitUI
 
 extension Theme {
     static let govUK: Theme = Theme.basic
+        .text {
+            FontFamily(.custom("GDS Transport Website"))
+        }
         .link {
             ForegroundColor(Color(UIColor.govUK.text.linkSecondary))
             UnderlineStyle(.single)
@@ -63,6 +67,9 @@ extension Theme {
         }
 
     static let govUKBasic: Theme = Theme.basic
+        .text {
+            FontFamily(.custom("GDS Transport Website"))
+        }
         .link {
             ForegroundColor(Color(UIColor.govUK.text.linkSecondary))
         }
