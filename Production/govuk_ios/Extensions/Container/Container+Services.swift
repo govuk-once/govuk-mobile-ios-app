@@ -70,7 +70,8 @@ extension Container {
                 brandId: "yourBrandId",
                 projectId: "yourProjectId",
                 qualtrics: Qualtrics.shared,
-                firebaseAnalytics: Analytics.self
+                firebaseAnalytics: Analytics.self,
+                theme: self.qualtricsTheme.resolve()
             )
         }
     }
