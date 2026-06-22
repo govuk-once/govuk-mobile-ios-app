@@ -83,5 +83,22 @@ struct LicenceStatusViewModelBuilderTests {
         #expect(result.iconName == "checkmark.circle.fill")
         #expect(result.iconTintColour == .govUK.fills.surfaceButtonPrimary)
     }
+
+    @Test
+    func makeViewModel_licenceStatusNotValidOrExpired_returnsUnknown() {
+        let sut = LicenceStatusViewModelBuilder(urls: .arrange)
+        let result = sut.makeViewModel(
+            status: .disqualified,
+            validToDate: nil,
+            openURLAction:  { _, _ in }
+        )
+        #expect(result.title == nil)
+        #expect(result.status == String(localized: .DVLA.unknown))
+        #expect(result.footer == nil)
+        #expect(result.buttonTitle == nil)
+        #expect(result.buttonAction == nil)
+        #expect(result.iconName == nil)
+        #expect(result.iconTintColour == nil)
+    }
 }
 
