@@ -37,6 +37,7 @@ struct QualtricsService: QualtricsServiceInterface {
         projectId: String,
         qualtrics: QualtricsWrapperInterface,
         firebaseAnalytics: FirebaseAnalyticsInterface.Type,
+        theme: QualtricsTheme? = nil,
         completion: QualtricsInitializationResult? = nil,
         presentationController: UIViewController? = nil
     ) {
@@ -51,13 +52,16 @@ struct QualtricsService: QualtricsServiceInterface {
             extRefId: nil,
             completion: completion
         )
+        if let theme {
+            qualtrics.setCreativeTheme(to: theme)
+        }
     }
 
     func evaluateViewEvent(
         screenName: String,
         params: [String: String]
-    ) async {
-        await setQualtricsProperties(params)
+    ) {
+        setQualtricsProperties(params)
         qualtrics.registerViewVisit(viewName: screenName)
         qualtrics.evaluateProjectTargets { targetingResults in
             guard targetingResults.first(
@@ -74,8 +78,8 @@ struct QualtricsService: QualtricsServiceInterface {
         }
     }
 
-    func evaluateClickEvent(params: [String: String]) async {
-        await setQualtricsProperties(params)
+    func evaluateClickEvent(params: [String: String]) {
+        setQualtricsProperties(params)
         qualtrics.evaluateProjectTargets { targetingResults in
             guard let targetingResultDict = targetingResults.first(
                 where: { result in
@@ -127,7 +131,7 @@ struct QualtricsService: QualtricsServiceInterface {
 
     private func qualtricsParams(
         from parameters: [String: String]
-    ) async -> [String: String] {
+    ) -> [String: String] {
         var newParameters = [String: String]()
         analyticsParameterKeys.forEach { key in
             newParameters[key] = parameters[key] ?? ""
@@ -135,17 +139,19 @@ struct QualtricsService: QualtricsServiceInterface {
         return newParameters
     }
 
-    private func setQualtricsProperties(_ params: [String: String]) async {
-        let qualtricsParams = await qualtricsParams(from: params)
+    private func setQualtricsProperties(_ params: [String: String]) {
+        let qualtricsParams = qualtricsParams(from: params)
         for (key, value) in qualtricsParams {
             qualtrics.setString(string: value, for: key)
         }
-        var gaSessionId = ""
-        if let sessionId = try? await firebaseAnalytics.sessionID() {
-            gaSessionId = "\(sessionId)"
-        }
-        qualtrics.setString(string: gaSessionId, for: "ga_session_id")
         let appInstanceId = firebaseAnalytics.appInstanceID()
         qualtrics.setString(string: appInstanceId ?? "", for: "ga_app_instance_id")
+        Task {
+            var gaSessionId = ""
+            if let sessionId = try? await firebaseAnalytics.sessionID() {
+                gaSessionId = "\(sessionId)"
+            }
+            qualtrics.setString(string: gaSessionId, for: "ga_session_id")
+        }
     }
 }
