@@ -247,7 +247,8 @@ class CoordinatorBuilder {
             userService: container.userService.resolve(),
             dvlaService: container.dvlaService.resolve(),
             coordinatorBuilder: self,
-            widgetViewBuilder: WidgetViewBuilder()
+            widgetViewBuilder: WidgetViewBuilder(),
+            urlOpener: UIApplication.shared
         )
     }
 
