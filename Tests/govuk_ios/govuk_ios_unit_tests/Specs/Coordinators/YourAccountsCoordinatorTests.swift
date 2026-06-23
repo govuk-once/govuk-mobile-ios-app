@@ -35,7 +35,6 @@ struct YourAccountsCoordinatorTests {
         let expectedErrorVC = UIViewController()
         let navigationController = UINavigationController()
         let mockCoordinatorBuilder = CoordinatorBuilder.mock
-
         mockViewControllerBuilder._stubbedYourAccountsViewController = expectedSettingsVC
         mockViewControllerBuilder._stubbedUnlinkErrorViewController = expectedErrorVC
 

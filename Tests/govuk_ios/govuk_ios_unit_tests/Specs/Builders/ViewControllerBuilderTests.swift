@@ -453,8 +453,8 @@ struct ViewControllerBuilderTests {
     func unlinkAccountsErrorView_returnsExpectedResult() {
         let subject = ViewControllerBuilder()
         let result = subject.unlinkAccountsErrorView(unlinkErrorAction: {})
-
         let rootView = (result as? HostingViewController<UnlinkAccountsErrorView>)?.rootView
+        
         #expect(rootView != nil)
     }
 

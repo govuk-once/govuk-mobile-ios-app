@@ -43,8 +43,8 @@ struct YourAccountsViewModelTests {
             unlinkErrorAction: {}
         )
         sut.trackNavigationEvent(text: "navigation")
-
         let event = mockAnalyticsService._trackedEvents.first
+        
         #expect(event?.params?["text"] as? String == "navigation")
     }
 
@@ -107,7 +107,6 @@ struct YourAccountsViewModelTests {
                     actionCalled()
                 }
             )
-
             sut.unlinkAccount()
         }
         #expect(mockUserService._unlinkAccountCallCount == 1)
