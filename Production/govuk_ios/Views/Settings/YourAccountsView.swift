@@ -4,11 +4,13 @@ import GovKit
 
 struct YourAccountsView: View {
     @StateObject private var viewModel: YourAccountsViewViewModel
-    @State private var isEditMode = false
+    @State private var isEditMode: Bool
     @State private var showAlert = false
 
-    init(viewModel: YourAccountsViewViewModel) {
+    init(viewModel: YourAccountsViewViewModel,
+         isEditMode: Bool = false) {
         _viewModel = StateObject(wrappedValue: viewModel)
+        _isEditMode = State(wrappedValue: isEditMode)
     }
 
     var body: some View {
