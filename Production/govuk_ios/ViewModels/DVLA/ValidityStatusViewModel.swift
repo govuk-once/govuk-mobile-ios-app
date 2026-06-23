@@ -8,6 +8,7 @@ struct ValidityStatusViewModel {
     let statusAccessibilityLabel: String?
     let iconName: String?
     let iconTintColour: UIColor?
+    let progressViewModel: ExpiryProgressViewModel?
     let footer: String?
     let buttonTitle: String?
     let buttonAction: (() -> Void)?
@@ -28,6 +29,7 @@ struct ValidityStatusViewModel {
          statusAccessibilityLabel: String? = nil,
          iconName: String? = nil,
          iconTintColour: UIColor? = nil,
+         progressViewModel: ExpiryProgressViewModel? = nil,
          footer: String? = nil,
          buttonTitle: String? = nil,
          buttonAction: (() -> Void)? = nil) {
@@ -36,6 +38,7 @@ struct ValidityStatusViewModel {
         self.statusAccessibilityLabel = statusAccessibilityLabel
         self.iconName = iconName
         self.iconTintColour = iconTintColour
+        self.progressViewModel = progressViewModel
         self.footer = footer
         self.buttonTitle = buttonTitle
         self.buttonAction = buttonAction

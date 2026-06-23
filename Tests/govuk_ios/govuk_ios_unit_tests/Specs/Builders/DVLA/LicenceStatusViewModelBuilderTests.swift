@@ -59,6 +59,7 @@ struct LicenceStatusViewModelBuilderTests {
         let result = sut.makeViewModel(
             status: .valid,
             validToDate: .arrange("01/01/2025"),
+            currentDate: .arrange("01/08/2024"),
             openURLAction:  { _, _ in }
         )
         let expectedStatus = String(localized: .DVLA.validUntil(date: "1 January 2025"))
@@ -88,6 +89,27 @@ struct LicenceStatusViewModelBuilderTests {
         #expect(result.buttonAction == nil)
         #expect(result.iconName == "checkmark.circle.fill")
         #expect(result.iconTintColour == .govUK.fills.surfaceButtonPrimary)
+    }
+
+    @Test
+    func makeViewModel_licenceValid_expiringWithinCountdownWindow_returnsExpectedResult() {
+        let sut = LicenceStatusViewModelBuilder(urls: .arrange)
+        let result = sut.makeViewModel(
+            status: .valid,
+            validToDate: .arrange("01/01/2025"),
+            currentDate: .arrange("15/12/2024"),
+            openURLAction:  { _, _ in }
+        )
+        let expectedStatus = String(localized: .DVLA.expiringOn(date: "1 January 2025"))
+        let expectedAccessibilityLabel = String(localized: .DVLA.licenceStatusAccessibilityLabel(expectedStatus))
+        #expect(result.title == nil)
+        #expect(result.status == expectedStatus)
+        #expect(result.statusAccessibilityLabel == expectedAccessibilityLabel)
+        #expect(result.footer == String(localized: .DVLA.licenceStatusFooter))
+        #expect(result.buttonTitle == String(localized: .DVLA.renewLicenceButtonTitle))
+        #expect(result.buttonAction != nil)
+        #expect(result.progressViewModel?.daysLeft == String(localized: .DVLA.daysLeft(days: 17)))
+        #expect(result.iconName == nil)
     }
 
     @Test

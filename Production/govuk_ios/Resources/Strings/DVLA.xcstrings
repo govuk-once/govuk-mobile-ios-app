@@ -78,6 +78,29 @@
         }
       }
     },
+    "daysLeft" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$(days)lld day left"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$(days)lld days left"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "detailsButtonTitle" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -338,6 +361,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Expired %1$(date)@"
+          }
+        }
+      }
+    },
+    "expiringOn" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Expiring %1$(date)@"
           }
         }
       }

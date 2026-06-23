@@ -312,6 +312,8 @@
 		81217B8F2FD0B5F90048BBCD /* DrivingLicenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81217B8E2FD0B5F00048BBCD /* DrivingLicenceView.swift */; };
 		81217B912FD0B89B0048BBCD /* VehiclesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81217B902FD0B8930048BBCD /* VehiclesView.swift */; };
 		8132DC392F62D1F800F24CB6 /* ServiceAccountType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8132DC382F62D1EE00F24CB6 /* ServiceAccountType.swift */; };
+		81353DEF2FE97669008A7DE1 /* ExpiryProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81353DEE2FE975F0008A7DE1 /* ExpiryProgressView.swift */; };
+		81353DF22FE9C2ED008A7DE1 /* ExpiryProgressCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81353DF12FE9C2E4008A7DE1 /* ExpiryProgressCalculator.swift */; };
 		8144120A2F8900D300103197 /* FirebasePerformance in Frameworks */ = {isa = PBXBuildFile; productRef = 814412092F8900D300103197 /* FirebasePerformance */; };
 		8146FBBE2F8E603B00F87C76 /* ServiceAccountUnlinkCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8146FBBD2F8E603300F87C76 /* ServiceAccountUnlinkCoordinator.swift */; };
 		8146FC012F8EB2ED00F87C76 /* AppEvent+ServiceAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8146FC002F8EB2E400F87C76 /* AppEvent+ServiceAccount.swift */; };
@@ -861,6 +863,8 @@
 		81217B8E2FD0B5F00048BBCD /* DrivingLicenceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrivingLicenceView.swift; sourceTree = "<group>"; };
 		81217B902FD0B8930048BBCD /* VehiclesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehiclesView.swift; sourceTree = "<group>"; };
 		8132DC382F62D1EE00F24CB6 /* ServiceAccountType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountType.swift; sourceTree = "<group>"; };
+		81353DEE2FE975F0008A7DE1 /* ExpiryProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpiryProgressView.swift; sourceTree = "<group>"; };
+		81353DF12FE9C2E4008A7DE1 /* ExpiryProgressCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpiryProgressCalculator.swift; sourceTree = "<group>"; };
 		8146FBBD2F8E603300F87C76 /* ServiceAccountUnlinkCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountUnlinkCoordinator.swift; sourceTree = "<group>"; };
 		8146FC002F8EB2E400F87C76 /* AppEvent+ServiceAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppEvent+ServiceAccount.swift"; sourceTree = "<group>"; };
 		815011D62F7C4EEC00E7469C /* DVLAServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DVLAServiceClient.swift; sourceTree = "<group>"; };
@@ -1096,6 +1100,7 @@
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/DVLAAccountSummaryViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/DVLAAccountViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/DVLAAccountWidgetViewSnapshotTests.swift,
+				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/ExpiryProgressViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/ValidityStatusViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/VehicleDetailViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/VehicleSpecViewSnapshotTests.swift,
@@ -1186,6 +1191,7 @@
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/DVLAAccountSummaryViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/DVLAAccountViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/DVLAAccountWidgetViewSnapshotTests.swift,
+				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/ExpiryProgressViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/ValidityStatusViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/VehicleDetailViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/VehicleSpecViewSnapshotTests.swift,
@@ -2010,6 +2016,7 @@
 		5DAD71762BD250DB0075F648 /* govuk_ios */ = {
 			isa = PBXGroup;
 			children = (
+				81353DF02FE9C2DC008A7DE1 /* Calculators */,
 				4EC0466B2F7B22340087C01F /* UIKitViews */,
 				5D4F97E92BFF771A002CBDDE /* Builders */,
 				5D26A75F2C92E054009902DD /* Clients */,
@@ -2283,6 +2290,14 @@
 			path = RemoteConfig;
 			sourceTree = "<group>";
 		};
+		81353DF02FE9C2DC008A7DE1 /* Calculators */ = {
+			isa = PBXGroup;
+			children = (
+				81353DF12FE9C2E4008A7DE1 /* ExpiryProgressCalculator.swift */,
+			);
+			path = Calculators;
+			sourceTree = "<group>";
+		};
 		815018EA2F7D28F000E7469C /* DVLA */ = {
 			isa = PBXGroup;
 			children = (
@@ -2350,6 +2365,7 @@
 		81D2583F2FC71A8C00A4F988 /* DVLA */ = {
 			isa = PBXGroup;
 			children = (
+				81353DEE2FE975F0008A7DE1 /* ExpiryProgressView.swift */,
 				81D258402FC71AAF00A4F988 /* VehicleSummaryView.swift */,
 				81217B902FD0B8930048BBCD /* VehiclesView.swift */,
 				8121778B2FD092AA0048BBCD /* DrivingLicenceSummaryView.swift */,
@@ -3000,6 +3016,7 @@
 				16FC6F0D2DDFE300007879E7 /* GovUIWindow.swift in Sources */,
 				4E9F5D032DB78DBA0063FA78 /* LocalAuthorityItem.swift in Sources */,
 				D08A9A862DB92F79002E9C78 /* SignOutConfirmationViewModel.swift in Sources */,
+				81353DEF2FE97669008A7DE1 /* ExpiryProgressView.swift in Sources */,
 				815841562F8D0F5E009E6486 /* ServiceAccountLinkCardView.swift in Sources */,
 				D0C36F8B2EB3901A005A2455 /* EmergencyBannerWidgetView.swift in Sources */,
 				D0EB04842D37F34200B310D8 /* GOV.xcdatamodeld in Sources */,
@@ -3366,6 +3383,7 @@
 				815C58682EE970E200322705 /* RemoteConfigService.swift in Sources */,
 				5D14B1FE2EB0BA65003C151F /* SecureStoreable+Convenience.swift in Sources */,
 				81DE66982F5B3AB60087F48E /* ServiceAccountLinkingViewModel.swift in Sources */,
+				81353DF22FE9C2ED008A7DE1 /* ExpiryProgressCalculator.swift in Sources */,
 				81F91D2A2FDB26A500BF709E /* VehicleSpecFormatter.swift in Sources */,
 				1631DE992C2B0D020050CB9D /* DeviceInformationProvider.swift in Sources */,
 				5D51C8382C5BBF600011ABE9 /* WidgetView.swift in Sources */,
