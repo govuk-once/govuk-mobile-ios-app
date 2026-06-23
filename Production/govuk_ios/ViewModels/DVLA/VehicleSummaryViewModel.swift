@@ -12,6 +12,24 @@ struct VehicleSummaryViewModel: Identifiable {
     let regNumberAccessibilityLabelPrefix = String(
         localized: .DVLA.registrationNumberAccessibilityLabelPrefix
     )
+
+    func openSoldVehicleURL() {
+    }
+
+    func openSornRulesURL() {
+    }
+
+    func openMakeSornURL() {
+    }
+
+    func openGetLogbookURL() {
+    }
+
+    func openChangeLogbookAddressURL() {
+    }
+
+    func openCancelTaxURL() {
+    }
 }
 
 extension VehicleSummaryViewModel {

@@ -55,22 +55,70 @@ struct VehicleSummaryView: View {
                 )
                 .accessibilityLabel(registrationNumberAccessibilityLabel)
             Spacer()
-            Button {
-                print("more options tapped - todo")
-            } label: {
-                Image(systemName: "ellipsis.circle.fill")
-                    .font(.govUK.title1Bold)
-                    .frame(
-                        width: Self.iconSize,
-                        height: Self.iconSize
-                    )
-                    .foregroundColor(Color(UIColor.govUK.text.link))
-            }
-            .accessibilityLabel(String.dvla.localized("moreOptionsButtonAccessibilityLabel"))
+            menuView
         }
         .padding(.top, Self.standardPadding)
         .padding(.bottom, 8)
         .padding(.horizontal, Self.standardPadding)
+    }
+
+    private var menuView: some View {
+        Menu {
+            Button(
+                action: { viewModel.openSornRulesURL() },
+                label: {
+                    Text(.DVLA.vehicleMenuSornRulesTitle)
+                        .accessibilityHint(String.common.localized("openWebLinkHint"))
+                }
+            )
+            Button(
+                action: { viewModel.openSoldVehicleURL() },
+                label: {
+                    Text(.DVLA.vehicleMenuSoldVehicleTitle)
+                        .accessibilityLabel(.DVLA.vehicleMenuSoldVehicleAccessibilityLabelTitle)
+                        .accessibilityHint(String.common.localized("openWebLinkHint"))
+                }
+            )
+            Button(
+                action: { viewModel.openMakeSornURL() },
+                label: {
+                    Text(.DVLA.vehicleMenuMakeSornTitle)
+                        .accessibilityLabel(.DVLA.vehicleMenuMakeSornAccessibilityLabelTitle)
+                        .accessibilityHint(String.common.localized("openWebLinkHint"))
+                }
+            )
+            Button(
+                action: { viewModel.openGetLogbookURL() },
+                label: {
+                    Text(.DVLA.vehicleMenuGetLogbookTitle)
+                        .accessibilityHint(String.common.localized("openWebLinkHint"))
+                }
+            )
+            Button(
+                action: { viewModel.openChangeLogbookAddressURL() },
+                label: {
+                    Text(.DVLA.vehicleMenuChangeLogbookAddressTitle)
+                        .accessibilityHint(String.common.localized("openWebLinkHint"))
+                }
+            )
+            Button(
+                action: { viewModel.openCancelTaxURL() },
+                label: {
+                    Text(.DVLA.vehicleMenuCancelTaxTitle)
+                        .accessibilityLabel(.DVLA.vehicleMenuCancelTaxAccessibilityLabelTitle)
+                        .accessibilityHint(String.common.localized("openWebLinkHint"))
+                }
+            )
+        } label: {
+            Image(systemName: "ellipsis.circle.fill")
+                .font(.govUK.title1Bold)
+                .frame(
+                    minWidth: Self.iconSize,
+                    minHeight: Self.iconSize
+                )
+                .foregroundColor(Color(UIColor.govUK.text.link))
+        }
+        .accessibilityLabel(String.dvla.localized("moreOptionsButtonAccessibilityLabel"))
     }
 
     private var detailsButton: some View {
