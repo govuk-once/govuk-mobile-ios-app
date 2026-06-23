@@ -58,7 +58,6 @@ struct YourAccountsView: View {
             .frame(maxWidth: .infinity)
             .background(Color(uiColor: .govUK.fills.surfaceList))
             .roundedBorder(borderColor: .clear)
-
             Spacer()
         }
         .padding(.top, 8)
@@ -100,9 +99,9 @@ struct YourAccountsView: View {
 
                 Spacer()
             }.accessibilityHint(isEditMode ? viewModel.editModeAccessibilityText: "")
-            .padding(16)
-            .background(Color(uiColor: .govUK.fills.surfaceList))
-            .roundedBorder(borderColor: .clear)
+                .padding(16)
+                .background(Color(uiColor: .govUK.fills.surfaceList))
+                .roundedBorder(borderColor: .clear)
             Spacer()
         }
         .padding(.top, 8)
@@ -153,3 +152,4 @@ struct YourAccountsView: View {
         }
     }
 }
+
