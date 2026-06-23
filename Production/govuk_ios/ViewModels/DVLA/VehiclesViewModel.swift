@@ -54,7 +54,9 @@ class VehiclesViewModel: ObservableObject {
                     detailAction: { [weak self] in
                         self?.trackDetailButtonTapped()
                         self?.detailAction(vehicle)
-                    }
+                    },
+                    openURLAction: openURLAction,
+                    configService: configService
                 )
             }
             hasLoadedVehicles = true
