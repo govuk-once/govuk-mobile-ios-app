@@ -38,7 +38,8 @@ final class YourAccountsViewControllerSnapshotTests: SnapshotTestCase {
 
         let viewModel = YourAccountsViewViewModel(
             userService: mockUserService,
-            analyticsService: MockAnalyticsService(), unlinkErrorAction: {}
+            analyticsService: MockAnalyticsService(),
+            unlinkErrorAction: {}
         )
         viewModel.state = .success
         let view = YourAccountsView(
@@ -84,7 +85,8 @@ final class YourAccountsViewControllerSnapshotTests: SnapshotTestCase {
 
         let viewModel = YourAccountsViewViewModel(
             userService: mockUserService,
-            analyticsService: MockAnalyticsService(), unlinkErrorAction: {}
+            analyticsService: MockAnalyticsService(),
+            unlinkErrorAction: {}
         )
         viewModel.state = .failure
         let view = YourAccountsView(
@@ -106,7 +108,8 @@ final class YourAccountsViewControllerSnapshotTests: SnapshotTestCase {
         mockUserService._stubbedFetchLinkedAccountsResult = .success([])
         let viewModel = YourAccountsViewViewModel(
             userService: mockUserService,
-            analyticsService: MockAnalyticsService(), unlinkErrorAction: {}
+            analyticsService: MockAnalyticsService(),
+            unlinkErrorAction: {}
         )
         viewModel.state = .empty
         let view = YourAccountsView(
@@ -129,7 +132,8 @@ final class YourAccountsViewControllerSnapshotTests: SnapshotTestCase {
 
         let viewModel = YourAccountsViewViewModel(
             userService: mockUserService,
-            analyticsService: MockAnalyticsService(), unlinkErrorAction: {}
+            analyticsService: MockAnalyticsService(),
+            unlinkErrorAction: {}
         )
         viewModel.state = .empty
         let view = YourAccountsView(
@@ -156,7 +160,10 @@ final class YourAccountsViewControllerSnapshotTests: SnapshotTestCase {
             unlinkErrorAction: {}
         )
         viewModel.state = .success
-        let view = YourAccountsView(viewModel: viewModel, isEditMode: true)
+        let view = YourAccountsView(
+            viewModel: viewModel,
+            isEditMode: true
+        )
 
         let viewController = HostingViewController(
             rootView: view,
@@ -180,13 +187,14 @@ final class YourAccountsViewControllerSnapshotTests: SnapshotTestCase {
             unlinkErrorAction: {}
         )
         viewModel.state = .success
-        let view = YourAccountsView(viewModel: viewModel, isEditMode: true)
-
+        let view = YourAccountsView(
+            viewModel: viewModel,
+            isEditMode: true
+        )
         let viewController = HostingViewController(
             rootView: view,
             navigationBarHidden: true
         )
-
         VerifySnapshotInNavigationController(
             viewController: viewController,
             mode: .dark,
