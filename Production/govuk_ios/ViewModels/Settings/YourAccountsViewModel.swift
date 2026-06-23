@@ -98,9 +98,9 @@ final class YourAccountsViewViewModel: ObservableObject {
 
     @MainActor
     func unlinkAccount() {
+        self.state = .loading
         userService.unlinkAccount(withType: .dvla) { [weak self] result in
             guard let self else { return }
-            self.state = .loading
             switch result {
             case .success:
                 self.state = .empty
