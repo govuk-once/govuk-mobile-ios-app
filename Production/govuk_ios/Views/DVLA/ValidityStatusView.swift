@@ -8,26 +8,75 @@ struct ValidityStatusView: View {
     let viewModel: ValidityStatusViewModel
 
     var body: some View {
-        HStack {
-            VStack(alignment: .leading, spacing: 8) {
-                if let title = viewModel.title {
-                    Text(title)
-                        .font(.govUK.title3Semibold)
-                        .multilineTextAlignment(.leading)
+        VStack(spacing: 0) {
+            HStack {
+                VStack(alignment: .leading, spacing: 8) {
+                    if let title = viewModel.title {
+                        Text(title)
+                            .font(.govUK.title3Semibold)
+                            .multilineTextAlignment(.leading)
+                    }
+                    statusTextView
                 }
-                Text("\(viewModel.status)")
-                    .multilineTextAlignment(.leading)
+                Spacer()
+                if let iconName = viewModel.iconName {
+                    Image(systemName: iconName)
+                        .foregroundStyle(Color(
+                            uiColor: viewModel.iconTintColour ?? .govUK.Text.primary
+                        ))
+                        .font(.govUK.title2)
+                        .frame(
+                            width: Self.iconSize,
+                            height: Self.iconSize
+                        )
+                        .accessibilityHidden(true)
+                }
             }
-            Spacer()
-            Image(systemName: "checkmark.circle.fill")
-                .foregroundStyle(Color(uiColor: .govUK.fills.surfaceButtonPrimary))
-                .font(.govUK.title2)
-                .frame(
-                    width: Self.iconSize,
-                    height: Self.iconSize
+            if let buttonViewModel = viewModel.buttonViewModel {
+                SwiftUIButton(
+                    .primary,
+                    viewModel: buttonViewModel
                 )
-                .accessibilityHidden(true)
+                .padding(.top, Self.standardPadding)
+            }
+            if let footer = viewModel.footer {
+                Text(footer)
+                    .font(.govUK.callout)
+                    .padding(.top, Self.standardPadding)
+                    .frame(
+                        maxWidth: .infinity,
+                        alignment: .leading
+                    )
+            }
         }
         .padding(Self.standardPadding)
+    }
+
+    @ViewBuilder
+    private var statusTextView: some View {
+        if let statusAccessibilityLabel = viewModel.statusAccessibilityLabel {
+            Text(viewModel.status)
+                .multilineTextAlignment(.leading)
+                .accessibilityLabel(statusAccessibilityLabel)
+        } else {
+            Text(viewModel.status)
+                .multilineTextAlignment(.leading)
+        }
+    }
+}
+
+#Preview {
+    let viewModel = ValidityStatusViewModel(
+        title: nil,
+        status: "Expired 24 April 2026",
+        iconName: "exclamationmark.triangle.fill",
+        footer: "Your licence status may not update immediately when you renew it",
+        buttonTitle: "Renew licence",
+        buttonAction: { }
+    )
+    VStack(spacing: 0) {
+        Color(uiColor: .govUK.fills.surfaceBackground)
+        ValidityStatusView(viewModel: viewModel)
+        Color(uiColor: .govUK.fills.surfaceBackground)
     }
 }

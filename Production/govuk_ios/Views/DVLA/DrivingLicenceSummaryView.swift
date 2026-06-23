@@ -35,8 +35,6 @@ struct DrivingLicenceSummaryView: View {
                 .padding(.horizontal, Self.standardPadding)
                 .padding(.top, 8)
             ValidityStatusView(viewModel: viewModel.licenceStatusViewModel)
-                .accessibilityElement(children: .combine)
-                .accessibilityLabel(viewModel.licenceStatusAccessibilityLabel)
         }
     }
 
@@ -110,8 +108,7 @@ struct DrivingLicenceSummaryView: View {
         ),
         fullNameAccessibilityLabel: "",
         licenceTypeAccessibilityLabel: "",
-        licenceStatusAccessibilityLabel: "",
         addressAccessibilityLabel: ""
     )
-    return DrivingLicenceSummaryView(viewModel: viewModel)
+    DrivingLicenceSummaryView(viewModel: viewModel)
 }

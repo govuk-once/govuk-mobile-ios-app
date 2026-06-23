@@ -14,7 +14,7 @@ extension DriverSummary {
         address: DriverAddress = .arrange,
         licenceNo: String = "DECER607085K99AE",
         licenceType: String = "Full",
-        licenceStatus: String = "Valid",
+        licenceStatus: DrivingLicenceStatus = .valid,
         penaltyPoints: Int = 1,
         validFrom: Date = .init(timeIntervalSince1970: 0),
         validTo: Date = .init(timeIntervalSince1970: 30)

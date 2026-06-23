@@ -1,5 +1,8 @@
 import Foundation
 
+// this can be gradually replaced by bespoke LicenceStatusViewModelBuilder,
+// MOTStatusViewModelBuilder & TaxStatusViewModelBuilder
+// as we implement handling for all the different states
 struct DVLAValidityStatusFormatter {
     private let dateFormatter: DateFormatter = .dvlaAccount
 

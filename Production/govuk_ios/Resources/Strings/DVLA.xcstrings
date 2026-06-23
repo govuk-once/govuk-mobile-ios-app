@@ -320,6 +320,28 @@
         }
       }
     },
+    "expired" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Expired"
+          }
+        }
+      }
+    },
+    "expiredOn" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Expired %1$(date)@"
+          }
+        }
+      }
+    },
     "firstRegistered" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -448,6 +470,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Licence: %@ "
+          }
+        }
+      }
+    },
+    "licenceStatusFooter" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your licence status may not update immediately when you renew it"
           }
         }
       }
@@ -584,6 +617,17 @@
         }
       }
     },
+    "renewLicenceButtonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Renew licence"
+          }
+        }
+      }
+    },
     "specification" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -624,6 +668,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Unknown"
+          }
+        }
+      }
+    },
+    "valid" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Valid"
           }
         }
       }

@@ -65,7 +65,9 @@ class DVLAAccountWidgetViewModel: ObservableObject {
             )
             let licenceViewModel = DrivingLicenceViewModel(
                 analyticsService: analyticsService,
-                dvlaService: dvlaService
+                dvlaService: dvlaService,
+                configService: configService,
+                openURLAction: actions.openURLAction
             )
             let accountSummaryViewModel = DVLAAccountSummaryViewModel(
                 vehiclesViewModel: vehiclesViewModel,

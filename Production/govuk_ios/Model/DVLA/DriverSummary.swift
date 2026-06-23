@@ -26,17 +26,31 @@ struct DriverViewResponse: Codable {
     }
     let driver: Driver
     let licence: Licence
-    let token: DrivingLicenceToken
+    let token: DrivingLicenceToken?
 }
 
 struct Licence: Codable {
     let type: String
-    let status: String
+    let status: DrivingLicenceStatus
+}
+
+enum DrivingLicenceStatus: String, Codable {
+    case valid = "Valid"
+    case disqualified = "Disqualified"
+    case revoked = "Revoked"
+    case revokedForMedicalReasons = "Revoked for medical reasons"
+    case surrendered = "Surrendered"
+    case surrenderedVoluntarily = "Surrendered voluntarily"
+    case surrenderedForMedicalReasons = "Surrendered for medical reasons"
+    case expired = "Expired"
+    case exchanged = "Exchanged"
+    case refused = "Refused"
+    case refusedForMedicalReasons = "Refused for medical reasons"
 }
 
 struct DrivingLicenceToken: Codable {
     let validFromDate: Date
-    let validToDate: Date
+    let validToDate: Date?
 }
 
 struct DriverAddress: Codable {
