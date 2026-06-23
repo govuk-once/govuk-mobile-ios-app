@@ -24,9 +24,7 @@ class UnlinkAccountErrorViewControllerSnapshotTests: SnapshotTestCase {
     }
 
     private func viewController() -> UIViewController {
-        let viewModel = UnlinkAccountsErrorViewModel(
-            unlinkErrorAction: {}
-        )
+        let viewModel = UnlinkAccountsErrorViewModel()
         let view = UnlinkAccountsErrorView(
             viewModel: viewModel
         )

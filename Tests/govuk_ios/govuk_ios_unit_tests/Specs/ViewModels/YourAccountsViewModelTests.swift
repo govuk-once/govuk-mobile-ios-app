@@ -11,8 +11,7 @@ struct YourAccountsViewModelTests {
 
         let sut = YourAccountsViewViewModel(
             userService: mockUserService,
-            analyticsService: MockAnalyticsService(),
-            unlinkErrorAction: {}
+            analyticsService: MockAnalyticsService()
         )
         await sut.fetchLinkedAccounts()
         #expect(sut.state == .success)
@@ -24,8 +23,7 @@ struct YourAccountsViewModelTests {
         let mockAnalyticsService = MockAnalyticsService()
         let sut = YourAccountsViewViewModel(
             userService: mockUserService,
-            analyticsService: mockAnalyticsService,
-            unlinkErrorAction: {}
+            analyticsService: mockAnalyticsService
         )
         sut.trackEvent(text: "event")
 
@@ -39,8 +37,7 @@ struct YourAccountsViewModelTests {
         let mockAnalyticsService = MockAnalyticsService()
         let sut = YourAccountsViewViewModel(
             userService: mockUserService,
-            analyticsService: mockAnalyticsService,
-            unlinkErrorAction: {}
+            analyticsService: mockAnalyticsService
         )
         sut.trackNavigationEvent(text: "navigation")
         let event = mockAnalyticsService._trackedEvents.first
@@ -55,8 +52,7 @@ struct YourAccountsViewModelTests {
 
         let sut = YourAccountsViewViewModel(
             userService: mockUserService,
-            analyticsService: MockAnalyticsService(),
-            unlinkErrorAction: {}
+            analyticsService: MockAnalyticsService()
         )
         await sut.fetchLinkedAccounts()
         #expect(sut.state == .empty)
@@ -69,8 +65,7 @@ struct YourAccountsViewModelTests {
         mockUserService._stubbedFetchLinkedAccountsResult = .failure(.apiUnavailable)
         let sut = YourAccountsViewViewModel(
             userService: mockUserService,
-            analyticsService: MockAnalyticsService(),
-            unlinkErrorAction: {}
+            analyticsService: MockAnalyticsService()
         )
         await sut.fetchLinkedAccounts()
         #expect(sut.state == .failure)
@@ -85,30 +80,11 @@ struct YourAccountsViewModelTests {
         let sut = YourAccountsViewViewModel(
             userService: mockUserService,
             analyticsService: MockAnalyticsService(),
-            unlinkErrorAction: {}
         )
         sut.state = .success
         sut.unlinkAccount()
 
         #expect(mockUserService._unlinkAccountCallCount == 1)
         #expect(sut.state == .empty)
-    }
-
-    @Test
-    @MainActor
-    func unlinkAccount_failure_callsUnlinkErrorAction() async {
-        let mockUserService = MockUserService()
-        mockUserService._stubbedUnlinkAccountResult = .failure(.apiUnavailable)
-        await confirmation { actionCalled in
-            let sut = YourAccountsViewViewModel(
-                userService: mockUserService,
-                analyticsService: MockAnalyticsService(),
-                unlinkErrorAction: {
-                    actionCalled()
-                }
-            )
-            sut.unlinkAccount()
-        }
-        #expect(mockUserService._unlinkAccountCallCount == 1)
     }
 }

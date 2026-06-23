@@ -142,24 +142,6 @@ class ViewControllerBuilder {
         return viewController
     }
 
-    func unlinkAccountsErrorView(
-        unlinkErrorAction: @escaping () -> Void
-    ) -> UIViewController {
-        let viewModel = UnlinkAccountsErrorViewModel(
-            unlinkErrorAction: unlinkErrorAction
-        )
-        let view = UnlinkAccountsErrorView(
-            viewModel: viewModel
-        )
-        let viewController  = HostingViewController(
-            rootView: view,
-            navigationBarHidden: true
-        )
-        viewController.view.backgroundColor = .govUK.fills.surfaceModal
-        return viewController
-    }
-
-
     // swiftlint:disable:next function_parameter_count
     func ambiguousAuthoritySelectionView(
         analyticsService: AnalyticsServiceInterface,
@@ -727,13 +709,11 @@ class ViewControllerBuilder {
 
     func yourAccountsSettings(
         userService: UserServiceInterface,
-        analyticsService: AnalyticsServiceInterface,
-        unlinkErrorAction: @escaping () -> Void
+        analyticsService: AnalyticsServiceInterface
     ) -> UIViewController {
         let viewModel = YourAccountsViewViewModel(
             userService: userService,
-            analyticsService: analyticsService,
-            unlinkErrorAction: unlinkErrorAction
+            analyticsService: analyticsService
         )
         let view = YourAccountsView(
             viewModel: viewModel

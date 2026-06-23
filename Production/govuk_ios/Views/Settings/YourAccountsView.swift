@@ -14,22 +14,35 @@ struct YourAccountsView: View {
     }
 
     var body: some View {
-        VStack {
-            switch viewModel.state {
-            case .success:
-                successView
-            case .failure:
-                failureView
-            case .loading:
-                loadingView
-            case .empty:
-                emptyView
+        ZStack {
+            VStack {
+                switch viewModel.state {
+                case .success:
+                    successView
+                case .failure:
+                    failureView
+                case .loading:
+                    loadingView
+                case .empty:
+                    emptyView
+                }
+            }
+            .background(Color(uiColor: .govUK.fills.surfaceBackground)
+                .ignoresSafeArea()
+            )
+            .task {
+                await viewModel.fetchLinkedAccounts()
             }
         }
-        .background(Color(uiColor: .govUK.fills.surfaceBackground).ignoresSafeArea())
-        .task {
-            await viewModel.fetchLinkedAccounts()
-        }
+        .fullScreenCover(
+            isPresented: $viewModel.showingUnlinkError,
+            onDismiss: { viewModel.state = .success },
+            content: {
+                UnlinkAccountsErrorView(
+                    viewModel: viewModel.unlinkErrorViewModel
+                )
+            }
+        )
     }
 
     private var loadingView: some View {
@@ -46,7 +59,6 @@ struct YourAccountsView: View {
                     .font(.title)
                     .foregroundColor(Color(uiColor: .govUK.text.iconTertiary))
                     .accessibilityHidden(true)
-
                 VStack(spacing: 2) {
                     Text(viewModel.failureViewTitle)
                         .font(Font.govUK.bodySemibold)

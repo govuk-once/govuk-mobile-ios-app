@@ -338,8 +338,7 @@ class CoordinatorBuilder {
             viewControllerBuilder: ViewControllerBuilder(),
             userService: container.userService.resolve(),
             coordinatorBuilder: self,
-            analyticsService: container.analyticsService.resolve(),
-            unlinkErrorAction: dismissAction
+            analyticsService: container.analyticsService.resolve()
         )
     }
 

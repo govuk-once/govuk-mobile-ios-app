@@ -1,8 +1,7 @@
 import SwiftUI
 import GovKitUI
 
-final class UnlinkAccountsErrorViewModel {
-    private let unlinkErrorAction: () -> Void
+final class UnlinkAccountsErrorViewModel: ObservableObject {
     let title = String(
         localized: .Settings.yourAccountsUnlinkingErrorTitle
     )
@@ -15,16 +14,13 @@ final class UnlinkAccountsErrorViewModel {
     let buttonTitle = String(
         localized: .Settings.yourAccountsUnlinkingErrorButtonTitle
     )
-
-    init(unlinkErrorAction: @escaping () -> Void) {
-        self.unlinkErrorAction = unlinkErrorAction
-    }
+    @Published var shouldCallDismiss: Bool = false
 
     var primaryButtonViewModel: GOVUKButton.ButtonViewModel {
         return GOVUKButton.ButtonViewModel(
             localisedTitle: buttonTitle,
-            action: { [weak self] in
-                self?.unlinkErrorAction()
+            action: {
+                self.shouldCallDismiss = true
             }
         )
     }

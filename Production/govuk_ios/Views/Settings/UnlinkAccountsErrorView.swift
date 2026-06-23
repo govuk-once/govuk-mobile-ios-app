@@ -2,7 +2,8 @@ import SwiftUI
 import GovKitUI
 
 struct UnlinkAccountsErrorView: View {
-    var viewModel: UnlinkAccountsErrorViewModel
+    @ObservedObject var viewModel: UnlinkAccountsErrorViewModel
+    @Environment(\.dismiss) private var dismiss
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     var body: some View {
@@ -33,10 +34,16 @@ struct UnlinkAccountsErrorView: View {
             .padding(.horizontal, 16)
             Spacer()
             primaryButtonView
+                .onTapGesture { dismiss() }
                 .padding(.horizontal, 16)
                 .padding(.bottom, 8)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .onChange(of: viewModel.shouldCallDismiss) { newValue in
+            if newValue == true {
+                dismiss()
+            }
+        }
     }
 
     private var primaryButtonView: some View {
