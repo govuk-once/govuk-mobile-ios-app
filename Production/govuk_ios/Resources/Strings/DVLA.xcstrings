@@ -705,6 +705,17 @@
         }
       }
     },
+    "vehicleMenuCancelTaxAccessibilityLabelTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel vehicle tax"
+          }
+        }
+      }
+    },
     "vehicleMenuCancelTaxTitle" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -738,6 +749,17 @@
         }
       }
     },
+    "vehicleMenuMakeSornAccessibilityLabelTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Register vehicle as off road (SORN)"
+          }
+        }
+      }
+    },
     "vehicleMenuMakeSornTitle" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -745,6 +767,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Register as off road (SORN)"
+          }
+        }
+      }
+    },
+    "vehicleMenuSoldVehicleAccessibilityLabelTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Report vehicle as sold"
           }
         }
       }
