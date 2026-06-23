@@ -5,7 +5,7 @@ import UIKit
 
 @testable import govuk_ios
 
-class UnlinkAccountErrorViewControllerSnapshots: SnapshotTestCase {
+class UnlinkAccountErrorViewControllerSnapshotTests: SnapshotTestCase {
 
     func test_loadInNavigationController_light_rendersCorrectly() {
         VerifySnapshotInNavigationController(

@@ -96,7 +96,6 @@ struct YourAccountsView: View {
                     .font(Font.govUK.body)
                     .multilineTextAlignment(.leading)
                     .foregroundColor(Color(uiColor: .govUK.text.primary))
-
                 Spacer()
             }.accessibilityHint(isEditMode ? viewModel.editModeAccessibilityText: "")
                 .padding(16)
@@ -152,4 +151,3 @@ struct YourAccountsView: View {
         }
     }
 }
-
