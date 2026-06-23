@@ -436,7 +436,8 @@ struct ViewControllerBuilderTests {
         let rootView = (result as? HostingViewController<DVLAAccountView>)?.rootView
         #expect(rootView != nil)
     }
-
+    
+    @Test
     func sarSettings_returnsExpectedResult() {
         let subject = ViewControllerBuilder()
         let result = subject.sarExplainer(
@@ -445,6 +446,15 @@ struct ViewControllerBuilderTests {
         )
 
         let rootView = (result as? HostingViewController<SARExplainerView>)?.rootView
+        #expect(rootView != nil)
+    }
+
+    @Test
+    func unlinkAccountsErrorView_returnsExpectedResult() {
+        let subject = ViewControllerBuilder()
+        let result = subject.unlinkAccountsErrorView(unlinkErrorAction: {})
+
+        let rootView = (result as? HostingViewController<UnlinkAccountsErrorView>)?.rootView
         #expect(rootView != nil)
     }
 }
