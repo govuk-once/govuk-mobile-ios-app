@@ -19,6 +19,36 @@ struct YourAccountsViewModelTests {
     }
 
     @Test
+    func trackEvent_tracksEventsCorrectly() {
+        let mockUserService = MockUserService()
+        let mockAnalyticsService = MockAnalyticsService()
+        let sut = YourAccountsViewViewModel(
+            userService: mockUserService,
+            analyticsService: mockAnalyticsService,
+            unlinkErrorAction: {}
+        )
+        sut.trackEvent(text: "event")
+
+        let event = mockAnalyticsService._trackedEvents.first
+        #expect(event?.params?["text"] as? String == "event")
+    }
+
+    @Test
+    func trackNavigationEvent_tracksEventsCorrectly() {
+        let mockUserService = MockUserService()
+        let mockAnalyticsService = MockAnalyticsService()
+        let sut = YourAccountsViewViewModel(
+            userService: mockUserService,
+            analyticsService: mockAnalyticsService,
+            unlinkErrorAction: {}
+        )
+        sut.trackNavigationEvent(text: "navigation")
+
+        let event = mockAnalyticsService._trackedEvents.first
+        #expect(event?.params?["text"] as? String == "navigation")
+    }
+
+    @Test
     func fetchLinkedAccounts_success_unliked_updatesStateCorrectly() async {
         let mockUserService = MockUserService()
         mockUserService._stubbedFetchLinkedAccountsResult = .success([])

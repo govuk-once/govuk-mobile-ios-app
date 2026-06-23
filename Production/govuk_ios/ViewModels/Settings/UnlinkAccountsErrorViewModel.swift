@@ -4,7 +4,6 @@ import GovKitUI
 
 final class UnlinkAccountsErrorViewModel {
     private let unlinkErrorAction: () -> Void
-
     let title = String(
         localized: .Settings.yourAccountsUnlinkingErrorTitle
     )
