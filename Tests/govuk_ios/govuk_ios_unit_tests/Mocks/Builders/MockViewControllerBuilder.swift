@@ -130,8 +130,8 @@ class MockViewControllerBuilder: ViewControllerBuilder {
         unlinkErrorAction: @escaping () -> Void
     )
     -> UIViewController {
-        return _stubbedYourAccountsViewController ?? UIViewController()
         _receivedunlinkErrorAction = unlinkErrorAction
+        return _stubbedYourAccountsViewController ?? UIViewController()
     }
 
     var _stubbedLocalAuthorityExplainerViewController: UIViewController?
