@@ -18,6 +18,7 @@ struct UnlinkAccountsErrorView: View {
                 VStack(spacing: 12) {
                     Text(viewModel.title)
                         .font(Font.govUK.largeTitleBold)
+                        .foregroundColor(Color(uiColor: .govUK.text.primary))
                         .multilineTextAlignment(.center)
                         .fixedSize(horizontal: false, vertical: true)
                     Text(viewModel.description)
