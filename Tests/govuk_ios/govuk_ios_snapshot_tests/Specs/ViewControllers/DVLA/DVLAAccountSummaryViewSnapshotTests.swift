@@ -12,7 +12,9 @@ import GovKit
                 vehicles: [
                     VehicleSummaryViewModel(
                         vehicle: .arrange,
-                        detailAction: {}
+                        detailAction: {},
+                        openURLAction: { _ in },
+                        configService: MockAppConfigService()
                     )
                 ]
             )
@@ -48,7 +50,9 @@ import GovKit
                 vehicles: [
                     VehicleSummaryViewModel(
                         vehicle: .arrange,
-                        detailAction: {}
+                        detailAction: {},
+                        openURLAction: { _ in },
+                        configService: MockAppConfigService()
                     )
                 ]
             )
@@ -84,7 +88,9 @@ import GovKit
                 vehicles: [
                     VehicleSummaryViewModel(
                         vehicle: .arrange,
-                        detailAction: {}
+                        detailAction: {},
+                        openURLAction: { _ in },
+                        configService: MockAppConfigService()
                     )
                 ]
             )
@@ -121,7 +127,9 @@ import GovKit
                 vehicles: [
                     VehicleSummaryViewModel(
                         vehicle: .arrange,
-                        detailAction: {}
+                        detailAction: {},
+                        openURLAction: { _ in },
+                        configService: MockAppConfigService()
                     )
                 ]
             )
