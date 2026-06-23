@@ -431,7 +431,7 @@ struct ViewControllerBuilderTests {
         let subject = ViewControllerBuilder()
         let result = subject.dvlaAccount(
             dvlaService: MockDVLAService(),
-            viewType: .driverSummary
+            viewType: .createShareCode
         )
         let rootView = (result as? HostingViewController<DVLAAccountView>)?.rootView
         #expect(rootView != nil)
@@ -455,6 +455,16 @@ struct ViewControllerBuilderTests {
         let result = subject.unlinkAccountsErrorView(unlinkErrorAction: {})
 
         let rootView = (result as? HostingViewController<UnlinkAccountsErrorView>)?.rootView
+        #expect(rootView != nil)
+    }
+
+    func vehicleDetail_returnsExpectedResult() {
+        let subject = ViewControllerBuilder()
+        let result = subject.vehicleDetail(
+            analyticsService: MockAnalyticsService(),
+            vehicle: .arrange
+        )
+        let rootView = (result as? HostingViewController<VehicleDetailView>)?.rootView
         #expect(rootView != nil)
     }
 }

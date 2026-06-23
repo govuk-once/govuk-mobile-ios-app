@@ -806,5 +806,20 @@ class ViewControllerBuilder {
         )
         return viewController
     }
+
+    func vehicleDetail(
+        analyticsService: AnalyticsServiceInterface,
+        vehicle: CustomerSummary.Vehicle
+    ) -> UIViewController {
+        let viewModel = VehicleDetailViewModel(
+            analyticsService: analyticsService,
+            vehicle: vehicle
+        )
+        let view = VehicleDetailView(viewModel: viewModel)
+        let viewController = HostingViewController(
+            rootView: view
+        )
+        return viewController
+    }
 }
 // swiftlint:enable file_length

@@ -468,7 +468,7 @@ struct CoordinatorBuilderTests {
         let subject = CoordinatorBuilder(container: Container())
         let coordinator = subject.dvlaAccount(
             navigationController: UINavigationController(),
-            viewType: .driverSummary
+            viewType: .shareCodeList
         )
         #expect(coordinator is DVLAAccountCoordinator)
     }

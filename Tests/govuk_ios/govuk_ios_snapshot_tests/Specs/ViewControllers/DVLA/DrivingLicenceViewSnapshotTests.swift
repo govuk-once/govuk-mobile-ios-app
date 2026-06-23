@@ -39,7 +39,11 @@ import GovKit
     func test_drivingLicenceSummaryView_light_rendersCorrectly() {
         let viewModel = MockDrivingLicenceViewModel(
             viewState: .loaded(
-                licence: DrivingLicenceSummaryViewModel(driverSummary: .arrange)
+                licence: DrivingLicenceSummaryViewModel(
+                    driverSummary: .arrange,
+                    statusBuilder: MockLicenceStatusViewModelBuilder(),
+                    openURLAction: { _, _ in }
+                )
             )
         )
         let view = DrivingLicenceView(viewModel: viewModel)
@@ -56,7 +60,11 @@ import GovKit
     func test_drivingLicenceSummaryView_dark_rendersCorrectly() {
         let viewModel = MockDrivingLicenceViewModel(
             viewState: .loaded(
-                licence: DrivingLicenceSummaryViewModel(driverSummary: .arrange)
+                licence: DrivingLicenceSummaryViewModel(
+                    driverSummary: .arrange,
+                    statusBuilder: MockLicenceStatusViewModelBuilder(),
+                    openURLAction: { _, _ in }
+                )
             )
         )
         let view = DrivingLicenceView(viewModel: viewModel)

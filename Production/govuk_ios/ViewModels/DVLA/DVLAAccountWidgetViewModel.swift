@@ -60,11 +60,14 @@ class DVLAAccountWidgetViewModel: ObservableObject {
                 analyticsService: analyticsService,
                 dvlaService: dvlaService,
                 configService: configService,
+                detailAction: actions.vehicleDetailAction,
                 openURLAction: actions.openURLAction
             )
             let licenceViewModel = DrivingLicenceViewModel(
                 analyticsService: analyticsService,
-                dvlaService: dvlaService
+                dvlaService: dvlaService,
+                configService: configService,
+                openURLAction: actions.openURLAction
             )
             let accountSummaryViewModel = DVLAAccountSummaryViewModel(
                 vehiclesViewModel: vehiclesViewModel,
@@ -102,14 +105,6 @@ class DVLAAccountWidgetViewModel: ObservableObject {
             title: String.dvla.localized("dvlaAccountUnlinkCardTitle"),
             action: actions.unlinkAction
         )
-        let viewDriverSummaryCard = ListCardViewModel(
-            title: String.dvla.localized("dvlaViewDriverSummaryCardTitle"),
-            action: actions.viewDriverSummaryAction
-        )
-        let viewCustomerSummaryCard = ListCardViewModel(
-            title: String.dvla.localized("dvlaViewCustomerSummaryCardTitle"),
-            action: actions.viewCustomerSummaryAction
-        )
         let viewVehicleCard = ListCardViewModel(
             title: "View vehicle",
             action: actions.viewVehicleAction
@@ -124,8 +119,6 @@ class DVLAAccountWidgetViewModel: ObservableObject {
         )
         return [
             unlinkCard,
-            viewDriverSummaryCard,
-            viewCustomerSummaryCard,
             viewVehicleCard,
             viewShareCodesCard,
             createShareCodeCard
@@ -144,8 +137,7 @@ extension DVLAAccountWidgetViewModel {
     struct Actions {
         let linkAction: () -> Void
         let unlinkAction: () -> Void
-        let viewDriverSummaryAction: () -> Void
-        let viewCustomerSummaryAction: () -> Void
+        let vehicleDetailAction: (CustomerSummary.Vehicle) -> Void
         let viewVehicleAction: () -> Void
         let viewShareCodesAction: () -> Void
         let createShareCodeAction: () -> Void

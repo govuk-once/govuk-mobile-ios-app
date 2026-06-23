@@ -97,13 +97,20 @@ import GovKit
         let mockVehiclesViewModel = MockVehiclesViewModel(
             viewState: .loaded(
                 vehicles: [
-                    VehicleSummaryViewModel(vehicle: mockVehicle)
+                    VehicleSummaryViewModel(
+                        vehicle: mockVehicle,
+                        detailAction: {}
+                    )
                 ]
             )
         )
         let mockLicenceViewModel = MockDrivingLicenceViewModel(
             viewState: .loaded(
-                licence: DrivingLicenceSummaryViewModel(driverSummary: .arrange)
+                licence: DrivingLicenceSummaryViewModel(
+                    driverSummary: .arrange,
+                    statusBuilder: MockLicenceStatusViewModelBuilder(),
+                    openURLAction: { _, _ in }
+                )
             )
         )
         let mockAccountSummaryViewModel = MockDVLAAccountSummaryViewModel(
@@ -121,8 +128,7 @@ extension DVLAAccountWidgetViewModel.Actions {
         .init(
             linkAction: {},
             unlinkAction: {},
-            viewDriverSummaryAction: {},
-            viewCustomerSummaryAction: {},
+            vehicleDetailAction: { _ in },
             viewVehicleAction: {},
             viewShareCodesAction: {},
             createShareCodeAction: {},

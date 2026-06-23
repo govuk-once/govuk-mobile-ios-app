@@ -156,5 +156,30 @@ struct DrivingTopicWidgetCoordinatorTests {
         mockWidgetViewBuilder._receivedDvlaAccountWidgetViewShareCodesAction?()
         #expect(mockDvlaAccountCoordinator._startCalled == true)
     }
+
+    @Test
+    func makeWidget_vehicleDetailActions_startsVehicleDetail() {
+        let drivingTopic = Topic.arrange(
+            context: coreDataRepository.viewContext,
+            ref: "driving-transport"
+        )
+        mockConfigService.features = [.dvla]
+        let mockCoordinatorBuilder = CoordinatorBuilder.mock
+        let mockVehicleDetailCoordinator = MockBaseCoordinator()
+        mockCoordinatorBuilder._stubbedVehicleDetailCoordinator = mockVehicleDetailCoordinator
+
+        let sut = DrivingTopicWidgetCoordinator(
+            navigationController: UINavigationController(),
+            analyticsService: mockAnalyticsService,
+            configService: mockConfigService,
+            userService: mockUserService,
+            dvlaService: mockDvlaService,
+            coordinatorBuilder: mockCoordinatorBuilder,
+            widgetViewBuilder: mockWidgetViewBuilder
+        )
+        let _ = sut.makeWidget(for: drivingTopic)
+        mockWidgetViewBuilder._receivedVehicleDetailAction?(CustomerSummary.Vehicle.arrange)
+        #expect(mockVehicleDetailCoordinator._startCalled == true)
+    }
 }
 

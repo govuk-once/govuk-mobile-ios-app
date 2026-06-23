@@ -38,9 +38,11 @@ struct DVLAServiceTests {
         mockServiceClient._stubbedFetchCustomerSummaryResult = .success(.arrange)
         let result = await sut.fetchCustomerSummary()
         let customerSummary = try #require(try? result.get())
-        let customer = customerSummary.customerResponse.customer
-        #expect(customer.customerType == "Individual")
-        #expect(customer.individualDetails.firstNames == "KENNETH")
+        let vehicle = try #require(customerSummary.vehicles.first)
+        #expect(vehicle.registrationNumber == "AB71 CDE")
+        #expect(vehicle.make == "MITSUBISHI")
+        #expect(vehicle.model == "MIRAGE")
+        #expect(vehicle.colour == "YELLOW")
     }
 
     @Test

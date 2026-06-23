@@ -10,27 +10,55 @@ struct CustomerSummary: Codable {
         let taxedUntil: Date?
         let motStatus: String
         let motExpiryDate: Date?
+        let dateOfFirstRegistration: Date
+        let colour: String
+        let secondaryColour: String?
+        let fuelType: FuelType
+        let exhaustEmissions: ExhaustEmissions?
+        let engineCapacity: Int?
+        let keeper: VehicleKeeper?
     }
 
-    let customerResponse: CustomerResponse
     let vehicles: [Vehicle]
 
     enum CodingKeys: String, CodingKey {
-        case customerResponse = "customerResponse"
         case vehicles = "vehicleResponse"
     }
 }
 
-struct CustomerResponse: Codable {
-    let customer: Customer
+enum FuelType: String, Codable {
+    case petrol = "PETROL"
+    case diesel = "DIESEL"
+    case electricity = "ELECTRICITY"
+    case steam = "STEAM"
+    case gas = "GAS"
+    case petrolGas = "PETROL/GAS"
+    case gasBiFuel = "GAS BI-FUEL"
+    case hybridElectric = "HYBRID ELECTRIC"
+    case gasDiesel = "GAS DIESEL"
+    case fuelCells = "FUEL CELLS"
+    case electricDiesel = "ELECTRIC DIESEL"
+    case other = "OTHER"
+    case unknown
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let rawValue = try container.decode(String.self)
+        self = FuelType(rawValue: rawValue) ?? .unknown
+    }
 }
 
-struct Customer: Codable {
-    let customerType: String
-    let individualDetails: IndividualDetails
+struct ExhaustEmissions: Codable {
+    let co2: Int?
 }
 
-struct IndividualDetails: Codable {
-    let firstNames: String
-    let lastName: String
+struct VehicleKeeper: Codable {
+    let title: String?
+    let firstNames: String?
+    let lastName: String?
+    let address: VehicleKeeperAddress?
+}
+
+struct VehicleKeeperAddress: Codable {
+    let unstructuredAddress: UnstructuredAddress?
 }

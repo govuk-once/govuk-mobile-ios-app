@@ -13,13 +13,19 @@ class DrivingLicenceViewModel: ObservableObject {
     private var hasLoadedLicence = false
     private let analyticsService: AnalyticsServiceInterface
     private let dvlaService: DVLAServiceInterface
+    private let configService: AppConfigServiceInterface
+    private let openURLAction: (URL) -> Void
 
     init(viewState: ViewState = .loading,
          analyticsService: AnalyticsServiceInterface,
-         dvlaService: DVLAServiceInterface) {
+         dvlaService: DVLAServiceInterface,
+         configService: AppConfigServiceInterface,
+         openURLAction: @escaping (URL) -> Void) {
         self.viewState = viewState
         self.analyticsService = analyticsService
         self.dvlaService = dvlaService
+        self.configService = configService
+        self.openURLAction = openURLAction
     }
 
     @MainActor
@@ -44,7 +50,11 @@ class DrivingLicenceViewModel: ObservableObject {
         switch result {
         case .success(let driverSummary):
             var licenceSummaryViewModel = DrivingLicenceSummaryViewModel(
-                driverSummary: driverSummary
+                driverSummary: driverSummary,
+                statusBuilder: LicenceStatusViewModelBuilder(urls: configService.dvlaUrls),
+                openURLAction: { [weak self] url, buttonTitle in
+                    self?.handleOpenURL(url: url, buttonTitle: buttonTitle)
+                }
             )
             licenceSummaryViewModel.copyToClipboardAction = { [weak self] licenceNumber in
                 self?.copyToClipboard(licenceNumber: licenceNumber)
@@ -54,6 +64,21 @@ class DrivingLicenceViewModel: ObservableObject {
         case .failure:
             viewState = .error(dvlaAccountErrorViewModel)
         }
+    }
+
+    private func handleOpenURL(url: URL, buttonTitle: String) {
+        trackOpenURLAction(url: url, buttonTitle: buttonTitle)
+        openURLAction(url)
+    }
+
+    private func trackOpenURLAction(url: URL, buttonTitle: String) {
+        let event = AppEvent.buttonNavigation(
+            text: buttonTitle,
+            external: true,
+            url: url.absoluteString,
+            section: "Driving"
+        )
+        analyticsService.track(event: event)
     }
 
     private func trackCopyLicenceNumberToClipboard() {

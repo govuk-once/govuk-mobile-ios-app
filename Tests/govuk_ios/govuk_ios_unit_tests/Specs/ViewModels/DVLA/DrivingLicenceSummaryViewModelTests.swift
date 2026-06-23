@@ -8,14 +8,22 @@ struct DrivingLicenceSummaryViewModelTests {
     @Test
     func init_formatsLicenceNumberCorrectly() {
         let mockDriverSummary = DriverSummary.arrange(licenceNo: "ABC123AE")
-        let sut = DrivingLicenceSummaryViewModel(driverSummary: mockDriverSummary)
+        let sut = DrivingLicenceSummaryViewModel(
+            driverSummary: mockDriverSummary,
+            statusBuilder: MockLicenceStatusViewModelBuilder(),
+            openURLAction: { _, _ in }
+        )
         #expect(sut.licenceNumber == "ABC123AE")
     }
 
     @Test
     func init_formatsLicenceTypeCorrectly() {
         let mockDriverSummary = DriverSummary.arrange(licenceType: "Provisional")
-        let sut = DrivingLicenceSummaryViewModel(driverSummary: mockDriverSummary)
+        let sut = DrivingLicenceSummaryViewModel(
+            driverSummary: mockDriverSummary,
+            statusBuilder: MockLicenceStatusViewModelBuilder(),
+            openURLAction: { _, _ in }
+        )
         let expectedLicenceType = String.localizedStringWithFormat(
             String.dvla.localized("licenceType"),
             "Provisional")
@@ -29,8 +37,12 @@ struct DrivingLicenceSummaryViewModelTests {
             firstNames: "JOE GEORGE",
             lastName: "BLOGGS"
         )
-        let sut = DrivingLicenceSummaryViewModel(driverSummary: mockDriverSummary)
-        #expect(sut.fullName == "Mr Joe George Bloggs")
+        let sut = DrivingLicenceSummaryViewModel(
+            driverSummary: mockDriverSummary,
+            statusBuilder: MockLicenceStatusViewModelBuilder(),
+            openURLAction: { _, _ in }
+        )
+        #expect(sut.fullName == "MR JOE GEORGE BLOGGS")
     }
 
     @Test
@@ -43,7 +55,11 @@ struct DrivingLicenceSummaryViewModelTests {
         let mockDriverSummary = DriverSummary.arrange(
             address: mockAddress
         )
-        let sut = DrivingLicenceSummaryViewModel(driverSummary: mockDriverSummary)
+        let sut = DrivingLicenceSummaryViewModel(
+            driverSummary: mockDriverSummary,
+            statusBuilder: MockLicenceStatusViewModelBuilder(),
+            openURLAction: { _, _ in }
+        )
         let expectedAddressArray = [
             "1 Leander Drive",
             "Castleton",
@@ -53,25 +69,36 @@ struct DrivingLicenceSummaryViewModelTests {
     }
 
     @Test
-    func init_licenceValidToDateIsValid_formatsLicenceStatusCorrectly() {
+    func init_licenceStatusViewModelIsPopulatedByBuilder() {
+        let mockStatusViewModelBuilder = MockLicenceStatusViewModelBuilder()
+        mockStatusViewModelBuilder._stubbedViewModel = ValidityStatusViewModel(
+            status: "Mock licence status"
+        )
+
         let validToDate = Date.arrange("01/12/2027")
         let mockDriverSummary = DriverSummary.arrange(
             validTo: validToDate
         )
-        let sut = DrivingLicenceSummaryViewModel(driverSummary: mockDriverSummary)
+        let sut = DrivingLicenceSummaryViewModel(
+            driverSummary: mockDriverSummary,
+            statusBuilder: mockStatusViewModelBuilder,
+            openURLAction: { _, _ in }
+        )
 
-        let expectedDateString = DateFormatter.dvlaAccount.string(from: validToDate)
-        let expectedStatusString = String.localizedStringWithFormat(
-            String.dvla.localized("validUntil"),
-            expectedDateString)
+        #expect(mockStatusViewModelBuilder._makeViewModelCallCount == 1)
+        #expect(mockStatusViewModelBuilder._receivedValidToDate == validToDate)
         #expect(sut.licenceStatusViewModel.title == nil)
-        #expect(sut.licenceStatusViewModel.status == expectedStatusString)
+        #expect(sut.licenceStatusViewModel.status == "Mock licence status")
     }
 
     @Test
     func init_formatsLicenceTypeAccessibilityLabelCorrectly() {
         let mockDriverSummary = DriverSummary.arrange(licenceType: "Provisional")
-        let sut = DrivingLicenceSummaryViewModel(driverSummary: mockDriverSummary)
+        let sut = DrivingLicenceSummaryViewModel(
+            driverSummary: mockDriverSummary,
+            statusBuilder: MockLicenceStatusViewModelBuilder(),
+            openURLAction: { _, _ in }
+        )
 
         let expectedAccessibilityLabel = String.localizedStringWithFormat(
             String.dvla.localized("licenceTypeAccessibilityLabel"),
@@ -88,32 +115,16 @@ struct DrivingLicenceSummaryViewModelTests {
             postcode: "OL11 4AB"
         )
         let mockDriverSummary = DriverSummary.arrange(address: mockAddress)
-        let sut = DrivingLicenceSummaryViewModel(driverSummary: mockDriverSummary)
+        let sut = DrivingLicenceSummaryViewModel(
+            driverSummary: mockDriverSummary,
+            statusBuilder: MockLicenceStatusViewModelBuilder(),
+            openURLAction: { _, _ in }
+        )
 
         let expectedAccessibilityLabel = String.localizedStringWithFormat(
             String.dvla.localized("licenceAddressAccessibilityLabel"),
             "1 Leander Drive, Castleton, OL11 4AB"
         )
         #expect(sut.addressAccessibilityLabel == expectedAccessibilityLabel)
-    }
-
-    @Test
-    func init_formatsLicenceStatusAccessibilityLabelCorrectly() {
-        let validToDate = Date.arrange("01/12/2027")
-        let mockDriverSummary = DriverSummary.arrange(
-            validTo: validToDate
-        )
-        let sut = DrivingLicenceSummaryViewModel(driverSummary: mockDriverSummary)
-
-        let expectedDateString = DateFormatter.dvlaAccount.string(from: validToDate)
-        let expectedStatusString = String.localizedStringWithFormat(
-            String.dvla.localized("validUntil"),
-            expectedDateString)
-
-        let expectedAccessibilityLabel = String.localizedStringWithFormat(
-            String.dvla.localized("licenceStatusAccessibilityLabel"),
-            expectedStatusString
-        )
-        #expect(sut.licenceStatusAccessibilityLabel == expectedAccessibilityLabel)
     }
 }

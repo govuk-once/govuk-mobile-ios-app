@@ -18,7 +18,6 @@ struct DrivingLicenceSummaryViewModel {
     )
     let fullNameAccessibilityLabel: String
     let licenceTypeAccessibilityLabel: String
-    let licenceStatusAccessibilityLabel: String
     let addressAccessibilityLabel: String
     var copyToClipboardAction: ((String) -> Void)?
 }
@@ -26,7 +25,8 @@ struct DrivingLicenceSummaryViewModel {
 extension DrivingLicenceSummaryViewModel {
     init(
         driverSummary: DriverSummary,
-        statusFormatter: DVLAValidityStatusFormatter = DVLAValidityStatusFormatter()
+        statusBuilder: LicenceStatusViewModelBuilderInterface,
+        openURLAction: @escaping (URL, String) -> Void
     ) {
         let licenceType = String.localizedStringWithFormat(
             String.dvla.localized("licenceType"),
@@ -42,7 +42,6 @@ extension DrivingLicenceSummaryViewModel {
         ]
         .compactMap { $0 }
         .joined(separator: " ")
-        .capitalized
         self.fullName = fullName
         let driverAddress = driverSummary.response.driver.address.unstructuredAddress
         let addressArray = [
@@ -55,13 +54,10 @@ extension DrivingLicenceSummaryViewModel {
         ]
         .compactMap { $0 }
         self.address = addressArray
-
-        let licenceStatus = statusFormatter.formatStatus(
-            from: driverSummary.response.token.validToDate
-        )
-        self.licenceStatusViewModel = ValidityStatusViewModel(
-            title: nil,
-            status: licenceStatus
+        self.licenceStatusViewModel = statusBuilder.makeViewModel(
+            status: driverSummary.response.licence.status,
+            validToDate: driverSummary.response.token?.validToDate,
+            openURLAction: openURLAction
         )
         self.fullNameAccessibilityLabel = .localizedStringWithFormat(
             String.dvla.localized("licenceFullNameAccessibilityLabel"),
@@ -75,10 +71,6 @@ extension DrivingLicenceSummaryViewModel {
         self.addressAccessibilityLabel = .localizedStringWithFormat(
             String.dvla.localized("licenceAddressAccessibilityLabel"),
             address
-        )
-        self.licenceStatusAccessibilityLabel = .localizedStringWithFormat(
-            String.dvla.localized("licenceStatusAccessibilityLabel"),
-            licenceStatus
         )
     }
 }
