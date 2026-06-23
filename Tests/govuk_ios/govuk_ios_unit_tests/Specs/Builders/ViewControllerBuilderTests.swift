@@ -177,8 +177,7 @@ struct ViewControllerBuilderTests {
         let subject = ViewControllerBuilder()
         let result = subject.yourAccountsSettings(
             userService: MockUserService(),
-            analyticsService: MockAnalyticsService(),
-            unlinkErrorAction: {}
+            analyticsService: MockAnalyticsService()
         )
         let rootView = (result as? HostingViewController<YourAccountsView>)?.rootView
         #expect(rootView != nil)
@@ -446,15 +445,6 @@ struct ViewControllerBuilderTests {
         )
 
         let rootView = (result as? HostingViewController<SARExplainerView>)?.rootView
-        #expect(rootView != nil)
-    }
-
-    @Test
-    func unlinkAccountsErrorView_returnsExpectedResult() {
-        let subject = ViewControllerBuilder()
-        let result = subject.unlinkAccountsErrorView(unlinkErrorAction: {})
-        let rootView = (result as? HostingViewController<UnlinkAccountsErrorView>)?.rootView
-        
         #expect(rootView != nil)
     }
 
