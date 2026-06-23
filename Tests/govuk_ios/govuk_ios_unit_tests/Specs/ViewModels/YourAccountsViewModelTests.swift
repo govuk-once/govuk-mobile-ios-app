@@ -96,28 +96,20 @@ struct YourAccountsViewModelTests {
 
     @Test
     @MainActor
-    func unlinkAccount_failure_updatesStateToFailure() async {
+    func unlinkAccount_failure_callsUnlinkErrorAction() async {
         let mockUserService = MockUserService()
         mockUserService._stubbedUnlinkAccountResult = .failure(.apiUnavailable)
+        await confirmation { actionCalled in
+            let sut = YourAccountsViewViewModel(
+                userService: mockUserService,
+                analyticsService: MockAnalyticsService(),
+                unlinkErrorAction: {
+                    actionCalled()
+                }
+            )
 
-        let sut = YourAccountsViewViewModel(
-            userService: mockUserService,
-            analyticsService: MockAnalyticsService(),
-            unlinkErrorAction: {}
-        )
-        sut.state = .success
-        sut.unlinkAccount()
-
+            sut.unlinkAccount()
+        }
         #expect(mockUserService._unlinkAccountCallCount == 1)
-        #expect(sut.state == .failure)
-    }
-
-    func trackNavigationEvent_tracksCorrectAppEvent() {
-        let mockAnalyticsService = MockAnalyticsService()
-        let sut = YourAccountsViewViewModel(
-            userService: MockUserService(),
-            analyticsService: MockAnalyticsService(),
-            unlinkErrorAction: {}
-        )
     }
 }
