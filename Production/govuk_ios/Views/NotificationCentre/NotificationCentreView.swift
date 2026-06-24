@@ -168,6 +168,7 @@ private struct NotificationCentreEmptyView: View {
                 .foregroundColor(Color(UIColor.govUK.text.secondary))
                 .clipShape(Rectangle())
                 .padding(.top, 8)
+                .padding(.bottom, 16)
 
             Spacer()
         }
