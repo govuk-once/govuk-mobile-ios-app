@@ -397,6 +397,50 @@
         }
       }
     },
+    "yourAccountsAlertButtonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove driver and vehicles account?"
+          }
+        }
+      }
+    },
+    "yourAccountsAlertCancelButtonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        }
+      }
+    },
+    "yourAccountsAlertMessage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You will not be able to see information from this account in the app, unless you add it again. You can still see it on the GOV.UK website."
+          }
+        }
+      }
+    },
+    "yourAccountsAlertRemoveButtonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove account"
+          }
+        }
+      }
+    },
     "yourAccountsBackButtonLabel" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -415,6 +459,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Driver and vehicles account"
+          }
+        }
+      }
+    },
+    "yourAccountsEditModeAccessibilityText" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove driver and vehicles account"
+          }
+        }
+      }
+    },
+    "yourAccountsEditModeDoneButton" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
           }
         }
       }
@@ -459,6 +525,39 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Your accounts"
+          }
+        }
+      }
+    },
+    "yourAccountsUnlinkingErrorButtonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Go back to your accounts"
+          }
+        }
+      }
+    },
+    "yourAccountsUnlinkingErrorDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We could not remove your driver and vehicles account. Try again later."
+          }
+        }
+      }
+    },
+    "yourAccountsUnlinkingErrorTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "There’s a problem"
           }
         }
       }

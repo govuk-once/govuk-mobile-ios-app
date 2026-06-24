@@ -708,10 +708,12 @@ class ViewControllerBuilder {
     }
 
     func yourAccountsSettings(
-        userService: UserServiceInterface
+        userService: UserServiceInterface,
+        analyticsService: AnalyticsServiceInterface
     ) -> UIViewController {
         let viewModel = YourAccountsViewViewModel(
-            userService: userService
+            userService: userService,
+            analyticsService: analyticsService
         )
         let view = YourAccountsView(
             viewModel: viewModel
