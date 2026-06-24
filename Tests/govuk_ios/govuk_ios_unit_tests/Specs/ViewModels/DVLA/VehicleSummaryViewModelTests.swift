@@ -16,7 +16,8 @@ struct VehicleSummaryViewModelTests {
             vehicle: mockVehicle,
             detailAction: {},
             openURLAction: { _ in },
-            configService: MockAppConfigService()
+            configService: MockAppConfigService(),
+            analyticsService: MockAnalyticsService()
         )
         #expect(sut.vehicleMake == "FORD")
         #expect(sut.vehicleModel == "FOCUS")
@@ -34,7 +35,8 @@ struct VehicleSummaryViewModelTests {
             vehicle: mockVehicle,
             detailAction: {},
             openURLAction: { _ in },
-            configService: MockAppConfigService()
+            configService: MockAppConfigService(),
+            analyticsService: MockAnalyticsService()
         )
         #expect(sut.vehicleModel == String.dvla.localized("unknown"))
     }
@@ -48,7 +50,8 @@ struct VehicleSummaryViewModelTests {
             vehicle: mockVehicle,
             detailAction: {},
             openURLAction: { _ in },
-            configService: MockAppConfigService()
+            configService: MockAppConfigService(),
+            analyticsService: MockAnalyticsService()
         )
         let expectedDate = Date(timeIntervalSince1970: 1779975444)
         let expectedDateString = DateFormatter.dvlaAccount.string(from: expectedDate)
@@ -67,7 +70,8 @@ struct VehicleSummaryViewModelTests {
             vehicle: mockVehicle,
             detailAction: {},
             openURLAction: { _ in },
-            configService: MockAppConfigService()
+            configService: MockAppConfigService(),
+            analyticsService: MockAnalyticsService()
         )
         #expect(sut.taxStatusViewModel.status == String.dvla.localized("unknown"))
     }
@@ -81,7 +85,8 @@ struct VehicleSummaryViewModelTests {
             vehicle: mockVehicle,
             detailAction: {},
             openURLAction: { _ in },
-            configService: MockAppConfigService()
+            configService: MockAppConfigService(),
+            analyticsService: MockAnalyticsService()
         )
         let expectedDate = Date(timeIntervalSince1970: 1779975444)
         let expectedDateString = DateFormatter.dvlaAccount.string(from: expectedDate)
@@ -100,8 +105,258 @@ struct VehicleSummaryViewModelTests {
             vehicle: mockVehicle,
             detailAction: {},
             openURLAction: { _ in },
-            configService: MockAppConfigService()
+            configService: MockAppConfigService(),
+            analyticsService: MockAnalyticsService()
         )
         #expect(sut.motStatusViewModel.status == String.dvla.localized("unknown"))
+    }
+
+    @Test
+    func menuItems_notTaxed_sorn_returnsExpectedMenuItems() {
+        let mockVehicle = CustomerSummary.Vehicle.arrange(
+            taxStatus: "Not taxed",
+            sornStart: Date()
+        )
+        let sut = VehicleSummaryViewModel(
+            vehicle: mockVehicle,
+            detailAction: {},
+            openURLAction: { _ in },
+            configService: MockAppConfigService(),
+            analyticsService: MockAnalyticsService()
+        )
+        let expectedMenuTitles = [
+            String(localized: .DVLA.vehicleMenuSornRulesTitle),
+            String(localized: .DVLA.vehicleMenuSoldVehicleTitle),
+            String(localized: .DVLA.vehicleMenuGetLogbookTitle),
+            String(localized: .DVLA.vehicleMenuChangeLogbookAddressTitle)
+        ]
+        #expect(sut.menuItems.map(\.title) == expectedMenuTitles)
+    }
+
+    @Test
+    func menuItems_taxed_notSorn_returnsExpectedMenuItems() {
+        let mockVehicle = CustomerSummary.Vehicle.arrange(
+            taxStatus: "Taxed",
+            sornStart: nil
+        )
+        let sut = VehicleSummaryViewModel(
+            vehicle: mockVehicle,
+            detailAction: {},
+            openURLAction: { _ in },
+            configService: MockAppConfigService(),
+            analyticsService: MockAnalyticsService()
+        )
+        let expectedMenuTitles = [
+            String(localized: .DVLA.vehicleMenuSoldVehicleTitle),
+            String(localized: .DVLA.vehicleMenuMakeSornTitle),
+            String(localized: .DVLA.vehicleMenuGetLogbookTitle),
+            String(localized: .DVLA.vehicleMenuChangeLogbookAddressTitle),
+            String(localized: .DVLA.vehicleMenuCancelTaxTitle),
+        ]
+
+        #expect(sut.menuItems.map(\.title) == expectedMenuTitles)
+    }
+
+    @Test
+    func menuItems_notTaxed_notSorn_returnsMenuItems() {
+        let mockVehicle = CustomerSummary.Vehicle.arrange(
+            taxStatus: "Not taxed",
+            sornStart: nil
+        )
+        let sut = VehicleSummaryViewModel(
+            vehicle: mockVehicle,
+            detailAction: {},
+            openURLAction: { _ in },
+            configService: MockAppConfigService(),
+            analyticsService: MockAnalyticsService()
+        )
+        let expectedMenuTitles = [
+            String(localized: .DVLA.vehicleMenuSoldVehicleTitle),
+            String(localized: .DVLA.vehicleMenuMakeSornTitle),
+            String(localized: .DVLA.vehicleMenuGetLogbookTitle),
+            String(localized: .DVLA.vehicleMenuChangeLogbookAddressTitle),
+        ]
+
+        #expect(sut.menuItems.map(\.title) == expectedMenuTitles)
+    }
+
+    @Test
+    func menuItems_sornRules_openURLAction_opensURLAndTracksEvent() async {
+        let mockAnalyticsService = MockAnalyticsService()
+        let mockConfigService = MockAppConfigService()
+        let dvlaURLs = DvlaURLs.arrange
+        mockConfigService._dvlaUrls = dvlaURLs
+        let mockVehicle = CustomerSummary.Vehicle.arrange(
+            taxStatus: "Not taxed",
+            sornStart: Date()
+        )
+        await confirmation { confirmation in
+            let sut = VehicleSummaryViewModel(
+                vehicle: mockVehicle,
+                detailAction: {},
+                openURLAction: { _ in confirmation() },
+                configService: mockConfigService,
+                analyticsService: mockAnalyticsService
+            )
+            sut.menuItems.first {
+                $0.title == String(localized: .DVLA.vehicleMenuSornRulesTitle)
+            }?.openURLAction("Title")
+        }
+
+        #expect(mockAnalyticsService._trackedEvents.count == 1)
+        #expect(
+            (mockAnalyticsService._trackedEvents.first?.params!["url"]! as! String) ==
+            dvlaURLs.sornRules?.absoluteString
+        )
+    }
+
+    @Test
+    func menuItems_soldVehicle_openURLAction_opensURLAndTracksEvent() async {
+        let mockAnalyticsService = MockAnalyticsService()
+        let mockConfigService = MockAppConfigService()
+        let dvlaURLs = DvlaURLs.arrange
+        mockConfigService._dvlaUrls = dvlaURLs
+        let mockVehicle = CustomerSummary.Vehicle.arrange(
+            taxStatus: "Taxed",
+            sornStart: nil
+        )
+        await confirmation { confirmation in
+            let sut = VehicleSummaryViewModel(
+                vehicle: mockVehicle,
+                detailAction: {},
+                openURLAction: { _ in confirmation() },
+                configService: mockConfigService,
+                analyticsService: mockAnalyticsService
+            )
+            sut.menuItems.first {
+                $0.title == String(localized: .DVLA.vehicleMenuSoldVehicleTitle)
+            }?.openURLAction("Title")
+        }
+
+        #expect(mockAnalyticsService._trackedEvents.count == 1)
+        #expect(
+            (mockAnalyticsService._trackedEvents.first?.params!["url"]! as! String) ==
+            dvlaURLs.soldVehicle?.absoluteString
+        )
+    }
+
+    @Test
+    func menuItems_makeSorn_openURLAction_opensURLAndTracksEvent() async {
+        let mockAnalyticsService = MockAnalyticsService()
+        let mockConfigService = MockAppConfigService()
+        let dvlaURLs = DvlaURLs.arrange
+        mockConfigService._dvlaUrls = dvlaURLs
+        let mockVehicle = CustomerSummary.Vehicle.arrange(
+            taxStatus: "Not taxed",
+            sornStart: nil
+        )
+        await confirmation { confirmation in
+            let sut = VehicleSummaryViewModel(
+                vehicle: mockVehicle,
+                detailAction: {},
+                openURLAction: { _ in confirmation() },
+                configService: mockConfigService,
+                analyticsService: mockAnalyticsService
+            )
+            sut.menuItems.first {
+                $0.title == String(localized: .DVLA.vehicleMenuMakeSornTitle)
+            }?.openURLAction("Title")
+        }
+
+        #expect(mockAnalyticsService._trackedEvents.count == 1)
+        #expect(
+            (mockAnalyticsService._trackedEvents.first?.params!["url"]! as! String) ==
+            dvlaURLs.makeSorn?.absoluteString
+        )
+    }
+
+    @Test
+    func menuItems_getLogbook_openURLAction_opensURLAndTracksEvent() async {
+        let mockAnalyticsService = MockAnalyticsService()
+        let mockConfigService = MockAppConfigService()
+        let dvlaURLs = DvlaURLs.arrange
+        mockConfigService._dvlaUrls = dvlaURLs
+        let mockVehicle = CustomerSummary.Vehicle.arrange(
+            taxStatus: "Taxed",
+            sornStart: nil
+        )
+        await confirmation { confirmation in
+            let sut = VehicleSummaryViewModel(
+                vehicle: mockVehicle,
+                detailAction: {},
+                openURLAction: { _ in confirmation() },
+                configService: mockConfigService,
+                analyticsService: mockAnalyticsService
+            )
+            sut.menuItems.first {
+                $0.title == String(localized: .DVLA.vehicleMenuGetLogbookTitle)
+            }?.openURLAction("Title")
+        }
+
+        #expect(mockAnalyticsService._trackedEvents.count == 1)
+        #expect(
+            (mockAnalyticsService._trackedEvents.first?.params!["url"]! as! String) ==
+            dvlaURLs.getLogbook?.absoluteString
+        )
+    }
+
+    @Test
+    func menuItems_changeLogbookAddress_openURLAction_opensURLAndTracksEvent() async {
+        let mockAnalyticsService = MockAnalyticsService()
+        let mockConfigService = MockAppConfigService()
+        let dvlaURLs = DvlaURLs.arrange
+        mockConfigService._dvlaUrls = dvlaURLs
+        let mockVehicle = CustomerSummary.Vehicle.arrange(
+            taxStatus: "Taxed",
+            sornStart: nil
+        )
+        await confirmation { confirmation in
+            let sut = VehicleSummaryViewModel(
+                vehicle: mockVehicle,
+                detailAction: {},
+                openURLAction: { _ in confirmation() },
+                configService: mockConfigService,
+                analyticsService: mockAnalyticsService
+            )
+            sut.menuItems.first {
+                $0.title == String(localized: .DVLA.vehicleMenuChangeLogbookAddressTitle)
+            }?.openURLAction("Title")
+        }
+
+        #expect(mockAnalyticsService._trackedEvents.count == 1)
+        #expect(
+            (mockAnalyticsService._trackedEvents.first?.params!["url"]! as! String) ==
+            dvlaURLs.changeLogbookAddress?.absoluteString
+        )
+    }
+
+    @Test
+    func menuItems_cancelTax_openURLAction_opensURLAndTracksEvent() async {
+        let mockAnalyticsService = MockAnalyticsService()
+        let mockConfigService = MockAppConfigService()
+        let dvlaURLs = DvlaURLs.arrange
+        mockConfigService._dvlaUrls = dvlaURLs
+        let mockVehicle = CustomerSummary.Vehicle.arrange(
+            taxStatus: "Taxed",
+            sornStart: nil
+        )
+        await confirmation { confirmation in
+            let sut = VehicleSummaryViewModel(
+                vehicle: mockVehicle,
+                detailAction: {},
+                openURLAction: { _ in confirmation() },
+                configService: mockConfigService,
+                analyticsService: mockAnalyticsService
+            )
+            sut.menuItems.first {
+                $0.title == String(localized: .DVLA.vehicleMenuCancelTaxTitle)
+            }?.openURLAction("Title")
+        }
+
+        #expect(mockAnalyticsService._trackedEvents.count == 1)
+        #expect(
+            (mockAnalyticsService._trackedEvents.first?.params!["url"]! as! String) ==
+            dvlaURLs.cancelTax?.absoluteString
+        )
     }
 }

@@ -16,7 +16,8 @@ class VehicleSummaryViewSnapshotTests: SnapshotTestCase {
             vehicle: mockVehicle,
             detailAction: {},
             openURLAction: { _ in },
-            configService: MockAppConfigService()
+            configService: MockAppConfigService(),
+            analyticsService: MockAnalyticsService()
         )
         let view = VehicleSummaryView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
@@ -37,7 +38,8 @@ class VehicleSummaryViewSnapshotTests: SnapshotTestCase {
             vehicle: mockVehicle,
             detailAction: {},
             openURLAction: { _ in },
-            configService: MockAppConfigService()
+            configService: MockAppConfigService(),
+            analyticsService: MockAnalyticsService()
         )
         let view = VehicleSummaryView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
@@ -58,7 +60,8 @@ class VehicleSummaryViewSnapshotTests: SnapshotTestCase {
             vehicle: mockVehicle,
             detailAction: {},
             openURLAction: { _ in },
-            configService: MockAppConfigService()
+            configService: MockAppConfigService(),
+            analyticsService: MockAnalyticsService()
         )
         let view = VehicleSummaryView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
@@ -79,7 +82,8 @@ class VehicleSummaryViewSnapshotTests: SnapshotTestCase {
             vehicle: mockVehicle,
             detailAction: {},
             openURLAction: { _ in },
-            configService: MockAppConfigService()
+            configService: MockAppConfigService(),
+            analyticsService: MockAnalyticsService()
         )
         let view = VehicleSummaryView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(

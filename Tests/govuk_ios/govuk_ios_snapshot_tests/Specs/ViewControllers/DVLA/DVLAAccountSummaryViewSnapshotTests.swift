@@ -14,7 +14,8 @@ import GovKit
                         vehicle: .arrange,
                         detailAction: {},
                         openURLAction: { _ in },
-                        configService: MockAppConfigService()
+                        configService: MockAppConfigService(),
+                        analyticsService: MockAnalyticsService()
                     )
                 ]
             )
@@ -52,7 +53,8 @@ import GovKit
                         vehicle: .arrange,
                         detailAction: {},
                         openURLAction: { _ in },
-                        configService: MockAppConfigService()
+                        configService: MockAppConfigService(),
+                        analyticsService: MockAnalyticsService()
                     )
                 ]
             )
@@ -90,7 +92,8 @@ import GovKit
                         vehicle: .arrange,
                         detailAction: {},
                         openURLAction: { _ in },
-                        configService: MockAppConfigService()
+                        configService: MockAppConfigService(),
+                        analyticsService: MockAnalyticsService()
                     )
                 ]
             )
@@ -129,7 +132,8 @@ import GovKit
                         vehicle: .arrange,
                         detailAction: {},
                         openURLAction: { _ in },
-                        configService: MockAppConfigService()
+                        configService: MockAppConfigService(),
+                        analyticsService: MockAnalyticsService()
                     )
                 ]
             )

@@ -39,7 +39,8 @@ extension CustomerSummary.Vehicle {
         fuelType: FuelType = .petrol,
         exhaustEmissions: ExhaustEmissions? = .arrange,
         engineCapacity: Int? = 1995,
-        keeper: VehicleKeeper? = .arrange
+        keeper: VehicleKeeper? = .arrange,
+        sornStart: Date? = nil
     ) -> CustomerSummary.Vehicle {
         .init(
             vehicleId: vehicleId,
@@ -56,7 +57,8 @@ extension CustomerSummary.Vehicle {
             fuelType: fuelType,
             exhaustEmissions: exhaustEmissions,
             engineCapacity: engineCapacity,
-            keeper: keeper
+            keeper: keeper,
+            sornStart: sornStart
         )
     }
 }

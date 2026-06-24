@@ -101,7 +101,8 @@ import GovKit
                         vehicle: mockVehicle,
                         detailAction: {},
                         openURLAction: { _ in },
-                        configService: MockAppConfigService()
+                        configService: MockAppConfigService(),
+                        analyticsService: MockAnalyticsService()
                     )
                 ]
             )
