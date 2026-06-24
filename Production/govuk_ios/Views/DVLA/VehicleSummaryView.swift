@@ -41,7 +41,7 @@ struct VehicleSummaryView: View {
         }
     }
 
-    var headerView: some View {
+    private var headerView: some View {
         HStack {
             Text(viewModel.registrationNumber)
                 .font(.govUK.vehicleRegistrationMarkBody)
@@ -64,51 +64,16 @@ struct VehicleSummaryView: View {
 
     private var menuView: some View {
         Menu {
-            Button(
-                action: { viewModel.openSornRulesURL() },
-                label: {
-                    Text(.DVLA.vehicleMenuSornRulesTitle)
-                        .accessibilityHint(String.common.localized("openWebLinkHint"))
-                }
-            )
-            Button(
-                action: { viewModel.openSoldVehicleURL() },
-                label: {
-                    Text(.DVLA.vehicleMenuSoldVehicleTitle)
-                        .accessibilityLabel(.DVLA.vehicleMenuSoldVehicleAccessibilityLabelTitle)
-                        .accessibilityHint(String.common.localized("openWebLinkHint"))
-                }
-            )
-            Button(
-                action: { viewModel.openMakeSornURL() },
-                label: {
-                    Text(.DVLA.vehicleMenuMakeSornTitle)
-                        .accessibilityLabel(.DVLA.vehicleMenuMakeSornAccessibilityLabelTitle)
-                        .accessibilityHint(String.common.localized("openWebLinkHint"))
-                }
-            )
-            Button(
-                action: { viewModel.openGetLogbookURL() },
-                label: {
-                    Text(.DVLA.vehicleMenuGetLogbookTitle)
-                        .accessibilityHint(String.common.localized("openWebLinkHint"))
-                }
-            )
-            Button(
-                action: { viewModel.openChangeLogbookAddressURL() },
-                label: {
-                    Text(.DVLA.vehicleMenuChangeLogbookAddressTitle)
-                        .accessibilityHint(String.common.localized("openWebLinkHint"))
-                }
-            )
-            Button(
-                action: { viewModel.openCancelTaxURL() },
-                label: {
-                    Text(.DVLA.vehicleMenuCancelTaxTitle)
-                        .accessibilityLabel(.DVLA.vehicleMenuCancelTaxAccessibilityLabelTitle)
-                        .accessibilityHint(String.common.localized("openWebLinkHint"))
-                }
-            )
+            ForEach(viewModel.menuItems, id: \.id) { item in
+                Button(
+                    action: { item.openURLAction(item.title) },
+                    label: {
+                        Text(item.title)
+                            .accessibilityLabel(item.accessibilityLabel ?? item.title)
+                            .accessibilityHint(String.common.localized("openWebLinkHint"))
+                    }
+                )
+            }
         } label: {
             Image(systemName: "ellipsis.circle.fill")
                 .font(.govUK.title1Bold)

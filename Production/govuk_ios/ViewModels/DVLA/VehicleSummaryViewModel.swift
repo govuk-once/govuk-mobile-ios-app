@@ -14,42 +14,7 @@ struct VehicleSummaryViewModel: Identifiable {
     )
     private let openURLAction: (URL) -> Void
     private let configService: AppConfigServiceInterface
-
-    func openSoldVehicleURL() {
-        let url = configService.dvlaUrls?.soldVehicle ??
-        Constants.API.defaultDvlaSoldVehicleUrl
-        openURLAction(url)
-    }
-
-    func openSornRulesURL() {
-        let url = configService.dvlaUrls?.sornRules ??
-        Constants.API.defaultDvlaSornRulesUrl
-        openURLAction(url)
-    }
-
-    func openMakeSornURL() {
-        let url = configService.dvlaUrls?.makeSorn ??
-        Constants.API.defaultDvlaMakeSornUrl
-        openURLAction(url)
-    }
-
-    func openGetLogbookURL() {
-        let url = configService.dvlaUrls?.getLogbook ??
-        Constants.API.defaultDvlaGetLogbookUrl
-        openURLAction(url)
-    }
-
-    func openChangeLogbookAddressURL() {
-        let url = configService.dvlaUrls?.changeLogbookAddress ??
-        Constants.API.defaultDvlaChangeLogbookAddressUrl
-        openURLAction(url)
-    }
-
-    func openCancelTaxURL() {
-        let url = configService.dvlaUrls?.cancelTax ??
-        Constants.API.defaultDvlaCancelTaxUrl
-        openURLAction(url)
-    }
+    private let analyticsService: AnalyticsServiceInterface
 }
 
 extension VehicleSummaryViewModel {
@@ -59,7 +24,8 @@ extension VehicleSummaryViewModel {
         specFormatter: VehicleSpecFormatter = VehicleSpecFormatter(),
         detailAction: @escaping () -> Void,
         openURLAction: @escaping (URL) -> Void,
-        configService: AppConfigServiceInterface
+        configService: AppConfigServiceInterface,
+        analyticsService: AnalyticsServiceInterface
     ) {
         self.id = vehicle.vehicleId
         self.registrationNumber = vehicle.registrationNumber
@@ -81,5 +47,96 @@ extension VehicleSummaryViewModel {
         self.detailAction = detailAction
         self.openURLAction = openURLAction
         self.configService = configService
+        self.analyticsService = analyticsService
+    }
+}
+
+extension VehicleSummaryViewModel {
+    var menuItems: [MenuItemViewModel] {
+        [
+            .init(
+                title: String(localized: .DVLA.vehicleMenuSornRulesTitle),
+                accessibilityLabel: nil,
+                openURLAction: { text in openSornRulesURL(text) }
+            ),
+            .init(
+                title: String(localized: .DVLA.vehicleMenuSoldVehicleTitle),
+                accessibilityLabel: String(localized: .DVLA.vehicleMenuSoldVehicleTitle),
+                openURLAction: { text in openSoldVehicleURL(text) }
+            ),
+            .init(
+                title: String(localized: .DVLA.vehicleMenuMakeSornTitle),
+                accessibilityLabel: String(localized: .DVLA.vehicleMenuMakeSornTitle),
+                openURLAction: { text in openMakeSornURL(text) }
+            ),
+            .init(
+                title: String(localized: .DVLA.vehicleMenuGetLogbookTitle),
+                accessibilityLabel: nil,
+                openURLAction: { text in openGetLogbookURL(text) }
+            ),
+            .init(
+                title: String(localized: .DVLA.vehicleMenuChangeLogbookAddressTitle),
+                accessibilityLabel: nil,
+                openURLAction: { text in openChangeLogbookAddressURL(text) }
+            ),
+            .init(
+                title: String(localized: .DVLA.vehicleMenuCancelTaxTitle),
+                accessibilityLabel: String(localized: .DVLA.vehicleMenuCancelTaxTitle),
+                openURLAction: { text in openCancelTaxURL(text) }
+            )
+        ]
+    }
+
+    private func openSornRulesURL(_ text: String) {
+        let url = configService.dvlaUrls?.sornRules ??
+        Constants.API.defaultDvlaSornRulesUrl
+        openMenuURLAction(url: url, text: text)
+    }
+
+    private func openSoldVehicleURL(_ text: String) {
+        let url = configService.dvlaUrls?.soldVehicle ??
+        Constants.API.defaultDvlaSoldVehicleUrl
+        openMenuURLAction(url: url, text: text)
+    }
+
+    private func openMakeSornURL(_ text: String) {
+        let url = configService.dvlaUrls?.makeSorn ??
+        Constants.API.defaultDvlaMakeSornUrl
+        openMenuURLAction(url: url, text: text)
+    }
+
+    private func openGetLogbookURL(_ text: String) {
+        let url = configService.dvlaUrls?.getLogbook ??
+        Constants.API.defaultDvlaGetLogbookUrl
+        openMenuURLAction(url: url, text: text)
+    }
+
+    private func openChangeLogbookAddressURL(_ text: String) {
+        let url = configService.dvlaUrls?.changeLogbookAddress ??
+        Constants.API.defaultDvlaChangeLogbookAddressUrl
+        openMenuURLAction(url: url, text: text)
+    }
+
+    private func openCancelTaxURL(_ text: String) {
+        let url = configService.dvlaUrls?.cancelTax ??
+        Constants.API.defaultDvlaCancelTaxUrl
+        openMenuURLAction(url: url, text: text)
+    }
+
+    private func openMenuURLAction(url: URL, text: String) {
+        openURLAction(url)
+        trackUrlOpenEvent(url: url, text: text)
+    }
+
+    private func trackUrlOpenEvent(url: URL, text: String) {
+        let event = AppEvent.navigation(
+            text: text,
+            type: "VehicleMenuLink",
+            external: true,
+            additionalParams: [
+                "url": url.absoluteString
+            ]
+        )
+        analyticsService.track(event: event)
     }
 }

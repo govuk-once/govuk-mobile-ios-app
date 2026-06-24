@@ -56,7 +56,8 @@ class VehiclesViewModel: ObservableObject {
                         self?.detailAction(vehicle)
                     },
                     openURLAction: openURLAction,
-                    configService: configService
+                    configService: configService,
+                    analyticsService: analyticsService
                 )
             }
             hasLoadedVehicles = true
