@@ -695,6 +695,17 @@
         }
       }
     },
+    "today" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Today"
+          }
+        }
+      }
+    },
     "unknown" : {
       "extractionState" : "manual",
       "localizations" : {

@@ -1,16 +1,6 @@
 import SwiftUI
 import GovKit
 
-struct ExpiryProgressViewModel {
-    let progress: CGFloat
-    let daysLeft: String
-
-    init(progress: CGFloat, daysLeft: Int) {
-        self.progress = progress
-        self.daysLeft = String(localized: .DVLA.daysLeft(days: daysLeft))
-    }
-}
-
 struct ExpiryProgressView: View {
     let viewModel: ExpiryProgressViewModel
 
