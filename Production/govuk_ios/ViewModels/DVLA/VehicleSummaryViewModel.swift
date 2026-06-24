@@ -6,6 +6,8 @@ struct VehicleSummaryViewModel: Identifiable {
     let registrationNumber: String
     let vehicleMake: String
     let vehicleModel: String
+    let sornStart: Date?
+    let taxStatus: String?
     let taxStatusViewModel: ValidityStatusViewModel
     let motStatusViewModel: ValidityStatusViewModel
     let detailAction: () -> Void
@@ -31,6 +33,8 @@ extension VehicleSummaryViewModel {
         self.registrationNumber = vehicle.registrationNumber
         self.vehicleMake = vehicle.make
         self.vehicleModel = specFormatter.formatModel(from: vehicle.model)
+        self.sornStart = vehicle.sornStart
+        self.taxStatus = vehicle.taxStatus
 
         self.taxStatusViewModel = ValidityStatusViewModel(
             title: String.dvla.localized("taxStatusTitle"),
@@ -53,38 +57,56 @@ extension VehicleSummaryViewModel {
 
 extension VehicleSummaryViewModel {
     var menuItems: [MenuItemViewModel] {
-        [
-            .init(
-                title: String(localized: .DVLA.vehicleMenuSornRulesTitle),
-                accessibilityLabel: nil,
-                openURLAction: { text in openSornRulesURL(text) }
-            ),
-            .init(
+        var items: [MenuItemViewModel] = []
+        if sornStart != nil {
+            items.append(
+                MenuItemViewModel(
+                    title: String(localized: .DVLA.vehicleMenuSornRulesTitle),
+                    accessibilityLabel: nil,
+                    openURLAction: { text in openSornRulesURL(text) }
+                )
+            )
+        }
+        items.append(
+            MenuItemViewModel(
                 title: String(localized: .DVLA.vehicleMenuSoldVehicleTitle),
                 accessibilityLabel: String(localized: .DVLA.vehicleMenuSoldVehicleTitle),
                 openURLAction: { text in openSoldVehicleURL(text) }
-            ),
-            .init(
-                title: String(localized: .DVLA.vehicleMenuMakeSornTitle),
-                accessibilityLabel: String(localized: .DVLA.vehicleMenuMakeSornTitle),
-                openURLAction: { text in openMakeSornURL(text) }
-            ),
-            .init(
+            )
+        )
+        if sornStart == nil {
+            items.append(
+                MenuItemViewModel(
+                    title: String(localized: .DVLA.vehicleMenuMakeSornTitle),
+                    accessibilityLabel: String(localized: .DVLA.vehicleMenuMakeSornTitle),
+                    openURLAction: { text in openMakeSornURL(text) }
+                )
+            )
+        }
+        items.append(
+            MenuItemViewModel(
                 title: String(localized: .DVLA.vehicleMenuGetLogbookTitle),
                 accessibilityLabel: nil,
                 openURLAction: { text in openGetLogbookURL(text) }
-            ),
-            .init(
+            )
+        )
+        items.append(
+            MenuItemViewModel(
                 title: String(localized: .DVLA.vehicleMenuChangeLogbookAddressTitle),
                 accessibilityLabel: nil,
                 openURLAction: { text in openChangeLogbookAddressURL(text) }
-            ),
-            .init(
-                title: String(localized: .DVLA.vehicleMenuCancelTaxTitle),
-                accessibilityLabel: String(localized: .DVLA.vehicleMenuCancelTaxTitle),
-                openURLAction: { text in openCancelTaxURL(text) }
             )
-        ]
+        )
+        if taxStatus == "Taxed" {
+            items.append(
+                MenuItemViewModel(
+                    title: String(localized: .DVLA.vehicleMenuCancelTaxTitle),
+                    accessibilityLabel: String(localized: .DVLA.vehicleMenuCancelTaxTitle),
+                    openURLAction: { text in openCancelTaxURL(text) }
+                )
+            )
+        }
+        return items
     }
 
     private func openSornRulesURL(_ text: String) {

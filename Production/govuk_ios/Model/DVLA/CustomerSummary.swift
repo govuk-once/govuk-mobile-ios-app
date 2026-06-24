@@ -17,6 +17,7 @@ struct CustomerSummary: Codable {
         let exhaustEmissions: ExhaustEmissions?
         let engineCapacity: Int?
         let keeper: VehicleKeeper?
+        let sornStart: Date?
     }
 
     let vehicles: [Vehicle]

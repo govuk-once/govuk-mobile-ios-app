@@ -175,7 +175,8 @@ extension VehicleDetailView: TrackableScreen {
         fuelType: .hybridElectric,
         exhaustEmissions: .init(co2: 532),
         engineCapacity: 1995,
-        keeper: keeper
+        keeper: keeper,
+        sornStart: nil
     )
     let viewModel = VehicleDetailViewModel(
         analyticsService: nil,
