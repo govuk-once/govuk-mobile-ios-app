@@ -41,6 +41,7 @@ struct ExpiryProgressView: View {
             Text(viewModel.daysLeft)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .font(.govUK.callout)
+                .foregroundStyle(Color(uiColor: .govUK.text.primary))
         }
     }
 }

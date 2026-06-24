@@ -9,13 +9,16 @@ protocol LicenceStatusViewModelBuilderInterface {
 }
 
 struct LicenceStatusViewModelBuilder: LicenceStatusViewModelBuilderInterface {
-    private let expiringCountdownWindow: Int = 56 // days
     private let dateFormatter: DateFormatter = .dvlaAccount
+    private let expiryProgressCalculator: ExpiryProgressCalculator
     private let urls: DvlaURLs?
 
-     init(urls: DvlaURLs?) {
-         self.urls = urls
-     }
+    init(urls: DvlaURLs?,
+         expiryProgressCalculator: ExpiryProgressCalculator = .init(countdownWindowDays: 56)
+    ) {
+        self.urls = urls
+        self.expiryProgressCalculator = expiryProgressCalculator
+    }
 
     func makeViewModel(
         status: DrivingLicenceStatus,
@@ -44,9 +47,8 @@ struct LicenceStatusViewModelBuilder: LicenceStatusViewModelBuilderInterface {
             )
         case .valid:
             if let validToDate = validToDate {
-                let expiryProgress = ExpiryProgressCalculator.calculate(
+                let expiryProgress = expiryProgressCalculator.calculate(
                     expiryDate: validToDate,
-                    countdownWindow: expiringCountdownWindow,
                     currentDate: currentDate
                 )
                 if expiryProgress.isWithinCountdownWindow {
@@ -138,7 +140,6 @@ struct LicenceStatusViewModelBuilder: LicenceStatusViewModelBuilderInterface {
             progress: expiryProgress.progress,
             daysLeft: expiryProgress.daysLeft
         )
-
         var buttonTitle: String?
         var buttonAction: (() -> Void)?
         if let renewURL = urls?.renewLicence {

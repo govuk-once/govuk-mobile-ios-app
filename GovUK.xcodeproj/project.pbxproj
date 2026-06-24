@@ -311,6 +311,7 @@
 		81217B8D2FD0B5B90048BBCD /* VehiclesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81217B8C2FD0B5A40048BBCD /* VehiclesViewModel.swift */; };
 		81217B8F2FD0B5F90048BBCD /* DrivingLicenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81217B8E2FD0B5F00048BBCD /* DrivingLicenceView.swift */; };
 		81217B912FD0B89B0048BBCD /* VehiclesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81217B902FD0B8930048BBCD /* VehiclesView.swift */; };
+		812EECB42FEBEFA600054F3A /* Calendar+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812EECB32FEBEFA000054F3A /* Calendar+Convenience.swift */; };
 		8132DC392F62D1F800F24CB6 /* ServiceAccountType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8132DC382F62D1EE00F24CB6 /* ServiceAccountType.swift */; };
 		81353DEF2FE97669008A7DE1 /* ExpiryProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81353DEE2FE975F0008A7DE1 /* ExpiryProgressView.swift */; };
 		81353DF22FE9C2ED008A7DE1 /* ExpiryProgressCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81353DF12FE9C2E4008A7DE1 /* ExpiryProgressCalculator.swift */; };
@@ -862,6 +863,7 @@
 		81217B8C2FD0B5A40048BBCD /* VehiclesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehiclesViewModel.swift; sourceTree = "<group>"; };
 		81217B8E2FD0B5F00048BBCD /* DrivingLicenceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrivingLicenceView.swift; sourceTree = "<group>"; };
 		81217B902FD0B8930048BBCD /* VehiclesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehiclesView.swift; sourceTree = "<group>"; };
+		812EECB32FEBEFA000054F3A /* Calendar+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar+Convenience.swift"; sourceTree = "<group>"; };
 		8132DC382F62D1EE00F24CB6 /* ServiceAccountType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountType.swift; sourceTree = "<group>"; };
 		81353DEE2FE975F0008A7DE1 /* ExpiryProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpiryProgressView.swift; sourceTree = "<group>"; };
 		81353DF12FE9C2E4008A7DE1 /* ExpiryProgressCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpiryProgressCalculator.swift; sourceTree = "<group>"; };
@@ -1847,6 +1849,7 @@
 			isa = PBXGroup;
 			children = (
 				3D9C933B2CB0155300EFA337 /* Bundle+AppVersionProvider.swift */,
+				812EECB32FEBEFA000054F3A /* Calendar+Convenience.swift */,
 				5DE2BBBB2C982593003116B6 /* Bundle+Extensions.swift */,
 				D08F2C7D2E6AF8C800133121 /* CGImageSource+Extensions.swift */,
 				D0A8B3C32C9DD01200849304 /* Codable+Extensions.swift */,
@@ -3387,6 +3390,7 @@
 				81F91D2A2FDB26A500BF709E /* VehicleSpecFormatter.swift in Sources */,
 				1631DE992C2B0D020050CB9D /* DeviceInformationProvider.swift in Sources */,
 				5D51C8382C5BBF600011ABE9 /* WidgetView.swift in Sources */,
+				812EECB42FEBEFA600054F3A /* Calendar+Convenience.swift in Sources */,
 				4ED2DB692FBCCE82005CF6FD /* YourAccountsView.swift in Sources */,
 				166BDDB62C330D1C00437AE0 /* HomeViewController.swift in Sources */,
 				4EA1E2812D8C61630062453D /* NotificationPermissionState.swift in Sources */,
