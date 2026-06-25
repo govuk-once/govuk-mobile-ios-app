@@ -94,11 +94,13 @@ class ChatViewModel: ObservableObject {
                     self?.removeCellModel(currentQuestionModel)
                 case .authenticationError:
                     self?.removeCellModel(currentQuestionModel)
+                    self?.processError(error)
+                    completion?(false)
                 default:
                     self?.latestQuestion = ""
+                    self?.processError(error)
+                    completion?(false)
                 }
-                self?.processError(error)
-                completion?(false)
             }
         }
     }
