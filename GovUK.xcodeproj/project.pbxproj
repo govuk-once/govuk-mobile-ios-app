@@ -313,7 +313,11 @@
 		81217B8D2FD0B5B90048BBCD /* VehiclesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81217B8C2FD0B5A40048BBCD /* VehiclesViewModel.swift */; };
 		81217B8F2FD0B5F90048BBCD /* DrivingLicenceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81217B8E2FD0B5F00048BBCD /* DrivingLicenceView.swift */; };
 		81217B912FD0B89B0048BBCD /* VehiclesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81217B902FD0B8930048BBCD /* VehiclesView.swift */; };
+		812EECB42FEBEFA600054F3A /* Calendar+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812EECB32FEBEFA000054F3A /* Calendar+Convenience.swift */; };
+		812EFD992FEC34F400054F3A /* ExpiryProgressViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812EFD982FEC34EC00054F3A /* ExpiryProgressViewModel.swift */; };
 		8132DC392F62D1F800F24CB6 /* ServiceAccountType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8132DC382F62D1EE00F24CB6 /* ServiceAccountType.swift */; };
+		81353DEF2FE97669008A7DE1 /* ExpiryProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81353DEE2FE975F0008A7DE1 /* ExpiryProgressView.swift */; };
+		81353DF22FE9C2ED008A7DE1 /* ExpiryProgressCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81353DF12FE9C2E4008A7DE1 /* ExpiryProgressCalculator.swift */; };
 		8144120A2F8900D300103197 /* FirebasePerformance in Frameworks */ = {isa = PBXBuildFile; productRef = 814412092F8900D300103197 /* FirebasePerformance */; };
 		8146FBBE2F8E603B00F87C76 /* ServiceAccountUnlinkCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8146FBBD2F8E603300F87C76 /* ServiceAccountUnlinkCoordinator.swift */; };
 		8146FC012F8EB2ED00F87C76 /* AppEvent+ServiceAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8146FC002F8EB2E400F87C76 /* AppEvent+ServiceAccount.swift */; };
@@ -864,7 +868,11 @@
 		81217B8C2FD0B5A40048BBCD /* VehiclesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehiclesViewModel.swift; sourceTree = "<group>"; };
 		81217B8E2FD0B5F00048BBCD /* DrivingLicenceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrivingLicenceView.swift; sourceTree = "<group>"; };
 		81217B902FD0B8930048BBCD /* VehiclesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehiclesView.swift; sourceTree = "<group>"; };
+		812EECB32FEBEFA000054F3A /* Calendar+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar+Convenience.swift"; sourceTree = "<group>"; };
+		812EFD982FEC34EC00054F3A /* ExpiryProgressViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpiryProgressViewModel.swift; sourceTree = "<group>"; };
 		8132DC382F62D1EE00F24CB6 /* ServiceAccountType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountType.swift; sourceTree = "<group>"; };
+		81353DEE2FE975F0008A7DE1 /* ExpiryProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpiryProgressView.swift; sourceTree = "<group>"; };
+		81353DF12FE9C2E4008A7DE1 /* ExpiryProgressCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExpiryProgressCalculator.swift; sourceTree = "<group>"; };
 		8146FBBD2F8E603300F87C76 /* ServiceAccountUnlinkCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountUnlinkCoordinator.swift; sourceTree = "<group>"; };
 		8146FC002F8EB2E400F87C76 /* AppEvent+ServiceAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppEvent+ServiceAccount.swift"; sourceTree = "<group>"; };
 		815011D62F7C4EEC00E7469C /* DVLAServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DVLAServiceClient.swift; sourceTree = "<group>"; };
@@ -1100,6 +1108,7 @@
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/DVLAAccountSummaryViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/DVLAAccountViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/DVLAAccountWidgetViewSnapshotTests.swift,
+				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/ExpiryProgressViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/ValidityStatusViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/VehicleDetailViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/VehicleSpecViewSnapshotTests.swift,
@@ -1191,6 +1200,7 @@
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/DVLAAccountSummaryViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/DVLAAccountViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/DVLAAccountWidgetViewSnapshotTests.swift,
+				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/ExpiryProgressViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/ValidityStatusViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/VehicleDetailViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/VehicleSpecViewSnapshotTests.swift,
@@ -1847,6 +1857,7 @@
 			isa = PBXGroup;
 			children = (
 				3D9C933B2CB0155300EFA337 /* Bundle+AppVersionProvider.swift */,
+				812EECB32FEBEFA000054F3A /* Calendar+Convenience.swift */,
 				5DE2BBBB2C982593003116B6 /* Bundle+Extensions.swift */,
 				D08F2C7D2E6AF8C800133121 /* CGImageSource+Extensions.swift */,
 				D0A8B3C32C9DD01200849304 /* Codable+Extensions.swift */,
@@ -2017,6 +2028,7 @@
 		5DAD71762BD250DB0075F648 /* govuk_ios */ = {
 			isa = PBXGroup;
 			children = (
+				81353DF02FE9C2DC008A7DE1 /* Calculators */,
 				4EC0466B2F7B22340087C01F /* UIKitViews */,
 				5D4F97E92BFF771A002CBDDE /* Builders */,
 				5D26A75F2C92E054009902DD /* Clients */,
@@ -2290,6 +2302,14 @@
 			path = RemoteConfig;
 			sourceTree = "<group>";
 		};
+		81353DF02FE9C2DC008A7DE1 /* Calculators */ = {
+			isa = PBXGroup;
+			children = (
+				81353DF12FE9C2E4008A7DE1 /* ExpiryProgressCalculator.swift */,
+			);
+			path = Calculators;
+			sourceTree = "<group>";
+		};
 		815018EA2F7D28F000E7469C /* DVLA */ = {
 			isa = PBXGroup;
 			children = (
@@ -2357,6 +2377,7 @@
 		81D2583F2FC71A8C00A4F988 /* DVLA */ = {
 			isa = PBXGroup;
 			children = (
+				81353DEE2FE975F0008A7DE1 /* ExpiryProgressView.swift */,
 				81D258402FC71AAF00A4F988 /* VehicleSummaryView.swift */,
 				81217B902FD0B8930048BBCD /* VehiclesView.swift */,
 				8121778B2FD092AA0048BBCD /* DrivingLicenceSummaryView.swift */,
@@ -2375,6 +2396,7 @@
 			isa = PBXGroup;
 			children = (
 				81A6DB202FCF3C43006FB0F0 /* VehicleDetailViewModel.swift */,
+				812EFD982FEC34EC00054F3A /* ExpiryProgressViewModel.swift */,
 				815018EF2F7D6AA100E7469C /* DVLAAccountViewModel.swift */,
 				81BFBFEE2FA4E1A300249569 /* DVLAAccountWidgetViewModel.swift */,
 				81D240BE2FC08FF800A4F988 /* DVLAAccountSummaryViewModel.swift */,
@@ -3008,6 +3030,7 @@
 				16FC6F0D2DDFE300007879E7 /* GovUIWindow.swift in Sources */,
 				4E9F5D032DB78DBA0063FA78 /* LocalAuthorityItem.swift in Sources */,
 				D08A9A862DB92F79002E9C78 /* SignOutConfirmationViewModel.swift in Sources */,
+				81353DEF2FE97669008A7DE1 /* ExpiryProgressView.swift in Sources */,
 				815841562F8D0F5E009E6486 /* ServiceAccountLinkCardView.swift in Sources */,
 				D0C36F8B2EB3901A005A2455 /* EmergencyBannerWidgetView.swift in Sources */,
 				D0EB04842D37F34200B310D8 /* GOV.xcdatamodeld in Sources */,
@@ -3312,6 +3335,7 @@
 				D03678C02E33A208009BCC32 /* RegexValidator+PII.swift in Sources */,
 				5DBE08052C480CA700B58DBE /* UIAlertAction+Convenience.swift in Sources */,
 				164091FE2DA41C1000E3BE99 /* AuthenticationServiceClient.swift in Sources */,
+				812EFD992FEC34F400054F3A /* ExpiryProgressViewModel.swift in Sources */,
 				D04191862CA6A59D0034722A /* TopicsServiceClient.swift in Sources */,
 				4EF440392F894E7D00C29728 /* CancelButton.swift in Sources */,
 				5DC250682C91D80F009E9E7F /* CrashlyticsClient.swift in Sources */,
@@ -3375,9 +3399,11 @@
 				815C58682EE970E200322705 /* RemoteConfigService.swift in Sources */,
 				5D14B1FE2EB0BA65003C151F /* SecureStoreable+Convenience.swift in Sources */,
 				81DE66982F5B3AB60087F48E /* ServiceAccountLinkingViewModel.swift in Sources */,
+				81353DF22FE9C2ED008A7DE1 /* ExpiryProgressCalculator.swift in Sources */,
 				81F91D2A2FDB26A500BF709E /* VehicleSpecFormatter.swift in Sources */,
 				1631DE992C2B0D020050CB9D /* DeviceInformationProvider.swift in Sources */,
 				5D51C8382C5BBF600011ABE9 /* WidgetView.swift in Sources */,
+				812EECB42FEBEFA600054F3A /* Calendar+Convenience.swift in Sources */,
 				4ED2DB692FBCCE82005CF6FD /* YourAccountsView.swift in Sources */,
 				166BDDB62C330D1C00437AE0 /* HomeViewController.swift in Sources */,
 				4EA1E2812D8C61630062453D /* NotificationPermissionState.swift in Sources */,
