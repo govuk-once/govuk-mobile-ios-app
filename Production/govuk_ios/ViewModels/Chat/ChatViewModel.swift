@@ -87,15 +87,18 @@ class ChatViewModel: ObservableObject {
                 completion?(true)
             case .failure(let error):
                 self?.requestInFlight = false
-                if error == .validationError {
+                switch error {
+                case .validationError:
                     self?.setPersonalDataValidationAlertDetails()
                     self?.showValidationAlert = true
                     self?.removeCellModel(currentQuestionModel)
-                } else {
-                    self?.processError(error)
+                case .authenticationError:
+                    self?.removeCellModel(currentQuestionModel)
+                default:
                     self?.latestQuestion = ""
-                    completion?(false)
                 }
+                self?.processError(error)
+                completion?(false)
             }
         }
     }
