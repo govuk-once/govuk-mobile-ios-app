@@ -118,7 +118,7 @@ import GovKit
             licenceViewModel: mockLicenceViewModel
         )
         return MockDVLAAccountWidgetViewModel(
-            viewState: .linked(actionCards: [], accountSummary: mockAccountSummaryViewModel)
+            viewState: .linked(accountSummary: mockAccountSummaryViewModel)
         )
     }
 }
@@ -127,11 +127,7 @@ extension DVLAAccountWidgetViewModel.Actions {
     static var empty: DVLAAccountWidgetViewModel.Actions {
         .init(
             linkAction: {},
-            unlinkAction: {},
             vehicleDetailAction: { _ in },
-            viewVehicleAction: {},
-            viewShareCodesAction: {},
-            createShareCodeAction: {},
             openURLAction: { _ in }
         )
     }

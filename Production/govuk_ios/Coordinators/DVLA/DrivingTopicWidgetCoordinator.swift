@@ -48,18 +48,8 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator,
             dvlaService: dvlaService,
             configService: configService,
             linkAction: startLinkAccount,
-            unlinkAction: startUnlinkAccount,
             vehicleDetailAction: { [weak self] vehicle in
                 self?.startVehicleDetail(vehicle: vehicle)
-            },
-            viewVehicleAction: { [weak self] in
-                self?.startDvlaAccount(viewType: .vehicle)
-            },
-            viewShareCodesAction: { [weak self] in
-                self?.startDvlaAccount(viewType: .shareCodeList)
-            },
-            createShareCodeAction: { [weak self] in
-                self?.startDvlaAccount(viewType: .createShareCode)
             },
             openURLAction: { [weak self] url in
                 self?.presentWebView(url: url)
@@ -86,27 +76,6 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator,
             }
         )
         present(coordinator)
-    }
-
-    private func startUnlinkAccount() {
-        let navigationController = UINavigationController()
-        navigationController.modalPresentationStyle = .fullScreen
-        let coordinator = coordinatorBuilder.serviceAccountUnlink(
-            navigationController: navigationController,
-            accountType: .dvla,
-            completion: {
-                print("service account unlinking dismissed")
-            }
-        )
-        present(coordinator)
-    }
-
-    private func startDvlaAccount(viewType: DVLAAccountViewType) {
-        let coordinator = coordinatorBuilder.dvlaAccount(
-            navigationController: root,
-            viewType: viewType
-        )
-        start(coordinator)
     }
 
     private func presentWebView(url: URL) {

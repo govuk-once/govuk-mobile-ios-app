@@ -4,7 +4,7 @@ import SwiftUI
 class DVLAAccountWidgetViewModel: ObservableObject {
     enum ViewState {
         case loading
-        case linked(actionCards: [ListCardViewModel], accountSummary: DVLAAccountSummaryViewModel)
+        case linked(accountSummary: DVLAAccountSummaryViewModel)
         case unlinked(linkCard: ServiceAccountLinkCardViewModel)
         case error(AppErrorViewModel)
     }
@@ -74,7 +74,6 @@ class DVLAAccountWidgetViewModel: ObservableObject {
                 licenceViewModel: licenceViewModel
             )
             viewState = .linked(
-                actionCards: accountActionCards,
                 accountSummary: accountSummaryViewModel
             )
         } else {
@@ -100,31 +99,6 @@ class DVLAAccountWidgetViewModel: ObservableObject {
         }
     }
 
-    private var accountActionCards: [ListCardViewModel] {
-        let unlinkCard = ListCardViewModel(
-            title: String.dvla.localized("dvlaAccountUnlinkCardTitle"),
-            action: actions.unlinkAction
-        )
-        let viewVehicleCard = ListCardViewModel(
-            title: "View vehicle",
-            action: actions.viewVehicleAction
-        )
-        let viewShareCodesCard = ListCardViewModel(
-            title: "View check codes",
-            action: actions.viewShareCodesAction
-        )
-        let createShareCodeCard = ListCardViewModel(
-            title: "Create check code",
-            action: actions.createShareCodeAction
-        )
-        return [
-            unlinkCard,
-            viewVehicleCard,
-            viewShareCodesCard,
-            createShareCodeCard
-        ]
-    }
-
     private func trackLinkAccountNavigationEvent(title: String) {
         let event = AppEvent.linkServiceAccountNavigation(
             title: title
@@ -136,11 +110,7 @@ class DVLAAccountWidgetViewModel: ObservableObject {
 extension DVLAAccountWidgetViewModel {
     struct Actions {
         let linkAction: () -> Void
-        let unlinkAction: () -> Void
         let vehicleDetailAction: (CustomerSummary.Vehicle) -> Void
-        let viewVehicleAction: () -> Void
-        let viewShareCodesAction: () -> Void
-        let createShareCodeAction: () -> Void
         let openURLAction: (URL) -> Void
     }
 }
