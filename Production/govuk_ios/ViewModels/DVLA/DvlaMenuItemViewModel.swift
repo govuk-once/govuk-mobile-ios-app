@@ -1,6 +1,6 @@
 import Foundation
 
-struct MenuItemViewModel: Identifiable {
+struct DvlaMenuItemViewModel: Identifiable {
     let id = UUID().uuidString
     let title: String
     let accessibilityLabel: String?

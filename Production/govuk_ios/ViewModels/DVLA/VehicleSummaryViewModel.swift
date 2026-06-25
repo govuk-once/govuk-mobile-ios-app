@@ -56,11 +56,11 @@ extension VehicleSummaryViewModel {
 }
 
 extension VehicleSummaryViewModel {
-    var menuItems: [MenuItemViewModel] {
-        var items: [MenuItemViewModel] = []
+    var menuItems: [DvlaMenuItemViewModel] {
+        var items: [DvlaMenuItemViewModel] = []
         if sornStart != nil {
             items.append(
-                MenuItemViewModel(
+                DvlaMenuItemViewModel(
                     title: String(localized: .DVLA.vehicleMenuSornRulesTitle),
                     accessibilityLabel: nil,
                     openURLAction: { text in openSornRulesURL(text) }
@@ -68,7 +68,7 @@ extension VehicleSummaryViewModel {
             )
         }
         items.append(
-            MenuItemViewModel(
+            DvlaMenuItemViewModel(
                 title: String(localized: .DVLA.vehicleMenuSoldVehicleTitle),
                 accessibilityLabel: String(localized: .DVLA.vehicleMenuSoldVehicleTitle),
                 openURLAction: { text in openSoldVehicleURL(text) }
@@ -76,7 +76,7 @@ extension VehicleSummaryViewModel {
         )
         if sornStart == nil {
             items.append(
-                MenuItemViewModel(
+                DvlaMenuItemViewModel(
                     title: String(localized: .DVLA.vehicleMenuMakeSornTitle),
                     accessibilityLabel: String(localized: .DVLA.vehicleMenuMakeSornTitle),
                     openURLAction: { text in openMakeSornURL(text) }
@@ -84,14 +84,14 @@ extension VehicleSummaryViewModel {
             )
         }
         items.append(
-            MenuItemViewModel(
+            DvlaMenuItemViewModel(
                 title: String(localized: .DVLA.vehicleMenuGetLogbookTitle),
                 accessibilityLabel: nil,
                 openURLAction: { text in openGetLogbookURL(text) }
             )
         )
         items.append(
-            MenuItemViewModel(
+            DvlaMenuItemViewModel(
                 title: String(localized: .DVLA.vehicleMenuChangeLogbookAddressTitle),
                 accessibilityLabel: nil,
                 openURLAction: { text in openChangeLogbookAddressURL(text) }
@@ -99,7 +99,7 @@ extension VehicleSummaryViewModel {
         )
         if taxStatus == "Taxed" {
             items.append(
-                MenuItemViewModel(
+                DvlaMenuItemViewModel(
                     title: String(localized: .DVLA.vehicleMenuCancelTaxTitle),
                     accessibilityLabel: String(localized: .DVLA.vehicleMenuCancelTaxTitle),
                     openURLAction: { text in openCancelTaxURL(text) }
