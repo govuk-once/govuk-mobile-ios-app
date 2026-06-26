@@ -151,13 +151,11 @@ extension VehicleSummaryViewModel {
     }
 
     private func trackUrlOpenEvent(url: URL, text: String) {
-        let event = AppEvent.navigation(
+        let event = AppEvent.buttonNavigation(
             text: text,
-            type: "VehicleMenuLink",
             external: true,
-            additionalParams: [
-                "url": url.absoluteString
-            ]
+            url: url.absoluteString,
+            section: "Driving"
         )
         analyticsService.track(event: event)
     }
