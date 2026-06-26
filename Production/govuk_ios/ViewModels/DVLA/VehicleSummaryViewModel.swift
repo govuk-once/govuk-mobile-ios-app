@@ -70,7 +70,9 @@ extension VehicleSummaryViewModel {
         items.append(
             DvlaMenuItemViewModel(
                 title: String(localized: .DVLA.vehicleMenuSoldVehicleTitle),
-                accessibilityLabel: String(localized: .DVLA.vehicleMenuSoldVehicleTitle),
+                accessibilityLabel: String(
+                    localized: .DVLA.vehicleMenuSoldVehicleAccessibilityLabelTitle
+                ),
                 openURLAction: { text in openSoldVehicleURL(text) }
             )
         )
@@ -78,7 +80,9 @@ extension VehicleSummaryViewModel {
             items.append(
                 DvlaMenuItemViewModel(
                     title: String(localized: .DVLA.vehicleMenuMakeSornTitle),
-                    accessibilityLabel: String(localized: .DVLA.vehicleMenuMakeSornTitle),
+                    accessibilityLabel: String(
+                        localized: .DVLA.vehicleMenuMakeSornAccessibilityLabelTitle
+                    ),
                     openURLAction: { text in openMakeSornURL(text) }
                 )
             )
@@ -101,7 +105,9 @@ extension VehicleSummaryViewModel {
             items.append(
                 DvlaMenuItemViewModel(
                     title: String(localized: .DVLA.vehicleMenuCancelTaxTitle),
-                    accessibilityLabel: String(localized: .DVLA.vehicleMenuCancelTaxTitle),
+                    accessibilityLabel: String(
+                        localized: .DVLA.vehicleMenuCancelTaxAccessibilityLabelTitle
+                    ),
                     openURLAction: { text in openCancelTaxURL(text) }
                 )
             )
