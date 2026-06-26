@@ -750,6 +750,105 @@
         }
       }
     },
+    "vehicleMenuCancelTaxAccessibilityLabelTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel vehicle tax"
+          }
+        }
+      }
+    },
+    "vehicleMenuCancelTaxTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel tax"
+          }
+        }
+      }
+    },
+    "vehicleMenuChangeLogbookAddressTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Change log book address"
+          }
+        }
+      }
+    },
+    "vehicleMenuGetLogbookTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Get a log book (V5C) "
+          }
+        }
+      }
+    },
+    "vehicleMenuMakeSornAccessibilityLabelTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Register vehicle as off road (SORN)"
+          }
+        }
+      }
+    },
+    "vehicleMenuMakeSornTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Register as off road (SORN)"
+          }
+        }
+      }
+    },
+    "vehicleMenuSoldVehicleAccessibilityLabelTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Report vehicle as sold"
+          }
+        }
+      }
+    },
+    "vehicleMenuSoldVehicleTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Report as sold"
+          }
+        }
+      }
+    },
+    "vehicleMenuSornRulesTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SORN rules"
+          }
+        }
+      }
+    },
     "vehicleModel" : {
       "extractionState" : "manual",
       "localizations" : {

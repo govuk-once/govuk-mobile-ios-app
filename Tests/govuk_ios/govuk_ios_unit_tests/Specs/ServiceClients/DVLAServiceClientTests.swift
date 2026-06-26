@@ -65,7 +65,7 @@ struct DVLAServiceClientTests {
         #expect(vehicle.registrationNumber == "RBZ5119")
         #expect(vehicle.make == "MITSUBISHI")
         #expect(vehicle.model == "MIRAGE")
-        #expect(vehicle.taxStatus == "Taxed")
+        #expect(vehicle.taxStatus == .taxed)
         #expect(vehicle.motStatus == "Not valid")
     }
 

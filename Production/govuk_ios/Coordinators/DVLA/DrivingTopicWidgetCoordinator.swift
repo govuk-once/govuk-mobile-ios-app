@@ -14,6 +14,7 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator,
     private let analyticsService: AnalyticsServiceInterface
     private let configService: AppConfigServiceInterface
     private let coordinatorBuilder: CoordinatorBuilder
+    private let urlOpener: URLOpener
 
     init(navigationController: UINavigationController,
          analyticsService: AnalyticsServiceInterface,
@@ -21,13 +22,15 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator,
          userService: UserServiceInterface,
          dvlaService: DVLAServiceInterface,
          coordinatorBuilder: CoordinatorBuilder,
-         widgetViewBuilder: WidgetViewBuilder) {
+         widgetViewBuilder: WidgetViewBuilder,
+         urlOpener: URLOpener) {
         self.dvlaService = dvlaService
         self.analyticsService = analyticsService
         self.configService = configService
         self.userService = userService
         self.coordinatorBuilder = coordinatorBuilder
         self.widgetViewBuilder = widgetViewBuilder
+        self.urlOpener = urlOpener
         super.init(navigationController: navigationController)
     }
 
@@ -52,7 +55,7 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator,
                 self?.startVehicleDetail(vehicle: vehicle)
             },
             openURLAction: { [weak self] url in
-                self?.presentWebView(url: url)
+                self?.urlOpener.openIfPossible(url)
             }
         )
     }
@@ -78,11 +81,23 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator,
         present(coordinator)
     }
 
-    private func presentWebView(url: URL) {
-        let coordinator = coordinatorBuilder.safari(
+    private func startUnlinkAccount() {
+        let navigationController = UINavigationController()
+        navigationController.modalPresentationStyle = .fullScreen
+        let coordinator = coordinatorBuilder.serviceAccountUnlink(
+            navigationController: navigationController,
+            accountType: .dvla,
+            completion: {
+                print("service account unlinking dismissed")
+            }
+        )
+        present(coordinator)
+    }
+
+    private func startDvlaAccount(viewType: DVLAAccountViewType) {
+        let coordinator = coordinatorBuilder.dvlaAccount(
             navigationController: root,
-            url: url,
-            fullScreen: true
+            viewType: viewType
         )
         start(coordinator)
     }

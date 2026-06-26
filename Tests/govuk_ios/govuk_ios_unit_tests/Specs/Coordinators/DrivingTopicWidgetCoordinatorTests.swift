@@ -35,7 +35,8 @@ struct DrivingTopicWidgetCoordinatorTests {
             userService: mockUserService,
             dvlaService: mockDvlaService,
             coordinatorBuilder: CoordinatorBuilder.mock,
-            widgetViewBuilder: mockWidgetViewBuilder
+            widgetViewBuilder: mockWidgetViewBuilder,
+            urlOpener: MockURLOpener()
         )
         let widgetView = sut.makeWidget(for: drivingTopic)
         #expect(widgetView != nil)
@@ -56,7 +57,8 @@ struct DrivingTopicWidgetCoordinatorTests {
             userService: mockUserService,
             dvlaService: mockDvlaService,
             coordinatorBuilder: CoordinatorBuilder.mock,
-            widgetViewBuilder: mockWidgetViewBuilder
+            widgetViewBuilder: mockWidgetViewBuilder,
+            urlOpener: MockURLOpener()
         )
         let widgetView = sut.makeWidget(for: drivingTopic)
         #expect(widgetView == nil)
@@ -76,7 +78,8 @@ struct DrivingTopicWidgetCoordinatorTests {
             userService: mockUserService,
             dvlaService: mockDvlaService,
             coordinatorBuilder: CoordinatorBuilder.mock,
-            widgetViewBuilder: mockWidgetViewBuilder
+            widgetViewBuilder: mockWidgetViewBuilder,
+            urlOpener: MockURLOpener()
         )
         let widgetView = sut.makeWidget(for: drivingTopic)
         #expect(widgetView == nil)
@@ -100,7 +103,8 @@ struct DrivingTopicWidgetCoordinatorTests {
             userService: mockUserService,
             dvlaService: mockDvlaService,
             coordinatorBuilder: mockCoordinatorBuilder,
-            widgetViewBuilder: mockWidgetViewBuilder
+            widgetViewBuilder: mockWidgetViewBuilder,
+            urlOpener: MockURLOpener()
         )
         let _ = sut.makeWidget(for: drivingTopic)
         mockWidgetViewBuilder._receivedDvlaAccountWidgetLinkAction?()
@@ -125,7 +129,8 @@ struct DrivingTopicWidgetCoordinatorTests {
             userService: mockUserService,
             dvlaService: mockDvlaService,
             coordinatorBuilder: mockCoordinatorBuilder,
-            widgetViewBuilder: mockWidgetViewBuilder
+            widgetViewBuilder: mockWidgetViewBuilder,
+            urlOpener: MockURLOpener()
         )
         let _ = sut.makeWidget(for: drivingTopic)
         mockWidgetViewBuilder._receivedVehicleDetailAction?(CustomerSummary.Vehicle.arrange)

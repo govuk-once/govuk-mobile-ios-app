@@ -99,7 +99,10 @@ import GovKit
                 vehicles: [
                     VehicleSummaryViewModel(
                         vehicle: mockVehicle,
-                        detailAction: {}
+                        detailAction: {},
+                        openURLAction: { _ in },
+                        configService: MockAppConfigService(),
+                        analyticsService: MockAnalyticsService()
                     )
                 ]
             )

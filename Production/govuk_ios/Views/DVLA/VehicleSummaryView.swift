@@ -41,7 +41,7 @@ struct VehicleSummaryView: View {
         }
     }
 
-    var headerView: some View {
+    private var headerView: some View {
         HStack {
             Text(viewModel.registrationNumber)
                 .font(.govUK.vehicleRegistrationMarkBody)
@@ -55,22 +55,35 @@ struct VehicleSummaryView: View {
                 )
                 .accessibilityLabel(registrationNumberAccessibilityLabel)
             Spacer()
-            Button {
-                print("more options tapped - todo")
-            } label: {
-                Image(systemName: "ellipsis.circle.fill")
-                    .font(.govUK.title1Bold)
-                    .frame(
-                        width: Self.iconSize,
-                        height: Self.iconSize
-                    )
-                    .foregroundColor(Color(UIColor.govUK.text.link))
-            }
-            .accessibilityLabel(String.dvla.localized("moreOptionsButtonAccessibilityLabel"))
+            menuView
         }
         .padding(.top, Self.standardPadding)
         .padding(.bottom, 8)
         .padding(.horizontal, Self.standardPadding)
+    }
+
+    private var menuView: some View {
+        Menu {
+            ForEach(viewModel.menuItems, id: \.id) { item in
+                Button(
+                    action: { item.openURLAction(item.title) },
+                    label: {
+                        Text(item.title)
+                            .accessibilityLabel(item.accessibilityLabel ?? item.title)
+                            .accessibilityHint(String.common.localized("openWebLinkHint"))
+                    }
+                )
+            }
+        } label: {
+            Image(systemName: "ellipsis.circle.fill")
+                .font(.govUK.title1Bold)
+                .frame(
+                    minWidth: Self.iconSize,
+                    minHeight: Self.iconSize
+                )
+                .foregroundColor(Color(UIColor.govUK.text.link))
+        }
+        .accessibilityLabel(String.dvla.localized("moreOptionsButtonAccessibilityLabel"))
     }
 
     private var detailsButton: some View {

@@ -120,7 +120,7 @@ struct VehiclesViewModelTests {
             await sut.viewDidAppear()
             #expect(mockDvlaService._fetchCustomerSummaryCallCount == 1)
 
-            sut.addNewVehiclesAction()
+            sut.addNewVehiclesAction(largeCard: true)
 
             await sut.viewDidAppear()
             #expect(mockDvlaService._fetchCustomerSummaryCallCount == 2)
@@ -128,7 +128,7 @@ struct VehiclesViewModelTests {
     }
 
     @Test
-    func addNewVehiclesAction_tracksEvent() async {
+    func addNewVehiclesAction_largeCard_tracksEvent() async {
         let sut = VehiclesViewModel(
             analyticsService: mockAnalyticsService,
             dvlaService: mockDvlaService,
@@ -137,9 +137,27 @@ struct VehiclesViewModelTests {
             openURLAction: { _ in }
         )
 
-        sut.addNewVehiclesAction()
+        sut.addNewVehiclesAction(largeCard: true)
 
         #expect(mockAnalyticsService._trackedEvents.count == 1)
         #expect(mockAnalyticsService._trackedEvents.first?.params?["text"] as? String == "Add your vehicle")
+        #expect(mockAnalyticsService._trackedEvents.first?.params?["type"] as? String == "Account card")
+    }
+
+    @Test
+    func addNewVehiclesAction_smallCard_tracksEvent() async {
+        let sut = VehiclesViewModel(
+            analyticsService: mockAnalyticsService,
+            dvlaService: mockDvlaService,
+            configService: mockConfigService,
+            detailAction: { _ in },
+            openURLAction: { _ in }
+        )
+
+        sut.addNewVehiclesAction(largeCard: false)
+
+        #expect(mockAnalyticsService._trackedEvents.count == 1)
+        #expect(mockAnalyticsService._trackedEvents.first?.params?["text"] as? String == "Add vehicle")
+        #expect(mockAnalyticsService._trackedEvents.first?.params?["type"] as? String == "Button")
     }
 }

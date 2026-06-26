@@ -6,7 +6,7 @@ struct CustomerSummary: Codable {
         let registrationNumber: String
         let make: String
         let model: String?
-        let taxStatus: String
+        let taxStatus: TaxStatus
         let taxedUntil: Date?
         let motStatus: String
         let motExpiryDate: Date?
@@ -17,6 +17,7 @@ struct CustomerSummary: Codable {
         let exhaustEmissions: ExhaustEmissions?
         let engineCapacity: Int?
         let keeper: VehicleKeeper?
+        let sornStart: Date?
     }
 
     let vehicles: [Vehicle]
@@ -24,6 +25,13 @@ struct CustomerSummary: Codable {
     enum CodingKeys: String, CodingKey {
         case vehicles = "vehicleResponse"
     }
+}
+
+enum TaxStatus: String, Codable {
+    case notTaxedForOnRoadUse = "Not Taxed for on Road Use"
+    case sorn = "SORN"
+    case untaxed = "Untaxed"
+    case taxed = "Taxed"
 }
 
 enum FuelType: String, Codable {

@@ -54,7 +54,7 @@ struct VehiclesView: View {
 
     private func addVehiclesCard(large: Bool) -> some View {
         Button {
-            viewModel.addNewVehiclesAction()
+            viewModel.addNewVehiclesAction(largeCard: large)
         } label: {
             if large {
                 addVehiclesLargeCard
