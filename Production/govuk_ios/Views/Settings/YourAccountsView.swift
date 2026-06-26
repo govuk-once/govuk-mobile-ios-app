@@ -3,35 +3,51 @@ import GovKitUI
 import GovKit
 
 struct YourAccountsView: View {
-    @StateObject var viewModel: YourAccountsViewViewModel
+    @StateObject private var viewModel: YourAccountsViewViewModel
+    @State private var isEditMode: Bool
+    @State private var showAlert = false
 
-    init(viewModel: YourAccountsViewViewModel) {
+    init(viewModel: YourAccountsViewViewModel,
+         isEditMode: Bool = false) {
         _viewModel = StateObject(wrappedValue: viewModel)
+        _isEditMode = State(wrappedValue: isEditMode)
     }
+
     var body: some View {
-        VStack {
-            switch viewModel.state {
-            case .success:
-                successView
-            case .failure:
-                failureView
-            case .loading:
-                loadingView
-            case .empty:
-                emptyView
+        ZStack {
+            VStack {
+                switch viewModel.state {
+                case .success:
+                    successView
+                case .failure:
+                    failureView
+                case .loading:
+                    loadingView
+                case .empty:
+                    emptyView
+                }
             }
-        }.background {
-            Color(UIColor.govUK.fills.surfaceBackground)
+            .background(Color(uiColor: .govUK.fills.surfaceBackground)
                 .ignoresSafeArea()
+            )
+            .task {
+                await viewModel.fetchLinkedAccounts()
+            }
         }
-        .task {
-            await viewModel.fetchLinkedAccounts()
-        }
+        .fullScreenCover(
+            isPresented: $viewModel.showingUnlinkError,
+            onDismiss: { viewModel.state = .success },
+            content: {
+                UnlinkAccountsErrorView(
+                    viewModel: viewModel.unlinkErrorViewModel
+                )
+            }
+        )
     }
 
     private var loadingView: some View {
         ZStack {
-            Color(UIColor.govUK.fills.surfaceBackground)
+            Color(uiColor: .govUK.fills.surfaceBackground)
             ProgressView()
         }
     }
@@ -41,7 +57,7 @@ struct YourAccountsView: View {
             VStack(spacing: 8) {
                 Image(systemName: "exclamationmark.circle")
                     .font(.title)
-                    .foregroundColor(Color(uiColor: UIColor.govUK.text.iconTertiary))
+                    .foregroundColor(Color(uiColor: .govUK.text.iconTertiary))
                     .accessibilityHidden(true)
                 VStack(spacing: 2) {
                     Text(viewModel.failureViewTitle)
@@ -54,7 +70,7 @@ struct YourAccountsView: View {
             }
             .padding(.vertical, 24)
             .frame(maxWidth: .infinity)
-            .background(Color(uiColor: UIColor.govUK.fills.surfaceList))
+            .background(Color(uiColor: .govUK.fills.surfaceList))
             .roundedBorder(borderColor: .clear)
             Spacer()
         }
@@ -67,43 +83,84 @@ struct YourAccountsView: View {
             NonTappableCardView(text: viewModel.emptyViewDescription)
                 .padding(.top, 8)
             Spacer()
-        }.background {
-            Color(UIColor.govUK.fills.surfaceBackground)
-                .ignoresSafeArea()
         }
+        .background(Color(uiColor: .govUK.fills.surfaceBackground).ignoresSafeArea())
         .padding(.horizontal, 16)
     }
 
     private var successView: some View {
         VStack {
-            VStack {
-                HStack {
-                    Text(viewModel.yourAccountsCardTitle)
-                        .font(Font.govUK.body)
-                        .multilineTextAlignment(.leading)
-                        .foregroundColor(Color(UIColor.govUK.text.primary))
-                    Spacer()
+            HStack(spacing: 10) {
+                if isEditMode {
+                    Button {
+                        showAlert.toggle()
+                        viewModel.trackEvent(text: "DVLA unlink")
+                    } label: {
+                        Image(systemName: "minus.circle.fill")
+                            .font(Font.govUK.body)
+                            .imageScale(.large)
+                            .fontWeight(.medium)
+                            .symbolRenderingMode(.palette)
+                            .foregroundStyle(Color(uiColor: .greyWhite),
+                                             Color(uiColor: .systemRed))
+                    }
+                    .buttonStyle(.plain)
                 }
+                Text(viewModel.yourAccountsCardTitle)
+                    .font(Font.govUK.body)
+                    .multilineTextAlignment(.leading)
+                    .foregroundColor(Color(uiColor: .govUK.text.primary))
+                Spacer()
+            }.accessibilityHint(isEditMode ? viewModel.editModeAccessibilityText: "")
                 .padding(16)
-            }
-            .background(Color(uiColor: UIColor.govUK.fills.surfaceList))
-            .roundedBorder(borderColor: .clear)
+                .background(Color(uiColor: .govUK.fills.surfaceList))
+                .roundedBorder(borderColor: .clear)
             Spacer()
-        }
-        .background {
-            Color(UIColor.govUK.fills.surfaceBackground)
-                .ignoresSafeArea()
         }
         .padding(.top, 8)
         .padding(.horizontal, 16)
+        .background(Color(uiColor: .govUK.fills.surfaceBackground).ignoresSafeArea())
+        .alert(viewModel.alertMessageTitle, isPresented: $showAlert, actions: {
+            Button(viewModel.alertCancelButtonTitle, role: .cancel) {
+                viewModel.trackEvent(text: "DVLA Cancel")
+            }
+            Button(viewModel.alertRemoveButtonTitle, role: .destructive) {
+                viewModel.unlinkAccount()
+                viewModel.trackNavigationEvent(text: "DVLA Remove account")
+            }
+        }, message: {
+            Text(viewModel.alertMessage)
+        })
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
-                Button(
-                    action: {},
-                    label: {
+                if isEditMode {
+                    if #available(iOS 26.0, *) {
+                        Button(role: .confirm, action: {
+                            withAnimation(.easeInOut) {
+                                isEditMode.toggle()
+                            }
+                        })
+                    } else {
+                        Button {
+                            withAnimation(.easeInOut) {
+                                isEditMode.toggle()
+                            }
+                        } label: {
+                            Text(viewModel.editModeDoneButton)
+                                .font(Font.govUK.body)
+                                .foregroundColor(Color(uiColor: .govUK.text.linkHeader))
+                        }
+                    }
+                } else {
+                    Button {
+                        withAnimation(.easeInOut) {
+                            isEditMode.toggle()
+                        }
+                        viewModel.trackEvent(text: viewModel.editButtonTitle)
+                    } label: {
                         Text(viewModel.editButtonTitle)
                     }
-                )
+                }
             }
         }
     }

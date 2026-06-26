@@ -51,18 +51,8 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator,
             dvlaService: dvlaService,
             configService: configService,
             linkAction: startLinkAccount,
-            unlinkAction: startUnlinkAccount,
             vehicleDetailAction: { [weak self] vehicle in
                 self?.startVehicleDetail(vehicle: vehicle)
-            },
-            viewVehicleAction: { [weak self] in
-                self?.startDvlaAccount(viewType: .vehicle)
-            },
-            viewShareCodesAction: { [weak self] in
-                self?.startDvlaAccount(viewType: .shareCodeList)
-            },
-            createShareCodeAction: { [weak self] in
-                self?.startDvlaAccount(viewType: .createShareCode)
             },
             openURLAction: { [weak self] url in
                 self?.urlOpener.openIfPossible(url)

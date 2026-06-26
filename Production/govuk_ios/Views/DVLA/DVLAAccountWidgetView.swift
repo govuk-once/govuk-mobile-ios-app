@@ -13,11 +13,8 @@ struct DVLAAccountWidgetView: View {
             switch viewModel.viewState {
             case .loading:
                 loadingView
-            case .linked(let actionCards, let accountSummaryViewModel):
-                VStack {
-                    makeAccountSummaryView(for: accountSummaryViewModel)
-                    makeListView(for: actionCards)
-                }
+            case .linked(let accountSummaryViewModel):
+                makeAccountSummaryView(for: accountSummaryViewModel)
             case .unlinked(let linkCardViewModel):
                 makeLinkCardView(for: linkCardViewModel)
             case .error(let errorViewModel):
@@ -39,17 +36,6 @@ struct DVLAAccountWidgetView: View {
 
     private func makeAccountSummaryView(for viewModel: DVLAAccountSummaryViewModel) -> some View {
         DVLAAccountSummaryView(viewModel: viewModel)
-    }
-
-    private func makeListView(for actionCards: [ListCardViewModel]) -> some View {
-        VStack(spacing: 8) {
-            ForEach(actionCards) { cardModel in
-                ListCardView(viewModel: cardModel)
-            }
-        }
-        .padding(.bottom, 8)
-        .padding(.horizontal, 16)
-        .background(Color(UIColor.govUK.fills.surfaceBackground))
     }
 
     private func makeLinkCardView(for viewModel: ServiceAccountLinkCardViewModel) -> some View {

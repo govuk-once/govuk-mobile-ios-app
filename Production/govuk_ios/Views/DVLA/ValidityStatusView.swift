@@ -32,6 +32,9 @@ struct ValidityStatusView: View {
                         .accessibilityHidden(true)
                 }
             }
+            if let progressViewModel = viewModel.progressViewModel {
+                ExpiryProgressView(viewModel: progressViewModel)
+            }
             if let buttonViewModel = viewModel.buttonViewModel {
                 SwiftUIButton(
                     .primary,
@@ -41,8 +44,10 @@ struct ValidityStatusView: View {
             }
             if let footer = viewModel.footer {
                 Text(footer)
-                    .font(.govUK.callout)
+                    .font(.govUK.footnote)
+                    .foregroundStyle(Color(uiColor: .govUK.text.secondary))
                     .padding(.top, Self.standardPadding)
+                    .padding(.bottom, 8)
                     .frame(
                         maxWidth: .infinity,
                         alignment: .leading

@@ -339,7 +339,7 @@ class CoordinatorBuilder {
             viewControllerBuilder: ViewControllerBuilder(),
             userService: container.userService.resolve(),
             coordinatorBuilder: self,
-            dismissAction: dismissAction
+            analyticsService: container.analyticsService.resolve()
         )
     }
 

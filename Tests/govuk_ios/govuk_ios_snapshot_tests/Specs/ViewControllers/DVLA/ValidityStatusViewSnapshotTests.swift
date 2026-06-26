@@ -86,4 +86,40 @@ class ValidityStatusViewSnapshotTests: SnapshotTestCase {
             mode: .dark
         )
     }
+
+    func test_statusWithProgressBar_light_rendersCorrectly() {
+        let viewModel = ValidityStatusViewModel(
+            status: "Expiring 22 June 2026",
+            progressViewModel: ExpiryProgressViewModel(progress: 0.5, daysLeft: 10),
+            footer: "Your licence status may not update immediately after renewing.",
+            buttonTitle: "Renew licence",
+            buttonAction: {}
+        )
+        let view = ValidityStatusView(viewModel: viewModel)
+        let hostingViewController =  HostingViewController(
+            rootView: view
+        )
+        VerifySnapshotInNavigationController(
+            viewController: hostingViewController,
+            mode: .light
+        )
+    }
+
+    func test_statusWithProgressBar_dark_rendersCorrectly() {
+        let viewModel = ValidityStatusViewModel(
+            status: "Expiring 22 June 2026",
+            progressViewModel: ExpiryProgressViewModel(progress: 0.5, daysLeft: 10),
+            footer: "Your licence status may not update immediately after renewing.",
+            buttonTitle: "Renew licence",
+            buttonAction: {}
+        )
+        let view = ValidityStatusView(viewModel: viewModel)
+        let hostingViewController =  HostingViewController(
+            rootView: view
+        )
+        VerifySnapshotInNavigationController(
+            viewController: hostingViewController,
+            mode: .dark
+        )
+    }
 }

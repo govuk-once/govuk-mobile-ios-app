@@ -21,7 +21,7 @@ struct YourAccountsCoordinatorTests {
             viewControllerBuilder: mockViewControllerBuilder,
             userService: MockUserService(),
             coordinatorBuilder: mockCoordinatorBuilder,
-            dismissAction: {}
+            analyticsService: MockAnalyticsService()
         )
         sut.start()
         #expect(navigationController.viewControllers.first == expectedViewController)
