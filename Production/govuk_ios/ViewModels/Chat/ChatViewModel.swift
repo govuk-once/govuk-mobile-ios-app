@@ -178,6 +178,7 @@ class ChatViewModel: ObservableObject {
                 intro: introMessage,
                 analyticsService: analyticsService
             )
+        latestQuestionID = model.id
         if animate {
             addCellModels([model])
         } else {
@@ -235,6 +236,7 @@ class ChatViewModel: ObservableObject {
         cellModels.removeAll()
         chatService.clearHistory()
         appendIntroMessage(animate: true)
+        scrollToTop = true
     }
 
     func openAboutURL() {
