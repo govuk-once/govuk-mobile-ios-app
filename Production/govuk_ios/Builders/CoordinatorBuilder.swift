@@ -330,9 +330,7 @@ class CoordinatorBuilder {
         )
     }
 
-    func yourAccountsSettings(
-        navigationController: UINavigationController,
-        dismissAction: @escaping () -> Void) -> BaseCoordinator {
+    func yourAccountsSettings(navigationController: UINavigationController) -> BaseCoordinator {
         YourAccountsSettingsCoordinator(
             navigationController: navigationController,
             viewControllerBuilder: ViewControllerBuilder(),

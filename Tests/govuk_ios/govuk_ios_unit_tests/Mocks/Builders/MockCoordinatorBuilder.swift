@@ -212,10 +212,9 @@ class MockCoordinatorBuilder: CoordinatorBuilder {
     }
 
     var _stubbedYourAccountsSettingsCoordinator: MockBaseCoordinator?
-    var _receivedYourAccountsSettingsDismissAction: (() -> Void)?
-    override func yourAccountsSettings(navigationController: UINavigationController,
-                                       dismissAction: @escaping () -> Void) -> BaseCoordinator {
-        _receivedYourAccountsSettingsDismissAction = dismissAction
+    override func yourAccountsSettings(
+        navigationController: UINavigationController
+    ) -> BaseCoordinator {
         return _stubbedYourAccountsSettingsCoordinator ?? MockBaseCoordinator()
     }
 
