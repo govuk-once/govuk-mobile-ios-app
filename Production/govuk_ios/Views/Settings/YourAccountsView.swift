@@ -147,8 +147,6 @@ struct YourAccountsView: View {
                             }
                         } label: {
                             Text(viewModel.editModeDoneButton)
-                                .font(Font.govUK.body)
-                                .foregroundColor(Color(uiColor: .govUK.text.linkHeader))
                         }
                     }
                 } else {
