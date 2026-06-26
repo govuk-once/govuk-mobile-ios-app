@@ -6,14 +6,14 @@ struct VehicleSummaryViewModel: Identifiable {
     let registrationNumber: String
     let vehicleMake: String
     let vehicleModel: String
-    let sornStart: Date?
-    let taxStatus: String?
     let taxStatusViewModel: ValidityStatusViewModel
     let motStatusViewModel: ValidityStatusViewModel
     let detailAction: () -> Void
     let regNumberAccessibilityLabelPrefix = String(
         localized: .DVLA.registrationNumberAccessibilityLabelPrefix
     )
+    private let sornStart: Date?
+    private let taxStatus: TaxStatus
     private let openURLAction: (URL) -> Void
     private let configService: AppConfigServiceInterface
     private let analyticsService: AnalyticsServiceInterface
@@ -97,7 +97,7 @@ extension VehicleSummaryViewModel {
                 openURLAction: { text in openChangeLogbookAddressURL(text) }
             )
         )
-        if taxStatus == "Taxed" {
+        if taxStatus == .taxed {
             items.append(
                 DvlaMenuItemViewModel(
                     title: String(localized: .DVLA.vehicleMenuCancelTaxTitle),

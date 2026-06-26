@@ -114,7 +114,7 @@ struct VehicleSummaryViewModelTests {
     @Test
     func menuItems_notTaxed_sorn_returnsExpectedMenuItems() {
         let mockVehicle = CustomerSummary.Vehicle.arrange(
-            taxStatus: "Not taxed",
+            taxStatus: .untaxed,
             sornStart: Date()
         )
         let sut = VehicleSummaryViewModel(
@@ -136,7 +136,7 @@ struct VehicleSummaryViewModelTests {
     @Test
     func menuItems_taxed_notSorn_returnsExpectedMenuItems() {
         let mockVehicle = CustomerSummary.Vehicle.arrange(
-            taxStatus: "Taxed",
+            taxStatus: .taxed,
             sornStart: nil
         )
         let sut = VehicleSummaryViewModel(
@@ -160,7 +160,7 @@ struct VehicleSummaryViewModelTests {
     @Test
     func menuItems_notTaxed_notSorn_returnsMenuItems() {
         let mockVehicle = CustomerSummary.Vehicle.arrange(
-            taxStatus: "Not taxed",
+            taxStatus: .untaxed,
             sornStart: nil
         )
         let sut = VehicleSummaryViewModel(
@@ -187,7 +187,7 @@ struct VehicleSummaryViewModelTests {
         let dvlaURLs = DvlaURLs.arrange
         mockConfigService._dvlaUrls = dvlaURLs
         let mockVehicle = CustomerSummary.Vehicle.arrange(
-            taxStatus: "Not taxed",
+            taxStatus: .untaxed,
             sornStart: Date()
         )
         await confirmation { confirmation in
@@ -217,7 +217,7 @@ struct VehicleSummaryViewModelTests {
         let dvlaURLs = DvlaURLs.arrange
         mockConfigService._dvlaUrls = dvlaURLs
         let mockVehicle = CustomerSummary.Vehicle.arrange(
-            taxStatus: "Taxed",
+            taxStatus: .taxed,
             sornStart: nil
         )
         await confirmation { confirmation in
@@ -247,7 +247,7 @@ struct VehicleSummaryViewModelTests {
         let dvlaURLs = DvlaURLs.arrange
         mockConfigService._dvlaUrls = dvlaURLs
         let mockVehicle = CustomerSummary.Vehicle.arrange(
-            taxStatus: "Not taxed",
+            taxStatus: .untaxed,
             sornStart: nil
         )
         await confirmation { confirmation in
@@ -277,7 +277,7 @@ struct VehicleSummaryViewModelTests {
         let dvlaURLs = DvlaURLs.arrange
         mockConfigService._dvlaUrls = dvlaURLs
         let mockVehicle = CustomerSummary.Vehicle.arrange(
-            taxStatus: "Taxed",
+            taxStatus: .taxed,
             sornStart: nil
         )
         await confirmation { confirmation in
@@ -307,7 +307,7 @@ struct VehicleSummaryViewModelTests {
         let dvlaURLs = DvlaURLs.arrange
         mockConfigService._dvlaUrls = dvlaURLs
         let mockVehicle = CustomerSummary.Vehicle.arrange(
-            taxStatus: "Taxed",
+            taxStatus: .taxed,
             sornStart: nil
         )
         await confirmation { confirmation in
@@ -337,7 +337,7 @@ struct VehicleSummaryViewModelTests {
         let dvlaURLs = DvlaURLs.arrange
         mockConfigService._dvlaUrls = dvlaURLs
         let mockVehicle = CustomerSummary.Vehicle.arrange(
-            taxStatus: "Taxed",
+            taxStatus: .taxed,
             sornStart: nil
         )
         await confirmation { confirmation in

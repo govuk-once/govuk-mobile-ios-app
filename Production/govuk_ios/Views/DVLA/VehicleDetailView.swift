@@ -165,7 +165,7 @@ extension VehicleDetailView: TrackableScreen {
         registrationNumber: "CL75 TFA",
         make: "VOLSKWAGEN",
         model: "POLO TDI",
-        taxStatus: "",
+        taxStatus: .taxed,
         taxedUntil: Date(),
         motStatus: "",
         motExpiryDate: Date(),
