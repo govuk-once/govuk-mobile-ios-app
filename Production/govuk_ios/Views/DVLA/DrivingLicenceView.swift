@@ -36,6 +36,29 @@ struct DrivingLicenceView: View {
         .clipShape(RoundedRectangle(cornerRadius: 10))
         .padding(.horizontal, 16)
     }
+    private var menuView: some View {
+        Menu("example") {
+            Button(role: .destructive) {
+                UIPasteboard.general.string = ""
+            } label: {
+
+                }
+            Button(role: .destructive) {
+                print("") } label: {
+
+                }
+
+            Button(role: .destructive) {
+                print("") } label: {
+
+                }
+
+            Button(role: .destructive) {
+                print("") } label: {
+
+                }
+        }
+    }
 
     private func makeLicenceView(
         for licenceViewModel: DrivingLicenceSummaryViewModel
