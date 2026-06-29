@@ -365,14 +365,4 @@ class ChatViewModel: ObservableObject {
             )
         }
     }
-
-    func scrollformenu() {
-        var cancellables = Set<AnyCancellable>()
-        for cellModel in cellModels {
-            cellModel.objectWillChange
-                .sink { _ in
-                    print("\(cellModel.isSourceListExpanded) will change")
-                }.store(in: &cancellables)
-        }
-    }
 }
