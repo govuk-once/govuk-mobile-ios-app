@@ -179,6 +179,19 @@ class MockFirebaseApp: FirebaseAppInterface {
 }
 
 class MockFirebaseAnalytics: FirebaseAnalyticsInterface {
+    static var _stubbedAppInstanceId: String?
+    static func appInstanceID() -> String? {
+        _stubbedAppInstanceId
+    }
+
+    static var _stubbedSessionId: Int64?
+    static func sessionID() async throws -> Int64 {
+        guard let sessionId = _stubbedSessionId else {
+            throw TestError.anyError
+        }
+        return sessionId
+    }
+    
     static func clearValues() {
         _setAnalyticsCollectionEnabledReveivedEnabled = nil
         _logEventReceivedEventName = nil

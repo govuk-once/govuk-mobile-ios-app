@@ -68,6 +68,8 @@ protocol FirebaseAnalyticsInterface {
     static func setAnalyticsCollectionEnabled(_ newValue: Bool)
     static func logEvent(_ eventName: String, parameters: [String: Any]?)
     static func setUserProperty(_ value: String?, forName name: String)
+    static func appInstanceID() -> String?
+    static func sessionID() async throws -> Int64
 }
 
 extension FirebaseApp: FirebaseAppInterface {}
