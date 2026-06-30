@@ -36,7 +36,9 @@ struct YourAccountsView: View {
         }
         .fullScreenCover(
             isPresented: $viewModel.showingUnlinkError,
-            onDismiss: { viewModel.state = .success },
+            onDismiss: { viewModel.state = .success
+                isEditMode.toggle()
+            },
             content: {
                 UnlinkAccountsErrorView(
                     viewModel: viewModel.unlinkErrorViewModel
@@ -104,6 +106,7 @@ struct YourAccountsView: View {
                             .foregroundStyle(Color(uiColor: .greyWhite),
                                              Color(uiColor: .systemRed))
                     }
+                    .accessibilityHint(isEditMode ? viewModel.editModeAccessibilityText: "")
                     .buttonStyle(.plain)
                 }
                 Text(viewModel.yourAccountsCardTitle)
@@ -111,7 +114,8 @@ struct YourAccountsView: View {
                     .multilineTextAlignment(.leading)
                     .foregroundColor(Color(uiColor: .govUK.text.primary))
                 Spacer()
-            }.accessibilityHint(isEditMode ? viewModel.editModeAccessibilityText: "")
+            }
+            .accessibilityElement(children: .contain)
                 .padding(16)
                 .background(Color(uiColor: .govUK.fills.surfaceList))
                 .roundedBorder(borderColor: .clear)
