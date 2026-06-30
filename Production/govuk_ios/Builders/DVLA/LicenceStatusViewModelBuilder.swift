@@ -99,7 +99,7 @@ struct LicenceStatusViewModelBuilder: LicenceStatusViewModelBuilderInterface {
              }
          }
          return ValidityStatusViewModel(
-             status: status,
+             formattedStatus: status,
              statusAccessibilityLabel: accessibilityLabel(for: status),
              iconName: "exclamationmark.triangle.fill",
              footer: String(localized: .DVLA.licenceStatusFooter),
@@ -112,15 +112,15 @@ struct LicenceStatusViewModelBuilder: LicenceStatusViewModelBuilderInterface {
      private func makeValidViewModel(
         validToDate: Date?
      ) -> ValidityStatusViewModel {
-         let status: String
+         let formattedStatus: String
          if let dateString = formattedDate(validToDate) {
-             status = String(localized: .DVLA.validUntil(date: dateString))
+             formattedStatus = String(localized: .DVLA.validUntil(date: dateString))
          } else {
-             status = String(localized: .DVLA.valid)
+             formattedStatus = String(localized: .DVLA.valid)
          }
          return ValidityStatusViewModel(
-             status: status,
-             statusAccessibilityLabel: accessibilityLabel(for: status),
+            formattedStatus: formattedStatus,
+             statusAccessibilityLabel: accessibilityLabel(for: formattedStatus),
              iconName: "checkmark.circle.fill",
              iconTintColour: .govUK.fills.surfaceButtonPrimary
          )
@@ -131,7 +131,7 @@ struct LicenceStatusViewModelBuilder: LicenceStatusViewModelBuilderInterface {
         expiryProgress: ExpiryProgressState,
         openURLAction: @escaping (URL, String) -> Void
     ) -> ValidityStatusViewModel {
-        let status = String(
+        let formattedStatus = String(
             localized: .DVLA.expiringOn(
                 date: formattedDate(validToDate) ?? ""
             )
@@ -150,8 +150,8 @@ struct LicenceStatusViewModelBuilder: LicenceStatusViewModelBuilderInterface {
             }
         }
         return ValidityStatusViewModel(
-            status: status,
-            statusAccessibilityLabel: accessibilityLabel(for: status),
+            formattedStatus: formattedStatus,
+            statusAccessibilityLabel: accessibilityLabel(for: formattedStatus),
             progressViewModel: progressViewModel,
             footer: String(localized: .DVLA.licenceStatusFooter),
             buttonTitle: buttonTitle,
@@ -161,10 +161,10 @@ struct LicenceStatusViewModelBuilder: LicenceStatusViewModelBuilderInterface {
 
     // MARK: - Unknown
     private func makeUnknownViewModel() -> ValidityStatusViewModel {
-        let status = String(localized: .DVLA.unknown)
+        let formattedStatus = String(localized: .DVLA.unknown)
         return ValidityStatusViewModel(
-            status: status,
-            statusAccessibilityLabel: accessibilityLabel(for: status)
+            formattedStatus: formattedStatus,
+            statusAccessibilityLabel: accessibilityLabel(for: formattedStatus)
         )
     }
  }

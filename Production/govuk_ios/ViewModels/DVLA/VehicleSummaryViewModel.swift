@@ -36,15 +36,14 @@ extension VehicleSummaryViewModel {
         self.sornStart = vehicle.sornStart
         self.taxStatus = vehicle.taxStatus
 
-        self.taxStatusViewModel = ValidityStatusViewModel(
-            title: String.dvla.localized("taxStatusTitle"),
-            status: statusFormatter.formatStatus(from: vehicle.taxedUntil),
-            iconName: "checkmark.circle.fill",
-            iconTintColour: .govUK.fills.surfaceButtonPrimary
+        let builder = TaxStatusViewModelBuilder(urls: configService.dvlaUrls)
+        self.taxStatusViewModel = builder.makeViewModel(
+            vehicle: vehicle,
+            openURLAction: { url, _ in openURLAction(url) }
         )
         self.motStatusViewModel = ValidityStatusViewModel(
-            title: String.dvla.localized("motStatusTitle"),
-            status: statusFormatter.formatStatus(from: vehicle.motExpiryDate),
+            title: String(localized: .DVLA.motStatusTitle),
+            formattedStatus: statusFormatter.formatStatus(from: vehicle.motExpiryDate),
             iconName: "checkmark.circle.fill",
             iconTintColour: .govUK.fills.surfaceButtonPrimary
         )
