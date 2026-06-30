@@ -4,7 +4,8 @@ import GovKitUI
 
 struct ValidityStatusViewModel {
     let title: String?
-    let status: String
+    let formattedStatus: String
+    let status: Codable?
     let statusAccessibilityLabel: String?
     let iconName: String?
     let iconTintColour: UIColor?
@@ -25,7 +26,8 @@ struct ValidityStatusViewModel {
     }
 
     init(title: String? = nil,
-         status: String,
+         formattedStatus: String,
+         status: Codable? = nil,
          statusAccessibilityLabel: String? = nil,
          iconName: String? = nil,
          iconTintColour: UIColor? = nil,
@@ -34,7 +36,7 @@ struct ValidityStatusViewModel {
          buttonTitle: String? = nil,
          buttonAction: (() -> Void)? = nil) {
         self.title = title
-        self.status = status
+        self.formattedStatus = formattedStatus
         self.statusAccessibilityLabel = statusAccessibilityLabel
         self.iconName = iconName
         self.iconTintColour = iconTintColour
@@ -42,5 +44,6 @@ struct ValidityStatusViewModel {
         self.footer = footer
         self.buttonTitle = buttonTitle
         self.buttonAction = buttonAction
+        self.status = status
     }
 }

@@ -30,6 +30,8 @@
 		1658CA692DDF570300622BC3 /* TimerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1658CA682DDF56FE00622BC3 /* TimerWrapper.swift */; };
 		166248242C4AC91E009F7E58 /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166248232C4AC91E009F7E58 /* HomeCoordinator.swift */; };
 		16624BAB2DDCDD4C00E9B60D /* InactivityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16624BAA2DDCDD4200E9B60D /* InactivityService.swift */; };
+		1663A3F82FEEDCAD0002CFDB /* TaxStatusViewModelBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1663A3F72FEEDCA40002CFDB /* TaxStatusViewModelBuilder.swift */; };
+		1663A3FD2FF3C2C60002CFDB /* TaxValidityStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1663A3FC2FF3C2B50002CFDB /* TaxValidityStatusView.swift */; };
 		1664A5642D36CF1200DB18A5 /* SearchSuggestionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A99D6F2D36C60200C72DEB /* SearchSuggestionsViewController.swift */; };
 		166BDDB62C330D1C00437AE0 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166BDDB52C330D1C00437AE0 /* HomeViewController.swift */; };
 		1677D4022E00643900FB1E56 /* LocalAuthenticationSettingsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1677D4012E00643000FB1E56 /* LocalAuthenticationSettingsCoordinator.swift */; };
@@ -586,6 +588,8 @@
 		1658CA682DDF56FE00622BC3 /* TimerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerWrapper.swift; sourceTree = "<group>"; };
 		166248232C4AC91E009F7E58 /* HomeCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
 		16624BAA2DDCDD4200E9B60D /* InactivityService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InactivityService.swift; sourceTree = "<group>"; };
+		1663A3F72FEEDCA40002CFDB /* TaxStatusViewModelBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxStatusViewModelBuilder.swift; sourceTree = "<group>"; };
+		1663A3FC2FF3C2B50002CFDB /* TaxValidityStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxValidityStatusView.swift; sourceTree = "<group>"; };
 		166BDDB52C330D1C00437AE0 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		1677D4012E00643000FB1E56 /* LocalAuthenticationSettingsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthenticationSettingsCoordinator.swift; sourceTree = "<group>"; };
 		1677D4032E00694B00FB1E56 /* LocalAuthenticationSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthenticationSettingsViewModel.swift; sourceTree = "<group>"; };
@@ -2379,6 +2383,7 @@
 		81D2583F2FC71A8C00A4F988 /* DVLA */ = {
 			isa = PBXGroup;
 			children = (
+				1663A3FC2FF3C2B50002CFDB /* TaxValidityStatusView.swift */,
 				81353DEE2FE975F0008A7DE1 /* ExpiryProgressView.swift */,
 				81D258402FC71AAF00A4F988 /* VehicleSummaryView.swift */,
 				81217B902FD0B8930048BBCD /* VehiclesView.swift */,
@@ -2416,6 +2421,7 @@
 		81D3E36B2FE3EDB6006049CC /* DVLA */ = {
 			isa = PBXGroup;
 			children = (
+				1663A3F72FEEDCA40002CFDB /* TaxStatusViewModelBuilder.swift */,
 				81D3E36C2FE3EDBB006049CC /* LicenceStatusViewModelBuilder.swift */,
 			);
 			path = DVLA;
@@ -3284,7 +3290,9 @@
 				4EFE22A52D0CD0D500136D56 /* RegexRedactor.swift in Sources */,
 				169842DA2DB0004800E3EA66 /* LocalAuthenticationOnboardingViewModel.swift in Sources */,
 				D028CCF62CB9619B00742620 /* Topic.swift in Sources */,
+				1663A3FD2FF3C2C60002CFDB /* TaxValidityStatusView.swift in Sources */,
 				D0B929F62EA63C0E001E6FDC /* ListCardViewModel.swift in Sources */,
+				1663A3F82FEEDCAD0002CFDB /* TaxStatusViewModelBuilder.swift in Sources */,
 				4EF472FB2F98DD3F00C29728 /* CenterAlignedBarButtonItem.swift in Sources */,
 				945E1F072F7176320064CA22 /* EditTopicsDeepLinkRoute.swift in Sources */,
 				4EE5F3E52DAFD36B008C60ED /* LocalAuthorityWidget.swift in Sources */,

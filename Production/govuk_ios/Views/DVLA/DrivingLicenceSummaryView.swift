@@ -104,7 +104,7 @@ struct DrivingLicenceSummaryView: View {
         ],
         licenceStatusViewModel: ValidityStatusViewModel(
             title: nil,
-            status: "Valid until 1 March 2027"
+            formattedStatus: "Valid until 1 March 2027"
         ),
         fullNameAccessibilityLabel: "",
         licenceTypeAccessibilityLabel: "",

@@ -43,7 +43,7 @@ struct VehicleDetailViewModel: Identifiable {
     var taxStatusViewModel: ValidityStatusViewModel {
         .init(
             title: String.dvla.localized("taxStatusTitle"),
-            status: statusFormatter.formatStatus(from: vehicle.taxedUntil),
+            formattedStatus: statusFormatter.formatStatus(from: vehicle.taxedUntil),
             iconName: "checkmark.circle.fill",
             iconTintColour: .govUK.fills.surfaceButtonPrimary
         )
@@ -51,7 +51,7 @@ struct VehicleDetailViewModel: Identifiable {
     var motStatusViewModel: ValidityStatusViewModel {
         .init(
             title: String.dvla.localized("motStatusTitle"),
-            status: statusFormatter.formatStatus(from: vehicle.motExpiryDate),
+            formattedStatus: statusFormatter.formatStatus(from: vehicle.motExpiryDate),
             iconName: "checkmark.circle.fill",
             iconTintColour: .govUK.fills.surfaceButtonPrimary
         )
