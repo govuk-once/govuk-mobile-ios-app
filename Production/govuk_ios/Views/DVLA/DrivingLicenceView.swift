@@ -37,32 +37,24 @@ struct DrivingLicenceView: View {
         .padding(.horizontal, 16)
     }
     private var menuView: some View {
-        Menu("example") {
-            Button(role: .destructive) {
-                UIPasteboard.general.string = ""
-            } label: {
-
-                }
-            Button(role: .destructive) {
-                print("") } label: {
-
-                }
-
-            Button(role: .destructive) {
-                print("") } label: {
-
-                }
-
-            Button(role: .destructive) {
-                print("") } label: {
-
-                }
+        Menu("Tap Me") {
+            Button(action: {}, label: {
+                Text("Action 1")
+            })
+            Button(action: {}, label: {
+                Text("Action 2")
+                Image(systemName: "star.fill")
+            })
+            Button(action: {}, label: {
+                Text("Action 3")
+                Text("Action subtitle")
+                Image(systemName: "leaf.fill")
+            })
         }
     }
 
-    private func makeLicenceView(
-        for licenceViewModel: DrivingLicenceSummaryViewModel
-    ) -> some View {
+    private func makeLicenceView(for licenceViewModel: DrivingLicenceSummaryViewModel)
+    -> some View {
         DrivingLicenceSummaryView(viewModel: licenceViewModel)
             .background(Color(UIColor.govUK.fills.surfaceList))
             .clipShape(RoundedRectangle(cornerRadius: 10))
