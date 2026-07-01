@@ -728,6 +728,17 @@
         }
       }
     },
+    "renewTaxExpiringFooter" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "It can take a couple of days after you’ve paid for your status to update"
+          }
+        }
+      }
+    },
     "specification" : {
       "extractionState" : "manual",
       "localizations" : {
