@@ -28,6 +28,21 @@ struct DrivingLicenceSummaryView: View {
                         Text(viewModel.copyToClipboardButtonTitle)
                         Image(systemName: "doc.on.doc.fill")
                     }
+                    Button(action: {
+                        viewModel.openUrl(options: .changeAddresss)
+                    }, label: {
+                        Text(viewModel.changeAddressMenuTitle)
+                    })
+                    Button(action: {
+                        viewModel.openUrl(options: .changeNameAndGender)
+                    }, label: {
+                        Text(viewModel.changeNameAndGender)
+                    })
+                    Button(action: {
+                        viewModel.openUrl(options: .replaceLicence)
+                    }, label: {
+                        Text(viewModel.replaceLicenceMenuTitle)
+                    })
                 }
             addressView
             Divider()
@@ -92,7 +107,7 @@ struct DrivingLicenceSummaryView: View {
     }
 }
 
-#Preview {
+ #Preview {
     let viewModel = DrivingLicenceSummaryViewModel(
         licenceType: "Full licence",
         licenceNumber: "ABC1234567DE",
@@ -106,9 +121,10 @@ struct DrivingLicenceSummaryView: View {
             title: nil,
             status: "Valid until 1 March 2027"
         ),
+        openURLAction: {_, _ in},
         fullNameAccessibilityLabel: "",
         licenceTypeAccessibilityLabel: "",
         addressAccessibilityLabel: ""
     )
     DrivingLicenceSummaryView(viewModel: viewModel)
-}
+ }

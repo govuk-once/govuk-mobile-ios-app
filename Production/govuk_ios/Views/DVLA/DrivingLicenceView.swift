@@ -37,9 +37,8 @@ struct DrivingLicenceView: View {
         .padding(.horizontal, 16)
     }
 
-    private func makeLicenceView(
-        for licenceViewModel: DrivingLicenceSummaryViewModel
-    ) -> some View {
+    private func makeLicenceView(for licenceViewModel: DrivingLicenceSummaryViewModel)
+    -> some View {
         DrivingLicenceSummaryView(viewModel: licenceViewModel)
             .background(Color(UIColor.govUK.fills.surfaceList))
             .clipShape(RoundedRectangle(cornerRadius: 10))

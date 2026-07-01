@@ -45,6 +45,28 @@
         }
       }
     },
+    "changeAddressMenuTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Change address"
+          }
+        }
+      }
+    },
+    "changeNameAndGenderMenuTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Change name or gender"
+          }
+        }
+      }
+    },
     "co2Emissions" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -658,6 +680,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Renew licence"
+          }
+        }
+      }
+    },
+    "replaceLicenceMenuTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Replace licence"
           }
         }
       }

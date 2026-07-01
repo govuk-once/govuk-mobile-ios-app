@@ -26,6 +26,31 @@ extension Constants.API {
         return components.url!
     }()
 
+    public static let dvlaChangeAddressUrl: URL = {
+        var components = govukBaseComponents
+        components.path = """
+            /change-address-driving-licence
+            """
+        return components.url!
+    }()
+
+
+    public static let dvlaChangeNameAndGenderDrivingLicence: URL = {
+        var components = govukBaseComponents
+        components.path = """
+            /change-name-driving-licence
+            """
+        return components.url!
+    }()
+
+    public static let dvlaReplaceDrivingLicence: URL = {
+        var components = govukBaseComponents
+        components.path = """
+            /replace-a-driving-licence
+            """
+        return components.url!
+    }()
+
     public static let defaultChatFeedbackUrl: URL = URL(
         string: "https://surveys.publishing.service.gov.uk/s/SUIEH2/"
     )!
