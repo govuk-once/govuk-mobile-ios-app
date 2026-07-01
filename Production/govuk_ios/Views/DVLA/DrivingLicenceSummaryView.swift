@@ -31,17 +31,17 @@ struct DrivingLicenceSummaryView: View {
                     Button(action: {
                         viewModel.openUrl(options: .changeAddresss)
                     }, label: {
-                        Text("change address")
+                        Text(viewModel.changeAddressMenuTitle)
                     })
                     Button(action: {
                         viewModel.openUrl(options: .changeNameAndGender)
                     }, label: {
-                        Text("Change name and gender")
+                        Text(viewModel.changeNameAndGender)
                     })
                     Button(action: {
                         viewModel.openUrl(options: .replaceLicence)
                     }, label: {
-                        Text("replace licence")
+                        Text(viewModel.replaceLicenceMenuTitle)
                     })
                 }
             addressView

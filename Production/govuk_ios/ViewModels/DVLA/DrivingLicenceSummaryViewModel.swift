@@ -23,10 +23,18 @@ struct DrivingLicenceSummaryViewModel {
     let licenceTypeAccessibilityLabel: String
     let addressAccessibilityLabel: String
     var copyToClipboardAction: ((String) -> Void)?
-
+    let changeAddressMenuTitle: String =  String.dvla.localized(
+        "changeAddressMenuTitle"
+    )
+    let changeNameAndGender: String = String.dvla.localized(
+        "changeNameAndGenderMenuTitle"
+    )
+    let replaceLicenceMenuTitle: String = String.dvla.localized(
+        "replaceLicenceMenuTitle"
+    )
 
     func openUrl(options: URLOptions) {
-        openURLAction(options.url, "")
+        openURLAction(options.urlAndTitle.0, options.urlAndTitle.1)
     }
 
     enum URLOptions {
@@ -34,14 +42,26 @@ struct DrivingLicenceSummaryViewModel {
         case replaceLicence
         case changeNameAndGender
 
-        var url: URL {
+        var urlAndTitle: (URL, String) {
             switch self {
             case .changeAddresss:
-                return Constants.API.dvlaChangeAddressUrl
+                return (
+                    Constants.API.dvlaChangeAddressUrl, String.dvla.localized(
+                    "changeNameAndGenderMenuTitle"
+                    )
+                )
             case .replaceLicence:
-                return Constants.API.dvlaReplaceDrivingLicence
+                return (
+                    Constants.API.dvlaReplaceDrivingLicence, String.dvla.localized(
+                    "replaceLicenceMenuTitle"
+                )
+            )
             case .changeNameAndGender:
-                return Constants.API.dvlaChangeAddressUrl
+                return (
+                    Constants.API.dvlaChangeAddressUrl, String.dvla.localized(
+                    "changeNameAndGenderMenuTitle"
+                    )
+                )
             }
         }
     }
