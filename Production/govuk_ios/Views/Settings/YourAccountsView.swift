@@ -106,7 +106,7 @@ struct YourAccountsView: View {
                             .foregroundStyle(Color(uiColor: .greyWhite),
                                              Color(uiColor: .systemRed))
                     }
-                    .accessibilityHint(isEditMode ? viewModel.editModeAccessibilityText: "")
+                    .accessibilityHint(isEditMode ? viewModel.editModeAccessibilityText : "")
                     .buttonStyle(.plain)
                 }
                 Text(viewModel.yourAccountsCardTitle)
