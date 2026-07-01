@@ -28,6 +28,21 @@ struct DrivingLicenceSummaryView: View {
                         Text(viewModel.copyToClipboardButtonTitle)
                         Image(systemName: "doc.on.doc.fill")
                     }
+                    Button(action: {}, label: {
+                        Text("check code")
+                    })
+                    Button(action: {
+                        viewModel.
+
+                    }, label: {
+                        Text("change address")
+                    })
+                    Button(action: {}, label: {
+                        Text("Change name and gender")
+                    })
+                    Button(action: {}, label: {
+                        Text("replace licence")
+                    })
                 }
             addressView
             Divider()
@@ -88,6 +103,23 @@ struct DrivingLicenceSummaryView: View {
             }
             .padding(.horizontal, Self.standardPadding)
             .padding(.bottom, Self.standardPadding)
+        }
+    }
+
+    private var menuView: some View {
+        Menu("Tap Me") {
+            Button(action: {}, label: {
+                Text("Action 1")
+            })
+            Button(action: {}, label: {
+                Text("Action 2")
+                Image(systemName: "star.fill")
+            })
+            Button(action: {}, label: {
+                Text("Action 3")
+                Text("Action subtitle")
+                Image(systemName: "leaf.fill")
+            })
         }
     }
 }

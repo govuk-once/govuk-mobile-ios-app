@@ -36,22 +36,6 @@ struct DrivingLicenceView: View {
         .clipShape(RoundedRectangle(cornerRadius: 10))
         .padding(.horizontal, 16)
     }
-    private var menuView: some View {
-        Menu("Tap Me") {
-            Button(action: {}, label: {
-                Text("Action 1")
-            })
-            Button(action: {}, label: {
-                Text("Action 2")
-                Image(systemName: "star.fill")
-            })
-            Button(action: {}, label: {
-                Text("Action 3")
-                Text("Action subtitle")
-                Image(systemName: "leaf.fill")
-            })
-        }
-    }
 
     private func makeLicenceView(for licenceViewModel: DrivingLicenceSummaryViewModel)
     -> some View {

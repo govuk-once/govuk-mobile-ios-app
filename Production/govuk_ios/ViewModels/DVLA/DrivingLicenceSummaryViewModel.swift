@@ -20,6 +20,18 @@ struct DrivingLicenceSummaryViewModel {
     let licenceTypeAccessibilityLabel: String
     let addressAccessibilityLabel: String
     var copyToClipboardAction: ((String) -> Void)?
+
+    func openUrl() {
+
+    }
+
+    func copyToClipboard(licenceNumber: String) {
+        UIPasteboard.general.string = licenceNumber
+        let generator = UINotificationFeedbackGenerator()
+        generator.prepare()
+        generator.notificationOccurred(.success)
+        trackCopyLicenceNumberToClipboard()
+    }
 }
 
 extension DrivingLicenceSummaryViewModel {
