@@ -37,7 +37,7 @@ struct ValidityStatusView: View {
             }
             if let buttonViewModel = viewModel.buttonViewModel {
                 SwiftUIButton(
-                    .primary,
+                    viewModel.buttonConfiguration ?? .primary,
                     viewModel: buttonViewModel
                 )
                 .padding(.top, Self.standardPadding)
