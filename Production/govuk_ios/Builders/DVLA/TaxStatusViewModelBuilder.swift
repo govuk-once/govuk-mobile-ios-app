@@ -133,15 +133,10 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
         expiryProgress: ExpiryProgressState,
         openURLAction: @escaping (URL, String) -> Void
     ) -> ValidityStatusViewModel {
-        let formattedStatus = String(
-            localized: .DVLA.expiringOn(
-                date: formattedDate(validToDate) ?? ""
-            )
-        )
         if paymentMethod == "Direct Debit" {
             return makeExpiringDirectDebitViewModel(
                 status: status,
-                formattedStatus: formattedStatus,
+                validToDate: validToDate,
                 paymentMethod: paymentMethod,
                 expiryProgress: expiryProgress,
                 openURLAction: openURLAction
@@ -149,7 +144,7 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
         } else {
             return makeExpiringRenewTaxViewModel(
                 status: status,
-                formattedStatus: formattedStatus,
+                validToDate: validToDate,
                 expiryProgress: expiryProgress,
                 openURLAction: openURLAction
             )
@@ -194,7 +189,7 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
     @MainActor
     private func makeExpiringDirectDebitViewModel(
         status: TaxStatus,
-        formattedStatus: String,
+        validToDate: Date,
         paymentMethod: String,
         expiryProgress: ExpiryProgressState,
         openURLAction: @escaping (URL, String) -> Void
@@ -208,7 +203,9 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
         )
         return ValidityStatusViewModel(
             title: String(localized: .DVLA.taxStatusTitle),
-            formattedStatus: formattedStatus,
+            formattedStatus: String(
+                localized: .DVLA.renewsOn(date: formattedDate(validToDate) ?? "")
+            ),
             status: status,
             progressViewModel: progressViewModel,
             buttonTitle: buttonTitle,
@@ -220,7 +217,7 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
     @MainActor
     private func makeExpiringRenewTaxViewModel(
         status: TaxStatus,
-        formattedStatus: String,
+        validToDate: Date,
         expiryProgress: ExpiryProgressState,
         openURLAction: @escaping (URL, String) -> Void
     ) -> ValidityStatusViewModel {
@@ -232,7 +229,9 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
         )
         return ValidityStatusViewModel(
             title: String(localized: .DVLA.taxStatusTitle),
-            formattedStatus: formattedStatus,
+            formattedStatus: String(
+                localized: .DVLA.expiringOn(date: formattedDate(validToDate) ?? "")
+            ),
             status: status,
             progressViewModel: progressViewModel,
             footer: String(localized: .DVLA.renewTaxExpiringFooter),
