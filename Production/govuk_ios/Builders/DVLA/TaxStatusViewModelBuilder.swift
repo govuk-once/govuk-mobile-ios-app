@@ -25,7 +25,7 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
          switch vehicle.taxStatus {
          case .untaxed:
              return makeExpiredViewModel(
-                status: vehicle.taxStatus,
+                status: .untaxed,
                 validToDate: vehicle.taxedUntil,
                 openURLAction: openURLAction
              )
@@ -37,7 +37,7 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
                 )
                 if expiryProgress.isWithinCountdownWindow {
                     return makeExpiringViewModel(
-                        status: vehicle.taxStatus,
+                        status: .taxed,
                         validToDate: validToDate,
                         expiryProgress: expiryProgress,
                         openURLAction: openURLAction
@@ -45,18 +45,20 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
                 }
             }
             return makeValidViewModel(
-                status: vehicle.taxStatus,
+                status: .taxed,
                 validToDate: vehicle.taxedUntil
             )
          case .sorn:
              return makeSornViewModel(
-                status: vehicle.taxStatus,
+                status: .sorn,
                 fromDate: vehicle.sornStart
              )
          case .notTaxedForOnRoadUse:
              return makeTaxNotNeededViewModel(
-                status: vehicle.taxStatus
+                status: .notTaxedForOnRoadUse
              )
+         default:
+             return makeNotKnownViewModel()
          }
      }
 
@@ -154,12 +156,9 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
     }
 
     // MARK: - Unknown
-    private func makeNotKnownViewModel(
-        status: CustomerSummary.Vehicle
-    ) -> ValidityStatusViewModel {
+    private func makeNotKnownViewModel() -> ValidityStatusViewModel {
         return ValidityStatusViewModel(
-            formattedStatus: String(localized: .DVLA.taxStatusTitle),
-            status: status
+            formattedStatus: String(localized: .DVLA.taxStatusTitle)
         )
     }
 

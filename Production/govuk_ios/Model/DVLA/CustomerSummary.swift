@@ -6,7 +6,7 @@ struct CustomerSummary: Codable {
         let registrationNumber: String
         let make: String
         let model: String?
-        let taxStatus: TaxStatus
+        let taxStatus: TaxStatus?
         let taxedUntil: Date?
         let motStatus: String
         let motExpiryDate: Date?

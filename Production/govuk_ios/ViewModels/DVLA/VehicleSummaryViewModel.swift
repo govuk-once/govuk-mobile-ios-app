@@ -13,7 +13,7 @@ struct VehicleSummaryViewModel: Identifiable {
         localized: .DVLA.registrationNumberAccessibilityLabelPrefix
     )
     private let sornStart: Date?
-    private let taxStatus: TaxStatus
+    private let taxStatus: TaxStatus?
     private let openURLAction: (URL) -> Void
     private let configService: AppConfigServiceInterface
     private let analyticsService: AnalyticsServiceInterface
