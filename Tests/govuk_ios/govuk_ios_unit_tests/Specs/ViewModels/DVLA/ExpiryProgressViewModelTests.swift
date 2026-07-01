@@ -17,4 +17,11 @@ struct ExpiryProgressViewModelTests {
         let result = sut.footer
         #expect(result == String(localized: .DVLA.daysLeft(days: 28)))
     }
+
+    @Test
+    func init_footer_returnsFooter() {
+        let sut = ExpiryProgressViewModel(progress: 0.5, daysLeft: 28, footer: "Footer")
+        let result = sut.footer
+        #expect(result == "Footer")
+    }
 }
