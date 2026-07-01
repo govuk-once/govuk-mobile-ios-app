@@ -108,7 +108,7 @@ struct LicenceStatusViewModelBuilderTests {
         #expect(result.footer == String(localized: .DVLA.licenceStatusFooter))
         #expect(result.buttonTitle == String(localized: .DVLA.renewLicenceButtonTitle))
         #expect(result.buttonAction != nil)
-        #expect(result.progressViewModel?.daysLeft == String(localized: .DVLA.daysLeft(days: 17)))
+        #expect(result.progressViewModel?.footer == String(localized: .DVLA.daysLeft(days: 17)))
         #expect(result.iconName == nil)
     }
 
