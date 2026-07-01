@@ -18,6 +18,7 @@ struct CustomerSummary: Codable {
         let engineCapacity: Int?
         let keeper: VehicleKeeper?
         let sornStart: Date?
+        let currentLicence: CurrentLicence?
     }
 
     let vehicles: [Vehicle]
@@ -69,4 +70,8 @@ struct VehicleKeeper: Codable {
 
 struct VehicleKeeperAddress: Codable {
     let unstructuredAddress: UnstructuredAddress?
+}
+
+struct CurrentLicence: Codable {
+    let paymentMethod: String?
 }
