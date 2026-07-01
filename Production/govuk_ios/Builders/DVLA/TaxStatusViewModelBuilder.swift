@@ -138,40 +138,22 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
                 date: formattedDate(validToDate) ?? ""
             )
         )
-        var expiringProgressFooter: String?
-        var footer: String?
-        var buttonTitle: String
-        var buttonURL: URL
-        var buttonConfiguration: GOVUKButton.ButtonConfiguration
         if paymentMethod == "Direct Debit" {
-            expiringProgressFooter = String(localized: .DVLA.expiringTaxDirectDebit)
-            buttonTitle = String(localized: .DVLA.expiringTaxManagePaymentButtonTitle)
-            buttonURL = urls?.manageTaxPayment ?? Constants.API.defaultDvlaManageTaxPaymentUrl
-            buttonConfiguration = .secondary
+            return makeExpiringDirectDebitViewModel(
+                status: status,
+                formattedStatus: formattedStatus,
+                paymentMethod: paymentMethod,
+                expiryProgress: expiryProgress,
+                openURLAction: openURLAction
+            )
         } else {
-            buttonTitle = String(localized: .DVLA.renewTaxButtonTitle)
-            buttonURL = urls?.renewLicence ?? Constants.API.defaultDvlaTaxVehicleUrl
-            buttonConfiguration = .primary
-            footer = String(localized: .DVLA.renewTaxExpiringFooter)
+            return makeExpiringRenewTaxViewModel(
+                status: status,
+                formattedStatus: formattedStatus,
+                expiryProgress: expiryProgress,
+                openURLAction: openURLAction
+            )
         }
-        let progressViewModel = ExpiryProgressViewModel(
-            progress: expiryProgress.progress,
-            daysLeft: expiryProgress.daysLeft,
-            footer: expiringProgressFooter
-        )
-        let buttonAction = {
-            openURLAction(buttonURL, buttonTitle)
-        }
-        return ValidityStatusViewModel(
-            title: String(localized: .DVLA.taxStatusTitle),
-            formattedStatus: formattedStatus,
-            status: status,
-            progressViewModel: progressViewModel,
-            footer: footer,
-            buttonTitle: buttonTitle,
-            buttonAction: buttonAction,
-            buttonConfiguration: buttonConfiguration
-        )
     }
 
     // MARK: - Unknown
@@ -206,6 +188,57 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
             title: String(localized: .DVLA.taxStatusTitle),
             formattedStatus: String(localized: .DVLA.vehicleTaxNotNeeded),
             status: status
+        )
+    }
+
+    @MainActor
+    private func makeExpiringDirectDebitViewModel(
+        status: TaxStatus,
+        formattedStatus: String,
+        paymentMethod: String,
+        expiryProgress: ExpiryProgressState,
+        openURLAction: @escaping (URL, String) -> Void
+    ) -> ValidityStatusViewModel {
+        let buttonTitle = String(localized: .DVLA.expiringTaxManagePaymentButtonTitle)
+        let buttonURL = urls?.manageTaxPayment ?? Constants.API.defaultDvlaManageTaxPaymentUrl
+        let progressViewModel = ExpiryProgressViewModel(
+            progress: expiryProgress.progress,
+            daysLeft: expiryProgress.daysLeft,
+            footer: String(localized: .DVLA.expiringTaxDirectDebit)
+        )
+        return ValidityStatusViewModel(
+            title: String(localized: .DVLA.taxStatusTitle),
+            formattedStatus: formattedStatus,
+            status: status,
+            progressViewModel: progressViewModel,
+            buttonTitle: buttonTitle,
+            buttonAction: { openURLAction(buttonURL, buttonTitle) },
+            buttonConfiguration: .secondary
+        )
+    }
+
+    @MainActor
+    private func makeExpiringRenewTaxViewModel(
+        status: TaxStatus,
+        formattedStatus: String,
+        expiryProgress: ExpiryProgressState,
+        openURLAction: @escaping (URL, String) -> Void
+    ) -> ValidityStatusViewModel {
+        let buttonTitle = String(localized: .DVLA.renewTaxButtonTitle)
+        let buttonURL = urls?.renewLicence ?? Constants.API.defaultDvlaTaxVehicleUrl
+        let progressViewModel = ExpiryProgressViewModel(
+            progress: expiryProgress.progress,
+            daysLeft: expiryProgress.daysLeft
+        )
+        return ValidityStatusViewModel(
+            title: String(localized: .DVLA.taxStatusTitle),
+            formattedStatus: formattedStatus,
+            status: status,
+            progressViewModel: progressViewModel,
+            footer: String(localized: .DVLA.renewTaxExpiringFooter),
+            buttonTitle: buttonTitle,
+            buttonAction: { openURLAction(buttonURL, buttonTitle) },
+            buttonConfiguration: .primary
         )
     }
  }
