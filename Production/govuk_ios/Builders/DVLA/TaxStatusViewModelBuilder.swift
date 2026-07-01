@@ -138,12 +138,13 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
                 date: formattedDate(validToDate) ?? ""
             )
         )
+        var expiringProgressFooter: String?
         var footer: String?
         var buttonTitle: String
         var buttonURL: URL
         var buttonConfiguration: GOVUKButton.ButtonConfiguration
         if paymentMethod == "Direct Debit" {
-            footer = String(localized: .DVLA.expiringTaxDirectDebit)
+            expiringProgressFooter = String(localized: .DVLA.expiringTaxDirectDebit)
             buttonTitle = String(localized: .DVLA.expiringTaxManagePaymentButtonTitle)
             buttonURL = urls?.manageTaxPayment ?? Constants.API.defaultDvlaManageTaxPaymentUrl
             buttonConfiguration = .secondary
@@ -151,11 +152,12 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
             buttonTitle = String(localized: .DVLA.renewTaxButtonTitle)
             buttonURL = urls?.renewLicence ?? Constants.API.defaultDvlaTaxVehicleUrl
             buttonConfiguration = .primary
+            footer = String(localized: .DVLA.renewTaxExpiringFooter)
         }
         let progressViewModel = ExpiryProgressViewModel(
             progress: expiryProgress.progress,
             daysLeft: expiryProgress.daysLeft,
-            footer: footer
+            footer: expiringProgressFooter
         )
         let buttonAction = {
             openURLAction(buttonURL, buttonTitle)
@@ -165,6 +167,7 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
             formattedStatus: formattedStatus,
             status: status,
             progressViewModel: progressViewModel,
+            footer: footer,
             buttonTitle: buttonTitle,
             buttonAction: buttonAction,
             buttonConfiguration: buttonConfiguration
