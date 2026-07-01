@@ -26,7 +26,7 @@ extension Constants.API {
         return components.url!
     }()
 
-    public static let defaultDvlaChangeAddressUrl: URL = {
+    public static let dvlaChangeAddressUrl: URL = {
         var components = govukBaseComponents
         components.path = """
             /change-address-driving-licence
@@ -35,7 +35,7 @@ extension Constants.API {
     }()
 
 
-    public static let defaultDvlaChangeNameAndGenderDrivingLicence: URL = {
+    public static let dvlaChangeNameAndGenderDrivingLicence: URL = {
         var components = govukBaseComponents
         components.path = """
             /change-name-driving-licence
@@ -43,7 +43,7 @@ extension Constants.API {
         return components.url!
     }()
 
-    public static let defaultDvlaReplaceDrivingLicence: URL = {
+    public static let dvlaReplaceDrivingLicence: URL = {
         var components = govukBaseComponents
         components.path = """
             /replace-a-driving-licence

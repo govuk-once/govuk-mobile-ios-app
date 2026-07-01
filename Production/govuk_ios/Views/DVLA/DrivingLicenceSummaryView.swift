@@ -28,19 +28,19 @@ struct DrivingLicenceSummaryView: View {
                         Text(viewModel.copyToClipboardButtonTitle)
                         Image(systemName: "doc.on.doc.fill")
                     }
-                    Button(action: {}, label: {
-                        Text("check code")
-                    })
                     Button(action: {
-                        viewModel.
-
+                        viewModel.openUrl(options: .changeAddresss)
                     }, label: {
                         Text("change address")
                     })
-                    Button(action: {}, label: {
+                    Button(action: {
+                        viewModel.openUrl(options: .changeNameAndGender)
+                    }, label: {
                         Text("Change name and gender")
                     })
-                    Button(action: {}, label: {
+                    Button(action: {
+                        viewModel.openUrl(options: .replaceLicence)
+                    }, label: {
                         Text("replace licence")
                     })
                 }
@@ -105,26 +105,9 @@ struct DrivingLicenceSummaryView: View {
             .padding(.bottom, Self.standardPadding)
         }
     }
-
-    private var menuView: some View {
-        Menu("Tap Me") {
-            Button(action: {}, label: {
-                Text("Action 1")
-            })
-            Button(action: {}, label: {
-                Text("Action 2")
-                Image(systemName: "star.fill")
-            })
-            Button(action: {}, label: {
-                Text("Action 3")
-                Text("Action subtitle")
-                Image(systemName: "leaf.fill")
-            })
-        }
-    }
 }
 
-#Preview {
+ #Preview {
     let viewModel = DrivingLicenceSummaryViewModel(
         licenceType: "Full licence",
         licenceNumber: "ABC1234567DE",
@@ -138,9 +121,10 @@ struct DrivingLicenceSummaryView: View {
             title: nil,
             status: "Valid until 1 March 2027"
         ),
+        openURLAction: {_, _ in},
         fullNameAccessibilityLabel: "",
         licenceTypeAccessibilityLabel: "",
         addressAccessibilityLabel: ""
     )
     DrivingLicenceSummaryView(viewModel: viewModel)
-}
+ }

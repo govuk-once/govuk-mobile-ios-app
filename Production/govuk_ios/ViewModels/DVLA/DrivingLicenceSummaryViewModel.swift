@@ -1,4 +1,6 @@
 import Foundation
+import UIKit
+import GovKit
 
 struct DrivingLicenceSummaryViewModel {
     let licenceType: String
@@ -6,6 +8,7 @@ struct DrivingLicenceSummaryViewModel {
     let fullName: String
     let address: [String]
     let licenceStatusViewModel: ValidityStatusViewModel
+    let openURLAction: (URL, String) -> Void
 
     let copyToClipboardButtonTitle = String.chat.localized(
         "copyToClipboardTitle"
@@ -21,16 +24,26 @@ struct DrivingLicenceSummaryViewModel {
     let addressAccessibilityLabel: String
     var copyToClipboardAction: ((String) -> Void)?
 
-    func openUrl() {
 
+    func openUrl(options: URLOptions) {
+        openURLAction(options.url, "")
     }
 
-    func copyToClipboard(licenceNumber: String) {
-        UIPasteboard.general.string = licenceNumber
-        let generator = UINotificationFeedbackGenerator()
-        generator.prepare()
-        generator.notificationOccurred(.success)
-        trackCopyLicenceNumberToClipboard()
+    enum URLOptions {
+        case changeAddresss
+        case replaceLicence
+        case changeNameAndGender
+
+        var url: URL {
+            switch self {
+            case .changeAddresss:
+                return Constants.API.dvlaChangeAddressUrl
+            case .replaceLicence:
+                return Constants.API.dvlaReplaceDrivingLicence
+            case .changeNameAndGender:
+                return Constants.API.dvlaChangeAddressUrl
+            }
+        }
     }
 }
 
@@ -38,13 +51,14 @@ extension DrivingLicenceSummaryViewModel {
     init(
         driverSummary: DriverSummary,
         statusBuilder: LicenceStatusViewModelBuilderInterface,
-        openURLAction: @escaping (URL, String) -> Void
+        openURLAction: @escaping (URL, String) -> Void,
     ) {
         let licenceType = String.localizedStringWithFormat(
             String.dvla.localized("licenceType"),
             driverSummary.response.licence.type
         )
         self.licenceType = licenceType
+        self.openURLAction = openURLAction
 
         self.licenceNumber = driverSummary.response.driver.licenceNo
         let fullName = [
