@@ -13,6 +13,7 @@ struct ValidityStatusViewModel {
     let footer: String?
     let buttonTitle: String?
     let buttonAction: (() -> Void)?
+    let buttonConfiguration: GOVUKButton.ButtonConfiguration?
 
     var buttonViewModel: GOVUKButton.ButtonViewModel? {
         guard let buttonTitle = buttonTitle,
@@ -34,7 +35,8 @@ struct ValidityStatusViewModel {
          progressViewModel: ExpiryProgressViewModel? = nil,
          footer: String? = nil,
          buttonTitle: String? = nil,
-         buttonAction: (() -> Void)? = nil) {
+         buttonAction: (() -> Void)? = nil,
+         buttonConfiguration: GOVUKButton.ButtonConfiguration? = nil) {
         self.title = title
         self.formattedStatus = formattedStatus
         self.statusAccessibilityLabel = statusAccessibilityLabel
@@ -44,6 +46,7 @@ struct ValidityStatusViewModel {
         self.footer = footer
         self.buttonTitle = buttonTitle
         self.buttonAction = buttonAction
+        self.buttonConfiguration = buttonConfiguration
         self.status = status
     }
 }

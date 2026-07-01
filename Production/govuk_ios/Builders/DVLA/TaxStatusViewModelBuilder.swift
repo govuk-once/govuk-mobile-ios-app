@@ -1,8 +1,10 @@
 import Foundation
 
 import GovKit
+import GovKitUI
 
 protocol TaxStatusViewModelBuilderInterface {
+    @MainActor
     func makeViewModel(
         vehicle: CustomerSummary.Vehicle,
         openURLAction: @escaping (URL, String) -> Void
@@ -18,6 +20,7 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
         self.urls = urls
     }
 
+    @MainActor
     func makeViewModel(
         vehicle: CustomerSummary.Vehicle,
         openURLAction: @escaping (URL, String) -> Void
@@ -39,6 +42,7 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
                     return makeExpiringViewModel(
                         status: .taxed,
                         validToDate: validToDate,
+                        paymentMethod: vehicle.currentLicence?.paymentMethod ?? "",
                         expiryProgress: expiryProgress,
                         openURLAction: openURLAction
                     )
@@ -120,10 +124,12 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
          )
      }
 
+    @MainActor
     // MARK: - Expiring
     private func makeExpiringViewModel(
         status: TaxStatus,
         validToDate: Date,
+        paymentMethod: String,
         expiryProgress: ExpiryProgressState,
         openURLAction: @escaping (URL, String) -> Void
     ) -> ValidityStatusViewModel {
@@ -132,18 +138,27 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
                 date: formattedDate(validToDate) ?? ""
             )
         )
+        var footer: String?
+        var buttonTitle: String
+        var buttonURL: URL
+        var buttonConfiguration: GOVUKButton.ButtonConfiguration
+        if paymentMethod == "Direct Debit" {
+            footer = String(localized: .DVLA.expiringTaxDirectDebit)
+            buttonTitle = String(localized: .DVLA.expiringTaxManagePaymentButtonTitle)
+            buttonURL = urls?.manageTaxPayment ?? Constants.API.defaultDvlaManageTaxPaymentUrl
+            buttonConfiguration = .secondary
+        } else {
+            buttonTitle = String(localized: .DVLA.renewTaxButtonTitle)
+            buttonURL = urls?.renewLicence ?? Constants.API.defaultDvlaTaxVehicleUrl
+            buttonConfiguration = .primary
+        }
         let progressViewModel = ExpiryProgressViewModel(
             progress: expiryProgress.progress,
-            daysLeft: expiryProgress.daysLeft
+            daysLeft: expiryProgress.daysLeft,
+            footer: footer
         )
-        var buttonTitle: String?
-        var buttonAction: (() -> Void)?
-        if let renewURL = urls?.taxVehicle {
-            let title = String(localized: .DVLA.renewTaxButtonTitle)
-            buttonTitle = title
-            buttonAction = {
-                openURLAction(renewURL, title)
-            }
+        let buttonAction = {
+            openURLAction(buttonURL, buttonTitle)
         }
         return ValidityStatusViewModel(
             title: String(localized: .DVLA.taxStatusTitle),
@@ -151,7 +166,8 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
             status: status,
             progressViewModel: progressViewModel,
             buttonTitle: buttonTitle,
-            buttonAction: buttonAction
+            buttonAction: buttonAction,
+            buttonConfiguration: buttonConfiguration
         )
     }
 

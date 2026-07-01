@@ -20,6 +20,7 @@ struct VehicleSummaryViewModel: Identifiable {
 }
 
 extension VehicleSummaryViewModel {
+    @MainActor
     init(
         vehicle: CustomerSummary.Vehicle,
         statusFormatter: DVLAValidityStatusFormatter = DVLAValidityStatusFormatter(),
