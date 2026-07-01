@@ -29,7 +29,7 @@ extension CustomerSummary.Vehicle {
         registrationNumber: String = "AB71 CDE",
         make: String = "MITSUBISHI",
         model: String? = "MIRAGE",
-        taxStatus: TaxStatus = .taxed,
+        taxStatus: TaxStatus? = .taxed,
         taxedUntil: Date? = nil,
         motStatus: String = "Not valid",
         motExpiryDate: Date? = nil,
