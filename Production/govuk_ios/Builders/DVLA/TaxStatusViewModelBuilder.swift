@@ -99,6 +99,7 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
             formattedStatus: formattedStatus,
             status: status,
             iconName: "exclamationmark.triangle.fill",
+            footer: String(localized: .DVLA.renewTaxExpiringFooter),
             buttonTitle: buttonTitle,
             buttonAction: buttonAction
          )
