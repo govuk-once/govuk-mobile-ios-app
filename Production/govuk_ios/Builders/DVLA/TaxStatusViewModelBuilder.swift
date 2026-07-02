@@ -212,7 +212,7 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
             progressViewModel: progressViewModel,
             buttonTitle: buttonTitle,
             buttonAction: { openURLAction(buttonURL, buttonTitle) },
-            buttonConfiguration: .secondary
+            buttonConfiguration: .groupedSecondary
         )
     }
 
