@@ -13,6 +13,7 @@ protocol SettingsViewModelInterface: ObservableObject {
     var notificationAlertButtonTitle: String { get }
     var notificationsAction: (() -> Void)? { get set }
     var localAuthenticationAction: (() -> Void)? { get set }
+    var yourAccountsAction: (() -> Void)? { get set }
     var signoutAction: (() -> Void)? { get set }
     var openAction: ((SettingsViewModelURLParameters) -> Void)? { get set }
     var sarAction: (() -> Void)? { get set }
@@ -31,6 +32,7 @@ struct SettingsViewModelURLParameters {
 
 // swiftlint:disable:next type_body_length
 class SettingsViewModel: SettingsViewModelInterface {
+    var yourAccountsAction: (() -> Void)?
     let title: String = String(localized: .Settings.pageTitle)
     private let analyticsService: AnalyticsServiceInterface
     private let urlOpener: URLOpener
@@ -143,10 +145,11 @@ class SettingsViewModel: SettingsViewModelInterface {
     private func getGroupedList() -> [GroupedListSection] {
         return [
             accountSection,
-            signoutSection,
+            appConfigService.isFeatureEnabled(key: .dvla) ? linkedAccountsSection : nil,
             appOptionsSection,
             aboutSection,
-            policiesSection
+            policiesSection,
+            signOutSection,
         ].compactMap { $0 }
     }
 
@@ -182,7 +185,7 @@ class SettingsViewModel: SettingsViewModelInterface {
     }
 
     // MARK: - Sign out
-    private var signoutSection: GroupedListSection? {
+    private var signOutSection: GroupedListSection? {
         guard authenticationService.isSignedIn else { return nil }
         return GroupedListSection(
             heading: nil,
@@ -308,6 +311,14 @@ class SettingsViewModel: SettingsViewModelInterface {
         )
     }
 
+    private var linkedAccountsSection: GroupedListSection {
+        GroupedListSection(
+            heading: nil,
+            rows: [accountsRow],
+            footer: nil
+        )
+    }
+
     private var helpAndFeedbackRow: GroupedListRow {
         let rowTitle = String(localized: .Settings.helpAndFeedbackSettingsTitle)
         return LinkRow(
@@ -394,6 +405,23 @@ class SettingsViewModel: SettingsViewModelInterface {
                         external: true
                     )
                 }
+            }
+        )
+    }
+
+    private var accountsRow: GroupedListRow {
+        let rowTitle = String(localized: .Settings.yourAccountsTitle)
+        return NavigationRow(
+            id: "settings.accounts.row",
+            title: rowTitle,
+            body: nil,
+            action: { [weak self] in
+                guard let self = self else { return }
+                self.trackNavigationEvent(
+                    String.settings.localized(rowTitle),
+                    external: false
+                )
+                self.yourAccountsAction?()
             }
         )
     }

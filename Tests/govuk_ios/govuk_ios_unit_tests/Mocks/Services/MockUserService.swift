@@ -3,6 +3,11 @@ import Foundation
 @testable import govuk_ios
 
 class MockUserService: UserServiceInterface {
+    var _stubbedLinkedAccounts: [ServiceAccountType]?
+    var linkedAccounts: [ServiceAccountType]? {
+        _stubbedLinkedAccounts
+    }
+
     var _stubbedIsEnabled: Bool = true
     var isEnabled: Bool { _stubbedIsEnabled }
     var _stubbedNotificationsConsentStatus: ConsentStatus?
@@ -30,4 +35,33 @@ class MockUserService: UserServiceInterface {
         _setNotificationConsentCompletionBlock?()
     }
 
+    var _linkAccountCallCount = 0
+    var _stubbedLinkAccountResult: LinkAccountResult?
+    func linkAccount(withType accountType: ServiceAccountType,
+                     token: String,
+                     completion: @escaping LinkAccountCompletion) {
+        _linkAccountCallCount += 1
+        if let result = _stubbedLinkAccountResult {
+            completion(result)
+        }
+    }
+
+    var _unlinkAccountCallCount = 0
+    var _stubbedUnlinkAccountResult: LinkAccountResult?
+    func unlinkAccount(withType accountType: ServiceAccountType,
+                       completion: @escaping UnlinkAccountCompletion) {
+        _unlinkAccountCallCount += 1
+        if let result = _stubbedUnlinkAccountResult {
+            completion(result)
+        }
+    }
+
+    var _fetchLinkedAccountsCalled = false
+    var _fetchLinkedAccountsCalledContinuation: CheckedContinuation<Void, Never>?
+    var _stubbedFetchLinkedAccountsResult: Result<[ServiceAccountType], UserStateError> = .success([])
+    func fetchLinkedAccounts() async -> Result<[ServiceAccountType], UserStateError> {
+        _fetchLinkedAccountsCalled = true
+        _fetchLinkedAccountsCalledContinuation?.resume()
+        return _stubbedFetchLinkedAccountsResult
+    }
 }

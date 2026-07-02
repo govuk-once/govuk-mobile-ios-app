@@ -26,8 +26,37 @@ extension Constants.API {
         return components.url!
     }()
 
-    public static let defaultChatFeedbackUrl: URL =
-    URL(string: "https://surveys.publishing.service.gov.uk/s/SUIEH2/")!
+    public static let defaultChatFeedbackUrl: URL = URL(
+        string: "https://surveys.publishing.service.gov.uk/s/SUIEH2/"
+    )!
+
+    public static let defaultDvlaAddVehicleUrl: URL = URL(
+        string: "https://driver-and-vehicles-account.service.gov.uk/add_vehicle"
+    )!
+
+    public static let defaultDvlaSoldVehicleUrl: URL = URL(
+        string: "https://www.gov.uk/sold-bought-vehicle"
+    )!
+
+    public static let defaultDvlaSornRulesUrl: URL = URL(
+        string: "https://www.gov.uk/sorn-statutory-off-road-notification"
+    )!
+
+    public static let defaultDvlaMakeSornUrl: URL = URL(
+        string: "https://www.gov.uk/make-a-sorn"
+    )!
+
+    public static let defaultDvlaGetLogbookUrl: URL = URL(
+        string: "https://www.gov.uk/vehicle-log-book"
+    )!
+
+    public static let defaultDvlaChangeLogbookAddressUrl: URL = URL(
+        string: "https://www.gov.uk/change-address-v5c"
+    )!
+
+    public static let defaultDvlaCancelTaxUrl: URL = URL(
+        string: "https://www.gov.uk/vehicle-tax-refund"
+    )!
 
     public static let betaPrivacyPolicyURL: URL = {
         var components = govukBaseComponents

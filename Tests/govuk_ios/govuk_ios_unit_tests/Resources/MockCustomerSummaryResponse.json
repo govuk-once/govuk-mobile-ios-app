@@ -1,0 +1,207 @@
+{
+    "linkingId": "7d7eccbf-28ae-479c-8dae-ec0ec60d0b25",
+    "customerResponse": {
+        "customer": {
+            "customerId": "8bc39b9f-9cdc-4dc6-8364-632d1f7b5916",
+            "customerNumber": null,
+            "identityId": "21977997-1c88-4133-bd6c-2072005ae548",
+            "recordStatus": "Substantive",
+            "customerType": "Individual",
+            "address": null,
+            "emailAddress": "kriss.bennett@digital.cabinet-office.gov.uk",
+            "phoneNumber": null,
+            "individualDetails": {
+                "title": "MR",
+                "firstNames": "KENNETH",
+                "lastName": "DECERQUEIRA",
+                "dateOfBirth": "1965-07-08",
+                "notifiedOfDeath": null
+            },
+            "products": [
+                {
+                    "productType": "Driving Licence",
+                    "productKey": "DECER607085K99AE",
+                    "productIdentifier": "43d0bfe9-3b01-4e11-9cc3-9ad6ec119a97",
+                    "productSummary": null,
+                    "dateAdded": "2024-07-04"
+                }
+            ],
+            "contactPreferences": [
+                {
+                    "contactType": "Marketing",
+                    "contactPreference": "None",
+                    "consentDate": "2026-04-22"
+                },
+                {
+                    "contactType": "Survey",
+                    "contactPreference": "None",
+                    "consentDate": "2026-01-26"
+                },
+                {
+                    "contactType": "Default",
+                    "contactPreference": "Email",
+                    "consentDate": "2026-01-26"
+                },
+                {
+                    "contactType": "Driving licence reminder",
+                    "contactPreference": "Email",
+                    "consentDate": "2026-01-26"
+                }
+            ],
+            "applications": [],
+            "suppressions": [],
+            "languagePreference": "English",
+            "lastAction": null,
+            "cases": []
+        }
+    },
+    "driversEligibilityResponse": {
+        "applications": [
+            {
+                "applicationType": "update-ordinary-licence",
+                "isRequired": false,
+                "ineligibleReason": null,
+                "availableActions": [
+                    {
+                        "actionType": "update-address",
+                        "isRequired": false
+                    },
+                    {
+                        "actionType": "update-photo",
+                        "isRequired": false
+                    },
+                    {
+                        "actionType": "licence-possession-declaration",
+                        "isRequired": false
+                    },
+                    {
+                        "actionType": "organ-donation-declaration",
+                        "isRequired": false
+                    },
+                    {
+                        "actionType": "inform-could-renew",
+                        "isRequired": null
+                    }
+                ],
+                "possibleTransactions": [
+                    {
+                        "transactionType": "Duplicate",
+                        "isRequired": false
+                    },
+                    {
+                        "transactionType": "Replacement",
+                        "isRequired": false
+                    },
+                    {
+                        "transactionType": "Photo change",
+                        "isRequired": false
+                    }
+                ]
+            }
+        ]
+    },
+    "driversSuppressionResponse": {
+        "drivingLicenceNumber": "DECER607085K99AE",
+        "suppressionStatus": [
+            {
+                "role": "citizen",
+                "suppressed": false
+            },
+            {
+                "role": "ogd",
+                "suppressed": false
+            },
+            {
+                "role": "ogdEnforcement",
+                "suppressed": false
+            },
+            {
+                "role": "support",
+                "suppressed": false
+            },
+            {
+                "role": "thirdParty",
+                "suppressed": false
+            }
+        ]
+    },
+    "applicationTaskResponse": null,
+    "vehicleResponse": [
+        {
+              "registrationNumber": "RBZ5119",
+              "recordType": "Full Main",
+              "vehicleId": 119619077,
+              "chassisVin": "Q444G3115424",
+              "make": "MITSUBISHI",
+              "model": "MIRAGE",
+              "manufacturerVehicleType": null,
+              "typeApprovalVariant": null,
+              "typeApprovalVersion": null,
+              "typeApprovalCategory": null,
+              "typeApprovalNumber": null,
+              "engineNumber": "4D5642150",
+              "euroStatus": null,
+              "dateOfManufacture": "1989-12-31",
+              "dateOfFirstRegistration": "1997-06-01",
+              "dateOfFirstDvlaRegistration": null,
+              "dateScrapped": null,
+              "dateDestroyed": null,
+              "dateExported": null,
+              "dateStolen": null,
+              "taxedUntil": "2026-06-30",
+              "registrationDocumentId": "12020151144",
+              "registrationDocumentIssueDate": "2011-07-21",
+              "engineCapacity": 2477,
+              "maxNetPower": 0,
+              "bodyType": "3 DOOR HATCHBACK",
+              "seatingCapacity": 1,
+              "standingCapacity": 0,
+              "autonomousVehicle": null,
+              "dateOfLiability": "2026-07-01",
+              "sornStart": null,
+              "taxClass": "PETROL CAR",
+              "taxStatus": "Taxed",
+              "artEndDate": null,
+              "motExpiryDate": "2011-03-08",
+              "motStatus": "Not valid",
+              "colour": "BLUE",
+              "secondaryColour": null,
+              "fuelType": "DIESEL",
+              "wheelplan": "2 AXLE RIGID BODY",
+              "revenueWeight": null,
+              "massInService": null,
+              "maxPermissibleMass": 0,
+              "maxTowableTrailerMass": {
+                "braked": 0,
+                "unbraked": 0
+              },
+              "powerToWeightRatio": 0,
+              "roadFriendlySuspensionApplied": null,
+              "realDrivingEmissions": null,
+              "soundLevel": {
+                "driveBy": 0,
+                "engineSpeed": 0,
+                "stationary": 0
+              },
+              "currentLicence": {
+                "period": 12,
+                "paymentMethod": "Other"
+              },
+              "exhaustEmissions": null,
+              "numberOfPreviousKeepers": 1,
+              "keeper": {
+                "companyName": null,
+                "fleetNumber": null,
+                "title": "MR",
+                "firstNames": "EOXXVPZ",
+                "lastName": "LUK",
+                "start": "2011-07-21",
+                "inTrade": false,
+                "sensitiveKeeper": false,
+                "address": null
+              },
+              "taxRates": []
+            }
+    ],
+    "hasErrors": false
+}

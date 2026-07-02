@@ -11,6 +11,7 @@ protocol AppConfigServiceInterface {
     var userFeedbackBanner: UserFeedbackBanner? { get }
     var emergencyBanners: [EmergencyBanner]? { get }
     var chatUrls: ChatURLs? { get }
+    var dvlaUrls: DvlaURLs? { get }
     var refreshTokenExpirySeconds: Int? { get }
     var termsAndConditions: TermsAndConditions? { get }
 }
@@ -29,6 +30,7 @@ public final class AppConfigService: AppConfigServiceInterface {
     var userFeedbackBanner: UserFeedbackBanner?
     var emergencyBanners: [EmergencyBanner]?
     private(set) var chatUrls: ChatURLs?
+    private(set) var dvlaUrls: DvlaURLs?
     private(set) var refreshTokenExpirySeconds: Int?
     private(set) var termsAndConditions: TermsAndConditions?
 
@@ -90,6 +92,7 @@ public final class AppConfigService: AppConfigServiceInterface {
         chatBanner = config.chatBanner
         userFeedbackBanner = config.userFeedbackBanner
         chatUrls = config.chatUrls
+        dvlaUrls = config.dvlaUrls
         termsAndConditions = config.termsAndConditions
     }
 
@@ -133,6 +136,23 @@ public final class AppConfigService: AppConfigServiceInterface {
     }
 
     func isFeatureEnabled(key: Feature) -> Bool {
+        if let override = developmentOverrides[key] {
+            return override
+        }
         return featureFlags[key.rawValue] ?? false
+    }
+
+    private var developmentOverrides: [Feature: Bool] {
+    #if STAGING
+        [
+            .profile: true, // featureFlags[Feature.profile.rawValue] ?? false,
+            .dvla: true // featureFlags[Feature.dvla.rawValue] ?? false
+        ]
+    #else
+        [
+            .profile: false,
+            .dvla: false
+        ]
+    #endif
     }
 }

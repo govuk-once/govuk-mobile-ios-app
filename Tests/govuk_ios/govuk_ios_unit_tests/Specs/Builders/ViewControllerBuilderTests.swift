@@ -120,10 +120,27 @@ struct ViewControllerBuilderTests {
             activityService: MockActivityService(context: coreData.viewContext),
             subtopicAction: { _ in },
             stepByStepAction: { _ in },
-            openAction: { _ in }
+            openAction: { _ in },
+            widgetView: nil
         )
 
         let rootView = (result as? HostingViewController<TopicDetailView<TopicDetailViewModel>>)?.rootView
+        #expect(rootView != nil)
+    }
+
+    @Test
+    func stepByStep_returnsExpectedResult() async throws {
+        let coreData = await CoreDataRepository.arrangeAndLoad
+        let subject = ViewControllerBuilder()
+        let topicDetailResponse = TopicDetailResponse.arrangeLotsOfStepBySteps()
+        let content = try #require(topicDetailResponse.stepByStepContent)
+        let result = subject.stepByStep(
+            content: content,
+            analyticsService: MockAnalyticsService(),
+            activityService: MockActivityService(context: coreData.viewContext),
+            selectedAction: { _ in }
+        )
+        let rootView = (result as? HostingViewController<TopicDetailView<StepByStepsViewModel>>)?.rootView
         #expect(rootView != nil)
     }
 
@@ -152,6 +169,17 @@ struct ViewControllerBuilderTests {
             dismissAction: {}
         )
         let rootView = (result as? HostingViewController<LocalAuthorityPostcodeEntryView>)?.rootView
+        #expect(rootView != nil)
+    }
+
+    @Test
+    func yourAccountsView_returnsExpectedResult() {
+        let subject = ViewControllerBuilder()
+        let result = subject.yourAccountsSettings(
+            userService: MockUserService(),
+            analyticsService: MockAnalyticsService()
+        )
+        let rootView = (result as? HostingViewController<YourAccountsView>)?.rootView
         #expect(rootView != nil)
     }
 
@@ -295,15 +323,18 @@ struct ViewControllerBuilderTests {
     }
 
     @Test
-    func chatError_returnsExpectedResult() {
+    func error_returnsExpectedResult() {
         let subject = ViewControllerBuilder()
-        let result = subject.chatError(
+        let viewModel = ErrorViewModel.chatError(
+            .apiUnavailable,
             analyticsService: MockAnalyticsService(),
-            error: ChatError.apiUnavailable,
-            action: { }
+            action: {}
         )
-        
-        let rootView = (result as? HostingViewController<InfoView<ChatErrorViewModel>>)?.rootView
+        let result = subject.error(
+            viewModel: viewModel
+        )
+
+        let rootView = (result as? HostingViewController<ErrorView>)?.rootView
         #expect(rootView != nil)
     }
 
@@ -353,6 +384,59 @@ struct ViewControllerBuilderTests {
     }
 
     @Test
+    func serviceAccountLinking_returnsExpectedResult() {
+        let subject = ViewControllerBuilder()
+        let result = subject.serviceAccountLinking(
+            analyticsService: MockAnalyticsService(),
+            userService: MockUserService(),
+            accountType: .dvla,
+            token: "token",
+            completeAction: {},
+            dismissAction: {}
+        )
+
+        let rootView = (result as? HostingViewController<ServiceAccountLinkingView>)?.rootView
+        #expect(rootView != nil)
+    }
+
+    @Test
+    func serviceAccountUnlinking_returnsExpectedResult() {
+        let subject = ViewControllerBuilder()
+        let result = subject.serviceAccountUnlinking(
+            userService: MockUserService(),
+            accountType: .dvla,
+            completeAction: {},
+            dismissAction: {}
+        )
+        let rootView = (result as? HostingViewController<ServiceAccountUnlinkingView>)?.rootView
+        #expect(rootView != nil)
+    }
+
+    @Test
+    func serviceAccountConsent_returnsExpectedResult() {
+        let subject = ViewControllerBuilder()
+        let result = subject.serviceAccountConsent(
+            analyticsService: MockAnalyticsService(),
+            accountType: .dvla,
+            completionAction: {},
+            cancelAction: {}
+        )
+        let rootView = (result as? HostingViewController<ServiceAccountConsentView>)?.rootView
+        #expect(rootView != nil)
+    }
+
+    @Test
+    func dvlaAccount_returnsExpectedResult() {
+        let subject = ViewControllerBuilder()
+        let result = subject.dvlaAccount(
+            dvlaService: MockDVLAService(),
+            viewType: .createShareCode
+        )
+        let rootView = (result as? HostingViewController<DVLAAccountView>)?.rootView
+        #expect(rootView != nil)
+    }
+    
+    @Test
     func sarSettings_returnsExpectedResult() {
         let subject = ViewControllerBuilder()
         let result = subject.sarExplainer(
@@ -361,6 +445,16 @@ struct ViewControllerBuilderTests {
         )
 
         let rootView = (result as? HostingViewController<SARExplainerView>)?.rootView
+        #expect(rootView != nil)
+    }
+
+    func vehicleDetail_returnsExpectedResult() {
+        let subject = ViewControllerBuilder()
+        let result = subject.vehicleDetail(
+            analyticsService: MockAnalyticsService(),
+            vehicle: .arrange
+        )
+        let rootView = (result as? HostingViewController<VehicleDetailView>)?.rootView
         #expect(rootView != nil)
     }
 }

@@ -51,7 +51,7 @@
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Loading topic"
+            "value" : "Loading %@ pages"
           }
         }
       }

@@ -1,0 +1,56 @@
+import Foundation
+import UIKit
+import GovKit
+import Testing
+
+@testable import govuk_ios
+
+@Suite
+@MainActor
+struct ServiceAccountLinkCoordinatorTests {
+    @Test
+    func start_setsAccountConsentViewController() {
+        let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
+        let mockViewControllerBuilder = MockViewControllerBuilder()
+        let expectedViewController = UIViewController()
+        mockViewControllerBuilder._stubbedServiceAccountConsentController = expectedViewController
+        let mockNavigationController = MockNavigationController()
+        let sut = ServiceAccountLinkCoordinator(
+            navigationController: mockNavigationController,
+            coordinatorBuilder: mockCoordinatorBuilder,
+            viewControllerBuilder: mockViewControllerBuilder,
+            analyticsService: MockAnalyticsService(),
+            userService: MockUserService(),
+            accountType: .dvla,
+            completion: { _ in }
+        )
+
+        sut.start()
+        let firstViewController = mockNavigationController._setViewControllers?.first
+        #expect(firstViewController == expectedViewController)
+    }
+
+    @Test
+    func accountConsentCompletion_startsAuthenticationCoordinator() {
+        let mockUserService = MockUserService()
+        mockUserService._stubbedLinkedAccounts = []
+        let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
+        let mockViewControllerBuilder = MockViewControllerBuilder()
+        let authenticationCoordinator = MockBaseCoordinator()
+        mockCoordinatorBuilder._stubbedDvlaAuthenticationCoordinator = authenticationCoordinator
+        let sut = ServiceAccountLinkCoordinator(
+            navigationController: MockNavigationController(),
+            coordinatorBuilder: mockCoordinatorBuilder,
+            viewControllerBuilder: mockViewControllerBuilder,
+            analyticsService: MockAnalyticsService(),
+            userService: mockUserService,
+            accountType: .dvla,
+            completion: { _ in }
+        )
+
+        sut.start()
+        mockViewControllerBuilder._receivedServiceAccountConsentCompletionAction?()
+
+        #expect(authenticationCoordinator._startCalled == true)
+    }
+}

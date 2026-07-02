@@ -21,7 +21,8 @@ class MockAppConfigService: AppConfigServiceInterface {
         .search,
         .topics,
         .recentActivity,
-        .localServices
+        .localServices,
+        .dvla
     ]
 
     var _stubbedAlertBanner: AlertBanner?
@@ -68,6 +69,11 @@ class MockAppConfigService: AppConfigServiceInterface {
     var _stubbedChatUrls: ChatURLs?
     var chatUrls: ChatURLs? {
         _stubbedChatUrls
+    }
+
+    var _dvlaUrls: DvlaURLs?
+    var dvlaUrls: DvlaURLs? {
+        _dvlaUrls
     }
 
     var _receivedFetchAppConfigCompletion: FetchAppConfigCompletion?

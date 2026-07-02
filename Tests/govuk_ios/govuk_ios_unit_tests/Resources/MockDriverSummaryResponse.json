@@ -1,0 +1,223 @@
+{
+    "linkingId": "7d7eccbf-28ae-479c-8dae-ec0ec60d0b25",
+    "driverViewResponse": {
+        "driver": {
+            "drivingLicenceNumber": "DECER607085K99AE",
+            "firstNames": "KENNETH",
+            "lastName": "DECERQUEIRA",
+            "title": "MR",
+            "nameFormat": "With title",
+            "fullModeOfAddress": "MR KENNETH DECERQUEIRA",
+            "gender": "Male",
+            "dateOfBirth": "1965-07-08",
+            "placeOfBirth": "UNITED KINGDOM",
+            "address": {
+                "unstructuredAddress": {
+                    "language": null,
+                    "country": null,
+                    "dps": null,
+                    "line1": "9 FARRS LANE",
+                    "line2": null,
+                    "line3": null,
+                    "line4": null,
+                    "line5": "BATH",
+                    "postcode": "BA2 5AA"
+                }
+            },
+            "disqualifiedUntil": null,
+            "disqualifiedForLife": null,
+            "deathNotificationDate": null,
+            "disqualifiedPendingSentence": null,
+            "eyesight": "Meets eyesight standard",
+            "hearing": null,
+            "imagesExist": true,
+            "isMilitary": null,
+            "approvedDrivingInstructor": null,
+            "retainedC1_D1Entitlement": null,
+            "previousDrivingLicence": [
+                {
+                    "previousDrivingLicenceNumber": "CEWK9605116OJ9VR",
+                    "previousLastName": "CEWK",
+                    "previousFirstNames": "OYOT JVBRAXKFVPB",
+                    "previousDateOfBirth": "1966-05-11"
+                }
+            ],
+            "dateRevokedUntilTestPassed": null,
+            "penaltyPoints": 0,
+            "numberOfOffences": 0
+        },
+        "licence": {
+            "type": "Full",
+            "status": "Valid",
+            "statusQualifier": null,
+            "countryToWhichExchanged": null
+        },
+        "entitlement": [
+            {
+                "categoryCode": "B",
+                "categoryLegalLiteral": "Vehicles up to 3,500 kg Maximum Authorised Mass (MAM) with up to 8 passenger seats and driver (with a trailer up to 750 kg). Can also tow heavier trailers if the total weight of vehicle and trailer isn't more than 3,500 kg. Provisional category B licences have no entitlement to tow a trailer. Physically disabled drivers with provisional category B entitlement will also have provisional entitlement to ride category A1 or A motor tricycles. Able-bodied drivers can no longer ride motor tricycles with a provisional category B licence",
+                "welshCategoryLegalLiteral": null,
+                "categoryShortLiteral": "Car with trailer up to 750 kg",
+                "welshCategoryShortLiteral": null,
+                "categoryType": "Full",
+                "fromDate": "1983-07-29",
+                "fromDateIsPriorTo": null,
+                "expiryDate": "2035-07-07",
+                "categoryStatus": "Valid",
+                "restrictions": [],
+                "restrictedToAutomaticTransmission": null,
+                "fromNonGB": null
+            },
+            {
+                "categoryCode": "A",
+                "categoryLegalLiteral": "A motorcycle of a power exceeding 35 kW or with a power to weight ratio exceeding 0.2 kW per kg, or A motorcycle of a power not exceeding 35 kW with a power to weight ratio not exceeding 0.2 kW per kg and derived from a vehicle of more than double its power. A motor tricycle with a power exceeding 15 kW",
+                "welshCategoryLegalLiteral": null,
+                "categoryShortLiteral": "Large Motorcycle",
+                "welshCategoryShortLiteral": null,
+                "categoryType": "Full",
+                "fromDate": "1988-04-25",
+                "fromDateIsPriorTo": null,
+                "expiryDate": "2035-07-07",
+                "categoryStatus": "Valid",
+                "restrictions": [],
+                "restrictedToAutomaticTransmission": null,
+                "fromNonGB": null
+            }
+        ],
+        "testPass": [
+            {
+                "type": "Driving Licence",
+                "categoryCode": "B",
+                "categoryLegalLiteral": "Vehicles up to 3,500 kg Maximum Authorised Mass (MAM) with up to 8 passenger seats and driver (with a trailer up to 750 kg). Can also tow heavier trailers if the total weight of vehicle and trailer isn't more than 3,500 kg. Provisional category B licences have no entitlement to tow a trailer. Physically disabled drivers with provisional category B entitlement will also have provisional entitlement to ride category A1 or A motor tricycles. Able-bodied drivers can no longer ride motor tricycles with a provisional category B licence",
+                "categoryShortLiteral": "Car with trailer up to 750 kg",
+                "testDate": "1983-07-29",
+                "expiryDate": null,
+                "status": "Claimed",
+                "withAutomaticTransmission": null,
+                "vehicleAdaptations": [],
+                "restrictions": [],
+                "withTrailer": null,
+                "extendedTest": null,
+                "licenceSurrendered": null,
+                "testingAuthority": null
+            },
+            {
+                "type": "Driving Licence",
+                "categoryCode": "A",
+                "categoryLegalLiteral": "A motorcycle of a power exceeding 35 kW or with a power to weight ratio exceeding 0.2 kW per kg, or A motorcycle of a power not exceeding 35 kW with a power to weight ratio not exceeding 0.2 kW per kg and derived from a vehicle of more than double its power. A motor tricycle with a power exceeding 15 kW",
+                "categoryShortLiteral": "Large Motorcycle",
+                "testDate": "1988-04-25",
+                "expiryDate": null,
+                "status": "Claimed",
+                "withAutomaticTransmission": null,
+                "vehicleAdaptations": [],
+                "restrictions": [],
+                "withTrailer": null,
+                "extendedTest": null,
+                "licenceSurrendered": null,
+                "testingAuthority": null
+            }
+        ],
+        "endorsements": [],
+        "token": {
+            "type": "Driving Licence",
+            "drivingLicenceNumber": "DECER607085K99AE",
+            "issueNumber": "17",
+            "validFromDate": "2025-05-02",
+            "validToDate": "2035-05-01",
+            "isProvisional": null,
+            "entitlements": [
+                {
+                    "category": "B",
+                    "categoryLegalLiteral": "Vehicles up to 3,500 kg Maximum Authorised Mass (MAM) with up to 8 passenger seats and driver (with a trailer up to 750 kg). Can also tow heavier trailers if the total weight of vehicle and trailer isn't more than 3,500 kg. Provisional category B licences have no entitlement to tow a trailer. Physically disabled drivers with provisional category B entitlement will also have provisional entitlement to ride category A1 or A motor tricycles. Able-bodied drivers can no longer ride motor tricycles with a provisional category B licence",
+                    "categoryShortLiteral": "Car with trailer up to 750 kg",
+                    "categoryType": "Full",
+                    "categoryFromDate": "1983-07-29",
+                    "categoryFromDateIsPriorTo": null,
+                    "categoryExpiryDate": "2035-07-07",
+                    "categoryRestrictions": [],
+                    "group": null,
+                    "groupShortLiteral": null,
+                    "groupLegalLiteral": null,
+                    "groupType": null,
+                    "groupFromDate": null,
+                    "groupFromDateIsPrior": null,
+                    "groupExpiryDate": null,
+                    "groupRestrictions": []
+                },
+                {
+                    "category": "A",
+                    "categoryLegalLiteral": "A motorcycle of a power exceeding 35 kW or with a power to weight ratio exceeding 0.2 kW per kg, or A motorcycle of a power not exceeding 35 kW with a power to weight ratio not exceeding 0.2 kW per kg and derived from a vehicle of more than double its power. A motor tricycle with a power exceeding 15 kW",
+                    "categoryShortLiteral": "Large Motorcycle",
+                    "categoryType": "Full",
+                    "categoryFromDate": "1988-04-25",
+                    "categoryFromDateIsPriorTo": null,
+                    "categoryExpiryDate": "2035-07-07",
+                    "categoryRestrictions": [],
+                    "group": null,
+                    "groupShortLiteral": null,
+                    "groupLegalLiteral": null,
+                    "groupType": null,
+                    "groupFromDate": null,
+                    "groupFromDateIsPrior": null,
+                    "groupExpiryDate": null,
+                    "groupRestrictions": []
+                }
+            ]
+        },
+        "holder": null
+    },
+    "sdlResponse": {
+        "tokens": []
+    },
+    "driversEligibilityResponse": {
+        "applications": [
+            {
+                "applicationType": "update-ordinary-licence",
+                "isRequired": false,
+                "ineligibleReason": null,
+                "availableActions": [
+                    {
+                        "actionType": "update-address",
+                        "isRequired": false
+                    },
+                    {
+                        "actionType": "update-photo",
+                        "isRequired": false
+                    },
+                    {
+                        "actionType": "licence-possession-declaration",
+                        "isRequired": false
+                    },
+                    {
+                        "actionType": "organ-donation-declaration",
+                        "isRequired": false
+                    },
+                    {
+                        "actionType": "inform-could-renew",
+                        "isRequired": null
+                    }
+                ],
+                "possibleTransactions": [
+                    {
+                        "transactionType": "Duplicate",
+                        "isRequired": false
+                    },
+                    {
+                        "transactionType": "Replacement",
+                        "isRequired": false
+                    },
+                    {
+                        "transactionType": "Photo change",
+                        "isRequired": false
+                    }
+                ]
+            }
+        ]
+    },
+    "imageUtilityResponse": {
+        "photoUrl": "https://preprod-output-bucket-eu-west-2-415701911937.s3.eu-west-2.amazonaws.com/380b7d35c517e59cd06ce3649f5aaa97?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAWBSODZGAXFEJJNS5%2F20260420%2Feu-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260420T140404Z&X-Amz-Expires=1800&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEFUaCWV1LXdlc3QtMiJIMEYCIQDHPDH6BQyrYz0bjRHeDjH484dQO5tb8PVqTNQOGZXyXAIhAPIoIh7nm%2FKjY%2BxcUkJ%2Bv7YuDnuLIrVxVcmemqeVyTJ8KoUECB4QAhoMNDE1NzAxOTExOTM3IgzvniK6gQLjJBx6UcYq4gNukuroE1wqi%2BtwAwEaDrrYMTf%2BcuP0MVnYQy%2F63uEaxHCNxRc3MnQ3IMpDX%2BGXC%2B5ggKQ4GmcYahXH81k%2BGUvQfC5dtqLb%2BjCeuKSmKu0lfuoeOCXGCRyYX7UD%2FkmFfa6LyT262MnOz%2F%2FNmUhDnrq43FGGLC8m5Gs9srlDS3eWTngHaXLF%2BIFmSR47aIZ0JGg9VLcv9LUQ7qFVngbKo8l%2B3F1vt%2FoLLifsCXgbCc08V%2BUr%2BKiq9Ycm6HShABKTQhQGOdXGobjOCbezpecjZP30wgNj%2Ff35QDJuX%2FjA9hWlOQd4CLCSWnC0ueL6TR%2Fj6IjG0xoJndyPFoSwsbka3dlFRtjKvEchK%2BL9PXfb5qMXzJs5L%2B32B4A%2BdP8zrNADVS2outMukROvciGJnH9bByzkBzmNLai1rXkD3kriGT%2BpXl%2BfHdSOu5VCJIVY9Q0Va6H%2FaJGRBVCRa7y9vPRmDNDViLGG5BWts6uLhqmJ4XlAPGGqCcI3fB5SHIN%2FnayDBjj62%2BmCbyycFqkmgd81bwpW%2FaYJFDUQmxo6VNgZpbY%2FSEkiDATrNH1uYqFYIFIxL7pq3qX1cEGWAekURayEfCGg8%2BbXUohHCLvRnE9ZYf5gtRrYDdMEpmCJWmiE2nD1jJDi4zDHy5jPBjqgAQIWY4c6NgU1FAHUTwfqYTLERiAyvNx%2FZ71qiqVywne7wJE9jtO%2F2oZIFqLGYwkEUPIOXRDyZcnNbyj6JRc5txD6NdtV0gA0AGPxp4QVcvaVe%2BHSS1U%2BaQr5VK5tYOHfNaPG1pn6XmehN3WL8QQu9MrlOILv1lg9UGkItj7dS05XXffzxqW5oepFzSxA7o1ULEewqfRknZbfPPpkeXb%2Fz9w%3D&X-Amz-Signature=52adbceb873322e794d61ea363af04480030dbf69ac371743095ecd18c87dff0&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject",
+        "signatureImageUrl": "https://preprod-output-bucket-eu-west-2-415701911937.s3.eu-west-2.amazonaws.com/1543b860d2c22bc80127cfd6b347ba23?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=ASIAWBSODZGAXFEJJNS5%2F20260420%2Feu-west-2%2Fs3%2Faws4_request&X-Amz-Date=20260420T140404Z&X-Amz-Expires=1800&X-Amz-Security-Token=IQoJb3JpZ2luX2VjEFUaCWV1LXdlc3QtMiJIMEYCIQDHPDH6BQyrYz0bjRHeDjH484dQO5tb8PVqTNQOGZXyXAIhAPIoIh7nm%2FKjY%2BxcUkJ%2Bv7YuDnuLIrVxVcmemqeVyTJ8KoUECB4QAhoMNDE1NzAxOTExOTM3IgzvniK6gQLjJBx6UcYq4gNukuroE1wqi%2BtwAwEaDrrYMTf%2BcuP0MVnYQy%2F63uEaxHCNxRc3MnQ3IMpDX%2BGXC%2B5ggKQ4GmcYahXH81k%2BGUvQfC5dtqLb%2BjCeuKSmKu0lfuoeOCXGCRyYX7UD%2FkmFfa6LyT262MnOz%2F%2FNmUhDnrq43FGGLC8m5Gs9srlDS3eWTngHaXLF%2BIFmSR47aIZ0JGg9VLcv9LUQ7qFVngbKo8l%2B3F1vt%2FoLLifsCXgbCc08V%2BUr%2BKiq9Ycm6HShABKTQhQGOdXGobjOCbezpecjZP30wgNj%2Ff35QDJuX%2FjA9hWlOQd4CLCSWnC0ueL6TR%2Fj6IjG0xoJndyPFoSwsbka3dlFRtjKvEchK%2BL9PXfb5qMXzJs5L%2B32B4A%2BdP8zrNADVS2outMukROvciGJnH9bByzkBzmNLai1rXkD3kriGT%2BpXl%2BfHdSOu5VCJIVY9Q0Va6H%2FaJGRBVCRa7y9vPRmDNDViLGG5BWts6uLhqmJ4XlAPGGqCcI3fB5SHIN%2FnayDBjj62%2BmCbyycFqkmgd81bwpW%2FaYJFDUQmxo6VNgZpbY%2FSEkiDATrNH1uYqFYIFIxL7pq3qX1cEGWAekURayEfCGg8%2BbXUohHCLvRnE9ZYf5gtRrYDdMEpmCJWmiE2nD1jJDi4zDHy5jPBjqgAQIWY4c6NgU1FAHUTwfqYTLERiAyvNx%2FZ71qiqVywne7wJE9jtO%2F2oZIFqLGYwkEUPIOXRDyZcnNbyj6JRc5txD6NdtV0gA0AGPxp4QVcvaVe%2BHSS1U%2BaQr5VK5tYOHfNaPG1pn6XmehN3WL8QQu9MrlOILv1lg9UGkItj7dS05XXffzxqW5oepFzSxA7o1ULEewqfRknZbfPPpkeXb%2Fz9w%3D&X-Amz-Signature=4675d132ba3a4f0b9535758e79231c6e202fb94e229f3d1aacaca8c888e0dc1f&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject"
+    },
+    "hasErrors": false
+}

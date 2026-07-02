@@ -10,13 +10,21 @@ protocol TopicDetailViewModelInterface: ObservableObject {
     var subtopicCards: [ListCardViewModel] { get }
     var errorViewModel: AppErrorViewModel? { get }
     var commerceItems: [TopicCommerceItem] { get set }
+    var loadingAccessibilityLabel: String { get }
     func trackScreen(screen: TrackableScreen)
     func trackEcommerce()
+    @MainActor
+    func viewDidAppear() async
 }
 
 extension TopicDetailViewModelInterface {
     var subtopicCards: [ListCardViewModel] {
         []
+    }
+
+    var loadingAccessibilityLabel: String {
+        let format = String.topics.localized("loading")
+        return String.localizedStringWithFormat(format, title)
     }
 
     func createCommerceEvent(_ name: String) -> AppEvent? {
@@ -42,4 +50,7 @@ extension TopicDetailViewModelInterface {
         )
         commerceItems.append(appEventItem)
     }
+
+    @MainActor
+    func viewDidAppear() async {}
 }
