@@ -660,9 +660,77 @@ class ViewControllerBuilder {
             viewModel: viewModel
         )
         let viewController = HostingViewController(
-            rootView: termsView
-        )
+            rootView: termsView)
         return viewController
     }
+
+    func notificationCentre(
+        showNotificationAction: @escaping (Notification) -> Void,
+        notificationService: NotificationCentreServiceInterface,
+        analyticsService: AnalyticsServiceInterface) -> UIViewController {
+        let actions = NotificationCentreViewModel.Actions(showNotification: showNotificationAction)
+        let viewModel = NotificationCentreViewModel(
+            actions: actions,
+            notificationCentreService: notificationService,
+            analyticsService: analyticsService)
+
+        let viewController = HostingViewController(
+            rootView: NotificationCentreContainerView(viewModel: viewModel),
+        )
+        viewController.navigationItem.largeTitleDisplayMode = .never
+
+        return viewController
+    }
+
+    // swiftlint:disable:next function_parameter_count
+    func notificationCentreDetail(
+        notificationId: String,
+        notificationService: NotificationCentreServiceInterface,
+        analyticsService: AnalyticsServiceInterface,
+        showUrlAction: @escaping (URL) -> Void,
+        onUnreadAction: @escaping () -> Void,
+        onDeleteAction: @escaping () -> Void) -> UIViewController {
+            let viewModel = NotificationCentreDetailViewModel(
+                notificationId: notificationId,
+                notificationService: notificationService,
+                analyticsService: analyticsService,
+                showUrlAction: showUrlAction,
+                onUnreadAction: onUnreadAction,
+                onDeleteAction: onDeleteAction)
+
+            let viewController = HostingViewController(
+                rootView: NotificationCentreDetailContainerView(viewModel: viewModel),
+            )
+            viewController.navigationItem.largeTitleDisplayMode = .never
+
+            let unreadButton = UIBarButtonItem(
+                image: UIImage(
+                    resource: .notcenUnread),
+                primaryAction: UIAction { [weak viewModel] _ in
+                    viewModel?.onMarkUnread()
+            })
+            unreadButton.accessibilityLabel = String
+                .notificationCentre.localized("notificationCentreDetailUnreadA11yLabel")
+
+            let deleteButton = UIBarButtonItem(
+                image: UIImage(
+                    resource: .notcenDelete),
+                primaryAction: UIAction { [weak viewModel] _ in
+                    viewModel?.onDelete()
+            })
+            deleteButton.accessibilityLabel = String
+                .notificationCentre.localized("notificationCentreDetailDeleteA11yLabel")
+
+
+            // Removed temporarily as there's a further ticket to implement this properly
+            // with respect to Liquid Glass too
+            // NOT-238
+            // NOT-230
+//            viewController.navigationItem.rightBarButtonItems = [
+//                deleteButton,
+//                unreadButton
+//            ]
+            return viewController
+        }
 }
 // swiftlint:enable file_length

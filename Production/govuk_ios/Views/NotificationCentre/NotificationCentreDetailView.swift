@@ -1,0 +1,194 @@
+//
+
+import SwiftUI
+import GovKitUI
+import GovKit
+import MarkdownUI
+
+struct NotificationCentreDetailContainerView: View {
+    @ObservedObject var viewModel: NotificationCentreDetailViewModel
+
+    var body: some View {
+        VStack { // Hides the splash of white when you overscroll the list
+            GeometryReader { geometry in
+                ScrollView {
+                    VStack(spacing: 0) {
+                        switch viewModel.state {
+                        case .loading, .new:
+                            NotificationCentreDetailLoadingView()
+                                .onAppear {
+                                    UIAccessibility.post(notification: .screenChanged,
+                                                         argument: "Loading")
+                                }
+                        case .loaded(
+                            notification: let notification,
+                            showDeleteConfirmationSheet: let showConfirmation):
+                            NotificationCentreDetailLoadedView(
+                                notification: notification,
+                                onLinkTapped: {
+                                    // swiftlint:disable:next todo
+                                    // TODO Combine these?
+                                    viewModel.show(url: $0)
+                                    viewModel.track(url: $0)
+                                },
+                                onConfirmDelete: {
+                                    viewModel.onConfirmDelete()
+                                },
+                                onCancelDelete: {
+                                    viewModel.onCancelDelete()
+                                },
+                                showDeleteConfirmation: showConfirmation)
+                            .onAppear {
+                                UIAccessibility.post(notification: .screenChanged,
+                                                     argument: "Loading complete")
+                            }
+                        case .error:
+                            NotificationCentreErrorView()
+                                .onAppear {
+                                    UIAccessibility.post(notification: .screenChanged,
+                                                         argument: "Error")
+                                }
+                        case .noInternet:
+                            NotificationCentreNoInternetView()
+                                .onAppear {
+                                    UIAccessibility.post(notification: .screenChanged,
+                                                         argument: "No internet connection")
+                                }
+                        }
+                    }
+                    .frame(minWidth: geometry.size.width, minHeight: geometry.size.height)
+                }
+            }
+        }
+        .background(Color(UIColor.govUK.fills.surfaceCardEmergencyInfo))
+        .onAppear {
+            viewModel.onViewAppear()
+            viewModel.track(screen: self)
+        }
+    }
+
+    // Hides the splash of white when you overscroll the title
+    private var gradient: Gradient {
+        Gradient(stops: [
+            .init(
+                color: Color(UIColor.govUK.fills.surfaceHomeHeaderBackground),
+                location: 0),
+            .init(
+                color: Color(UIColor.govUK.fills.surfaceHomeHeaderBackground),
+                location: 0.33),
+            .init(
+                color: .clear,
+                location: 0.33),
+            .init(
+                color: .clear,
+                location: 1)
+        ])
+    }
+}
+
+private struct NotificationCentreDetailLoadedView: View {
+    let notification: Notification
+    let onLinkTapped: (URL) -> Void
+    let onConfirmDelete: () -> Void
+    let onCancelDelete: () -> Void
+    let showDeleteConfirmation: Bool
+
+    @State private var showSheet: Bool = false
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            HStack {
+                VStack(alignment: .leading, spacing: 0) {
+                    Text(notification.date.formatMessageDetailDate())
+                    .font(Font.govUK.callout)
+                    .foregroundStyle(Color(UIColor.govUK.text.secondary))
+                    .padding(.top, 16)
+                    .padding(.bottom, 4)
+
+                    Text(notification.senderName)
+                        .font(Font.govUK.bodySemibold)
+                        .foregroundStyle(Color(UIColor.govUK.text.primary))
+                        .padding(.bottom, 16)
+                }
+                .padding(.horizontal, 16)
+                Spacer()
+            }
+            .background(Color(UIColor.govUK.fills.surfaceCardMsgHeader))
+            .clipShape(RoundedRectangle(cornerSize: CGSize(width: 10, height: 10)))
+
+            VStack(alignment: .leading) {
+                Text(notification.messageTitle ?? notification.title)
+                    .font(Font.govUK.title1Bold)
+                    .padding(.bottom, 16)
+                    .foregroundStyle(Color(UIColor.govUK.text.primary))
+
+
+                Markdown(
+                    notification.messageBody ?? notification.body)
+                .markdownTheme(.govUKNotification)
+                .environment(
+                    \.openURL,
+                     OpenURLAction { url in
+                         onLinkTapped(url)
+                         return .handled
+                     }
+                )
+            }
+            .padding(.top, 24)
+            .padding(.horizontal, 16)
+
+            Spacer()
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.horizontal, 16)
+        .confirmationDialog(.NotificationCentre.deleteNotificationTitle,
+                            isPresented: $showSheet,
+                            titleVisibility: .visible) {
+            Button(.NotificationCentre.deleteNotificationConfirmButton,
+                   role: .destructive,
+                   action: {
+                onConfirmDelete()
+            })
+            Button(.NotificationCentre.deleteNotificationCancelButton, role: .cancel, action: {
+                onCancelDelete()
+            })
+        } message: {
+            Text(.NotificationCentre.deleteNotificationBody)
+                .font(Font.govUK.body)
+                .multilineTextAlignment(.center)
+                .foregroundStyle(Color(GOVUKColors.text.secondary))
+        }
+        .onChange(of: showDeleteConfirmation) { showSheet = $0 }
+    }
+}
+
+private struct NotificationCentreDetailLoadingView: View {
+    var body: some View {
+        VStack(alignment: .center) {
+            Spacer()
+            ProgressView()
+                .controlSize(.large)
+            Spacer()
+        }
+    }
+}
+
+extension NotificationCentreDetailContainerView: TrackableScreen {
+    var trackingTitle: String? { trackingName }
+    var trackingName: String { "Messages Detail" }
+}
+
+#Preview("Loading") {
+    NotificationCentreDetailLoadingView()
+}
+
+#Preview("Loaded") {
+    let testNotification = NotificationCentreViewModel.MockData.testNotifications.recent.first!
+
+    NotificationCentreDetailLoadedView(
+        notification: testNotification,
+        onLinkTapped: { _ in /* no-op */ },
+        onConfirmDelete: { /* no-op */ },
+        onCancelDelete: { /* no-op */ },
+        showDeleteConfirmation: false)
+}

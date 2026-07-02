@@ -91,6 +91,27 @@ extension String {
             bundle: .main
         )
     }
+
+    static var serviceAccount: LocalStringBuilder {
+        .init(
+            tableName: "ServiceAccount",
+            bundle: .main
+        )
+    }
+
+    static var dvla: LocalStringBuilder {
+        .init(
+            tableName: "DVLA",
+            bundle: .main
+        )
+    }
+
+    static var notificationCentre: LocalStringBuilder {
+        .init(
+            tableName: "NotificationCentre",
+            bundle: .main
+        )
+    }
 }
 
 extension String {

@@ -71,7 +71,9 @@ struct ViewControllerBuilderTests {
             notificationService: MockNotificationService(),
             notificationCenter: .default,
             localAuthenticationService: MockLocalAuthenticationService(),
-            appConfigService: MockAppConfigService()
+            appConfigService: MockAppConfigService(),
+            userService: MockUserService(),
+            notificationCentreService: MockNotificationCentreService()
         )
         let result = subject.settings(
             viewModel: viewModel

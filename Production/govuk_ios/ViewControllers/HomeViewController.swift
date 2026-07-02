@@ -14,6 +14,7 @@ class HomeViewController: BaseViewController {
         uiImageView.accessibilityTraits = .header
         return uiImageView
     }()
+
     private lazy var searchBar: UISearchBar = {
         let localSearchBar = UISearchBar()
         localSearchBar.searchTextField.backgroundColor = UIColor.govUK.fills.surfaceSearch

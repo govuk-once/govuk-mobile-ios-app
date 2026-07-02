@@ -101,7 +101,9 @@ class CoordinatorBuilder {
             authenticationService: container.authenticationService.resolve(),
             notificationService: container.notificationService.resolve(),
             localAuthenticationService: container.localAuthenticationService.resolve(),
-            appConfigService: container.appConfigService.resolve()
+            appConfigService: container.appConfigService.resolve(),
+            userService: container.userService.resolve(),
+            notificationCentreService: container.notificationCentreService.resolve()
         )
     }
 
@@ -467,5 +469,16 @@ class CoordinatorBuilder {
         PrivacyCoordinator(
             navigationController: navigationController
         )
+    }
+
+    func notificationCenterCoordinator(
+        navigationController: UINavigationController
+    ) -> NotificationCentreCoordinator {
+        NotificationCentreCoordinator(
+            navigationController: navigationController,
+            viewControllerBuilder: ViewControllerBuilder(),
+            notificationCentreService: container.notificationCentreService.resolve(),
+            analyticsService: container.analyticsService.resolve(),
+            coordinatorBuilder: self)
     }
 }

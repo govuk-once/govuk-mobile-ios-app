@@ -368,4 +368,27 @@ class MockViewControllerBuilder: ViewControllerBuilder {
         return _stubbedChatTermsOnboardingController ?? UIViewController()
     }
 
+    var _stubbedNotificationCentreViewController: UIViewController!
+    var _receivedShowNotificationCentreDetailAction: ((govuk_ios.Notification) -> Void)?
+    override func notificationCentre(showNotificationAction: @escaping (govuk_ios.Notification) -> Void, notificationService: any NotificationCentreServiceInterface, analyticsService: any AnalyticsServiceInterface) -> UIViewController {
+        _receivedShowNotificationCentreDetailAction = showNotificationAction
+        return _stubbedNotificationCentreViewController
+    }
+
+    var _stubbedNotificationCentreDetailViewController: UIViewController!
+    var _receivedShowUrlAction: ((URL) -> Void)?
+    var _receivedOnUnreadAction: (() -> Void)?
+    var _receivedOnDeleteAction: (() -> Void)?
+    override func notificationCentreDetail(notificationId: String,
+                                           notificationService: any NotificationCentreServiceInterface,
+                                           analyticsService: any AnalyticsServiceInterface,
+                                           showUrlAction: @escaping (URL) -> Void,
+                                           onUnreadAction: @escaping () -> Void,
+                                           onDeleteAction: @escaping () -> Void) -> UIViewController {
+
+        _receivedShowUrlAction = showUrlAction
+        _receivedOnUnreadAction = onUnreadAction
+        _receivedOnDeleteAction = onDeleteAction
+        return _stubbedNotificationCentreDetailViewController
+    }
 }
