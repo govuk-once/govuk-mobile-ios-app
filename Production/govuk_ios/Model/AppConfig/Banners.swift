@@ -4,7 +4,8 @@ protocol DismissibleBanner {
     var id: String { get }
 }
 
-struct AlertBanner: DismissibleBanner, Decodable {
+struct AlertBanner: DismissibleBanner,
+                    Decodable {
     let id: String
     let body: String
     let link: Link?
@@ -17,7 +18,8 @@ extension AlertBanner {
     }
 }
 
-struct ChatBanner: DismissibleBanner, Decodable {
+struct ChatBanner: DismissibleBanner,
+                   Decodable {
     let id: String
     let title: String
     let body: String
@@ -25,6 +27,21 @@ struct ChatBanner: DismissibleBanner, Decodable {
 }
 
 extension ChatBanner {
+    struct Link: Decodable {
+        let title: String
+        let url: URL
+    }
+}
+
+struct PromoBanner: DismissibleBanner,
+                    Decodable {
+    let id: String
+    let title: String
+    let body: String
+    let link: Link
+}
+
+extension PromoBanner {
     struct Link: Decodable {
         let title: String
         let url: URL

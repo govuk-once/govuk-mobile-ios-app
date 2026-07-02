@@ -64,6 +64,7 @@ class HomeViewModel: ObservableObject {
 
     func updateWidgets() {
         let array = [
+            promoBannerWidget,
             chatWidget,
             topicsWidget,
             addLocalAuthorityWidget,
@@ -118,6 +119,33 @@ class HomeViewModel: ObservableObject {
 
         return HomepageWidget(
             content: ChatWidgetView(
+                viewModel: viewModel
+            )
+        )
+    }
+
+    private var promoBannerWidget: HomepageWidget? {
+        let promoLink = PromoBanner.Link(
+            title: "View travel advice",
+            url: URL(string: "govuk://gov.uk/chat")!
+        )
+        let promoBanner = PromoBanner(
+            id: UUID().uuidString,
+            title: "Going on holibobs?",
+            body: "Make sure you check out travel advice first",
+            link: promoLink
+        )
+        let viewModel = PromoBannerWidgetViewModel(
+            analyticsService: analyticsService,
+            banner: promoBanner,
+            urlOpener: urlOpener,
+            dismissAction: {
+                self.updateWidgets()
+            }
+        )
+
+        return HomepageWidget(
+            content: PromoBannerWidgetView(
                 viewModel: viewModel
             )
         )
