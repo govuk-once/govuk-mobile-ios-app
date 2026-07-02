@@ -56,9 +56,8 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
                 fromDate: vehicle.sornStart
             )
         case .futureSorn:
-            return makeSornViewModel(
-                status: status,
-                fromDate: vehicle.sornStart
+            return makeFutureSornViewModel(
+                status: status
             )
         case .notTaxedForOnRoadUse:
             return makeTaxNotNeededViewModel()
@@ -223,7 +222,7 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
         openURLAction: @escaping (URL, String) -> Void
     ) -> ValidityStatusViewModel {
         let buttonTitle = String(localized: .DVLA.renewTaxButtonTitle)
-        let buttonURL = urls?.renewLicence ?? Constants.API.defaultDvlaTaxVehicleUrl
+        let buttonURL = urls?.taxVehicle ?? Constants.API.defaultDvlaTaxVehicleUrl
         let progressViewModel = ExpiryProgressViewModel(
             progress: expiryProgress.progress,
             daysLeft: expiryProgress.daysLeft
