@@ -37,7 +37,7 @@ struct ValidityStatusView: View {
             }
             if let buttonViewModel = viewModel.buttonViewModel {
                 SwiftUIButton(
-                    .primary,
+                    viewModel.buttonConfiguration ?? .primary,
                     viewModel: buttonViewModel
                 )
                 .padding(.top, Self.standardPadding)
@@ -60,11 +60,11 @@ struct ValidityStatusView: View {
     @ViewBuilder
     private var statusTextView: some View {
         if let statusAccessibilityLabel = viewModel.statusAccessibilityLabel {
-            Text(viewModel.status)
+            Text(viewModel.formattedStatus)
                 .multilineTextAlignment(.leading)
                 .accessibilityLabel(statusAccessibilityLabel)
         } else {
-            Text(viewModel.status)
+            Text(viewModel.formattedStatus)
                 .multilineTextAlignment(.leading)
         }
     }
@@ -73,7 +73,7 @@ struct ValidityStatusView: View {
 #Preview {
     let viewModel = ValidityStatusViewModel(
         title: nil,
-        status: "Expired 24 April 2026",
+        formattedStatus: "Expired 24 April 2026",
         iconName: "exclamationmark.triangle.fill",
         footer: "Your licence status may not update immediately when you renew it",
         buttonTitle: "Renew licence",

@@ -72,7 +72,7 @@ struct DrivingLicenceSummaryViewModelTests {
     func init_licenceStatusViewModelIsPopulatedByBuilder() {
         let mockStatusViewModelBuilder = MockLicenceStatusViewModelBuilder()
         mockStatusViewModelBuilder._stubbedViewModel = ValidityStatusViewModel(
-            status: "Mock licence status"
+            formattedStatus: "Mock licence status"
         )
 
         let validToDate = Date.arrange("01/12/2027")
@@ -88,7 +88,7 @@ struct DrivingLicenceSummaryViewModelTests {
         #expect(mockStatusViewModelBuilder._makeViewModelCallCount == 1)
         #expect(mockStatusViewModelBuilder._receivedValidToDate == validToDate)
         #expect(sut.licenceStatusViewModel.title == nil)
-        #expect(sut.licenceStatusViewModel.status == "Mock licence status")
+        #expect(sut.licenceStatusViewModel.formattedStatus == "Mock licence status")
     }
 
     @Test

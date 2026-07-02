@@ -226,7 +226,6 @@ class GroupedListViewModel: SettingsViewModelInterface {
     var notificationSettingsAlertBody: String = "Continue to your phone’s notifications settings to turn off notifications from GOV.UK"
     var notificationAlertButtonTitle: String = "Continue"
     var title: String = "Settings"
-    var listContent: [GroupedListSection] = GroupedListSection_Previews.previewContent.dropLast()
     var scrollToTop: Bool = false
     func trackScreen(screen: any TrackableScreen) {
         // Do Nothing
@@ -235,7 +234,103 @@ class GroupedListViewModel: SettingsViewModelInterface {
     var openAction: ((SettingsViewModelURLParameters) -> Void)?
     var sarAction: (() -> Void)?
     func updateEmail() {
-
+    }
+    var listContent: [GroupedListSection] {
+        [
+            .init(
+                heading: GroupedListHeader(title: "Section 1",
+                                           icon: nil,
+                                           actionTitle: "See all",
+                                           action: { print("tap") }),
+                rows: [
+                    InformationRow(
+                        id: UUID().uuidString,
+                        title: "Information row",
+                        body: "Description",
+                        detail: "0.0.1"
+                    ),
+                    LinkRow(
+                        id: UUID().uuidString,
+                        title: "Link row",
+                        body: "A really long description to test how multiline text wrapping works",
+                        action: {
+                            print("link row tapped")
+                        }
+                    ),
+                    LinkRow(
+                        id: UUID().uuidString,
+                        title: "Link row with leading icon",
+                        body: nil,
+                        imageName: "step_by_step",
+                        showLinkImage: false,
+                        action: {
+                            print("link row tapped")
+                        }
+                    ),
+                    NavigationRow(
+                        id: UUID().uuidString,
+                        title: "Nav row",
+                        body: "Description",
+                        action: {
+                            print("nav row tapped")
+                        }
+                    ),
+                    ToggleRow(
+                        id: UUID().uuidString,
+                        title: "Toggle",
+                        isOn: false,
+                        action: { isOn in
+                            print("Toggled: \(isOn)")
+                        }
+                    ),
+                    CountRow(
+                        id: UUID().uuidString,
+                        title: "Count",
+                        state: .idle(showIndicator: true, count: 42),
+                        action: {
+                            print("Count row tapped")
+                        }
+                    ),
+                    CountRow(
+                        id: UUID().uuidString,
+                        title: "Count loading",
+                        state: .loading,
+                        action: {
+                            print("Count row tapped")
+                        }
+                    )
+                ],
+                footer: "some really important text about this section that is long enough to wrap"
+            ),
+            .init(
+                heading: nil,
+                rows: [
+                    InformationRow(
+                        id: UUID().uuidString,
+                        title: "Information row",
+                        body: "Description",
+                        detail: "1.0"
+                    ),
+                    LinkRow(
+                        id: UUID().uuidString,
+                        title: "External link row",
+                        body: nil,
+                        action: {
+                            print("link row tapped")
+                        }
+                    ),
+                    NavigationRow(
+                        id: UUID().uuidString,
+                        title: "Navigation row",
+                        body: "Description",
+                        action: {
+                            print("nav row tapped")
+                        }
+                    )
+                ],
+                footer: nil
+            )
+        ]
     }
 }
 
