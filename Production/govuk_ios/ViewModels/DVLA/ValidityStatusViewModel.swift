@@ -2,10 +2,12 @@ import Foundation
 import UIKit
 import GovKitUI
 
+protocol ValidityStatus {}
+
 struct ValidityStatusViewModel {
     let title: String?
     let formattedStatus: String
-    let status: Codable?
+    let status: ValidityStatus?
     let statusAccessibilityLabel: String?
     let iconName: String?
     let iconTintColour: UIColor?
@@ -28,7 +30,7 @@ struct ValidityStatusViewModel {
 
     init(title: String? = nil,
          formattedStatus: String,
-         status: Codable? = nil,
+         status: ValidityStatus? = nil,
          statusAccessibilityLabel: String? = nil,
          iconName: String? = nil,
          iconTintColour: UIColor? = nil,

@@ -24,7 +24,6 @@ struct TaxStatusViewModelBuilderTests {
             )
 
             #expect(vm.title == String(localized: .DVLA.taxStatusTitle))
-            #expect(vm.status as? TaxStatus == .untaxed)
             #expect(vm.iconName == "exclamationmark.triangle.fill")
             #expect(vm.buttonTitle == String(localized: .DVLA.renewTaxButtonTitle))
             #expect(vm.progressViewModel == nil)
@@ -65,7 +64,6 @@ struct TaxStatusViewModelBuilderTests {
         )
 
         #expect(vm.title == String(localized: .DVLA.taxStatusTitle))
-        #expect(vm.status as? TaxStatus == .taxed)
         #expect(vm.iconName == "checkmark.circle.fill")
         #expect(vm.progressViewModel == nil)
         #expect(vm.buttonTitle == nil)
@@ -87,7 +85,6 @@ struct TaxStatusViewModelBuilderTests {
         )
 
         #expect(vm.title == String(localized: .DVLA.taxStatusTitle))
-        #expect(vm.status as? TaxStatus == .taxed)
         #expect(vm.iconName == "checkmark.circle.fill")
         #expect(vm.progressViewModel == nil)
         #expect(vm.buttonTitle == nil)
@@ -112,7 +109,6 @@ struct TaxStatusViewModelBuilderTests {
             )
 
             #expect(vm.title == String(localized: .DVLA.taxStatusTitle))
-            #expect(vm.status as? TaxStatus == .taxed)
             #expect(vm.progressViewModel != nil)
             #expect(vm.buttonTitle == String(localized: .DVLA.renewTaxButtonTitle))
             #expect(vm.formattedStatus == String(
@@ -140,7 +136,6 @@ struct TaxStatusViewModelBuilderTests {
             )
 
             #expect(vm.title == String(localized: .DVLA.taxStatusTitle))
-            #expect(vm.status as? TaxStatus == .taxed)
             #expect(vm.progressViewModel != nil)
             #expect(vm.buttonTitle == String(localized: .DVLA.expiringTaxManagePaymentButtonTitle))
             #expect(vm.formattedStatus == String(
@@ -163,7 +158,6 @@ struct TaxStatusViewModelBuilderTests {
         )
 
         #expect(vm.title == String(localized: .DVLA.taxStatusTitle))
-        #expect(vm.status as? TaxStatus == nil)
         #expect(vm.progressViewModel == nil)
         #expect(vm.formattedStatus == String(
             localized: .DVLA.unknown
@@ -184,7 +178,7 @@ struct TaxStatusViewModelBuilderTests {
         )
 
         #expect(vm.title == nil)
-        #expect(vm.status as? TaxStatus == .sorn)
+        #expect(vm.status as? ValidityTaxStatus == .sorn)
         #expect(vm.iconName == "parkingsign.brakesignal")
         #expect(vm.progressViewModel == nil)
         #expect(vm.formattedStatus == String(
@@ -192,6 +186,28 @@ struct TaxStatusViewModelBuilderTests {
         ))
         #expect(vm.footer == String(
             localized: .DVLA.from(date: dateFormatter.string(from: date))
+        ))
+    }
+
+    // MARK: - Future sorn
+    @Test
+    func sorn_future_returnsSornViewModel() {
+        let date = Calendar.current.date(byAdding: .day, value: 10, to: Date())!
+        let sut = TaxStatusViewModelBuilder(urls: nil)
+        let vm = sut.makeViewModel(
+            vehicle: CustomerSummary.Vehicle.arrange(
+                taxStatus: .taxed,
+                sornStart: date
+            ),
+            openURLAction: { _, _ in }
+        )
+
+        #expect(vm.title == nil)
+        #expect(vm.status as? ValidityTaxStatus == .futureSorn)
+        #expect(vm.iconName == "parkingsign.brakesignal")
+        #expect(vm.progressViewModel == nil)
+        #expect(vm.formattedStatus == String(
+            localized: .DVLA.offTheRoadSorn
         ))
     }
 
@@ -209,7 +225,6 @@ struct TaxStatusViewModelBuilderTests {
         )
 
         #expect(vm.title == String(localized: .DVLA.taxStatusTitle))
-        #expect(vm.status as? TaxStatus == .notTaxedForOnRoadUse)
         #expect(vm.progressViewModel == nil)
         #expect(vm.formattedStatus == String(
             localized: .DVLA.vehicleTaxNotNeeded

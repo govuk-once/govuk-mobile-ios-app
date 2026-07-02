@@ -8,10 +8,11 @@ struct TaxValidityStatusView: View {
     let viewModel: ValidityStatusViewModel
 
     var body: some View {
-        if case .sorn = (viewModel.status as? TaxStatus) {
+        switch viewModel.status as? ValidityTaxStatus {
+        case .sorn, .futureSorn:
             sornView
                 .padding(Self.standardPadding)
-        } else {
+        default:
             ValidityStatusView(viewModel: viewModel)
         }
     }
@@ -34,13 +35,15 @@ extension TaxValidityStatusView {
                 Text(viewModel.formattedStatus)
                     .font(.govUK.bodySemibold)
                     .multilineTextAlignment(.leading)
-                Text(viewModel.footer ?? "")
-                    .font(.govUK.body)
-                    .foregroundStyle(Color(uiColor: .govUK.text.primary))
-                    .frame(
-                        maxWidth: .infinity,
-                        alignment: .leading
-                    )
+                if let footer = viewModel.footer {
+                    Text(footer)
+                        .font(.govUK.body)
+                        .foregroundStyle(Color(uiColor: .govUK.text.primary))
+                        .frame(
+                            maxWidth: .infinity,
+                            alignment: .leading
+                        )
+                }
             }
             Spacer()
         }
