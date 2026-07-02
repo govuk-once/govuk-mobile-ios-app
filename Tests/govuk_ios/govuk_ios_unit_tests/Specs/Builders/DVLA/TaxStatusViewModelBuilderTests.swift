@@ -209,6 +209,7 @@ struct TaxStatusViewModelBuilderTests {
         #expect(vm.formattedStatus == String(
             localized: .DVLA.offTheRoadSorn
         ))
+        #expect(vm.footer == nil)
     }
 
     // MARK: - Not needed
