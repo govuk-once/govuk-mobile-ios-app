@@ -24,23 +24,22 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
     func makeViewModel(
         vehicle: CustomerSummary.Vehicle,
         openURLAction: @escaping (URL, String) -> Void
-     ) -> ValidityStatusViewModel {
-         switch vehicle.taxStatus {
-         case .untaxed:
-             return makeExpiredViewModel(
-                status: .untaxed,
+    ) -> ValidityStatusViewModel {
+        let status = validityTaxStatus(vehicle: vehicle)
+        switch status {
+        case .untaxed:
+            return makeExpiredViewModel(
                 validToDate: vehicle.taxedUntil,
                 openURLAction: openURLAction
-             )
-         case .taxed:
-             if let validToDate = vehicle.taxedUntil {
+            )
+        case .taxed:
+            if let validToDate = vehicle.taxedUntil {
                 let expiryProgress = expiryProgressCalculator.calculate(
                     expiryDate: validToDate,
                     currentDate: Date.now
                 )
                 if expiryProgress.isWithinCountdownWindow {
                     return makeExpiringViewModel(
-                        status: .taxed,
                         validToDate: validToDate,
                         paymentMethod: vehicle.currentLicence?.paymentMethod ?? "",
                         expiryProgress: expiryProgress,
@@ -49,86 +48,83 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
                 }
             }
             return makeValidViewModel(
-                status: .taxed,
                 validToDate: vehicle.taxedUntil
             )
-         case .sorn:
-             return makeSornViewModel(
-                status: .sorn,
+        case .sorn:
+            return makeSornViewModel(
+                status: status,
                 fromDate: vehicle.sornStart
-             )
-         case .notTaxedForOnRoadUse:
-             return makeTaxNotNeededViewModel(
-                status: .notTaxedForOnRoadUse
-             )
-         default:
-             return makeNotKnownViewModel()
-         }
-     }
+            )
+        case .futureSorn:
+            return makeSornViewModel(
+                status: status,
+                fromDate: vehicle.sornStart
+            )
+        case .notTaxedForOnRoadUse:
+            return makeTaxNotNeededViewModel()
+        default:
+            return makeNotKnownViewModel()
+        }
+    }
 
     private func formattedDate(_ date: Date?) -> String? {
-         if let date = date {
-             return dateFormatter.string(from: date)
-         } else {
-             return nil
-         }
-     }
+        if let date = date {
+            return dateFormatter.string(from: date)
+        } else {
+            return nil
+        }
+    }
 
-     // MARK: - Expired
-     private func makeExpiredViewModel(
-        status: TaxStatus,
+    // MARK: - Expired
+    private func makeExpiredViewModel(
         validToDate: Date?,
         openURLAction: @escaping (URL, String) -> Void
-     ) -> ValidityStatusViewModel {
-         let formattedStatus: String
-         if let dateString = formattedDate(validToDate) {
-             formattedStatus = String(localized: .DVLA.expiredOn(date: dateString))
-         } else {
-             formattedStatus = String(localized: .DVLA.expired)
-         }
+    ) -> ValidityStatusViewModel {
+        let formattedStatus: String
+        if let dateString = formattedDate(validToDate) {
+            formattedStatus = String(localized: .DVLA.expiredOn(date: dateString))
+        } else {
+            formattedStatus = String(localized: .DVLA.expired)
+        }
 
-         let buttonTitle = String(localized: .DVLA.renewTaxButtonTitle)
-         let buttonAction = {
-             openURLAction(
+        let buttonTitle = String(localized: .DVLA.renewTaxButtonTitle)
+        let buttonAction = {
+            openURLAction(
                 (urls?.taxVehicle ?? Constants.API.defaultDvlaTaxVehicleUrl),
                 buttonTitle
-             )
-         }
-         return ValidityStatusViewModel(
+            )
+        }
+        return ValidityStatusViewModel(
             title: String(localized: .DVLA.taxStatusTitle),
             formattedStatus: formattedStatus,
-            status: status,
             iconName: "exclamationmark.triangle.fill",
             footer: String(localized: .DVLA.renewTaxExpiringFooter),
             buttonTitle: buttonTitle,
             buttonAction: buttonAction
-         )
-     }
+        )
+    }
 
-     // MARK: - Valid
-     private func makeValidViewModel(
-        status: TaxStatus,
+    // MARK: - Valid
+    private func makeValidViewModel(
         validToDate: Date?
-     ) -> ValidityStatusViewModel {
-         let formattedStatus: String
-         if let dateString = formattedDate(validToDate) {
-             formattedStatus = String(localized: .DVLA.validUntil(date: dateString))
-         } else {
-             formattedStatus = String(localized: .DVLA.valid)
-         }
-         return ValidityStatusViewModel(
+    ) -> ValidityStatusViewModel {
+        let formattedStatus: String
+        if let dateString = formattedDate(validToDate) {
+            formattedStatus = String(localized: .DVLA.validUntil(date: dateString))
+        } else {
+            formattedStatus = String(localized: .DVLA.valid)
+        }
+        return ValidityStatusViewModel(
             title: String(localized: .DVLA.taxStatusTitle),
             formattedStatus: formattedStatus,
-            status: status,
             iconName: "checkmark.circle.fill",
             iconTintColour: .govUK.fills.surfaceButtonPrimary
-         )
-     }
+        )
+    }
 
     @MainActor
     // MARK: - Expiring
     private func makeExpiringViewModel(
-        status: TaxStatus,
         validToDate: Date,
         paymentMethod: String,
         expiryProgress: ExpiryProgressState,
@@ -136,7 +132,6 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
     ) -> ValidityStatusViewModel {
         if paymentMethod == "Direct Debit" {
             return makeExpiringDirectDebitViewModel(
-                status: status,
                 validToDate: validToDate,
                 paymentMethod: paymentMethod,
                 expiryProgress: expiryProgress,
@@ -144,7 +139,6 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
             )
         } else {
             return makeExpiringRenewTaxViewModel(
-                status: status,
                 validToDate: validToDate,
                 expiryProgress: expiryProgress,
                 openURLAction: openURLAction
@@ -162,7 +156,7 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
 
     // MARK: - Sorn
     private func makeSornViewModel(
-        status: TaxStatus,
+        status: ValidityTaxStatus,
         fromDate: Date?
     ) -> ValidityStatusViewModel {
         var footer: String?
@@ -177,20 +171,27 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
         )
     }
 
-    // MARK: - Not needed
-    private func makeTaxNotNeededViewModel(
-        status: TaxStatus,
+    // MARK: - Future sorn
+    private func makeFutureSornViewModel(
+        status: ValidityTaxStatus
     ) -> ValidityStatusViewModel {
         return ValidityStatusViewModel(
+            formattedStatus: String(localized: .DVLA.offTheRoadSorn),
+            status: status,
+            iconName: "parkingsign.brakesignal"
+        )
+    }
+
+    // MARK: - Not needed
+    private func makeTaxNotNeededViewModel() -> ValidityStatusViewModel {
+        return ValidityStatusViewModel(
             title: String(localized: .DVLA.taxStatusTitle),
-            formattedStatus: String(localized: .DVLA.vehicleTaxNotNeeded),
-            status: status
+            formattedStatus: String(localized: .DVLA.vehicleTaxNotNeeded)
         )
     }
 
     @MainActor
     private func makeExpiringDirectDebitViewModel(
-        status: TaxStatus,
         validToDate: Date,
         paymentMethod: String,
         expiryProgress: ExpiryProgressState,
@@ -208,7 +209,6 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
             formattedStatus: String(
                 localized: .DVLA.renewsOn(date: formattedDate(validToDate) ?? "")
             ),
-            status: status,
             progressViewModel: progressViewModel,
             buttonTitle: buttonTitle,
             buttonAction: { openURLAction(buttonURL, buttonTitle) },
@@ -218,7 +218,6 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
 
     @MainActor
     private func makeExpiringRenewTaxViewModel(
-        status: TaxStatus,
         validToDate: Date,
         expiryProgress: ExpiryProgressState,
         openURLAction: @escaping (URL, String) -> Void
@@ -234,7 +233,6 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
             formattedStatus: String(
                 localized: .DVLA.expiringOn(date: formattedDate(validToDate) ?? "")
             ),
-            status: status,
             progressViewModel: progressViewModel,
             footer: String(localized: .DVLA.renewTaxExpiringFooter),
             buttonTitle: buttonTitle,
@@ -242,4 +240,32 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
             buttonConfiguration: .primary
         )
     }
- }
+
+    private func validityTaxStatus(
+        vehicle: CustomerSummary.Vehicle
+    ) -> ValidityTaxStatus {
+        switch (vehicle.taxStatus, vehicle.sornStart) {
+        case (.notTaxedForOnRoadUse, _):
+            return .notTaxedForOnRoadUse
+        case (.sorn, _):
+            return .sorn
+        case (.taxed, .some):
+            return .futureSorn
+        case (.untaxed, _):
+            return .untaxed
+        case (.taxed, _):
+            return .taxed
+        case (.none, _):
+            return .unknown
+        }
+    }
+}
+
+enum ValidityTaxStatus: ValidityStatus {
+    case notTaxedForOnRoadUse
+    case sorn
+    case futureSorn
+    case untaxed
+    case taxed
+    case unknown
+}
