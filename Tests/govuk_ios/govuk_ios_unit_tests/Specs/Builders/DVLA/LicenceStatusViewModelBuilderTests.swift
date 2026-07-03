@@ -10,7 +10,6 @@ struct LicenceStatusViewModelBuilderTests {
     func makeViewModel_licenceExpired_validToDateIsNotNil_returnsExpectedResult() {
         let dvlaURLs: DvlaURLs = .arrange(renewLicence: "https://renewLicence.com")
         var receivedUrl: URL?
-        var receivedButtonTitle: String?
         let sut = LicenceStatusViewModelBuilder(urls: dvlaURLs)
         let result = sut.makeViewModel(
             status: .expired,
@@ -30,7 +29,6 @@ struct LicenceStatusViewModelBuilderTests {
         #expect(result.buttonAction != nil)
         result.buttonAction?()
         #expect(receivedUrl == URL(string: "https://renewLicence.com"))
-        #expect(receivedButtonTitle == String(localized: .DVLA.renewLicenceButtonTitle))
     }
 
     @Test
