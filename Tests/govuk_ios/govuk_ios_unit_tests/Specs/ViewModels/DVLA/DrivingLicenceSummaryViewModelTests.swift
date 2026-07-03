@@ -18,6 +18,81 @@ struct DrivingLicenceSummaryViewModelTests {
     }
 
     @Test
+    func openUrl_changeAddresss_tracksExpectedNavigationEvent() {
+        let mockDriverSummary = DriverSummary.arrange(licenceNo: "ABC123AE")
+        let mockAnalytics = MockAnalyticsService()
+        let sut = DrivingLicenceSummaryViewModel(
+            driverSummary: mockDriverSummary,
+            statusBuilder: MockLicenceStatusViewModelBuilder(),
+            openURLAction: { _ in },
+            analyticsService: mockAnalytics
+        )
+
+        sut.openUrl(options: .changeAddresss)
+
+        #expect(mockAnalytics._trackedEvents.count == 1)
+
+        guard let event = mockAnalytics._trackedEvents.first else {
+            return
+        }
+        #expect(event.name == "Navigation")
+        #expect(event.params?["text"] as? String == "Change address")
+        #expect(event.params?["type"] as? String == "Menu")
+        #expect(event.params?["external"] as? Bool == true)
+    }
+
+    @Test
+    func openUrl_replaceLicence_tracksExpectedNavigationEvent() {
+        let mockDriverSummary = DriverSummary.arrange(licenceNo: "ABC123AE")
+        let mockAnalytics = MockAnalyticsService()
+        let sut = DrivingLicenceSummaryViewModel(
+            driverSummary: mockDriverSummary,
+            statusBuilder: MockLicenceStatusViewModelBuilder(),
+            openURLAction: { _ in },
+            analyticsService: mockAnalytics
+        )
+
+        sut.openUrl(options: .replaceLicence)
+
+        #expect(mockAnalytics._trackedEvents.count == 1)
+
+        guard let event = mockAnalytics._trackedEvents.first else {
+            return
+        }
+
+        #expect(event.name == "Navigation")
+        #expect(event.params?["text"] as? String == "Replace licence")
+        #expect(event.params?["type"] as? String == "Menu")
+        #expect(event.params?["external"] as? Bool == true)
+    }
+
+    @Test
+    func copyToClipboard_tracksExpectedFunctionCopyEvent() {
+        let mockDriverSummary = DriverSummary.arrange(licenceNo: "ABC123AE")
+        let mockAnalytics = MockAnalyticsService()
+        let sut = DrivingLicenceSummaryViewModel(
+            driverSummary: mockDriverSummary,
+            statusBuilder: MockLicenceStatusViewModelBuilder(),
+            openURLAction: { _ in },
+            analyticsService: mockAnalytics
+        )
+
+        sut.copyToClipbaord()
+
+        #expect(mockAnalytics._trackedEvents.count == 1)
+
+        guard let event = mockAnalytics._trackedEvents.first else {
+            return
+        }
+
+        #expect(event.name == "Function")
+        #expect(event.params?["text"] as? String == "Copy to clipboard")
+        #expect(event.params?["type"] as? String == "Menu")
+        #expect(event.params?["section"] as? String == "Driver account")
+        #expect(event.params?["action"] as? String == "Copy")
+    }
+
+    @Test
     func init_formatsLicenceTypeCorrectly() {
         let mockDriverSummary = DriverSummary.arrange(licenceType: "Provisional")
         let sut = DrivingLicenceSummaryViewModel(
