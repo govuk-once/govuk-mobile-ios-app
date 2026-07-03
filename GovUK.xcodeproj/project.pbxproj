@@ -307,7 +307,6 @@
 		8101BEEC2F2A24B8009E639B /* RemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8101BEE82F2A24B8009E639B /* RemoteConfig.swift */; };
 		810A83752F68A46D0039B4A4 /* ServiceAccountUnlinkingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810A83742F68A4650039B4A4 /* ServiceAccountUnlinkingViewModel.swift */; };
 		810A83772F68A57E0039B4A4 /* ServiceAccountUnlinkingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810A83762F68A5720039B4A4 /* ServiceAccountUnlinkingView.swift */; };
-		810A9ADC2F6C4F050039B4A4 /* LinkingIdPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810A9ADB2F6C4EF80039B4A4 /* LinkingIdPayload.swift */; };
 		811A379C2FB1E454006BC782 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811A379B2FB1E454006BC782 /* SettingsViewModel.swift */; };
 		811A43272FB23AD6006BC782 /* ShareCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811A43262FB23AD3006BC782 /* ShareCode.swift */; };
 		8121778C2FD092B00048BBCD /* DrivingLicenceSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8121778B2FD092AA0048BBCD /* DrivingLicenceSummaryView.swift */; };
@@ -337,7 +336,6 @@
 		8154B58F2FB727CF00792FB5 /* ErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154B58E2FB727CB00792FB5 /* ErrorViewModel.swift */; };
 		8154C5402FB78AB600792FB5 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154C53F2FB78AA700792FB5 /* ErrorView.swift */; };
 		8154FB5E2FBB611D00792FB5 /* AppIconAlpha.icon in Resources */ = {isa = PBXBuildFile; fileRef = 4E9972172FB6214500CC1712 /* AppIconAlpha.icon */; };
-		815559472F72AB47001E73CD /* ASWebAuthenticationSession+Interface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815559462F72AB39001E73CD /* ASWebAuthenticationSession+Interface.swift */; };
 		81583DB82F8CD54D009E6486 /* PerformanceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81583DB72F8CD543009E6486 /* PerformanceClient.swift */; };
 		815841562F8D0F5E009E6486 /* ServiceAccountLinkCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815841552F8D0F57009E6486 /* ServiceAccountLinkCardView.swift */; };
 		815841582F8D0FEF009E6486 /* ServiceAccountLinkCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815841572F8D0FE6009E6486 /* ServiceAccountLinkCardViewModel.swift */; };
@@ -863,7 +861,6 @@
 		8101BEE92F2A24B8009E639B /* RemoteConfigValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigValue.swift; sourceTree = "<group>"; };
 		810A83742F68A4650039B4A4 /* ServiceAccountUnlinkingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountUnlinkingViewModel.swift; sourceTree = "<group>"; };
 		810A83762F68A5720039B4A4 /* ServiceAccountUnlinkingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountUnlinkingView.swift; sourceTree = "<group>"; };
-		810A9ADB2F6C4EF80039B4A4 /* LinkingIdPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkingIdPayload.swift; sourceTree = "<group>"; };
 		811A379B2FB1E454006BC782 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		811A43262FB23AD3006BC782 /* ShareCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareCode.swift; sourceTree = "<group>"; };
 		8121778B2FD092AA0048BBCD /* DrivingLicenceSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrivingLicenceSummaryView.swift; sourceTree = "<group>"; };
@@ -890,7 +887,6 @@
 		8154B58C2FB71F0F00792FB5 /* ErrorViewModel+Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ErrorViewModel+Chat.swift"; sourceTree = "<group>"; };
 		8154B58E2FB727CB00792FB5 /* ErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorViewModel.swift; sourceTree = "<group>"; };
 		8154C53F2FB78AA700792FB5 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
-		815559462F72AB39001E73CD /* ASWebAuthenticationSession+Interface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ASWebAuthenticationSession+Interface.swift"; sourceTree = "<group>"; };
 		81583DB72F8CD543009E6486 /* PerformanceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceClient.swift; sourceTree = "<group>"; };
 		815841552F8D0F57009E6486 /* ServiceAccountLinkCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountLinkCardView.swift; sourceTree = "<group>"; };
 		815841572F8D0FE6009E6486 /* ServiceAccountLinkCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountLinkCardViewModel.swift; sourceTree = "<group>"; };
@@ -2183,7 +2179,6 @@
 			isa = PBXGroup;
 			children = (
 				5DCCCBB82EA0DC300097430C /* LoginErrorV2+Extensions.swift */,
-				815559462F72AB39001E73CD /* ASWebAuthenticationSession+Interface.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -2639,7 +2634,6 @@
 			children = (
 				D09046702DBBC1AC0096EE66 /* IdTokenPayload.swift */,
 				D09046742DBBC1AC0096EE66 /* JWTExtractor.swift */,
-				810A9ADB2F6C4EF80039B4A4 /* LinkingIdPayload.swift */,
 			);
 			path = JWT;
 			sourceTree = "<group>";
@@ -3083,7 +3077,6 @@
 				5DC04B902C2D71440036EF2B /* ViewControllerBuilder.swift in Sources */,
 				3D9D06D12E7AA36100D1FC4A /* Banners.swift in Sources */,
 				D0B920C72EA637B7001E6FDC /* ListCardView.swift in Sources */,
-				815559472F72AB47001E73CD /* ASWebAuthenticationSession+Interface.swift in Sources */,
 				5D3123862C85AEE20088B931 /* Container+Repositories.swift in Sources */,
 				D0A346D12E6F3038007D3D27 /* ChatEllipsesView.swift in Sources */,
 				81BFE1302FAB8ED600249569 /* Vehicle.swift in Sources */,
@@ -3185,7 +3178,6 @@
 				4EE5F3E72DAFD42A008C60ED /* LocalAuthorityExplainerView.swift in Sources */,
 				3D9C933E2CB0172400EFA337 /* AppForcedUpdateContainerView.swift in Sources */,
 				8101BEEB2F2A24B8009E639B /* RemoteConfigValue.swift in Sources */,
-				810A9ADC2F6C4F050039B4A4 /* LinkingIdPayload.swift in Sources */,
 				8101BEEC2F2A24B8009E639B /* RemoteConfig.swift in Sources */,
 				5D51C8352C5BB9A80011ABE9 /* UIScrollView+Extensions.swift in Sources */,
 				16A99D6B2D35F19300C72DEB /* SearchSuggestionsViewModel.swift in Sources */,

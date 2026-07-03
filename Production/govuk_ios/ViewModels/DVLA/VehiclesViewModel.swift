@@ -81,7 +81,7 @@ class VehiclesViewModel: ObservableObject {
         Constants.API.defaultDvlaAddVehicleUrl
         openURLAction(url)
 
-        var event: AppEvent!
+        let event: AppEvent
         if largeCard {
             event = AppEvent.drivingAccountCardNavigation(
                 text: "Add your vehicle",
