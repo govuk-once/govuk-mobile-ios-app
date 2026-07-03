@@ -243,13 +243,15 @@ extension NotificationCentreContainerView: TrackableScreen {
 #Preview("Unread notification") {
     let notification = Notification(
         id: "1", title: "Test 1", body: "Body 1", date: Date(), status: "UNREAD",
-        messageTitle: nil, messageBody: nil)
+        messageTitle: nil, messageBody: nil,
+        metadata: Notification.Metadata(sender: Notification.Metadata.Sender(displayName: "test")))
     NotificationCentreRow(notification: notification, onTap: { _ in /* no-op */ })
 }
 
 #Preview("Read notification") {
     let notification = Notification(
         id: "1", title: "Test 1", body: "Body 1", date: Date(), status: "READ",
-        messageTitle: nil, messageBody: nil)
+        messageTitle: nil, messageBody: nil,
+        metadata: Notification.Metadata(sender: Notification.Metadata.Sender(displayName: "test")))
     NotificationCentreRow(notification: notification, onTap: { _ in /* no-op */ })
 }

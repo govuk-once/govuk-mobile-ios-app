@@ -211,7 +211,12 @@ private extension NotificationCentreServiceClientTests {
             "DispatchedDateTime": "2026-06-11T10:24:03.000Z",
             "Status": "UNREAD",
             "MessageTitle": "MessageTitle1",
-            "MessageBody": "MessageBody1"
+            "MessageBody": "MessageBody1",
+            "Metadata": {
+                "Sender": {
+                    "DisplayName" : "Test"
+                }
+            }
         },
         {
             "NotificationID": "2345",
@@ -220,7 +225,12 @@ private extension NotificationCentreServiceClientTests {
             "DispatchedDateTime": "2026-06-10T10:24:03.000Z",
             "Status": "UNREAD",
             "MessageTitle": "MessageTitle2",
-            "MessageBody": "MessageBody2"
+            "MessageBody": "MessageBody2",
+            "Metadata": {
+                "Sender": {
+                    "DisplayName" : "Test"
+                }
+            }
         }
     ]
     """.data(using: .utf8)!
@@ -234,7 +244,12 @@ private extension NotificationCentreServiceClientTests {
         "DispatchedDateTime": "2026-06-11T10:24:03.000Z",
         "Status": "UNREAD",
         "MessageTitle": "MessageTitle1",
-        "MessageBody": "MessageBody1"
+        "MessageBody": "MessageBody1",
+        "Metadata": {
+            "Sender": {
+                "DisplayName" : "Test"
+            }
+        }
     }
     """.data(using: .utf8)!
 }
