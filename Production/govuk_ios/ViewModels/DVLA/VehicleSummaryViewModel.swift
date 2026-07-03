@@ -37,10 +37,13 @@ extension VehicleSummaryViewModel {
         self.sornStart = vehicle.sornStart
         self.taxStatus = vehicle.taxStatus
 
-        let builder = TaxStatusViewModelBuilder(urls: configService.dvlaUrls)
+        let builder = TaxStatusViewModelBuilder(
+            urls: configService.dvlaUrls,
+            analyticsService: analyticsService,
+            openURLAction: openURLAction
+        )
         self.taxStatusViewModel = builder.makeViewModel(
-            vehicle: vehicle,
-            openURLAction: { url, _ in openURLAction(url) }
+            vehicle: vehicle
         )
         self.motStatusViewModel = ValidityStatusViewModel(
             title: String(localized: .DVLA.motStatusTitle),
