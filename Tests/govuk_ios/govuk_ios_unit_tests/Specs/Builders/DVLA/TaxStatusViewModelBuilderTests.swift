@@ -8,19 +8,24 @@ import GovKitUI
 @MainActor
 struct TaxStatusViewModelBuilderTests {
     let dateFormatter = DateFormatter.dvlaAccount
+    let urls = DvlaURLs.arrange()
 
     // MARK: - Expired
     @Test
     func untaxed_date_returnsExpiredViewModel() async {
         let date = Calendar.current.date(byAdding: .day, value: -5, to: Date())!
-        let sut = TaxStatusViewModelBuilder(urls: nil)
+        let mockAnalyticsService = MockAnalyticsService()
         await confirmation { confirmation in
+            let sut = TaxStatusViewModelBuilder(
+                urls: urls,
+                analyticsService: mockAnalyticsService,
+                openURLAction: { _ in confirmation() }
+            )
             let vm = sut.makeViewModel(
                 vehicle: CustomerSummary.Vehicle.arrange(
                     taxStatus: .untaxed,
                     taxedUntil: date
-                ),
-                openURLAction: { _, _ in confirmation() }
+                )
             )
 
             #expect(vm.title == String(localized: .DVLA.taxStatusTitle))
@@ -32,19 +37,28 @@ struct TaxStatusViewModelBuilderTests {
             )
 
             vm.buttonAction?()
+
+            let event = mockAnalyticsService._trackedEvents.first
+            #expect(mockAnalyticsService._trackedEvents.count == 1)
+            #expect(event?.params?["text"] as? String == String(localized: .DVLA.renewTaxButtonTitle))
+            #expect(event?.params?["type"] as? String == "Button")
+            #expect(event?.params?["url"] as? String == urls.taxVehicle?.absoluteString)
         }
     }
 
     // MARK: - Expired
     @Test
     func untaxed_noDate_returnsExpiredViewModel() {
-        let sut = TaxStatusViewModelBuilder(urls: nil)
+        let sut = TaxStatusViewModelBuilder(
+            urls: nil,
+            analyticsService: MockAnalyticsService(),
+            openURLAction: { _ in }
+        )
         let vm = sut.makeViewModel(
             vehicle: CustomerSummary.Vehicle.arrange(
                 taxStatus: .untaxed,
-                taxedUntil: nil,
-            ),
-            openURLAction: { _, _ in }
+                taxedUntil: nil
+            )
         )
 
         #expect(vm.formattedStatus == "Expired")
@@ -54,13 +68,16 @@ struct TaxStatusViewModelBuilderTests {
     @Test
     func taxed_longDate_returnsValidViewModel() {
         let date = Calendar.current.date(byAdding: .day, value: 60, to: Date())!
-        let sut = TaxStatusViewModelBuilder(urls: nil)
+        let sut = TaxStatusViewModelBuilder(
+            urls: nil,
+            analyticsService: MockAnalyticsService(),
+            openURLAction: { _ in }
+        )
         let vm = sut.makeViewModel(
             vehicle: CustomerSummary.Vehicle.arrange(
                 taxStatus: .taxed,
                 taxedUntil: date
-            ),
-            openURLAction: { _, _ in }
+            )
         )
 
         #expect(vm.title == String(localized: .DVLA.taxStatusTitle))
@@ -75,13 +92,16 @@ struct TaxStatusViewModelBuilderTests {
     // MARK: - Valid
     @Test
     func taxed_noDate_returnsValidViewModel() {
-        let sut = TaxStatusViewModelBuilder(urls: nil)
+        let sut = TaxStatusViewModelBuilder(
+            urls: nil,
+            analyticsService: MockAnalyticsService(),
+            openURLAction: { _ in }
+        )
         let vm = sut.makeViewModel(
             vehicle: CustomerSummary.Vehicle.arrange(
                 taxStatus: .taxed,
                 taxedUntil: nil
-            ),
-            openURLAction: { _, _ in }
+            )
         )
 
         #expect(vm.title == String(localized: .DVLA.taxStatusTitle))
@@ -97,15 +117,19 @@ struct TaxStatusViewModelBuilderTests {
     @Test
     func taxed_expiringDate_noDirectDebit_returnsExpiringViewModel() async {
         let date = Calendar.current.date(byAdding: .day, value: 10, to: Date())!
-        let sut = TaxStatusViewModelBuilder(urls: nil)
+        let mockAnalyticsService =  MockAnalyticsService()
         await confirmation { confirmation in
+            let sut = TaxStatusViewModelBuilder(
+                urls: urls,
+                analyticsService: mockAnalyticsService,
+                openURLAction: { _ in confirmation() }
+            )
             let vm = sut.makeViewModel(
                 vehicle: CustomerSummary.Vehicle.arrange(
                     taxStatus: .taxed,
                     taxedUntil: date,
                     currentLicence: CurrentLicence(paymentMethod: nil)
-                ),
-                openURLAction: { _, _ in confirmation() }
+                )
             )
 
             #expect(vm.title == String(localized: .DVLA.taxStatusTitle))
@@ -117,6 +141,12 @@ struct TaxStatusViewModelBuilderTests {
             #expect(vm.footer == String(localized: .DVLA.renewTaxExpiringFooter))
 
             vm.buttonAction?()
+
+            let event = mockAnalyticsService._trackedEvents.first
+            #expect(mockAnalyticsService._trackedEvents.count == 1)
+            #expect(event?.params?["text"] as? String == String(localized: .DVLA.renewTaxButtonTitle))
+            #expect(event?.params?["type"] as? String == "Button")
+            #expect(event?.params?["url"] as? String == urls.taxVehicle?.absoluteString)
         }
     }
 
@@ -124,15 +154,19 @@ struct TaxStatusViewModelBuilderTests {
     @Test
     func taxed_expiringDate_directDebit_returnsExpiringViewModel() async {
         let date = Calendar.current.date(byAdding: .day, value: 10, to: Date())!
-        let sut = TaxStatusViewModelBuilder(urls: nil)
+        let mockAnalyticsService = MockAnalyticsService()
         await confirmation { confirmation in
+            let sut = TaxStatusViewModelBuilder(
+                urls: urls,
+                analyticsService: mockAnalyticsService,
+                openURLAction: { _ in confirmation() }
+            )
             let vm = sut.makeViewModel(
                 vehicle: CustomerSummary.Vehicle.arrange(
                     taxStatus: .taxed,
                     taxedUntil: date,
                     currentLicence: CurrentLicence(paymentMethod: "Direct Debit")
-                ),
-                openURLAction: { _, _ in confirmation() }
+                )
             )
 
             #expect(vm.title == String(localized: .DVLA.taxStatusTitle))
@@ -143,18 +177,27 @@ struct TaxStatusViewModelBuilderTests {
             )
 
             vm.buttonAction?()
+
+            let event = mockAnalyticsService._trackedEvents.first
+            #expect(mockAnalyticsService._trackedEvents.count == 1)
+            #expect(event?.params?["text"] as? String == String(localized: .DVLA.expiringTaxManagePaymentButtonTitle))
+            #expect(event?.params?["type"] as? String == "Button")
+            #expect(event?.params?["url"] as? String == urls.manageTaxPayment?.absoluteString)
         }
     }
 
     // MARK: - Unknown
     @Test
     func unknown_returnsUnknownViewModel() {
-        let sut = TaxStatusViewModelBuilder(urls: nil)
+        let sut = TaxStatusViewModelBuilder(
+            urls: nil,
+            analyticsService: MockAnalyticsService(),
+            openURLAction: { _ in }
+        )
         let vm = sut.makeViewModel(
             vehicle: CustomerSummary.Vehicle.arrange(
                 taxStatus: nil
-            ),
-            openURLAction: { _, _ in }
+            )
         )
 
         #expect(vm.title == String(localized: .DVLA.taxStatusTitle))
@@ -168,13 +211,16 @@ struct TaxStatusViewModelBuilderTests {
     @Test
     func sorn_returnsSornViewModel() {
         let date = Calendar.current.date(byAdding: .day, value: -10, to: Date())!
-        let sut = TaxStatusViewModelBuilder(urls: nil)
+        let sut = TaxStatusViewModelBuilder(
+            urls: nil,
+            analyticsService: MockAnalyticsService(),
+            openURLAction: { _ in }
+        )
         let vm = sut.makeViewModel(
             vehicle: CustomerSummary.Vehicle.arrange(
                 taxStatus: .sorn,
                 sornStart: date
-            ),
-            openURLAction: { _, _ in }
+            )
         )
 
         #expect(vm.title == nil)
@@ -193,13 +239,16 @@ struct TaxStatusViewModelBuilderTests {
     @Test
     func sorn_future_returnsSornViewModel() {
         let date = Calendar.current.date(byAdding: .day, value: 10, to: Date())!
-        let sut = TaxStatusViewModelBuilder(urls: nil)
+        let sut = TaxStatusViewModelBuilder(
+            urls: nil,
+            analyticsService: MockAnalyticsService(),
+            openURLAction: { _ in }
+        )
         let vm = sut.makeViewModel(
             vehicle: CustomerSummary.Vehicle.arrange(
                 taxStatus: .taxed,
                 sornStart: date
-            ),
-            openURLAction: { _, _ in }
+            )
         )
 
         #expect(vm.title == nil)
@@ -216,13 +265,16 @@ struct TaxStatusViewModelBuilderTests {
     @Test
     func notTaxedForOnRoadUse_returnsNotNeededViewModel() {
         let date = Calendar.current.date(byAdding: .day, value: 10, to: Date())!
-        let sut = TaxStatusViewModelBuilder(urls: nil)
+        let sut = TaxStatusViewModelBuilder(
+            urls: nil,
+            analyticsService: MockAnalyticsService(),
+            openURLAction: { _ in }
+        )
         let vm = sut.makeViewModel(
             vehicle: CustomerSummary.Vehicle.arrange(
                 taxStatus: .notTaxedForOnRoadUse,
                 sornStart: date
-            ),
-            openURLAction: { _, _ in }
+            )
         )
 
         #expect(vm.title == String(localized: .DVLA.taxStatusTitle))

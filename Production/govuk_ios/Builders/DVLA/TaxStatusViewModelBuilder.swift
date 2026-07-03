@@ -7,7 +7,6 @@ protocol TaxStatusViewModelBuilderInterface {
     @MainActor
     func makeViewModel(
         vehicle: CustomerSummary.Vehicle,
-        openURLAction: @escaping (URL, String) -> Void
     ) -> ValidityStatusViewModel
 }
 
@@ -15,22 +14,28 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
     private let dateFormatter = DateFormatter.dvlaAccount
     private let expiryProgressCalculator = ExpiryProgressCalculator.init(countdownWindowDays: 28)
     private let urls: DvlaURLs?
+    private let analyticsService: AnalyticsServiceInterface
+    private let openURLAction: (URL) -> Void
 
-    init(urls: DvlaURLs?) {
+    init(
+        urls: DvlaURLs?,
+        analyticsService: AnalyticsServiceInterface,
+        openURLAction: @escaping (URL) -> Void
+    ) {
         self.urls = urls
+        self.analyticsService = analyticsService
+        self.openURLAction = openURLAction
     }
 
     @MainActor
     func makeViewModel(
-        vehicle: CustomerSummary.Vehicle,
-        openURLAction: @escaping (URL, String) -> Void
+        vehicle: CustomerSummary.Vehicle
     ) -> ValidityStatusViewModel {
         let status = validityTaxStatus(vehicle: vehicle)
         switch status {
         case .untaxed:
             return makeExpiredViewModel(
-                validToDate: vehicle.taxedUntil,
-                openURLAction: openURLAction
+                validToDate: vehicle.taxedUntil
             )
         case .taxed:
             if let validToDate = vehicle.taxedUntil {
@@ -42,8 +47,7 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
                     return makeExpiringViewModel(
                         validToDate: validToDate,
                         paymentMethod: vehicle.currentLicence?.paymentMethod ?? "",
-                        expiryProgress: expiryProgress,
-                        openURLAction: openURLAction
+                        expiryProgress: expiryProgress
                     )
                 }
             }
@@ -76,8 +80,7 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
 
     // MARK: - Expired
     private func makeExpiredViewModel(
-        validToDate: Date?,
-        openURLAction: @escaping (URL, String) -> Void
+        validToDate: Date?
     ) -> ValidityStatusViewModel {
         let formattedStatus: String
         if let dateString = formattedDate(validToDate) {
@@ -87,19 +90,19 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
         }
 
         let buttonTitle = String(localized: .DVLA.renewTaxButtonTitle)
-        let buttonAction = {
-            openURLAction(
-                (urls?.taxVehicle ?? Constants.API.defaultDvlaTaxVehicleUrl),
-                buttonTitle
-            )
-        }
+        let buttonURL = urls?.taxVehicle ?? Constants.API.defaultDvlaTaxVehicleUrl
         return ValidityStatusViewModel(
             title: String(localized: .DVLA.taxStatusTitle),
             formattedStatus: formattedStatus,
             iconName: "exclamationmark.triangle.fill",
             footer: String(localized: .DVLA.renewTaxExpiringFooter),
             buttonTitle: buttonTitle,
-            buttonAction: buttonAction
+            buttonAction: {
+                openURLAction(
+                    text: buttonTitle,
+                    url: buttonURL
+                )
+            }
         )
     }
 
@@ -126,21 +129,18 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
     private func makeExpiringViewModel(
         validToDate: Date,
         paymentMethod: String,
-        expiryProgress: ExpiryProgressState,
-        openURLAction: @escaping (URL, String) -> Void
+        expiryProgress: ExpiryProgressState
     ) -> ValidityStatusViewModel {
         if paymentMethod == "Direct Debit" {
             return makeExpiringDirectDebitViewModel(
                 validToDate: validToDate,
                 paymentMethod: paymentMethod,
-                expiryProgress: expiryProgress,
-                openURLAction: openURLAction
+                expiryProgress: expiryProgress
             )
         } else {
             return makeExpiringRenewTaxViewModel(
                 validToDate: validToDate,
-                expiryProgress: expiryProgress,
-                openURLAction: openURLAction
+                expiryProgress: expiryProgress
             )
         }
     }
@@ -193,8 +193,7 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
     private func makeExpiringDirectDebitViewModel(
         validToDate: Date,
         paymentMethod: String,
-        expiryProgress: ExpiryProgressState,
-        openURLAction: @escaping (URL, String) -> Void
+        expiryProgress: ExpiryProgressState
     ) -> ValidityStatusViewModel {
         let buttonTitle = String(localized: .DVLA.expiringTaxManagePaymentButtonTitle)
         let buttonURL = urls?.manageTaxPayment ?? Constants.API.defaultDvlaManageTaxPaymentUrl
@@ -210,7 +209,10 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
             ),
             progressViewModel: progressViewModel,
             buttonTitle: buttonTitle,
-            buttonAction: { openURLAction(buttonURL, buttonTitle) },
+            buttonAction: { openURLAction(
+                text: buttonTitle,
+                url: buttonURL
+            )},
             buttonConfiguration: .groupedSecondary
         )
     }
@@ -218,8 +220,7 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
     @MainActor
     private func makeExpiringRenewTaxViewModel(
         validToDate: Date,
-        expiryProgress: ExpiryProgressState,
-        openURLAction: @escaping (URL, String) -> Void
+        expiryProgress: ExpiryProgressState
     ) -> ValidityStatusViewModel {
         let buttonTitle = String(localized: .DVLA.renewTaxButtonTitle)
         let buttonURL = urls?.taxVehicle ?? Constants.API.defaultDvlaTaxVehicleUrl
@@ -235,7 +236,10 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
             progressViewModel: progressViewModel,
             footer: String(localized: .DVLA.renewTaxExpiringFooter),
             buttonTitle: buttonTitle,
-            buttonAction: { openURLAction(buttonURL, buttonTitle) },
+            buttonAction: { openURLAction(
+                text: buttonTitle,
+                url: buttonURL
+            )},
             buttonConfiguration: .primary
         )
     }
@@ -257,6 +261,17 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
         case (.none, _):
             return .unknown
         }
+    }
+
+    private func openURLAction(text: String, url: URL) {
+        let event = AppEvent.buttonNavigation(
+            text: text,
+            external: true,
+            url: url.absoluteString,
+            section: "Driving"
+        )
+        analyticsService.track(event: event)
+        openURLAction(url)
     }
 }
 
