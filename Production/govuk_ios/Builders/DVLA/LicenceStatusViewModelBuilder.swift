@@ -36,7 +36,7 @@ struct LicenceStatusViewModelBuilder: LicenceStatusViewModelBuilderInterface {
      func makeViewModel(
         status: DrivingLicenceStatus,
         validToDate: Date?,
-        openURLAction: @escaping (URL) -> Void
+        openURLAction: @escaping (URL) -> Void,
         currentDate: Date,
      ) -> ValidityStatusViewModel {
         switch status {
