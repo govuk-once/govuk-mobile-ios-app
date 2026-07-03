@@ -363,12 +363,13 @@ class ViewControllerBuilder {
                      activityService: ActivityServiceInterface,
                      subtopicAction: @escaping (DisplayableTopic) -> Void,
                      stepByStepAction: @escaping ([TopicDetailResponse.Content]) -> Void,
-                     openAction: @escaping (URL) -> Void
+                     openAction: @escaping (URL) -> Void,
+                     widgetView: AnyView?
     ) -> UIViewController {
         let actions = TopicDetailViewModel.Actions(
             subtopicAction: subtopicAction,
             stepByStepAction: stepByStepAction,
-            openAction: openAction
+            openAction: openAction,
         )
         let viewModel = TopicDetailViewModel(
             topic: topic,
@@ -379,7 +380,10 @@ class ViewControllerBuilder {
             actions: actions
         )
 
-        let view = TopicDetailView(viewModel: viewModel)
+        let view = TopicDetailView(
+            viewModel: viewModel,
+            widgetView: widgetView
+        )
         let viewController = HostingViewController(
             rootView: view
         )
@@ -398,7 +402,10 @@ class ViewControllerBuilder {
             activityService: activityService,
             selectedAction: selectedAction
         )
-        let view = TopicDetailView(viewModel: viewModel)
+        let view = TopicDetailView(
+            viewModel: viewModel,
+            widgetView: nil
+        )
         let viewController = HostingViewController(
             rootView: view
         )
@@ -445,15 +452,8 @@ class ViewControllerBuilder {
         return viewController
     }
 
-    func chatError(analyticsService: AnalyticsServiceInterface,
-                   error: ChatError,
-                   action: @escaping () -> Void) -> UIViewController {
-        let viewModel = ChatErrorViewModel(
-            analyticsService: analyticsService,
-            error: error,
-            action: action
-        )
-        let view = InfoView<ChatErrorViewModel>(viewModel: viewModel)
+    func error(viewModel: ErrorViewModel) -> UIViewController {
+        let view = ErrorView(viewModel: viewModel)
         let viewController = HostingViewController(
             rootView: view,
             navigationBarHidden: true
@@ -602,6 +602,69 @@ class ViewControllerBuilder {
         return viewController
     }
 
+    // swiftlint:disable:next function_parameter_count
+    func serviceAccountLinking(
+        analyticsService: AnalyticsServiceInterface,
+        userService: UserServiceInterface,
+        accountType: ServiceAccountType,
+        token: String,
+        completeAction: @escaping () -> Void,
+        dismissAction: @escaping () -> Void
+    ) -> UIViewController {
+        let viewModel = ServiceAccountLinkingViewModel(
+            analyticsService: analyticsService,
+            userService: userService,
+            accountType: accountType,
+            token: token,
+            completeAction: completeAction,
+            dismissAction: dismissAction
+        )
+        let view = ServiceAccountLinkingView(viewModel: viewModel)
+        let viewController = HostingViewController(
+            rootView: view,
+            navigationBarHidden: false
+        )
+        return viewController
+    }
+
+    func serviceAccountLinkSuccess(
+        analyticsService: AnalyticsServiceInterface,
+        accountType: ServiceAccountType,
+        completionAction: @escaping () -> Void
+    ) -> UIViewController {
+        let viewModel = ServiceAccountLinkSuccessViewModel(
+            analyticsService: analyticsService,
+            accountType: accountType,
+            completionAction: completionAction
+        )
+        let view = ServiceAccountLinkSuccessView(viewModel: viewModel)
+        let viewController = HostingViewController(
+            rootView: view,
+            navigationBarHidden: true
+        )
+        return viewController
+    }
+
+    func serviceAccountUnlinking(
+        userService: UserServiceInterface,
+        accountType: ServiceAccountType,
+        completeAction: @escaping () -> Void,
+        dismissAction: @escaping () -> Void
+    ) -> UIViewController {
+        let viewModel = ServiceAccountUnlinkingViewModel(
+            userService: userService,
+            accountType: accountType,
+            completeAction: completeAction,
+            dismissAction: dismissAction
+        )
+        let view = ServiceAccountUnlinkingView(viewModel: viewModel)
+        let viewController = HostingViewController(
+            rootView: view,
+            navigationBarHidden: false
+        )
+        return viewController
+    }
+
     func sarExplainer(analyticsService: AnalyticsServiceInterface,
                       sarAction: @escaping () -> Void) -> UIViewController {
         let viewModel = SARExplainerViewModel(
@@ -644,6 +707,26 @@ class ViewControllerBuilder {
         return viewController
     }
 
+    func yourAccountsSettings(
+        userService: UserServiceInterface,
+        analyticsService: AnalyticsServiceInterface
+    ) -> UIViewController {
+        let viewModel = YourAccountsViewViewModel(
+            userService: userService,
+            analyticsService: analyticsService
+        )
+        let view = YourAccountsView(
+            viewModel: viewModel
+        )
+        let viewController = HostingViewController(
+            rootView: view,
+            statusBarStyle: .darkContent
+        )
+        viewController.title = viewModel.title
+        viewController.navigationItem.largeTitleDisplayMode = .always
+        return viewController
+    }
+
     func termsAndConditions(
         termsAndConditionsService: TermsAndConditionsServiceInterface,
         completionAction: @escaping () -> Void,
@@ -661,6 +744,60 @@ class ViewControllerBuilder {
         )
         let viewController = HostingViewController(
             rootView: termsView
+        )
+        return viewController
+    }
+
+    func serviceAccountConsent(
+        analyticsService: AnalyticsServiceInterface,
+        accountType: ServiceAccountType,
+        completionAction: @escaping () -> Void,
+        cancelAction: @escaping () -> Void
+    ) -> UIViewController {
+        let viewModel = ServiceAccountConsentViewModel(
+            analyticsService: analyticsService,
+            accountType: accountType,
+            completionAction: completionAction,
+            cancelAction: cancelAction
+        )
+        let containerView = ServiceAccountConsentView(
+            viewModel: viewModel
+        )
+        let viewController = HostingViewController(
+            rootView: containerView
+        )
+        viewController.isModalInPresentation = true
+        return viewController
+    }
+
+    func dvlaAccount(
+        dvlaService: DVLAServiceInterface,
+        viewType: DVLAAccountViewType
+    ) -> UIViewController {
+        let viewModel = DVLAAccountViewModel(
+            dvlaService: dvlaService,
+            viewType: viewType
+        )
+        let view = DVLAAccountView(
+            viewModel: viewModel
+        )
+        let viewController = HostingViewController(
+            rootView: view
+        )
+        return viewController
+    }
+
+    func vehicleDetail(
+        analyticsService: AnalyticsServiceInterface,
+        vehicle: CustomerSummary.Vehicle
+    ) -> UIViewController {
+        let viewModel = VehicleDetailViewModel(
+            analyticsService: analyticsService,
+            vehicle: vehicle
+        )
+        let view = VehicleDetailView(viewModel: viewModel)
+        let viewController = HostingViewController(
+            rootView: view
         )
         return viewController
     }

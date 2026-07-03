@@ -180,7 +180,7 @@ struct ReturningUserServiceTests {
 
 extension ReturningUserServiceTests {
     func userIdentifier(idToken: String) async -> String {
-        let payload = try? await JWTExtractor().extract(jwt: idToken)
+        let payload: IdTokenPayload? = try? await JWTExtractor().extract(jwt: idToken)
         return payload!.sub
     }
 

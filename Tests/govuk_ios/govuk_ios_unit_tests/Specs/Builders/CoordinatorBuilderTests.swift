@@ -192,6 +192,20 @@ struct CoordinatorBuilderTests {
     }
 
     @Test
+    func yourAccountsSettings_returnsExpectedResult() {
+        let container = Container()
+        container.userService.reset()
+        container.userService.register { MockUserService() }
+
+        let subject = CoordinatorBuilder(container: container)
+        let mockNavigationController = MockNavigationController()
+        let coordinator = subject.yourAccountsSettings(
+            navigationController: mockNavigationController,
+        )
+        #expect(coordinator is YourAccountsSettingsCoordinator)
+    }
+
+    @Test
     func topicDetail_returnsExpectedResult() async throws {
         let coreData = await CoreDataRepository.arrangeAndLoad
         let subject = CoordinatorBuilder(container: Container())
@@ -426,6 +440,68 @@ struct CoordinatorBuilderTests {
     }
 
     @Test
+    func serviceAccountLink_returnsExpectedResult() {
+        let container = Container()
+        container.userService.register { MockUserService() }
+        container.analyticsService.register { MockAnalyticsService() }
+        let subject = CoordinatorBuilder(container: container)
+        let coordinator = subject.serviceAccountLink(
+            navigationController: UINavigationController(),
+            accountType: .dvla,
+            completion: { _ in }
+        )
+        #expect(coordinator is ServiceAccountLinkCoordinator)
+    }
+
+    @Test
+    func dvlaAuthentication_returnsExpectedResult() {
+        let subject = CoordinatorBuilder(container: Container())
+        let coordinator = subject.dvlaAuthentication(
+            navigationController: UINavigationController(),
+        )
+        #expect(coordinator is DVLAAuthenticationCoordinator)
+    }
+
+    @Test
+    func dvlaAccount_returnsExpectedResult() {
+        let subject = CoordinatorBuilder(container: Container())
+        let coordinator = subject.dvlaAccount(
+            navigationController: UINavigationController(),
+            viewType: .shareCodeList
+        )
+        #expect(coordinator is DVLAAccountCoordinator)
+    }
+
+    @Test
+    func serviceAccountRedirect_returnsExpectedResult() {
+        let subject = CoordinatorBuilder(container: Container())
+        let coordinator = subject.serviceAccountRedirect(
+            navigationController: UINavigationController(),
+            accountType: .dvla,
+            token: "test_token"
+        )
+        #expect(coordinator is ServiceAccountRedirectCoordinator)
+    }
+
+    @Test
+    func topicWidgetProvider_forDrivingTopic_returnsDrivingTopicWidgetCoordinator() async {
+        let mockCoreDataViewContext = await CoreDataRepository.arrangeAndLoad.viewContext
+        let drivingTopic = Topic.arrange(
+            context: mockCoreDataViewContext,
+            ref: "driving-transport"
+        )
+        let container = Container()
+        container.analyticsService.register(factory: { MockAnalyticsService() })
+        container.userService.register(factory: { MockUserService() })
+        container.dvlaService.register(factory: { MockDVLAService() })
+        let subject = CoordinatorBuilder(container: container)
+        let topicWidgetProvider = subject.topicWidgetProvider(
+            topic: drivingTopic,
+            navigationController: UINavigationController()
+        )
+        #expect(topicWidgetProvider is DrivingTopicWidgetCoordinator)
+    }
+
     func sarSettings_returnsExpectedResult() {
         let subject = CoordinatorBuilder(container: Container())
         let coordinator = subject.sarSettings(

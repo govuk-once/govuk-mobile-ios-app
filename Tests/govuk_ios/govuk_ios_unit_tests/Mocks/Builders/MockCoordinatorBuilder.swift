@@ -211,6 +211,13 @@ class MockCoordinatorBuilder: CoordinatorBuilder {
         return _stubbedNotificationSettingsCoordinator ?? MockBaseCoordinator()
     }
 
+    var _stubbedYourAccountsSettingsCoordinator: MockBaseCoordinator?
+    override func yourAccountsSettings(
+        navigationController: UINavigationController
+    ) -> BaseCoordinator {
+        return _stubbedYourAccountsSettingsCoordinator ?? MockBaseCoordinator()
+    }
+
     var _receivedWelcomeOnboardingCompletion: (() -> Void)?
     var _stubbedWelcomeOnboardingCoordinator: MockBaseCoordinator?
     override func welcomeOnboarding(navigationController: UINavigationController,
@@ -324,6 +331,30 @@ class MockCoordinatorBuilder: CoordinatorBuilder {
         _stubbedPrivacyCoordinator ?? MockBaseCoordinator()
     }
 
+    var _stubbedServiceAccountLinkCoordinator: MockBaseCoordinator?
+    var _receivedServiceAccountLinkCompletion: ((Bool) -> Void)?
+    override func serviceAccountLink(navigationController: UINavigationController,
+                                     accountType: ServiceAccountType,
+                                     completion: @escaping (Bool) -> Void) -> BaseCoordinator {
+        _receivedServiceAccountLinkCompletion = completion
+        return _stubbedServiceAccountLinkCoordinator ?? MockBaseCoordinator()
+    }
+
+    var _stubbedServiceAccountUnlinkCoordinator: MockBaseCoordinator?
+    override func serviceAccountUnlink(navigationController: UINavigationController,
+                                       accountType: ServiceAccountType,
+                                       completion: @escaping () -> Void) -> BaseCoordinator {
+          return _stubbedServiceAccountUnlinkCoordinator ?? MockBaseCoordinator()
+    }
+
+    var _stubbedDvlaAccountCoordinator: MockBaseCoordinator?
+    override func dvlaAccount(
+        navigationController: UINavigationController,
+        viewType: DVLAAccountViewType
+    ) -> BaseCoordinator {
+        return _stubbedDvlaAccountCoordinator ?? MockBaseCoordinator()
+    }
+
     var _receivedTermsAndConditionsCompletion: (() -> Void)?
     var _termsAndConditionsCallAction: (() -> Void)?
     var _stubbedTermsAndConditionsCoordinator: MockBaseCoordinator?
@@ -332,5 +363,27 @@ class MockCoordinatorBuilder: CoordinatorBuilder {
         _receivedTermsAndConditionsCompletion = completion
         _termsAndConditionsCallAction?()
         return _stubbedTermsAndConditionsCoordinator ?? MockBaseCoordinator()
+    }
+
+    var _stubbedDvlaAuthenticationCoordinator: MockBaseCoordinator?
+    override func dvlaAuthentication(navigationController: UINavigationController) -> BaseCoordinator {
+        return _stubbedDvlaAuthenticationCoordinator ?? MockBaseCoordinator()
+    }
+
+    var _receivedServiceAccountRedirectToken: String?
+    var _stubbedServiceAccountRedirectCoordinator: MockBaseCoordinator?
+    override func serviceAccountRedirect(navigationController: UINavigationController,
+                                         accountType: ServiceAccountType,
+                                         token: String) -> BaseCoordinator {
+        _receivedServiceAccountRedirectToken = token
+        return _stubbedServiceAccountRedirectCoordinator ?? MockBaseCoordinator()
+    }
+
+    var _stubbedVehicleDetailCoordinator: MockBaseCoordinator?
+    override func vehicleDetail(
+        navigationController: UINavigationController,
+        vehicle: CustomerSummary.Vehicle
+    ) -> BaseCoordinator {
+        _stubbedVehicleDetailCoordinator ?? MockBaseCoordinator()
     }
 }

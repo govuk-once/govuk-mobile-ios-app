@@ -103,9 +103,9 @@ class ChatCoordinator: TabItemCoordinator {
     }
 
     private func setChatError(_ error: ChatError) {
-        let viewController = viewControllerBuilder.chatError(
+        let viewModel = ErrorViewModel.chatError(
+            error,
             analyticsService: analyticsService,
-            error: error,
             action: { [weak self] in
                 guard let self else { return }
                 switch error {
@@ -119,6 +119,7 @@ class ChatCoordinator: TabItemCoordinator {
                 }
             }
         )
+        let viewController = viewControllerBuilder.error(viewModel: viewModel)
         set(viewController, animated: false)
         isShowingError = true
     }

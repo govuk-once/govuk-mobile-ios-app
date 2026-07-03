@@ -50,23 +50,31 @@ class TopicDetailViewModel: TopicDetailViewModelInterface {
         subtopicAction = actions.subtopicAction
         stepByStepAction = actions.stepByStepAction
         openAction = actions.openAction
-        fetchTopicDetails(topicRef: topic.ref)
     }
 
-    private func fetchTopicDetails(topicRef: String) {
-        self.isLoaded = false
-        topicsService.fetchDetails(
-            ref: topicRef,
-            completion: { result in
-                if case let .success(detail) = result {
-                    self.topicDetail = detail
-                    self.configureSections()
-                    self.createSubtopicCards()
-                    self.isLoaded = true
-                }
-                self.handleError(result.getError())
+    @MainActor
+    private func fetchContent() async {
+        isLoaded = false
+        let topicDetailResult = await fetchTopicDetails(topicRef: topic.ref)
+        if case .success(let detail) = topicDetailResult {
+             topicDetail = detail
+             displayFetchedContent()
+        }
+        handleError(topicDetailResult.getError())
+    }
+
+    private func displayFetchedContent() {
+        configureSections()
+        createSubtopicCards()
+        isLoaded = true
+    }
+
+    private func fetchTopicDetails(topicRef: String) async -> FetchTopicDetailsResult {
+        await withCheckedContinuation { continuation in
+            topicsService.fetchDetails(ref: topicRef) { result in
+                continuation.resume(returning: result)
             }
-        )
+        }
     }
 
     private func configureSections() {
@@ -85,9 +93,13 @@ class TopicDetailViewModel: TopicDetailViewModelInterface {
         }
         switch error {
         case .networkUnavailable:
-            errorViewModel = AppErrorViewModel.networkUnavailable {
-                self.fetchTopicDetails(topicRef: self.topic.ref)
-            }
+            errorViewModel = AppErrorViewModel.networkUnavailable(
+                action: {
+                    Task {
+                        await self.fetchContent()
+                    }
+                }
+            )
         default:
             errorViewModel = topicErrorViewModel
         }
@@ -231,6 +243,15 @@ class TopicDetailViewModel: TopicDetailViewModelInterface {
                 self?.subtopicAction(content)
             }
         )
+    }
+
+    @MainActor
+    func viewDidAppear() async {
+        if isLoaded {
+            trackEcommerce()
+        } else {
+            await fetchContent()
+        }
     }
 
     func trackScreen(screen: TrackableScreen) {

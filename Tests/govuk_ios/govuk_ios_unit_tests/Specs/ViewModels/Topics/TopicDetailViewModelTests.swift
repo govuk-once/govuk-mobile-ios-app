@@ -9,9 +9,9 @@ struct TopicDetailViewModelTests {
     let mockTopicsService = MockTopicsService()
     let mockAnalyticsService = MockAnalyticsService()
     let mockURLOpener = MockURLOpener()
-    
+
     @Test
-    func init_noUnpopularContent_doesCreateSectionsCorrectly() async throws {
+    func viewDidAppear_noUnpopularContent_doesCreateSectionsCorrectly() async throws {
         mockTopicsService._stubbedFetchTopicDetailsResult = .success(
             .arrange(
                 fileName: "NoUnpopularContent"
@@ -27,6 +27,7 @@ struct TopicDetailViewModelTests {
             urlOpener: mockURLOpener,
             actions: .empty
         )
+        await sut.viewDidAppear()
 
         try #require(sut.sections.count == 2)
         #expect(sut.sections[0].heading?.title == "Popular pages in this topic")
@@ -42,7 +43,7 @@ struct TopicDetailViewModelTests {
     }
     
     @Test
-    func init_fiveStepByStep_doesCreateSectionsCorrectly() async throws {
+    func viewDidAppear_fiveStepByStep_doesCreateSectionsCorrectly() async throws {
         mockTopicsService._stubbedFetchTopicDetailsResult = .success(
             .arrange(
                 fileName: "FiveStepByStep"
@@ -58,7 +59,8 @@ struct TopicDetailViewModelTests {
             urlOpener: mockURLOpener,
             actions: .empty
         )
-        
+        await sut.viewDidAppear()
+
         try #require(sut.sections.count == 2)
         #expect(sut.sections[0].heading?.title == "Popular pages in this topic")
         #expect(sut.sections[0].heading?.icon == nil)
@@ -77,7 +79,7 @@ struct TopicDetailViewModelTests {
     }
     
     @Test
-    func init_hasUnpopularContent_doesCreateSectionsCorrectly() async  throws {
+    func viewDidAppear_hasUnpopularContent_doesCreateSectionsCorrectly() async throws {
         mockTopicsService._stubbedFetchTopicDetailsResult = .success(
             .arrange(
                 fileName: "UnpopularContent"
@@ -91,9 +93,10 @@ struct TopicDetailViewModelTests {
             analyticsService: mockAnalyticsService,
             activityService: mockActivityService,
             urlOpener: mockURLOpener,
-            actions: .empty
+            actions: .empty,
         )
-        
+        await sut.viewDidAppear()
+
         try #require(sut.sections.count == 3)
         #expect(sut.sections[0].heading?.title == "Popular pages in this topic")
         #expect(sut.sections[0].heading?.icon == nil)
@@ -113,7 +116,7 @@ struct TopicDetailViewModelTests {
     }
 
     @Test
-    func init_subtopic_noOtherContent_returnsCorrectHeader() async throws {
+    func viewDidAppear_subtopic_noOtherContent_returnsCorrectHeader() async throws {
         let coreData = await CoreDataRepository.arrangeAndLoad
         let mockActivityService = MockActivityService(context: coreData.viewContext)
         let expectedContent = TopicDetailResponse.arrange()
@@ -124,8 +127,9 @@ struct TopicDetailViewModelTests {
             analyticsService: mockAnalyticsService,
             activityService: mockActivityService,
             urlOpener: mockURLOpener,
-            actions: .empty
+            actions: .empty,
         )
+        await sut.viewDidAppear()
 
         #expect(sut.sections[3].heading?.title == "Related")
         #expect(sut.sections[3].heading?.icon == nil)
@@ -147,7 +151,7 @@ struct TopicDetailViewModelTests {
                 didNavigate = true
             },
             stepByStepAction: { _ in },
-            openAction: { _ in }
+            openAction: { _ in },
         )
         let sut = TopicDetailViewModel(
             topic: MockDisplayableTopic(ref: "", title: "", topicDescription: nil),
@@ -157,7 +161,8 @@ struct TopicDetailViewModelTests {
             urlOpener: mockURLOpener,
             actions: actions
         )
-        
+        await sut.viewDidAppear()
+
         try #require(sut.sections.count == 3)
         let subTopicRow = try #require(sut.subtopicCards.first)
         subTopicRow.action()
@@ -183,7 +188,8 @@ struct TopicDetailViewModelTests {
             urlOpener: mockURLOpener,
             actions: .empty
         )
-        
+        await sut.viewDidAppear()
+
         try #require(sut.sections.count == 3)
         let contentRow = try #require(sut.sections[0].rows.first as? LinkRow)
         contentRow.action()
@@ -192,7 +198,7 @@ struct TopicDetailViewModelTests {
     }
 
     @Test
-    func init_apiUnavailable_doesCreateCorrectErrorViewModel() async throws {
+    func viewDidAppear_apiUnavailable_doesCreateCorrectErrorViewModel() async throws {
         let coreData = await CoreDataRepository.arrangeAndLoad
         let mockActivityService = MockActivityService(context: coreData.viewContext)
         mockTopicsService._stubbedFetchTopicDetailsResult = .failure(.apiUnavailable)
@@ -204,6 +210,7 @@ struct TopicDetailViewModelTests {
             urlOpener: mockURLOpener,
             actions: .empty
         )
+        await sut.viewDidAppear()
         let errorViewModel = try #require(sut.errorViewModel)
         #expect(errorViewModel.title == String.common.localized("genericErrorTitle"))
         #expect(errorViewModel.body == String.topics.localized("topicFetchErrorSubtitle"))
@@ -217,7 +224,7 @@ struct TopicDetailViewModelTests {
     }
     
     @Test
-    func init_networkUnavailable_doesCreateCorrectErrorViewModel() async throws {
+    func viewDidAppear_networkUnavailable_doesCreateCorrectErrorViewModel() async throws {
         let coreData = await CoreDataRepository.arrangeAndLoad
         let mockActivityService = MockActivityService(context: coreData.viewContext)
         mockTopicsService._stubbedFetchTopicDetailsResult = .failure(.networkUnavailable)
@@ -229,6 +236,7 @@ struct TopicDetailViewModelTests {
             urlOpener: mockURLOpener,
             actions: .empty
         )
+        await sut.viewDidAppear()
         let errorViewModel = try #require(sut.errorViewModel)
         #expect(errorViewModel.title == String.common.localized("networkUnavailableErrorTitle"))
         #expect(errorViewModel.body == String.common.localized("networkUnavailableErrorBody"))
@@ -236,7 +244,13 @@ struct TopicDetailViewModelTests {
         #expect(errorViewModel.buttonAccessibilityLabel == nil)
         #expect(errorViewModel.isWebLink == false)
         mockTopicsService._fetchDetailsCalled = false
-        errorViewModel.action?()
+
+        await withCheckedContinuation { continuation in
+            mockTopicsService._fetchTopicDetailsCompletion = {
+                continuation.resume()
+            }
+            errorViewModel.action?()
+        }
         #expect(mockTopicsService._fetchDetailsCalled)
     }
 }

@@ -1,5 +1,6 @@
 // swiftlint:disable file_length
 import UIKit
+import SwiftUI
 import Foundation
 import FactoryKit
 
@@ -224,7 +225,30 @@ class CoordinatorBuilder {
             activityService: container.activityService.resolve(),
             coordinatorBuilder: self,
             viewControllerBuilder: ViewControllerBuilder(),
+            topicWidgetProvider: topicWidgetProvider(
+                topic: topic,
+                navigationController: navigationController
+            ),
             topic: topic
+        )
+    }
+
+    func topicWidgetProvider(
+        topic: Topic,
+        navigationController: UINavigationController
+    ) -> TopicWidgetProvider? {
+        guard topic.ref == "driving-transport" else {
+            return nil
+        }
+        return DrivingTopicWidgetCoordinator(
+            navigationController: navigationController,
+            analyticsService: container.analyticsService.resolve(),
+            configService: container.appConfigService.resolve(),
+            userService: container.userService.resolve(),
+            dvlaService: container.dvlaService.resolve(),
+            coordinatorBuilder: self,
+            widgetViewBuilder: WidgetViewBuilder(),
+            urlOpener: UIApplication.shared
         )
     }
 
@@ -307,11 +331,22 @@ class CoordinatorBuilder {
         )
     }
 
+    func yourAccountsSettings(navigationController: UINavigationController) -> BaseCoordinator {
+        YourAccountsSettingsCoordinator(
+            navigationController: navigationController,
+            viewControllerBuilder: ViewControllerBuilder(),
+            userService: container.userService.resolve(),
+            coordinatorBuilder: self,
+            analyticsService: container.analyticsService.resolve()
+        )
+    }
+
     func welcomeOnboarding(navigationController: UINavigationController,
                            completionAction: @escaping () -> Void) -> BaseCoordinator {
         WelcomeOnboardingCoordinator(
             navigationController: navigationController,
             authenticationService: container.authenticationService.resolve(),
+            appConfigService: container.appConfigService.resolve(),
             userService: container.userService.resolve(),
             notificationService: container.notificationService.resolve(),
             termsAndConditionsService: container.termsAndConditionsService.resolve(),
@@ -466,6 +501,86 @@ class CoordinatorBuilder {
     ) -> BaseCoordinator & PrivacyProviding {
         PrivacyCoordinator(
             navigationController: navigationController
+        )
+    }
+
+    func serviceAccountLink(
+        navigationController: UINavigationController,
+        accountType: ServiceAccountType,
+        completion: @escaping (Bool) -> Void
+    ) -> BaseCoordinator {
+        ServiceAccountLinkCoordinator(
+            navigationController: navigationController,
+            coordinatorBuilder: self,
+            viewControllerBuilder: ViewControllerBuilder(),
+            analyticsService: container.analyticsService.resolve(),
+            userService: container.userService.resolve(),
+            accountType: accountType,
+            completion: completion
+        )
+    }
+
+    func serviceAccountUnlink(
+        navigationController: UINavigationController,
+        accountType: ServiceAccountType,
+        completion: @escaping () -> Void
+    ) -> BaseCoordinator {
+        ServiceAccountUnlinkCoordinator(
+            navigationController: navigationController,
+            coordinatorBuilder: self,
+            viewControllerBuilder: ViewControllerBuilder(),
+            userService: container.userService.resolve(),
+            accountType: accountType,
+            completion: completion
+        )
+    }
+
+    func dvlaAuthentication(
+        navigationController: UINavigationController,
+    ) -> BaseCoordinator {
+        DVLAAuthenticationCoordinator(
+            navigationController: navigationController,
+            urlOpener: UIApplication.shared
+        )
+    }
+
+    func dvlaAccount(
+        navigationController: UINavigationController,
+        viewType: DVLAAccountViewType
+    ) -> BaseCoordinator {
+        DVLAAccountCoordinator(
+            navigationController: navigationController,
+            viewControllerBuilder: ViewControllerBuilder(),
+            dvlaService: container.dvlaService.resolve(),
+            viewType: viewType
+        )
+    }
+
+    func serviceAccountRedirect(
+        navigationController: UINavigationController,
+        accountType: ServiceAccountType,
+        token: String,
+    ) -> BaseCoordinator {
+        ServiceAccountRedirectCoordinator(
+            navigationController: navigationController,
+            viewControllerBuilder: ViewControllerBuilder(),
+            analyticsService: container.analyticsService.resolve(),
+            userService: container.userService.resolve(),
+            accountType: accountType,
+            token: token,
+            notificationCenter: .default,
+        )
+    }
+
+    func vehicleDetail(
+        navigationController: UINavigationController,
+        vehicle: CustomerSummary.Vehicle
+    ) -> BaseCoordinator {
+        VehicleDetailCoordinator(
+            navigationController: navigationController,
+            viewControllerBuilder: ViewControllerBuilder(),
+            analyticsService: container.analyticsService.resolve(),
+            vehicle: vehicle
         )
     }
 }

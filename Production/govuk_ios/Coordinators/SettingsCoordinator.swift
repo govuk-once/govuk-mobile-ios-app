@@ -88,6 +88,9 @@ class SettingsCoordinator: TabItemCoordinator {
         settingsViewModel.sarAction = { [weak self] in
             self?.startSARSettings()
         }
+        settingsViewModel.yourAccountsAction = { [weak self] in
+            self?.startYourAccountsSettings()
+        }
     }
 
     private func startNotificationsSettings() {
@@ -99,6 +102,13 @@ class SettingsCoordinator: TabItemCoordinator {
             dismissAction: { [weak self] in
                 self?.root.popToRootViewController(animated: true)
             }
+        )
+        start(coordinator)
+    }
+
+    private func startYourAccountsSettings() {
+        let coordinator = coordinatorBuilder.yourAccountsSettings(
+            navigationController: root
         )
         start(coordinator)
     }

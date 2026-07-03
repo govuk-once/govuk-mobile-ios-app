@@ -83,11 +83,25 @@ extension Container {
 
     var userAPIClient: Factory<APIServiceClientInterface> {
         Factory(self) {
-            APIServiceClient(baseUrl: self.appEnvironmentService().flexBaseURL,
-                             session: self.urlSession(),
-                             requestBuilder: RequestBuilder(),
-                             responseHandler: UserResponseHandler(),
-                             tokenProvider: self.authenticationService())
+            APIServiceClient(
+                baseUrl: self.appEnvironmentService().flexBaseURL,
+                session: self.urlSession(),
+                requestBuilder: RequestBuilder(),
+                responseHandler: UserResponseHandler(),
+                tokenProvider: self.authenticationService()
+            )
+        }
+    }
+
+    var dvlaAPIClient: Factory<APIServiceClientInterface> {
+        Factory(self) {
+            APIServiceClient(
+                baseUrl: self.appEnvironmentService().flexBaseURL,
+                session: self.urlSession(),
+                requestBuilder: RequestBuilder(),
+                responseHandler: nil,
+                tokenProvider: self.authenticationService()
+            )
         }
     }
 

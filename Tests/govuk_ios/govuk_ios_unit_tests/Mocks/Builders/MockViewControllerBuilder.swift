@@ -1,5 +1,6 @@
 import Foundation
 import UIKit
+import SwiftUI
 import GovKit
 
 @testable import govuk_ios
@@ -100,7 +101,9 @@ class MockViewControllerBuilder: ViewControllerBuilder {
                               activityService: any ActivityServiceInterface,
                               subtopicAction: @escaping (any DisplayableTopic) -> Void,
                               stepByStepAction: @escaping ([TopicDetailResponse.Content]) -> Void,
-                              openAction: @escaping (URL) -> Void) -> UIViewController {
+                              openAction: @escaping (URL) -> Void,
+                              widgetView: AnyView?
+    ) -> UIViewController {
         _receivedTopicDetailOpenAction = openAction
         _receivedTopicDetailStepByStepAction = stepByStepAction
         return _stubbedTopicDetailViewController ?? UIViewController()
@@ -117,6 +120,15 @@ class MockViewControllerBuilder: ViewControllerBuilder {
         _receivedLocalAuthorityDismissAction = dismissAction
         _receivedResolveAmbiguityAction = resolveAmbiguityAction
         return _stubbedLocalAuthorityPostcodeEntryViewController ?? UIViewController()
+    }
+
+    var _stubbedYourAccountsViewController: UIViewController?
+    override func yourAccountsSettings(
+        userService: UserServiceInterface,
+        analyticsService: AnalyticsServiceInterface
+    )
+    -> UIViewController {
+        return _stubbedYourAccountsViewController ?? UIViewController()
     }
 
     var _stubbedLocalAuthorityExplainerViewController: UIViewController?
@@ -323,15 +335,11 @@ class MockViewControllerBuilder: ViewControllerBuilder {
         return _stubbedChatController ?? UIViewController()
     }
 
-    var _stubbedChatErrorController: UIViewController?
-    var _receivedChatErrorAction: (() -> Void)?
-    override func chatError(
-        analyticsService: AnalyticsServiceInterface,
-        error: ChatError,
-        action: @escaping () -> Void
-    ) -> UIViewController {
-        _receivedChatErrorAction = action
-        return _stubbedChatErrorController ?? UIViewController()
+    var _stubbedErrorController: UIViewController?
+    var _receivedErrorViewModel: ErrorViewModel?
+    override func error(viewModel: ErrorViewModel) -> UIViewController {
+        _receivedErrorViewModel = viewModel
+        return _stubbedErrorController ?? UIViewController()
     }
 
     var _stubbedChatInfoOnboardingController: UIViewController?
@@ -366,6 +374,69 @@ class MockViewControllerBuilder: ViewControllerBuilder {
     ) -> UIViewController {
         _receivedTermsOpenUrlAction = openURLAction
         return _stubbedChatTermsOnboardingController ?? UIViewController()
+    }
+
+    var _stubbedServiceAccountLinkingController: UIViewController?
+    var _receivedServiceAccountLinkingCompleteAction: (() -> Void)?
+    var _receivedServiceAccountLinkingDismissAction: (() -> Void)?
+    override func serviceAccountLinking(
+        analyticsService: AnalyticsServiceInterface,
+        userService: UserServiceInterface,
+        accountType: ServiceAccountType,
+        token: String,
+        completeAction: @escaping () -> Void,
+        dismissAction: @escaping () -> Void
+    ) -> UIViewController {
+        _receivedServiceAccountLinkingCompleteAction = completeAction
+        _receivedServiceAccountLinkingDismissAction = dismissAction
+        return _stubbedServiceAccountLinkingController ?? UIViewController()
+    }
+
+    var _stubbedServiceAccountLinkSuccessController: UIViewController?
+    var _receivedServiceAccountLinkSuccessCompletionAction: (() -> Void)?
+    override func serviceAccountLinkSuccess(
+        analyticsService: AnalyticsServiceInterface,
+        accountType: ServiceAccountType,
+        completionAction: @escaping () -> Void
+    ) -> UIViewController {
+        _receivedServiceAccountLinkSuccessCompletionAction = completionAction
+        return _stubbedServiceAccountLinkSuccessController ?? UIViewController()
+    }
+
+    var _stubbedServiceAccountUnlinkingController: UIViewController?
+    var _receivedServiceAccountUnlinkingCompleteAction: (() -> Void)?
+    var _receivedServiceAccountUnlinkingDismissAction: (() -> Void)?
+    override func serviceAccountUnlinking(
+        userService: UserServiceInterface,
+        accountType: ServiceAccountType,
+        completeAction: @escaping () -> Void,
+        dismissAction: @escaping () -> Void
+    ) -> UIViewController {
+        _receivedServiceAccountUnlinkingCompleteAction = completeAction
+        _receivedServiceAccountUnlinkingDismissAction = dismissAction
+        return _stubbedServiceAccountUnlinkingController ?? UIViewController()
+    }
+
+    var _stubbedServiceAccountConsentController: UIViewController?
+    var _receivedServiceAccountConsentCompletionAction: (() -> Void)?
+    var _receivedServiceAccountConsentCancelAction: (() -> Void)?
+    override func serviceAccountConsent(
+        analyticsService: AnalyticsServiceInterface,
+        accountType: ServiceAccountType,
+        completionAction: @escaping () -> Void,
+        cancelAction: @escaping () -> Void
+    ) -> UIViewController {
+        _receivedServiceAccountConsentCompletionAction = completionAction
+        _receivedServiceAccountConsentCancelAction = cancelAction
+        return _stubbedServiceAccountConsentController ?? UIViewController()
+    }
+
+    var _stubbedVehicleDetailController: UIViewController?
+    override func vehicleDetail(
+        analyticsService: AnalyticsServiceInterface,
+        vehicle: CustomerSummary.Vehicle
+    ) -> UIViewController {
+        _stubbedVehicleDetailController ?? UIViewController()
     }
 
 }

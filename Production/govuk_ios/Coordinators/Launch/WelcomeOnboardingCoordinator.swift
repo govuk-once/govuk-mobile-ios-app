@@ -6,6 +6,7 @@ import GovKit
 class WelcomeOnboardingCoordinator: BaseCoordinator {
     private let navigationController: UINavigationController
     private let authenticationService: AuthenticationServiceInterface
+    private let appConfigService: AppConfigServiceInterface
     private let userService: UserServiceInterface
     private let notificationService: NotificationServiceInterface
     private let termsAndConditionsService: TermsAndConditionsServiceInterface
@@ -31,6 +32,7 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
 
     init(navigationController: UINavigationController,
          authenticationService: AuthenticationServiceInterface,
+         appConfigService: AppConfigServiceInterface,
          userService: UserServiceInterface,
          notificationService: NotificationServiceInterface,
          termsAndConditionsService: TermsAndConditionsServiceInterface,
@@ -42,6 +44,7 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
          completionAction: @escaping () -> Void) {
         self.navigationController = navigationController
         self.authenticationService = authenticationService
+        self.appConfigService = appConfigService
         self.userService = userService
         self.notificationService = notificationService
         self.termsAndConditionsService = termsAndConditionsService
@@ -144,7 +147,18 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
         completionAction()
     }
 
-    private func handleUserStateFetched() { /* Do nothing */ }
+    private func handleUserStateFetched() {
+        fetchLinkedAccounts()
+    }
+
+    private func fetchLinkedAccounts() {
+        guard appConfigService.isFeatureEnabled(key: .dvla) else {
+            return
+        }
+        Task {
+            await userService.fetchLinkedAccounts()
+        }
+    }
 
     private func handleUserStateFailure(_ error: any Error) {
         analyticsService.track(error: error)
