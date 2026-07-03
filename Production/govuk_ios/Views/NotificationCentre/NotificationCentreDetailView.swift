@@ -110,11 +110,17 @@ private struct NotificationCentreDetailLoadedView: View {
                         .foregroundStyle(Color(UIColor.govUK.text.primary))
                         .padding(.bottom, 16)
                 }
+
                 .padding(.horizontal, 16)
                 Spacer()
             }
             .background(Color(UIColor.govUK.fills.surfaceCardMsgHeader))
             .clipShape(RoundedRectangle(cornerSize: CGSize(width: 10, height: 10)))
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel(
+                .NotificationCentre.notificationCentreDetailHeaderAccessibilityLabel(
+                    notification.date.formatMessageDetailDate(),
+                    notification.senderName))
 
             VStack(alignment: .leading) {
                 Text(notification.messageTitle ?? notification.title)

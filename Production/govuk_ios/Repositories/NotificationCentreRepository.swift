@@ -69,7 +69,8 @@ class NotificationCentreRepository: NotificationCentreRepositoryInterface {
                 date: $0.date,
                 status: status,
                 messageTitle: $0.messageTitle,
-                messageBody: $0.messageBody)
+                messageBody: $0.messageBody,
+                metadata: $0.metadata)
         }
 
         self.notifications = .init(data: updatedNotifications, lastUpdate: notifications.lastUpdate)

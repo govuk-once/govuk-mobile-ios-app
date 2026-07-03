@@ -67,6 +67,17 @@
         }
       }
     },
+    "notificationCentreDetailHeaderAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ Sender: %2$@"
+          }
+        }
+      }
+    },
     "notificationCentreDetailUnreadA11yLabel" : {
       "extractionState" : "manual",
       "localizations" : {
