@@ -188,9 +188,6 @@ struct ChatCoordinatorTests {
         let mockPeriAuthCoordinator = MockBaseCoordinator()
         mockCoordinatorBuilder._stubbedPeriAuthCoordinator = mockPeriAuthCoordinator
 
-//        let expectedInfoViewController = UIViewController()
-//        mockViewControllerBuilder._stubbedErrorController = expectedInfoViewController
-
         let mockAuthenticationService = MockAuthenticationService()
 
         let navigationController = UINavigationController()
