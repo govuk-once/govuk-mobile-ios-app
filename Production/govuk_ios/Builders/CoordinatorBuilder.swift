@@ -247,7 +247,8 @@ class CoordinatorBuilder {
             userService: container.userService.resolve(),
             dvlaService: container.dvlaService.resolve(),
             coordinatorBuilder: self,
-            widgetViewBuilder: WidgetViewBuilder()
+            widgetViewBuilder: WidgetViewBuilder(),
+            urlOpener: UIApplication.shared
         )
     }
 
@@ -330,9 +331,7 @@ class CoordinatorBuilder {
         )
     }
 
-    func yourAccountsSettings(
-        navigationController: UINavigationController,
-        dismissAction: @escaping () -> Void) -> BaseCoordinator {
+    func yourAccountsSettings(navigationController: UINavigationController) -> BaseCoordinator {
         YourAccountsSettingsCoordinator(
             navigationController: navigationController,
             viewControllerBuilder: ViewControllerBuilder(),

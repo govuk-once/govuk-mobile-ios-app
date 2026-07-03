@@ -147,9 +147,10 @@ struct VehicleDetailViewModel: Identifiable {
         specFormatter.formatEmissions(from: vehicle.exhaustEmissions)
     }
 
-    init(analyticsService: AnalyticsServiceInterface?,
-         vehicle: CustomerSummary.Vehicle,
-         specFormatter: VehicleSpecFormatterInterface = VehicleSpecFormatter()
+    init(
+        analyticsService: AnalyticsServiceInterface?,
+        vehicle: CustomerSummary.Vehicle,
+        specFormatter: VehicleSpecFormatterInterface = VehicleSpecFormatter()
     ) {
         self.vehicle = vehicle
         self.analyticsService = analyticsService

@@ -29,7 +29,7 @@ extension CustomerSummary.Vehicle {
         registrationNumber: String = "AB71 CDE",
         make: String = "MITSUBISHI",
         model: String? = "MIRAGE",
-        taxStatus: String = "Taxed",
+        taxStatus: TaxStatus = .taxed,
         taxedUntil: Date? = nil,
         motStatus: String = "Not valid",
         motExpiryDate: Date? = nil,
@@ -39,7 +39,8 @@ extension CustomerSummary.Vehicle {
         fuelType: FuelType = .petrol,
         exhaustEmissions: ExhaustEmissions? = .arrange,
         engineCapacity: Int? = 1995,
-        keeper: VehicleKeeper? = .arrange
+        keeper: VehicleKeeper? = .arrange,
+        sornStart: Date? = nil
     ) -> CustomerSummary.Vehicle {
         .init(
             vehicleId: vehicleId,
@@ -56,7 +57,8 @@ extension CustomerSummary.Vehicle {
             fuelType: fuelType,
             exhaustEmissions: exhaustEmissions,
             engineCapacity: engineCapacity,
-            keeper: keeper
+            keeper: keeper,
+            sornStart: sornStart
         )
     }
 }

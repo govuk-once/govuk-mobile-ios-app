@@ -45,14 +45,10 @@ struct DVLAAccountWidgetViewModelTests {
         )
         await sut.viewDidAppear()
 
-        var actionCards: [ListCardViewModel]?
         var accountSummaryViewModel: DVLAAccountSummaryViewModel?
-        if case .linked(let cards, let accountSummary) = sut.viewState {
-            actionCards = cards
+        if case .linked(let accountSummary) = sut.viewState {
             accountSummaryViewModel = accountSummary
         }
-        #expect(actionCards?.count == 4)
-        #expect(actionCards?.first?.title == String.dvla.localized("dvlaAccountUnlinkCardTitle"))
         #expect(accountSummaryViewModel != nil)
     }
 
@@ -69,11 +65,7 @@ struct DVLAAccountWidgetViewModelTests {
                 linkAction: {
                     linkActionCalled = true
                 },
-                unlinkAction: {},
                 vehicleDetailAction: { _ in },
-                viewVehicleAction: {},
-                viewShareCodesAction: {},
-                createShareCodeAction: {},
                 openURLAction: { _ in }
             )
         )
@@ -119,11 +111,7 @@ extension DVLAAccountWidgetViewModel.Actions {
     static var empty: DVLAAccountWidgetViewModel.Actions {
         .init(
             linkAction: {},
-            unlinkAction: {},
             vehicleDetailAction: { _ in },
-            viewVehicleAction: {},
-            viewShareCodesAction: {},
-            createShareCodeAction: {},
             openURLAction: { _ in }
         )
     }

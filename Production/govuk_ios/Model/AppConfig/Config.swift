@@ -48,6 +48,12 @@ struct ChatURLs: Decodable {
 struct DvlaURLs: Decodable {
     let addVehicle: URL?
     let renewLicence: URL?
+    let soldVehicle: URL?
+    let sornRules: URL?
+    let makeSorn: URL?
+    let getLogbook: URL?
+    let changeLogbookAddress: URL?
+    let cancelTax: URL?
 }
 
 struct TermsAndConditions: Decodable {

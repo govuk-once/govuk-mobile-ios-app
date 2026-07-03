@@ -36,7 +36,7 @@ struct String_ExtensionsTests {
         let sut = String.onboarding
         #expect(sut.tableName == "Onboarding")
     }
-    
+
     @Test
     func topics_hasCorrectValues() {
         let sut = String.topics
@@ -120,13 +120,13 @@ struct String_ExtensionsTests {
     @Test(arguments: zip(
         [
             "test",
-        "sentence test",
-         ""
+            "sentence test",
+            ""
         ],
         [
             "Test",
-        "Sentence test",
-        ""
+            "Sentence test",
+            ""
         ]
     ))
     func sentenceCased_returnsExpectedResult(input: String, expected: String) {
@@ -134,3 +134,4 @@ struct String_ExtensionsTests {
         #expect(result == expected)
     }
 }
+

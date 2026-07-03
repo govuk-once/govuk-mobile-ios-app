@@ -108,9 +108,8 @@ class SettingsCoordinator: TabItemCoordinator {
 
     private func startYourAccountsSettings() {
         let coordinator = coordinatorBuilder.yourAccountsSettings(
-            navigationController: root) { [weak self] in
-                self?.root.popToRootViewController(animated: true)
-            }
+            navigationController: root
+        )
         start(coordinator)
     }
 

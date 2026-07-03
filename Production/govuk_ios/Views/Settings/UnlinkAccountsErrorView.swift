@@ -37,7 +37,9 @@ struct UnlinkAccountsErrorView: View {
                 .onTapGesture { dismiss() }
                 .padding(.horizontal, 16)
                 .padding(.bottom, 8)
-        }.background(Color(uiColor: .govUK.fills.surfaceBackground).ignoresSafeArea())
+        }
+        .background(Color(uiColor: .govUK.fills.surfaceBackground)
+            .ignoresSafeArea())
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .onChange(of: viewModel.shouldCallDismiss) { newValue in
             if newValue == true {

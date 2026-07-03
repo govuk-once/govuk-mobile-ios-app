@@ -54,7 +54,10 @@ class VehiclesViewModel: ObservableObject {
                     detailAction: { [weak self] in
                         self?.trackDetailButtonTapped()
                         self?.detailAction(vehicle)
-                    }
+                    },
+                    openURLAction: openURLAction,
+                    configService: configService,
+                    analyticsService: analyticsService
                 )
             }
             hasLoadedVehicles = true
@@ -73,15 +76,27 @@ class VehiclesViewModel: ObservableObject {
         analyticsService.track(event: event)
     }
 
-    func addNewVehiclesAction() {
+    func addNewVehiclesAction(largeCard: Bool) {
         let url = configService.dvlaUrls?.addVehicle ??
         Constants.API.defaultDvlaAddVehicleUrl
         openURLAction(url)
-        let event = AppEvent.drivingAccountCardNavigation(
-            text: "Add your vehicle",
-            url: url.absoluteString
-        )
+
+        let event: AppEvent
+        if largeCard {
+            event = AppEvent.drivingAccountCardNavigation(
+                text: "Add your vehicle",
+                url: url.absoluteString
+            )
+        } else {
+            event = AppEvent.buttonNavigation(
+                text: "Add vehicle",
+                external: true,
+                url: url.absoluteString,
+                section: "Driving"
+            )
+        }
         analyticsService.track(event: event)
+
         hasLoadedVehicles = false
     }
 

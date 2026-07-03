@@ -90,9 +90,9 @@ struct VehicleSpecFormatterTests {
             FuelType.other.rawValue.capitalized
         ]
     ))
-          func formatFuelTypeLong_returnsExpectedResult(_ fuelType: FuelType, expectedString: String) {
-              let result = sut.formatFuelTypeLong(from: fuelType)
-              #expect(result == expectedString)
+    func formatFuelTypeLong_returnsExpectedResult(_ fuelType: FuelType, expectedString: String) {
+        let result = sut.formatFuelTypeLong(from: fuelType)
+        #expect(result == expectedString)
     }
 
     @Test(arguments: zip(
@@ -202,3 +202,4 @@ struct VehicleSpecFormatterTests {
         #expect(result.accessibilityLabel == expectedAccessibilityLabel)
     }
 }
+

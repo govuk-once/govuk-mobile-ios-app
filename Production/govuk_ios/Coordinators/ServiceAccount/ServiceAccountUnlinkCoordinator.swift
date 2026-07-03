@@ -32,7 +32,6 @@ final class ServiceAccountUnlinkCoordinator: BaseCoordinator {
             accountType: accountType,
             completeAction: { [weak self] in
                 self?.dismissModal()
-                print("dvla account unlinked successfully")
                 self?.completion()
             },
             dismissAction: dismissModal

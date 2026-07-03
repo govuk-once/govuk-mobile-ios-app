@@ -35,7 +35,8 @@ struct DrivingTopicWidgetCoordinatorTests {
             userService: mockUserService,
             dvlaService: mockDvlaService,
             coordinatorBuilder: CoordinatorBuilder.mock,
-            widgetViewBuilder: mockWidgetViewBuilder
+            widgetViewBuilder: mockWidgetViewBuilder,
+            urlOpener: MockURLOpener()
         )
         let widgetView = sut.makeWidget(for: drivingTopic)
         #expect(widgetView != nil)
@@ -56,7 +57,8 @@ struct DrivingTopicWidgetCoordinatorTests {
             userService: mockUserService,
             dvlaService: mockDvlaService,
             coordinatorBuilder: CoordinatorBuilder.mock,
-            widgetViewBuilder: mockWidgetViewBuilder
+            widgetViewBuilder: mockWidgetViewBuilder,
+            urlOpener: MockURLOpener()
         )
         let widgetView = sut.makeWidget(for: drivingTopic)
         #expect(widgetView == nil)
@@ -76,7 +78,8 @@ struct DrivingTopicWidgetCoordinatorTests {
             userService: mockUserService,
             dvlaService: mockDvlaService,
             coordinatorBuilder: CoordinatorBuilder.mock,
-            widgetViewBuilder: mockWidgetViewBuilder
+            widgetViewBuilder: mockWidgetViewBuilder,
+            urlOpener: MockURLOpener()
         )
         let widgetView = sut.makeWidget(for: drivingTopic)
         #expect(widgetView == nil)
@@ -100,61 +103,12 @@ struct DrivingTopicWidgetCoordinatorTests {
             userService: mockUserService,
             dvlaService: mockDvlaService,
             coordinatorBuilder: mockCoordinatorBuilder,
-            widgetViewBuilder: mockWidgetViewBuilder
+            widgetViewBuilder: mockWidgetViewBuilder,
+            urlOpener: MockURLOpener()
         )
         let _ = sut.makeWidget(for: drivingTopic)
         mockWidgetViewBuilder._receivedDvlaAccountWidgetLinkAction?()
         #expect(mockServiceAccountLinkCoordinator._startCalled == true)
-    }
-
-    @Test
-    func makeWidget_unlinkAction_startsUnlinkAccount() {
-        let drivingTopic = Topic.arrange(
-            context: coreDataRepository.viewContext,
-            ref: "driving-transport"
-        )
-        mockConfigService.features = [.dvla]
-        let mockCoordinatorBuilder = CoordinatorBuilder.mock
-        let mockServiceAccountUnlinkCoordinator = MockBaseCoordinator()
-        mockCoordinatorBuilder._stubbedServiceAccountUnlinkCoordinator = mockServiceAccountUnlinkCoordinator
-
-        let sut = DrivingTopicWidgetCoordinator(
-            navigationController: UINavigationController(),
-            analyticsService: mockAnalyticsService,
-            configService: mockConfigService,
-            userService: mockUserService,
-            dvlaService: mockDvlaService,
-            coordinatorBuilder: mockCoordinatorBuilder,
-            widgetViewBuilder: mockWidgetViewBuilder
-        )
-        let _ = sut.makeWidget(for: drivingTopic)
-        mockWidgetViewBuilder._receivedDvlaAccountWidgetUnlinkAction?()
-        #expect(mockServiceAccountUnlinkCoordinator._startCalled == true)
-    }
-
-    @Test
-    func makeWidget_viewShareCodesAction_startsDvlaAccount() {
-        let drivingTopic = Topic.arrange(
-            context: coreDataRepository.viewContext,
-            ref: "driving-transport"
-        )
-        mockConfigService.features = [.dvla]
-        let mockCoordinatorBuilder = CoordinatorBuilder.mock
-        let mockDvlaAccountCoordinator = MockBaseCoordinator()
-        mockCoordinatorBuilder._stubbedDvlaAccountCoordinator = mockDvlaAccountCoordinator
-
-        let sut = DrivingTopicWidgetCoordinator(
-            navigationController: UINavigationController(),
-            analyticsService: mockAnalyticsService,
-            configService: mockConfigService,
-            userService: mockUserService,
-            dvlaService: mockDvlaService,
-            coordinatorBuilder: mockCoordinatorBuilder,
-            widgetViewBuilder: mockWidgetViewBuilder
-        )
-        let _ = sut.makeWidget(for: drivingTopic)
-        mockWidgetViewBuilder._receivedDvlaAccountWidgetViewShareCodesAction?()
-        #expect(mockDvlaAccountCoordinator._startCalled == true)
     }
 
     @Test
@@ -175,7 +129,8 @@ struct DrivingTopicWidgetCoordinatorTests {
             userService: mockUserService,
             dvlaService: mockDvlaService,
             coordinatorBuilder: mockCoordinatorBuilder,
-            widgetViewBuilder: mockWidgetViewBuilder
+            widgetViewBuilder: mockWidgetViewBuilder,
+            urlOpener: MockURLOpener()
         )
         let _ = sut.makeWidget(for: drivingTopic)
         mockWidgetViewBuilder._receivedVehicleDetailAction?(CustomerSummary.Vehicle.arrange)

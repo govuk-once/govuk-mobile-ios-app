@@ -157,6 +157,74 @@ struct ChatServiceClientTests {
         #expect(answer?.id == nil)
         #expect (error == .validationError)
     }
+
+    @Test
+    func tokenRefreshError_returnsExpectedError() async throws {
+        let mockAPI = MockAPIServiceClient()
+        let sut = ChatServiceClient(serviceClient: mockAPI)
+        mockAPI._stubbedSendResponse = .failure(TokenRefreshError.tokenResponseError)
+
+        let fetchAnswerResult = await withCheckedContinuation { continuation in
+            sut.fetchAnswer(
+                conversationId: "conversationId",
+                questionId: "questionId",
+                completion: {
+                    continuation.resume(returning: $0)
+                }
+            )
+        }
+
+        let answer = try? fetchAnswerResult.get()
+        let error = fetchAnswerResult.getError()
+        #expect(answer?.id == nil)
+        #expect (error == .authenticationError)
+    }
+
+    @Test
+    func networkUnavailable_returnsExpectedError() async throws {
+        let mockAPI = MockAPIServiceClient()
+        let sut = ChatServiceClient(serviceClient: mockAPI)
+        mockAPI._stubbedSendResponse = .failure(NSError(domain: "GOVUKApp", code: NSURLErrorNotConnectedToInternet))
+
+        let fetchAnswerResult = await withCheckedContinuation { continuation in
+            sut.fetchAnswer(
+                conversationId: "conversationId",
+                questionId: "questionId",
+                completion: {
+                    continuation.resume(returning: $0)
+                }
+            )
+        }
+
+        let answer = try? fetchAnswerResult.get()
+        let error = fetchAnswerResult.getError()
+        #expect(answer?.id == nil)
+        #expect (error == .networkUnavailable)
+    }
+
+    @Test
+    func unknownError_returnsApiUnavailableError() async throws {
+        let mockAPI = MockAPIServiceClient()
+        let sut = ChatServiceClient(serviceClient: mockAPI)
+        mockAPI._stubbedSendResponse = .failure(NSError(domain: "GOVUKApp", code: 12345))
+
+        let fetchAnswerResult = await withCheckedContinuation { continuation in
+            sut.fetchAnswer(
+                conversationId: "conversationId",
+                questionId: "questionId",
+                completion: {
+                    continuation.resume(returning: $0)
+                }
+            )
+        }
+
+        let answer = try? fetchAnswerResult.get()
+        let error = fetchAnswerResult.getError()
+        #expect(answer?.id == nil)
+        #expect (error == .apiUnavailable)
+
+    }
+
 }
 
 private extension ChatServiceClientTests {

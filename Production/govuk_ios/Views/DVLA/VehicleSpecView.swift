@@ -32,7 +32,6 @@ struct VehicleSpecView: View {
             )
             .accessibilityLabel(viewModel.colourAccessibilityLabel)
         }
-        .fixedSize(horizontal: true, vertical: false)
         .background(Color(uiColor: .govUK.fills.surfaceListAlt))
         .roundedBorder(borderColor: .clear)
         .padding(Self.standardPadding)

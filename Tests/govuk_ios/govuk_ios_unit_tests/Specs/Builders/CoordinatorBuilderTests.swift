@@ -201,7 +201,6 @@ struct CoordinatorBuilderTests {
         let mockNavigationController = MockNavigationController()
         let coordinator = subject.yourAccountsSettings(
             navigationController: mockNavigationController,
-            dismissAction: {}
         )
         #expect(coordinator is YourAccountsSettingsCoordinator)
     }

@@ -48,7 +48,7 @@ jobs:
           bundler-cache: true
 
       - name: Get Secrets
-        uses: bitwarden/sm-action@14f92f1d294ae3c2b6a3845d389cd2c318b0dfd8 # pin@v2.2.0
+        uses: bitwarden/sm-action@27c0c9dcab679d7250dbab91227c85b49ffa5e0f # pin@v3.3.0
         with:
           access_token: ${{ secrets.BW_ACCESS_TOKEN }}
           base_url: https://vault.bitwarden.eu

@@ -180,16 +180,13 @@ struct ChatCoordinatorTests {
     }
 
     @Test
-    func chatViewController_handleError_secondAttempt_authenticationError_showsInfoView() throws {
+    func handleAuthenticationError_signsOutUser() throws {
         let mockChatService = MockChatService()
         mockChatService.chatOnboardingSeen = true
         let mockCoordinatorBuilder = MockCoordinatorBuilder(container: .init())
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let mockPeriAuthCoordinator = MockBaseCoordinator()
         mockCoordinatorBuilder._stubbedPeriAuthCoordinator = mockPeriAuthCoordinator
-
-        let expectedInfoViewController = UIViewController()
-        mockViewControllerBuilder._stubbedErrorController = expectedInfoViewController
 
         let mockAuthenticationService = MockAuthenticationService()
 
@@ -211,11 +208,10 @@ struct ChatCoordinatorTests {
         mockChatService._stubbedIsRetryAction = true
         sut.start(url: nil)
         mockViewControllerBuilder._receivedChatHandleError?(ChatError.authenticationError)
-        let firstViewController = navigationController.viewControllers.first
         #expect(mockAuthenticationService._tokenRefreshRequestCalled == false)
-        #expect(firstViewController == expectedInfoViewController)
+        #expect(mockAuthenticationService._receivedSignOutReason == .tokenRefreshFailure)
+        #expect(mockAuthenticationService._stubbedIsSignedIn == false)
     }
-
 
     @Test
     func didSelectTab_isShowingError_setsChatViewController() {

@@ -14,6 +14,7 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator,
     private let analyticsService: AnalyticsServiceInterface
     private let configService: AppConfigServiceInterface
     private let coordinatorBuilder: CoordinatorBuilder
+    private let urlOpener: URLOpener
 
     init(navigationController: UINavigationController,
          analyticsService: AnalyticsServiceInterface,
@@ -21,13 +22,15 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator,
          userService: UserServiceInterface,
          dvlaService: DVLAServiceInterface,
          coordinatorBuilder: CoordinatorBuilder,
-         widgetViewBuilder: WidgetViewBuilder) {
+         widgetViewBuilder: WidgetViewBuilder,
+         urlOpener: URLOpener) {
         self.dvlaService = dvlaService
         self.analyticsService = analyticsService
         self.configService = configService
         self.userService = userService
         self.coordinatorBuilder = coordinatorBuilder
         self.widgetViewBuilder = widgetViewBuilder
+        self.urlOpener = urlOpener
         super.init(navigationController: navigationController)
     }
 
@@ -48,21 +51,11 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator,
             dvlaService: dvlaService,
             configService: configService,
             linkAction: startLinkAccount,
-            unlinkAction: startUnlinkAccount,
             vehicleDetailAction: { [weak self] vehicle in
                 self?.startVehicleDetail(vehicle: vehicle)
             },
-            viewVehicleAction: { [weak self] in
-                self?.startDvlaAccount(viewType: .vehicle)
-            },
-            viewShareCodesAction: { [weak self] in
-                self?.startDvlaAccount(viewType: .shareCodeList)
-            },
-            createShareCodeAction: { [weak self] in
-                self?.startDvlaAccount(viewType: .createShareCode)
-            },
             openURLAction: { [weak self] url in
-                self?.presentWebView(url: url)
+                self?.urlOpener.openIfPossible(url)
             }
         )
     }
@@ -105,15 +98,6 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator,
         let coordinator = coordinatorBuilder.dvlaAccount(
             navigationController: root,
             viewType: viewType
-        )
-        start(coordinator)
-    }
-
-    private func presentWebView(url: URL) {
-        let coordinator = coordinatorBuilder.safari(
-            navigationController: root,
-            url: url,
-            fullScreen: true
         )
         start(coordinator)
     }

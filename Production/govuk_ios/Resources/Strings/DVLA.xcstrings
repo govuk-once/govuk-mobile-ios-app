@@ -107,6 +107,25 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Copy licence number"
+    "daysLeft" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$(days)lld day left"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$(days)lld days left"
+                }
+              }
+            }
           }
         }
       }
@@ -371,6 +390,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Expired %1$(date)@"
+          }
+        }
+      }
+    },
+    "expiringOn" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Expiring %1$(date)@"
           }
         }
       }
@@ -705,6 +735,17 @@
         }
       }
     },
+    "today" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Today"
+          }
+        }
+      }
+    },
     "unknown" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -745,6 +786,105 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Make"
+          }
+        }
+      }
+    },
+    "vehicleMenuCancelTaxAccessibilityLabelTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel vehicle tax"
+          }
+        }
+      }
+    },
+    "vehicleMenuCancelTaxTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel tax"
+          }
+        }
+      }
+    },
+    "vehicleMenuChangeLogbookAddressTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Change log book address"
+          }
+        }
+      }
+    },
+    "vehicleMenuGetLogbookTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Get a log book (V5C) "
+          }
+        }
+      }
+    },
+    "vehicleMenuMakeSornAccessibilityLabelTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Register vehicle as off road (SORN)"
+          }
+        }
+      }
+    },
+    "vehicleMenuMakeSornTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Register as off road (SORN)"
+          }
+        }
+      }
+    },
+    "vehicleMenuSoldVehicleAccessibilityLabelTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Report vehicle as sold"
+          }
+        }
+      }
+    },
+    "vehicleMenuSoldVehicleTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Report as sold"
+          }
+        }
+      }
+    },
+    "vehicleMenuSornRulesTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SORN rules"
           }
         }
       }
