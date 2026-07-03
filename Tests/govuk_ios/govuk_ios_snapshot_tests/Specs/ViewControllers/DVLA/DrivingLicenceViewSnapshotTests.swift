@@ -65,7 +65,7 @@ import GovKit
                     driverSummary: .arrange,
                     statusBuilder: MockLicenceStatusViewModelBuilder(),
                     openURLAction: { _ in },
-                    analyticsService: <#any AnalyticsServiceInterface#>
+                    analyticsService: MockAnalyticsService()
                 )
             )
         )

@@ -113,6 +113,22 @@ struct DrivingLicenceSummaryViewModelTests {
         #expect(sut.licenceTypeAccessibilityLabel == expectedAccessibilityLabel)
     }
 
+    @Test("URLOptions mapping matches expected endpoints and keys", arguments: [
+        (DrivingLicenceSummaryViewModel.URLOptions.changeAddresss, Constants.API.dvlaChangeAddressUrl, "changeNameAndGenderMenuTitle"),
+        (.replaceLicence, Constants.API.dvlaReplaceDrivingLicence, "replaceLicenceMenuTitle"),
+        (.changeNameAndGender, Constants.API.dvlaChangeAddressUrl, "changeNameAndGenderMenuTitle")
+    ])
+    func urlOptions_returnsCorrectUrlAndTitleKey(
+        option: DrivingLicenceSummaryViewModel.URLOptions,
+        expectedUrl: URL,
+        expectedLocalizationKey: String
+    ) {
+
+        let (url, trackingTitle) = option.urlAndTitle
+        #expect(url == expectedUrl)
+        #expect(trackingTitle == String.dvla.localized(expectedLocalizationKey))
+    }
+
     @Test
     func init_formatsAddressAccessibilityLabelCorrectly() {
         let mockAddress = DriverAddress.arrange(
@@ -135,3 +151,4 @@ struct DrivingLicenceSummaryViewModelTests {
         #expect(sut.addressAccessibilityLabel == expectedAccessibilityLabel)
     }
 }
+
