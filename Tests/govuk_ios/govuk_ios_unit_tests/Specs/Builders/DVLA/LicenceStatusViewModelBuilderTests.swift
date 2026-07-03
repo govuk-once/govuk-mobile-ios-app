@@ -57,7 +57,7 @@ struct LicenceStatusViewModelBuilderTests {
         let result = sut.makeViewModel(
             status: .valid,
             validToDate: .arrange("01/01/2025"),
-            openURLAction:  { _ in }
+            openURLAction:  { _ in },
             currentDate: .arrange("01/08/2024"),
         )
         let expectedStatus = String(localized: .DVLA.validUntil(date: "1 January 2025"))
@@ -95,8 +95,7 @@ struct LicenceStatusViewModelBuilderTests {
         let result = sut.makeViewModel(
             status: .valid,
             validToDate: .arrange("01/01/2025"),
-            currentDate: .arrange("15/12/2024"),
-            openURLAction:  { _, _ in }
+            openURLAction:  { _ in }, currentDate: .arrange("15/12/2024")
         )
         let expectedStatus = String(localized: .DVLA.expiringOn(date: "1 January 2025"))
         let expectedAccessibilityLabel = String(localized: .DVLA.licenceStatusAccessibilityLabel(expectedStatus))

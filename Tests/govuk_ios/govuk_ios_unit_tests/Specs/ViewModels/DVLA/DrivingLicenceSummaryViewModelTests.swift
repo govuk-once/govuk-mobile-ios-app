@@ -113,20 +113,38 @@ struct DrivingLicenceSummaryViewModelTests {
         #expect(sut.licenceTypeAccessibilityLabel == expectedAccessibilityLabel)
     }
 
-    @Test("URLOptions mapping matches expected endpoints and keys", arguments: [
-        (DrivingLicenceSummaryViewModel.URLOptions.changeAddresss, Constants.API.dvlaChangeAddressUrl, "changeNameAndGenderMenuTitle"),
-        (.replaceLicence, Constants.API.dvlaReplaceDrivingLicence, "replaceLicenceMenuTitle"),
-        (.changeNameAndGender, Constants.API.dvlaChangeAddressUrl, "changeNameAndGenderMenuTitle")
-    ])
-    func urlOptions_returnsCorrectUrlAndTitleKey(
-        option: DrivingLicenceSummaryViewModel.URLOptions,
-        expectedUrl: URL,
-        expectedLocalizationKey: String
-    ) {
+    @Test
+    func test_changeAddress_returnsCorrectUrlAndTitle() {
+        let option = DrivingLicenceSummaryViewModel.URLOptions.changeAddresss
+        let expectedUrl = Constants.API.dvlaChangeAddressUrl
 
-        let (url, trackingTitle) = option.urlAndTitle
-        #expect(url == expectedUrl)
-        #expect(trackingTitle == String.dvla.localized(expectedLocalizationKey))
+        let (actualUrl, actualTitle) = option.urlAndTitle
+
+        #expect(actualUrl == expectedUrl)
+
+        #expect(actualTitle == "Change address")
+    }
+
+    @Test
+    func test_replaceLicence_returnsCorrectUrlAndTitle() {
+        let option = DrivingLicenceSummaryViewModel.URLOptions.replaceLicence
+        let expectedUrl = Constants.API.dvlaReplaceDrivingLicence
+
+        let (actualUrl, actualTitle) = option.urlAndTitle
+
+        #expect(actualUrl == expectedUrl)
+        #expect(actualTitle == "Replace licence")
+    }
+
+    @Test
+    func test_changeNameAndGender_returnsCorrectUrlAndTitle() {
+        let option = DrivingLicenceSummaryViewModel.URLOptions.changeNameAndGender
+        let expectedUrl = Constants.API.dvlaChangeAddressUrl
+
+        let (actualUrl, actualTitle) = option.urlAndTitle
+
+        #expect(actualUrl == expectedUrl)
+        #expect(actualTitle == "Change name or gender")
     }
 
     @Test

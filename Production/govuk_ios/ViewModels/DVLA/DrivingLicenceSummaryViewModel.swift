@@ -72,7 +72,7 @@ struct DrivingLicenceSummaryViewModel {
             case .changeAddresss:
                 return (
                     Constants.API.dvlaChangeAddressUrl, String.dvla.localized(
-                    "changeNameAndGenderMenuTitle"
+                    "changeAddressMenuTitle"
                     )
                 )
             case .replaceLicence:
