@@ -21,29 +21,6 @@ struct DrivingLicenceSummaryView: View {
                 )
                 .background(Color(uiColor: .govUK.fills.surfaceList))
                 .roundedBorder(borderColor: .clear)
-                .contextMenu {
-                    Button {
-                        viewModel.copyToClipboardAction?(viewModel.licenceNumber)
-                    } label: {
-                        Text(viewModel.copyToClipboardButtonTitle)
-                        Image(systemName: "doc.on.doc.fill")
-                    }
-                    Button(action: {
-                        viewModel.openUrl(options: .changeAddresss)
-                    }, label: {
-                        Text(viewModel.changeAddressMenuTitle)
-                    })
-                    Button(action: {
-                        viewModel.openUrl(options: .changeNameAndGender)
-                    }, label: {
-                        Text(viewModel.changeNameAndGender)
-                    })
-                    Button(action: {
-                        viewModel.openUrl(options: .replaceLicence)
-                    }, label: {
-                        Text(viewModel.replaceLicenceMenuTitle)
-                    })
-                }
             addressView
             Divider()
                 .overlay(Color(uiColor: .govUK.strokes.listDivider))
@@ -58,8 +35,27 @@ struct DrivingLicenceSummaryView: View {
             Text(viewModel.licenceType)
                 .accessibilityLabel(viewModel.licenceTypeAccessibilityLabel)
             Spacer()
-            Button {
-                print("more options tapped - todo")
+            Menu {
+                Button {
+                    viewModel.copyToClipbaord()
+                } label: {
+                    Text(viewModel.copyLicenceButtonTitle)
+                }
+                Button {
+                    viewModel.openUrl(options: .changeAddresss)
+                } label: {
+                    Text(viewModel.changeAddressMenuTitle)
+                }
+                Button {
+                    viewModel.openUrl(options: .changeNameAndGender)
+                } label: {
+                    Text(viewModel.changeNameAndGender)
+                }
+                Button {
+                    viewModel.openUrl(options: .replaceLicence)
+                } label: {
+                    Text(viewModel.replaceLicenceMenuTitle)
+                }
             } label: {
                 Image(systemName: "ellipsis.circle.fill")
                     .font(.govUK.title1Bold)
@@ -106,25 +102,3 @@ struct DrivingLicenceSummaryView: View {
         }
     }
 }
-
- #Preview {
-    let viewModel = DrivingLicenceSummaryViewModel(
-        licenceType: "Full licence",
-        licenceNumber: "ABC1234567DE",
-        fullName: "Mr Joe Bloggs",
-        address: [
-            "1 Lower Moseley Street",
-            "Manchester",
-            "M2 3WS"
-        ],
-        licenceStatusViewModel: ValidityStatusViewModel(
-            title: nil,
-            status: "Valid until 1 March 2027"
-        ),
-        openURLAction: {_, _ in},
-        fullNameAccessibilityLabel: "",
-        licenceTypeAccessibilityLabel: "",
-        addressAccessibilityLabel: ""
-    )
-    DrivingLicenceSummaryView(viewModel: viewModel)
- }

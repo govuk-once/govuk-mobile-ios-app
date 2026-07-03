@@ -4,7 +4,7 @@ protocol LicenceStatusViewModelBuilderInterface {
     func makeViewModel(
        status: DrivingLicenceStatus,
        validToDate: Date?,
-       openURLAction: @escaping (URL, String) -> Void
+       openURLAction: @escaping (URL) -> Void
     ) -> ValidityStatusViewModel
 }
 
@@ -19,7 +19,7 @@ struct LicenceStatusViewModelBuilder: LicenceStatusViewModelBuilderInterface {
      func makeViewModel(
         status: DrivingLicenceStatus,
         validToDate: Date?,
-        openURLAction: @escaping (URL, String) -> Void
+        openURLAction: @escaping (URL) -> Void
      ) -> ValidityStatusViewModel {
         switch status {
         case .expired:
@@ -49,7 +49,7 @@ struct LicenceStatusViewModelBuilder: LicenceStatusViewModelBuilderInterface {
      // MARK: - Expired
      private func makeExpiredViewModel(
          validToDate: Date?,
-         openURLAction: @escaping (URL, String) -> Void
+         openURLAction: @escaping (URL) -> Void
      ) -> ValidityStatusViewModel {
          let status: String
          if let dateString = formattedDate(validToDate) {
@@ -64,7 +64,7 @@ struct LicenceStatusViewModelBuilder: LicenceStatusViewModelBuilderInterface {
              let title = String(localized: .DVLA.renewLicenceButtonTitle)
              buttonTitle = title
              buttonAction = {
-                 openURLAction(renewURL, title)
+                 openURLAction(renewURL)
              }
          }
          return ValidityStatusViewModel(

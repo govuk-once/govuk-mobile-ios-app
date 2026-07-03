@@ -8,10 +8,11 @@ struct DrivingLicenceSummaryViewModel {
     let fullName: String
     let address: [String]
     let licenceStatusViewModel: ValidityStatusViewModel
-    let openURLAction: (URL, String) -> Void
+    let openURLAction: (URL) -> Void
+    let analyticsService: AnalyticsServiceInterface
 
-    let copyToClipboardButtonTitle = String.chat.localized(
-        "copyToClipboardTitle"
+    let copyLicenceButtonTitle = String.dvla.localized(
+        "copyLicenceButtonTitle"
     )
     let moreOptionsButtonAccessibilityLabel = String.dvla.localized(
         "moreOptionsButtonAccessibilityLabel"
@@ -22,7 +23,6 @@ struct DrivingLicenceSummaryViewModel {
     let fullNameAccessibilityLabel: String
     let licenceTypeAccessibilityLabel: String
     let addressAccessibilityLabel: String
-    var copyToClipboardAction: ((String) -> Void)?
     let changeAddressMenuTitle: String =  String.dvla.localized(
         "changeAddressMenuTitle"
     )
@@ -34,7 +34,32 @@ struct DrivingLicenceSummaryViewModel {
     )
 
     func openUrl(options: URLOptions) {
-        openURLAction(options.urlAndTitle.0, options.urlAndTitle.1)
+        openURLAction(options.urlAndTitle.0)
+        trackNavigation(text: options.urlAndTitle.1)
+    }
+
+    func copyToClipbaord() {
+        UIPasteboard.general.string = licenceNumber
+        trackCopyToClipboard()
+    }
+
+    private func trackCopyToClipboard() {
+        let event = AppEvent.function(
+            text: "Copy to clipboard",
+            type: "Menu",
+            section: "Driver account",
+            action: "Copy"
+        )
+        analyticsService.track(event: event)
+    }
+
+    private func trackNavigation(text: String) {
+        let event = AppEvent.navigation(
+            text: text,
+            type: "Menu",
+            external: true
+        )
+        analyticsService.track(event: event)
     }
 
     enum URLOptions {
@@ -71,7 +96,8 @@ extension DrivingLicenceSummaryViewModel {
     init(
         driverSummary: DriverSummary,
         statusBuilder: LicenceStatusViewModelBuilderInterface,
-        openURLAction: @escaping (URL, String) -> Void,
+        openURLAction: @escaping (URL) -> Void,
+        analyticsService: AnalyticsServiceInterface
     ) {
         let licenceType = String.localizedStringWithFormat(
             String.dvla.localized("licenceType"),
@@ -79,6 +105,7 @@ extension DrivingLicenceSummaryViewModel {
         )
         self.licenceType = licenceType
         self.openURLAction = openURLAction
+        self.analyticsService = analyticsService
 
         self.licenceNumber = driverSummary.response.driver.licenceNo
         let fullName = [

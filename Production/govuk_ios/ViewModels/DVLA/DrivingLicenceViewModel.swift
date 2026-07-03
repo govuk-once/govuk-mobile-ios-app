@@ -49,16 +49,13 @@ class DrivingLicenceViewModel: ObservableObject {
         let result = await dvlaService.fetchDriverSummary()
         switch result {
         case .success(let driverSummary):
-            var licenceSummaryViewModel = DrivingLicenceSummaryViewModel(
+            let licenceSummaryViewModel = DrivingLicenceSummaryViewModel(
                 driverSummary: driverSummary,
                 statusBuilder: LicenceStatusViewModelBuilder(urls: configService.dvlaUrls),
-                openURLAction: { [weak self] url, buttonTitle in
-                    self?.handleOpenURL(url: url, buttonTitle: buttonTitle)
-                }
+                openURLAction: { [weak self] url in
+                    self?.openURLAction(url)
+                }, analyticsService: analyticsService
             )
-            licenceSummaryViewModel.copyToClipboardAction = { [weak self] licenceNumber in
-                self?.copyToClipboard(licenceNumber: licenceNumber)
-            }
             hasLoadedLicence = true
             viewState = .loaded(licence: licenceSummaryViewModel)
         case .failure:

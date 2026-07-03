@@ -100,6 +100,17 @@
         }
       }
     },
+    "copyLicenceButtonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copy licence number"
+          }
+        }
+      }
+    },
     "detailsButtonTitle" : {
       "extractionState" : "manual",
       "localizations" : {
