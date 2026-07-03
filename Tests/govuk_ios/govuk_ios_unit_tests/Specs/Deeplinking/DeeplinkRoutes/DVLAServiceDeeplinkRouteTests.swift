@@ -11,7 +11,7 @@ struct DVLAServiceDeeplinkRouteTests {
         let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
         let subject = DVLAServiceDeeplinkRoute(coordinatorBuilder: mockCoordinatorBuilder)
 
-        #expect(subject.pattern == "/returnedToken")
+        #expect(subject.pattern == "/callback/dvla/auth")
     }
 
     @Test
