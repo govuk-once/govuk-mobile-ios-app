@@ -34,7 +34,6 @@ extension Constants.API {
         return components.url!
     }()
 
-
     public static let dvlaChangeNameAndGenderDrivingLicence: URL = {
         var components = govukBaseComponents
         components.path = """
