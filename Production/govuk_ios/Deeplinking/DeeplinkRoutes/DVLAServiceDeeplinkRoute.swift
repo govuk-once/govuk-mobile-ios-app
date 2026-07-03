@@ -9,7 +9,7 @@ struct DVLAServiceDeeplinkRoute: DeeplinkRoute {
     }
 
     var pattern: URLPattern {
-        "/returnedToken"
+        "/callback/dvla/auth"
     }
 
     @MainActor
