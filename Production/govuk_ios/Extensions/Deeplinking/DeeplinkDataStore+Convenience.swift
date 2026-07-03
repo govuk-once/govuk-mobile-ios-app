@@ -11,6 +11,7 @@ extension DeeplinkDataStore {
                 SearchDeeplinkRoute(coordinatorBuilder: coordinatorBuilder),
                 EditTopicsDeeplinkRoute(coordinatorBuilder: coordinatorBuilder),
                 RecentActivityDeeplinkRoute(coordinatorBuilder: coordinatorBuilder),
+                DVLAServiceDeeplinkRoute(coordinatorBuilder: coordinatorBuilder),
                 NotificationCentreDetailDeeplinkRoute(coordinatorBuilder: coordinatorBuilder)
             ],
             root: root
