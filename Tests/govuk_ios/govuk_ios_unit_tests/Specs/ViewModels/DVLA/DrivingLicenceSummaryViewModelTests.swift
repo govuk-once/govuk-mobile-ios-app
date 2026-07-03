@@ -67,7 +67,7 @@ struct DrivingLicenceSummaryViewModelTests {
     }
 
     @Test
-    func copyToClipboard_tracksExpectedFunctionCopyEvent() {
+    func copyToClipboard_tracksExpectedCopyEvent() {
         let mockDriverSummary = DriverSummary.arrange(licenceNo: "ABC123AE")
         let mockAnalytics = MockAnalyticsService()
         let sut = DrivingLicenceSummaryViewModel(
@@ -76,7 +76,6 @@ struct DrivingLicenceSummaryViewModelTests {
             openURLAction: { _ in },
             analyticsService: mockAnalytics
         )
-
         sut.copyToClipbaord()
 
         #expect(mockAnalytics._trackedEvents.count == 1)
