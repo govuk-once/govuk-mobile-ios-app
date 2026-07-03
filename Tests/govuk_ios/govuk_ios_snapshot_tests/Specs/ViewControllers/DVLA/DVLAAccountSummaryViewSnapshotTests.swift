@@ -22,7 +22,8 @@ import GovKit
                 licence: DrivingLicenceSummaryViewModel(
                     driverSummary: .arrange,
                     statusBuilder: MockLicenceStatusViewModelBuilder(),
-                    openURLAction: { _, _ in }
+                    openURLAction: { _ in },
+                    analyticsService: MockAnalyticsService()
                 )
             )
         )
@@ -58,7 +59,8 @@ import GovKit
                 licence: DrivingLicenceSummaryViewModel(
                     driverSummary: .arrange,
                     statusBuilder: MockLicenceStatusViewModelBuilder(),
-                    openURLAction: { _, _ in }
+                    openURLAction: { _ in },
+                    analyticsService: MockAnalyticsService()
                 )
             )
         )
@@ -94,7 +96,8 @@ import GovKit
                 licence: DrivingLicenceSummaryViewModel(
                     driverSummary: .arrange,
                     statusBuilder: MockLicenceStatusViewModelBuilder(),
-                    openURLAction: { _, _ in }
+                    openURLAction: { _ in },
+                    analyticsService: MockAnalyticsService()
                 )
             )
         )
@@ -131,7 +134,8 @@ import GovKit
                 licence: DrivingLicenceSummaryViewModel(
                     driverSummary: .arrange,
                     statusBuilder: MockLicenceStatusViewModelBuilder(),
-                    openURLAction: { _, _ in }
+                    openURLAction: { _ in },
+                    analyticsService: MockAnalyticsService()
                 )
             )
         )

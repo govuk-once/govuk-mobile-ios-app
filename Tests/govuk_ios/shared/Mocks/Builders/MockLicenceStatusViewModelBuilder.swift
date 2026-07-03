@@ -13,12 +13,12 @@ class MockLicenceStatusViewModelBuilder: LicenceStatusViewModelBuilderInterface 
     var _makeViewModelCallCount = 0
     var _receivedStatus: DrivingLicenceStatus?
     var _receivedValidToDate: Date?
-    var _receivedOpenURLAction: ((URL, String) -> Void)?
+    var _receivedOpenURLAction: ((URL) -> Void)?
 
     func makeViewModel(
        status: DrivingLicenceStatus,
        validToDate: Date?,
-       openURLAction: @escaping (URL, String) -> Void
+       openURLAction: @escaping (URL) -> Void
     ) -> ValidityStatusViewModel {
         _makeViewModelCallCount += 1
         _receivedStatus = status
