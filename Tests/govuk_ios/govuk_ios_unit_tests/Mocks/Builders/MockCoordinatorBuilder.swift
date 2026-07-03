@@ -74,7 +74,7 @@ class MockCoordinatorBuilder: CoordinatorBuilder {
             await mockHomeCoordinator(homeViewController: ViewControllerBuilder.homeViewController)
         }
     }
-    
+
     func mockHomeCoordinator(homeViewController: HomeViewController) async -> MockHomeCoordinator {
         let coreData: CoreDataRepository = await CoreDataRepository.arrangeAndLoad
         let mockCoodinatorBuilder = MockCoordinatorBuilder.mock
@@ -387,5 +387,10 @@ class MockCoordinatorBuilder: CoordinatorBuilder {
         vehicleId: Int
     ) -> BaseCoordinator {
         _stubbedVehicleDetailCoordinator ?? MockBaseCoordinator()
+    }
+
+    var _stubbedNotificationCentreCoordinator: MockNotificationCentreCoordinator!
+    override func notificationCenterCoordinator(navigationController: UINavigationController) -> NotificationCentreCoordinator {
+        _stubbedNotificationCentreCoordinator
     }
 }

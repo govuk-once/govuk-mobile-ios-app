@@ -80,9 +80,9 @@ struct NotificationCentreContainerView: View {
     }
 }
 
-private struct NotificationCentreLoadedView: View {
+struct NotificationCentreLoadedView: View {
     let notifications: NotificationCentreViewModel.NotificationGroups
-    let onNotificationTap: (Notification) -> Void
+    let onNotificationTap: (String) -> Void
 
     var body: some View {
         ScrollView {
@@ -110,9 +110,10 @@ private struct NotificationCentreLoadedView: View {
                     .multilineTextAlignment(.center)
                     .foregroundColor(Color(UIColor.govUK.text.secondary))
                     .clipShape(Rectangle())
-                    .padding(.top, 8)
+                    .padding(.vertical, 16)
             }
             .padding(.horizontal, 16)
+            .padding(.bottom, 16) // Add a bit to keep the Footer away from the Home button
             .background(Color(UIColor.govUK.fills.surfaceBackground))
         }
     }
@@ -135,7 +136,7 @@ private struct SectionHeader: View {
     }
 }
 
-private struct NotificationCentreLoadingView: View {
+struct NotificationCentreLoadingView: View {
     var body: some View {
         VStack(alignment: .center) {
             Spacer()
@@ -146,7 +147,7 @@ private struct NotificationCentreLoadingView: View {
     }
 }
 
-private struct NotificationCentreEmptyView: View {
+struct NotificationCentreEmptyView: View {
     var body: some View {
         VStack(alignment: .center) {
             HStack {
@@ -167,8 +168,7 @@ private struct NotificationCentreEmptyView: View {
                 .multilineTextAlignment(.center)
                 .foregroundColor(Color(UIColor.govUK.text.secondary))
                 .clipShape(Rectangle())
-                .padding(.top, 8)
-                .padding(.bottom, 16)
+                .padding(.vertical, 16)
 
             Spacer()
         }
@@ -178,12 +178,12 @@ private struct NotificationCentreEmptyView: View {
 }
 
 private struct NotificationCentreRow: View {
-    let notification: Notification
-    let onTap: (Notification) -> Void
+    let notification: NotificationCentreViewModel.NotificationListItem
+    let onTap: (String) -> Void
 
     var body: some View {
         Button {
-            onTap(notification)
+            onTap(notification.id)
         } label: {
             HStack {
                 Circle()
@@ -203,7 +203,7 @@ private struct NotificationCentreRow: View {
                         .padding(.bottom, 4)
                         .foregroundStyle(Color(UIColor.govUK.text.primary))
 
-                    Text(notification.date.formatMessageListDate())
+                    Text(notification.date)
                         .font(Font.govUK.subheadline)
                         .foregroundStyle(Color(UIColor.govUK.text.secondary))
                 }
@@ -229,7 +229,7 @@ extension NotificationCentreContainerView: TrackableScreen {
 }
 
 #Preview("Loaded") {
-    let testNotifications = NotificationCentreViewModel.MockData.testNotifications
+    let testNotifications = NotificationCentreViewModel.MockData.testNotificationGroups
 
     NotificationCentreLoadedView(
         notifications: testNotifications,
@@ -241,17 +241,15 @@ extension NotificationCentreContainerView: TrackableScreen {
 }
 
 #Preview("Unread notification") {
-    let notification = Notification(
-        id: "1", title: "Test 1", body: "Body 1", date: Date(), status: "UNREAD",
-        messageTitle: nil, messageBody: nil,
-        metadata: Notification.Metadata(sender: Notification.Metadata.Sender(displayName: "test")))
+    let notification = NotificationCentreViewModel.NotificationListItem(
+        title: "test", date: "7th Jan 2026", isUnread: true, id: "1"
+    )
     NotificationCentreRow(notification: notification, onTap: { _ in /* no-op */ })
 }
 
 #Preview("Read notification") {
-    let notification = Notification(
-        id: "1", title: "Test 1", body: "Body 1", date: Date(), status: "READ",
-        messageTitle: nil, messageBody: nil,
-        metadata: Notification.Metadata(sender: Notification.Metadata.Sender(displayName: "test")))
+    let notification = NotificationCentreViewModel.NotificationListItem(
+        title: "test", date: "7th Jan 2026", isUnread: false, id: "1"
+    )
     NotificationCentreRow(notification: notification, onTap: { _ in /* no-op */ })
 }

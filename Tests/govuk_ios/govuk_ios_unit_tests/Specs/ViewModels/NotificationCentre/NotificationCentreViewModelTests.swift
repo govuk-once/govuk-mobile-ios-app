@@ -28,7 +28,7 @@ class NotificationCentreViewModelTests {
 
         SUT = NotificationCentreViewModel(
             actions: .init(showNotification: {
-                self._showNotificationActionID = $0.id
+                self._showNotificationActionID = $0
             }),
             notificationCentreService: mockNotificationCentreService,
             analyticsService: mockAnalyticsService,
@@ -42,9 +42,9 @@ class NotificationCentreViewModelTests {
 
     @Test
     func tapNotification_triggersAction() {
-        let testNotification = NotificationCentreViewModel.MockData.testNotifications.recent.first!
+        let testNotification = NotificationCentreViewModel.MockData.recentNotifications.first!
         SUT.onTapNotification(
-            notification: testNotification)
+            notification: testNotification.id)
         #expect(_showNotificationActionID == testNotification.id)
     }
 
@@ -55,12 +55,14 @@ class NotificationCentreViewModelTests {
             mockNotificationCentreService._onFetchNotificationsCalled = { continuation.resume() }
             SUT.onViewAppear()
         }
+
+        #expect(mockNotificationCentreService._fetchNotificationsCalled == true)
     }
 
     @Test
     func fetchComplete_withNotifications_setsStateLoaded() async {
-        let recent = NotificationCentreViewModel.MockData.testNotifications.recent
-        let older = NotificationCentreViewModel.MockData.testNotifications.older
+        let recent = NotificationCentreViewModel.MockData.recentNotifications
+        let older = NotificationCentreViewModel.MockData.olderNotifications
         let allNotifications = recent + older
 
         mockNotificationCentreService._stubbedFetchNotificationsResult = .success(allNotifications)
@@ -79,12 +81,11 @@ class NotificationCentreViewModelTests {
         }
 
         if case let .loaded(notifications) = SUT.state {
-            #expect(notifications.recent == recent)
-            #expect(notifications.older == older)
+            #expect(notifications.recent == recent.map { NotificationCentreViewModel.NotificationListItem(notification: $0)})
+            #expect(notifications.older == older.map { NotificationCentreViewModel.NotificationListItem(notification: $0)})
         } else {
             Issue.record("Failed to load notifications")
         }
-
     }
 
     @Test

@@ -16,8 +16,9 @@ struct NotificationCentreDetailDeeplinkRoute: DeeplinkRoute {
 
     @MainActor
     func action(parent: BaseCoordinator, params: [String: String]) {
-        let coordinator = coordinatorBuilder
+        guard let coordinator = coordinatorBuilder
             .notificationCenterCoordinator(navigationController: parent.root)
+                as? NotificationCentreCoordinator else { return }
 
         parent.root.popToRootViewController(animated: false)
 

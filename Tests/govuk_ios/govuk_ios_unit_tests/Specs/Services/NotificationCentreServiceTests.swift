@@ -23,7 +23,7 @@ final class NotificationCentreServiceTests {
     @Test
     func fetchNotifications_hitsRepo_returnsExpectedValue() async throws {
         mockNotificationCentreRepository
-            ._fetchAllResponse = NotificationCentreViewModel.MockData.testNotifications.recent
+            ._fetchAllResponse = NotificationCentreViewModel.MockData.recentNotifications
 
         let result = await withCheckedContinuation { continuation in
             SUT.fetchNotifications(callback: {
@@ -42,7 +42,7 @@ final class NotificationCentreServiceTests {
 
         mockNotificationCentreServiceClient
             ._fetchNotificationsResult =
-            .success(NotificationCentreViewModel.MockData.testNotifications.older)
+            .success(NotificationCentreViewModel.MockData.olderNotifications)
 
         let result = await withCheckedContinuation { continuation in
             SUT.fetchNotifications(callback: {
@@ -79,7 +79,7 @@ final class NotificationCentreServiceTests {
     func fetchSingleNotification_hitsRepo_returnsExpectedValue() async throws {
         mockNotificationCentreRepository
             ._fetchNotificationResponse = NotificationCentreViewModel
-            .MockData.testNotifications.recent.first
+            .MockData.recentNotifications.first
 
         let result = await withCheckedContinuation { continuation in
             SUT.fetchNotification(with: "1", callback: {
@@ -102,7 +102,7 @@ final class NotificationCentreServiceTests {
 
         mockNotificationCentreServiceClient
             ._fetchNotificationResult = .success(NotificationCentreViewModel
-                .MockData.testNotifications.recent[1])
+                .MockData.recentNotifications[1])
 
 
         let result = await withCheckedContinuation { continuation in

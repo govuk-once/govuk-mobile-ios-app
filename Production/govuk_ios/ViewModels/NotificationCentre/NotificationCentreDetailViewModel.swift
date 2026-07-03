@@ -8,7 +8,7 @@ class NotificationCentreDetailViewModel: ObservableObject {
     enum State: Equatable {
         case new,
              loading,
-             loaded(notification: Notification, showDeleteConfirmationSheet: Bool),
+             loaded(notification: NotificationDetailContent, showDeleteConfirmationSheet: Bool),
              error,
              noInternet
     }
@@ -37,6 +37,30 @@ class NotificationCentreDetailViewModel: ObservableObject {
             self.onDeleteAction = onDeleteAction
         }
 
+    struct NotificationDetailContent: Equatable {
+        let title: String
+        let body: String
+        let sender: String
+        let date: String
+        let id: String
+
+        init(title: String, body: String, sender: String, date: String, id: String) {
+            self.title = title
+            self.body = body
+            self.sender = sender
+            self.date = date
+            self.id = id
+        }
+
+        init(notification: Notification) {
+            self.title = notification.messageTitle ?? notification.title
+            self.body = notification.messageBody ?? notification.body
+            self.sender = notification.senderName
+            self.date = notification.date.formatMessageDetailDate()
+            self.id = notification.id
+        }
+    }
+
     func onViewAppear() {
         if case .new = state {
             loadData()
@@ -55,36 +79,41 @@ class NotificationCentreDetailViewModel: ObservableObject {
 
             notificationService
                 .fetchNotification(with: notificationId) { [weak self] res in
-                    Task {
-                        switch res {
-                        case .success(let notification):
-                            if let notification {
-                                await self?.changeState(
-                                    state: .loaded(
-                                        notification: notification,
-                                        showDeleteConfirmationSheet: false))
-                                if notification.isUnread {
-                                    self?.notificationService.markRead(with: notification.id)
-                                }
-                            } else {
-                                self?.analyticsService.track(event: .notificationCentreNotFound())
-                                await self?.changeState(state: .error)
-                            }
-                        case .failure(let error):
-                            switch error {
-                            case .networkUnavailable:
-                                await self?.changeState(state: .noInternet)
-                            default:
-                                await self?.changeState(state: .error)
-                            }
-                        }
-                    }
+                    self?.processFetch(res)
                 }
+        }
+    }
+
+    fileprivate func processFetch(_ res: SingleNotificationResult) {
+        Task { [weak self] in
+            guard let self else { return }
+            switch res {
+            case .success(let notification):
+                if let notification {
+                    await self.changeState(
+                        state: .loaded(
+                            notification: NotificationDetailContent(notification: notification),
+                            showDeleteConfirmationSheet: false))
+                    if notification.isUnread {
+                        self.notificationService.markRead(with: notification.id)
+                    }
+                } else {
+                    self.analyticsService.track(event: .notificationCentreNotFound())
+                    await self.changeState(state: .error)
+                }
+            case .failure(let error):
+                if case .networkUnavailable = error {
+                    await self.changeState(state: .noInternet)
+                } else {
+                    await self.changeState(state: .error)
+                }
+            }
         }
     }
 
     func show(url: URL) {
         showUrlAction(url)
+        analyticsService.track(event: .notificationCentreUrlLaunched(url: url))
     }
 
     func onDelete() {
@@ -125,9 +154,5 @@ class NotificationCentreDetailViewModel: ObservableObject {
 
     func track(screen: TrackableScreen) {
         analyticsService.track(screen: screen)
-    }
-
-    func track(url: URL) {
-        analyticsService.track(event: .notificationCentreUrlLaunched(url: url))
     }
 }

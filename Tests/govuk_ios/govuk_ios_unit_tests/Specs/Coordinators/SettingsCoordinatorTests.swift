@@ -217,4 +217,38 @@ struct SettingsCoordinatorTests {
         mockViewControllerBuilder._receivedSettingsViewModel?.signoutAction?()
         #expect(mockSignOutConfirmationCoordinator._startCalled)
     }
+
+    @Test
+    func selectingMessages_startsNotificationCentre() {
+        let mockViewControllerBuilder = MockViewControllerBuilder()
+        let expectedViewController = UIViewController()
+        mockViewControllerBuilder._stubbedSettingsViewController = expectedViewController
+        let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
+        let mockNotificationCentreCoordinator = MockNotificationCentreCoordinator(
+            navigationController: UINavigationController(),
+            viewControllerBuilder: MockViewControllerBuilder(),
+            notificationCentreService: MockNotificationCentreService(),
+            analyticsService: MockAnalyticsService(),
+            coordinatorBuilder: mockCoordinatorBuilder)
+
+        mockCoordinatorBuilder._stubbedNotificationCentreCoordinator = mockNotificationCentreCoordinator
+        let navigationController = UINavigationController()
+        let subject = SettingsCoordinator(
+            navigationController: navigationController,
+            viewControllerBuilder: mockViewControllerBuilder,
+            deeplinkStore: DeeplinkDataStore(routes: [], root: UIViewController()),
+            analyticsService: MockAnalyticsService(),
+            coordinatorBuilder: mockCoordinatorBuilder,
+            deviceInformationProvider: MockDeviceInformationProvider(),
+            authenticationService: MockAuthenticationService(),
+            notificationService: MockNotificationService(),
+            localAuthenticationService: MockLocalAuthenticationService(),
+            appConfigService: MockAppConfigService(),
+            userService: MockUserService(),
+            notificationCentreService: MockNotificationCentreService()
+        )
+        subject.start(url: nil)
+        mockViewControllerBuilder._receivedSettingsViewModel?.notificationCentreAction?()
+        #expect(mockNotificationCentreCoordinator._startCalled)
+    }
 }

@@ -21,17 +21,17 @@ class NotificationCentreCoordinator: BaseCoordinator {
         super.init(navigationController: navigationController)
     }
 
-    override func start(url: URL?) {
+    override func start(url _: URL?) {
         let viewController = self
             .viewControllerBuilder
             .notificationCentre(showNotificationAction: { [weak self] notification in
-                self?.showDetail(for: notification.id)
+                self?.showDetail(for: notification)
         }, notificationService: notificationCentreService, analyticsService: analyticsService)
 
         self.push(viewController, animated: true)
     }
 
-    func showDetail(for notificationId: String) {
+    open func showDetail(for notificationId: String) {
         let viewController = self.viewControllerBuilder
             .notificationCentreDetail(
                 notificationId: notificationId,

@@ -168,43 +168,42 @@ class SettingsViewModel: SettingsViewModelInterface {
     }
 
     func loadMessages() {
-        guard case .notDetermined = messagesState else { return }
-
         Task {
-//            messagesState = .loading
+            update(messagesState: .loading)
 
-            // None of this will work because the DVLA changes have been removed from this branch
-            // so it can go into review
-//            if let linked = userService.isDvlaAccountLinked {
-//                loadMessageCount(isLinked: linked)
-//            } else {
-//                let linked = await userService.fetchAccountLinkStatus(accountType: .dvla)
-//
-//                switch linked {
-//                case .success(let linkStatus):
-//
-//                case .failure:
-//                    messagesState = .error
-//                }
-//            }
+            if let linkedAccounts = userService.linkedAccounts {
+                loadMessageCount(isLinked: !linkedAccounts.isEmpty)
+            } else {
+                let linked = await userService.fetchLinkedAccounts()
 
-            // Hardcode to linked for now so the row appears
-            loadMessageCount(isLinked: true)
+                switch linked {
+                case .success(let linkedAccounts):
+                    loadMessageCount(isLinked: !linkedAccounts.isEmpty)
+                case .failure:
+                    update(messagesState: .error)
+                }
+            }
+        }
+    }
+
+    private func update(messagesState: MessagesState) {
+        Task { @MainActor in
+            self.messagesState = messagesState
         }
     }
 
     private func loadMessageCount(isLinked: Bool) {
         guard isLinked else {
-            messagesState = .unlinked
+            update(messagesState: .unlinked)
             return
         }
 
         notificationCentreService.fetchNotifications { [weak self] res in
             if case .success(let notifications) = res {
                 let unreadCount = notifications.count(where: \.isUnread)
-                self?.messagesState = .success(unreadCount: unreadCount)
+                self?.update(messagesState: .success(unreadCount: unreadCount))
             } else {
-                self?.messagesState = .error
+                self?.update(messagesState: .error)
             }
         }
     }

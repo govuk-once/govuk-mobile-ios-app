@@ -9,7 +9,7 @@ struct NotificationCentreDetailContainerView: View {
     @ObservedObject var viewModel: NotificationCentreDetailViewModel
 
     var body: some View {
-        VStack { // Hides the splash of white when you overscroll the list
+        ZStack(alignment: .bottom) {
             GeometryReader { geometry in
                 ScrollView {
                     VStack(spacing: 0) {
@@ -26,10 +26,7 @@ struct NotificationCentreDetailContainerView: View {
                             NotificationCentreDetailLoadedView(
                                 notification: notification,
                                 onLinkTapped: {
-                                    // swiftlint:disable:next todo
-                                    // TODO Combine these?
                                     viewModel.show(url: $0)
-                                    viewModel.track(url: $0)
                                 },
                                 onConfirmDelete: {
                                     viewModel.onConfirmDelete()
@@ -59,6 +56,11 @@ struct NotificationCentreDetailContainerView: View {
                     .frame(minWidth: geometry.size.width, minHeight: geometry.size.height)
                 }
             }
+            if #available(iOS 26.0, *), case .loaded = viewModel.state {
+                FloatingIconButtons(
+                    unreadAction: viewModel.onMarkUnread, deleteAction: viewModel.onDelete
+                )
+            }
         }
         .background(Color(UIColor.govUK.fills.surfaceCardEmergencyInfo))
         .onAppear {
@@ -66,28 +68,45 @@ struct NotificationCentreDetailContainerView: View {
             viewModel.track(screen: self)
         }
     }
+}
 
-    // Hides the splash of white when you overscroll the title
-    private var gradient: Gradient {
-        Gradient(stops: [
-            .init(
-                color: Color(UIColor.govUK.fills.surfaceHomeHeaderBackground),
-                location: 0),
-            .init(
-                color: Color(UIColor.govUK.fills.surfaceHomeHeaderBackground),
-                location: 0.33),
-            .init(
-                color: .clear,
-                location: 0.33),
-            .init(
-                color: .clear,
-                location: 1)
-        ])
+@available(iOS 26.0, *)
+private struct FloatingIconButtons: View {
+    let unreadAction: () -> Void
+    let deleteAction: () -> Void
+    var body: some View {
+        GlassEffectContainer {
+            HStack(spacing: 12) {
+                Button {
+                   deleteAction()
+                } label: {
+                    Image(.notcenDelete)
+                        .foregroundStyle(.black)
+                        .frame(width: 48, height: 48)
+                }
+                .glassEffect(.regular.interactive(), in: Circle())
+                .accessibilityLabel(.NotificationCentre.notificationCentreDetailDeleteA11YLabel)
+
+                Button {
+                    unreadAction()
+                } label: {
+                    Image(.notcenUnread)
+                        .foregroundStyle(.black)
+                        .frame(width: 48, height: 48)
+                }
+                .glassEffect(.regular.interactive(), in: Circle())
+                .accessibilityLabel(.NotificationCentre.notificationCentreDetailUnreadA11YLabel)
+
+                Spacer()
+            }
+        }
+        .padding(.bottom, 32)
+        .padding(.horizontal, 28)
     }
 }
 
-private struct NotificationCentreDetailLoadedView: View {
-    let notification: Notification
+public struct NotificationCentreDetailLoadedView: View {
+    let notification: NotificationCentreDetailViewModel.NotificationDetailContent
     let onLinkTapped: (URL) -> Void
     let onConfirmDelete: () -> Void
     let onCancelDelete: () -> Void
@@ -95,17 +114,17 @@ private struct NotificationCentreDetailLoadedView: View {
 
     @State private var showSheet: Bool = false
 
-    var body: some View {
+    public var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack {
                 VStack(alignment: .leading, spacing: 0) {
-                    Text(notification.date.formatMessageDetailDate())
-                    .font(Font.govUK.callout)
-                    .foregroundStyle(Color(UIColor.govUK.text.secondary))
-                    .padding(.top, 16)
-                    .padding(.bottom, 4)
+                    Text(notification.date)
+                        .font(Font.govUK.callout)
+                        .foregroundStyle(Color(UIColor.govUK.text.secondary))
+                        .padding(.top, 16)
+                        .padding(.bottom, 4)
 
-                    Text(notification.senderName)
+                    Text(notification.sender)
                         .font(Font.govUK.bodySemibold)
                         .foregroundStyle(Color(UIColor.govUK.text.primary))
                         .padding(.bottom, 16)
@@ -119,18 +138,18 @@ private struct NotificationCentreDetailLoadedView: View {
             .accessibilityElement(children: .ignore)
             .accessibilityLabel(
                 .NotificationCentre.notificationCentreDetailHeaderAccessibilityLabel(
-                    notification.date.formatMessageDetailDate(),
-                    notification.senderName))
+                    notification.date,
+                    notification.sender))
 
             VStack(alignment: .leading) {
-                Text(notification.messageTitle ?? notification.title)
+                Text(notification.title)
                     .font(Font.govUK.title1Bold)
                     .padding(.bottom, 16)
                     .foregroundStyle(Color(UIColor.govUK.text.primary))
 
 
                 Markdown(
-                    notification.messageBody ?? notification.body)
+                    notification.body)
                 .markdownTheme(.govUKNotification)
                 .environment(
                     \.openURL,
@@ -147,9 +166,8 @@ private struct NotificationCentreDetailLoadedView: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.horizontal, 16)
-        .confirmationDialog(.NotificationCentre.deleteNotificationTitle,
-                            isPresented: $showSheet,
-                            titleVisibility: .visible) {
+        .alert(.NotificationCentre.deleteNotificationTitle,
+                            isPresented: $showSheet) {
             Button(.NotificationCentre.deleteNotificationConfirmButton,
                    role: .destructive,
                    action: {
@@ -161,15 +179,14 @@ private struct NotificationCentreDetailLoadedView: View {
         } message: {
             Text(.NotificationCentre.deleteNotificationBody)
                 .font(Font.govUK.body)
-                .multilineTextAlignment(.center)
                 .foregroundStyle(Color(GOVUKColors.text.secondary))
         }
         .onChange(of: showDeleteConfirmation) { showSheet = $0 }
     }
 }
 
-private struct NotificationCentreDetailLoadingView: View {
-    var body: some View {
+public struct NotificationCentreDetailLoadingView: View {
+    public var body: some View {
         VStack(alignment: .center) {
             Spacer()
             ProgressView()
@@ -189,10 +206,11 @@ extension NotificationCentreDetailContainerView: TrackableScreen {
 }
 
 #Preview("Loaded") {
-    let testNotification = NotificationCentreViewModel.MockData.testNotifications.recent.first!
+    let testNotification = NotificationCentreViewModel.MockData.recentNotifications.first!
 
     NotificationCentreDetailLoadedView(
-        notification: testNotification,
+        notification: NotificationCentreDetailViewModel
+            .NotificationDetailContent(notification: testNotification),
         onLinkTapped: { _ in /* no-op */ },
         onConfirmDelete: { /* no-op */ },
         onCancelDelete: { /* no-op */ },

@@ -445,8 +445,8 @@ class MockViewControllerBuilder: ViewControllerBuilder {
     }
 
     var _stubbedNotificationCentreViewController: UIViewController!
-    var _receivedShowNotificationCentreDetailAction: ((govuk_ios.Notification) -> Void)?
-    override func notificationCentre(showNotificationAction: @escaping (govuk_ios.Notification) -> Void, notificationService: any NotificationCentreServiceInterface, analyticsService: any AnalyticsServiceInterface) -> UIViewController {
+    var _receivedShowNotificationCentreDetailAction: ((String) -> Void)?
+    override func notificationCentre(showNotificationAction: @escaping (String) -> Void, notificationService: any NotificationCentreServiceInterface, analyticsService: any AnalyticsServiceInterface) -> UIViewController {
         _receivedShowNotificationCentreDetailAction = showNotificationAction
         return _stubbedNotificationCentreViewController
     }

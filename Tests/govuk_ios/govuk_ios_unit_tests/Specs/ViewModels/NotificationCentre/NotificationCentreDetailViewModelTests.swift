@@ -16,10 +16,10 @@ class NotificationCentreDetailViewModelTests {
     var _showNotificationActionID: String?
 
     let testNotificationId = NotificationCentreViewModel.MockData
-        .testNotifications.recent.first!.id
+        .recentNotifications.first!.id
 
     let mockNotification = NotificationCentreViewModel.MockData
-        .testNotifications.recent.first!
+        .recentNotifications.first!
 
     let testUrl = URL(string:"https://gds.test")!
 
@@ -79,7 +79,8 @@ class NotificationCentreDetailViewModelTests {
         }
 
         if case let .loaded(notification, _) = SUT.state {
-            #expect(notification == mockNotification)
+            #expect(notification == NotificationCentreDetailViewModel
+                .NotificationDetailContent(notification: mockNotification))
         } else {
             Issue.record("Failed to load notification")
         }
@@ -169,7 +170,8 @@ class NotificationCentreDetailViewModelTests {
         }
 
         if case let .loaded(notification, showDeleteConfirm) = SUT.state {
-            #expect(notification == mockNotification)
+            #expect(notification == NotificationCentreDetailViewModel
+                .NotificationDetailContent(notification: mockNotification))
             #expect(showDeleteConfirm == true)
             #expect(_onDeleteActionFired == nil)
             #expect(mockNotificationCentreService._deleteCalledWithId == nil)

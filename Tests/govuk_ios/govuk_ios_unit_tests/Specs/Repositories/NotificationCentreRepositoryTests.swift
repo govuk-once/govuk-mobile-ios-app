@@ -26,7 +26,7 @@ class NotificationCentreRepositoryTests {
 
     @Test
     func store_retrievesCorrectly() {
-        let testObjs = NotificationCentreViewModel.MockData.testNotifications.recent
+        let testObjs = NotificationCentreViewModel.MockData.recentNotifications
 
         SUT.store(notifications: testObjs)
 
@@ -37,7 +37,7 @@ class NotificationCentreRepositoryTests {
 
     @Test
     func retrieve_onceExpired_fails() {
-        let testObjs = NotificationCentreViewModel.MockData.testNotifications.recent
+        let testObjs = NotificationCentreViewModel.MockData.recentNotifications
 
         // Set it back 10 minutes
         mockDateProvider._mockDate = dateForTest.addingTimeInterval(-600)
@@ -54,7 +54,7 @@ class NotificationCentreRepositoryTests {
 
     @Test
     func retrieve_single_returnsExpectedValue() throws {
-        let testObjs = NotificationCentreViewModel.MockData.testNotifications.recent
+        let testObjs = NotificationCentreViewModel.MockData.recentNotifications
 
         SUT.store(notifications: testObjs)
 
@@ -66,7 +66,7 @@ class NotificationCentreRepositoryTests {
 
     @Test
     func retrieve_single_withInvalidID_returnsNil() {
-        let testObjs = NotificationCentreViewModel.MockData.testNotifications.recent
+        let testObjs = NotificationCentreViewModel.MockData.recentNotifications
 
         SUT.store(notifications: testObjs)
 
@@ -77,7 +77,7 @@ class NotificationCentreRepositoryTests {
 
     @Test
     func delete_updatesAll() {
-        let testObjs = NotificationCentreViewModel.MockData.testNotifications.recent
+        let testObjs = NotificationCentreViewModel.MockData.recentNotifications
 
         SUT.store(notifications: testObjs)
 
@@ -93,7 +93,7 @@ class NotificationCentreRepositoryTests {
 
     @Test
     func update_setsFlagCorrectly() throws {
-        let testObjs = NotificationCentreViewModel.MockData.testNotifications.recent
+        let testObjs = NotificationCentreViewModel.MockData.recentNotifications
 
         SUT.store(notifications: testObjs)
 

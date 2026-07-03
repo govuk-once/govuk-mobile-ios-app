@@ -52,7 +52,7 @@ struct Notification: Identifiable, Codable, Equatable {
 class NotificationCentreViewModel: ObservableObject {
     // swiftlint:disable line_length
     struct MockData {
-        static let testNotifications: NotificationGroups = {
+        static let recentNotifications: [Notification] = {
             let metadata = Notification.Metadata(
                 sender: Notification.Metadata.Sender(displayName: "Test")
                 )
@@ -67,6 +67,15 @@ class NotificationCentreViewModel: ObservableObject {
                         .init(id: "6", title: "Test 6 with an alternate body", body: "Body 6", date: now.addingTimeInterval(-1 * oneDay * 5), status: "READ", messageTitle: nil, messageBody: nil, metadata: metadata),
                         .init(id: "7", title: "Test 7 with an alternate title and body", body: "Body 7", date: now.addingTimeInterval(-1 * oneDay * 6), status: "READ", messageTitle: "Alternate message title 2", messageBody: "Alternate message body 2 Purr as loud as possible, be the most annoying cat that you can, and, knock everything off the table grass smells good and proudly present butt to human but attack curtains, or dream about hunting birds. Going to catch the red dot today going to catch the red dot today sleep on dog bed, force dog to sleep on floor. Poop on couch. Pet me pet me pet me pet me, bite, scratch, why are you petting me miaow then turn around and show you my bum so walk on a keyboard and kitty kitty pussy cat doll munch on tasty moths. Furball roll roll roll meow all night, get video posted to internet for chasing red dot yet one of these days i'm going to get that red dot, just you wait and see ooh, are those your $250 dollar sandals? lemme use that as my litter box. Eat and than sleep on your face the dog smells bad rub my belly hiss eat the fat cats food. Make plans to dominate world and then take a nap bury the poop bury it deep or pretend you want to go out but then don't. Steal mom's crouton while she is in the bathroom destroy dog. Caticus cuteicus annoy the old grumpy cat, start a fight and then retreat to wash when i lose. Run outside as soon as door open. Check cat door for ambush 10 times before coming in meow and walk away and i like cats because they are fat and fluffy and behind the couch, and swat turds around the house for have a lot of grump in yourself because you can't forget to be grumpy and not be like king grumpy cat where is my slave? I'm getting hungry. There's a forty year old lady there let us feast eats owners hair then claws head, give me some of your food give me some of your food give me some of your food meh, i don't want it. I shredded your linens for you.", metadata: metadata)
             ]
+            return recent
+        }()
+
+        static let olderNotifications: [Notification] = {
+            let metadata = Notification.Metadata(
+                sender: Notification.Metadata.Sender(displayName: "Test")
+                )
+            let oneDay: Double = 60 * 60 * 24
+            let now = Date(timeIntervalSince1970: 1772198784) // Fri, 27 Feb 2026 13:26:24 GMT
 
             let older: [Notification] = [
                 .init(id: "8", title: "Test 8 for 8 days", body: "Body 1", date: now.addingTimeInterval(-1 * oneDay * 8), status: "UNREAD", messageTitle: nil, messageBody: nil, metadata: metadata),
@@ -74,7 +83,13 @@ class NotificationCentreViewModel: ObservableObject {
                         .init(id: "10", title: "Test 8 for 3 weeks", body: "Body 1", date: now.addingTimeInterval(-1 * oneDay * 21), status: "UNREAD", messageTitle: nil, messageBody: nil, metadata: metadata),
                         .init(id: "11", title: "Test 8 for 4 weeks", body: "Body 1", date: now.addingTimeInterval(-1 * oneDay * 28), status: "UNREAD", messageTitle: nil, messageBody: nil, metadata: metadata)
             ]
-            return NotificationGroups(recent: recent, older: older)
+            return older
+        }()
+
+        static let testNotificationGroups: NotificationGroups = {
+            NotificationGroups(
+                recent: recentNotifications.map { NotificationListItem(notification: $0)},
+                older: olderNotifications.map { NotificationListItem(notification: $0)})
         }()
     }
     // swiftlint:enable line_length
@@ -83,9 +98,30 @@ class NotificationCentreViewModel: ObservableObject {
         case loading, empty, loaded(notifications: NotificationGroups), error, noInternet
     }
 
-    struct NotificationGroups: Equatable {
-        let recent: [Notification]
-        let older: [Notification]
+    public struct NotificationGroups: Equatable {
+        let recent: [NotificationListItem]
+        let older: [NotificationListItem]
+    }
+
+    public struct NotificationListItem: Equatable, Identifiable {
+        let title: String
+        let date: String
+        let isUnread: Bool
+        let id: String
+
+        init(title: String, date: String, isUnread: Bool, id: String) {
+            self.title = title
+            self.date = date
+            self.isUnread = isUnread
+            self.id = id
+        }
+
+        init(notification: Notification) {
+            self.title = notification.title
+            self.date = notification.date.formatMessageListDate()
+            self.isUnread = notification.isUnread
+            self.id = notification.id
+        }
     }
 
     class DateProvider {
@@ -116,7 +152,7 @@ class NotificationCentreViewModel: ObservableObject {
         loadData()
     }
 
-    func onTapNotification(notification: Notification) {
+    func onTapNotification(notification: String) {
         actions.showNotification(notification)
     }
 
@@ -126,44 +162,54 @@ class NotificationCentreViewModel: ObservableObject {
         }
     }
 
+    fileprivate func processFetch(_ res: NotificationResult) {
+        Task { [weak self] in
+            guard let self else { return }
+            switch res {
+            case .success(let notifications):
+                if notifications.isEmpty {
+                    await self.changeState(state: .empty)
+                } else {
+                    let sorted = notifications.sorted {
+                        $0.date > $1.date
+                    }
+
+                    let sevenDaysBack = self.dateProvider
+                        .currentDate.addingTimeInterval(-7 * 24.0 * 60.0 * 60.0)
+
+                    let recent = sorted.filter {
+                        $0.date >= sevenDaysBack
+                    }.map {
+                        NotificationListItem(notification: $0)
+                    }
+
+                    let older = sorted.filter {
+                        $0.date < sevenDaysBack
+                    }.map {
+                        NotificationListItem(notification: $0)
+                    }
+
+                    let buckets = NotificationGroups(
+                        recent: recent, older: older)
+
+                    await self.changeState(state: .loaded(notifications: buckets))
+                }
+            case .failure(let error):
+                if case .networkUnavailable = error {
+                    await self.changeState(state: .noInternet)
+                } else {
+                    await self.changeState(state: .error)
+                }
+            }
+        }
+    }
+
     func loadData() {
         Task {
             await changeState(state: .loading)
 
             notificationCentreService.fetchNotifications { [weak self] res in
-                Task {
-                    guard let self else { return }
-                    switch res {
-                    case .success(let notifications):
-                        if notifications.isEmpty {
-                            await self.changeState(state: .empty)
-                        } else {
-                            let sorted = notifications.sorted {
-                                $0.date > $1.date
-                            }
-
-                            let sevenDaysBack = self.dateProvider
-                                .currentDate.addingTimeInterval(-7 * 24.0 * 60.0 * 60.0)
-
-                            let buckets = NotificationGroups(
-                                recent: sorted.filter {
-                                    $0.date >= sevenDaysBack
-                                }, older: sorted.filter {
-                                    $0.date < sevenDaysBack
-                                })
-
-
-                            await self.changeState(state: .loaded(notifications: buckets))
-                        }
-                    case .failure(let error):
-                        switch error {
-                        case .networkUnavailable:
-                            await self.changeState(state: .noInternet)
-                        default:
-                            await self.changeState(state: .error)
-                        }
-                    }
-                }
+                self?.processFetch(res)
             }
         }
     }
@@ -175,6 +221,6 @@ class NotificationCentreViewModel: ObservableObject {
 
 extension NotificationCentreViewModel {
     struct Actions {
-        let showNotification: (Notification) -> Void
+        let showNotification: (String) -> Void
     }
 }

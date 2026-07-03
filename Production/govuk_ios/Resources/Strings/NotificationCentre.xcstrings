@@ -7,7 +7,7 @@
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "This notification will be permanently deleted. This action cannot be undone."
+            "value" : "You won’t be able to recover it once deleted."
           }
         }
       }
@@ -40,7 +40,7 @@
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Delete notification?"
+            "value" : "Delete this message?"
           }
         }
       }
@@ -62,7 +62,7 @@
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Delete notification"
+            "value" : "Delete"
           }
         }
       }
@@ -84,7 +84,7 @@
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mark notification as unread"
+            "value" : "Mark as unread"
           }
         }
       }

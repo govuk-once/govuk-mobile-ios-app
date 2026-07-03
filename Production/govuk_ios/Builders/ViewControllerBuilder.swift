@@ -807,7 +807,7 @@ class ViewControllerBuilder {
         return viewController
     }
     func notificationCentre(
-        showNotificationAction: @escaping (Notification) -> Void,
+        showNotificationAction: @escaping (String) -> Void,
         notificationService: NotificationCentreServiceInterface,
         analyticsService: AnalyticsServiceInterface) -> UIViewController {
         let actions = NotificationCentreViewModel.Actions(showNotification: showNotificationAction)
@@ -845,33 +845,32 @@ class ViewControllerBuilder {
             )
             viewController.navigationItem.largeTitleDisplayMode = .never
 
-            let unreadButton = UIBarButtonItem(
-                image: UIImage(
-                    resource: .notcenUnread),
-                primaryAction: UIAction { [weak viewModel] _ in
-                    viewModel?.onMarkUnread()
-            })
-            unreadButton.accessibilityLabel = String
-                .notificationCentre.localized("notificationCentreDetailUnreadA11yLabel")
+            if #unavailable(iOS 26) {
+                // On iOS versions without liquid glass, use the Nav Bar Items as they look nicer
+                // than the toolbar
+                let unreadButton = UIBarButtonItem(
+                    image: UIImage(
+                        resource: .notcenUnread),
+                    primaryAction: UIAction { [weak viewModel] _ in
+                        viewModel?.onMarkUnread()
+                    })
+                unreadButton.accessibilityLabel = String
+                    .notificationCentre.localized("notificationCentreDetailUnreadA11yLabel")
 
-            let deleteButton = UIBarButtonItem(
-                image: UIImage(
-                    resource: .notcenDelete),
-                primaryAction: UIAction { [weak viewModel] _ in
-                    viewModel?.onDelete()
-            })
-            deleteButton.accessibilityLabel = String
-                .notificationCentre.localized("notificationCentreDetailDeleteA11yLabel")
+                let deleteButton = UIBarButtonItem(
+                    image: UIImage(
+                        resource: .notcenDelete),
+                    primaryAction: UIAction { [weak viewModel] _ in
+                        viewModel?.onDelete()
+                    })
+                deleteButton.accessibilityLabel = String
+                    .notificationCentre.localized("notificationCentreDetailDeleteA11yLabel")
 
-
-            // Removed temporarily as there's a further ticket to implement this properly
-            // with respect to Liquid Glass too
-            // NOT-238
-            // NOT-230
-//            viewController.navigationItem.rightBarButtonItems = [
-//                deleteButton,
-//                unreadButton
-//            ]
+                viewController.navigationItem.rightBarButtonItems = [
+                    deleteButton,
+                    unreadButton
+                ]
+            }
             return viewController
         }
 }

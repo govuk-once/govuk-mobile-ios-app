@@ -2,17 +2,6 @@ import SwiftUI
 import MarkdownUI
 import GovKit
 
-// Notification Markdown Theme
-//
-// Based on the existing ChatMarkdownTheme (Theme.govUK) but with a proper
-// typographic heading hierarchy suited to long-form notification content.
-// Chat deliberately flattens all headings to body size; notifications should
-// respect H1–H4 hierarchy using the GOV.UK type scale.
-//
-// Usage:
-//   Markdown(notification.body)
-//       .markdownTheme(.govUKNotification)
-
 extension Theme {
     public static let govUKNotification: Theme = Theme()
         // Body text

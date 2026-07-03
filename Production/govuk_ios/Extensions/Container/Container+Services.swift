@@ -26,7 +26,6 @@ extension Container {
         Factory(self) {
             AnalyticsService(
                 clients: [
-                    DebugClient(),
                     self.firebaseClient.resolve(),
                     self.crashlyticsClient.resolve(),
                     self.performanceClient.resolve()

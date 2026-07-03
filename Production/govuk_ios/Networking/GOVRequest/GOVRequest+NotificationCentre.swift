@@ -41,8 +41,6 @@ extension GOVRequest {
         )
     }
 
-    // swiftlint:disable:next todo
-    // TODO Put this status somewhere more sensible
     static func update(status: UpdateBody.Status, with id: String) -> GOVRequest {
         return GOVRequest(
             urlPath: "\(notificationsPath)/\(id)/status",

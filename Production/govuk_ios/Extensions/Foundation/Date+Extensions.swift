@@ -26,21 +26,20 @@ extension Date {
 
      Else -> 7 December
      */
-    public func formatMessageListDate() -> String {
+    public func formatMessageListDate(now: Date = Date()) -> String {
         let london = TimeZone(identifier: "Europe/London")!
         var calendar = Calendar.current
         calendar.timeZone = london
-
-        let now = Date()
 
         let formatter = DateFormatter()
         formatter.timeZone = london
         formatter.amSymbol = "am"
         formatter.pmSymbol = "pm"
 
-        if calendar.isDateInToday(self) {
+        if calendar.isDate(self, inSameDayAs: now) {
             formatter.dateFormat = "'Today,' h:mma"
-        } else if calendar.isDateInYesterday(self) {
+        } else if calendar.isDate(self,
+                                  inSameDayAs: calendar.date(byAdding: .day, value: -1, to: now)!) {
             // Bit unnecessary, but lets us keep it consistent and have a single return
             formatter.dateFormat = "'Yesterday'"
         } else if let daysAgo = calendar.dateComponents([.day], from: self, to: now).day,
@@ -61,7 +60,7 @@ extension Date {
 
      Else -> 2 April, 7:42am
      */
-    public func formatMessageDetailDate() -> String {
+    public func formatMessageDetailDate(now: Date = Date()) -> String {
         let london = TimeZone(identifier: "Europe/London")!
         var calendar = Calendar.current
         calendar.timeZone = london
@@ -71,9 +70,10 @@ extension Date {
         formatter.amSymbol = "am"
         formatter.pmSymbol = "pm"
 
-        if calendar.isDateInToday(self) {
+        if calendar.isDate(self, inSameDayAs: now) {
             formatter.dateFormat = "'Today,' h:mma"
-        } else if calendar.isDateInYesterday(self) {
+        } else if calendar.isDate(self,
+                                  inSameDayAs: calendar.date(byAdding: .day, value: -1, to: now)!) {
             formatter.dateFormat = "'Yesterday,' h:mma"
         } else {
             formatter.dateFormat = "d MMMM, h:mma"

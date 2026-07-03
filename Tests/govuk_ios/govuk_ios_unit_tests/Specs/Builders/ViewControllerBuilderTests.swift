@@ -463,4 +463,31 @@ struct ViewControllerBuilderTests {
         let rootView = (result as? HostingViewController<VehicleDetailView>)?.rootView
         #expect(rootView != nil)
     }
+
+    @Test
+    func notificationCentre_returnsExpectedResult() {
+        let subject = ViewControllerBuilder()
+        let result = subject.notificationCentre(
+            showNotificationAction: { _ in /* No-op */ },
+            notificationService: MockNotificationCentreService(),
+            analyticsService: MockAnalyticsService())
+
+        let rootView = (result as? HostingViewController<NotificationCentreContainerView>)?.rootView
+        #expect(rootView != nil)
+    }
+
+    @Test
+    func notificationCentreDetail_returnsExpectedResult() {
+        let subject = ViewControllerBuilder()
+        let result = subject.notificationCentreDetail(
+            notificationId: "1",
+            notificationService: MockNotificationCentreService(),
+            analyticsService: MockAnalyticsService(),
+            showUrlAction: { _ in /* No-op */ },
+            onUnreadAction: { /* No-op */ },
+            onDeleteAction: { /* No-op */ })
+
+        let rootView = (result as? HostingViewController<NotificationCentreDetailContainerView>)?.rootView
+        #expect(rootView != nil)
+    }
 }
