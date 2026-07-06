@@ -224,7 +224,7 @@ struct TaxStatusViewModelBuilderTests {
         )
 
         #expect(vm.title == nil)
-        #expect(vm.status as? ValidityTaxStatus == .sorn)
+        #expect(vm.status as? TaxValidityStatus == .sorn)
         #expect(vm.iconName == "parkingsign.brakesignal")
         #expect(vm.progressViewModel == nil)
         #expect(vm.formattedStatus == String(
@@ -252,7 +252,7 @@ struct TaxStatusViewModelBuilderTests {
         )
 
         #expect(vm.title == nil)
-        #expect(vm.status as? ValidityTaxStatus == .futureSorn)
+        #expect(vm.status as? TaxValidityStatus == .futureSorn)
         #expect(vm.iconName == "parkingsign.brakesignal")
         #expect(vm.progressViewModel == nil)
         #expect(vm.formattedStatus == String(

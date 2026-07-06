@@ -51,7 +51,7 @@ class TaxValidityStatusViewSnapshotTests: SnapshotTestCase {
         let viewModel = ValidityStatusViewModel(
             title: nil,
             formattedStatus: "SORN",
-            status: ValidityTaxStatus.sorn,
+            status: TaxValidityStatus.sorn,
             iconName: "parkingsign.brakesignal",
             iconTintColour: nil,
         )
@@ -69,7 +69,7 @@ class TaxValidityStatusViewSnapshotTests: SnapshotTestCase {
         let viewModel = ValidityStatusViewModel(
             title: nil,
             formattedStatus: "SORN",
-            status: ValidityTaxStatus.futureSorn,
+            status: TaxValidityStatus.futureSorn,
             iconName: "parkingsign.brakesignal",
             iconTintColour: nil,
             footer: "From 2nd June 2016"

@@ -8,7 +8,7 @@ struct TaxValidityStatusView: View {
     let viewModel: ValidityStatusViewModel
 
     var body: some View {
-        switch viewModel.status as? ValidityTaxStatus {
+        switch viewModel.status as? TaxValidityStatus {
         case .sorn, .futureSorn:
             sornView
                 .padding(Self.standardPadding)

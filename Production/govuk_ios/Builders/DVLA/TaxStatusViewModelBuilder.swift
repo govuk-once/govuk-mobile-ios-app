@@ -31,7 +31,7 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
     func makeViewModel(
         vehicle: CustomerSummary.Vehicle
     ) -> ValidityStatusViewModel {
-        let status = validityTaxStatus(vehicle: vehicle)
+        let status = taxValidityStatus(vehicle: vehicle)
         switch status {
         case .untaxed:
             return makeExpiredViewModel(
@@ -134,7 +134,6 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
         if paymentMethod == "Direct Debit" {
             return makeExpiringDirectDebitViewModel(
                 validToDate: validToDate,
-                paymentMethod: paymentMethod,
                 expiryProgress: expiryProgress
             )
         } else {
@@ -155,7 +154,7 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
 
     // MARK: - Sorn
     private func makeSornViewModel(
-        status: ValidityTaxStatus,
+        status: TaxValidityStatus,
         fromDate: Date?
     ) -> ValidityStatusViewModel {
         var footer: String?
@@ -172,7 +171,7 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
 
     // MARK: - Future sorn
     private func makeFutureSornViewModel(
-        status: ValidityTaxStatus
+        status: TaxValidityStatus
     ) -> ValidityStatusViewModel {
         return ValidityStatusViewModel(
             formattedStatus: String(localized: .DVLA.offTheRoadSorn),
@@ -192,7 +191,6 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
     @MainActor
     private func makeExpiringDirectDebitViewModel(
         validToDate: Date,
-        paymentMethod: String,
         expiryProgress: ExpiryProgressState
     ) -> ValidityStatusViewModel {
         let buttonTitle = String(localized: .DVLA.expiringTaxManagePaymentButtonTitle)
@@ -244,9 +242,9 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
         )
     }
 
-    private func validityTaxStatus(
+    private func taxValidityStatus(
         vehicle: CustomerSummary.Vehicle
-    ) -> ValidityTaxStatus {
+    ) -> TaxValidityStatus {
         switch (vehicle.taxStatus, vehicle.sornStart) {
         case (.notTaxedForOnRoadUse, _):
             return .notTaxedForOnRoadUse
@@ -275,7 +273,7 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
     }
 }
 
-enum ValidityTaxStatus: ValidityStatus {
+enum TaxValidityStatus: ValidityStatus {
     case notTaxedForOnRoadUse
     case sorn
     case futureSorn
