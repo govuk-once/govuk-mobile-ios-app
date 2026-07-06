@@ -52,7 +52,9 @@ struct DrivingLicenceViewModelTests {
 
     @Test
     func viewDidAppear_fetchLicenceFailure_createsErrorViewModel() async throws {
+        let mockDriverDetailsURLString = "https://dvla.gov.uk/driver-details"
         mockDvlaService._stubbedFetchDriverSummaryResult = .failure(.apiUnavailable)
+        mockConfigService._dvlaUrls = .arrange(driverDetails: mockDriverDetailsURLString)
         let sut = DrivingLicenceViewModel(
             analyticsService: mockAnalyticsService,
             dvlaService: mockDvlaService,
@@ -60,11 +62,24 @@ struct DrivingLicenceViewModelTests {
             openURLAction: { _ in }
         )
         await sut.viewDidAppear()
-        var errorViewModel: AppErrorViewModel?
+        var errorViewModel: InlineActionErrorViewModel?
         if case .error(let error) = sut.viewState {
             errorViewModel = error
         }
-        #expect(errorViewModel?.title == String.common.localized("genericErrorTitle"))
+        #expect(errorViewModel?.title == String(localized: .DVLA.licenceSummaryErrorTitle))
+        let expectedButtonTitle = String(localized: .DVLA.licenceSummaryErrorButtonTitle)
+        let expectedMarkdownBody = String(localized: .DVLA.licenceSummaryErrorBody(
+            buttonTitle: expectedButtonTitle,
+            url: mockDriverDetailsURLString)
+        )
+        #expect(errorViewModel?.markdownBody == expectedMarkdownBody)
+        errorViewModel?.openURLAction(URL(string: mockDriverDetailsURLString)!)
+        let trackedEvent = try #require(mockAnalyticsService._trackedEvents.first)
+        #expect(trackedEvent.name == "Navigation")
+        #expect(trackedEvent.params?["text"] as? String == expectedButtonTitle)
+        #expect(trackedEvent.params?["url"] as? String == mockDriverDetailsURLString)
+        #expect(trackedEvent.params?["section"] as? String == "Driving")
+        #expect(trackedEvent.params?["type"] as? String == "Button")
     }
 
     @Test
@@ -72,7 +87,6 @@ struct DrivingLicenceViewModelTests {
         mockDvlaService._stubbedFetchDriverSummaryResult = .success(
             .arrange(licenceStatus: .expired)
         )
-        //mock app config service set url, then compare url ?
         mockConfigService._dvlaUrls = .arrange(renewLicence: "https://renewLicence.com")
 
         let sut = DrivingLicenceViewModel(

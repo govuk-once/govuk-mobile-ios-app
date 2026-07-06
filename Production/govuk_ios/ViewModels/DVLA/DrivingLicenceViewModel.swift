@@ -5,7 +5,7 @@ class DrivingLicenceViewModel: ObservableObject {
     enum ViewState {
         case loading
         case loaded(licence: DrivingLicenceSummaryViewModel)
-        case error(AppErrorViewModel)
+        case error(InlineActionErrorViewModel)
     }
 
     @Published private(set) var viewState: ViewState
@@ -62,7 +62,7 @@ class DrivingLicenceViewModel: ObservableObject {
             hasLoadedLicence = true
             viewState = .loaded(licence: licenceSummaryViewModel)
         case .failure:
-            viewState = .error(dvlaAccountErrorViewModel)
+            viewState = .error(drivingLicenceErrorViewModel)
         }
     }
 
@@ -90,11 +90,20 @@ class DrivingLicenceViewModel: ObservableObject {
         analyticsService.track(event: event)
     }
 
-    private var dvlaAccountErrorViewModel: AppErrorViewModel {
-        .dvlaAccountErrorWithAction { [weak self] in
-            Task {
-                await self?.fetchLicence()
+    private var drivingLicenceErrorViewModel: InlineActionErrorViewModel {
+        let url = configService.dvlaUrls?.driverDetails ?? Constants.API.defaultDvlaDriverDetailsUrl
+        let buttonTitle = String(localized: .DVLA.licenceSummaryErrorButtonTitle)
+        let errorBody = String(
+            localized: .DVLA.licenceSummaryErrorBody(
+            buttonTitle: buttonTitle,
+            url: url.absoluteString)
+        )
+        return InlineActionErrorViewModel(
+            title: String(localized: .DVLA.licenceSummaryErrorTitle),
+            markdownBody: errorBody,
+            openURLAction: { [weak self] url in
+                self?.handleOpenURL(url: url, buttonTitle: buttonTitle)
             }
-        }
+        )
     }
 }
