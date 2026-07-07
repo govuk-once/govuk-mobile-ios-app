@@ -188,7 +188,7 @@ struct DrivingLicenceSummaryViewModelTests {
     }
 
     @Test
-    func test_changeAddress_returnsCorrectUrlAndTitle() {
+    func changeAddress_returnsCorrectUrlAndTitle() {
         let option = DrivingLicenceSummaryViewModel.URLOptions.changeAddresss
         let expectedUrl = Constants.API.dvlaChangeAddressUrl
 
@@ -200,7 +200,7 @@ struct DrivingLicenceSummaryViewModelTests {
     }
 
     @Test
-    func test_replaceLicence_returnsCorrectUrlAndTitle() {
+    func replaceLicence_returnsCorrectUrlAndTitle() {
         let option = DrivingLicenceSummaryViewModel.URLOptions.replaceLicence
         let expectedUrl = Constants.API.dvlaReplaceDrivingLicence
 
@@ -211,7 +211,7 @@ struct DrivingLicenceSummaryViewModelTests {
     }
 
     @Test
-    func test_changeNameAndGender_returnsCorrectUrlAndTitle() {
+    func changeNameAndGender_returnsCorrectUrlAndTitle() {
         let option = DrivingLicenceSummaryViewModel.URLOptions.changeNameAndGender
         let expectedUrl = Constants.API.dvlaChangeAddressUrl
 
