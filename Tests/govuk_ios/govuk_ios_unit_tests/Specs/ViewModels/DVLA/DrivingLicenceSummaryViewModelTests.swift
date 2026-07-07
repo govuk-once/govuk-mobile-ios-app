@@ -11,7 +11,6 @@ struct DrivingLicenceSummaryViewModelTests {
         let sut = DrivingLicenceSummaryViewModel(
             driverSummary: mockDriverSummary,
             statusBuilder: MockLicenceStatusViewModelBuilder(),
-            openURLAction: { _ in },
             analyticsService: MockAnalyticsService()
         )
         #expect(sut.licenceNumber == "ABC123AE")
@@ -24,7 +23,6 @@ struct DrivingLicenceSummaryViewModelTests {
         let sut = DrivingLicenceSummaryViewModel(
             driverSummary: mockDriverSummary,
             statusBuilder: MockLicenceStatusViewModelBuilder(),
-            openURLAction: { _ in },
             analyticsService: mockAnalytics
         )
 
@@ -48,7 +46,6 @@ struct DrivingLicenceSummaryViewModelTests {
         let sut = DrivingLicenceSummaryViewModel(
             driverSummary: mockDriverSummary,
             statusBuilder: MockLicenceStatusViewModelBuilder(),
-            openURLAction: { _ in },
             analyticsService: mockAnalytics
         )
 
@@ -73,7 +70,6 @@ struct DrivingLicenceSummaryViewModelTests {
         let sut = DrivingLicenceSummaryViewModel(
             driverSummary: mockDriverSummary,
             statusBuilder: MockLicenceStatusViewModelBuilder(),
-            openURLAction: { _ in },
             analyticsService: mockAnalytics
         )
         sut.copyToClipbaord()
@@ -97,7 +93,6 @@ struct DrivingLicenceSummaryViewModelTests {
         let sut = DrivingLicenceSummaryViewModel(
             driverSummary: mockDriverSummary,
             statusBuilder: MockLicenceStatusViewModelBuilder(),
-            openURLAction: { _ in },
             analyticsService: MockAnalyticsService()
         )
         let expectedLicenceType = String.localizedStringWithFormat(
@@ -116,7 +111,6 @@ struct DrivingLicenceSummaryViewModelTests {
         let sut = DrivingLicenceSummaryViewModel(
             driverSummary: mockDriverSummary,
             statusBuilder: MockLicenceStatusViewModelBuilder(),
-            openURLAction: { _ in },
             analyticsService: MockAnalyticsService()
         )
         #expect(sut.fullName == "MR JOE GEORGE BLOGGS")
@@ -135,7 +129,6 @@ struct DrivingLicenceSummaryViewModelTests {
         let sut = DrivingLicenceSummaryViewModel(
             driverSummary: mockDriverSummary,
             statusBuilder: MockLicenceStatusViewModelBuilder(),
-            openURLAction: { _ in },
             analyticsService: MockAnalyticsService()
         )
         let expectedAddressArray = [
@@ -160,7 +153,6 @@ struct DrivingLicenceSummaryViewModelTests {
         let sut = DrivingLicenceSummaryViewModel(
             driverSummary: mockDriverSummary,
             statusBuilder: mockStatusViewModelBuilder,
-            openURLAction: { _ in },
             analyticsService: MockAnalyticsService()
         )
 
@@ -176,7 +168,6 @@ struct DrivingLicenceSummaryViewModelTests {
         let sut = DrivingLicenceSummaryViewModel(
             driverSummary: mockDriverSummary,
             statusBuilder: MockLicenceStatusViewModelBuilder(),
-            openURLAction: { _ in },
             analyticsService: MockAnalyticsService()
         )
 
@@ -228,7 +219,6 @@ struct DrivingLicenceSummaryViewModelTests {
         let sut = DrivingLicenceSummaryViewModel(
             driverSummary: mockDriverSummary,
             statusBuilder: MockLicenceStatusViewModelBuilder(),
-            openURLAction: { _ in },
             analyticsService: MockAnalyticsService()
         )
 

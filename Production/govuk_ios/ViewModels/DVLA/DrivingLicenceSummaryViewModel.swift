@@ -8,7 +8,6 @@ struct DrivingLicenceSummaryViewModel {
     let fullName: String
     let address: [String]
     let licenceStatusViewModel: ValidityStatusViewModel
-    let openURLAction: (URL, String) -> Void
     let menuSelectionAction: (URL) -> Void
     let analyticsService: AnalyticsServiceInterface
 
@@ -97,7 +96,6 @@ extension DrivingLicenceSummaryViewModel {
     init(
         driverSummary: DriverSummary,
         statusBuilder: LicenceStatusViewModelBuilderInterface,
-        openURLAction: @escaping (URL, String) -> Void,
         menuSelectionAction: @escaping (URL) -> Void,
         analyticsService: AnalyticsServiceInterface
     ) {
@@ -106,7 +104,6 @@ extension DrivingLicenceSummaryViewModel {
             driverSummary.response.licence.type
         )
         self.licenceType = licenceType
-        self.openURLAction = openURLAction
         self.analyticsService = analyticsService
         self.menuSelectionAction = menuSelectionAction
 

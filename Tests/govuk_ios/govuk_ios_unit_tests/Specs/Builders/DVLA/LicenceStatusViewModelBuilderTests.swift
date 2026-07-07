@@ -31,6 +31,7 @@ struct LicenceStatusViewModelBuilderTests {
         #expect(result.buttonAction != nil)
         result.buttonAction?()
         #expect(receivedUrl == URL(string: "https://renewLicence.com"))
+        #expect(receivedButtonTitle == String(localized: .DVLA.renewLicenceButtonTitle))
         #expect(result.buttonTitle == String(localized: .DVLA.renewLicenceButtonTitle))
     }
 
