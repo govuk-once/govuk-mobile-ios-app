@@ -64,7 +64,6 @@ class HomeViewModel: ObservableObject {
 
     func updateWidgets() {
         let array = [
-            promoBannerWidget,
             chatWidget,
             topicsWidget,
             addLocalAuthorityWidget,
@@ -72,7 +71,7 @@ class HomeViewModel: ObservableObject {
             recentActivityWidget,
             feedbackWidget
         ].compactMap { $0 }
-        widgets = bannerWidgets + array
+        widgets = bannerWidgets + promoBannerWidgets + array
     }
 
     private var bannerWidgets: [HomepageWidget] {
@@ -124,20 +123,18 @@ class HomeViewModel: ObservableObject {
         )
     }
 
-    private var promoBannerWidget: HomepageWidget? {
-        let promoLink = PromoBanner.Link(
-            title: "View travel advice",
-            url: URL(string: "govuk://gov.uk/chat")!
-        )
-        let promoBanner = PromoBanner(
-            id: UUID().uuidString,
-            title: "Going on holibobs?",
-            body: "Make sure you check out travel advice first",
-            link: promoLink
-        )
+    private var promoBannerWidgets: [HomepageWidget] {
+        guard let banners = configService.promoBanners
+        else { return [] }
+        return banners.map({
+            promoBannerWidget($0)
+        })
+    }
+
+    private func promoBannerWidget(_ banner: PromoBanner) -> HomepageWidget {
         let viewModel = PromoBannerWidgetViewModel(
             analyticsService: analyticsService,
-            banner: promoBanner,
+            banner: banner,
             urlOpener: urlOpener,
             dismissAction: {
                 self.updateWidgets()

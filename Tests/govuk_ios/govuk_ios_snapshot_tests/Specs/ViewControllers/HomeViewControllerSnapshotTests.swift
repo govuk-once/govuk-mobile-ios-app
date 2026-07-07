@@ -89,9 +89,33 @@ class HomeViewControllerSnapshotTests: SnapshotTestCase {
         let mockNotificationService = MockNotificationService()
         mockNotificationService._stubbedShouldRequestPermission = true
 
+        let configService = MockAppConfigService()
+        let promoLink1 = PromoBanner.Link(
+            title: "View travel advice",
+            url: URL(string: "govuk://gov.uk/chat")!
+        )
+        let promoLink2 = PromoBanner.Link(
+            title: "View travel advice",
+            url: URL(string: "https://www.gov.uk/foreign-travel-advice")!
+        )
+        let banners = [
+            PromoBanner(
+                id: UUID().uuidString,
+                title: "Going on holibobs?",
+                body: "Make sure you check out travel advice first",
+                link: promoLink1
+            ),
+            PromoBanner(
+                id: UUID().uuidString,
+                title: "Going on holz?",
+                body: "Make sure you check out travel advice first",
+                link: promoLink2
+            ),
+        ]
+        configService._stubbedPromoBanners = banners
         let viewModel = HomeViewModel(
             analyticsService: mockAnalyticsService,
-            configService: MockAppConfigService(),
+            configService: configService,
             notificationService: MockNotificationService(),
             userDefaultsService: MockUserDefaultsService(),
             topicsWidgetViewModel: topicsViewModel,

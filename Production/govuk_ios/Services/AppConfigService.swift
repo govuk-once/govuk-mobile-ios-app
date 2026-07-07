@@ -8,6 +8,7 @@ protocol AppConfigServiceInterface {
     var chatPollIntervalSeconds: TimeInterval { get }
     var alertBanner: AlertBanner? { get }
     var chatBanner: ChatBanner? { get }
+    var promoBanners: [PromoBanner]? { get }
     var userFeedbackBanner: UserFeedbackBanner? { get }
     var emergencyBanners: [EmergencyBanner]? { get }
     var chatUrls: ChatURLs? { get }
@@ -29,6 +30,7 @@ public final class AppConfigService: AppConfigServiceInterface {
     var chatBanner: ChatBanner?
     var userFeedbackBanner: UserFeedbackBanner?
     var emergencyBanners: [EmergencyBanner]?
+    private(set) var promoBanners: [PromoBanner]?
     private(set) var chatUrls: ChatURLs?
     private(set) var dvlaUrls: DvlaURLs?
     private(set) var refreshTokenExpirySeconds: Int?
@@ -90,6 +92,7 @@ public final class AppConfigService: AppConfigServiceInterface {
 
         emergencyBanners = config.emergencyBanners
         chatBanner = config.chatBanner
+        promoBanners = config.promoBanners
         userFeedbackBanner = config.userFeedbackBanner
         chatUrls = config.chatUrls
         dvlaUrls = config.dvlaUrls

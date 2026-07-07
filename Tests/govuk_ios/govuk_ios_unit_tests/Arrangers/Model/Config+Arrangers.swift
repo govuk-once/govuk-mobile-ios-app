@@ -13,6 +13,7 @@ extension Config {
                         releaseFlags: [String: Bool] = [:],
                         lastUpdated: String = "test",
                         searchApiUrl: String? = nil,
+                        promoBanners: [PromoBanner]? = nil,
                         authenticationIssuerBaseUrl: String = "https://test.com",
                         chatPollIntervalSeconds: TimeInterval? = 3,
                         refreshTokenExpirySeconds: Int? = 3600) -> Config {
@@ -35,6 +36,7 @@ extension Config {
                     title: "test",
                     url: URL(string: "https://test.com")!)
             ),
+            promoBanners: promoBanners,
             userFeedbackBanner: .init(
                 body: "test",
                 link: UserFeedbackBanner.Link(
