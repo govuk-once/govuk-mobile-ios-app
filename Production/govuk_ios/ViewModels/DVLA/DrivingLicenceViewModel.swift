@@ -63,7 +63,6 @@ class DrivingLicenceViewModel: ObservableObject {
         }
     }
 
-
     func handleOpenURL(url: URL, buttonTitle: String) {
         trackOpenURLAction(url: url, buttonTitle: buttonTitle)
         openURLAction(url)

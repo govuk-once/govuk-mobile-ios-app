@@ -129,8 +129,7 @@ extension DrivingLicenceSummaryViewModel {
         self.address = addressArray
         self.licenceStatusViewModel = statusBuilder.makeViewModel(
             status: driverSummary.response.licence.status,
-            validToDate: driverSummary.response.token?.validToDate,
-            openURLAction: openURLAction
+            validToDate: driverSummary.response.token?.validToDate
         )
         self.fullNameAccessibilityLabel = .localizedStringWithFormat(
             String.dvla.localized("licenceFullNameAccessibilityLabel"),

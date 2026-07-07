@@ -28,7 +28,8 @@ struct LicenceStatusViewModelBuilder: LicenceStatusViewModelBuilderInterface {
         makeViewModel(
             status: status,
             validToDate: validToDate,
-            openURLAction: openURLAction, currentDate: Date()
+            openURLAction: openURLAction,
+            currentDate: Date()
         )
     }
 

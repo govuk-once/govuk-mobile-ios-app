@@ -243,4 +243,3 @@ struct DrivingLicenceSummaryViewModelTests {
         #expect(sut.addressAccessibilityLabel == expectedAccessibilityLabel)
     }
 }
-

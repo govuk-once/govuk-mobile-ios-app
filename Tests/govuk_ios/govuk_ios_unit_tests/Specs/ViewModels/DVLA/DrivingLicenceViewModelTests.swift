@@ -66,5 +66,34 @@ struct DrivingLicenceViewModelTests {
         }
         #expect(errorViewModel?.title == String.common.localized("genericErrorTitle"))
     }
+
+    @Test
+    func licenceStatusViewModelAction_tracksOpenURLEvent() async throws {
+        mockDvlaService._stubbedFetchDriverSummaryResult = .success(
+            .arrange(licenceStatus: .expired)
+        )
+        //mock app config service set url, then compare url ?
+        mockConfigService._dvlaUrls = .arrange(renewLicence: "https://renewLicence.com")
+
+        let sut = DrivingLicenceViewModel(
+            analyticsService: mockAnalyticsService,
+            dvlaService: mockDvlaService,
+            configService: mockConfigService,
+            openURLAction: { _ in }
+        )
+        await sut.viewDidAppear()
+        var licenceSummaryViewModel: DrivingLicenceSummaryViewModel?
+        if case .loaded(let licenceSummary) = sut.viewState {
+            licenceSummaryViewModel = licenceSummary
+        }
+        let unwrappedLicenceSummaryViewModel = try #require(licenceSummaryViewModel)
+        unwrappedLicenceSummaryViewModel.licenceStatusViewModel.buttonAction?()
+        let trackedEvent = try #require(mockAnalyticsService._trackedEvents.first)
+        #expect(trackedEvent.name == "Navigation")
+        #expect(trackedEvent.params?["text"] as? String == String(localized: .DVLA.renewLicenceButtonTitle))
+        #expect(trackedEvent.params?["url"] as? String == "https://renewLicence.com")
+        #expect(trackedEvent.params?["section"] as? String == "Driving")
+        #expect(trackedEvent.params?["type"] as? String == "Button")
+    }
 }
 
