@@ -4,7 +4,7 @@ protocol LicenceStatusViewModelBuilderInterface {
     func makeViewModel(
        status: DrivingLicenceStatus,
        validToDate: Date?,
-       openURLAction: @escaping (URL) -> Void
+       openURLAction: @escaping (URL, String) -> Void
     ) -> ValidityStatusViewModel
 }
 
@@ -23,7 +23,7 @@ struct LicenceStatusViewModelBuilder: LicenceStatusViewModelBuilderInterface {
     func makeViewModel(
         status: DrivingLicenceStatus,
         validToDate: Date?,
-        openURLAction: @escaping (URL) -> Void
+        openURLAction: @escaping (URL, String) -> Void
     ) -> ValidityStatusViewModel {
         makeViewModel(
             status: status,
@@ -36,7 +36,7 @@ struct LicenceStatusViewModelBuilder: LicenceStatusViewModelBuilderInterface {
      func makeViewModel(
         status: DrivingLicenceStatus,
         validToDate: Date?,
-        openURLAction: @escaping (URL) -> Void,
+        openURLAction: @escaping (URL, String) -> Void,
         currentDate: Date,
      ) -> ValidityStatusViewModel {
         switch status {
@@ -80,7 +80,7 @@ struct LicenceStatusViewModelBuilder: LicenceStatusViewModelBuilderInterface {
      // MARK: - Expired
      private func makeExpiredViewModel(
          validToDate: Date?,
-         openURLAction: @escaping (URL) -> Void
+         openURLAction: @escaping (URL, String) -> Void
      ) -> ValidityStatusViewModel {
          let status: String
          if let dateString = formattedDate(validToDate) {
@@ -95,7 +95,7 @@ struct LicenceStatusViewModelBuilder: LicenceStatusViewModelBuilderInterface {
              let title = String(localized: .DVLA.renewLicenceButtonTitle)
              buttonTitle = title
              buttonAction = {
-                 openURLAction(renewURL)
+                 openURLAction(renewURL, title)
              }
          }
          return ValidityStatusViewModel(
@@ -129,7 +129,7 @@ struct LicenceStatusViewModelBuilder: LicenceStatusViewModelBuilderInterface {
     private func makeExpiringViewModel(
         validToDate: Date,
         expiryProgress: ExpiryProgressState,
-        openURLAction: @escaping (URL) -> Void
+        openURLAction: @escaping (URL, String) -> Void,
     ) -> ValidityStatusViewModel {
         let status = String(
             localized: .DVLA.expiringOn(
@@ -146,7 +146,7 @@ struct LicenceStatusViewModelBuilder: LicenceStatusViewModelBuilderInterface {
             let title = String(localized: .DVLA.renewLicenceButtonTitle)
             buttonTitle = title
             buttonAction = {
-                openURLAction(renewURL)
+                openURLAction(renewURL, title)
             }
         }
         return ValidityStatusViewModel(

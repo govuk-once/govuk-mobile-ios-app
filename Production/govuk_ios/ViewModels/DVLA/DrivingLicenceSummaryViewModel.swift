@@ -8,7 +8,8 @@ struct DrivingLicenceSummaryViewModel {
     let fullName: String
     let address: [String]
     let licenceStatusViewModel: ValidityStatusViewModel
-    let openURLAction: (URL) -> Void
+    let openURLAction: (URL, String) -> Void
+    let menuSelectionAction: (URL) -> Void
     let analyticsService: AnalyticsServiceInterface
 
     let copyLicenceButtonTitle = String.dvla.localized(
@@ -34,7 +35,7 @@ struct DrivingLicenceSummaryViewModel {
     )
 
     func openUrl(options: URLOptions) {
-        openURLAction(options.urlAndTitle.0)
+        menuSelectionAction(options.urlAndTitle.0)
         trackNavigation(text: options.urlAndTitle.1)
     }
 
@@ -96,7 +97,8 @@ extension DrivingLicenceSummaryViewModel {
     init(
         driverSummary: DriverSummary,
         statusBuilder: LicenceStatusViewModelBuilderInterface,
-        openURLAction: @escaping (URL) -> Void,
+        openURLAction: @escaping (URL, String) -> Void,
+        menuSelectionAction: @escaping (URL) -> Void,
         analyticsService: AnalyticsServiceInterface
     ) {
         let licenceType = String.localizedStringWithFormat(
@@ -106,6 +108,7 @@ extension DrivingLicenceSummaryViewModel {
         self.licenceType = licenceType
         self.openURLAction = openURLAction
         self.analyticsService = analyticsService
+        self.menuSelectionAction = menuSelectionAction
 
         self.licenceNumber = driverSummary.response.driver.licenceNo
         let fullName = [
@@ -144,6 +147,59 @@ extension DrivingLicenceSummaryViewModel {
         self.addressAccessibilityLabel = .localizedStringWithFormat(
             String.dvla.localized("licenceAddressAccessibilityLabel"),
             address
+        )
+    }
+    func arrange(
+        title: String = "MR",
+        firstNames: String = "KENNETH",
+        lastName: String = "DECERQUEIRA",
+        address: DriverAddress,
+        licenceNo: String = "DECER607085K99AE",
+        licenceType: String = "Full",
+        licenceStatus: DrivingLicenceStatus = .valid,
+        penaltyPoints: Int = 1,
+        validFrom: Date = .init(timeIntervalSince1970: 0),
+        validTo: Date = .init(timeIntervalSince1970: 30)
+    ) -> DriverSummary {
+        .init(
+            response: .init(
+                driver: .init(
+                    licenceNo: licenceNo,
+                    title: title,
+                    firstNames: firstNames,
+                    lastName: lastName,
+                    penaltyPoints: penaltyPoints,
+                    address: address
+                ),
+                licence: .init(
+                    type: licenceType,
+                    status: licenceStatus
+                ),
+                token: .init(
+                    validFromDate: validFrom,
+                    validToDate: validTo
+                )
+            )
+        )
+    }
+
+    func arrangeAdresss(
+        line1: String? = "75 ST JOHN'S STREET",
+        line2: String? = "GATESHEAD",
+        line3: String? = nil,
+        line4: String? = nil,
+        line5: String? = nil,
+        postcode: String? = "NE8 2ED"
+    ) -> DriverAddress {
+        .init(
+            unstructuredAddress: .init(
+                line1: line1,
+                line2: line2,
+                line3: line3,
+                line4: line4,
+                line5: line5,
+                postcode: postcode
+            )
         )
     }
 }

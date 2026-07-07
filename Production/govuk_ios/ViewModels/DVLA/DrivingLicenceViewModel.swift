@@ -47,14 +47,30 @@ class DrivingLicenceViewModel: ObservableObject {
     private func fetchLicence() async {
         viewState = .loading
         let result = await dvlaService.fetchDriverSummary()
+//        let address = arrangeAdresss()
+//        let summary = arrange(address: address)
+//        let viewModel = DrivingLicenceSummaryViewModel(
+//            driverSummary: summary,
+//            statusBuilder: LicenceStatusViewModelBuilder(urls: configService.dvlaUrls),
+//            openURLAction: { _ in
+//            },
+//            analyticsService: analyticsService)
+//        viewState = .loaded(licence: viewModel)
         switch result {
         case .success(let driverSummary):
             let licenceSummaryViewModel = DrivingLicenceSummaryViewModel(
                 driverSummary: driverSummary,
                 statusBuilder: LicenceStatusViewModelBuilder(urls: configService.dvlaUrls),
-                openURLAction: { [weak self] url in
+                openURLAction: { [weak self] url, buttonTitle in
+                    self?.handleOpenURL(
+                        url: url,
+                        buttonTitle: buttonTitle
+                    )
+                },
+                menuSelectionAction: { [weak self] url in
                     self?.openURLAction(url)
-                }, analyticsService: analyticsService
+                },
+                analyticsService: analyticsService
             )
             hasLoadedLicence = true
             viewState = .loaded(licence: licenceSummaryViewModel)
@@ -93,5 +109,59 @@ class DrivingLicenceViewModel: ObservableObject {
                 await self?.fetchLicence()
             }
         }
+    }
+
+    func arrange(
+        title: String = "MR",
+        firstNames: String = "KENNETH",
+        lastName: String = "DECERQUEIRA",
+        address: DriverAddress,
+        licenceNo: String = "DECER607085K99AE",
+        licenceType: String = "Full",
+        licenceStatus: DrivingLicenceStatus = .valid,
+        penaltyPoints: Int = 1,
+        validFrom: Date = .init(timeIntervalSince1970: 0),
+        validTo: Date = .init(timeIntervalSince1970: 30)
+    ) -> DriverSummary {
+        .init(
+            response: .init(
+                driver: .init(
+                    licenceNo: licenceNo,
+                    title: title,
+                    firstNames: firstNames,
+                    lastName: lastName,
+                    penaltyPoints: penaltyPoints,
+                    address: address
+                ),
+                licence: .init(
+                    type: licenceType,
+                    status: licenceStatus
+                ),
+                token: .init(
+                    validFromDate: validFrom,
+                    validToDate: validTo
+                )
+            )
+        )
+    }
+
+    func arrangeAdresss(
+        line1: String? = "75 ST JOHN'S STREET",
+        line2: String? = "GATESHEAD",
+        line3: String? = nil,
+        line4: String? = nil,
+        line5: String? = nil,
+        postcode: String? = "NE8 2ED"
+    ) -> DriverAddress {
+        .init(
+            unstructuredAddress: .init(
+                line1: line1,
+                line2: line2,
+                line3: line3,
+                line4: line4,
+                line5: line5,
+                postcode: postcode
+            )
+        )
     }
 }

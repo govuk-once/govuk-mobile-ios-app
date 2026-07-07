@@ -191,11 +191,9 @@ struct DrivingLicenceSummaryViewModelTests {
     func changeAddress_returnsCorrectUrlAndTitle() {
         let option = DrivingLicenceSummaryViewModel.URLOptions.changeAddresss
         let expectedUrl = Constants.API.dvlaChangeAddressUrl
-
         let (actualUrl, actualTitle) = option.urlAndTitle
 
         #expect(actualUrl == expectedUrl)
-
         #expect(actualTitle == "Change address")
     }
 
@@ -203,7 +201,6 @@ struct DrivingLicenceSummaryViewModelTests {
     func replaceLicence_returnsCorrectUrlAndTitle() {
         let option = DrivingLicenceSummaryViewModel.URLOptions.replaceLicence
         let expectedUrl = Constants.API.dvlaReplaceDrivingLicence
-
         let (actualUrl, actualTitle) = option.urlAndTitle
 
         #expect(actualUrl == expectedUrl)
@@ -214,7 +211,6 @@ struct DrivingLicenceSummaryViewModelTests {
     func changeNameAndGender_returnsCorrectUrlAndTitle() {
         let option = DrivingLicenceSummaryViewModel.URLOptions.changeNameAndGender
         let expectedUrl = Constants.API.dvlaChangeAddressUrl
-
         let (actualUrl, actualTitle) = option.urlAndTitle
 
         #expect(actualUrl == expectedUrl)
