@@ -96,6 +96,7 @@ extension DrivingLicenceSummaryViewModel {
     init(
         driverSummary: DriverSummary,
         statusBuilder: LicenceStatusViewModelBuilderInterface,
+        openURLAction: @escaping (URL, String) -> Void,
         menuSelectionAction: @escaping (URL) -> Void,
         analyticsService: AnalyticsServiceInterface
     ) {
