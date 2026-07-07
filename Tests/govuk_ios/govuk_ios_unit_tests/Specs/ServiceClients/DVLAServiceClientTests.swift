@@ -197,6 +197,58 @@ struct DVLAServiceClientTests {
         #expect(error == .apiUnavailable)
     }
 
+    // MARK: - fetchIdentityVerification
+
+    @Test
+    func fetchIdentityVerification_sendsExpectedRequest() async {
+        mockAPI._stubbedSendResponse = .success(Data())
+        _ = await sut.fetchIdentityVerification()
+        #expect(mockAPI._receivedSendRequest?.urlPath == "/app/dvla/v1/identity")
+        #expect(mockAPI._receivedSendRequest?.method == .post)
+        #expect(mockAPI._receivedSendRequest?.additionalHeaders == ["Content-Type": "application/json"])
+    }
+
+    @Test
+    func fetchIdentityVerification_success_returnsExpectedResult() async throws {
+        let token = "some-identity-token"
+        let encoded = try #require(try? JSONEncoder().encode(token))
+        mockAPI._stubbedSendResponse = .success(encoded)
+
+        let result = await sut.fetchIdentityVerification()
+        let value = try #require(try? result.get())
+        #expect(value == token)
+    }
+
+    @Test
+    func fetchIdentityVerification_apiUnavailable_returnsExpectedError() async {
+        mockAPI._stubbedSendResponse = .failure(DVLAError.apiUnavailable)
+        let result = await sut.fetchIdentityVerification()
+        let error = result.getError()
+        #expect(error == .apiUnavailable)
+    }
+
+    @Test
+    func fetchIdentityVerification_networkUnavailable_returnsExpectedError() async {
+        let networkError = NSError(
+            domain: NSURLErrorDomain,
+            code: NSURLErrorNotConnectedToInternet
+        )
+        mockAPI._stubbedSendResponse = .failure(networkError)
+        let result = await sut.fetchIdentityVerification()
+        let error = result.getError()
+        #expect(error == .networkUnavailable)
+    }
+
+    @Test
+    func fetchIdentityVerification_malformedResponse_returnsDecodingError() async {
+        mockAPI._stubbedSendResponse = .success(Data("not valid json".utf8))
+        let result = await sut.fetchIdentityVerification()
+        let error = result.getError()
+        #expect(error == .decodingError)
+    }
+
+    // MARK: - Static fixtures
+
     static var drivingLicenceResponse: Data = {
         .load(filename: "MockDrivingLicenceResponse")
     }()

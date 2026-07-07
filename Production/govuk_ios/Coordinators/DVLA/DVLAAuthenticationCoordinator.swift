@@ -8,12 +8,15 @@ final class DVLAAuthenticationCoordinator: BaseCoordinator {
     }()
     private let urlOpener: URLOpener
     private let dvlaService: DVLAServiceInterface
+    private let analticsService: AnalyticsServiceInterface
 
     init(navigationController: UINavigationController,
          urlOpener: URLOpener,
-         dvlaService: DVLAServiceInterface) {
+         dvlaService: DVLAServiceInterface,
+         analticsService: AnalyticsServiceInterface) {
         self.urlOpener = urlOpener
         self.dvlaService = dvlaService
+        self.analticsService = analticsService
         super.init(navigationController: navigationController)
     }
 
@@ -39,7 +42,7 @@ final class DVLAAuthenticationCoordinator: BaseCoordinator {
             resolvingAgainstBaseURL: true
         )
         components?.queryItems = [
-            .init(name: "v", value: email)
+            .init(name: "verification", value: email)
         ]
         guard let url = components?.url
         else { return presentError() }
@@ -47,12 +50,22 @@ final class DVLAAuthenticationCoordinator: BaseCoordinator {
     }
 
     private func presentError() {
-        let alert = UIAlertController(
-            title: "Error",
-            message: "Failed to link account",
-            preferredStyle: .alert
+        let viewModel = ErrorViewModel(
+            analyticsService: analticsService,
+            title: "Something went wrong",
+            subtitle: "Please try again later",
+            systemImageName: "exclamationmark.circle",
+            primaryButtonTitle: "I understand",
+            primaryAction: { [weak self] in
+                self?.root.dismiss(animated: true)
+            },
+            trackingName: ""
         )
-        alert.addAction(.init(title: "OK", style: .default))
-        root.present(alert, animated: true)
+        let errorView = ErrorView(viewModel: viewModel)
+        let hostingViewController = HostingViewController(
+            rootView: errorView,
+            navigationBarHidden: true
+        )
+        set(hostingViewController, animated: true)
     }
 }

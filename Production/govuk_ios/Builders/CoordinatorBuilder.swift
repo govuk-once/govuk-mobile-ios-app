@@ -543,6 +543,7 @@ class CoordinatorBuilder {
             navigationController: navigationController,
             urlOpener: UIApplication.shared,
             dvlaService: container.dvlaService.resolve(),
+            analticsService: container.analyticsService.resolve(),
         )
     }
 

@@ -3,7 +3,6 @@ import Foundation
 @testable import govuk_ios
 
 class MockDVLAService: DVLAServiceInterface {
-
     var _fetchDrivingLicenceCallCount = 0
     var _fetchDrivingLicenceCalledContinuation: CheckedContinuation<Void, Never>?
     var _stubbedFetchDrivingLicenceResult: DrivingLicenceResult?
@@ -42,5 +41,10 @@ class MockDVLAService: DVLAServiceInterface {
         _cancelShareCodeCallCount += 1
         _cancelShareCodeCalledContinuation?.resume()
         return _stubbedCancelShareCodeResult!
+    }
+
+    var _stubbedFetchIdentityVerificationResult: IdentityVerificationResult?
+    func fetchIdentityVerification() async -> IdentityVerificationResult {
+        _stubbedFetchIdentityVerificationResult!
     }
 }
