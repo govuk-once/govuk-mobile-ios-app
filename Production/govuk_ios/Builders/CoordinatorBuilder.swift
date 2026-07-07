@@ -71,6 +71,7 @@ class CoordinatorBuilder {
             viewControllerBuilder: ViewControllerBuilder(),
             deeplinkStore: DeeplinkDataStore.home(
                 coordinatorBuilder: self,
+                analyticsService: container.analyticsService.resolve(),
                 root: navigationController
             ),
             analyticsService: container.analyticsService.resolve(),

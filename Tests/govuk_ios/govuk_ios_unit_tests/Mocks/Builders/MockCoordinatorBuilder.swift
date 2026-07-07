@@ -79,7 +79,8 @@ class MockCoordinatorBuilder: CoordinatorBuilder {
         let coreData: CoreDataRepository = await CoreDataRepository.arrangeAndLoad
         let mockCoodinatorBuilder = MockCoordinatorBuilder.mock
         let mockViewControllerBuilder = MockViewControllerBuilder()
-        
+        let mockAnalyticsService = MockAnalyticsService()
+
         mockViewControllerBuilder._stubbedHomeViewController = homeViewController
         let navigationController = UINavigationController()
         let mockHomeCoordinator = MockHomeCoordinator(
@@ -88,9 +89,10 @@ class MockCoordinatorBuilder: CoordinatorBuilder {
             viewControllerBuilder: mockViewControllerBuilder,
             deeplinkStore: DeeplinkDataStore.home(
                 coordinatorBuilder: mockCoodinatorBuilder,
+                analyticsService: mockAnalyticsService,
                 root: navigationController
             ),
-            analyticsService: MockAnalyticsService(),
+            analyticsService: mockAnalyticsService,
             configService: MockAppConfigService(),
             topicsService: MockTopicsService(),
             notificationService: MockNotificationService(),
