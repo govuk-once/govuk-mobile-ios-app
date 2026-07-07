@@ -79,10 +79,10 @@ import GovKit
     }
 
     func test_errorView_light_rendersCorrectly() {
-        let errorViewModel = AppErrorViewModel(
+        let errorViewModel = InlineActionErrorViewModel(
             title: "Test error",
-            body: "Something went wrong.",
-            buttonTitle: "Try again"
+            markdownBody: "Try again later or [go to the website](https://gov.uk)",
+            openURLAction: { _ in }
         )
 
         let viewModel = MockDrivingLicenceViewModel(
@@ -100,10 +100,10 @@ import GovKit
     }
 
     func test_errorView_dark_rendersCorrectly() {
-        let errorViewModel = AppErrorViewModel(
+        let errorViewModel = InlineActionErrorViewModel(
             title: "Test error",
-            body: "Something went wrong.",
-            buttonTitle: "Try again"
+            markdownBody: "Try again later or [go to the website](https://gov.uk)",
+            openURLAction: { _ in }
         )
 
         let viewModel = MockDrivingLicenceViewModel(
