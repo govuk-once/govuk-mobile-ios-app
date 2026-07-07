@@ -5,6 +5,7 @@ typealias CustomerSummaryResult = Result<CustomerSummary, DVLAError>
 typealias VehicleResult = Result<Vehicle, DVLAError>
 typealias ShareCodesResult = Result<ShareCodeListResponse, DVLAError>
 typealias ShareCodeResult = Result<ShareCodeResponse, DVLAError>
+typealias IdentityVerificationResult = Result<String, DVLAError>
 
 protocol DVLAServiceClientInterface {
     func fetchDrivingLicence() async -> DrivingLicenceResult
@@ -13,6 +14,7 @@ protocol DVLAServiceClientInterface {
     func fetchShareCodes() async -> ShareCodesResult
     func createShareCode() async -> ShareCodeResult
     func cancelShareCode(id: String) async -> ShareCodeResult
+    func fetchIdentityVerification() async -> IdentityVerificationResult
 }
 
 class DVLAServiceClient: DVLAServiceClientInterface {
@@ -46,6 +48,10 @@ class DVLAServiceClient: DVLAServiceClientInterface {
 
     func cancelShareCode(id: String) async -> ShareCodeResult {
         await performRequest(.cancelShareCode(id: id))
+    }
+
+    func fetchIdentityVerification() async -> IdentityVerificationResult {
+        await performRequest(.identityVerification)
     }
 
     private func performRequest<T: Decodable>(

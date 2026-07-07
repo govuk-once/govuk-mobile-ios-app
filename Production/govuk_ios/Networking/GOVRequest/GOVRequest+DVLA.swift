@@ -72,4 +72,15 @@ extension GOVRequest {
             requiresAuthentication: true
         )
     }
+
+    static var identityVerification: GOVRequest {
+        GOVRequest(
+            urlPath: "\(dvlaPath)/identity",
+            method: .post,
+            body: nil,
+            queryParameters: nil,
+            additionalHeaders: additionalHeaders,
+            requiresAuthentication: true
+        )
+    }
 }

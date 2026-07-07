@@ -541,7 +541,8 @@ class CoordinatorBuilder {
     ) -> BaseCoordinator {
         DVLAAuthenticationCoordinator(
             navigationController: navigationController,
-            urlOpener: UIApplication.shared
+            urlOpener: UIApplication.shared,
+            dvlaService: container.dvlaService.resolve(),
         )
     }
 
