@@ -88,7 +88,9 @@ struct VehiclesViewModelTests {
 
     @Test
     func viewDidAppear_fetchVehiclesFailure_createsErrorViewModel() async throws {
+        let mockAccountURLString = "https://dvla.gov.uk/account"
         mockDvlaService._stubbedFetchCustomerSummaryResult = .failure(.apiUnavailable)
+        mockConfigService._dvlaUrls = .arrange(account: mockAccountURLString)
         let sut = VehiclesViewModel(
             analyticsService: mockAnalyticsService,
             dvlaService: mockDvlaService,
@@ -97,11 +99,24 @@ struct VehiclesViewModelTests {
             openURLAction: { _ in }
         )
         await sut.viewDidAppear()
-        var errorViewModel: AppErrorViewModel?
+        var errorViewModel: InlineActionErrorViewModel?
         if case .error(let error) = sut.viewState {
             errorViewModel = error
         }
-        #expect(errorViewModel?.title == String.common.localized("genericErrorTitle"))
+        #expect(errorViewModel?.title == String(localized: .DVLA.vehicleSummaryErrorTitle))
+        let expectedButtonTitle = String(localized: .DVLA.vehicleSummaryErrorButtonTitle)
+        let expectedMarkdownBody = String(localized: .DVLA.vehicleSummaryErrorBody(
+            buttonTitle: expectedButtonTitle,
+            url: mockAccountURLString)
+        )
+        #expect(errorViewModel?.markdownBody == expectedMarkdownBody)
+        errorViewModel?.openURLAction(URL(string: mockAccountURLString)!)
+        let trackedEvent = try #require(mockAnalyticsService._trackedEvents.first)
+        #expect(trackedEvent.name == "Navigation")
+        #expect(trackedEvent.params?["text"] as? String == expectedButtonTitle)
+        #expect(trackedEvent.params?["url"] as? String == mockAccountURLString)
+        #expect(trackedEvent.params?["section"] as? String == "Driving")
+        #expect(trackedEvent.params?["type"] as? String == "Button")
     }
 
     @Test
