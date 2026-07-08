@@ -17,7 +17,8 @@ extension DvlaURLs {
         changeLogbookAddress: String = "https://www.gov.uk/change-address-v5c",
         cancelTax: String = "https://www.gov.uk/vehicle-tax-refund",
         taxVehicle: String = "https://www.gov.uk/vehicle-tax",
-        manageTaxPayment: String = "https://www.gov.uk/vehicle-tax-direct-debit/renewing"
+        manageTaxPayment: String = "https://www.gov.uk/vehicle-tax-direct-debit/renewing",
+        driverDetails: String = "https://www.gov.uk/driver-details"
     ) -> DvlaURLs {
         DvlaURLs(
             addVehicle: URL(string: addVehicle)!,
@@ -29,7 +30,8 @@ extension DvlaURLs {
             changeLogbookAddress: URL(string: changeLogbookAddress)!,
             cancelTax: URL(string: cancelTax)!,
             taxVehicle: URL(string: taxVehicle)!,
-            manageTaxPayment: URL(string: manageTaxPayment)!
+            manageTaxPayment: URL(string: manageTaxPayment)!,
+            driverDetails: URL(string: driverDetails)!
         )
     }
 }

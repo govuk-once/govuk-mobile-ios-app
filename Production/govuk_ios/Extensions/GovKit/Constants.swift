@@ -66,6 +66,10 @@ extension Constants.API {
         string: "https://www.gov.uk/vehicle-tax-direct-debit/renewing"
     )!
 
+    public static let defaultDvlaDriverDetailsUrl: URL = URL(
+        string: "http://driver-and-vehicles-account.service.gov.uk/driver_details"
+    )!
+
     public static let betaPrivacyPolicyURL: URL = {
         var components = govukBaseComponents
         components.path = """

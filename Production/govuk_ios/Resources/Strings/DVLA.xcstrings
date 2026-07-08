@@ -552,6 +552,39 @@
         }
       }
     },
+    "licenceSummaryErrorBody" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try again later, or [%1$(buttonTitle)@](%2$(url)@)"
+          }
+        }
+      }
+    },
+    "licenceSummaryErrorButtonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "go to your account on the website"
+          }
+        }
+      }
+    },
+    "licenceSummaryErrorTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We could not get your licence details"
+          }
+        }
+      }
+    },
     "licenceTabTitle" : {
       "extractionState" : "manual",
       "localizations" : {
