@@ -992,6 +992,39 @@
         }
       }
     },
+    "vehicleSummaryErrorBody" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try again later, or [%1$(buttonTitle)@](%2$(url)@)"
+          }
+        }
+      }
+    },
+    "vehicleSummaryErrorButtonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "go to your account on the website"
+          }
+        }
+      }
+    },
+    "vehicleSummaryErrorTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We could not get your vehicle details"
+          }
+        }
+      }
+    },
     "vehicleTaxNotNeeded" : {
       "extractionState" : "manual",
       "localizations" : {
