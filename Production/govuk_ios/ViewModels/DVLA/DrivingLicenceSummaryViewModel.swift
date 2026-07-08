@@ -10,6 +10,7 @@ struct DrivingLicenceSummaryViewModel {
     let licenceStatusViewModel: ValidityStatusViewModel
     let menuSelectionAction: (URL) -> Void
     let analyticsService: AnalyticsServiceInterface
+    var copyToClipboardAction: ((String) -> Void)?
 
     let copyLicenceButtonTitle = String.dvla.localized(
         "copyLicenceButtonTitle"
@@ -19,6 +20,9 @@ struct DrivingLicenceSummaryViewModel {
     )
     let licenceNumberAccessibilityLabelPrefix = String.dvla.localized(
         "licenceNumberAccessibilityLabel"
+    )
+    let copyToClipboardButtonTitle = String.chat.localized(
+        "copyToClipboardTitle"
     )
     let fullNameAccessibilityLabel: String
     let licenceTypeAccessibilityLabel: String
@@ -98,7 +102,7 @@ extension DrivingLicenceSummaryViewModel {
         statusBuilder: LicenceStatusViewModelBuilderInterface,
         openURLAction: @escaping (URL, String) -> Void,
         menuSelectionAction: @escaping (URL) -> Void,
-        analyticsService: AnalyticsServiceInterface
+        analyticsService: AnalyticsServiceInterface,
     ) {
         let licenceType = String.localizedStringWithFormat(
             String.dvla.localized("licenceType"),

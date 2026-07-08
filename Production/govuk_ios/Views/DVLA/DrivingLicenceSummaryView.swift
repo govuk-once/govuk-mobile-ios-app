@@ -21,6 +21,14 @@ struct DrivingLicenceSummaryView: View {
                 )
                 .background(Color(uiColor: .govUK.fills.surfaceList))
                 .roundedBorder(borderColor: .clear)
+                .contextMenu {
+                    Button {
+                        viewModel.copyToClipboardAction?(viewModel.licenceNumber)
+                    } label: {
+                        Text(viewModel.copyToClipboardButtonTitle)
+                        Image(systemName: "doc.on.doc.fill")
+                    }
+                }
             addressView
             Divider()
                 .overlay(Color(uiColor: .govUK.strokes.listDivider))
