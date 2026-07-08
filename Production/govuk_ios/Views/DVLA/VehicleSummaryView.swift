@@ -28,7 +28,7 @@ struct VehicleSummaryView: View {
                 )
                 .padding(.horizontal, Self.standardPadding)
                 .padding(.vertical, 8)
-            ValidityStatusView(viewModel: viewModel.taxStatusViewModel)
+            TaxValidityStatusView(viewModel: viewModel.taxStatusViewModel)
             Divider()
                 .overlay(Color(uiColor: .govUK.strokes.listDivider))
                 .padding(.horizontal, Self.standardPadding)
