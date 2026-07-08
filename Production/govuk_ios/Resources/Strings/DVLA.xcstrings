@@ -376,6 +376,28 @@
         }
       }
     },
+    "expiringTaxDirectDebit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paying by Direct Debit"
+          }
+        }
+      }
+    },
+    "expiringTaxManagePaymentButtonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Manage payment"
+          }
+        }
+      }
+    },
     "firstRegistered" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -394,6 +416,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "First registered in %1$(year)@"
+          }
+        }
+      }
+    },
+    "from" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "From %1$(date)@"
           }
         }
       }
@@ -640,6 +673,17 @@
         }
       }
     },
+    "offTheRoadSorn" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Off the road (SORN)"
+          }
+        }
+      }
+    },
     "petrolAndGas" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -691,6 +735,39 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Renew licence"
+          }
+        }
+      }
+    },
+    "renewsOn" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Renews %1$(date)@"
+          }
+        }
+      }
+    },
+    "renewTaxButtonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Renew tax"
+          }
+        }
+      }
+    },
+    "renewTaxExpiringFooter" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "It can take a couple of days after you’ve paid for your status to update"
           }
         }
       }
@@ -911,6 +988,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Vehicles"
+          }
+        }
+      }
+    },
+    "vehicleSummaryErrorBody" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try again later, or [%1$(buttonTitle)@](%2$(url)@)"
+          }
+        }
+      }
+    },
+    "vehicleSummaryErrorButtonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "go to your account on the website"
+          }
+        }
+      }
+    },
+    "vehicleSummaryErrorTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We could not get your vehicle details"
+          }
+        }
+      }
+    },
+    "vehicleTaxNotNeeded" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not needed"
           }
         }
       }

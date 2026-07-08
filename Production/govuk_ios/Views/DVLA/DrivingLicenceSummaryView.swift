@@ -95,7 +95,7 @@ struct DrivingLicenceSummaryView: View {
         address: "1 Lower Moseley Street\nManchester\nM2 3WS",
         licenceStatusViewModel: ValidityStatusViewModel(
             title: nil,
-            status: "Valid until 1 March 2027"
+            formattedStatus: "Valid until 1 March 2027"
         ),
         fullNameAccessibilityLabel: "",
         licenceTypeAccessibilityLabel: "",

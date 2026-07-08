@@ -6,7 +6,7 @@ import GovKitUI
 
 class MockLicenceStatusViewModelBuilder: LicenceStatusViewModelBuilderInterface {
     var _stubbedViewModel: ValidityStatusViewModel = .init(
-        status: "Valid until 1 January 1970",
+        formattedStatus: "Valid until 1 January 1970",
         iconName: "checkmark.circle.fill",
         iconTintColour: .govUK.fills.surfaceButtonPrimary
     )
