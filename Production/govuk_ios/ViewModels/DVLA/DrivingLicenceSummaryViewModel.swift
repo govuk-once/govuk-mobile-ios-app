@@ -63,13 +63,13 @@ struct DrivingLicenceSummaryViewModel {
     }
 
     enum URLOptions {
-        case changeAddresss
+        case changeAddress
         case replaceLicence
         case changeNameAndGender
 
         var urlAndTitle: (URL, String) {
             switch self {
-            case .changeAddresss:
+            case .changeAddress:
                 return (
                     Constants.API.dvlaChangeAddressUrl, String.dvla.localized(
                     "changeAddressMenuTitle"
@@ -83,7 +83,7 @@ struct DrivingLicenceSummaryViewModel {
             )
             case .changeNameAndGender:
                 return (
-                    Constants.API.dvlaChangeAddressUrl, String.dvla.localized(
+                    Constants.API.dvlaChangeNameAndGenderDrivingLicence, String.dvla.localized(
                     "changeNameAndGenderMenuTitle"
                     )
                 )

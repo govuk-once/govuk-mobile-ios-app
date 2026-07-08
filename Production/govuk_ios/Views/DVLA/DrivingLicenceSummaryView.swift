@@ -42,7 +42,7 @@ struct DrivingLicenceSummaryView: View {
                     Text(viewModel.copyLicenceButtonTitle)
                 }
                 Button {
-                    viewModel.openUrl(options: .changeAddresss)
+                    viewModel.openUrl(options: .changeAddress)
                 } label: {
                     Text(viewModel.changeAddressMenuTitle)
                 }

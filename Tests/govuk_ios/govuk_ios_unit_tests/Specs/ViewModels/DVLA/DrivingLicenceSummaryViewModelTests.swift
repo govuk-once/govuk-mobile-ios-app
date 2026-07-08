@@ -30,7 +30,7 @@ struct DrivingLicenceSummaryViewModelTests {
             analyticsService: mockAnalytics
         )
 
-        sut.openUrl(options: .changeAddresss)
+        sut.openUrl(options: .changeAddress)
 
         #expect(mockAnalytics._trackedEvents.count == 1)
 
@@ -198,7 +198,7 @@ struct DrivingLicenceSummaryViewModelTests {
 
     @Test
     func changeAddress_returnsCorrectUrlAndTitle() {
-        let option = DrivingLicenceSummaryViewModel.URLOptions.changeAddresss
+        let option = DrivingLicenceSummaryViewModel.URLOptions.changeAddress
         let expectedUrl = Constants.API.dvlaChangeAddressUrl
         let (actualUrl, actualTitle) = option.urlAndTitle
 
@@ -219,7 +219,7 @@ struct DrivingLicenceSummaryViewModelTests {
     @Test
     func changeNameAndGender_returnsCorrectUrlAndTitle() {
         let option = DrivingLicenceSummaryViewModel.URLOptions.changeNameAndGender
-        let expectedUrl = Constants.API.dvlaChangeAddressUrl
+        let expectedUrl = Constants.API.dvlaChangeNameAndGenderDrivingLicence 
         let (actualUrl, actualTitle) = option.urlAndTitle
 
         #expect(actualUrl == expectedUrl)
