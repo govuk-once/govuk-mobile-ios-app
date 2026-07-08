@@ -368,7 +368,6 @@
 		81BFBFF52FA4FE5000249569 /* WidgetViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BFBFF42FA4FE4C00249569 /* WidgetViewBuilder.swift */; };
 		81BFE1302FAB8ED600249569 /* Vehicle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BFE12F2FAB8ECE00249569 /* Vehicle.swift */; };
 		81CAC4AE2F8F85BE00E6E6A3 /* GOVUKColors+ServiceAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81CAC4AD2F8F85B500E6E6A3 /* GOVUKColors+ServiceAccount.swift */; };
-		81CAC8572F926C7E00E6E6A3 /* DriverSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81CAC8562F926C7500E6E6A3 /* DriverSummary.swift */; };
 		81CAFB422F98FBE300E6E6A3 /* CustomerSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81CAFB412F98FBDA00E6E6A3 /* CustomerSummary.swift */; };
 		81CDB3712FDAF43100328F7C /* VehicleSpecView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81CDB3702FDAF42B00328F7C /* VehicleSpecView.swift */; };
 		81CDB3732FDAF47700328F7C /* VehicleSpecViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81CDB3722FDAF46D00328F7C /* VehicleSpecViewModel.swift */; };
@@ -918,7 +917,6 @@
 		81BFBFF42FA4FE4C00249569 /* WidgetViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetViewBuilder.swift; sourceTree = "<group>"; };
 		81BFE12F2FAB8ECE00249569 /* Vehicle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vehicle.swift; sourceTree = "<group>"; };
 		81CAC4AD2F8F85B500E6E6A3 /* GOVUKColors+ServiceAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GOVUKColors+ServiceAccount.swift"; sourceTree = "<group>"; };
-		81CAC8562F926C7500E6E6A3 /* DriverSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverSummary.swift; sourceTree = "<group>"; };
 		81CAFB412F98FBDA00E6E6A3 /* CustomerSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerSummary.swift; sourceTree = "<group>"; };
 		81CDB3702FDAF42B00328F7C /* VehicleSpecView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleSpecView.swift; sourceTree = "<group>"; };
 		81CDB3722FDAF46D00328F7C /* VehicleSpecViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleSpecViewModel.swift; sourceTree = "<group>"; };
@@ -1074,7 +1072,6 @@
 				govuk_ios/govuk_ios_unit_tests/Resources/MockCancelShareCodeResponse.json,
 				govuk_ios/govuk_ios_unit_tests/Resources/MockCreateShareCodeResponse.json,
 				govuk_ios/govuk_ios_unit_tests/Resources/MockCustomerSummaryResponse.json,
-				govuk_ios/govuk_ios_unit_tests/Resources/MockDriverSummaryResponse.json,
 				govuk_ios/govuk_ios_unit_tests/Resources/MockDrivingLicenceResponse.json,
 				govuk_ios/govuk_ios_unit_tests/Resources/MockListShareCodesResponse.json,
 				govuk_ios/govuk_ios_unit_tests/Resources/MockTermsAndConditionsResponse.json,
@@ -1167,7 +1164,6 @@
 				govuk_ios/govuk_ios_unit_tests/Resources/MockCancelShareCodeResponse.json,
 				govuk_ios/govuk_ios_unit_tests/Resources/MockCreateShareCodeResponse.json,
 				govuk_ios/govuk_ios_unit_tests/Resources/MockCustomerSummaryResponse.json,
-				govuk_ios/govuk_ios_unit_tests/Resources/MockDriverSummaryResponse.json,
 				govuk_ios/govuk_ios_unit_tests/Resources/MockDrivingLicenceResponse.json,
 				govuk_ios/govuk_ios_unit_tests/Resources/MockListShareCodesResponse.json,
 				govuk_ios/govuk_ios_unit_tests/Resources/MockTermsAndConditionsResponse.json,
@@ -1268,7 +1264,7 @@
 				"govuk_ios/shared/Arrangers/Foundation/URL+Arrangers.swift",
 				"govuk_ios/shared/Arrangers/Model/Chat+Arrangers.swift",
 				"govuk_ios/shared/Arrangers/Model/CustomerSummary+Arrangers.swift",
-				"govuk_ios/shared/Arrangers/Model/DriverSummary+Arrangers.swift",
+				"govuk_ios/shared/Arrangers/Model/DrivingLicence+Arrangers.swift",
 				"govuk_ios/shared/Arrangers/Model/DvlaURLs+Arrangers.swift",
 				"govuk_ios/shared/Arrangers/Model/RecentActivity/ActivityItem+Arrangers.swift",
 				"govuk_ios/shared/Arrangers/Model/SearchItem+Arrangers.swift",
@@ -2320,7 +2316,6 @@
 				81BFE12F2FAB8ECE00249569 /* Vehicle.swift */,
 				811A43262FB23AD3006BC782 /* ShareCode.swift */,
 				815011DC2F7C537A00E7469C /* DrivingLicence.swift */,
-				81CAC8562F926C7500E6E6A3 /* DriverSummary.swift */,
 				81CAFB412F98FBDA00E6E6A3 /* CustomerSummary.swift */,
 				815018EB2F7D28FC00E7469C /* DVLAError.swift */,
 			);
@@ -3051,7 +3046,6 @@
 				D055FFFB2F4DBB46004659F6 /* ChatTermsOnboardingViewModel.swift in Sources */,
 				8132DC392F62D1F800F24CB6 /* ServiceAccountType.swift in Sources */,
 				5DFB488F2DE9F7F600B41CDA /* PeriAuthCoordinator.swift in Sources */,
-				81CAC8572F926C7E00E6E6A3 /* DriverSummary.swift in Sources */,
 				4E1534032E398073002DEDB9 /* TopicsWidgetView.swift in Sources */,
 				5DFB48902DE9F7F600B41CDA /* AuthenticationCoordinator.swift in Sources */,
 				5DFB48912DE9F7F600B41CDA /* TopicOnboardingCoordinator.swift in Sources */,

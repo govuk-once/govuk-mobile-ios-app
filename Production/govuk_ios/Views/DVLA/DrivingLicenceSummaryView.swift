@@ -75,15 +75,10 @@ struct DrivingLicenceSummaryView: View {
                     .padding(.bottom, 4)
                     .accessibilityLabel(viewModel.fullNameAccessibilityLabel)
                 if !viewModel.address.isEmpty {
-                    VStack(alignment: .leading, spacing: 0) {
-                        ForEach(viewModel.address, id: \.self) { addressLine in
-                            Text(addressLine)
-                                .font(.govUK.body)
-                                .padding(.top, 4)
-                        }
-                    }
-                    .accessibilityElement(children: .combine)
-                    .accessibilityLabel(viewModel.addressAccessibilityLabel)
+                    Text(viewModel.address)
+                        .font(.govUK.body)
+                        .padding(.top, 4)
+                        .accessibilityLabel(viewModel.addressAccessibilityLabel)
                 }
             }
             .padding(.horizontal, Self.standardPadding)
@@ -97,11 +92,7 @@ struct DrivingLicenceSummaryView: View {
         licenceType: "Full licence",
         licenceNumber: "ABC1234567DE",
         fullName: "Mr Joe Bloggs",
-        address: [
-            "1 Lower Moseley Street",
-            "Manchester",
-            "M2 3WS"
-        ],
+        address: "1 Lower Moseley Street\nManchester\nM2 3WS",
         licenceStatusViewModel: ValidityStatusViewModel(
             title: nil,
             status: "Valid until 1 March 2027"

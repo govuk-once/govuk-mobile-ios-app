@@ -9,18 +9,7 @@ extension GOVRequest {
 
     static var drivingLicence: GOVRequest {
         GOVRequest(
-            urlPath: "\(dvlaPath)/driving-licence",
-            method: .get,
-            body: nil,
-            queryParameters: nil,
-            additionalHeaders: additionalHeaders,
-            requiresAuthentication: true
-        )
-    }
-
-    static var driverSummary: GOVRequest {
-        GOVRequest(
-            urlPath: "\(dvlaPath)/driver-summary",
+            urlPath: "\(dvlaPath)/customer/licence",
             method: .get,
             body: nil,
             queryParameters: nil,
