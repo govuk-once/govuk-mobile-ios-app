@@ -146,6 +146,7 @@
 		4ED2DB652FBCC62C005CF6FD /* YourAccountsSettingsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ED2DB642FBCC62C005CF6FD /* YourAccountsSettingsCoordinator.swift */; };
 		4ED2DB692FBCCE82005CF6FD /* YourAccountsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ED2DB682FBCCE82005CF6FD /* YourAccountsView.swift */; };
 		4ED2DB6B2FBCCF05005CF6FD /* YourAccountsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ED2DB6A2FBCCF05005CF6FD /* YourAccountsViewModel.swift */; };
+		4EE38B2C2FFE7D08001B9648 /* ValidMotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE38B2B2FFE7D08001B9648 /* ValidMotView.swift */; };
 		4EE44BAD2E70332C0093D380 /* NonTappableCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE44BAC2E70332C0093D380 /* NonTappableCardView.swift */; };
 		4EE5F3E52DAFD36B008C60ED /* LocalAuthorityWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE5F3E42DAFD36B008C60ED /* LocalAuthorityWidget.swift */; };
 		4EE5F3E72DAFD42A008C60ED /* LocalAuthorityExplainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE5F3E62DAFD42A008C60ED /* LocalAuthorityExplainerView.swift */; };
@@ -704,6 +705,7 @@
 		4ED2DB642FBCC62C005CF6FD /* YourAccountsSettingsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourAccountsSettingsCoordinator.swift; sourceTree = "<group>"; };
 		4ED2DB682FBCCE82005CF6FD /* YourAccountsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourAccountsView.swift; sourceTree = "<group>"; };
 		4ED2DB6A2FBCCF05005CF6FD /* YourAccountsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourAccountsViewModel.swift; sourceTree = "<group>"; };
+		4EE38B2B2FFE7D08001B9648 /* ValidMotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidMotView.swift; sourceTree = "<group>"; };
 		4EE44BAC2E70332C0093D380 /* NonTappableCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NonTappableCardView.swift; sourceTree = "<group>"; };
 		4EE5F3E42DAFD36B008C60ED /* LocalAuthorityWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthorityWidget.swift; sourceTree = "<group>"; };
 		4EE5F3E62DAFD42A008C60ED /* LocalAuthorityExplainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthorityExplainerView.swift; sourceTree = "<group>"; };
@@ -2392,6 +2394,7 @@
 				815018F62F7E588C00E7469C /* DVLAAccountView.swift */,
 				81BF975A2FA2523600249569 /* DVLAAccountWidgetView.swift */,
 				81D240C02FC0938F00A4F988 /* DVLAAccountSummaryView.swift */,
+				4EE38B2B2FFE7D08001B9648 /* ValidMotView.swift */,
 			);
 			path = DVLA;
 			sourceTree = "<group>";
@@ -3220,6 +3223,7 @@
 				5D9E67C82C5A2E1700DB7877 /* DividerView.swift in Sources */,
 				1633812A2E533A9300AC1CED /* AppEvent+Chat.swift in Sources */,
 				5DD4C7972D9547D600459FB5 /* AppEvent+RecentActivity.swift in Sources */,
+				4EE38B2C2FFE7D08001B9648 /* ValidMotView.swift in Sources */,
 				5D66D1862CBFC13100006723 /* AppEvent+Navigation.swift in Sources */,
 				16C6BE812F965C3B0015E6F6 /* TermsAndConditionsServiceClient.swift in Sources */,
 				D08F2C7C2E6AF84F00133121 /* AnimatedAPNGImageView.swift in Sources */,
