@@ -206,6 +206,7 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
                 localized: .DVLA.renewsOn(date: formattedDate(validToDate) ?? "")
             ),
             progressViewModel: progressViewModel,
+            footer: String(localized: .DVLA.renewTaxExpiringFooter),
             buttonTitle: buttonTitle,
             buttonAction: { openURLAction(
                 text: buttonTitle,

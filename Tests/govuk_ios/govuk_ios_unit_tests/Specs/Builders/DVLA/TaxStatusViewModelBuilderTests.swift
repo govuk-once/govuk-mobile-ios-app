@@ -175,6 +175,7 @@ struct TaxStatusViewModelBuilderTests {
             #expect(vm.formattedStatus == String(
                 localized: .DVLA.renewsOn(date: dateFormatter.string(from: date)))
             )
+            #expect(vm.footer == String(localized: .DVLA.renewTaxExpiringFooter))
 
             vm.buttonAction?()
 
