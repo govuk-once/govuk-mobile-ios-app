@@ -112,7 +112,8 @@ import GovKit
                 licence: DrivingLicenceSummaryViewModel(
                     driverSummary: .arrange,
                     statusBuilder: MockLicenceStatusViewModelBuilder(),
-                    openURLAction: { _ in },
+                    openURLAction: { _,_  in },
+                    menuSelectionAction: { _ in },
                     analyticsService: MockAnalyticsService()
                 )
             )

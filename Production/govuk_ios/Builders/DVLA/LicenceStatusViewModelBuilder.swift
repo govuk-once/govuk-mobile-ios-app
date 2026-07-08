@@ -129,7 +129,7 @@ struct LicenceStatusViewModelBuilder: LicenceStatusViewModelBuilderInterface {
     private func makeExpiringViewModel(
         validToDate: Date,
         expiryProgress: ExpiryProgressState,
-        openURLAction: @escaping (URL, String) -> Void,
+        openURLAction: @escaping (URL, String) -> Void
     ) -> ValidityStatusViewModel {
         let status = String(
             localized: .DVLA.expiringOn(

@@ -42,7 +42,7 @@ struct LicenceStatusViewModelBuilderTests {
         let result = sut.makeViewModel(
             status: .expired,
             validToDate: nil,
-            openURLAction:  { _ in }
+            openURLAction:  { _,_  in }
         )
         #expect(result.title == nil)
         #expect(result.status == String(localized: .DVLA.expired))
@@ -59,8 +59,7 @@ struct LicenceStatusViewModelBuilderTests {
         let result = sut.makeViewModel(
             status: .valid,
             validToDate: .arrange("01/01/2025"),
-            openURLAction:  { _ in },
-            currentDate: .arrange("01/08/2024"),
+            currentDate: .arrange("01/08/2024"), openURLAction:  { _,_  in },
         )
         let expectedStatus = String(localized: .DVLA.validUntil(date: "1 January 2025"))
         let expectedAccessibilityLabel = String(localized: .DVLA.licenceStatusAccessibilityLabel(expectedStatus))
@@ -80,7 +79,7 @@ struct LicenceStatusViewModelBuilderTests {
         let result = sut.makeViewModel(
             status: .valid,
             validToDate: nil,
-            openURLAction:  { _ in }
+            openURLAction:  { _,_  in }
         )
         #expect(result.title == nil)
         #expect(result.status == String(localized: .DVLA.valid))
@@ -97,8 +96,8 @@ struct LicenceStatusViewModelBuilderTests {
         let result = sut.makeViewModel(
             status: .valid,
             validToDate: .arrange("01/01/2025"),
-            openURLAction:  { _ in },
-            currentDate: .arrange("15/12/2024")
+            currentDate: .arrange("15/12/2024"),
+            openURLAction:  { _,_  in }
         )
         let expectedStatus = String(localized: .DVLA.expiringOn(date: "1 January 2025"))
         let expectedAccessibilityLabel = String(localized: .DVLA.licenceStatusAccessibilityLabel(expectedStatus))
@@ -118,7 +117,7 @@ struct LicenceStatusViewModelBuilderTests {
         let result = sut.makeViewModel(
             status: .disqualified,
             validToDate: nil,
-            openURLAction:  { _ in }
+            openURLAction:  { _,_  in }
         )
         #expect(result.title == nil)
         #expect(result.status == String(localized: .DVLA.unknown))
