@@ -13,13 +13,14 @@ struct VehicleSummaryViewModel: Identifiable {
         localized: .DVLA.registrationNumberAccessibilityLabelPrefix
     )
     private let sornStart: Date?
-    private let taxStatus: TaxStatus
+    private let taxStatus: TaxStatus?
     private let openURLAction: (URL) -> Void
     private let configService: AppConfigServiceInterface
     private let analyticsService: AnalyticsServiceInterface
 }
 
 extension VehicleSummaryViewModel {
+    @MainActor
     init(
         vehicle: CustomerSummary.Vehicle,
         statusFormatter: DVLAValidityStatusFormatter = DVLAValidityStatusFormatter(),
@@ -36,15 +37,17 @@ extension VehicleSummaryViewModel {
         self.sornStart = vehicle.sornStart
         self.taxStatus = vehicle.taxStatus
 
-        self.taxStatusViewModel = ValidityStatusViewModel(
-            title: String.dvla.localized("taxStatusTitle"),
-            status: statusFormatter.formatStatus(from: vehicle.taxedUntil),
-            iconName: "checkmark.circle.fill",
-            iconTintColour: .govUK.fills.surfaceButtonPrimary
+        let builder = TaxStatusViewModelBuilder(
+            urls: configService.dvlaUrls,
+            analyticsService: analyticsService,
+            openURLAction: openURLAction
+        )
+        self.taxStatusViewModel = builder.makeViewModel(
+            vehicle: vehicle
         )
         self.motStatusViewModel = ValidityStatusViewModel(
-            title: String.dvla.localized("motStatusTitle"),
-            status: statusFormatter.formatStatus(from: vehicle.motExpiryDate),
+            title: String(localized: .DVLA.motStatusTitle),
+            formattedStatus: statusFormatter.formatStatus(from: vehicle.motExpiryDate),
             iconName: "checkmark.circle.fill",
             iconTintColour: .govUK.fills.surfaceButtonPrimary
         )

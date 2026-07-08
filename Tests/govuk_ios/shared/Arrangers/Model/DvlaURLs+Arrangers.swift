@@ -15,7 +15,10 @@ extension DvlaURLs {
         makeSorn: String = "https://www.gov.uk/make-a-sorn",
         getLogbook: String = "https://www.gov.uk/vehicle-log-book",
         changeLogbookAddress: String = "https://www.gov.uk/change-address-v5c",
-        cancelTax: String = "https://www.gov.uk/vehicle-tax-refund"
+        cancelTax: String = "https://www.gov.uk/vehicle-tax-refund",
+        taxVehicle: String = "https://www.gov.uk/vehicle-tax",
+        manageTaxPayment: String = "https://www.gov.uk/vehicle-tax-direct-debit/renewing",
+        driverDetails: String = "https://www.gov.uk/driver-details"
     ) -> DvlaURLs {
         DvlaURLs(
             addVehicle: URL(string: addVehicle)!,
@@ -25,7 +28,10 @@ extension DvlaURLs {
             makeSorn: URL(string: makeSorn)!,
             getLogbook: URL(string: getLogbook)!,
             changeLogbookAddress: URL(string: changeLogbookAddress)!,
-            cancelTax: URL(string: cancelTax)!
+            cancelTax: URL(string: cancelTax)!,
+            taxVehicle: URL(string: taxVehicle)!,
+            manageTaxPayment: URL(string: manageTaxPayment)!,
+            driverDetails: URL(string: driverDetails)!
         )
     }
 }

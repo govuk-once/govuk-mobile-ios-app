@@ -30,6 +30,8 @@
 		1658CA692DDF570300622BC3 /* TimerWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1658CA682DDF56FE00622BC3 /* TimerWrapper.swift */; };
 		166248242C4AC91E009F7E58 /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166248232C4AC91E009F7E58 /* HomeCoordinator.swift */; };
 		16624BAB2DDCDD4C00E9B60D /* InactivityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16624BAA2DDCDD4200E9B60D /* InactivityService.swift */; };
+		1663A3F82FEEDCAD0002CFDB /* TaxStatusViewModelBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1663A3F72FEEDCA40002CFDB /* TaxStatusViewModelBuilder.swift */; };
+		1663A3FD2FF3C2C60002CFDB /* TaxValidityStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1663A3FC2FF3C2B50002CFDB /* TaxValidityStatusView.swift */; };
 		1664A5642D36CF1200DB18A5 /* SearchSuggestionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A99D6F2D36C60200C72DEB /* SearchSuggestionsViewController.swift */; };
 		166BDDB62C330D1C00437AE0 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166BDDB52C330D1C00437AE0 /* HomeViewController.swift */; };
 		1677D4022E00643900FB1E56 /* LocalAuthenticationSettingsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1677D4012E00643000FB1E56 /* LocalAuthenticationSettingsCoordinator.swift */; };
@@ -307,6 +309,8 @@
 		8101BEEC2F2A24B8009E639B /* RemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8101BEE82F2A24B8009E639B /* RemoteConfig.swift */; };
 		810A83752F68A46D0039B4A4 /* ServiceAccountUnlinkingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810A83742F68A4650039B4A4 /* ServiceAccountUnlinkingViewModel.swift */; };
 		810A83772F68A57E0039B4A4 /* ServiceAccountUnlinkingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 810A83762F68A5720039B4A4 /* ServiceAccountUnlinkingView.swift */; };
+		811229D32FFBC35F00278D46 /* InlineActionErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811229D22FFBC35600278D46 /* InlineActionErrorViewModel.swift */; };
+		811229D52FFBC50300278D46 /* InlineActionErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811229D42FFBC4FD00278D46 /* InlineActionErrorView.swift */; };
 		811A379C2FB1E454006BC782 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811A379B2FB1E454006BC782 /* SettingsViewModel.swift */; };
 		811A43272FB23AD6006BC782 /* ShareCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811A43262FB23AD3006BC782 /* ShareCode.swift */; };
 		8121778C2FD092B00048BBCD /* DrivingLicenceSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8121778B2FD092AA0048BBCD /* DrivingLicenceSummaryView.swift */; };
@@ -584,6 +588,8 @@
 		1658CA682DDF56FE00622BC3 /* TimerWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerWrapper.swift; sourceTree = "<group>"; };
 		166248232C4AC91E009F7E58 /* HomeCoordinator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
 		16624BAA2DDCDD4200E9B60D /* InactivityService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InactivityService.swift; sourceTree = "<group>"; };
+		1663A3F72FEEDCA40002CFDB /* TaxStatusViewModelBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxStatusViewModelBuilder.swift; sourceTree = "<group>"; };
+		1663A3FC2FF3C2B50002CFDB /* TaxValidityStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaxValidityStatusView.swift; sourceTree = "<group>"; };
 		166BDDB52C330D1C00437AE0 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		1677D4012E00643000FB1E56 /* LocalAuthenticationSettingsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthenticationSettingsCoordinator.swift; sourceTree = "<group>"; };
 		1677D4032E00694B00FB1E56 /* LocalAuthenticationSettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthenticationSettingsViewModel.swift; sourceTree = "<group>"; };
@@ -861,6 +867,8 @@
 		8101BEE92F2A24B8009E639B /* RemoteConfigValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigValue.swift; sourceTree = "<group>"; };
 		810A83742F68A4650039B4A4 /* ServiceAccountUnlinkingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountUnlinkingViewModel.swift; sourceTree = "<group>"; };
 		810A83762F68A5720039B4A4 /* ServiceAccountUnlinkingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountUnlinkingView.swift; sourceTree = "<group>"; };
+		811229D22FFBC35600278D46 /* InlineActionErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InlineActionErrorViewModel.swift; sourceTree = "<group>"; };
+		811229D42FFBC4FD00278D46 /* InlineActionErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InlineActionErrorView.swift; sourceTree = "<group>"; };
 		811A379B2FB1E454006BC782 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		811A43262FB23AD3006BC782 /* ShareCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareCode.swift; sourceTree = "<group>"; };
 		8121778B2FD092AA0048BBCD /* DrivingLicenceSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrivingLicenceSummaryView.swift; sourceTree = "<group>"; };
@@ -1720,6 +1728,7 @@
 		5D41DB5E2C0875460011E691 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				811229D22FFBC35600278D46 /* InlineActionErrorViewModel.swift */,
 				81D258422FC71B4A00A4F988 /* DVLA */,
 				81DE66962F5B3AA80087F48E /* ServiceAccount */,
 				1618D8F42F3F7BAF008EF26B /* TermsAndConditionsViewModel.swift */,
@@ -2374,6 +2383,7 @@
 		81D2583F2FC71A8C00A4F988 /* DVLA */ = {
 			isa = PBXGroup;
 			children = (
+				1663A3FC2FF3C2B50002CFDB /* TaxValidityStatusView.swift */,
 				81353DEE2FE975F0008A7DE1 /* ExpiryProgressView.swift */,
 				81D258402FC71AAF00A4F988 /* VehicleSummaryView.swift */,
 				81217B902FD0B8930048BBCD /* VehiclesView.swift */,
@@ -2411,6 +2421,7 @@
 		81D3E36B2FE3EDB6006049CC /* DVLA */ = {
 			isa = PBXGroup;
 			children = (
+				1663A3F72FEEDCA40002CFDB /* TaxStatusViewModelBuilder.swift */,
 				81D3E36C2FE3EDBB006049CC /* LicenceStatusViewModelBuilder.swift */,
 			);
 			path = DVLA;
@@ -2494,6 +2505,7 @@
 				4EAFCE522E437D2B00125755 /* HomepageWidget.swift */,
 				4EE44BAC2E70332C0093D380 /* NonTappableCardView.swift */,
 				8171AE462F11169A0024312B /* ScrollBottomIndicatorView.swift */,
+				811229D42FFBC4FD00278D46 /* InlineActionErrorView.swift */,
 			);
 			path = SwiftUIViews;
 			sourceTree = "<group>";
@@ -3276,7 +3288,9 @@
 				4EFE22A52D0CD0D500136D56 /* RegexRedactor.swift in Sources */,
 				169842DA2DB0004800E3EA66 /* LocalAuthenticationOnboardingViewModel.swift in Sources */,
 				D028CCF62CB9619B00742620 /* Topic.swift in Sources */,
+				1663A3FD2FF3C2C60002CFDB /* TaxValidityStatusView.swift in Sources */,
 				D0B929F62EA63C0E001E6FDC /* ListCardViewModel.swift in Sources */,
+				1663A3F82FEEDCAD0002CFDB /* TaxStatusViewModelBuilder.swift in Sources */,
 				4EF472FB2F98DD3F00C29728 /* CenterAlignedBarButtonItem.swift in Sources */,
 				945E1F072F7176320064CA22 /* EditTopicsDeepLinkRoute.swift in Sources */,
 				4EE5F3E52DAFD36B008C60ED /* LocalAuthorityWidget.swift in Sources */,
@@ -3330,6 +3344,7 @@
 				5DBE08082C480CA700B58DBE /* UITabBarItem+Convenience.swift in Sources */,
 				D03678C02E33A208009BCC32 /* RegexValidator+PII.swift in Sources */,
 				5DBE08052C480CA700B58DBE /* UIAlertAction+Convenience.swift in Sources */,
+				811229D52FFBC50300278D46 /* InlineActionErrorView.swift in Sources */,
 				164091FE2DA41C1000E3BE99 /* AuthenticationServiceClient.swift in Sources */,
 				812EFD992FEC34F400054F3A /* ExpiryProgressViewModel.swift in Sources */,
 				D04191862CA6A59D0034722A /* TopicsServiceClient.swift in Sources */,
@@ -3413,6 +3428,7 @@
 				16D186AC2E462F14006ACC7A /* ChatConsentOnboardingViewModel.swift in Sources */,
 				16C6BE852F96600C0015E6F6 /* TermsAndConditionsResponse.swift in Sources */,
 				D0EC94C52DCBA5F700A9707E /* InfoViewModelInterface.swift in Sources */,
+				811229D32FFBC35F00278D46 /* InlineActionErrorViewModel.swift in Sources */,
 				168176A32DCE68D800A4B0E4 /* CoreDataDeletionService.swift in Sources */,
 				D0E85A822DDCB266003B4D7A /* LocalAuthorityResponse.swift in Sources */,
 				5D60E6AD2E4A46E20046C1A1 /* UserDefaultsService.swift in Sources */,

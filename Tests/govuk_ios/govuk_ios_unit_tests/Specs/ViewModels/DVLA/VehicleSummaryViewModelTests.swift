@@ -4,6 +4,7 @@ import Testing
 @testable import govuk_ios
 @testable import GovKit
 
+@MainActor
 struct VehicleSummaryViewModelTests {
     @Test
     func initWithVehicle_mapsPropertiesCorrectly() {
@@ -53,12 +54,9 @@ struct VehicleSummaryViewModelTests {
             configService: MockAppConfigService(),
             analyticsService: MockAnalyticsService()
         )
-        let expectedDate = Date(timeIntervalSince1970: 1779975444)
-        let expectedDateString = DateFormatter.dvlaAccount.string(from: expectedDate)
-        let format = String.dvla.localized("validUntil")
-        let expectedStatusString = String.localizedStringWithFormat(format, expectedDateString)
+        let expectedDateString = "Expiring 28 May 2026"
         #expect(sut.taxStatusViewModel.title == String.dvla.localized("taxStatusTitle"))
-        #expect(sut.taxStatusViewModel.status == expectedStatusString)
+        #expect(sut.taxStatusViewModel.formattedStatus == expectedDateString)
     }
 
     @Test
@@ -73,7 +71,7 @@ struct VehicleSummaryViewModelTests {
             configService: MockAppConfigService(),
             analyticsService: MockAnalyticsService()
         )
-        #expect(sut.taxStatusViewModel.status == String.dvla.localized("unknown"))
+        #expect(sut.taxStatusViewModel.formattedStatus == String(localized: .DVLA.valid))
     }
 
     @Test
@@ -93,7 +91,7 @@ struct VehicleSummaryViewModelTests {
         let format = String.dvla.localized("validUntil")
         let expectedStatusString = String.localizedStringWithFormat(format, expectedDateString)
         #expect(sut.motStatusViewModel.title == String.dvla.localized("motStatusTitle"))
-        #expect(sut.motStatusViewModel.status == expectedStatusString)
+        #expect(sut.motStatusViewModel.formattedStatus == expectedStatusString)
     }
 
     @Test
@@ -108,7 +106,7 @@ struct VehicleSummaryViewModelTests {
             configService: MockAppConfigService(),
             analyticsService: MockAnalyticsService()
         )
-        #expect(sut.motStatusViewModel.status == String.dvla.localized("unknown"))
+        #expect(sut.motStatusViewModel.formattedStatus == String.dvla.localized("unknown"))
     }
 
     @Test

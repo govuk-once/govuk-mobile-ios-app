@@ -28,7 +28,7 @@ struct ExpiryProgressView: View {
             .padding(.bottom, 8)
             .fixedSize(horizontal: false, vertical: true)
             .accessibilityHidden(true)
-            Text(viewModel.daysLeft)
+            Text(viewModel.footer)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .font(.govUK.callout)
                 .foregroundStyle(Color(uiColor: .govUK.text.primary))
