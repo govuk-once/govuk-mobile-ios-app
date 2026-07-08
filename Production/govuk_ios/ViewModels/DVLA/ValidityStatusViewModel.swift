@@ -2,9 +2,12 @@ import Foundation
 import UIKit
 import GovKitUI
 
+protocol ValidityStatus {}
+
 struct ValidityStatusViewModel {
     let title: String?
-    let status: String
+    let formattedStatus: String
+    let status: ValidityStatus?
     let statusAccessibilityLabel: String?
     let iconName: String?
     let iconTintColour: UIColor?
@@ -12,6 +15,7 @@ struct ValidityStatusViewModel {
     let footer: String?
     let buttonTitle: String?
     let buttonAction: (() -> Void)?
+    let buttonConfiguration: GOVUKButton.ButtonConfiguration?
 
     var buttonViewModel: GOVUKButton.ButtonViewModel? {
         guard let buttonTitle = buttonTitle,
@@ -25,16 +29,18 @@ struct ValidityStatusViewModel {
     }
 
     init(title: String? = nil,
-         status: String,
+         formattedStatus: String,
+         status: ValidityStatus? = nil,
          statusAccessibilityLabel: String? = nil,
          iconName: String? = nil,
          iconTintColour: UIColor? = nil,
          progressViewModel: ExpiryProgressViewModel? = nil,
          footer: String? = nil,
          buttonTitle: String? = nil,
-         buttonAction: (() -> Void)? = nil) {
+         buttonAction: (() -> Void)? = nil,
+         buttonConfiguration: GOVUKButton.ButtonConfiguration? = nil) {
         self.title = title
-        self.status = status
+        self.formattedStatus = formattedStatus
         self.statusAccessibilityLabel = statusAccessibilityLabel
         self.iconName = iconName
         self.iconTintColour = iconTintColour
@@ -42,5 +48,7 @@ struct ValidityStatusViewModel {
         self.footer = footer
         self.buttonTitle = buttonTitle
         self.buttonAction = buttonAction
+        self.buttonConfiguration = buttonConfiguration
+        self.status = status
     }
 }
