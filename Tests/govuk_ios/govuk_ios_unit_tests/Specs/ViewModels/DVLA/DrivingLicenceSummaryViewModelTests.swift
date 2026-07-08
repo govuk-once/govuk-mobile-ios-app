@@ -80,7 +80,7 @@ struct DrivingLicenceSummaryViewModelTests {
             menuSelectionAction: { _ in },
             analyticsService: mockAnalytics
         )
-        sut.copyToClipbaord()
+        sut.copyToClipboard()
 
         #expect(mockAnalytics._trackedEvents.count == 1)
 

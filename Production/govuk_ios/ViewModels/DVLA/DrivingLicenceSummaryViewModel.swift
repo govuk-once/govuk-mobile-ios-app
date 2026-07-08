@@ -38,7 +38,7 @@ struct DrivingLicenceSummaryViewModel {
         trackNavigation(text: options.urlAndTitle.1)
     }
 
-    func copyToClipbaord() {
+    func copyToClipboard() {
         UIPasteboard.general.string = licenceNumber
         trackCopyToClipboard()
     }

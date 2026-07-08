@@ -37,7 +37,7 @@ struct DrivingLicenceSummaryView: View {
             Spacer()
             Menu {
                 Button {
-                    viewModel.copyToClipbaord()
+                    viewModel.copyToClipboard()
                 } label: {
                     Text(viewModel.copyLicenceButtonTitle)
                 }
