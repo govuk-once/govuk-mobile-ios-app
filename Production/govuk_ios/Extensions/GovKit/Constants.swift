@@ -58,8 +58,20 @@ extension Constants.API {
         string: "https://www.gov.uk/vehicle-tax-refund"
     )!
 
+    public static let defaultDvlaTaxVehicleUrl: URL = URL(
+        string: "https://www.gov.uk/vehicle-tax"
+    )!
+
+    public static let defaultDvlaManageTaxPaymentUrl: URL = URL(
+        string: "https://www.gov.uk/vehicle-tax-direct-debit/renewing"
+    )!
+
     public static let defaultDvlaDriverDetailsUrl: URL = URL(
         string: "http://driver-and-vehicles-account.service.gov.uk/driver_details"
+    )!
+
+    public static let defaultDvlaAccountUrl: URL = URL(
+        string: "http://driver-and-vehicles-account.service.gov.uk"
     )!
 
     public static let betaPrivacyPolicyURL: URL = {
