@@ -8,7 +8,7 @@ import GovKit
 @MainActor
 struct VehicleDetailCoordinatorTests {
     @Test
-    func start_setsSARViewController() {
+    func start_setsVehicleDetailViewController() {
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let stubbedVehicleDetailController = UIViewController()
         mockViewControllerBuilder._stubbedVehicleDetailController = stubbedVehicleDetailController
@@ -16,7 +16,9 @@ struct VehicleDetailCoordinatorTests {
         let sut = VehicleDetailCoordinator(
             navigationController: root,
             viewControllerBuilder: mockViewControllerBuilder,
+            urlOpener: MockURLOpener(),
             analyticsService: MockAnalyticsService(),
+            configService: MockAppConfigService(),
             vehicle: .arrange
         )
 

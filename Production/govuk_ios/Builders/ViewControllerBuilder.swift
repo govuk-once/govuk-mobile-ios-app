@@ -789,11 +789,15 @@ class ViewControllerBuilder {
 
     func vehicleDetail(
         analyticsService: AnalyticsServiceInterface,
-        vehicle: CustomerSummary.Vehicle
+        configService: AppConfigServiceInterface,
+        vehicle: CustomerSummary.Vehicle,
+        openURLAction: @escaping (URL) -> Void
     ) -> UIViewController {
         let viewModel = VehicleDetailViewModel(
             analyticsService: analyticsService,
-            vehicle: vehicle
+            configService: configService,
+            vehicle: vehicle,
+            openURLAction: openURLAction
         )
         let view = VehicleDetailView(viewModel: viewModel)
         let viewController = HostingViewController(
