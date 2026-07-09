@@ -25,5 +25,27 @@ struct VehicleDetailCoordinatorTests {
         sut.start(url: nil)
         #expect(root.topViewController == stubbedVehicleDetailController)
     }
+
+    @Test
+    func openURLAction_opensURL() {
+        let mockURL = URL(string: "https://gov.uk")!
+        let mockURLOpener = MockURLOpener()
+        let stubbedVehicleDetailController = UIViewController()
+        let mockViewControllerBuilder = MockViewControllerBuilder()
+        mockViewControllerBuilder._stubbedVehicleDetailController = stubbedVehicleDetailController
+
+        let sut = VehicleDetailCoordinator(
+            navigationController: UINavigationController(),
+            viewControllerBuilder: mockViewControllerBuilder,
+            urlOpener: mockURLOpener,
+            analyticsService: MockAnalyticsService(),
+            configService: MockAppConfigService(),
+            vehicle: .arrange
+        )
+        sut.start(url: nil)
+        mockViewControllerBuilder._receivedVehicleDetailOpenURLAction?(mockURL)
+
+        #expect(mockURLOpener._receivedOpenIfPossibleUrl?.absoluteString == "https://gov.uk")
+    }
 }
 

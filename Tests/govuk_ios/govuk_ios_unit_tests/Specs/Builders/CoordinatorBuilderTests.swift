@@ -510,4 +510,17 @@ struct CoordinatorBuilderTests {
 
         #expect(coordinator is SARSettingsCoordinator)
     }
+
+    @Test
+    func vehicleDetail_retrunsExpectedResult() {
+        let container = Container()
+        container.analyticsService.register(factory: { MockAnalyticsService() })
+        container.dvlaService.register(factory: { MockDVLAService() })
+        let subject = CoordinatorBuilder(container: container)
+        let coordinator = subject.vehicleDetail(
+            navigationController: UINavigationController(),
+            vehicle: .arrange
+        )
+        #expect(coordinator is VehicleDetailCoordinator)
+    }
 }
