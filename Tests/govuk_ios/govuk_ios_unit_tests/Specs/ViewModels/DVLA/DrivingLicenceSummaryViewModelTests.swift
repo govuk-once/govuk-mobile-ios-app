@@ -20,10 +20,10 @@ struct DrivingLicenceSummaryViewModelTests {
 
     @Test
     func openUrl_changeAddresss_tracksExpectedNavigationEvent() {
-        let mockDriverSummary = DriverSummary.arrange(licenceNo: "ABC123AE")
+        let mockDrivingLicence = DrivingLicence.arrange(licenceNumber: "ABC123AE")
         let mockAnalytics = MockAnalyticsService()
         let sut = DrivingLicenceSummaryViewModel(
-            driverSummary: mockDriverSummary,
+            drivingLicence: mockDrivingLicence,
             statusBuilder: MockLicenceStatusViewModelBuilder(),
             openURLAction: { _,_ in},
             menuSelectionAction: { _ in },
@@ -45,10 +45,10 @@ struct DrivingLicenceSummaryViewModelTests {
 
     @Test
     func openUrl_replaceLicence_tracksExpectedNavigationEvent() {
-        let mockDriverSummary = DriverSummary.arrange(licenceNo: "ABC123AE")
+        let mockDrivingLicence = DrivingLicence.arrange(licenceNumber: "ABC123AE")
         let mockAnalytics = MockAnalyticsService()
         let sut = DrivingLicenceSummaryViewModel(
-            driverSummary: mockDriverSummary,
+            drivingLicence: mockDrivingLicence,
             statusBuilder: MockLicenceStatusViewModelBuilder(),
             openURLAction: { _,_ in},
             menuSelectionAction: { _ in },
@@ -71,10 +71,10 @@ struct DrivingLicenceSummaryViewModelTests {
 
     @Test
     func copyToClipboard_tracksExpectedCopyEvent() {
-        let mockDriverSummary = DriverSummary.arrange(licenceNo: "ABC123AE")
+        let mockDrivingLicence = DrivingLicence.arrange(licenceNumber: "ABC123AE")
         let mockAnalytics = MockAnalyticsService()
         let sut = DrivingLicenceSummaryViewModel(
-            driverSummary: mockDriverSummary,
+            drivingLicence: mockDrivingLicence ,
             statusBuilder: MockLicenceStatusViewModelBuilder(),
             openURLAction: { _,_ in},
             menuSelectionAction: { _ in },
@@ -130,27 +130,17 @@ struct DrivingLicenceSummaryViewModelTests {
 
     @Test
     func init_formatsAddressCorrectly() {
-        let mockAddress = DriverAddress.arrange(
-            line1: "1 LEANDER DRIVE",
-            line2: "CASTLETON",
-            postcode: "OL11 4AB"
-        )
-        let mockDriverSummary = DriverSummary.arrange(
-            address: mockAddress
-        )
+        let mockAddress = "1 LEANDER DRIVE\nCASTLETON\nOL11 4AB"
+        let mockDrivingLicence = DrivingLicence.arrange(driverFullAddress: mockAddress)
         let sut = DrivingLicenceSummaryViewModel(
-            driverSummary: mockDriverSummary,
+            drivingLicence: mockDrivingLicence,
             statusBuilder: MockLicenceStatusViewModelBuilder(),
             openURLAction: { _,_ in},
             menuSelectionAction: { _ in },
             analyticsService: MockAnalyticsService()
         )
-        let expectedAddressArray = [
-            "1 Leander Drive",
-            "Castleton",
-            "OL11 4AB"
-        ]
-        #expect(sut.address == expectedAddressArray)
+        let expectedAddress = "1 LEANDER DRIVE\nCASTLETON\nOL11 4AB"
+        #expect(sut.address == expectedAddress)
     }
 
     @Test
