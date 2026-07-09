@@ -64,7 +64,8 @@ class DrivingLicenceViewModel: ObservableObject {
                 analyticsService: analyticsService
             )
             licenceSummaryViewModel.copyToClipboardAction = { [weak self] licenceNumber in
-                self?.copyToClipboard(licenceNumber: licenceNumber
+                self?.copyToClipboard(
+                    licenceNumber: licenceNumber
                 )
             }
             hasLoadedLicence = true
