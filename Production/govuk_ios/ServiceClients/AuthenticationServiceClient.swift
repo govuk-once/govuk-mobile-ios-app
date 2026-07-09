@@ -26,17 +26,20 @@ class AuthenticationServiceClient: AuthenticationServiceClientInterface {
     private let appEnvironmentService: AppEnvironmentServiceInterface
     private let oidAuthService: OIDAuthorizationServiceWrapperInterface
     private let tokenServiceClient: APIServiceClientInterface
+    private let verificationAPIClient: APIServiceClientInterface
     private let appAttestService: AppAttestServiceInterface
 
     init(appEnvironmentService: AppEnvironmentServiceInterface,
          appAuthSession: AppAuthSessionWrapperInterface,
          oidAuthService: OIDAuthorizationServiceWrapperInterface,
          tokenServiceClient: APIServiceClientInterface,
+         verificationAPIClient: APIServiceClientInterface,
          appAttestService: AppAttestServiceInterface) {
         self.appEnvironmentService = appEnvironmentService
         self.appAuthSession = appAuthSession
         self.oidAuthService = oidAuthService
         self.tokenServiceClient = tokenServiceClient
+        self.verificationAPIClient = verificationAPIClient
         self.appAttestService = appAttestService
     }
 
@@ -114,7 +117,7 @@ class AuthenticationServiceClient: AuthenticationServiceClientInterface {
             token: accesstoken
         )
         return await withUnsafeContinuation { continuation in
-            tokenServiceClient.send(
+            verificationAPIClient.send(
                 request: request,
                 completion: { result in
                     continuation.resume(

@@ -52,7 +52,8 @@ extension Container {
                 appEnvironmentService: self.appEnvironmentService.resolve(),
                 appAuthSession: AppAuthSessionWrapper(),
                 oidAuthService: OIDAuthorizationServiceWrapper(),
-                tokenServiceClient: self.tokenAPIClient(),
+                tokenServiceClient: self.tokenAPIClient.resolve(),
+                verificationAPIClient: self.verificationAPIClient.resolve(),
                 appAttestService: self.appAttestService.resolve(),
             )
         }

@@ -69,6 +69,16 @@ extension Container {
         }
     }
 
+    var verificationAPIClient: Factory<APIServiceClientInterface> {
+        Factory(self) {
+            APIServiceClient(
+                baseUrl: self.appEnvironmentService().tokenBaseURL,
+                session: self.urlSession(),
+                requestBuilder: RequestBuilder()
+            )
+        }
+    }
+
     var chatAPIClient: Factory<APIServiceClientInterface> {
         Factory(self) {
             APIServiceClient(
