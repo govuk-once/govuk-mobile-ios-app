@@ -12,13 +12,15 @@ class DVLAAuthenticationCoordinatorTests {
     func start_success_opensURLWithVerificationToken() async throws {
         let mockURLOpener = MockURLOpener()
         let mockDVLAService = MockDVLAService()
-        mockDVLAService._stubbedFetchIdentityVerificationResult = .success(
+        let mockAuthenticationService = MockAuthenticationService()
+        mockAuthenticationService._stubbedFetchIdentityVerificationResult = .success(
             .init(verificationHash: "test-token")
         )
         let sut = DVLAAuthenticationCoordinator(
             navigationController: UINavigationController(),
             urlOpener: mockURLOpener,
             dvlaService: mockDVLAService,
+            authenticationService: mockAuthenticationService,
             analticsService: MockAnalyticsService(),
         )
 
@@ -37,7 +39,8 @@ class DVLAAuthenticationCoordinatorTests {
     func start_success_doesNotPresentAlert() async throws {
         let mockURLOpener = MockURLOpener()
         let mockDVLAService = MockDVLAService()
-        mockDVLAService._stubbedFetchIdentityVerificationResult = .success(
+        let mockAuthenticationService = MockAuthenticationService()
+        mockAuthenticationService._stubbedFetchIdentityVerificationResult = .success(
             .init(verificationHash: "test-token")
         )
         let mockNavigationController = MockNavigationController()
@@ -45,6 +48,7 @@ class DVLAAuthenticationCoordinatorTests {
             navigationController: mockNavigationController,
             urlOpener: mockURLOpener,
             dvlaService: mockDVLAService,
+            authenticationService: mockAuthenticationService,
             analticsService: MockAnalyticsService(),
         )
 
@@ -59,12 +63,14 @@ class DVLAAuthenticationCoordinatorTests {
     func start_failure_presentsErrorAlert() async throws {
         let mockURLOpener = MockURLOpener()
         let mockDVLAService = MockDVLAService()
-        mockDVLAService._stubbedFetchIdentityVerificationResult = .failure(.apiUnavailable)
+        let mockAuthenticationService = MockAuthenticationService()
+        mockAuthenticationService._stubbedFetchIdentityVerificationResult = .failure(.apiUnavailable)
         let mockNavigationController = MockNavigationController()
         let sut = DVLAAuthenticationCoordinator(
             navigationController: mockNavigationController,
             urlOpener: mockURLOpener,
             dvlaService: mockDVLAService,
+            authenticationService: mockAuthenticationService,
             analticsService: MockAnalyticsService(),
         )
 
@@ -80,11 +86,13 @@ class DVLAAuthenticationCoordinatorTests {
     func start_failure_doesNotOpenURL() async throws {
         let mockURLOpener = MockURLOpener()
         let mockDVLAService = MockDVLAService()
-        mockDVLAService._stubbedFetchIdentityVerificationResult = .failure(.networkUnavailable)
+        let mockAuthenticationService = MockAuthenticationService()
+        mockAuthenticationService._stubbedFetchIdentityVerificationResult = .failure(.networkUnavailable)
         let sut = DVLAAuthenticationCoordinator(
             navigationController: UINavigationController(),
             urlOpener: mockURLOpener,
             dvlaService: mockDVLAService,
+            authenticationService: mockAuthenticationService,
             analticsService: MockAnalyticsService(),
         )
 

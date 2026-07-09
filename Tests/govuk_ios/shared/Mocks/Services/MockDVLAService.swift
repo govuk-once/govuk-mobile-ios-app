@@ -42,9 +42,4 @@ class MockDVLAService: DVLAServiceInterface {
         _cancelShareCodeCalledContinuation?.resume()
         return _stubbedCancelShareCodeResult!
     }
-
-    var _stubbedFetchIdentityVerificationResult: IdentityVerificationResult?
-    func fetchIdentityVerification() async -> IdentityVerificationResult {
-        _stubbedFetchIdentityVerificationResult!
-    }
 }

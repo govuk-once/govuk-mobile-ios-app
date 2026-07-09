@@ -124,33 +124,4 @@ struct DVLAServiceTests {
         let error = result.getError()
         #expect(error == .apiUnavailable)
     }
-
-    // MARK: - fetchIdentityVerification
-
-    @Test
-    func fetchIdentityVerification_success_returnsExpectedResult() async throws {
-        let hash = "some-identity-token"
-        mockServiceClient._stubbedFetchIdentityVerificationResult = .success(
-            .init(verificationHash: hash)
-        )
-        let result = await sut.fetchIdentityVerification()
-        let value = try #require(try? result.get())
-        #expect(value.verificationHash == hash)
-    }
-
-    @Test
-    func fetchIdentityVerification_apiUnavailable_returnsExpectedError() async {
-        mockServiceClient._stubbedFetchIdentityVerificationResult = .failure(.apiUnavailable)
-        let result = await sut.fetchIdentityVerification()
-        let error = result.getError()
-        #expect(error == .apiUnavailable)
-    }
-
-    @Test
-    func fetchIdentityVerification_networkUnavailable_returnsExpectedError() async {
-        mockServiceClient._stubbedFetchIdentityVerificationResult = .failure(.networkUnavailable)
-        let result = await sut.fetchIdentityVerification()
-        let error = result.getError()
-        #expect(error == .networkUnavailable)
-    }
 }

@@ -9,7 +9,7 @@ class MockAuthenticationServiceClient: AuthenticationServiceClientInterface {
     func performTokenRefresh(refreshToken: String) async -> TokenRefreshResult {
         _stubbedTokenRefreshResult
     }
-    
+
     var _stubbedAuthenticationResult: AuthenticationResult = .failure(.loginFlow(.init(reason: .authorizationAccessDenied)))
     func performAuthenticationFlow(window: UIWindow) async -> AuthenticationResult {
         _stubbedAuthenticationResult
@@ -19,4 +19,8 @@ class MockAuthenticationServiceClient: AuthenticationServiceClientInterface {
         completion?()
     }
 
+    var _stubbedFetchIdentityVerificationResult: IdentityVerificationResult = .failure(.apiUnavailable)
+    func fetchIdentityVerification(accesstoken: String) async -> IdentityVerificationResult {
+        _stubbedFetchIdentityVerificationResult
+    }
 }

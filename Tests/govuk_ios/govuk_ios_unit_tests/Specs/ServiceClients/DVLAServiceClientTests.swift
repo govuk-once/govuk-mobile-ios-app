@@ -7,16 +7,12 @@ import Testing
 struct DVLAServiceClientTests {
 
     let mockAPI: MockAPIServiceClient!
-    let mockVerificationAPI: MockAPIServiceClient
     let sut: DVLAServiceClient!
 
     init() {
         mockAPI = MockAPIServiceClient()
-        mockVerificationAPI = MockAPIServiceClient()
         sut = DVLAServiceClient(
             apiServiceClient: mockAPI,
-            verificationServiceClient: mockVerificationAPI,
-            authenticationService: MockAuthenticationService(),
         )
     }
 
@@ -201,59 +197,6 @@ struct DVLAServiceClientTests {
         let result = await sut.cancelShareCode(id: "test-share-code-id")
         let error = result.getError()
         #expect(error == .apiUnavailable)
-    }
-
-    // MARK: - fetchIdentityVerification
-
-    @Test
-    func fetchIdentityVerification_sendsExpectedRequest() async {
-        mockVerificationAPI._stubbedSendResponse = .success(Data())
-        _ = await sut.fetchIdentityVerification()
-        #expect(mockVerificationAPI._receivedSendRequest?.urlPath == "/linking/verification")
-        #expect(mockVerificationAPI._receivedSendRequest?.method == .post)
-        #expect(mockVerificationAPI._receivedSendRequest?.additionalHeaders == ["Content-Type": "application/json"])
-    }
-
-    @Test
-    func fetchIdentityVerification_success_returnsExpectedResult() async throws {
-        let hash = "some-identity-token"
-        let rawResult = [
-            "verificationHash": hash
-        ]
-        let encoded = try #require(try? JSONEncoder().encode(rawResult))
-        mockVerificationAPI._stubbedSendResponse = .success(encoded)
-
-        let result = await sut.fetchIdentityVerification()
-        let value = try #require(try? result.get())
-        #expect(value.verificationHash == hash)
-    }
-
-    @Test
-    func fetchIdentityVerification_apiUnavailable_returnsExpectedError() async {
-        mockVerificationAPI._stubbedSendResponse = .failure(DVLAError.apiUnavailable)
-        let result = await sut.fetchIdentityVerification()
-        let error = result.getError()
-        #expect(error == .apiUnavailable)
-    }
-
-    @Test
-    func fetchIdentityVerification_networkUnavailable_returnsExpectedError() async {
-        let networkError = NSError(
-            domain: NSURLErrorDomain,
-            code: NSURLErrorNotConnectedToInternet
-        )
-        mockVerificationAPI._stubbedSendResponse = .failure(networkError)
-        let result = await sut.fetchIdentityVerification()
-        let error = result.getError()
-        #expect(error == .networkUnavailable)
-    }
-
-    @Test
-    func fetchIdentityVerification_malformedResponse_returnsDecodingError() async {
-        mockVerificationAPI._stubbedSendResponse = .success(Data("not valid json".utf8))
-        let result = await sut.fetchIdentityVerification()
-        let error = result.getError()
-        #expect(error == .decodingError)
     }
 
     // MARK: - Static fixtures

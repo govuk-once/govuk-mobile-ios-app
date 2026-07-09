@@ -7,7 +7,6 @@ protocol DVLAServiceInterface {
     func fetchShareCodes() async -> ShareCodesResult
     func createShareCode() async -> ShareCodeResult
     func cancelShareCode(id: String) async -> ShareCodeResult
-    func fetchIdentityVerification() async -> IdentityVerificationResult
 }
 
 class DVLAService: DVLAServiceInterface {
@@ -39,9 +38,5 @@ class DVLAService: DVLAServiceInterface {
 
     func cancelShareCode(id: String) async -> ShareCodeResult {
         await serviceClient.cancelShareCode(id: id)
-    }
-
-    func fetchIdentityVerification() async -> IdentityVerificationResult {
-        await serviceClient.fetchIdentityVerification()
     }
 }

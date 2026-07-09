@@ -7,12 +7,18 @@ import FirebaseAppCheck
 
 typealias AuthenticationResult = Result<Authentication.TokenResponse, AuthenticationError>
 typealias TokenRefreshResult = Result<TokenRefreshResponse, TokenRefreshError>
+typealias IdentityVerificationResult = Result<VerificationResult, VerificationHashError>
 
 protocol AuthenticationServiceClientInterface {
     func performAuthenticationFlow(window: UIWindow) async -> AuthenticationResult
     func performTokenRefresh(refreshToken: String) async -> TokenRefreshResult
     func revokeToken(_ refreshToken: String?,
                      completion: (() -> Void)?)
+    func fetchIdentityVerification(accesstoken: String) async -> IdentityVerificationResult
+}
+
+struct VerificationResult: Decodable {
+    let verificationHash: String
 }
 
 class AuthenticationServiceClient: AuthenticationServiceClientInterface {
@@ -103,6 +109,42 @@ class AuthenticationServiceClient: AuthenticationServiceClientInterface {
         )
     }
 
+    func fetchIdentityVerification(accesstoken: String) async -> IdentityVerificationResult {
+        let request = GOVRequest.identityVerification(
+            token: accesstoken
+        )
+        return await withUnsafeContinuation { continuation in
+            revokeTokenServiceClient.send(
+                request: request,
+                completion: { result in
+                    continuation.resume(
+                        returning: self.mapHashResult(result)
+                    )
+                }
+            )
+        }
+    }
+
+    private func mapHashResult(
+        _ result: NetworkResult<Data>
+    ) -> Result<VerificationResult, VerificationHashError> {
+        return result.mapError { error in
+            let nsError = (error as NSError)
+            if nsError.code == NSURLErrorNotConnectedToInternet {
+                return .networkUnavailable
+            } else {
+                return (error as? VerificationHashError) ?? .apiUnavailable
+            }
+        }.flatMap {
+            do {
+                let response = try JSONDecoder().decode(VerificationResult.self, from: $0)
+                return .success(response)
+            } catch {
+                return .failure(.decodingError)
+            }
+        }
+    }
+
     private func loginSessionConfig() async throws -> LoginSessionConfiguration {
         let token = try await appAttestService.token().token
         return await LoginSessionConfiguration(
@@ -173,4 +215,10 @@ enum TokenRefreshError: Error {
     case tokenResponseError
     case decryptRefreshTokenError
     case genericError
+}
+
+enum VerificationHashError: Error {
+    case networkUnavailable
+    case apiUnavailable
+    case decodingError
 }

@@ -5,33 +5,21 @@ typealias CustomerSummaryResult = Result<CustomerSummary, DVLAError>
 typealias VehicleResult = Result<Vehicle, DVLAError>
 typealias ShareCodesResult = Result<ShareCodeListResponse, DVLAError>
 typealias ShareCodeResult = Result<ShareCodeResponse, DVLAError>
-typealias IdentityVerificationResult = Result<VerificationResult, DVLAError>
 
 protocol DVLAServiceClientInterface {
     func fetchDrivingLicence() async -> DrivingLicenceResult
     func fetchCustomerSummary() async -> CustomerSummaryResult
     func fetchVehicle(registration: String) async -> VehicleResult
     func fetchShareCodes() async -> ShareCodesResult
-    func fetchIdentityVerification() async -> IdentityVerificationResult
     func createShareCode() async -> ShareCodeResult
     func cancelShareCode(id: String) async -> ShareCodeResult
 }
 
-struct VerificationResult: Decodable {
-    let verificationHash: String
-}
-
 class DVLAServiceClient: DVLAServiceClientInterface {
     private let apiServiceClient: APIServiceClientInterface
-    private let verificationServiceClient: APIServiceClientInterface
-    private let authenticationService: AuthenticationServiceInterface
 
-    init(apiServiceClient: APIServiceClientInterface,
-         verificationServiceClient: APIServiceClientInterface,
-         authenticationService: AuthenticationServiceInterface) {
+    init(apiServiceClient: APIServiceClientInterface) {
         self.apiServiceClient = apiServiceClient
-        self.verificationServiceClient = verificationServiceClient
-        self.authenticationService = authenticationService
     }
 
     func fetchDrivingLicence() async -> DrivingLicenceResult {
@@ -52,13 +40,6 @@ class DVLAServiceClient: DVLAServiceClientInterface {
         await performRequest(.listShareCodes)
     }
 
-    func fetchIdentityVerification() async -> IdentityVerificationResult {
-        let request = GOVRequest.identityVerification(
-            token: authenticationService.accessToken ?? ""
-        )
-        return await performVerificationRequest(request)
-    }
-
     func createShareCode() async -> ShareCodeResult {
         await performRequest(.createShareCode)
     }
@@ -72,21 +53,6 @@ class DVLAServiceClient: DVLAServiceClientInterface {
     ) async -> Result<T, DVLAError> {
         await withCheckedContinuation { continuation in
             apiServiceClient.send(
-                request: request,
-                completion: {
-                    continuation.resume(
-                        returning: self.mapResult($0)
-                    )
-                }
-            )
-        }
-    }
-
-    private func performVerificationRequest<T: Decodable>(
-        _ request: GOVRequest
-    ) async -> Result<T, DVLAError> {
-        await withCheckedContinuation { continuation in
-            verificationServiceClient.send(
                 request: request,
                 completion: {
                     continuation.resume(

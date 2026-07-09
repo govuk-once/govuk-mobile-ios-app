@@ -8,14 +8,17 @@ final class DVLAAuthenticationCoordinator: BaseCoordinator {
     }()
     private let urlOpener: URLOpener
     private let dvlaService: DVLAServiceInterface
+    private let authenticationService: AuthenticationServiceInterface
     private let analticsService: AnalyticsServiceInterface
 
     init(navigationController: UINavigationController,
          urlOpener: URLOpener,
          dvlaService: DVLAServiceInterface,
+         authenticationService: AuthenticationServiceInterface,
          analticsService: AnalyticsServiceInterface) {
         self.urlOpener = urlOpener
         self.dvlaService = dvlaService
+        self.authenticationService = authenticationService
         self.analticsService = analticsService
         super.init(navigationController: navigationController)
     }
@@ -27,7 +30,7 @@ final class DVLAAuthenticationCoordinator: BaseCoordinator {
     }
 
     private func fetchIdentityVerification() async {
-        let result = await dvlaService.fetchIdentityVerification()
+        let result = await authenticationService.fetchIdentityVerification()
         switch result {
         case .success(let result):
             authenticate(email: result.verificationHash)
