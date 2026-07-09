@@ -34,17 +34,32 @@ struct MOTStatusViewModelBuilder: MOTStatusViewModelBuilderInterface {
         self.analyticsService = analyticsService
         self.openURLAction = openURLAction
     }
-
     @MainActor
     func makeViewModel(
         vehicle: CustomerSummary.Vehicle
     ) -> ValidityStatusViewModel {
-        // Handle explicit string status error responses first
+        // stub code
+        let forceEmulatorState = "DEBUG_SCENARIO_7"
+
+        if forceEmulatorState == "DEBUG_SCENARIO_6" {
+            return makeNoResultsViewModel()
+        }
+
+        if forceEmulatorState == "DEBUG_SCENARIO_7" {
+            return makeNoDetailsViewModel(vehicle: vehicle)
+        }
+
+        if forceEmulatorState == "DEBUG_SCENARIO_8" {
+            return makeNotKnownViewModel()
+        }
+
+        // stub code
+
         if vehicle.motStatus == "No results returned" {
             return makeNoResultsViewModel()
         }
         if vehicle.motStatus == "No details held by DVLA" {
-            return makeNoDetailsViewModel()
+            return makeNoDetailsViewModel(vehicle: vehicle) // Passes vehicle down for Scenario 7
         }
 
         let status = motValidityStatus(vehicle: vehicle)
@@ -82,7 +97,6 @@ struct MOTStatusViewModelBuilder: MOTStatusViewModelBuilderInterface {
         }
     }
 
-    // Core evaluator mapping the raw string statuses into domain cases
     private func motValidityStatus(vehicle: CustomerSummary.Vehicle) -> MOTValidityStatus {
         if vehicle.motStatus == "Not valid" {
             return .expired
@@ -93,38 +107,36 @@ struct MOTStatusViewModelBuilder: MOTStatusViewModelBuilderInterface {
         return .unknown
     }
 
-    // MARK: - Expired
     private func makeExpiredViewModel(
         validToDate: Date?
     ) -> ValidityStatusViewModel {
         let formattedStatus: String
         if let dateString = formattedDate(validToDate) {
-            formattedStatus = String(localized: "motExpiredOn \(dateString)")
+            formattedStatus = String(localized: .DVLA.motExpiredOn(dateString))
         } else {
-            formattedStatus = String(localized: "motExpired")
+            formattedStatus = String(localized: .DVLA.motStatusTitle)
         }
 
         return ValidityStatusViewModel(
-            title: String(localized: "motStatusTitle"),
+            title: String(localized: .DVLA.motStatusTitle),
             formattedStatus: formattedStatus,
             status: MOTValidityStatus.expired,
             iconName: "exclamationmark.triangle.fill"
         )
     }
 
-    // MARK: - Valid
     private func makeValidViewModel(
         validToDate: Date?
     ) -> ValidityStatusViewModel {
         let formattedStatus: String
         if let dateString = formattedDate(validToDate) {
-            formattedStatus = String(localized: "motValidUntil \(dateString)")
+            formattedStatus =  String(localized: .DVLA.motValidUntil(dateString))
         } else {
-            formattedStatus = String(localized: "motValid")
+            formattedStatus = String(localized: .DVLA.valid)
         }
 
         return ValidityStatusViewModel(
-            title: String(localized: "motStatusTitle"),
+            title: String(localized: .DVLA.motStatusTitle),
             formattedStatus: formattedStatus,
             status: MOTValidityStatus.valid,
             iconName: "checkmark.circle.fill",
@@ -133,7 +145,6 @@ struct MOTStatusViewModelBuilder: MOTStatusViewModelBuilderInterface {
     }
 
     @MainActor
-    // MARK: - Expiring
     private func makeExpiringViewModel(
         validToDate: Date,
         expiryProgress: ExpiryProgressState
@@ -144,60 +155,70 @@ struct MOTStatusViewModelBuilder: MOTStatusViewModelBuilderInterface {
         )
 
         return ValidityStatusViewModel(
-            title: String(localized: "motStatusTitle"),
+            title: String(localized: .DVLA.motStatusTitle),
             formattedStatus: String(
-                localized: "motExpiringOn \(formattedDate(validToDate) ?? "")"
+                localized: .DVLA.motExpiringOn(
+                    formattedDate(validToDate) ?? "")
             ),
             status: MOTValidityStatus.expiringSoon,
             progressViewModel: progressViewModel,
-            footer: String(localized: "motSyncDelayNotice")
+            footer: String(localized: .DVLA.motSyncDelayNotice)
         )
     }
 
-    // MARK: - Unknown
     private func makeNotKnownViewModel() -> ValidityStatusViewModel {
         return ValidityStatusViewModel(
-            title: String(localized: "motStatusTitle"),
-            formattedStatus: String(localized: "motUnknown"),
+            title: String(localized: .DVLA.motStatusTitle),
+            formattedStatus: String(localized: .DVLA.motUnknown),
             status: MOTValidityStatus.unknown
         )
     }
 
-    // MARK: - Edge Case: No results returned
     private func makeNoResultsViewModel() -> ValidityStatusViewModel {
-        let buttonTitle = String(localized: "motCheckDetailsLink")
-        let buttonURL = urls?.motHelp ?? Constants.API.defaultDvlaNoResultsUrl
+        let buttonTitle = String(localized: .DVLA.motCheckIfItNeedsAnMOT)
+        let buttonURL = Constants.API.defaultDvlaNoResultsUrl
 
         return ValidityStatusViewModel(
-            title: String(localized: "motStatusTitle"),
-            formattedStatus: String(localized: "motNoResultsReturned"),
+            title: String(localized: .DVLA.motStatusTitle),
+            formattedStatus: String(localized: .DVLA.motNoResultsReturned),
             status: MOTValidityStatus.noResultsReturned,
             buttonTitle: buttonTitle,
             buttonAction: {
-                openURLAction(buttonURL) // Fixed parameter argument label issue
+                openURLAction(buttonURL)
                 trackUrlOpenEvent(url: buttonURL, text: buttonTitle)
             }
         )
     }
 
-    // MARK: - Edge Case: No details held
-    private func makeNoDetailsViewModel() -> ValidityStatusViewModel {
-        let buttonTitle = String(localized: "motCheckDetailsLink")
-        let buttonURL = urls?.motHelp ?? Constants.API.defaultDvlaNoDetailsUrl
+    private func makeNoDetailsViewModel(
+        vehicle: CustomerSummary.Vehicle
+    )
+    -> ValidityStatusViewModel {
+        let buttonTitle = String(localized: .DVLA.motSeeStatusOnTheWebsite)
+        var buttonURL = Constants.API.defaultDvlaNoResultsUrl
+        if let baseUrl = URL(string: Constants.API.defaultDvlaNoDetailsBaseUrlString),
+           var components = URLComponents(url: baseUrl, resolvingAgainstBaseURL: true) {
+            components.queryItems = [
+                URLQueryItem(name: "registration", value: vehicle.registrationNumber),
+                URLQueryItem(name: "checkRecalls", value: "true")
+            ]
+            if let completedUrl = components.url {
+                buttonURL = completedUrl
+            }
+        }
 
         return ValidityStatusViewModel(
-            title: String(localized: "motStatusTitle"),
-            formattedStatus: String(localized: "motNoDetailsHeldByDVLA"),
+            title: String(localized: .DVLA.motStatusTitle),
+            formattedStatus: String(localized: .DVLA.motNoDetailsHeldByDVLA),
             status: MOTValidityStatus.noDetailsHeldByDVLA,
             buttonTitle: buttonTitle,
             buttonAction: {
-                openURLAction(buttonURL) // Fixed parameter argument label issue
+                openURLAction(buttonURL)
                 trackUrlOpenEvent(url: buttonURL, text: buttonTitle)
             }
         )
     }
 
-    // MARK: - Analytics
     private func trackUrlOpenEvent(url: URL, text: String) {
         let event = AppEvent.buttonNavigation(
             text: text,

@@ -673,6 +673,17 @@
         }
       }
     },
+    "motCheckIfItNeedsAnMOT" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check if it needs an MOT"
+          }
+        }
+      }
+    },
     "motExpiredOn" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -713,6 +724,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "No results returned"
+          }
+        }
+      }
+    },
+    "motSeeStatusOnTheWebsite" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "See status on the website"
           }
         }
       }

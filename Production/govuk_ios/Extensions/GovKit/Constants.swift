@@ -26,6 +26,15 @@ extension Constants.API {
         return components.url!
     }()
 
+    public static let defaultDvlaNoResultsUrl: URL = {
+        var components = govukBaseComponents
+        components.path = "/historic-vehicles"
+        return components.url!
+    }()
+
+    public static let defaultDvlaNoDetailsBaseUrlString = "https://service.gov.uk"
+
+
     public static let defaultChatFeedbackUrl: URL = URL(
         string: "https://surveys.publishing.service.gov.uk/s/SUIEH2/"
     )!
