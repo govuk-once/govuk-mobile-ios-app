@@ -16,6 +16,19 @@ extension GOVRequest {
             requiresAuthentication: false
         )
     }
+
+    static func identityVerification(token: String) -> GOVRequest {
+        GOVRequest(
+            urlPath: "/linking/verification",
+            method: .post,
+            body: [
+                "token": token
+            ],
+            queryParameters: nil,
+            additionalHeaders: ["Content-Type": "application/json"],
+            requiresAuthentication: false
+        )
+    }
 }
 
 struct RevokeToken: Codable {

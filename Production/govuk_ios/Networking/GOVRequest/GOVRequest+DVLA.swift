@@ -72,17 +72,4 @@ extension GOVRequest {
             requiresAuthentication: true
         )
     }
-
-    static func identityVerification(token: String) -> GOVRequest {
-        GOVRequest(
-            urlPath: "/linking/verification",
-            method: .post,
-            body: [
-                "token": token
-            ],
-            queryParameters: nil,
-            additionalHeaders: additionalHeaders,
-            requiresAuthentication: false
-        )
-    }
 }
