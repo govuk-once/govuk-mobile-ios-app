@@ -73,14 +73,16 @@ extension GOVRequest {
         )
     }
 
-    static var identityVerification: GOVRequest {
+    static func identityVerification(token: String) -> GOVRequest {
         GOVRequest(
-            urlPath: "\(dvlaPath)/identity",
+            urlPath: "/linking/verification",
             method: .post,
-            body: nil,
+            body: [
+                "token": token
+            ],
             queryParameters: nil,
             additionalHeaders: additionalHeaders,
-            requiresAuthentication: true
+            requiresAuthentication: false
         )
     }
 }

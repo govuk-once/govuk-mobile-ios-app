@@ -105,6 +105,18 @@ extension Container {
         }
     }
 
+    var verificationAPIClient: Factory<APIServiceClientInterface> {
+        Factory(self) {
+            APIServiceClient(
+                baseUrl: URL(string: "https://4y369hyvja.execute-api.eu-west-2.amazonaws.com/staging")!,
+                session: self.urlSession(),
+                requestBuilder: RequestBuilder(),
+                responseHandler: nil,
+                tokenProvider: self.authenticationService()
+            )
+        }
+    }
+
     var urlSession: Factory<URLSession> {
         Factory(self) {
             URLSession(configuration: .default)

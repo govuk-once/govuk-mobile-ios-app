@@ -29,8 +29,8 @@ final class DVLAAuthenticationCoordinator: BaseCoordinator {
     private func fetchIdentityVerification() async {
         let result = await dvlaService.fetchIdentityVerification()
         switch result {
-        case .success(let email):
-            authenticate(email: email)
+        case .success(let result):
+            authenticate(email: result.verificationHash)
         case .failure:
             presentError()
         }

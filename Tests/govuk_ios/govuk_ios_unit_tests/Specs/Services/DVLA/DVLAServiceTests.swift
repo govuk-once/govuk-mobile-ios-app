@@ -129,11 +129,13 @@ struct DVLAServiceTests {
 
     @Test
     func fetchIdentityVerification_success_returnsExpectedResult() async throws {
-        let token = "some-identity-token"
-        mockServiceClient._stubbedFetchIdentityVerificationResult = .success(token)
+        let hash = "some-identity-token"
+        mockServiceClient._stubbedFetchIdentityVerificationResult = .success(
+            .init(verificationHash: hash)
+        )
         let result = await sut.fetchIdentityVerification()
         let value = try #require(try? result.get())
-        #expect(value == token)
+        #expect(value.verificationHash == hash)
     }
 
     @Test

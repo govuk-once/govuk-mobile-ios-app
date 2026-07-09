@@ -84,7 +84,11 @@ extension Container {
 
     var dvlaServiceClient: Factory<DVLAServiceClientInterface> {
         Factory(self) {
-            DVLAServiceClient(apiServiceClient: self.dvlaAPIClient())
+            DVLAServiceClient(
+                apiServiceClient: self.dvlaAPIClient(),
+                verificationServiceClient: self.verificationAPIClient(),
+                authenticationService: self.authenticationService.resolve()
+            )
         }
     }
 }

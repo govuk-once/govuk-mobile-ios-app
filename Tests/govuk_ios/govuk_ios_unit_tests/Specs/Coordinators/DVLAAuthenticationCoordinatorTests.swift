@@ -12,11 +12,14 @@ class DVLAAuthenticationCoordinatorTests {
     func start_success_opensURLWithVerificationToken() async throws {
         let mockURLOpener = MockURLOpener()
         let mockDVLAService = MockDVLAService()
-        mockDVLAService._stubbedFetchIdentityVerificationResult = .success("test-token")
+        mockDVLAService._stubbedFetchIdentityVerificationResult = .success(
+            .init(verificationHash: "test-token")
+        )
         let sut = DVLAAuthenticationCoordinator(
             navigationController: UINavigationController(),
             urlOpener: mockURLOpener,
             dvlaService: mockDVLAService,
+            analticsService: MockAnalyticsService(),
         )
 
         sut.start(url: nil)
@@ -34,12 +37,15 @@ class DVLAAuthenticationCoordinatorTests {
     func start_success_doesNotPresentAlert() async throws {
         let mockURLOpener = MockURLOpener()
         let mockDVLAService = MockDVLAService()
-        mockDVLAService._stubbedFetchIdentityVerificationResult = .success("test-token")
+        mockDVLAService._stubbedFetchIdentityVerificationResult = .success(
+            .init(verificationHash: "test-token")
+        )
         let mockNavigationController = MockNavigationController()
         let sut = DVLAAuthenticationCoordinator(
             navigationController: mockNavigationController,
             urlOpener: mockURLOpener,
             dvlaService: mockDVLAService,
+            analticsService: MockAnalyticsService(),
         )
 
         sut.start(url: nil)
@@ -59,12 +65,13 @@ class DVLAAuthenticationCoordinatorTests {
             navigationController: mockNavigationController,
             urlOpener: mockURLOpener,
             dvlaService: mockDVLAService,
+            analticsService: MockAnalyticsService(),
         )
 
         sut.start(url: nil)
         try await Task.sleep(for: .milliseconds(100))
 
-        #expect(mockNavigationController._presentedViewController is UIAlertController)
+        #expect(mockNavigationController._setViewControllers?.first != nil)
         #expect(mockURLOpener._receivedOpenIfPossibleUrl == nil)
     }
 
@@ -78,6 +85,7 @@ class DVLAAuthenticationCoordinatorTests {
             navigationController: UINavigationController(),
             urlOpener: mockURLOpener,
             dvlaService: mockDVLAService,
+            analticsService: MockAnalyticsService(),
         )
 
         sut.start(url: nil)

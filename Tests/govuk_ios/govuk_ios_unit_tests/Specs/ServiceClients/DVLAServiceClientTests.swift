@@ -7,11 +7,17 @@ import Testing
 struct DVLAServiceClientTests {
 
     let mockAPI: MockAPIServiceClient!
+    let mockVerificationAPI: MockAPIServiceClient
     let sut: DVLAServiceClient!
 
     init() {
         mockAPI = MockAPIServiceClient()
-        sut = DVLAServiceClient(apiServiceClient: mockAPI)
+        mockVerificationAPI = MockAPIServiceClient()
+        sut = DVLAServiceClient(
+            apiServiceClient: mockAPI,
+            verificationServiceClient: mockVerificationAPI,
+            authenticationService: MockAuthenticationService(),
+        )
     }
 
     @Test
@@ -201,27 +207,30 @@ struct DVLAServiceClientTests {
 
     @Test
     func fetchIdentityVerification_sendsExpectedRequest() async {
-        mockAPI._stubbedSendResponse = .success(Data())
+        mockVerificationAPI._stubbedSendResponse = .success(Data())
         _ = await sut.fetchIdentityVerification()
-        #expect(mockAPI._receivedSendRequest?.urlPath == "/app/dvla/v1/identity")
-        #expect(mockAPI._receivedSendRequest?.method == .post)
-        #expect(mockAPI._receivedSendRequest?.additionalHeaders == ["Content-Type": "application/json"])
+        #expect(mockVerificationAPI._receivedSendRequest?.urlPath == "/linking/verification")
+        #expect(mockVerificationAPI._receivedSendRequest?.method == .post)
+        #expect(mockVerificationAPI._receivedSendRequest?.additionalHeaders == ["Content-Type": "application/json"])
     }
 
     @Test
     func fetchIdentityVerification_success_returnsExpectedResult() async throws {
-        let token = "some-identity-token"
-        let encoded = try #require(try? JSONEncoder().encode(token))
-        mockAPI._stubbedSendResponse = .success(encoded)
+        let hash = "some-identity-token"
+        let rawResult = [
+            "verificationHash": hash
+        ]
+        let encoded = try #require(try? JSONEncoder().encode(rawResult))
+        mockVerificationAPI._stubbedSendResponse = .success(encoded)
 
         let result = await sut.fetchIdentityVerification()
         let value = try #require(try? result.get())
-        #expect(value == token)
+        #expect(value.verificationHash == hash)
     }
 
     @Test
     func fetchIdentityVerification_apiUnavailable_returnsExpectedError() async {
-        mockAPI._stubbedSendResponse = .failure(DVLAError.apiUnavailable)
+        mockVerificationAPI._stubbedSendResponse = .failure(DVLAError.apiUnavailable)
         let result = await sut.fetchIdentityVerification()
         let error = result.getError()
         #expect(error == .apiUnavailable)
@@ -233,7 +242,7 @@ struct DVLAServiceClientTests {
             domain: NSURLErrorDomain,
             code: NSURLErrorNotConnectedToInternet
         )
-        mockAPI._stubbedSendResponse = .failure(networkError)
+        mockVerificationAPI._stubbedSendResponse = .failure(networkError)
         let result = await sut.fetchIdentityVerification()
         let error = result.getError()
         #expect(error == .networkUnavailable)
@@ -241,7 +250,7 @@ struct DVLAServiceClientTests {
 
     @Test
     func fetchIdentityVerification_malformedResponse_returnsDecodingError() async {
-        mockAPI._stubbedSendResponse = .success(Data("not valid json".utf8))
+        mockVerificationAPI._stubbedSendResponse = .success(Data("not valid json".utf8))
         let result = await sut.fetchIdentityVerification()
         let error = result.getError()
         #expect(error == .decodingError)

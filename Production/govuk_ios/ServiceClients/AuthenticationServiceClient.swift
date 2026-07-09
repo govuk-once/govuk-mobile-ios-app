@@ -148,7 +148,10 @@ class AuthenticationServiceClient: AuthenticationServiceClientInterface {
         guard let accessToken = token.accessToken else {
             throw TokenRefreshError.missingAccessTokenError
         }
-        return TokenRefreshResponse(accessToken: accessToken, idToken: token.idToken)
+        return TokenRefreshResponse(
+            accessToken: accessToken,
+            idToken: token.idToken
+        )
     }
 }
 
