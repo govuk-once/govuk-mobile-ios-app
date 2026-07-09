@@ -9,7 +9,7 @@ class DVLAAuthenticationCoordinatorTests {
 
     @Test
     @MainActor
-    func start_success_opensURLWithVerificationToken() async throws {
+    func start_hashRequestSuccess_opensURLWithVerificationToken() async throws {
         let mockURLOpener = MockURLOpener()
         let mockDVLAService = MockDVLAService()
         let mockAuthenticationService = MockAuthenticationService()
@@ -36,7 +36,7 @@ class DVLAAuthenticationCoordinatorTests {
 
     @Test
     @MainActor
-    func start_success_doesNotPresentAlert() async throws {
+    func start_hashRequestSuccess_doesNotPresentAlert() async throws {
         let mockURLOpener = MockURLOpener()
         let mockDVLAService = MockDVLAService()
         let mockAuthenticationService = MockAuthenticationService()
@@ -60,7 +60,7 @@ class DVLAAuthenticationCoordinatorTests {
 
     @Test
     @MainActor
-    func start_failure_presentsErrorAlert() async throws {
+    func start_hashRequestFailure_presentsErrorAlert() async throws {
         let mockURLOpener = MockURLOpener()
         let mockDVLAService = MockDVLAService()
         let mockAuthenticationService = MockAuthenticationService()
@@ -83,7 +83,7 @@ class DVLAAuthenticationCoordinatorTests {
 
     @Test
     @MainActor
-    func start_failure_doesNotOpenURL() async throws {
+    func start_hashRequestFailure_doesNotOpenURL() async throws {
         let mockURLOpener = MockURLOpener()
         let mockDVLAService = MockDVLAService()
         let mockAuthenticationService = MockAuthenticationService()

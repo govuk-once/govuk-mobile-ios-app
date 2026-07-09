@@ -33,9 +33,4 @@ class MockDVLAServiceClient: DVLAServiceClientInterface {
     func cancelShareCode(id: String) async -> ShareCodeResult {
         _stubbedCancelShareCodeResult!
     }
-
-    var _stubbedFetchIdentityVerificationResult: IdentityVerificationResult?
-    func fetchIdentityVerification() async -> IdentityVerificationResult {
-        _stubbedFetchIdentityVerificationResult!
-    }
 }
