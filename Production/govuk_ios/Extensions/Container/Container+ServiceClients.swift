@@ -52,7 +52,7 @@ extension Container {
                 appEnvironmentService: self.appEnvironmentService.resolve(),
                 appAuthSession: AppAuthSessionWrapper(),
                 oidAuthService: OIDAuthorizationServiceWrapper(),
-                revokeTokenServiceClient: self.tokenAPIClient(),
+                tokenServiceClient: self.tokenAPIClient(),
                 appAttestService: self.appAttestService.resolve(),
             )
         }

@@ -21,7 +21,7 @@ struct AuthenticationServiceClientTests {
             appEnvironmentService: mockAppEnvironmentService,
             appAuthSession: appAuthSessionWrapper,
             oidAuthService: mockOidAuthService,
-            revokeTokenServiceClient: MockAPIServiceClient(),
+            tokenServiceClient: MockAPIServiceClient(),
             appAttestService: mockAttestService,
         )
 
@@ -52,7 +52,7 @@ struct AuthenticationServiceClientTests {
             appEnvironmentService: mockAppEnvironmentService,
             appAuthSession: appAuthSessionWrapper,
             oidAuthService: mockOidAuthService,
-            revokeTokenServiceClient: MockAPIServiceClient(),
+            tokenServiceClient: MockAPIServiceClient(),
             appAttestService: mockAttestService,
         )
 
@@ -77,7 +77,7 @@ struct AuthenticationServiceClientTests {
             appEnvironmentService: mockAppEnvironmentService,
             appAuthSession: appAuthSessionWrapper,
             oidAuthService: mockOidAuthService,
-            revokeTokenServiceClient: MockAPIServiceClient(),
+            tokenServiceClient: MockAPIServiceClient(),
             appAttestService: mockAttestService,
         )
 
@@ -101,7 +101,7 @@ struct AuthenticationServiceClientTests {
             appEnvironmentService: mockAppEnvironmentService,
             appAuthSession: appAuthSessionWrapper,
             oidAuthService: mockOidAuthService,
-            revokeTokenServiceClient: MockAPIServiceClient(),
+            tokenServiceClient: MockAPIServiceClient(),
             appAttestService: mockAttestService,
         )
 
@@ -127,7 +127,7 @@ struct AuthenticationServiceClientTests {
             appEnvironmentService: mockAppEnvironmentService,
             appAuthSession: appAuthSessionWrapper,
             oidAuthService: mockOidAuthService,
-            revokeTokenServiceClient: MockAPIServiceClient(),
+            tokenServiceClient: MockAPIServiceClient(),
             appAttestService: mockAttestService,
         )
         let accessToken = UUID().uuidString
@@ -159,7 +159,7 @@ struct AuthenticationServiceClientTests {
             appEnvironmentService: mockAppEnvironmentService,
             appAuthSession: appAuthSessionWrapper,
             oidAuthService: mockOidAuthService,
-            revokeTokenServiceClient: MockAPIServiceClient(),
+            tokenServiceClient: MockAPIServiceClient(),
             appAttestService: mockAttestService,
         )
         mockOidAuthService._stubbedAccessToken = nil
@@ -187,7 +187,7 @@ struct AuthenticationServiceClientTests {
             appEnvironmentService: mockAppEnvironmentService,
             appAuthSession: appAuthSessionWrapper,
             oidAuthService: mockOidAuthService,
-            revokeTokenServiceClient: MockAPIServiceClient(),
+            tokenServiceClient: MockAPIServiceClient(),
             appAttestService: mockAttestService,
         )
         mockOidAuthService._shouldReturnError = true
@@ -212,7 +212,7 @@ struct AuthenticationServiceClientTests {
             appEnvironmentService: mockAppEnvironmentService,
             appAuthSession: appAuthSessionWrapper,
             oidAuthService: mockOidAuthService,
-            revokeTokenServiceClient: mockTokenApiClient,
+            tokenServiceClient: mockTokenApiClient,
             appAttestService: MockAppAttestService()
         )
 
@@ -236,7 +236,7 @@ struct AuthenticationServiceClientTests {
             appEnvironmentService: mockAppEnvironmentService,
             appAuthSession: appAuthSessionWrapper,
             oidAuthService: mockOidAuthService,
-            revokeTokenServiceClient: mockTokenApiClient,
+            tokenServiceClient: mockTokenApiClient,
             appAttestService: MockAppAttestService()
         )
 
@@ -262,7 +262,7 @@ struct AuthenticationServiceClientTests {
             appEnvironmentService: mockAppEnvironmentService,
             appAuthSession: appAuthSessionWrapper,
             oidAuthService: mockOidAuthService,
-            revokeTokenServiceClient: mockTokenApiClient,
+            tokenServiceClient: mockTokenApiClient,
             appAttestService: MockAppAttestService()
         )
 
@@ -284,7 +284,7 @@ struct AuthenticationServiceClientTests {
             appEnvironmentService: MockAppEnvironmentService(),
             appAuthSession: await MockAuthenticationSessionWrapper(),
             oidAuthService: MockOIDAuthService(),
-            revokeTokenServiceClient: mockTokenApiClient,
+            tokenServiceClient: mockTokenApiClient,
             appAttestService: MockAppAttestService()
         )
 
@@ -305,7 +305,7 @@ struct AuthenticationServiceClientTests {
             appEnvironmentService: MockAppEnvironmentService(),
             appAuthSession: await MockAuthenticationSessionWrapper(),
             oidAuthService: MockOIDAuthService(),
-            revokeTokenServiceClient: mockTokenApiClient,
+            tokenServiceClient: mockTokenApiClient,
             appAttestService: MockAppAttestService()
         )
 
@@ -322,7 +322,7 @@ struct AuthenticationServiceClientTests {
             appEnvironmentService: MockAppEnvironmentService(),
             appAuthSession: await MockAuthenticationSessionWrapper(),
             oidAuthService: MockOIDAuthService(),
-            revokeTokenServiceClient: mockTokenApiClient,
+            tokenServiceClient: mockTokenApiClient,
             appAttestService: MockAppAttestService()
         )
 
@@ -340,7 +340,7 @@ struct AuthenticationServiceClientTests {
             appEnvironmentService: MockAppEnvironmentService(),
             appAuthSession: await MockAuthenticationSessionWrapper(),
             oidAuthService: MockOIDAuthService(),
-            revokeTokenServiceClient: mockTokenApiClient,
+            tokenServiceClient: mockTokenApiClient,
             appAttestService: MockAppAttestService()
         )
 
@@ -356,7 +356,7 @@ struct AuthenticationServiceClientTests {
             appEnvironmentService: MockAppEnvironmentService(),
             appAuthSession: await MockAuthenticationSessionWrapper(),
             oidAuthService: MockOIDAuthService(),
-            revokeTokenServiceClient: mockTokenApiClient,
+            tokenServiceClient: mockTokenApiClient,
             appAttestService: MockAppAttestService()
         )
         let result = await sut.fetchIdentityVerification(accesstoken: "test-token")

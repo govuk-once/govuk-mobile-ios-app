@@ -25,18 +25,18 @@ class AuthenticationServiceClient: AuthenticationServiceClientInterface {
     private let appAuthSession: AppAuthSessionWrapperInterface
     private let appEnvironmentService: AppEnvironmentServiceInterface
     private let oidAuthService: OIDAuthorizationServiceWrapperInterface
-    private let revokeTokenServiceClient: APIServiceClientInterface
+    private let tokenServiceClient: APIServiceClientInterface
     private let appAttestService: AppAttestServiceInterface
 
     init(appEnvironmentService: AppEnvironmentServiceInterface,
          appAuthSession: AppAuthSessionWrapperInterface,
          oidAuthService: OIDAuthorizationServiceWrapperInterface,
-         revokeTokenServiceClient: APIServiceClientInterface,
+         tokenServiceClient: APIServiceClientInterface,
          appAttestService: AppAttestServiceInterface) {
         self.appEnvironmentService = appEnvironmentService
         self.appAuthSession = appAuthSession
         self.oidAuthService = oidAuthService
-        self.revokeTokenServiceClient = revokeTokenServiceClient
+        self.tokenServiceClient = tokenServiceClient
         self.appAttestService = appAttestService
     }
 
@@ -99,7 +99,7 @@ class AuthenticationServiceClient: AuthenticationServiceClientInterface {
             token: refreshToken,
             clientId: appEnvironmentService.authenticationClientId
         )
-        revokeTokenServiceClient.send(
+        tokenServiceClient.send(
             request: request,
             completion: { result in
                 if case .success = result {
@@ -114,7 +114,7 @@ class AuthenticationServiceClient: AuthenticationServiceClientInterface {
             token: accesstoken
         )
         return await withUnsafeContinuation { continuation in
-            revokeTokenServiceClient.send(
+            tokenServiceClient.send(
                 request: request,
                 completion: { result in
                     continuation.resume(
