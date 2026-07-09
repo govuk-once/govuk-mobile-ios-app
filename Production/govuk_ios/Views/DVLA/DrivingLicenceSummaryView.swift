@@ -23,7 +23,9 @@ struct DrivingLicenceSummaryView: View {
                 .roundedBorder(borderColor: .clear)
                 .contextMenu {
                     Button {
-                        viewModel.copyToClipboardAction?(viewModel.licenceNumber)
+                        viewModel.copyToClipboardAction?(
+                            viewModel.licenceNumber
+                        )
                     } label: {
                         Text(viewModel.copyToClipboardButtonTitle)
                         Image(systemName: "doc.on.doc.fill")
