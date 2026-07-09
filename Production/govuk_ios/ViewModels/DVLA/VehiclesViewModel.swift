@@ -5,7 +5,7 @@ class VehiclesViewModel: ObservableObject {
     enum ViewState {
         case loading
         case loaded(vehicles: [VehicleSummaryViewModel])
-        case error(AppErrorViewModel)
+        case error(InlineActionErrorViewModel)
     }
 
     @Published private(set) var viewState: ViewState
@@ -63,7 +63,7 @@ class VehiclesViewModel: ObservableObject {
             hasLoadedVehicles = true
             viewState = .loaded(vehicles: vehicleSummaryViewModels)
         case .failure:
-            viewState = .error(dvlaAccountErrorViewModel)
+            viewState = .error(vehiclesErrorViewModel)
         }
     }
 
@@ -71,6 +71,21 @@ class VehiclesViewModel: ObservableObject {
         let event = AppEvent.buttonNavigation(
             text: "Details",
             external: false,
+            section: "Driving"
+        )
+        analyticsService.track(event: event)
+    }
+
+    private func handleOpenURL(url: URL, buttonTitle: String) {
+        trackOpenURLAction(url: url, buttonTitle: buttonTitle)
+        openURLAction(url)
+    }
+
+    private func trackOpenURLAction(url: URL, buttonTitle: String) {
+        let event = AppEvent.buttonNavigation(
+            text: buttonTitle,
+            external: true,
+            url: url.absoluteString,
             section: "Driving"
         )
         analyticsService.track(event: event)
@@ -100,11 +115,21 @@ class VehiclesViewModel: ObservableObject {
         hasLoadedVehicles = false
     }
 
-    private var dvlaAccountErrorViewModel: AppErrorViewModel {
-        .dvlaAccountErrorWithAction { [weak self] in
-            Task {
-                await self?.fetchVehicles()
+    private var vehiclesErrorViewModel: InlineActionErrorViewModel {
+        let url = configService.dvlaUrls?.account ?? Constants.API.defaultDvlaAccountUrl
+        let buttonTitle = String(localized: .DVLA.vehicleSummaryErrorButtonTitle)
+        let errorBody = String(
+            localized: .DVLA.vehicleSummaryErrorBody(
+                buttonTitle: buttonTitle,
+                url: url.absoluteString
+            )
+        )
+        return InlineActionErrorViewModel(
+            title: String(localized: .DVLA.vehicleSummaryErrorTitle),
+            markdownBody: errorBody,
+            openURLAction: { [weak self] url in
+                self?.handleOpenURL(url: url, buttonTitle: buttonTitle)
             }
-        }
+        )
     }
 }

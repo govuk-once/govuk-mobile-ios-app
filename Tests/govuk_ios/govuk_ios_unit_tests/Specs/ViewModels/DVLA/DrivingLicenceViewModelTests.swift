@@ -19,7 +19,7 @@ struct DrivingLicenceViewModelTests {
 
     @Test
     func viewDidAppear_fetchesLicence() async {
-        mockDvlaService._stubbedFetchDriverSummaryResult = .success(.arrange)
+        mockDvlaService._stubbedFetchDrivingLicenceResult = .success(.arrange)
         let sut = DrivingLicenceViewModel(
             analyticsService: mockAnalyticsService,
             dvlaService: mockDvlaService,
@@ -27,13 +27,13 @@ struct DrivingLicenceViewModelTests {
             openURLAction: { _ in }
         )
         await sut.viewDidAppear()
-        #expect(mockDvlaService._fetchDriverSummaryCallCount == 1)
+        #expect(mockDvlaService._fetchDrivingLicenceCallCount == 1)
     }
 
     @Test
     func viewDidAppear_fetchLicenceSuccess_createsDrivingLicenceSummaryViewModel() async throws {
-        mockDvlaService._stubbedFetchDriverSummaryResult = .success(
-            .arrange(licenceNo: "ABC123DE")
+        mockDvlaService._stubbedFetchDrivingLicenceResult = .success(
+            .arrange(licenceNumber: "ABC123DE")
         )
         let sut = DrivingLicenceViewModel(
             analyticsService: mockAnalyticsService,
@@ -53,7 +53,7 @@ struct DrivingLicenceViewModelTests {
     @Test
     func viewDidAppear_fetchLicenceFailure_createsErrorViewModel() async throws {
         let mockDriverDetailsURLString = "https://dvla.gov.uk/driver-details"
-        mockDvlaService._stubbedFetchDriverSummaryResult = .failure(.apiUnavailable)
+        mockDvlaService._stubbedFetchDrivingLicenceResult = .failure(.apiUnavailable)
         mockConfigService._dvlaUrls = .arrange(driverDetails: mockDriverDetailsURLString)
         let sut = DrivingLicenceViewModel(
             analyticsService: mockAnalyticsService,
@@ -84,7 +84,7 @@ struct DrivingLicenceViewModelTests {
 
     @Test
     func licenceStatusViewModelAction_tracksOpenURLEvent() async throws {
-        mockDvlaService._stubbedFetchDriverSummaryResult = .success(
+        mockDvlaService._stubbedFetchDrivingLicenceResult = .success(
             .arrange(licenceStatus: .expired)
         )
         mockConfigService._dvlaUrls = .arrange(renewLicence: "https://renewLicence.com")

@@ -7,9 +7,9 @@ import Testing
 struct DrivingLicenceSummaryViewModelTests {
     @Test
     func init_formatsLicenceNumberCorrectly() {
-        let mockDriverSummary = DriverSummary.arrange(licenceNo: "ABC123AE")
+        let mockDrivingLicence = DrivingLicence.arrange(licenceNumber: "ABC123AE")
         let sut = DrivingLicenceSummaryViewModel(
-            driverSummary: mockDriverSummary,
+            drivingLicence: mockDrivingLicence,
             statusBuilder: MockLicenceStatusViewModelBuilder(),
             openURLAction: { _,_ in},
             menuSelectionAction: { _ in },
@@ -97,9 +97,9 @@ struct DrivingLicenceSummaryViewModelTests {
 
     @Test
     func init_formatsLicenceTypeCorrectly() {
-        let mockDriverSummary = DriverSummary.arrange(licenceType: "Provisional")
+        let mockDrivingLicence = DrivingLicence.arrange(licenceType: "Provisional")
         let sut = DrivingLicenceSummaryViewModel(
-            driverSummary: mockDriverSummary,
+            drivingLicence: mockDrivingLicence,
             statusBuilder: MockLicenceStatusViewModelBuilder(),
             openURLAction: { _,_ in},
             menuSelectionAction: { _ in },
@@ -113,13 +113,13 @@ struct DrivingLicenceSummaryViewModelTests {
 
     @Test
     func init_formatsFullNameCorrectly() {
-        let mockDriverSummary = DriverSummary.arrange(
-            title: "MR",
-            firstNames: "JOE GEORGE",
-            lastName: "BLOGGS"
+        let mockDrivingLicence = DrivingLicence.arrange(
+            driverTitle: "MR",
+            driverFirstNames: "JOE GEORGE",
+            driverLastName: "BLOGGS"
         )
         let sut = DrivingLicenceSummaryViewModel(
-            driverSummary: mockDriverSummary,
+            drivingLicence: mockDrivingLicence,
             statusBuilder: MockLicenceStatusViewModelBuilder(),
             openURLAction: { _,_ in},
             menuSelectionAction: { _ in },
@@ -161,11 +161,11 @@ struct DrivingLicenceSummaryViewModelTests {
         )
 
         let validToDate = Date.arrange("01/12/2027")
-        let mockDriverSummary = DriverSummary.arrange(
-            validTo: validToDate
+        let mockDrivingLicence = DrivingLicence.arrange(
+            tokenValidToDate: validToDate
         )
         let sut = DrivingLicenceSummaryViewModel(
-            driverSummary: mockDriverSummary,
+            drivingLicence: mockDrivingLicence,
             statusBuilder: mockStatusViewModelBuilder,
             openURLAction: { _,_ in},
             menuSelectionAction: { _ in },
@@ -180,9 +180,9 @@ struct DrivingLicenceSummaryViewModelTests {
 
     @Test
     func init_formatsLicenceTypeAccessibilityLabelCorrectly() {
-        let mockDriverSummary = DriverSummary.arrange(licenceType: "Provisional")
+        let mockDrivingLicence = DrivingLicence.arrange(licenceType: "Provisional")
         let sut = DrivingLicenceSummaryViewModel(
-            driverSummary: mockDriverSummary,
+            drivingLicence: mockDrivingLicence,
             statusBuilder: MockLicenceStatusViewModelBuilder(),
             openURLAction: { _,_ in},
             menuSelectionAction: { _ in },
@@ -228,14 +228,10 @@ struct DrivingLicenceSummaryViewModelTests {
 
     @Test
     func init_formatsAddressAccessibilityLabelCorrectly() {
-        let mockAddress = DriverAddress.arrange(
-            line1: "1 LEANDER DRIVE",
-            line2: "CASTLETON",
-            postcode: "OL11 4AB"
-        )
-        let mockDriverSummary = DriverSummary.arrange(address: mockAddress)
+        let mockAddress = "1 LEANDER DRIVE\nCASTLETON\nOL11 4AB"
+        let mockDrivingLicence = DrivingLicence.arrange(driverFullAddress: mockAddress)
         let sut = DrivingLicenceSummaryViewModel(
-            driverSummary: mockDriverSummary,
+            drivingLicence: mockDrivingLicence,
             statusBuilder: MockLicenceStatusViewModelBuilder(),
             openURLAction: { _,_ in},
             menuSelectionAction: { _ in },
@@ -244,7 +240,7 @@ struct DrivingLicenceSummaryViewModelTests {
 
         let expectedAccessibilityLabel = String.localizedStringWithFormat(
             String.dvla.localized("licenceAddressAccessibilityLabel"),
-            "1 Leander Drive, Castleton, OL11 4AB"
+            "1 LEANDER DRIVE, CASTLETON, OL11 4AB"
         )
         #expect(sut.addressAccessibilityLabel == expectedAccessibilityLabel)
     }

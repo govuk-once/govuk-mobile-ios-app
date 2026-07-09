@@ -6,7 +6,7 @@ struct DrivingLicenceSummaryViewModel {
     let licenceType: String
     let licenceNumber: String
     let fullName: String
-    let address: [String]
+    let address: String
     let licenceStatusViewModel: ValidityStatusViewModel
     let menuSelectionAction: (URL) -> Void
     let analyticsService: AnalyticsServiceInterface
@@ -98,7 +98,7 @@ struct DrivingLicenceSummaryViewModel {
 
 extension DrivingLicenceSummaryViewModel {
     init(
-        driverSummary: DriverSummary,
+        drivingLicence: DrivingLicence,
         statusBuilder: LicenceStatusViewModelBuilderInterface,
         openURLAction: @escaping (URL, String) -> Void,
         menuSelectionAction: @escaping (URL) -> Void,
@@ -106,35 +106,26 @@ extension DrivingLicenceSummaryViewModel {
     ) {
         let licenceType = String.localizedStringWithFormat(
             String.dvla.localized("licenceType"),
-            driverSummary.response.licence.type
+            drivingLicence.licenceType
         )
         self.licenceType = licenceType
         self.analyticsService = analyticsService
         self.menuSelectionAction = menuSelectionAction
 
-        self.licenceNumber = driverSummary.response.driver.licenceNo
+        self.licenceNumber = drivingLicence.licenceNumber
         let fullName = [
-            driverSummary.response.driver.title,
-            driverSummary.response.driver.firstNames,
-            driverSummary.response.driver.lastName
+            drivingLicence.driverTitle,
+            drivingLicence.driverFirstNames,
+            drivingLicence.driverLastName
         ]
         .compactMap { $0 }
         .joined(separator: " ")
         self.fullName = fullName
-        let driverAddress = driverSummary.response.driver.address.unstructuredAddress
-        let addressArray = [
-            driverAddress.line1?.capitalized,
-            driverAddress.line2?.capitalized,
-            driverAddress.line3?.capitalized,
-            driverAddress.line4?.capitalized,
-            driverAddress.line5?.capitalized,
-            driverAddress.postcode
-        ]
-        .compactMap { $0 }
-        self.address = addressArray
+        let driverAddress = drivingLicence.driverFullAddress ?? ""
+        self.address = driverAddress
         self.licenceStatusViewModel = statusBuilder.makeViewModel(
-            status: driverSummary.response.licence.status,
-            validToDate: driverSummary.response.token?.validToDate,
+            status: drivingLicence.licenceStatus,
+            validToDate: drivingLicence.tokenValidToDate,
             openURLAction: openURLAction
         )
         self.fullNameAccessibilityLabel = .localizedStringWithFormat(
@@ -145,10 +136,9 @@ extension DrivingLicenceSummaryViewModel {
             String.dvla.localized("licenceTypeAccessibilityLabel"),
             licenceType
         )
-        let address = addressArray.joined(separator: ", ")
         self.addressAccessibilityLabel = .localizedStringWithFormat(
             String.dvla.localized("licenceAddressAccessibilityLabel"),
-            address
+            driverAddress.replacingOccurrences(of: "\n", with: ", ")
         )
     }
 }

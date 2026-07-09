@@ -17,18 +17,18 @@ struct DVLAServiceTests {
     }
 
     @Test
-    func fetchDriverSummary_success_returnsExpectedResult() async throws {
-        mockServiceClient._stubbedFetchDriverSummaryResult = .success(.arrange)
-        let result = await sut.fetchDriverSummary()
-        let driverSummary = try #require(try? result.get())
-        #expect(driverSummary.response.driver.penaltyPoints == 1)
-        #expect(driverSummary.response.driver.firstNames == "KENNETH")
+    func fetchDrivingLicence_success_returnsExpectedResult() async throws {
+        mockServiceClient._stubbedFetchDrivingLicenceResult = .success(.arrange)
+        let result = await sut.fetchDrivingLicence()
+        let drivingLicence = try #require(try? result.get())
+        #expect(drivingLicence.driverFirstNames == "KENNETH")
+        #expect(drivingLicence.licenceStatus == .valid)
     }
 
     @Test
-    func fetchDriverSummary_apiUnavailable_returnsExpectedError() async {
-        mockServiceClient._stubbedFetchDriverSummaryResult = .failure(DVLAError.apiUnavailable)
-        let result = await sut.fetchDriverSummary()
+    func fetchDrivingLicence_apiUnavailable_returnsExpectedError() async {
+        mockServiceClient._stubbedFetchDrivingLicenceResult = .failure(DVLAError.apiUnavailable)
+        let result = await sut.fetchDrivingLicence()
         let error = result.getError()
         #expect(error == .apiUnavailable)
     }

@@ -72,6 +72,15 @@ struct VehicleKeeperAddress: Codable {
     let unstructuredAddress: UnstructuredAddress?
 }
 
+struct UnstructuredAddress: Codable {
+    let line1: String?
+    let line2: String?
+    let line3: String?
+    let line4: String?
+    let line5: String?
+    let postcode: String?
+}
+
 struct CurrentLicence: Codable {
     let paymentMethod: String?
 }

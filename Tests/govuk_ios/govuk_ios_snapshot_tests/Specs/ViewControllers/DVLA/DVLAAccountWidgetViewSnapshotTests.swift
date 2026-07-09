@@ -110,7 +110,7 @@ import GovKit
         let mockLicenceViewModel = MockDrivingLicenceViewModel(
             viewState: .loaded(
                 licence: DrivingLicenceSummaryViewModel(
-                    driverSummary: .arrange,
+                    drivingLicence: .arrange,
                     statusBuilder: MockLicenceStatusViewModelBuilder(),
                     openURLAction: { _,_  in },
                     menuSelectionAction: { _ in },

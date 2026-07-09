@@ -46,11 +46,11 @@ class DrivingLicenceViewModel: ObservableObject {
     @MainActor
     private func fetchLicence() async {
         viewState = .loading
-        let result = await dvlaService.fetchDriverSummary()
+        let result = await dvlaService.fetchDrivingLicence()
         switch result {
-        case .success(let driverSummary):
+        case .success(let drivingLicence):
             var licenceSummaryViewModel = DrivingLicenceSummaryViewModel(
-                driverSummary: driverSummary,
+                drivingLicence: drivingLicence,
                 statusBuilder: LicenceStatusViewModelBuilder(urls: configService.dvlaUrls),
                 openURLAction: { [weak self] url, buttonTitle in
                     self?.handleOpenURL(

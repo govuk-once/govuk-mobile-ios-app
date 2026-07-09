@@ -96,15 +96,10 @@ struct DrivingLicenceSummaryView: View {
                     .padding(.bottom, 4)
                     .accessibilityLabel(viewModel.fullNameAccessibilityLabel)
                 if !viewModel.address.isEmpty {
-                    VStack(alignment: .leading, spacing: 0) {
-                        ForEach(viewModel.address, id: \.self) { addressLine in
-                            Text(addressLine)
-                                .font(.govUK.body)
-                                .padding(.top, 4)
-                        }
-                    }
-                    .accessibilityElement(children: .combine)
-                    .accessibilityLabel(viewModel.addressAccessibilityLabel)
+                    Text(viewModel.address)
+                        .font(.govUK.body)
+                        .padding(.top, 4)
+                        .accessibilityLabel(viewModel.addressAccessibilityLabel)
                 }
             }
             .padding(.horizontal, Self.standardPadding)
