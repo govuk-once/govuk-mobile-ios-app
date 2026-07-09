@@ -662,6 +662,61 @@
         }
       }
     },
+    "motCheckDetailsLink" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check details"
+          }
+        }
+      }
+    },
+    "motExpiredOn" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Expired %1$@"
+          }
+        }
+      }
+    },
+    "motExpiringOn" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Expiring %1$@"
+          }
+        }
+      }
+    },
+    "motNoDetailsHeldByDVLA" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No details held by DVLA"
+          }
+        }
+      }
+    },
+    "motNoResultsReturned" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No results returned"
+          }
+        }
+      }
+    },
     "motStatusTitle" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -669,6 +724,39 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "MOT"
+          }
+        }
+      }
+    },
+    "motSyncDelayNotice" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "It can take a couple of days after your MOT for your status to update"
+          }
+        }
+      }
+    },
+    "motUnknown" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unknown"
+          }
+        }
+      }
+    },
+    "motValidUntil" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Valid until %1$@"
           }
         }
       }
