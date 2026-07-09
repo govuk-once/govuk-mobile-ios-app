@@ -21,7 +21,7 @@ class DVLAAuthenticationCoordinatorTests {
             urlOpener: mockURLOpener,
             dvlaService: mockDVLAService,
             authenticationService: mockAuthenticationService,
-            analticsService: MockAnalyticsService(),
+            analyticsService: MockAnalyticsService(),
         )
 
         sut.start(url: nil)
@@ -49,7 +49,7 @@ class DVLAAuthenticationCoordinatorTests {
             urlOpener: mockURLOpener,
             dvlaService: mockDVLAService,
             authenticationService: mockAuthenticationService,
-            analticsService: MockAnalyticsService(),
+            analyticsService: MockAnalyticsService(),
         )
 
         sut.start(url: nil)
@@ -71,7 +71,7 @@ class DVLAAuthenticationCoordinatorTests {
             urlOpener: mockURLOpener,
             dvlaService: mockDVLAService,
             authenticationService: mockAuthenticationService,
-            analticsService: MockAnalyticsService(),
+            analyticsService: MockAnalyticsService(),
         )
 
         sut.start(url: nil)
@@ -93,7 +93,7 @@ class DVLAAuthenticationCoordinatorTests {
             urlOpener: mockURLOpener,
             dvlaService: mockDVLAService,
             authenticationService: mockAuthenticationService,
-            analticsService: MockAnalyticsService(),
+            analyticsService: MockAnalyticsService(),
         )
 
         sut.start(url: nil)

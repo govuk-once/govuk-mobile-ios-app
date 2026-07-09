@@ -9,17 +9,17 @@ final class DVLAAuthenticationCoordinator: BaseCoordinator {
     private let urlOpener: URLOpener
     private let dvlaService: DVLAServiceInterface
     private let authenticationService: AuthenticationServiceInterface
-    private let analticsService: AnalyticsServiceInterface
+    private let analyticsService: AnalyticsServiceInterface
 
     init(navigationController: UINavigationController,
          urlOpener: URLOpener,
          dvlaService: DVLAServiceInterface,
          authenticationService: AuthenticationServiceInterface,
-         analticsService: AnalyticsServiceInterface) {
+         analyticsService: AnalyticsServiceInterface) {
         self.urlOpener = urlOpener
         self.dvlaService = dvlaService
         self.authenticationService = authenticationService
-        self.analticsService = analticsService
+        self.analyticsService = analyticsService
         super.init(navigationController: navigationController)
     }
 
@@ -53,16 +53,23 @@ final class DVLAAuthenticationCoordinator: BaseCoordinator {
     }
 
     private func presentError() {
+        let screenTitle = String.common
+            .localized("genericErrorTitle")
+        let screenSubtitle = String.dvla
+            .localized("genericErrorTryAgainSubtitle")
+        let primaryButtonTitle = String.dvla
+            .localized("accountLinkingErrorPrimaryButtonTitle")
+
         let viewModel = ErrorViewModel(
-            analyticsService: analticsService,
-            title: "Something went wrong",
-            subtitle: "Please try again later",
+            analyticsService: analyticsService,
+            title: screenTitle,
+            subtitle: screenSubtitle,
             systemImageName: "exclamationmark.circle",
-            primaryButtonTitle: "I understand",
+            primaryButtonTitle: primaryButtonTitle,
             primaryAction: { [weak self] in
                 self?.root.dismiss(animated: true)
             },
-            trackingName: ""
+            trackingName: screenTitle,
         )
         let errorView = ErrorView(viewModel: viewModel)
         let hostingViewController = HostingViewController(
