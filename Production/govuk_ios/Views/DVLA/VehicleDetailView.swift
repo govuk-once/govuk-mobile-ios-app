@@ -15,8 +15,7 @@ struct VehicleDetailView: View {
             case .loaded(let viewVehicleDetails):
                 makeVehicleDetailsView(viewVehicleDetails)
             case .error(let errorViewModel):
-                Text("Failure")
-                //                makeErrorView(for: errorViewModel)
+                makeErrorView(for: errorViewModel)
             }
         }
         .task {
@@ -169,6 +168,14 @@ struct VehicleDetailView: View {
     ) -> Text {
         Text(viewVehicleDetails.regNumberAccessibilityLabelPrefix)
         + Text(viewVehicleDetails.registrationNumber.lowercased()).speechSpellsOutCharacters()
+    }
+
+    private func makeErrorView(for errorViewModel: InlineActionErrorViewModel) -> some View {
+        InlineActionErrorView(viewModel: errorViewModel)
+            .frame(maxWidth: .infinity, minHeight: 100)
+            .background(Color(.govUK.fills.surfaceList))
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+            .padding(.horizontal, 16)
     }
 }
 

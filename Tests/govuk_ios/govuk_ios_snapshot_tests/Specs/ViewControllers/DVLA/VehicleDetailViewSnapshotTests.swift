@@ -20,7 +20,9 @@ class VehicleDetailViewSnapshotTests: SnapshotTestCase {
         let viewModel = VehicleDetailViewModel(
             vehicleId: 123,
             analyticsService: MockAnalyticsService(),
-            dvlaService: mockDVLAService
+            dvlaService: mockDVLAService,
+            configService: MockAppConfigService(),
+            openURLAction: { _ in }
         )
         await viewModel.viewDidAppear()
         let view = VehicleDetailView(viewModel: viewModel)
@@ -46,7 +48,9 @@ class VehicleDetailViewSnapshotTests: SnapshotTestCase {
         let viewModel = VehicleDetailViewModel(
             vehicleId: 123,
             analyticsService: MockAnalyticsService(),
-            dvlaService: mockDVLAService
+            dvlaService: mockDVLAService,
+            configService: MockAppConfigService(),
+            openURLAction: { _ in }
         )
         await viewModel.viewDidAppear()
         let view = VehicleDetailView(viewModel: viewModel)
@@ -79,7 +83,9 @@ class VehicleDetailViewSnapshotTests: SnapshotTestCase {
         let viewModel = VehicleDetailViewModel(
             vehicleId: 123,
             analyticsService: MockAnalyticsService(),
-            dvlaService: mockDVLAService
+            dvlaService: mockDVLAService,
+            configService: MockAppConfigService(),
+            openURLAction: { _ in }
         )
         await viewModel.viewDidAppear()
         let view = VehicleDetailView(viewModel: viewModel)
@@ -112,7 +118,9 @@ class VehicleDetailViewSnapshotTests: SnapshotTestCase {
         let viewModel = VehicleDetailViewModel(
             vehicleId: 123,
             analyticsService: MockAnalyticsService(),
-            dvlaService: mockDVLAService
+            dvlaService: mockDVLAService,
+            configService: MockAppConfigService(),
+            openURLAction: { _ in }
         )
         await viewModel.viewDidAppear()
         let view = VehicleDetailView(viewModel: viewModel)

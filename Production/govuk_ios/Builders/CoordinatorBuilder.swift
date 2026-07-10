@@ -582,6 +582,8 @@ class CoordinatorBuilder {
             viewControllerBuilder: ViewControllerBuilder(),
             analyticsService: container.analyticsService.resolve(),
             dvlaService: container.dvlaService.resolve(),
+            configService: container.appConfigService.resolve(),
+            urlOpener: UIApplication.shared,
             vehicleId: vehicleId
         )
     }

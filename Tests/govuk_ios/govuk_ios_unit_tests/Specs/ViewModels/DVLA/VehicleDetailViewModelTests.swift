@@ -6,9 +6,8 @@ import Testing
 
 @Suite
 struct VehicleDetailViewModelTests {
-
     @Test
-    func viewVehicleDetails_properties_mapCorrectly() async {
+    func viewDidAppear_properties_mapCorrectly() async {
         let mockVehicle = CustomerVehicleDetails.Vehicle.arrange(
             vehicleId: 5,
             registrationNumber: "QW21 AB4",
@@ -22,7 +21,9 @@ struct VehicleDetailViewModelTests {
         let sut = VehicleDetailViewModel(
             vehicleId: mockVehicle.vehicleId,
             analyticsService: MockAnalyticsService(),
-            dvlaService: mockDVLAService
+            dvlaService: mockDVLAService,
+            configService: MockAppConfigService(),
+            openURLAction: { _ in }
         )
         await sut.viewDidAppear()
 
@@ -33,7 +34,7 @@ struct VehicleDetailViewModelTests {
     }
 
     @Test
-    func viewVehicleDetails_vehicleKeeperFullName_formattedCorrectly() async {
+    func viewDidAppear_vehicleKeeperFullName_formattedCorrectly() async {
         let mockVehicle = CustomerVehicleDetails.Vehicle.arrange(
             keeperTitle: "MR",
             keeperFirstNames: "JOE",
@@ -47,7 +48,9 @@ struct VehicleDetailViewModelTests {
         let sut = VehicleDetailViewModel(
             vehicleId: mockVehicle.vehicleId,
             analyticsService: MockAnalyticsService(),
-            dvlaService: mockDVLAService
+            dvlaService: mockDVLAService,
+            configService: MockAppConfigService(),
+            openURLAction: { _ in }
         )
         await sut.viewDidAppear()
 
@@ -56,7 +59,7 @@ struct VehicleDetailViewModelTests {
     }
 
     @Test
-    func viewVehicleDetails_vehicleKeeperAddress_formattedCorrectly() async {
+    func viewDidAppear_vehicleKeeperAddress_formattedCorrectly() async {
         let expectedKeeperAddress = "1 Deansgate\nManchester\nM1 3EB"
         let mockVehicle = CustomerVehicleDetails.Vehicle.arrange(
             keeperFullAddress: expectedKeeperAddress
@@ -69,7 +72,9 @@ struct VehicleDetailViewModelTests {
         let sut = VehicleDetailViewModel(
             vehicleId: mockVehicle.vehicleId,
             analyticsService: MockAnalyticsService(),
-            dvlaService: mockDVLAService
+            dvlaService: mockDVLAService,
+            configService: MockAppConfigService(),
+            openURLAction: { _ in }
         )
         await sut.viewDidAppear()
 
@@ -78,10 +83,10 @@ struct VehicleDetailViewModelTests {
     }
 
     @Test
-    func viewVehicleDetails_vehicleSpecViewModel_returnsPropertiesFormattedCorrectly() async {
-        var mockVehicleSpecFormatter = MockVehicleSpecFormatter()
-        mockVehicleSpecFormatter._stubbedFormattedYear = "2000"
-        mockVehicleSpecFormatter._stubbedFormattedFuelTypeShort = "Petrol"
+    func viewDidAppear_vehicleSpecViewModel_returnsPropertiesFormattedCorrectly() async {
+        var mockSpecFormatter = MockVehicleSpecFormatter()
+        mockSpecFormatter._stubbedFormattedYear = "2000"
+        mockSpecFormatter._stubbedFormattedFuelTypeShort = "Petrol"
         let mockVehicle = CustomerVehicleDetails.Vehicle.arrange(colour: "BLACK")
         let mockVehicleDetails = CustomerVehicleDetails(
             customerVehicleDetails: mockVehicle
@@ -92,7 +97,9 @@ struct VehicleDetailViewModelTests {
             vehicleId: mockVehicle.vehicleId,
             analyticsService: MockAnalyticsService(),
             dvlaService: mockDVLAService,
-            specFormatter: mockVehicleSpecFormatter
+            configService: MockAppConfigService(),
+            openURLAction: { _ in },
+            specFormatter: mockSpecFormatter
         )
         await sut.viewDidAppear()
 
@@ -103,7 +110,7 @@ struct VehicleDetailViewModelTests {
     }
 
     @Test
-    func viewVehicleDetails_taxStatusViewModel_hasCorrectTitle() async {
+    func viewDidAppear_taxStatusViewModel_hasCorrectTitle() async {
         let mockVehicle = CustomerVehicleDetails.Vehicle.arrange(colour: "BLACK")
         let mockVehicleDetails = CustomerVehicleDetails(
             customerVehicleDetails: mockVehicle
@@ -111,9 +118,11 @@ struct VehicleDetailViewModelTests {
         let mockDVLAService = MockDVLAService()
         mockDVLAService._stubbedCustomerVehicleDetailsResult = .success(mockVehicleDetails)
         let sut = VehicleDetailViewModel(
-            vehicleId: 1,
+            vehicleId: mockVehicle.vehicleId,
             analyticsService: MockAnalyticsService(),
-            dvlaService: mockDVLAService
+            dvlaService: mockDVLAService,
+            configService: MockAppConfigService(),
+            openURLAction: { _ in }
         )
         await sut.viewDidAppear()
 
@@ -122,7 +131,7 @@ struct VehicleDetailViewModelTests {
     }
 
     @Test
-    func viewVehicleDetails_motStatusViewModel_hasCorrectTitle() async {
+    func viewDidAppear_motStatusViewModel_hasCorrectTitle() async {
         let mockVehicle = CustomerVehicleDetails.Vehicle.arrange(colour: "BLACK")
         let mockVehicleDetails = CustomerVehicleDetails(
             customerVehicleDetails: mockVehicle
@@ -130,9 +139,11 @@ struct VehicleDetailViewModelTests {
         let mockDVLAService = MockDVLAService()
         mockDVLAService._stubbedCustomerVehicleDetailsResult = .success(mockVehicleDetails)
         let sut = VehicleDetailViewModel(
-            vehicleId: 1,
+            vehicleId: mockVehicle.vehicleId,
             analyticsService: MockAnalyticsService(),
-            dvlaService: mockDVLAService
+            dvlaService: mockDVLAService,
+            configService: MockAppConfigService(),
+            openURLAction: { _ in }
         )
         await sut.viewDidAppear()
 
@@ -167,6 +178,8 @@ struct VehicleDetailViewModelTests {
             vehicleId: mockVehicle.vehicleId,
             analyticsService: MockAnalyticsService(),
             dvlaService: mockDVLAService,
+            configService: MockAppConfigService(),
+            openURLAction: { _ in },
             specFormatter: mockSpecFormatter
         )
         await sut.viewDidAppear()
@@ -196,6 +209,43 @@ struct VehicleDetailViewModelTests {
         let emissionsRow = specificationSection.rows[6] as? InformationRow
         #expect(emissionsRow?.detail == "100g/km")
     }
+
+    @Test
+    func viewDidAppear_fetchVehicleFailure_createsErrorViewModel() async throws {
+        let mockDVLAService = MockDVLAService()
+        let mockConfigService = MockAppConfigService()
+        let mockAnalyticsService = MockAnalyticsService()
+        mockDVLAService._stubbedCustomerVehiclesResult = .failure(.apiUnavailable)
+        let mockAccountURLString = "https://dvla.gov.uk/account"
+        mockConfigService._dvlaUrls = .arrange(account: mockAccountURLString)
+        let sut = VehiclesViewModel(
+            analyticsService: mockAnalyticsService,
+            dvlaService: mockDVLAService,
+            configService: mockConfigService,
+            detailAction: { _ in },
+            openURLAction: { _ in }
+        )
+        await sut.viewDidAppear()
+        var errorViewModel: InlineActionErrorViewModel?
+        if case .error(let error) = sut.viewState {
+            errorViewModel = error
+        }
+        #expect(errorViewModel?.title == String(localized: .DVLA.vehicleSummaryErrorTitle))
+        let expectedButtonTitle = String(localized: .DVLA.vehicleSummaryErrorButtonTitle)
+        let expectedMarkdownBody = String(localized: .DVLA.vehicleSummaryErrorBody(
+            buttonTitle: expectedButtonTitle,
+            url: mockAccountURLString)
+        )
+        #expect(errorViewModel?.markdownBody == expectedMarkdownBody)
+        errorViewModel?.openURLAction(URL(string: mockAccountURLString)!)
+        let trackedEvent = try #require(mockAnalyticsService._trackedEvents.first)
+        #expect(trackedEvent.name == "Navigation")
+        #expect(trackedEvent.params?["text"] as? String == expectedButtonTitle)
+        #expect(trackedEvent.params?["url"] as? String == mockAccountURLString)
+        #expect(trackedEvent.params?["section"] as? String == "Driving")
+        #expect(trackedEvent.params?["type"] as? String == "Button")
+    }
+
 
     private func viewVehicleDetails(
         _ viewState: VehicleDetailViewModel.ViewState

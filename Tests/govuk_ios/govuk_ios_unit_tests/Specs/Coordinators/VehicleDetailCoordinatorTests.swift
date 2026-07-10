@@ -18,6 +18,8 @@ struct VehicleDetailCoordinatorTests {
             viewControllerBuilder: mockViewControllerBuilder,
             analyticsService: MockAnalyticsService(),
             dvlaService: MockDVLAService(),
+            configService: MockAppConfigService(),
+            urlOpener: MockURLOpener(),
             vehicleId: 1
         )
 

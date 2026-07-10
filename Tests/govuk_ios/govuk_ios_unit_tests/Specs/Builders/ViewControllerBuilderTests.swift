@@ -453,6 +453,8 @@ struct ViewControllerBuilderTests {
         let result = subject.vehicleDetail(
             analyticsService: MockAnalyticsService(),
             dvlaService: MockDVLAService(),
+            configService: MockAppConfigService(),
+            openURLAction: { _ in },
             vehicleId: 1
         )
         let rootView = (result as? HostingViewController<VehicleDetailView>)?.rootView

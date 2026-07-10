@@ -5,7 +5,7 @@ final class VehicleDetailViewModel: ObservableObject {
     enum ViewState {
         case loading
         case loaded(ViewVehicleDetails)
-        case error(AppErrorViewModel)
+        case error(InlineActionErrorViewModel)
     }
 
     @Published private(set) var viewState: ViewState = .loading
@@ -13,6 +13,8 @@ final class VehicleDetailViewModel: ObservableObject {
     private let vehicleId: Int
     private let analyticsService: AnalyticsServiceInterface?
     private let dvlaService: DVLAServiceInterface
+    private let configService: AppConfigServiceInterface
+    private let openURLAction: (URL) -> Void
     private let statusFormatter = DVLAValidityStatusFormatter()
     private let specFormatter: VehicleSpecFormatterInterface
     private var vehicleLoaded = false
@@ -23,11 +25,15 @@ final class VehicleDetailViewModel: ObservableObject {
         vehicleId: Int,
         analyticsService: AnalyticsServiceInterface?,
         dvlaService: DVLAServiceInterface,
+        configService: AppConfigServiceInterface,
+        openURLAction: @escaping (URL) -> Void,
         specFormatter: VehicleSpecFormatterInterface = VehicleSpecFormatter()
     ) {
         self.vehicleId = vehicleId
         self.analyticsService = analyticsService
         self.dvlaService = dvlaService
+        self.configService = configService
+        self.openURLAction = openURLAction
         self.specFormatter = specFormatter
     }
 
@@ -49,11 +55,9 @@ final class VehicleDetailViewModel: ObservableObject {
                 makeViewVehicleDetails(vehicleReponse.customerVehicleDetails)
             )
             vehicleLoaded = true
-        case .failure(let error):
+        case .failure:
+            viewState = .error(vehicleErrorViewModel)
             vehicleLoaded = false
-            // Map your error properly
-//            let appError = AppErrorViewModel(error: error)
-//            viewState = .error(appError)
         }
     }
 
@@ -129,8 +133,8 @@ final class VehicleDetailViewModel: ObservableObject {
             vehicle.keeperFirstNames,
             vehicle.keeperLastName
         ]
-        .compactMap { $0 }
-        .joined(separator: " ")
+            .compactMap { $0 }
+            .joined(separator: " ")
     }
 
     // swiftlint:disable:next function_body_length
@@ -205,6 +209,39 @@ final class VehicleDetailViewModel: ObservableObject {
                 )
             ],
             footer: nil
+        )
+    }
+
+    private func handleOpenURL(url: URL, buttonTitle: String) {
+         trackOpenURLAction(url: url, buttonTitle: buttonTitle)
+         openURLAction(url)
+     }
+
+     private func trackOpenURLAction(url: URL, buttonTitle: String) {
+         let event = AppEvent.buttonNavigation(
+             text: buttonTitle,
+             external: true,
+             url: url.absoluteString,
+             section: "Driving"
+         )
+         analyticsService?.track(event: event)
+     }
+
+    private var vehicleErrorViewModel: InlineActionErrorViewModel {
+        let url = configService.dvlaUrls?.account ?? Constants.API.defaultDvlaAccountUrl
+        let buttonTitle = String(localized: .DVLA.vehicleSummaryErrorButtonTitle)
+        let errorBody = String(
+            localized: .DVLA.vehicleSummaryErrorBody(
+                buttonTitle: buttonTitle,
+                url: url.absoluteString
+            )
+        )
+        return InlineActionErrorViewModel(
+            title: String(localized: .DVLA.vehicleSummaryErrorTitle),
+            markdownBody: errorBody,
+            openURLAction: { [weak self] url in
+                self?.handleOpenURL(url: url, buttonTitle: buttonTitle)
+            }
         )
     }
 }
