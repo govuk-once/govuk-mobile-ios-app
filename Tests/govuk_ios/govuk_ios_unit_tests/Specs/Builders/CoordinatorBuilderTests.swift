@@ -512,7 +512,7 @@ struct CoordinatorBuilderTests {
     }
 
     @Test
-    func vehicleDetail_retrunsExpectedResult() {
+    func vehicleDetail_returnsExpectedResult() {
         let container = Container()
         container.analyticsService.register(factory: { MockAnalyticsService() })
         container.dvlaService.register(factory: { MockDVLAService() })
