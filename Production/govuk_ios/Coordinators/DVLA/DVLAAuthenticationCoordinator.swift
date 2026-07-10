@@ -7,17 +7,14 @@ final class DVLAAuthenticationCoordinator: BaseCoordinator {
         URL(string: "https://architecture-link-account-service-ui-ext.dvla.gov.uk/")!
     }()
     private let urlOpener: URLOpener
-    private let dvlaService: DVLAServiceInterface
     private let authenticationService: AuthenticationServiceInterface
     private let analyticsService: AnalyticsServiceInterface
 
     init(navigationController: UINavigationController,
          urlOpener: URLOpener,
-         dvlaService: DVLAServiceInterface,
          authenticationService: AuthenticationServiceInterface,
          analyticsService: AnalyticsServiceInterface) {
         self.urlOpener = urlOpener
-        self.dvlaService = dvlaService
         self.authenticationService = authenticationService
         self.analyticsService = analyticsService
         super.init(navigationController: navigationController)
