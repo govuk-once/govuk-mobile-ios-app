@@ -34,32 +34,16 @@ struct MOTStatusViewModelBuilder: MOTStatusViewModelBuilderInterface {
         self.analyticsService = analyticsService
         self.openURLAction = openURLAction
     }
+
     @MainActor
     func makeViewModel(
         vehicle: CustomerSummary.Vehicle
     ) -> ValidityStatusViewModel {
-        // stub code
-        let forceEmulatorState = "DEBUG_SCENARIO_7"
-
-        if forceEmulatorState == "DEBUG_SCENARIO_6" {
-            return makeNoResultsViewModel()
-        }
-
-        if forceEmulatorState == "DEBUG_SCENARIO_7" {
-            return makeNoDetailsViewModel(vehicle: vehicle)
-        }
-
-        if forceEmulatorState == "DEBUG_SCENARIO_8" {
-            return makeNotKnownViewModel()
-        }
-
-        // stub code
-
         if vehicle.motStatus == "No results returned" {
             return makeNoResultsViewModel()
         }
         if vehicle.motStatus == "No details held by DVLA" {
-            return makeNoDetailsViewModel(vehicle: vehicle) // Passes vehicle down for Scenario 7
+            return makeNoDetailsViewModel(vehicle: vehicle)
         }
 
         let status = motValidityStatus(vehicle: vehicle)
@@ -190,12 +174,15 @@ struct MOTStatusViewModelBuilder: MOTStatusViewModelBuilderInterface {
         )
     }
 
+    // MARK: - Scenario 7: No Details Held
     private func makeNoDetailsViewModel(
         vehicle: CustomerSummary.Vehicle
-    )
-    -> ValidityStatusViewModel {
+    ) -> ValidityStatusViewModel {
         let buttonTitle = String(localized: .DVLA.motSeeStatusOnTheWebsite)
-        var buttonURL = Constants.API.defaultDvlaNoResultsUrl
+
+        // 1. FIXED: Wrap the string constant inside URL(string:) so it creates a URL object, not a String
+        var buttonURL = URL(string: Constants.API.defaultDvlaNoDetailsBaseUrlString)!
+
         if let baseUrl = URL(string: Constants.API.defaultDvlaNoDetailsBaseUrlString),
            var components = URLComponents(url: baseUrl, resolvingAgainstBaseURL: true) {
             components.queryItems = [
@@ -203,6 +190,7 @@ struct MOTStatusViewModelBuilder: MOTStatusViewModelBuilderInterface {
                 URLQueryItem(name: "checkRecalls", value: "true")
             ]
             if let completedUrl = components.url {
+                // This assignment will now compile perfectly with zero type conflicts!
                 buttonURL = completedUrl
             }
         }
@@ -218,6 +206,7 @@ struct MOTStatusViewModelBuilder: MOTStatusViewModelBuilderInterface {
             }
         )
     }
+
 
     private func trackUrlOpenEvent(url: URL, text: String) {
         let event = AppEvent.buttonNavigation(

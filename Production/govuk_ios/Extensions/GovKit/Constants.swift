@@ -32,8 +32,8 @@ extension Constants.API {
         return components.url!
     }()
 
-    public static let defaultDvlaNoDetailsBaseUrlString = "https://service.gov.uk"
 
+    public static let defaultDvlaNoDetailsBaseUrlString = "https://www.check-mot.service.gov.uk/results"
 
     public static let defaultChatFeedbackUrl: URL = URL(
         string: "https://surveys.publishing.service.gov.uk/s/SUIEH2/"
