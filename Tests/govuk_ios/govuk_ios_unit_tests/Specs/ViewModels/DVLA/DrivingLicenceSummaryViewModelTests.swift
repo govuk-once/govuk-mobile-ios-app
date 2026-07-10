@@ -5,7 +5,7 @@ import Testing
 @testable import GovKit
 
 struct DrivingLicenceSummaryViewModelTests {
-    
+
     @Test
     func test_formatsLicenceNumberCorrectly() {
         let mockDrivingLicence = DrivingLicence.arrange(
@@ -17,7 +17,7 @@ struct DrivingLicenceSummaryViewModelTests {
             driverFullAddress: "123 Test Street\nLondon",
             licenceStatus: .valid
         )
-        
+
         let sut = DrivingLicenceSummaryViewModel(
             drivingLicence: mockDrivingLicence,
             statusBuilder: MockLicenceStatusViewModelBuilder(),
@@ -26,10 +26,10 @@ struct DrivingLicenceSummaryViewModelTests {
             copyToClipboardAction: { _ in },
             analyticsService: MockAnalyticsService()
         )
-        
+
         #expect(sut.licenceNumber == "ABC123AE")
     }
-    
+
     @Test
     func openUrl_changeAddresss_tracksExpectedNavigationEvent() {
         let mockDrivingLicence = DrivingLicence.arrange(
@@ -50,11 +50,11 @@ struct DrivingLicenceSummaryViewModelTests {
             copyToClipboardAction: { _ in },
             analyticsService: mockAnalytics
         )
-        
+
         sut.openUrl(options: .changeAddress)
-        
+
         #expect(mockAnalytics._trackedEvents.count == 1)
-        
+
         guard let event = mockAnalytics._trackedEvents.first else {
             return
         }
@@ -63,7 +63,7 @@ struct DrivingLicenceSummaryViewModelTests {
         #expect(event.params?["type"] as? String == "Menu")
         #expect(event.params?["external"] as? Bool == true)
     }
-    
+
     @Test
     func openUrl_replaceLicence_tracksExpectedNavigationEvent() {
         let mockDrivingLicence = DrivingLicence.arrange(
@@ -84,21 +84,21 @@ struct DrivingLicenceSummaryViewModelTests {
             copyToClipboardAction: { _ in },
             analyticsService: mockAnalytics
         )
-        
+
         sut.openUrl(options: .replaceLicence)
-        
+
         #expect(mockAnalytics._trackedEvents.count == 1)
-        
+
         guard let event = mockAnalytics._trackedEvents.first else {
             return
         }
-        
+
         #expect(event.name == "Navigation")
         #expect(event.params?["text"] as? String == "Replace licence")
         #expect(event.params?["type"] as? String == "Menu")
         #expect(event.params?["external"] as? Bool == true)
     }
-    
+
     @Test
     func copyToClipboard_tracksExpectedCopyEvent() {
         let mockDrivingLicence = DrivingLicence.arrange(
@@ -120,19 +120,19 @@ struct DrivingLicenceSummaryViewModelTests {
             analyticsService: mockAnalytics
         )
         sut.copyToClipboard()
-        
+
         #expect(mockAnalytics._trackedEvents.count == 1)
-        
+
         guard let event = mockAnalytics._trackedEvents.first else {
             return
         }
-        //
-        //        #expect(event.name == "Function")
-        //        #expect(event.params?["text"] as? String == "Copy to clipboard")
-        //        #expect(event.params?["type"] as? String == "Menu")
-        //        #expect(event.params?["section"] as? String == "Driver account")
-        //        #expect(event.params?["action"] as? String == "Copy")
-        //    }
+        #expect(event.name == "Function")
+        #expect(event.params?["text"] as? String == "Copy to clipboard")
+        #expect(event.params?["type"] as? String == "Menu")
+        #expect(event.params?["section"] as? String == "Driver account")
+        #expect(event.params?["action"] as? String == "Copy")
+    }
+}
         //
         //    @Test
         //    func changeAddress_returnsCorrectUrlAndTitle() {
@@ -242,6 +242,6 @@ struct DrivingLicenceSummaryViewModelTests {
         //
         //        #expect(mockStatusViewModelBuilder._makeViewModelCallCount == 1)
         //        #expect(sut.licenceStatusViewModel.formattedStatus == "Mock licence status")
-    }
-}
-
+//    }
+//}
+//
