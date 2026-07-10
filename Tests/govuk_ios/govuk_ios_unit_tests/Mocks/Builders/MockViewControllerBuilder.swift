@@ -432,6 +432,7 @@ class MockViewControllerBuilder: ViewControllerBuilder {
     }
 
     var _stubbedVehicleDetailController: UIViewController?
+    var _receivedVehicleDetailOpenURLAction: ((URL) -> Void)?
     override func vehicleDetail(
         analyticsService: AnalyticsServiceInterface,
         dvlaService: DVLAServiceInterface,
@@ -439,7 +440,8 @@ class MockViewControllerBuilder: ViewControllerBuilder {
         openURLAction: @escaping (URL) -> Void,
         vehicleId: Int
     ) -> UIViewController {
-        _stubbedVehicleDetailController ?? UIViewController()
+        _receivedVehicleDetailOpenURLAction = openURLAction
+        return _stubbedVehicleDetailController ?? UIViewController()
     }
 
 }

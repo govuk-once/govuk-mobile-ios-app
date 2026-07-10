@@ -43,7 +43,12 @@ extension CustomerVehicleViewModel {
             openURLAction: openURLAction
         )
         self.taxStatusViewModel = builder.makeViewModel(
-            vehicle: vehicle
+            vehicle: TaxValidityVehicle(
+                taxStatus: vehicle.taxStatus,
+                sornStart: vehicle.sornStart,
+                taxedUntil: vehicle.taxedUntil,
+                currentLicencePaymentMethod: vehicle.currentLicencePaymentMethod
+            )
         )
         self.motStatusViewModel = ValidityStatusViewModel(
             title: String(localized: .DVLA.motStatusTitle),

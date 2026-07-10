@@ -9,13 +9,88 @@ class DVLAAuthenticationCoordinatorTests {
 
     @Test
     @MainActor
-    func start_opensURL() async {
+    func start_hashRequestSuccess_opensURLWithVerificationToken() async throws {
         let mockURLOpener = MockURLOpener()
+        let mockAuthenticationService = MockAuthenticationService()
+        mockAuthenticationService._stubbedFetchIdentityVerificationResult = .success(
+            .init(verificationHash: "test-token")
+        )
         let sut = DVLAAuthenticationCoordinator(
             navigationController: UINavigationController(),
             urlOpener: mockURLOpener,
+            authenticationService: mockAuthenticationService,
+            analyticsService: MockAnalyticsService(),
         )
-        sut.start()
-        #expect(mockURLOpener._receivedOpenIfPossibleUrl?.absoluteString == "https://architecture-link-account-service-ui-ext.dvla.gov.uk/")
+
+        sut.start(url: nil)
+        try await Task.sleep(for: .milliseconds(100))
+
+        let openedURL = try #require(mockURLOpener._receivedOpenIfPossibleUrl)
+        #expect(openedURL.host == "architecture-link-account-service-ui-ext.dvla.gov.uk")
+        let queryItems = URLComponents(url: openedURL, resolvingAgainstBaseURL: false)?.queryItems
+        let verificationItem = queryItems?.first { $0.name == "verification" }
+        #expect(verificationItem?.value == "test-token")
+    }
+
+    @Test
+    @MainActor
+    func start_hashRequestSuccess_doesNotPresentAlert() async throws {
+        let mockURLOpener = MockURLOpener()
+        let mockAuthenticationService = MockAuthenticationService()
+        mockAuthenticationService._stubbedFetchIdentityVerificationResult = .success(
+            .init(verificationHash: "test-token")
+        )
+        let mockNavigationController = MockNavigationController()
+        let sut = DVLAAuthenticationCoordinator(
+            navigationController: mockNavigationController,
+            urlOpener: mockURLOpener,
+            authenticationService: mockAuthenticationService,
+            analyticsService: MockAnalyticsService(),
+        )
+
+        sut.start(url: nil)
+        try await Task.sleep(for: .milliseconds(100))
+
+        #expect(mockNavigationController._presentedViewController == nil)
+    }
+
+    @Test
+    @MainActor
+    func start_hashRequestFailure_presentsErrorAlert() async throws {
+        let mockURLOpener = MockURLOpener()
+        let mockAuthenticationService = MockAuthenticationService()
+        mockAuthenticationService._stubbedFetchIdentityVerificationResult = .failure(.apiUnavailable)
+        let mockNavigationController = MockNavigationController()
+        let sut = DVLAAuthenticationCoordinator(
+            navigationController: mockNavigationController,
+            urlOpener: mockURLOpener,
+            authenticationService: mockAuthenticationService,
+            analyticsService: MockAnalyticsService(),
+        )
+
+        sut.start(url: nil)
+        try await Task.sleep(for: .milliseconds(100))
+
+        #expect(mockNavigationController._setViewControllers?.first != nil)
+        #expect(mockURLOpener._receivedOpenIfPossibleUrl == nil)
+    }
+
+    @Test
+    @MainActor
+    func start_hashRequestFailure_doesNotOpenURL() async throws {
+        let mockURLOpener = MockURLOpener()
+        let mockAuthenticationService = MockAuthenticationService()
+        mockAuthenticationService._stubbedFetchIdentityVerificationResult = .failure(.networkUnavailable)
+        let sut = DVLAAuthenticationCoordinator(
+            navigationController: UINavigationController(),
+            urlOpener: mockURLOpener,
+            authenticationService: mockAuthenticationService,
+            analyticsService: MockAnalyticsService(),
+        )
+
+        sut.start(url: nil)
+        try await Task.sleep(for: .milliseconds(100))
+
+        #expect(mockURLOpener._receivedOpenIfPossibleUrl == nil)
     }
 }

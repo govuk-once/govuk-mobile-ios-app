@@ -11,7 +11,9 @@ struct DVLAServiceClientTests {
 
     init() {
         mockAPI = MockAPIServiceClient()
-        sut = DVLAServiceClient(apiServiceClient: mockAPI)
+        sut = DVLAServiceClient(
+            apiServiceClient: mockAPI,
+        )
     }
 
     @Test
@@ -219,6 +221,8 @@ struct DVLAServiceClientTests {
         let error = result.getError()
         #expect(error == .apiUnavailable)
     }
+
+    // MARK: - Static fixtures
 
     static var drivingLicenceResponse: Data = {
         .load(filename: "MockDrivingLicenceResponse")

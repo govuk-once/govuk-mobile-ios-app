@@ -143,4 +143,3 @@ struct DVLAServiceTests {
         #expect(error == .apiUnavailable)
     }
 }
-

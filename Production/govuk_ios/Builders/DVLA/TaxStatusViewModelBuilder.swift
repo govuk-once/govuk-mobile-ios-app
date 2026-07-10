@@ -6,7 +6,7 @@ import GovKitUI
 protocol TaxStatusViewModelBuilderInterface {
     @MainActor
     func makeViewModel(
-        vehicle: CustomerVehicles.Vehicle,
+        vehicle: TaxValidityVehicle,
     ) -> ValidityStatusViewModel
 }
 
@@ -29,7 +29,7 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
 
     @MainActor
     func makeViewModel(
-        vehicle: CustomerVehicles.Vehicle
+        vehicle: TaxValidityVehicle
     ) -> ValidityStatusViewModel {
         let status = taxValidityStatus(vehicle: vehicle)
         switch status {
@@ -244,7 +244,7 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
     }
 
     private func taxValidityStatus(
-        vehicle: CustomerVehicles.Vehicle
+        vehicle: TaxValidityVehicle
     ) -> TaxValidityStatus {
         switch (vehicle.taxStatus, vehicle.sornStart) {
         case (.notTaxedForOnRoadUse, _):
@@ -281,4 +281,11 @@ enum TaxValidityStatus: ValidityStatus {
     case untaxed
     case taxed
     case unknown
+}
+
+struct TaxValidityVehicle: Codable {
+    let taxStatus: TaxStatus?
+    let sornStart: Date?
+    let taxedUntil: Date?
+    let currentLicencePaymentMethod: String?
 }

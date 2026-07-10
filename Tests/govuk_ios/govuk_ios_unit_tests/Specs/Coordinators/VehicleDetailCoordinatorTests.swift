@@ -8,7 +8,7 @@ import GovKit
 @MainActor
 struct VehicleDetailCoordinatorTests {
     @Test
-    func start_setsSARViewController() {
+    func start_setsVehicleDetailViewController() {
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let stubbedVehicleDetailController = UIViewController()
         mockViewControllerBuilder._stubbedVehicleDetailController = stubbedVehicleDetailController
@@ -25,6 +25,28 @@ struct VehicleDetailCoordinatorTests {
 
         sut.start(url: nil)
         #expect(root.topViewController == stubbedVehicleDetailController)
+    }
+
+    @Test
+    func openURLAction_opensURL() {
+        let mockURL = URL(string: "https://gov.uk")!
+        let mockURLOpener = MockURLOpener()
+        let stubbedVehicleDetailController = UIViewController()
+        let mockViewControllerBuilder = MockViewControllerBuilder()
+        mockViewControllerBuilder._stubbedVehicleDetailController = stubbedVehicleDetailController
+        let sut = VehicleDetailCoordinator(
+            navigationController: UINavigationController(),
+            viewControllerBuilder: mockViewControllerBuilder,
+            analyticsService: MockAnalyticsService(),
+            dvlaService: MockDVLAService(),
+            configService: MockAppConfigService(),
+            urlOpener: mockURLOpener,
+            vehicleId: 1
+        )
+        sut.start(url: nil)
+        mockViewControllerBuilder._receivedVehicleDetailOpenURLAction?(mockURL)
+
+        #expect(mockURLOpener._receivedOpenIfPossibleUrl?.absoluteString == "https://gov.uk")
     }
 }
 

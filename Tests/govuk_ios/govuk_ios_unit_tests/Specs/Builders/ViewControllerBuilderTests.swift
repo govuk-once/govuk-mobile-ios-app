@@ -448,6 +448,7 @@ struct ViewControllerBuilderTests {
         #expect(rootView != nil)
     }
 
+    @Test
     func vehicleDetail_returnsExpectedResult() {
         let subject = ViewControllerBuilder()
         let result = subject.vehicleDetail(

@@ -4,6 +4,7 @@ import Testing
 @testable import govuk_ios
 @testable import GovKit
 
+@MainActor
 @Suite
 struct VehicleDetailViewModelTests {
     @Test

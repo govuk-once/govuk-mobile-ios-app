@@ -11,7 +11,7 @@ final class VehicleDetailViewModel: ObservableObject {
     @Published private(set) var viewState: ViewState = .loading
 
     private let vehicleId: Int
-    private let analyticsService: AnalyticsServiceInterface?
+    private let analyticsService: AnalyticsServiceInterface
     private let dvlaService: DVLAServiceInterface
     private let configService: AppConfigServiceInterface
     private let openURLAction: (URL) -> Void
@@ -23,7 +23,7 @@ final class VehicleDetailViewModel: ObservableObject {
 
     init(
         vehicleId: Int,
-        analyticsService: AnalyticsServiceInterface?,
+        analyticsService: AnalyticsServiceInterface,
         dvlaService: DVLAServiceInterface,
         configService: AppConfigServiceInterface,
         openURLAction: @escaping (URL) -> Void,
@@ -41,6 +41,10 @@ final class VehicleDetailViewModel: ObservableObject {
     func viewDidAppear() async {
         guard !vehicleLoaded else { return }
         await fetchVehicle()
+    }
+
+    func trackScreen(screen: TrackableScreen) {
+        analyticsService.track(screen: screen)
     }
 
     @MainActor
@@ -61,10 +65,7 @@ final class VehicleDetailViewModel: ObservableObject {
         }
     }
 
-    func trackScreen(screen: TrackableScreen) {
-        analyticsService?.track(screen: screen)
-    }
-
+    @MainActor
     private func makeViewVehicleDetails(
         _ vehicle: CustomerVehicleDetails.Vehicle
     ) -> ViewVehicleDetails {
@@ -75,6 +76,12 @@ final class VehicleDetailViewModel: ObservableObject {
         let moreOptionsAccessibilityLabel = String(
             localized: .DVLA.moreOptionsButtonAccessibilityLabel
         )
+        let taxValidityVehicle = TaxValidityVehicle(
+            taxStatus: vehicle.taxStatus,
+            sornStart: vehicle.sornStart,
+            taxedUntil: vehicle.taxedUntil,
+            currentLicencePaymentMethod: vehicle.currentLicencePaymentMethod
+        )
 
         return ViewVehicleDetails(
             keeperFullName: keeperFullName(vehicle),
@@ -82,7 +89,7 @@ final class VehicleDetailViewModel: ObservableObject {
             make: vehicle.make,
             model: vehicle.model ?? "",
             registrationNumber: vehicle.registrationNumber,
-            taxStatusViewModel: taxStatusViewModel(vehicle),
+            taxStatusViewModel: taxStatusViewModel(taxValidityVehicle),
             motStatusViewModel: motStatusViewModel(vehicle),
             vehicleSpecViewModel: specViewModel(vehicle),
             specificationSection: specificationSection(vehicle),
@@ -92,14 +99,17 @@ final class VehicleDetailViewModel: ObservableObject {
         )
     }
 
+    @MainActor
     private func taxStatusViewModel(
-        _ vehicle: CustomerVehicleDetails.Vehicle
+        _ vehicle: TaxValidityVehicle
     ) -> ValidityStatusViewModel {
-        .init(
-            title: String.dvla.localized("taxStatusTitle"),
-            formattedStatus: statusFormatter.formatStatus(from: vehicle.taxedUntil),
-            iconName: "checkmark.circle.fill",
-            iconTintColour: .govUK.fills.surfaceButtonPrimary
+        let builder = TaxStatusViewModelBuilder(
+            urls: configService.dvlaUrls,
+            analyticsService: analyticsService,
+            openURLAction: openURLAction
+        )
+        return builder.makeViewModel(
+            vehicle: vehicle
         )
     }
 
@@ -224,7 +234,7 @@ final class VehicleDetailViewModel: ObservableObject {
              url: url.absoluteString,
              section: "Driving"
          )
-         analyticsService?.track(event: event)
+         analyticsService.track(event: event)
      }
 
     private var vehicleErrorViewModel: InlineActionErrorViewModel {

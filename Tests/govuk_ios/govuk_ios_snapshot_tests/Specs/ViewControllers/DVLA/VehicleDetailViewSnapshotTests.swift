@@ -66,6 +66,7 @@ class VehicleDetailViewSnapshotTests: SnapshotTestCase {
     func test_missingVehicleProperties_light_rendersCorrectly() async {
         let mockVehicle = CustomerVehicleDetails.Vehicle.arrange(
             model: nil,
+            taxStatus: nil,
             taxedUntil: nil,
             motExpiryDate: nil,
             secondaryColour: nil,
@@ -101,6 +102,7 @@ class VehicleDetailViewSnapshotTests: SnapshotTestCase {
     func test_missingVehicleProperties_dark_rendersCorrectly() async {
         let mockVehicle = CustomerVehicleDetails.Vehicle.arrange(
             model: nil,
+            taxStatus: nil,
             taxedUntil: nil,
             motExpiryDate: nil,
             secondaryColour: nil,
