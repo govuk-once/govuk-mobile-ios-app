@@ -40,7 +40,7 @@ import GovKit
         let viewModel = MockDrivingLicenceViewModel(
             viewState: .loaded(
                 licence: DrivingLicenceSummaryViewModel(
-                    drivingLicence: .arrange,
+                    drivingLicence: mockDrivingLicence,
                     statusBuilder: MockLicenceStatusViewModelBuilder(),
                     openURLAction: { _,_ in },
                     menuSelectionAction: { _ in },
@@ -63,7 +63,7 @@ import GovKit
         let viewModel = MockDrivingLicenceViewModel(
             viewState: .loaded(
                 licence: DrivingLicenceSummaryViewModel(
-                    drivingLicence: .arrange,
+                    drivingLicence: mockDrivingLicence,
                     statusBuilder: MockLicenceStatusViewModelBuilder(),
                     openURLAction: { _,_  in },
                     menuSelectionAction: { _ in },
@@ -121,6 +121,16 @@ import GovKit
         VerifySnapshotInNavigationController(
             viewController: hostingViewController,
             mode: .dark
+        )
+    }
+    private var mockDrivingLicence: DrivingLicence {
+        DrivingLicence(
+            licenceType: "Full", licenceNumber: "ABC1234567DE",
+            driverTitle: "Mr",
+            driverFirstNames: "Joe",
+            driverLastName: "Bloggs",
+            driverFullAddress: "",
+            tokenValidToDate: Date(), licenceStatus: .valid
         )
     }
 }
