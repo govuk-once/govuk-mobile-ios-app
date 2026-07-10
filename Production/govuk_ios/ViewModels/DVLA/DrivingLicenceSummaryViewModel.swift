@@ -21,7 +21,7 @@ struct DrivingLicenceSummaryViewModel {
     let licenceNumberAccessibilityLabelPrefix = String.dvla.localized(
         "licenceNumberAccessibilityLabel"
     )
-    let copyToClipboardButtonTitle = String.chat.localized(
+    let copyToClipboardButtonTitle = String.dvla.localized(
         "copyToClipboardTitle"
     )
     let fullNameAccessibilityLabel: String
