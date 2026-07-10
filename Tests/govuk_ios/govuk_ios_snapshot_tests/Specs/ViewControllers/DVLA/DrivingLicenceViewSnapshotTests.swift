@@ -43,6 +43,10 @@ import GovKit
                     drivingLicence: .arrange,
                     statusBuilder: MockLicenceStatusViewModelBuilder(),
                     openURLAction: { _, _ in }
+                ),
+                drivingRecord: DrivingRecordViewModel(
+                    dvlaURLs: nil,
+                    openURLAction: { _, _ in }
                 )
             )
         )
@@ -63,6 +67,10 @@ import GovKit
                 licence: DrivingLicenceSummaryViewModel(
                     drivingLicence: .arrange,
                     statusBuilder: MockLicenceStatusViewModelBuilder(),
+                    openURLAction: { _, _ in }
+                ),
+                drivingRecord: DrivingRecordViewModel(
+                    dvlaURLs: nil,
                     openURLAction: { _, _ in }
                 )
             )

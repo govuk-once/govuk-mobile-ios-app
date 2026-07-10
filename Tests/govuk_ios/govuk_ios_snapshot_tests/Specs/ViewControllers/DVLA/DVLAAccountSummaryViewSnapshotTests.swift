@@ -7,28 +7,6 @@ import GovKit
 
 @MainActor class DVLAAccountSummaryViewSnapshotTests: SnapshotTestCase {
     func test_vehicleTabSelected_light_rendersCorrectly() {
-        let mockVehiclesViewModel = MockVehiclesViewModel(
-            viewState: .loaded(
-                vehicles: [
-                    VehicleSummaryViewModel(
-                        vehicle: .arrange,
-                        detailAction: {},
-                        openURLAction: { _ in },
-                        configService: MockAppConfigService(),
-                        analyticsService: MockAnalyticsService()
-                    )
-                ]
-            )
-        )
-        let mockLicenceViewModel = MockDrivingLicenceViewModel(
-            viewState: .loaded(
-                licence: DrivingLicenceSummaryViewModel(
-                    drivingLicence: .arrange,
-                    statusBuilder: MockLicenceStatusViewModelBuilder(),
-                    openURLAction: { _, _ in }
-                )
-            )
-        )
         let viewModel = DVLAAccountSummaryViewModel(
             vehiclesViewModel: mockVehiclesViewModel,
             licenceViewModel: mockLicenceViewModel
@@ -46,28 +24,6 @@ import GovKit
     }
 
     func test_vehicleTabSelected_dark_rendersCorrectly() {
-        let mockVehiclesViewModel = MockVehiclesViewModel(
-            viewState: .loaded(
-                vehicles: [
-                    VehicleSummaryViewModel(
-                        vehicle: .arrange,
-                        detailAction: {},
-                        openURLAction: { _ in },
-                        configService: MockAppConfigService(),
-                        analyticsService: MockAnalyticsService()
-                    )
-                ]
-            )
-        )
-        let mockLicenceViewModel = MockDrivingLicenceViewModel(
-            viewState: .loaded(
-                licence: DrivingLicenceSummaryViewModel(
-                    drivingLicence: .arrange,
-                    statusBuilder: MockLicenceStatusViewModelBuilder(),
-                    openURLAction: { _, _ in }
-                )
-            )
-        )
         let viewModel = DVLAAccountSummaryViewModel(
             vehiclesViewModel: mockVehiclesViewModel,
             licenceViewModel: mockLicenceViewModel
@@ -85,29 +41,6 @@ import GovKit
     }
 
     func test_licenceTabSelected_dark_rendersCorrectly() {
-        let mockVehiclesViewModel = MockVehiclesViewModel(
-            viewState: .loaded(
-                vehicles: [
-                    VehicleSummaryViewModel(
-                        vehicle: .arrange,
-                        detailAction: {},
-                        openURLAction: { _ in },
-                        configService: MockAppConfigService(),
-                        analyticsService: MockAnalyticsService()
-                    )
-                ]
-            )
-        )
-        let mockLicenceViewModel = MockDrivingLicenceViewModel(
-            viewState: .loaded(
-                licence: DrivingLicenceSummaryViewModel(
-                    drivingLicence: .arrange,
-                    statusBuilder: MockLicenceStatusViewModelBuilder(),
-                    openURLAction: { _, _ in }
-                )
-            )
-        )
-
         let viewModel = DVLAAccountSummaryViewModel(
             vehiclesViewModel: mockVehiclesViewModel,
             licenceViewModel: mockLicenceViewModel
@@ -125,29 +58,6 @@ import GovKit
     }
 
     func test_licenceTabSelected_light_rendersCorrectly() {
-        let mockVehiclesViewModel = MockVehiclesViewModel(
-            viewState: .loaded(
-                vehicles: [
-                    VehicleSummaryViewModel(
-                        vehicle: .arrange,
-                        detailAction: {},
-                        openURLAction: { _ in },
-                        configService: MockAppConfigService(),
-                        analyticsService: MockAnalyticsService()
-                    )
-                ]
-            )
-        )
-        let mockLicenceViewModel = MockDrivingLicenceViewModel(
-            viewState: .loaded(
-                licence: DrivingLicenceSummaryViewModel(
-                    drivingLicence: .arrange,
-                    statusBuilder: MockLicenceStatusViewModelBuilder(),
-                    openURLAction: { _, _ in }
-                )
-            )
-        )
-
         let viewModel = DVLAAccountSummaryViewModel(
             vehiclesViewModel: mockVehiclesViewModel,
             licenceViewModel: mockLicenceViewModel
@@ -161,6 +71,38 @@ import GovKit
         VerifySnapshotInNavigationController(
             viewController: hostingViewController,
             mode: .light
+        )
+    }
+
+    private var mockVehiclesViewModel: MockVehiclesViewModel {
+        MockVehiclesViewModel(
+            viewState: .loaded(
+                vehicles: [
+                    VehicleSummaryViewModel(
+                        vehicle: .arrange,
+                        detailAction: {},
+                        openURLAction: { _ in },
+                        configService: MockAppConfigService(),
+                        analyticsService: MockAnalyticsService()
+                    )
+                ]
+            )
+        )
+    }
+
+    private var mockLicenceViewModel: MockDrivingLicenceViewModel {
+        MockDrivingLicenceViewModel(
+            viewState: .loaded(
+                licence: DrivingLicenceSummaryViewModel(
+                    drivingLicence: .arrange,
+                    statusBuilder: MockLicenceStatusViewModelBuilder(),
+                    openURLAction: { _, _ in }
+                ),
+                drivingRecord: DrivingRecordViewModel(
+                    dvlaURLs: nil,
+                    openURLAction: { _, _ in }
+                )
+            )
         )
     }
 }

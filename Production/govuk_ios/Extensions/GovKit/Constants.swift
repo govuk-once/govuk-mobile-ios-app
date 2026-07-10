@@ -74,6 +74,10 @@ extension Constants.API {
         string: "http://driver-and-vehicles-account.service.gov.uk"
     )!
 
+    public static let defaultDvlaDrivingRecordUrl: URL = URL(
+        string: "https://driver-and-vehicles-account.service.gov.uk/driver_details?locale=en#Entitlements"
+    )!
+
     public static let betaPrivacyPolicyURL: URL = {
         var components = govukBaseComponents
         components.path = """

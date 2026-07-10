@@ -112,6 +112,39 @@
         }
       }
     },
+    "drivingRecordButtonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your driving record"
+          }
+        }
+      }
+    },
+    "drivingRecordSubtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vehicles you can drive, offences and penalty points"
+          }
+        }
+      }
+    },
+    "drivingRecordTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Driving record"
+          }
+        }
+      }
+    },
     "dvlaAccountErrorBody" : {
       "extractionState" : "manual",
       "localizations" : {

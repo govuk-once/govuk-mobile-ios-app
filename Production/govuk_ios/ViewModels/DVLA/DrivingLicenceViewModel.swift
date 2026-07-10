@@ -4,7 +4,10 @@ import SwiftUI
 class DrivingLicenceViewModel: ObservableObject {
     enum ViewState {
         case loading
-        case loaded(licence: DrivingLicenceSummaryViewModel)
+        case loaded(
+            licence: DrivingLicenceSummaryViewModel,
+            drivingRecord: DrivingRecordViewModel
+        )
         case error(InlineActionErrorViewModel)
     }
 
@@ -60,7 +63,16 @@ class DrivingLicenceViewModel: ObservableObject {
                 self?.copyToClipboard(licenceNumber: licenceNumber)
             }
             hasLoadedLicence = true
-            viewState = .loaded(licence: licenceSummaryViewModel)
+
+            let drivingRecordViewModel = DrivingRecordViewModel(
+                dvlaURLs: configService.dvlaUrls,
+                openURLAction: handleOpenURL(url:buttonTitle:)
+            )
+
+            viewState = .loaded(
+                licence: licenceSummaryViewModel,
+                drivingRecord: drivingRecordViewModel
+            )
         case .failure:
             viewState = .error(drivingLicenceErrorViewModel)
         }
