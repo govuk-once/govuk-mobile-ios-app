@@ -76,8 +76,10 @@ struct VehicleSummaryViewModelTests {
 
     @Test
     func motStatusViewModel_motExpiryDateIsValid_formatsStatusCorrectly() {
+        let futureTimestamp: TimeInterval = 1874611200
+
         let mockVehicle = CustomerSummary.Vehicle.arrange(
-            motExpiryDate: Date(timeIntervalSince1970: 1779975444)
+            motStatus: "Valid", motExpiryDate: Date(timeIntervalSince1970: futureTimestamp)
         )
         let sut = VehicleSummaryViewModel(
             vehicle: mockVehicle,
@@ -86,17 +88,19 @@ struct VehicleSummaryViewModelTests {
             configService: MockAppConfigService(),
             analyticsService: MockAnalyticsService()
         )
-        let expectedDate = Date(timeIntervalSince1970: 1779975444)
+        let expectedDate = Date(timeIntervalSince1970: futureTimestamp)
         let expectedDateString = DateFormatter.dvlaAccount.string(from: expectedDate)
-        let format = String.dvla.localized("validUntil")
-        let expectedStatusString = String.localizedStringWithFormat(format, expectedDateString)
-        #expect(sut.motStatusViewModel.title == String.dvla.localized("motStatusTitle"))
+        let expectedStatusString =
+        String(localized: .DVLA.validUntil(date: expectedDateString))
+        #expect(sut.motStatusViewModel.title ==
+                String(localized: .DVLA.motStatusTitle))
         #expect(sut.motStatusViewModel.formattedStatus == expectedStatusString)
     }
 
     @Test
     func motStatusViewModel_motExpiryDateIsNil_returnsUnknown() {
         let mockVehicle = CustomerSummary.Vehicle.arrange(
+            motStatus: "Unknown",
             motExpiryDate: nil
         )
         let sut = VehicleSummaryViewModel(
@@ -106,7 +110,8 @@ struct VehicleSummaryViewModelTests {
             configService: MockAppConfigService(),
             analyticsService: MockAnalyticsService()
         )
-        #expect(sut.motStatusViewModel.formattedStatus == String.dvla.localized("unknown"))
+
+        #expect(sut.motStatusViewModel.formattedStatus == String(localized: .DVLA.motUnknown))
     }
 
     @Test

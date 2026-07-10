@@ -22,7 +22,7 @@ struct MOTStatusViewModelBuilderTests {
     func makeViewModel_motValid_moreThan28DaysLeft_returnsExpectedResult() {
         let expiryDate = generateFutureDate(daysAhead: 45)
         let vehicle = CustomerSummary.Vehicle.makeStub(motStatus: "Valid", motExpiryDate: expiryDate)
-        let sut = MOTStatusViewModelBuilder(urls: nil, analyticsService: MockAnalyticsService(), openURLAction: { _ in })
+        let sut = MotStatusViewModelBuilder(urls: nil, analyticsService: MockAnalyticsService(), openURLAction: { _ in })
         let result = sut.makeViewModel_forTesting(vehicle: vehicle, currentDate: testAnchorDate)
 
         let expectedDateString = DateFormatter.dvlaAccount.string(from: expiryDate)
@@ -39,7 +39,7 @@ struct MOTStatusViewModelBuilderTests {
     func makeViewModel_motValid_expiringWithinCountdownWindow_returnsExpectedResult() {
         let expiryDate = generateFutureDate(daysAhead: 12)
         let vehicle = CustomerSummary.Vehicle.makeStub(motStatus: "Valid", motExpiryDate: expiryDate)
-        let sut = MOTStatusViewModelBuilder(urls: nil, analyticsService: MockAnalyticsService(), openURLAction: { _ in })
+        let sut = MotStatusViewModelBuilder(urls: nil, analyticsService: MockAnalyticsService(), openURLAction: { _ in })
 
         let result = sut.makeViewModel_forTesting(vehicle: vehicle, currentDate: testAnchorDate)
 
@@ -58,7 +58,7 @@ struct MOTStatusViewModelBuilderTests {
     func makeViewModel_motNotValid_returnsExpiredViewModel() {
         let expiryDate = generateFutureDate(daysAhead: -5)
         let vehicle = CustomerSummary.Vehicle.makeStub(motStatus: "Not valid", motExpiryDate: expiryDate)
-        let sut = MOTStatusViewModelBuilder(urls: nil, analyticsService: MockAnalyticsService(), openURLAction: { _ in })
+        let sut = MotStatusViewModelBuilder(urls: nil, analyticsService: MockAnalyticsService(), openURLAction: { _ in })
 
         let result = sut.makeViewModel_forTesting(vehicle: vehicle, currentDate: testAnchorDate)
 
@@ -76,7 +76,7 @@ struct MOTStatusViewModelBuilderTests {
     func makeViewModel_noResultsReturned_returnsButtonLinkToHistoricVehicles() {
         var openedUrl: URL?
         let vehicle = CustomerSummary.Vehicle.makeStub(motStatus: "No results returned")
-        let sut = MOTStatusViewModelBuilder(urls: nil, analyticsService: MockAnalyticsService(), openURLAction: { url in openedUrl = url })
+        let sut = MotStatusViewModelBuilder(urls: nil, analyticsService: MockAnalyticsService(), openURLAction: { url in openedUrl = url })
 
         let result = sut.makeViewModel_forTesting(vehicle: vehicle, currentDate: testAnchorDate)
 
@@ -89,7 +89,7 @@ struct MOTStatusViewModelBuilderTests {
     }
 }
 
-extension MOTStatusViewModelBuilder {
+extension MotStatusViewModelBuilder {
     @MainActor
     func makeViewModel_forTesting(vehicle: CustomerSummary.Vehicle, currentDate: Date) -> ValidityStatusViewModel {
         return self.makeViewModel(vehicle: vehicle)

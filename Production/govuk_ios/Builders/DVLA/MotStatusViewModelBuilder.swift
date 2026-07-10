@@ -11,14 +11,14 @@ enum MOTValidityStatus: ValidityStatus {
     case noDetailsHeldByDVLA
 }
 
-protocol MOTStatusViewModelBuilderInterface {
+protocol MotStatusViewModelBuilderInterface {
     @MainActor
     func makeViewModel(
         vehicle: CustomerSummary.Vehicle
     ) -> ValidityStatusViewModel
 }
 
-struct MOTStatusViewModelBuilder: MOTStatusViewModelBuilderInterface {
+struct MotStatusViewModelBuilder: MotStatusViewModelBuilderInterface {
     private let dateFormatter = DateFormatter.dvlaAccount
     private let expiryProgressCalculator = ExpiryProgressCalculator.init(countdownWindowDays: 28)
     private let urls: DvlaURLs?
