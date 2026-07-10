@@ -7,7 +7,7 @@ import GovKit
 
 @MainActor
 class VehicleDetailViewSnapshotTests: SnapshotTestCase {
-    func test_fullyPopulatedVehicle_light_rendersCorrectly() {
+    func test_fullyPopulatedVehicle_light_rendersCorrectly() async {
         let mockVehicle = CustomerVehicleDetails.Vehicle.arrange(
             taxedUntil: .arrange("12/12/2030"),
             motExpiryDate: .arrange("12/12/2030")
@@ -22,6 +22,7 @@ class VehicleDetailViewSnapshotTests: SnapshotTestCase {
             analyticsService: MockAnalyticsService(),
             dvlaService: mockDVLAService
         )
+        await viewModel.viewDidAppear()
         let view = VehicleDetailView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
             rootView: view
@@ -32,7 +33,7 @@ class VehicleDetailViewSnapshotTests: SnapshotTestCase {
         )
     }
 
-    func test_fullyPopulatedVehicle_dark_rendersCorrectly() {
+    func test_fullyPopulatedVehicle_dark_rendersCorrectly() async {
         let mockVehicle = CustomerVehicleDetails.Vehicle.arrange(
             taxedUntil: .arrange("12/12/2030"),
             motExpiryDate: .arrange("12/12/2030")
@@ -47,6 +48,7 @@ class VehicleDetailViewSnapshotTests: SnapshotTestCase {
             analyticsService: MockAnalyticsService(),
             dvlaService: mockDVLAService
         )
+        await viewModel.viewDidAppear()
         let view = VehicleDetailView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
             rootView: view
@@ -57,7 +59,7 @@ class VehicleDetailViewSnapshotTests: SnapshotTestCase {
         )
     }
 
-    func test_missingVehicleProperties_light_rendersCorrectly() {
+    func test_missingVehicleProperties_light_rendersCorrectly() async {
         let mockVehicle = CustomerVehicleDetails.Vehicle.arrange(
             model: nil,
             taxedUntil: nil,
@@ -79,6 +81,7 @@ class VehicleDetailViewSnapshotTests: SnapshotTestCase {
             analyticsService: MockAnalyticsService(),
             dvlaService: mockDVLAService
         )
+        await viewModel.viewDidAppear()
         let view = VehicleDetailView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
             rootView: view
@@ -89,7 +92,7 @@ class VehicleDetailViewSnapshotTests: SnapshotTestCase {
         )
     }
 
-    func test_missingVehicleProperties_dark_rendersCorrectly() {
+    func test_missingVehicleProperties_dark_rendersCorrectly() async {
         let mockVehicle = CustomerVehicleDetails.Vehicle.arrange(
             model: nil,
             taxedUntil: nil,
@@ -111,6 +114,7 @@ class VehicleDetailViewSnapshotTests: SnapshotTestCase {
             analyticsService: MockAnalyticsService(),
             dvlaService: mockDVLAService
         )
+        await viewModel.viewDidAppear()
         let view = VehicleDetailView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
             rootView: view
