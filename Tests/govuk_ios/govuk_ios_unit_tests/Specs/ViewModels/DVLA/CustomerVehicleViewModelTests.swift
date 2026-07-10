@@ -5,7 +5,7 @@ import Testing
 @testable import GovKit
 
 @MainActor
-struct VehicleSummaryViewModelTests {
+struct CustomerVehicleViewModelTests {
     @Test
     func initWithVehicle_mapsPropertiesCorrectly() {
         let mockVehicle = CustomerVehicles.Vehicle.arrange(

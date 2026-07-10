@@ -48,7 +48,7 @@ class VehiclesViewModel: ObservableObject {
 
         switch result {
         case .success(let vehicles):
-            let vehicleSummaryViewModels = vehicles.customerVehicles.map { vehicle in
+            let customerVehiclesViewModels = vehicles.customerVehicles.map { vehicle in
                 CustomerVehicleViewModel(
                     vehicle: vehicle,
                     detailAction: { [weak self] in
@@ -61,7 +61,7 @@ class VehiclesViewModel: ObservableObject {
                 )
             }
             hasLoadedVehicles = true
-            viewState = .loaded(vehicles: vehicleSummaryViewModels)
+            viewState = .loaded(vehicles: customerVehiclesViewModels)
         case .failure:
             viewState = .error(vehiclesErrorViewModel)
         }
