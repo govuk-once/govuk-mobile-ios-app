@@ -17,7 +17,8 @@ struct VehicleDetailCoordinatorTests {
             navigationController: root,
             viewControllerBuilder: mockViewControllerBuilder,
             analyticsService: MockAnalyticsService(),
-            vehicle: .arrange
+            dvlaService: MockDVLAService(),
+            vehicleId: 1
         )
 
         sut.start(url: nil)

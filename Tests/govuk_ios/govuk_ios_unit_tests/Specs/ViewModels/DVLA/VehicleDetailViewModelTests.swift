@@ -8,106 +8,140 @@ import Testing
 struct VehicleDetailViewModelTests {
 
     @Test
-    func vehicleProperties_mapCorrectly() {
-        let mockVehicle = CustomerSummary.Vehicle.arrange(
+    func viewVehicleDetails_properties_mapCorrectly() async {
+        let mockVehicle = CustomerVehicleDetails.Vehicle.arrange(
             vehicleId: 5,
             registrationNumber: "QW21 AB4",
             make: "Vauxhall"
         )
-        let sut = VehicleDetailViewModel(
-            analyticsService: MockAnalyticsService(),
-            vehicle: mockVehicle
+        let mockVehicleDetails = CustomerVehicleDetails.arrange(
+            customerVehicleDetails: mockVehicle
         )
-        #expect(sut.id == 5)
-        #expect(sut.registrationNumber == "QW21 AB4")
-        #expect(sut.vehicleMake == "Vauxhall")
-    }
+        let mockDVLAService = MockDVLAService()
+        mockDVLAService._stubbedCustomerVehicleDetailsResult = .success(mockVehicleDetails)
+        let sut = VehicleDetailViewModel(
+            vehicleId: mockVehicle.vehicleId,
+            analyticsService: MockAnalyticsService(),
+            dvlaService: mockDVLAService
+        )
+        await sut.viewDidAppear()
 
-    // update this when new vehicle endpoint is provided with new full name field
-    @Test
-    func vehicleKeeperFullName_formattedCorrectly() {
-        let mockVehicle = CustomerSummary.Vehicle.arrange(
-            keeper: .init(
-                title: "MR",
-                firstNames: "JOE",
-                lastName: "BLOGGS",
-                address: nil
-            )
-        )
-        let sut = VehicleDetailViewModel(
-            analyticsService: MockAnalyticsService(),
-            vehicle: mockVehicle
-        )
-        #expect(sut.keeperFullName == "MR JOE BLOGGS")
-    }
+        let details = viewVehicleDetails(sut.viewState)!
+        #expect(details.registrationNumber == "QW21 AB4")
+        #expect(details.make == "Vauxhall")
 
-    // update this when new vehicle endpoint is provided with new address field
-    @Test
-    func vehicleKeeperAddress_formattedCorrectly() {
-        let mockVehicle = CustomerSummary.Vehicle.arrange(
-            keeper: .init(
-                title: "MR",
-                firstNames: "JOE",
-                lastName: "BLOGGS",
-                address: .init(
-                    unstructuredAddress: .init(
-                        line1: "1 Deansgate",
-                        line2: nil,
-                        line3: nil,
-                        line4: nil,
-                        line5: "Manchester",
-                        postcode: "M1 3EB")
-                )
-            )
-        )
-        let sut = VehicleDetailViewModel(
-            analyticsService: MockAnalyticsService(),
-            vehicle: mockVehicle
-        )
-        let expectedAddress = [
-            "1 Deansgate",
-            "Manchester",
-            "M1 3EB"
-        ]
-        #expect(sut.keeperAddress == expectedAddress)
     }
 
     @Test
-    func vehicleSpecViewModel_returnsPropertiesFormattedCorrectly() {
+    func viewVehicleDetails_vehicleKeeperFullName_formattedCorrectly() async {
+        let mockVehicle = CustomerVehicleDetails.Vehicle.arrange(
+            keeperTitle: "MR",
+            keeperFirstNames: "JOE",
+            keeperLastName: "BLOGGS"
+        )
+        let mockVehicleDetails = CustomerVehicleDetails(
+            customerVehicleDetails: mockVehicle
+        )
+        let mockDVLAService = MockDVLAService()
+        mockDVLAService._stubbedCustomerVehicleDetailsResult = .success(mockVehicleDetails)
+        let sut = VehicleDetailViewModel(
+            vehicleId: mockVehicle.vehicleId,
+            analyticsService: MockAnalyticsService(),
+            dvlaService: mockDVLAService
+        )
+        await sut.viewDidAppear()
+
+        let details = viewVehicleDetails(sut.viewState)!
+        #expect(details.keeperFullName == "MR JOE BLOGGS")
+    }
+
+    @Test
+    func viewVehicleDetails_vehicleKeeperAddress_formattedCorrectly() async {
+        let expectedKeeperAddress = "1 Deansgate\nManchester\nM1 3EB"
+        let mockVehicle = CustomerVehicleDetails.Vehicle.arrange(
+            keeperFullAddress: expectedKeeperAddress
+        )
+        let mockVehicleDetails = CustomerVehicleDetails(
+            customerVehicleDetails: mockVehicle
+        )
+        let mockDVLAService = MockDVLAService()
+        mockDVLAService._stubbedCustomerVehicleDetailsResult = .success(mockVehicleDetails)
+        let sut = VehicleDetailViewModel(
+            vehicleId: mockVehicle.vehicleId,
+            analyticsService: MockAnalyticsService(),
+            dvlaService: mockDVLAService
+        )
+        await sut.viewDidAppear()
+
+        let details = viewVehicleDetails(sut.viewState)!
+        #expect(details.keeperAddress == expectedKeeperAddress)
+    }
+
+    @Test
+    func viewVehicleDetails_vehicleSpecViewModel_returnsPropertiesFormattedCorrectly() async {
         var mockVehicleSpecFormatter = MockVehicleSpecFormatter()
         mockVehicleSpecFormatter._stubbedFormattedYear = "2000"
         mockVehicleSpecFormatter._stubbedFormattedFuelTypeShort = "Petrol"
-        let mockVehicle = CustomerSummary.Vehicle.arrange(colour: "BLACK")
+        let mockVehicle = CustomerVehicleDetails.Vehicle.arrange(colour: "BLACK")
+        let mockVehicleDetails = CustomerVehicleDetails(
+            customerVehicleDetails: mockVehicle
+        )
+        let mockDVLAService = MockDVLAService()
+        mockDVLAService._stubbedCustomerVehicleDetailsResult = .success(mockVehicleDetails)
         let sut = VehicleDetailViewModel(
+            vehicleId: mockVehicle.vehicleId,
             analyticsService: MockAnalyticsService(),
-            vehicle: mockVehicle,
+            dvlaService: mockDVLAService,
             specFormatter: mockVehicleSpecFormatter
         )
-        #expect(sut.vehicleSpecViewModel.colour == "Black")
-        #expect(sut.vehicleSpecViewModel.fuelTypeName == "Petrol")
-        #expect(sut.vehicleSpecViewModel.year == "2000")
+        await sut.viewDidAppear()
+
+        let details = viewVehicleDetails(sut.viewState)!
+        #expect(details.vehicleSpecViewModel.colour == "Black")
+        #expect(details.vehicleSpecViewModel.fuelTypeName == "Petrol")
+        #expect(details.vehicleSpecViewModel.year == "2000")
     }
 
     @Test
-    func taxStatusViewModel_hasCorrectTitle() {
-        let sut = VehicleDetailViewModel(
-            analyticsService: MockAnalyticsService(),
-            vehicle: .arrange
+    func viewVehicleDetails_taxStatusViewModel_hasCorrectTitle() async {
+        let mockVehicle = CustomerVehicleDetails.Vehicle.arrange(colour: "BLACK")
+        let mockVehicleDetails = CustomerVehicleDetails(
+            customerVehicleDetails: mockVehicle
         )
-        #expect(sut.taxStatusViewModel.title == String(localized: .DVLA.taxStatusTitle))
-    }
-
-    @Test
-    func motStatusViewModel_hasCorrectTitle() {
+        let mockDVLAService = MockDVLAService()
+        mockDVLAService._stubbedCustomerVehicleDetailsResult = .success(mockVehicleDetails)
         let sut = VehicleDetailViewModel(
+            vehicleId: 1,
             analyticsService: MockAnalyticsService(),
-            vehicle: .arrange
+            dvlaService: mockDVLAService
         )
-        #expect(sut.motStatusViewModel.title == String(localized: .DVLA.motStatusTitle))
+        await sut.viewDidAppear()
+
+        let details = viewVehicleDetails(sut.viewState)!
+        #expect(details.taxStatusViewModel.title == String(localized: .DVLA.taxStatusTitle))
     }
 
     @Test
-    func specificationSection_returnsExpectedRows() {
+    func viewVehicleDetails_motStatusViewModel_hasCorrectTitle() async {
+        let mockVehicle = CustomerVehicleDetails.Vehicle.arrange(colour: "BLACK")
+        let mockVehicleDetails = CustomerVehicleDetails(
+            customerVehicleDetails: mockVehicle
+        )
+        let mockDVLAService = MockDVLAService()
+        mockDVLAService._stubbedCustomerVehicleDetailsResult = .success(mockVehicleDetails)
+        let sut = VehicleDetailViewModel(
+            vehicleId: 1,
+            analyticsService: MockAnalyticsService(),
+            dvlaService: mockDVLAService
+        )
+        await sut.viewDidAppear()
+
+        let details = viewVehicleDetails(sut.viewState)!
+        #expect(details.motStatusViewModel.title == String(localized: .DVLA.motStatusTitle))
+    }
+
+    @Test
+    func viewVehicleDetails_specificationSection_returnsExpectedRows() async {
         var mockSpecFormatter = MockVehicleSpecFormatter()
         mockSpecFormatter._stubbedFormattedModel = "X3"
         mockSpecFormatter._stubbedFormattedYear = "2000"
@@ -121,16 +155,24 @@ struct VehicleDetailViewModelTests {
             "2.0L",
             accessibilityLabel: "2.0 litres"
         )
-
-        let mockVehicle = CustomerSummary.Vehicle.arrange(
+        let mockVehicle = CustomerVehicleDetails.Vehicle.arrange(
             make: "BMW"
         )
+        let mockVehicleDetails = CustomerVehicleDetails(
+            customerVehicleDetails: mockVehicle
+        )
+        let mockDVLAService = MockDVLAService()
+        mockDVLAService._stubbedCustomerVehicleDetailsResult = .success(mockVehicleDetails)
         let sut = VehicleDetailViewModel(
+            vehicleId: mockVehicle.vehicleId,
             analyticsService: MockAnalyticsService(),
-            vehicle: mockVehicle,
+            dvlaService: mockDVLAService,
             specFormatter: mockSpecFormatter
         )
-        let specificationSection = sut.specificationSection
+        await sut.viewDidAppear()
+
+        let details = viewVehicleDetails(sut.viewState)!
+        let specificationSection = details.specificationSection
         #expect(specificationSection.rows.count == 7)
 
         let makeRow = specificationSection.rows[0] as? InformationRow
@@ -155,4 +197,15 @@ struct VehicleDetailViewModelTests {
         #expect(emissionsRow?.detail == "100g/km")
     }
 
+    private func viewVehicleDetails(
+        _ viewState: VehicleDetailViewModel.ViewState
+    ) -> ViewVehicleDetails? {
+        switch viewState {
+        case .loaded(let details):
+            return details
+        default:
+            #expect(Bool(false), "Expected .loaded state")
+            return nil
+        }
+    }
 }

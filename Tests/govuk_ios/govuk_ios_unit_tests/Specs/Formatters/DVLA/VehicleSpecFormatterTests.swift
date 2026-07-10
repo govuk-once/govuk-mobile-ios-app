@@ -150,7 +150,7 @@ struct VehicleSpecFormatterTests {
 
     @Test
     func formatEmissions_valideCo2Emissions_returnsExpectedResult() {
-        let result = sut.formatEmissions(from: .init(co2: 100))
+        let result = sut.formatEmissions(from: 100)
         let expectedString = String(
             localized: .DVLA.emissionsInGramsPerKm(
                 emissions: 100

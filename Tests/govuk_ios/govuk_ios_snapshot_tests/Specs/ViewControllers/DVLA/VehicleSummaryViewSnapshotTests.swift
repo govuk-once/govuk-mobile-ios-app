@@ -8,11 +8,11 @@ import GovKit
 @MainActor
 class VehicleSummaryViewSnapshotTests: SnapshotTestCase {
     func test_vehicleSummaryView_validTaxAndMot_light_rendersCorrectly() {
-        let mockVehicle = CustomerSummary.Vehicle.arrange(
+        let mockVehicle = CustomerVehicles.Vehicle.arrange(
             taxedUntil: Date(timeIntervalSince1970: 1779975444),
             motExpiryDate: Date(timeIntervalSince1970: 1779975444)
         )
-        let viewModel = VehicleSummaryViewModel(
+        let viewModel = CustomerVehicleViewModel(
             vehicle: mockVehicle,
             detailAction: {},
             openURLAction: { _ in },
@@ -30,11 +30,11 @@ class VehicleSummaryViewSnapshotTests: SnapshotTestCase {
     }
 
     func test_vehicleSummaryView_validTaxAndMot_dark_rendersCorrectly() {
-        let mockVehicle = CustomerSummary.Vehicle.arrange(
+        let mockVehicle = CustomerVehicles.Vehicle.arrange(
             taxedUntil: Date(timeIntervalSince1970: 1779975444),
             motExpiryDate: Date(timeIntervalSince1970: 1779975444)
         )
-        let viewModel = VehicleSummaryViewModel(
+        let viewModel = CustomerVehicleViewModel(
             vehicle: mockVehicle,
             detailAction: {},
             openURLAction: { _ in },
@@ -52,11 +52,11 @@ class VehicleSummaryViewSnapshotTests: SnapshotTestCase {
     }
 
     func test_vehicleSummaryView_unknownTaxAndMot_light_rendersCorrectly() {
-        let mockVehicle = CustomerSummary.Vehicle.arrange(
+        let mockVehicle = CustomerVehicles.Vehicle.arrange(
             taxedUntil: nil,
             motExpiryDate: nil
         )
-        let viewModel = VehicleSummaryViewModel(
+        let viewModel = CustomerVehicleViewModel(
             vehicle: mockVehicle,
             detailAction: {},
             openURLAction: { _ in },
@@ -74,11 +74,11 @@ class VehicleSummaryViewSnapshotTests: SnapshotTestCase {
     }
 
     func test_vehicleSummaryView_unknownTaxAndMot_dark_rendersCorrectly() {
-        let mockVehicle = CustomerSummary.Vehicle.arrange(
+        let mockVehicle = CustomerVehicles.Vehicle.arrange(
             taxedUntil: nil,
             motExpiryDate: nil
         )
-        let viewModel = VehicleSummaryViewModel(
+        let viewModel = CustomerVehicleViewModel(
             vehicle: mockVehicle,
             detailAction: {},
             openURLAction: { _ in },

@@ -26,7 +26,7 @@ struct MockVehicleSpecFormatter: VehicleSpecFormatterInterface {
         _stubbedFormattedColour ?? "colour"
     }
     var _stubbedFormattedEmissions: AccessibleString?
-    func formatEmissions(from emissions: ExhaustEmissions?) -> AccessibleString {
+    func formatEmissions(from emissions: Int?) -> AccessibleString {
         _stubbedFormattedEmissions ??
         AccessibleString("display value", accessibilityLabel: "accessibility label")
     }

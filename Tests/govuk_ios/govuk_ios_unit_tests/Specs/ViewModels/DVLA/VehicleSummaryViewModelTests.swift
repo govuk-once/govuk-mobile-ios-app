@@ -8,12 +8,12 @@ import Testing
 struct VehicleSummaryViewModelTests {
     @Test
     func initWithVehicle_mapsPropertiesCorrectly() {
-        let mockVehicle = CustomerSummary.Vehicle.arrange(
+        let mockVehicle = CustomerVehicles.Vehicle.arrange(
             registrationNumber: "AB12 CDE",
             make: "FORD",
             model: "FOCUS"
         )
-        let sut = VehicleSummaryViewModel(
+        let sut = CustomerVehicleViewModel(
             vehicle: mockVehicle,
             detailAction: {},
             openURLAction: { _ in },
@@ -27,12 +27,12 @@ struct VehicleSummaryViewModelTests {
 
     @Test
     func vehicleModel_modelIsNil_returnsUnknown() {
-        let mockVehicle = CustomerSummary.Vehicle.arrange(
+        let mockVehicle = CustomerVehicles.Vehicle.arrange(
             registrationNumber: "AB12 CDE",
             make: "FORD",
             model: nil
         )
-        let sut = VehicleSummaryViewModel(
+        let sut = CustomerVehicleViewModel(
             vehicle: mockVehicle,
             detailAction: {},
             openURLAction: { _ in },
@@ -44,10 +44,10 @@ struct VehicleSummaryViewModelTests {
 
     @Test
     func taxStatusViewModel_taxedUntilDateIsValid_formatsStatusCorrectly() {
-        let mockVehicle = CustomerSummary.Vehicle.arrange(
+        let mockVehicle = CustomerVehicles.Vehicle.arrange(
             taxedUntil: Date(timeIntervalSince1970: 1779975444)
         )
-        let sut = VehicleSummaryViewModel(
+        let sut = CustomerVehicleViewModel(
             vehicle: mockVehicle,
             detailAction: {},
             openURLAction: { _ in },
@@ -61,10 +61,10 @@ struct VehicleSummaryViewModelTests {
 
     @Test
     func taxStatusViewModel_taxedUntilDateIsNil_returnsUnknown() {
-        let mockVehicle = CustomerSummary.Vehicle.arrange(
+        let mockVehicle = CustomerVehicles.Vehicle.arrange(
             taxedUntil: nil
         )
-        let sut = VehicleSummaryViewModel(
+        let sut = CustomerVehicleViewModel(
             vehicle: mockVehicle,
             detailAction: {},
             openURLAction: { _ in },
@@ -76,10 +76,10 @@ struct VehicleSummaryViewModelTests {
 
     @Test
     func motStatusViewModel_motExpiryDateIsValid_formatsStatusCorrectly() {
-        let mockVehicle = CustomerSummary.Vehicle.arrange(
+        let mockVehicle = CustomerVehicles.Vehicle.arrange(
             motExpiryDate: Date(timeIntervalSince1970: 1779975444)
         )
-        let sut = VehicleSummaryViewModel(
+        let sut = CustomerVehicleViewModel(
             vehicle: mockVehicle,
             detailAction: {},
             openURLAction: { _ in },
@@ -96,10 +96,10 @@ struct VehicleSummaryViewModelTests {
 
     @Test
     func motStatusViewModel_motExpiryDateIsNil_returnsUnknown() {
-        let mockVehicle = CustomerSummary.Vehicle.arrange(
+        let mockVehicle = CustomerVehicles.Vehicle.arrange(
             motExpiryDate: nil
         )
-        let sut = VehicleSummaryViewModel(
+        let sut = CustomerVehicleViewModel(
             vehicle: mockVehicle,
             detailAction: {},
             openURLAction: { _ in },
@@ -111,11 +111,11 @@ struct VehicleSummaryViewModelTests {
 
     @Test
     func menuItems_notTaxed_sorn_returnsExpectedMenuItems() {
-        let mockVehicle = CustomerSummary.Vehicle.arrange(
+        let mockVehicle = CustomerVehicles.Vehicle.arrange(
             taxStatus: .untaxed,
             sornStart: Date()
         )
-        let sut = VehicleSummaryViewModel(
+        let sut = CustomerVehicleViewModel(
             vehicle: mockVehicle,
             detailAction: {},
             openURLAction: { _ in },
@@ -133,11 +133,11 @@ struct VehicleSummaryViewModelTests {
 
     @Test
     func menuItems_taxed_notSorn_returnsExpectedMenuItems() {
-        let mockVehicle = CustomerSummary.Vehicle.arrange(
+        let mockVehicle = CustomerVehicles.Vehicle.arrange(
             taxStatus: .taxed,
             sornStart: nil
         )
-        let sut = VehicleSummaryViewModel(
+        let sut = CustomerVehicleViewModel(
             vehicle: mockVehicle,
             detailAction: {},
             openURLAction: { _ in },
@@ -157,11 +157,11 @@ struct VehicleSummaryViewModelTests {
 
     @Test
     func menuItems_notTaxed_notSorn_returnsMenuItems() {
-        let mockVehicle = CustomerSummary.Vehicle.arrange(
+        let mockVehicle = CustomerVehicles.Vehicle.arrange(
             taxStatus: .untaxed,
             sornStart: nil
         )
-        let sut = VehicleSummaryViewModel(
+        let sut = CustomerVehicleViewModel(
             vehicle: mockVehicle,
             detailAction: {},
             openURLAction: { _ in },
@@ -184,12 +184,12 @@ struct VehicleSummaryViewModelTests {
         let mockConfigService = MockAppConfigService()
         let dvlaURLs = DvlaURLs.arrange
         mockConfigService._dvlaUrls = dvlaURLs
-        let mockVehicle = CustomerSummary.Vehicle.arrange(
+        let mockVehicle = CustomerVehicles.Vehicle.arrange(
             taxStatus: .untaxed,
             sornStart: Date()
         )
         await confirmation { confirmation in
-            let sut = VehicleSummaryViewModel(
+            let sut = CustomerVehicleViewModel(
                 vehicle: mockVehicle,
                 detailAction: {},
                 openURLAction: { _ in confirmation() },
@@ -214,12 +214,12 @@ struct VehicleSummaryViewModelTests {
         let mockConfigService = MockAppConfigService()
         let dvlaURLs = DvlaURLs.arrange
         mockConfigService._dvlaUrls = dvlaURLs
-        let mockVehicle = CustomerSummary.Vehicle.arrange(
+        let mockVehicle = CustomerVehicles.Vehicle.arrange(
             taxStatus: .taxed,
             sornStart: nil
         )
         await confirmation { confirmation in
-            let sut = VehicleSummaryViewModel(
+            let sut = CustomerVehicleViewModel(
                 vehicle: mockVehicle,
                 detailAction: {},
                 openURLAction: { _ in confirmation() },
@@ -244,12 +244,12 @@ struct VehicleSummaryViewModelTests {
         let mockConfigService = MockAppConfigService()
         let dvlaURLs = DvlaURLs.arrange
         mockConfigService._dvlaUrls = dvlaURLs
-        let mockVehicle = CustomerSummary.Vehicle.arrange(
+        let mockVehicle = CustomerVehicles.Vehicle.arrange(
             taxStatus: .untaxed,
             sornStart: nil
         )
         await confirmation { confirmation in
-            let sut = VehicleSummaryViewModel(
+            let sut = CustomerVehicleViewModel(
                 vehicle: mockVehicle,
                 detailAction: {},
                 openURLAction: { _ in confirmation() },
@@ -274,12 +274,12 @@ struct VehicleSummaryViewModelTests {
         let mockConfigService = MockAppConfigService()
         let dvlaURLs = DvlaURLs.arrange
         mockConfigService._dvlaUrls = dvlaURLs
-        let mockVehicle = CustomerSummary.Vehicle.arrange(
+        let mockVehicle = CustomerVehicles.Vehicle.arrange(
             taxStatus: .taxed,
             sornStart: nil
         )
         await confirmation { confirmation in
-            let sut = VehicleSummaryViewModel(
+            let sut = CustomerVehicleViewModel(
                 vehicle: mockVehicle,
                 detailAction: {},
                 openURLAction: { _ in confirmation() },
@@ -304,12 +304,12 @@ struct VehicleSummaryViewModelTests {
         let mockConfigService = MockAppConfigService()
         let dvlaURLs = DvlaURLs.arrange
         mockConfigService._dvlaUrls = dvlaURLs
-        let mockVehicle = CustomerSummary.Vehicle.arrange(
+        let mockVehicle = CustomerVehicles.Vehicle.arrange(
             taxStatus: .taxed,
             sornStart: nil
         )
         await confirmation { confirmation in
-            let sut = VehicleSummaryViewModel(
+            let sut = CustomerVehicleViewModel(
                 vehicle: mockVehicle,
                 detailAction: {},
                 openURLAction: { _ in confirmation() },
@@ -334,12 +334,12 @@ struct VehicleSummaryViewModelTests {
         let mockConfigService = MockAppConfigService()
         let dvlaURLs = DvlaURLs.arrange
         mockConfigService._dvlaUrls = dvlaURLs
-        let mockVehicle = CustomerSummary.Vehicle.arrange(
+        let mockVehicle = CustomerVehicles.Vehicle.arrange(
             taxStatus: .taxed,
             sornStart: nil
         )
         await confirmation { confirmation in
-            let sut = VehicleSummaryViewModel(
+            let sut = CustomerVehicleViewModel(
                 vehicle: mockVehicle,
                 detailAction: {},
                 openURLAction: { _ in confirmation() },

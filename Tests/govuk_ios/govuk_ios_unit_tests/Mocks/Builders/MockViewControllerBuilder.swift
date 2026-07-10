@@ -434,7 +434,8 @@ class MockViewControllerBuilder: ViewControllerBuilder {
     var _stubbedVehicleDetailController: UIViewController?
     override func vehicleDetail(
         analyticsService: AnalyticsServiceInterface,
-        vehicle: CustomerSummary.Vehicle
+        dvlaService: DVLAServiceInterface,
+        vehicleId: Int
     ) -> UIViewController {
         _stubbedVehicleDetailController ?? UIViewController()
     }

@@ -133,7 +133,7 @@ struct DrivingTopicWidgetCoordinatorTests {
             urlOpener: MockURLOpener()
         )
         let _ = sut.makeWidget(for: drivingTopic)
-        mockWidgetViewBuilder._receivedVehicleDetailAction?(CustomerSummary.Vehicle.arrange)
+        mockWidgetViewBuilder._receivedVehicleDetailAction?(1)
         #expect(mockVehicleDetailCoordinator._startCalled == true)
     }
 }

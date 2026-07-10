@@ -34,21 +34,39 @@ struct DVLAServiceTests {
     }
 
     @Test
-    func fetchCustomerSummary_success_returnsExpectedResult() async throws {
-        mockServiceClient._stubbedFetchCustomerSummaryResult = .success(.arrange)
-        let result = await sut.fetchCustomerSummary()
-        let customerSummary = try #require(try? result.get())
-        let vehicle = try #require(customerSummary.vehicles.first)
+    func fetchCustomerVehicles_success_returnsExpectedResult() async throws {
+        mockServiceClient._stubbedCustomerVehiclesResult = .success(.arrange)
+        let result = await sut.fetchCustomerVehicles()
+        let vehicles = try #require(try? result.get())
+        let vehicle = try #require(vehicles.customerVehicles.first)
         #expect(vehicle.registrationNumber == "AB71 CDE")
         #expect(vehicle.make == "MITSUBISHI")
         #expect(vehicle.model == "MIRAGE")
-        #expect(vehicle.colour == "YELLOW")
     }
 
     @Test
-    func fetchCustomerSummary_apiUnavailable_returnsExpectedError() async {
-        mockServiceClient._stubbedFetchCustomerSummaryResult = .failure(DVLAError.apiUnavailable)
-        let result = await sut.fetchCustomerSummary()
+    func fetchCustomerVehicles_apiUnavailable_returnsExpectedError() async {
+        mockServiceClient._stubbedCustomerVehiclesResult = .failure(DVLAError.apiUnavailable)
+        let result = await sut.fetchCustomerVehicles()
+        let error = result.getError()
+        #expect(error == .apiUnavailable)
+    }
+
+    @Test
+    func fetchCustomerVehicleDetails_success_returnsExpectedResult() async throws {
+        mockServiceClient._stubbedCustomerVehicleDetailsResult = .success(.arrange)
+        let result = await sut.fetchCustomerVehicleDetails(1)
+        let details = try #require(try? result.get())
+        let vehicle = details.customerVehicleDetails
+        #expect(vehicle.registrationNumber == "AB71 CDE")
+        #expect(vehicle.make == "MITSUBISHI")
+        #expect(vehicle.model == "MIRAGE")
+    }
+
+    @Test
+    func fetchCustomerVehicleDetails_apiUnavailable_returnsExpectedError() async {
+        mockServiceClient._stubbedCustomerVehicleDetailsResult = .failure(DVLAError.apiUnavailable)
+        let result = await sut.fetchCustomerVehicleDetails(1)
         let error = result.getError()
         #expect(error == .apiUnavailable)
     }

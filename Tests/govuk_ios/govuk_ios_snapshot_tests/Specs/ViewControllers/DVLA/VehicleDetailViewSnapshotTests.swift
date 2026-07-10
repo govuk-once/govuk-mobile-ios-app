@@ -8,13 +8,19 @@ import GovKit
 @MainActor
 class VehicleDetailViewSnapshotTests: SnapshotTestCase {
     func test_fullyPopulatedVehicle_light_rendersCorrectly() {
-        let mockVehicle = CustomerSummary.Vehicle.arrange(
+        let mockVehicle = CustomerVehicleDetails.Vehicle.arrange(
             taxedUntil: .arrange("12/12/2030"),
             motExpiryDate: .arrange("12/12/2030")
         )
+        let mockVehicleDetails = CustomerVehicleDetails.arrange(
+            customerVehicleDetails: mockVehicle
+        )
+        let mockDVLAService = MockDVLAService()
+        mockDVLAService._stubbedCustomerVehicleDetailsResult = .success(mockVehicleDetails)
         let viewModel = VehicleDetailViewModel(
-            analyticsService: nil,
-            vehicle: mockVehicle,
+            vehicleId: 123,
+            analyticsService: MockAnalyticsService(),
+            dvlaService: mockDVLAService
         )
         let view = VehicleDetailView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
@@ -27,13 +33,19 @@ class VehicleDetailViewSnapshotTests: SnapshotTestCase {
     }
 
     func test_fullyPopulatedVehicle_dark_rendersCorrectly() {
-        let mockVehicle = CustomerSummary.Vehicle.arrange(
+        let mockVehicle = CustomerVehicleDetails.Vehicle.arrange(
             taxedUntil: .arrange("12/12/2030"),
             motExpiryDate: .arrange("12/12/2030")
         )
+        let mockVehicleDetails = CustomerVehicleDetails.arrange(
+            customerVehicleDetails: mockVehicle
+        )
+        let mockDVLAService = MockDVLAService()
+        mockDVLAService._stubbedCustomerVehicleDetailsResult = .success(mockVehicleDetails)
         let viewModel = VehicleDetailViewModel(
-            analyticsService: nil,
-            vehicle: mockVehicle,
+            vehicleId: 123,
+            analyticsService: MockAnalyticsService(),
+            dvlaService: mockDVLAService
         )
         let view = VehicleDetailView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
@@ -46,18 +58,26 @@ class VehicleDetailViewSnapshotTests: SnapshotTestCase {
     }
 
     func test_missingVehicleProperties_light_rendersCorrectly() {
-        let mockVehicle = CustomerSummary.Vehicle.arrange(
+        let mockVehicle = CustomerVehicleDetails.Vehicle.arrange(
             model: nil,
             taxedUntil: nil,
             motExpiryDate: nil,
             secondaryColour: nil,
-            exhaustEmissions: nil,
+            exhaustEmissionsCo2: nil,
             engineCapacity: nil,
-            keeper: nil
+            keeperTitle: nil,
+            keeperFirstNames: nil,
+            keeperLastName: nil
         )
+        let mockVehicleDetails = CustomerVehicleDetails.arrange(
+            customerVehicleDetails: mockVehicle
+        )
+        let mockDVLAService = MockDVLAService()
+        mockDVLAService._stubbedCustomerVehicleDetailsResult = .success(mockVehicleDetails)
         let viewModel = VehicleDetailViewModel(
-            analyticsService: nil,
-            vehicle: mockVehicle,
+            vehicleId: 123,
+            analyticsService: MockAnalyticsService(),
+            dvlaService: mockDVLAService
         )
         let view = VehicleDetailView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
@@ -70,18 +90,26 @@ class VehicleDetailViewSnapshotTests: SnapshotTestCase {
     }
 
     func test_missingVehicleProperties_dark_rendersCorrectly() {
-        let mockVehicle = CustomerSummary.Vehicle.arrange(
+        let mockVehicle = CustomerVehicleDetails.Vehicle.arrange(
             model: nil,
             taxedUntil: nil,
             motExpiryDate: nil,
             secondaryColour: nil,
-            exhaustEmissions: nil,
+            exhaustEmissionsCo2: nil,
             engineCapacity: nil,
-            keeper: nil
+            keeperTitle: nil,
+            keeperFirstNames: nil,
+            keeperLastName: nil
         )
+        let mockVehicleDetails = CustomerVehicleDetails.arrange(
+            customerVehicleDetails: mockVehicle
+        )
+        let mockDVLAService = MockDVLAService()
+        mockDVLAService._stubbedCustomerVehicleDetailsResult = .success(mockVehicleDetails)
         let viewModel = VehicleDetailViewModel(
-            analyticsService: nil,
-            vehicle: mockVehicle,
+            vehicleId: 123,
+            analyticsService: MockAnalyticsService(),
+            dvlaService: mockDVLAService
         )
         let view = VehicleDetailView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
