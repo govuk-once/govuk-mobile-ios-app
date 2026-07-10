@@ -541,7 +541,9 @@ class CoordinatorBuilder {
     ) -> BaseCoordinator {
         DVLAAuthenticationCoordinator(
             navigationController: navigationController,
-            urlOpener: UIApplication.shared
+            urlOpener: UIApplication.shared,
+            authenticationService: container.authenticationService.resolve(),
+            analyticsService: container.analyticsService.resolve(),
         )
     }
 
