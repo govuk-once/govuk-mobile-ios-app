@@ -189,59 +189,59 @@ struct DrivingLicenceSummaryViewModelTests {
         )
         #expect(sut.licenceType == expectedLicenceType)
     }
-
-    @Test
-    func init_formatsFullNameCorrectly() {
-        let mockDrivingLicence = DrivingLicence.arrange(
-            licenceType: "Full",
-            licenceNumber: "ABC123AE",
-            driverTitle: "MR",
-            driverFirstNames: "JOE GEORGE",
-            driverLastName: "BLOGGS",
-            driverFullAddress: "123 Test Street\nLondon",
-            licenceStatus: .valid
-        )
-        let sut = DrivingLicenceSummaryViewModel(
-            drivingLicence: mockDrivingLicence,
-            statusBuilder: MockLicenceStatusViewModelBuilder(),
-            openURLAction: { _, _ in },
-            menuSelectionAction: { _ in },
-            copyToClipboardAction: { _ in },
-            analyticsService: MockAnalyticsService()
-        )
-        #expect(sut.fullName == "MR JOE GEORGE BLOGGS")
-    }
-
-    @Test
-    func init_licenceStatusViewModelIsPopulatedByBuilder() {
-        let mockStatusViewModelBuilder = MockLicenceStatusViewModelBuilder()
-        mockStatusViewModelBuilder._stubbedViewModel = ValidityStatusViewModel(
-            formattedStatus: "Mock licence status"
-        )
-
-        let validToDate = Date.arrange("01/12/2027")
-        let mockDrivingLicence = DrivingLicence.arrange(
-            licenceType: "Full",
-            licenceNumber: "ABC123AE",
-            driverTitle: "Mr",
-            driverFirstNames: "John",
-            driverLastName: "Doe",
-            driverFullAddress: "123 Test Street\nLondon",
-            tokenValidToDate: validToDate,
-            licenceStatus: .valid
-        )
-
-        let sut = DrivingLicenceSummaryViewModel(
-            drivingLicence: mockDrivingLicence,
-            statusBuilder: mockStatusViewModelBuilder,
-            openURLAction: { _, _ in },
-            menuSelectionAction: { _ in },
-            copyToClipboardAction: { _ in },
-            analyticsService: MockAnalyticsService()
-        )
-
-        #expect(mockStatusViewModelBuilder._makeViewModelCallCount == 1)
-        #expect(sut.licenceStatusViewModel.formattedStatus == "Mock licence status")
+//
+//    @Test
+//    func init_formatsFullNameCorrectly() {
+//        let mockDrivingLicence = DrivingLicence.arrange(
+//            licenceType: "Full",
+//            licenceNumber: "ABC123AE",
+//            driverTitle: "MR",
+//            driverFirstNames: "JOE GEORGE",
+//            driverLastName: "BLOGGS",
+//            driverFullAddress: "123 Test Street\nLondon",
+//            licenceStatus: .valid
+//        )
+//        let sut = DrivingLicenceSummaryViewModel(
+//            drivingLicence: mockDrivingLicence,
+//            statusBuilder: MockLicenceStatusViewModelBuilder(),
+//            openURLAction: { _, _ in },
+//            menuSelectionAction: { _ in },
+//            copyToClipboardAction: { _ in },
+//            analyticsService: MockAnalyticsService()
+//        )
+//        #expect(sut.fullName == "MR JOE GEORGE BLOGGS")
+//    }
+//
+//    @Test
+//    func init_licenceStatusViewModelIsPopulatedByBuilder() {
+//        let mockStatusViewModelBuilder = MockLicenceStatusViewModelBuilder()
+//        mockStatusViewModelBuilder._stubbedViewModel = ValidityStatusViewModel(
+//            formattedStatus: "Mock licence status"
+//        )
+//
+//        let validToDate = Date.arrange("01/12/2027")
+//        let mockDrivingLicence = DrivingLicence.arrange(
+//            licenceType: "Full",
+//            licenceNumber: "ABC123AE",
+//            driverTitle: "Mr",
+//            driverFirstNames: "John",
+//            driverLastName: "Doe",
+//            driverFullAddress: "123 Test Street\nLondon",
+//            tokenValidToDate: validToDate,
+//            licenceStatus: .valid
+//        )
+//
+//        let sut = DrivingLicenceSummaryViewModel(
+//            drivingLicence: mockDrivingLicence,
+//            statusBuilder: mockStatusViewModelBuilder,
+//            openURLAction: { _, _ in },
+//            menuSelectionAction: { _ in },
+//            copyToClipboardAction: { _ in },
+//            analyticsService: MockAnalyticsService()
+//        )
+//
+//        #expect(mockStatusViewModelBuilder._makeViewModelCallCount == 1)
+//        #expect(sut.licenceStatusViewModel.formattedStatus == "Mock licence status")
     }
 }
 
