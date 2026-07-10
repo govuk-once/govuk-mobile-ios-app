@@ -1,4 +1,6 @@
 import Foundation
+import UIKit
+import GovKit
 
 struct DrivingLicenceSummaryViewModel {
     let licenceType: String
@@ -19,15 +21,11 @@ struct DrivingLicenceSummaryViewModel {
     let fullNameAccessibilityLabel: String
     let licenceTypeAccessibilityLabel: String
     let addressAccessibilityLabel: String
-    var copyToClipboardAction: ((String) -> Void)?
+    var copyToClipboardAction: ((String) -> Void)
     let menuSelectionAction: (URL) -> Void
     let analyticsService: AnalyticsServiceInterface
-    let copyToClipboardAction: (String) -> Void?
     let copyLicenceButtonTitle = String.dvla.localized(
         "copyLicenceButtonTitle"
-    )
-    let copyToClipboardButtonTitle = String.dvla.localized(
-        "copyToClipboardTitle"
     )
 
     let changeAddressMenuTitle: String =  String.dvla.localized(
@@ -105,7 +103,7 @@ extension DrivingLicenceSummaryViewModel {
         statusBuilder: LicenceStatusViewModelBuilderInterface,
         openURLAction: @escaping (URL, String) -> Void,
         menuSelectionAction: @escaping (URL) -> Void,
-        copyToClipboardAction: @escaping (String) -> Void?,
+        copyToClipboardAction: @escaping (String) -> Void,
         analyticsService: AnalyticsServiceInterface
     ) {
         let licenceType = String.localizedStringWithFormat(

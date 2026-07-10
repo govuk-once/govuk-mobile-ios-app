@@ -55,10 +55,10 @@ class DrivingLicenceViewModel: ObservableObject {
                 openURLAction: { [weak self] url, buttonTitle in
                     self?.handleOpenURL(url: url, buttonTitle: buttonTitle)
                 },
-                menuSelectionAction: { [weak self] in
+                menuSelectionAction: { [weak self] url in
                     self?.openURLAction(url)
                 },
-                copyToClipboardAction: { [weak self] in licenceNumber
+                copyToClipboardAction: { [weak self] licenceNumber in
                     self?.copyToClipboard(licenceNumber: licenceNumber
                     )
                 },
