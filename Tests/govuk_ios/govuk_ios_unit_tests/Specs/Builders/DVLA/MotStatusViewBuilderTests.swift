@@ -23,8 +23,6 @@ struct MOTStatusViewModelBuilderTests {
         let expiryDate = generateFutureDate(daysAhead: 45)
         let vehicle = CustomerSummary.Vehicle.makeStub(motStatus: "Valid", motExpiryDate: expiryDate)
         let sut = MOTStatusViewModelBuilder(urls: nil, analyticsService: MockAnalyticsService(), openURLAction: { _ in })
-
-        // Inject a custom date wrapper method to avoid Date.now runtime offsets
         let result = sut.makeViewModel_forTesting(vehicle: vehicle, currentDate: testAnchorDate)
 
         let expectedDateString = DateFormatter.dvlaAccount.string(from: expiryDate)
