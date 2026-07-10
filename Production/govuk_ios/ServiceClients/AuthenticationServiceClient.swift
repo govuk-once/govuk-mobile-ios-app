@@ -116,7 +116,7 @@ class AuthenticationServiceClient: AuthenticationServiceClientInterface {
         let request = GOVRequest.identityVerification(
             token: accesstoken
         )
-        return await withUnsafeContinuation { continuation in
+        return await withCheckedContinuation { continuation in
             verificationAPIClient.send(
                 request: request,
                 completion: { result in
