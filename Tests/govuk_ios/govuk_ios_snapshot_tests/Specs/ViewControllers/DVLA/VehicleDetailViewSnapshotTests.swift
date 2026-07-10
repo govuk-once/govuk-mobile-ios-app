@@ -132,4 +132,46 @@ class VehicleDetailViewSnapshotTests: SnapshotTestCase {
             mode: .dark
         )
     }
+
+    func test_apiError_light_rendersCorrectly() async {
+        let mockDVLAService = MockDVLAService()
+        mockDVLAService._stubbedCustomerVehicleDetailsResult = .failure(.apiUnavailable)
+        let viewModel = VehicleDetailViewModel(
+            vehicleId: 123,
+            analyticsService: MockAnalyticsService(),
+            dvlaService: mockDVLAService,
+            configService: MockAppConfigService(),
+            openURLAction: { _ in }
+        )
+        await viewModel.viewDidAppear()
+        let view = VehicleDetailView(viewModel: viewModel)
+        let hostingViewController =  HostingViewController(
+            rootView: view
+        )
+        VerifySnapshotInNavigationController(
+            viewController: hostingViewController,
+            mode: .light
+        )
+    }
+
+    func test_apiError_dark_rendersCorrectly() async {
+        let mockDVLAService = MockDVLAService()
+        mockDVLAService._stubbedCustomerVehicleDetailsResult = .failure(.apiUnavailable)
+        let viewModel = VehicleDetailViewModel(
+            vehicleId: 123,
+            analyticsService: MockAnalyticsService(),
+            dvlaService: mockDVLAService,
+            configService: MockAppConfigService(),
+            openURLAction: { _ in }
+        )
+        await viewModel.viewDidAppear()
+        let view = VehicleDetailView(viewModel: viewModel)
+        let hostingViewController =  HostingViewController(
+            rootView: view
+        )
+        VerifySnapshotInNavigationController(
+            viewController: hostingViewController,
+            mode: .dark
+        )
+    }
 }
