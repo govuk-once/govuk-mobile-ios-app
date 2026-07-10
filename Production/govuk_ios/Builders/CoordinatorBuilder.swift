@@ -582,7 +582,9 @@ class CoordinatorBuilder {
         VehicleDetailCoordinator(
             navigationController: navigationController,
             viewControllerBuilder: ViewControllerBuilder(),
+            urlOpener: UIApplication.shared,
             analyticsService: container.analyticsService.resolve(),
+            configService: container.appConfigService.resolve(),
             vehicle: vehicle
         )
     }
