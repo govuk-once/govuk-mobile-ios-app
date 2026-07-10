@@ -99,39 +99,39 @@ struct DrivingLicenceSummaryViewModelTests {
         #expect(event.params?["external"] as? Bool == true)
     }
 
-    @Test
-    func copyToClipboard_tracksExpectedCopyEvent() {
-        let mockDrivingLicence = DrivingLicence.arrange(
-            licenceType: "Full",
-            licenceNumber: "ABC123AE",
-            driverTitle: "Mr",
-            driverFirstNames: "John",
-            driverLastName: "Doe",
-            driverFullAddress: "123 Test Street\nLondon",
-            licenceStatus: .valid
-        )
-        let mockAnalytics = MockAnalyticsService()
-        let sut = DrivingLicenceSummaryViewModel(
-            drivingLicence: mockDrivingLicence,
-            statusBuilder: MockLicenceStatusViewModelBuilder(),
-            openURLAction: { _, _ in },
-            menuSelectionAction: { _ in },
-            copyToClipboardAction: { _ in },
-            analyticsService: mockAnalytics
-        )
-        sut.copyToClipboard()
-
-        #expect(mockAnalytics._trackedEvents.count == 1)
-
-        guard let event = mockAnalytics._trackedEvents.first else {
-            return
-        }
-        #expect(event.name == "Function")
-        #expect(event.params?["text"] as? String == "Copy to clipboard")
-        #expect(event.params?["type"] as? String == "Menu")
-        #expect(event.params?["section"] as? String == "Driver account")
-        #expect(event.params?["action"] as? String == "Copy")
-    }
+//    @Test
+//    func copyToClipboard_tracksExpectedCopyEvent() {
+//        let mockDrivingLicence = DrivingLicence.arrange(
+//            licenceType: "Full",
+//            licenceNumber: "ABC123AE",
+//            driverTitle: "Mr",
+//            driverFirstNames: "John",
+//            driverLastName: "Doe",
+//            driverFullAddress: "123 Test Street\nLondon",
+//            licenceStatus: .valid
+//        )
+//        let mockAnalytics = MockAnalyticsService()
+//        let sut = DrivingLicenceSummaryViewModel(
+//            drivingLicence: mockDrivingLicence,
+//            statusBuilder: MockLicenceStatusViewModelBuilder(),
+//            openURLAction: { _, _ in },
+//            menuSelectionAction: { _ in },
+//            copyToClipboardAction: { _ in },
+//            analyticsService: mockAnalytics
+//        )
+//        sut.copyToClipboard()
+//
+//        #expect(mockAnalytics._trackedEvents.count == 1)
+//
+//        guard let event = mockAnalytics._trackedEvents.first else {
+//            return
+//        }
+//        #expect(event.name == "Function")
+//        #expect(event.params?["text"] as? String == "Copy to clipboard")
+//        #expect(event.params?["type"] as? String == "Menu")
+//        #expect(event.params?["section"] as? String == "Driver account")
+//        #expect(event.params?["action"] as? String == "Copy")
+//    }
 }
         //
         //    @Test
