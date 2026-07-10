@@ -39,7 +39,7 @@ struct VehiclesView: View {
         .padding(.horizontal, 16)
     }
 
-    private func makeVehiclesView(for vehicleViewModels: [VehicleSummaryViewModel]) -> some View {
+    private func makeVehiclesView(for vehicleViewModels: [CustomerVehicleViewModel]) -> some View {
         LazyVStack(spacing: 16) {
             ForEach(vehicleViewModels) {
                 VehicleSummaryView(viewModel: $0)

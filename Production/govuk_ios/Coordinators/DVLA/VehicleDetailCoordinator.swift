@@ -5,22 +5,26 @@ import GovKit
 final class VehicleDetailCoordinator: BaseCoordinator {
     private let viewControllerBuilder: ViewControllerBuilder
     private let analyticsService: AnalyticsServiceInterface
-    private let vehicle: CustomerSummary.Vehicle
+    private let dvlaService: DVLAServiceInterface
+    private let vehicleId: Int
 
     init(navigationController: UINavigationController,
          viewControllerBuilder: ViewControllerBuilder,
          analyticsService: AnalyticsServiceInterface,
-         vehicle: CustomerSummary.Vehicle) {
+         dvlaService: DVLAServiceInterface,
+         vehicleId: Int) {
         self.viewControllerBuilder = viewControllerBuilder
         self.analyticsService = analyticsService
-        self.vehicle = vehicle
+        self.dvlaService = dvlaService
+        self.vehicleId = vehicleId
         super.init(navigationController: navigationController)
     }
 
     override func start(url: URL?) {
         let viewController = viewControllerBuilder.vehicleDetail(
             analyticsService: analyticsService,
-            vehicle: vehicle
+            dvlaService: dvlaService,
+            vehicleId: vehicleId
         )
         push(viewController)
     }

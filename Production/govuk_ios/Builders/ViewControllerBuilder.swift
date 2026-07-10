@@ -789,11 +789,13 @@ class ViewControllerBuilder {
 
     func vehicleDetail(
         analyticsService: AnalyticsServiceInterface,
-        vehicle: CustomerSummary.Vehicle
+        dvlaService: DVLAServiceInterface,
+        vehicleId: Int
     ) -> UIViewController {
         let viewModel = VehicleDetailViewModel(
+            vehicleId: vehicleId,
             analyticsService: analyticsService,
-            vehicle: vehicle
+            dvlaService: dvlaService
         )
         let view = VehicleDetailView(viewModel: viewModel)
         let viewController = HostingViewController(

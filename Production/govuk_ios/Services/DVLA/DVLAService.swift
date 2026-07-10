@@ -2,7 +2,8 @@ import Foundation
 
 protocol DVLAServiceInterface {
     func fetchDrivingLicence() async -> DrivingLicenceResult
-    func fetchCustomerSummary() async -> CustomerSummaryResult
+    func fetchCustomerVehicles() async -> CustomerVehiclesResult
+    func fetchCustomerVehicleDetails(_ vehicleId: Int) async -> CustomerVehicleDetailsResult
     func fetchVehicle(registration: String) async -> VehicleResult
     func fetchShareCodes() async -> ShareCodesResult
     func createShareCode() async -> ShareCodeResult
@@ -20,8 +21,12 @@ class DVLAService: DVLAServiceInterface {
         await serviceClient.fetchDrivingLicence()
     }
 
-    func fetchCustomerSummary() async -> CustomerSummaryResult {
-        await serviceClient.fetchCustomerSummary()
+    func fetchCustomerVehicles() async -> CustomerVehiclesResult {
+        await serviceClient.fetchCustomerVehicles()
+    }
+
+    func fetchCustomerVehicleDetails(_ vehicleId: Int) async -> CustomerVehicleDetailsResult {
+        await serviceClient.fetchCustomerVehicleDetails(vehicleId)
     }
 
     func fetchVehicle(registration: String) async -> VehicleResult {

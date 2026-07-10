@@ -18,6 +18,28 @@ extension GOVRequest {
         )
     }
 
+    static var customerVehicles: GOVRequest {
+        GOVRequest(
+            urlPath: "\(dvlaPath)/customer/vehicles",
+            method: .get,
+            body: nil,
+            queryParameters: nil,
+            additionalHeaders: additionalHeaders,
+            requiresAuthentication: true
+        )
+    }
+
+    static func customerVehicleDetails(_ id: Int) -> GOVRequest {
+        GOVRequest(
+            urlPath: "\(dvlaPath)/customer/vehicle/\(id)",
+            method: .get,
+            body: nil,
+            queryParameters: nil,
+            additionalHeaders: additionalHeaders,
+            requiresAuthentication: true
+        )
+    }
+
     static var customerSummary: GOVRequest {
         GOVRequest(
             urlPath: "\(dvlaPath)/customer-summary",

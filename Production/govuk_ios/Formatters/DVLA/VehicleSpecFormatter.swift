@@ -7,7 +7,7 @@ protocol VehicleSpecFormatterInterface {
     func formatFuelTypeLong(from fuelType: FuelType) -> String
     func getIconForFuelType(_ fuelType: FuelType) -> String
     func formatColour(primary: String, secondary: String?) -> String
-    func formatEmissions(from emissions: ExhaustEmissions?) -> AccessibleString
+    func formatEmissions(from emissions: Int?) -> AccessibleString
     func formatEngineSize(from engineCapacity: Int?) -> AccessibleString
 }
 
@@ -81,8 +81,8 @@ struct VehicleSpecFormatter: VehicleSpecFormatterInterface {
         )
     }
 
-    func formatEmissions(from emissions: ExhaustEmissions?) -> AccessibleString {
-        guard let co2Emissions = emissions?.co2 else {
+    func formatEmissions(from emissions: Int?) -> AccessibleString {
+        guard let co2Emissions = emissions else {
             return AccessibleString(String(localized: .DVLA.unknown))
         }
         let displayText = String(
