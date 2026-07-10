@@ -114,6 +114,7 @@ import GovKit
                     statusBuilder: MockLicenceStatusViewModelBuilder(),
                     openURLAction: { _,_  in },
                     menuSelectionAction: { _ in },
+                    copyToClipboardAction: { _ in },
                     analyticsService: MockAnalyticsService()
                 )
             )

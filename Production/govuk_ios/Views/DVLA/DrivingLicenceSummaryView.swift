@@ -23,7 +23,7 @@ struct DrivingLicenceSummaryView: View {
                 .roundedBorder(borderColor: .clear)
                 .contextMenu {
                     Button {
-                        viewModel.copyToClipboardAction?(
+                        viewModel.copyToClipboardAction(
                             viewModel.licenceNumber
                         )
                     } label: {
@@ -45,37 +45,37 @@ struct DrivingLicenceSummaryView: View {
             Text(viewModel.licenceType)
                 .accessibilityLabel(viewModel.licenceTypeAccessibilityLabel)
             Spacer()
-//            Menu {
-//                Button {
-//                    viewModel.copyToClipboard()
-//                } label: {
-//                    Text(viewModel.copyLicenceButtonTitle)
-//                }
-//                Button {
-//                    viewModel.openUrl(options: .changeAddress)
-//                } label: {
-//                    Text(viewModel.changeAddressMenuTitle)
-//                }
-//                Button {
-//                    viewModel.openUrl(options: .changeNameAndGender)
-//                } label: {
-//                    Text(viewModel.changeNameAndGender)
-//                }
-//                Button {
-//                    viewModel.openUrl(options: .replaceLicence)
-//                } label: {
-//                    Text(viewModel.replaceLicenceMenuTitle)
-//                }
-//            } label: {
-//                Image(systemName: "ellipsis.circle.fill")
-//                    .font(.govUK.title1Bold)
-//                    .frame(
-//                        width: Self.iconSize,
-//                        height: Self.iconSize
-//                    )
-//                    .foregroundColor(Color(UIColor.govUK.text.link))
-//            }
-//            .accessibilityLabel(viewModel.moreOptionsButtonAccessibilityLabel)
+            Menu {
+                Button {
+                    viewModel.copyToClipboard()
+                } label: {
+                    Text(viewModel.copyLicenceButtonTitle)
+                }
+                Button {
+                    viewModel.openUrl(options: .changeAddress)
+                } label: {
+                    Text(viewModel.changeAddressMenuTitle)
+                }
+                Button {
+                    viewModel.openUrl(options: .changeNameAndGender)
+                } label: {
+                    Text(viewModel.changeNameAndGender)
+                }
+                Button {
+                    viewModel.openUrl(options: .replaceLicence)
+                } label: {
+                    Text(viewModel.replaceLicenceMenuTitle)
+                }
+            } label: {
+                Image(systemName: "ellipsis.circle.fill")
+                    .font(.govUK.title1Bold)
+                    .frame(
+                        width: Self.iconSize,
+                        height: Self.iconSize
+                    )
+                    .foregroundColor(Color(UIColor.govUK.text.link))
+            }
+            .accessibilityLabel(viewModel.moreOptionsButtonAccessibilityLabel)
         }
         .padding(.top, Self.standardPadding)
         .padding(.bottom, 8)

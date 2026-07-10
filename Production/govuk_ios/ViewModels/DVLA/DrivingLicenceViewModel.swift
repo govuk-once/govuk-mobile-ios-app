@@ -61,13 +61,13 @@ class DrivingLicenceViewModel: ObservableObject {
                 menuSelectionAction: { [weak self] url in
                     self?.openURLAction(url)
                 },
+                copyToClipboardAction: { [weak self] licenceNumber in
+                    self?.copyToClipboard(
+                        licenceNumber: licenceNumber
+                    )
+                },
                 analyticsService: analyticsService
             )
-            licenceSummaryViewModel.copyToClipboardAction = { [weak self] licenceNumber in
-                self?.copyToClipboard(
-                    licenceNumber: licenceNumber
-                )
-            }
             hasLoadedLicence = true
             viewState = .loaded(licence: licenceSummaryViewModel)
         case .failure:
