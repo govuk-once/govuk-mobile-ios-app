@@ -132,116 +132,116 @@ struct DrivingLicenceSummaryViewModelTests {
 //        #expect(event.params?["section"] as? String == "Driver account")
 //        #expect(event.params?["action"] as? String == "Copy")
 //    }
+
+        
+            @Test
+            func changeAddress_returnsCorrectUrlAndTitle() {
+                let option = DrivingLicenceSummaryViewModel.URLOptions.changeAddress
+                let expectedUrl = Constants.API.dvlaChangeAddressUrl
+                let (actualUrl, actualTitle) = option.urlAndTitle
+        
+                #expect(actualUrl == expectedUrl)
+                #expect(actualTitle == "Change address")
+            }
+        
+            @Test
+            func replaceLicence_returnsCorrectUrlAndTitle() {
+                let option = DrivingLicenceSummaryViewModel.URLOptions.replaceLicence
+                let expectedUrl = Constants.API.dvlaReplaceDrivingLicence
+                let (actualUrl, actualTitle) = option.urlAndTitle
+        
+                #expect(actualUrl == expectedUrl)
+                #expect(actualTitle == "Replace licence")
+            }
+        
+            @Test
+            func changeNameAndGender_returnsCorrectUrlAndTitle() {
+                let option = DrivingLicenceSummaryViewModel.URLOptions.changeNameAndGender
+                let expectedUrl = Constants.API.dvlaChangeNameAndGenderDrivingLicence
+                let (actualUrl, actualTitle) = option.urlAndTitle
+        
+                #expect(actualUrl == expectedUrl)
+                #expect(actualTitle == "Change name or gender")
+            }
+        
+            @Test
+            func init_formatsLicenceTypeCorrectly() {
+                let mockDrivingLicence = DrivingLicence.arrange(
+                    licenceType: "Provisional",
+                    licenceNumber: "ABC123AE",
+                    driverTitle: "Mr",
+                    driverFirstNames: "John",
+                    driverLastName: "Doe",
+                    driverFullAddress: "123 Test Street\nLondon",
+                    licenceStatus: .valid
+                )
+                let sut = DrivingLicenceSummaryViewModel(
+                    drivingLicence: mockDrivingLicence,
+                    statusBuilder: MockLicenceStatusViewModelBuilder(),
+                    openURLAction: { _, _ in },
+                    menuSelectionAction: { _ in },
+                    copyToClipboardAction: { _ in },
+                    analyticsService: MockAnalyticsService()
+                )
+                let expectedLicenceType = String.localizedStringWithFormat(
+                    String.dvla.localized("licenceType"),
+                    "Provisional"
+                )
+                #expect(sut.licenceType == expectedLicenceType)
+            }
+        
+            @Test
+            func init_formatsFullNameCorrectly() {
+                let mockDrivingLicence = DrivingLicence.arrange(
+                    licenceType: "Full",
+                    licenceNumber: "ABC123AE",
+                    driverTitle: "MR",
+                    driverFirstNames: "JOE GEORGE",
+                    driverLastName: "BLOGGS",
+                    driverFullAddress: "123 Test Street\nLondon",
+                    licenceStatus: .valid
+                )
+                let sut = DrivingLicenceSummaryViewModel(
+                    drivingLicence: mockDrivingLicence,
+                    statusBuilder: MockLicenceStatusViewModelBuilder(),
+                    openURLAction: { _, _ in },
+                    menuSelectionAction: { _ in },
+                    copyToClipboardAction: { _ in },
+                    analyticsService: MockAnalyticsService()
+                )
+                #expect(sut.fullName == "MR JOE GEORGE BLOGGS")
+            }
+        
+            @Test
+            func init_licenceStatusViewModelIsPopulatedByBuilder() {
+                let mockStatusViewModelBuilder = MockLicenceStatusViewModelBuilder()
+                mockStatusViewModelBuilder._stubbedViewModel = ValidityStatusViewModel(
+                    formattedStatus: "Mock licence status"
+                )
+        
+                let validToDate = Date.arrange("01/12/2027")
+                let mockDrivingLicence = DrivingLicence.arrange(
+                    licenceType: "Full",
+                    licenceNumber: "ABC123AE",
+                    driverTitle: "Mr",
+                    driverFirstNames: "John",
+                    driverLastName: "Doe",
+                    driverFullAddress: "123 Test Street\nLondon",
+                    tokenValidToDate: validToDate,
+                    licenceStatus: .valid
+                )
+        
+                let sut = DrivingLicenceSummaryViewModel(
+                    drivingLicence: mockDrivingLicence,
+                    statusBuilder: mockStatusViewModelBuilder,
+                    openURLAction: { _, _ in },
+                    menuSelectionAction: { _ in },
+                    copyToClipboardAction: { _ in },
+                    analyticsService: MockAnalyticsService()
+                )
+        
+                #expect(mockStatusViewModelBuilder._makeViewModelCallCount == 1)
+                #expect(sut.licenceStatusViewModel.formattedStatus == "Mock licence status")
+    }
 }
-        //
-        //    @Test
-        //    func changeAddress_returnsCorrectUrlAndTitle() {
-        //        let option = DrivingLicenceSummaryViewModel.URLOptions.changeAddress
-        //        let expectedUrl = Constants.API.dvlaChangeAddressUrl
-        //        let (actualUrl, actualTitle) = option.urlAndTitle
-        //
-        //        #expect(actualUrl == expectedUrl)
-        //        #expect(actualTitle == "Change address")
-        //    }
-        //
-        //    @Test
-        //    func replaceLicence_returnsCorrectUrlAndTitle() {
-        //        let option = DrivingLicenceSummaryViewModel.URLOptions.replaceLicence
-        //        let expectedUrl = Constants.API.dvlaReplaceDrivingLicence
-        //        let (actualUrl, actualTitle) = option.urlAndTitle
-        //
-        //        #expect(actualUrl == expectedUrl)
-        //        #expect(actualTitle == "Replace licence")
-        //    }
-        //
-        //    @Test
-        //    func changeNameAndGender_returnsCorrectUrlAndTitle() {
-        //        let option = DrivingLicenceSummaryViewModel.URLOptions.changeNameAndGender
-        //        let expectedUrl = Constants.API.dvlaChangeNameAndGenderDrivingLicence
-        //        let (actualUrl, actualTitle) = option.urlAndTitle
-        //
-        //        #expect(actualUrl == expectedUrl)
-        //        #expect(actualTitle == "Change name or gender")
-        //    }
-        //
-        //    @Test
-        //    func init_formatsLicenceTypeCorrectly() {
-        //        let mockDrivingLicence = DrivingLicence.arrange(
-        //            licenceType: "Provisional",
-        //            licenceNumber: "ABC123AE",
-        //            driverTitle: "Mr",
-        //            driverFirstNames: "John",
-        //            driverLastName: "Doe",
-        //            driverFullAddress: "123 Test Street\nLondon",
-        //            licenceStatus: .valid
-        //        )
-        //        let sut = DrivingLicenceSummaryViewModel(
-        //            drivingLicence: mockDrivingLicence,
-        //            statusBuilder: MockLicenceStatusViewModelBuilder(),
-        //            openURLAction: { _, _ in },
-        //            menuSelectionAction: { _ in },
-        //            copyToClipboardAction: { _ in },
-        //            analyticsService: MockAnalyticsService()
-        //        )
-        //        let expectedLicenceType = String.localizedStringWithFormat(
-        //            String.dvla.localized("licenceType"),
-        //            "Provisional"
-        //        )
-        //        #expect(sut.licenceType == expectedLicenceType)
-        //    }
-        //
-        //    @Test
-        //    func init_formatsFullNameCorrectly() {
-        //        let mockDrivingLicence = DrivingLicence.arrange(
-        //            licenceType: "Full",
-        //            licenceNumber: "ABC123AE",
-        //            driverTitle: "MR",
-        //            driverFirstNames: "JOE GEORGE",
-        //            driverLastName: "BLOGGS",
-        //            driverFullAddress: "123 Test Street\nLondon",
-        //            licenceStatus: .valid
-        //        )
-        //        let sut = DrivingLicenceSummaryViewModel(
-        //            drivingLicence: mockDrivingLicence,
-        //            statusBuilder: MockLicenceStatusViewModelBuilder(),
-        //            openURLAction: { _, _ in },
-        //            menuSelectionAction: { _ in },
-        //            copyToClipboardAction: { _ in },
-        //            analyticsService: MockAnalyticsService()
-        //        )
-        //        #expect(sut.fullName == "MR JOE GEORGE BLOGGS")
-        //    }
-        //
-        //    @Test
-        //    func init_licenceStatusViewModelIsPopulatedByBuilder() {
-        //        let mockStatusViewModelBuilder = MockLicenceStatusViewModelBuilder()
-        //        mockStatusViewModelBuilder._stubbedViewModel = ValidityStatusViewModel(
-        //            formattedStatus: "Mock licence status"
-        //        )
-        //
-        //        let validToDate = Date.arrange("01/12/2027")
-        //        let mockDrivingLicence = DrivingLicence.arrange(
-        //            licenceType: "Full",
-        //            licenceNumber: "ABC123AE",
-        //            driverTitle: "Mr",
-        //            driverFirstNames: "John",
-        //            driverLastName: "Doe",
-        //            driverFullAddress: "123 Test Street\nLondon",
-        //            tokenValidToDate: validToDate,
-        //            licenceStatus: .valid
-        //        )
-        //
-        //        let sut = DrivingLicenceSummaryViewModel(
-        //            drivingLicence: mockDrivingLicence,
-        //            statusBuilder: mockStatusViewModelBuilder,
-        //            openURLAction: { _, _ in },
-        //            menuSelectionAction: { _ in },
-        //            copyToClipboardAction: { _ in },
-        //            analyticsService: MockAnalyticsService()
-        //        )
-        //
-        //        #expect(mockStatusViewModelBuilder._makeViewModelCallCount == 1)
-        //        #expect(sut.licenceStatusViewModel.formattedStatus == "Mock licence status")
-//    }
-//}
-//
+
