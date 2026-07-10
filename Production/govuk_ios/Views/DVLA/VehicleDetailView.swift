@@ -15,8 +15,8 @@ struct VehicleDetailView: View {
             case .loaded(let viewVehicleDetails):
                 makeVehicleDetailsView(viewVehicleDetails)
             case .error(let errorViewModel):
-                Text("Failed")
-//                makeErrorView(for: errorViewModel)
+                Text("Failure")
+                //                makeErrorView(for: errorViewModel)
             }
         }
         .task {
@@ -30,7 +30,7 @@ struct VehicleDetailView: View {
     private var loadingView: some View {
         ZStack {
             ProgressView()
-//                .accessibilityLabel(viewModel.loadingAccessibilityLabel)
+                .accessibilityLabel(viewModel.loadingAccessibilityLabel)
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 86)
         }
@@ -150,18 +150,11 @@ struct VehicleDetailView: View {
                     .multilineTextAlignment(.leading)
                     .padding(.top, Self.standardPadding)
                     .padding(.bottom, 4)
-                if !viewVehicleDetails.keeperAddress.isEmpty {
-                    Text(viewVehicleDetails.keeperAddress)
-                    //                    VStack(alignment: .leading, spacing: 0) {
-//                        ForEach(viewVehicleDetails.keeperAddress, id: \.self) { addressLine in
-//                            Text(addressLine)
-//                                .font(.govUK.body)
-//                                .padding(.top, 4)
-//                        }
-//                    }
-                    .accessibilityElement(children: .combine)
+                Text(viewVehicleDetails.keeperAddress)
+                    .font(.govUK.body)
+                    .multilineTextAlignment(.leading)
+                    .padding(.top, 4)
                     .accessibilityLabel(viewVehicleDetails.addressAccessibilityLabel)
-                }
             }
             .padding(.horizontal, Self.standardPadding)
             .padding(.bottom, Self.standardPadding)

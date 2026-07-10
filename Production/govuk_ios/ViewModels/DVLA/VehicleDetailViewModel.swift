@@ -17,6 +17,8 @@ final class VehicleDetailViewModel: ObservableObject {
     private let specFormatter: VehicleSpecFormatterInterface
     private var vehicleLoaded = false
 
+    let loadingAccessibilityLabel = String(localized: .DVLA.loadingVehicleAccessibilityLabel)
+
     init(
         vehicleId: Int,
         analyticsService: AnalyticsServiceInterface?,
