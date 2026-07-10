@@ -15,7 +15,7 @@ final class VehicleDetailViewModel: ObservableObject {
     private let dvlaService: DVLAServiceInterface
     private let statusFormatter = DVLAValidityStatusFormatter()
     private let specFormatter: VehicleSpecFormatterInterface
-    private var vehicleLoaded: Bool = false
+    private var vehicleLoaded = false
 
     init(
         vehicleId: Int,
@@ -31,7 +31,7 @@ final class VehicleDetailViewModel: ObservableObject {
 
     @MainActor
     func viewDidAppear() async {
-//        guard vehicleLoaded else { return }
+        guard !vehicleLoaded else { return }
         await fetchVehicle()
     }
 
@@ -46,9 +46,9 @@ final class VehicleDetailViewModel: ObservableObject {
             viewState = .loaded(
                 makeViewVehicleDetails(vehicleReponse.customerVehicleDetails)
             )
-//            vehicleLoaded = true
+            vehicleLoaded = true
         case .failure(let error):
-            viewState = .loading
+            vehicleLoaded = false
             // Map your error properly
 //            let appError = AppErrorViewModel(error: error)
 //            viewState = .error(appError)
