@@ -34,6 +34,30 @@ extension Constants.API {
         string: "https://driver-and-vehicles-account.service.gov.uk/add_vehicle"
     )!
 
+    public static let dvlaChangeAddressUrl: URL = {Expand commentComment on line R29Resolved
+        var components = govukBaseComponents
+        components.path = """
+            /change-address-driving-licence
+            """
+        return components.url!
+    }()
+
+    public static let dvlaChangeNameAndGenderDrivingLicence: URL = {
+        var components = govukBaseComponents
+        components.path = """
+            /change-name-driving-licence
+            """
+        return components.url!
+    }()
+
+    public static let dvlaReplaceDrivingLicence: URL = {
+        var components = govukBaseComponents
+        components.path = """
+            /replace-a-driving-licence
+            """
+        return components.url!
+    }()
+
     public static let defaultDvlaSoldVehicleUrl: URL = URL(
         string: "https://www.gov.uk/sold-bought-vehicle"
     )!

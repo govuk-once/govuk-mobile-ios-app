@@ -43,8 +43,27 @@ struct DrivingLicenceSummaryView: View {
             Text(viewModel.licenceType)
                 .accessibilityLabel(viewModel.licenceTypeAccessibilityLabel)
             Spacer()
-            Button {
-                print("more options tapped - todo")
+            Menu {
+                Button {
+                    viewModel.copyToClipboard()
+                } label: {
+                    Text(viewModel.copyLicenceButtonTitle)
+                }
+                Button {
+                    viewModel.openUrl(options: .changeAddress)
+                } label: {
+                    Text(viewModel.changeAddressMenuTitle)
+                }
+                Button {
+                    viewModel.openUrl(options: .changeNameAndGender)
+                } label: {
+                    Text(viewModel.changeNameAndGender)
+                }
+                Button {
+                    viewModel.openUrl(options: .replaceLicence)
+                } label: {
+                    Text(viewModel.replaceLicenceMenuTitle)
+                }
             } label: {
                 Image(systemName: "ellipsis.circle.fill")
                     .font(.govUK.title1Bold)
@@ -54,6 +73,7 @@ struct DrivingLicenceSummaryView: View {
                     )
                     .foregroundColor(Color(UIColor.govUK.text.link))
             }
+
             .accessibilityLabel(viewModel.moreOptionsButtonAccessibilityLabel)
         }
         .padding(.top, Self.standardPadding)
