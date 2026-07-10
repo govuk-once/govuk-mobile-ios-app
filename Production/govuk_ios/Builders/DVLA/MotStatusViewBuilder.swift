@@ -174,13 +174,10 @@ struct MOTStatusViewModelBuilder: MOTStatusViewModelBuilderInterface {
         )
     }
 
-    // MARK: - Scenario 7: No Details Held
     private func makeNoDetailsViewModel(
         vehicle: CustomerSummary.Vehicle
     ) -> ValidityStatusViewModel {
         let buttonTitle = String(localized: .DVLA.motSeeStatusOnTheWebsite)
-
-        // 1. FIXED: Wrap the string constant inside URL(string:) so it creates a URL object, not a String
         var buttonURL = URL(string: Constants.API.defaultDvlaNoDetailsBaseUrlString)!
 
         if let baseUrl = URL(string: Constants.API.defaultDvlaNoDetailsBaseUrlString),
@@ -190,7 +187,6 @@ struct MOTStatusViewModelBuilder: MOTStatusViewModelBuilderInterface {
                 URLQueryItem(name: "checkRecalls", value: "true")
             ]
             if let completedUrl = components.url {
-                // This assignment will now compile perfectly with zero type conflicts!
                 buttonURL = completedUrl
             }
         }
@@ -206,7 +202,6 @@ struct MOTStatusViewModelBuilder: MOTStatusViewModelBuilderInterface {
             }
         )
     }
-
 
     private func trackUrlOpenEvent(url: URL, text: String) {
         let event = AppEvent.buttonNavigation(
