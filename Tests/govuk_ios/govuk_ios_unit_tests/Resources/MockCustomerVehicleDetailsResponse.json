@@ -1,0 +1,26 @@
+{
+    "customerVehicleDetails": {
+        "vehicleId": 119619077,
+        "registrationNumber": "RBZ5119",
+        "make": "MITSUBISHI",
+        "model": "MIRAGE",
+        "dateOfFirstRegistration": "1997-06-01",
+        "taxedUntil": "2026-06-30",
+        "engineCapacity": 2477,
+        "dateOfLiability": "2026-07-01",
+        "sornStart": null,
+        "taxStatus": "Taxed",
+        "motExpiryDate": "2011-03-08",
+        "dateOfManufacture": "1989-12-31",
+        "motStatus": "Not valid",
+        "colour": "BLUE",
+        "secondaryColour": null,
+        "fuelType": "DIESEL",
+        "currentLicencePaymentMethod": "Other",
+        "exhaustEmissionsCo2": null,
+        "keeperTitle": "MR",
+        "keeperFirstNames": "EOXXVPZ",
+        "keeperLastName": "LUK",
+        "keeperFullAddress": "5 YP TEST DATA DO NOT DELIVER\nCUSTOMER ACCOUNT\nCONGLETON\nCW12 4AB"
+    }
+}
