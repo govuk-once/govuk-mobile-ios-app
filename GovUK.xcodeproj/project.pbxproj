@@ -1273,7 +1273,6 @@
 				"govuk_ios/shared/Arrangers/Foundation/Date+Arrangers.swift",
 				"govuk_ios/shared/Arrangers/Foundation/URL+Arrangers.swift",
 				"govuk_ios/shared/Arrangers/Model/Chat+Arrangers.swift",
-				"govuk_ios/shared/Arrangers/Model/CustomerSummary+Arrangers.swift",
 				"govuk_ios/shared/Arrangers/Model/CustomerVehicleDetails+Arrangers.swift",
 				"govuk_ios/shared/Arrangers/Model/CustomerVehicles+Arrangers.swift",
 				"govuk_ios/shared/Arrangers/Model/DrivingLicence+Arrangers.swift",

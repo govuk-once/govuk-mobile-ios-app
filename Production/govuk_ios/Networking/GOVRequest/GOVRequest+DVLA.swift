@@ -40,17 +40,6 @@ extension GOVRequest {
         )
     }
 
-    static var customerSummary: GOVRequest {
-        GOVRequest(
-            urlPath: "\(dvlaPath)/customer-summary",
-            method: .get,
-            body: nil,
-            queryParameters: nil,
-            additionalHeaders: additionalHeaders,
-            requiresAuthentication: true
-        )
-    }
-
     static func vehicle(registration: String) -> GOVRequest {
         GOVRequest(
             urlPath: "\(dvlaPath)/vehicle-enquiry/\(registration)",
