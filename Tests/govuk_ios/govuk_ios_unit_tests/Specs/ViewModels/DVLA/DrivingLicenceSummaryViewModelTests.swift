@@ -11,7 +11,10 @@ struct DrivingLicenceSummaryViewModelTests {
         let sut = DrivingLicenceSummaryViewModel(
             drivingLicence: mockDrivingLicence,
             statusBuilder: MockLicenceStatusViewModelBuilder(),
-            openURLAction: { _, _ in }
+            openURLAction: { _, _ in },
+            menuSelectionAction: {_ in },
+            copyToClipboardAction: {_ in },
+            analyticsService: MockAnalyticsService()
         )
         #expect(sut.licenceNumber == "ABC123AE")
     }
@@ -22,7 +25,10 @@ struct DrivingLicenceSummaryViewModelTests {
         let sut = DrivingLicenceSummaryViewModel(
             drivingLicence: mockDrivingLicence,
             statusBuilder: MockLicenceStatusViewModelBuilder(),
-            openURLAction: { _, _ in }
+            openURLAction: { _, _ in },
+            menuSelectionAction: {_ in },
+            copyToClipboardAction: {_ in },
+            analyticsService: MockAnalyticsService()
         )
         let expectedLicenceType = String.localizedStringWithFormat(
             String.dvla.localized("licenceType"),
@@ -40,7 +46,10 @@ struct DrivingLicenceSummaryViewModelTests {
         let sut = DrivingLicenceSummaryViewModel(
             drivingLicence: mockDrivingLicence,
             statusBuilder: MockLicenceStatusViewModelBuilder(),
-            openURLAction: { _, _ in }
+            openURLAction: { _, _ in },
+            menuSelectionAction: {_ in },
+            copyToClipboardAction: {_ in },
+            analyticsService: MockAnalyticsService()
         )
         #expect(sut.fullName == "MR JOE GEORGE BLOGGS")
     }
@@ -58,8 +67,11 @@ struct DrivingLicenceSummaryViewModelTests {
         )
         let sut = DrivingLicenceSummaryViewModel(
             drivingLicence: mockDrivingLicence,
-            statusBuilder: mockStatusViewModelBuilder,
-            openURLAction: { _, _ in }
+            statusBuilder: MockLicenceStatusViewModelBuilder(),
+            openURLAction: { _, _ in },
+            menuSelectionAction: {_ in },
+            copyToClipboardAction: {_ in },
+            analyticsService: MockAnalyticsService()
         )
 
         #expect(mockStatusViewModelBuilder._makeViewModelCallCount == 1)
@@ -74,7 +86,10 @@ struct DrivingLicenceSummaryViewModelTests {
         let sut = DrivingLicenceSummaryViewModel(
             drivingLicence: mockDrivingLicence,
             statusBuilder: MockLicenceStatusViewModelBuilder(),
-            openURLAction: { _, _ in }
+            openURLAction: { _, _ in },
+            menuSelectionAction: {_ in },
+            copyToClipboardAction: {_ in },
+            analyticsService: MockAnalyticsService()
         )
 
         let expectedAccessibilityLabel = String.localizedStringWithFormat(
@@ -91,7 +106,10 @@ struct DrivingLicenceSummaryViewModelTests {
         let sut = DrivingLicenceSummaryViewModel(
             drivingLicence: mockDrivingLicence,
             statusBuilder: MockLicenceStatusViewModelBuilder(),
-            openURLAction: { _, _ in }
+            openURLAction: { _, _ in },
+            menuSelectionAction: {_ in },
+            copyToClipboardAction: {_ in },
+            analyticsService: MockAnalyticsService()
         )
 
         let expectedAccessibilityLabel = String.localizedStringWithFormat(
