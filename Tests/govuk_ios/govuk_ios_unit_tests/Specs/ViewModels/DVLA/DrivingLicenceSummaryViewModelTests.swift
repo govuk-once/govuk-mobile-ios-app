@@ -19,6 +19,29 @@ struct DrivingLicenceSummaryViewModelTests {
 //        #expect(sut.licenceNumber == "ABC123AE")
 //    }
 
+    func test_formatsLicenceNumberCorrectly() {
+        let mockDrivingLicence = DrivingLicence.arrange(
+            licenceType: "Full",
+            licenceNumber: "ABC123AE",
+            driverTitle: "Mr",
+            driverFirstNames: "John",
+            driverLastName: "Doe",
+            driverFullAddress: "123 Test Street\nLondon",
+            licenceStatus: .valid
+        )
+
+        let sut = DrivingLicenceSummaryViewModel(
+            drivingLicence: mockDrivingLicence,
+            statusBuilder: MockLicenceStatusViewModelBuilder(),
+            openURLAction: { _, _ in },
+            menuSelectionAction: { _ in },
+            copyToClipboardAction: { _ in },
+            analyticsService: MockAnalyticsService()
+        )
+
+        #expect(sut.licenceNumber == "ABC123AE")
+    }
+
 //    @Test
 //        func openUrl_changeAddresss_tracksExpectedNavigationEvent() {
 //            let mockDrivingLicence = DrivingLicence.arrange(licenceNumber: "ABC123AE")
