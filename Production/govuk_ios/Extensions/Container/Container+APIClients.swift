@@ -59,12 +59,22 @@ extension Container {
         }
     }
 
-    var revokeTokenAPIClient: Factory<APIServiceClientInterface> {
+    var tokenAPIClient: Factory<APIServiceClientInterface> {
         Factory(self) {
             APIServiceClient(
                 baseUrl: self.appEnvironmentService().tokenBaseURL,
                 session: self.urlSession(),
                 requestBuilder: URLEncodedRequestBuilder()
+            )
+        }
+    }
+
+    var verificationAPIClient: Factory<APIServiceClientInterface> {
+        Factory(self) {
+            APIServiceClient(
+                baseUrl: self.appEnvironmentService().tokenBaseURL,
+                session: self.urlSession(),
+                requestBuilder: RequestBuilder()
             )
         }
     }

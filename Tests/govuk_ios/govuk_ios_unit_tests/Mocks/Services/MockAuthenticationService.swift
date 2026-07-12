@@ -5,7 +5,6 @@ import Authentication
 @testable import govuk_ios
 
 class MockAuthenticationService: AuthenticationServiceInterface {
-
     var _storedRefreshToken = true
     var secureStoreRefreshTokenPresent: Bool {
         _storedRefreshToken
@@ -63,6 +62,11 @@ class MockAuthenticationService: AuthenticationServiceInterface {
             _stubbedAccessToken = response.accessToken
         }
         return _stubbedTokenRefreshRequest
+    }
+
+    var _stubbedFetchIdentityVerificationResult: IdentityVerificationResult?
+    func fetchIdentityVerification() async -> IdentityVerificationResult {
+        _stubbedFetchIdentityVerificationResult!
     }
 
     var _stubbedShouldAttemptTokenRefresh: Bool = true

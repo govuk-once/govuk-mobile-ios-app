@@ -18,6 +18,7 @@ protocol AuthenticationServiceInterface: AnyObject, TokenProviding {
     var shouldAttemptTokenRefresh: Bool { get }
     var didSignOutAction: ((SignoutReason) -> Void)? { get set }
 
+    func fetchIdentityVerification() async -> IdentityVerificationResult
     func authenticate(window: UIWindow) async -> AuthenticationServiceResult
     func signOut(reason: SignoutReason)
     func encryptRefreshToken()
@@ -155,6 +156,12 @@ class AuthenticationService: AuthenticationServiceInterface {
             analyticsService.track(error: error)
             return .failure(error)
         }
+    }
+
+    func fetchIdentityVerification() async -> IdentityVerificationResult {
+        await authenticationServiceClient.fetchIdentityVerification(
+            accesstoken: accessToken ?? ""
+        )
     }
 
     private func trackTokenResponseErrors(tokenResponse: TokenRefreshResponse) {

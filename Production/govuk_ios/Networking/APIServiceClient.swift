@@ -66,11 +66,13 @@ extension APIServiceClient {
             completionHandler: { data, response, error in
                 if shouldRefreshTokenAndRetry(response: response, isRetry: isRetry),
                    let tokenProvider = tokenProvider {
-                    handleUnauthorizedResponse(request: request,
-                                               signingKey: signingKey,
-                                               requiresAuthentication: requiresAuthentication,
-                                               tokenProvider: tokenProvider,
-                                               completion: completion)
+                    handleUnauthorizedResponse(
+                        request: request,
+                        signingKey: signingKey,
+                        requiresAuthentication: requiresAuthentication,
+                        tokenProvider: tokenProvider,
+                        completion: completion
+                    )
                     return
                 }
 

@@ -1,8 +1,10 @@
 import Foundation
 import UIKit
+import GovKit
 
 extension DeeplinkDataStore {
     static func home(coordinatorBuilder: CoordinatorBuilder,
+                     analyticsService: AnalyticsServiceInterface,
                      root: UIViewController) -> DeeplinkDataStore {
         DeeplinkDataStore(
             routes: [
@@ -11,7 +13,10 @@ extension DeeplinkDataStore {
                 SearchDeeplinkRoute(coordinatorBuilder: coordinatorBuilder),
                 EditTopicsDeeplinkRoute(coordinatorBuilder: coordinatorBuilder),
                 RecentActivityDeeplinkRoute(coordinatorBuilder: coordinatorBuilder),
-                DVLAServiceDeeplinkRoute(coordinatorBuilder: coordinatorBuilder),
+                DVLAServiceDeeplinkRoute(
+                    coordinatorBuilder: coordinatorBuilder,
+                    analyticsService: analyticsService
+                ),
             ],
             root: root
         )
