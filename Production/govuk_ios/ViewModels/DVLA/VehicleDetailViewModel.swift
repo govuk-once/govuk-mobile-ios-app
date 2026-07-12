@@ -43,14 +43,8 @@ struct VehicleDetailViewModel: Identifiable {
         .compactMap { $0 }
     }
     var taxStatusViewModel: ValidityStatusViewModel
-    var motStatusViewModel: ValidityStatusViewModel {
-        .init(
-            title: String.dvla.localized("motStatusTitle"),
-            formattedStatus: statusFormatter.formatStatus(from: vehicle.motExpiryDate),
-            iconName: "checkmark.circle.fill",
-            iconTintColour: .govUK.fills.surfaceButtonPrimary
-        )
-    }
+    var motStatusViewModel: ValidityStatusViewModel
+
     var vehicleSpecViewModel: VehicleSpecViewModel {
         .init(
             colour: vehicle.colour.capitalized,
@@ -162,6 +156,14 @@ struct VehicleDetailViewModel: Identifiable {
             openURLAction: openURLAction
         )
         self.taxStatusViewModel = builder.makeViewModel(
+            vehicle: vehicle
+        )
+        let motStatusBuilder = MotStatusViewModelBuilder(
+            urls: configService.dvlaUrls,
+            analyticsService: analyticsService,
+            openURLAction: openURLAction
+        )
+        self.motStatusViewModel = motStatusBuilder.makeViewModel(
             vehicle: vehicle
         )
     }
