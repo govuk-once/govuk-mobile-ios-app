@@ -209,6 +209,54 @@ struct DrivingLicenceSummaryViewModelTests {
         #expect(sut.licenceStatusViewModel.formattedStatus == "Mock licence status")
     }
 
+    @Test
+    func init_formatsLicenceTypeAccessibilityLabelCorrectly() {
+        let mockStatusViewModelBuilder = MockLicenceStatusViewModelBuilder()
+        mockStatusViewModelBuilder._stubbedViewModel = ValidityStatusViewModel(
+            formattedStatus: "Mock licence status"
+        )
+        let mockDrivingLicence = DrivingLicence.arrange(licenceType: "Provisional")
+        let sut = DrivingLicenceSummaryViewModel(
+            drivingLicence: mockDrivingLicence,
+            statusBuilder: mockStatusViewModelBuilder,
+            openURLAction: { _, _ in },
+            menuSelectionAction: { _ in },
+            copyToClipboardAction: { _ in },
+            analyticsService: MockAnalyticsService()
+        )
 
+
+        let expectedAccessibilityLabel = String.localizedStringWithFormat(
+            String.dvla.localized("licenceTypeAccessibilityLabel"),
+            "Provisional licence"
+        )
+        #expect(sut.licenceTypeAccessibilityLabel == expectedAccessibilityLabel)
+    }
+
+    @Test
+    func init_formatsAddressAccessibilityLabelCorrectly() {
+        let mockStatusViewModelBuilder = MockLicenceStatusViewModelBuilder()
+        mockStatusViewModelBuilder._stubbedViewModel = ValidityStatusViewModel(
+            formattedStatus: "Mock licence status"
+        )
+        let mockAddress = "1 LEANDER DRIVE\nCASTLETON\nOL11 4AB"
+        let mockDrivingLicence = DrivingLicence.arrange(driverFullAddress: mockAddress)
+
+        let sut = DrivingLicenceSummaryViewModel(
+            drivingLicence: mockDrivingLicence,
+            statusBuilder: mockStatusViewModelBuilder,
+            openURLAction: { _, _ in },
+            menuSelectionAction: { _ in },
+            copyToClipboardAction: { _ in },
+            analyticsService: MockAnalyticsService()
+        )
+
+
+        let expectedAccessibilityLabel = String.localizedStringWithFormat(
+            String.dvla.localized("licenceAddressAccessibilityLabel"),
+            "1 LEANDER DRIVE, CASTLETON, OL11 4AB"
+        )
+        #expect(sut.addressAccessibilityLabel == expectedAccessibilityLabel)
+    }
 }
 
