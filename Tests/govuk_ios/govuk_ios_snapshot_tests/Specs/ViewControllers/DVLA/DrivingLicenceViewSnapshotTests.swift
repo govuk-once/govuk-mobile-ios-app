@@ -46,7 +46,10 @@ import GovKit
                     menuSelectionAction: { _ in },
                     copyToClipboardAction: { _ in },
                     analyticsService: MockAnalyticsService()
-
+                ),
+                drivingRecord: DrivingRecordViewModel(
+                    dvlaURLs: nil,
+                    openURLAction: { _, _ in }
                 )
             )
         )
@@ -71,7 +74,10 @@ import GovKit
                     menuSelectionAction: { _ in },
                     copyToClipboardAction: { _ in },
                     analyticsService: MockAnalyticsService()
-
+                ),
+                drivingRecord: DrivingRecordViewModel(
+                    dvlaURLs: nil,
+                    openURLAction: { _, _ in }
                 )
             )
         )
