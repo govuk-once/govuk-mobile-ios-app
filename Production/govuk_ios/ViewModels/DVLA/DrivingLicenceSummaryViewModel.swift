@@ -1,4 +1,6 @@
 import Foundation
+import UIKit
+import GovKit
 
 struct DrivingLicenceSummaryViewModel {
     let licenceType: String
@@ -19,20 +21,99 @@ struct DrivingLicenceSummaryViewModel {
     let fullNameAccessibilityLabel: String
     let licenceTypeAccessibilityLabel: String
     let addressAccessibilityLabel: String
-    var copyToClipboardAction: ((String) -> Void)?
+    var copyToClipboardAction: ((String) -> Void)
+    let menuSelectionAction: (URL) -> Void
+    let analyticsService: AnalyticsServiceInterface
+    let copyLicenceButtonTitle = String.dvla.localized(
+        "copyLicenceButtonTitle"
+    )
+
+    let changeAddressMenuTitle: String =  String.dvla.localized(
+        "changeAddressMenuTitle"
+    )
+    let changeNameAndGender: String = String.dvla.localized(
+        "changeNameAndGenderMenuTitle"
+    )
+    let replaceLicenceMenuTitle: String = String.dvla.localized(
+        "replaceLicenceMenuTitle"
+    )
+
+    func openUrl(options: URLOptions) {
+        menuSelectionAction(options.urlAndTitle.0)
+        trackNavigation(text: options.urlAndTitle.1)
+    }
+
+    func copyToClipboard() {
+        UIPasteboard.general.string = licenceNumber
+        trackCopyToClipboard()
+    }
+
+    private func trackCopyToClipboard() {
+        let event = AppEvent.function(
+            text: "Copy to clipboard",
+            type: "Menu",
+            section: "Driver account",
+            action: "Copy"
+        )
+        analyticsService.track(event: event)
+    }
+
+    private func trackNavigation(text: String) {
+        let event = AppEvent.navigation(
+            text: text,
+            type: "Menu",
+            external: true
+        )
+        analyticsService.track(event: event)
+    }
+
+    enum URLOptions {
+        case changeAddress
+        case replaceLicence
+        case changeNameAndGender
+
+        var urlAndTitle: (URL, String) {
+            switch self {
+            case .changeAddress:
+                return (
+                    Constants.API.dvlaChangeAddressUrl, String.dvla.localized(
+                        "changeAddressMenuTitle"
+                    )
+                )
+            case .replaceLicence:
+                return (
+                    Constants.API.dvlaReplaceDrivingLicence, String.dvla.localized(
+                        "replaceLicenceMenuTitle"
+                    )
+                )
+            case .changeNameAndGender:
+                return (
+                    Constants.API.dvlaChangeNameAndGenderDrivingLicence, String.dvla.localized(
+                        "changeNameAndGenderMenuTitle"
+                    )
+                )
+            }
+        }
+    }
 }
 
 extension DrivingLicenceSummaryViewModel {
     init(
         drivingLicence: DrivingLicence,
         statusBuilder: LicenceStatusViewModelBuilderInterface,
-        openURLAction: @escaping (URL, String) -> Void
+        openURLAction: @escaping (URL, String) -> Void,
+        menuSelectionAction: @escaping (URL) -> Void,
+        copyToClipboardAction: @escaping (String) -> Void,
+        analyticsService: AnalyticsServiceInterface
     ) {
         let licenceType = String.localizedStringWithFormat(
             String.dvla.localized("licenceType"),
             drivingLicence.licenceType
         )
         self.licenceType = licenceType
+        self.analyticsService = analyticsService
+        self.menuSelectionAction = menuSelectionAction
+        self.copyToClipboardAction = copyToClipboardAction
 
         self.licenceNumber = drivingLicence.licenceNumber
         let fullName = [

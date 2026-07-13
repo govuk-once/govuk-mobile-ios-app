@@ -113,14 +113,21 @@ final class VehicleDetailViewModel: ObservableObject {
         )
     }
 
+    @MainActor
     private func motStatusViewModel(
         _ vehicle: CustomerVehicleDetails.Vehicle
     ) -> ValidityStatusViewModel {
-        .init(
-            title: String.dvla.localized("motStatusTitle"),
-            formattedStatus: statusFormatter.formatStatus(from: vehicle.motExpiryDate),
-            iconName: "checkmark.circle.fill",
-            iconTintColour: .govUK.fills.surfaceButtonPrimary
+        let builder = MotStatusViewModelBuilder(
+            urls: configService.dvlaUrls,
+            analyticsService: analyticsService,
+            openURLAction: openURLAction
+        )
+        return builder.makeViewModel(
+            vehicle: MotStatusVehicle(
+                motStatus: vehicle.motStatus,
+                motExpiryDate: vehicle.motExpiryDate,
+                registrationNumber: vehicle.registrationNumber
+            )
         )
     }
 

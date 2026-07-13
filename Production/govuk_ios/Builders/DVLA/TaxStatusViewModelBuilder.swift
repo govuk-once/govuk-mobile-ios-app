@@ -283,7 +283,7 @@ enum TaxValidityStatus: ValidityStatus {
     case unknown
 }
 
-struct TaxValidityVehicle: Codable {
+struct TaxValidityVehicle {
     let taxStatus: TaxStatus?
     let sornStart: Date?
     let taxedUntil: Date?

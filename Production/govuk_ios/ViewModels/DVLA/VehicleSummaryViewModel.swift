@@ -23,7 +23,6 @@ extension VehicleSummaryViewModel {
     @MainActor
     init(
         vehicle: CustomerVehicles.Vehicle,
-        statusFormatter: DVLAValidityStatusFormatter = DVLAValidityStatusFormatter(),
         specFormatter: VehicleSpecFormatter = VehicleSpecFormatter(),
         detailAction: @escaping () -> Void,
         openURLAction: @escaping (URL) -> Void,
@@ -50,12 +49,19 @@ extension VehicleSummaryViewModel {
                 currentLicencePaymentMethod: vehicle.currentLicencePaymentMethod
             )
         )
-        self.motStatusViewModel = ValidityStatusViewModel(
-            title: String(localized: .DVLA.motStatusTitle),
-            formattedStatus: statusFormatter.formatStatus(from: vehicle.motExpiryDate),
-            iconName: "checkmark.circle.fill",
-            iconTintColour: .govUK.fills.surfaceButtonPrimary
+        let motBuilder = MotStatusViewModelBuilder(
+            urls: configService.dvlaUrls,
+            analyticsService: analyticsService,
+            openURLAction: openURLAction
         )
+        self.motStatusViewModel = motBuilder.makeViewModel(
+            vehicle: MotStatusVehicle(
+                motStatus: vehicle.motStatus,
+                motExpiryDate: vehicle.motExpiryDate,
+                registrationNumber: vehicle.registrationNumber
+            )
+        )
+
         self.detailAction = detailAction
         self.openURLAction = openURLAction
         self.configService = configService

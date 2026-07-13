@@ -112,6 +112,13 @@ import GovKit
                 licence: DrivingLicenceSummaryViewModel(
                     drivingLicence: .arrange,
                     statusBuilder: MockLicenceStatusViewModelBuilder(),
+                    openURLAction: { _, _ in },
+                    menuSelectionAction: { _ in },
+                    copyToClipboardAction: { _ in },
+                    analyticsService: MockAnalyticsService()
+                ),
+                drivingRecord: DrivingRecordViewModel(
+                    dvlaURLs: nil,
                     openURLAction: { _, _ in }
                 )
             )

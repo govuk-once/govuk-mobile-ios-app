@@ -64,8 +64,10 @@ struct ValidityStatusView: View {
                 .multilineTextAlignment(.leading)
                 .accessibilityLabel(statusAccessibilityLabel)
         } else {
-            Text(viewModel.formattedStatus)
-                .multilineTextAlignment(.leading)
+            if viewModel.formattedStatus != "" {
+                Text(viewModel.formattedStatus)
+                    .multilineTextAlignment(.leading)
+            }
         }
     }
 }
