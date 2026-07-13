@@ -287,8 +287,3 @@ struct DrivingLicenceSummaryViewModelTests {
         #expect(mockAnalytics._trackedEvents.count == 1)
     }
 }
-
-final class MockPasteboard: PasteboardInterface {
-    var string: String?
-}
-

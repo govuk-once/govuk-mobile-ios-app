@@ -104,6 +104,7 @@
 		4E00EEEF2CCB04B0007B61E8 /* TopicsOnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E00EEEE2CCB04B0007B61E8 /* TopicsOnboardingViewModel.swift */; };
 		4E00EF072CCB12CD007B61E8 /* BaseTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E00EF062CCB12CD007B61E8 /* BaseTabBarController.swift */; };
 		4E02D5AD2F6B89AB0083164C /* AccessTokenError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E02D5AC2F6B89AB0083164C /* AccessTokenError.swift */; };
+		4E053C1430059C9100F79945 /* UIPasteboard+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E053C1330059C9100F79945 /* UIPasteboard+Extensions.swift */; };
 		4E11AC442F22653700838894 /* GOVUKColors+Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E11AC432F22653700838894 /* GOVUKColors+Chat.swift */; };
 		4E11AC4A2F22770C00838894 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E11AC492F22770C00838894 /* Constants.swift */; };
 		4E1534032E398073002DEDB9 /* TopicsWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1534022E398073002DEDB9 /* TopicsWidgetView.swift */; };
@@ -665,6 +666,7 @@
 		4E00EEEE2CCB04B0007B61E8 /* TopicsOnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsOnboardingViewModel.swift; sourceTree = "<group>"; };
 		4E00EF062CCB12CD007B61E8 /* BaseTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBarController.swift; sourceTree = "<group>"; };
 		4E02D5AC2F6B89AB0083164C /* AccessTokenError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenError.swift; sourceTree = "<group>"; };
+		4E053C1330059C9100F79945 /* UIPasteboard+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIPasteboard+Extensions.swift"; sourceTree = "<group>"; };
 		4E11AC432F22653700838894 /* GOVUKColors+Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GOVUKColors+Chat.swift"; sourceTree = "<group>"; };
 		4E11AC492F22770C00838894 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		4E1534022E398073002DEDB9 /* TopicsWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsWidgetView.swift; sourceTree = "<group>"; };
@@ -1294,6 +1296,7 @@
 				govuk_ios/shared/Mocks/MockDeviceInformationProvider.swift,
 				govuk_ios/shared/Mocks/MockDisplayableTopic.swift,
 				govuk_ios/shared/Mocks/MockNotificationCenter.swift,
+				govuk_ios/shared/Mocks/MockPasteboard.swift,
 				govuk_ios/shared/Mocks/MockTimer.swift,
 				govuk_ios/shared/Mocks/MockURLOpener.swift,
 				govuk_ios/shared/Mocks/MockVehicleSpecFormatter.swift,
@@ -2150,6 +2153,7 @@
 				5DBE08022C480CA700B58DBE /* UITabBarItem+Convenience.swift */,
 				5D9E67C32C5A2C6E00DB7877 /* UITabBarItemAppearance+GOVUK.swift */,
 				5D899A1F2C946F540074C0AD /* UIViewController+Extensions.swift */,
+				4E053C1330059C9100F79945 /* UIPasteboard+Extensions.swift */,
 			);
 			path = UIKit;
 			sourceTree = "<group>";
@@ -3219,6 +3223,7 @@
 				D093BA632CB0499A004F489B /* EditTopicsView.swift in Sources */,
 				5DD4CB082D95483100459FB5 /* ActivityItem.swift in Sources */,
 				5DD4CB092D95483100459FB5 /* MonthGroupKey.swift in Sources */,
+				4E053C1430059C9100F79945 /* UIPasteboard+Extensions.swift in Sources */,
 				815935DE2F22353900F8D206 /* UserResponseHandler.swift in Sources */,
 				5DD4CB0A2D95483100459FB5 /* RecentActivitySection.swift in Sources */,
 				5DD4CB0B2D95483100459FB5 /* RecentActivitiesViewStructure.swift in Sources */,
