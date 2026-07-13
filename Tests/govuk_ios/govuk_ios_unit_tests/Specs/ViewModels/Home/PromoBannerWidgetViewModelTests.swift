@@ -4,15 +4,31 @@ import Testing
 @testable import govuk_ios
 
 @Suite
-struct ChatWidgetViewModelTests {
+struct PromoBannerWidgetViewModelTests {
+    @Test
+    func init_chatBanner_setsImage() throws {
+        let link = ChatBanner.Link(title: "Title", url: URL(string: "https://www.test.com")!)
+        let banner = ChatBanner(id: "1234", title: "Title", body: "Body", link: link)
+        let mockUrlOpener = MockURLOpener()
+        let sut = PromoBannerWidgetViewModel(
+            analyticsService: MockAnalyticsService(),
+            chatBanner: banner,
+            urlOpener: mockUrlOpener,
+            dismissAction: {}
+        )
+        sut.open()
+
+        #expect(sut.imageTitle == "chat_widget")
+    }
+
     @Test
     func open_receivesExpectedUrl() throws {
-        let link = ChatBanner.Link(title: "Title", url: URL(string: "https://www.test.com")!)
-        let chat = ChatBanner(id: "1234", title: "Title", body: "Body", link: link)
+        let link = PromoBanner.Link(title: "Title", url: URL(string: "https://www.test.com")!)
+        let banner = PromoBanner(id: "1234", title: "Title", body: "Body", link: link)
         let mockUrlOpener = MockURLOpener()
-        let sut = ChatWidgetViewModel(
+        let sut = PromoBannerWidgetViewModel(
             analyticsService: MockAnalyticsService(),
-            chat: chat,
+            banner: banner,
             urlOpener: mockUrlOpener,
             dismissAction: {}
         )
@@ -23,12 +39,12 @@ struct ChatWidgetViewModelTests {
 
     @Test
     func open_tracksEvent() {
-        let link = ChatBanner.Link(title: "Title", url: URL(string: "https://www.test.com")!)
-        let chat = ChatBanner(id: "1234", title: "Chat widget title", body: "Body", link: link)
+        let link = PromoBanner.Link(title: "Title", url: URL(string: "https://www.test.com")!)
+        let banner = PromoBanner(id: "1234", title: "Chat widget title", body: "Body", link: link)
         let analyticsService = MockAnalyticsService()
-        let sut = ChatWidgetViewModel(
+        let sut = PromoBannerWidgetViewModel(
             analyticsService: analyticsService,
-            chat: chat,
+            banner: banner,
             urlOpener: MockURLOpener(),
             dismissAction: {}
         )
@@ -42,12 +58,12 @@ struct ChatWidgetViewModelTests {
 
     @Test
     func dismiss_tracksEvent() {
-        let link = ChatBanner.Link(title: "Title", url: URL(string: "https://www.test.com")!)
-        let chat = ChatBanner(id: "1234", title: "Chat widget title", body: "Body", link: link)
+        let link = PromoBanner.Link(title: "Title", url: URL(string: "https://www.test.com")!)
+        let banner = PromoBanner(id: "1234", title: "Chat widget title", body: "Body", link: link)
         let analyticsService = MockAnalyticsService()
-        let sut = ChatWidgetViewModel(
+        let sut = PromoBannerWidgetViewModel(
             analyticsService: analyticsService,
-            chat: chat,
+            banner: banner,
             urlOpener: MockURLOpener(),
             dismissAction: {}
         )
