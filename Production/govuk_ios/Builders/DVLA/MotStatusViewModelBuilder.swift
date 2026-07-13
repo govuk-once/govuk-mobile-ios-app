@@ -35,24 +35,24 @@ struct MotStatusViewModelBuilder: MotStatusViewModelBuilderInterface {
         self.openURLAction = openURLAction
     }
 
+
     @MainActor
     func makeViewModel(
         vehicle: CustomerSummary.Vehicle
     ) -> ValidityStatusViewModel {
-        if vehicle.motStatus == "No results returned" {
+        switch vehicle.motStatus {
+        case "No results returned":
             return makeNoResultsViewModel()
-        }
-        if vehicle.motStatus == "No details held by DVLA" {
-            return makeNoDetailsViewModel(vehicle: vehicle)
-        }
 
-        let status = motValidityStatus(vehicle: vehicle)
-        switch status {
-        case .expired:
+        case "No details held by DVLA":
+            return makeNoDetailsViewModel(vehicle: vehicle)
+
+        case "Not valid":
             return makeExpiredViewModel(
                 validToDate: vehicle.motExpiryDate
             )
-        case .valid:
+
+        case "Valid":
             if let validToDate = vehicle.motExpiryDate {
                 let expiryProgress = expiryProgressCalculator.calculate(
                     expiryDate: validToDate,
@@ -68,10 +68,12 @@ struct MotStatusViewModelBuilder: MotStatusViewModelBuilderInterface {
             return makeValidViewModel(
                 validToDate: vehicle.motExpiryDate
             )
+
         default:
             return makeNotKnownViewModel()
         }
     }
+
 
     private func formattedDate(_ date: Date?) -> String? {
         if let date = date {
@@ -79,16 +81,6 @@ struct MotStatusViewModelBuilder: MotStatusViewModelBuilderInterface {
         } else {
             return nil
         }
-    }
-
-    private func motValidityStatus(vehicle: CustomerSummary.Vehicle) -> MOTValidityStatus {
-        if vehicle.motStatus == "Not valid" {
-            return .expired
-        }
-        if vehicle.motStatus == "Valid" {
-            return .valid
-        }
-        return .unknown
     }
 
     private func makeExpiredViewModel(
