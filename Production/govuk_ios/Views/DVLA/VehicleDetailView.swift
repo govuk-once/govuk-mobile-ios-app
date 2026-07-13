@@ -18,6 +18,8 @@ struct VehicleDetailView: View {
                 makeErrorView(for: errorViewModel)
             }
         }
+        .frame(maxHeight: .infinity)
+        .background(Color(UIColor.govUK.fills.surfaceFullscreen))
         .task {
             await viewModel.viewDidAppear()
         }
@@ -33,7 +35,7 @@ struct VehicleDetailView: View {
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 86)
         }
-        .background(Color(UIColor.govUK.fills.surfaceList))
+        .background(Color(UIColor.govUK.fills.surfaceFullscreen))
         .clipShape(RoundedRectangle(cornerRadius: 10))
         .padding(.horizontal, 16)
     }
@@ -125,7 +127,6 @@ struct VehicleDetailView: View {
                 )
             }
         }
-        .background(Color(uiColor: .govUK.fills.surfaceFullscreen))
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
@@ -173,7 +174,6 @@ struct VehicleDetailView: View {
     private func makeErrorView(for errorViewModel: InlineActionErrorViewModel) -> some View {
         InlineActionErrorView(viewModel: errorViewModel)
             .frame(maxWidth: .infinity, minHeight: 100)
-            .background(Color(.govUK.fills.surfaceList))
             .clipShape(RoundedRectangle(cornerRadius: 10))
             .padding(.horizontal, 16)
     }
