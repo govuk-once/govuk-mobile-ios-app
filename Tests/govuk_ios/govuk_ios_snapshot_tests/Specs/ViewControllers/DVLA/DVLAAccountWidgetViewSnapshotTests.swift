@@ -97,7 +97,7 @@ import GovKit
         let mockVehiclesViewModel = MockVehiclesViewModel(
             viewState: .loaded(
                 vehicles: [
-                    CustomerVehicleViewModel(
+                    VehicleSummaryViewModel(
                         vehicle: mockVehicle,
                         detailAction: {},
                         openURLAction: { _ in },

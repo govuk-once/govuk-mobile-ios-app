@@ -10,7 +10,7 @@ import GovKit
         let mockVehiclesViewModel = MockVehiclesViewModel(
             viewState: .loaded(
                 vehicles: [
-                    CustomerVehicleViewModel(
+                    VehicleSummaryViewModel(
                         vehicle: .arrange,
                         detailAction: {},
                         openURLAction: { _ in },
@@ -49,7 +49,7 @@ import GovKit
         let mockVehiclesViewModel = MockVehiclesViewModel(
             viewState: .loaded(
                 vehicles: [
-                    CustomerVehicleViewModel(
+                    VehicleSummaryViewModel(
                         vehicle: .arrange,
                         detailAction: {},
                         openURLAction: { _ in },
@@ -88,7 +88,7 @@ import GovKit
         let mockVehiclesViewModel = MockVehiclesViewModel(
             viewState: .loaded(
                 vehicles: [
-                    CustomerVehicleViewModel(
+                    VehicleSummaryViewModel(
                         vehicle: .arrange,
                         detailAction: {},
                         openURLAction: { _ in },
@@ -128,7 +128,7 @@ import GovKit
         let mockVehiclesViewModel = MockVehiclesViewModel(
             viewState: .loaded(
                 vehicles: [
-                    CustomerVehicleViewModel(
+                    VehicleSummaryViewModel(
                         vehicle: .arrange,
                         detailAction: {},
                         openURLAction: { _ in },

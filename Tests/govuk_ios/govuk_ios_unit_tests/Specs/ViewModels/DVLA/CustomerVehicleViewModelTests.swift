@@ -13,7 +13,7 @@ struct CustomerVehicleViewModelTests {
             make: "FORD",
             model: "FOCUS"
         )
-        let sut = CustomerVehicleViewModel(
+        let sut = VehicleSummaryViewModel(
             vehicle: mockVehicle,
             detailAction: {},
             openURLAction: { _ in },
@@ -32,7 +32,7 @@ struct CustomerVehicleViewModelTests {
             make: "FORD",
             model: nil
         )
-        let sut = CustomerVehicleViewModel(
+        let sut = VehicleSummaryViewModel(
             vehicle: mockVehicle,
             detailAction: {},
             openURLAction: { _ in },
@@ -47,7 +47,7 @@ struct CustomerVehicleViewModelTests {
         let mockVehicle = CustomerVehicles.Vehicle.arrange(
             taxedUntil: Date(timeIntervalSince1970: 1779975444)
         )
-        let sut = CustomerVehicleViewModel(
+        let sut = VehicleSummaryViewModel(
             vehicle: mockVehicle,
             detailAction: {},
             openURLAction: { _ in },
@@ -64,7 +64,7 @@ struct CustomerVehicleViewModelTests {
         let mockVehicle = CustomerVehicles.Vehicle.arrange(
             taxedUntil: nil
         )
-        let sut = CustomerVehicleViewModel(
+        let sut = VehicleSummaryViewModel(
             vehicle: mockVehicle,
             detailAction: {},
             openURLAction: { _ in },
@@ -79,7 +79,7 @@ struct CustomerVehicleViewModelTests {
         let mockVehicle = CustomerVehicles.Vehicle.arrange(
             motExpiryDate: Date(timeIntervalSince1970: 1779975444)
         )
-        let sut = CustomerVehicleViewModel(
+        let sut = VehicleSummaryViewModel(
             vehicle: mockVehicle,
             detailAction: {},
             openURLAction: { _ in },
@@ -99,7 +99,7 @@ struct CustomerVehicleViewModelTests {
         let mockVehicle = CustomerVehicles.Vehicle.arrange(
             motExpiryDate: nil
         )
-        let sut = CustomerVehicleViewModel(
+        let sut = VehicleSummaryViewModel(
             vehicle: mockVehicle,
             detailAction: {},
             openURLAction: { _ in },
@@ -115,7 +115,7 @@ struct CustomerVehicleViewModelTests {
             taxStatus: .untaxed,
             sornStart: Date()
         )
-        let sut = CustomerVehicleViewModel(
+        let sut = VehicleSummaryViewModel(
             vehicle: mockVehicle,
             detailAction: {},
             openURLAction: { _ in },
@@ -137,7 +137,7 @@ struct CustomerVehicleViewModelTests {
             taxStatus: .taxed,
             sornStart: nil
         )
-        let sut = CustomerVehicleViewModel(
+        let sut = VehicleSummaryViewModel(
             vehicle: mockVehicle,
             detailAction: {},
             openURLAction: { _ in },
@@ -161,7 +161,7 @@ struct CustomerVehicleViewModelTests {
             taxStatus: .untaxed,
             sornStart: nil
         )
-        let sut = CustomerVehicleViewModel(
+        let sut = VehicleSummaryViewModel(
             vehicle: mockVehicle,
             detailAction: {},
             openURLAction: { _ in },
@@ -189,7 +189,7 @@ struct CustomerVehicleViewModelTests {
             sornStart: Date()
         )
         await confirmation { confirmation in
-            let sut = CustomerVehicleViewModel(
+            let sut = VehicleSummaryViewModel(
                 vehicle: mockVehicle,
                 detailAction: {},
                 openURLAction: { _ in confirmation() },
@@ -219,7 +219,7 @@ struct CustomerVehicleViewModelTests {
             sornStart: nil
         )
         await confirmation { confirmation in
-            let sut = CustomerVehicleViewModel(
+            let sut = VehicleSummaryViewModel(
                 vehicle: mockVehicle,
                 detailAction: {},
                 openURLAction: { _ in confirmation() },
@@ -249,7 +249,7 @@ struct CustomerVehicleViewModelTests {
             sornStart: nil
         )
         await confirmation { confirmation in
-            let sut = CustomerVehicleViewModel(
+            let sut = VehicleSummaryViewModel(
                 vehicle: mockVehicle,
                 detailAction: {},
                 openURLAction: { _ in confirmation() },
@@ -279,7 +279,7 @@ struct CustomerVehicleViewModelTests {
             sornStart: nil
         )
         await confirmation { confirmation in
-            let sut = CustomerVehicleViewModel(
+            let sut = VehicleSummaryViewModel(
                 vehicle: mockVehicle,
                 detailAction: {},
                 openURLAction: { _ in confirmation() },
@@ -309,7 +309,7 @@ struct CustomerVehicleViewModelTests {
             sornStart: nil
         )
         await confirmation { confirmation in
-            let sut = CustomerVehicleViewModel(
+            let sut = VehicleSummaryViewModel(
                 vehicle: mockVehicle,
                 detailAction: {},
                 openURLAction: { _ in confirmation() },
@@ -339,7 +339,7 @@ struct CustomerVehicleViewModelTests {
             sornStart: nil
         )
         await confirmation { confirmation in
-            let sut = CustomerVehicleViewModel(
+            let sut = VehicleSummaryViewModel(
                 vehicle: mockVehicle,
                 detailAction: {},
                 openURLAction: { _ in confirmation() },

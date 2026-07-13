@@ -12,7 +12,7 @@ class VehicleSummaryViewSnapshotTests: SnapshotTestCase {
             taxedUntil: Date(timeIntervalSince1970: 1779975444),
             motExpiryDate: Date(timeIntervalSince1970: 1779975444)
         )
-        let viewModel = CustomerVehicleViewModel(
+        let viewModel = VehicleSummaryViewModel(
             vehicle: mockVehicle,
             detailAction: {},
             openURLAction: { _ in },
@@ -34,7 +34,7 @@ class VehicleSummaryViewSnapshotTests: SnapshotTestCase {
             taxedUntil: Date(timeIntervalSince1970: 1779975444),
             motExpiryDate: Date(timeIntervalSince1970: 1779975444)
         )
-        let viewModel = CustomerVehicleViewModel(
+        let viewModel = VehicleSummaryViewModel(
             vehicle: mockVehicle,
             detailAction: {},
             openURLAction: { _ in },
@@ -56,7 +56,7 @@ class VehicleSummaryViewSnapshotTests: SnapshotTestCase {
             taxedUntil: nil,
             motExpiryDate: nil
         )
-        let viewModel = CustomerVehicleViewModel(
+        let viewModel = VehicleSummaryViewModel(
             vehicle: mockVehicle,
             detailAction: {},
             openURLAction: { _ in },
@@ -78,7 +78,7 @@ class VehicleSummaryViewSnapshotTests: SnapshotTestCase {
             taxedUntil: nil,
             motExpiryDate: nil
         )
-        let viewModel = CustomerVehicleViewModel(
+        let viewModel = VehicleSummaryViewModel(
             vehicle: mockVehicle,
             detailAction: {},
             openURLAction: { _ in },

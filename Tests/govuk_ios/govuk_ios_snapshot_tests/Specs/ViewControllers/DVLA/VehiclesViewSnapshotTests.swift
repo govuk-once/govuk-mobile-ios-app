@@ -78,7 +78,7 @@ import GovKit
         let viewModel = MockVehiclesViewModel(
             viewState: .loaded(
                 vehicles: [
-                    CustomerVehicleViewModel(
+                    VehicleSummaryViewModel(
                         vehicle: mockVehicle,
                         detailAction: {},
                         openURLAction: { _ in },
@@ -110,7 +110,7 @@ import GovKit
         let viewModel = MockVehiclesViewModel(
             viewState: .loaded(
                 vehicles: [
-                    CustomerVehicleViewModel(
+                    VehicleSummaryViewModel(
                         vehicle: mockVehicle,
                         detailAction: {},
                         openURLAction: { _ in },

@@ -4,7 +4,7 @@ import SwiftUI
 class VehiclesViewModel: ObservableObject {
     enum ViewState {
         case loading
-        case loaded(vehicles: [CustomerVehicleViewModel])
+        case loaded(vehicles: [VehicleSummaryViewModel])
         case error(InlineActionErrorViewModel)
     }
 
@@ -49,7 +49,7 @@ class VehiclesViewModel: ObservableObject {
         switch result {
         case .success(let vehicles):
             let customerVehiclesViewModels = vehicles.customerVehicles.map { vehicle in
-                CustomerVehicleViewModel(
+                VehicleSummaryViewModel(
                     vehicle: vehicle,
                     detailAction: { [weak self] in
                         self?.trackDetailButtonTapped()

@@ -48,7 +48,7 @@ struct VehiclesViewModelTests {
             openURLAction: { _ in }
         )
         await sut.viewDidAppear()
-        var vehicleSummaryViewModels: [CustomerVehicleViewModel]?
+        var vehicleSummaryViewModels: [VehicleSummaryViewModel]?
         if case .loaded(let vehicles) = sut.viewState {
             vehicleSummaryViewModels = vehicles
         }
@@ -73,7 +73,7 @@ struct VehiclesViewModelTests {
             openURLAction: { _ in }
         )
         await sut.viewDidAppear()
-        var vehicleSummaryViewModels: [CustomerVehicleViewModel]?
+        var vehicleSummaryViewModels: [VehicleSummaryViewModel]?
         if case .loaded(let vehicles) = sut.viewState {
             vehicleSummaryViewModels = vehicles
         }

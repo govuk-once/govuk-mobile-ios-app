@@ -1,7 +1,7 @@
 import Foundation
 import GovKit
 
-struct CustomerVehicleViewModel: Identifiable {
+struct VehicleSummaryViewModel: Identifiable {
     let id: Int
     let registrationNumber: String
     let vehicleMake: String
@@ -19,7 +19,7 @@ struct CustomerVehicleViewModel: Identifiable {
     private let analyticsService: AnalyticsServiceInterface
 }
 
-extension CustomerVehicleViewModel {
+extension VehicleSummaryViewModel {
     @MainActor
     init(
         vehicle: CustomerVehicles.Vehicle,
@@ -63,7 +63,7 @@ extension CustomerVehicleViewModel {
     }
 }
 
-extension CustomerVehicleViewModel {
+extension VehicleSummaryViewModel {
     var menuItems: [DvlaMenuItemViewModel] {
         var items: [DvlaMenuItemViewModel] = []
         if sornStart != nil {

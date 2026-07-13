@@ -2,7 +2,7 @@ import SwiftUI
 import GovKitUI
 
 struct VehicleSummaryView: View {
-    let viewModel: CustomerVehicleViewModel
+    let viewModel: VehicleSummaryViewModel
 
     private static let standardPadding: CGFloat = 16.0
     private static let iconSize: CGFloat = 36.0
