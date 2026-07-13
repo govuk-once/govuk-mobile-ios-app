@@ -54,11 +54,17 @@ class DrivingLicenceViewModel: ObservableObject {
                 statusBuilder: LicenceStatusViewModelBuilder(urls: configService.dvlaUrls),
                 openURLAction: { [weak self] url, buttonTitle in
                     self?.handleOpenURL(url: url, buttonTitle: buttonTitle)
-                }
+                },
+                menuSelectionAction: { [weak self] url in
+                    self?.openURLAction(url)
+                },
+                copyToClipboardAction: { [weak self] licenceNumber in
+                    self?.copyToClipboard(licenceNumber: licenceNumber
+                    )
+                },
+                analyticsService: analyticsService
             )
-            licenceSummaryViewModel.copyToClipboardAction = { [weak self] licenceNumber in
-                self?.copyToClipboard(licenceNumber: licenceNumber)
-            }
+
             hasLoadedLicence = true
             viewState = .loaded(licence: licenceSummaryViewModel)
         case .failure:

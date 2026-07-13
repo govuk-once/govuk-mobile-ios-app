@@ -23,7 +23,7 @@ struct DrivingLicenceSummaryView: View {
                 .roundedBorder(borderColor: .clear)
                 .contextMenu {
                     Button {
-                        viewModel.copyToClipboardAction?(viewModel.licenceNumber)
+                        viewModel.copyToClipboardAction(viewModel.licenceNumber)
                     } label: {
                         Text(viewModel.copyToClipboardButtonTitle)
                         Image(systemName: "doc.on.doc.fill")
@@ -43,8 +43,27 @@ struct DrivingLicenceSummaryView: View {
             Text(viewModel.licenceType)
                 .accessibilityLabel(viewModel.licenceTypeAccessibilityLabel)
             Spacer()
-            Button {
-                print("more options tapped - todo")
+            Menu {
+                Button {
+                    viewModel.copyToClipboard()
+                } label: {
+                    Text(viewModel.copyLicenceButtonTitle)
+                }
+                Button {
+                    viewModel.openUrl(options: .changeAddress)
+                } label: {
+                    Text(viewModel.changeAddressMenuTitle)
+                }
+                Button {
+                    viewModel.openUrl(options: .changeNameAndGender)
+                } label: {
+                    Text(viewModel.changeNameAndGender)
+                }
+                Button {
+                    viewModel.openUrl(options: .replaceLicence)
+                } label: {
+                    Text(viewModel.replaceLicenceMenuTitle)
+                }
             } label: {
                 Image(systemName: "ellipsis.circle.fill")
                     .font(.govUK.title1Bold)
@@ -54,6 +73,7 @@ struct DrivingLicenceSummaryView: View {
                     )
                     .foregroundColor(Color(UIColor.govUK.text.link))
             }
+
             .accessibilityLabel(viewModel.moreOptionsButtonAccessibilityLabel)
         }
         .padding(.top, Self.standardPadding)
@@ -85,21 +105,4 @@ struct DrivingLicenceSummaryView: View {
             .padding(.bottom, Self.standardPadding)
         }
     }
-}
-
-#Preview {
-    let viewModel = DrivingLicenceSummaryViewModel(
-        licenceType: "Full licence",
-        licenceNumber: "ABC1234567DE",
-        fullName: "Mr Joe Bloggs",
-        address: "1 Lower Moseley Street\nManchester\nM2 3WS",
-        licenceStatusViewModel: ValidityStatusViewModel(
-            title: nil,
-            formattedStatus: "Valid until 1 March 2027"
-        ),
-        fullNameAccessibilityLabel: "",
-        licenceTypeAccessibilityLabel: "",
-        addressAccessibilityLabel: ""
-    )
-    DrivingLicenceSummaryView(viewModel: viewModel)
 }
