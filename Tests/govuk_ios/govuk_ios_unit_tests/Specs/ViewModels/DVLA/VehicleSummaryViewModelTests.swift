@@ -44,8 +44,9 @@ struct VehicleSummaryViewModelTests {
 
     @Test
     func taxStatusViewModel_taxedUntilDateIsValid_formatsStatusCorrectly() {
+        let futureDate = generateFutureDate(daysAhead: 45)
         let mockVehicle = CustomerSummary.Vehicle.arrange(
-            taxedUntil: Date(timeIntervalSince1970: 1779975444)
+            taxedUntil: futureDate
         )
         let sut = VehicleSummaryViewModel(
             vehicle: mockVehicle,
@@ -54,9 +55,12 @@ struct VehicleSummaryViewModelTests {
             configService: MockAppConfigService(),
             analyticsService: MockAnalyticsService()
         )
-        let expectedDateString = "Expiring 28 May 2026"
+
+        let expectedDateString = DateFormatter.dvlaAccount.string(from: futureDate)
+        let expectedStatusString = "Valid until \(expectedDateString)"
+
         #expect(sut.taxStatusViewModel.title == String.dvla.localized("taxStatusTitle"))
-        #expect(sut.taxStatusViewModel.formattedStatus == expectedDateString)
+        #expect(sut.taxStatusViewModel.formattedStatus == expectedStatusString)
     }
 
     @Test
@@ -76,10 +80,10 @@ struct VehicleSummaryViewModelTests {
 
     @Test
     func motStatusViewModel_motExpiryDateIsValid_formatsStatusCorrectly() {
-        let futureTimestamp: TimeInterval = 1874611200
+        let futureDate = generateFutureDate(daysAhead: 45)
 
         let mockVehicle = CustomerSummary.Vehicle.arrange(
-            motStatus: "Valid", motExpiryDate: Date(timeIntervalSince1970: futureTimestamp)
+            motStatus: "Valid", motExpiryDate: futureDate
         )
         let sut = VehicleSummaryViewModel(
             vehicle: mockVehicle,
@@ -88,7 +92,7 @@ struct VehicleSummaryViewModelTests {
             configService: MockAppConfigService(),
             analyticsService: MockAnalyticsService()
         )
-        let expectedDate = Date(timeIntervalSince1970: futureTimestamp)
+        let expectedDate = futureDate
         let expectedDateString = DateFormatter.dvlaAccount.string(from: expectedDate)
         let expectedStatusString =
         String(localized: .DVLA.validUntil(date: expectedDateString))
@@ -362,4 +366,9 @@ struct VehicleSummaryViewModelTests {
             dvlaURLs.cancelTax?.absoluteString
         )
     }
+
+    private func generateFutureDate(daysAhead: Int) -> Date {
+        return Calendar.current.date(byAdding: .day, value: daysAhead, to: Date.now)!
+    }
+
 }
