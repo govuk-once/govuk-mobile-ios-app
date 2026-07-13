@@ -204,7 +204,8 @@ struct DrivingLicenceSummaryViewModelTests {
             copyToClipboardAction: { _ in },
             analyticsService: MockAnalyticsService()
         )
-
+        #expect(mockStatusViewModelBuilder._receivedValidToDate == validToDate)
+        #expect(sut.licenceStatusViewModel.title == nil)
         #expect(mockStatusViewModelBuilder._makeViewModelCallCount == 1)
         #expect(sut.licenceStatusViewModel.formattedStatus == "Mock licence status")
     }
