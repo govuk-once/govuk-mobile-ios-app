@@ -52,7 +52,7 @@ class DrivingLicenceViewModel: ObservableObject {
         let result = await dvlaService.fetchDrivingLicence()
         switch result {
         case .success(let drivingLicence):
-            var licenceSummaryViewModel = DrivingLicenceSummaryViewModel(
+            let licenceSummaryViewModel = DrivingLicenceSummaryViewModel(
                 drivingLicence: drivingLicence,
                 statusBuilder: LicenceStatusViewModelBuilder(urls: configService.dvlaUrls),
                 openURLAction: { [weak self] url, buttonTitle in

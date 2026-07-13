@@ -111,6 +111,7 @@
 		4E15340B2E398647002DEDB9 /* HomeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E15340A2E398647002DEDB9 /* HomeContentView.swift */; };
 		4E15340D2E3A248E002DEDB9 /* TopicsWidgetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E15340C2E3A248E002DEDB9 /* TopicsWidgetViewModel.swift */; };
 		4E19C85E2E65109900D56C33 /* ChatWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E19C85D2E65109900D56C33 /* ChatWidgetView.swift */; };
+		4E2468B52FFFB2C400248C5F /* MotStatusViewModelBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E2468B42FFFB2C400248C5F /* MotStatusViewModelBuilder.swift */; };
 		4E265D2A2DB0E6510089CF9E /* Authority.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E265D252DB0E6510089CF9E /* Authority.swift */; };
 		4E265D2D2DB0E6510089CF9E /* LocalAuthorityAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E265D282DB0E6510089CF9E /* LocalAuthorityAddress.swift */; };
 		4E2A875D2D48FC41002A01D7 /* UIApplication+Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E2A875C2D48FC40002A01D7 /* UIApplication+Window.swift */; };
@@ -671,6 +672,7 @@
 		4E15340A2E398647002DEDB9 /* HomeContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeContentView.swift; sourceTree = "<group>"; };
 		4E15340C2E3A248E002DEDB9 /* TopicsWidgetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsWidgetViewModel.swift; sourceTree = "<group>"; };
 		4E19C85D2E65109900D56C33 /* ChatWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatWidgetView.swift; sourceTree = "<group>"; };
+		4E2468B42FFFB2C400248C5F /* MotStatusViewModelBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotStatusViewModelBuilder.swift; sourceTree = "<group>"; };
 		4E265D252DB0E6510089CF9E /* Authority.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authority.swift; sourceTree = "<group>"; };
 		4E265D282DB0E6510089CF9E /* LocalAuthorityAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthorityAddress.swift; sourceTree = "<group>"; };
 		4E2A875C2D48FC40002A01D7 /* UIApplication+Window.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Window.swift"; sourceTree = "<group>"; };
@@ -2428,6 +2430,7 @@
 			children = (
 				1663A3F72FEEDCA40002CFDB /* TaxStatusViewModelBuilder.swift */,
 				81D3E36C2FE3EDBB006049CC /* LicenceStatusViewModelBuilder.swift */,
+				4E2468B42FFFB2C400248C5F /* MotStatusViewModelBuilder.swift */,
 			);
 			path = DVLA;
 			sourceTree = "<group>";
@@ -3314,6 +3317,7 @@
 				16A435932F193EE1000AAAA6 /* AlertDetails.swift in Sources */,
 				D0AC166F2E8ADBDB00AACE5C /* PrivacyCoordinator.swift in Sources */,
 				5D18E83E2CCFB68900F20419 /* Container+APIClients.swift in Sources */,
+				4E2468B52FFFB2C400248C5F /* MotStatusViewModelBuilder.swift in Sources */,
 				D0D9CB932D3024C00051EDDD /* SearchResult.swift in Sources */,
 				D0D9CB942D3024C00051EDDD /* SearchItem.swift in Sources */,
 				D0D9CB952D3024C00051EDDD /* SearchHistoryItem.swift in Sources */,
