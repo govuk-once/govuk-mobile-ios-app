@@ -13,6 +13,20 @@ struct PromoBannerWidgetViewModel {
     let dismissAction: () -> Void
 
     init(analyticsService: AnalyticsServiceInterface,
+         chatBanner: ChatBanner,
+         urlOpener: URLOpener,
+         dismissAction: @escaping () -> Void) {
+        id = chatBanner.id
+        title = chatBanner.title
+        body = chatBanner.body
+        linkUrl = chatBanner.link.url
+        linkTitle = chatBanner.link.title
+        self.analyticsService = analyticsService
+        self.urlOpener = urlOpener
+        self.dismissAction = dismissAction
+    }
+
+    init(analyticsService: AnalyticsServiceInterface,
          banner: PromoBanner,
          urlOpener: URLOpener,
          dismissAction: @escaping () -> Void) {

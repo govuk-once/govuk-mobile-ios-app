@@ -63,21 +63,15 @@ class HomeViewModel: ObservableObject {
     }
 
     func updateWidgets() {
-        let array = [
-            chatWidget,
-            topicsWidget,
-            addLocalAuthorityWidget,
-            storedLocalAuthorityWidget,
-            recentActivityWidget,
-            feedbackWidget
-        ].compactMap { $0 }
-        widgets = bannerWidgets + promoBannerWidgets + array
+        widgets =
+        emergencyBanners +
+        promoBannerWidgets +
+        serviceWidgets()
     }
 
-    private var bannerWidgets: [HomepageWidget] {
-        guard let banners = configService.emergencyBanners else {
-            return []
-        }
+    private var emergencyBanners: [HomepageWidget] {
+        guard let banners = configService.emergencyBanners
+        else { return [] }
 
         let visibleBanners = banners.filter { !userDefaultsService.hasSeen(banner: $0) }
 
@@ -87,9 +81,9 @@ class HomeViewModel: ObservableObject {
                 analyticsService: analyticsService,
                 sortPriority: (visibleBanners.count - iterator.offset),
                 openURLAction: openURLAction,
-                dismissAction: {
-                    self.userDefaultsService.markSeen(banner: iterator.element)
-                    self.updateWidgets()
+                dismissAction: { [weak self] in
+                    self?.userDefaultsService.markSeen(banner: iterator.element)
+                    self?.updateWidgets()
                 }
             )
 
@@ -106,38 +100,13 @@ class HomeViewModel: ObservableObject {
               let chatBanner = configService.chatBanner,
               !userDefaultsService.hasSeen(banner: chatBanner)
         else { return nil }
-        let viewModel = ChatWidgetViewModel(
-            analyticsService: analyticsService,
-            chat: chatBanner,
-            urlOpener: urlOpener,
-            dismissAction: {
-                self.userDefaultsService.markSeen(banner: chatBanner)
-                self.updateWidgets()
-            }
-        )
-
-        return HomepageWidget(
-            content: ChatWidgetView(
-                viewModel: viewModel
-            )
-        )
-    }
-
-    private var promoBannerWidgets: [HomepageWidget] {
-        guard let banners = configService.promoBanners
-        else { return [] }
-        return banners.map({
-            promoBannerWidget($0)
-        })
-    }
-
-    private func promoBannerWidget(_ banner: PromoBanner) -> HomepageWidget {
         let viewModel = PromoBannerWidgetViewModel(
             analyticsService: analyticsService,
-            banner: banner,
+            chatBanner: chatBanner,
             urlOpener: urlOpener,
-            dismissAction: {
-                self.updateWidgets()
+            dismissAction: { [weak self] in
+                self?.userDefaultsService.markSeen(banner: chatBanner)
+                self?.updateWidgets()
             }
         )
 
@@ -146,6 +115,42 @@ class HomeViewModel: ObservableObject {
                 viewModel: viewModel
             )
         )
+    }
+
+    private var promoBannerWidgets: [HomepageWidget] {
+        guard let banners = configService.promoBanners
+        else { return [] }
+        return banners.compactMap { [weak self] in
+            self?.promoBannerWidget($0)
+        }
+    }
+
+    private func promoBannerWidget(_ banner: PromoBanner) -> HomepageWidget {
+        let viewModel = PromoBannerWidgetViewModel(
+            analyticsService: analyticsService,
+            banner: banner,
+            urlOpener: urlOpener,
+            dismissAction: { [weak self] in
+                self?.updateWidgets()
+            }
+        )
+
+        return HomepageWidget(
+            content: PromoBannerWidgetView(
+                viewModel: viewModel
+            )
+        )
+    }
+
+    private func serviceWidgets() -> [HomepageWidget] {
+        [
+            chatWidget,
+            topicsWidget,
+            addLocalAuthorityWidget,
+            storedLocalAuthorityWidget,
+            recentActivityWidget,
+            feedbackWidget
+        ].compactMap { $0 }
     }
 
     private var topicsWidget: HomepageWidget? {
