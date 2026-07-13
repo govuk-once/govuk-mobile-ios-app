@@ -80,7 +80,7 @@ struct MOTStatusViewModelBuilderTests {
 
         let result = sut.makeViewModel(vehicle: vehicle, currentDate: testAnchorDate)
 
-        #expect(result.formattedStatus == String(localized: .DVLA.motNoResultsReturned))
+        #expect(result.formattedStatus == "")
         #expect(result.buttonTitle == String(localized: .DVLA.motCheckIfItNeedsAnMOT))
         #expect(result.status as? MOTValidityStatus == .noResultsReturned)
 
