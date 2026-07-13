@@ -164,7 +164,7 @@ struct MotStatusViewModelBuilder: MotStatusViewModelBuilderInterface {
 
         return ValidityStatusViewModel(
             title: String(localized: .DVLA.motStatusTitle),
-            formattedStatus: String(localized: .DVLA.motNoResultsReturned),
+            formattedStatus: String(localized: ""),
             status: MOTValidityStatus.noResultsReturned,
             buttonTitle: buttonTitle,
             buttonAction: {
@@ -193,7 +193,7 @@ struct MotStatusViewModelBuilder: MotStatusViewModelBuilderInterface {
 
         return ValidityStatusViewModel(
             title: String(localized: .DVLA.motStatusTitle),
-            formattedStatus: String(localized: .DVLA.motNoDetailsHeldByDVLA),
+            formattedStatus: String(localized: ""),
             status: MOTValidityStatus.noDetailsHeldByDVLA,
             buttonTitle: buttonTitle,
             buttonAction: {
