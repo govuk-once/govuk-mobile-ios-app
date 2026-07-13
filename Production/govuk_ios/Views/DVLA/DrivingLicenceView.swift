@@ -16,6 +16,8 @@ struct DrivingLicenceView: View {
                 loadingView
             case .loaded(let licenceSummaryViewModel):
                 makeLicenceView(for: licenceSummaryViewModel)
+            case .notice(let noticeViewModel):
+                makeNoticeView(for: noticeViewModel)
             case .error(let errorViewModel):
                 makeErrorView(for: errorViewModel)
             }
@@ -41,6 +43,15 @@ struct DrivingLicenceView: View {
         for licenceViewModel: DrivingLicenceSummaryViewModel
     ) -> some View {
         DrivingLicenceSummaryView(viewModel: licenceViewModel)
+            .background(Color(UIColor.govUK.fills.surfaceList))
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+            .padding(.horizontal, 16)
+    }
+
+    private func makeNoticeView(
+        for noticeViewModel: DrivingLicenceNoticeViewModel
+    ) -> some View {
+        DrivingLicenceNoticeView(viewModel: noticeViewModel)
             .background(Color(UIColor.govUK.fills.surfaceList))
             .clipShape(RoundedRectangle(cornerRadius: 10))
             .padding(.horizontal, 16)

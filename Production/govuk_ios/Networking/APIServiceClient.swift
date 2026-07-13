@@ -77,6 +77,7 @@ extension APIServiceClient {
                 }
 
                 let localError = responseHandler?.handleResponse(response,
+                                                                 data: data,
                                                                  error: error) ?? error
                 let result: NetworkResult<Data>
                 switch (data, localError) {

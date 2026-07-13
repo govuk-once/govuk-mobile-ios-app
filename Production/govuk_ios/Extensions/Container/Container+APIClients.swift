@@ -109,7 +109,7 @@ extension Container {
                 baseUrl: self.appEnvironmentService().flexBaseURL,
                 session: self.urlSession(),
                 requestBuilder: RequestBuilder(),
-                responseHandler: nil,
+                responseHandler: DVLAResponseHandler(),
                 tokenProvider: self.authenticationService()
             )
         }

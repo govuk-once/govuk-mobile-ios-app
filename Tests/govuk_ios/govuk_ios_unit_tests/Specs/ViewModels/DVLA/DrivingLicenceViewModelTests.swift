@@ -51,6 +51,27 @@ struct DrivingLicenceViewModelTests {
     }
 
     @Test
+    func viewDidAppear_fetchLicenceSuccess_licenceStatusNotValidOrExpired_createsNoticeViewModel() async throws {
+        mockDvlaService._stubbedFetchDrivingLicenceResult = .success(
+            .arrange(licenceStatus: .surrendered)
+        )
+        let sut = DrivingLicenceViewModel(
+            analyticsService: mockAnalyticsService,
+            dvlaService: mockDvlaService,
+            configService: mockConfigService,
+            openURLAction: { _ in }
+        )
+        await sut.viewDidAppear()
+        var licenceNoticeViewModel: DrivingLicenceNoticeViewModel?
+        if case .notice(let notice) = sut.viewState {
+            licenceNoticeViewModel = notice
+        }
+        let unwrappedLicenceNoticeViewModel = try #require(licenceNoticeViewModel)
+        #expect(unwrappedLicenceNoticeViewModel.title == String(localized: .DVLA.licenceNotAvailableTitle))
+        #expect(unwrappedLicenceNoticeViewModel.body == String(localized: .DVLA.licenceNotAvailableBody))
+    }
+
+    @Test
     func viewDidAppear_fetchLicenceFailure_createsErrorViewModel() async throws {
         let mockDriverDetailsURLString = "https://dvla.gov.uk/driver-details"
         mockDvlaService._stubbedFetchDrivingLicenceResult = .failure(.apiUnavailable)
@@ -77,6 +98,34 @@ struct DrivingLicenceViewModelTests {
         let trackedEvent = try #require(mockAnalyticsService._trackedEvents.first)
         #expect(trackedEvent.name == "Navigation")
         #expect(trackedEvent.params?["text"] as? String == expectedButtonTitle)
+        #expect(trackedEvent.params?["url"] as? String == mockDriverDetailsURLString)
+        #expect(trackedEvent.params?["section"] as? String == "Driving")
+        #expect(trackedEvent.params?["type"] as? String == "Button")
+    }
+
+    @Test
+    func viewDidAppear_fetchLicenceFailure_licenceNotFound_createsNoticeViewModel() async throws {
+        let mockDriverDetailsURLString = "https://dvla.gov.uk/driver-details"
+        mockDvlaService._stubbedFetchDrivingLicenceResult = .failure(.notFound)
+        mockConfigService._dvlaUrls = .arrange(driverDetails: mockDriverDetailsURLString)
+        let sut = DrivingLicenceViewModel(
+            analyticsService: mockAnalyticsService,
+            dvlaService: mockDvlaService,
+            configService: mockConfigService,
+            openURLAction: { _ in }
+        )
+        await sut.viewDidAppear()
+        var licenceNoticeViewModel: DrivingLicenceNoticeViewModel?
+        if case .notice(let notice) = sut.viewState {
+            licenceNoticeViewModel = notice
+        }
+        #expect(licenceNoticeViewModel?.title == String(localized: .DVLA.licenceNotAvailableTitle))
+        #expect(licenceNoticeViewModel?.body == String(localized: .DVLA.licenceNotAvailableBody))
+
+        licenceNoticeViewModel?.action()
+        let trackedEvent = try #require(mockAnalyticsService._trackedEvents.first)
+        #expect(trackedEvent.name == "Navigation")
+        #expect(trackedEvent.params?["text"] as? String == String(localized: .DVLA.licenceNotAvailableButtonTitle))
         #expect(trackedEvent.params?["url"] as? String == mockDriverDetailsURLString)
         #expect(trackedEvent.params?["section"] as? String == "Driving")
         #expect(trackedEvent.params?["type"] as? String == "Button")
