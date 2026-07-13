@@ -40,9 +40,13 @@ import GovKit
         let viewModel = MockDrivingLicenceViewModel(
             viewState: .loaded(
                 licence: DrivingLicenceSummaryViewModel(
-                    driverSummary: .arrange,
+                    drivingLicence: .arrange,
                     statusBuilder: MockLicenceStatusViewModelBuilder(),
-                    openURLAction: { _, _ in }
+                    openURLAction: { _, _ in },
+                    menuSelectionAction: { _ in },
+                    copyToClipboardAction: { _ in },
+                    analyticsService: MockAnalyticsService()
+
                 )
             )
         )
@@ -61,9 +65,13 @@ import GovKit
         let viewModel = MockDrivingLicenceViewModel(
             viewState: .loaded(
                 licence: DrivingLicenceSummaryViewModel(
-                    driverSummary: .arrange,
+                    drivingLicence: .arrange,
                     statusBuilder: MockLicenceStatusViewModelBuilder(),
-                    openURLAction: { _, _ in }
+                    openURLAction: { _, _ in },
+                    menuSelectionAction: { _ in },
+                    copyToClipboardAction: { _ in },
+                    analyticsService: MockAnalyticsService()
+
                 )
             )
         )

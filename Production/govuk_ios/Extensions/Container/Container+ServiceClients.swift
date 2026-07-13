@@ -52,7 +52,8 @@ extension Container {
                 appEnvironmentService: self.appEnvironmentService.resolve(),
                 appAuthSession: AppAuthSessionWrapper(),
                 oidAuthService: OIDAuthorizationServiceWrapper(),
-                revokeTokenServiceClient: self.revokeTokenAPIClient(),
+                tokenServiceClient: self.tokenAPIClient.resolve(),
+                verificationAPIClient: self.verificationAPIClient.resolve(),
                 appAttestService: self.appAttestService.resolve(),
             )
         }
@@ -84,7 +85,9 @@ extension Container {
 
     var dvlaServiceClient: Factory<DVLAServiceClientInterface> {
         Factory(self) {
-            DVLAServiceClient(apiServiceClient: self.dvlaAPIClient())
+            DVLAServiceClient(
+                apiServiceClient: self.dvlaAPIClient()
+            )
         }
     }
 }

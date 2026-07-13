@@ -38,7 +38,7 @@ struct VehicleDetailView: View {
                     .padding(.horizontal, Self.standardPadding)
                     .padding(.top, 16)
                     .accessibilityAddTraits(.isHeader)
-                ValidityStatusView(viewModel: viewModel.taxStatusViewModel)
+                TaxValidityStatusView(viewModel: viewModel.taxStatusViewModel)
                 Divider()
                     .overlay(Color(uiColor: .govUK.strokes.listDivider))
                     .padding(.horizontal, Self.standardPadding)
@@ -143,45 +143,4 @@ struct VehicleDetailView: View {
 extension VehicleDetailView: TrackableScreen {
     var trackingTitle: String? { trackingName }
     var trackingName: String { "VehicleDetailsScreen" }
-}
-
-#Preview {
-    let unstructuredAddress = UnstructuredAddress(
-        line1: "1 Blackfriars Road",
-        line2: "Salford",
-        line3: nil,
-        line4: nil,
-        line5: nil,
-        postcode: "M3 7AB"
-    )
-    let keeper = VehicleKeeper(
-        title: "Mr",
-        firstNames: "Kenneth",
-        lastName: "Smith",
-        address: .init(unstructuredAddress: unstructuredAddress)
-    )
-    let vehicle = CustomerSummary.Vehicle(
-        vehicleId: 1,
-        registrationNumber: "CL75 TFA",
-        make: "VOLSKWAGEN",
-        model: "POLO TDI",
-        taxStatus: .taxed,
-        taxedUntil: Date(),
-        motStatus: "",
-        motExpiryDate: Date(),
-        dateOfFirstRegistration: Date(),
-        colour: "Yellow",
-        secondaryColour: "Black",
-        fuelType: .hybridElectric,
-        exhaustEmissions: .init(co2: 532),
-        engineCapacity: 1995,
-        keeper: keeper,
-        sornStart: nil,
-        currentLicence: nil
-    )
-    let viewModel = VehicleDetailViewModel(
-        analyticsService: nil,
-        vehicle: vehicle
-    )
-    VehicleDetailView(viewModel: viewModel)
 }

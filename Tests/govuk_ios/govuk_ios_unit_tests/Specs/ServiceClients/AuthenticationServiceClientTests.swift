@@ -21,7 +21,8 @@ struct AuthenticationServiceClientTests {
             appEnvironmentService: mockAppEnvironmentService,
             appAuthSession: appAuthSessionWrapper,
             oidAuthService: mockOidAuthService,
-            revokeTokenServiceClient: MockAPIServiceClient(),
+            tokenServiceClient: MockAPIServiceClient(),
+            verificationAPIClient: MockAPIServiceClient(),
             appAttestService: mockAttestService,
         )
 
@@ -52,7 +53,8 @@ struct AuthenticationServiceClientTests {
             appEnvironmentService: mockAppEnvironmentService,
             appAuthSession: appAuthSessionWrapper,
             oidAuthService: mockOidAuthService,
-            revokeTokenServiceClient: MockAPIServiceClient(),
+            tokenServiceClient: MockAPIServiceClient(),
+            verificationAPIClient: MockAPIServiceClient(),
             appAttestService: mockAttestService,
         )
 
@@ -77,7 +79,8 @@ struct AuthenticationServiceClientTests {
             appEnvironmentService: mockAppEnvironmentService,
             appAuthSession: appAuthSessionWrapper,
             oidAuthService: mockOidAuthService,
-            revokeTokenServiceClient: MockAPIServiceClient(),
+            tokenServiceClient: MockAPIServiceClient(),
+            verificationAPIClient: MockAPIServiceClient(),
             appAttestService: mockAttestService,
         )
 
@@ -101,7 +104,8 @@ struct AuthenticationServiceClientTests {
             appEnvironmentService: mockAppEnvironmentService,
             appAuthSession: appAuthSessionWrapper,
             oidAuthService: mockOidAuthService,
-            revokeTokenServiceClient: MockAPIServiceClient(),
+            tokenServiceClient: MockAPIServiceClient(),
+            verificationAPIClient: MockAPIServiceClient(),
             appAttestService: mockAttestService,
         )
 
@@ -127,7 +131,8 @@ struct AuthenticationServiceClientTests {
             appEnvironmentService: mockAppEnvironmentService,
             appAuthSession: appAuthSessionWrapper,
             oidAuthService: mockOidAuthService,
-            revokeTokenServiceClient: MockAPIServiceClient(),
+            tokenServiceClient: MockAPIServiceClient(),
+            verificationAPIClient: MockAPIServiceClient(),
             appAttestService: mockAttestService,
         )
         let accessToken = UUID().uuidString
@@ -159,7 +164,8 @@ struct AuthenticationServiceClientTests {
             appEnvironmentService: mockAppEnvironmentService,
             appAuthSession: appAuthSessionWrapper,
             oidAuthService: mockOidAuthService,
-            revokeTokenServiceClient: MockAPIServiceClient(),
+            tokenServiceClient: MockAPIServiceClient(),
+            verificationAPIClient: MockAPIServiceClient(),
             appAttestService: mockAttestService,
         )
         mockOidAuthService._stubbedAccessToken = nil
@@ -187,7 +193,8 @@ struct AuthenticationServiceClientTests {
             appEnvironmentService: mockAppEnvironmentService,
             appAuthSession: appAuthSessionWrapper,
             oidAuthService: mockOidAuthService,
-            revokeTokenServiceClient: MockAPIServiceClient(),
+            tokenServiceClient: MockAPIServiceClient(),
+            verificationAPIClient: MockAPIServiceClient(),
             appAttestService: mockAttestService,
         )
         mockOidAuthService._shouldReturnError = true
@@ -206,13 +213,14 @@ struct AuthenticationServiceClientTests {
         let appAuthSessionWrapper = await MockAuthenticationSessionWrapper()
         let mockOidAuthService = MockOIDAuthService()
         let mockAppEnvironmentService = MockAppEnvironmentService()
-        let mockRevokeTokenClient = MockAPIServiceClient()
-        mockRevokeTokenClient._stubbedSendResponse = .success(Data())
+        let mockTokenApiClient = MockAPIServiceClient()
+        mockTokenApiClient._stubbedSendResponse = .success(Data())
         let sut = AuthenticationServiceClient(
             appEnvironmentService: mockAppEnvironmentService,
             appAuthSession: appAuthSessionWrapper,
             oidAuthService: mockOidAuthService,
-            revokeTokenServiceClient: mockRevokeTokenClient,
+            tokenServiceClient: mockTokenApiClient,
+            verificationAPIClient: MockAPIServiceClient(),
             appAttestService: MockAppAttestService()
         )
 
@@ -230,13 +238,14 @@ struct AuthenticationServiceClientTests {
         let appAuthSessionWrapper = await MockAuthenticationSessionWrapper()
         let mockOidAuthService = MockOIDAuthService()
         let mockAppEnvironmentService = MockAppEnvironmentService()
-        let mockRevokeTokenClient = MockAPIServiceClient()
-        mockRevokeTokenClient._stubbedSendResponse = .failure(TestError.fakeNetwork)
+        let mockTokenApiClient = MockAPIServiceClient()
+        mockTokenApiClient._stubbedSendResponse = .failure(TestError.fakeNetwork)
         let sut = AuthenticationServiceClient(
             appEnvironmentService: mockAppEnvironmentService,
             appAuthSession: appAuthSessionWrapper,
             oidAuthService: mockOidAuthService,
-            revokeTokenServiceClient: mockRevokeTokenClient,
+            tokenServiceClient: mockTokenApiClient,
+            verificationAPIClient: MockAPIServiceClient(),
             appAttestService: MockAppAttestService()
         )
 
@@ -256,13 +265,14 @@ struct AuthenticationServiceClientTests {
         let appAuthSessionWrapper = await MockAuthenticationSessionWrapper()
         let mockOidAuthService = MockOIDAuthService()
         let mockAppEnvironmentService = MockAppEnvironmentService()
-        let mockRevokeTokenClient = MockAPIServiceClient()
-        mockRevokeTokenClient._stubbedSendResponse = .success(Data())
+        let mockTokenApiClient = MockAPIServiceClient()
+        mockTokenApiClient._stubbedSendResponse = .success(Data())
         let sut = AuthenticationServiceClient(
             appEnvironmentService: mockAppEnvironmentService,
             appAuthSession: appAuthSessionWrapper,
             oidAuthService: mockOidAuthService,
-            revokeTokenServiceClient: mockRevokeTokenClient,
+            tokenServiceClient: mockTokenApiClient,
+            verificationAPIClient: MockAPIServiceClient(),
             appAttestService: MockAppAttestService()
         )
 
@@ -273,4 +283,99 @@ struct AuthenticationServiceClientTests {
 
         #expect(!didCallCompletion)
     }
+
+    // MARK: - fetchIdentityVerification
+
+    @Test
+    func fetchIdentityVerification_sendsExpectedRequest() async {
+        let mockVerificationApiClient = MockAPIServiceClient()
+        mockVerificationApiClient._stubbedSendResponse = .success(Data())
+        let sut = AuthenticationServiceClient(
+            appEnvironmentService: MockAppEnvironmentService(),
+            appAuthSession: await MockAuthenticationSessionWrapper(),
+            oidAuthService: MockOIDAuthService(),
+            tokenServiceClient: MockAPIServiceClient(),
+            verificationAPIClient: mockVerificationApiClient,
+            appAttestService: MockAppAttestService()
+        )
+
+        _ = await sut.fetchIdentityVerification(accesstoken: "test-token")
+
+        #expect(mockVerificationApiClient._receivedSendRequest?.urlPath == "/linking/verification")
+        #expect(mockVerificationApiClient._receivedSendRequest?.method == .post)
+        #expect(mockVerificationApiClient._receivedSendRequest?.additionalHeaders == ["Content-Type": "application/json"])
+    }
+
+    @Test
+    func fetchIdentityVerification_success_returnsExpectedResult() async throws {
+        let hash = "some-identity-token"
+        let encoded = try #require(try? JSONEncoder().encode(["verificationHash": hash]))
+        let mockVerificationApiClient = MockAPIServiceClient()
+        mockVerificationApiClient._stubbedSendResponse = .success(encoded)
+        let sut = AuthenticationServiceClient(
+            appEnvironmentService: MockAppEnvironmentService(),
+            appAuthSession: await MockAuthenticationSessionWrapper(),
+            oidAuthService: MockOIDAuthService(),
+            tokenServiceClient: MockAPIServiceClient(),
+            verificationAPIClient: mockVerificationApiClient,
+            appAttestService: MockAppAttestService()
+        )
+
+        let result = await sut.fetchIdentityVerification(accesstoken: "test-token")
+        let value = try #require(try? result.get())
+        #expect(value.verificationHash == hash)
+    }
+
+    @Test
+    func fetchIdentityVerification_apiUnavailable_returnsExpectedError() async {
+        let mockVerificationApiClient = MockAPIServiceClient()
+        mockVerificationApiClient._stubbedSendResponse = .failure(VerificationHashError.apiUnavailable)
+        let sut = AuthenticationServiceClient(
+            appEnvironmentService: MockAppEnvironmentService(),
+            appAuthSession: await MockAuthenticationSessionWrapper(),
+            oidAuthService: MockOIDAuthService(),
+            tokenServiceClient: MockAPIServiceClient(),
+            verificationAPIClient: mockVerificationApiClient,
+            appAttestService: MockAppAttestService()
+        )
+
+        let result = await sut.fetchIdentityVerification(accesstoken: "test-token")
+        #expect(result.getError() == .apiUnavailable)
+    }
+
+    @Test
+    func fetchIdentityVerification_networkUnavailable_returnsExpectedError() async {
+        let mockVerificationApiClient = MockAPIServiceClient()
+        mockVerificationApiClient._stubbedSendResponse = .failure(
+            NSError(domain: NSURLErrorDomain, code: NSURLErrorNotConnectedToInternet)
+        )
+        let sut = AuthenticationServiceClient(
+            appEnvironmentService: MockAppEnvironmentService(),
+            appAuthSession: await MockAuthenticationSessionWrapper(),
+            oidAuthService: MockOIDAuthService(),
+            tokenServiceClient: MockAPIServiceClient(),
+            verificationAPIClient: mockVerificationApiClient,
+            appAttestService: MockAppAttestService()
+        )
+
+        let result = await sut.fetchIdentityVerification(accesstoken: "test-token")
+        #expect(result.getError() == .networkUnavailable)
+    }
+
+    @Test
+    func fetchIdentityVerification_malformedResponse_returnsDecodingError() async {
+        let mockVerificationApiClient = MockAPIServiceClient()
+        mockVerificationApiClient._stubbedSendResponse = .success(Data("not valid json".utf8))
+        let sut = AuthenticationServiceClient(
+            appEnvironmentService: MockAppEnvironmentService(),
+            appAuthSession: await MockAuthenticationSessionWrapper(),
+            oidAuthService: MockOIDAuthService(),
+            tokenServiceClient: MockAPIServiceClient(),
+            verificationAPIClient: mockVerificationApiClient,
+            appAttestService: MockAppAttestService()
+        )
+        let result = await sut.fetchIdentityVerification(accesstoken: "test-token")
+        #expect(result.getError() == .decodingError)
+    }
+
 }

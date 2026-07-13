@@ -13,8 +13,10 @@ class VehicleDetailViewSnapshotTests: SnapshotTestCase {
             motExpiryDate: .arrange("12/12/2030")
         )
         let viewModel = VehicleDetailViewModel(
-            analyticsService: nil,
+            analyticsService: MockAnalyticsService(),
+            configService: MockAppConfigService(),
             vehicle: mockVehicle,
+            openURLAction: { _ in }
         )
         let view = VehicleDetailView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
@@ -32,8 +34,10 @@ class VehicleDetailViewSnapshotTests: SnapshotTestCase {
             motExpiryDate: .arrange("12/12/2030")
         )
         let viewModel = VehicleDetailViewModel(
-            analyticsService: nil,
+            analyticsService: MockAnalyticsService(),
+            configService: MockAppConfigService(),
             vehicle: mockVehicle,
+            openURLAction: { _ in }
         )
         let view = VehicleDetailView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
@@ -48,6 +52,7 @@ class VehicleDetailViewSnapshotTests: SnapshotTestCase {
     func test_missingVehicleProperties_light_rendersCorrectly() {
         let mockVehicle = CustomerSummary.Vehicle.arrange(
             model: nil,
+            taxStatus: nil,
             taxedUntil: nil,
             motExpiryDate: nil,
             secondaryColour: nil,
@@ -56,8 +61,10 @@ class VehicleDetailViewSnapshotTests: SnapshotTestCase {
             keeper: nil
         )
         let viewModel = VehicleDetailViewModel(
-            analyticsService: nil,
+            analyticsService: MockAnalyticsService(),
+            configService: MockAppConfigService(),
             vehicle: mockVehicle,
+            openURLAction: { _ in }
         )
         let view = VehicleDetailView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
@@ -72,6 +79,7 @@ class VehicleDetailViewSnapshotTests: SnapshotTestCase {
     func test_missingVehicleProperties_dark_rendersCorrectly() {
         let mockVehicle = CustomerSummary.Vehicle.arrange(
             model: nil,
+            taxStatus: nil,
             taxedUntil: nil,
             motExpiryDate: nil,
             secondaryColour: nil,
@@ -80,8 +88,10 @@ class VehicleDetailViewSnapshotTests: SnapshotTestCase {
             keeper: nil
         )
         let viewModel = VehicleDetailViewModel(
-            analyticsService: nil,
+            analyticsService: MockAnalyticsService(),
+            configService: MockAppConfigService(),
             vehicle: mockVehicle,
+            openURLAction: { _ in }
         )
         let view = VehicleDetailView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(

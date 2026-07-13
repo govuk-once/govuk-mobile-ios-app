@@ -46,7 +46,7 @@ struct Container_APIClientTests {
         container.appEnvironmentService.register {
             MockAppEnvironmentService()
         }
-        let sut = container.revokeTokenAPIClient()
+        let sut = container.tokenAPIClient()
         return await withCheckedContinuation { continuation in
             MockURLProtocol.registerHandler(forUrl: "https://www.govuk-token.com/oauth2/revoke") { request in
                 let components = URLComponents(url: request.url!, resolvingAgainstBaseURL: true)

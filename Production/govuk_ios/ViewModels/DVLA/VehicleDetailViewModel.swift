@@ -3,7 +3,9 @@ import GovKit
 
 struct VehicleDetailViewModel: Identifiable {
     private let vehicle: CustomerSummary.Vehicle
-    private let analyticsService: AnalyticsServiceInterface?
+    private let openURLAction: (URL) -> Void
+    private let configService: AppConfigServiceInterface
+    private let analyticsService: AnalyticsServiceInterface
     private let statusFormatter = DVLAValidityStatusFormatter()
     private let specFormatter: VehicleSpecFormatterInterface
 
@@ -40,14 +42,7 @@ struct VehicleDetailViewModel: Identifiable {
         ]
         .compactMap { $0 }
     }
-    var taxStatusViewModel: ValidityStatusViewModel {
-        .init(
-            title: String.dvla.localized("taxStatusTitle"),
-            formattedStatus: statusFormatter.formatStatus(from: vehicle.taxedUntil),
-            iconName: "checkmark.circle.fill",
-            iconTintColour: .govUK.fills.surfaceButtonPrimary
-        )
-    }
+    var taxStatusViewModel: ValidityStatusViewModel
     var motStatusViewModel: ValidityStatusViewModel {
         .init(
             title: String.dvla.localized("motStatusTitle"),
@@ -147,17 +142,31 @@ struct VehicleDetailViewModel: Identifiable {
         specFormatter.formatEmissions(from: vehicle.exhaustEmissions)
     }
 
+    @MainActor
     init(
-        analyticsService: AnalyticsServiceInterface?,
+        analyticsService: AnalyticsServiceInterface,
+        configService: AppConfigServiceInterface,
         vehicle: CustomerSummary.Vehicle,
+        openURLAction: @escaping (URL) -> Void,
         specFormatter: VehicleSpecFormatterInterface = VehicleSpecFormatter()
     ) {
         self.vehicle = vehicle
         self.analyticsService = analyticsService
+        self.configService = configService
         self.specFormatter = specFormatter
+        self.openURLAction = openURLAction
+
+        let builder = TaxStatusViewModelBuilder(
+            urls: configService.dvlaUrls,
+            analyticsService: analyticsService,
+            openURLAction: openURLAction
+        )
+        self.taxStatusViewModel = builder.makeViewModel(
+            vehicle: vehicle
+        )
     }
 
     func trackScreen(screen: TrackableScreen) {
-        analyticsService?.track(screen: screen)
+        analyticsService.track(screen: screen)
     }
 }
