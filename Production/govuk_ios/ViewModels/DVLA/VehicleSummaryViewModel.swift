@@ -23,7 +23,6 @@ extension VehicleSummaryViewModel {
     @MainActor
     init(
         vehicle: CustomerSummary.Vehicle,
-        statusFormatter: DVLAValidityStatusFormatter = DVLAValidityStatusFormatter(),
         specFormatter: VehicleSpecFormatter = VehicleSpecFormatter(),
         detailAction: @escaping () -> Void,
         openURLAction: @escaping (URL) -> Void,
