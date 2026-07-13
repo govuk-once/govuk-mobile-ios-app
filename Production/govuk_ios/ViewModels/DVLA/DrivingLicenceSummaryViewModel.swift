@@ -9,6 +9,8 @@ struct DrivingLicenceSummaryViewModel {
     let address: String
     let licenceStatusViewModel: ValidityStatusViewModel
 
+    private let pasteboard: PasteboardInterface
+
     let copyToClipboardButtonTitle = String.chat.localized(
         "copyToClipboardTitle"
     )
@@ -44,7 +46,7 @@ struct DrivingLicenceSummaryViewModel {
     }
 
     func copyToClipboard() {
-        UIPasteboard.general.string = licenceNumber
+        pasteboard.string = licenceNumber
         trackCopyToClipboard()
     }
 
@@ -104,7 +106,8 @@ extension DrivingLicenceSummaryViewModel {
         openURLAction: @escaping (URL, String) -> Void,
         menuSelectionAction: @escaping (URL) -> Void,
         copyToClipboardAction: @escaping (String) -> Void,
-        analyticsService: AnalyticsServiceInterface
+        analyticsService: AnalyticsServiceInterface,
+        pasteboard: PasteboardInterface = UIPasteboard.general
     ) {
         let licenceType = String.localizedStringWithFormat(
             String.dvla.localized("licenceType"),
@@ -114,6 +117,7 @@ extension DrivingLicenceSummaryViewModel {
         self.analyticsService = analyticsService
         self.menuSelectionAction = menuSelectionAction
         self.copyToClipboardAction = copyToClipboardAction
+        self.pasteboard = pasteboard
 
         self.licenceNumber = drivingLicence.licenceNumber
         let fullName = [
@@ -145,3 +149,9 @@ extension DrivingLicenceSummaryViewModel {
         )
     }
 }
+
+protocol PasteboardInterface: AnyObject {
+    var string: String? { get set }
+}
+
+extension UIPasteboard: PasteboardInterface {}
