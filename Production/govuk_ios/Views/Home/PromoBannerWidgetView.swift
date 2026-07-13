@@ -50,7 +50,7 @@ struct PromoBannerWidgetView: View {
     private var dismissView: some View {
         ZStack(alignment: .trailing) {
             VStack(spacing: 0) {
-                Image(decorative: "")
+                Image(decorative: viewModel.imageTitle ?? "")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 100, height: 124)

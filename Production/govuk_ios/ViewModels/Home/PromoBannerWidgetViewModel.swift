@@ -9,6 +9,7 @@ struct PromoBannerWidgetViewModel {
     let body: String
     let linkUrl: URL
     let linkTitle: String
+    let imageTitle: String?
     let urlOpener: URLOpener
     let dismissAction: () -> Void
 
@@ -21,6 +22,7 @@ struct PromoBannerWidgetViewModel {
         body = chatBanner.body
         linkUrl = chatBanner.link.url
         linkTitle = chatBanner.link.title
+        imageTitle = "chat_widget"
         self.analyticsService = analyticsService
         self.urlOpener = urlOpener
         self.dismissAction = dismissAction
@@ -35,6 +37,7 @@ struct PromoBannerWidgetViewModel {
         body = banner.body
         linkUrl = banner.link.url
         linkTitle = banner.link.title
+        imageTitle = nil
         self.analyticsService = analyticsService
         self.urlOpener = urlOpener
         self.dismissAction = dismissAction
