@@ -45,6 +45,28 @@
         }
       }
     },
+    "changeAddressMenuTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Change address"
+          }
+        }
+      }
+    },
+    "changeNameAndGenderMenuTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Change name or gender"
+          }
+        }
+      }
+    },
     "co2Emissions" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -55,6 +77,17 @@
           }
         }
       }
+    },
+    "copyLicenceButtonTitle" : {
+        "extractionState" : "manual",
+        "localizations" : {
+            "en-GB" : {
+                "stringUnit" : {
+                    "state" : "translated",
+                    "value" : "Copy licence number"
+                }
+            }
+        }
     },
     "colour" : {
       "extractionState" : "manual",
@@ -497,6 +530,17 @@
         }
       }
     },
+    "genericErrorTryAgainSubtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Please try again later"
+          }
+        }
+      }
+    },
     "hybrid" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -793,6 +837,17 @@
           }
         }
       }
+    },
+     "replaceLicenceMenuTitle" : {
+        "extractionState" : "manual",
+        "localizations" : {
+            "en-GB" : {
+                "stringUnit" : {
+                    "state" : "translated",
+                    "value" : "Replace licence"
+                }
+            }
+        }
     },
     "renewTaxExpiringFooter" : {
       "extractionState" : "manual",

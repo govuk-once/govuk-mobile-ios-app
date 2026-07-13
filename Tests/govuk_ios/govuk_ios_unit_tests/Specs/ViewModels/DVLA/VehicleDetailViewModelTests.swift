@@ -4,6 +4,7 @@ import Testing
 @testable import govuk_ios
 @testable import GovKit
 
+@MainActor
 @Suite
 struct VehicleDetailViewModelTests {
 
@@ -16,7 +17,9 @@ struct VehicleDetailViewModelTests {
         )
         let sut = VehicleDetailViewModel(
             analyticsService: MockAnalyticsService(),
-            vehicle: mockVehicle
+            configService: MockAppConfigService(),
+            vehicle: mockVehicle,
+            openURLAction: { _ in }
         )
         #expect(sut.id == 5)
         #expect(sut.registrationNumber == "QW21 AB4")
@@ -36,7 +39,9 @@ struct VehicleDetailViewModelTests {
         )
         let sut = VehicleDetailViewModel(
             analyticsService: MockAnalyticsService(),
-            vehicle: mockVehicle
+            configService: MockAppConfigService(),
+            vehicle: mockVehicle,
+            openURLAction: { _ in }
         )
         #expect(sut.keeperFullName == "MR JOE BLOGGS")
     }
@@ -62,7 +67,9 @@ struct VehicleDetailViewModelTests {
         )
         let sut = VehicleDetailViewModel(
             analyticsService: MockAnalyticsService(),
-            vehicle: mockVehicle
+            configService: MockAppConfigService(),
+            vehicle: mockVehicle,
+            openURLAction: { _ in }
         )
         let expectedAddress = [
             "1 Deansgate",
@@ -80,7 +87,9 @@ struct VehicleDetailViewModelTests {
         let mockVehicle = CustomerSummary.Vehicle.arrange(colour: "BLACK")
         let sut = VehicleDetailViewModel(
             analyticsService: MockAnalyticsService(),
+            configService: MockAppConfigService(),
             vehicle: mockVehicle,
+            openURLAction: { _ in },
             specFormatter: mockVehicleSpecFormatter
         )
         #expect(sut.vehicleSpecViewModel.colour == "Black")
@@ -92,7 +101,9 @@ struct VehicleDetailViewModelTests {
     func taxStatusViewModel_hasCorrectTitle() {
         let sut = VehicleDetailViewModel(
             analyticsService: MockAnalyticsService(),
-            vehicle: .arrange
+            configService: MockAppConfigService(),
+            vehicle: .arrange,
+            openURLAction: { _ in }
         )
         #expect(sut.taxStatusViewModel.title == String(localized: .DVLA.taxStatusTitle))
     }
@@ -101,7 +112,9 @@ struct VehicleDetailViewModelTests {
     func motStatusViewModel_hasCorrectTitle() {
         let sut = VehicleDetailViewModel(
             analyticsService: MockAnalyticsService(),
-            vehicle: .arrange
+            configService: MockAppConfigService(),
+            vehicle: .arrange,
+            openURLAction: { _ in }
         )
         #expect(sut.motStatusViewModel.title == String(localized: .DVLA.motStatusTitle))
     }
@@ -127,7 +140,9 @@ struct VehicleDetailViewModelTests {
         )
         let sut = VehicleDetailViewModel(
             analyticsService: MockAnalyticsService(),
+            configService: MockAppConfigService(),
             vehicle: mockVehicle,
+            openURLAction: { _ in },
             specFormatter: mockSpecFormatter
         )
         let specificationSection = sut.specificationSection

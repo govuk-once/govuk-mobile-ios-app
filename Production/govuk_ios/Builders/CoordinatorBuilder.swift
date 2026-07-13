@@ -541,7 +541,9 @@ class CoordinatorBuilder {
     ) -> BaseCoordinator {
         DVLAAuthenticationCoordinator(
             navigationController: navigationController,
-            urlOpener: UIApplication.shared
+            urlOpener: UIApplication.shared,
+            authenticationService: container.authenticationService.resolve(),
+            analyticsService: container.analyticsService.resolve(),
         )
     }
 
@@ -580,7 +582,9 @@ class CoordinatorBuilder {
         VehicleDetailCoordinator(
             navigationController: navigationController,
             viewControllerBuilder: ViewControllerBuilder(),
+            urlOpener: UIApplication.shared,
             analyticsService: container.analyticsService.resolve(),
+            configService: container.appConfigService.resolve(),
             vehicle: vehicle
         )
     }
