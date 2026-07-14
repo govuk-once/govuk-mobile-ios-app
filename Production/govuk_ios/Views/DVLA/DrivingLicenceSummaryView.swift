@@ -53,12 +53,12 @@ struct DrivingLicenceSummaryView: View {
                     viewModel.openUrl(options: .changeAddress)
                 } label: {
                     Text(viewModel.changeAddressMenuTitle)
-                }
+                }.accessibilityLabel(viewModel.changeAddressAccessibilityLabel)
                 Button {
                     viewModel.openUrl(options: .changeNameAndGender)
                 } label: {
                     Text(viewModel.changeNameAndGender)
-                }
+                }.accessibilityLabel(viewModel.changeNameOrGenderAccessibilityLabel)
                 Button {
                     viewModel.openUrl(options: .replaceLicence)
                 } label: {
