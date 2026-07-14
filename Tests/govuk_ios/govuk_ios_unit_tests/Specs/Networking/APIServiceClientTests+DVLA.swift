@@ -8,11 +8,13 @@ struct APIServiceClientTests_DVLA {
     @Test
     func send_errorResponseLicenceNotFound404_returnsLicenceNotFound() async throws {
         let jsonString = """
-                {
-                    "errorCode": "GUK-404-04",
-                    "message": "No driving licence could be found."
-                }
-                """
+        {
+            "error": {
+                "code": "GUK-404-04",
+                "message": "No driving licence could be found."
+            }
+        }
+        """
         let mockResponseData = jsonString.data(using: .utf8)
 
         let subject = APIServiceClient(
@@ -40,11 +42,13 @@ struct APIServiceClientTests_DVLA {
     @Test
     func send_errorResponseLicenceNotAvailable404_returnsLicenceNotAvailable() async throws {
         let jsonString = """
-                {
-                    "errorCode": "GUK-404-05",
-                    "message": "Driving licence not available for enquiry"
-                }
-                """
+        {
+            "error": {
+                "code": "GUK-404-05",
+                "message": "Driving licence not available for enquiry"
+            }
+        }
+        """
         let mockResponseData = jsonString.data(using: .utf8)
 
         let subject = APIServiceClient(
@@ -72,10 +76,10 @@ struct APIServiceClientTests_DVLA {
     @Test
     func send_invalidErrorResponse_returnsApiUnavailable() async throws {
         let jsonString = """
-                {
-                    "errorMessage": "Test error with invalid response format"
-                }
-                """
+        {
+            "errorMessage": "Test error with invalid response format"
+        }
+        """
         let mockResponseData = jsonString.data(using: .utf8)
 
         let subject = APIServiceClient(

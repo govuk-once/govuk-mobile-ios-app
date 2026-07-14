@@ -1,8 +1,11 @@
 import Foundation
 
 struct DVLAErrorPayload: Codable {
-    let errorCode: String
-    let message: String
+    let error: ErrorDetail
+    struct ErrorDetail: Codable {
+        let code: String
+        let message: String
+    }
 }
 
 struct DVLAResponseHandler: ResponseHandler {
@@ -10,7 +13,7 @@ struct DVLAResponseHandler: ResponseHandler {
         guard let errorPayload = try? JSONDecoder().decode(DVLAErrorPayload.self, from: data) else {
             return nil
         }
-        switch errorPayload.errorCode {
+        switch errorPayload.error.code {
         case "GUK-404-04":
             return DVLAError.notFound
         case "GUK-404-05":
