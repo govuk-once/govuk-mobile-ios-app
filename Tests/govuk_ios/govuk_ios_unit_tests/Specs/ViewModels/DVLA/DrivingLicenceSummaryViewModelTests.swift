@@ -259,5 +259,31 @@ struct DrivingLicenceSummaryViewModelTests {
         )
         #expect(sut.addressAccessibilityLabel == expectedAccessibilityLabel)
     }
-}
+    @Test
+    func copyToClipboard_setsPasteboardAndTracksEvent() async throws {
+        let mockPasteboard = MockPasteboard()
+        let mockAnalytics = MockAnalyticsService()
 
+        let mockDrivingLicence = DrivingLicence.arrange(licenceType: "Provisional")
+
+        let mockStatusViewModelBuilder = MockLicenceStatusViewModelBuilder()
+        mockStatusViewModelBuilder._stubbedViewModel = ValidityStatusViewModel(
+            formattedStatus: "Mock licence status"
+        )
+
+        let sut = DrivingLicenceSummaryViewModel(
+            drivingLicence: mockDrivingLicence,
+            statusBuilder: mockStatusViewModelBuilder,
+            openURLAction: { _, _ in },
+            menuSelectionAction: { _ in },
+            copyToClipboardAction: { _ in },
+            analyticsService: mockAnalytics,
+            pasteboard: mockPasteboard
+        )
+
+        sut.copyToClipboard()
+
+        #expect(mockPasteboard.string == sut.licenceNumber)
+        #expect(mockAnalytics._trackedEvents.count == 1)
+    }
+}
