@@ -1,7 +1,7 @@
 import SwiftUI
 import GovKitUI
 
-struct ValidityStatusView: View {
+struct MotValidityStatusView: View {
     private static let iconSize: CGFloat = 36
     private static let standardPadding: CGFloat = 16.0
 
@@ -16,7 +16,7 @@ struct ValidityStatusView: View {
                             .font(.govUK.title3Semibold)
                             .multilineTextAlignment(.leading)
                     }
-                   statusTextView
+                    statusTextView
                 }
                 Spacer()
                 if let iconName = viewModel.iconName {
@@ -32,29 +32,55 @@ struct ValidityStatusView: View {
                         .accessibilityHidden(true)
                 }
             }
+            .padding(.horizontal, Self.standardPadding)
+            .padding(.top, Self.standardPadding)
+            .padding(.bottom,
+                     (viewModel.progressViewModel == nil && viewModel.buttonViewModel == nil && viewModel.footer == nil) ? Self.standardPadding : Self.standardPadding)
+
             if let progressViewModel = viewModel.progressViewModel {
                 ExpiryProgressView(viewModel: progressViewModel)
+                    .padding(.horizontal, Self.standardPadding)
+                    .padding(.bottom,
+                             (viewModel.buttonViewModel == nil && viewModel.footer == nil) ? Self.standardPadding : 0)
             }
-            if let buttonViewModel = viewModel.buttonViewModel {
-                SwiftUIButton(
-                    viewModel.buttonConfiguration ?? .primary,
-                    viewModel: buttonViewModel
-                )
-                .padding(.top, Self.standardPadding)
+            if viewModel.buttonViewModel != nil {
+                VStack(spacing: 0) {
+                    Divider()
+                        .background(Color(uiColor: .separator))
+
+                    Button(
+                        action: { },
+                        label: {
+                            HStack(alignment: .center) {
+                                Text("Check if it needs an MOT")
+                                    .font(.system(size: 16, weight: .regular))
+                                    .foregroundColor(Color(red: 0.15, green: 0.35, blue: 0.75))
+
+                                Spacer()
+
+                                Image(systemName: "arrow.up.forward")
+                                    .font(.system(size: 14, weight: .bold))
+                                    .foregroundColor(Color(red: 0.15, green: 0.35, blue: 0.75))
+                            }
+                            .padding(.horizontal, Self.standardPadding)
+                            .padding(.vertical, 16)
+                        }
+                    )
+                }
             }
             if let footer = viewModel.footer {
                 Text(footer)
                     .font(.govUK.footnote)
                     .foregroundStyle(Color(uiColor: .govUK.text.secondary))
+                    .padding(.horizontal, Self.standardPadding)
                     .padding(.top, Self.standardPadding)
-                    .padding(.bottom, 8)
+                    .padding(.bottom, Self.standardPadding)
                     .frame(
                         maxWidth: .infinity,
                         alignment: .leading
                     )
             }
         }
-        .padding(Self.standardPadding)
     }
 
     @ViewBuilder
@@ -72,18 +98,3 @@ struct ValidityStatusView: View {
     }
 }
 
-#Preview {
-    let viewModel = ValidityStatusViewModel(
-        title: nil,
-        formattedStatus: "Expired 24 April 2026",
-        iconName: "exclamationmark.triangle.fill",
-        footer: "Your licence status may not update immediately when you renew it",
-        buttonTitle: "Renew licence",
-        buttonAction: { }
-    )
-    VStack(spacing: 0) {
-        Color(uiColor: .govUK.fills.surfaceBackground)
-        ValidityStatusView(viewModel: viewModel)
-        Color(uiColor: .govUK.fills.surfaceBackground)
-    }
-}

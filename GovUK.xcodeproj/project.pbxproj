@@ -104,6 +104,7 @@
 		4E00EEEF2CCB04B0007B61E8 /* TopicsOnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E00EEEE2CCB04B0007B61E8 /* TopicsOnboardingViewModel.swift */; };
 		4E00EF072CCB12CD007B61E8 /* BaseTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E00EF062CCB12CD007B61E8 /* BaseTabBarController.swift */; };
 		4E02D5AD2F6B89AB0083164C /* AccessTokenError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E02D5AC2F6B89AB0083164C /* AccessTokenError.swift */; };
+		4E0544AA3005A9F300F79945 /* MOTValidityStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E0544A93005A9F300F79945 /* MOTValidityStatusView.swift */; };
 		4E11AC442F22653700838894 /* GOVUKColors+Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E11AC432F22653700838894 /* GOVUKColors+Chat.swift */; };
 		4E11AC4A2F22770C00838894 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E11AC492F22770C00838894 /* Constants.swift */; };
 		4E1534032E398073002DEDB9 /* TopicsWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1534022E398073002DEDB9 /* TopicsWidgetView.swift */; };
@@ -665,6 +666,7 @@
 		4E00EEEE2CCB04B0007B61E8 /* TopicsOnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsOnboardingViewModel.swift; sourceTree = "<group>"; };
 		4E00EF062CCB12CD007B61E8 /* BaseTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBarController.swift; sourceTree = "<group>"; };
 		4E02D5AC2F6B89AB0083164C /* AccessTokenError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenError.swift; sourceTree = "<group>"; };
+		4E0544A93005A9F300F79945 /* MOTValidityStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MOTValidityStatusView.swift; sourceTree = "<group>"; };
 		4E11AC432F22653700838894 /* GOVUKColors+Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GOVUKColors+Chat.swift"; sourceTree = "<group>"; };
 		4E11AC492F22770C00838894 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		4E1534022E398073002DEDB9 /* TopicsWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsWidgetView.swift; sourceTree = "<group>"; };
@@ -2401,6 +2403,7 @@
 				815018F62F7E588C00E7469C /* DVLAAccountView.swift */,
 				81BF975A2FA2523600249569 /* DVLAAccountWidgetView.swift */,
 				81D240C02FC0938F00A4F988 /* DVLAAccountSummaryView.swift */,
+				4E0544A93005A9F300F79945 /* MOTValidityStatusView.swift */,
 			);
 			path = DVLA;
 			sourceTree = "<group>";
@@ -3240,6 +3243,7 @@
 				D00984F22D47BC9600D70FEE /* DeviceInformation+Convenience.swift in Sources */,
 				5DC250662C91D802009E9E7F /* FirebaseClient.swift in Sources */,
 				3D3378162CAAC113004BF83F /* AppUnavailableContainerViewModel.swift in Sources */,
+				4E0544AA3005A9F300F79945 /* MOTValidityStatusView.swift in Sources */,
 				16E8644C2D28362000BCC0FC /* SearchSuggestions.swift in Sources */,
 				815018F22F7D93E200E7469C /* AppErrorViewModel+DVLA.swift in Sources */,
 				1679D5752C3F5E6900AA2EB0 /* SettingsCoordinator.swift in Sources */,
