@@ -145,6 +145,39 @@
         }
       }
     },
+    "drivingRecordButtonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your driving record"
+          }
+        }
+      }
+    },
+    "drivingRecordSubtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vehicles you can drive, offences and penalty points"
+          }
+        }
+      }
+    },
+    "drivingRecordTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Driving record"
+          }
+        }
+      }
+    },
     "dvlaAccountErrorBody" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -739,6 +772,83 @@
         }
       }
     },
+    "motCheckDetailsLink" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check details"
+          }
+        }
+      }
+    },
+    "motCheckIfItNeedsAnMOT" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check if it needs an MOT"
+          }
+        }
+      }
+    },
+    "motExpiredOn" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Expired %1$@"
+          }
+        }
+      }
+    },
+    "motExpiringOn" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Expiring %1$@"
+          }
+        }
+      }
+    },
+    "motNoDetailsHeldByDVLA" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No details held by DVLA"
+          }
+        }
+      }
+    },
+    "motNoResultsReturned" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No results returned"
+          }
+        }
+      }
+    },
+    "motSeeStatusOnTheWebsite" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "See status on the website"
+          }
+        }
+      }
+    },
     "motStatusTitle" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -746,6 +856,39 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "MOT"
+          }
+        }
+      }
+    },
+    "motSyncDelayNotice" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "It can take a couple of days after your MOT for your status to update"
+          }
+        }
+      }
+    },
+    "motUnknown" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unknown"
+          }
+        }
+      }
+    },
+    "motValidUntil" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Valid until %1$@"
           }
         }
       }

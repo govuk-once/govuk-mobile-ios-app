@@ -26,6 +26,15 @@ extension Constants.API {
         return components.url!
     }()
 
+    public static let defaultDvlaNoResultsUrl: URL = {
+        var components = govukBaseComponents
+        components.path = "/historic-vehicles"
+        return components.url!
+    }()
+
+
+    public static let defaultDvlaNoDetailsBaseUrlString = "https://www.check-mot.service.gov.uk/results"
+
     public static let defaultChatFeedbackUrl: URL = URL(
         string: "https://surveys.publishing.service.gov.uk/s/SUIEH2/"
     )!
@@ -96,6 +105,10 @@ extension Constants.API {
 
     public static let defaultDvlaAccountUrl: URL = URL(
         string: "http://driver-and-vehicles-account.service.gov.uk"
+    )!
+
+    public static let defaultDvlaDrivingRecordUrl: URL = URL(
+        string: "https://driver-and-vehicles-account.service.gov.uk/driver_details?locale=en#Entitlements"
     )!
 
     public static let betaPrivacyPolicyURL: URL = {

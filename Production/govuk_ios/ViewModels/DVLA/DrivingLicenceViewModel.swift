@@ -4,7 +4,10 @@ import SwiftUI
 class DrivingLicenceViewModel: ObservableObject {
     enum ViewState {
         case loading
-        case loaded(licence: DrivingLicenceSummaryViewModel)
+        case loaded(
+            licence: DrivingLicenceSummaryViewModel,
+            drivingRecord: DrivingRecordViewModel
+        )
         case notice(DrivingLicenceNoticeViewModel)
         case error(InlineActionErrorViewModel)
     }
@@ -60,7 +63,14 @@ class DrivingLicenceViewModel: ObservableObject {
         switch drivingLicence.licenceStatus {
         case .valid, .expired:
             let licenceSummaryViewModel = makeLicenceSummaryViewModel(for: drivingLicence)
-            viewState = .loaded(licence: licenceSummaryViewModel)
+            let drivingRecordViewModel = DrivingRecordViewModel(
+                dvlaURLs: configService.dvlaUrls,
+                openURLAction: handleOpenURL(url:buttonTitle:)
+            )
+            viewState = .loaded(
+                licence: licenceSummaryViewModel,
+                drivingRecord: drivingRecordViewModel
+            )
         default:
             viewState = .notice(licenceNotAvailableNoticeViewModel)
         }
