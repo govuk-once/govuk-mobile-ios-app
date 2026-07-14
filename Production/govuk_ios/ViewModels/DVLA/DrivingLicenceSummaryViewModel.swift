@@ -29,7 +29,12 @@ struct DrivingLicenceSummaryViewModel {
     let copyLicenceButtonTitle = String.dvla.localized(
         "copyLicenceButtonTitle"
     )
-
+    let changeAddressAccessibilityLabel = String.dvla.localized(
+        "changeAddressAccessibilityLabel"
+    )
+    let changeNameOrGenderAccessibilityLabel = String.dvla.localized(
+        "changeNameOrGenderAccessibilityLabel"
+    )
     let changeAddressMenuTitle: String =  String.dvla.localized(
         "changeAddressMenuTitle"
     )

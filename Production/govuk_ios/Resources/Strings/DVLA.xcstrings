@@ -45,6 +45,17 @@
         }
       }
     },
+    "changeAddressAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Change licence address"
+          }
+        }
+      }
+    },
     "changeAddressMenuTitle" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -67,6 +78,17 @@
         }
       }
     },
+    "changeNameOrGenderAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Change name or gender on licence"
+          }
+        }
+      }
+    },
     "co2Emissions" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -77,17 +99,6 @@
           }
         }
       }
-    },
-    "copyLicenceButtonTitle" : {
-        "extractionState" : "manual",
-        "localizations" : {
-            "en-GB" : {
-                "stringUnit" : {
-                    "state" : "translated",
-                    "value" : "Copy licence number"
-                }
-            }
-        }
     },
     "colour" : {
       "extractionState" : "manual",
@@ -107,6 +118,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Colour: %1$(colour)@"
+          }
+        }
+      }
+    },
+    "copyLicenceButtonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copy licence number"
           }
         }
       }
@@ -959,17 +981,6 @@
         }
       }
     },
-     "replaceLicenceMenuTitle" : {
-        "extractionState" : "manual",
-        "localizations" : {
-            "en-GB" : {
-                "stringUnit" : {
-                    "state" : "translated",
-                    "value" : "Replace licence"
-                }
-            }
-        }
-    },
     "renewTaxExpiringFooter" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -977,6 +988,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "It can take a couple of days after you’ve paid for your status to update"
+          }
+        }
+      }
+    },
+    "replaceLicenceMenuTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Replace licence"
           }
         }
       }
