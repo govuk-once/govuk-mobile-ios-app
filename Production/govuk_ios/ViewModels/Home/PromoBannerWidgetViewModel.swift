@@ -37,7 +37,7 @@ struct PromoBannerWidgetViewModel {
         body = banner.body
         linkUrl = banner.link.url
         linkTitle = banner.link.title
-        imageTitle = nil
+        imageTitle = banner.image
         self.analyticsService = analyticsService
         self.urlOpener = urlOpener
         self.dismissAction = dismissAction

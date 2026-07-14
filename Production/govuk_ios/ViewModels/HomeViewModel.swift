@@ -60,6 +60,7 @@ class HomeViewModel: ObservableObject {
         self.localAuthorityService = localAuthorityService
         self.chatService = chatService
         updateWidgets()
+        trackBannersEcommerceEvent()
     }
 
     func updateWidgets() {
@@ -69,11 +70,19 @@ class HomeViewModel: ObservableObject {
         serviceWidgets()
     }
 
+    private var bannersECommerceItems = [HomeCommerceItem]()
+
     private var emergencyBanners: [HomepageWidget] {
         guard let banners = configService.emergencyBanners
         else { return [] }
 
         let visibleBanners = banners.filter { !userDefaultsService.hasSeen(banner: $0) }
+
+        visibleBanners.forEach { banner in
+            bannersECommerceItems.append(
+                banner.asHomeCommerceItem(index: bannersECommerceItems.count)
+            )
+        }
 
         return visibleBanners.enumerated().map { iterator in
             let viewModel = EmergencyBannerWidgetViewModel(
@@ -100,6 +109,11 @@ class HomeViewModel: ObservableObject {
               let chatBanner = configService.chatBanner,
               !userDefaultsService.hasSeen(banner: chatBanner)
         else { return nil }
+
+        bannersECommerceItems.append(
+            chatBanner.asHomeCommerceItem(index: bannersECommerceItems.count)
+        )
+
         let viewModel = PromoBannerWidgetViewModel(
             analyticsService: analyticsService,
             chatBanner: chatBanner,
@@ -120,7 +134,16 @@ class HomeViewModel: ObservableObject {
     private var promoBannerWidgets: [HomepageWidget] {
         guard let banners = configService.promoBanners
         else { return [] }
-        return banners.compactMap { [weak self] in
+
+        let visibleBanners = banners.filter { !userDefaultsService.hasSeen(banner: $0) }
+
+        visibleBanners.forEach { banner in
+            bannersECommerceItems.append(
+                banner.asHomeCommerceItem(index: bannersECommerceItems.count)
+            )
+        }
+
+        return visibleBanners.compactMap { [weak self] in
             self?.promoBannerWidget($0)
         }
     }
@@ -131,6 +154,7 @@ class HomeViewModel: ObservableObject {
             banner: banner,
             urlOpener: urlOpener,
             dismissAction: { [weak self] in
+                self?.userDefaultsService.markSeen(banner: banner)
                 self?.updateWidgets()
             }
         )
@@ -186,6 +210,10 @@ class HomeViewModel: ObservableObject {
         guard let userFeedbackBanner = configService.userFeedbackBanner
         else { return nil }
 
+        bannersECommerceItems.append(
+            userFeedbackBanner.asHomeCommerceItem(index: bannersECommerceItems.count)
+        )
+
         let viewModel = UserFeedbackWidgetViewModel(
             userFeedback: userFeedbackBanner,
             analyticsService: analyticsService,
@@ -198,6 +226,13 @@ class HomeViewModel: ObservableObject {
         return HomepageWidget(
             content: view
         )
+    }
+
+    private func trackBannersEcommerceEvent() {
+        let event = AppEvent.viewItemList(name: "home_banners",
+                                          id: "home_banners",
+                                          items: bannersECommerceItems)
+        analyticsService.track(event: event)
     }
 
     private var recentActivityWidget: HomepageWidget? {

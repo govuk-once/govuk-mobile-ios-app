@@ -103,13 +103,15 @@ class HomeViewControllerSnapshotTests: SnapshotTestCase {
                 id: UUID().uuidString,
                 title: "Going on holibobs?",
                 body: "Make sure you check out travel advice first",
-                link: promoLink1
+                link: promoLink1,
+                image: "going_abroad"
             ),
             PromoBanner(
                 id: UUID().uuidString,
                 title: "Going on holz?",
                 body: "Make sure you check out travel advice first",
-                link: promoLink2
+                link: promoLink2,
+                image: "going_abroad"
             ),
         ]
         configService._stubbedPromoBanners = banners

@@ -33,18 +33,43 @@ extension ChatBanner {
     }
 }
 
+extension ChatBanner {
+    func asHomeCommerceItem(index: Int) -> HomeCommerceItem {
+        HomeCommerceItem(
+            name: self.title,
+            listName: String(describing: type(of: self)),
+            index: index,
+            itemId: self.id,
+            locationId: self.link.url.absoluteString
+        )
+    }
+}
+
 struct PromoBanner: DismissibleBanner,
                     Decodable {
     let id: String
     let title: String
     let body: String
     let link: Link
+    let image: String
 }
 
 extension PromoBanner {
     struct Link: Decodable {
         let title: String
         let url: URL
+    }
+}
+
+extension PromoBanner {
+    func asHomeCommerceItem(index: Int) -> HomeCommerceItem {
+        return  HomeCommerceItem(
+            name: self.title,
+            listName: String(describing: type(of: self)),
+            index: index,
+            itemId: self.id,
+            locationId: self.link.url.absoluteString
+        )
     }
 }
 
@@ -57,6 +82,18 @@ extension UserFeedbackBanner {
     struct Link: Decodable {
         let title: String
         let url: URL
+    }
+}
+
+extension UserFeedbackBanner {
+    func asHomeCommerceItem(index: Int) -> HomeCommerceItem {
+        return HomeCommerceItem(
+            name: self.link.title,
+            listName: String(describing: type(of: self)),
+            index: index,
+            itemId: nil,
+            locationId: self.link.url.absoluteString
+        )
     }
 }
 
@@ -80,5 +117,17 @@ extension EmergencyBanner {
     struct Link: Decodable {
         let title: String
         let url: URL
+    }
+}
+
+extension EmergencyBanner {
+    func asHomeCommerceItem(index: Int) -> HomeCommerceItem {
+        return HomeCommerceItem(
+            name: self.title ?? "",
+            listName: String(describing: Swift.type(of: self)),
+            index: index,
+            itemId: self.id,
+            locationId: self.link?.url.absoluteString
+        )
     }
 }

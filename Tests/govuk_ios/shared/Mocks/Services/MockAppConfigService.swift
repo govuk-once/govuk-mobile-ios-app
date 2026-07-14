@@ -95,4 +95,12 @@ class MockAppConfigService: AppConfigServiceInterface {
     var promoBanners: [PromoBanner]? {
         _stubbedPromoBanners
     }
+
+    var _stubbedPromoBannersLink: PromoBanner.Link = .init(
+        title: "test",
+        url: URL(string: "https://test.com")!
+    )
+    var promoBannersLink: PromoBanner.Link {
+        _stubbedPromoBannersLink
+    }
 }
