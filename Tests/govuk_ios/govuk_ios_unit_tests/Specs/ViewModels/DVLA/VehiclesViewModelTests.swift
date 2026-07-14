@@ -19,7 +19,7 @@ struct VehiclesViewModelTests {
 
     @Test
     func viewDidAppear_fetchesVehicles() async {
-        mockDvlaService._stubbedFetchCustomerSummaryResult = .success(.arrange)
+        mockDvlaService._stubbedCustomerVehiclesResult = .success(.arrange)
         let sut = VehiclesViewModel(
             analyticsService: mockAnalyticsService,
             dvlaService: mockDvlaService,
@@ -28,17 +28,17 @@ struct VehiclesViewModelTests {
             openURLAction: { _ in }
         )
         await sut.viewDidAppear()
-        #expect(mockDvlaService._fetchCustomerSummaryCallCount == 1)
+        #expect(mockDvlaService._fetchCustomerVehiclesCallCount == 1)
     }
 
     @Test
     func viewDidAppear_fetchVehiclesSuccess_createsVehicleSummaryViewModels() async throws {
-        let mockVehicles: [CustomerSummary.Vehicle] = [
+        let mockVehicles: [CustomerVehicles.Vehicle] = [
             .arrange(registrationNumber: "ABC 123"),
             .arrange(registrationNumber: "DEF 456")
         ]
-        mockDvlaService._stubbedFetchCustomerSummaryResult = .success(
-            .arrange(vehicles: mockVehicles)
+        mockDvlaService._stubbedCustomerVehiclesResult = .success(
+            .arrange(customerVehicles: mockVehicles)
         )
         let sut = VehiclesViewModel(
             analyticsService: mockAnalyticsService,
@@ -59,11 +59,11 @@ struct VehiclesViewModelTests {
 
     @Test
     func vehicleSummaryViewModel_detailsButtonAction_tracksNavigationEvent() async {
-        let mockVehicles: [CustomerSummary.Vehicle] = [
+        let mockVehicles: [CustomerVehicles.Vehicle] = [
             .arrange(registrationNumber: "ABC 123")
         ]
-        mockDvlaService._stubbedFetchCustomerSummaryResult = .success(
-            .arrange(vehicles: mockVehicles)
+        mockDvlaService._stubbedCustomerVehiclesResult = .success(
+            .arrange(customerVehicles: mockVehicles)
         )
         let sut = VehiclesViewModel(
             analyticsService: mockAnalyticsService,
@@ -88,8 +88,8 @@ struct VehiclesViewModelTests {
 
     @Test
     func viewDidAppear_fetchVehiclesFailure_createsErrorViewModel() async throws {
+        mockDvlaService._stubbedCustomerVehiclesResult = .failure(.apiUnavailable)
         let mockAccountURLString = "https://dvla.gov.uk/account"
-        mockDvlaService._stubbedFetchCustomerSummaryResult = .failure(.apiUnavailable)
         mockConfigService._dvlaUrls = .arrange(account: mockAccountURLString)
         let sut = VehiclesViewModel(
             analyticsService: mockAnalyticsService,
@@ -122,7 +122,7 @@ struct VehiclesViewModelTests {
     @Test
     @MainActor
     func addNewVehiclesAction_opensURLAndResetsVehiclesLoaded() async {
-        mockDvlaService._stubbedFetchCustomerSummaryResult = .success(.arrange)
+        mockDvlaService._stubbedCustomerVehiclesResult = .success(.arrange)
         await confirmation() { confirmation in
             let sut = VehiclesViewModel(
                 analyticsService: mockAnalyticsService,
@@ -133,12 +133,12 @@ struct VehiclesViewModelTests {
             )
 
             await sut.viewDidAppear()
-            #expect(mockDvlaService._fetchCustomerSummaryCallCount == 1)
+            #expect(mockDvlaService._fetchCustomerVehiclesCallCount == 1)
 
             sut.addNewVehiclesAction(largeCard: true)
 
             await sut.viewDidAppear()
-            #expect(mockDvlaService._fetchCustomerSummaryCallCount == 2)
+            #expect(mockDvlaService._fetchCustomerVehiclesCallCount == 2)
         }
     }
 

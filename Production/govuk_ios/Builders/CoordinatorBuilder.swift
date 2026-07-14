@@ -577,15 +577,16 @@ class CoordinatorBuilder {
 
     func vehicleDetail(
         navigationController: UINavigationController,
-        vehicle: CustomerSummary.Vehicle
+        vehicleId: Int
     ) -> BaseCoordinator {
         VehicleDetailCoordinator(
             navigationController: navigationController,
             viewControllerBuilder: ViewControllerBuilder(),
-            urlOpener: UIApplication.shared,
             analyticsService: container.analyticsService.resolve(),
+            dvlaService: container.dvlaService.resolve(),
             configService: container.appConfigService.resolve(),
-            vehicle: vehicle
+            urlOpener: UIApplication.shared,
+            vehicleId: vehicleId
         )
     }
 }

@@ -14,7 +14,7 @@ class VehiclesViewModel: ObservableObject {
     private let analyticsService: AnalyticsServiceInterface
     private let dvlaService: DVLAServiceInterface
     private let configService: AppConfigServiceInterface
-    private let detailAction: (CustomerSummary.Vehicle) -> Void
+    private let detailAction: (Int) -> Void
     private let openURLAction: (URL) -> Void
     let loadingAccessibilityLabel = String.dvla.localized(
         "loadingVehiclesAccessibilityLabel"
@@ -24,7 +24,7 @@ class VehiclesViewModel: ObservableObject {
          analyticsService: AnalyticsServiceInterface,
          dvlaService: DVLAServiceInterface,
          configService: AppConfigServiceInterface,
-         detailAction: @escaping (CustomerSummary.Vehicle) -> Void,
+         detailAction: @escaping (Int) -> Void,
          openURLAction: @escaping (URL) -> Void) {
         self.viewState = viewState
         self.analyticsService = analyticsService
@@ -44,16 +44,16 @@ class VehiclesViewModel: ObservableObject {
     @MainActor
     private func fetchVehicles() async {
         viewState = .loading
-        let result = await dvlaService.fetchCustomerSummary()
+        let result = await dvlaService.fetchCustomerVehicles()
 
         switch result {
-        case .success(let customerSummary):
-            let vehicleSummaryViewModels = customerSummary.vehicles.map { vehicle in
+        case .success(let vehicles):
+            let customerVehiclesViewModels = vehicles.customerVehicles.map { vehicle in
                 VehicleSummaryViewModel(
                     vehicle: vehicle,
                     detailAction: { [weak self] in
                         self?.trackDetailButtonTapped()
-                        self?.detailAction(vehicle)
+                        self?.detailAction(vehicle.vehicleId)
                     },
                     openURLAction: openURLAction,
                     configService: configService,
@@ -61,7 +61,7 @@ class VehiclesViewModel: ObservableObject {
                 )
             }
             hasLoadedVehicles = true
-            viewState = .loaded(vehicles: vehicleSummaryViewModels)
+            viewState = .loaded(vehicles: customerVehiclesViewModels)
         case .failure:
             viewState = .error(vehiclesErrorViewModel)
         }

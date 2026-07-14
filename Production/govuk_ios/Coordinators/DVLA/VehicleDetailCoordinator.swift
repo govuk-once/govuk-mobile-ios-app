@@ -3,34 +3,38 @@ import UIKit
 import GovKit
 
 final class VehicleDetailCoordinator: BaseCoordinator {
-    private let urlOpener: URLOpener
     private let viewControllerBuilder: ViewControllerBuilder
     private let analyticsService: AnalyticsServiceInterface
+    private let dvlaService: DVLAServiceInterface
     private let configService: AppConfigServiceInterface
-    private let vehicle: CustomerSummary.Vehicle
+    private let urlOpener: URLOpener
+    private let vehicleId: Int
 
     init(navigationController: UINavigationController,
          viewControllerBuilder: ViewControllerBuilder,
-         urlOpener: URLOpener,
          analyticsService: AnalyticsServiceInterface,
+         dvlaService: DVLAServiceInterface,
          configService: AppConfigServiceInterface,
-         vehicle: CustomerSummary.Vehicle) {
+         urlOpener: URLOpener,
+         vehicleId: Int) {
         self.viewControllerBuilder = viewControllerBuilder
-        self.urlOpener = urlOpener
         self.analyticsService = analyticsService
+        self.dvlaService = dvlaService
         self.configService = configService
-        self.vehicle = vehicle
+        self.urlOpener = urlOpener
+        self.vehicleId = vehicleId
         super.init(navigationController: navigationController)
     }
 
     override func start(url: URL?) {
         let viewController = viewControllerBuilder.vehicleDetail(
             analyticsService: analyticsService,
+            dvlaService: dvlaService,
             configService: configService,
-            vehicle: vehicle,
             openURLAction: { [weak self] url in
                 self?.urlOpener.openIfPossible(url)
-            }
+            },
+            vehicleId: vehicleId
         )
         push(viewController)
     }

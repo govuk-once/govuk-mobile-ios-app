@@ -519,7 +519,7 @@ struct CoordinatorBuilderTests {
         let subject = CoordinatorBuilder(container: container)
         let coordinator = subject.vehicleDetail(
             navigationController: UINavigationController(),
-            vehicle: .arrange
+            vehicleId: 1
         )
         #expect(coordinator is VehicleDetailCoordinator)
     }

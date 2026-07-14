@@ -717,6 +717,17 @@
         }
       }
     },
+    "loadingVehicleAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading vehicle information"
+          }
+        }
+      }
+    },
     "loadingVehiclesAccessibilityLabel" : {
       "extractionState" : "manual",
       "localizations" : {

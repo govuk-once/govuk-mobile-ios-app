@@ -1,51 +1,139 @@
 import Foundation
 import GovKit
 
-struct VehicleDetailViewModel: Identifiable {
-    private let vehicle: CustomerSummary.Vehicle
-    private let openURLAction: (URL) -> Void
-    private let configService: AppConfigServiceInterface
+final class VehicleDetailViewModel: ObservableObject {
+    enum ViewState {
+        case loading
+        case loaded(ViewVehicleDetails)
+        case error(InlineActionErrorViewModel)
+    }
+
+    @Published private(set) var viewState: ViewState = .loading
+
+    private let vehicleId: Int
     private let analyticsService: AnalyticsServiceInterface
+    private let dvlaService: DVLAServiceInterface
+    private let configService: AppConfigServiceInterface
+    private let openURLAction: (URL) -> Void
     private let statusFormatter = DVLAValidityStatusFormatter()
     private let specFormatter: VehicleSpecFormatterInterface
+    private var vehicleLoaded = false
 
-    var id: Int {
-        vehicle.vehicleId
-    }
-    var registrationNumber: String {
-        vehicle.registrationNumber
-    }
-    var vehicleMake: String {
-        vehicle.make
-    }
-    var vehicleModel: String {
-        specFormatter.formatModel(from: vehicle.model)
-    }
-    var keeperFullName: String {
-        [
-            vehicle.keeper?.title,
-            vehicle.keeper?.firstNames,
-            vehicle.keeper?.lastName
-        ]
-        .compactMap { $0 }
-        .joined(separator: " ")
-    }
-    var keeperAddress: [String] {
-        let driverAddress = vehicle.keeper?.address?.unstructuredAddress
-        return [
-            driverAddress?.line1?.capitalized,
-            driverAddress?.line2?.capitalized,
-            driverAddress?.line3?.capitalized,
-            driverAddress?.line4?.capitalized,
-            driverAddress?.line5?.capitalized,
-            driverAddress?.postcode
-        ]
-            .compactMap { $0 }
-    }
-    var taxStatusViewModel: ValidityStatusViewModel
-    var motStatusViewModel: ValidityStatusViewModel
+    let loadingAccessibilityLabel = String(localized: .DVLA.loadingVehicleAccessibilityLabel)
 
-    var vehicleSpecViewModel: VehicleSpecViewModel {
+    init(
+        vehicleId: Int,
+        analyticsService: AnalyticsServiceInterface,
+        dvlaService: DVLAServiceInterface,
+        configService: AppConfigServiceInterface,
+        openURLAction: @escaping (URL) -> Void,
+        specFormatter: VehicleSpecFormatterInterface = VehicleSpecFormatter()
+    ) {
+        self.vehicleId = vehicleId
+        self.analyticsService = analyticsService
+        self.dvlaService = dvlaService
+        self.configService = configService
+        self.openURLAction = openURLAction
+        self.specFormatter = specFormatter
+    }
+
+    @MainActor
+    func viewDidAppear() async {
+        guard !vehicleLoaded else { return }
+        await fetchVehicle()
+    }
+
+    func trackScreen(screen: TrackableScreen) {
+        analyticsService.track(screen: screen)
+    }
+
+    @MainActor
+    private func fetchVehicle() async {
+        viewState = .loading
+
+        let result = await dvlaService.fetchCustomerVehicleDetails(vehicleId)
+
+        switch result {
+        case .success(let vehicleReponse):
+            viewState = .loaded(
+                makeViewVehicleDetails(vehicleReponse.customerVehicleDetails)
+            )
+            vehicleLoaded = true
+        case .failure:
+            viewState = .error(vehicleErrorViewModel)
+            vehicleLoaded = false
+        }
+    }
+
+    @MainActor
+    private func makeViewVehicleDetails(
+        _ vehicle: CustomerVehicleDetails.Vehicle
+    ) -> ViewVehicleDetails {
+        let keeperAddress = vehicle.keeperFullAddress
+        let regNumberAccessibilityLabelPrefix = String(
+            localized: .DVLA.registrationNumberAccessibilityLabelPrefix
+        )
+        let moreOptionsAccessibilityLabel = String(
+            localized: .DVLA.moreOptionsButtonAccessibilityLabel
+        )
+        let taxValidityVehicle = TaxValidityVehicle(
+            taxStatus: vehicle.taxStatus,
+            sornStart: vehicle.sornStart,
+            taxedUntil: vehicle.taxedUntil,
+            currentLicencePaymentMethod: vehicle.currentLicencePaymentMethod
+        )
+
+        return ViewVehicleDetails(
+            keeperFullName: keeperFullName(vehicle),
+            keeperAddress: keeperAddress ?? "",
+            make: vehicle.make,
+            model: vehicle.model ?? "",
+            registrationNumber: vehicle.registrationNumber,
+            taxStatusViewModel: taxStatusViewModel(taxValidityVehicle),
+            motStatusViewModel: motStatusViewModel(vehicle),
+            vehicleSpecViewModel: specViewModel(vehicle),
+            specificationSection: specificationSection(vehicle),
+            addressAccessibilityLabel: keeperAddress ?? "",
+            regNumberAccessibilityLabelPrefix: regNumberAccessibilityLabelPrefix,
+            moreOptionsAccessibilityLabel: moreOptionsAccessibilityLabel
+        )
+    }
+
+    @MainActor
+    private func taxStatusViewModel(
+        _ vehicle: TaxValidityVehicle
+    ) -> ValidityStatusViewModel {
+        let builder = TaxStatusViewModelBuilder(
+            urls: configService.dvlaUrls,
+            analyticsService: analyticsService,
+            openURLAction: openURLAction
+        )
+        return builder.makeViewModel(
+            vehicle: vehicle
+        )
+    }
+
+    @MainActor
+    private func motStatusViewModel(
+        _ vehicle: CustomerVehicleDetails.Vehicle
+    ) -> ValidityStatusViewModel {
+        let builder = MotStatusViewModelBuilder(
+            urls: configService.dvlaUrls,
+            analyticsService: analyticsService,
+            openURLAction: openURLAction
+        )
+        return builder.makeViewModel(
+            vehicle: MotStatusVehicle(
+                motStatus: vehicle.motStatus,
+                motExpiryDate: vehicle.motExpiryDate,
+                registrationNumber: vehicle.registrationNumber
+            )
+        )
+    }
+
+    private func specViewModel(
+        _ vehicle: CustomerVehicleDetails.Vehicle
+    ) -> VehicleSpecViewModel {
         .init(
             colour: vehicle.colour.capitalized,
             fuelTypeIcon: specFormatter.getIconForFuelType(vehicle.fuelType),
@@ -53,8 +141,30 @@ struct VehicleDetailViewModel: Identifiable {
             year: specFormatter.formatYearOfFirstRegistration(from: vehicle.dateOfFirstRegistration)
         )
     }
-    var specificationSection: GroupedListSection {
-        GroupedListSection(
+
+    private func keeperFullName(
+        _ vehicle: CustomerVehicleDetails.Vehicle
+    ) -> String {
+        [
+            vehicle.keeperTitle,
+            vehicle.keeperFirstNames,
+            vehicle.keeperLastName
+        ]
+            .compactMap { $0 }
+            .joined(separator: " ")
+    }
+
+    // swiftlint:disable:next function_body_length
+    private func specificationSection(
+        _ vehicle: CustomerVehicleDetails.Vehicle
+    ) -> GroupedListSection {
+        let engineSize: AccessibleString = specFormatter.formatEngineSize(
+            from: vehicle.engineCapacity
+        )
+        let emissions: AccessibleString = specFormatter.formatEmissions(
+            from: vehicle.exhaustEmissionsCo2
+        )
+        return GroupedListSection(
             heading: nil,
             rows: [
                 InformationRow(
@@ -118,58 +228,52 @@ struct VehicleDetailViewModel: Identifiable {
             footer: nil
         )
     }
-    var addressAccessibilityLabel: String {
-        keeperAddress.joined(separator: ", ")
-    }
-    let regNumberAccessibilityLabelPrefix = String(
-        localized: .DVLA.registrationNumberAccessibilityLabelPrefix
-    )
-    let moreOptionsAccessibilityLabel = String(
-        localized: .DVLA.moreOptionsButtonAccessibilityLabel
-    )
 
-    private var engineSize: AccessibleString {
-        specFormatter.formatEngineSize(from: vehicle.engineCapacity)
-    }
+    private func handleOpenURL(url: URL, buttonTitle: String) {
+         trackOpenURLAction(url: url, buttonTitle: buttonTitle)
+         openURLAction(url)
+     }
 
-    private var emissions: AccessibleString {
-        specFormatter.formatEmissions(from: vehicle.exhaustEmissions)
-    }
+     private func trackOpenURLAction(url: URL, buttonTitle: String) {
+         let event = AppEvent.buttonNavigation(
+             text: buttonTitle,
+             external: true,
+             url: url.absoluteString,
+             section: "Driving"
+         )
+         analyticsService.track(event: event)
+     }
 
-    @MainActor
-    init(
-        analyticsService: AnalyticsServiceInterface,
-        configService: AppConfigServiceInterface,
-        vehicle: CustomerSummary.Vehicle,
-        openURLAction: @escaping (URL) -> Void,
-        specFormatter: VehicleSpecFormatterInterface = VehicleSpecFormatter()
-    ) {
-        self.vehicle = vehicle
-        self.analyticsService = analyticsService
-        self.configService = configService
-        self.specFormatter = specFormatter
-        self.openURLAction = openURLAction
-
-        let builder = TaxStatusViewModelBuilder(
-            urls: configService.dvlaUrls,
-            analyticsService: analyticsService,
-            openURLAction: openURLAction
+    private var vehicleErrorViewModel: InlineActionErrorViewModel {
+        let url = configService.dvlaUrls?.account ?? Constants.API.defaultDvlaAccountUrl
+        let buttonTitle = String(localized: .DVLA.vehicleSummaryErrorButtonTitle)
+        let errorBody = String(
+            localized: .DVLA.vehicleSummaryErrorBody(
+                buttonTitle: buttonTitle,
+                url: url.absoluteString
+            )
         )
-        self.taxStatusViewModel = builder.makeViewModel(
-            vehicle: vehicle
-        )
-
-        let motStatusBuilder = MotStatusViewModelBuilder(
-            urls: configService.dvlaUrls,
-            analyticsService: analyticsService,
-            openURLAction: openURLAction
-        )
-        self.motStatusViewModel = motStatusBuilder.makeViewModel(
-            vehicle: vehicle
+        return InlineActionErrorViewModel(
+            title: String(localized: .DVLA.vehicleSummaryErrorTitle),
+            markdownBody: errorBody,
+            openURLAction: { [weak self] url in
+                self?.handleOpenURL(url: url, buttonTitle: buttonTitle)
+            }
         )
     }
+}
 
-    func trackScreen(screen: TrackableScreen) {
-        analyticsService.track(screen: screen)
-    }
+struct ViewVehicleDetails {
+    let keeperFullName: String
+    let keeperAddress: String
+    let make: String
+    let model: String
+    let registrationNumber: String
+    let taxStatusViewModel: ValidityStatusViewModel
+    let motStatusViewModel: ValidityStatusViewModel
+    let vehicleSpecViewModel: VehicleSpecViewModel
+    let specificationSection: GroupedListSection
+    let addressAccessibilityLabel: String
+    let regNumberAccessibilityLabelPrefix: String
+    let moreOptionsAccessibilityLabel: String
 }

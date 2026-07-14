@@ -384,7 +384,7 @@ class MockCoordinatorBuilder: CoordinatorBuilder {
     var _stubbedVehicleDetailCoordinator: MockBaseCoordinator?
     override func vehicleDetail(
         navigationController: UINavigationController,
-        vehicle: CustomerSummary.Vehicle
+        vehicleId: Int
     ) -> BaseCoordinator {
         _stubbedVehicleDetailCoordinator ?? MockBaseCoordinator()
     }

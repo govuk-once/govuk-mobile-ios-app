@@ -67,7 +67,7 @@ import GovKit
     }
 
     func test_vehicleSummaryView_light_rendersCorrectly() {
-        let mockVehicle = CustomerSummary.Vehicle.arrange(
+        let mockVehicle = CustomerVehicles.Vehicle.arrange(
             registrationNumber: "AB12 CDE",
             make: "LAND ROVER RANGE ROVER",
             model: "SPORT 2.0 TD4 HSE DYNAMIC",
@@ -100,7 +100,7 @@ import GovKit
     }
 
     func test_vehicleSummaryView_dark_rendersCorrectly() {
-        let mockVehicle = CustomerSummary.Vehicle.arrange(
+        let mockVehicle = CustomerVehicles.Vehicle.arrange(
             registrationNumber: "AB12 CDE",
             make: "LAND ROVER RANGE ROVER",
             model: "SPORT 2.0 TD4 HSE DYNAMIC",

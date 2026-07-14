@@ -110,7 +110,7 @@ class DVLAAccountWidgetViewModel: ObservableObject {
 extension DVLAAccountWidgetViewModel {
     struct Actions {
         let linkAction: () -> Void
-        let vehicleDetailAction: (CustomerSummary.Vehicle) -> Void
+        let vehicleDetailAction: (Int) -> Void
         let openURLAction: (URL) -> Void
     }
 }

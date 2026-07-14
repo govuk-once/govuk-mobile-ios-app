@@ -6,7 +6,7 @@ import GovKitUI
 protocol TaxStatusViewModelBuilderInterface {
     @MainActor
     func makeViewModel(
-        vehicle: CustomerSummary.Vehicle,
+        vehicle: TaxValidityVehicle,
     ) -> ValidityStatusViewModel
 }
 
@@ -29,7 +29,7 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
 
     @MainActor
     func makeViewModel(
-        vehicle: CustomerSummary.Vehicle
+        vehicle: TaxValidityVehicle
     ) -> ValidityStatusViewModel {
         let status = taxValidityStatus(vehicle: vehicle)
         switch status {
@@ -46,7 +46,7 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
                 if expiryProgress.isWithinCountdownWindow {
                     return makeExpiringViewModel(
                         validToDate: validToDate,
-                        paymentMethod: vehicle.currentLicence?.paymentMethod ?? "",
+                        paymentMethod: vehicle.currentLicencePaymentMethod ?? "",
                         expiryProgress: expiryProgress
                     )
                 }
@@ -244,7 +244,7 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
     }
 
     private func taxValidityStatus(
-        vehicle: CustomerSummary.Vehicle
+        vehicle: TaxValidityVehicle
     ) -> TaxValidityStatus {
         switch (vehicle.taxStatus, vehicle.sornStart) {
         case (.notTaxedForOnRoadUse, _):
@@ -281,4 +281,11 @@ enum TaxValidityStatus: ValidityStatus {
     case untaxed
     case taxed
     case unknown
+}
+
+struct TaxValidityVehicle {
+    let taxStatus: TaxStatus?
+    let sornStart: Date?
+    let taxedUntil: Date?
+    let currentLicencePaymentMethod: String?
 }

@@ -3,14 +3,52 @@ import GovKitUI
 import GovKit
 
 struct VehicleDetailView: View {
-    let viewModel: VehicleDetailViewModel
+    @ObservedObject var viewModel: VehicleDetailViewModel
 
     private static let standardPadding: CGFloat = 16.0
 
     var body: some View {
+        Group {
+            switch viewModel.viewState {
+            case .loading:
+                loadingView
+            case .loaded(let viewVehicleDetails):
+                makeVehicleDetailsView(viewVehicleDetails)
+            case .error(let errorViewModel):
+                makeErrorView(for: errorViewModel)
+            }
+        }
+        .frame(maxHeight: .infinity)
+        .background(Color(UIColor.govUK.fills.surfaceFullscreen))
+        .task {
+            await viewModel.viewDidAppear()
+        }
+        .onAppear {
+            viewModel.trackScreen(screen: self)
+        }
+    }
+
+    private var loadingView: some View {
+        ZStack {
+            ProgressView()
+                .accessibilityLabel(viewModel.loadingAccessibilityLabel)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 86)
+        }
+        .background(Color(UIColor.govUK.fills.surfaceFullscreen))
+        .clipShape(RoundedRectangle(cornerRadius: 10))
+        .padding(.horizontal, 16)
+    }
+
+
+    @ViewBuilder
+    // swiftlint:disable:next function_body_length
+    private func makeVehicleDetailsView(
+        _ viewVehicleDetails: ViewVehicleDetails
+    ) -> some View {
         ScrollView {
             VStack(spacing: 0) {
-                Text(viewModel.vehicleMake)
+                Text(viewVehicleDetails.make)
                     .font(.govUK.title1Bold)
                     .multilineTextAlignment(.leading)
                     .frame(
@@ -19,7 +57,7 @@ struct VehicleDetailView: View {
                     )
                     .padding(.top, Self.standardPadding)
                     .padding(.horizontal, Self.standardPadding)
-                Text(viewModel.vehicleModel)
+                Text(viewVehicleDetails.model)
                     .font(.govUK.title3)
                     .multilineTextAlignment(.leading)
                     .frame(
@@ -28,7 +66,7 @@ struct VehicleDetailView: View {
                     )
                     .padding(.horizontal, Self.standardPadding)
                     .padding(.vertical, 8)
-                VehicleSpecView(viewModel: viewModel.vehicleSpecViewModel)
+                VehicleSpecView(viewModel: viewVehicleDetails.vehicleSpecViewModel)
                 Text(.DVLA.status)
                     .font(.govUK.title2Bold)
                     .frame(
@@ -38,12 +76,12 @@ struct VehicleDetailView: View {
                     .padding(.horizontal, Self.standardPadding)
                     .padding(.top, 16)
                     .accessibilityAddTraits(.isHeader)
-                TaxValidityStatusView(viewModel: viewModel.taxStatusViewModel)
+                TaxValidityStatusView(viewModel: viewVehicleDetails.taxStatusViewModel)
                 Divider()
                     .overlay(Color(uiColor: .govUK.strokes.listDivider))
                     .padding(.horizontal, Self.standardPadding)
                     .padding(.vertical, 8)
-                ValidityStatusView(viewModel: viewModel.motStatusViewModel)
+                ValidityStatusView(viewModel: viewVehicleDetails.motStatusViewModel)
                 Text(.DVLA.registeredTo)
                     .font(.govUK.title2Bold)
                     .frame(
@@ -53,7 +91,7 @@ struct VehicleDetailView: View {
                     .padding(.top, 32)
                     .padding([.horizontal], Self.standardPadding)
                     .accessibilityAddTraits(.isHeader)
-                addressView
+                addressView(viewVehicleDetails: viewVehicleDetails)
                     .frame(
                         maxWidth: .infinity,
                         alignment: .leading
@@ -68,7 +106,7 @@ struct VehicleDetailView: View {
                     .padding([.horizontal], Self.standardPadding)
                     .padding(.bottom, 8)
                     .accessibilityAddTraits(.isHeader)
-                Text(viewModel.registrationNumber)
+                Text(viewVehicleDetails.registrationNumber)
                     .font(.govUK.vehicleRegistrationMarkExtraLarge)
                     .foregroundStyle(Color.black)
                     .padding(.horizontal, 24)
@@ -81,15 +119,14 @@ struct VehicleDetailView: View {
                     )
                     .padding(8)
                     .accessibilityLabel(
-                        registrationNumberAccessibilityLabel
+                        registrationNumberAccessibilityLabel(viewVehicleDetails: viewVehicleDetails)
                     )
                 GroupedList(
-                    content: [viewModel.specificationSection],
+                    content: [viewVehicleDetails.specificationSection],
                     sectionBackgroundColor: .govUK.fills.surfaceFullscreen
                 )
             }
         }
-        .background(Color(uiColor: .govUK.fills.surfaceFullscreen))
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
@@ -97,34 +134,27 @@ struct VehicleDetailView: View {
                 } label: {
                     Image(systemName: "ellipsis")
                 }
-                .accessibilityLabel(viewModel.moreOptionsAccessibilityLabel)
+                .accessibilityLabel(viewVehicleDetails.moreOptionsAccessibilityLabel)
             }
-        }
-        .onAppear {
-            viewModel.trackScreen(screen: self)
         }
     }
 
     @ViewBuilder
-    private var addressView: some View {
-        if !viewModel.keeperAddress.isEmpty || !viewModel.keeperFullName.isEmpty {
+    private func addressView(
+        viewVehicleDetails: ViewVehicleDetails
+    ) -> some View {
+        if !viewVehicleDetails.keeperAddress.isEmpty || !viewVehicleDetails.keeperFullName.isEmpty {
             VStack(alignment: .leading, spacing: 0) {
-                Text(viewModel.keeperFullName)
+                Text(viewVehicleDetails.keeperFullName)
                     .font(.govUK.bodySemibold)
                     .multilineTextAlignment(.leading)
                     .padding(.top, Self.standardPadding)
                     .padding(.bottom, 4)
-                if !viewModel.keeperAddress.isEmpty {
-                    VStack(alignment: .leading, spacing: 0) {
-                        ForEach(viewModel.keeperAddress, id: \.self) { addressLine in
-                            Text(addressLine)
-                                .font(.govUK.body)
-                                .padding(.top, 4)
-                        }
-                    }
-                    .accessibilityElement(children: .combine)
-                    .accessibilityLabel(viewModel.addressAccessibilityLabel)
-                }
+                Text(viewVehicleDetails.keeperAddress)
+                    .font(.govUK.body)
+                    .multilineTextAlignment(.leading)
+                    .padding(.top, 4)
+                    .accessibilityLabel(viewVehicleDetails.addressAccessibilityLabel)
             }
             .padding(.horizontal, Self.standardPadding)
             .padding(.bottom, Self.standardPadding)
@@ -134,9 +164,18 @@ struct VehicleDetailView: View {
         }
     }
 
-    private var registrationNumberAccessibilityLabel: Text {
-        Text(viewModel.regNumberAccessibilityLabelPrefix)
-        + Text(viewModel.registrationNumber.lowercased()).speechSpellsOutCharacters()
+    private func registrationNumberAccessibilityLabel(
+        viewVehicleDetails: ViewVehicleDetails
+    ) -> Text {
+        Text(viewVehicleDetails.regNumberAccessibilityLabelPrefix)
+        + Text(viewVehicleDetails.registrationNumber.lowercased()).speechSpellsOutCharacters()
+    }
+
+    private func makeErrorView(for errorViewModel: InlineActionErrorViewModel) -> some View {
+        InlineActionErrorView(viewModel: errorViewModel)
+            .frame(maxWidth: .infinity, minHeight: 100)
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+            .padding(.horizontal, 16)
     }
 }
 

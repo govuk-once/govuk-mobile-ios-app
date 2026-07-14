@@ -3,15 +3,20 @@ import Foundation
 @testable import govuk_ios
 
 class MockDVLAServiceClient: DVLAServiceClientInterface {
+    var _stubbedCustomerVehiclesResult: CustomerVehiclesResult?
+    func fetchCustomerVehicles() async -> govuk_ios.CustomerVehiclesResult {
+        _stubbedCustomerVehiclesResult!
+    }
+    
+    var _stubbedCustomerVehicleDetailsResult: CustomerVehicleDetailsResult?
+    func fetchCustomerVehicleDetails(_ vehicleID: Int) async -> govuk_ios.CustomerVehicleDetailsResult {
+        _stubbedCustomerVehicleDetailsResult!
+    }
+    
 
     var _stubbedFetchDrivingLicenceResult: DrivingLicenceResult?
     func fetchDrivingLicence() async -> DrivingLicenceResult {
         _stubbedFetchDrivingLicenceResult!
-    }
-
-    var _stubbedFetchCustomerSummaryResult: CustomerSummaryResult?
-    func fetchCustomerSummary() async -> CustomerSummaryResult {
-        _stubbedFetchCustomerSummaryResult!
     }
 
     var _stubbedFetchVehicleResult: VehicleResult?

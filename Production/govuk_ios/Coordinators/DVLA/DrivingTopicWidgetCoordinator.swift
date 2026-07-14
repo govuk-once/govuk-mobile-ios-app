@@ -51,8 +51,8 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator,
             dvlaService: dvlaService,
             configService: configService,
             linkAction: startLinkAccount,
-            vehicleDetailAction: { [weak self] vehicle in
-                self?.startVehicleDetail(vehicle: vehicle)
+            vehicleDetailAction: { [weak self] vehicleID in
+                self?.startVehicleDetail(vehicleID)
             },
             openURLAction: { [weak self] url in
                 self?.urlOpener.openIfPossible(url)
@@ -60,10 +60,10 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator,
         )
     }
 
-    private func startVehicleDetail(vehicle: CustomerSummary.Vehicle) {
+    private func startVehicleDetail(_ vehicleId: Int) {
         let coordinator = coordinatorBuilder.vehicleDetail(
             navigationController: root,
-            vehicle: vehicle
+            vehicleId: vehicleId
         )
         start(coordinator)
     }

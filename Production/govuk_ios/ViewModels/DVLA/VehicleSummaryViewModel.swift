@@ -22,7 +22,7 @@ struct VehicleSummaryViewModel: Identifiable {
 extension VehicleSummaryViewModel {
     @MainActor
     init(
-        vehicle: CustomerSummary.Vehicle,
+        vehicle: CustomerVehicles.Vehicle,
         specFormatter: VehicleSpecFormatter = VehicleSpecFormatter(),
         detailAction: @escaping () -> Void,
         openURLAction: @escaping (URL) -> Void,
@@ -42,7 +42,12 @@ extension VehicleSummaryViewModel {
             openURLAction: openURLAction
         )
         self.taxStatusViewModel = builder.makeViewModel(
-            vehicle: vehicle
+            vehicle: TaxValidityVehicle(
+                taxStatus: vehicle.taxStatus,
+                sornStart: vehicle.sornStart,
+                taxedUntil: vehicle.taxedUntil,
+                currentLicencePaymentMethod: vehicle.currentLicencePaymentMethod
+            )
         )
         let motBuilder = MotStatusViewModelBuilder(
             urls: configService.dvlaUrls,
@@ -50,7 +55,11 @@ extension VehicleSummaryViewModel {
             openURLAction: openURLAction
         )
         self.motStatusViewModel = motBuilder.makeViewModel(
-            vehicle: vehicle
+            vehicle: MotStatusVehicle(
+                motStatus: vehicle.motStatus,
+                motExpiryDate: vehicle.motExpiryDate,
+                registrationNumber: vehicle.registrationNumber
+            )
         )
 
         self.detailAction = detailAction

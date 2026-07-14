@@ -16,10 +16,11 @@ struct VehicleDetailCoordinatorTests {
         let sut = VehicleDetailCoordinator(
             navigationController: root,
             viewControllerBuilder: mockViewControllerBuilder,
-            urlOpener: MockURLOpener(),
             analyticsService: MockAnalyticsService(),
+            dvlaService: MockDVLAService(),
             configService: MockAppConfigService(),
-            vehicle: .arrange
+            urlOpener: MockURLOpener(),
+            vehicleId: 1
         )
 
         sut.start(url: nil)
@@ -33,14 +34,14 @@ struct VehicleDetailCoordinatorTests {
         let stubbedVehicleDetailController = UIViewController()
         let mockViewControllerBuilder = MockViewControllerBuilder()
         mockViewControllerBuilder._stubbedVehicleDetailController = stubbedVehicleDetailController
-
         let sut = VehicleDetailCoordinator(
             navigationController: UINavigationController(),
             viewControllerBuilder: mockViewControllerBuilder,
-            urlOpener: mockURLOpener,
             analyticsService: MockAnalyticsService(),
+            dvlaService: MockDVLAService(),
             configService: MockAppConfigService(),
-            vehicle: .arrange
+            urlOpener: mockURLOpener,
+            vehicleId: 1
         )
         sut.start(url: nil)
         mockViewControllerBuilder._receivedVehicleDetailOpenURLAction?(mockURL)

@@ -13,9 +13,7 @@ enum MOTValidityStatus: ValidityStatus {
 
 protocol MotStatusViewModelBuilderInterface {
     @MainActor
-    func makeViewModel(
-        vehicle: CustomerSummary.Vehicle
-    ) -> ValidityStatusViewModel
+    func makeViewModel(vehicle: MotStatusVehicle) -> ValidityStatusViewModel
 }
 
 struct MotStatusViewModelBuilder: MotStatusViewModelBuilderInterface {
@@ -38,7 +36,7 @@ struct MotStatusViewModelBuilder: MotStatusViewModelBuilderInterface {
 
     @MainActor
     func makeViewModel(
-        vehicle: CustomerSummary.Vehicle
+        vehicle: MotStatusVehicle
     ) -> ValidityStatusViewModel {
         switch vehicle.motStatus {
         case "No results returned":
@@ -90,7 +88,7 @@ struct MotStatusViewModelBuilder: MotStatusViewModelBuilderInterface {
         if let dateString = formattedDate(validToDate) {
             formattedStatus = String(localized: .DVLA.motExpiredOn(dateString))
         } else {
-            formattedStatus = String(localized: .DVLA.motStatusTitle)
+            formattedStatus = String(localized: .DVLA.expired)
         }
 
         return ValidityStatusViewModel(
@@ -167,7 +165,7 @@ struct MotStatusViewModelBuilder: MotStatusViewModelBuilderInterface {
     }
 
     private func makeNoDetailsViewModel(
-        vehicle: CustomerSummary.Vehicle
+        vehicle: MotStatusVehicle
     ) -> ValidityStatusViewModel {
         let buttonTitle = String(localized: .DVLA.motSeeStatusOnTheWebsite)
         var buttonURL = URL(string: Constants.API.defaultDvlaNoDetailsBaseUrlString)!
@@ -204,4 +202,10 @@ struct MotStatusViewModelBuilder: MotStatusViewModelBuilderInterface {
         )
         analyticsService.track(event: event)
     }
+}
+
+struct MotStatusVehicle {
+    let motStatus: String
+    let motExpiryDate: Date?
+    let registrationNumber: String
 }

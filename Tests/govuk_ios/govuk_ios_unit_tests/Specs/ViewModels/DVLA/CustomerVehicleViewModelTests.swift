@@ -5,10 +5,10 @@ import Testing
 @testable import GovKit
 
 @MainActor
-struct VehicleSummaryViewModelTests {
+struct CustomerVehicleViewModelTests {
     @Test
     func initWithVehicle_mapsPropertiesCorrectly() {
-        let mockVehicle = CustomerSummary.Vehicle.arrange(
+        let mockVehicle = CustomerVehicles.Vehicle.arrange(
             registrationNumber: "AB12 CDE",
             make: "FORD",
             model: "FOCUS"
@@ -27,7 +27,7 @@ struct VehicleSummaryViewModelTests {
 
     @Test
     func vehicleModel_modelIsNil_returnsUnknown() {
-        let mockVehicle = CustomerSummary.Vehicle.arrange(
+        let mockVehicle = CustomerVehicles.Vehicle.arrange(
             registrationNumber: "AB12 CDE",
             make: "FORD",
             model: nil
@@ -45,7 +45,7 @@ struct VehicleSummaryViewModelTests {
     @Test
     func taxStatusViewModel_taxedUntilDateIsValid_formatsStatusCorrectly() {
         let futureDate = generateFutureDate(daysAhead: 45)
-        let mockVehicle = CustomerSummary.Vehicle.arrange(
+        let mockVehicle = CustomerVehicles.Vehicle.arrange(
             taxedUntil: futureDate
         )
         let sut = VehicleSummaryViewModel(
@@ -65,7 +65,7 @@ struct VehicleSummaryViewModelTests {
 
     @Test
     func taxStatusViewModel_taxedUntilDateIsNil_returnsUnknown() {
-        let mockVehicle = CustomerSummary.Vehicle.arrange(
+        let mockVehicle = CustomerVehicles.Vehicle.arrange(
             taxedUntil: nil
         )
         let sut = VehicleSummaryViewModel(
@@ -81,8 +81,7 @@ struct VehicleSummaryViewModelTests {
     @Test
     func motStatusViewModel_motExpiryDateIsValid_formatsStatusCorrectly() {
         let futureDate = generateFutureDate(daysAhead: 45)
-
-        let mockVehicle = CustomerSummary.Vehicle.arrange(
+        let mockVehicle = CustomerVehicles.Vehicle.arrange(
             motStatus: "Valid", motExpiryDate: futureDate
         )
         let sut = VehicleSummaryViewModel(
@@ -103,7 +102,7 @@ struct VehicleSummaryViewModelTests {
 
     @Test
     func motStatusViewModel_motExpiryDateIsNil_returnsUnknown() {
-        let mockVehicle = CustomerSummary.Vehicle.arrange(
+        let mockVehicle = CustomerVehicles.Vehicle.arrange(
             motStatus: "Unknown",
             motExpiryDate: nil
         )
@@ -120,7 +119,7 @@ struct VehicleSummaryViewModelTests {
 
     @Test
     func menuItems_notTaxed_sorn_returnsExpectedMenuItems() {
-        let mockVehicle = CustomerSummary.Vehicle.arrange(
+        let mockVehicle = CustomerVehicles.Vehicle.arrange(
             taxStatus: .untaxed,
             sornStart: Date()
         )
@@ -142,7 +141,7 @@ struct VehicleSummaryViewModelTests {
 
     @Test
     func menuItems_taxed_notSorn_returnsExpectedMenuItems() {
-        let mockVehicle = CustomerSummary.Vehicle.arrange(
+        let mockVehicle = CustomerVehicles.Vehicle.arrange(
             taxStatus: .taxed,
             sornStart: nil
         )
@@ -166,7 +165,7 @@ struct VehicleSummaryViewModelTests {
 
     @Test
     func menuItems_notTaxed_notSorn_returnsMenuItems() {
-        let mockVehicle = CustomerSummary.Vehicle.arrange(
+        let mockVehicle = CustomerVehicles.Vehicle.arrange(
             taxStatus: .untaxed,
             sornStart: nil
         )
@@ -193,7 +192,7 @@ struct VehicleSummaryViewModelTests {
         let mockConfigService = MockAppConfigService()
         let dvlaURLs = DvlaURLs.arrange
         mockConfigService._dvlaUrls = dvlaURLs
-        let mockVehicle = CustomerSummary.Vehicle.arrange(
+        let mockVehicle = CustomerVehicles.Vehicle.arrange(
             taxStatus: .untaxed,
             sornStart: Date()
         )
@@ -223,7 +222,7 @@ struct VehicleSummaryViewModelTests {
         let mockConfigService = MockAppConfigService()
         let dvlaURLs = DvlaURLs.arrange
         mockConfigService._dvlaUrls = dvlaURLs
-        let mockVehicle = CustomerSummary.Vehicle.arrange(
+        let mockVehicle = CustomerVehicles.Vehicle.arrange(
             taxStatus: .taxed,
             sornStart: nil
         )
@@ -253,7 +252,7 @@ struct VehicleSummaryViewModelTests {
         let mockConfigService = MockAppConfigService()
         let dvlaURLs = DvlaURLs.arrange
         mockConfigService._dvlaUrls = dvlaURLs
-        let mockVehicle = CustomerSummary.Vehicle.arrange(
+        let mockVehicle = CustomerVehicles.Vehicle.arrange(
             taxStatus: .untaxed,
             sornStart: nil
         )
@@ -283,7 +282,7 @@ struct VehicleSummaryViewModelTests {
         let mockConfigService = MockAppConfigService()
         let dvlaURLs = DvlaURLs.arrange
         mockConfigService._dvlaUrls = dvlaURLs
-        let mockVehicle = CustomerSummary.Vehicle.arrange(
+        let mockVehicle = CustomerVehicles.Vehicle.arrange(
             taxStatus: .taxed,
             sornStart: nil
         )
@@ -313,7 +312,7 @@ struct VehicleSummaryViewModelTests {
         let mockConfigService = MockAppConfigService()
         let dvlaURLs = DvlaURLs.arrange
         mockConfigService._dvlaUrls = dvlaURLs
-        let mockVehicle = CustomerSummary.Vehicle.arrange(
+        let mockVehicle = CustomerVehicles.Vehicle.arrange(
             taxStatus: .taxed,
             sornStart: nil
         )
@@ -343,7 +342,7 @@ struct VehicleSummaryViewModelTests {
         let mockConfigService = MockAppConfigService()
         let dvlaURLs = DvlaURLs.arrange
         mockConfigService._dvlaUrls = dvlaURLs
-        let mockVehicle = CustomerSummary.Vehicle.arrange(
+        let mockVehicle = CustomerVehicles.Vehicle.arrange(
             taxStatus: .taxed,
             sornStart: nil
         )

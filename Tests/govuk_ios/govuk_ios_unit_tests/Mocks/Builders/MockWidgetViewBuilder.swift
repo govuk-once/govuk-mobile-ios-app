@@ -5,14 +5,14 @@ import GovKit
 
 class MockWidgetViewBuilder: WidgetViewBuilder {
     var _receivedDvlaAccountWidgetLinkAction: (() -> Void)?
-    var _receivedVehicleDetailAction: ((CustomerSummary.Vehicle) -> Void)?
+    var _receivedVehicleDetailAction: ((Int) -> Void)?
     override func dvlaAccountWidget(
         analyticsService: AnalyticsServiceInterface,
         userService: UserServiceInterface,
         dvlaService: DVLAServiceInterface,
         configService: AppConfigServiceInterface,
         linkAction: @escaping () -> Void,
-        vehicleDetailAction: @escaping (CustomerSummary.Vehicle) -> Void,
+        vehicleDetailAction: @escaping (Int) -> Void,
         openURLAction: @escaping (URL) -> Void
     ) -> AnyView? {
         _receivedDvlaAccountWidgetLinkAction = linkAction

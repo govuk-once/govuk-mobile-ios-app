@@ -46,22 +46,22 @@ struct DVLAServiceClientTests {
     }
 
     @Test
-    func fetchCustomerSummary_sendsExpectedRequest() async {
+    func fetchCustomerVehicles_sendsExpectedRequest() async {
         mockAPI._stubbedSendResponse = .success(Data())
-        _ = await sut.fetchCustomerSummary()
-        #expect(mockAPI._receivedSendRequest?.urlPath == "/app/dvla/v1/customer-summary")
+        _ = await sut.fetchCustomerVehicles()
+        #expect(mockAPI._receivedSendRequest?.urlPath == "/app/dvla/v1/customer/vehicles")
         #expect(mockAPI._receivedSendRequest?.method == .get)
         #expect(mockAPI._receivedSendRequest?.additionalHeaders == ["Content-Type": "application/json"])
     }
 
     @Test
-    func fetchCustomerSummary_success_returnsExpectedResult() async throws {
-        mockAPI._stubbedSendResponse = .success(Self.customerSummaryResponse)
+    func fetchCustomerVehicles_success_returnsExpectedResult() async throws {
+        mockAPI._stubbedSendResponse = .success(Self.customerVehiclesResponse)
 
-        let result = await sut.fetchCustomerSummary()
-        let customerSummary = try #require(try? result.get())
+        let result = await sut.fetchCustomerVehicles()
+        let customerVehicles = try #require(try? result.get())
 
-        let vehicle = try #require(customerSummary.vehicles.first)
+        let vehicle = try #require(customerVehicles.customerVehicles.first)
         #expect(vehicle.registrationNumber == "RBZ5119")
         #expect(vehicle.make == "MITSUBISHI")
         #expect(vehicle.model == "MIRAGE")
@@ -70,9 +70,32 @@ struct DVLAServiceClientTests {
     }
 
     @Test
-    func fetchCustomerSummary_apiUnavailable_returnsExpectedError() async {
+    func fetchCustomerVehicles_apiUnavailable_returnsExpectedError() async {
         mockAPI._stubbedSendResponse = .failure(DVLAError.apiUnavailable)
-        let result = await sut.fetchCustomerSummary()
+        let result = await sut.fetchCustomerVehicles()
+        let error = result.getError()
+        #expect(error == .apiUnavailable)
+    }
+
+    @Test
+    func fetchCustomerVehicleDetails_success_returnsExpectedResult() async throws {
+        mockAPI._stubbedSendResponse = .success(Self.customerVehicleDetailsResponse)
+
+        let result = await sut.fetchCustomerVehicleDetails(1)
+        let customerVehicles = try #require(try? result.get())
+
+        let vehicle = customerVehicles.customerVehicleDetails
+        #expect(vehicle.registrationNumber == "RBZ5119")
+        #expect(vehicle.make == "MITSUBISHI")
+        #expect(vehicle.model == "MIRAGE")
+        #expect(vehicle.taxStatus == .taxed)
+        #expect(vehicle.motStatus == "Not valid")
+    }
+
+    @Test
+    func fetchCustomerVehicleDetails_apiUnavailable_returnsExpectedError() async {
+        mockAPI._stubbedSendResponse = .failure(DVLAError.apiUnavailable)
+        let result = await sut.fetchCustomerVehicleDetails(1)
         let error = result.getError()
         #expect(error == .apiUnavailable)
     }
@@ -205,8 +228,12 @@ struct DVLAServiceClientTests {
         .load(filename: "MockDrivingLicenceResponse")
     }()
 
-    static var customerSummaryResponse: Data = {
-        .load(filename: "MockCustomerSummaryResponse")
+    static var customerVehiclesResponse: Data = {
+        .load(filename: "MockCustomerVehiclesResponse")
+    }()
+
+    static var customerVehicleDetailsResponse: Data = {
+        .load(filename: "MockCustomerVehicleDetailsResponse")
     }()
 
     static var vehicleResponse: Data = {

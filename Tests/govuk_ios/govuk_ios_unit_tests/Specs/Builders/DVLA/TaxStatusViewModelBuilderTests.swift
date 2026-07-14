@@ -22,9 +22,11 @@ struct TaxStatusViewModelBuilderTests {
                 openURLAction: { _ in confirmation() }
             )
             let vm = sut.makeViewModel(
-                vehicle: CustomerSummary.Vehicle.arrange(
+                vehicle: TaxValidityVehicle(
                     taxStatus: .untaxed,
-                    taxedUntil: date
+                    sornStart: nil,
+                    taxedUntil: date,
+                    currentLicencePaymentMethod: nil
                 )
             )
 
@@ -55,9 +57,11 @@ struct TaxStatusViewModelBuilderTests {
             openURLAction: { _ in }
         )
         let vm = sut.makeViewModel(
-            vehicle: CustomerSummary.Vehicle.arrange(
+            vehicle: TaxValidityVehicle(
                 taxStatus: .untaxed,
-                taxedUntil: nil
+                sornStart: nil,
+                taxedUntil: nil,
+                currentLicencePaymentMethod: nil
             )
         )
 
@@ -74,9 +78,11 @@ struct TaxStatusViewModelBuilderTests {
             openURLAction: { _ in }
         )
         let vm = sut.makeViewModel(
-            vehicle: CustomerSummary.Vehicle.arrange(
+            vehicle: TaxValidityVehicle(
                 taxStatus: .taxed,
-                taxedUntil: date
+                sornStart: nil,
+                taxedUntil: date,
+                currentLicencePaymentMethod: nil
             )
         )
 
@@ -98,9 +104,11 @@ struct TaxStatusViewModelBuilderTests {
             openURLAction: { _ in }
         )
         let vm = sut.makeViewModel(
-            vehicle: CustomerSummary.Vehicle.arrange(
+            vehicle: TaxValidityVehicle(
                 taxStatus: .taxed,
-                taxedUntil: nil
+                sornStart: nil,
+                taxedUntil: nil,
+                currentLicencePaymentMethod: nil
             )
         )
 
@@ -125,10 +133,11 @@ struct TaxStatusViewModelBuilderTests {
                 openURLAction: { _ in confirmation() }
             )
             let vm = sut.makeViewModel(
-                vehicle: CustomerSummary.Vehicle.arrange(
+                vehicle: TaxValidityVehicle(
                     taxStatus: .taxed,
+                    sornStart: nil,
                     taxedUntil: date,
-                    currentLicence: CurrentLicence(paymentMethod: nil)
+                    currentLicencePaymentMethod: nil
                 )
             )
 
@@ -162,10 +171,11 @@ struct TaxStatusViewModelBuilderTests {
                 openURLAction: { _ in confirmation() }
             )
             let vm = sut.makeViewModel(
-                vehicle: CustomerSummary.Vehicle.arrange(
+                vehicle: TaxValidityVehicle(
                     taxStatus: .taxed,
+                    sornStart: nil,
                     taxedUntil: date,
-                    currentLicence: CurrentLicence(paymentMethod: "Direct Debit")
+                    currentLicencePaymentMethod: "Direct Debit"
                 )
             )
 
@@ -196,8 +206,11 @@ struct TaxStatusViewModelBuilderTests {
             openURLAction: { _ in }
         )
         let vm = sut.makeViewModel(
-            vehicle: CustomerSummary.Vehicle.arrange(
-                taxStatus: nil
+            vehicle: TaxValidityVehicle(
+                taxStatus: nil,
+                sornStart: nil,
+                taxedUntil: nil,
+                currentLicencePaymentMethod: nil
             )
         )
 
@@ -218,9 +231,11 @@ struct TaxStatusViewModelBuilderTests {
             openURLAction: { _ in }
         )
         let vm = sut.makeViewModel(
-            vehicle: CustomerSummary.Vehicle.arrange(
+            vehicle: TaxValidityVehicle(
                 taxStatus: .sorn,
-                sornStart: date
+                sornStart: date,
+                taxedUntil: nil,
+                currentLicencePaymentMethod: nil
             )
         )
 
@@ -246,9 +261,11 @@ struct TaxStatusViewModelBuilderTests {
             openURLAction: { _ in }
         )
         let vm = sut.makeViewModel(
-            vehicle: CustomerSummary.Vehicle.arrange(
+            vehicle: TaxValidityVehicle(
                 taxStatus: .taxed,
-                sornStart: date
+                sornStart: date,
+                taxedUntil: nil,
+                currentLicencePaymentMethod: nil
             )
         )
 
@@ -265,16 +282,17 @@ struct TaxStatusViewModelBuilderTests {
     // MARK: - Not needed
     @Test
     func notTaxedForOnRoadUse_returnsNotNeededViewModel() {
-        let date = Calendar.current.date(byAdding: .day, value: 10, to: Date())!
         let sut = TaxStatusViewModelBuilder(
             urls: nil,
             analyticsService: MockAnalyticsService(),
             openURLAction: { _ in }
         )
         let vm = sut.makeViewModel(
-            vehicle: CustomerSummary.Vehicle.arrange(
+            vehicle: TaxValidityVehicle(
                 taxStatus: .notTaxedForOnRoadUse,
-                sornStart: date
+                sornStart: nil,
+                taxedUntil: nil,
+                currentLicencePaymentMethod: nil
             )
         )
 
