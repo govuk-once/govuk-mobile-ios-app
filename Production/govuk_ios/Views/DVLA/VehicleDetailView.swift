@@ -127,16 +127,6 @@ struct VehicleDetailView: View {
                 )
             }
         }
-        .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    print("more options tapped")
-                } label: {
-                    Image(systemName: "ellipsis")
-                }
-                .accessibilityLabel(viewVehicleDetails.moreOptionsAccessibilityLabel)
-            }
-        }
     }
 
     @ViewBuilder

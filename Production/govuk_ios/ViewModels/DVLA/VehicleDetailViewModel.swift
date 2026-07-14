@@ -73,9 +73,6 @@ final class VehicleDetailViewModel: ObservableObject {
         let regNumberAccessibilityLabelPrefix = String(
             localized: .DVLA.registrationNumberAccessibilityLabelPrefix
         )
-        let moreOptionsAccessibilityLabel = String(
-            localized: .DVLA.moreOptionsButtonAccessibilityLabel
-        )
         let taxValidityVehicle = TaxValidityVehicle(
             taxStatus: vehicle.taxStatus,
             sornStart: vehicle.sornStart,
@@ -94,8 +91,7 @@ final class VehicleDetailViewModel: ObservableObject {
             vehicleSpecViewModel: specViewModel(vehicle),
             specificationSection: specificationSection(vehicle),
             addressAccessibilityLabel: keeperAddress ?? "",
-            regNumberAccessibilityLabelPrefix: regNumberAccessibilityLabelPrefix,
-            moreOptionsAccessibilityLabel: moreOptionsAccessibilityLabel
+            regNumberAccessibilityLabelPrefix: regNumberAccessibilityLabelPrefix
         )
     }
 
@@ -275,5 +271,4 @@ struct ViewVehicleDetails {
     let specificationSection: GroupedListSection
     let addressAccessibilityLabel: String
     let regNumberAccessibilityLabelPrefix: String
-    let moreOptionsAccessibilityLabel: String
 }
