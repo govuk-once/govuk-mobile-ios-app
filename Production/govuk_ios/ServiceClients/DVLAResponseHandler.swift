@@ -20,7 +20,7 @@ struct DVLAResponseHandler: ResponseHandler {
         }
     }
 
-    func handleStatusCode(_ statusCode: Int) -> Error {
+    func handleStatusCode(_: Int) -> Error {
         DVLAError.apiUnavailable
     }
 }

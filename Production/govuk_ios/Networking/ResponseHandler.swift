@@ -31,7 +31,7 @@ extension ResponseHandler {
         return handleStatusCode(statusCode)
     }
 
-    func parseError(from data: Data) -> Error? {
+    func parseError(from _: Data) -> Error? {
         nil
     }
 }
