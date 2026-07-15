@@ -26,7 +26,7 @@ class DVLAAuthenticationCoordinatorTests {
         try await Task.sleep(for: .milliseconds(100))
 
         let openedURL = try #require(mockURLOpener._receivedOpenIfPossibleUrl)
-        #expect(openedURL.host == "architecture-link-account-service-ui-ext.dvla.gov.uk")
+        #expect(openedURL.host == "customer-account-external-ui-ext.dvla.gov.uk")
         let queryItems = URLComponents(url: openedURL, resolvingAgainstBaseURL: false)?.queryItems
         let verificationItem = queryItems?.first { $0.name == "verification" }
         #expect(verificationItem?.value == "test-token")
