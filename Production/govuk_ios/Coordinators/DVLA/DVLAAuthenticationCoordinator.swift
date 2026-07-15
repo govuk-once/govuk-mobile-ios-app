@@ -4,7 +4,7 @@ import GovKit
 
 final class DVLAAuthenticationCoordinator: BaseCoordinator {
     private let authenticationUrl = {
-        URL(string: "https://architecture-link-account-service-ui-ext.dvla.gov.uk/")!
+        URL(string: "https://customer-account-external-ui-ext.dvla.gov.uk/govuk-app")!
     }()
     private let urlOpener: URLOpener
     private let authenticationService: AuthenticationServiceInterface
