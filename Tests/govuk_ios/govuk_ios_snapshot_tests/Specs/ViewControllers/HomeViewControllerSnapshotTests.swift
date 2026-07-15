@@ -111,7 +111,7 @@ class HomeViewControllerSnapshotTests: SnapshotTestCase {
                 title: "Going on holz?",
                 body: "Make sure you check out travel advice first",
                 link: promoLink2,
-                image: "going_abroad"
+                image: nil
             ),
         ]
         configService._stubbedPromoBanners = banners

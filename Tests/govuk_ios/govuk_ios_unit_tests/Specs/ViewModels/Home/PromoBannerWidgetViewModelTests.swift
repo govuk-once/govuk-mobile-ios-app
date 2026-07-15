@@ -14,6 +14,7 @@ struct PromoBannerWidgetViewModelTests {
             analyticsService: MockAnalyticsService(),
             chatBanner: banner,
             urlOpener: mockUrlOpener,
+            didSelectAction: {},
             dismissAction: {}
         )
         sut.open()
@@ -24,12 +25,19 @@ struct PromoBannerWidgetViewModelTests {
     @Test
     func open_receivesExpectedUrl() throws {
         let link = PromoBanner.Link(title: "Title", url: URL(string: "https://www.test.com")!)
-        let banner = PromoBanner(id: "1234", title: "Title", body: "Body", link: link)
+        let banner = PromoBanner(
+            id: "1234",
+            title: "Title",
+            body: "Body",
+            link: link,
+            image: nil,
+        )
         let mockUrlOpener = MockURLOpener()
         let sut = PromoBannerWidgetViewModel(
             analyticsService: MockAnalyticsService(),
             banner: banner,
             urlOpener: mockUrlOpener,
+            didSelectAction: {},
             dismissAction: {}
         )
         sut.open()
@@ -40,12 +48,19 @@ struct PromoBannerWidgetViewModelTests {
     @Test
     func open_tracksEvent() {
         let link = PromoBanner.Link(title: "Title", url: URL(string: "https://www.test.com")!)
-        let banner = PromoBanner(id: "1234", title: "Chat widget title", body: "Body", link: link)
+        let banner = PromoBanner(
+            id: "1234",
+            title: "Chat widget title",
+            body: "Body",
+            link: link,
+            image: nil,
+        )
         let analyticsService = MockAnalyticsService()
         let sut = PromoBannerWidgetViewModel(
             analyticsService: analyticsService,
             banner: banner,
             urlOpener: MockURLOpener(),
+            didSelectAction: {},
             dismissAction: {}
         )
         sut.open()
@@ -59,12 +74,19 @@ struct PromoBannerWidgetViewModelTests {
     @Test
     func dismiss_tracksEvent() {
         let link = PromoBanner.Link(title: "Title", url: URL(string: "https://www.test.com")!)
-        let banner = PromoBanner(id: "1234", title: "Chat widget title", body: "Body", link: link)
+        let banner = PromoBanner(
+            id: "1234",
+            title: "Chat widget title",
+            body: "Body",
+            link: link,
+            image: nil,
+        )
         let analyticsService = MockAnalyticsService()
         let sut = PromoBannerWidgetViewModel(
             analyticsService: analyticsService,
             banner: banner,
             urlOpener: MockURLOpener(),
+            didSelectAction: {},
             dismissAction: {}
         )
         sut.dismiss()

@@ -11,11 +11,13 @@ struct PromoBannerWidgetViewModel {
     let linkTitle: String
     let imageTitle: String?
     let urlOpener: URLOpener
+    let didSelectAction: () -> Void
     let dismissAction: () -> Void
 
     init(analyticsService: AnalyticsServiceInterface,
          chatBanner: ChatBanner,
          urlOpener: URLOpener,
+         didSelectAction: @escaping () -> Void,
          dismissAction: @escaping () -> Void) {
         id = chatBanner.id
         title = chatBanner.title
@@ -25,12 +27,14 @@ struct PromoBannerWidgetViewModel {
         imageTitle = "chat_widget"
         self.analyticsService = analyticsService
         self.urlOpener = urlOpener
+        self.didSelectAction = didSelectAction
         self.dismissAction = dismissAction
     }
 
     init(analyticsService: AnalyticsServiceInterface,
          banner: PromoBanner,
          urlOpener: URLOpener,
+         didSelectAction: @escaping () -> Void,
          dismissAction: @escaping () -> Void) {
         id = banner.id
         title = banner.title
@@ -40,10 +44,12 @@ struct PromoBannerWidgetViewModel {
         imageTitle = banner.image
         self.analyticsService = analyticsService
         self.urlOpener = urlOpener
+        self.didSelectAction = didSelectAction
         self.dismissAction = dismissAction
     }
 
     func open() {
+        didSelectAction()
         let event = AppEvent.widgetNavigation(text: title)
         analyticsService.track(event: event)
         urlOpener.openIfPossible(linkUrl)

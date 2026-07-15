@@ -33,7 +33,8 @@ final class ChatWidgetViewControllerSnapshotTests: SnapshotTestCase {
             analyticsService: MockAnalyticsService(),
             chatBanner: chatBanner,
             urlOpener: MockURLOpener(),
-            dismissAction: {}
+            didSelectAction: { },
+            dismissAction: { }
         )
         let view = PromoBannerWidgetView(
             viewModel: viewModel

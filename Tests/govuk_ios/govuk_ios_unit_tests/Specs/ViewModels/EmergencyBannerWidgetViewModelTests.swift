@@ -25,6 +25,7 @@ struct EmergencyBannerWidgetViewModelTests {
             openURLAction: { url in
                 expectedURL = url
             },
+            didSelectAction: { },
             dismissAction: { }
         )
 
@@ -49,6 +50,7 @@ struct EmergencyBannerWidgetViewModelTests {
             analyticsService: mockAnalyticsService,
             sortPriority: 1,
             openURLAction: { _ in },
+            didSelectAction: { },
             dismissAction: { }
         )
 
@@ -77,6 +79,7 @@ struct EmergencyBannerWidgetViewModelTests {
             analyticsService: mockAnalyticsService,
             sortPriority: 1,
             openURLAction: { _ in },
+            didSelectAction: { },
             dismissAction: { }
         )
 

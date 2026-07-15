@@ -51,7 +51,7 @@ struct PromoBanner: DismissibleBanner,
     let title: String
     let body: String
     let link: Link
-    let image: String
+    let image: String?
 }
 
 extension PromoBanner {
