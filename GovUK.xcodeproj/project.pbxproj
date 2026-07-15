@@ -396,6 +396,9 @@
 		81DE669B2F5B743B0087F48E /* ServiceAccountLinkingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DE669A2F5B74350087F48E /* ServiceAccountLinkingView.swift */; };
 		81DE669D2F5B7B1C0087F48E /* AppErrorViewModel+ServiceAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81DE669C2F5B7AEF0087F48E /* AppErrorViewModel+ServiceAccount.swift */; };
 		81E2E78D2F5F6D90009D96A0 /* ServiceAccount.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 81E2E78C2F5F6D90009D96A0 /* ServiceAccount.xcstrings */; };
+		81E92CBE300126EF00707530 /* DVLAResponseHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E92CBD300126E900707530 /* DVLAResponseHandler.swift */; };
+		81E92CC03001437E00707530 /* DrivingLicenceNoticeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E92CBF3001437700707530 /* DrivingLicenceNoticeViewModel.swift */; };
+		81E92CC2300143A700707530 /* DrivingLicenceNoticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E92CC13001439D00707530 /* DrivingLicenceNoticeView.swift */; };
 		81F91D2A2FDB26A500BF709E /* VehicleSpecFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F91D292FDB26A000BF709E /* VehicleSpecFormatter.swift */; };
 		81F9296F2FDC25A500BF709E /* VehicleDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F9296E2FDC259800BF709E /* VehicleDetailCoordinator.swift */; };
 		945E1F052F714E920064CA22 /* SearchDeepLinkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945E1F042F714E830064CA22 /* SearchDeepLinkRoute.swift */; };
@@ -952,6 +955,9 @@
 		81DE669A2F5B74350087F48E /* ServiceAccountLinkingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountLinkingView.swift; sourceTree = "<group>"; };
 		81DE669C2F5B7AEF0087F48E /* AppErrorViewModel+ServiceAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppErrorViewModel+ServiceAccount.swift"; sourceTree = "<group>"; };
 		81E2E78C2F5F6D90009D96A0 /* ServiceAccount.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = ServiceAccount.xcstrings; sourceTree = "<group>"; };
+		81E92CBD300126E900707530 /* DVLAResponseHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DVLAResponseHandler.swift; sourceTree = "<group>"; };
+		81E92CBF3001437700707530 /* DrivingLicenceNoticeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrivingLicenceNoticeViewModel.swift; sourceTree = "<group>"; };
+		81E92CC13001439D00707530 /* DrivingLicenceNoticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrivingLicenceNoticeView.swift; sourceTree = "<group>"; };
 		81F91D292FDB26A000BF709E /* VehicleSpecFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleSpecFormatter.swift; sourceTree = "<group>"; };
 		81F9296E2FDC259800BF709E /* VehicleDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleDetailCoordinator.swift; sourceTree = "<group>"; };
 		945E1F042F714E830064CA22 /* SearchDeepLinkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDeepLinkRoute.swift; sourceTree = "<group>"; };
@@ -1518,6 +1524,7 @@
 				815C58692EE973F400322705 /* RemoteConfigServiceClient.swift */,
 				164091FD2DA41C0700E3BE99 /* AuthenticationServiceClient.swift */,
 				815011D62F7C4EEC00E7469C /* DVLAServiceClient.swift */,
+				81E92CBD300126E900707530 /* DVLAResponseHandler.swift */,
 				D04DD5C92E0074E4002B5F19 /* Chat */,
 				D06C2A502DDF39C90045C674 /* LocalAuthorityResponseHandler.swift */,
 				4EBCA3282DAC546A0063A723 /* LocalAuthorityServiceClient.swift */,
@@ -2400,6 +2407,7 @@
 			children = (
 				813610172FFFDA7C0011D851 /* DrivingRecordView.swift */,
 				1663A3FC2FF3C2B50002CFDB /* TaxValidityStatusView.swift */,
+				81E92CC13001439D00707530 /* DrivingLicenceNoticeView.swift */,
 				81353DEE2FE975F0008A7DE1 /* ExpiryProgressView.swift */,
 				81D258402FC71AAF00A4F988 /* VehicleSummaryView.swift */,
 				81217B902FD0B8930048BBCD /* VehiclesView.swift */,
@@ -2427,6 +2435,7 @@
 				81D240BE2FC08FF800A4F988 /* DVLAAccountSummaryViewModel.swift */,
 				81217B8C2FD0B5A40048BBCD /* VehiclesViewModel.swift */,
 				81A6DF1F2FD04E40006FB0F0 /* DrivingLicenceViewModel.swift */,
+				81E92CBF3001437700707530 /* DrivingLicenceNoticeViewModel.swift */,
 				81D258432FC71B5C00A4F988 /* VehicleSummaryViewModel.swift */,
 				81CDB3722FDAF46D00328F7C /* VehicleSpecViewModel.swift */,
 				81A6DF212FD05FD2006FB0F0 /* DrivingLicenceSummaryViewModel.swift */,
@@ -3079,6 +3088,7 @@
 				5DFB48922DE9F7F600B41CDA /* PostAuthCoordinator.swift in Sources */,
 				167D0DC32E9D40FE0064A39E /* TopicSelectionCardView.swift in Sources */,
 				5DFB48932DE9F7F600B41CDA /* AppRecommendUpdateCoordinator.swift in Sources */,
+				81E92CC03001437E00707530 /* DrivingLicenceNoticeViewModel.swift in Sources */,
 				5DFB48952DE9F7F600B41CDA /* PreAuthCoordinator.swift in Sources */,
 				5DFB48962DE9F7F600B41CDA /* AppUnavailableCoordinator.swift in Sources */,
 				5DFB48972DE9F7F600B41CDA /* AppCoordinator.swift in Sources */,
@@ -3340,6 +3350,7 @@
 				81BF88802FA10EB500249569 /* ServiceAccountLinkSuccessView.swift in Sources */,
 				81217B8F2FD0B5F90048BBCD /* DrivingLicenceView.swift in Sources */,
 				5DBE08042C480CA700B58DBE /* AnimationView+Convenience.swift in Sources */,
+				81E92CC2300143A700707530 /* DrivingLicenceNoticeView.swift in Sources */,
 				4E5E79A62DEF011500CA9B4D /* LocalAuthorityConfirmationViewModel.swift in Sources */,
 				5DD4CB162D95490100459FB5 /* ActivityService.swift in Sources */,
 				5D9CF3982C38493B00317B70 /* DeeplinkDataStore+Convenience.swift in Sources */,
@@ -3360,6 +3371,7 @@
 				81D3E36D2FE3EDF0006049CC /* LicenceStatusViewModelBuilder.swift in Sources */,
 				4E9AFCE32C99D43B00DBF66F /* AnalyticsConsentContainerView.swift in Sources */,
 				D04C542E2D7082000070EE79 /* ECommerceItem.swift in Sources */,
+				81E92CBE300126EF00707530 /* DVLAResponseHandler.swift in Sources */,
 				5D899A222C946F8A0074C0AD /* UIBarButtonItem+Convenience.swift in Sources */,
 				815011D72F7C4EF200E7469C /* DVLAServiceClient.swift in Sources */,
 				81A6E3232FD07583006FB0F0 /* DVLAValidityStatusFormatter.swift in Sources */,

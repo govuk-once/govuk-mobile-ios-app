@@ -133,4 +133,46 @@ import GovKit
             mode: .dark
         )
     }
+
+    func test_licenceNoticeView_light_rendersCorrectly() {
+        let noticeViewModel = DrivingLicenceNoticeViewModel(
+            title: String(localized: .DVLA.licenceNotAvailableTitle),
+            body: String(localized: .DVLA.licenceNotAvailableBody),
+            buttonTitle: String(localized: .DVLA.licenceNotAvailableButtonTitle),
+            action: {}
+        )
+        let viewModel = MockDrivingLicenceViewModel(
+            viewState: .notice(noticeViewModel)
+        )
+        let view = DrivingLicenceView(viewModel: viewModel)
+        let hostingViewController =  HostingViewController(
+            rootView: view
+        )
+        hostingViewController.view.backgroundColor = .govUK.fills.surfaceBackground
+        VerifySnapshotInNavigationController(
+            viewController: hostingViewController,
+            mode: .light
+        )
+    }
+
+    func test_licenceNoticeView_dark_rendersCorrectly() {
+        let noticeViewModel = DrivingLicenceNoticeViewModel(
+            title: String(localized: .DVLA.licenceNotAvailableTitle),
+            body: String(localized: .DVLA.licenceNotAvailableBody),
+            buttonTitle: String(localized: .DVLA.licenceNotAvailableButtonTitle),
+            action: {}
+        )
+        let viewModel = MockDrivingLicenceViewModel(
+            viewState: .notice(noticeViewModel)
+        )
+        let view = DrivingLicenceView(viewModel: viewModel)
+        let hostingViewController =  HostingViewController(
+            rootView: view
+        )
+        hostingViewController.view.backgroundColor = .govUK.fills.surfaceBackground
+        VerifySnapshotInNavigationController(
+            viewController: hostingViewController,
+            mode: .dark
+        )
+    }
 }

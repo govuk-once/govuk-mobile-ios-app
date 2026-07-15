@@ -8,6 +8,7 @@ class DrivingLicenceViewModel: ObservableObject {
             licence: DrivingLicenceSummaryViewModel,
             drivingRecord: DrivingRecordViewModel
         )
+        case notice(DrivingLicenceNoticeViewModel)
         case error(InlineActionErrorViewModel)
     }
 
@@ -52,34 +53,38 @@ class DrivingLicenceViewModel: ObservableObject {
         let result = await dvlaService.fetchDrivingLicence()
         switch result {
         case .success(let drivingLicence):
-            let licenceSummaryViewModel = DrivingLicenceSummaryViewModel(
-                drivingLicence: drivingLicence,
-                statusBuilder: LicenceStatusViewModelBuilder(urls: configService.dvlaUrls),
-                openURLAction: { [weak self] url, buttonTitle in
-                    self?.handleOpenURL(url: url, buttonTitle: buttonTitle)
-                },
-                menuSelectionAction: { [weak self] url in
-                    self?.openURLAction(url)
-                },
-                copyToClipboardAction: { [weak self] licenceNumber in
-                    self?.copyToClipboard(licenceNumber: licenceNumber
-                    )
-                },
-                analyticsService: analyticsService
-            )
+            handleSuccessfulFetch(of: drivingLicence)
+        case .failure(let error):
+            handleFailedFetch(with: error)
+        }
+    }
 
-            hasLoadedLicence = true
-
+    private func handleSuccessfulFetch(of drivingLicence: DrivingLicence) {
+        switch drivingLicence.licenceStatus {
+        case .valid, .expired:
+            let licenceSummaryViewModel = makeLicenceSummaryViewModel(for: drivingLicence)
             let drivingRecordViewModel = DrivingRecordViewModel(
                 dvlaURLs: configService.dvlaUrls,
                 openURLAction: handleOpenURL(url:buttonTitle:)
             )
-
             viewState = .loaded(
                 licence: licenceSummaryViewModel,
                 drivingRecord: drivingRecordViewModel
             )
-        case .failure:
+        case .disqualified, .revoked, .revokedForMedicalReasons, .surrendered,
+                .surrenderedVoluntarily, .surrenderedForMedicalReasons,
+                .exchanged, .refused, .refusedForMedicalReasons:
+            viewState = .notice(licenceNotAvailableNoticeViewModel)
+        }
+        hasLoadedLicence = true
+    }
+
+    private func handleFailedFetch(with error: DVLAError) {
+        switch error {
+        case .notFound, .notAvailable:
+            hasLoadedLicence = true
+            viewState = .notice(licenceNotAvailableNoticeViewModel)
+        default:
             viewState = .error(drivingLicenceErrorViewModel)
         }
     }
@@ -108,6 +113,26 @@ class DrivingLicenceViewModel: ObservableObject {
         analyticsService.track(event: event)
     }
 
+    private func makeLicenceSummaryViewModel(
+        for drivingLicence: DrivingLicence
+    ) -> DrivingLicenceSummaryViewModel {
+        DrivingLicenceSummaryViewModel(
+            drivingLicence: drivingLicence,
+            statusBuilder: LicenceStatusViewModelBuilder(urls: configService.dvlaUrls),
+            openURLAction: { [weak self] url, buttonTitle in
+                self?.handleOpenURL(url: url, buttonTitle: buttonTitle)
+            },
+            menuSelectionAction: { [weak self] url in
+                self?.openURLAction(url)
+            },
+            copyToClipboardAction: { [weak self] licenceNumber in
+                self?.copyToClipboard(licenceNumber: licenceNumber
+                )
+            },
+            analyticsService: analyticsService
+        )
+    }
+
     private var drivingLicenceErrorViewModel: InlineActionErrorViewModel {
         let url = configService.dvlaUrls?.driverDetails ?? Constants.API.defaultDvlaDriverDetailsUrl
         let buttonTitle = String(localized: .DVLA.licenceSummaryErrorButtonTitle)
@@ -123,5 +148,20 @@ class DrivingLicenceViewModel: ObservableObject {
                 self?.handleOpenURL(url: url, buttonTitle: buttonTitle)
             }
         )
+    }
+
+    private var licenceNotAvailableNoticeViewModel: DrivingLicenceNoticeViewModel {
+        let buttonTitle = String(localized: .DVLA.licenceNotAvailableButtonTitle)
+        let url = configService.dvlaUrls?.driverDetails ?? Constants.API.defaultDvlaDriverDetailsUrl
+
+        let noticeViewModel = DrivingLicenceNoticeViewModel(
+            title: String(localized: .DVLA.licenceNotAvailableTitle),
+            body: String(localized: .DVLA.licenceNotAvailableBody),
+            buttonTitle: buttonTitle,
+            action: { [weak self] in
+                self?.handleOpenURL(url: url, buttonTitle: buttonTitle)
+            }
+        )
+        return noticeViewModel
     }
 }

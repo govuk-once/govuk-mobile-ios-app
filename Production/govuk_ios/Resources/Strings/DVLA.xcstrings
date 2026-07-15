@@ -618,6 +618,39 @@
         }
       }
     },
+    "licenceNotAvailableBody" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check your account to see your licence status and restrictions that apply to you"
+          }
+        }
+      }
+    },
+    "licenceNotAvailableButtonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your driver and vehicles account"
+          }
+        }
+      }
+    },
+    "licenceNotAvailableTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not available"
+          }
+        }
+      }
+    },
     "licenceNumberAccessibilityLabel" : {
       "extractionState" : "manual",
       "localizations" : {
