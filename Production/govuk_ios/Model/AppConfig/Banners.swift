@@ -85,18 +85,6 @@ extension UserFeedbackBanner {
     }
 }
 
-extension UserFeedbackBanner {
-    func asHomeCommerceItem(index: Int) -> HomeCommerceItem {
-        return HomeCommerceItem(
-            name: self.link.title,
-            listName: String(describing: type(of: self)),
-            index: index,
-            itemId: nil,
-            locationId: self.link.url.absoluteString
-        )
-    }
-}
-
 enum EmergencyBannerType: String {
     case notableDeath = "notable-death"
     case nationalEmergency = "national-emergency"

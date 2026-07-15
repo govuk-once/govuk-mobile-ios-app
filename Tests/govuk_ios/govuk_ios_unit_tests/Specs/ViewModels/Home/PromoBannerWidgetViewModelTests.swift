@@ -46,6 +46,31 @@ struct PromoBannerWidgetViewModelTests {
     }
 
     @Test
+    func open_callsDidSelectAction() throws {
+        let link = PromoBanner.Link(title: "Title", url: URL(string: "https://www.test.com")!)
+        let banner = PromoBanner(
+            id: "1234",
+            title: "Title",
+            body: "Body",
+            link: link,
+            image: nil,
+        )
+        var didSelectCalled = false
+        let sut = PromoBannerWidgetViewModel(
+            analyticsService: MockAnalyticsService(),
+            banner: banner,
+            urlOpener: MockURLOpener(),
+            didSelectAction: {
+                didSelectCalled = true
+            },
+            dismissAction: {}
+        )
+        sut.open()
+
+        #expect(didSelectCalled)
+    }
+
+    @Test
     func open_tracksEvent() {
         let link = PromoBanner.Link(title: "Title", url: URL(string: "https://www.test.com")!)
         let banner = PromoBanner(

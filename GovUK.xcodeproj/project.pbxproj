@@ -112,7 +112,6 @@
 		4E1534052E3982E7002DEDB9 /* TopicCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1534042E3982E7002DEDB9 /* TopicCard.swift */; };
 		4E15340B2E398647002DEDB9 /* HomeContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E15340A2E398647002DEDB9 /* HomeContentView.swift */; };
 		4E15340D2E3A248E002DEDB9 /* TopicsWidgetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E15340C2E3A248E002DEDB9 /* TopicsWidgetViewModel.swift */; };
-		4E19C85E2E65109900D56C33 /* ChatWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E19C85D2E65109900D56C33 /* ChatWidgetView.swift */; };
 		4E2468B52FFFB2C400248C5F /* MotStatusViewModelBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E2468B42FFFB2C400248C5F /* MotStatusViewModelBuilder.swift */; };
 		4E265D2A2DB0E6510089CF9E /* Authority.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E265D252DB0E6510089CF9E /* Authority.swift */; };
 		4E265D2D2DB0E6510089CF9E /* LocalAuthorityAddress.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E265D282DB0E6510089CF9E /* LocalAuthorityAddress.swift */; };
@@ -680,7 +679,6 @@
 		4E1534042E3982E7002DEDB9 /* TopicCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicCard.swift; sourceTree = "<group>"; };
 		4E15340A2E398647002DEDB9 /* HomeContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeContentView.swift; sourceTree = "<group>"; };
 		4E15340C2E3A248E002DEDB9 /* TopicsWidgetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsWidgetViewModel.swift; sourceTree = "<group>"; };
-		4E19C85D2E65109900D56C33 /* ChatWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatWidgetView.swift; sourceTree = "<group>"; };
 		4E2468B42FFFB2C400248C5F /* MotStatusViewModelBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotStatusViewModelBuilder.swift; sourceTree = "<group>"; };
 		4E265D252DB0E6510089CF9E /* Authority.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authority.swift; sourceTree = "<group>"; };
 		4E265D282DB0E6510089CF9E /* LocalAuthorityAddress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthorityAddress.swift; sourceTree = "<group>"; };
@@ -3404,8 +3402,6 @@
 				5DAD71782BD250DB0075F648 /* AppDelegate.swift in Sources */,
 				5D899A202C946F540074C0AD /* UIViewController+Extensions.swift in Sources */,
 				4E2A875D2D48FC41002A01D7 /* UIApplication+Window.swift in Sources */,
-				3D9FD4BA2E799C9900928E92 /* ChatWidgetViewModel.swift in Sources */,
-				81CAFB422F98FBE300E6E6A3 /* CustomerSummary.swift in Sources */,
 				5D962D682C29BD0B0038BC0A /* TabCoordinator.swift in Sources */,
 				4EE5F3E92DAFD463008C60ED /* LocalAuthorityPostcodeEntryView.swift in Sources */,
 				81A6DF222FD05FD9006FB0F0 /* DrivingLicenceSummaryViewModel.swift in Sources */,

@@ -22,11 +22,22 @@ class HomeViewModel: ObservableObject {
     let activityService: ActivityServiceInterface
     let localAuthorityService: LocalAuthorityServiceInterface
     let chatService: ChatServiceInterface
-    private var bannerBuilder: BannerBuilder!
+
     @Published var homeContentScrollToTop: Bool = false
     @Published var widgets: [HomepageWidget] = []
 
     private var bannersECommerceItems = [HomeCommerceItem]()
+    private lazy var bannerBuilder: BannerBuilder = BannerBuilder(
+        userDefaultsService: userDefaultsService,
+        configService: configService,
+        analyticsService: analyticsService,
+        urlOpener: urlOpener,
+        chatEnabled: chatService.isEnabled,
+        openURLAction: openURLAction,
+        updateWidgetsAction: { [weak self] in
+            self?.updateWidgets()
+        }
+    )
 
     init(analyticsService: AnalyticsServiceInterface,
          configService: AppConfigServiceInterface,
@@ -63,17 +74,6 @@ class HomeViewModel: ObservableObject {
         self.localAuthorityService = localAuthorityService
         self.chatService = chatService
 
-        self.bannerBuilder = BannerBuilder(
-            userDefaultsService: userDefaultsService,
-            configService: configService,
-            analyticsService: analyticsService,
-            urlOpener: urlOpener,
-            chatEnabled: chatService.isEnabled,
-            openURLAction: openURLAction,
-            updateWidgetsAction: { [weak self] in
-                self?.updateWidgets()
-            }
-        )
         updateWidgets()
     }
 
