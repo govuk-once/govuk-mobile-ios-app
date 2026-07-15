@@ -47,7 +47,10 @@ struct DrivingLicenceSummaryViewModel {
 
     func openUrl(options: URLOptions) {
         menuSelectionAction(options.urlAndTitle.0)
-        trackNavigation(text: options.urlAndTitle.1)
+        trackNavigation(
+            url: options.urlAndTitle.0,
+            text: options.urlAndTitle.1
+        )
     }
 
     func copyToClipboard() {
@@ -65,11 +68,12 @@ struct DrivingLicenceSummaryViewModel {
         analyticsService.track(event: event)
     }
 
-    private func trackNavigation(text: String) {
+    private func trackNavigation(url: URL, text: String) {
         let event = AppEvent.navigation(
             text: text,
             type: "Menu",
-            external: true
+            external: true,
+            additionalParams: ["url": url]
         )
         analyticsService.track(event: event)
     }
