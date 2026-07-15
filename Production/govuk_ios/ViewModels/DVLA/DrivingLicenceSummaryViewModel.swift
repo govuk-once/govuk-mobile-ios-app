@@ -73,7 +73,7 @@ struct DrivingLicenceSummaryViewModel {
             text: text,
             type: "Menu",
             external: true,
-            additionalParams: ["url": url]
+            additionalParams: ["url": url.absoluteString]
         )
         analyticsService.track(event: event)
     }
