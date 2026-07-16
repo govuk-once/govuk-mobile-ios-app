@@ -11,6 +11,7 @@ class BannerBuilder {
     private let updateWidgetsAction: () -> Void
 
     private(set) var bannersECommerceItems = [HomeCommerceItem]()
+    private let homeBannersListName: String = "home_banners"
 
     init(userDefaultsService: UserDefaultsServiceInterface,
          configService: AppConfigServiceInterface,
@@ -70,8 +71,24 @@ class BannerBuilder {
     }
 
     private var promoBannerWidgets: [HomepageWidget] {
-        guard let banners = configService.promoBanners
-        else { return [] }
+        let banners: [PromoBanner] = [
+            .init(
+                id: "promo_1",
+                title: "Test promo 1",
+                body: "Promo banner",
+                link: .init(title: "Link", url: URL(string: "govuk://gov.uk/chat")!),
+                image: "going_abroad"
+            ),
+            .init(
+                id: "promo_2",
+                title: "Test promo 2",
+                body: "Promo banner",
+                link: .init(title: "Link", url: URL(string: "govuk://gov.uk/chat")!),
+                image: nil
+            )
+        ]
+//        guard let banners = configService.promoBanners
+//        else { return [] }
 
         let visibleBanners = banners.filter { !userDefaultsService.hasSeen(banner: $0) }
 
@@ -82,6 +99,7 @@ class BannerBuilder {
 
     private func promoBannerWidget(_ banner: PromoBanner) -> HomepageWidget {
         let ecommItem = banner.asHomeCommerceItem(
+            listName: homeBannersListName,
             index: bannersECommerceItems.count + 1
         )
         bannersECommerceItems.append(ecommItem)
@@ -114,6 +132,7 @@ class BannerBuilder {
         else { return [] }
 
         let ecommItem = chatBanner.asHomeCommerceItem(
+            listName: homeBannersListName,
             index: bannersECommerceItems.count + 1
         )
         bannersECommerceItems.append(ecommItem)
@@ -143,8 +162,8 @@ class BannerBuilder {
 
     func trackBannersEcommerceEvent() {
         let event = AppEvent.viewItemList(
-            name: "home_banners",
-            id: "home_banners",
+            name: homeBannersListName,
+            id: homeBannersListName,
             items: bannersECommerceItems
         )
         analyticsService.track(event: event)

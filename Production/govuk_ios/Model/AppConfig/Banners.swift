@@ -34,10 +34,11 @@ extension ChatBanner {
 }
 
 extension ChatBanner {
-    func asHomeCommerceItem(index: Int) -> HomeCommerceItem {
+    func asHomeCommerceItem(listName: String,
+                            index: Int) -> HomeCommerceItem {
         HomeCommerceItem(
             name: self.title,
-            listName: String(describing: type(of: self)),
+            listName: listName,
             index: index,
             itemId: self.id,
             locationId: self.link.url.absoluteString
@@ -62,10 +63,11 @@ extension PromoBanner {
 }
 
 extension PromoBanner {
-    func asHomeCommerceItem(index: Int) -> HomeCommerceItem {
+    func asHomeCommerceItem(listName: String,
+                            index: Int) -> HomeCommerceItem {
         return  HomeCommerceItem(
             name: self.title,
-            listName: String(describing: type(of: self)),
+            listName: listName,
             index: index,
             itemId: self.id,
             locationId: self.link.url.absoluteString
