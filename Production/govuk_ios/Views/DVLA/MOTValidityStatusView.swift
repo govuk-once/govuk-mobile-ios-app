@@ -9,7 +9,8 @@ struct MotValidityStatusView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            if viewModel.title != nil || !viewModel.formattedStatus.isEmpty || viewModel.iconName != nil {
+            if viewModel.title != nil || !viewModel.formattedStatus.isEmpty
+                || viewModel.iconName != nil {
                 HStack(alignment: .center) {
                     VStack(alignment: .leading, spacing: 4) {
                         if let title = viewModel.title {
@@ -23,7 +24,11 @@ struct MotValidityStatusView: View {
                     Spacer()
                     if let iconName = viewModel.iconName {
                         Image(systemName: iconName)
-                            .foregroundStyle(Color(uiColor: viewModel.iconTintColour ?? .govUK.Text.primary))
+                            .foregroundStyle(
+                                Color(
+                                    uiColor: viewModel.iconTintColour ?? .govUK.Text.primary
+                                )
+                            )
                             .font(.govUK.title2)
                             .frame(width: Self.iconSize, height: Self.iconSize)
                             .accessibilityHidden(true)
@@ -32,22 +37,29 @@ struct MotValidityStatusView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal, Self.standardPadding)
                 .padding(.top, Self.standardPadding)
-                .padding(.bottom, viewModel.buttonViewModel != nil ? 12 : Self.standardPadding)
+                .padding(.bottom,
+                         viewModel.progressViewModel
+                         != nil ? 12 :
+                            (viewModel.buttonViewModel != nil ? 0 : Self.standardPadding))
             }
             if let progressViewModel = viewModel.progressViewModel {
                 ExpiryProgressView(viewModel: progressViewModel)
                     .padding(.horizontal, Self.standardPadding)
-                    .padding(.bottom, (viewModel.buttonViewModel == nil && viewModel.footer == nil) ? Self.standardPadding : 0)
+                    .padding(.bottom,
+                             (viewModel.buttonViewModel == nil
+                              && viewModel.footer == nil) ? Self.standardPadding : 0)
             }
             if viewModel.buttonViewModel != nil {
-                Divider()
-                    .background(Color(uiColor: .separator))
+                if !viewModel.formattedStatus.isEmpty {
+                    Divider()
+                        .background(Color(uiColor: .separator))
+                }
 
                 Button(
                     action: { },
                     label: {
                         HStack(alignment: .center) {
-                            Text("Check if it needs an MOT")
+                            Text(viewModel.buttonTitle ?? "")
                                 .font(.system(size: 16, weight: .regular))
                                 .foregroundColor(Color(red: 0.15, green: 0.35, blue: 0.75))
 
@@ -62,7 +74,9 @@ struct MotValidityStatusView: View {
                     }
                 )
                 .frame(maxWidth: .infinity)
+                .padding(.top, viewModel.formattedStatus.isEmpty ? -24 : 0)
             }
+
             if let footer = viewModel.footer {
                 Text(footer)
                     .font(.govUK.footnote)
