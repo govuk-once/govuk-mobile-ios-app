@@ -60,33 +60,28 @@ struct PromoBannerWidgetView: View {
     }
 
     private var dismissView: some View {
-        ZStack(alignment: .trailing) {
+        ZStack(alignment: .topTrailing) {
             if let imageName = viewModel.imageTitle {
-                VStack(spacing: 0) {
-                    Image(decorative: imageName)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(maxWidth: 100, maxHeight: 124)
-                    Spacer(minLength: 0)
-                }
+                Image(decorative: imageName)
+                    .resizable()
+                    .frame(maxWidth: 100, maxHeight: 124)
+                    .scaledToFit()
             }
-            VStack(spacing: 0) {
-                Button {
-                    withAnimation {
-                        viewModel.dismiss()
-                    }
-                } label: {
-                    Image(systemName: "xmark")
-                        .font(.govUK.bodySemibold)
-                        .foregroundColor(Color(UIColor.govUK.text.primary))
-                        .frame(width: 44, height: 44)
-                        .accessibilitySortPriority(0)
+
+            Button {
+                withAnimation {
+                    viewModel.dismiss()
                 }
-                .accessibilityLabel(
-                    String.chat.localized("dismissChatBannerAccessibilityLabel")
-                )
-                Spacer(minLength: 0)
+            } label: {
+                Image(systemName: "xmark")
+                    .font(.govUK.bodySemibold)
+                    .foregroundColor(Color(UIColor.govUK.text.primary))
+                    .frame(width: 44, height: 44)
+                    .accessibilitySortPriority(0)
             }
+            .accessibilityLabel(
+                String.chat.localized("dismissChatBannerAccessibilityLabel")
+            )
         }
     }
 
