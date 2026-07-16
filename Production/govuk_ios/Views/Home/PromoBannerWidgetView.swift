@@ -63,9 +63,6 @@ struct PromoBannerWidgetView: View {
         ZStack(alignment: .topTrailing) {
             if let imageName = viewModel.imageTitle {
                 Image(decorative: imageName)
-                    .resizable()
-                    .frame(maxWidth: 100, maxHeight: 124)
-                    .scaledToFit()
             }
 
             Button {
