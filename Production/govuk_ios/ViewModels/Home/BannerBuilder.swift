@@ -71,24 +71,8 @@ class BannerBuilder {
     }
 
     private var promoBannerWidgets: [HomepageWidget] {
-        let banners: [PromoBanner] = [
-            .init(
-                id: "promo_1",
-                title: "Test promo 1",
-                body: "Promo banner",
-                link: .init(title: "Link", url: URL(string: "govuk://gov.uk/chat")!),
-                image: "going_abroad"
-            ),
-            .init(
-                id: "promo_2",
-                title: "Test promo 2",
-                body: "Promo banner",
-                link: .init(title: "Link", url: URL(string: "govuk://gov.uk/chat")!),
-                image: nil
-            )
-        ]
-//        guard let banners = configService.promoBanners
-//        else { return [] }
+        guard let banners = configService.promoBanners
+        else { return [] }
 
         let visibleBanners = banners.filter { !userDefaultsService.hasSeen(banner: $0) }
 
