@@ -7,22 +7,33 @@ struct PromoBannerWidgetView: View {
     @Environment(\.verticalSizeClass) var verticalSizeClass
 
     var body: some View {
-        VStack(spacing: 0) {
-            HStack(alignment: .top) {
-                VStack(alignment: .leading, spacing: 0) {
-                    title
-                    subtitle
-                }
-                .padding(.bottom, 16)
-                Spacer(minLength: 16)
-                dismissView
-                    .padding(.bottom, 8)
+        VStack(
+            spacing: 0,
+            content: {
+                HStack(
+                    alignment: .top,
+                    spacing: 8,
+                    content: {
+                        VStack(
+                            alignment: .leading,
+                            spacing: 0,
+                            content: {
+                                title
+                                subtitle
+                            }
+                        )
+                        .padding(.bottom, 16)
+                        Spacer(minLength: 16)
+                        dismissView
+                            .padding(.bottom, 8)
+                    }
+                )
+                .padding(.leading, 16)
+                Divider()
+                    .overlay(Color(UIColor.govUK.strokes.listDivider))
+                linkButton
             }
-            .padding(.leading, 16)
-            Divider()
-                .overlay(Color(UIColor.govUK.strokes.listDivider))
-            linkButton
-        }
+        )
         .background(Color(uiColor: UIColor.govUK.fills.surfaceList))
         .roundedBorder(borderColor: .clear)
     }
@@ -56,7 +67,7 @@ struct PromoBannerWidgetView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(maxWidth: 100, maxHeight: 124)
-                    Spacer()
+                    Spacer(minLength: 0)
                 }
             }
             VStack(spacing: 0) {
@@ -74,7 +85,7 @@ struct PromoBannerWidgetView: View {
                 .accessibilityLabel(
                     String.chat.localized("dismissChatBannerAccessibilityLabel")
                 )
-                Spacer()
+                Spacer(minLength: 0)
             }
         }
     }
