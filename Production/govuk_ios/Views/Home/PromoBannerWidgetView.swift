@@ -13,13 +13,14 @@ struct PromoBannerWidgetView: View {
                     title
                     subtitle
                 }
+                .padding(.bottom, 16)
                 Spacer(minLength: 16)
                 dismissView
+                    .padding(.bottom, 8)
             }
             .padding(.leading, 16)
             Divider()
                 .overlay(Color(UIColor.govUK.strokes.listDivider))
-                .padding(.top, 16)
             linkButton
         }
         .background(Color(uiColor: UIColor.govUK.fills.surfaceList))
@@ -49,12 +50,14 @@ struct PromoBannerWidgetView: View {
 
     private var dismissView: some View {
         ZStack(alignment: .trailing) {
-            VStack(spacing: 0) {
-                Image(decorative: viewModel.imageTitle ?? "")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 100, height: 124)
-                Spacer()
+            if let imageName = viewModel.imageTitle {
+                VStack(spacing: 0) {
+                    Image(decorative: imageName)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(maxWidth: 100, maxHeight: 124)
+                    Spacer()
+                }
             }
             VStack(spacing: 0) {
                 Button {
