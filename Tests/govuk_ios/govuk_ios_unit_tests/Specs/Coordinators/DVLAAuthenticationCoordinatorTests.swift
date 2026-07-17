@@ -15,11 +15,17 @@ class DVLAAuthenticationCoordinatorTests {
         mockAuthenticationService._stubbedFetchIdentityVerificationResult = .success(
             .init(verificationHash: "test-token")
         )
+        let mockAppEnvironmentService = MockAppEnvironmentService()
+        mockAppEnvironmentService.dvlaAuthenticationURL = URL(
+            string: "https://customer-account-external-ui-ext.dvla.gov.uk/govuk-app"
+        )!
+
         let sut = DVLAAuthenticationCoordinator(
             navigationController: UINavigationController(),
             urlOpener: mockURLOpener,
             authenticationService: mockAuthenticationService,
             analyticsService: MockAnalyticsService(),
+            appEnvironmentService: mockAppEnvironmentService,
         )
 
         sut.start(url: nil)
@@ -46,6 +52,7 @@ class DVLAAuthenticationCoordinatorTests {
             urlOpener: mockURLOpener,
             authenticationService: mockAuthenticationService,
             analyticsService: MockAnalyticsService(),
+            appEnvironmentService: MockAppEnvironmentService(),
         )
 
         sut.start(url: nil)
@@ -66,6 +73,7 @@ class DVLAAuthenticationCoordinatorTests {
             urlOpener: mockURLOpener,
             authenticationService: mockAuthenticationService,
             analyticsService: MockAnalyticsService(),
+            appEnvironmentService: MockAppEnvironmentService(),
         )
 
         sut.start(url: nil)
@@ -86,6 +94,7 @@ class DVLAAuthenticationCoordinatorTests {
             urlOpener: mockURLOpener,
             authenticationService: mockAuthenticationService,
             analyticsService: MockAnalyticsService(),
+            appEnvironmentService: MockAppEnvironmentService(),
         )
 
         sut.start(url: nil)

@@ -3,20 +3,20 @@ import UIKit
 import GovKit
 
 final class DVLAAuthenticationCoordinator: BaseCoordinator {
-    private let authenticationUrl = {
-        URL(string: "https://customer-account-external-ui-ext.dvla.gov.uk/govuk-app")!
-    }()
     private let urlOpener: URLOpener
     private let authenticationService: AuthenticationServiceInterface
     private let analyticsService: AnalyticsServiceInterface
+    private let appEnvironmentService: AppEnvironmentServiceInterface
 
     init(navigationController: UINavigationController,
          urlOpener: URLOpener,
          authenticationService: AuthenticationServiceInterface,
-         analyticsService: AnalyticsServiceInterface) {
+         analyticsService: AnalyticsServiceInterface,
+         appEnvironmentService: AppEnvironmentServiceInterface) {
         self.urlOpener = urlOpener
         self.authenticationService = authenticationService
         self.analyticsService = analyticsService
+        self.appEnvironmentService = appEnvironmentService
         super.init(navigationController: navigationController)
     }
 
@@ -37,6 +37,7 @@ final class DVLAAuthenticationCoordinator: BaseCoordinator {
     }
 
     private func authenticate(email: String) {
+        let authenticationUrl = appEnvironmentService.dvlaAuthenticationURL
         var components = URLComponents(
             url: authenticationUrl,
             resolvingAgainstBaseURL: true

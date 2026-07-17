@@ -544,6 +544,7 @@ class CoordinatorBuilder {
             urlOpener: UIApplication.shared,
             authenticationService: container.authenticationService.resolve(),
             analyticsService: container.analyticsService.resolve(),
+            appEnvironmentService: container.appEnvironmentService.resolve()
         )
     }
 
