@@ -56,6 +56,11 @@ struct MotStatusViewModelBuilder: MotStatusViewModelBuilderInterface {
                     expiryDate: validToDate,
                     currentDate: Date.now
                 )
+                if expiryProgress.isExpired {
+                    return makeExpiredViewModel(
+                        validToDate: validToDate
+                    )
+                }
                 if expiryProgress.isWithinCountdownWindow {
                     return makeExpiringViewModel(
                         validToDate: validToDate,

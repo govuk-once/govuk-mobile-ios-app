@@ -109,4 +109,28 @@ struct MOTStatusViewModelBuilderTests {
     private func generateFutureDate(daysAhead: Int) -> Date {
         return Calendar.current.date(byAdding: .day, value: daysAhead, to: Date())!
     }
+
+    @MainActor
+    @Test
+    func makeViewModel_motStatusValidButExpiryDateIsInPast_returnsExpiredViewModel() {
+        let pastExpiryDate = generateFutureDate(daysAhead: -5)
+        let vehicle = MotStatusVehicle(
+            motStatus: "Valid",
+            motExpiryDate: pastExpiryDate,
+            registrationNumber: "LG04 NBF"
+        )
+        let sut = MotStatusViewModelBuilder(
+            urls: nil,
+            analyticsService: MockAnalyticsService(),
+            openURLAction: { _ in }
+        )
+        let result = sut.makeViewModel(vehicle: vehicle)
+        #expect(result.title == String(localized: .DVLA.motStatusTitle))
+        #expect(result.formattedStatus == String(
+            localized: .DVLA.motExpiredOn(dateFormatter.string(from: pastExpiryDate)))
+        )
+        #expect(result.iconName == "exclamationmark.triangle.fill")
+        #expect(result.status as? MOTValidityStatus == .expired)
+    }
+
 }
