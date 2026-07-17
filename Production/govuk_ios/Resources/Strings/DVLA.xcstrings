@@ -228,7 +228,7 @@
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Your tax, MOT, penalty points"
+            "value" : "Your tax, MOT, licence details"
           }
         }
       }
@@ -756,7 +756,7 @@
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Keep track of your penalty points, tax and MOT dates."
+            "value" : "Keep track of your licence details, tax and MOT dates."
           }
         }
       }
