@@ -60,7 +60,7 @@ struct NotificationCentreDetailContainerView: View {
                 )
             }
         }
-        .background(Color(UIColor.govUK.fills.surfaceCardEmergencyInfo))
+        .background(Color(UIColor.govUK.fills.surfaceFullscreen))
         .onAppear {
             viewModel.onViewAppear()
             viewModel.track(screen: self)
