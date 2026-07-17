@@ -66,6 +66,10 @@ class Configuration
     ENV['FLEX_BASE_URL']
   end
 
+  def app_dvla_authentication_url
+      ENV['DVLA_AUTHENTICATION_URL']
+  end
+
   def app_onesignal_app_id
     ENV['ONESIGNAL_APP_ID']
   end
@@ -165,6 +169,7 @@ class Configuration
       CHAT_BASE_URL: app_chat_base_url,
       TOKEN_BASE_URL: app_token_base_url,
       FLEX_BASE_URL: app_flex_base_url,
+      DVLA_AUTHENTICATION_URL: app_dvla_authentication_url,
       GOOGLE_SERVICES_FILE: app_google_services_file,
       PRODUCT_BUNDLE_IDENTIFIER_APP: app_bundle_identifier,
       PRODUCT_BUNDLE_IDENTIFIER_NOTIFICATION_SERVICE: app_bundle_identifier_notification_service,
