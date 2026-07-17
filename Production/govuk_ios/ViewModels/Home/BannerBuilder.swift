@@ -155,7 +155,6 @@ class BannerBuilder {
 
     private func trackItemSelection(item: HomeCommerceItem) {
         let event = AppEvent.selectBannerItem(
-            itemName: item.name,
             index: item.index,
             results: bannersECommerceItems.count,
         )

@@ -14,8 +14,7 @@ extension AppEvent {
         )
     }
 
-    static func selectBannerItem(itemName: String,
-                                 index: Int,
+    static func selectBannerItem(index: Int,
                                  results: Int) -> AppEvent {
         return .init(
             name: "select_item",

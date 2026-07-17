@@ -1,9 +1,8 @@
 {
   "images" : [
     {
-      "filename" : "chat_widget_light.png",
-      "idiom" : "universal",
-      "scale" : "1x"
+      "filename" : "Chatimg-Lightmode-intersect fixed.svg",
+      "idiom" : "universal"
     },
     {
       "appearances" : [
@@ -12,41 +11,8 @@
           "value" : "dark"
         }
       ],
-      "filename" : "chat_widget_dark.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "filename" : "chat_widget_light@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "appearances" : [
-        {
-          "appearance" : "luminosity",
-          "value" : "dark"
-        }
-      ],
-      "filename" : "chat_widget_dark@2x.png",
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "filename" : "chat_widget_light@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
-    },
-    {
-      "appearances" : [
-        {
-          "appearance" : "luminosity",
-          "value" : "dark"
-        }
-      ],
-      "filename" : "chat_widget_dark@3x.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "filename" : "Chatimg-darkmode-intersect fixed.svg",
+      "idiom" : "universal"
     }
   ],
   "info" : {
