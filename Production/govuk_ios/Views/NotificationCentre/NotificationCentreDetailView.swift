@@ -79,7 +79,7 @@ private struct FloatingIconButtons: View {
                    deleteAction()
                 } label: {
                     Image(.notcenDelete)
-                        .foregroundStyle(.black)
+                        .foregroundStyle(Color(.govUK.fills.notificationCentreFloatingIcons))
                         .frame(width: 48, height: 48)
                 }
                 .glassEffect(.regular.interactive(), in: Circle())
@@ -89,7 +89,7 @@ private struct FloatingIconButtons: View {
                     unreadAction()
                 } label: {
                     Image(.notcenUnread)
-                        .foregroundStyle(.black)
+                        .foregroundStyle(Color(.govUK.fills.notificationCentreFloatingIcons))
                         .frame(width: 48, height: 48)
                 }
                 .glassEffect(.regular.interactive(), in: Circle())
@@ -213,4 +213,13 @@ extension NotificationCentreDetailContainerView: TrackableScreen {
         onConfirmDelete: { /* no-op */ },
         onCancelDelete: { /* no-op */ },
         showDeleteConfirmation: false)
+}
+
+#Preview("Buttons") {
+    if #available(iOS 26.0, *) {
+        ZStack {
+            Color(UIColor.govUK.fills.surfaceCardEmergencyInfo)
+            FloatingIconButtons(unreadAction: { /* no-op */ }, deleteAction: { /* no-op */ })
+        }
+    }
 }
