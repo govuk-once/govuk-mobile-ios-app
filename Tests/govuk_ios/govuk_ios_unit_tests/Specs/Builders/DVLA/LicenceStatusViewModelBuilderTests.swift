@@ -128,5 +128,27 @@ struct LicenceStatusViewModelBuilderTests {
         #expect(result.iconName == nil)
         #expect(result.iconTintColour == nil)
     }
-}
 
+    @Test
+    func makeViewModel_licenceValidButTokenValidToDateIsInPast_returnsExpiredViewModel() {
+        let dvlaURLs: DvlaURLs = .arrange(renewLicence: "https://renewLicence.com")
+        let sut = LicenceStatusViewModelBuilder(urls: dvlaURLs)
+
+        let result = sut.makeViewModel(
+            status: .valid,
+            validToDate: .arrange("01/01/2025"),
+            currentDate: .arrange("15/01/2025"),
+            openURLAction: { _, _ in }
+        )
+        let expectedStatus = String(localized: .DVLA.expiredOn(date: "1 January 2025"))
+        let expectedAccessibilityLabel = String(localized: .DVLA.licenceStatusAccessibilityLabel(expectedStatus))
+
+        #expect(result.title == nil)
+        #expect(result.formattedStatus == expectedStatus)
+        #expect(result.statusAccessibilityLabel == expectedAccessibilityLabel)
+        #expect(result.footer == String(localized: .DVLA.licenceStatusFooter))
+        #expect(result.iconName == "exclamationmark.triangle.fill")
+        #expect(result.buttonTitle == String(localized: .DVLA.renewLicenceButtonTitle))
+        #expect(result.buttonAction != nil)
+    }
+}
