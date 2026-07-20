@@ -170,7 +170,7 @@ struct NotificationCentreEmptyView: View {
 
             Spacer()
         }
-        .padding(.horizontal, 32)
+        .padding(.horizontal, 16)
         .padding(.top, 16)
     }
 }
