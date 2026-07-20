@@ -59,10 +59,15 @@ import GovKit
     }
 
     func test_error_light_rendersCorrectly() {
-        let errorViewModel = AppErrorViewModel(
-            title: "Something went wrong",
-            body: "Try again later",
-            buttonTitle: "Try again"
+        let errorViewModel = InlineActionErrorViewModel(
+            title: String(localized: .DVLA.accountWidgetErrorTitle),
+            markdownBody: String(
+                localized: .DVLA.accountWidgetErrorBody(
+                    buttonTitle: String(localized: .DVLA.accountWidgetErrorButtonTitle),
+                    url: ""
+                )
+            ),
+            openURLAction: { _ in }
         )
         let viewModel = MockDVLAAccountWidgetViewModel(viewState: .error(errorViewModel))
         let view = DVLAAccountWidgetView(viewModel: viewModel)
@@ -73,6 +78,29 @@ import GovKit
         VerifySnapshotInNavigationController(
             viewController: hostingViewController,
             mode: .light
+        )
+    }
+
+    func test_error_dark_rendersCorrectly() {
+        let errorViewModel = InlineActionErrorViewModel(
+            title: String(localized: .DVLA.accountWidgetErrorTitle),
+            markdownBody: String(
+                localized: .DVLA.accountWidgetErrorBody(
+                    buttonTitle: String(localized: .DVLA.accountWidgetErrorButtonTitle),
+                    url: ""
+                )
+            ),
+            openURLAction: { _ in }
+        )
+        let viewModel = MockDVLAAccountWidgetViewModel(viewState: .error(errorViewModel))
+        let view = DVLAAccountWidgetView(viewModel: viewModel)
+        let hostingViewController =  HostingViewController(
+            rootView: view
+        )
+        hostingViewController.view.backgroundColor = .govUK.fills.surfaceBackground
+        VerifySnapshotInNavigationController(
+            viewController: hostingViewController,
+            mode: .dark
         )
     }
 

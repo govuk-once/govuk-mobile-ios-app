@@ -34,6 +34,39 @@
         }
       }
     },
+    "accountWidgetErrorBody" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try again later, or [%1$(buttonTitle)@](%2$(url)@)"
+          }
+        }
+      }
+    },
+    "accountWidgetErrorButtonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "go to the GOV.UK website."
+          }
+        }
+      }
+    },
+    "accountWidgetErrorTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Driver and vehicles account information is not working"
+          }
+        }
+      }
+    },
     "biFuel" : {
       "extractionState" : "manual",
       "localizations" : {

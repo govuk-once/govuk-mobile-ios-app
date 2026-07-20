@@ -26,9 +26,9 @@ struct DVLAAccountWidgetView: View {
         }
     }
 
-    private func makeErrorView(for errorViewModel: AppErrorViewModel) -> some View {
-        AppErrorView(viewModel: errorViewModel)
-            .frame(maxWidth: .infinity, minHeight: 200)
+    private func makeErrorView(for errorViewModel: InlineActionErrorViewModel) -> some View {
+        InlineActionErrorView(viewModel: errorViewModel)
+            .frame(maxWidth: .infinity, minHeight: 100)
             .background(Color(UIColor.govUK.fills.surfaceList))
             .clipShape(RoundedRectangle(cornerRadius: 10))
             .padding(.horizontal, 16)
