@@ -1,27 +1,39 @@
 import SwiftUI
 import GovKitUI
 
-struct ChatWidgetView: View {
-    let viewModel: ChatWidgetViewModel
+struct PromoBannerWidgetView: View {
+    let viewModel: PromoBannerWidgetViewModel
 
     @Environment(\.verticalSizeClass) var verticalSizeClass
 
     var body: some View {
-        VStack(spacing: 0) {
-            HStack(alignment: .top) {
-                VStack(alignment: .leading, spacing: 0) {
-                    title
-                    subtitle
-                }
-                Spacer(minLength: 16)
-                dismissView
+        VStack(
+            spacing: 0,
+            content: {
+                HStack(
+                    alignment: .top,
+                    spacing: 8,
+                    content: {
+                        VStack(
+                            alignment: .leading,
+                            spacing: 0,
+                            content: {
+                                title
+                                subtitle
+                            }
+                        )
+                        .padding(.bottom, 16)
+                        Spacer(minLength: 16)
+                        dismissView
+                            .padding(.bottom, 8)
+                    }
+                )
+                .padding(.leading, 16)
+                Divider()
+                    .overlay(Color(UIColor.govUK.strokes.listDivider))
+                linkButton
             }
-            .padding(.leading, 16)
-            Divider()
-                .overlay(Color(UIColor.govUK.strokes.listDivider))
-                .padding(.top, 16)
-            linkButton
-        }
+        )
         .background(Color(uiColor: UIColor.govUK.fills.surfaceList))
         .roundedBorder(borderColor: .clear)
     }
@@ -48,31 +60,25 @@ struct ChatWidgetView: View {
     }
 
     private var dismissView: some View {
-        ZStack(alignment: .trailing) {
-            VStack(spacing: 0) {
-                Image(decorative: "chat_widget")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 100, height: 124)
-                Spacer()
+        ZStack(alignment: .topTrailing) {
+            if let imageName = viewModel.imageTitle {
+                Image(decorative: imageName)
             }
-            VStack(spacing: 0) {
-                Button {
-                    withAnimation {
-                        viewModel.dismiss()
-                    }
-                } label: {
-                    Image(systemName: "xmark")
-                        .font(.govUK.bodySemibold)
-                        .foregroundColor(Color(UIColor.govUK.text.primary))
-                        .frame(width: 44, height: 44)
-                        .accessibilitySortPriority(0)
+
+            Button {
+                withAnimation {
+                    viewModel.dismiss()
                 }
-                .accessibilityLabel(
-                    String.chat.localized("dismissChatBannerAccessibilityLabel")
-                )
-                Spacer()
+            } label: {
+                Image(systemName: "xmark")
+                    .font(.govUK.bodySemibold)
+                    .foregroundColor(Color(UIColor.govUK.text.primary))
+                    .frame(width: 44, height: 44)
+                    .accessibilitySortPriority(0)
             }
+            .accessibilityLabel(
+                String.chat.localized("dismissBannerAccessibilityLabel")
+            )
         }
     }
 

@@ -56,6 +56,17 @@
         }
       }
     },
+    "dismissBannerAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dismiss banner"
+          }
+        }
+      }
+    },
     "editTopicsAccessibilityLabel" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -189,5 +200,5 @@
       }
     }
   },
-  "version" : "1.0"
+  "version" : "1.2"
 }

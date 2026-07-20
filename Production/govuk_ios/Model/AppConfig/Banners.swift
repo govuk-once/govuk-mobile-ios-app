@@ -4,7 +4,8 @@ protocol DismissibleBanner {
     var id: String { get }
 }
 
-struct AlertBanner: DismissibleBanner, Decodable {
+struct AlertBanner: DismissibleBanner,
+                    Decodable {
     let id: String
     let body: String
     let link: Link?
@@ -17,7 +18,8 @@ extension AlertBanner {
     }
 }
 
-struct ChatBanner: DismissibleBanner, Decodable {
+struct ChatBanner: DismissibleBanner,
+                   Decodable {
     let id: String
     let title: String
     let body: String
@@ -28,6 +30,48 @@ extension ChatBanner {
     struct Link: Decodable {
         let title: String
         let url: URL
+    }
+}
+
+extension ChatBanner {
+    func asHomeCommerceItem(listName: String,
+                            index: Int) -> HomeCommerceItem {
+        HomeCommerceItem(
+            name: self.title,
+            listName: listName,
+            index: index,
+            itemId: self.id,
+            locationId: self.link.url.absoluteString
+        )
+    }
+}
+
+struct PromoBanner: DismissibleBanner,
+                    Decodable {
+    let id: String
+    let title: String
+    let body: String
+    let link: Link
+    let image: String?
+}
+
+extension PromoBanner {
+    struct Link: Decodable {
+        let title: String
+        let url: URL
+    }
+}
+
+extension PromoBanner {
+    func asHomeCommerceItem(listName: String,
+                            index: Int) -> HomeCommerceItem {
+        return  HomeCommerceItem(
+            name: self.title,
+            listName: listName,
+            index: index,
+            itemId: self.id,
+            locationId: self.link.url.absoluteString
+        )
     }
 }
 
@@ -63,5 +107,17 @@ extension EmergencyBanner {
     struct Link: Decodable {
         let title: String
         let url: URL
+    }
+}
+
+extension EmergencyBanner {
+    func asHomeCommerceItem(index: Int) -> HomeCommerceItem {
+        return HomeCommerceItem(
+            name: self.title ?? "",
+            listName: String(describing: Swift.type(of: self)),
+            index: index,
+            itemId: self.id,
+            locationId: self.link?.url.absoluteString
+        )
     }
 }

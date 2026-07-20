@@ -21,6 +21,7 @@ class EmergencyBannerSnapshotTests: SnapshotTestCase {
             analyticsService: MockAnalyticsService(),
             sortPriority: 1,
             openURLAction: { _ in },
+            didSelectAction: { },
             dismissAction: { }
         )
         let view = EmergencyBannerWidgetView(viewModel: model)
@@ -52,6 +53,7 @@ class EmergencyBannerSnapshotTests: SnapshotTestCase {
             analyticsService: MockAnalyticsService(),
             sortPriority: 1,
             openURLAction: { _ in },
+            didSelectAction: { },
             dismissAction: { }
         )
         let view = EmergencyBannerWidgetView(viewModel: model)
@@ -83,6 +85,7 @@ class EmergencyBannerSnapshotTests: SnapshotTestCase {
             analyticsService: MockAnalyticsService(),
             sortPriority: 1,
             openURLAction: { _ in },
+            didSelectAction: { },
             dismissAction: { }
         )
         let view = EmergencyBannerWidgetView(viewModel: model)
@@ -114,6 +117,7 @@ class EmergencyBannerSnapshotTests: SnapshotTestCase {
             analyticsService: MockAnalyticsService(),
             sortPriority: 1,
             openURLAction: { _ in },
+            didSelectAction: { },
             dismissAction: { }
         )
         let view = EmergencyBannerWidgetView(viewModel: model)
@@ -145,6 +149,7 @@ class EmergencyBannerSnapshotTests: SnapshotTestCase {
             analyticsService: MockAnalyticsService(),
             sortPriority: 1,
             openURLAction: { _ in },
+            didSelectAction: { },
             dismissAction: { }
         )
         let view = EmergencyBannerWidgetView(viewModel: model)
@@ -176,6 +181,7 @@ class EmergencyBannerSnapshotTests: SnapshotTestCase {
             analyticsService: MockAnalyticsService(),
             sortPriority: 1,
             openURLAction: { _ in },
+            didSelectAction: { },
             dismissAction: { }
         )
         let view = EmergencyBannerWidgetView(viewModel: model)
@@ -207,6 +213,7 @@ class EmergencyBannerSnapshotTests: SnapshotTestCase {
             analyticsService: MockAnalyticsService(),
             sortPriority: 1,
             openURLAction: { _ in },
+            didSelectAction: { },
             dismissAction: { }
         )
         let view = EmergencyBannerWidgetView(viewModel: model)
@@ -238,6 +245,7 @@ class EmergencyBannerSnapshotTests: SnapshotTestCase {
             analyticsService: MockAnalyticsService(),
             sortPriority: 1,
             openURLAction: { _ in },
+            didSelectAction: { },
             dismissAction: { }
         )
         let view = EmergencyBannerWidgetView(viewModel: model)

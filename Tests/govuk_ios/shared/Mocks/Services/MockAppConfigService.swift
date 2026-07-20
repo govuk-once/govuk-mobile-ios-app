@@ -82,12 +82,25 @@ class MockAppConfigService: AppConfigServiceInterface {
     var termsAndConditions: TermsAndConditions? {
         _stubbedTermsAndConditions
     }
-    
+
     func fetchAppConfig() async -> FetchAppConfigResult {
         _stubbedFetchAppConfigResult
     }
 
     func isFeatureEnabled(key: Feature) -> Bool {
         features.contains(key)
+    }
+
+    var _stubbedPromoBanners: [PromoBanner]? = nil
+    var promoBanners: [PromoBanner]? {
+        _stubbedPromoBanners
+    }
+
+    var _stubbedPromoBannersLink: PromoBanner.Link = .init(
+        title: "test",
+        url: URL(string: "https://test.com")!
+    )
+    var promoBannersLink: PromoBanner.Link {
+        _stubbedPromoBannersLink
     }
 }

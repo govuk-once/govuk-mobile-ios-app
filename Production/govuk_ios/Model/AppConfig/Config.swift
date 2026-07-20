@@ -13,6 +13,7 @@ struct Config: Decodable {
         case refreshTokenExpirySeconds
         case alertBanner
         case chatBanner = "chatBanner_v2"
+        case promoBanners
         case userFeedbackBanner
         case emergencyBanners
         case chatUrls
@@ -31,6 +32,7 @@ struct Config: Decodable {
     let refreshTokenExpirySeconds: Int?
     let alertBanner: AlertBanner?
     let chatBanner: ChatBanner?
+    let promoBanners: [PromoBanner]?
     let userFeedbackBanner: UserFeedbackBanner?
     let emergencyBanners: [EmergencyBanner]?
     let chatUrls: ChatURLs?

@@ -14,6 +14,19 @@ extension AppEvent {
         )
     }
 
+    static func selectBannerItem(index: Int,
+                                 results: Int) -> AppEvent {
+        return .init(
+            name: "select_item",
+            params: [
+                "item_list_name": "home_banners",
+                "item_list_id": "home_banners",
+                "index": index,
+                "results": results,
+            ]
+        )
+    }
+
     static func selectTopicItem(name: String,
                                 results: Int,
                                 items: [ECommerceItem]) -> AppEvent {

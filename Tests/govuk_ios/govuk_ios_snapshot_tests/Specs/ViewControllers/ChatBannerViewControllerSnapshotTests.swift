@@ -23,20 +23,22 @@ final class ChatWidgetViewControllerSnapshotTests: SnapshotTestCase {
     }
 
     private func viewController() -> UIViewController {
-        let mockAppConfigService = MockAppConfigService()
-        mockAppConfigService._stubbedChatBanner = .init(
+        let chatBanner = ChatBanner(
             id: "1234",
             title: "title",
             body: "body",
             link: ChatBanner.Link(title: "link", url: URL(string: "www.test.com")!)
         )
-        let viewModel = ChatWidgetViewModel(
+        let viewModel = PromoBannerWidgetViewModel(
             analyticsService: MockAnalyticsService(),
-            chat: mockAppConfigService._stubbedChatBanner!,
+            chatBanner: chatBanner,
             urlOpener: MockURLOpener(),
-            dismissAction: {}
+            didSelectAction: { },
+            dismissAction: { }
         )
-        let view = ChatWidgetView(viewModel: viewModel)
+        let view = PromoBannerWidgetView(
+            viewModel: viewModel
+        )
         return HostingViewController(rootView: view)
     }
 }

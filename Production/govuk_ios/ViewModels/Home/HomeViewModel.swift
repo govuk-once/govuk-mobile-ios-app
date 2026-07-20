@@ -22,8 +22,22 @@ class HomeViewModel: ObservableObject {
     let activityService: ActivityServiceInterface
     let localAuthorityService: LocalAuthorityServiceInterface
     let chatService: ChatServiceInterface
+
     @Published var homeContentScrollToTop: Bool = false
     @Published var widgets: [HomepageWidget] = []
+
+    private var bannersECommerceItems = [HomeCommerceItem]()
+    private lazy var bannerBuilder: BannerBuilder = BannerBuilder(
+        userDefaultsService: userDefaultsService,
+        configService: configService,
+        analyticsService: analyticsService,
+        urlOpener: urlOpener,
+        chatEnabled: chatService.isEnabled,
+        openURLAction: openURLAction,
+        updateWidgetsAction: { [weak self] in
+            self?.updateWidgets()
+        }
+    )
 
     init(analyticsService: AnalyticsServiceInterface,
          configService: AppConfigServiceInterface,
@@ -59,68 +73,28 @@ class HomeViewModel: ObservableObject {
         self.activityService = activityService
         self.localAuthorityService = localAuthorityService
         self.chatService = chatService
+
         updateWidgets()
     }
 
     func updateWidgets() {
-        let array = [
-            chatWidget,
+        widgets =
+        bannerWidgets() +
+        serviceWidgets()
+    }
+
+    private func bannerWidgets() -> [HomepageWidget] {
+        bannerBuilder.bannerWidgets()
+    }
+
+    private func serviceWidgets() -> [HomepageWidget] {
+        [
             topicsWidget,
             addLocalAuthorityWidget,
             storedLocalAuthorityWidget,
             recentActivityWidget,
             feedbackWidget
         ].compactMap { $0 }
-        widgets = bannerWidgets + array
-    }
-
-    private var bannerWidgets: [HomepageWidget] {
-        guard let banners = configService.emergencyBanners else {
-            return []
-        }
-
-        let visibleBanners = banners.filter { !userDefaultsService.hasSeen(banner: $0) }
-
-        return visibleBanners.enumerated().map { iterator in
-            let viewModel = EmergencyBannerWidgetViewModel(
-                banner: iterator.element,
-                analyticsService: analyticsService,
-                sortPriority: (visibleBanners.count - iterator.offset),
-                openURLAction: openURLAction,
-                dismissAction: {
-                    self.userDefaultsService.markSeen(banner: iterator.element)
-                    self.updateWidgets()
-                }
-            )
-
-            return HomepageWidget(
-                content: EmergencyBannerWidgetView(
-                    viewModel: viewModel
-                )
-            )
-        }
-    }
-
-    private var chatWidget: HomepageWidget? {
-        guard chatService.isEnabled,
-              let chatBanner = configService.chatBanner,
-              !userDefaultsService.hasSeen(banner: chatBanner)
-        else { return nil }
-        let viewModel = ChatWidgetViewModel(
-            analyticsService: analyticsService,
-            chat: chatBanner,
-            urlOpener: urlOpener,
-            dismissAction: {
-                self.userDefaultsService.markSeen(banner: chatBanner)
-                self.updateWidgets()
-            }
-        )
-
-        return HomepageWidget(
-            content: ChatWidgetView(
-                viewModel: viewModel
-            )
-        )
     }
 
     private var topicsWidget: HomepageWidget? {
@@ -217,6 +191,7 @@ class HomeViewModel: ObservableObject {
 
     func trackECommerce() {
         topicsWidgetViewModel.trackECommerce()
+        bannerBuilder.trackBannersEcommerceEvent()
     }
 
     func editTopics() {
