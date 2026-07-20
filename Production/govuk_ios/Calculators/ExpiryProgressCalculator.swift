@@ -4,6 +4,7 @@ struct ExpiryProgressState {
     let daysLeft: Int
     let progress: CGFloat
     let isWithinCountdownWindow: Bool
+    let isExpired: Bool
 }
 
 struct ExpiryProgressCalculator {
@@ -24,13 +25,14 @@ struct ExpiryProgressCalculator {
 
         let components = calendar.dateComponents([.day], from: today, to: expiry)
         let rawDaysLeft = components.day ?? 0
-        let daysLeft = max(0, rawDaysLeft)
+        let daysLeft = rawDaysLeft
         let progress = min(1.0, CGFloat(daysLeft) / CGFloat(countdownWindowDays))
 
         return ExpiryProgressState(
             daysLeft: daysLeft,
             progress: progress,
-            isWithinCountdownWindow: daysLeft <= countdownWindowDays
+            isWithinCountdownWindow: daysLeft >= 0 && daysLeft <= countdownWindowDays,
+            isExpired: daysLeft < 0
         )
     }
 }

@@ -33,12 +33,12 @@ struct LicenceStatusViewModelBuilder: LicenceStatusViewModelBuilderInterface {
         )
     }
 
-     func makeViewModel(
+    func makeViewModel(
         status: DrivingLicenceStatus,
         validToDate: Date?,
         currentDate: Date,
         openURLAction: @escaping (URL, String) -> Void
-     ) -> ValidityStatusViewModel {
+    ) -> ValidityStatusViewModel {
         switch status {
         case .expired:
             return makeExpiredViewModel(
@@ -51,6 +51,12 @@ struct LicenceStatusViewModelBuilder: LicenceStatusViewModelBuilderInterface {
                     expiryDate: validToDate,
                     currentDate: currentDate
                 )
+                if expiryProgress.isExpired {
+                    return makeExpiredViewModel(
+                        validToDate: validToDate,
+                        openURLAction: openURLAction
+                    )
+                }
                 if expiryProgress.isWithinCountdownWindow {
                     return makeExpiringViewModel(
                         validToDate: validToDate,
@@ -77,7 +83,6 @@ struct LicenceStatusViewModelBuilder: LicenceStatusViewModelBuilderInterface {
         String(localized: .DVLA.licenceStatusAccessibilityLabel(status))
     }
 
-     // MARK: - Expired
      private func makeExpiredViewModel(
          validToDate: Date?,
          openURLAction: @escaping (URL, String) -> Void
@@ -108,7 +113,6 @@ struct LicenceStatusViewModelBuilder: LicenceStatusViewModelBuilderInterface {
          )
      }
 
-     // MARK: - Valid
      private func makeValidViewModel(
         validToDate: Date?
      ) -> ValidityStatusViewModel {
@@ -159,7 +163,6 @@ struct LicenceStatusViewModelBuilder: LicenceStatusViewModelBuilderInterface {
         )
     }
 
-    // MARK: - Unknown
     private func makeUnknownViewModel() -> ValidityStatusViewModel {
         let formattedStatus = String(localized: .DVLA.unknown)
         return ValidityStatusViewModel(
