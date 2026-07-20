@@ -1,6 +1,3 @@
-//
-
-
 struct NotificationCentreResponseHandler: ResponseHandler {
     func handleStatusCode(_ statusCode: Int) -> Error {
         switch statusCode {

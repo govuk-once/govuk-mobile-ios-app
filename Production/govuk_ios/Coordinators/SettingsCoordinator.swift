@@ -126,7 +126,7 @@ class SettingsCoordinator: TabItemCoordinator {
 
     private func startNotificationCentre() {
         let coordinator = coordinatorBuilder
-            .notificationCenterCoordinator(navigationController: root)
+            .notificationCentre(navigationController: root)
         start(coordinator)
     }
 

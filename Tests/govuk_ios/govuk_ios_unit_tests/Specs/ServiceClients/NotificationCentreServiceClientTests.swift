@@ -1,5 +1,3 @@
-//
-
 import Foundation
 import Testing
 @testable import govuk_ios

@@ -1,5 +1,3 @@
-//
-
 import Foundation
 
 typealias NotificationResult = Result<[Notification], NotificationCentreError>
@@ -24,7 +22,6 @@ protocol NotificationCentreServiceClientInterface {
 struct NotificationCentreServiceClient: NotificationCentreServiceClientInterface {
     private let apiServiceClient: APIServiceClientInterface
 
-
     init(apiServiceClient: APIServiceClientInterface) {
         self.apiServiceClient = apiServiceClient
     }
@@ -36,8 +33,10 @@ struct NotificationCentreServiceClient: NotificationCentreServiceClientInterface
         }
     }
 
-    func fetchNotification(with id: String,
-                           callback: @escaping (SingleNotificationResult) -> Void) {
+    func fetchNotification(
+        with id: String,
+        callback: @escaping (SingleNotificationResult) -> Void
+    ) {
         let request = GOVRequest.singleNotification(with: id)
         apiServiceClient.send(request: request) { result in
             callback(mapResult(result))
@@ -47,15 +46,18 @@ struct NotificationCentreServiceClient: NotificationCentreServiceClientInterface
     func updateNotification(
         status: GOVRequest.UpdateBody.Status,
         for id: String,
-        with callback: @escaping () -> Void) {
-            let request = GOVRequest.update(status: status, with: id)
-            apiServiceClient.send(request: request) { _ in
-                callback()
-            }
+        with callback: @escaping () -> Void
+    ) {
+        let request = GOVRequest.update(status: status, with: id)
+        apiServiceClient.send(request: request) { _ in
+            callback()
         }
+    }
 
-    func deleteNotification(with id: String,
-                            callback: @escaping () -> Void) {
+    func deleteNotification(
+        with id: String,
+        callback: @escaping () -> Void
+    ) {
         let request = GOVRequest.deleteNotification(with: id)
         apiServiceClient.send(request: request) { _ in
             callback()

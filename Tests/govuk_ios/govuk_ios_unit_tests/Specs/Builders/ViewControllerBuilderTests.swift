@@ -483,10 +483,13 @@ struct ViewControllerBuilderTests {
             notificationId: "1",
             notificationService: MockNotificationCentreService(),
             analyticsService: MockAnalyticsService(),
-            showUrlAction: { _ in /* No-op */ },
-            onUnreadAction: { /* No-op */ },
-            onDeleteAction: { /* No-op */ })
-
+            actions: .init(
+                showUrlAction: { _ in /* No-op */ },
+                onUnreadAction: { /* No-op */ },
+                onDeleteAction: { /* No-op */ }
+            )
+        )
+        
         let rootView = (result as? HostingViewController<NotificationCentreDetailContainerView>)?.rootView
         #expect(rootView != nil)
     }

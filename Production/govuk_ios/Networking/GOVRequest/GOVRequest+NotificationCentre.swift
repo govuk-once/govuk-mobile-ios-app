@@ -1,6 +1,3 @@
-//
-
-
 extension GOVRequest {
     private static let notificationsPath = "/app/uns/v1/notifications"
 
@@ -54,20 +51,11 @@ extension GOVRequest {
 
     struct UpdateBody: Codable {
         enum Status: String, Codable {
-            case read
-            case unread
-
-            func encode(to encoder: any Encoder) throws {
-                var container = encoder.singleValueContainer()
-                switch self {
-                case .read:
-                    try container.encode("READ")
-                case.unread:
-                    try container.encode("MARKED_AS_UNREAD")
-                }
-            }
+            case read = "READ"
+            case unread = "MARKED_AS_UNREAD"
         }
         let status: Status
+
         enum CodingKeys: String, CodingKey {
             case status = "Status"
         }

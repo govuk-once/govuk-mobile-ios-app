@@ -1,4 +1,3 @@
-//
 import Foundation
 
 protocol NotificationCentreRepositoryInterface {
@@ -10,7 +9,6 @@ protocol NotificationCentreRepositoryInterface {
     func deleteNotification(with id: String)
 }
 
-
 class NotificationCentreRepository: NotificationCentreRepositoryInterface {
     class DateProvider {
         open var currentDate: Date {
@@ -18,16 +16,14 @@ class NotificationCentreRepository: NotificationCentreRepositoryInterface {
         }
     }
 
-    enum Constants {
-        static let notificationExpiration: TimeInterval = 30
-    }
-
     private struct CacheEntry<T> {
+        private let notificationExpiration: TimeInterval = 30
+
         let data: T
         let lastUpdate: Date
 
         func hasExpired(with date: Date) -> Bool {
-            date.timeIntervalSince(lastUpdate) > Constants.notificationExpiration
+            date.timeIntervalSince(lastUpdate) > notificationExpiration
         }
     }
 

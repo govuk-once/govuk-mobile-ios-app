@@ -592,7 +592,7 @@ class CoordinatorBuilder {
         )
     }
 
-    func notificationCenterCoordinator(
+    func notificationCentre(
         navigationController: UINavigationController
     ) -> BaseCoordinator {
         NotificationCentreCoordinator(

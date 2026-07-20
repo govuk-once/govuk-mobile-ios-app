@@ -1,5 +1,3 @@
-//
-
 import UIKit
 import GovKit
 
@@ -22,36 +20,41 @@ class NotificationCentreCoordinator: BaseCoordinator {
     }
 
     override func start(url _: URL?) {
-        let viewController = self
-            .viewControllerBuilder
-            .notificationCentre(showNotificationAction: { [weak self] notification in
-                self?.showDetail(for: notification)
-        }, notificationService: notificationCentreService, analyticsService: analyticsService)
+        let viewController = viewControllerBuilder
+            .notificationCentre(
+                showNotificationAction: { [weak self] notification in
+                    self?.showDetail(for: notification)
+                },
+                notificationService: notificationCentreService,
+                analyticsService: analyticsService)
 
         self.push(viewController, animated: true)
     }
 
     open func showDetail(for notificationId: String) {
-        let viewController = self.viewControllerBuilder
+        let viewController = viewControllerBuilder
             .notificationCentreDetail(
                 notificationId: notificationId,
                 notificationService: notificationCentreService,
                 analyticsService: analyticsService,
-                showUrlAction: { [weak self] url in
-                    guard let self else { return }
-                    let coordinator = coordinatorBuilder.safari(
-                        navigationController: root,
-                        url: url,
-                        fullScreen: true
-                    )
-                    start(coordinator, url: url)
-                },
-                onUnreadAction: {
-                    self.root.popViewController(animated: true)
-                },
-                onDeleteAction: {
-                    self.root.popViewController(animated: true)
-                })
+                actions: .init(
+                    showUrlAction: { [weak self] url in
+                        guard let self else { return }
+                        let coordinator = coordinatorBuilder.safari(
+                            navigationController: root,
+                            url: url,
+                            fullScreen: true
+                        )
+                        start(coordinator, url: url)
+                    },
+                    onUnreadAction: {
+                        self.root.popViewController(animated: true)
+                    },
+                    onDeleteAction: {
+                        self.root.popViewController(animated: true)
+                    }
+                )
+            )
         self.push(viewController, animated: true)
     }
 }

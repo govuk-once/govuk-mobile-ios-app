@@ -743,7 +743,8 @@ class ViewControllerBuilder {
             viewModel: viewModel
         )
         let viewController = HostingViewController(
-            rootView: termsView)
+            rootView: termsView
+        )
         return viewController
     }
 
@@ -806,10 +807,12 @@ class ViewControllerBuilder {
         )
         return viewController
     }
+
     func notificationCentre(
         showNotificationAction: @escaping (String) -> Void,
         notificationService: NotificationCentreServiceInterface,
-        analyticsService: AnalyticsServiceInterface) -> UIViewController {
+        analyticsService: AnalyticsServiceInterface
+    ) -> UIViewController {
         let actions = NotificationCentreViewModel.Actions(showNotification: showNotificationAction)
         let viewModel = NotificationCentreViewModel(
             actions: actions,
@@ -824,21 +827,17 @@ class ViewControllerBuilder {
         return viewController
     }
 
-    // swiftlint:disable:next function_parameter_count
     func notificationCentreDetail(
         notificationId: String,
         notificationService: NotificationCentreServiceInterface,
         analyticsService: AnalyticsServiceInterface,
-        showUrlAction: @escaping (URL) -> Void,
-        onUnreadAction: @escaping () -> Void,
-        onDeleteAction: @escaping () -> Void) -> UIViewController {
+        actions: NotificationCentreDetailViewModel.Actions
+    ) -> UIViewController {
             let viewModel = NotificationCentreDetailViewModel(
                 notificationId: notificationId,
                 notificationService: notificationService,
                 analyticsService: analyticsService,
-                showUrlAction: showUrlAction,
-                onUnreadAction: onUnreadAction,
-                onDeleteAction: onDeleteAction)
+                actions: actions)
 
             let viewController = HostingViewController(
                 rootView: NotificationCentreDetailContainerView(viewModel: viewModel),

@@ -1,5 +1,3 @@
-//
-
 import Combine
 import Foundation
 import GovKit
@@ -18,24 +16,19 @@ class NotificationCentreDetailViewModel: ObservableObject {
     private let notificationId: String
     private let notificationService: NotificationCentreServiceInterface
     private let analyticsService: AnalyticsServiceInterface
-    private let showUrlAction: (URL) -> Void
-    private let onUnreadAction: () -> Void
-    private let onDeleteAction: () -> Void
+    private let actions: NotificationCentreDetailViewModel.Actions
 
-    init(
-        notificationId: String,
-        notificationService: NotificationCentreServiceInterface,
-        analyticsService: AnalyticsServiceInterface,
-        showUrlAction: @escaping (URL) -> Void,
-        onUnreadAction: @escaping () -> Void,
-        onDeleteAction: @escaping () -> Void) {
-            self.notificationId = notificationId
-            self.notificationService = notificationService
-            self.analyticsService = analyticsService
-            self.showUrlAction = showUrlAction
-            self.onUnreadAction = onUnreadAction
-            self.onDeleteAction = onDeleteAction
-        }
+
+    init(notificationId: String,
+         notificationService: NotificationCentreServiceInterface,
+         analyticsService: AnalyticsServiceInterface,
+         actions: NotificationCentreDetailViewModel.Actions
+    ) {
+        self.notificationId = notificationId
+        self.notificationService = notificationService
+        self.analyticsService = analyticsService
+        self.actions = actions
+    }
 
     struct NotificationDetailContent: Equatable {
         let title: String
@@ -44,7 +37,11 @@ class NotificationCentreDetailViewModel: ObservableObject {
         let date: String
         let id: String
 
-        init(title: String, body: String, sender: String, date: String, id: String) {
+        init(title: String,
+             body: String,
+             sender: String,
+             date: String,
+             id: String) {
             self.title = title
             self.body = body
             self.sender = sender
@@ -67,10 +64,9 @@ class NotificationCentreDetailViewModel: ObservableObject {
         }
     }
 
+    @MainActor
     private func changeState(state: State) async {
-        await MainActor.run {
-            self.state = state
-        }
+        self.state = state
     }
 
     func loadData() {
@@ -112,7 +108,7 @@ class NotificationCentreDetailViewModel: ObservableObject {
     }
 
     func show(url: URL) {
-        showUrlAction(url)
+        actions.showUrlAction(url)
         analyticsService.track(event: .notificationCentreUrlLaunched(url: url))
     }
 
@@ -125,13 +121,11 @@ class NotificationCentreDetailViewModel: ObservableObject {
 
     func onConfirmDelete() {
         if case .loaded(let notification, _) = state {
-            self.analyticsService.track(event: .notificationCentreConfirmDelete())
-            Task { [weak self] in
-                self?.notificationService.delete(with: notification.id)
-            }
+            analyticsService.track(event: .notificationCentreConfirmDelete())
+            notificationService.delete(with: notification.id)
         }
 
-        onDeleteAction()
+        actions.onDeleteAction()
     }
 
     func onCancelDelete() {
@@ -144,15 +138,21 @@ class NotificationCentreDetailViewModel: ObservableObject {
     func onMarkUnread() {
         if case .loaded(let notification, _) = state {
             analyticsService.track(event: .notificationCentreMarkUnread())
-            Task { [weak self] in
-                self?.notificationService.markUnread(with: notification.id)
-            }
+            notificationService.markUnread(with: notification.id)
         }
 
-        onUnreadAction()
+        actions.onUnreadAction()
     }
 
     func track(screen: TrackableScreen) {
         analyticsService.track(screen: screen)
+    }
+}
+
+extension NotificationCentreDetailViewModel {
+    struct Actions {
+        let showUrlAction: (URL) -> Void
+        let onUnreadAction: () -> Void
+        let onDeleteAction: () -> Void
     }
 }

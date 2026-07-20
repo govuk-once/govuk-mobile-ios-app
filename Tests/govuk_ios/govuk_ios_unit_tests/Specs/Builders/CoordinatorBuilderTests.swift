@@ -535,7 +535,7 @@ struct CoordinatorBuilderTests {
         container.notificationCentreService.register(factory: { MockNotificationCentreService() })
         let subject = CoordinatorBuilder(container: container)
         let coordinator = subject
-            .notificationCenterCoordinator(navigationController: UINavigationController())
+            .notificationCentre(navigationController: UINavigationController())
 
         #expect(coordinator is NotificationCentreCoordinator)
     }

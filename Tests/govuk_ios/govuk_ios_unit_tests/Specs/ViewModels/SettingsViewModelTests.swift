@@ -47,14 +47,12 @@ class SettingsViewModelTests {
 
     private struct SectionIndexes {
         static let manageAccounts = 0
-        static let messages = SectionIndexes.manageAccounts + 1
-
-        static let yourAccounts = SectionIndexes.messages + 1
-        static let appOptions = SectionIndexes.yourAccounts + 1
+        static let yourAccounts = SectionIndexes.manageAccounts + 1
+        static let messages = SectionIndexes.yourAccounts + 1
+        static let appOptions = SectionIndexes.messages + 1
         static let about = SectionIndexes.appOptions + 1
         static let policies = SectionIndexes.about + 1
         static let signOut = SectionIndexes.policies + 1
-
     }
 
     @Test
@@ -66,8 +64,8 @@ class SettingsViewModelTests {
     func listContent_isCorrect() throws {
         try #require(sut.listContent.count == SectionIndexes.signOut + 1)
         try #require(sut.listContent[SectionIndexes.manageAccounts].rows.count == 2)
-        try #require(sut.listContent[SectionIndexes.messages].rows.count == 1)
         try #require(sut.listContent[SectionIndexes.yourAccounts].rows.count == 1)
+        try #require(sut.listContent[SectionIndexes.messages].rows.count == 1)
         try #require(sut.listContent[SectionIndexes.appOptions].rows.count == 3)
         try #require(sut.listContent[SectionIndexes.about].rows.count == 2)
         try #require(sut.listContent[SectionIndexes.policies].rows.count == 4)

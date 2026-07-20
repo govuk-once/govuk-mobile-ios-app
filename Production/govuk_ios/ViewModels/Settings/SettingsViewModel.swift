@@ -169,29 +169,29 @@ class SettingsViewModel: SettingsViewModelInterface {
 
     func loadMessages() {
         Task {
-            update(messagesState: .loading)
+            await update(messagesState: .loading)
 
             if let linkedAccounts = userService.linkedAccounts {
-                loadMessageCount(isLinked: !linkedAccounts.isEmpty)
+                await loadMessageCount(isLinked: !linkedAccounts.isEmpty)
             } else {
                 let linked = await userService.fetchLinkedAccounts()
 
                 switch linked {
                 case .success(let linkedAccounts):
-                    loadMessageCount(isLinked: !linkedAccounts.isEmpty)
+                    await loadMessageCount(isLinked: !linkedAccounts.isEmpty)
                 case .failure:
-                    update(messagesState: .error)
+                    await update(messagesState: .error)
                 }
             }
         }
     }
 
+    @MainActor
     private func update(messagesState: MessagesState) {
-        Task { @MainActor in
-            self.messagesState = messagesState
-        }
+        self.messagesState = messagesState
     }
 
+    @MainActor
     private func loadMessageCount(isLinked: Bool) {
         guard isLinked else {
             update(messagesState: .unlinked)
@@ -211,8 +211,8 @@ class SettingsViewModel: SettingsViewModelInterface {
     private func getGroupedList() -> [GroupedListSection] {
         return [
             accountSection,
-            messagesSection,
             appConfigService.isFeatureEnabled(key: .dvla) ? linkedAccountsSection : nil,
+            messagesSection,
             appOptionsSection,
             aboutSection,
             policiesSection,

@@ -1,5 +1,3 @@
-//
-
 @testable import govuk_ios
 
 class MockNotificationCentreServiceClient: NotificationCentreServiceClientInterface {

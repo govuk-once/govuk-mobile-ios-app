@@ -390,7 +390,7 @@ class MockCoordinatorBuilder: CoordinatorBuilder {
     }
 
     var _stubbedNotificationCentreCoordinator: MockNotificationCentreCoordinator!
-    override func notificationCenterCoordinator(navigationController: UINavigationController) -> NotificationCentreCoordinator {
+    override func notificationCentre(navigationController: UINavigationController) -> NotificationCentreCoordinator {
         _stubbedNotificationCentreCoordinator
     }
 }

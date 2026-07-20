@@ -34,15 +34,18 @@ class NotificationCentreDetailViewModelTests {
             notificationId: testNotificationId,
             notificationService: mockNotificationCentreService,
             analyticsService: mockAnalyticsService,
-            showUrlAction: {
-                self._showUrlActionFired = $0
-            },
-            onUnreadAction: {
-                self._onUnreadActionFired = true
-            },
-            onDeleteAction: {
-                self._onDeleteActionFired = true
-            })
+            actions: .init(
+                showUrlAction: {
+                    self._showUrlActionFired = $0
+                },
+                onUnreadAction: {
+                    self._onUnreadActionFired = true
+                },
+                onDeleteAction: {
+                    self._onDeleteActionFired = true
+                }
+            )
+        )
     }
 
     @Test

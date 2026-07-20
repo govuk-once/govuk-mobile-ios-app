@@ -1,5 +1,3 @@
-//
-
 protocol NotificationCentreServiceInterface {
     func fetchNotifications(callback: @escaping ((NotificationResult) -> Void))
     func fetchNotification(with id: String,
@@ -25,7 +23,7 @@ class NotificationCentreService: NotificationCentreServiceInterface {
         let cached = repository.fetchAll()
 
         if cached.isEmpty == true {
-            return serviceClient.fetchNotifications { [weak self] in
+            serviceClient.fetchNotifications { [weak self] in
                 if case let .success(notifications) = $0 {
                     self?.repository.store(notifications: notifications)
                 }
