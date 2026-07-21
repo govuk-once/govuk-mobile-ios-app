@@ -246,9 +246,7 @@ struct TaxStatusViewModelBuilderTests {
         #expect(vm.formattedStatus == String(
             localized: .DVLA.offTheRoadSorn
         ))
-        #expect(vm.footer == String(
-            localized: .DVLA.from(date: dateFormatter.string(from: date))
-        ))
+        #expect(vm.footer == nil)
     }
 
     // MARK: - Future sorn
@@ -276,7 +274,9 @@ struct TaxStatusViewModelBuilderTests {
         #expect(vm.formattedStatus == String(
             localized: .DVLA.offTheRoadSorn
         ))
-        #expect(vm.footer == nil)
+        #expect(vm.footer == String(
+            localized: .DVLA.from(date: dateFormatter.string(from: date))
+        ))
     }
 
     // MARK: - Not needed
