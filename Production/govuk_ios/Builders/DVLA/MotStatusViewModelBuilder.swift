@@ -35,45 +35,53 @@ struct MotStatusViewModelBuilder: MotStatusViewModelBuilderInterface {
         self.openURLAction = openURLAction
     }
 
-
     @MainActor
     func makeViewModel(
         vehicle: CustomerSummary.Vehicle
     ) -> ValidityStatusViewModel {
-        switch vehicle.motStatus {
-        case "No results returned":
-            return makeNoResultsViewModel()
-
-        case "No details held by DVLA":
-            return makeNoDetailsViewModel(vehicle: vehicle)
-
-        case "Not valid":
-            return makeExpiredViewModel(
-                validToDate: vehicle.motExpiryDate
-            )
-
-        case "Valid":
-            if let validToDate = vehicle.motExpiryDate {
+        let testCase: MOTValidityStatus? = .unknown
+        if let testCase = testCase {
+            switch testCase {
+            case .valid:
+                let futureDate = Calendar.current.date(
+                    byAdding: .day,
+                    value: 45,
+                    to: Date.now
+                )
+                return makeValidViewModel(validToDate: futureDate)
+            case .expiringSoon:
+                let soonDate = Calendar.current.date(
+                    byAdding: .day,
+                    value: 10, to: Date.now
+                )!
                 let expiryProgress = expiryProgressCalculator.calculate(
-                    expiryDate: validToDate,
+                    expiryDate: soonDate,
                     currentDate: Date.now
                 )
-                if expiryProgress.isWithinCountdownWindow {
-                    return makeExpiringViewModel(
-                        validToDate: validToDate,
-                        expiryProgress: expiryProgress
-                    )
-                }
-            }
-            return makeValidViewModel(
-                validToDate: vehicle.motExpiryDate
-            )
+                return makeExpiringViewModel(
+                    validToDate: soonDate,
+                    expiryProgress: expiryProgress
+                )
 
-        default:
-            return makeNotKnownViewModel()
+            case .expired:
+                let pastDate = Calendar.current.date(
+                    byAdding: .day,
+                    value: -5,
+                    to: Date.now
+                )
+                return makeExpiredViewModel(validToDate: pastDate)
+
+            case .noResultsReturned:
+                return makeNoResultsViewModel()
+
+            case .noDetailsHeldByDVLA:
+                return makeNoDetailsViewModel(vehicle: vehicle)
+
+            case .unknown:
+                return makeNotKnownViewModel()
+            }
         }
     }
-
 
     private func formattedDate(_ date: Date?) -> String? {
         if let date = date {
