@@ -34,7 +34,7 @@ struct DVLAServiceDeeplinkRoute: DeeplinkRoute {
             return
         }
 
-        let navigationController = UINavigationController()
+        let navigationController = BaseNavigationController()
         navigationController.modalPresentationStyle = .fullScreen
         let coordinator = coordinatorBuilder.serviceAccountRedirect(
             navigationController: navigationController,
