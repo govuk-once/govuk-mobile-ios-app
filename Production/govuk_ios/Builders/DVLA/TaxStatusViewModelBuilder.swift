@@ -62,11 +62,11 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
         case .sorn:
             return makeSornViewModel(
                 status: status,
-                fromDate: vehicle.sornStart
             )
         case .futureSorn:
             return makeFutureSornViewModel(
-                status: status
+                status: status,
+                fromDate: vehicle.sornStart
             )
         case .notTaxedForOnRoadUse:
             return makeTaxNotNeededViewModel()
@@ -160,6 +160,17 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
     // MARK: - Sorn
     private func makeSornViewModel(
         status: TaxValidityStatus,
+    ) -> ValidityStatusViewModel {
+        return ValidityStatusViewModel(
+            formattedStatus: String(localized: .DVLA.offTheRoadSorn),
+            status: status,
+            iconName: "parkingsign.brakesignal"
+        )
+    }
+
+    // MARK: - Future sorn
+    private func makeFutureSornViewModel(
+        status: TaxValidityStatus,
         fromDate: Date?
     ) -> ValidityStatusViewModel {
         var footer: String?
@@ -171,17 +182,6 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
             status: status,
             iconName: "parkingsign.brakesignal",
             footer: footer
-        )
-    }
-
-    // MARK: - Future sorn
-    private func makeFutureSornViewModel(
-        status: TaxValidityStatus
-    ) -> ValidityStatusViewModel {
-        return ValidityStatusViewModel(
-            formattedStatus: String(localized: .DVLA.offTheRoadSorn),
-            status: status,
-            iconName: "parkingsign.brakesignal"
         )
     }
 
