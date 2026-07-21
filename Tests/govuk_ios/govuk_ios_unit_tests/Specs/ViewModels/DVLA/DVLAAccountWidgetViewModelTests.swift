@@ -34,6 +34,62 @@ struct DVLAAccountWidgetViewModelTests {
     }
 
     @Test
+    func fetchLinkedAccount_failure_updatesViewStateWithErrorViewModel() async throws {
+        let mockDvlaAccountURL = URL(string: "https://dvla.gov.uk/account")!
+        mockConfigService._dvlaUrls = .arrange(account: mockDvlaAccountURL.absoluteString)
+        mockUserService._stubbedFetchLinkedAccountsResult = .failure(.apiUnavailable)
+        let sut = DVLAAccountWidgetViewModel(
+            analyticsService: mockAnalyticsService,
+            userService: mockUserService,
+            dvlaService: mockDvlaService,
+            configService: mockConfigService,
+            actions: .empty
+        )
+        await sut.fetchLinkedAccounts()
+        var errorViewModel: InlineActionErrorViewModel?
+        if case .error(let error) = sut.viewState {
+            errorViewModel = error
+        }
+        let unwrappedErrorViewModel = try #require(errorViewModel)
+        let expectedButtonTitle = String(localized: .DVLA.accountWidgetErrorButtonTitle)
+        let expectedMarkdownBody = String(
+            localized: .DVLA.accountWidgetErrorBody(
+                buttonTitle: expectedButtonTitle,
+                url: mockDvlaAccountURL.absoluteString
+            )
+        )
+        #expect(unwrappedErrorViewModel.title == String(localized: .DVLA.accountWidgetErrorTitle))
+        #expect(unwrappedErrorViewModel.markdownBody == expectedMarkdownBody)
+    }
+
+    @Test
+    func linkedAccountsErrorViewModelAction_tracksNavigationEvent() async throws {
+        let mockDvlaAccountURL = URL(string: "https://dvla.gov.uk/account")!
+        mockUserService._stubbedFetchLinkedAccountsResult = .failure(.apiUnavailable)
+        let sut = DVLAAccountWidgetViewModel(
+            analyticsService: mockAnalyticsService,
+            userService: mockUserService,
+            dvlaService: mockDvlaService,
+            configService: mockConfigService,
+            actions: .empty
+        )
+        await sut.fetchLinkedAccounts()
+        var errorViewModel: InlineActionErrorViewModel?
+        if case .error(let error) = sut.viewState {
+            errorViewModel = error
+        }
+        let unwrappedErrorViewModel = try #require(errorViewModel)
+        unwrappedErrorViewModel.openURLAction(mockDvlaAccountURL)
+        let trackedEvent = try #require(mockAnalyticsService._trackedEvents.first)
+        #expect(trackedEvent.name == "Navigation")
+        #expect(trackedEvent.params?["type"] as? String == "Button")
+        #expect(trackedEvent.params?["text"] as? String == String(localized: .DVLA.accountWidgetErrorButtonTitle))
+        #expect(trackedEvent.params?["section"] as? String == "Driving")
+        #expect(trackedEvent.params?["url"] as? String == mockDvlaAccountURL.absoluteString)
+        #expect(trackedEvent.params?["external"] as? Bool == true)
+    }
+
+    @Test
     func viewDidAppear_accountIsLinked_updatesStateToLinked() async throws {
         mockUserService._stubbedLinkedAccounts = [.dvla]
         let sut = DVLAAccountWidgetViewModel(

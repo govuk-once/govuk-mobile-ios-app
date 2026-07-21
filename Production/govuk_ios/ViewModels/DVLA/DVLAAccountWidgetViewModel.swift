@@ -6,7 +6,7 @@ class DVLAAccountWidgetViewModel: ObservableObject {
         case loading
         case linked(accountSummary: DVLAAccountSummaryViewModel)
         case unlinked(linkCard: ServiceAccountLinkCardViewModel)
-        case error(AppErrorViewModel)
+        case error(InlineActionErrorViewModel)
     }
 
     @Published private(set) var viewState: ViewState
@@ -50,7 +50,7 @@ class DVLAAccountWidgetViewModel: ObservableObject {
             let isDVLAAccountLinked = linkedAccounts.contains(.dvla)
             update(isAccountLinked: isDVLAAccountLinked)
         case .failure:
-            viewState = .error(dvlaAccountErrorViewModel)
+            viewState = .error(linkedAccountsErrorViewModel)
         }
     }
 
@@ -93,15 +93,38 @@ class DVLAAccountWidgetViewModel: ObservableObject {
         )
     }
 
-    private var dvlaAccountErrorViewModel: AppErrorViewModel {
-        AppErrorViewModel.dvlaAccountErrorWithAction { [weak self] in
-            Task { await self?.fetchLinkedAccounts() }
-        }
+    private var linkedAccountsErrorViewModel: InlineActionErrorViewModel {
+        let url = configService.dvlaUrls?.account ?? Constants.API.defaultDvlaAccountUrl
+        let buttonTitle = String(localized: .DVLA.accountWidgetErrorButtonTitle)
+        let markdownBody = String(
+            localized: .DVLA.accountWidgetErrorBody(
+                buttonTitle: buttonTitle,
+                url: url.absoluteString
+            )
+        )
+        return InlineActionErrorViewModel(
+            title: String(localized: .DVLA.accountWidgetErrorTitle),
+            markdownBody: markdownBody,
+            openURLAction: { [weak self] url in
+                self?.trackOpenURLAction(url: url, buttonTitle: buttonTitle)
+                self?.actions.openURLAction(url)
+            }
+        )
     }
 
     private func trackLinkAccountNavigationEvent(title: String) {
         let event = AppEvent.linkServiceAccountNavigation(
             title: title
+        )
+        analyticsService.track(event: event)
+    }
+
+    private func trackOpenURLAction(url: URL, buttonTitle: String) {
+        let event = AppEvent.buttonNavigation(
+            text: buttonTitle,
+            external: true,
+            url: url.absoluteString,
+            section: "Driving"
         )
         analyticsService.track(event: event)
     }
