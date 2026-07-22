@@ -34,6 +34,7 @@ struct PromoBannerWidgetView: View {
                 linkButton
             }
         )
+        .accessibilityElement(children: .contain)
         .background(Color(uiColor: UIColor.govUK.fills.surfaceList))
         .roundedBorder(borderColor: .clear)
     }
@@ -77,7 +78,9 @@ struct PromoBannerWidgetView: View {
                     .accessibilitySortPriority(0)
             }
             .accessibilityLabel(
-                String.chat.localized("dismissBannerAccessibilityLabel")
+                .Home.dismissBannerAccessibilityLabel(
+                    title: viewModel.title
+                )
             )
         }
     }

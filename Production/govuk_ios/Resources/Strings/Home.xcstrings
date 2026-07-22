@@ -62,7 +62,7 @@
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "dismiss banner"
+            "value" : "dismiss %1$(title)@ banner"
           }
         }
       }
