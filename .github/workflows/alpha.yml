@@ -74,7 +74,7 @@ jobs:
 
 
       - name: Deploy
-        run: bundle exec fastlane alpha
+        run: bundle exec fastlane ios alpha
         env:
           BASE_URL: ${{ vars.BASE_URL }}
           ONESIGNAL_APP_ID: ${{ vars.ONESIGNAL_APP_ID }}
