@@ -143,8 +143,8 @@ class Configuration
     ENV['FIREBASE_APP_ID']
   end
 
-  def firebase_token
-    ENV['FIREBASE_TOKEN']
+  def google_application_credentials
+    ENV['GOOGLE_APPLICATION_CREDENTIALS']
   end
 
   def release_notes_file
