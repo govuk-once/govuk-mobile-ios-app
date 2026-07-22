@@ -76,6 +76,7 @@ jobs:
       - name: Deploy
         run: bundle exec fastlane --verbose alpha
         env:
+          GOOGLE_APIS_HTTP_DEBUG: "1"
           FASTLANE_VERBOSE: "1"
           FIREBASE_DEBUG: "1"
           BASE_URL: ${{ vars.BASE_URL }}
