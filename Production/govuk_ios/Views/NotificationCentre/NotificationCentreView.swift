@@ -183,14 +183,13 @@ private struct NotificationCentreRow: View {
         Button {
             onTap(notification.id)
         } label: {
-            HStack {
+            HStack(spacing: 0) {
                 Circle()
                     .fill(notification.isUnread ?
                           Color(UIColor.govUK.fills.msgUnread) :
                             Color(UIColor.govUK.fills.msgRead))
                     .frame(width: 10, height: 10)
-                    .padding(.leading, 16)
-                    .padding(.trailing, 16)
+                    .padding(.horizontal, 16)
                     .accessibilityHidden(!notification.isUnread)
                     .accessibilityLabel(Text(.NotificationCentre.notificationUnreadA11YLabel))
 
