@@ -1,4 +1,3 @@
-#if DEBUG
 import Foundation
 
 extension NotificationCentreViewModel {
@@ -46,4 +45,3 @@ extension NotificationCentreViewModel {
     }
     // swiftlint:enable line_length
 }
-#endif // DEBUG
