@@ -1,0 +1,259 @@
+{
+  "sourceLanguage" : "en-GB",
+  "strings" : {
+    "deleteNotificationBody" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You won’t be able to recover it once deleted."
+          }
+        }
+      }
+    },
+    "deleteNotificationCancelButton" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        }
+      }
+    },
+    "deleteNotificationConfirmButton" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete notification"
+          }
+        }
+      }
+    },
+    "deleteNotificationTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete this message?"
+          }
+        }
+      }
+    },
+    "noNotificationsTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your messages will appear here"
+          }
+        }
+      }
+    },
+    "notificationCentreDetailDeleteA11yLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete"
+          }
+        }
+      }
+    },
+    "notificationCentreDetailHeaderAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ Sender: %2$@"
+          }
+        }
+      }
+    },
+    "notificationCentreDetailUnreadA11yLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mark as unread"
+          }
+        }
+      }
+    },
+    "notificationCentreNavTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Messages"
+          }
+        }
+      }
+    },
+    "notificationCentreSectionOlder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Last 30 days"
+          }
+        }
+      }
+    },
+    "notificationCentreSectionRecent" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recent"
+          }
+        }
+      }
+    },
+    "notificationDetailErrorBody" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We’re unable to load this notification right now. Try again later."
+          }
+        }
+      }
+    },
+    "notificationDetailTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notification"
+          }
+        }
+      }
+    },
+    "notificationErrorBody" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try again later"
+          }
+        }
+      }
+    },
+    "notificationErrorButtonRetry" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try again"
+          }
+        }
+      }
+    },
+    "notificationErrorTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Messages are not working"
+          }
+        }
+      }
+    },
+    "notificationNoInternetBody" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reconnect and try again."
+          }
+        }
+      }
+    },
+    "notificationNoInternetTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You are not connected to the internet"
+          }
+        }
+      }
+    },
+    "notificationNotFoundBody" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This notification has been deleted or is no longer available"
+          }
+        }
+      }
+    },
+    "notificationNotFoundTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notification not found"
+          }
+        }
+      }
+    },
+    "notificationSentDateFormat" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sent: %@"
+          }
+        }
+      }
+    },
+    "notificationsFooter" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Messages are deleted after 30 days."
+          }
+        }
+      }
+    },
+    "notificationUnreadA11yLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unread"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.1"
+}

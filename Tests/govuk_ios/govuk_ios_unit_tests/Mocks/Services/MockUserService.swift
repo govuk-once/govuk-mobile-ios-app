@@ -4,8 +4,10 @@ import Foundation
 
 class MockUserService: UserServiceInterface {
     var _stubbedLinkedAccounts: [ServiceAccountType]?
+    var _linkedAccountCallCount = 0
     var linkedAccounts: [ServiceAccountType]? {
-        _stubbedLinkedAccounts
+        _linkedAccountCallCount += 1
+        return _stubbedLinkedAccounts
     }
 
     var _stubbedIsEnabled: Bool = true

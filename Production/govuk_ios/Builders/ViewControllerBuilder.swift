@@ -807,5 +807,70 @@ class ViewControllerBuilder {
         )
         return viewController
     }
+
+    func notificationCentre(
+        showNotificationAction: @escaping (String) -> Void,
+        notificationService: NotificationCentreServiceInterface,
+        analyticsService: AnalyticsServiceInterface
+    ) -> UIViewController {
+        let actions = NotificationCentreViewModel.Actions(showNotification: showNotificationAction)
+        let viewModel = NotificationCentreViewModel(
+            actions: actions,
+            notificationCentreService: notificationService,
+            analyticsService: analyticsService)
+
+        let viewController = HostingViewController(
+            rootView: NotificationCentreContainerView(viewModel: viewModel),
+        )
+        viewController.navigationItem.largeTitleDisplayMode = .never
+
+        return viewController
+    }
+
+    func notificationCentreDetail(
+        notificationId: String,
+        notificationService: NotificationCentreServiceInterface,
+        analyticsService: AnalyticsServiceInterface,
+        actions: NotificationCentreDetailViewModel.Actions
+    ) -> UIViewController {
+            let viewModel = NotificationCentreDetailViewModel(
+                notificationId: notificationId,
+                notificationService: notificationService,
+                analyticsService: analyticsService,
+                actions: actions)
+
+            let viewController = HostingViewController(
+                rootView: NotificationCentreDetailContainerView(viewModel: viewModel),
+            )
+            viewController.navigationItem.largeTitleDisplayMode = .never
+
+            if #unavailable(iOS 26) {
+                // On iOS versions without liquid glass, use the Nav Bar Items as they look nicer
+                // than the toolbar
+                let unreadButton = UIBarButtonItem(
+                    image: UIImage(
+                        resource: .notcenUnread),
+                    primaryAction: UIAction { [weak viewModel] _ in
+                        viewModel?.onMarkUnread()
+                    })
+                unreadButton.accessibilityLabel = String
+                    .notificationCentre.localized("notificationCentreDetailUnreadA11yLabel")
+
+                let deleteButton = UIBarButtonItem(
+                    image: UIImage(
+                        resource: .notcenDelete),
+                    primaryAction: UIAction { [weak viewModel] _ in
+                        viewModel?.onDelete()
+                    })
+                deleteButton.accessibilityLabel = String
+                    .notificationCentre.localized("notificationCentreDetailDeleteA11yLabel")
+
+                viewController.navigationItem.rightBarButtonItems = [
+                    deleteButton,
+                    unreadButton
+                ]
+            }
+            return viewController
+        }
 }
 // swiftlint:enable file_length

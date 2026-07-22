@@ -11,6 +11,8 @@ class SettingsCoordinator: TabItemCoordinator {
     let authenticationService: AuthenticationServiceInterface
     private let notificationService: NotificationServiceInterface
     private let localAuthenticationService: LocalAuthenticationServiceInterface
+    private let userService: UserServiceInterface
+    private let notificationCentreService: NotificationCentreServiceInterface
 
     var isEnabled: Bool {
         true
@@ -25,7 +27,9 @@ class SettingsCoordinator: TabItemCoordinator {
          authenticationService: AuthenticationServiceInterface,
          notificationService: NotificationServiceInterface,
          localAuthenticationService: LocalAuthenticationServiceInterface,
-         appConfigService: AppConfigServiceInterface) {
+         appConfigService: AppConfigServiceInterface,
+         userService: UserServiceInterface,
+         notificationCentreService: NotificationCentreServiceInterface) {
         self.viewControllerBuilder = viewControllerBuilder
         self.deeplinkStore = deeplinkStore
         self.analyticsService = analyticsService
@@ -33,6 +37,8 @@ class SettingsCoordinator: TabItemCoordinator {
         self.authenticationService = authenticationService
         self.notificationService = notificationService
         self.localAuthenticationService = localAuthenticationService
+        self.userService = userService
+        self.notificationCentreService = notificationCentreService
         self.settingsViewModel = SettingsViewModel(
             analyticsService: analyticsService,
             urlOpener: UIApplication.shared,
@@ -42,7 +48,9 @@ class SettingsCoordinator: TabItemCoordinator {
             notificationService: notificationService,
             notificationCenter: .default,
             localAuthenticationService: localAuthenticationService,
-            appConfigService: appConfigService
+            appConfigService: appConfigService,
+            userService: userService,
+            notificationCentreService: notificationCentreService
         )
         super.init(navigationController: navigationController)
         setViewModelActions()
@@ -72,6 +80,9 @@ class SettingsCoordinator: TabItemCoordinator {
     private func setViewModelActions() {
         settingsViewModel.notificationsAction = { [weak self] in
             self?.startNotificationsSettings()
+        }
+        settingsViewModel.notificationCentreAction = { [weak self] in
+            self?.startNotificationCentre()
         }
         settingsViewModel.localAuthenticationAction = { [weak self] in
             self?.startLocalAuthenticationSettings()
@@ -110,6 +121,12 @@ class SettingsCoordinator: TabItemCoordinator {
         let coordinator = coordinatorBuilder.yourAccountsSettings(
             navigationController: root
         )
+        start(coordinator)
+    }
+
+    private func startNotificationCentre() {
+        let coordinator = coordinatorBuilder
+            .notificationCentre(navigationController: root)
         start(coordinator)
     }
 

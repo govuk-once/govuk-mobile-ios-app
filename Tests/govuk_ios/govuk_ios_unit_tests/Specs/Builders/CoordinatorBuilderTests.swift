@@ -502,8 +502,12 @@ struct CoordinatorBuilderTests {
         #expect(topicWidgetProvider is DrivingTopicWidgetCoordinator)
     }
 
+    @Test
     func sarSettings_returnsExpectedResult() {
-        let subject = CoordinatorBuilder(container: Container())
+        let container = Container()
+        container.analyticsService.register(factory: { MockAnalyticsService() })
+        container.userService.register(factory: { MockUserService() })
+        let subject = CoordinatorBuilder(container: container)
         let coordinator = subject.sarSettings(
             navigationController: UINavigationController()
         )
@@ -522,5 +526,17 @@ struct CoordinatorBuilderTests {
             vehicleId: 1
         )
         #expect(coordinator is VehicleDetailCoordinator)
+    }
+
+    @Test
+    func notificationCentre_returnsExpectedResult() {
+        let container = Container()
+        container.analyticsService.register(factory: { MockAnalyticsService() })
+        container.notificationCentreService.register(factory: { MockNotificationCentreService() })
+        let subject = CoordinatorBuilder(container: container)
+        let coordinator = subject
+            .notificationCentre(navigationController: UINavigationController())
+
+        #expect(coordinator is NotificationCentreCoordinator)
     }
 }
