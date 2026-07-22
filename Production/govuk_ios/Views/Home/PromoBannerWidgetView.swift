@@ -77,7 +77,7 @@ struct PromoBannerWidgetView: View {
                     .accessibilitySortPriority(0)
             }
             .accessibilityLabel(
-                String.chat.localized("dismissBannerAccessibilityLabel")
+                String.home.localized("dismissBannerAccessibilityLabel")
             )
         }
     }
