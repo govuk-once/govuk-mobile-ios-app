@@ -69,7 +69,7 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator,
     }
 
     private func startLinkAccount() {
-        let navigationController = UINavigationController()
+        let navigationController = BaseNavigationController()
         navigationController.modalPresentationStyle = .fullScreen
         let coordinator = coordinatorBuilder.serviceAccountLink(
             navigationController: navigationController,
