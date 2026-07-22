@@ -74,7 +74,12 @@ jobs:
 
 
       - name: Deploy
-        run: bundle exec fastlane alpha
+        run: |
+          if [ "$RUNNER_DEBUG" = "1" ]; then
+            bundle exec fastlane alpha --verbose
+          else
+            bundle exec fastlane alpha
+          fi
         env:
           BASE_URL: ${{ vars.BASE_URL }}
           ONESIGNAL_APP_ID: ${{ vars.ONESIGNAL_APP_ID }}
