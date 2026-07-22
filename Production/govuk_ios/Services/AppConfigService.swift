@@ -153,8 +153,8 @@ public final class AppConfigService: AppConfigServiceInterface {
         ]
     #else
         [
-            .profile: false,
-            .dvla: false
+            .profile: true,
+            .dvla: true
         ]
     #endif
     }
