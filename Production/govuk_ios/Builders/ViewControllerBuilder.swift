@@ -843,6 +843,7 @@ class ViewControllerBuilder {
                 rootView: NotificationCentreDetailContainerView(viewModel: viewModel),
             )
             viewController.navigationItem.largeTitleDisplayMode = .never
+            viewController.hidesBottomBarWhenPushed = true
 
             if #unavailable(iOS 26) {
                 // On iOS versions without liquid glass, use the Nav Bar Items as they look nicer
