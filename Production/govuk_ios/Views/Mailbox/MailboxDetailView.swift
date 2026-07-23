@@ -22,10 +22,18 @@ struct MailboxDetailView: View {
                 subjectSection
                     .padding(.bottom, 16)
 
+                if let actionStatus = viewModel.actionStatus {
+                    actionStatusBadge(for: actionStatus)
+                        .padding(.bottom, 16)
+                }
+
                 bodySection
                     .padding(.bottom, 24)
 
-                if let action = viewModel.action {
+                ForEach(
+                    Array(viewModel.actions.enumerated()),
+                    id: \.offset
+                ) { _, action in
                     actionButton(for: action)
                         .padding(.bottom, 16)
                 }
@@ -108,6 +116,24 @@ struct MailboxDetailView: View {
             .foregroundStyle(Color(uiColor: .govUK.text.primary))
     }
 
+    private func actionStatusBadge(
+        for actionStatus: ActionStatus
+    ) -> some View {
+        HStack(spacing: 8) {
+            Image(systemName: actionStatus.iconName)
+                .foregroundStyle(Color(uiColor: actionStatus.color))
+            Text(actionStatus.rawValue)
+                .font(Font.govUK.bodySemibold)
+                .foregroundStyle(Color(uiColor: actionStatus.color))
+        }
+        .padding(.horizontal, 12)
+        .padding(.vertical, 8)
+        .background(
+            RoundedRectangle(cornerRadius: 6)
+                .fill(Color(uiColor: actionStatus.color).opacity(0.1))
+        )
+    }
+
     private var bodySection: some View {
         Text(viewModel.body)
             .font(Font.govUK.body)
@@ -117,7 +143,7 @@ struct MailboxDetailView: View {
 
     private func actionButton(for action: MessageAction) -> some View {
         Button {
-            viewModel.performAction()
+            viewModel.performAction(action)
         } label: {
             HStack {
                 Spacer()
@@ -132,7 +158,20 @@ struct MailboxDetailView: View {
             )
             .clipShape(RoundedRectangle(cornerRadius: 8))
         }
-        .accessibilityHint("Opens the DVLA section of the app")
+        .accessibilityHint(accessibilityHint(for: action))
+    }
+
+    private func accessibilityHint(
+        for action: MessageAction
+    ) -> String {
+        switch action {
+        case .payment:
+            return "Opens the payment page"
+        case .applyInApp:
+            return "Opens the DVLA section of the app"
+        case .openURL:
+            return "Opens in a web browser"
+        }
     }
 
     private var deleteButton: some View {
@@ -164,6 +203,8 @@ struct MailboxDetailView: View {
         case .applyInApp(let title, _):
             return title
         case .openURL(let title, _):
+            return title
+        case .payment(let title, _, _):
             return title
         }
     }
