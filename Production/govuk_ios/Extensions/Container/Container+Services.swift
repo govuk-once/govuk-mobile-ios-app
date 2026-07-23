@@ -268,6 +268,12 @@ extension Container {
         }
     }
 
+    var mailboxService: Factory<MailboxServiceInterface> {
+        Factory(self) {
+            MailboxService()
+        }
+    }
+
     var jailbreakDetectionService: Factory<JailbreakDetectionServiceInterface> {
         let application = UIApplication.shared
         return Factory(self) {

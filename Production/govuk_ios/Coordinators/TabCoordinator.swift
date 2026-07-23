@@ -16,6 +16,7 @@ class TabCoordinator: BaseCoordinator,
                       UITabBarControllerDelegate {
     private lazy var homeCoordinator = coordinatorBuilder.home
     private lazy var settingsCoordinator = coordinatorBuilder.settings
+    private lazy var mailboxCoordinator = coordinatorBuilder.mailbox
     private lazy var chatCoordinator = coordinatorBuilder.chat(
         cancelOnboardingAction: { [weak self] in
             self?.selectTabByIndex(index: self?.previousTabIndex ?? 0)
@@ -29,6 +30,7 @@ class TabCoordinator: BaseCoordinator,
         [
             homeCoordinator,
             chatCoordinator,
+            mailboxCoordinator,
             settingsCoordinator
         ].filter { $0.isEnabled }
     }

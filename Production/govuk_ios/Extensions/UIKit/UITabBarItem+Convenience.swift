@@ -18,6 +18,14 @@ extension UITabBarItem {
         )
     }
 
+    static var mailbox: UITabBarItem {
+        .init(
+            title: "Mailbox",
+            image: UIImage(systemName: "envelope.fill"),
+            selectedImage: nil
+        )
+    }
+
     static var chat: UITabBarItem {
         .init(
             title: String.chat.localized("tabTitle"),

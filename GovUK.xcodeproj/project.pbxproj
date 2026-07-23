@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		11AF47F48DDCC4DCF19B2610 /* MailboxListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF3427EAC3AC430198E97E2 /* MailboxListView.swift */; };
 		1607E7BF2E43947C006E599A /* ChatInfoOnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1607E7BE2E439473006E599A /* ChatInfoOnboardingViewModel.swift */; };
 		160AEAC52DA038030072BA43 /* Authentication in Frameworks */ = {isa = PBXBuildFile; productRef = 160AEAC42DA038030072BA43 /* Authentication */; };
 		160AEAC82DA038550072BA43 /* CryptoService in Frameworks */ = {isa = PBXBuildFile; productRef = 160AEAC72DA038550072BA43 /* CryptoService */; };
@@ -67,6 +68,7 @@
 		16D186A82E462D94006ACC7A /* ChatConsentOnboardingCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D186A72E462D86006ACC7A /* ChatConsentOnboardingCoordinator.swift */; };
 		16D186AC2E462F14006ACC7A /* ChatConsentOnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16D186AB2E462F06006ACC7A /* ChatConsentOnboardingViewModel.swift */; };
 		16DB3CB82F0417D900F77DF4 /* SearchCommerceItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DB3CB72F0417C900F77DF4 /* SearchCommerceItem.swift */; };
+		16E54F8FA344D7409215E421 /* MailboxService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACC453CB93F52A6BA01BB5E /* MailboxService.swift */; };
 		16E8644C2D28362000BCC0FC /* SearchSuggestions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E8644B2D28361300BCC0FC /* SearchSuggestions.swift */; };
 		16E912AF2DA72CE000CD2049 /* OIDAuthorizationServiceWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E912AE2DA72CAD00CD2049 /* OIDAuthorizationServiceWrapper.swift */; };
 		16E9432A2F4745F500487AD1 /* chat_loading_message_dark.json in Resources */ = {isa = PBXBuildFile; fileRef = 16E943292F4745F500487AD1 /* chat_loading_message_dark.json */; };
@@ -101,6 +103,7 @@
 		3D9C93402CB0176A00EFA337 /* AppForcedUpdateContainerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D9C933F2CB0176A00EFA337 /* AppForcedUpdateContainerViewModel.swift */; };
 		3D9D06D12E7AA36100D1FC4A /* Banners.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D9D06D02E7AA36100D1FC4A /* Banners.swift */; };
 		3D9FD4BE2E79C37B00928E92 /* ChatDeeplinkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D9FD4BD2E79C37B00928E92 /* ChatDeeplinkRoute.swift */; };
+		46AF473090A42536977A5D68 /* MailboxListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAEF423B98027BDDC4D963B7 /* MailboxListViewModel.swift */; };
 		4E0043142D9BE25E00DDDA8A /* NotificationSettingsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E0043132D9BE25D00DDDA8A /* NotificationSettingsCoordinator.swift */; };
 		4E00EEEF2CCB04B0007B61E8 /* TopicsOnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E00EEEE2CCB04B0007B61E8 /* TopicsOnboardingViewModel.swift */; };
 		4E00EF072CCB12CD007B61E8 /* BaseTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E00EF062CCB12CD007B61E8 /* BaseTabBarController.swift */; };
@@ -165,6 +168,9 @@
 		4EF472FB2F98DD3F00C29728 /* CenterAlignedBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EF472FA2F98DD3F00C29728 /* CenterAlignedBarButtonItem.swift */; };
 		4EFE22A12D0CD08900136D56 /* Redactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EFE22A02D0CD08900136D56 /* Redactor.swift */; };
 		4EFE22A52D0CD0D500136D56 /* RegexRedactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EFE22A42D0CD0D500136D56 /* RegexRedactor.swift */; };
+		517A4795B1EE784642B25640 /* MailboxMessageRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48D74BEDB4B2671B4A710696 /* MailboxMessageRow.swift */; };
+		54CA4DB2A80AD7850F8015B5 /* MailboxDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026B49CDBCEF04028F0F5357 /* MailboxDetailView.swift */; };
+		55F3462DA849A33494F06016 /* MailboxMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB34C8BA95AA434D9248C47 /* MailboxMessage.swift */; };
 		5D0278372C29CB5800F2A4EB /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 5D0278362C29CB5800F2A4EB /* Lottie */; };
 		5D02783C2C29D9BB00F2A4EB /* LaunchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D02783B2C29D9BB00F2A4EB /* LaunchViewModel.swift */; };
 		5D056C242E5706EF00D28DAE /* OneSignalServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D056C232E5706EF00D28DAE /* OneSignalServiceClient.swift */; };
@@ -407,6 +413,8 @@
 		945E1F092F7181070064CA22 /* RecentActivityDeepLinkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945E1F082F7180FA0064CA22 /* RecentActivityDeepLinkRoute.swift */; };
 		B04C2E802DA9141400F0F63E /* WebDeeplinkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = B04C2E7F2DA9141400F0F63E /* WebDeeplinkRoute.swift */; };
 		B0AD6F202DDA86D80077849F /* NotificationsOnboardingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0AD6F1F2DDA86D80077849F /* NotificationsOnboardingService.swift */; };
+		B4124CF087C1135FF2951E48 /* MailboxDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FF4D528F36E7C2D655A756 /* MailboxDetailViewModel.swift */; };
+		CF104C5C8B666A64BFF5426F /* MailboxCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A7404F8D36A4B5E232738F /* MailboxCoordinator.swift */; };
 		D00984F22D47BC9600D70FEE /* DeviceInformation+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00984F12D47BC9600D70FEE /* DeviceInformation+Convenience.swift */; };
 		D016F29B2E0C51B000659AC3 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D016F29A2E0C51B000659AC3 /* ChatViewModel.swift */; };
 		D016F29E2E0C5C8B00659AC3 /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = D016F29D2E0C5C8B00659AC3 /* MarkdownUI */; };
@@ -576,6 +584,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		026B49CDBCEF04028F0F5357 /* MailboxDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MailboxDetailView.swift; path = Production/govuk_ios/Views/Mailbox/MailboxDetailView.swift; sourceTree = SOURCE_ROOT; };
 		1607E7BE2E439473006E599A /* ChatInfoOnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInfoOnboardingViewModel.swift; sourceTree = "<group>"; };
 		1615D80C2FFE72470052F269 /* CustomerVehicles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomerVehicles.swift; sourceTree = "<group>"; };
 		16161FD22E2FFAD800228028 /* ConditionalAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConditionalAnimation.swift; sourceTree = "<group>"; };
@@ -652,6 +661,8 @@
 		16FCDE772DC4E38F000E870D /* TokenRefreshResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenRefreshResponse.swift; sourceTree = "<group>"; };
 		16FD68482D39AEAE002F1597 /* SuggestionHighlighterProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionHighlighterProcessor.swift; sourceTree = "<group>"; };
 		16FE77662EBB7290009D02B1 /* TopicsOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsOnboardingView.swift; sourceTree = "<group>"; };
+		19A7404F8D36A4B5E232738F /* MailboxCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MailboxCoordinator.swift; path = Production/govuk_ios/Coordinators/Mailbox/MailboxCoordinator.swift; sourceTree = SOURCE_ROOT; };
+		3AB34C8BA95AA434D9248C47 /* MailboxMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MailboxMessage.swift; path = Production/govuk_ios/Model/Mailbox/MailboxMessage.swift; sourceTree = SOURCE_ROOT; };
 		3D09A6DA2C9DC873005858D0 /* AppConfigServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfigServiceClient.swift; sourceTree = "<group>"; };
 		3D15E7B12CB562E40046CE64 /* AppRecommendUpdateContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRecommendUpdateContainerView.swift; sourceTree = "<group>"; };
 		3D15E7B32CB5630D0046CE64 /* AppRecommendUpdateContainerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRecommendUpdateContainerViewModel.swift; sourceTree = "<group>"; };
@@ -668,6 +679,7 @@
 		3D9C933F2CB0176A00EFA337 /* AppForcedUpdateContainerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppForcedUpdateContainerViewModel.swift; sourceTree = "<group>"; };
 		3D9D06D02E7AA36100D1FC4A /* Banners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Banners.swift; sourceTree = "<group>"; };
 		3D9FD4BD2E79C37B00928E92 /* ChatDeeplinkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDeeplinkRoute.swift; sourceTree = "<group>"; };
+		48D74BEDB4B2671B4A710696 /* MailboxMessageRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MailboxMessageRow.swift; path = Production/govuk_ios/Views/Mailbox/MailboxMessageRow.swift; sourceTree = SOURCE_ROOT; };
 		4E0043132D9BE25D00DDDA8A /* NotificationSettingsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsCoordinator.swift; sourceTree = "<group>"; };
 		4E00EEEE2CCB04B0007B61E8 /* TopicsOnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsOnboardingViewModel.swift; sourceTree = "<group>"; };
 		4E00EF062CCB12CD007B61E8 /* BaseTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBarController.swift; sourceTree = "<group>"; };
@@ -733,6 +745,7 @@
 		4EF472FA2F98DD3F00C29728 /* CenterAlignedBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CenterAlignedBarButtonItem.swift; sourceTree = "<group>"; };
 		4EFE22A02D0CD08900136D56 /* Redactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Redactor.swift; sourceTree = "<group>"; };
 		4EFE22A42D0CD0D500136D56 /* RegexRedactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegexRedactor.swift; sourceTree = "<group>"; };
+		52FF4D528F36E7C2D655A756 /* MailboxDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MailboxDetailViewModel.swift; path = Production/govuk_ios/ViewModels/Mailbox/MailboxDetailViewModel.swift; sourceTree = SOURCE_ROOT; };
 		5D02783B2C29D9BB00F2A4EB /* LaunchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewModel.swift; sourceTree = "<group>"; };
 		5D056C232E5706EF00D28DAE /* OneSignalServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneSignalServiceClient.swift; sourceTree = "<group>"; };
 		5D08A8FF2C9AFABB0049D798 /* Result+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Result+Extensions.swift"; sourceTree = "<group>"; };
@@ -967,6 +980,7 @@
 		945E1F082F7180FA0064CA22 /* RecentActivityDeepLinkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentActivityDeepLinkRoute.swift; sourceTree = "<group>"; };
 		B04C2E7F2DA9141400F0F63E /* WebDeeplinkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebDeeplinkRoute.swift; sourceTree = "<group>"; };
 		B0AD6F1F2DDA86D80077849F /* NotificationsOnboardingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsOnboardingService.swift; sourceTree = "<group>"; };
+		BACC453CB93F52A6BA01BB5E /* MailboxService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MailboxService.swift; path = Production/govuk_ios/Services/MailboxService.swift; sourceTree = SOURCE_ROOT; };
 		D00984F12D47BC9600D70FEE /* DeviceInformation+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DeviceInformation+Convenience.swift"; sourceTree = "<group>"; };
 		D016F29A2E0C51B000659AC3 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 		D02416442DEDB1C600F81C6D /* SignInSuccessViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInSuccessViewModel.swift; sourceTree = "<group>"; };
@@ -1083,10 +1097,12 @@
 		D0F6813B2DD4CF8E004421C0 /* LocalAuthorityExplainerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthorityExplainerViewModel.swift; sourceTree = "<group>"; };
 		D0F6813C2DD4CF8E004421C0 /* LocalAuthorityPostcodeEntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthorityPostcodeEntryViewModel.swift; sourceTree = "<group>"; };
 		D0F6813D2DD4CF8E004421C0 /* LocalAuthorityWidgetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthorityWidgetViewModel.swift; sourceTree = "<group>"; };
+		FAEF423B98027BDDC4D963B7 /* MailboxListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MailboxListViewModel.swift; path = Production/govuk_ios/ViewModels/Mailbox/MailboxListViewModel.swift; sourceTree = SOURCE_ROOT; };
+		FFF3427EAC3AC430198E97E2 /* MailboxListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MailboxListView.swift; path = Production/govuk_ios/Views/Mailbox/MailboxListView.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		5D9CDF202CD928FB0045DFC3 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		5D9CDF202CD928FB0045DFC3 = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				govuk_ios/govuk_ios_unit_tests/Resources/MockAppConfigResponse.json,
@@ -1106,7 +1122,7 @@
 			);
 			target = 5DAD71732BD250DB0075F648 /* govuk_ios */;
 		};
-		5D9CDF212CD928FB0045DFC3 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		5D9CDF212CD928FB0045DFC3 = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				govuk_ios/govuk_ios_snapshot_tests/Helpers/SnapshotTestCase.swift,
@@ -1201,7 +1217,7 @@
 			);
 			target = 5DAD71892BD250DF0075F648 /* govuk_ios_unit_tests */;
 		};
-		5D9CDF222CD928FB0045DFC3 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		5D9CDF222CD928FB0045DFC3 = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				govuk_ios/govuk_ios_snapshot_tests/Helpers/SnapshotTestCase.swift,
@@ -1337,7 +1353,7 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		5D9CDE3A2CD928FB0045DFC3 /* Tests */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (5D9CDF202CD928FB0045DFC3 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 5D9CDF212CD928FB0045DFC3 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 5D9CDF222CD928FB0045DFC3 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (govuk_ios/govuk_ios_snapshot_tests/ReferenceImages_64, ); path = Tests; sourceTree = "<group>"; };
+		5D9CDE3A2CD928FB0045DFC3 /* Tests */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (5D9CDF202CD928FB0045DFC3, 5D9CDF212CD928FB0045DFC3, 5D9CDF222CD928FB0045DFC3, ); explicitFileTypes = {}; explicitFolders = (govuk_ios/govuk_ios_snapshot_tests/ReferenceImages_64, ); path = Tests; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2033,6 +2049,14 @@
 				5D30CF982C64A64600361C97 /* TestFlight */,
 				5DAD71752BD250DB0075F648 /* Products */,
 				5D1353A92BE0D75000414441 /* Frameworks */,
+				3AB34C8BA95AA434D9248C47 /* MailboxMessage.swift */,
+				BACC453CB93F52A6BA01BB5E /* MailboxService.swift */,
+				FAEF423B98027BDDC4D963B7 /* MailboxListViewModel.swift */,
+				52FF4D528F36E7C2D655A756 /* MailboxDetailViewModel.swift */,
+				FFF3427EAC3AC430198E97E2 /* MailboxListView.swift */,
+				48D74BEDB4B2671B4A710696 /* MailboxMessageRow.swift */,
+				026B49CDBCEF04028F0F5357 /* MailboxDetailView.swift */,
+				19A7404F8D36A4B5E232738F /* MailboxCoordinator.swift */,
 			);
 			sourceTree = "<group>";
 		};
@@ -2873,7 +2897,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 5DAD716F2BD250DA0075F648 /* Build configuration list for PBXProject "GovUK" */;
+			buildConfigurationList = 5DAD716F2BD250DA0075F648 /* Build configuration list for PBXProject "govuk_ios" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = "en-GB";
 			hasScannedForEncodings = 0;
@@ -3508,6 +3532,14 @@
 				8101A2402F28BB58009E639B /* UserStateError.swift in Sources */,
 				164150AF2DE5DB6D00798DF3 /* WelcomeOnboardingViewModel.swift in Sources */,
 				5DF32E092E045F5F006C63E0 /* AccessibilityAnnouncerService.swift in Sources */,
+				55F3462DA849A33494F06016 /* MailboxMessage.swift in Sources */,
+				16E54F8FA344D7409215E421 /* MailboxService.swift in Sources */,
+				46AF473090A42536977A5D68 /* MailboxListViewModel.swift in Sources */,
+				B4124CF087C1135FF2951E48 /* MailboxDetailViewModel.swift in Sources */,
+				11AF47F48DDCC4DCF19B2610 /* MailboxListView.swift in Sources */,
+				517A4795B1EE784642B25640 /* MailboxMessageRow.swift in Sources */,
+				54CA4DB2A80AD7850F8015B5 /* MailboxDetailView.swift in Sources */,
+				CF104C5C8B666A64BFF5426F /* MailboxCoordinator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3557,6 +3589,13 @@
 				DEVELOPMENT_TEAM = N8W395F695;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(SRCROOT)/Production/govuk_ios/Model/Mailbox",
+					"$(SRCROOT)/Production/govuk_ios/Services",
+					"$(SRCROOT)/Production/govuk_ios/ViewModels/Mailbox",
+					"$(SRCROOT)/Production/govuk_ios/Views/Mailbox",
+					"$(SRCROOT)/Production/govuk_ios/Coordinators/Mailbox",
+				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = uk.gov.govuk.snapshot;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3580,6 +3619,13 @@
 				DEVELOPMENT_TEAM = N8W395F695;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(SRCROOT)/Production/govuk_ios/Model/Mailbox",
+					"$(SRCROOT)/Production/govuk_ios/Services",
+					"$(SRCROOT)/Production/govuk_ios/ViewModels/Mailbox",
+					"$(SRCROOT)/Production/govuk_ios/Views/Mailbox",
+					"$(SRCROOT)/Production/govuk_ios/Coordinators/Mailbox",
+				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = uk.gov.govuk.snapshot;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3780,6 +3826,13 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(SRCROOT)/Production/govuk_ios/Model/Mailbox",
+					"$(SRCROOT)/Production/govuk_ios/Services",
+					"$(SRCROOT)/Production/govuk_ios/ViewModels/Mailbox",
+					"$(SRCROOT)/Production/govuk_ios/Views/Mailbox",
+					"$(SRCROOT)/Production/govuk_ios/Coordinators/Mailbox",
+				);
 				MARKETING_VERSION = 1.4.0;
 				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				OTHER_SWIFT_FLAGS = "$(ADDITIONAL_SWIFT_FLAGS)";
@@ -3828,6 +3881,13 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(SRCROOT)/Production/govuk_ios/Model/Mailbox",
+					"$(SRCROOT)/Production/govuk_ios/Services",
+					"$(SRCROOT)/Production/govuk_ios/ViewModels/Mailbox",
+					"$(SRCROOT)/Production/govuk_ios/Views/Mailbox",
+					"$(SRCROOT)/Production/govuk_ios/Coordinators/Mailbox",
+				);
 				MARKETING_VERSION = 1.4.0;
 				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				OTHER_SWIFT_FLAGS = "$(ADDITIONAL_SWIFT_FLAGS)";
@@ -3853,6 +3913,13 @@
 				DEVELOPMENT_TEAM = N8W395F695;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(SRCROOT)/Production/govuk_ios/Model/Mailbox",
+					"$(SRCROOT)/Production/govuk_ios/Services",
+					"$(SRCROOT)/Production/govuk_ios/ViewModels/Mailbox",
+					"$(SRCROOT)/Production/govuk_ios/Views/Mailbox",
+					"$(SRCROOT)/Production/govuk_ios/Coordinators/Mailbox",
+				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = uk.gov.govuk.unit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3876,6 +3943,13 @@
 				DEVELOPMENT_TEAM = N8W395F695;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(SRCROOT)/Production/govuk_ios/Model/Mailbox",
+					"$(SRCROOT)/Production/govuk_ios/Services",
+					"$(SRCROOT)/Production/govuk_ios/ViewModels/Mailbox",
+					"$(SRCROOT)/Production/govuk_ios/Views/Mailbox",
+					"$(SRCROOT)/Production/govuk_ios/Coordinators/Mailbox",
+				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = uk.gov.govuk.unit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3907,6 +3981,13 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(SRCROOT)/Production/govuk_ios/Model/Mailbox",
+					"$(SRCROOT)/Production/govuk_ios/Services",
+					"$(SRCROOT)/Production/govuk_ios/ViewModels/Mailbox",
+					"$(SRCROOT)/Production/govuk_ios/Views/Mailbox",
+					"$(SRCROOT)/Production/govuk_ios/Coordinators/Mailbox",
 				);
 				MARKETING_VERSION = 1.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_NOTIFICATION_SERVICE)";
@@ -3941,6 +4022,13 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(SRCROOT)/Production/govuk_ios/Model/Mailbox",
+					"$(SRCROOT)/Production/govuk_ios/Services",
+					"$(SRCROOT)/Production/govuk_ios/ViewModels/Mailbox",
+					"$(SRCROOT)/Production/govuk_ios/Views/Mailbox",
+					"$(SRCROOT)/Production/govuk_ios/Coordinators/Mailbox",
+				);
 				MARKETING_VERSION = 1.4.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_NOTIFICATION_SERVICE)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -3968,7 +4056,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5DAD716F2BD250DA0075F648 /* Build configuration list for PBXProject "GovUK" */ = {
+		5DAD716F2BD250DA0075F648 /* Build configuration list for PBXProject "govuk_ios" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5DAD719C2BD250DF0075F648 /* Debug */,
