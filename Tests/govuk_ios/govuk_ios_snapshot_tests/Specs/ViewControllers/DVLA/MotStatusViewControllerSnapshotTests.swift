@@ -10,11 +10,11 @@ class MotStatusViewControllerSnapshotTests: SnapshotTestCase {
     func test_statusWithButtonAndFooter_light_rendersCorrectly() {
         let viewModel = ValidityStatusViewModel(
             title: nil,
-            formattedStatus: "Expired 22 June 2026",
+            formattedStatus: "Formatted status",
             iconName: "exclamationmark.triangle.fill",
             iconTintColour: nil,
-            footer: "Your licence status may not update immediately after renewing.",
-            buttonTitle: "Renew licence",
+            footer: "Footer title",
+            buttonTitle: "Mot",
             buttonAction: { }
         )
         let view = MotValidityStatusView(viewModel: viewModel)
@@ -30,11 +30,11 @@ class MotStatusViewControllerSnapshotTests: SnapshotTestCase {
     func test_statusWithButtonAndFooter_dark_rendersCorrectly() {
         let viewModel = ValidityStatusViewModel(
             title: nil,
-            formattedStatus: "Expired 22 June 2026",
+            formattedStatus: "Formatted status",
             iconName: "exclamationmark.triangle.fill",
             iconTintColour: nil,
-            footer: "Your licence status may not update immediately after renewing.",
-            buttonTitle: "Renew licence",
+            footer: "Footer title",
+            buttonTitle: "Mot",
             buttonAction: { }
         )
         let view = MotValidityStatusView(viewModel: viewModel)
@@ -50,12 +50,12 @@ class MotStatusViewControllerSnapshotTests: SnapshotTestCase {
     func test_statusWithoutButtonAndFooter_light_rendersCorrectly() {
         let viewModel = ValidityStatusViewModel(
             title: nil,
-            formattedStatus: "Valid until 22 June 2026",
-            iconName: "checkmark.circle.fill",
-            iconTintColour: .govUK.fills.surfaceButtonPrimary,
-            footer: nil,
-            buttonTitle: nil,
-            buttonAction: nil
+            formattedStatus: "Formatted status",
+            iconName: "exclamationmark.triangle.fill",
+            iconTintColour: nil,
+            footer: "Footer title",
+            buttonTitle: "Mot",
+            buttonAction: { }
         )
         let view = MotValidityStatusView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
@@ -70,12 +70,12 @@ class MotStatusViewControllerSnapshotTests: SnapshotTestCase {
     func test_statusWithoutButtonAndFooter_dark_rendersCorrectly() {
         let viewModel = ValidityStatusViewModel(
             title: nil,
-            formattedStatus: "Valid until 22 June 2026",
-            iconName: "checkmark.circle.fill",
-            iconTintColour: .govUK.fills.surfaceButtonPrimary,
-            footer: nil,
-            buttonTitle: nil,
-            buttonAction: nil
+            formattedStatus: "Formatted status",
+            iconName: "exclamationmark.triangle.fill",
+            iconTintColour: nil,
+            footer: "Footer title",
+            buttonTitle: "Mot",
+            buttonAction: { }
         )
         let view = MotValidityStatusView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
@@ -91,8 +91,8 @@ class MotStatusViewControllerSnapshotTests: SnapshotTestCase {
         let viewModel = ValidityStatusViewModel(
             formattedStatus: "Expiring 22 June 2026",
             progressViewModel: ExpiryProgressViewModel(progress: 0.5, daysLeft: 10),
-            footer: "Your licence status may not update immediately after renewing.",
-            buttonTitle: "Renew licence",
+            footer: "footer text.",
+            buttonTitle: "Renew mot",
             buttonAction: {}
         )
         let view = MotValidityStatusView(viewModel: viewModel)
@@ -109,8 +109,8 @@ class MotStatusViewControllerSnapshotTests: SnapshotTestCase {
         let viewModel = ValidityStatusViewModel(
             formattedStatus: "Expiring 22 June 2026",
             progressViewModel: ExpiryProgressViewModel(progress: 0.5, daysLeft: 10),
-            footer: "Your licence status may not update immediately after renewing.",
-            buttonTitle: "Renew licence",
+            footer: "footer text.",
+            buttonTitle: "Renew mot",
             buttonAction: {}
         )
         let view = MotValidityStatusView(viewModel: viewModel)

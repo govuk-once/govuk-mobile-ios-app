@@ -4,7 +4,6 @@ import GovKitUI
 struct MotValidityStatusView: View {
     private static let iconSize: CGFloat = 36
     private static let standardPadding: CGFloat = 16.0
-
     let viewModel: ValidityStatusViewModel
 
     var body: some View {
@@ -44,7 +43,6 @@ struct MotValidityStatusView: View {
                                 && viewModel.formattedStatus.isEmpty
                                 ? 0 : Self.standardPadding))
             }
-
             if let progressViewModel = viewModel.progressViewModel {
                 ExpiryProgressView(viewModel: progressViewModel)
                     .padding(
@@ -95,7 +93,6 @@ struct MotValidityStatusView: View {
                     .font(.govUK.footnote)
                     .foregroundStyle(Color(uiColor: .govUK.text.secondary))
                     .padding(.horizontal, Self.standardPadding)
-                // 👇 FIX 2: Added explicit top padding to force a clean vertical line break below the progress numbers
                     .padding(.top, 8)
                     .padding(.bottom, Self.standardPadding)
                     .frame(maxWidth: .infinity, alignment: .leading)
