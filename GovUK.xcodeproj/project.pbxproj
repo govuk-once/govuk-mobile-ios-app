@@ -104,6 +104,7 @@
 		33CA985C2F646D8D0060DCDB /* NotificationCentreDetailDeeplinkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33CA985B2F646D8D0060DCDB /* NotificationCentreDetailDeeplinkRoute.swift */; };
 		33D4AF292F6C210300C74038 /* NotificationCentreError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D4AF282F6C20FD00C74038 /* NotificationCentreError.swift */; };
 		33D4AF2C2F6C216300C74038 /* NotificationCentreResponseHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D4AF2B2F6C216300C74038 /* NotificationCentreResponseHandler.swift */; };
+		33F55ED1300A59D600EB21E0 /* GOVUKColors+NotificationCentre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F55ED0300A59CD00EB21E0 /* GOVUKColors+NotificationCentre.swift */; };
 		3D09A6DB2C9DC877005858D0 /* AppConfigServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D09A6DA2C9DC873005858D0 /* AppConfigServiceClient.swift */; };
 		3D15E7B22CB562E40046CE64 /* AppRecommendUpdateContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D15E7B12CB562E40046CE64 /* AppRecommendUpdateContainerView.swift */; };
 		3D15E7B42CB5630D0046CE64 /* AppRecommendUpdateContainerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D15E7B32CB5630D0046CE64 /* AppRecommendUpdateContainerViewModel.swift */; };
@@ -689,6 +690,7 @@
 		33CA985B2F646D8D0060DCDB /* NotificationCentreDetailDeeplinkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCentreDetailDeeplinkRoute.swift; sourceTree = "<group>"; };
 		33D4AF282F6C20FD00C74038 /* NotificationCentreError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCentreError.swift; sourceTree = "<group>"; };
 		33D4AF2B2F6C216300C74038 /* NotificationCentreResponseHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCentreResponseHandler.swift; sourceTree = "<group>"; };
+		33F55ED0300A59CD00EB21E0 /* GOVUKColors+NotificationCentre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GOVUKColors+NotificationCentre.swift"; sourceTree = "<group>"; };
 		3D09A6DA2C9DC873005858D0 /* AppConfigServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfigServiceClient.swift; sourceTree = "<group>"; };
 		3D15E7B12CB562E40046CE64 /* AppRecommendUpdateContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRecommendUpdateContainerView.swift; sourceTree = "<group>"; };
 		3D15E7B32CB5630D0046CE64 /* AppRecommendUpdateContainerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRecommendUpdateContainerViewModel.swift; sourceTree = "<group>"; };
@@ -1943,8 +1945,9 @@
 				5D6991192DFAD8360050689E /* ButtonConfiguration+Convenience.swift */,
 				5D49D4EC2DD479410071826B /* URLOpener+Extensions.swift */,
 				4E11AC432F22653700838894 /* GOVUKColors+Chat.swift */,
-				81CAC4AD2F8F85B500E6E6A3 /* GOVUKColors+ServiceAccount.swift */,
 				81D240C22FC096A900A4F988 /* GOVUKColors+DVLA.swift */,
+				33F55ED0300A59CD00EB21E0 /* GOVUKColors+NotificationCentre.swift */,
+				81CAC4AD2F8F85B500E6E6A3 /* GOVUKColors+ServiceAccount.swift */,
 				4E11AC492F22770C00838894 /* Constants.swift */,
 			);
 			path = GovKit;
@@ -3243,6 +3246,7 @@
 				16D186A82E462D94006ACC7A /* ChatConsentOnboardingCoordinator.swift in Sources */,
 				16A788B22DCC288800CA64E2 /* ReturningUserService.swift in Sources */,
 				D0EB7EF22F3F968E00BEB0A1 /* TermsAndConditionsService.swift in Sources */,
+				33F55ED1300A59D600EB21E0 /* GOVUKColors+NotificationCentre.swift in Sources */,
 				4ED2DB652FBCC62C005CF6FD /* YourAccountsSettingsCoordinator.swift in Sources */,
 				815018F02F7D6AA900E7469C /* DVLAAccountViewModel.swift in Sources */,
 				D0ABA5D42FA4F95000C5A244 /* SARSettingsCoordinator.swift in Sources */,

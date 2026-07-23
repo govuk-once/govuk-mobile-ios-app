@@ -7,60 +7,60 @@ struct NotificationCentreDetailContainerView: View {
     @ObservedObject var viewModel: NotificationCentreDetailViewModel
 
     var body: some View {
-        ZStack(alignment: .bottom) {
-            GeometryReader { geometry in
-                ScrollView {
-                    VStack(spacing: 0) {
-                        switch viewModel.state {
-                        case .loading, .new:
-                            NotificationCentreDetailLoadingView()
-                                .onAppear {
-                                    UIAccessibility.post(notification: .screenChanged,
-                                                         argument: "Loading")
-                                }
-                        case .loaded(
-                            notification: let notification,
-                            showDeleteConfirmationSheet: let showConfirmation):
-                            NotificationCentreDetailLoadedView(
-                                notification: notification,
-                                onLinkTapped: {
-                                    viewModel.show(url: $0)
-                                },
-                                onConfirmDelete: {
-                                    viewModel.onConfirmDelete()
-                                },
-                                onCancelDelete: {
-                                    viewModel.onCancelDelete()
-                                },
-                                showDeleteConfirmation: showConfirmation)
+        GeometryReader { geometry in
+            ScrollView {
+                VStack(spacing: 0) {
+                    switch viewModel.state {
+                    case .loading, .new:
+                        NotificationCentreDetailLoadingView()
                             .onAppear {
                                 UIAccessibility.post(notification: .screenChanged,
-                                                     argument: "Loading complete")
+                                                     argument: "Loading")
                             }
-                        case .error:
-                            NotificationCentreErrorView()
-                                .onAppear {
-                                    UIAccessibility.post(notification: .screenChanged,
-                                                         argument: "Error")
-                                }
-                        case .noInternet:
-                            NotificationCentreNoInternetView()
-                                .onAppear {
-                                    UIAccessibility.post(notification: .screenChanged,
-                                                         argument: "No internet connection")
-                                }
+                    case .loaded(
+                        notification: let notification,
+                        showDeleteConfirmationSheet: let showConfirmation):
+                        NotificationCentreDetailLoadedView(
+                            notification: notification,
+                            onLinkTapped: {
+                                viewModel.show(url: $0)
+                            },
+                            onConfirmDelete: {
+                                viewModel.onConfirmDelete()
+                            },
+                            onCancelDelete: {
+                                viewModel.onCancelDelete()
+                            },
+                            showDeleteConfirmation: showConfirmation)
+                        .onAppear {
+                            UIAccessibility.post(notification: .screenChanged,
+                                                 argument: "Loading complete")
                         }
+                    case .error:
+                        NotificationCentreErrorView()
+                            .onAppear {
+                                UIAccessibility.post(notification: .screenChanged,
+                                                     argument: "Error")
+                            }
+                    case .noInternet:
+                        NotificationCentreNoInternetView()
+                            .onAppear {
+                                UIAccessibility.post(notification: .screenChanged,
+                                                     argument: "No internet connection")
+                            }
                     }
-                    .frame(minWidth: geometry.size.width, minHeight: geometry.size.height)
+                }
+                .frame(minWidth: geometry.size.width, minHeight: geometry.size.height)
+            }
+            .safeAreaInset(edge: .bottom) {
+                if #available(iOS 26.0, *), case .loaded = viewModel.state {
+                    FloatingIconButtons(
+                        unreadAction: viewModel.onMarkUnread, deleteAction: viewModel.onDelete
+                    )
                 }
             }
-            if #available(iOS 26.0, *), case .loaded = viewModel.state {
-                FloatingIconButtons(
-                    unreadAction: viewModel.onMarkUnread, deleteAction: viewModel.onDelete
-                )
-            }
         }
-        .background(Color(UIColor.govUK.fills.surfaceCardEmergencyInfo))
+        .background(Color(UIColor.govUK.fills.surfaceFullscreen))
         .onAppear {
             viewModel.onViewAppear()
             viewModel.track(screen: self)
@@ -70,6 +70,7 @@ struct NotificationCentreDetailContainerView: View {
 
 @available(iOS 26.0, *)
 private struct FloatingIconButtons: View {
+    @Environment(\.verticalSizeClass) var verticalSizeClass
     let unreadAction: () -> Void
     let deleteAction: () -> Void
     var body: some View {
@@ -79,7 +80,7 @@ private struct FloatingIconButtons: View {
                    deleteAction()
                 } label: {
                     Image(.notcenDelete)
-                        .foregroundStyle(.black)
+                        .foregroundStyle(Color(.govUK.fills.notificationCentreFloatingIcons))
                         .frame(width: 48, height: 48)
                 }
                 .glassEffect(.regular.interactive(), in: Circle())
@@ -89,7 +90,7 @@ private struct FloatingIconButtons: View {
                     unreadAction()
                 } label: {
                     Image(.notcenUnread)
-                        .foregroundStyle(.black)
+                        .foregroundStyle(Color(.govUK.fills.notificationCentreFloatingIcons))
                         .frame(width: 48, height: 48)
                 }
                 .glassEffect(.regular.interactive(), in: Circle())
@@ -98,7 +99,8 @@ private struct FloatingIconButtons: View {
                 Spacer()
             }
         }
-        .padding(.bottom, 32)
+        // Remove the padding
+        .padding(.bottom, verticalSizeClass == .compact ? 0 : 32)
         .padding(.horizontal, 28)
     }
 }
