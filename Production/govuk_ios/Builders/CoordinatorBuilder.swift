@@ -127,6 +127,17 @@ class CoordinatorBuilder: ServiceAccountCoordinatorBuilding {
         )
     }
 
+    var mailbox: TabItemCoordinator {
+        let navigationController = UINavigationController.mailbox
+
+        return MailboxCoordinator(
+            navigationController: navigationController,
+            viewControllerBuilder: ViewControllerBuilder(),
+            analyticsService: container.analyticsService.resolve(),
+            mailboxService: container.mailboxService.resolve()
+        )
+    }
+
     func chat(cancelOnboardingAction: @escaping () -> Void) -> TabItemCoordinator {
         let navigationController = UINavigationController.chat
 
