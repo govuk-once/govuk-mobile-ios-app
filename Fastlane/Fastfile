@@ -158,7 +158,7 @@ platform :ios do
   private_lane :firebase do
     firebase_app_distribution(
       app: configuration.firebase_app_id,
-      firebase_cli_token: configuration.firebase_token,
+      service_credentials_file: configuration.google_application_credentials,
       release_notes_file: configuration.release_notes_file,
       groups: 'ios-alpha-testers'
     )
