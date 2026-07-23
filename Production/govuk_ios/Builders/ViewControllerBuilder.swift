@@ -452,6 +452,46 @@ class ViewControllerBuilder {
         return viewController
     }
 
+    func mailboxList(
+        mailboxService: MailboxServiceInterface,
+        analyticsService: AnalyticsServiceInterface,
+        messageSelectedAction: @escaping (MailboxMessage) -> Void
+    ) -> UIViewController {
+        let viewModel = MailboxListViewModel(
+            mailboxService: mailboxService,
+            analyticsService: analyticsService,
+            messageSelectedAction: messageSelectedAction
+        )
+        let viewController = HostingViewController(
+            rootView: MailboxListView(viewModel: viewModel),
+            navigationBarHidden: false
+        )
+        viewController.title = "Mailbox"
+        return viewController
+    }
+
+    func mailboxDetail(
+        message: MailboxMessage,
+        analyticsService: AnalyticsServiceInterface,
+        actionHandler: @escaping (MessageAction) -> Void,
+        deleteHandler: @escaping (MailboxMessage) -> Void,
+        markUnopenedHandler: @escaping (MailboxMessage) -> Void
+    ) -> UIViewController {
+        let viewModel = MailboxDetailViewModel(
+            message: message,
+            analyticsService: analyticsService,
+            actionHandler: actionHandler,
+            deleteHandler: deleteHandler,
+            markUnopenedHandler: markUnopenedHandler
+        )
+        let viewController = HostingViewController(
+            rootView: MailboxDetailView(viewModel: viewModel),
+            navigationBarHidden: false
+        )
+        viewController.navigationItem.largeTitleDisplayMode = .never
+        return viewController
+    }
+
     func error(viewModel: ErrorViewModel) -> UIViewController {
         let view = ErrorView(viewModel: viewModel)
         let viewController = HostingViewController(

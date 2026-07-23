@@ -18,6 +18,14 @@ extension UINavigationController {
         return navigationController
     }
 
+    static var mailbox: UINavigationController {
+        let navigationController = UINavigationController()
+        navigationController.tabBarItem = .mailbox
+        navigationController.setNavigationBarHidden(false, animated: false)
+        navigationController.navigationBar.prefersLargeTitles = true
+        return navigationController
+    }
+
     static var chat: UINavigationController {
         let navigationController = UINavigationController()
         navigationController.tabBarItem = .chat
