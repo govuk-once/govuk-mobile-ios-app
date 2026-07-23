@@ -39,9 +39,39 @@ enum MessageSender: String, CaseIterable {
     }
 }
 
+enum ActionStatus: String {
+    case actionRequired = "Action required"
+    case paymentPending = "Payment pending"
+    case paid = "Paid"
+    case complete = "Complete"
+
+    var iconName: String {
+        switch self {
+        case .actionRequired:
+            return "exclamationmark.circle.fill"
+        case .paymentPending:
+            return "clock.fill"
+        case .paid, .complete:
+            return "checkmark.circle.fill"
+        }
+    }
+
+    var color: UIColor {
+        switch self {
+        case .actionRequired:
+            return UIColor(red: 0.85, green: 0.47, blue: 0.0, alpha: 1.0)
+        case .paymentPending:
+            return UIColor(red: 0.0, green: 0.45, blue: 0.74, alpha: 1.0)
+        case .paid, .complete:
+            return UIColor(red: 0.0, green: 0.54, blue: 0.27, alpha: 1.0)
+        }
+    }
+}
+
 enum MessageAction {
     case applyInApp(title: String, destination: MessageDestination)
     case openURL(title: String, url: URL)
+    case payment(title: String, amount: Int, reference: String)
 }
 
 enum MessageDestination {
@@ -57,7 +87,8 @@ struct MailboxMessage: Identifiable {
     let receivedDate: Date
     var status: MessageStatus
     let previewText: String
-    let action: MessageAction?
+    let actions: [MessageAction]
+    var actionStatus: ActionStatus?
 
     init(
         id: String,
@@ -67,7 +98,8 @@ struct MailboxMessage: Identifiable {
         receivedDate: Date,
         status: MessageStatus,
         previewText: String,
-        action: MessageAction? = nil
+        actions: [MessageAction] = [],
+        actionStatus: ActionStatus? = nil
     ) {
         self.id = id
         self.sender = sender
@@ -76,6 +108,7 @@ struct MailboxMessage: Identifiable {
         self.receivedDate = receivedDate
         self.status = status
         self.previewText = previewText
-        self.action = action
+        self.actions = actions
+        self.actionStatus = actionStatus
     }
 }
