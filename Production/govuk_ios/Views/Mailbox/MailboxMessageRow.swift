@@ -68,13 +68,32 @@ struct MailboxMessageRow: View {
                     Color(uiColor: .govUK.text.secondary)
                 )
                 .lineLimit(2)
-            Text(Self.relativeDateFormatter.localizedString(
-                for: message.receivedDate, relativeTo: .now
-            ))
-                .font(Font.govUK.caption1)
-                .foregroundStyle(
-                    Color(uiColor: .govUK.text.secondary)
-                )
+            HStack(spacing: 4) {
+                if let actionStatus = message.actionStatus {
+                    Image(systemName: actionStatus.iconName)
+                        .font(.system(size: 11))
+                        .foregroundStyle(
+                            Color(uiColor: actionStatus.color)
+                        )
+                    Text(actionStatus.rawValue)
+                        .font(Font.govUK.caption1)
+                        .foregroundStyle(
+                            Color(uiColor: actionStatus.color)
+                        )
+                    Text("·")
+                        .font(Font.govUK.caption1)
+                        .foregroundStyle(
+                            Color(uiColor: .govUK.text.secondary)
+                        )
+                }
+                Text(Self.relativeDateFormatter.localizedString(
+                    for: message.receivedDate, relativeTo: .now
+                ))
+                    .font(Font.govUK.caption1)
+                    .foregroundStyle(
+                        Color(uiColor: .govUK.text.secondary)
+                    )
+            }
         }
     }
 

@@ -18,6 +18,11 @@ protocol MailboxServiceInterface {
         messageId: String,
         completion: @escaping (Result<Void, Error>) -> Void
     )
+    func updateActionStatus(
+        messageId: String,
+        status: ActionStatus,
+        completion: @escaping (Result<Void, Error>) -> Void
+    )
 }
 
 // swiftlint:disable:next type_body_length
@@ -60,6 +65,17 @@ final class MailboxService: MailboxServiceInterface {
     ) {
         if let index = messages.firstIndex(where: { $0.id == messageId }) {
             messages[index].status = .unopened
+        }
+        completion(.success(()))
+    }
+
+    func updateActionStatus(
+        messageId: String,
+        status: ActionStatus,
+        completion: @escaping (Result<Void, Error>) -> Void
+    ) {
+        if let index = messages.firstIndex(where: { $0.id == messageId }) {
+            messages[index].actionStatus = status
         }
         completion(.success(()))
     }
@@ -107,10 +123,49 @@ final class MailboxService: MailboxServiceInterface {
                 status: .unopened,
                 previewText: "Your vehicle tax for AB12 CDE is due " +
                     "for renewal by 1 August 2026.",
-                action: .applyInApp(
-                    title: "Tax your vehicle",
-                    destination: .dvlaVehicleTax
-                )
+                actions: [
+                    .payment(
+                        title: "Pay vehicle tax",
+                        amount: 19000,
+                        reference: "AB12 CDE"
+                    ),
+                    .openURL(
+                        title: "Apply for a SORN",
+                        url: URL(string: "https://www.gov.uk/make-a-sorn")!
+                    )
+                ],
+                actionStatus: .paymentPending
+            ),
+            MailboxMessage(
+                id: "msg-001b",
+                sender: .dvla,
+                subject: "Vehicle tax payment confirmed",
+                body: """
+                Payment confirmation
+
+                Your vehicle tax payment has been received \
+                and processed.
+
+                Vehicle: XY67 ZAB
+                Make and model: Volkswagen Golf
+                Amount paid: \u{00A3}180.00
+                Payment date: 10 July 2026
+                Tax valid until: 1 August 2027
+
+                Your vehicle is now taxed. You do not need \
+                to display a tax disc.
+
+                If you need to check your vehicle tax status \
+                at any time, you can do so at \
+                gov.uk/check-vehicle-tax.
+
+                Driver and Vehicle Licensing Agency
+                """,
+                receivedDate: .now.addingTimeInterval(-86_400 * 2),
+                status: .opened,
+                previewText: "Your vehicle tax payment of " +
+                    "\u{00A3}180.00 for XY67 ZAB has been confirmed.",
+                actionStatus: .paid
             ),
             MailboxMessage(
                 id: "msg-002",
@@ -144,10 +199,13 @@ final class MailboxService: MailboxServiceInterface {
                 status: .unopened,
                 previewText: "Your driving licence is due for " +
                     "renewal within the next 3 months.",
-                action: .applyInApp(
-                    title: "Renew your licence",
-                    destination: .dvlaRenewLicence
-                )
+                actions: [
+                    .applyInApp(
+                        title: "Renew your licence",
+                        destination: .dvlaRenewLicence
+                    )
+                ],
+                actionStatus: .actionRequired
             ),
             MailboxMessage(
                 id: "msg-003",

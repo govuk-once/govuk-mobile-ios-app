@@ -1,5 +1,7 @@
 import Foundation
 import UIKit
+import SwiftUI
+import SafariServices
 import GovKit
 
 class MailboxCoordinator: TabItemCoordinator {
@@ -52,13 +54,50 @@ class MailboxCoordinator: TabItemCoordinator {
         push(viewController)
     }
 
+    private var pendingPayment: (amount: Int, reference: String)?
+
     private func handleAction(_ action: MessageAction) {
         switch action {
         case .applyInApp(_, let destination):
             navigateToDestination(destination)
         case .openURL(_, let url):
             UIApplication.shared.open(url)
+        case .payment(_, let amount, let reference):
+            handlePayment(amount: amount, reference: reference)
         }
+    }
+
+    private func handlePayment(amount: Int, reference: String) {
+        pendingPayment = (amount: amount, reference: reference)
+        guard let url = URL(
+            string: "https://www.payments.service.gov.uk"
+        ) else { return }
+        let config = SFSafariViewController.Configuration()
+        config.barCollapsingEnabled = true
+        let safari = SFSafariViewController(
+            url: url,
+            configuration: config
+        )
+        safari.delegate = self
+        safari.modalPresentationStyle = .pageSheet
+        root.present(safari, animated: true)
+    }
+
+    private func showPaymentConfirmation() {
+        guard let payment = pendingPayment else { return }
+        pendingPayment = nil
+        let confirmationView = PaymentConfirmationView(
+            amount: payment.amount,
+            reference: payment.reference,
+            completionAction: { [weak self] in
+                self?.root.dismiss(animated: true)
+            }
+        )
+        let hostingController = UIHostingController(
+            rootView: confirmationView
+        )
+        hostingController.modalPresentationStyle = .fullScreen
+        root.present(hostingController, animated: true)
     }
 
     private func handleDelete(_ message: MailboxMessage) {
@@ -88,5 +127,13 @@ class MailboxCoordinator: TabItemCoordinator {
                 UIApplication.shared.open(url)
             }
         }
+    }
+}
+
+extension MailboxCoordinator: SFSafariViewControllerDelegate {
+    func safariViewControllerDidFinish(
+        _ controller: SFSafariViewController
+    ) {
+        showPaymentConfirmation()
     }
 }

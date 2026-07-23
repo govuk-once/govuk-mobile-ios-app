@@ -14,7 +14,8 @@ class MailboxDetailViewModel: ObservableObject {
     var body: String { message.body }
     var senderColor: UIColor { message.sender.iconColor }
     var senderLetter: String { message.sender.iconLetter }
-    var action: MessageAction? { message.action }
+    var actions: [MessageAction] { message.actions }
+    var actionStatus: ActionStatus? { message.actionStatus }
 
     var formattedDate: String {
         Self.dateFormatter.string(from: message.receivedDate)
@@ -32,8 +33,7 @@ class MailboxDetailViewModel: ObservableObject {
         self.markUnopenedHandler = markUnopenedHandler
     }
 
-    func performAction() {
-        guard let action = message.action else { return }
+    func performAction(_ action: MessageAction) {
         actionHandler(action)
     }
 
