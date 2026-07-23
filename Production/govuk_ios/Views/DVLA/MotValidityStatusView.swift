@@ -87,7 +87,6 @@ struct MotValidityStatusView: View {
                 .frame(maxWidth: .infinity)
                 .padding(.top, viewModel.formattedStatus.isEmpty ? -4 : 0)
             }
-
             if let footer = viewModel.footer {
                 Text(footer)
                     .font(.govUK.footnote)
@@ -99,7 +98,6 @@ struct MotValidityStatusView: View {
             }
         }
     }
-
     @ViewBuilder
     private var statusTextView: some View {
         if let statusAccessibilityLabel
