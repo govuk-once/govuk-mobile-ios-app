@@ -169,6 +169,10 @@
 		4EFE22A12D0CD08900136D56 /* Redactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EFE22A02D0CD08900136D56 /* Redactor.swift */; };
 		4EFE22A52D0CD0D500136D56 /* RegexRedactor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EFE22A42D0CD0D500136D56 /* RegexRedactor.swift */; };
 		517A4795B1EE784642B25640 /* MailboxMessageRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48D74BEDB4B2671B4A710696 /* MailboxMessageRow.swift */; };
+		52DEE4793013B827007D8B38 /* TestTokenIssuer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52DEE4783013B827007D8B38 /* TestTokenIssuer.swift */; };
+		52DEE47B3013B834007D8B38 /* MailboxSetupHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52DEE47A3013B834007D8B38 /* MailboxSetupHelper.swift */; };
+		52DEE47D3013B8C7007D8B38 /* Mailbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52DEE47C3013B8C7007D8B38 /* Mailbox.swift */; };
+		52DEE47F3013B8DA007D8B38 /* MailboxServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52DEE47E3013B8DA007D8B38 /* MailboxServiceClient.swift */; };
 		54CA4DB2A80AD7850F8015B5 /* MailboxDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026B49CDBCEF04028F0F5357 /* MailboxDetailView.swift */; };
 		54CA4DB2A80AD785PAY0001 /* PaymentConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026B49CDBCEF0402PAY0001 /* PaymentConfirmationView.swift */; };
 		55F3462DA849A33494F06016 /* MailboxMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AB34C8BA95AA434D9248C47 /* MailboxMessage.swift */; };
@@ -747,6 +751,10 @@
 		4EF472FA2F98DD3F00C29728 /* CenterAlignedBarButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CenterAlignedBarButtonItem.swift; sourceTree = "<group>"; };
 		4EFE22A02D0CD08900136D56 /* Redactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Redactor.swift; sourceTree = "<group>"; };
 		4EFE22A42D0CD0D500136D56 /* RegexRedactor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegexRedactor.swift; sourceTree = "<group>"; };
+		52DEE4783013B827007D8B38 /* TestTokenIssuer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestTokenIssuer.swift; sourceTree = "<group>"; };
+		52DEE47A3013B834007D8B38 /* MailboxSetupHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxSetupHelper.swift; sourceTree = "<group>"; };
+		52DEE47C3013B8C7007D8B38 /* Mailbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mailbox.swift; sourceTree = "<group>"; };
+		52DEE47E3013B8DA007D8B38 /* MailboxServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailboxServiceClient.swift; sourceTree = "<group>"; };
 		52FF4D528F36E7C2D655A756 /* MailboxDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MailboxDetailViewModel.swift; path = Production/govuk_ios/ViewModels/Mailbox/MailboxDetailViewModel.swift; sourceTree = SOURCE_ROOT; };
 		5D02783B2C29D9BB00F2A4EB /* LaunchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewModel.swift; sourceTree = "<group>"; };
 		5D056C232E5706EF00D28DAE /* OneSignalServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneSignalServiceClient.swift; sourceTree = "<group>"; };
@@ -1104,7 +1112,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		5D9CDF202CD928FB0045DFC3 = {
+		5D9CDF202CD928FB0045DFC3 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				govuk_ios/govuk_ios_unit_tests/Resources/MockAppConfigResponse.json,
@@ -1124,7 +1132,7 @@
 			);
 			target = 5DAD71732BD250DB0075F648 /* govuk_ios */;
 		};
-		5D9CDF212CD928FB0045DFC3 = {
+		5D9CDF212CD928FB0045DFC3 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				govuk_ios/govuk_ios_snapshot_tests/Helpers/SnapshotTestCase.swift,
@@ -1219,7 +1227,7 @@
 			);
 			target = 5DAD71892BD250DF0075F648 /* govuk_ios_unit_tests */;
 		};
-		5D9CDF222CD928FB0045DFC3 = {
+		5D9CDF222CD928FB0045DFC3 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				govuk_ios/govuk_ios_snapshot_tests/Helpers/SnapshotTestCase.swift,
@@ -1355,7 +1363,7 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		5D9CDE3A2CD928FB0045DFC3 /* Tests */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (5D9CDF202CD928FB0045DFC3, 5D9CDF212CD928FB0045DFC3, 5D9CDF222CD928FB0045DFC3, ); explicitFileTypes = {}; explicitFolders = (govuk_ios/govuk_ios_snapshot_tests/ReferenceImages_64, ); path = Tests; sourceTree = "<group>"; };
+		5D9CDE3A2CD928FB0045DFC3 /* Tests */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (5D9CDF202CD928FB0045DFC3 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 5D9CDF212CD928FB0045DFC3 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 5D9CDF222CD928FB0045DFC3 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (govuk_ios/govuk_ios_snapshot_tests/ReferenceImages_64, ); path = Tests; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1546,6 +1554,9 @@
 				D04191852CA6A5910034722A /* TopicsServiceClient.swift */,
 				815935DC2F22351700F8D206 /* User */,
 				4E02D5AC2F6B89AB0083164C /* AccessTokenError.swift */,
+				52DEE4783013B827007D8B38 /* TestTokenIssuer.swift */,
+				52DEE47A3013B834007D8B38 /* MailboxSetupHelper.swift */,
+				52DEE47E3013B8DA007D8B38 /* MailboxServiceClient.swift */,
 			);
 			path = ServiceClients;
 			sourceTree = "<group>";
@@ -2289,6 +2300,7 @@
 				8132DC382F62D1EE00F24CB6 /* ServiceAccountType.swift */,
 				81D53D642FD8447500E25622 /* LinkedServiceAccounts.swift */,
 				815018EA2F7D28F000E7469C /* DVLA */,
+				52DEE47C3013B8C7007D8B38 /* Mailbox.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2900,7 +2912,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 5DAD716F2BD250DA0075F648 /* Build configuration list for PBXProject "govuk_ios" */;
+			buildConfigurationList = 5DAD716F2BD250DA0075F648 /* Build configuration list for PBXProject "GovUK" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = "en-GB";
 			hasScannedForEncodings = 0;
@@ -3098,6 +3110,7 @@
 				D0EB04842D37F34200B310D8 /* GOV.xcdatamodeld in Sources */,
 				D04191782CA57A6F0034722A /* TopicsService.swift in Sources */,
 				3D9C93402CB0176A00EFA337 /* AppForcedUpdateContainerViewModel.swift in Sources */,
+				52DEE47B3013B834007D8B38 /* MailboxSetupHelper.swift in Sources */,
 				4EBE64692D15AABA007A6E97 /* MaximumLengthValidator.swift in Sources */,
 				D0E85A862DDCD51D003B4D7A /* AmbiguousAddressSelectionView.swift in Sources */,
 				5DFB488C2DE9F7F600B41CDA /* NotificationConsentCoordinator.swift in Sources */,
@@ -3157,10 +3170,12 @@
 				1650769D2D3DAC0D0034C4F1 /* SearchSuggestion.swift in Sources */,
 				5D02783C2C29D9BB00F2A4EB /* LaunchViewModel.swift in Sources */,
 				5DC069ED2C3BFD6400A81AAE /* AccessibilityManager.swift in Sources */,
+				52DEE47D3013B8C7007D8B38 /* Mailbox.swift in Sources */,
 				D0EBFBD22D11C0E7000A3151 /* AnalyticsService.swift in Sources */,
 				81BFBFF52FA4FE5000249569 /* WidgetViewBuilder.swift in Sources */,
 				5D68CEF52E6EC7F00087FB1B /* main.swift in Sources */,
 				5D69911A2DFAD8360050689E /* ButtonConfiguration+Convenience.swift in Sources */,
+				52DEE47F3013B8DA007D8B38 /* MailboxServiceClient.swift in Sources */,
 				16EE1A432C6F89D9005E820F /* SearchViewModel.swift in Sources */,
 				D028CD0C2CBEC8F400742620 /* TopicDetailResponse.swift in Sources */,
 				818AEB982FE1820A005ECBC6 /* AccessibleString.swift in Sources */,
@@ -3464,6 +3479,7 @@
 				5DE597B62C2EF422003613C8 /* APIServiceClient.swift in Sources */,
 				81D240C32FC096B000A4F988 /* GOVUKColors+DVLA.swift in Sources */,
 				D093BA652CB04C68004F489B /* EditTopicsViewModel.swift in Sources */,
+				52DEE4793013B827007D8B38 /* TestTokenIssuer.swift in Sources */,
 				D0A8B3C42C9DD01200849304 /* Codable+Extensions.swift in Sources */,
 				D0EB02812D37F02400B310D8 /* CoreDataRepository.swift in Sources */,
 				4EA8357C2DBBBE13000AFB8A /* StoredLocalAuthorityCardModel.swift in Sources */,
@@ -4060,7 +4076,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5DAD716F2BD250DA0075F648 /* Build configuration list for PBXProject "govuk_ios" */ = {
+		5DAD716F2BD250DA0075F648 /* Build configuration list for PBXProject "GovUK" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5DAD719C2BD250DF0075F648 /* Debug */,
