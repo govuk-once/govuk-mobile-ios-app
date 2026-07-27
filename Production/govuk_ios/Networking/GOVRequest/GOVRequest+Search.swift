@@ -15,7 +15,7 @@ extension GOVRequest {
 
     static func searchSuggestions(term: String) -> GOVRequest {
         GOVRequest(
-            urlPath: Constants.API.searchSuggestionsPath,
+            urlPath: "/api/search/autocomplete.json",
             method: .get,
             body: nil,
             queryParameters: ["q": term],

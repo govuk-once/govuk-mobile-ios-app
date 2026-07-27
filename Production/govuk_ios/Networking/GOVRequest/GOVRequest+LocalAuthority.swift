@@ -4,7 +4,7 @@ import GovKit
 extension GOVRequest {
     static func localAuthority(postcode: String) -> GOVRequest {
         GOVRequest(
-            urlPath: Constants.API.localAuthorityPath,
+            urlPath: "/api/local-authority",
             method: .get,
             body: nil,
             queryParameters: ["postcode": postcode],
@@ -14,7 +14,7 @@ extension GOVRequest {
     }
     static func localAuthoritySlug(slug: String) -> GOVRequest {
         GOVRequest(
-            urlPath: "\(Constants.API.localAuthorityPath)/\(slug)",
+            urlPath: "/api/local-authority/\(slug)",
             method: .get,
             body: nil,
             queryParameters: nil,

@@ -2,9 +2,7 @@ import Foundation
 import GovKit
 
 extension GOVRequest {
-    private static let userPath = "/app/udp/v1/users/me"
     private static let identityPath = "/app/udp/v1/identity"
-    private static let userNotificationsPath = "/app/udp/v1/users/notifications"
 
     private static var additionalHeaders: [String: String] {
         ["Content-Type": "application/json"]
@@ -12,7 +10,7 @@ extension GOVRequest {
 
     static var userState: GOVRequest {
         GOVRequest(
-            urlPath: userPath,
+            urlPath: "/app/udp/v1/users/me",
             method: .get,
             body: nil,
             queryParameters: nil,
@@ -24,7 +22,7 @@ extension GOVRequest {
     static func setNotificationsConsent(consentStatus: ConsentStatus) -> GOVRequest {
         let body = ConsentPreference(consentStatus: consentStatus)
         return GOVRequest(
-            urlPath: userNotificationsPath,
+            urlPath: "/app/udp/v1/users/me/notifications",
             method: .patch,
             body: body,
             queryParameters: nil,
