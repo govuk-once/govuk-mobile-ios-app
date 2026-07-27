@@ -19,7 +19,9 @@ struct VehicleDetailCoordinatorTests {
             analyticsService: MockAnalyticsService(),
             dvlaService: MockDVLAService(),
             configService: MockAppConfigService(),
+            userService: MockUserService(),
             urlOpener: MockURLOpener(),
+            notificationCenter: MockNotificationCenter(),
             vehicleId: 1
         )
 
@@ -40,13 +42,39 @@ struct VehicleDetailCoordinatorTests {
             analyticsService: MockAnalyticsService(),
             dvlaService: MockDVLAService(),
             configService: MockAppConfigService(),
+            userService: MockUserService(),
             urlOpener: mockURLOpener,
+            notificationCenter: MockNotificationCenter(),
             vehicleId: 1
         )
         sut.start(url: nil)
         mockViewControllerBuilder._receivedVehicleDetailOpenURLAction?(mockURL)
 
         #expect(mockURLOpener._receivedOpenIfPossibleUrl?.absoluteString == "https://gov.uk")
+    }
+
+    @Test
+    func linkedAccountsDidChangeNotification_popsViewController() {
+        let mockUserService = MockUserService()
+        mockUserService._stubbedLinkedAccounts = []
+        let mockNotificationCenter = MockNotificationCenter()
+        let mockNavigationController = MockNavigationController()
+
+        let sut = VehicleDetailCoordinator(
+            navigationController: mockNavigationController,
+            viewControllerBuilder: MockViewControllerBuilder(),
+            analyticsService: MockAnalyticsService(),
+            dvlaService: MockDVLAService(),
+            configService: MockAppConfigService(),
+            userService: mockUserService,
+            urlOpener: MockURLOpener(),
+            notificationCenter: mockNotificationCenter,
+            vehicleId: 1
+        )
+        sut.start(url: nil)
+
+        mockNotificationCenter.post(name: Notification.Name.linkedAccountsDidChange, object: nil)
+        #expect(mockNavigationController._popCalled == true)
     }
 }
 

@@ -22,6 +22,7 @@ class WidgetViewBuilder {
             userService: userService,
             dvlaService: dvlaService,
             configService: configService,
+            notificationCenter: .default,
             actions: actions
         )
         let view = DVLAAccountWidgetView(viewModel: viewModel)

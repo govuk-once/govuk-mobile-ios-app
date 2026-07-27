@@ -1,3 +1,4 @@
+import Foundation
 import GovKit
 import SwiftUI
 
@@ -10,12 +11,14 @@ class DVLAAccountWidgetViewModel: ObservableObject {
     }
 
     @Published private(set) var viewState: ViewState
+    private var linkedAccountsObserverToken: Any?
 
     private let dateFormatter = DateFormatter.dvlaAccount
     private let analyticsService: AnalyticsServiceInterface
     private let userService: UserServiceInterface
     private let dvlaService: DVLAServiceInterface
     private let configService: AppConfigServiceInterface
+    private let notificationCenter: NotificationCenter
     private let actions: Actions
 
     init(viewState: ViewState = .loading,
@@ -23,13 +26,22 @@ class DVLAAccountWidgetViewModel: ObservableObject {
          userService: UserServiceInterface,
          dvlaService: DVLAServiceInterface,
          configService: AppConfigServiceInterface,
+         notificationCenter: NotificationCenter,
          actions: Actions) {
         self.viewState = viewState
         self.analyticsService = analyticsService
         self.userService = userService
         self.dvlaService = dvlaService
         self.configService = configService
+        self.notificationCenter = notificationCenter
         self.actions = actions
+        observeLinkedAccountChanges()
+    }
+
+    deinit {
+        if let token = linkedAccountsObserverToken {
+            notificationCenter.removeObserver(token)
+        }
     }
 
     @MainActor
@@ -79,6 +91,19 @@ class DVLAAccountWidgetViewModel: ObservableObject {
         } else {
             viewState = .unlinked(linkCard: linkCardViewModel)
         }
+    }
+
+    private func observeLinkedAccountChanges() {
+        linkedAccountsObserverToken = notificationCenter.addObserver(
+            forName: .linkedAccountsDidChange,
+            object: nil,
+            queue: .main,
+            using: { [weak self] _ in
+                if let isAccountLinked = self?.userService.linkedAccounts?.contains(.dvla) {
+                    self?.update(isAccountLinked: isAccountLinked)
+                }
+            }
+        )
     }
 
     private var linkCardViewModel: ServiceAccountLinkCardViewModel {

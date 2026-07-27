@@ -588,7 +588,9 @@ class CoordinatorBuilder {
             analyticsService: container.analyticsService.resolve(),
             dvlaService: container.dvlaService.resolve(),
             configService: container.appConfigService.resolve(),
+            userService: container.userService.resolve(),
             urlOpener: UIApplication.shared,
+            notificationCenter: .default,
             vehicleId: vehicleId
         )
     }
