@@ -39,7 +39,10 @@ struct MotValidityStatusView: View {
                                 )
                                 .font(Font.govUK.bodySemibold)
                         }
-                        .padding(.horizontal, Self.standardPadding)
+                        .padding(
+                            .horizontal,
+                            Self.standardPadding
+                        )
                     }
                 )
             }
