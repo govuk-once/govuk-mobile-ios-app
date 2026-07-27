@@ -13,7 +13,7 @@ struct MotValidityStatusView: View {
             VStack {
                 HStack {
                     Text(viewModel.title ?? "")
-                        .font(Font.govUK.bodySemibold)
+                        .font(Font.govUK.title3Semibold)
                         .foregroundColor(
                             Color(UIColor.govUK.text.primary)
                         )
