@@ -11,18 +11,18 @@ struct ConstantsTests {
     }
 
     @Test
-    func defaultSearchPath_returnsExpectedResult() {
-        #expect(Constants.API.defaultSearchPath == "/v0_1/search.json")
+    func searchPath_returnsExpectedResult() {
+        #expect(Constants.API.searchPath == "/v0_1/search.json")
     }
 
     @Test
-    func defaultSearchPath_canChange() {
-        let originalString = Constants.API.defaultSearchPath
+    func searchPath_canChange() {
+        let originalString = Constants.API.searchPath
 
         let expectedPath = UUID().uuidString
-        Constants.API.defaultSearchPath = expectedPath
-        #expect(Constants.API.defaultSearchPath == expectedPath)
+        Constants.API.searchPath = expectedPath
+        #expect(Constants.API.searchPath == expectedPath)
 
-        Constants.API.defaultSearchPath = originalString
+        Constants.API.searchPath = originalString
     }
 }

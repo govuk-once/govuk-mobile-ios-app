@@ -3,7 +3,7 @@ import Foundation
 
 extension Constants.API {
     public static let defaultSearchUrl: URL = URL(string: "https://search.service.gov.uk")!
-    public static var defaultSearchPath: String = "/v0_1/search.json"
+    public static var searchPath: String = "/v0_1/search.json"
 
     public static let defaultLocalAuthorityURL: URL = URL(string: "https://www.gov.uk")!
 
