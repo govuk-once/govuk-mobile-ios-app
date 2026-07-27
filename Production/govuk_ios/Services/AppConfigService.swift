@@ -116,7 +116,7 @@ public final class AppConfigService: AppConfigServiceInterface {
               let url = URL(string: urlString),
               let components = URLComponents(url: url, resolvingAgainstBaseURL: true)
         else { return }
-        Constants.API.defaultSearchPath = components.path
+        Constants.API.searchPath = components.path
         Container.shared.reregisterSearchAPIClient(url: url)
     }
 

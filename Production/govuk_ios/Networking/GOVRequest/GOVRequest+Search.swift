@@ -4,7 +4,7 @@ import GovKit
 extension GOVRequest {
     static func search(term: String) -> GOVRequest {
         GOVRequest(
-            urlPath: Constants.API.defaultSearchPath,
+            urlPath: Constants.API.searchPath,
             method: .get,
             body: nil,
             queryParameters: ["q": term, "count": "10"],
@@ -15,7 +15,7 @@ extension GOVRequest {
 
     static func searchSuggestions(term: String) -> GOVRequest {
         GOVRequest(
-            urlPath: Constants.API.searchSuggestionsPath,
+            urlPath: "/api/search/autocomplete.json",
             method: .get,
             body: nil,
             queryParameters: ["q": term],

@@ -237,18 +237,22 @@ class SettingsViewModel: SettingsViewModelInterface {
                     id: "settings.account.row",
                     title: rowTitle,
                     action: { [weak self] in
-                        self?.openAction?(
-                            .init(
-                                url: Constants.API.manageAccountURL,
-                                trackingTitle: rowTitle,
-                                fullScreen: true
-                            )
-                        )
+                        self?.openManageAccount(trackingTitle: rowTitle)
                         self?.trackNavigationEvent(rowTitle, external: true)
                     }
                 )
             ],
             footer: String(localized: .Settings.accountSectionFooter))
+    }
+
+    private func openManageAccount(trackingTitle: String) {
+        openAction?(
+            .init(
+                url: Constants.API.manageAccountURL,
+                trackingTitle: trackingTitle,
+                fullScreen: true
+            )
+        )
     }
 
     private var messagesSection: GroupedListSection? {

@@ -2,6 +2,13 @@ import GovKit
 import Foundation
 
 extension Constants.API {
+    public static let defaultSearchUrl: URL = URL(string: "https://search.service.gov.uk")!
+    public static var searchPath: String = "/v0_1/search.json"
+
+    public static let defaultLocalAuthorityURL: URL = URL(string: "https://www.gov.uk")!
+
+    public static let manageAccountURL: URL = URL(string: "https://home.account.gov.uk/")!
+
     public static let defaultChatPrivacyPolicyUrl: URL = {
         var components = govukBaseComponents
         components.path = """
