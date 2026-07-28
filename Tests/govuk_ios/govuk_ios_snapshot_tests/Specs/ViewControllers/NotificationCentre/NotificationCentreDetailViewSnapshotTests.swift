@@ -69,5 +69,47 @@ import SwiftUI
             navBarHidden: true
         )
     }
+
+    func test_container_light_rendersCorrectly() {
+        let mockNotificationCentreService = MockNotificationCentreService()
+        mockNotificationCentreService._stubbedFetchNotificationResult = .success(nil)
+        let viewModel = NotificationCentreDetailViewModel(
+            notificationId: "1",
+            notificationService: mockNotificationCentreService,
+            analyticsService: MockAnalyticsService(),
+            actions: .init(
+                showUrlAction: { _ in /* No-op */ },
+                onUnreadAction: { /* No-op */  },
+                onDeleteAction: { /* No-op */ }))
+
+        let view = NotificationCentreDetailContainerView(viewModel: viewModel)
+
+        VerifySnapshotInNavigationController(
+            view: view,
+            mode: .light,
+            navBarHidden: true
+        )
+    }
+
+    func test_container_dark_rendersCorrectly() {
+        let mockNotificationCentreService = MockNotificationCentreService()
+        mockNotificationCentreService._stubbedFetchNotificationResult = .success(nil)
+        let viewModel = NotificationCentreDetailViewModel(
+            notificationId: "1",
+            notificationService: mockNotificationCentreService,
+            analyticsService: MockAnalyticsService(),
+            actions: .init(
+                showUrlAction: { _ in /* No-op */ },
+                onUnreadAction: { /* No-op */  },
+                onDeleteAction: { /* No-op */ }))
+
+        let view = NotificationCentreDetailContainerView(viewModel: viewModel)
+
+        VerifySnapshotInNavigationController(
+            view: view,
+            mode: .dark,
+            navBarHidden: true
+        )
+    }
 }
 
