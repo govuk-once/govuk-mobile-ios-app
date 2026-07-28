@@ -99,7 +99,6 @@ private struct FloatingIconButtons: View {
                 Spacer()
             }
         }
-        // Remove the padding
         .padding(.bottom, verticalSizeClass == .compact ? 0 : 32)
         .padding(.horizontal, 28)
     }
