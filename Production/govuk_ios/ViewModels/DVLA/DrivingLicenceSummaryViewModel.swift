@@ -8,7 +8,6 @@ struct DrivingLicenceSummaryViewModel {
     let fullName: String
     let address: String
     let licenceStatusViewModel: ValidityStatusViewModel
-
     private let pasteboard: PasteboardInterface
 
     let copyToClipboardButtonTitle = String.chat.localized(
@@ -68,7 +67,9 @@ struct DrivingLicenceSummaryViewModel {
         analyticsService.track(event: event)
     }
 
-    private func trackNavigation(url: URL, text: String) {
+    private func trackNavigation(
+        url: URL,
+        text: String) {
         let event = AppEvent.navigation(
             text: text,
             type: "Menu",
@@ -78,7 +79,7 @@ struct DrivingLicenceSummaryViewModel {
         analyticsService.track(event: event)
     }
 
-    enum URLOptions {
+    private enum URLOptions {
         case changeAddress
         case replaceLicence
         case changeNameAndGender
@@ -116,7 +117,7 @@ extension DrivingLicenceSummaryViewModel {
         menuSelectionAction: @escaping (URL) -> Void,
         copyToClipboardAction: @escaping (String) -> Void,
         analyticsService: AnalyticsServiceInterface,
-        pasteboard: PasteboardInterface = UIPasteboard.general
+        pasteboard: PasteboardInterface = UIPasteboard.general,
     ) {
         let licenceType = String.localizedStringWithFormat(
             String.dvla.localized("licenceType"),

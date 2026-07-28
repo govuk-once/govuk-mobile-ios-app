@@ -61,6 +61,10 @@ struct DvlaURLs: Decodable {
     let driverDetails: URL?
     let account: URL?
     let drivingRecord: URL?
+    let changeNameGenderLicence: URL?
+    let replaceLicence: URL?
+    let changeLicenceAddress: URL?
+
 }
 
 struct TermsAndConditions: Decodable {
