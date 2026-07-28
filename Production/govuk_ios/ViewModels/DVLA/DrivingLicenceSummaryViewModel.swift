@@ -44,11 +44,16 @@ struct DrivingLicenceSummaryViewModel {
         "replaceLicenceMenuTitle"
     )
 
+    let configService: AppConfigServiceInterface
+
     func openUrl(options: URLOptions) {
-        menuSelectionAction(options.urlAndTitle.0)
+        let urlAndTrackingTitle = options.urlAndTitle(using: configService)
+        menuSelectionAction(
+            urlAndTrackingTitle.0
+        )
         trackNavigation(
-            url: options.urlAndTitle.0,
-            text: options.urlAndTitle.1
+            url: urlAndTrackingTitle.0,
+            text: urlAndTrackingTitle.1
         )
     }
 
@@ -79,27 +84,28 @@ struct DrivingLicenceSummaryViewModel {
         analyticsService.track(event: event)
     }
 
-    private enum URLOptions {
+    enum URLOptions {
         case changeAddress
         case replaceLicence
         case changeNameAndGender
 
-        var urlAndTitle: (URL, String) {
+        func urlAndTitle(using configService: AppConfigServiceInterface)
+        -> (URL, String) {
             switch self {
             case .changeAddress:
-                return (
+                return (configService.dvlaUrls?.changeLicenceAddress ??
                     Constants.API.dvlaChangeAddressUrl, String.dvla.localized(
                         "changeAddressMenuTitle"
                     )
                 )
             case .replaceLicence:
-                return (
+                return (configService.dvlaUrls?.replaceLicence ??
                     Constants.API.dvlaReplaceDrivingLicence, String.dvla.localized(
                         "replaceLicenceMenuTitle"
                     )
                 )
             case .changeNameAndGender:
-                return (
+                return (configService.dvlaUrls?.changeNameGenderLicence ??
                     Constants.API.dvlaChangeNameAndGenderDrivingLicence, String.dvla.localized(
                         "changeNameAndGenderMenuTitle"
                     )
@@ -118,6 +124,7 @@ extension DrivingLicenceSummaryViewModel {
         copyToClipboardAction: @escaping (String) -> Void,
         analyticsService: AnalyticsServiceInterface,
         pasteboard: PasteboardInterface = UIPasteboard.general,
+        configService: AppConfigServiceInterface
     ) {
         let licenceType = String.localizedStringWithFormat(
             String.dvla.localized("licenceType"),
@@ -128,6 +135,7 @@ extension DrivingLicenceSummaryViewModel {
         self.menuSelectionAction = menuSelectionAction
         self.copyToClipboardAction = copyToClipboardAction
         self.pasteboard = pasteboard
+        self.configService = configService
 
         self.licenceNumber = drivingLicence.licenceNumber
         let fullName = [
