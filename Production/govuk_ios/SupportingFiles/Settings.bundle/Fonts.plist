@@ -12,9 +12,9 @@
 		</dict>
 		<dict>
 			<key>File</key>
-			<string>Fonts/dvla-font</string>
+			<string>Fonts/DVLA-VRM</string>
 			<key>Title</key>
-			<string>DVLAFONT</string>
+			<string>DVLA - VRM</string>
 			<key>Type</key>
 			<string>PSChildPaneSpecifier</string>
 		</dict>
