@@ -34,12 +34,6 @@ final class VehicleDetailCoordinator: BaseCoordinator {
         super.init(navigationController: navigationController)
     }
 
-    deinit {
-        if let token = linkedAccountsObserverToken {
-            notificationCenter.removeObserver(token)
-        }
-    }
-
     override func start(url: URL?) {
         let viewController = viewControllerBuilder.vehicleDetail(
             analyticsService: analyticsService,

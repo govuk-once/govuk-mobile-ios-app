@@ -38,12 +38,6 @@ class DVLAAccountWidgetViewModel: ObservableObject {
         observeLinkedAccountChanges()
     }
 
-    deinit {
-        if let token = linkedAccountsObserverToken {
-            notificationCenter.removeObserver(token)
-        }
-    }
-
     @MainActor
     func viewDidAppear() async {
         if let isAccountLinked = userService.linkedAccounts?.contains(.dvla) {
