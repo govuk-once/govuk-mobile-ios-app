@@ -805,6 +805,7 @@ class ViewControllerBuilder {
         let viewController = HostingViewController(
             rootView: view
         )
+        viewController.hidesBottomBarWhenPushed = true
         return viewController
     }
 
