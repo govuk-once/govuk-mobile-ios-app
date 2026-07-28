@@ -10,7 +10,7 @@ struct DVLAAccountSummaryView: View {
     }
 
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             viewPicker
                 .padding(.bottom, 16)
             switch viewModel.selectedScreen {
