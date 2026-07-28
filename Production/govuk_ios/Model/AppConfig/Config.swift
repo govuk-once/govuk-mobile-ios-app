@@ -64,7 +64,6 @@ struct DvlaURLs: Decodable {
     let changeNameGenderLicence: URL?
     let replaceLicence: URL?
     let changeLicenceAddress: URL?
-
 }
 
 struct TermsAndConditions: Decodable {
