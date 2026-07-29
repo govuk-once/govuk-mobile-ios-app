@@ -30,20 +30,25 @@ final class DVLAAuthenticationCoordinator: BaseCoordinator {
         let result = await authenticationService.fetchIdentityVerification()
         switch result {
         case .success(let result):
-            authenticate(email: result.verificationHash)
+            authenticate(
+                verificationHash: result.verificationHash,
+                sessionHash: result.sessionHash
+            )
         case .failure:
             presentError()
         }
     }
 
-    private func authenticate(email: String) {
+    private func authenticate(verificationHash: String,
+                              sessionHash: String) {
         let authenticationUrl = appEnvironmentService.dvlaAuthenticationURL
         var components = URLComponents(
             url: authenticationUrl,
             resolvingAgainstBaseURL: true
         )
         components?.queryItems = [
-            .init(name: "verification", value: email)
+            .init(name: "verification", value: verificationHash),
+            .init(name: "session", value: sessionHash),
         ]
         guard let url = components?.url
         else { return presentError() }

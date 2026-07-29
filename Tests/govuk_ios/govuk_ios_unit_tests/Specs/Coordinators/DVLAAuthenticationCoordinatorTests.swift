@@ -13,7 +13,10 @@ class DVLAAuthenticationCoordinatorTests {
         let mockURLOpener = MockURLOpener()
         let mockAuthenticationService = MockAuthenticationService()
         mockAuthenticationService._stubbedFetchIdentityVerificationResult = .success(
-            .init(verificationHash: "test-token")
+            .init(
+                verificationHash: "test-token",
+                sessionHash: "test-session",
+            )
         )
         let mockAppEnvironmentService = MockAppEnvironmentService()
         mockAppEnvironmentService.dvlaAuthenticationURL = URL(
@@ -44,7 +47,10 @@ class DVLAAuthenticationCoordinatorTests {
         let mockURLOpener = MockURLOpener()
         let mockAuthenticationService = MockAuthenticationService()
         mockAuthenticationService._stubbedFetchIdentityVerificationResult = .success(
-            .init(verificationHash: "test-token")
+            .init(
+                verificationHash: "test-token",
+                sessionHash: "test-session",
+            )
         )
         let mockNavigationController = MockNavigationController()
         let sut = DVLAAuthenticationCoordinator(
