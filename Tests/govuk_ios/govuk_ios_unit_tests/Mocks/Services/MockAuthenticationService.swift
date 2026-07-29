@@ -64,9 +64,11 @@ class MockAuthenticationService: AuthenticationServiceInterface {
         return _stubbedTokenRefreshRequest
     }
 
+    var _fetchIdentityVerificationCalled = false
     var _stubbedFetchIdentityVerificationResult: IdentityVerificationResult?
     func fetchIdentityVerification() async -> IdentityVerificationResult {
-        _stubbedFetchIdentityVerificationResult!
+        _fetchIdentityVerificationCalled = true
+        return _stubbedFetchIdentityVerificationResult!
     }
 
     var _stubbedShouldAttemptTokenRefresh: Bool = true

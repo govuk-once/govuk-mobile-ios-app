@@ -22,7 +22,17 @@ final class DVLAAuthenticationCoordinator: BaseCoordinator {
 
     override func start(url: URL?) {
         Task {
+            await refreshToken()
+        }
+    }
+
+    private func refreshToken() async {
+        let result = await authenticationService.tokenRefreshRequest()
+        switch result {
+        case .success:
             await fetchIdentityVerification()
+        case .failure:
+            presentError()
         }
     }
 
