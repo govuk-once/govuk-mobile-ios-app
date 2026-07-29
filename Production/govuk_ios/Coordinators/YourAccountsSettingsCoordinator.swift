@@ -25,6 +25,7 @@ class YourAccountsSettingsCoordinator: BaseCoordinator {
             userService: userService,
             analyticsService: analyticsService
         )
+        viewController.hidesBottomBarWhenPushed = true
         push(viewController, animated: true)
     }
 }

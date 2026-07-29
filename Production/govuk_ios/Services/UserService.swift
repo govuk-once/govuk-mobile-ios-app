@@ -1,3 +1,5 @@
+import Foundation
+
 protocol UserServiceInterface {
     func fetchUserState(completion: @escaping FetchUserStateCompletion)
     func setNotificationsConsent(_ consentStatus: ConsentStatus)
@@ -16,6 +18,7 @@ protocol UserServiceInterface {
  class UserService: UserServiceInterface {
      private let appConfigService: AppConfigServiceInterface
      private let userServiceClient: UserServiceClientInterface
+     private let notificationCenter: NotificationCenter
      private var userState: UserState?
 
      var isEnabled: Bool {
@@ -33,9 +36,11 @@ protocol UserServiceInterface {
      var linkedAccounts: [ServiceAccountType]?
 
      init(appConfigService: AppConfigServiceInterface,
-          userServiceClient: UserServiceClientInterface) {
+          userServiceClient: UserServiceClientInterface,
+          notificationCenter: NotificationCenter) {
          self.appConfigService = appConfigService
          self.userServiceClient = userServiceClient
+         self.notificationCenter = notificationCenter
      }
 
      func fetchUserState(completion: @escaping FetchUserStateCompletion) {
@@ -118,6 +123,7 @@ protocol UserServiceInterface {
      private func removeLinkedAccount(_ accountType: ServiceAccountType) {
          if let indexOfAccount = linkedAccounts?.firstIndex(of: accountType) {
              linkedAccounts?.remove(at: indexOfAccount)
+             notificationCenter.post(name: .linkedAccountsDidChange, object: nil)
          }
      }
  }

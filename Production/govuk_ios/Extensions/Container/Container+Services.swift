@@ -125,7 +125,8 @@ extension Container {
         Factory(self) {
             UserService(
                 appConfigService: self.appConfigService.resolve(),
-                userServiceClient: self.userServiceClient.resolve()
+                userServiceClient: self.userServiceClient.resolve(),
+                notificationCenter: .default
             )
         }.scope(.singleton)
     }

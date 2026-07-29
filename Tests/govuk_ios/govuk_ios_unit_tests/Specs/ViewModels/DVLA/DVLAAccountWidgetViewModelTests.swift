@@ -10,12 +10,14 @@ struct DVLAAccountWidgetViewModelTests {
     var mockDvlaService: MockDVLAService
     var mockUserService: MockUserService
     var mockConfigService: MockAppConfigService
+    var mockNotificationCenter: MockNotificationCenter
 
     init() {
         mockAnalyticsService = MockAnalyticsService()
         mockDvlaService = MockDVLAService()
         mockUserService = MockUserService()
         mockConfigService = MockAppConfigService()
+        mockNotificationCenter = MockNotificationCenter()
     }
 
     @Test
@@ -27,6 +29,7 @@ struct DVLAAccountWidgetViewModelTests {
             userService: mockUserService,
             dvlaService: mockDvlaService,
             configService: mockConfigService,
+            notificationCenter: mockNotificationCenter,
             actions: .empty,
         )
         await sut.viewDidAppear()
@@ -43,6 +46,7 @@ struct DVLAAccountWidgetViewModelTests {
             userService: mockUserService,
             dvlaService: mockDvlaService,
             configService: mockConfigService,
+            notificationCenter: mockNotificationCenter,
             actions: .empty
         )
         await sut.fetchLinkedAccounts()
@@ -71,6 +75,7 @@ struct DVLAAccountWidgetViewModelTests {
             userService: mockUserService,
             dvlaService: mockDvlaService,
             configService: mockConfigService,
+            notificationCenter: mockNotificationCenter,
             actions: .empty
         )
         await sut.fetchLinkedAccounts()
@@ -97,6 +102,7 @@ struct DVLAAccountWidgetViewModelTests {
             userService: mockUserService,
             dvlaService: mockDvlaService,
             configService: mockConfigService,
+            notificationCenter: mockNotificationCenter,
             actions: .empty
         )
         await sut.viewDidAppear()
@@ -117,6 +123,7 @@ struct DVLAAccountWidgetViewModelTests {
             userService: mockUserService,
             dvlaService: mockDvlaService,
             configService: mockConfigService,
+            notificationCenter: mockNotificationCenter,
             actions: .init(
                 linkAction: {
                     linkActionCalled = true
@@ -144,6 +151,7 @@ struct DVLAAccountWidgetViewModelTests {
             userService: mockUserService,
             dvlaService: mockDvlaService,
             configService: mockConfigService,
+            notificationCenter: mockNotificationCenter,
             actions: .empty
         )
         await sut.viewDidAppear()
@@ -159,6 +167,32 @@ struct DVLAAccountWidgetViewModelTests {
         #expect(navigationEvent?.params?["type"] as? String == "trigger card")
         #expect(navigationEvent?.params?["section"] as? String == "account link")
         #expect(navigationEvent?.name == "Navigation")
+    }
+
+    @Test
+    func linkedAccountsDidChangeNotification_updatesViewStateFromLinkedToUnlinked() async {
+        mockUserService._stubbedLinkedAccounts = [.dvla]
+        let sut = DVLAAccountWidgetViewModel(
+            analyticsService: mockAnalyticsService,
+            userService: mockUserService,
+            dvlaService: mockDvlaService,
+            configService: mockConfigService,
+            notificationCenter: mockNotificationCenter,
+            actions: .empty,
+        )
+        await sut.viewDidAppear()
+
+        var viewStateIsLinked = false
+        if case .linked = sut.viewState {
+            viewStateIsLinked = true
+        }
+        #expect(viewStateIsLinked == true) // linked to begin with
+        mockUserService._stubbedLinkedAccounts = []
+        mockNotificationCenter.post(name: Notification.Name.linkedAccountsDidChange, object: nil)
+        if case .unlinked = sut.viewState {
+            viewStateIsLinked = false
+        }
+        #expect(viewStateIsLinked == false)
     }
 
 }

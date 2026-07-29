@@ -7,17 +7,22 @@ import Testing
 final class UserServiceTests {
     var mockUserServiceClient: MockUserServiceClient!
     var mockAppConfigService: MockAppConfigService!
+    var mockNotificationCenter: MockNotificationCenter!
 
     init() {
         mockUserServiceClient = MockUserServiceClient()
         mockAppConfigService = MockAppConfigService()
+        mockNotificationCenter = MockNotificationCenter()
     }
 
     @Test
     func fetchUserState_returnsExpectedValue() async throws {
         mockAppConfigService.features = [.profile]
-        let sut = UserService(appConfigService: mockAppConfigService,
-                              userServiceClient: mockUserServiceClient)
+        let sut = UserService(
+            appConfigService: mockAppConfigService,
+            userServiceClient: mockUserServiceClient,
+            notificationCenter: mockNotificationCenter
+        )
         mockUserServiceClient._stubbedFetchUserStateResult = .success(UserState.arrange)
 
         let result = await withCheckedContinuation { continuation in
@@ -34,8 +39,11 @@ final class UserServiceTests {
     @Test
     func fetchUserState_returnsExpectedError() async throws {
         mockAppConfigService.features = [.profile]
-        let sut = UserService(appConfigService: mockAppConfigService,
-                              userServiceClient: mockUserServiceClient)
+        let sut = UserService(
+            appConfigService: mockAppConfigService,
+            userServiceClient: mockUserServiceClient,
+            notificationCenter: mockNotificationCenter
+        )
 
         mockUserServiceClient._stubbedFetchUserStateResult = .failure(UserStateError.apiUnavailable)
 
@@ -52,8 +60,11 @@ final class UserServiceTests {
     @Test
     func fetchUserState_setsNotificationsConsent() async throws {
         mockAppConfigService.features = [.profile]
-        let sut = UserService(appConfigService: mockAppConfigService,
-                              userServiceClient: mockUserServiceClient)
+        let sut = UserService(
+            appConfigService: mockAppConfigService,
+            userServiceClient: mockUserServiceClient,
+            notificationCenter: mockNotificationCenter
+        )
 
         mockUserServiceClient?._stubbedFetchUserStateResult = .success(UserState.arrangeAccepted)
         await withCheckedContinuation { continuation in
@@ -70,8 +81,11 @@ final class UserServiceTests {
     @Test
     func setNotificationConsent_flexEnabled_doesNotCallClient() {
         mockAppConfigService.features = [.profile]
-        let sut = UserService(appConfigService: mockAppConfigService,
-                              userServiceClient: mockUserServiceClient)
+        let sut = UserService(
+            appConfigService: mockAppConfigService,
+            userServiceClient: mockUserServiceClient,
+            notificationCenter: mockNotificationCenter
+        )
 
         sut.setNotificationsConsent(.accepted)
         #expect(mockUserServiceClient._receivedNotificationConsent == nil)
@@ -80,8 +94,11 @@ final class UserServiceTests {
     @Test
     func setNotificationConsent_flexDisabled_doesNotCallClient() {
         mockAppConfigService.features = []
-        let sut = UserService(appConfigService: mockAppConfigService,
-                              userServiceClient: mockUserServiceClient)
+        let sut = UserService(
+            appConfigService: mockAppConfigService,
+            userServiceClient: mockUserServiceClient,
+            notificationCenter: mockNotificationCenter
+        )
 
         sut.setNotificationsConsent(.accepted)
         #expect(mockUserServiceClient._receivedNotificationConsent == nil)
@@ -90,8 +107,11 @@ final class UserServiceTests {
     @Test
     func fetchUserState_updatesPushId() async throws {
         mockAppConfigService.features = [.profile]
-        let userService = UserService(appConfigService: mockAppConfigService,
-                                      userServiceClient: mockUserServiceClient)
+        let userService = UserService(
+            appConfigService: mockAppConfigService,
+            userServiceClient: mockUserServiceClient,
+            notificationCenter: mockNotificationCenter
+        )
         mockUserServiceClient._stubbedFetchUserStateResult = .success(UserState.arrange(pushId: "push-id-1"))
 
         userService.fetchUserState { _ in }
@@ -102,8 +122,11 @@ final class UserServiceTests {
     @Test
     func linkAccount_success_returnsExpectedResult() {
         mockUserServiceClient._stubbedLinkAccountResult = .success(())
-        let sut = UserService(appConfigService: mockAppConfigService,
-                              userServiceClient: mockUserServiceClient)
+        let sut = UserService(
+            appConfigService: mockAppConfigService,
+            userServiceClient: mockUserServiceClient,
+            notificationCenter: mockNotificationCenter
+        )
         var wasSuccessful = false
         sut.linkAccount(withType: .dvla,
                         token: "test-link-id") { result in
@@ -122,8 +145,11 @@ final class UserServiceTests {
         mockUserServiceClient._stubbedLinkAccountResult = .failure(
             UserStateError.authenticationError
         )
-        let sut = UserService(appConfigService: mockAppConfigService,
-                              userServiceClient: mockUserServiceClient)
+        let sut = UserService(
+            appConfigService: mockAppConfigService,
+            userServiceClient: mockUserServiceClient,
+            notificationCenter: mockNotificationCenter
+        )
         sut.linkAccount(withType: .dvla,
                         token: "test-link-id") { result in
             #expect(result.getError() == .authenticationError)
@@ -133,8 +159,11 @@ final class UserServiceTests {
     @Test
     func linkAccount_success_updatesLinkedAccounts() {
         mockUserServiceClient._stubbedLinkAccountResult = .success(())
-        let sut = UserService(appConfigService: mockAppConfigService,
-                              userServiceClient: mockUserServiceClient)
+        let sut = UserService(
+            appConfigService: mockAppConfigService,
+            userServiceClient: mockUserServiceClient,
+            notificationCenter: mockNotificationCenter
+        )
         #expect(sut.linkedAccounts == nil)
 
         sut.linkAccount(withType: .dvla, token: "test-link-id") { _ in
@@ -145,8 +174,11 @@ final class UserServiceTests {
     @Test
     func unlinkAccount_success_returnsExpectedResult() {
         mockUserServiceClient._stubbedUnlinkAccountResult = .success(())
-        let sut = UserService(appConfigService: mockAppConfigService,
-                              userServiceClient: mockUserServiceClient)
+        let sut = UserService(
+            appConfigService: mockAppConfigService,
+            userServiceClient: mockUserServiceClient,
+            notificationCenter: mockNotificationCenter
+        )
         var wasSuccessful = false
         sut.unlinkAccount(withType: .dvla) { result in
             if case .success = result {
@@ -157,12 +189,31 @@ final class UserServiceTests {
     }
 
     @Test
+    func unlinkAccount_success_postsLinkedAccountsDidChangeNotification() throws {
+        mockUserServiceClient._stubbedLinkAccountResult = .success(())
+        mockUserServiceClient._stubbedUnlinkAccountResult = .success(())
+        
+        let sut = UserService(
+            appConfigService: mockAppConfigService,
+            userServiceClient: mockUserServiceClient,
+            notificationCenter: mockNotificationCenter
+        )
+        sut.linkAccount(withType: .dvla, token: "") { _ in }
+        sut.unlinkAccount(withType: .dvla) { _ in }
+        let receivedNotificationName = try #require(mockNotificationCenter._receivedPostNames.first)
+        #expect(receivedNotificationName == Notification.Name.linkedAccountsDidChange)
+    }
+
+    @Test
     func unlinkAccount_failure_returnsExpectedError() {
         mockUserServiceClient._stubbedUnlinkAccountResult = .failure(
             UserStateError.apiUnavailable
         )
-        let sut =  UserService(appConfigService: mockAppConfigService,
-                               userServiceClient: mockUserServiceClient)
+        let sut = UserService(
+            appConfigService: mockAppConfigService,
+            userServiceClient: mockUserServiceClient,
+            notificationCenter: mockNotificationCenter
+        )
         sut.unlinkAccount(withType: .dvla) { result in
             #expect(result.getError() == .apiUnavailable)
         }
@@ -175,7 +226,8 @@ final class UserServiceTests {
         )
         let sut = UserService(
             appConfigService: mockAppConfigService,
-            userServiceClient: mockUserServiceClient
+            userServiceClient: mockUserServiceClient,
+            notificationCenter: mockNotificationCenter
         )
         let result = await sut.fetchLinkedAccounts()
         let linkedAccounts = try? result.get()
@@ -189,7 +241,8 @@ final class UserServiceTests {
         )
         let sut = UserService(
             appConfigService: mockAppConfigService,
-            userServiceClient: mockUserServiceClient
+            userServiceClient: mockUserServiceClient,
+            notificationCenter: mockNotificationCenter
         )
         let result = await sut.fetchLinkedAccounts()
         #expect(result.getError() == .apiUnavailable)

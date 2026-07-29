@@ -390,6 +390,7 @@
 		81A6DF202FD04E4A006FB0F0 /* DrivingLicenceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A6DF1F2FD04E40006FB0F0 /* DrivingLicenceViewModel.swift */; };
 		81A6DF222FD05FD9006FB0F0 /* DrivingLicenceSummaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A6DF212FD05FD2006FB0F0 /* DrivingLicenceSummaryViewModel.swift */; };
 		81A6E3232FD07583006FB0F0 /* DVLAValidityStatusFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A6E3222FD07578006FB0F0 /* DVLAValidityStatusFormatter.swift */; };
+		81A820A830136CF8006E1692 /* NotificationName+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A820A730136CDE006E1692 /* NotificationName+Extensions.swift */; };
 		81AF5C232F9A706A003227BA /* ServiceAccountConsentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AF5C222F9A7051003227BA /* ServiceAccountConsentView.swift */; };
 		81BF887E2FA1029C00249569 /* ServiceAccountLinkSuccessViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BF887D2FA1029400249569 /* ServiceAccountLinkSuccessViewModel.swift */; };
 		81BF88802FA10EB500249569 /* ServiceAccountLinkSuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BF887F2FA10EAE00249569 /* ServiceAccountLinkSuccessView.swift */; };
@@ -970,6 +971,7 @@
 		81A6DF1F2FD04E40006FB0F0 /* DrivingLicenceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrivingLicenceViewModel.swift; sourceTree = "<group>"; };
 		81A6DF212FD05FD2006FB0F0 /* DrivingLicenceSummaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrivingLicenceSummaryViewModel.swift; sourceTree = "<group>"; };
 		81A6E3222FD07578006FB0F0 /* DVLAValidityStatusFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DVLAValidityStatusFormatter.swift; sourceTree = "<group>"; };
+		81A820A730136CDE006E1692 /* NotificationName+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationName+Extensions.swift"; sourceTree = "<group>"; };
 		81AF5C222F9A7051003227BA /* ServiceAccountConsentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountConsentView.swift; sourceTree = "<group>"; };
 		81BF887D2FA1029400249569 /* ServiceAccountLinkSuccessViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountLinkSuccessViewModel.swift; sourceTree = "<group>"; };
 		81BF887F2FA10EAE00249569 /* ServiceAccountLinkSuccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceAccountLinkSuccessView.swift; sourceTree = "<group>"; };
@@ -1976,6 +1978,7 @@
 			isa = PBXGroup;
 			children = (
 				3D9C933B2CB0155300EFA337 /* Bundle+AppVersionProvider.swift */,
+				81A820A730136CDE006E1692 /* NotificationName+Extensions.swift */,
 				812EECB32FEBEFA000054F3A /* Calendar+Convenience.swift */,
 				5DE2BBBB2C982593003116B6 /* Bundle+Extensions.swift */,
 				D08F2C7D2E6AF8C800133121 /* CGImageSource+Extensions.swift */,
@@ -3220,6 +3223,7 @@
 				81BFBFED2FA4AB6900249569 /* DrivingTopicWidgetCoordinator.swift in Sources */,
 				D02416472DEDC0C500F81C6D /* SignInSuccessCoordinator.swift in Sources */,
 				D0EC94C72DCBAEE400A9707E /* SignInErrorViewModel.swift in Sources */,
+				81A820A830136CF8006E1692 /* NotificationName+Extensions.swift in Sources */,
 				5DE2BBBC2C982593003116B6 /* Bundle+Extensions.swift in Sources */,
 				815011D92F7C4F9600E7469C /* GOVRequest+DVLA.swift in Sources */,
 				4EEC0F342DBB7CDA00D745F2 /* StoredLocalAuthorityCardView.swift in Sources */,
