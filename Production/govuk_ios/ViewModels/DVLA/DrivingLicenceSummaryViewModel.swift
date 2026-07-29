@@ -72,9 +72,7 @@ struct DrivingLicenceSummaryViewModel {
         analyticsService.track(event: event)
     }
 
-    private func trackNavigation(
-        url: URL,
-        text: String) {
+    private func trackNavigation(url: URL, text: String) {
         let event = AppEvent.navigation(
             text: text,
             type: "Menu",
@@ -94,19 +92,19 @@ struct DrivingLicenceSummaryViewModel {
             switch self {
             case .changeAddress:
                 return (configService.dvlaUrls?.changeLicenceAddress ??
-                    Constants.API.dvlaChangeAddressUrl, String.dvla.localized(
+                    Constants.API.defaultDvlaChangeAddressUrl, String.dvla.localized(
                         "changeAddressMenuTitle"
                     )
                 )
             case .replaceLicence:
                 return (configService.dvlaUrls?.replaceLicence ??
-                    Constants.API.dvlaReplaceDrivingLicence, String.dvla.localized(
+                    Constants.API.defaultDvlaReplaceDrivingLicence, String.dvla.localized(
                         "replaceLicenceMenuTitle"
                     )
                 )
             case .changeNameAndGender:
                 return (configService.dvlaUrls?.changeNameGenderLicence ??
-                    Constants.API.dvlaChangeNameAndGenderDrivingLicence, String.dvla.localized(
+                    Constants.API.defaultDvlaChangeNameAndGenderLicence, String.dvla.localized(
                         "changeNameAndGenderMenuTitle"
                     )
                 )
