@@ -28,6 +28,7 @@ struct MotValidityStatusView: View {
                     label: {
                         HStack(alignment: .center) {
                             Text(viewModel.buttonTitle ?? "")
+                                .multilineTextAlignment(.leading)
                                 .font(Font.govUK.body)
                                 .foregroundColor(
                                     Color(UIColor.govUK.text.linkSecondary)
