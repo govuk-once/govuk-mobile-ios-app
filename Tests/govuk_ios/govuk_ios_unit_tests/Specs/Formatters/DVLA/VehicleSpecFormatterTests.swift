@@ -180,12 +180,12 @@ struct VehicleSpecFormatterTests {
         let expectedDisplayValue = String(
             localized: .DVLA.engineCapacityLitres(capacity: 1.0)
         )
-        #expect(result.displayValue == expectedDisplayValue)
+        #expect(result.displayValue == "1,000cc")
 
         let expectedAccessibilityLabel = String(
             localized: .DVLA.engineCapacityLitreAccessibilityLabel(capacity: 1.0)
         )
-        #expect(result.accessibilityLabel == expectedAccessibilityLabel)
+        #expect(result.accessibilityLabel == "1,000cc")
     }
 
     @Test
@@ -194,12 +194,12 @@ struct VehicleSpecFormatterTests {
         let expectedDisplayValue = String(
             localized: .DVLA.engineCapacityLitres(capacity: 2.5)
         )
-        #expect(result.displayValue == expectedDisplayValue)
+        #expect(result.displayValue == "2,495cc")
 
         let expectedAccessibilityLabel = String(
             localized: .DVLA.engineCapacityLitresAccessibilityLabel(capacity: 2.5)
         )
-        #expect(result.accessibilityLabel == expectedAccessibilityLabel)
+        #expect(result.accessibilityLabel == "2,495cc")
     }
 }
 

@@ -102,24 +102,9 @@ struct VehicleSpecFormatter: VehicleSpecFormatterInterface {
         guard let engineCapacity = engineCapacity else {
             return AccessibleString(String(localized: .DVLA.unknown))
         }
-        if engineCapacity < 1000 {
-            let engineCapacityInCc = String(
-                localized: .DVLA.engineCapacityCc(capacity: engineCapacity)
-            )
-            return AccessibleString(engineCapacityInCc)
-        }
-        let decimalValue = Double(engineCapacity) / 1000.0
-        let displayText = String(localized: .DVLA.engineCapacityLitres(capacity: decimalValue))
-        let accessibilityLabel: String
-        if engineCapacity == 1000 {
-            accessibilityLabel = String(
-                localized: .DVLA.engineCapacityLitreAccessibilityLabel(capacity: decimalValue)
-            )
-        } else {
-            accessibilityLabel = String(
-                localized: .DVLA.engineCapacityLitresAccessibilityLabel(capacity: decimalValue)
-            )
-        }
-        return AccessibleString(displayText, accessibilityLabel: accessibilityLabel)
+        let engineCapacityInCc = String(
+            localized: .DVLA.engineCapacityCc(capacity: engineCapacity)
+        )
+        return AccessibleString(engineCapacityInCc)
     }
 }
