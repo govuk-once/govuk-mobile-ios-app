@@ -3,7 +3,7 @@ import SwiftUI
 import GovKit
 
 class MailboxListViewModel: ObservableObject {
-    private let mailboxService: MailboxServiceInterface
+    private var mailboxService: MailboxServiceInterface
     private let analyticsService: AnalyticsServiceInterface
     private let messageSelectedAction: (MailboxMessage) -> Void
 
@@ -28,6 +28,10 @@ class MailboxListViewModel: ObservableObject {
         self.mailboxService = mailboxService
         self.analyticsService = analyticsService
         self.messageSelectedAction = messageSelectedAction
+
+        self.mailboxService.onMessagesUpdated = { [weak self] updated in
+            self?.messages = updated
+        }
     }
 
     func loadMessages() {
@@ -46,34 +50,35 @@ class MailboxListViewModel: ObservableObject {
     }
 
     func selectMessage(_ message: MailboxMessage) {
-        mailboxService.markAsOpened(messageId: message.id) { [weak self] _ in
-            DispatchQueue.main.async {
-                if let index = self?.messages.firstIndex(
-                    where: { $0.id == message.id }
-                ) {
-                    self?.messages[index].status = .opened
-                }
-                self?.messageSelectedAction(message)
+        messageSelectedAction(message)
+
+        if message.isUnopened {
+            if let index = messages.firstIndex(
+                where: { $0.messageId == message.messageId }
+            ) {
+                messages[index].readAt =
+                    ISO8601DateFormatter().string(from: Date())
             }
+            mailboxService.markAsOpened(messageId: message.messageId) { _ in }
         }
     }
 
     func markAsUnopened(_ message: MailboxMessage) {
-        mailboxService.markAsUnopened(messageId: message.id) { [weak self] _ in
+        mailboxService.markAsUnopened(messageId: message.messageId) { [weak self] _ in
             DispatchQueue.main.async {
                 if let index = self?.messages.firstIndex(
-                    where: { $0.id == message.id }
+                    where: { $0.messageId == message.messageId }
                 ) {
-                    self?.messages[index].status = .unopened
+                    self?.messages[index].readAt = nil
                 }
             }
         }
     }
 
     func deleteMessage(_ message: MailboxMessage) {
-        mailboxService.deleteMessage(messageId: message.id) { [weak self] _ in
+        mailboxService.deleteMessage(messageId: message.messageId) { [weak self] _ in
             DispatchQueue.main.async {
-                self?.messages.removeAll { $0.id == message.id }
+                self?.messages.removeAll { $0.messageId == message.messageId }
             }
         }
     }

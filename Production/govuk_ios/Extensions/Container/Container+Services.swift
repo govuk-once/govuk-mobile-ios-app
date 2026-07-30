@@ -304,7 +304,10 @@ extension Container {
 
     var mailboxService: Factory<MailboxServiceInterface> {
         Factory(self) {
-            MailboxService()
+            MailboxService(
+                serviceClient: self.mailboxServiceClient.resolve(),
+                tokenProvider: self.mailboxTokenProvider.resolve()
+            )
         }
     }
 
