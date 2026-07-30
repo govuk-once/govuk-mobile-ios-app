@@ -8,7 +8,6 @@ struct DrivingLicenceSummaryViewModel {
     let fullName: String
     let address: String
     let licenceStatusViewModel: ValidityStatusViewModel
-
     private let pasteboard: PasteboardInterface
 
     let copyToClipboardButtonTitle = String.chat.localized(
@@ -45,11 +44,16 @@ struct DrivingLicenceSummaryViewModel {
         "replaceLicenceMenuTitle"
     )
 
+    let configService: AppConfigServiceInterface
+
     func openUrl(options: URLOptions) {
-        menuSelectionAction(options.urlAndTitle.0)
+        let urlAndTrackingTitle = options.urlAndTitle(using: configService)
+        menuSelectionAction(
+            urlAndTrackingTitle.0
+        )
         trackNavigation(
-            url: options.urlAndTitle.0,
-            text: options.urlAndTitle.1
+            url: urlAndTrackingTitle.0,
+            text: urlAndTrackingTitle.1
         )
     }
 
@@ -83,23 +87,24 @@ struct DrivingLicenceSummaryViewModel {
         case replaceLicence
         case changeNameAndGender
 
-        var urlAndTitle: (URL, String) {
+        func urlAndTitle(using configService: AppConfigServiceInterface)
+        -> (URL, String) {
             switch self {
             case .changeAddress:
-                return (
-                    Constants.API.dvlaChangeAddressUrl, String.dvla.localized(
+                return (configService.dvlaUrls?.changeLicenceAddress ??
+                    Constants.API.defaultDvlaChangeAddressUrl, String.dvla.localized(
                         "changeAddressMenuTitle"
                     )
                 )
             case .replaceLicence:
-                return (
-                    Constants.API.dvlaReplaceDrivingLicence, String.dvla.localized(
+                return (configService.dvlaUrls?.replaceLicence ??
+                    Constants.API.defaultDvlaReplaceDrivingLicence, String.dvla.localized(
                         "replaceLicenceMenuTitle"
                     )
                 )
             case .changeNameAndGender:
-                return (
-                    Constants.API.dvlaChangeNameAndGenderDrivingLicence, String.dvla.localized(
+                return (configService.dvlaUrls?.changeNameGenderLicence ??
+                    Constants.API.defaultDvlaChangeNameAndGenderLicence, String.dvla.localized(
                         "changeNameAndGenderMenuTitle"
                     )
                 )
@@ -116,7 +121,8 @@ extension DrivingLicenceSummaryViewModel {
         menuSelectionAction: @escaping (URL) -> Void,
         copyToClipboardAction: @escaping (String) -> Void,
         analyticsService: AnalyticsServiceInterface,
-        pasteboard: PasteboardInterface = UIPasteboard.general
+        pasteboard: PasteboardInterface = UIPasteboard.general,
+        configService: AppConfigServiceInterface
     ) {
         let licenceType = String.localizedStringWithFormat(
             String.dvla.localized("licenceType"),
@@ -127,6 +133,7 @@ extension DrivingLicenceSummaryViewModel {
         self.menuSelectionAction = menuSelectionAction
         self.copyToClipboardAction = copyToClipboardAction
         self.pasteboard = pasteboard
+        self.configService = configService
 
         self.licenceNumber = drivingLicence.licenceNumber
         let fullName = [

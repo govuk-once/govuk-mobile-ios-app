@@ -24,7 +24,8 @@ struct DrivingLicenceSummaryViewModelTests {
             openURLAction: { _, _ in },
             menuSelectionAction: { _ in },
             copyToClipboardAction: { _ in },
-            analyticsService: MockAnalyticsService()
+            analyticsService: MockAnalyticsService(),
+            configService: MockAppConfigService()
         )
 
         #expect(sut.licenceNumber == "ABC123AE")
@@ -48,7 +49,8 @@ struct DrivingLicenceSummaryViewModelTests {
             openURLAction: { _, _ in },
             menuSelectionAction: { _ in },
             copyToClipboardAction: { _ in },
-            analyticsService: mockAnalytics
+            analyticsService: mockAnalytics,
+            configService: MockAppConfigService()
         )
 
         sut.openUrl(options: .changeAddress)
@@ -82,7 +84,8 @@ struct DrivingLicenceSummaryViewModelTests {
             openURLAction: { _, _ in },
             menuSelectionAction: { _ in },
             copyToClipboardAction: { _ in },
-            analyticsService: mockAnalytics
+            analyticsService: mockAnalytics,
+            configService: MockAppConfigService()
         )
 
         sut.openUrl(options: .replaceLicence)
@@ -102,9 +105,10 @@ struct DrivingLicenceSummaryViewModelTests {
     @Test
     func changeAddress_returnsCorrectUrlAndTitle() {
         let option = DrivingLicenceSummaryViewModel.URLOptions.changeAddress
-        let expectedUrl = Constants.API.dvlaChangeAddressUrl
-        let (actualUrl, actualTitle) = option.urlAndTitle
-
+        let expectedUrl = Constants.API.defaultDvlaChangeAddressUrl
+        let (actualUrl, actualTitle) = option.urlAndTitle(
+            using: MockAppConfigService()
+        )
         #expect(actualUrl == expectedUrl)
         #expect(actualTitle == "Change address")
     }
@@ -112,9 +116,10 @@ struct DrivingLicenceSummaryViewModelTests {
     @Test
     func replaceLicence_returnsCorrectUrlAndTitle() {
         let option = DrivingLicenceSummaryViewModel.URLOptions.replaceLicence
-        let expectedUrl = Constants.API.dvlaReplaceDrivingLicence
-        let (actualUrl, actualTitle) = option.urlAndTitle
-
+        let expectedUrl = Constants.API.defaultDvlaReplaceDrivingLicence
+        let (actualUrl, actualTitle) = option.urlAndTitle(
+            using: MockAppConfigService()
+        )
         #expect(actualUrl == expectedUrl)
         #expect(actualTitle == "Replace licence")
     }
@@ -122,9 +127,10 @@ struct DrivingLicenceSummaryViewModelTests {
     @Test
     func changeNameAndGender_returnsCorrectUrlAndTitle() {
         let option = DrivingLicenceSummaryViewModel.URLOptions.changeNameAndGender
-        let expectedUrl = Constants.API.dvlaChangeNameAndGenderDrivingLicence
-        let (actualUrl, actualTitle) = option.urlAndTitle
-
+        let expectedUrl = Constants.API.defaultDvlaChangeNameAndGenderLicence
+        let (actualUrl, actualTitle) = option.urlAndTitle(
+            using: MockAppConfigService()
+        )
         #expect(actualUrl == expectedUrl)
         #expect(actualTitle == "Change name or gender")
     }
@@ -146,7 +152,8 @@ struct DrivingLicenceSummaryViewModelTests {
             openURLAction: { _, _ in },
             menuSelectionAction: { _ in },
             copyToClipboardAction: { _ in },
-            analyticsService: MockAnalyticsService()
+            analyticsService: MockAnalyticsService(),
+            configService: MockAppConfigService()
         )
         let expectedLicenceType = String.localizedStringWithFormat(
             String.dvla.localized("licenceType"),
@@ -172,7 +179,8 @@ struct DrivingLicenceSummaryViewModelTests {
             openURLAction: { _, _ in },
             menuSelectionAction: { _ in },
             copyToClipboardAction: { _ in },
-            analyticsService: MockAnalyticsService()
+            analyticsService: MockAnalyticsService(),
+            configService: MockAppConfigService()
         )
         #expect(sut.fullName == "MR JOE GEORGE BLOGGS")
     }
@@ -202,7 +210,8 @@ struct DrivingLicenceSummaryViewModelTests {
             openURLAction: { _, _ in },
             menuSelectionAction: { _ in },
             copyToClipboardAction: { _ in },
-            analyticsService: MockAnalyticsService()
+            analyticsService: MockAnalyticsService(),
+            configService: MockAppConfigService()
         )
         #expect(mockStatusViewModelBuilder._receivedValidToDate == validToDate)
         #expect(sut.licenceStatusViewModel.title == nil)
@@ -223,7 +232,8 @@ struct DrivingLicenceSummaryViewModelTests {
             openURLAction: { _, _ in },
             menuSelectionAction: { _ in },
             copyToClipboardAction: { _ in },
-            analyticsService: MockAnalyticsService()
+            analyticsService: MockAnalyticsService(),
+            configService: MockAppConfigService()
         )
 
 
@@ -249,7 +259,8 @@ struct DrivingLicenceSummaryViewModelTests {
             openURLAction: { _, _ in },
             menuSelectionAction: { _ in },
             copyToClipboardAction: { _ in },
-            analyticsService: MockAnalyticsService()
+            analyticsService: MockAnalyticsService(),
+            configService: MockAppConfigService()
         )
 
 
@@ -278,11 +289,10 @@ struct DrivingLicenceSummaryViewModelTests {
             menuSelectionAction: { _ in },
             copyToClipboardAction: { _ in },
             analyticsService: mockAnalytics,
-            pasteboard: mockPasteboard
+            pasteboard: mockPasteboard,
+            configService: MockAppConfigService()
         )
-
         sut.copyToClipboard()
-
         #expect(mockPasteboard.string == sut.licenceNumber)
         #expect(mockAnalytics._trackedEvents.count == 1)
     }

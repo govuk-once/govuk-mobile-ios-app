@@ -129,7 +129,8 @@ class DrivingLicenceViewModel: ObservableObject {
                 self?.copyToClipboard(licenceNumber: licenceNumber
                 )
             },
-            analyticsService: analyticsService
+            analyticsService: analyticsService,
+            configService: configService
         )
     }
 
