@@ -308,8 +308,14 @@ struct AuthenticationServiceClientTests {
 
     @Test
     func fetchIdentityVerification_success_returnsExpectedResult() async throws {
-        let hash = "some-identity-token"
-        let encoded = try #require(try? JSONEncoder().encode(["verificationHash": hash]))
+        let stubbedVerificationHash = UUID().uuidString
+        let stubbedSessionHash = UUID().uuidString
+        let encoded = try #require(try? JSONEncoder().encode(
+            [
+                "verificationHash": stubbedVerificationHash,
+                "sessionHash": stubbedSessionHash,
+            ]
+        ))
         let mockVerificationApiClient = MockAPIServiceClient()
         mockVerificationApiClient._stubbedSendResponse = .success(encoded)
         let sut = AuthenticationServiceClient(
@@ -323,7 +329,8 @@ struct AuthenticationServiceClientTests {
 
         let result = await sut.fetchIdentityVerification(accesstoken: "test-token")
         let value = try #require(try? result.get())
-        #expect(value.verificationHash == hash)
+        #expect(value.verificationHash == stubbedVerificationHash)
+        #expect(value.sessionHash == stubbedSessionHash)
     }
 
     @Test
