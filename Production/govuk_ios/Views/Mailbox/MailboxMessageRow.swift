@@ -26,59 +26,49 @@ struct MailboxMessageRow: View {
         .buttonStyle(.plain)
         .accessibilityElement(children: .combine)
         .accessibilityAddTraits(.isButton)
-        .accessibilityHint(message.status == .unopened ? "Unopened message" : "")
+        .accessibilityHint(message.isUnopened ? "Unopened message" : "")
     }
 
     private var senderBadge: some View {
         ZStack {
             Circle()
-                .fill(Color(uiColor: message.sender.iconColor))
+                .fill(Color(uiColor: message.senderColor))
                 .frame(width: 40, height: 40)
-            Text(message.sender.iconLetter)
-                .font(.system(size: 16, weight: .bold))
+            Text(message.senderLetter)
+                .font(.system(size: message.senderLetter.count > 3 ? 9 : 11, weight: .bold))
                 .foregroundStyle(.white)
         }
         .accessibilityHidden(true)
     }
 
-    private var isUnopened: Bool {
-        message.status == .unopened
-    }
-
     private var messageContent: some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text(message.sender.rawValue)
-                .font(isUnopened
+            Text(message.senderDisplayName)
+                .font(message.isUnopened
                     ? Font.govUK.bodySemibold
                     : Font.govUK.body)
                 .foregroundStyle(
                     Color(uiColor: .govUK.text.primary)
                 )
             Text(message.subject)
-                .font(isUnopened
+                .font(message.isUnopened
                     ? Font.govUK.bodySemibold
                     : Font.govUK.body)
                 .foregroundStyle(
                     Color(uiColor: .govUK.text.primary)
                 )
                 .lineLimit(2)
-            Text(message.previewText)
-                .font(Font.govUK.caption1)
-                .foregroundStyle(
-                    Color(uiColor: .govUK.text.secondary)
-                )
-                .lineLimit(2)
             HStack(spacing: 4) {
-                if let actionStatus = message.actionStatus {
-                    Image(systemName: actionStatus.iconName)
+                if let status = message.parsedStatus {
+                    Image(systemName: status.iconName)
                         .font(.system(size: 11))
                         .foregroundStyle(
-                            Color(uiColor: actionStatus.color)
+                            Color(uiColor: status.color)
                         )
-                    Text(actionStatus.rawValue)
+                    Text(status.rawValue)
                         .font(Font.govUK.caption1)
                         .foregroundStyle(
-                            Color(uiColor: actionStatus.color)
+                            Color(uiColor: status.color)
                         )
                     Text("·")
                         .font(Font.govUK.caption1)
@@ -86,20 +76,22 @@ struct MailboxMessageRow: View {
                             Color(uiColor: .govUK.text.secondary)
                         )
                 }
-                Text(Self.relativeDateFormatter.localizedString(
-                    for: message.receivedDate, relativeTo: .now
-                ))
-                    .font(Font.govUK.caption1)
-                    .foregroundStyle(
-                        Color(uiColor: .govUK.text.secondary)
-                    )
+                if let date = message.receivedDate {
+                    Text(Self.relativeDateFormatter.localizedString(
+                        for: date, relativeTo: .now
+                    ))
+                        .font(Font.govUK.caption1)
+                        .foregroundStyle(
+                            Color(uiColor: .govUK.text.secondary)
+                        )
+                }
             }
         }
     }
 
     private var trailingIndicators: some View {
         HStack(spacing: 8) {
-            if message.status == .unopened {
+            if message.isUnopened {
                 Circle()
                     .fill(Color.blue)
                     .frame(width: 10, height: 10)

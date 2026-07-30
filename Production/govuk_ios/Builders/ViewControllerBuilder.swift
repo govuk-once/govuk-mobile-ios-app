@@ -482,8 +482,10 @@ class ViewControllerBuilder: ErrorViewControllerBuilding {
         return viewController
     }
 
+    // swiftlint:disable:next function_parameter_count
     func mailboxDetail(
         message: MailboxMessage,
+        mailboxService: MailboxServiceInterface,
         analyticsService: AnalyticsServiceInterface,
         actionHandler: @escaping (MessageAction) -> Void,
         deleteHandler: @escaping (MailboxMessage) -> Void,
@@ -491,6 +493,7 @@ class ViewControllerBuilder: ErrorViewControllerBuilding {
     ) -> UIViewController {
         let viewModel = MailboxDetailViewModel(
             message: message,
+            mailboxService: mailboxService,
             analyticsService: analyticsService,
             actionHandler: actionHandler,
             deleteHandler: deleteHandler,

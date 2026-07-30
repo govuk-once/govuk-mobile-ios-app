@@ -42,7 +42,7 @@ struct MailboxListView: View {
                                 viewModel.selectMessage(message)
                             }
                             .contextMenu {
-                                if message.status == .opened {
+                                if !message.isUnopened {
                                     Button {
                                         viewModel.markAsUnopened(message)
                                     } label: {
@@ -84,7 +84,7 @@ struct MailboxListView: View {
 
                 ForEach(MessageSender.allCases, id: \.self) { sender in
                     FilterChip(
-                        title: sender.rawValue,
+                        title: sender.displayName,
                         isSelected: viewModel.selectedSenderFilter == sender,
                         action: { viewModel.setFilter(sender) }
                     )
