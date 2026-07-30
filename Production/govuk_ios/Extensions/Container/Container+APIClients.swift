@@ -115,6 +115,35 @@ extension Container {
         }
     }
 
+    var mailboxTokenAPIClient: Factory<APIServiceClientInterface> {
+        Factory(self) {
+            APIServiceClient(
+                baseUrl: URL(string: "https://xd2oxqfeqb.execute-api.eu-west-2.amazonaws.com")!,
+                session: self.urlSession(),
+                requestBuilder: RequestBuilder()
+            )
+        }
+    }
+
+    var mailboxTokenProvider: Factory<MailboxTokenProvider> {
+        Factory(self) {
+            MailboxTokenProvider(
+                tokenAPIClient: self.mailboxTokenAPIClient()
+            )
+        }.scope(.singleton)
+    }
+
+    var mailboxAPIClient: Factory<APIServiceClientInterface> {
+        Factory(self) {
+            APIServiceClient(
+                baseUrl: URL(string: "https://access.mailbox.development.mb-core.once.service.gov.uk")!,
+                session: self.urlSession(),
+                requestBuilder: RequestBuilder(),
+                tokenProvider: self.mailboxTokenProvider()
+            )
+        }
+    }
+
     var urlSession: Factory<URLSession> {
         Factory(self) {
             URLSession(configuration: .default)

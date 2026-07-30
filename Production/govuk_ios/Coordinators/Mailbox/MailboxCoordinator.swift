@@ -46,6 +46,7 @@ class MailboxCoordinator: TabItemCoordinator {
     private func showMessageDetail(_ message: MailboxMessage) {
         let viewController = viewControllerBuilder.mailboxDetail(
             message: message,
+            mailboxService: mailboxService,
             analyticsService: analyticsService,
             actionHandler: handleAction,
             deleteHandler: handleDelete,
@@ -83,30 +84,13 @@ class MailboxCoordinator: TabItemCoordinator {
         root.present(safari, animated: true)
     }
 
-    private func showPaymentConfirmation() {
-        guard let payment = pendingPayment else { return }
-        pendingPayment = nil
-        let confirmationView = PaymentConfirmationView(
-            amount: payment.amount,
-            reference: payment.reference,
-            completionAction: { [weak self] in
-                self?.root.dismiss(animated: true)
-            }
-        )
-        let hostingController = UIHostingController(
-            rootView: confirmationView
-        )
-        hostingController.modalPresentationStyle = .fullScreen
-        root.present(hostingController, animated: true)
-    }
-
     private func handleDelete(_ message: MailboxMessage) {
-        mailboxService.deleteMessage(messageId: message.id) { _ in }
+        mailboxService.deleteMessage(messageId: message.messageId) { _ in }
         root.popViewController(animated: true)
     }
 
     private func handleMarkUnopened(_ message: MailboxMessage) {
-        mailboxService.markAsUnopened(messageId: message.id) { _ in }
+        mailboxService.markAsUnopened(messageId: message.messageId) { _ in }
         root.popViewController(animated: true)
     }
 
@@ -134,6 +118,6 @@ extension MailboxCoordinator: SFSafariViewControllerDelegate {
     func safariViewControllerDidFinish(
         _ controller: SFSafariViewController
     ) {
-        showPaymentConfirmation()
+        pendingPayment = nil
     }
 }

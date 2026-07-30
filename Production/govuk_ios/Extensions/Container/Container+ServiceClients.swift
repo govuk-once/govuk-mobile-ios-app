@@ -90,4 +90,12 @@ extension Container {
             )
         }
     }
+
+    var mailboxServiceClient: Factory<MailboxServiceClientInterface> {
+        Factory(self) {
+            MailboxServiceClient(
+                apiServiceClient: self.mailboxAPIClient()
+            )
+        }
+    }
 }

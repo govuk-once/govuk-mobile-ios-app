@@ -3,34 +3,59 @@ import UIKit
 import GovKit
 
 class MailboxDetailViewModel: ObservableObject {
-    let message: MailboxMessage
+    private let message: MailboxMessage
+    private let mailboxService: MailboxServiceInterface
     private let analyticsService: AnalyticsServiceInterface
     private let actionHandler: (MessageAction) -> Void
     private let deleteHandler: (MailboxMessage) -> Void
     private let markUnopenedHandler: (MailboxMessage) -> Void
 
-    var senderName: String { message.sender.rawValue }
+    @Published var bodyText: String = ""
+    @Published var actions: [MessageAction] = []
+    @Published var actionStatus: ActionStatus?
+    @Published var isLoadingBody: Bool = false
+
+    var senderName: String { message.senderDisplayName }
     var subject: String { message.subject }
-    var body: String { message.body }
-    var senderColor: UIColor { message.sender.iconColor }
-    var senderLetter: String { message.sender.iconLetter }
-    var actions: [MessageAction] { message.actions }
-    var actionStatus: ActionStatus? { message.actionStatus }
+    var senderColor: UIColor { message.senderColor }
+    var senderLetter: String { message.senderLetter }
 
     var formattedDate: String {
-        Self.dateFormatter.string(from: message.receivedDate)
+        guard let date = message.receivedDate else {
+            return message.receivedAt
+        }
+        return Self.dateFormatter.string(from: date)
     }
 
     init(message: MailboxMessage,
+         mailboxService: MailboxServiceInterface,
          analyticsService: AnalyticsServiceInterface,
          actionHandler: @escaping (MessageAction) -> Void,
          deleteHandler: @escaping (MailboxMessage) -> Void,
          markUnopenedHandler: @escaping (MailboxMessage) -> Void) {
         self.message = message
+        self.mailboxService = mailboxService
         self.analyticsService = analyticsService
         self.actionHandler = actionHandler
         self.deleteHandler = deleteHandler
         self.markUnopenedHandler = markUnopenedHandler
+    }
+
+    func loadFullMessage() {
+        isLoadingBody = true
+        mailboxService.fetchMessage(messageId: message.messageId) { [weak self] result in
+            DispatchQueue.main.async {
+                self?.isLoadingBody = false
+                switch result {
+                case .success(let fullMessage):
+                    self?.bodyText = fullMessage.displayBody
+                    self?.actions = fullMessage.parsedActions
+                    self?.actionStatus = fullMessage.parsedStatus
+                case .failure:
+                    self?.bodyText = ""
+                }
+            }
+        }
     }
 
     func performAction(_ action: MessageAction) {

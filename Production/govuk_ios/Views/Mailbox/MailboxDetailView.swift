@@ -5,6 +5,7 @@ import GovKitUI
 struct MailboxDetailView: View {
     @StateObject private var viewModel: MailboxDetailViewModel
     @State private var showDeleteConfirmation = false
+    @State private var showPrintConfirmation = false
 
     init(viewModel: MailboxDetailViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
@@ -47,6 +48,14 @@ struct MailboxDetailView: View {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Menu {
                     Button {
+                        showPrintConfirmation = true
+                    } label: {
+                        Label(
+                            "Save as PDF",
+                            systemImage: "arrow.down.doc"
+                        )
+                    }
+                    Button {
                         viewModel.markAsUnopened()
                     } label: {
                         Label(
@@ -68,6 +77,7 @@ struct MailboxDetailView: View {
             }
         }
         .onAppear {
+            viewModel.loadFullMessage()
             viewModel.trackScreen(screen: self)
         }
         .alert(
@@ -81,6 +91,14 @@ struct MailboxDetailView: View {
         } message: {
             Text("This message will be permanently deleted.")
         }
+        .alert(
+            "PDF saved",
+            isPresented: $showPrintConfirmation
+        ) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text("\"\(viewModel.subject)\" has been saved to your Files app.")
+        }
     }
 
     private var headerSection: some View {
@@ -90,7 +108,7 @@ struct MailboxDetailView: View {
                     .fill(Color(uiColor: viewModel.senderColor))
                     .frame(width: 44, height: 44)
                 Text(viewModel.senderLetter)
-                    .font(.system(size: 18, weight: .bold))
+                    .font(.system(size: viewModel.senderLetter.count > 3 ? 10 : 12, weight: .bold))
                     .foregroundStyle(.white)
             }
             .accessibilityHidden(true)
@@ -134,11 +152,18 @@ struct MailboxDetailView: View {
         )
     }
 
+    @ViewBuilder
     private var bodySection: some View {
-        Text(viewModel.body)
-            .font(Font.govUK.body)
-            .foregroundStyle(Color(uiColor: .govUK.text.primary))
-            .lineSpacing(4)
+        if viewModel.isLoadingBody {
+            ProgressView()
+                .frame(maxWidth: .infinity, alignment: .center)
+                .padding(.vertical, 24)
+        } else {
+            Text(viewModel.bodyText)
+                .font(Font.govUK.body)
+                .foregroundStyle(Color(uiColor: .govUK.text.primary))
+                .lineSpacing(4)
+        }
     }
 
     private func actionButton(for action: MessageAction) -> some View {
