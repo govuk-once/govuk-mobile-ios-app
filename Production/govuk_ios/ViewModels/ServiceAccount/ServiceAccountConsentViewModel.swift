@@ -8,6 +8,7 @@ final class ServiceAccountConsentViewModel: ObservableObject {
     private let accountType: ServiceAccountType
     private let completionAction: () -> Void
     private let cancelAction: () -> Void
+    @Published var continueButtonEnabled: Bool = true
 
     init(analyticsService: AnalyticsServiceInterface,
          accountType: ServiceAccountType,
@@ -46,6 +47,7 @@ final class ServiceAccountConsentViewModel: ObservableObject {
         .init(
             localisedTitle: primaryButtonTitle,
             action: { [weak self] in
+                self?.continueButtonEnabled = false
                 self?.trackCompletionAction()
                 self?.completionAction()
             }

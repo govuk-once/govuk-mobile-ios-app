@@ -93,8 +93,16 @@ struct ServiceAccountConsentView: View {
             viewModel.primaryButtonConfiguration,
             viewModel: viewModel.primaryButtonViewModel
         )
+        .disabled(!viewModel.continueButtonEnabled)
         .frame(minHeight: 44, idealHeight: 44)
         .padding(outerPadding)
+        .onReceive(
+            NotificationCenter.default.publisher(
+                for: UIApplication.didBecomeActiveNotification
+            )
+        ) { _ in
+            viewModel.continueButtonEnabled = true
+        }
     }
 
     private var titleFont: Font {
