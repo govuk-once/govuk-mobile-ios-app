@@ -5,20 +5,25 @@ import SwiftUI
 
 final class ServiceAccountConsentViewModel: ObservableObject {
     private let analyticsService: AnalyticsServiceInterface
+    private let notificationCenter: NotificationCenter
     private let accountType: ServiceAccountType
     private let completionAction: () -> Void
     private let cancelAction: () -> Void
 
-    private var isContinueButtonEnabled: Bool = false
+    private var didBecomeActiveObserverToken: Any?
+    private var isPrimaryButtonEnabled: Bool = true
 
     init(analyticsService: AnalyticsServiceInterface,
+         notificationCenter: NotificationCenter = .default,
          accountType: ServiceAccountType,
          completionAction: @escaping () -> Void,
          cancelAction: @escaping () -> Void) {
         self.analyticsService = analyticsService
+        self.notificationCenter = notificationCenter
         self.accountType = accountType
         self.completionAction = completionAction
         self.cancelAction = cancelAction
+        observeDidBecomeActive()
     }
 
     private var accountName: String {
@@ -48,10 +53,10 @@ final class ServiceAccountConsentViewModel: ObservableObject {
         .init(
             localisedTitle: primaryButtonTitle,
             action: { [weak self] in
-                guard self?.isContinueButtonEnabled == true else {
+                guard self?.isPrimaryButtonEnabled == true else {
                     return
                 }
-                self?.isContinueButtonEnabled = false
+                self?.isPrimaryButtonEnabled = false
                 self?.trackCompletionAction()
                 self?.completionAction()
             }
@@ -79,8 +84,15 @@ final class ServiceAccountConsentViewModel: ObservableObject {
         analyticsService.track(screen: screen)
     }
 
-    func onViewAppear() {
-        isContinueButtonEnabled = true
+    private func observeDidBecomeActive() {
+        didBecomeActiveObserverToken = notificationCenter.addObserver(
+            forName: UIApplication.didBecomeActiveNotification,
+            object: nil,
+            queue: .main,
+            using: { [weak self] _ in
+                self?.isPrimaryButtonEnabled = true
+            }
+        )
     }
 
     private func trackCompletionAction() {

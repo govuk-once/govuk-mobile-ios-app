@@ -49,15 +49,7 @@ struct ServiceAccountConsentView: View {
         .background(Color(UIColor.govUK.fills.surfaceFullScreenLinkAccount))
         .onAppear {
             viewModel.trackScreen(screen: self)
-            viewModel.onViewAppear()
         }
-        .onReceive(
-            NotificationCenter.default.publisher(
-                for: UIApplication.willEnterForegroundNotification)
-        ) { _ in
-            viewModel.onViewAppear()
-        }
-
         .onOpenURL { url in
             print(url.absoluteString)
         }
