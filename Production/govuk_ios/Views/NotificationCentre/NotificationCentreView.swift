@@ -87,19 +87,23 @@ struct NotificationCentreLoadedView: View {
             LazyVStack(spacing: 8) {
                 if !notifications.recent.isEmpty {
                     SectionHeader(title: .NotificationCentre.notificationCentreSectionRecent)
+                        .accessibilitySortPriority(3)
 
                     ForEach(notifications.recent) { not in
                         NotificationCentreRow(notification: not,
                                               onTap: onNotificationTap)
+                        .accessibilitySortPriority(2)
                     }
                 }
 
                 if !notifications.older.isEmpty {
                     SectionHeader(title: .NotificationCentre.notificationCentreSectionOlder)
+                        .accessibilitySortPriority(1)
 
                     ForEach(notifications.older) { not in
                         NotificationCentreRow(notification: not,
                                               onTap: onNotificationTap)
+                        .accessibilitySortPriority(0)
                     }
                 }
 
