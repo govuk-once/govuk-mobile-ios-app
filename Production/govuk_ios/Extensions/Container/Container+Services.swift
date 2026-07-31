@@ -39,6 +39,15 @@ extension Container {
         .scope(.singleton)
     }
 
+    var firebaseIDsService: Factory<FirebaseIDsServiceInterface> {
+        Factory(self) {
+            FirebaseIDsService(
+                firebaseAnalytics: Analytics.self
+            )
+        }
+        .scope(.singleton)
+    }
+
     var firebaseClient: Factory<AnalyticsClient> {
         Factory(self) {
             // Required here because it needs to be set before configure is called
@@ -46,6 +55,7 @@ extension Container {
             return FirebaseClient(
                 firebaseApp: FirebaseApp.self,
                 firebaseAnalytics: Analytics.self,
+                firebaseIDsService: self.firebaseIDsService.resolve()
             )
         }
     }
@@ -70,7 +80,7 @@ extension Container {
                 brandId: "yourBrandId",
                 projectId: "yourProjectId",
                 qualtrics: Qualtrics.shared,
-                firebaseAnalytics: Analytics.self,
+                firebaseIDsService: self.firebaseIDsService.resolve(),
                 theme: self.qualtricsTheme.resolve()
             )
         }

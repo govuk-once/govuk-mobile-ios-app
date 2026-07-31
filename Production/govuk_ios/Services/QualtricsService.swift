@@ -16,7 +16,7 @@ struct QualtricsService: QualtricsServiceInterface {
     private let qualtrics: QualtricsWrapperInterface
     // presentationController is for testing only
     private let presentationController: UIViewController?
-    private let firebaseAnalytics: FirebaseAnalyticsInterface.Type
+    private let firebaseIDsService: FirebaseIDsServiceInterface
 
     private var surveyController: UIViewController? {
         if let controller = presentationController {
@@ -37,7 +37,7 @@ struct QualtricsService: QualtricsServiceInterface {
         brandId: String,
         projectId: String,
         qualtrics: QualtricsWrapperInterface,
-        firebaseAnalytics: FirebaseAnalyticsInterface.Type,
+        firebaseIDsService: FirebaseIDsServiceInterface,
         theme: QualtricsTheme? = nil,
         completion: QualtricsInitializationResult? = nil,
         presentationController: UIViewController? = nil
@@ -45,7 +45,7 @@ struct QualtricsService: QualtricsServiceInterface {
         self.brandId = brandId
         self.projectId = projectId
         self.qualtrics = qualtrics
-        self.firebaseAnalytics = firebaseAnalytics
+        self.firebaseIDsService = firebaseIDsService
         self.presentationController = presentationController
         qualtrics.initializeProject(
             brandId: brandId,
@@ -149,14 +149,16 @@ struct QualtricsService: QualtricsServiceInterface {
         for (key, value) in qualtricsParams {
             qualtrics.setString(string: value, for: key)
         }
-        let appInstanceId = firebaseAnalytics.appInstanceID()
-        qualtrics.setString(string: appInstanceId ?? "", for: "fb_user_pseudo_id")
-        Task {
-            var gaSessionId = ""
-            if let sessionId = try? await firebaseAnalytics.sessionID() {
-                gaSessionId = "\(sessionId)"
-            }
-            qualtrics.setString(string: gaSessionId, for: "ga_session_id")
-        }
+
+        qualtrics.setString(
+            string: firebaseIDsService.appInstanceID,
+            for: "fb_user_pseudo_id"
+        )
+        qualtrics.setString(
+            string: firebaseIDsService.sessionID,
+            for: "fb_session_id"
+        )
+        // Refreshes session ID as could change, async so called post set.
+        firebaseIDsService.updateSessionID()
     }
 }
