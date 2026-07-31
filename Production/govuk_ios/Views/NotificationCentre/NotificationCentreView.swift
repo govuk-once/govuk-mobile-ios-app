@@ -192,6 +192,7 @@ private struct NotificationCentreRow: View {
                     .padding(.horizontal, 16)
                     .accessibilityHidden(!notification.isUnread)
                     .accessibilityLabel(Text(.NotificationCentre.notificationUnreadA11YLabel))
+                    .accessibilitySortPriority(1) // Read it out last
 
                 VStack(alignment: .leading, spacing: 0) {
                     Text(notification.title)
@@ -201,12 +202,14 @@ private struct NotificationCentreRow: View {
                                 Font.govUK.body)
                         .padding(.bottom, 4)
                         .foregroundStyle(Color(UIColor.govUK.text.primary))
+                        .accessibilitySortPriority(3)
 
                     Text(notification.date)
                         .font(notification.isUnread ?
                               Font.govUK.subheadline.weight(.bold) :
                                 Font.govUK.subheadline)
                         .foregroundStyle(Color(UIColor.govUK.text.secondary))
+                        .accessibilitySortPriority(2)
                 }
                 .padding(.trailing, 16)
 
