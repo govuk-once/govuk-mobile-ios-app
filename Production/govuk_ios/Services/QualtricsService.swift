@@ -22,12 +22,13 @@ struct QualtricsService: QualtricsServiceInterface {
         if let controller = presentationController {
             return controller
         }
-        guard let sceneDelegate = UIApplication
+        let sceneDelegate = UIApplication
             .shared
             .connectedScenes
             .first?
-            .delegate as? SceneDelegate,
-                let window = sceneDelegate.window,
+            .delegate as? SceneDelegate
+        guard let sceneDelegate = sceneDelegate,
+              let window = sceneDelegate.window,
               let root = window.rootViewController else { return nil }
         return root.topController
     }
@@ -64,12 +65,14 @@ struct QualtricsService: QualtricsServiceInterface {
         setQualtricsProperties(params)
         qualtrics.registerViewVisit(viewName: screenName)
         qualtrics.evaluateProjectTargets { targetingResults in
-            guard targetingResults.first(
+            let passedTargetResult = targetingResults.first(
                 where: { result in
                     result.value.passed()
                 }
-            ) != nil,
-                  let surveyController else { return }
+            ) != nil
+            guard passedTargetResult,
+                  let surveyController
+            else { return }
 
             _ = qualtrics.display(
                 viewController: surveyController,
@@ -81,13 +84,15 @@ struct QualtricsService: QualtricsServiceInterface {
     func evaluateClickEvent(params: [String: String]) {
         setQualtricsProperties(params)
         qualtrics.evaluateProjectTargets { targetingResults in
-            guard let targetingResultDict = targetingResults.first(
+            let targetingResultDict = targetingResults.first(
                 where: { result in
                     result.value.passed()
                 }
-            ),
+            )
+            guard let targetingResultDict = targetingResultDict,
                   let url = targetingResultDict.value.getSurveyUrl(),
-                  let surveyController else { return }
+                  let surveyController
+            else { return }
 
             targetingResultDict.value.recordImpression()
             Task { @MainActor in
@@ -145,7 +150,7 @@ struct QualtricsService: QualtricsServiceInterface {
             qualtrics.setString(string: value, for: key)
         }
         let appInstanceId = firebaseAnalytics.appInstanceID()
-        qualtrics.setString(string: appInstanceId ?? "", for: "ga_app_instance_id")
+        qualtrics.setString(string: appInstanceId ?? "", for: "fb_user_pseudo_id")
         Task {
             var gaSessionId = ""
             if let sessionId = try? await firebaseAnalytics.sessionID() {

@@ -10,12 +10,13 @@ struct QualtricsClient: AnalyticsClient {
     }
 
     func track(screen: any TrackableScreen) {
-        let params: [String: String] = [
+        let defaultParams = [
             "screen_name": screen.trackingName,
             "screen_class": screen.trackingClass,
             "screen_title": screen.trackingTitle,
             "language": screen.trackingLanguage
         ]
+        let params = defaultParams
             .compactMapValues({ $0 })
             .merging(
                 screen.additionalParameters
