@@ -168,7 +168,7 @@ struct VehicleSpecFormatterTests {
     @Test
     func formatEngineSize_engineCapacityLessThan1000_returnsExpectedResult() {
         let result = sut.formatEngineSize(from: 750)
-        let expectedString = String(localized: .DVLA.engineCapacityCc(capacity: 750))
+        let expectedString = String(localized: .DVLA.engineCapacityCc(capacity: "750"))
         #expect(result.displayValue == expectedString)
         #expect(result.accessibilityLabel == expectedString)
 
@@ -178,14 +178,14 @@ struct VehicleSpecFormatterTests {
     func formatEngineSize_engineCapacityEquals1000_returnsExpectedResult() {
         let result = sut.formatEngineSize(from: 1000)
 
-        #expect(result.displayValue == "1,000cc")
+        #expect(result.displayValue == "1000cc")
         #expect(result.accessibilityLabel == "1,000cc")
     }
 
     @Test
     func formatEngineSize_engineCapacityGreaterThan1000_returnsExpectedResult() {
         let result = sut.formatEngineSize(from: 2495)
-        #expect(result.displayValue == "2,495cc")
+        #expect(result.displayValue == "2495cc")
         #expect(result.accessibilityLabel == "2,495cc")
     }
 }

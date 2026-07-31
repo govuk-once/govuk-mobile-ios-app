@@ -103,8 +103,14 @@ struct VehicleSpecFormatter: VehicleSpecFormatterInterface {
             return AccessibleString(String(localized: .DVLA.unknown))
         }
         let engineCapacityInCc = String(
-            localized: .DVLA.engineCapacityCc(capacity: engineCapacity)
+            localized: .DVLA.engineCapacityCc(capacity: String(engineCapacity))
         )
-        return AccessibleString(engineCapacityInCc)
+        let accessibleEngineCapacityInCc = String(
+            localized: .DVLA.engineCapacityCcAccessibilityLabel(capacity: engineCapacity)
+        )
+        return AccessibleString(
+            engineCapacityInCc,
+            accessibilityLabel: accessibleEngineCapacityInCc
+        )
     }
 }
