@@ -73,7 +73,7 @@
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@ Sender: %2$@"
+            "value" : "%1$@. Sender: %2$@"
           }
         }
       }
