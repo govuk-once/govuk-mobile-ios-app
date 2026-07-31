@@ -196,12 +196,16 @@ private struct NotificationCentreRow: View {
                 VStack(alignment: .leading, spacing: 0) {
                     Text(notification.title)
                         .lineLimit(1)
-                        .font(Font.govUK.bodySemibold)
+                        .font(notification.isUnread ?
+                              Font.govUK.body.weight(.bold) :
+                                Font.govUK.body)
                         .padding(.bottom, 4)
                         .foregroundStyle(Color(UIColor.govUK.text.primary))
 
                     Text(notification.date)
-                        .font(Font.govUK.subheadline)
+                        .font(notification.isUnread ?
+                              Font.govUK.subheadline.weight(.bold) :
+                                Font.govUK.subheadline)
                         .foregroundStyle(Color(UIColor.govUK.text.secondary))
                 }
                 .padding(.trailing, 16)
