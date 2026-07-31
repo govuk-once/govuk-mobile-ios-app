@@ -177,6 +177,17 @@
         }
       }
     },
+    "notificationLoadingA11YLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading"
+          }
+        }
+      }
+    },
     "notificationNoInternetBody" : {
       "extractionState" : "manual",
       "localizations" : {

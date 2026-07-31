@@ -15,38 +15,16 @@ struct NotificationCentreContainerView: View {
                         switch viewModel.state {
                         case .loading:
                             NotificationCentreLoadingView()
-                                .onAppear {
-                                    UIAccessibility
-                                        .post(notification: .screenChanged, argument: "Loading")
-                                }
                         case .empty:
                             NotificationCentreEmptyView()
-                                .onAppear {
-                                    UIAccessibility
-                                        .post(notification: .screenChanged,
-                                              argument: "No Notifications")
-                                }
                         case .loaded(notifications: let notifications):
                             NotificationCentreLoadedView(
                                 notifications: notifications,
                                 onNotificationTap: viewModel.onTapNotification(notification:))
-                            .onAppear {
-                                UIAccessibility
-                                    .post(notification: .screenChanged,
-                                          argument: "Loading complete")
-                            }
                         case .error:
                             NotificationCentreErrorView()
-                                .onAppear {
-                                    UIAccessibility.post(notification: .screenChanged,
-                                                         argument: "Error")
-                                }
                         case .noInternet:
                             NotificationCentreNoInternetView()
-                                .onAppear {
-                                    UIAccessibility.post(notification: .screenChanged,
-                                                         argument: "No internet connection")
-                                }
                         }
                     }
                     .frame(minHeight: geometry.size.height)
@@ -144,6 +122,7 @@ struct NotificationCentreLoadingView: View {
             Spacer()
             ProgressView()
                 .controlSize(.large)
+                .accessibilityLabel(.NotificationCentre.notificationLoadingA11Ylabel)
             Spacer()
         }
     }
