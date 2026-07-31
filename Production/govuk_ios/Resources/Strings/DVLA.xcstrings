@@ -404,6 +404,17 @@
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "%(capacity)@cc"
+          }
+        }
+      }
+    },
+    "engineCapacityCcAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
             "value" : "%(capacity)lldcc"
           }
         }
