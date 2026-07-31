@@ -9,6 +9,8 @@ final class ServiceAccountConsentViewModel: ObservableObject {
     private let completionAction: () -> Void
     private let cancelAction: () -> Void
 
+    private var isContinueButtonEnabled: Bool = false
+
     init(analyticsService: AnalyticsServiceInterface,
          accountType: ServiceAccountType,
          completionAction: @escaping () -> Void,
@@ -46,6 +48,10 @@ final class ServiceAccountConsentViewModel: ObservableObject {
         .init(
             localisedTitle: primaryButtonTitle,
             action: { [weak self] in
+                guard self?.isContinueButtonEnabled == true else {
+                    return
+                }
+                self?.isContinueButtonEnabled = false
                 self?.trackCompletionAction()
                 self?.completionAction()
             }
@@ -71,6 +77,10 @@ final class ServiceAccountConsentViewModel: ObservableObject {
 
     func trackScreen(screen: TrackableScreen) {
         analyticsService.track(screen: screen)
+    }
+
+    func onViewAppear() {
+        isContinueButtonEnabled = true
     }
 
     private func trackCompletionAction() {
