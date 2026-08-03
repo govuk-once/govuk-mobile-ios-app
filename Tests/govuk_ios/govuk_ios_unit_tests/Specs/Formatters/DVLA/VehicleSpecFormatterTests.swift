@@ -145,18 +145,13 @@ struct VehicleSpecFormatterTests {
     @Test
     func formatEmissions_emissionsIsNil_returnsUnknown() {
         let result = sut.formatEmissions(from: nil)
-        #expect(result.displayValue == String(localized: .DVLA.unknown))
+        #expect(result == String(localized: .DVLA.unknown))
     }
 
     @Test
     func formatEmissions_valideCo2Emissions_returnsExpectedResult() {
         let result = sut.formatEmissions(from: 100)
-        let expectedString = String(
-            localized: .DVLA.emissionsInGramsPerKm(
-                emissions: 100
-            )
-        )
-        #expect(result.displayValue == expectedString)
+        #expect(result == "100")
     }
 
     @Test
