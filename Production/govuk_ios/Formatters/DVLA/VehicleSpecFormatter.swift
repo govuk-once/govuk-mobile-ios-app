@@ -17,7 +17,7 @@ struct VehicleSpecFormatter: VehicleSpecFormatterInterface {
     }
 
     func formatModel(from model: String?) -> String {
-        return model ?? String(localized: .DVLA.unknown)
+        return model ?? ""
     }
 
     func formatFuelTypeShort(from fuelType: FuelType) -> String {

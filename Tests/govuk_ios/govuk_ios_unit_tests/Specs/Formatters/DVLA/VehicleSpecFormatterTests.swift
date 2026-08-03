@@ -20,9 +20,9 @@ struct VehicleSpecFormatterTests {
     }
 
     @Test
-    func formatModel_modelIsNil_returnsUnknown() {
+    func formatModel_modelIsNil_returnsEmptyString() {
         let result = sut.formatModel(from: nil)
-        #expect(result == String(localized: .DVLA.unknown))
+        #expect(result == "")
     }
 
     @Test(arguments: zip(
