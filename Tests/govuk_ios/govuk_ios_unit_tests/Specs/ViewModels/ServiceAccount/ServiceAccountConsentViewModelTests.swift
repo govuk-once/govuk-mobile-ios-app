@@ -1,4 +1,5 @@
 import Testing
+import UIKit
 
 @testable import govuk_ios
 
@@ -29,6 +30,43 @@ class ServiceAccountConsentViewModelTests {
         )
         sut.primaryButtonViewModel.action()
         #expect(completionWasCalled == true)
+    }
+
+    @Test
+    func consecutivePrimaryButtonActions_callsCompletionActionOnlyOnce() {
+        var completionCallCount = 0
+        let sut = ServiceAccountConsentViewModel(
+            analyticsService: MockAnalyticsService(),
+            accountType: .dvla,
+            completionAction: {
+                completionCallCount += 1
+            },
+            cancelAction: {}
+        )
+        sut.primaryButtonViewModel.action()
+        sut.primaryButtonViewModel.action()
+        #expect(completionCallCount == 1)
+    }
+
+    @Test
+    func didBecomeActiveNotification_enablesPrimaryButtonActionAgain() {
+        let mockNotificationCenter = MockNotificationCenter()
+        var completionCallCount = 0
+        let sut = ServiceAccountConsentViewModel(
+            analyticsService: MockAnalyticsService(),
+            notificationCenter: mockNotificationCenter,
+            accountType: .dvla,
+            completionAction: {
+                completionCallCount += 1
+            },
+            cancelAction: {}
+        )
+        sut.primaryButtonViewModel.action()
+
+        mockNotificationCenter.post(name: UIApplication.didBecomeActiveNotification, object: nil)
+        sut.primaryButtonViewModel.action()
+
+        #expect(completionCallCount == 2)
     }
 
     @Test
