@@ -1,4 +1,7 @@
-//
+import Foundation
+import Testing
+
+@testable import govuk_ios
 
 class MockFirebaseApp: FirebaseAppInterface {
     static var _configureCalled: Bool = false

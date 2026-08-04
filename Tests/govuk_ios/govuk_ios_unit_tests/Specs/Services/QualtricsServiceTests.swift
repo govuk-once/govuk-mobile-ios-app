@@ -16,7 +16,7 @@ struct QualtricsServiceTests {
             brandId: "",
             projectId: "",
             qualtrics: mockQualtrics,
-            firebaseAnalytics: MockFirebaseAnalytics.self
+            firebaseIDsService: MockFirebaseIDsService()
         )
 
         #expect(mockQualtrics._didInitializeProject)
@@ -30,7 +30,7 @@ struct QualtricsServiceTests {
             brandId: "",
             projectId: "",
             qualtrics: mockQualtrics,
-            firebaseAnalytics: MockFirebaseAnalytics.self,
+            firebaseIDsService: MockFirebaseIDsService(),
             presentationController: UIViewController()
         )
 
@@ -54,7 +54,7 @@ struct QualtricsServiceTests {
             brandId: "",
             projectId: "",
             qualtrics: mockQualtrics,
-            firebaseAnalytics: MockFirebaseAnalytics.self,
+            firebaseIDsService: MockFirebaseIDsService(),
             presentationController: UIViewController()
         )
 
@@ -71,13 +71,15 @@ struct QualtricsServiceTests {
 
     @Test
     @MainActor
-    func qualtricPropertiesRefreshedForEachEvent() async throws {
+    func qualtricProperties_refreshedForEachEvent() async throws {
         let mockQualtrics = MockQualtricsWrapper()
+        let expectedAppId = "123"
+        let expectedSessionId = "321"
         let sut = QualtricsService(
             brandId: "",
             projectId: "",
             qualtrics: mockQualtrics,
-            firebaseAnalytics: MockFirebaseAnalytics.self
+            firebaseIDsService: MockFirebaseIDsService()
         )
 
         sut.evaluateViewEvent(
@@ -85,25 +87,23 @@ struct QualtricsServiceTests {
             params: ["screen_class": "test_class"]
         )
 
-        // Delay required to allow for async fetching of sessionID.
-        // See QualtricsService.setQualtricsProperties
-        try await Task.sleep(for: .seconds(0.1))
         #expect(mockQualtrics.properties.count == 14)
         for property in mockQualtrics.properties {
             switch property.key {
             case "screen_class":
                 #expect(property.value == "test_class")
+            case "fb_user_pseudo_id":
+                #expect(property.value == expectedAppId)
+            case "fb_session_id":
+                #expect(property.value == "\(expectedSessionId)")
             default:
                 #expect(property.value == "")
             }
         }
 
         sut.evaluateClickEvent(params: ["text": "Give feedback",
-                                              "url": "http://www.example.com"])
+                                        "url": "http://www.example.com"])
 
-        // Delay required to allow for async fetching of sessionID.
-        // See QualtricsService.setQualtricsProperties
-        try await Task.sleep(for: .seconds(0.1))
         #expect(mockQualtrics.properties.count == 14)
         for property in mockQualtrics.properties {
             switch property.key {
@@ -111,6 +111,10 @@ struct QualtricsServiceTests {
                 #expect(property.value == "Give feedback")
             case "url":
                 #expect(property.value == "http://www.example.com")
+            case "fb_user_pseudo_id":
+                #expect(property.value == expectedAppId)
+            case "fb_session_id":
+                #expect(property.value == "\(expectedSessionId)")
             default:
                 #expect(property.value == "")
             }
@@ -121,16 +125,13 @@ struct QualtricsServiceTests {
     @MainActor
     func qualtricProperties_sendFirebaseIds() async throws {
         let mockQualtrics = MockQualtricsWrapper()
-        let expectedSessionId: Int64 = 123
-        let expectedAppId = "appId"
-        let analtytics = MockFirebaseAnalytics.self
-        analtytics._stubbedSessionId = expectedSessionId
-        analtytics._stubbedAppInstanceId = expectedAppId
+        let expectedAppId = "123"
+        let expectedSessionId = "321"
         let sut = QualtricsService(
             brandId: "",
             projectId: "",
             qualtrics: mockQualtrics,
-            firebaseAnalytics: analtytics
+            firebaseIDsService: MockFirebaseIDsService()
         )
 
         sut.evaluateViewEvent(
@@ -138,24 +139,37 @@ struct QualtricsServiceTests {
             params: ["screen_class": "test_class"]
         )
 
-        // Delay required to allow for async fetching of sessionID.
-        // See QualtricsService.setQualtricsProperties
-        try await Task.sleep(for: .seconds(0.1))
         #expect(mockQualtrics.properties.count == 14)
         for property in mockQualtrics.properties {
             switch property.key {
             case "screen_class":
                 #expect(property.value == "test_class")
-            case "ga_app_instance_id":
+            case "fb_user_pseudo_id":
                 #expect(property.value == expectedAppId)
-            case "ga_session_id":
+            case "fb_session_id":
                 #expect(property.value == "\(expectedSessionId)")
             default:
                 #expect(property.value == "")
             }
         }
-        analtytics._stubbedSessionId = nil
-        analtytics._stubbedAppInstanceId = nil
+    }
 
+    @Test
+    @MainActor
+    func evaluateViewEvent_refreshesSessionID() async throws {
+        let mockFirebaseIDsService = MockFirebaseIDsService()
+        let sut = QualtricsService(
+            brandId: "",
+            projectId: "",
+            qualtrics: MockQualtricsWrapper(),
+            firebaseIDsService: mockFirebaseIDsService
+        )
+
+        #expect(mockFirebaseIDsService._updateSessionIDCalled == false)
+        sut.evaluateViewEvent(
+            screenName: "test_screen",
+            params: ["screen_class": "test_class"]
+        )
+        #expect(mockFirebaseIDsService._updateSessionIDCalled == true)
     }
 }
