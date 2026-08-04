@@ -30,7 +30,9 @@ class MailboxListViewModel: ObservableObject {
         self.messageSelectedAction = messageSelectedAction
 
         self.mailboxService.onMessagesUpdated = { [weak self] updated in
-            self?.messages = updated
+            DispatchQueue.main.async {
+                self?.messages = updated
+            }
         }
     }
 
@@ -47,6 +49,12 @@ class MailboxListViewModel: ObservableObject {
                 }
             }
         }
+    }
+
+    @MainActor
+    func refreshMessages() async {
+        loadMessages()
+        try? await Task.sleep(nanoseconds: 1_200_000_000)
     }
 
     func selectMessage(_ message: MailboxMessage) {
