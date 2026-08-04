@@ -29,6 +29,7 @@ final class MailboxService: MailboxServiceInterface {
     private let serviceClient: MailboxServiceClientInterface
     private let tokenProvider: MailboxTokenProvider
     private let userDefaults: UserDefaults
+    private let cacheLock = NSLock()
 
     private static let markedUnopenedKey = "govuk_mailbox_marked_unopened"
 
@@ -36,10 +37,9 @@ final class MailboxService: MailboxServiceInterface {
     var onMessagesUpdated: (([MailboxMessage]) -> Void)?
 
     private var cachedMessages: [MailboxMessage] = []
-    private var tokenFetched = false
 
     var unopenedCount: Int {
-        cachedMessages.filter {
+        cachedMessagesSnapshot().filter {
             $0.isUnopened || isMarkedUnopened($0.messageId)
         }.count
     }
@@ -56,50 +56,44 @@ final class MailboxService: MailboxServiceInterface {
         completion: @escaping (Result<[MailboxMessage], Error>) -> Void
     ) {
         Task {
-            if !tokenFetched {
-                _ = await tokenProvider.fetchInitialToken()
-                tokenFetched = true
-            }
-
             let result = await serviceClient.fetchMessages()
             switch result {
             case .success(let response):
                 var messages = response.messages
                 self.applyLocalUnopenedState(&messages)
-                self.cachedMessages = messages
-
-                DispatchQueue.main.async {
-                    completion(.success(messages))
-                }
+                self.updateCachedMessages(messages)
+                completion(.success(messages))
 
                 await self.enrichWithBodies()
             case .failure(let error):
-                DispatchQueue.main.async {
-                    completion(.failure(error))
-                }
+                completion(.failure(error))
             }
         }
     }
 
     private func enrichWithBodies() async {
-        for index in cachedMessages.indices {
-            guard cachedMessages[index].body == nil else { continue }
+        var enrichedMessages = cachedMessagesSnapshot()
+
+        for index in enrichedMessages.indices {
+            guard enrichedMessages[index].body == nil else { continue }
             let result = await serviceClient.fetchMessage(
-                id: cachedMessages[index].messageId
+                id: enrichedMessages[index].messageId
             )
             if case .success(let full) = result {
-                cachedMessages[index] = MailboxMessage(
+                enrichedMessages[index] = MailboxMessage(
                     messageId: full.messageId,
                     mailboxId: full.mailboxId,
                     receivedAt: full.receivedAt,
                     subject: full.subject,
                     senderDept: full.senderDept,
                     body: full.body,
-                    readAt: cachedMessages[index].readAt
+                    readAt: enrichedMessages[index].readAt
                 )
             }
         }
-        let updated = cachedMessages
+
+        mergeEnrichedMessages(enrichedMessages)
+        let updated = cachedMessagesSnapshot()
         DispatchQueue.main.async {
             self.onMessagesUpdated?(updated)
         }
@@ -133,12 +127,10 @@ final class MailboxService: MailboxServiceInterface {
             DispatchQueue.main.async {
                 switch result {
                 case .success:
-                    if let index = self.cachedMessages.firstIndex(
-                        where: { $0.messageId == messageId }
-                    ) {
-                        self.cachedMessages[index].readAt =
-                            ISO8601DateFormatter().string(from: Date())
-                    }
+                    self.updateCachedMessage(
+                        messageId: messageId,
+                        readAt: ISO8601DateFormatter().string(from: Date())
+                    )
                     completion(.success(()))
                 case .failure(let error):
                     completion(.failure(error))
@@ -158,9 +150,7 @@ final class MailboxService: MailboxServiceInterface {
             DispatchQueue.main.async {
                 switch result {
                 case .success:
-                    self.cachedMessages.removeAll {
-                        $0.messageId == messageId
-                    }
+                    self.removeCachedMessage(messageId)
                     completion(.success(()))
                 case .failure(let error):
                     completion(.failure(error))
@@ -175,11 +165,7 @@ final class MailboxService: MailboxServiceInterface {
     ) {
         addToMarkedUnopened(messageId)
 
-        if let index = cachedMessages.firstIndex(
-            where: { $0.messageId == messageId }
-        ) {
-            cachedMessages[index].readAt = nil
-        }
+        updateCachedMessage(messageId: messageId, readAt: nil)
         completion(.success(()))
     }
 
@@ -213,5 +199,46 @@ final class MailboxService: MailboxServiceInterface {
         for index in messages.indices where ids.contains(messages[index].messageId) {
             messages[index].readAt = nil
         }
+    }
+
+    private func cachedMessagesSnapshot() -> [MailboxMessage] {
+        cacheLock.lock()
+        defer { cacheLock.unlock() }
+        return cachedMessages
+    }
+
+    private func updateCachedMessages(_ messages: [MailboxMessage]) {
+        cacheLock.lock()
+        cachedMessages = messages
+        cacheLock.unlock()
+    }
+
+    private func updateCachedMessage(messageId: String, readAt: String?) {
+        cacheLock.lock()
+        if let index = cachedMessages.firstIndex(where: { $0.messageId == messageId }) {
+            cachedMessages[index].readAt = readAt
+        }
+        cacheLock.unlock()
+    }
+
+    private func removeCachedMessage(_ messageId: String) {
+        cacheLock.lock()
+        cachedMessages.removeAll { $0.messageId == messageId }
+        cacheLock.unlock()
+    }
+
+    private func mergeEnrichedMessages(_ enrichedMessages: [MailboxMessage]) {
+        cacheLock.lock()
+        let currentReadAtById = Dictionary(
+            uniqueKeysWithValues: cachedMessages.map { ($0.messageId, $0.readAt) }
+        )
+        cachedMessages = enrichedMessages.map { message in
+            var merged = message
+            if let readAt = currentReadAtById[message.messageId] {
+                merged.readAt = readAt
+            }
+            return merged
+        }
+        cacheLock.unlock()
     }
 }

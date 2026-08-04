@@ -14,7 +14,7 @@ struct MailboxListView: View {
             Color(uiColor: .govUK.fills.surfaceBackground)
                 .ignoresSafeArea()
 
-            if viewModel.isLoading {
+            if viewModel.isLoading && viewModel.messages.isEmpty {
                 ProgressView()
                     .accessibilityLabel("Loading messages")
             } else if viewModel.messages.isEmpty {
@@ -70,6 +70,9 @@ struct MailboxListView: View {
                         .padding(.top, 48)
                 }
             }
+        }
+        .refreshable {
+            await viewModel.refreshMessages()
         }
     }
 
