@@ -26,6 +26,9 @@ class NotificationCentreDetailViewModelTests {
     var _showUrlActionFired: URL?
     var _onUnreadActionFired: Bool?
     var _onDeleteActionFired: Bool?
+    var _onUnreadActionCalled: (() -> Void)?
+    var _onDeleteActionCalled: (() -> Void)?
+
     init() {
         mockNotificationCentreService = .init()
         mockAnalyticsService = .init()
@@ -40,9 +43,11 @@ class NotificationCentreDetailViewModelTests {
                 },
                 onUnreadAction: {
                     self._onUnreadActionFired = true
+                    self._onUnreadActionCalled?()
                 },
                 onDeleteAction: {
                     self._onDeleteActionFired = true
+                    self._onDeleteActionCalled?()
                 }
             )
         )
@@ -189,7 +194,7 @@ class NotificationCentreDetailViewModelTests {
 
         var subscription: AnyCancellable?
         await withCheckedContinuation { continuation in
-            mockNotificationCentreService._onDeleteCalled = {
+            _onDeleteActionCalled = {
                 continuation.resume()
                 subscription?.cancel()
             }
@@ -219,7 +224,7 @@ class NotificationCentreDetailViewModelTests {
 
         var subscription: AnyCancellable?
         await withCheckedContinuation { continuation in
-            mockNotificationCentreService._onMarkUnreadCalled = {
+            _onUnreadActionCalled = {
                 continuation.resume()
                 subscription?.cancel()
             }
