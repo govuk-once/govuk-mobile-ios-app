@@ -61,6 +61,11 @@ class SceneDelegate: UIResponder,
         notificationService.addClickListener { [weak self] deeplink in
             self?.appCoordinator.start(url: deeplink)
         }
+
+        Task {
+            let tokenProvider = Container.shared.mailboxTokenProvider.resolve()
+            _ = await tokenProvider.fetchInitialToken()
+        }
     }
 
     func scene(_ scene: UIScene,
