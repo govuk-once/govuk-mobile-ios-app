@@ -179,8 +179,8 @@ final class VehicleDetailViewModel: ObservableObject {
                     id: "vehicle.yearOfFirstRegistration.row",
                     title: String(localized: .DVLA.firstRegistered),
                     body: nil,
-                    detail: specFormatter.formatYearOfFirstRegistration(
-                        from: vehicle.dateOfFirstRegistration
+                    detail: specFormatter.formatDateOfFirstRegistration(
+                        vehicle.dateOfFirstRegistration
                     )
                 ),
                 InformationRow(
