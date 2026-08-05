@@ -13,10 +13,6 @@ struct NotificationCentreDetailContainerView: View {
                     switch viewModel.state {
                     case .loading, .new:
                         NotificationCentreDetailLoadingView()
-                            .onAppear {
-                                UIAccessibility.post(notification: .screenChanged,
-                                                     argument: "Loading")
-                            }
                     case .loaded(
                         notification: let notification,
                         showDeleteConfirmationSheet: let showConfirmation):
@@ -32,22 +28,10 @@ struct NotificationCentreDetailContainerView: View {
                                 viewModel.onCancelDelete()
                             },
                             showDeleteConfirmation: showConfirmation)
-                        .onAppear {
-                            UIAccessibility.post(notification: .screenChanged,
-                                                 argument: "Loading complete")
-                        }
                     case .error:
                         NotificationCentreErrorView()
-                            .onAppear {
-                                UIAccessibility.post(notification: .screenChanged,
-                                                     argument: "Error")
-                            }
                     case .noInternet:
                         NotificationCentreNoInternetView()
-                            .onAppear {
-                                UIAccessibility.post(notification: .screenChanged,
-                                                     argument: "No internet connection")
-                            }
                     }
                 }
                 .frame(minWidth: geometry.size.width, minHeight: geometry.size.height)
@@ -190,6 +174,7 @@ public struct NotificationCentreDetailLoadingView: View {
             Spacer()
             ProgressView()
                 .controlSize(.large)
+                .accessibilityLabel(.NotificationCentre.notificationLoadingA11Ylabel)
             Spacer()
         }
     }

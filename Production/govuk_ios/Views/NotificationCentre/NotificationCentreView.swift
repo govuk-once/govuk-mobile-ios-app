@@ -15,38 +15,16 @@ struct NotificationCentreContainerView: View {
                         switch viewModel.state {
                         case .loading:
                             NotificationCentreLoadingView()
-                                .onAppear {
-                                    UIAccessibility
-                                        .post(notification: .screenChanged, argument: "Loading")
-                                }
                         case .empty:
                             NotificationCentreEmptyView()
-                                .onAppear {
-                                    UIAccessibility
-                                        .post(notification: .screenChanged,
-                                              argument: "No Notifications")
-                                }
                         case .loaded(notifications: let notifications):
                             NotificationCentreLoadedView(
                                 notifications: notifications,
                                 onNotificationTap: viewModel.onTapNotification(notification:))
-                            .onAppear {
-                                UIAccessibility
-                                    .post(notification: .screenChanged,
-                                          argument: "Loading complete")
-                            }
                         case .error:
                             NotificationCentreErrorView()
-                                .onAppear {
-                                    UIAccessibility.post(notification: .screenChanged,
-                                                         argument: "Error")
-                                }
                         case .noInternet:
                             NotificationCentreNoInternetView()
-                                .onAppear {
-                                    UIAccessibility.post(notification: .screenChanged,
-                                                         argument: "No internet connection")
-                                }
                         }
                     }
                     .frame(minHeight: geometry.size.height)
@@ -87,19 +65,23 @@ struct NotificationCentreLoadedView: View {
             LazyVStack(spacing: 8) {
                 if !notifications.recent.isEmpty {
                     SectionHeader(title: .NotificationCentre.notificationCentreSectionRecent)
+                        .accessibilitySortPriority(3)
 
                     ForEach(notifications.recent) { not in
                         NotificationCentreRow(notification: not,
                                               onTap: onNotificationTap)
+                        .accessibilitySortPriority(2)
                     }
                 }
 
                 if !notifications.older.isEmpty {
                     SectionHeader(title: .NotificationCentre.notificationCentreSectionOlder)
+                        .accessibilitySortPriority(1)
 
                     ForEach(notifications.older) { not in
                         NotificationCentreRow(notification: not,
                                               onTap: onNotificationTap)
+                        .accessibilitySortPriority(0)
                     }
                 }
 
@@ -140,6 +122,7 @@ struct NotificationCentreLoadingView: View {
             Spacer()
             ProgressView()
                 .controlSize(.large)
+                .accessibilityLabel(.NotificationCentre.notificationLoadingA11Ylabel)
             Spacer()
         }
     }
@@ -192,17 +175,24 @@ private struct NotificationCentreRow: View {
                     .padding(.horizontal, 16)
                     .accessibilityHidden(!notification.isUnread)
                     .accessibilityLabel(Text(.NotificationCentre.notificationUnreadA11YLabel))
+                    .accessibilitySortPriority(1) // Read it out last
 
                 VStack(alignment: .leading, spacing: 0) {
                     Text(notification.title)
                         .lineLimit(1)
-                        .font(Font.govUK.bodySemibold)
+                        .font(notification.isUnread ?
+                              Font.govUK.body.weight(.bold) :
+                                Font.govUK.body)
                         .padding(.bottom, 4)
                         .foregroundStyle(Color(UIColor.govUK.text.primary))
+                        .accessibilitySortPriority(3)
 
                     Text(notification.date)
-                        .font(Font.govUK.subheadline)
+                        .font(notification.isUnread ?
+                              Font.govUK.subheadline.weight(.bold) :
+                                Font.govUK.subheadline)
                         .foregroundStyle(Color(UIColor.govUK.text.secondary))
+                        .accessibilitySortPriority(2)
                 }
                 .padding(.trailing, 16)
 
