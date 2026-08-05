@@ -24,7 +24,7 @@ protocol SettingsViewModelInterface: ObservableObject {
     func handleNotificationAlertAction()
     func trackScreen(screen: TrackableScreen)
     func updateEmail()
-    func loadMessages()
+//    func loadMessages()
 }
 
 struct SettingsViewModelURLParameters {
@@ -70,7 +70,7 @@ class SettingsViewModel: SettingsViewModelInterface {
     var signoutAction: (() -> Void)?
     var openAction: ((SettingsViewModelURLParameters) -> Void)?
     var sarAction: (() -> Void)?
-    @Published var userEmail: String?
+    @Published private(set) var userEmail: String?
 
     init(analyticsService: AnalyticsServiceInterface,
          urlOpener: URLOpener,
@@ -103,7 +103,6 @@ class SettingsViewModel: SettingsViewModelInterface {
                 self.listContent = self.getGroupedList()
             }
         }
-
         // Set the initial state
         self.listContent = self.getGroupedList()
     }
@@ -163,28 +162,29 @@ class SettingsViewModel: SettingsViewModelInterface {
 
     func updateEmail() {
         Task { @MainActor in
-            userEmail = await self.authenticationService.userEmail
+            userEmail = await authenticationService.userEmail
+            listContent = getGroupedList()
         }
     }
 
-    func loadMessages() {
-        Task {
-            await update(messagesState: .loading)
-
-            if let linkedAccounts = userService.linkedAccounts {
-                await loadMessageCount(isLinked: !linkedAccounts.isEmpty)
-            } else {
-                let linked = await userService.fetchLinkedAccounts()
-
-                switch linked {
-                case .success(let linkedAccounts):
-                    await loadMessageCount(isLinked: !linkedAccounts.isEmpty)
-                case .failure:
-                    await update(messagesState: .error)
-                }
-            }
-        }
-    }
+//    func loadMessages() {
+//        Task {
+//            await update(messagesState: .loading)
+//
+//            if let linkedAccounts = userService.linkedAccounts {
+//                await loadMessageCount(isLinked: !linkedAccounts.isEmpty)
+//            } else {
+//                let linked = await userService.fetchLinkedAccounts()
+//
+//                switch linked {
+//                case .success(let linkedAccounts):
+//                    await loadMessageCount(isLinked: !linkedAccounts.isEmpty)
+//                case .failure:
+//                    await update(messagesState: .error)
+//                }
+//            }
+//        }
+//    }
 
     @MainActor
     private func update(messagesState: MessagesState) {
@@ -212,7 +212,6 @@ class SettingsViewModel: SettingsViewModelInterface {
         return [
             accountSection,
             appConfigService.isFeatureEnabled(key: .dvla) ? linkedAccountsSection : nil,
-            messagesSection,
             appOptionsSection,
             aboutSection,
             policiesSection,
