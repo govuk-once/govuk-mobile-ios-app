@@ -156,7 +156,7 @@ struct VehicleDetailViewModelTests {
     func viewVehicleDetails_specificationSection_returnsExpectedRows() async {
         var mockSpecFormatter = MockVehicleSpecFormatter()
         mockSpecFormatter._stubbedFormattedModel = "X3"
-        mockSpecFormatter._stubbedFormattedYear = "2000"
+        mockSpecFormatter._stubbedFormattedDateOfFirstRegistration = "January 2000"
         mockSpecFormatter._stubbedFormattedFuelTypeLong = "Petrol"
         mockSpecFormatter._stubbedFormattedColour = "Black"
         mockSpecFormatter._stubbedFormattedEmissions = "100"
@@ -192,8 +192,8 @@ struct VehicleDetailViewModelTests {
         let modelRow = specificationSection.rows[1] as? InformationRow
         #expect(modelRow?.detail == "X3")
 
-        let yearOfFirstRegistrationRow = specificationSection.rows[2] as? InformationRow
-        #expect(yearOfFirstRegistrationRow?.detail == "2000")
+        let dateOfFirstRegistrationRow = specificationSection.rows[2] as? InformationRow
+        #expect(dateOfFirstRegistrationRow?.detail == "January 2000")
 
         let fuelTypeRow = specificationSection.rows[3] as? InformationRow
         #expect(fuelTypeRow?.detail == "Petrol")

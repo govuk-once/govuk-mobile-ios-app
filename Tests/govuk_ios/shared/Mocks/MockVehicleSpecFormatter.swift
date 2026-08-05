@@ -6,6 +6,10 @@ struct MockVehicleSpecFormatter: VehicleSpecFormatterInterface {
     func formatYearOfFirstRegistration(from date: Date) -> String {
         _stubbedFormattedYear ?? "year"
     }
+    var _stubbedFormattedDateOfFirstRegistration: String?
+    func formatDateOfFirstRegistration(_ date: Date) -> String {
+        _stubbedFormattedDateOfFirstRegistration ?? "November 2021"
+    }
     var _stubbedFormattedModel: String?
     func formatModel(from model: String?) -> String {
         _stubbedFormattedModel ?? "model"

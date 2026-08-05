@@ -2,6 +2,7 @@ import Foundation
 
 protocol VehicleSpecFormatterInterface {
     func formatYearOfFirstRegistration(from date: Date) -> String
+    func formatDateOfFirstRegistration(_ date: Date) -> String
     func formatModel(from model: String?) -> String
     func formatFuelTypeShort(from fuelType: FuelType) -> String
     func formatFuelTypeLong(from fuelType: FuelType) -> String
@@ -14,6 +15,10 @@ protocol VehicleSpecFormatterInterface {
 struct VehicleSpecFormatter: VehicleSpecFormatterInterface {
     func formatYearOfFirstRegistration(from date: Date) -> String {
         return date.formatted(.dateTime.year())
+    }
+
+    func formatDateOfFirstRegistration(_ date: Date) -> String {
+        return date.formatted(.dateTime.month(.wide).year())
     }
 
     func formatModel(from model: String?) -> String {
