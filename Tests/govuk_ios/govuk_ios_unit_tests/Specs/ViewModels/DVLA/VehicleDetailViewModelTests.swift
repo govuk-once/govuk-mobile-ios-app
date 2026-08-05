@@ -159,10 +159,7 @@ struct VehicleDetailViewModelTests {
         mockSpecFormatter._stubbedFormattedYear = "2000"
         mockSpecFormatter._stubbedFormattedFuelTypeLong = "Petrol"
         mockSpecFormatter._stubbedFormattedColour = "Black"
-        mockSpecFormatter._stubbedFormattedEmissions = AccessibleString(
-            "100g/km",
-            accessibilityLabel: "100 grams per kilometer"
-        )
+        mockSpecFormatter._stubbedFormattedEmissions = "100"
         mockSpecFormatter._stubbedFormattedEngineSize = AccessibleString(
             "2.0L",
             accessibilityLabel: "2.0 litres"
@@ -208,7 +205,7 @@ struct VehicleDetailViewModelTests {
         #expect(engineSizeRow?.detail == "2.0L")
 
         let emissionsRow = specificationSection.rows[6] as? InformationRow
-        #expect(emissionsRow?.detail == "100g/km")
+        #expect(emissionsRow?.detail == "100")
     }
 
     @Test
