@@ -24,7 +24,7 @@ protocol SettingsViewModelInterface: ObservableObject {
     func handleNotificationAlertAction()
     func trackScreen(screen: TrackableScreen)
     func updateEmail()
-    func loadMessages()
+//    func loadMessages()
 }
 
 struct SettingsViewModelURLParameters {
@@ -167,24 +167,24 @@ class SettingsViewModel: SettingsViewModelInterface {
         }
     }
 
-    func loadMessages() {
-        Task {
-            await update(messagesState: .loading)
-
-            if let linkedAccounts = userService.linkedAccounts {
-                await loadMessageCount(isLinked: !linkedAccounts.isEmpty)
-            } else {
-                let linked = await userService.fetchLinkedAccounts()
-
-                switch linked {
-                case .success(let linkedAccounts):
-                    await loadMessageCount(isLinked: !linkedAccounts.isEmpty)
-                case .failure:
-                    await update(messagesState: .error)
-                }
-            }
-        }
-    }
+//    func loadMessages() {
+//        Task {
+//            await update(messagesState: .loading)
+//
+//            if let linkedAccounts = userService.linkedAccounts {
+//                await loadMessageCount(isLinked: !linkedAccounts.isEmpty)
+//            } else {
+//                let linked = await userService.fetchLinkedAccounts()
+//
+//                switch linked {
+//                case .success(let linkedAccounts):
+//                    await loadMessageCount(isLinked: !linkedAccounts.isEmpty)
+//                case .failure:
+//                    await update(messagesState: .error)
+//                }
+//            }
+//        }
+//    }
 
     @MainActor
     private func update(messagesState: MessagesState) {
@@ -212,7 +212,6 @@ class SettingsViewModel: SettingsViewModelInterface {
         return [
             accountSection,
             appConfigService.isFeatureEnabled(key: .dvla) ? linkedAccountsSection : nil,
-            messagesSection,
             appOptionsSection,
             aboutSection,
             policiesSection,
