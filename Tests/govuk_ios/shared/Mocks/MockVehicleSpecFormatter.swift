@@ -6,6 +6,10 @@ struct MockVehicleSpecFormatter: VehicleSpecFormatterInterface {
     func formatYearOfFirstRegistration(from date: Date) -> String {
         _stubbedFormattedYear ?? "year"
     }
+    var _stubbedFormattedDateOfFirstRegistration: String?
+    func formatDateOfFirstRegistration(_ date: Date) -> String {
+        _stubbedFormattedDateOfFirstRegistration ?? "November 2021"
+    }
     var _stubbedFormattedModel: String?
     func formatModel(from model: String?) -> String {
         _stubbedFormattedModel ?? "model"
@@ -25,10 +29,9 @@ struct MockVehicleSpecFormatter: VehicleSpecFormatterInterface {
     func formatColour(primary: String, secondary: String?) -> String {
         _stubbedFormattedColour ?? "colour"
     }
-    var _stubbedFormattedEmissions: AccessibleString?
-    func formatEmissions(from emissions: Int?) -> AccessibleString {
-        _stubbedFormattedEmissions ??
-        AccessibleString("display value", accessibilityLabel: "accessibility label")
+    var _stubbedFormattedEmissions: String?
+    func formatEmissions(from emissions: Int?) -> String {
+        _stubbedFormattedEmissions ?? "emissions"
     }
     var _stubbedFormattedEngineSize: AccessibleString?
     func formatEngineSize(from engineCapacity: Int?) -> AccessibleString {

@@ -11,6 +11,7 @@ class AppDelegate: UIResponder,
                      launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
         analyticsService.launch()
         notificationService.appDidFinishLaunching(launchOptions: launchOptions)
+        UINavigationBar.appearance().tintColor = .govUK.text.linkSecondary
         return true
     }
 

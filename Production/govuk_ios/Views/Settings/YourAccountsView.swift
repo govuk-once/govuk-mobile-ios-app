@@ -124,26 +124,36 @@ struct YourAccountsView: View {
         .padding(.top, 8)
         .padding(.horizontal, 16)
         .background(Color(uiColor: .govUK.fills.surfaceBackground).ignoresSafeArea())
-        .alert(viewModel.alertMessageTitle, isPresented: $showAlert, actions: {
-            Button(viewModel.alertCancelButtonTitle, role: .cancel) {
-                viewModel.trackEvent(text: "DVLA Cancel")
+        .alert(
+            viewModel.alertMessageTitle,
+            isPresented: $showAlert,
+            actions: {
+                Button(viewModel.alertCancelButtonTitle, role: .cancel) {
+                    viewModel.trackEvent(text: "DVLA Cancel")
+                }
+                Button(viewModel.alertRemoveButtonTitle, role: .destructive) {
+                    viewModel.unlinkAccount()
+                    viewModel.trackNavigationEvent(text: "DVLA Remove account")
+                }
+            },
+            message: {
+                Text(viewModel.alertMessage)
             }
-            Button(viewModel.alertRemoveButtonTitle, role: .destructive) {
-                viewModel.unlinkAccount()
-                viewModel.trackNavigationEvent(text: "DVLA Remove account")
-            }
-        }, message: {
-            Text(viewModel.alertMessage)
-        })
+        )
+         .tint(Color(uiColor: .govUK.text.linkSecondary))
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 if isEditMode {
                     if #available(iOS 26.0, *) {
-                        Button(role: .confirm, action: {
-                            withAnimation(.easeInOut) {
-                                isEditMode.toggle()
+                        Button(
+                            role: .confirm,
+                            action: {
+                                withAnimation(.easeInOut) {
+                                    isEditMode.toggle()
+                                }
                             }
-                        })
+                        )
+                         .tint(Color(uiColor: .govUK.text.linkSecondary))
                     } else {
                         Button {
                             withAnimation(.easeInOut) {
@@ -151,6 +161,7 @@ struct YourAccountsView: View {
                             }
                         } label: {
                             Text(viewModel.editModeDoneButton)
+                                .foregroundStyle(Color(uiColor: .govUK.text.linkSecondary))
                         }
                     }
                 } else {
@@ -161,9 +172,11 @@ struct YourAccountsView: View {
                         viewModel.trackEvent(text: viewModel.editButtonTitle)
                     } label: {
                         Text(viewModel.editButtonTitle)
+                            .foregroundStyle(Color(uiColor: .govUK.text.linkSecondary))
                     }
                 }
             }
         }
+        .tint(Color(uiColor: .govUK.text.linkSecondary))
     }
 }

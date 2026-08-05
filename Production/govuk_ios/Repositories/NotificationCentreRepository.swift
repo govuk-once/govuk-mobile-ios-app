@@ -69,7 +69,7 @@ class NotificationCentreRepository: NotificationCentreRepositoryInterface {
                 metadata: $0.metadata)
         }
 
-        self.notifications = .init(data: updatedNotifications, lastUpdate: notifications.lastUpdate)
+        self.notifications = .init(data: updatedNotifications, lastUpdate: dateProvider.currentDate)
     }
 
     func deleteNotification(with id: String) {
@@ -77,6 +77,6 @@ class NotificationCentreRepository: NotificationCentreRepositoryInterface {
 
         let updatedNotifications = notifications.data.filter { $0.id != id }
 
-        self.notifications = .init(data: updatedNotifications, lastUpdate: notifications.lastUpdate)
+        self.notifications = .init(data: updatedNotifications, lastUpdate: dateProvider.currentDate)
     }
 }

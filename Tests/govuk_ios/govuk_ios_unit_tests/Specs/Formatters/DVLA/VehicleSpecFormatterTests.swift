@@ -20,9 +20,9 @@ struct VehicleSpecFormatterTests {
     }
 
     @Test
-    func formatModel_modelIsNil_returnsUnknown() {
+    func formatModel_modelIsNil_returnsEmptyString() {
         let result = sut.formatModel(from: nil)
-        #expect(result == String(localized: .DVLA.unknown))
+        #expect(result == "")
     }
 
     @Test(arguments: zip(
@@ -145,18 +145,13 @@ struct VehicleSpecFormatterTests {
     @Test
     func formatEmissions_emissionsIsNil_returnsUnknown() {
         let result = sut.formatEmissions(from: nil)
-        #expect(result.displayValue == String(localized: .DVLA.unknown))
+        #expect(result == String(localized: .DVLA.unknown))
     }
 
     @Test
     func formatEmissions_valideCo2Emissions_returnsExpectedResult() {
         let result = sut.formatEmissions(from: 100)
-        let expectedString = String(
-            localized: .DVLA.emissionsInGramsPerKm(
-                emissions: 100
-            )
-        )
-        #expect(result.displayValue == expectedString)
+        #expect(result == "100")
     }
 
     @Test
@@ -168,7 +163,7 @@ struct VehicleSpecFormatterTests {
     @Test
     func formatEngineSize_engineCapacityLessThan1000_returnsExpectedResult() {
         let result = sut.formatEngineSize(from: 750)
-        let expectedString = String(localized: .DVLA.engineCapacityCc(capacity: 750))
+        let expectedString = String(localized: .DVLA.engineCapacityCc(capacity: "750"))
         #expect(result.displayValue == expectedString)
         #expect(result.accessibilityLabel == expectedString)
 
@@ -177,29 +172,16 @@ struct VehicleSpecFormatterTests {
     @Test
     func formatEngineSize_engineCapacityEquals1000_returnsExpectedResult() {
         let result = sut.formatEngineSize(from: 1000)
-        let expectedDisplayValue = String(
-            localized: .DVLA.engineCapacityLitres(capacity: 1.0)
-        )
-        #expect(result.displayValue == expectedDisplayValue)
 
-        let expectedAccessibilityLabel = String(
-            localized: .DVLA.engineCapacityLitreAccessibilityLabel(capacity: 1.0)
-        )
-        #expect(result.accessibilityLabel == expectedAccessibilityLabel)
+        #expect(result.displayValue == "1000cc")
+        #expect(result.accessibilityLabel == "1,000cc")
     }
 
     @Test
     func formatEngineSize_engineCapacityGreaterThan1000_returnsExpectedResult() {
         let result = sut.formatEngineSize(from: 2495)
-        let expectedDisplayValue = String(
-            localized: .DVLA.engineCapacityLitres(capacity: 2.5)
-        )
-        #expect(result.displayValue == expectedDisplayValue)
-
-        let expectedAccessibilityLabel = String(
-            localized: .DVLA.engineCapacityLitresAccessibilityLabel(capacity: 2.5)
-        )
-        #expect(result.accessibilityLabel == expectedAccessibilityLabel)
+        #expect(result.displayValue == "2495cc")
+        #expect(result.accessibilityLabel == "2,495cc")
     }
 }
 
