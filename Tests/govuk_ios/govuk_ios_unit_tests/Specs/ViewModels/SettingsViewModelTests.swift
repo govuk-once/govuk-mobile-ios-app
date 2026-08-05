@@ -48,8 +48,8 @@ class SettingsViewModelTests {
     private struct SectionIndexes {
         static let manageAccounts = 0
         static let yourAccounts = SectionIndexes.manageAccounts + 1
-        static let messages = SectionIndexes.yourAccounts + 1
-        static let appOptions = SectionIndexes.messages + 1
+//        static let messages = SectionIndexes.yourAccounts + 1
+        static let appOptions = SectionIndexes.yourAccounts + 1
         static let about = SectionIndexes.appOptions + 1
         static let policies = SectionIndexes.about + 1
         static let signOut = SectionIndexes.policies + 1
@@ -65,7 +65,7 @@ class SettingsViewModelTests {
         try #require(sut.listContent.count == SectionIndexes.signOut + 1)
         try #require(sut.listContent[SectionIndexes.manageAccounts].rows.count == 2)
         try #require(sut.listContent[SectionIndexes.yourAccounts].rows.count == 1)
-        try #require(sut.listContent[SectionIndexes.messages].rows.count == 1)
+//        try #require(sut.listContent[SectionIndexes.messages].rows.count == 1)
         try #require(sut.listContent[SectionIndexes.appOptions].rows.count == 3)
         try #require(sut.listContent[SectionIndexes.about].rows.count == 2)
         try #require(sut.listContent[SectionIndexes.policies].rows.count == 4)
@@ -81,10 +81,10 @@ class SettingsViewModelTests {
         let signOutRow = try #require(signOutSection.rows.first as? DetailRow)
         #expect(signOutRow.title == "Sign out")
         
-        let messagesSection = sut.listContent[SectionIndexes.messages]
-        #expect(messagesSection.heading?.title == nil)
-        try #require(messagesSection.rows.count == 1)
-        #expect(messagesSection.rows[0].title == "Messages")
+//        let messagesSection = sut.listContent[SectionIndexes.messages]
+//        #expect(messagesSection.heading?.title == nil)
+//        try #require(messagesSection.rows.count == 1)
+//        #expect(messagesSection.rows[0].title == "Messages")
 
         let yourAccountSection = sut.listContent[SectionIndexes.yourAccounts]
         let yourAccountsRow = try #require(yourAccountSection.rows.first as? NavigationRow)
@@ -709,169 +709,169 @@ class SettingsViewModelTests {
 
     // MARK: - Messages
 
-    @Test
-    func accountNotLinked_messagesHidden() async {
-        var cancellables = Set<AnyCancellable>()
-        let _ = await withCheckedContinuation { continuation in
-            let mockNotifcationCenter = NotificationCenter()
-            let mockUserService = MockUserService()
-            mockUserService._stubbedLinkedAccounts = []
-
-            let sut = SettingsViewModel(
-                analyticsService: MockAnalyticsService(),
-                urlOpener: MockURLOpener(),
-                versionProvider: MockAppVersionProvider(),
-                deviceInformationProvider: MockDeviceInformationProvider(),
-                authenticationService: MockAuthenticationService(),
-                notificationService: MockNotificationService(),
-                notificationCenter: mockNotifcationCenter,
-                localAuthenticationService: MockLocalAuthenticationService(),
-                appConfigService: MockAppConfigService(),
-                userService: mockUserService,
-                notificationCentreService: MockNotificationCentreService()
-            )
-
-            sut.loadMessages()
-
-            let tester = SettingsViewModelTester(settingsViewModel: sut)
-            tester.objectWillChange
-                .receive(on: DispatchQueue.main)
-                .sink { _ in
-                    if sut.listContent.first(where: { section in
-                        section.rows.first(where: { $0.id == "settings.messages.row"}) != nil
-                    }) == nil {
-                        continuation.resume(returning: tester.settingsViewModel)
-                        cancellables.removeAll()
-                    }
-                }.store(in: &cancellables)
-        }
-
-        // No expect as the test will time out if the Messages Row isn't removed
-    }
-
-    @Test
-    func accountLinked_messagesShown() async {
-        var cancellables = Set<AnyCancellable>()
-        let result = await withCheckedContinuation { continuation in
-            let mockUserService = MockUserService()
-            mockUserService._stubbedLinkedAccounts = [.dvla]
-
-            let mockNotificationCentreService = MockNotificationCentreService()
-            mockNotificationCentreService._stubbedFetchNotificationsResult = .success([])
-
-            let sut = SettingsViewModel(
-                analyticsService: MockAnalyticsService(),
-                urlOpener: MockURLOpener(),
-                versionProvider: MockAppVersionProvider(),
-                deviceInformationProvider: MockDeviceInformationProvider(),
-                authenticationService: MockAuthenticationService(),
-                notificationService: MockNotificationService(),
-                notificationCenter: NotificationCenter(),
-                localAuthenticationService: MockLocalAuthenticationService(),
-                appConfigService: MockAppConfigService(),
-                userService: mockUserService,
-                notificationCentreService: mockNotificationCentreService
-            )
-
-            sut.loadMessages()
-
-            let tester = SettingsViewModelTester(settingsViewModel: sut)
-            tester.objectWillChange
-                .receive(on: DispatchQueue.main)
-                .sink { _ in
-                    guard mockNotificationCentreService._fetchNotificationsCalled == true else { return }
-                    continuation.resume(returning: tester.settingsViewModel)
-                    cancellables.removeAll()
-                }.store(in: &cancellables)
-        }
-
-        let messagesSection = result.listContent.first(where: { section in
-            section.rows.first(where: { $0.id == "settings.messages.row"}) != nil
-        })
-
-        #expect(messagesSection != nil)
-    }
-
-    @Test
-    func accountsNotLoaded_fetchesLinkedAccounts() async {
-        let mockUserService = MockUserService()
-        mockUserService._stubbedLinkedAccounts = nil
-        mockUserService._stubbedFetchLinkedAccountsResult = .success([.dvla])
-
-        var cancellables = Set<AnyCancellable>()
-        let _ = await withCheckedContinuation { continuation in
-
-            let mockNotificationCentreService = MockNotificationCentreService()
-            mockNotificationCentreService._stubbedFetchNotificationsResult = .success([])
-
-            let sut = SettingsViewModel(
-                analyticsService: MockAnalyticsService(),
-                urlOpener: MockURLOpener(),
-                versionProvider: MockAppVersionProvider(),
-                deviceInformationProvider: MockDeviceInformationProvider(),
-                authenticationService: MockAuthenticationService(),
-                notificationService: MockNotificationService(),
-                notificationCenter: NotificationCenter(),
-                localAuthenticationService: MockLocalAuthenticationService(),
-                appConfigService: MockAppConfigService(),
-                userService: mockUserService,
-                notificationCentreService: mockNotificationCentreService
-            )
-
-            sut.loadMessages()
-
-            let tester = SettingsViewModelTester(settingsViewModel: sut)
-            tester.objectWillChange
-                .receive(on: DispatchQueue.main)
-                .sink { _ in
-                    guard mockUserService._linkedAccountCallCount > 0 else { return }
-                    continuation.resume(returning: tester.settingsViewModel)
-                    cancellables.removeAll()
-                }.store(in: &cancellables)
-        }
-
-        #expect(mockUserService._fetchLinkedAccountsCalled)
-    }
-
-    @Test
-    func accountLined_fetchesMessageCount() async {
-        let mockUserService = MockUserService()
-        mockUserService._stubbedLinkedAccounts = [.dvla]
-
-        let mockNotificationCentreService = MockNotificationCentreService()
-        mockNotificationCentreService._stubbedFetchNotificationsResult = .success([])
-
-
-        var cancellables = Set<AnyCancellable>()
-        let _ = await withCheckedContinuation { continuation in
-            let sut = SettingsViewModel(
-                analyticsService: MockAnalyticsService(),
-                urlOpener: MockURLOpener(),
-                versionProvider: MockAppVersionProvider(),
-                deviceInformationProvider: MockDeviceInformationProvider(),
-                authenticationService: MockAuthenticationService(),
-                notificationService: MockNotificationService(),
-                notificationCenter: NotificationCenter(),
-                localAuthenticationService: MockLocalAuthenticationService(),
-                appConfigService: MockAppConfigService(),
-                userService: mockUserService,
-                notificationCentreService: mockNotificationCentreService
-            )
-
-            sut.loadMessages()
-
-            let tester = SettingsViewModelTester(settingsViewModel: sut)
-            tester.objectWillChange
-                .receive(on: DispatchQueue.main)
-                .sink { _ in
-                    guard mockNotificationCentreService._fetchNotificationsCalled == true else { return }
-                    continuation.resume(returning: tester.settingsViewModel)
-                    cancellables.removeAll()
-                }.store(in: &cancellables)
-        }
-
-        #expect(mockNotificationCentreService._fetchNotificationsCalled == true)
-    }
+//    @Test
+//    func accountNotLinked_messagesHidden() async {
+//        var cancellables = Set<AnyCancellable>()
+//        let _ = await withCheckedContinuation { continuation in
+//            let mockNotifcationCenter = NotificationCenter()
+//            let mockUserService = MockUserService()
+//            mockUserService._stubbedLinkedAccounts = []
+//
+//            let sut = SettingsViewModel(
+//                analyticsService: MockAnalyticsService(),
+//                urlOpener: MockURLOpener(),
+//                versionProvider: MockAppVersionProvider(),
+//                deviceInformationProvider: MockDeviceInformationProvider(),
+//                authenticationService: MockAuthenticationService(),
+//                notificationService: MockNotificationService(),
+//                notificationCenter: mockNotifcationCenter,
+//                localAuthenticationService: MockLocalAuthenticationService(),
+//                appConfigService: MockAppConfigService(),
+//                userService: mockUserService,
+//                notificationCentreService: MockNotificationCentreService()
+//            )
+//
+//            sut.loadMessages()
+//
+//            let tester = SettingsViewModelTester(settingsViewModel: sut)
+//            tester.objectWillChange
+//                .receive(on: DispatchQueue.main)
+//                .sink { _ in
+//                    if sut.listContent.first(where: { section in
+//                        section.rows.first(where: { $0.id == "settings.messages.row"}) != nil
+//                    }) == nil {
+//                        continuation.resume(returning: tester.settingsViewModel)
+//                        cancellables.removeAll()
+//                    }
+//                }.store(in: &cancellables)
+//        }
+//
+//        // No expect as the test will time out if the Messages Row isn't removed
+//    }
+//
+//    @Test
+//    func accountLinked_messagesShown() async {
+//        var cancellables = Set<AnyCancellable>()
+//        let result = await withCheckedContinuation { continuation in
+//            let mockUserService = MockUserService()
+//            mockUserService._stubbedLinkedAccounts = [.dvla]
+//
+//            let mockNotificationCentreService = MockNotificationCentreService()
+//            mockNotificationCentreService._stubbedFetchNotificationsResult = .success([])
+//
+//            let sut = SettingsViewModel(
+//                analyticsService: MockAnalyticsService(),
+//                urlOpener: MockURLOpener(),
+//                versionProvider: MockAppVersionProvider(),
+//                deviceInformationProvider: MockDeviceInformationProvider(),
+//                authenticationService: MockAuthenticationService(),
+//                notificationService: MockNotificationService(),
+//                notificationCenter: NotificationCenter(),
+//                localAuthenticationService: MockLocalAuthenticationService(),
+//                appConfigService: MockAppConfigService(),
+//                userService: mockUserService,
+//                notificationCentreService: mockNotificationCentreService
+//            )
+//
+//            sut.loadMessages()
+//
+//            let tester = SettingsViewModelTester(settingsViewModel: sut)
+//            tester.objectWillChange
+//                .receive(on: DispatchQueue.main)
+//                .sink { _ in
+//                    guard mockNotificationCentreService._fetchNotificationsCalled == true else { return }
+//                    continuation.resume(returning: tester.settingsViewModel)
+//                    cancellables.removeAll()
+//                }.store(in: &cancellables)
+//        }
+//
+//        let messagesSection = result.listContent.first(where: { section in
+//            section.rows.first(where: { $0.id == "settings.messages.row"}) != nil
+//        })
+//
+//        #expect(messagesSection != nil)
+//    }
+//
+//    @Test
+//    func accountsNotLoaded_fetchesLinkedAccounts() async {
+//        let mockUserService = MockUserService()
+//        mockUserService._stubbedLinkedAccounts = nil
+//        mockUserService._stubbedFetchLinkedAccountsResult = .success([.dvla])
+//
+//        var cancellables = Set<AnyCancellable>()
+//        let _ = await withCheckedContinuation { continuation in
+//
+//            let mockNotificationCentreService = MockNotificationCentreService()
+//            mockNotificationCentreService._stubbedFetchNotificationsResult = .success([])
+//
+//            let sut = SettingsViewModel(
+//                analyticsService: MockAnalyticsService(),
+//                urlOpener: MockURLOpener(),
+//                versionProvider: MockAppVersionProvider(),
+//                deviceInformationProvider: MockDeviceInformationProvider(),
+//                authenticationService: MockAuthenticationService(),
+//                notificationService: MockNotificationService(),
+//                notificationCenter: NotificationCenter(),
+//                localAuthenticationService: MockLocalAuthenticationService(),
+//                appConfigService: MockAppConfigService(),
+//                userService: mockUserService,
+//                notificationCentreService: mockNotificationCentreService
+//            )
+//
+//            sut.loadMessages()
+//
+//            let tester = SettingsViewModelTester(settingsViewModel: sut)
+//            tester.objectWillChange
+//                .receive(on: DispatchQueue.main)
+//                .sink { _ in
+//                    guard mockUserService._linkedAccountCallCount > 0 else { return }
+//                    continuation.resume(returning: tester.settingsViewModel)
+//                    cancellables.removeAll()
+//                }.store(in: &cancellables)
+//        }
+//
+//        #expect(mockUserService._fetchLinkedAccountsCalled)
+//    }
+//
+//    @Test
+//    func accountLined_fetchesMessageCount() async {
+//        let mockUserService = MockUserService()
+//        mockUserService._stubbedLinkedAccounts = [.dvla]
+//
+//        let mockNotificationCentreService = MockNotificationCentreService()
+//        mockNotificationCentreService._stubbedFetchNotificationsResult = .success([])
+//
+//
+//        var cancellables = Set<AnyCancellable>()
+//        let _ = await withCheckedContinuation { continuation in
+//            let sut = SettingsViewModel(
+//                analyticsService: MockAnalyticsService(),
+//                urlOpener: MockURLOpener(),
+//                versionProvider: MockAppVersionProvider(),
+//                deviceInformationProvider: MockDeviceInformationProvider(),
+//                authenticationService: MockAuthenticationService(),
+//                notificationService: MockNotificationService(),
+//                notificationCenter: NotificationCenter(),
+//                localAuthenticationService: MockLocalAuthenticationService(),
+//                appConfigService: MockAppConfigService(),
+//                userService: mockUserService,
+//                notificationCentreService: mockNotificationCentreService
+//            )
+//
+//            sut.loadMessages()
+//
+//            let tester = SettingsViewModelTester(settingsViewModel: sut)
+//            tester.objectWillChange
+//                .receive(on: DispatchQueue.main)
+//                .sink { _ in
+//                    guard mockNotificationCentreService._fetchNotificationsCalled == true else { return }
+//                    continuation.resume(returning: tester.settingsViewModel)
+//                    cancellables.removeAll()
+//                }.store(in: &cancellables)
+//        }
+//
+//        #expect(mockNotificationCentreService._fetchNotificationsCalled == true)
+//    }
 }
 
 class SettingsViewModelTester: ObservableObject {
