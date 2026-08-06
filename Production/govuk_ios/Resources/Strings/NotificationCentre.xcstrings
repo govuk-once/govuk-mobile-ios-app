@@ -73,7 +73,7 @@
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%1$@ Sender: %2$@"
+            "value" : "%1$@. Sender: %2$@"
           }
         }
       }
@@ -173,6 +173,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Messages are not working"
+          }
+        }
+      }
+    },
+    "notificationLoadingA11YLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading"
           }
         }
       }

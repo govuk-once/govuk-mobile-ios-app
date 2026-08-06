@@ -123,9 +123,8 @@ class NotificationCentreDetailViewModel: ObservableObject {
         if case .loaded(let notification, _) = state {
             analyticsService.track(event: .notificationCentreConfirmDelete())
             notificationService.delete(with: notification.id)
+            actions.onDeleteAction()
         }
-
-        actions.onDeleteAction()
     }
 
     func onCancelDelete() {
@@ -139,9 +138,8 @@ class NotificationCentreDetailViewModel: ObservableObject {
         if case .loaded(let notification, _) = state {
             analyticsService.track(event: .notificationCentreMarkUnread())
             notificationService.markUnread(with: notification.id)
+            actions.onUnreadAction()
         }
-
-        actions.onUnreadAction()
     }
 
     func track(screen: TrackableScreen) {
