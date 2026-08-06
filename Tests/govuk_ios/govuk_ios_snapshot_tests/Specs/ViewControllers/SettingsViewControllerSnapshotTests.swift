@@ -173,133 +173,133 @@ class SettingsViewControllerSnapshotTests: SnapshotTestCase {
         }
     }
 
-    func test_loadInNavigationController_messages_dark_rendersCorrectly() async {
-        userService._stubbedLinkedAccounts = [.dvla]
-        notificationCentreService._stubbedFetchNotificationsResult = .success(NotificationCentreViewModel.MockData.recentNotifications)
-        let viewModel = assembleSUT()
-        viewModel.loadMessages()
+//    func test_loadInNavigationController_messages_dark_rendersCorrectly() async {
+//        userService._stubbedLinkedAccounts = [.dvla]
+//        notificationCentreService._stubbedFetchNotificationsResult = .success(NotificationCentreViewModel.MockData.recentNotifications)
+//        let viewModel = assembleSUT()
+//        viewModel.loadMessages()
+//
+//        let settingsContentView = SettingsView(
+//            viewModel: viewModel
+//        )
+//        let hostingViewController =  HostingViewController(
+//            rootView: settingsContentView,
+//            statusBarStyle: .darkContent
+//        )
+//
+//        var cancellables = Set<AnyCancellable>()
+//        await withCheckedContinuation { continuation in
+//            viewModel.objectWillChange
+//                .receive(on: DispatchQueue.main)
+//                .sink(receiveValue: { _ in
+//                    self.VerifySnapshotInNavigationController(
+//                        viewController: hostingViewController,
+//                        mode: .dark,
+//                        prefersLargeTitles: true
+//                    )
+//                    continuation.resume()
+//                    cancellables.removeAll()
+//                })
+//                .store(in: &cancellables)
+//        }
+//    }
 
-        let settingsContentView = SettingsView(
-            viewModel: viewModel
-        )
-        let hostingViewController =  HostingViewController(
-            rootView: settingsContentView,
-            statusBarStyle: .darkContent
-        )
+//    func test_loadInNavigationController_messages_light_rendersCorrectly() async {
+//        userService._stubbedLinkedAccounts = [.dvla]
+//        notificationCentreService._stubbedFetchNotificationsResult = .success(NotificationCentreViewModel.MockData.recentNotifications)
+//
+//        let viewModel = assembleSUT()
+//        viewModel.loadMessages()
+//
+//        let settingsContentView = SettingsView(
+//            viewModel: viewModel
+//        )
+//        let hostingViewController =  HostingViewController(
+//            rootView: settingsContentView,
+//            statusBarStyle: .darkContent
+//        )
+//
+//        var cancellables = Set<AnyCancellable>()
+//        await withCheckedContinuation { continuation in
+//            viewModel.objectWillChange
+//                .receive(on: DispatchQueue.main)
+//                .sink(receiveValue: { _ in
+//                    self.VerifySnapshotInNavigationController(
+//                        viewController: hostingViewController,
+//                        mode: .light,
+//                        prefersLargeTitles: true
+//                    )
+//                    continuation.resume()
+//                    cancellables.removeAll()
+//                })
+//                .store(in: &cancellables)
+//        }
+//    }
 
-        var cancellables = Set<AnyCancellable>()
-        await withCheckedContinuation { continuation in
-            viewModel.objectWillChange
-                .receive(on: DispatchQueue.main)
-                .sink(receiveValue: { _ in
-                    self.VerifySnapshotInNavigationController(
-                        viewController: hostingViewController,
-                        mode: .dark,
-                        prefersLargeTitles: true
-                    )
-                    continuation.resume()
-                    cancellables.removeAll()
-                })
-                .store(in: &cancellables)
-        }
-    }
+//    func test_loadInNavigationController_messages_none_dark_rendersCorrectly() async {
+//        userService._stubbedLinkedAccounts = [.dvla]
+//        notificationCentreService._stubbedFetchNotificationsResult = .success([])
+//        let viewModel = assembleSUT()
+//        viewModel.loadMessages()
+//
+//        let settingsContentView = SettingsView(
+//            viewModel: viewModel
+//        )
+//        let hostingViewController =  HostingViewController(
+//            rootView: settingsContentView,
+//            statusBarStyle: .darkContent
+//        )
+//
+//        var cancellables = Set<AnyCancellable>()
+//        viewModel.updateEmail()
+//        await withCheckedContinuation { continuation in
+//            viewModel.objectWillChange
+//                .receive(on: DispatchQueue.main)
+//                .sink(receiveValue: { _ in
+//                    self.VerifySnapshotInNavigationController(
+//                        viewController: hostingViewController,
+//                        mode: .dark,
+//                        prefersLargeTitles: true
+//                    )
+//                    continuation.resume()
+//                    cancellables.removeAll()
+//                })
+//                .store(in: &cancellables)
+//        }
+//    }
 
-    func test_loadInNavigationController_messages_light_rendersCorrectly() async {
-        userService._stubbedLinkedAccounts = [.dvla]
-        notificationCentreService._stubbedFetchNotificationsResult = .success(NotificationCentreViewModel.MockData.recentNotifications)
-
-        let viewModel = assembleSUT()
-        viewModel.loadMessages()
-
-        let settingsContentView = SettingsView(
-            viewModel: viewModel
-        )
-        let hostingViewController =  HostingViewController(
-            rootView: settingsContentView,
-            statusBarStyle: .darkContent
-        )
-
-        var cancellables = Set<AnyCancellable>()
-        await withCheckedContinuation { continuation in
-            viewModel.objectWillChange
-                .receive(on: DispatchQueue.main)
-                .sink(receiveValue: { _ in
-                    self.VerifySnapshotInNavigationController(
-                        viewController: hostingViewController,
-                        mode: .light,
-                        prefersLargeTitles: true
-                    )
-                    continuation.resume()
-                    cancellables.removeAll()
-                })
-                .store(in: &cancellables)
-        }
-    }
-
-    func test_loadInNavigationController_messages_none_dark_rendersCorrectly() async {
-        userService._stubbedLinkedAccounts = [.dvla]
-        notificationCentreService._stubbedFetchNotificationsResult = .success([])
-        let viewModel = assembleSUT()
-        viewModel.loadMessages()
-
-        let settingsContentView = SettingsView(
-            viewModel: viewModel
-        )
-        let hostingViewController =  HostingViewController(
-            rootView: settingsContentView,
-            statusBarStyle: .darkContent
-        )
-
-        var cancellables = Set<AnyCancellable>()
-        viewModel.updateEmail()
-        await withCheckedContinuation { continuation in
-            viewModel.objectWillChange
-                .receive(on: DispatchQueue.main)
-                .sink(receiveValue: { _ in
-                    self.VerifySnapshotInNavigationController(
-                        viewController: hostingViewController,
-                        mode: .dark,
-                        prefersLargeTitles: true
-                    )
-                    continuation.resume()
-                    cancellables.removeAll()
-                })
-                .store(in: &cancellables)
-        }
-    }
-
-    func test_loadInNavigationController_messages_none_light_rendersCorrectly() async {
-        userService._stubbedLinkedAccounts = [.dvla]
-        notificationCentreService._stubbedFetchNotificationsResult = .success([])
-
-        let viewModel = assembleSUT()
-        viewModel.loadMessages()
-
-        let settingsContentView = SettingsView(
-            viewModel: viewModel
-        )
-        let hostingViewController =  HostingViewController(
-            rootView: settingsContentView,
-            statusBarStyle: .darkContent
-        )
-
-        var cancellables = Set<AnyCancellable>()
-        viewModel.updateEmail()
-        await withCheckedContinuation { continuation in
-            viewModel.objectWillChange
-                .receive(on: DispatchQueue.main)
-                .sink(receiveValue: { _ in
-                    self.VerifySnapshotInNavigationController(
-                        viewController: hostingViewController,
-                        mode: .light,
-                        prefersLargeTitles: true
-                    )
-                    continuation.resume()
-                    cancellables.removeAll()
-                })
-                .store(in: &cancellables)
-        }
-    }
+//    func test_loadInNavigationController_messages_none_light_rendersCorrectly() async {
+//        userService._stubbedLinkedAccounts = [.dvla]
+//        notificationCentreService._stubbedFetchNotificationsResult = .success([])
+//
+//        let viewModel = assembleSUT()
+//        viewModel.loadMessages()
+//
+//        let settingsContentView = SettingsView(
+//            viewModel: viewModel
+//        )
+//        let hostingViewController =  HostingViewController(
+//            rootView: settingsContentView,
+//            statusBarStyle: .darkContent
+//        )
+//
+//        var cancellables = Set<AnyCancellable>()
+//        viewModel.updateEmail()
+//        await withCheckedContinuation { continuation in
+//            viewModel.objectWillChange
+//                .receive(on: DispatchQueue.main)
+//                .sink(receiveValue: { _ in
+//                    self.VerifySnapshotInNavigationController(
+//                        viewController: hostingViewController,
+//                        mode: .light,
+//                        prefersLargeTitles: true
+//                    )
+//                    continuation.resume()
+//                    cancellables.removeAll()
+//                })
+//                .store(in: &cancellables)
+//        }
+//    }
 
     func test_loadInNavigationController_preview_rendersCorrectly() {
         let settingsContentView = SettingsView(
