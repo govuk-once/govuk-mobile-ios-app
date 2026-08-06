@@ -59,23 +59,6 @@ struct MailboxMessageRow: View {
                 )
                 .lineLimit(2)
             HStack(spacing: 4) {
-                if let status = message.parsedStatus {
-                    Image(systemName: status.iconName)
-                        .font(.system(size: 11))
-                        .foregroundStyle(
-                            Color(uiColor: status.color)
-                        )
-                    Text(status.rawValue)
-                        .font(Font.govUK.caption1)
-                        .foregroundStyle(
-                            Color(uiColor: status.color)
-                        )
-                    Text("·")
-                        .font(Font.govUK.caption1)
-                        .foregroundStyle(
-                            Color(uiColor: .govUK.text.secondary)
-                        )
-                }
                 if let date = message.receivedDate {
                     Text(Self.relativeDateFormatter.localizedString(
                         for: date, relativeTo: .now
