@@ -26,7 +26,7 @@ struct CustomerVehicleViewModelTests {
     }
 
     @Test
-    func vehicleModel_modelIsNil_returnsUnknown() {
+    func vehicleModel_modelIsNil_returnsEmptyString() {
         let mockVehicle = CustomerVehicles.Vehicle.arrange(
             registrationNumber: "AB12 CDE",
             make: "FORD",
@@ -39,7 +39,7 @@ struct CustomerVehicleViewModelTests {
             configService: MockAppConfigService(),
             analyticsService: MockAnalyticsService()
         )
-        #expect(sut.vehicleModel == String.dvla.localized("unknown"))
+        #expect(sut.vehicleModel == "")
     }
 
     @Test

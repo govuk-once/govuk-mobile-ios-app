@@ -70,7 +70,7 @@ class SettingsViewModel: SettingsViewModelInterface {
     var signoutAction: (() -> Void)?
     var openAction: ((SettingsViewModelURLParameters) -> Void)?
     var sarAction: (() -> Void)?
-    @Published var userEmail: String?
+    @Published private(set) var userEmail: String?
 
     init(analyticsService: AnalyticsServiceInterface,
          urlOpener: URLOpener,
@@ -103,7 +103,6 @@ class SettingsViewModel: SettingsViewModelInterface {
                 self.listContent = self.getGroupedList()
             }
         }
-
         // Set the initial state
         self.listContent = self.getGroupedList()
     }
@@ -163,7 +162,8 @@ class SettingsViewModel: SettingsViewModelInterface {
 
     func updateEmail() {
         Task { @MainActor in
-            userEmail = await self.authenticationService.userEmail
+            userEmail = await authenticationService.userEmail
+            listContent = getGroupedList()
         }
     }
 

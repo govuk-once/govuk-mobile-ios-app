@@ -20,9 +20,9 @@ struct VehicleSpecFormatterTests {
     }
 
     @Test
-    func formatModel_modelIsNil_returnsUnknown() {
+    func formatModel_modelIsNil_returnsEmptyString() {
         let result = sut.formatModel(from: nil)
-        #expect(result == String(localized: .DVLA.unknown))
+        #expect(result == "")
     }
 
     @Test(arguments: zip(
@@ -145,18 +145,13 @@ struct VehicleSpecFormatterTests {
     @Test
     func formatEmissions_emissionsIsNil_returnsUnknown() {
         let result = sut.formatEmissions(from: nil)
-        #expect(result.displayValue == String(localized: .DVLA.unknown))
+        #expect(result == String(localized: .DVLA.unknown))
     }
 
     @Test
     func formatEmissions_valideCo2Emissions_returnsExpectedResult() {
         let result = sut.formatEmissions(from: 100)
-        let expectedString = String(
-            localized: .DVLA.emissionsInGramsPerKm(
-                emissions: 100
-            )
-        )
-        #expect(result.displayValue == expectedString)
+        #expect(result == "100")
     }
 
     @Test

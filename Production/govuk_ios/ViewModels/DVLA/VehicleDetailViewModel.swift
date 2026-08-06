@@ -157,7 +157,7 @@ final class VehicleDetailViewModel: ObservableObject {
         let engineSize: AccessibleString = specFormatter.formatEngineSize(
             from: vehicle.engineCapacity
         )
-        let emissions: AccessibleString = specFormatter.formatEmissions(
+        let emissions = specFormatter.formatEmissions(
             from: vehicle.exhaustEmissionsCo2
         )
         return GroupedListSection(
@@ -179,8 +179,8 @@ final class VehicleDetailViewModel: ObservableObject {
                     id: "vehicle.yearOfFirstRegistration.row",
                     title: String(localized: .DVLA.firstRegistered),
                     body: nil,
-                    detail: specFormatter.formatYearOfFirstRegistration(
-                        from: vehicle.dateOfFirstRegistration
+                    detail: specFormatter.formatDateOfFirstRegistration(
+                        vehicle.dateOfFirstRegistration
                     )
                 ),
                 InformationRow(
@@ -213,10 +213,10 @@ final class VehicleDetailViewModel: ObservableObject {
                     id: "vehicle.emissions.row",
                     title: String(localized: .DVLA.co2Emissions),
                     body: nil,
-                    detail: emissions.displayValue,
+                    detail: emissions,
                     accessibilityLabel: String(
                         localized: .DVLA.emissionsAccessibilityLabel(
-                            value: emissions.accessibilityLabel
+                            value: emissions
                         )
                     )
                 )
