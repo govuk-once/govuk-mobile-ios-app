@@ -81,6 +81,7 @@ extension Container {
                 projectId: "yourProjectId",
                 qualtrics: Qualtrics.shared,
                 firebaseIDsService: self.firebaseIDsService.resolve(),
+                firebaseClient: self.firebaseClient.resolve(),
                 theme: self.qualtricsTheme.resolve()
             )
         }

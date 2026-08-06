@@ -2,6 +2,8 @@ import Foundation
 import UIKit
 import Qualtrics
 
+import GovKit
+
 protocol QualtricsServiceInterface {
     func evaluateViewEvent(
         screenName: String,
@@ -17,6 +19,7 @@ struct QualtricsService: QualtricsServiceInterface {
     // presentationController is for testing only
     private let presentationController: UIViewController?
     private let firebaseIDsService: FirebaseIDsServiceInterface
+    private let firebaseClient: AnalyticsClient
 
     private var surveyController: UIViewController? {
         if let controller = presentationController {
@@ -38,6 +41,7 @@ struct QualtricsService: QualtricsServiceInterface {
         projectId: String,
         qualtrics: QualtricsWrapperInterface,
         firebaseIDsService: FirebaseIDsServiceInterface,
+        firebaseClient: AnalyticsClient,
         theme: QualtricsTheme? = nil,
         completion: QualtricsInitializationResult? = nil,
         presentationController: UIViewController? = nil
@@ -46,6 +50,7 @@ struct QualtricsService: QualtricsServiceInterface {
         self.projectId = projectId
         self.qualtrics = qualtrics
         self.firebaseIDsService = firebaseIDsService
+        self.firebaseClient = firebaseClient
         self.presentationController = presentationController
         qualtrics.initializeProject(
             brandId: brandId,
@@ -69,10 +74,12 @@ struct QualtricsService: QualtricsServiceInterface {
                 where: { result in
                     result.value.passed()
                 }
-            ) != nil
-            guard passedTargetResult,
+            )
+            guard let passedTargetResult,
                   let surveyController
             else { return }
+
+            trackSurveyOpened(targetingID: passedTargetResult.key)
 
             _ = qualtrics.display(
                 viewController: surveyController,
@@ -89,12 +96,15 @@ struct QualtricsService: QualtricsServiceInterface {
                     result.value.passed()
                 }
             )
-            guard let targetingResultDict = targetingResultDict,
-                  let url = targetingResultDict.value.getSurveyUrl(),
+            guard let passedTargetResult = targetingResultDict,
+                  let url = passedTargetResult.value.getSurveyUrl(),
                   let surveyController
             else { return }
 
-            targetingResultDict.value.recordImpression()
+            passedTargetResult.value.recordImpression()
+
+            trackSurveyOpened(targetingID: passedTargetResult.key)
+
             Task { @MainActor in
                 // We are assuming the user clicked on a "Give feedback" button
                 // or other CTA that informs a survey is about to be presented,
@@ -160,5 +170,16 @@ struct QualtricsService: QualtricsServiceInterface {
         )
         // Refreshes session ID as could change, async so called post set.
         firebaseIDsService.updateSessionID()
+    }
+
+    private func trackSurveyOpened(targetingID: String) {
+        firebaseClient.track(
+            event: AppEvent(
+                name: "qualtrics_survey_opened",
+                params: [
+                    "qualtrics_targeting_id": targetingID
+                ]
+            )
+        )
     }
 }

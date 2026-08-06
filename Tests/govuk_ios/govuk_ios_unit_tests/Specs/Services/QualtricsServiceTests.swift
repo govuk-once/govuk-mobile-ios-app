@@ -16,7 +16,8 @@ struct QualtricsServiceTests {
             brandId: "",
             projectId: "",
             qualtrics: mockQualtrics,
-            firebaseIDsService: MockFirebaseIDsService()
+            firebaseIDsService: MockFirebaseIDsService(),
+            firebaseClient: MockAnalyticsClient()
         )
 
         #expect(mockQualtrics._didInitializeProject)
@@ -31,6 +32,7 @@ struct QualtricsServiceTests {
             projectId: "",
             qualtrics: mockQualtrics,
             firebaseIDsService: MockFirebaseIDsService(),
+            firebaseClient: MockAnalyticsClient(),
             presentationController: UIViewController()
         )
 
@@ -55,6 +57,7 @@ struct QualtricsServiceTests {
             projectId: "",
             qualtrics: mockQualtrics,
             firebaseIDsService: MockFirebaseIDsService(),
+            firebaseClient: MockAnalyticsClient(),
             presentationController: UIViewController()
         )
 
@@ -79,7 +82,8 @@ struct QualtricsServiceTests {
             brandId: "",
             projectId: "",
             qualtrics: mockQualtrics,
-            firebaseIDsService: MockFirebaseIDsService()
+            firebaseIDsService: MockFirebaseIDsService(),
+            firebaseClient: MockAnalyticsClient()
         )
 
         sut.evaluateViewEvent(
@@ -123,7 +127,7 @@ struct QualtricsServiceTests {
 
     @Test
     @MainActor
-    func qualtricProperties_sendFirebaseIds() async throws {
+    func qualtricProperties_setsFirebaseIds() async throws {
         let mockQualtrics = MockQualtricsWrapper()
         let expectedAppId = "123"
         let expectedSessionId = "321"
@@ -131,7 +135,8 @@ struct QualtricsServiceTests {
             brandId: "",
             projectId: "",
             qualtrics: mockQualtrics,
-            firebaseIDsService: MockFirebaseIDsService()
+            firebaseIDsService: MockFirebaseIDsService(),
+            firebaseClient: MockAnalyticsClient()
         )
 
         sut.evaluateViewEvent(
@@ -162,7 +167,8 @@ struct QualtricsServiceTests {
             brandId: "",
             projectId: "",
             qualtrics: MockQualtricsWrapper(),
-            firebaseIDsService: mockFirebaseIDsService
+            firebaseIDsService: mockFirebaseIDsService,
+            firebaseClient: MockAnalyticsClient()
         )
 
         #expect(mockFirebaseIDsService._updateSessionIDCalled == false)
@@ -171,5 +177,57 @@ struct QualtricsServiceTests {
             params: ["screen_class": "test_class"]
         )
         #expect(mockFirebaseIDsService._updateSessionIDCalled == true)
+    }
+
+    @Test
+    @MainActor
+    func evaluateClickEvent_valid_sendsTrackingEvent() async {
+        let mockQualtrics = MockQualtricsWrapper()
+        let mockAnalyticsClient = MockAnalyticsClient()
+        let sut = QualtricsService(
+            brandId: "",
+            projectId: "",
+            qualtrics: mockQualtrics,
+            firebaseIDsService: MockFirebaseIDsService(),
+            firebaseClient: mockAnalyticsClient,
+            presentationController: UIViewController()
+        )
+
+        let targetResult = MockTargetingResult()
+        targetResult._stubbedTargetPassed = true
+        targetResult._stubbedSurveyUrl = "http://www.example.com"
+        mockQualtrics._stubbedTargetingResults = ["interceptId": targetResult]
+        sut.evaluateClickEvent(
+            params: ["test_key": "test_value"]
+        )
+
+        #expect(mockAnalyticsClient._trackEventReceivedEvents.count == 1)
+        #expect(mockAnalyticsClient._trackEventReceivedEvents.first!.name == "qualtrics_survey_opened")
+    }
+
+    @Test
+    @MainActor
+    func evaluateViewEvent_valid_sendsTrackingEvent() async {
+        let mockQualtrics = MockQualtricsWrapper()
+        let mockAnalyticsClient = MockAnalyticsClient()
+        let sut = QualtricsService(
+            brandId: "",
+            projectId: "",
+            qualtrics: mockQualtrics,
+            firebaseIDsService: MockFirebaseIDsService(),
+            firebaseClient: mockAnalyticsClient,
+            presentationController: UIViewController()
+        )
+
+        let targetResult = MockTargetingResult()
+        targetResult._stubbedTargetPassed = true
+        mockQualtrics._stubbedTargetingResults = ["interceptId": targetResult]
+        sut.evaluateViewEvent(
+            screenName: "Test screen",
+            params: ["test_key": "test_value"]
+        )
+
+        #expect(mockAnalyticsClient._trackEventReceivedEvents.count == 1)
+        #expect(mockAnalyticsClient._trackEventReceivedEvents.first!.name == "qualtrics_survey_opened")
     }
 }
