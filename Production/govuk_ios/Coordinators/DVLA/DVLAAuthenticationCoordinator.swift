@@ -7,8 +7,10 @@ final class DVLAAuthenticationCoordinator: BaseCoordinator {
     private let authenticationService: AuthenticationServiceInterface
     private let analyticsService: AnalyticsServiceInterface
     private let appEnvironmentService: AppEnvironmentServiceInterface
+    private let viewControllerBuilder: ViewControllerBuilder
 
     init(navigationController: UINavigationController,
+         viewControllerBuilder: ViewControllerBuilder,
          urlOpener: URLOpener,
          authenticationService: AuthenticationServiceInterface,
          analyticsService: AnalyticsServiceInterface,
@@ -17,51 +19,30 @@ final class DVLAAuthenticationCoordinator: BaseCoordinator {
         self.authenticationService = authenticationService
         self.analyticsService = analyticsService
         self.appEnvironmentService = appEnvironmentService
+        self.viewControllerBuilder = viewControllerBuilder
         super.init(navigationController: navigationController)
     }
 
     override func start(url: URL?) {
-        Task {
-            await refreshToken()
-        }
+        pushLoadingView()
     }
 
-    private func refreshToken() async {
-        let result = await authenticationService.tokenRefreshRequest()
-        switch result {
-        case .success:
-            await fetchIdentityVerification()
-        case .failure:
-            presentError()
-        }
-    }
-
-    private func fetchIdentityVerification() async {
-        let result = await authenticationService.fetchIdentityVerification()
-        switch result {
-        case .success(let result):
-            authenticate(
-                verificationHash: result.verificationHash,
-                sessionHash: result.sessionHash
-            )
-        case .failure:
-            presentError()
-        }
-    }
-
-    private func authenticate(verificationHash: String,
-                              sessionHash: String) {
-        let authenticationUrl = appEnvironmentService.dvlaAuthenticationURL
-        var components = URLComponents(
-            url: authenticationUrl,
-            resolvingAgainstBaseURL: true
+    private func pushLoadingView() {
+        let viewController = viewControllerBuilder.dvlaAuthentication(
+            authenticationService: authenticationService,
+            appEnvironmentService: appEnvironmentService,
+            completionAction: { [weak self] url in
+                self?.openUrl(url)
+            },
+            errorAction: { [weak self] in
+                self?.presentError()
+            }
         )
-        components?.queryItems = [
-            .init(name: "verification", value: verificationHash),
-            .init(name: "session", value: sessionHash),
-        ]
-        guard let url = components?.url
-        else { return presentError() }
+        push(viewController, animated: false)
+    }
+
+    private func openUrl(_ url: URL) {
+        root.popViewController(animated: false)
         urlOpener.openIfPossible(url)
     }
 
@@ -84,11 +65,7 @@ final class DVLAAuthenticationCoordinator: BaseCoordinator {
             },
             trackingName: screenTitle,
         )
-        let errorView = ErrorView(viewModel: viewModel)
-        let hostingViewController = HostingViewController(
-            rootView: errorView,
-            navigationBarHidden: true
-        )
-        set(hostingViewController, animated: true)
+        let viewController = viewControllerBuilder.error(viewModel: viewModel)
+        set(viewController, animated: true)
     }
 }

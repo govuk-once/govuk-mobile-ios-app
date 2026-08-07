@@ -458,4 +458,18 @@ class MockViewControllerBuilder: ViewControllerBuilder {
                                            actions: NotificationCentreDetailViewModel.Actions) -> UIViewController {
         return _stubbedNotificationCentreDetailViewController
     }
+
+    var _stubbedDvlaAuthenticationViewController: UIViewController?
+    var _receivedDvlaAuthenticationCompletionAction: ((URL) -> Void)?
+    var _receivedDvlaAuthenticationErrorAction: (() -> Void)?
+    override func dvlaAuthentication(
+        authenticationService: AuthenticationServiceInterface,
+        appEnvironmentService: AppEnvironmentServiceInterface,
+        completionAction: @escaping (URL) -> Void,
+        errorAction: @escaping () -> Void
+    ) -> UIViewController {
+        _receivedDvlaAuthenticationCompletionAction = completionAction
+        _receivedDvlaAuthenticationErrorAction = errorAction
+        return _stubbedDvlaAuthenticationViewController ?? UIViewController()
+    }
 }
