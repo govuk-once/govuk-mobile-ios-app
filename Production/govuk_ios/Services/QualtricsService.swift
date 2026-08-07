@@ -12,7 +12,7 @@ protocol QualtricsServiceInterface {
     func evaluateClickEvent(params: [String: String]) async
 }
 
-struct QualtricsService: QualtricsServiceInterface {
+actor QualtricsService: QualtricsServiceInterface {
     private let brandId: String
     private let projectId: String
     private let qualtrics: QualtricsWrapperInterface
@@ -21,6 +21,7 @@ struct QualtricsService: QualtricsServiceInterface {
     private let firebaseIDsService: FirebaseIDsServiceInterface
     private let firebaseClient: AnalyticsClient
 
+    @MainActor
     private var surveyController: UIViewController? {
         if let controller = presentationController {
             return controller
@@ -64,55 +65,59 @@ struct QualtricsService: QualtricsServiceInterface {
     }
 
     func evaluateViewEvent(
-        screenName: String,
-        params: [String: String]
-    ) {
-        setQualtricsProperties(params)
-        qualtrics.registerViewVisit(viewName: screenName)
-        qualtrics.evaluateProjectTargets { targetingResults in
-            let passedTargetResult = targetingResults.first(
-                where: { result in
-                    result.value.passed()
-                }
-            )
-            guard let passedTargetResult,
-                  let surveyController
+        screenName screen: String,
+        params properties: [String: String]
+    ) async {
+        setQualtricsProperties(properties)
+        qualtrics.registerViewVisit(viewName: screen)
+
+        await evaluate { id, result in
+            guard let viewController = await surveyController,
+                  result.passed()
             else { return }
 
-            trackSurveyOpened(targetingID: passedTargetResult.key)
+            trackSurveyOpened(targetingID: id)
 
             _ = qualtrics.display(
-                viewController: surveyController,
+                viewController: viewController,
                 autoCloseSurvey: false
             )
         }
     }
 
-    func evaluateClickEvent(params: [String: String]) {
-        setQualtricsProperties(params)
-        qualtrics.evaluateProjectTargets { targetingResults in
-            let targetingResultDict = targetingResults.first(
-                where: { result in
-                    result.value.passed()
-                }
-            )
-            guard let passedTargetResult = targetingResultDict,
-                  let url = passedTargetResult.value.getSurveyUrl(),
-                  let surveyController
+    func evaluateClickEvent(
+        params properties: [String: String]
+    ) async {
+        setQualtricsProperties(properties)
+        await evaluate { id, result in
+            guard result.passed(),
+                  let url = result.getSurveyUrl(),
+                  let viewController = presentationController
             else { return }
 
-            passedTargetResult.value.recordImpression()
+            result.recordImpression()
+            trackSurveyOpened(targetingID: id)
 
-            trackSurveyOpened(targetingID: passedTargetResult.key)
-
-            Task { @MainActor in
+            await MainActor.run {
                 // We are assuming the user clicked on a "Give feedback" button
                 // or other CTA that informs a survey is about to be presented,
                 // so we diplay the survey directly without the intitial prompt
-                let qualtricsController = QualtricsSurveyViewController(url: url)
-                qualtricsController.modalPresentationStyle = .overFullScreen
-                surveyController.present(qualtricsController, animated: true)
+                let surveyController = QualtricsSurveyViewController(url: url)
+                surveyController.modalPresentationStyle = .overFullScreen
+                viewController.present(surveyController, animated: true)
             }
+        }
+    }
+
+    private func evaluate(
+        onPass: (String, TargetingResultInterface) async -> Void
+    ) async {
+        if let (id, res) = await withCheckedContinuation({ cont in
+            qualtrics.evaluateProjectTargets { results in
+                cont.resume(returning: results.first { $0.value.passed() })
+            }
+        }) {
+            await onPass(id, res)
         }
     }
 
