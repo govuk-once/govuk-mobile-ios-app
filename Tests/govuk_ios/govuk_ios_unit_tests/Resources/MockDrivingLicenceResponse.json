@@ -1,0 +1,79 @@
+{
+    "customerDrivingLicence": {
+        "licenceType": "Full",
+        "drivingLicenceNumber": "DECER607085K99AE",
+        "driverTitle": "MR",
+        "driverFirstNames": "KENNETH",
+        "driverLastName": "DECERQUEIRA",
+        "driverFullAddress": "9 FARRS LANE\nBATH\nBA2 5AA",
+        "tokenValidToDate": "2035-05-01",
+        "endorsements": [],
+        "licenceStatus": "Valid",
+        "entitlements": [
+            {
+                "categoryCode": "B",
+                "categoryLegalLiteral": "Vehicles up to 3,500 kg Maximum Authorised Mass (MAM) with up to 8 passenger seats and driver (with a trailer up to 750 kg). Can also tow heavier trailers if the total weight of vehicle and trailer isn't more than 3,500 kg. Provisional category B licences have no entitlement to tow a trailer. Physically disabled drivers with provisional category B entitlement will also have provisional entitlement to ride category A1 or A motor tricycles. Able-bodied drivers can no longer ride motor tricycles with a provisional category B licence",
+                "categoryShortLiteral": "Car with trailer up to 750 kg",
+                "categoryType": "Full",
+                "fromDate": "1990-01-17",
+                "expiryDate": "2028-06-19",
+                "categoryStatus": "Valid",
+                "restrictions": []
+            },
+            {
+                "categoryCode": "P",
+                "categoryLegalLiteral": "Motor vehicles with fewer than 4 wheels with a maximum design speed exceeding 45 kilometres per hour (km/h) but not exceeding 50 km/h and which, if propelled by an internal combustion engine, has a cylinder capacity not exceeding 50 cc",
+                "categoryShortLiteral": "Moped; Tricycle",
+                "categoryType": "Full",
+                "fromDate": "1990-01-17",
+                "expiryDate": "2028-06-19",
+                "categoryStatus": "Valid",
+                "restrictions": []
+            },
+            {
+                "categoryCode": "AM",
+                "categoryLegalLiteral": "2-wheel vehicles or 3-wheel vehicles with a maximum design speed of over 25km/h and not more than 45km/h; Light quadricycles with a mass in running order of not more than 425kg, not including the mass of the batteries in the case of electric vehicles, whose maximum design speed is over 25km/h and not more than 45km/h",
+                "categoryShortLiteral": "Moped or tricycle; Light quadricycle",
+                "categoryType": "Full",
+                "fromDate": "2015-03-10",
+                "expiryDate": "2028-06-19",
+                "categoryStatus": "Valid",
+                "restrictions": []
+            },
+            {
+                "categoryCode": "H",
+                "categoryLegalLiteral": "Tracked vehicles",
+                "categoryShortLiteral": "Tracked vehicle",
+                "categoryType": "Provisional",
+                "fromDate": "1979-07-07",
+                "expiryDate": "2028-06-19",
+                "categoryStatus": "Valid",
+                "restrictions": []
+            }
+        ],
+        "shareCodes": [
+            {
+                "state": "valid",
+                "tokenId": "ce262c04-fe04-4e41-a322-2a7a005128a0",
+                "token": "WmskWtky",
+                "drivingLicenceNumber": "BTODP556208DQ9YG",
+                "driverId": "ff195795-5dc0-4929-8db4-32d0fafde4c6",
+                "documentReference": "208DQ9YG",
+                "created": "2026-07-06T11:15:04.585Z",
+                "expiry": "2026-07-27T11:15:04.585Z",
+                "status": "active"
+            },
+            {
+                "state": "valid",
+                "tokenId": "b2d72ac8-e01d-481a-9945-0a7575c360a2",
+                "token": "qLpxVWGH",
+                "drivingLicenceNumber": "BTODP556208DQ9YG",
+                "driverId": "ff195795-5dc0-4929-8db4-32d0fafde4c6",
+                "documentReference": "208DQ9YG",
+                "created": "2026-07-06T10:38:26.641Z",
+                "expiry": "2026-07-27T10:38:26.641Z",
+                "status": "active"
+            }
+        ]
+    }
+}

@@ -1,0 +1,200 @@
+import Foundation
+import UIKit
+import GovKit
+import GovKitUI
+import SwiftUI
+
+class HomeViewModel: ObservableObject {
+    let analyticsService: AnalyticsServiceInterface
+    let configService: AppConfigServiceInterface
+    let notificationService: NotificationServiceInterface
+    let userDefaultsService: UserDefaultsServiceInterface
+    let topicsWidgetViewModel: TopicsWidgetViewModel
+    let localAuthorityAction: () -> Void
+    let editLocalAuthorityAction: () -> Void
+    let feedbackAction: () -> Void
+    let notificationsAction: () -> Void
+    let recentActivityAction: () -> Void
+    let openURLAction: (URL) -> Void
+    let openAction: (SearchItem) -> Void
+    let urlOpener: URLOpener
+    let searchService: SearchServiceInterface
+    let activityService: ActivityServiceInterface
+    let localAuthorityService: LocalAuthorityServiceInterface
+    let chatService: ChatServiceInterface
+
+    @Published var homeContentScrollToTop: Bool = false
+    @Published var widgets: [HomepageWidget] = []
+
+    private var bannersECommerceItems = [HomeCommerceItem]()
+    private lazy var bannerBuilder: BannerBuilder = BannerBuilder(
+        userDefaultsService: userDefaultsService,
+        configService: configService,
+        analyticsService: analyticsService,
+        urlOpener: urlOpener,
+        chatEnabled: chatService.isEnabled,
+        openURLAction: openURLAction,
+        updateWidgetsAction: { [weak self] in
+            self?.updateWidgets()
+        }
+    )
+
+    init(analyticsService: AnalyticsServiceInterface,
+         configService: AppConfigServiceInterface,
+         notificationService: NotificationServiceInterface,
+         userDefaultsService: UserDefaultsServiceInterface,
+         topicsWidgetViewModel: TopicsWidgetViewModel,
+         urlOpener: URLOpener,
+         searchService: SearchServiceInterface,
+         activityService: ActivityServiceInterface,
+         localAuthorityService: LocalAuthorityServiceInterface,
+         chatService: ChatServiceInterface,
+         localAuthorityAction: @escaping () -> Void,
+         editLocalAuthorityAction: @escaping () -> Void,
+         feedbackAction: @escaping () -> Void,
+         notificationsAction: @escaping () -> Void,
+         recentActivityAction: @escaping () -> Void,
+         openURLAction: @escaping (URL) -> Void,
+         openAction: @escaping (SearchItem) -> Void) {
+        self.analyticsService = analyticsService
+        self.configService = configService
+        self.notificationService = notificationService
+        self.userDefaultsService = userDefaultsService
+        self.topicsWidgetViewModel = topicsWidgetViewModel
+        self.localAuthorityAction = localAuthorityAction
+        self.editLocalAuthorityAction = editLocalAuthorityAction
+        self.feedbackAction = feedbackAction
+        self.notificationsAction = notificationsAction
+        self.recentActivityAction = recentActivityAction
+        self.openURLAction = openURLAction
+        self.openAction = openAction
+        self.urlOpener = urlOpener
+        self.searchService = searchService
+        self.activityService = activityService
+        self.localAuthorityService = localAuthorityService
+        self.chatService = chatService
+
+        updateWidgets()
+    }
+
+    func updateWidgets() {
+        widgets =
+        bannerWidgets() +
+        serviceWidgets()
+    }
+
+    private func bannerWidgets() -> [HomepageWidget] {
+        bannerBuilder.bannerWidgets()
+    }
+
+    private func serviceWidgets() -> [HomepageWidget] {
+        [
+            topicsWidget,
+            addLocalAuthorityWidget,
+            storedLocalAuthorityWidget,
+            recentActivityWidget,
+            feedbackWidget
+        ].compactMap { $0 }
+    }
+
+    private var topicsWidget: HomepageWidget? {
+        guard featureEnabled(.topics)
+        else { return nil }
+        return HomepageWidget(
+            content: TopicsWidgetView(
+                viewModel: self.topicsWidgetViewModel
+            )
+        )
+    }
+
+    private var storedLocalAuthorityWidget: HomepageWidget? {
+        guard featureEnabled(.localServices) else { return nil }
+        let localAuthorities = localAuthorityService.fetchSavedLocalAuthority()
+        guard localAuthorities.count > 0 else { return nil }
+
+        let viewModel = StoredLocalAuthorityWidgetViewModel(
+            analyticsService: analyticsService,
+            localAuthorities: localAuthorities,
+            openURLAction: openURLAction,
+            openEditViewAction: editLocalAuthorityAction
+        )
+        let view = StoredLocalAuthorityWidgetView(
+            viewModel: viewModel
+        )
+        return HomepageWidget(
+            content: view
+        )
+    }
+
+    private var feedbackWidget: HomepageWidget? {
+        guard let userFeedbackBanner = configService.userFeedbackBanner
+        else { return nil }
+
+        let viewModel = UserFeedbackWidgetViewModel(
+            userFeedback: userFeedbackBanner,
+            analyticsService: analyticsService,
+            urlOpener: urlOpener
+        )
+
+        let view = UserFeedbackWidgetView(
+            viewModel: viewModel
+        )
+        return HomepageWidget(
+            content: view
+        )
+    }
+
+    private var recentActivityWidget: HomepageWidget? {
+        guard featureEnabled(.recentActivity)
+        else { return nil }
+        let viewModel = RecentActivityHomepageWidgetViewModel(
+            analyticsService: analyticsService,
+            activityService: activityService,
+            seeAllAction: { [weak self] in
+                self?.recentActivityAction()
+            },
+            openURLAction: openURLAction
+        )
+        let view = RecentActivityWidgetView(viewModel: viewModel)
+        return HomepageWidget(
+            content: view
+        )
+    }
+
+    private var addLocalAuthorityWidget: HomepageWidget? {
+        guard featureEnabled(.localServices),
+              localAuthorityService.fetchSavedLocalAuthority().isEmpty
+        else { return nil }
+        let viewModel = LocalAuthorityWidgetViewModel { [weak self] in
+            self?.localAuthorityAction()
+        }
+        let view = LocalAuthorityWidget(
+            viewModel: viewModel
+        )
+        return HomepageWidget(
+            content: view
+        )
+    }
+
+    lazy var searchEnabled = featureEnabled(.search)
+    lazy var searchViewModel: SearchViewModel = SearchViewModel(
+        analyticsService: analyticsService,
+        searchService: searchService,
+        activityService: activityService,
+        urlOpener: urlOpener,
+        openAction: openAction
+    )
+
+    private func featureEnabled(_ feature: Feature) -> Bool {
+        configService.isFeatureEnabled(key: feature)
+    }
+
+    func trackECommerce() {
+        topicsWidgetViewModel.trackECommerce()
+        bannerBuilder.trackBannersEcommerceEvent()
+    }
+
+    func editTopics() {
+        topicsWidgetViewModel.isEditingTopics = true
+    }
+}

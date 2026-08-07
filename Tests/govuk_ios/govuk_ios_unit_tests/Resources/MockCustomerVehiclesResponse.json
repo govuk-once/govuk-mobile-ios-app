@@ -1,0 +1,17 @@
+{
+    "customerVehicles": [
+        {
+            "vehicleId": 119619077,
+            "registrationNumber": "RBZ5119",
+            "make": "MITSUBISHI",
+            "model": "MIRAGE",
+            "taxedUntil": "2026-06-30",
+            "dateOfLiability": "2026-07-01",
+            "sornStart": null,
+            "taxStatus": "Taxed",
+            "motExpiryDate": "2011-03-08",
+            "motStatus": "Not valid",
+            "currentLicencePaymentMethod": "Other",
+        }
+    ]
+}

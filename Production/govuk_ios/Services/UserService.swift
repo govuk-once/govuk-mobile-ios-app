@@ -1,14 +1,24 @@
+import Foundation
+
 protocol UserServiceInterface {
     func fetchUserState(completion: @escaping FetchUserStateCompletion)
     func setNotificationsConsent(_ consentStatus: ConsentStatus)
+    func linkAccount(withType accountType: ServiceAccountType,
+                     token: String,
+                     completion: @escaping LinkAccountCompletion)
+    func unlinkAccount(withType accountType: ServiceAccountType,
+                       completion: @escaping UnlinkAccountCompletion)
+    func fetchLinkedAccounts() async -> Result<[ServiceAccountType], UserStateError>
     var pushId: String? { get }
     var notificationsConsentStatus: ConsentStatus? { get }
     var isEnabled: Bool { get }
+    var linkedAccounts: [ServiceAccountType]? { get }
 }
 
  class UserService: UserServiceInterface {
      private let appConfigService: AppConfigServiceInterface
      private let userServiceClient: UserServiceClientInterface
+     private let notificationCenter: NotificationCenter
      private var userState: UserState?
 
      var isEnabled: Bool {
@@ -22,10 +32,15 @@ protocol UserServiceInterface {
          userState?.notifications.consentStatus
      }
 
+     // lets move this out of here in the future
+     var linkedAccounts: [ServiceAccountType]?
+
      init(appConfigService: AppConfigServiceInterface,
-          userServiceClient: UserServiceClientInterface) {
+          userServiceClient: UserServiceClientInterface,
+          notificationCenter: NotificationCenter) {
          self.appConfigService = appConfigService
          self.userServiceClient = userServiceClient
+         self.notificationCenter = notificationCenter
      }
 
      func fetchUserState(completion: @escaping FetchUserStateCompletion) {
@@ -56,5 +71,59 @@ protocol UserServiceInterface {
              }
          }
          */
+     }
+
+     func linkAccount(withType accountType: ServiceAccountType,
+                      token: String,
+                      completion: @escaping LinkAccountCompletion) {
+         userServiceClient.linkAccount(
+            serviceName: accountType.rawValue,
+            token: token,
+            completion: { [weak self] result in
+                if case .success = result {
+                    self?.addLinkedAccount(accountType)
+                }
+                completion(result)
+            }
+         )
+     }
+
+     func unlinkAccount(withType accountType: ServiceAccountType,
+                        completion: @escaping UnlinkAccountCompletion) {
+         userServiceClient.unlinkAccount(
+            serviceName: accountType.rawValue,
+            completion: { [weak self] result in
+                if case .success = result {
+                    self?.removeLinkedAccount(accountType)
+                }
+                completion(result)
+            }
+         )
+     }
+
+     func fetchLinkedAccounts() async -> Result<[ServiceAccountType], UserStateError> {
+         let result = await userServiceClient.fetchLinkedAccounts()
+         switch result {
+         case .success(let response):
+             self.linkedAccounts = response.services
+             return .success(response.services)
+         case .failure(let error):
+             return .failure(error)
+         }
+     }
+
+     private func addLinkedAccount(_ accountType: ServiceAccountType) {
+         if linkedAccounts == nil {
+             linkedAccounts = [accountType]
+         } else {
+             linkedAccounts?.append(accountType)
+         }
+     }
+
+     private func removeLinkedAccount(_ accountType: ServiceAccountType) {
+         if let indexOfAccount = linkedAccounts?.firstIndex(of: accountType) {
+             linkedAccounts?.remove(at: indexOfAccount)
+             notificationCenter.post(name: .linkedAccountsDidChange, object: nil)
+         }
      }
  }

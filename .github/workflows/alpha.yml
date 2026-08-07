@@ -48,18 +48,23 @@ jobs:
           bundler-cache: true
 
       - name: Get Secrets
-        uses: bitwarden/sm-action@14f92f1d294ae3c2b6a3845d389cd2c318b0dfd8 # pin@v2.2.0
+        uses: bitwarden/sm-action@27c0c9dcab679d7250dbab91227c85b49ffa5e0f # pin@v3.3.0
         with:
           access_token: ${{ secrets.BW_ACCESS_TOKEN }}
           base_url: https://vault.bitwarden.eu
           secrets: |
             4d6340bc-d8c4-4449-9c9c-b32500f0f282 > MATCH_PASSWORD
             9de05f7b-cdfe-485d-86a6-b32a00af5922 > MATCH_CERTIFICATE_TOKEN
-            bf38895b-88b1-4469-849a-b32a009bffbd > FIREBASE_TOKEN
+            677f1c5b-3fa3-440d-a814-b49000b45fba > FIREBASE_SA_JSON
             25892d8c-5cb6-436f-b5fa-b32b00f23cdb > FIREBASE_APP_ID
             0aed09d2-d4f7-4432-a099-b32a00e0521b > APP_STORE_KEY_ISSUER_ID
             ba8cdcd5-7bbd-437e-bfc9-b32a00e07df8 > APP_STORE_KEY_ID
             d0bc8f38-8ebe-4b1d-9e55-b32a00e1b064 > APP_STORE_KEY_CONTENT
+
+      - name: Write Firebase SA key
+        run: |
+          printf '%s' "$FIREBASE_SA_JSON" > "$RUNNER_TEMP/firebase_sa.json"
+          chmod 600 "$RUNNER_TEMP/firebase_sa.json"
 
       - name: Select xcode
         run: xcodes select
@@ -76,6 +81,7 @@ jobs:
       - name: Deploy
         run: bundle exec fastlane alpha
         env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/firebase_sa.json
           BASE_URL: ${{ vars.BASE_URL }}
           ONESIGNAL_APP_ID: ${{ vars.ONESIGNAL_APP_ID }}
           ASSETCATALOG_COMPILER_APPICON_NAME: ${{ vars.ASSETCATALOG_COMPILER_APPICON_NAME }}
@@ -84,6 +90,7 @@ jobs:
           CHAT_BASE_URL: ${{ vars.CHAT_BASE_URL }}
           TOKEN_BASE_URL: ${{ vars.TOKEN_BASE_URL }}
           FLEX_BASE_URL: ${{ vars.FLEX_BASE_URL }}
+          DVLA_AUTHENTICATION_URL: ${{ vars.DVLA_AUTHENTICATION_URL }}
           GOOGLE_SERVICES_FILE: ${{ vars.GOOGLE_SERVICES_FILE }}
           GOOGLE_TAG_MANAGER_FILE: ${{ vars.GOOGLE_TAG_MANAGER_FILE }}
           PROFILE_SPECIFIER_APP: ${{ vars.PROFILE_SPECIFIER_APP }}

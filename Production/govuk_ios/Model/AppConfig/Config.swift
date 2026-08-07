@@ -13,10 +13,12 @@ struct Config: Decodable {
         case refreshTokenExpirySeconds
         case alertBanner
         case chatBanner = "chatBanner_v2"
+        case promoBanners
         case userFeedbackBanner
         case emergencyBanners
         case chatUrls
         case termsAndConditions
+        case dvlaUrls
     }
 
     let available: Bool
@@ -30,10 +32,12 @@ struct Config: Decodable {
     let refreshTokenExpirySeconds: Int?
     let alertBanner: AlertBanner?
     let chatBanner: ChatBanner?
+    let promoBanners: [PromoBanner]?
     let userFeedbackBanner: UserFeedbackBanner?
     let emergencyBanners: [EmergencyBanner]?
     let chatUrls: ChatURLs?
     let termsAndConditions: TermsAndConditions
+    let dvlaUrls: DvlaURLs?
 }
 
 struct ChatURLs: Decodable {
@@ -41,6 +45,25 @@ struct ChatURLs: Decodable {
     let privacyNotice: URL?
     let about: URL?
     let feedback: URL?
+}
+
+struct DvlaURLs: Decodable {
+    let addVehicle: URL?
+    let renewLicence: URL?
+    let soldVehicle: URL?
+    let sornRules: URL?
+    let makeSorn: URL?
+    let getLogbook: URL?
+    let changeLogbookAddress: URL?
+    let cancelTax: URL?
+    let taxVehicle: URL?
+    let manageTaxPayment: URL?
+    let driverDetails: URL?
+    let account: URL?
+    let drivingRecord: URL?
+    let changeNameGenderLicence: URL?
+    let replaceLicence: URL?
+    let changeLicenceAddress: URL?
 }
 
 struct TermsAndConditions: Decodable {

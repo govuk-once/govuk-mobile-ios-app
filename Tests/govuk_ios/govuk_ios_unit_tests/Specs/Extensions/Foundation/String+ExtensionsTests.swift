@@ -36,7 +36,7 @@ struct String_ExtensionsTests {
         let sut = String.onboarding
         #expect(sut.tableName == "Onboarding")
     }
-    
+
     @Test
     func topics_hasCorrectValues() {
         let sut = String.topics
@@ -116,4 +116,22 @@ struct String_ExtensionsTests {
         let result = version.isVersion(lessThan: targetVersion)
         #expect(result == false)
     }
+
+    @Test(arguments: zip(
+        [
+            "test",
+            "sentence test",
+            ""
+        ],
+        [
+            "Test",
+            "Sentence test",
+            ""
+        ]
+    ))
+    func sentenceCased_returnsExpectedResult(input: String, expected: String) {
+        let result = input.sentenceCased()
+        #expect(result == expected)
+    }
 }
+

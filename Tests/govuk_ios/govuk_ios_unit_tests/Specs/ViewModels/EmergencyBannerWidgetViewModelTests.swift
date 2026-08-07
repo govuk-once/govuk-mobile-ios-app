@@ -7,7 +7,7 @@ import Testing
 struct EmergencyBannerWidgetViewModelTests {
 
     @Test
-    func open_calls_openURLAction_with_banner_url() {
+    func open_callsOpenURLAction_withBannerURL() {
         let bannerURL = Constants.API.govukBaseUrl
         var expectedURL: URL?
         let sut = EmergencyBannerWidgetViewModel(
@@ -25,11 +25,39 @@ struct EmergencyBannerWidgetViewModelTests {
             openURLAction: { url in
                 expectedURL = url
             },
+            didSelectAction: { },
             dismissAction: { }
         )
 
         sut.open()
         #expect(expectedURL == bannerURL)
+    }
+
+    @Test
+    func open_callsDidSelectAction() {
+        let bannerURL = Constants.API.govukBaseUrl
+        var didSelectCalled: Bool = false
+        let sut = EmergencyBannerWidgetViewModel(
+            banner: .init(
+                id: "emergency_two",
+                title: "National Emergency",
+                body: "This is a Level 1 emergency",
+                link: .init(title: "More information",
+                            url: bannerURL),
+                type: "national-emergency",
+                allowsDismissal: true
+            ),
+            analyticsService: MockAnalyticsService(),
+            sortPriority: 1,
+            openURLAction: { _ in },
+            didSelectAction: {
+                didSelectCalled = true
+            },
+            dismissAction: { }
+        )
+
+        sut.open()
+        #expect(didSelectCalled)
     }
 
     @Test
@@ -49,6 +77,7 @@ struct EmergencyBannerWidgetViewModelTests {
             analyticsService: mockAnalyticsService,
             sortPriority: 1,
             openURLAction: { _ in },
+            didSelectAction: { },
             dismissAction: { }
         )
 
@@ -77,6 +106,7 @@ struct EmergencyBannerWidgetViewModelTests {
             analyticsService: mockAnalyticsService,
             sortPriority: 1,
             openURLAction: { _ in },
+            didSelectAction: { },
             dismissAction: { }
         )
 

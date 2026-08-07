@@ -73,7 +73,7 @@ class NotificationConsentAlertViewController: BaseViewController {
     }()
 
     private lazy var settingsButton: UIButton = {
-        let localView = UIButton.govUK.secondary
+        let localView = UIButton.govUK.groupedSecondary
         localView.viewModel = .init(
             localisedTitle: String.notifications.localized("consentAlertSecondaryButtonTitle"),
             action: { [weak self] in

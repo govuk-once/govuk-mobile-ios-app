@@ -103,10 +103,10 @@
     {
       "identity" : "govuk-mobile-ios-gov-kit",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/govuk-once/govuk-mobile-ios-gov-kit",
+      "location" : "https://github.com/govuk-once/govuk-mobile-ios-gov-kit.git",
       "state" : {
         "branch" : "main",
-        "revision" : "edc2eb4ff791d9cc9d429f68f6db72f5f9b3a5b6"
+        "revision" : "6174ee7c8d103de5887250c95ce77d21b9877fb5"
       }
     },
     {

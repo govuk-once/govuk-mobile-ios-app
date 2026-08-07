@@ -19,7 +19,7 @@ struct GOVRequest_UserTests {
     func setNotificationsConsent_accepted_returnsExpectedValues() throws {
         let request = GOVRequest.setNotificationsConsent(consentStatus: .accepted)
 
-        #expect(request.urlPath == "/app/udp/v1/users/notifications")
+        #expect(request.urlPath == "/app/udp/v1/users/me/notifications")
         #expect(request.method == .patch)
         #expect(request.requiresAuthentication == true)
 
@@ -31,11 +31,38 @@ struct GOVRequest_UserTests {
     func setNotificationsConsent_denied_returnsExpectedValues() throws {
         let request = GOVRequest.setNotificationsConsent(consentStatus: .denied)
 
-        #expect(request.urlPath == "/app/udp/v1/users/notifications")
+        #expect(request.urlPath == "/app/udp/v1/users/me/notifications")
         #expect(request.method == .patch)
         #expect(request.requiresAuthentication == true)
 
         let body = try #require(request.body as? ConsentPreference)
         #expect(body.consentStatus == .denied)
+    }
+
+    @Test
+    func linkAccount_returnsExpectedValues() {
+        let request = GOVRequest.linkAccount(serviceName: "dvla", token: "test-link-id")
+
+        #expect(request.urlPath == "/app/udp/v1/identity/dvla")
+        #expect(request.additionalHeaders?["x-linking-token"] == "test-link-id")
+        #expect(request.method == .post)
+        #expect(request.requiresAuthentication == true)
+    }
+
+    @Test
+    func unlinkAccount_returnsExpectedValues() {
+        let request = GOVRequest.unlinkAccount(serviceName: "dvla")
+
+        #expect(request.urlPath == "/app/udp/v1/identity/dvla")
+        #expect(request.method == .delete)
+        #expect(request.requiresAuthentication == true)
+    }
+
+    @Test
+    func linkedAccounts_returnsExpectedValues() {
+        let request = GOVRequest.linkedAccounts
+        #expect(request.urlPath == "/app/udp/v1/identity")
+        #expect(request.method == .get)
+        #expect(request.requiresAuthentication == true)
     }
 }

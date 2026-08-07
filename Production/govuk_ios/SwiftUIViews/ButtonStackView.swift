@@ -19,7 +19,7 @@ public struct ButtonStackView: View {
         self.primaryButtonViewModel = primaryButtonViewModel
         self.primaryButtonConfiguration = primaryButtonConfiguration ?? .primary
         self.secondaryButtonViewModel = secondaryButtonViewModel
-        self.secondaryButtonConfiguration = secondaryButtonConfiguration ?? .secondary
+        self.secondaryButtonConfiguration = secondaryButtonConfiguration ?? .groupedSecondary
         self.primaryDisabled = primaryDisabled
         self.secondaryDisabled = secondaryDisabled
     }

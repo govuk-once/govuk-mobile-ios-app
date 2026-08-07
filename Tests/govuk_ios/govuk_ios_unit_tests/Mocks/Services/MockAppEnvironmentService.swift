@@ -13,4 +13,5 @@ class MockAppEnvironmentService: AppEnvironmentServiceInterface {
     var chatAuthToken: String = "chat_auth_token"
     var tokenBaseURL: URL = URL(string: "https://www.govuk-token.com")!
     var flexBaseURL: URL = URL(string: "https://www.flex.gov.uk")!
+    var dvlaAuthenticationURL: URL = URL(string: "https://www.dvla.gov.uk/auth")!
 }

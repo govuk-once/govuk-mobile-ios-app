@@ -67,7 +67,7 @@ struct HomeViewModelTests {
             notificationsAction: {},
             recentActivityAction: { } ,
             openURLAction: {_ in } ,
-            openAction: {_ in }
+            openAction: {_ in },
         )
 
         let widgets = subject.widgets
@@ -160,8 +160,8 @@ struct HomeViewModelTests {
             editLocalAuthorityAction: { },
             feedbackAction: { },
             notificationsAction: {},
-            recentActivityAction: { } ,
-            openURLAction: {_ in } ,
+            recentActivityAction: { },
+            openURLAction: {_ in },
             openAction: {_ in }
         )
 
@@ -201,9 +201,9 @@ struct HomeViewModelTests {
             editLocalAuthorityAction: { },
             feedbackAction: { },
             notificationsAction: {},
-            recentActivityAction: { } ,
-            openURLAction: {_ in } ,
-            openAction: {_ in }
+            recentActivityAction: { },
+            openURLAction: {_ in },
+            openAction: {_ in },
         )
         subject.editTopics()
 

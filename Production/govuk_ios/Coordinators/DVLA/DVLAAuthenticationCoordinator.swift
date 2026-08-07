@@ -1,0 +1,94 @@
+import Foundation
+import UIKit
+import GovKit
+
+final class DVLAAuthenticationCoordinator: BaseCoordinator {
+    private let urlOpener: URLOpener
+    private let authenticationService: AuthenticationServiceInterface
+    private let analyticsService: AnalyticsServiceInterface
+    private let appEnvironmentService: AppEnvironmentServiceInterface
+
+    init(navigationController: UINavigationController,
+         urlOpener: URLOpener,
+         authenticationService: AuthenticationServiceInterface,
+         analyticsService: AnalyticsServiceInterface,
+         appEnvironmentService: AppEnvironmentServiceInterface) {
+        self.urlOpener = urlOpener
+        self.authenticationService = authenticationService
+        self.analyticsService = analyticsService
+        self.appEnvironmentService = appEnvironmentService
+        super.init(navigationController: navigationController)
+    }
+
+    override func start(url: URL?) {
+        Task {
+            await refreshToken()
+        }
+    }
+
+    private func refreshToken() async {
+        let result = await authenticationService.tokenRefreshRequest()
+        switch result {
+        case .success:
+            await fetchIdentityVerification()
+        case .failure:
+            presentError()
+        }
+    }
+
+    private func fetchIdentityVerification() async {
+        let result = await authenticationService.fetchIdentityVerification()
+        switch result {
+        case .success(let result):
+            authenticate(
+                verificationHash: result.verificationHash,
+                sessionHash: result.sessionHash
+            )
+        case .failure:
+            presentError()
+        }
+    }
+
+    private func authenticate(verificationHash: String,
+                              sessionHash: String) {
+        let authenticationUrl = appEnvironmentService.dvlaAuthenticationURL
+        var components = URLComponents(
+            url: authenticationUrl,
+            resolvingAgainstBaseURL: true
+        )
+        components?.queryItems = [
+            .init(name: "verification", value: verificationHash),
+            .init(name: "session", value: sessionHash),
+        ]
+        guard let url = components?.url
+        else { return presentError() }
+        urlOpener.openIfPossible(url)
+    }
+
+    private func presentError() {
+        let screenTitle = String.common
+            .localized("genericErrorTitle")
+        let screenSubtitle = String.dvla
+            .localized("genericErrorTryAgainSubtitle")
+        let primaryButtonTitle = String.dvla
+            .localized("accountLinkingErrorPrimaryButtonTitle")
+
+        let viewModel = ErrorViewModel(
+            analyticsService: analyticsService,
+            title: screenTitle,
+            subtitle: screenSubtitle,
+            systemImageName: "exclamationmark.circle",
+            primaryButtonTitle: primaryButtonTitle,
+            primaryAction: { [weak self] in
+                self?.root.dismiss(animated: true)
+            },
+            trackingName: screenTitle,
+        )
+        let errorView = ErrorView(viewModel: viewModel)
+        let hostingViewController = HostingViewController(
+            rootView: errorView,
+            navigationBarHidden: true
+        )
+        set(hostingViewController, animated: true)
+    }
+}

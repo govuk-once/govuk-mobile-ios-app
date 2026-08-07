@@ -4,21 +4,28 @@ import GovKit
 typealias FetchUserStateCompletion = (UserStateResult) -> Void
 typealias UserStateResult = Result<UserState, UserStateError>
 typealias NotificationsPreferenceResult = Result<UserNotificationsPreferences, UserStateError>
+typealias LinkAccountResult = Result<Void, UserStateError>
+typealias LinkAccountCompletion = (LinkAccountResult) -> Void
+typealias UnlinkAccountResult = Result<Void, UserStateError>
+typealias UnlinkAccountCompletion = (UnlinkAccountResult) -> Void
 
 protocol UserServiceClientInterface {
     func fetchUserState(completion: @escaping FetchUserStateCompletion)
     func setNotificationsConsent(_ consentStatus: ConsentStatus,
                                  completion: @escaping (NotificationsPreferenceResult) -> Void)
+    func linkAccount(serviceName: String,
+                     token: String,
+                     completion: @escaping (LinkAccountResult) -> Void)
+    func unlinkAccount(serviceName: String,
+                       completion: @escaping (UnlinkAccountCompletion))
+    func fetchLinkedAccounts() async -> Result<LinkedServiceAccounts, UserStateError>
 }
 
 struct UserServiceClient: UserServiceClientInterface {
     private let apiServiceClient: APIServiceClientInterface
-    private let authenticationService: AuthenticationServiceInterface
 
-    init(apiServiceClient: APIServiceClientInterface,
-         authenticationService: AuthenticationServiceInterface) {
+    init(apiServiceClient: APIServiceClientInterface) {
         self.apiServiceClient = apiServiceClient
-        self.authenticationService = authenticationService
     }
 
     func fetchUserState(completion: @escaping FetchUserStateCompletion) {
@@ -41,16 +48,72 @@ struct UserServiceClient: UserServiceClientInterface {
             }
     }
 
+    func linkAccount(serviceName: String,
+                     token: String,
+                     completion: @escaping (LinkAccountCompletion)) {
+        let request = GOVRequest.linkAccount(
+            serviceName: serviceName,
+            token: token
+        )
+        apiServiceClient.send(
+            request: request,
+            completion: { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case .failure(let error):
+                    completion(.failure(mapError(error)))
+                }
+            }
+        )
+    }
+
+    func unlinkAccount(serviceName: String,
+                       completion: @escaping (UnlinkAccountCompletion)) {
+        let request = GOVRequest.unlinkAccount(
+            serviceName: serviceName
+        )
+        apiServiceClient.send(
+            request: request,
+            completion: { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case .failure(let error):
+                    completion(.failure(mapError(error)))
+                }
+            }
+        )
+    }
+
+    func fetchLinkedAccounts() async -> Result<LinkedServiceAccounts, UserStateError> {
+        let request = GOVRequest.linkedAccounts
+        return await withCheckedContinuation { continuation in
+            apiServiceClient.send(
+                request: request,
+                completion: { result in
+                    continuation.resume(
+                        returning: mapResult(result)
+                    )
+                }
+            )
+        }
+    }
+
+    private func mapError(_ error: Error) -> UserStateError {
+        let nsError = (error as NSError)
+        if nsError.code == NSURLErrorNotConnectedToInternet {
+            return UserStateError.networkUnavailable
+        } else {
+            return (error as? UserStateError) ?? UserStateError.apiUnavailable
+        }
+    }
+
     private func mapResult<T: Decodable>(
         _ result: NetworkResult<Data>
     ) -> Result<T, UserStateError> {
-        return result.mapError { error in
-            let nsError = (error as NSError)
-            if nsError.code == NSURLErrorNotConnectedToInternet {
-                return UserStateError.networkUnavailable
-            } else {
-                return (error as? UserStateError) ?? UserStateError.apiUnavailable
-            }
+        return result.mapError {
+            mapError($0)
         }.flatMap {
             do {
                 let response = try JSONDecoder().decode(T.self, from: $0)

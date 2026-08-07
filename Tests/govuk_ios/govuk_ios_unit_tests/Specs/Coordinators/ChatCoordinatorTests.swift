@@ -96,7 +96,7 @@ struct ChatCoordinatorTests {
         let mockCoordinatorBuilder = MockCoordinatorBuilder(container: .init())
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let expectedViewController = UIViewController()
-        mockViewControllerBuilder._stubbedChatErrorController = expectedViewController
+        mockViewControllerBuilder._stubbedErrorController = expectedViewController
         let navigationController = UINavigationController()
         let sut = ChatCoordinator(
             navigationController: navigationController,
@@ -124,7 +124,7 @@ struct ChatCoordinatorTests {
         let expectedChatViewController = UIViewController()
         let expectedInfoViewController = UIViewController()
         mockViewControllerBuilder._stubbedChatController = expectedChatViewController
-        mockViewControllerBuilder._stubbedChatErrorController = expectedInfoViewController
+        mockViewControllerBuilder._stubbedErrorController = expectedInfoViewController
         let navigationController = UINavigationController()
         let sut = ChatCoordinator(
             navigationController: navigationController,
@@ -141,7 +141,7 @@ struct ChatCoordinatorTests {
         mockViewControllerBuilder._receivedChatHandleError?(ChatError.networkUnavailable)
         let firstViewController = navigationController.viewControllers.first
         #expect(firstViewController == expectedInfoViewController)
-        mockViewControllerBuilder._receivedChatErrorAction?()
+        mockViewControllerBuilder._receivedErrorViewModel?.primaryButtonViewModel.action()
         let nextViewController = navigationController.viewControllers.first
         #expect(nextViewController == expectedChatViewController)
     }
@@ -156,7 +156,7 @@ struct ChatCoordinatorTests {
         let expectedChatViewController = UIViewController()
         let expectedInfoViewController = UIViewController()
         mockViewControllerBuilder._stubbedChatController = expectedChatViewController
-        mockViewControllerBuilder._stubbedChatErrorController = expectedInfoViewController
+        mockViewControllerBuilder._stubbedErrorController = expectedInfoViewController
         let navigationController = UINavigationController()
         let sut = ChatCoordinator(
             navigationController: navigationController,
@@ -173,23 +173,20 @@ struct ChatCoordinatorTests {
         mockViewControllerBuilder._receivedChatHandleError?(ChatError.pageNotFound)
         let firstViewController = navigationController.viewControllers.first
         #expect(firstViewController == expectedInfoViewController)
-        mockViewControllerBuilder._receivedChatErrorAction?()
+        mockViewControllerBuilder._receivedErrorViewModel?.primaryButtonViewModel.action()
         let nextViewController = navigationController.viewControllers.first
         #expect(nextViewController == expectedChatViewController)
         #expect(mockChatService._clearHistoryCalled)
     }
 
     @Test
-    func chatViewController_handleError_secondAttempt_authenticationError_showsInfoView() throws {
+    func handleAuthenticationError_signsOutUser() throws {
         let mockChatService = MockChatService()
         mockChatService.chatOnboardingSeen = true
         let mockCoordinatorBuilder = MockCoordinatorBuilder(container: .init())
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let mockPeriAuthCoordinator = MockBaseCoordinator()
         mockCoordinatorBuilder._stubbedPeriAuthCoordinator = mockPeriAuthCoordinator
-
-        let expectedInfoViewController = UIViewController()
-        mockViewControllerBuilder._stubbedChatErrorController = expectedInfoViewController
 
         let mockAuthenticationService = MockAuthenticationService()
 
@@ -211,11 +208,10 @@ struct ChatCoordinatorTests {
         mockChatService._stubbedIsRetryAction = true
         sut.start(url: nil)
         mockViewControllerBuilder._receivedChatHandleError?(ChatError.authenticationError)
-        let firstViewController = navigationController.viewControllers.first
         #expect(mockAuthenticationService._tokenRefreshRequestCalled == false)
-        #expect(firstViewController == expectedInfoViewController)
+        #expect(mockAuthenticationService._receivedSignOutReason == .tokenRefreshFailure)
+        #expect(mockAuthenticationService._stubbedIsSignedIn == false)
     }
-
 
     @Test
     func didSelectTab_isShowingError_setsChatViewController() {

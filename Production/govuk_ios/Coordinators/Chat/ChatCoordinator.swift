@@ -16,7 +16,7 @@ class ChatCoordinator: TabItemCoordinator {
             analyticsService: analyticsService,
             chatService: chatService,
             openURLAction: presentWebView,
-            handleError: setChatError
+            handleError: handleChatError
         )
     }()
 
@@ -94,10 +94,18 @@ class ChatCoordinator: TabItemCoordinator {
         }
     }
 
+    private func handleChatError(_ error: ChatError) {
+        guard error != .authenticationError else {
+            self.authenticationService.signOut(reason: .tokenRefreshFailure)
+            return
+        }
+        setChatError(error)
+    }
+
     private func setChatError(_ error: ChatError) {
-        let viewController = viewControllerBuilder.chatError(
+        let viewModel = ErrorViewModel.chatError(
+            error,
             analyticsService: analyticsService,
-            error: error,
             action: { [weak self] in
                 guard let self else { return }
                 switch error {
@@ -111,6 +119,7 @@ class ChatCoordinator: TabItemCoordinator {
                 }
             }
         )
+        let viewController = viewControllerBuilder.error(viewModel: viewModel)
         set(viewController, animated: false)
         isShowingError = true
     }

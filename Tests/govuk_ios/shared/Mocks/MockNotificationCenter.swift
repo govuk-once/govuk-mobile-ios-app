@@ -21,4 +21,9 @@ class MockNotificationCenter: NotificationCenter,
             )
         }
 
+    var _receivedPostNames: [NSNotification.Name] = []
+    override func post(name aName: NSNotification.Name, object anObject: Any?) {
+        _receivedPostNames.append(aName)
+        super.post(name: aName, object: anObject)
+    }
 }

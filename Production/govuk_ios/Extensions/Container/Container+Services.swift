@@ -9,6 +9,7 @@ import Firebase
 import FirebaseAnalytics
 import FirebaseCrashlytics
 import FirebaseAppCheck
+import FirebasePerformance
 import FirebaseRemoteConfig
 import OneSignalFramework
 import Qualtrics
@@ -28,7 +29,8 @@ extension Container {
                 clients: [
                     self.firebaseClient.resolve(),
                     self.crashlyticsClient.resolve(),
-                    self.qualtricsClient.resolve()
+                    self.qualtricsClient.resolve(),
+                    self.performanceClient.resolve()
                 ],
                 userDefaultsService: self.userDefaultsService.resolve(),
                 isSignedIn: {
@@ -84,6 +86,12 @@ extension Container {
                 firebaseClient: self.firebaseClient.resolve(),
                 theme: self.qualtricsTheme.resolve()
             )
+        }
+    }
+
+    var performanceClient: Factory<AnalyticsClient> {
+        Factory(self) {
+            PerformanceClient(performance: Performance.sharedInstance())
         }
     }
 
@@ -150,7 +158,8 @@ extension Container {
         Factory(self) {
             UserService(
                 appConfigService: self.appConfigService.resolve(),
-                userServiceClient: self.userServiceClient.resolve()
+                userServiceClient: self.userServiceClient.resolve(),
+                notificationCenter: .default
             )
         }.scope(.singleton)
     }
@@ -321,6 +330,22 @@ extension Container {
                 appConfigService: self.appConfigService.resolve(),
                 userDefaultsService: self.userDefaultsService.resolve()
             )
+        }
+    }
+
+    var dvlaService: Factory<DVLAServiceInterface> {
+        Factory(self) {
+            DVLAService(
+                serviceClient: self.dvlaServiceClient.resolve()
+            )
+        }
+    }
+
+    var notificationCentreService: Factory<NotificationCentreServiceInterface> {
+        Factory(self) {
+            NotificationCentreService(
+                serviceClient: self.notificationCentreServiceClient.resolve(),
+                repository: self.notificationCentreRepository.resolve())
         }
     }
 }

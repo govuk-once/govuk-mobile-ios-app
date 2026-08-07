@@ -12,6 +12,7 @@ struct EmergencyBannerWidgetViewModel {
     let type: EmergencyBannerType
     let allowsDismissal: Bool
     let openURLAction: (URL) -> Void
+    let didSelectAction: () -> Void
     let dismissAction: () -> Void
     let sortPriority: Double
 
@@ -21,10 +22,12 @@ struct EmergencyBannerWidgetViewModel {
          analyticsService: AnalyticsServiceInterface,
          sortPriority: Int,
          openURLAction: @escaping (URL) -> Void,
+         didSelectAction: @escaping () -> Void,
          dismissAction: @escaping () -> Void) {
         self.analyticsService = analyticsService
         self.sortPriority = Double(sortPriority) * 10
         self.openURLAction = openURLAction
+        self.didSelectAction = didSelectAction
         self.dismissAction = dismissAction
         id = banner.id
         title = banner.title
@@ -85,6 +88,7 @@ struct EmergencyBannerWidgetViewModel {
     }
 
     func open() {
+        didSelectAction()
         guard let link = self.link
         else { return }
         let event = AppEvent.widgetNavigation(

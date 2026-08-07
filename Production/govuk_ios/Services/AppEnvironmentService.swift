@@ -10,6 +10,7 @@ protocol AppEnvironmentServiceInterface {
     var chatBaseURL: URL { get }
     var tokenBaseURL: URL { get }
     var flexBaseURL: URL { get }
+    var dvlaAuthenticationURL: URL { get }
 }
 
 enum AppEnvironmentKey: String {
@@ -20,6 +21,7 @@ enum AppEnvironmentKey: String {
     case tokenBaseURL = "TOKEN_BASE_URL"
     case chatBaseURL = "CHAT_BASE_URL"
     case flexBaseURL = "FLEX_BASE_URL"
+    case dvlaAuthenticationURL = "DVLA_AUTHENTICATION_URL"
 }
 
 struct AppEnvironmentService: AppEnvironmentServiceInterface {
@@ -74,6 +76,11 @@ struct AppEnvironmentService: AppEnvironmentServiceInterface {
 
     var flexBaseURL: URL {
         let urlString = string(for: .flexBaseURL)
+        return URL(string: urlString)!
+    }
+
+    var dvlaAuthenticationURL: URL {
+        let urlString = string(for: .dvlaAuthenticationURL)
         return URL(string: urlString)!
     }
 }

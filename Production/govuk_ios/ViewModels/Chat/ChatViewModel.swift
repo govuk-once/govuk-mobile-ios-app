@@ -1,6 +1,7 @@
 import SwiftUI
 import GovKit
 import GovKitUI
+import Combine
 
 // swiftlint:disable:next type_body_length
 class ChatViewModel: ObservableObject {
@@ -28,6 +29,8 @@ class ChatViewModel: ObservableObject {
     @Published var requestInFlight: Bool = false
     @Published var showValidationAlert: Bool = false
     @Published var showProgressView: Bool = false
+
+    private var disclosureListeners = Set<AnyCancellable>()
 
     var absoluteRemainingCharacters: Int {
         abs(maxCharacters - latestQuestion.count)
@@ -87,13 +90,18 @@ class ChatViewModel: ObservableObject {
                 completion?(true)
             case .failure(let error):
                 self?.requestInFlight = false
-                if error == .validationError {
+                switch error {
+                case .validationError:
                     self?.setPersonalDataValidationAlertDetails()
                     self?.showValidationAlert = true
                     self?.removeCellModel(currentQuestionModel)
-                } else {
+                case .authenticationError:
+                    self?.removeCellModel(currentQuestionModel)
                     self?.processError(error)
+                    completion?(false)
+                default:
                     self?.latestQuestion = ""
+                    self?.processError(error)
                     completion?(false)
                 }
             }
@@ -156,6 +164,7 @@ class ChatViewModel: ObservableObject {
                 }
             }
             self?.scrollToBottom = true
+            self?.listenForDisclosure()
         }
     }
 
@@ -173,6 +182,7 @@ class ChatViewModel: ObservableObject {
                 intro: introMessage,
                 analyticsService: analyticsService
             )
+        latestQuestionID = model.id
         if animate {
             addCellModels([model])
         } else {
@@ -188,6 +198,20 @@ class ChatViewModel: ObservableObject {
                 model.isVisible = true
             }
         }
+        listenForDisclosure()
+    }
+
+    private func listenForDisclosure() {
+        disclosureListeners.removeAll()
+        cellModels.last?.$isSourceListExpanded
+            .sink { value in
+                Task { @MainActor [weak self] in
+                    // wait for menu expansion before scrolling
+                    try await Task.sleep(for: .seconds(0.05))
+                    self?.scrollToBottom = value
+                }
+            }
+            .store(in: &disclosureListeners)
     }
 
     private func removeCellModel(_ model: ChatCellViewModel) {
@@ -230,6 +254,7 @@ class ChatViewModel: ObservableObject {
         cellModels.removeAll()
         chatService.clearHistory()
         appendIntroMessage(animate: true)
+        scrollToTop = true
     }
 
     func openAboutURL() {

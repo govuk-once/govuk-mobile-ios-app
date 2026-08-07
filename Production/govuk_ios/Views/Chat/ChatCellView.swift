@@ -40,12 +40,14 @@ struct ChatCellView: View {
         )
         .padding(.top, viewModel.topPadding)
         .contextMenu {
-            Button(action: {
-                viewModel.copyToClipboard()
-            }, label: {
-                Text(String.chat.localized("copyToClipboardTitle"))
-                Image(systemName: "doc.on.doc.fill")
-            })
+            if viewModel.isCopyable {
+                Button(action: {
+                    viewModel.copyToClipboard()
+                }, label: {
+                    Text(String.chat.localized("copyToClipboardTitle"))
+                    Image(systemName: "doc.on.doc.fill")
+                })
+            }
         }
     }
 

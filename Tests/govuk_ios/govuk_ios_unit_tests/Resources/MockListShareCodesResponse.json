@@ -1,0 +1,31 @@
+{
+    "linkingId": "7d7eccbf-28ae-479c-8dae-ec0ec60d0b25",
+    "shareCodes": [
+        {
+            "state": "cancelled",
+            "tokenId": "cf3f210c-c542-4ed0-84c9-75caa1d76cc5",
+            "token": "kNvqM4Hr",
+            "drivingLicenceNumber": "DECER607085K99AE",
+            "driverId": "43d0bfe9-3b01-4e11-9cc3-9ad6ec119a97",
+            "documentReference": "085K99AE",
+            "created": "2026-05-11T11:07:03.000Z",
+            "expiry": "2026-05-11T11:07:11.374Z",
+            "status": "inactive",
+            "redeemed": null,
+            "cancelled": "2026-05-11T11:07:11.374Z"
+        },
+        {
+            "state": "valid",
+            "tokenId": "1d74d459-b2c5-4e01-8e40-29fa92efeb80",
+            "token": "jGTGpDTB",
+            "drivingLicenceNumber": "DECER607085K99AE",
+            "driverId": "43d0bfe9-3b01-4e11-9cc3-9ad6ec119a97",
+            "documentReference": "085K99AE",
+            "created": "2026-05-11T10:27:25.889Z",
+            "expiry": "2026-06-01T10:27:25.889Z",
+            "status": "active",
+            "redeemed": null,
+            "cancelled": null
+        }
+    ]
+}

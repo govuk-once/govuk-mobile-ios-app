@@ -4,29 +4,31 @@ import GovKit
 
 struct TopicDetailView<T: TopicDetailViewModelInterface>: View {
     @StateObject var viewModel: T
+    let widgetView: AnyView?
 
-    init(viewModel: T) {
+    init(viewModel: T, widgetView: AnyView?) {
         _viewModel = StateObject(wrappedValue: viewModel)
+        self.widgetView = widgetView
     }
 
     var body: some View {
-        VStack {
-            if let errorViewModel = viewModel.errorViewModel {
-                showErrorView(with: errorViewModel)
-            } else if viewModel.isLoaded {
-                showLoadedContent()
-            } else {
-                showLoadingView()
+        ScrollView {
+            VStack {
+                titleView
+                widgetView
+                if let errorViewModel = viewModel.errorViewModel {
+                    showErrorView(with: errorViewModel)
+                } else if viewModel.isLoaded {
+                    showLoadedContent()
+                } else {
+                    showLoadingView()
+                }
             }
         }
         .background(Color(UIColor.govUK.fills.surfaceBackground))
-        .onAppear {
+        .task {
             viewModel.trackScreen(screen: self)
-            // isLoaded == true on back navigation, otherwise e-commerce
-            // triggered in .onChange
-            if viewModel.isLoaded {
-                viewModel.trackEcommerce()
-            }
+            await viewModel.viewDidAppear()
         }
         .onChange(of: viewModel.isLoaded) { isLoaded in
             if isLoaded {
@@ -36,41 +38,32 @@ struct TopicDetailView<T: TopicDetailViewModelInterface>: View {
     }
 
     private func showErrorView(with errorViewModel: AppErrorViewModel) -> some View {
-        GeometryReader { geometry in
-            ScrollView {
-                VStack {
-                    titleView
-                    Spacer()
-                    AppErrorView(viewModel: errorViewModel)
-                    Spacer()
-                }
-                .background(Color(UIColor.govUK.fills.surfaceBackground))
-                .frame(minHeight: geometry.size.height)
-            }
-            .background(gradient)
+        ZStack {
+            AppErrorView(viewModel: errorViewModel)
+                .padding(.vertical, 20)
         }
+        .frame(maxWidth: .infinity)
+        .background(Color(UIColor.govUK.fills.surfaceList))
+        .clipShape(RoundedRectangle(cornerRadius: 10))
+        .padding(16)
     }
 
     private func showLoadedContent() -> some View {
-        ScrollView {
-            VStack(spacing: 0) {
-                titleView
-                topicDetails
-                subtopics
-            }
+        VStack(spacing: 0) {
+            topicDetails
+            subtopics
         }
-        .background(gradient)
     }
 
     private func showLoadingView() -> some View {
-        VStack(spacing: 0) {
-            titleView
-            ZStack {
-                Color(UIColor.govUK.fills.surfaceBackground)
-                ProgressView()
-                    .accessibilityLabel(String.topics.localized("loading"))
-            }
+        ZStack {
+            Color(UIColor.govUK.fills.surfaceList)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+            ProgressView()
+                .accessibilityLabel(viewModel.loadingAccessibilityLabel)
         }
+        .frame(height: 200)
+        .padding(16)
     }
 
     private var titleView: some View {
@@ -129,7 +122,7 @@ struct TopicDetailView<T: TopicDetailViewModelInterface>: View {
         }
         .padding(.horizontal, 18)
         .padding(.top, 8)
-        .padding(.bottom, 16)
+        .padding(.bottom, 8)
         .background(Color(.clear))
     }
 

@@ -75,4 +75,13 @@ struct AppEnvironmentServiceTests {
         )
         #expect(sut.flexBaseURL.absoluteString == "https://www.flex.gov.uk/")
     }
+
+    @Test
+    func dvlaAuthenticationURL_returnsExpectedValue() {
+        let mockConfig = ["DVLA_AUTHENTICATION_URL": "https://www.dvla.gov.uk/auth"]
+        let sut = AppEnvironmentService(
+            config: mockConfig
+        )
+        #expect(sut.dvlaAuthenticationURL.absoluteString == "https://www.dvla.gov.uk/auth")
+    }
 }

@@ -59,12 +59,22 @@ extension Container {
         }
     }
 
-    var revokeTokenAPIClient: Factory<APIServiceClientInterface> {
+    var tokenAPIClient: Factory<APIServiceClientInterface> {
         Factory(self) {
             APIServiceClient(
                 baseUrl: self.appEnvironmentService().tokenBaseURL,
                 session: self.urlSession(),
                 requestBuilder: URLEncodedRequestBuilder()
+            )
+        }
+    }
+
+    var verificationAPIClient: Factory<APIServiceClientInterface> {
+        Factory(self) {
+            APIServiceClient(
+                baseUrl: self.appEnvironmentService().tokenBaseURL,
+                session: self.urlSession(),
+                requestBuilder: RequestBuilder()
             )
         }
     }
@@ -83,10 +93,34 @@ extension Container {
 
     var userAPIClient: Factory<APIServiceClientInterface> {
         Factory(self) {
+            APIServiceClient(
+                baseUrl: self.appEnvironmentService().flexBaseURL,
+                session: self.urlSession(),
+                requestBuilder: RequestBuilder(),
+                responseHandler: UserResponseHandler(),
+                tokenProvider: self.authenticationService()
+            )
+        }
+    }
+
+    var dvlaAPIClient: Factory<APIServiceClientInterface> {
+        Factory(self) {
+            APIServiceClient(
+                baseUrl: self.appEnvironmentService().flexBaseURL,
+                session: self.urlSession(),
+                requestBuilder: RequestBuilder(),
+                responseHandler: DVLAResponseHandler(),
+                tokenProvider: self.authenticationService()
+            )
+        }
+    }
+
+    var notificationCentreAPIClient: Factory<APIServiceClientInterface> {
+        Factory(self) {
             APIServiceClient(baseUrl: self.appEnvironmentService().flexBaseURL,
                              session: self.urlSession(),
                              requestBuilder: RequestBuilder(),
-                             responseHandler: UserResponseHandler(),
+                             responseHandler: NotificationCentreResponseHandler(),
                              tokenProvider: self.authenticationService())
         }
     }

@@ -54,6 +54,7 @@ class MockTopicsService: TopicsServiceInterface {
         }
     }
 
+    var _fetchTopicDetailsCompletion: (() -> Void)?
     var _stubbedFetchTopicDetailsResult: Result<TopicDetailResponse, TopicsServiceError>?
     var _fetchDetailsCalled = false
     func fetchDetails(ref: String,
@@ -62,6 +63,7 @@ class MockTopicsService: TopicsServiceInterface {
             _fetchDetailsCalled = true
             completion(result)
         }
+        _fetchTopicDetailsCompletion?()
     }
 
     var _resetOnboardingCalled: Bool = false

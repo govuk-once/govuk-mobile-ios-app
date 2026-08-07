@@ -56,6 +56,17 @@
         }
       }
     },
+    "dismissBannerAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dismiss %1$(title)@ banner"
+          }
+        }
+      }
+    },
     "editTopicsAccessibilityLabel" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -85,6 +96,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Gov.UK logo"
+          }
+        }
+      }
+    },
+    "notificationButtonAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notification Centre"
           }
         }
       }
@@ -189,5 +211,5 @@
       }
     }
   },
-  "version" : "1.0"
+  "version" : "1.2"
 }

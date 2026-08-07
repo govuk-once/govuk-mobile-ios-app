@@ -1,0 +1,19 @@
+{
+    "registrationNumber": "AA19AMP",
+    "taxStatus": "Taxed",
+    "taxDueDate": "2027-05-07T00:00:00.000Z",
+    "motStatus": "Valid",
+    "motExpiryDate": "2027-05-07T00:00:00.000Z",
+    "make": "FORD",
+    "monthOfFirstDvlaRegistration": "2009-01",
+    "monthOfFirstRegistration": "2008-07",
+    "yearOfManufacture": 2008,
+    "engineCapacity": 1399,
+    "co2Emissions": 119,
+    "fuelType": "DIESEL",
+    "markedForExport": false,
+    "colour": "BLACK",
+    "typeApproval": "M1",
+    "wheelplan": "2 AXLE RIGID BODY",
+    "dateOfLastV5CIssued": "2016-07-21T00:00:00.000Z"
+}

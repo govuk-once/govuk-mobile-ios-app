@@ -12,7 +12,7 @@ struct Container_ServiceClientsTests {
     func authenticationServiceClient_returnsExpectedValue() {
         let container = Container()
         container.appEnvironmentService.register { MockAppEnvironmentService() }
-        container.revokeTokenAPIClient.register { MockAPIServiceClient() }
+        container.tokenAPIClient.register { MockAPIServiceClient() }
         container.appAttestService.register { MockAppAttestService() }
 
         let sut = container.authenticationServiceClient.resolve()

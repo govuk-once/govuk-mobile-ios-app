@@ -1,0 +1,16 @@
+{
+    "linkingId": "75517540-8126-4487-9cf2-562c21aedd84",
+    "shareCode": {
+        "state": "cancelled",
+        "tokenId": "2b923159-test",
+        "token": "vVNxXP4R",
+        "drivingLicenceNumber": "BTWZW602245ZN9JP",
+        "driverId": "d4732fb0-d220-40c4-985b-20cec1bf2e6a",
+        "documentReference": "245ZN9JP",
+        "created": "2026-05-12T08:28:15.989Z",
+        "expiry": "2026-05-12T08:29:43.928Z",
+        "status": null,
+        "redeemed": null,
+        "cancelled": "2026-05-12T08:29:43.000Z"
+    }
+}

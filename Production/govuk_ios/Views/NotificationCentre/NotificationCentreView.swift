@@ -1,0 +1,242 @@
+import SwiftUI
+import GovKitUI
+import GovKit
+
+struct NotificationCentreContainerView: View {
+    @ObservedObject var viewModel: NotificationCentreViewModel
+
+    var body: some View {
+        VStack { // Hides the splash of white when you overscroll the list
+            GeometryReader { geometry in
+                ScrollView {
+                    VStack(spacing: 0) {
+                        titleView
+
+                        switch viewModel.state {
+                        case .loading:
+                            NotificationCentreLoadingView()
+                        case .empty:
+                            NotificationCentreEmptyView()
+                        case .loaded(notifications: let notifications):
+                            NotificationCentreLoadedView(
+                                notifications: notifications,
+                                onNotificationTap: viewModel.onTapNotification(notification:))
+                        case .error:
+                            NotificationCentreErrorView()
+                        case .noInternet:
+                            NotificationCentreNoInternetView()
+                        }
+                    }
+                    .frame(minHeight: geometry.size.height)
+                }
+            }
+        }
+        .background(Color(UIColor.govUK.fills.surfaceBackground))
+        .onAppear {
+            viewModel.onViewAppear()
+            viewModel.track(screen: self)
+        }
+    }
+
+
+    private var titleView: some View {
+        VStack(spacing: 0) {
+            HStack {
+                Text(.NotificationCentre.notificationCentreNavTitle)
+                    .font(.govUK.largeTitleBold)
+                    .multilineTextAlignment(.leading)
+                    .accessibility(addTraits: .isHeader)
+                    .foregroundColor(Color(UIColor.govUK.text.primary))
+                Spacer()
+            }
+            .padding(.leading, 16)
+            .padding(.vertical, 10)
+            .background(Color(.clear))
+        }
+    }
+}
+
+struct NotificationCentreLoadedView: View {
+    let notifications: NotificationCentreViewModel.NotificationGroups
+    let onNotificationTap: (String) -> Void
+
+    var body: some View {
+        ScrollView {
+            LazyVStack(spacing: 8) {
+                if !notifications.recent.isEmpty {
+                    SectionHeader(title: .NotificationCentre.notificationCentreSectionRecent)
+                        .accessibilitySortPriority(3)
+
+                    ForEach(notifications.recent) { not in
+                        NotificationCentreRow(notification: not,
+                                              onTap: onNotificationTap)
+                        .accessibilitySortPriority(2)
+                    }
+                }
+
+                if !notifications.older.isEmpty {
+                    SectionHeader(title: .NotificationCentre.notificationCentreSectionOlder)
+                        .accessibilitySortPriority(1)
+
+                    ForEach(notifications.older) { not in
+                        NotificationCentreRow(notification: not,
+                                              onTap: onNotificationTap)
+                        .accessibilitySortPriority(0)
+                    }
+                }
+
+                Text(.NotificationCentre.notificationsFooter)
+                    .font(.govUK.callout)
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(Color(UIColor.govUK.text.secondary))
+                    .clipShape(Rectangle())
+                    .padding(.vertical, 16)
+            }
+            .padding(.horizontal, 16)
+            .padding(.bottom, 16) // Add a bit to keep the Footer away from the Home button
+            .background(Color(UIColor.govUK.fills.surfaceBackground))
+        }
+    }
+}
+
+private struct SectionHeader: View {
+    let title: LocalizedStringResource
+
+    var body: some View {
+        HStack {
+            Text(title)
+                .font(.govUK.title3Semibold)
+                .multilineTextAlignment(.leading)
+                .accessibility(addTraits: .isHeader)
+                .foregroundColor(Color(UIColor.govUK.text.primary))
+                .padding(.top, 28)
+                .padding(.bottom, 16)
+            Spacer()
+        }
+    }
+}
+
+struct NotificationCentreLoadingView: View {
+    var body: some View {
+        VStack(alignment: .center) {
+            Spacer()
+            ProgressView()
+                .controlSize(.large)
+                .accessibilityLabel(.NotificationCentre.notificationLoadingA11Ylabel)
+            Spacer()
+        }
+    }
+}
+
+struct NotificationCentreEmptyView: View {
+    var body: some View {
+        VStack(alignment: .center) {
+            HStack {
+                Spacer()
+                Text(.NotificationCentre.noNotificationsTitle)
+                    .font(Font.govUK.body)
+                    .padding(.all, 16)
+                    .multilineTextAlignment(.center)
+                    .foregroundStyle(Color(GOVUKColors.text.secondary))
+
+                Spacer()
+            }
+            .background(Color(UIColor.govUK.fills.surfaceCardNonTappable))
+            .clipShape(RoundedRectangle(cornerSize: CGSize(width: 10, height: 10)))
+
+            Text(.NotificationCentre.notificationsFooter)
+                .font(.govUK.callout)
+                .multilineTextAlignment(.center)
+                .foregroundColor(Color(UIColor.govUK.text.secondary))
+                .clipShape(Rectangle())
+                .padding(.vertical, 16)
+
+            Spacer()
+        }
+        .padding(.horizontal, 16)
+        .padding(.top, 16)
+    }
+}
+
+private struct NotificationCentreRow: View {
+    let notification: NotificationCentreViewModel.NotificationListItem
+    let onTap: (String) -> Void
+
+    var body: some View {
+        Button {
+            onTap(notification.id)
+        } label: {
+            HStack(spacing: 0) {
+                Circle()
+                    .fill(notification.isUnread ?
+                          Color(UIColor.govUK.fills.msgUnread) :
+                            Color(UIColor.govUK.fills.msgRead))
+                    .frame(width: 10, height: 10)
+                    .padding(.horizontal, 16)
+                    .accessibilityHidden(!notification.isUnread)
+                    .accessibilityLabel(Text(.NotificationCentre.notificationUnreadA11YLabel))
+                    .accessibilitySortPriority(1) // Read it out last
+
+                VStack(alignment: .leading, spacing: 0) {
+                    Text(notification.title)
+                        .lineLimit(1)
+                        .font(notification.isUnread ?
+                              Font.govUK.body.weight(.bold) :
+                                Font.govUK.body)
+                        .padding(.bottom, 4)
+                        .foregroundStyle(Color(UIColor.govUK.text.primary))
+                        .accessibilitySortPriority(3)
+
+                    Text(notification.date)
+                        .font(notification.isUnread ?
+                              Font.govUK.subheadline.weight(.bold) :
+                                Font.govUK.subheadline)
+                        .foregroundStyle(Color(UIColor.govUK.text.secondary))
+                        .accessibilitySortPriority(2)
+                }
+                .padding(.trailing, 16)
+
+                Spacer()
+            }
+            .padding(.vertical, 16)
+            .background(Color(UIColor.govUK.fills.surfaceList))
+            .cornerRadius(10)
+            .accessibilityElement(children: .combine)
+        }
+    }
+}
+
+extension NotificationCentreContainerView: TrackableScreen {
+    var trackingTitle: String? { trackingName }
+    var trackingName: String { "Messages" }
+}
+
+#Preview("Loading") {
+    NotificationCentreLoadingView()
+}
+
+#Preview("Loaded") {
+    let testNotifications = NotificationCentreViewModel.MockData.testNotificationGroups
+
+    NotificationCentreLoadedView(
+        notifications: testNotifications,
+        onNotificationTap: { _ in /* No-op */ })
+}
+
+#Preview("Empty") {
+    NotificationCentreEmptyView()
+}
+
+#Preview("Unread notification") {
+    let notification = NotificationCentreViewModel.NotificationListItem(
+        title: "test", date: "7th Jan 2026", isUnread: true, id: "1"
+    )
+    NotificationCentreRow(notification: notification, onTap: { _ in /* no-op */ })
+}
+
+#Preview("Read notification") {
+    let notification = NotificationCentreViewModel.NotificationListItem(
+        title: "test", date: "7th Jan 2026", isUnread: false, id: "1"
+    )
+    NotificationCentreRow(notification: notification, onTap: { _ in /* no-op */ })
+}

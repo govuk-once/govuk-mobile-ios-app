@@ -13,6 +13,7 @@ extension Config {
                         releaseFlags: [String: Bool] = [:],
                         lastUpdated: String = "test",
                         searchApiUrl: String? = nil,
+                        promoBanners: [PromoBanner]? = nil,
                         authenticationIssuerBaseUrl: String = "https://test.com",
                         chatPollIntervalSeconds: TimeInterval? = 3,
                         refreshTokenExpirySeconds: Int? = 3600) -> Config {
@@ -35,6 +36,7 @@ extension Config {
                     title: "test",
                     url: URL(string: "https://test.com")!)
             ),
+            promoBanners: promoBanners,
             userFeedbackBanner: .init(
                 body: "test",
                 link: UserFeedbackBanner.Link(
@@ -60,7 +62,9 @@ extension Config {
             termsAndConditions: TermsAndConditions(
                 url: URL(string: "https://example.com")!,
                 contentItemApiPath: "/api/content/random",
-                lastUpdated: Date.now)
+                lastUpdated: Date.now
+            ),
+            dvlaUrls: .arrange
         )
     }
 }

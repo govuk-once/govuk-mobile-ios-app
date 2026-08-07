@@ -2,8 +2,7 @@ import Foundation
 import GovKit
 
 extension GOVRequest {
-    private static let userPath = "/app/udp/v1/users/me"
-    private static let userNotificationsPath = "/app/udp/v1/users/notifications"
+    private static let identityPath = "/app/udp/v1/identity"
 
     private static var additionalHeaders: [String: String] {
         ["Content-Type": "application/json"]
@@ -11,11 +10,11 @@ extension GOVRequest {
 
     static var userState: GOVRequest {
         GOVRequest(
-            urlPath: userPath,
+            urlPath: "/app/udp/v1/users/me",
             method: .get,
             body: nil,
             queryParameters: nil,
-            additionalHeaders: nil,
+            additionalHeaders: additionalHeaders,
             requiresAuthentication: true
         )
     }
@@ -23,9 +22,46 @@ extension GOVRequest {
     static func setNotificationsConsent(consentStatus: ConsentStatus) -> GOVRequest {
         let body = ConsentPreference(consentStatus: consentStatus)
         return GOVRequest(
-            urlPath: userNotificationsPath,
+            urlPath: "/app/udp/v1/users/me/notifications",
             method: .patch,
             body: body,
+            queryParameters: nil,
+            additionalHeaders: additionalHeaders,
+            requiresAuthentication: true
+        )
+    }
+
+    static func linkAccount(serviceName: String,
+                            token: String) -> GOVRequest {
+        GOVRequest(
+            urlPath: "\(identityPath)/\(serviceName)",
+            method: .post,
+            body: nil,
+            queryParameters: nil,
+            additionalHeaders: [
+                "Content-Type": "application/json",
+                "x-linking-token": token
+            ],
+            requiresAuthentication: true
+        )
+    }
+
+    static func unlinkAccount(serviceName: String) -> GOVRequest {
+        GOVRequest(
+            urlPath: "\(identityPath)/\(serviceName)",
+            method: .delete,
+            body: nil,
+            queryParameters: nil,
+            additionalHeaders: additionalHeaders,
+            requiresAuthentication: true
+        )
+    }
+
+    static var linkedAccounts: GOVRequest {
+        GOVRequest(
+            urlPath: identityPath,
+            method: .get,
+            body: nil,
             queryParameters: nil,
             additionalHeaders: additionalHeaders,
             requiresAuthentication: true

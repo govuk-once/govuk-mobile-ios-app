@@ -8,9 +8,11 @@ protocol AppConfigServiceInterface {
     var chatPollIntervalSeconds: TimeInterval { get }
     var alertBanner: AlertBanner? { get }
     var chatBanner: ChatBanner? { get }
+    var promoBanners: [PromoBanner]? { get }
     var userFeedbackBanner: UserFeedbackBanner? { get }
     var emergencyBanners: [EmergencyBanner]? { get }
     var chatUrls: ChatURLs? { get }
+    var dvlaUrls: DvlaURLs? { get }
     var refreshTokenExpirySeconds: Int? { get }
     var termsAndConditions: TermsAndConditions? { get }
 }
@@ -28,7 +30,9 @@ public final class AppConfigService: AppConfigServiceInterface {
     var chatBanner: ChatBanner?
     var userFeedbackBanner: UserFeedbackBanner?
     var emergencyBanners: [EmergencyBanner]?
+    private(set) var promoBanners: [PromoBanner]?
     private(set) var chatUrls: ChatURLs?
+    private(set) var dvlaUrls: DvlaURLs?
     private(set) var refreshTokenExpirySeconds: Int?
     private(set) var termsAndConditions: TermsAndConditions?
 
@@ -88,8 +92,10 @@ public final class AppConfigService: AppConfigServiceInterface {
 
         emergencyBanners = config.emergencyBanners
         chatBanner = config.chatBanner
+        promoBanners = config.promoBanners
         userFeedbackBanner = config.userFeedbackBanner
         chatUrls = config.chatUrls
+        dvlaUrls = config.dvlaUrls
         termsAndConditions = config.termsAndConditions
     }
 
@@ -110,7 +116,7 @@ public final class AppConfigService: AppConfigServiceInterface {
               let url = URL(string: urlString),
               let components = URLComponents(url: url, resolvingAgainstBaseURL: true)
         else { return }
-        Constants.API.defaultSearchPath = components.path
+        Constants.API.searchPath = components.path
         Container.shared.reregisterSearchAPIClient(url: url)
     }
 
@@ -133,6 +139,22 @@ public final class AppConfigService: AppConfigServiceInterface {
     }
 
     func isFeatureEnabled(key: Feature) -> Bool {
+        if let override = developmentOverrides[key] {
+            return override
+        }
         return featureFlags[key.rawValue] ?? false
+    }
+
+    private var developmentOverrides: [Feature: Bool] {
+    #if STAGING
+        [
+            .profile: true, // featureFlags[Feature.profile.rawValue] ?? false,
+            .dvla: true // featureFlags[Feature.dvla.rawValue] ?? false
+        ]
+    #else
+        [
+            .dvla: false
+        ]
+    #endif
     }
 }

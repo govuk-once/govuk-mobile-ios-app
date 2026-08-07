@@ -133,17 +133,6 @@
         }
       }
     },
-    "dismissChatBannerAccessibilityLabel" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "dismiss chat notice"
-          }
-        }
-      }
-    },
     "feedbackMenuAccessibilityTitle" : {
       "extractionState" : "manual",
       "localizations" : {

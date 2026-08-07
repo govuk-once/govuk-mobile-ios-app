@@ -134,29 +134,35 @@ final class TopicsWidgetViewModel: ObservableObject {
             )
             items.append(item)
         }
-        let event = AppEvent.viewItemList(name: listName,
-                                          id: listName,
-                                          items: items)
+        let event = AppEvent.viewItemList(
+            name: listName,
+            id: listName,
+            items: items
+        )
         analyticsService.track(event: event)
     }
 
     func trackECommerceSelection(_ name: String) {
         let trackedTopics = topicsScreen == .favourite ? favouriteTopics : allTopics
         guard let topic = trackedTopics.first(where: {$0.title == name}),
-              let index = trackedTopics.firstIndex(of: topic) else {
-            return
-        }
-        let items = [HomeCommerceItem(name: topic.title,
-                                      listName: listName,
-                                      index: index + 1,
-                                      itemId: nil,
-                                      locationId: nil)]
+              let index = trackedTopics.firstIndex(of: topic)
+        else { return }
+        let items = [
+            HomeCommerceItem(
+                name: topic.title,
+                listName: listName,
+                index: index + 1,
+                itemId: nil,
+                locationId: nil
+            )
+        ]
 
         let event = AppEvent.selectItem(
             listName: listName,
             listId: listName,
             results: trackedTopics.count,
-            items: items)
+            items: items
+        )
         analyticsService.track(event: event)
     }
 }

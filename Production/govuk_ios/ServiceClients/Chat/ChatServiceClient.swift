@@ -81,7 +81,13 @@ struct ChatServiceClient: ChatServiceClientInterface {
             if nsError.code == NSURLErrorNotConnectedToInternet {
                 return ChatError.networkUnavailable
             } else {
-                return (error as? ChatError) ?? ChatError.apiUnavailable
+                if let error = error as? ChatError {
+                    return error
+                }
+                if error is TokenRefreshError {
+                    return ChatError.authenticationError
+                }
+                return ChatError.apiUnavailable
             }
         }.flatMap {
             let decoder = JSONDecoder()
