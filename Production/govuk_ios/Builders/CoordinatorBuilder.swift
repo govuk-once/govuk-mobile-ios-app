@@ -543,6 +543,7 @@ class CoordinatorBuilder {
     ) -> BaseCoordinator {
         DVLAAuthenticationCoordinator(
             navigationController: navigationController,
+            viewControllerBuilder: ViewControllerBuilder(),
             urlOpener: UIApplication.shared,
             authenticationService: container.authenticationService.resolve(),
             analyticsService: container.analyticsService.resolve(),
