@@ -382,6 +382,8 @@
 		815C586A2EE973FC00322705 /* RemoteConfigServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815C58692EE973F400322705 /* RemoteConfigServiceClient.swift */; };
 		815C586C2EE9744E00322705 /* FirebaseRemoteConfig in Frameworks */ = {isa = PBXBuildFile; productRef = 815C586B2EE9744E00322705 /* FirebaseRemoteConfig */; };
 		8171AE472F1116A00024312B /* ScrollBottomIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8171AE462F11169A0024312B /* ScrollBottomIndicatorView.swift */; };
+		817ECB3B3024D7AA00BFC5FF /* DVLAAuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817ECB3A3024D7A200BFC5FF /* DVLAAuthenticationViewModel.swift */; };
+		817ECB3D3024DE0100BFC5FF /* DVLAAuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 817ECB3C3024DDF700BFC5FF /* DVLAAuthenticationView.swift */; };
 		8181DBFA2EE214B100F47531 /* FactoryKit in Frameworks */ = {isa = PBXBuildFile; productRef = 8181DBF92EE214B100F47531 /* FactoryKit */; };
 		8181DBFC2EE214B100F47531 /* FactoryTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 8181DBFB2EE214B100F47531 /* FactoryTesting */; };
 		818AEB982FE1820A005ECBC6 /* AccessibleString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 818AEB972FE18203005ECBC6 /* AccessibleString.swift */; };
@@ -965,6 +967,8 @@
 		815C58672EE970DC00322705 /* RemoteConfigService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigService.swift; sourceTree = "<group>"; };
 		815C58692EE973F400322705 /* RemoteConfigServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigServiceClient.swift; sourceTree = "<group>"; };
 		8171AE462F11169A0024312B /* ScrollBottomIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollBottomIndicatorView.swift; sourceTree = "<group>"; };
+		817ECB3A3024D7A200BFC5FF /* DVLAAuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DVLAAuthenticationViewModel.swift; sourceTree = "<group>"; };
+		817ECB3C3024DDF700BFC5FF /* DVLAAuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DVLAAuthenticationView.swift; sourceTree = "<group>"; };
 		818AEB972FE18203005ECBC6 /* AccessibleString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibleString.swift; sourceTree = "<group>"; };
 		81A6DB202FCF3C43006FB0F0 /* VehicleDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleDetailViewModel.swift; sourceTree = "<group>"; };
 		81A6DB222FCF40B9006FB0F0 /* VehicleDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleDetailView.swift; sourceTree = "<group>"; };
@@ -1174,6 +1178,7 @@
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/DVLAAccountSummaryViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/DVLAAccountViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/DVLAAccountWidgetViewSnapshotTests.swift,
+				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/DVLAAuthenticationViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/ExpiryProgressViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/MotStatusViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/TaxValidityStatusViewSnapshotTests.swift,
@@ -1272,6 +1277,7 @@
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/DVLAAccountSummaryViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/DVLAAccountViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/DVLAAccountWidgetViewSnapshotTests.swift,
+				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/DVLAAuthenticationViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/ExpiryProgressViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/MotStatusViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/TaxValidityStatusViewSnapshotTests.swift,
@@ -1333,6 +1339,7 @@
 				"govuk_ios/govuk_ios_unit_tests/Arrangers/Model/TopicResponseItem+Arrangers.swift",
 				govuk_ios/govuk_ios_unit_tests/Mocks/Repositories/MockLocalAuthorityRepository.swift,
 				govuk_ios/govuk_ios_unit_tests/Mocks/Repositories/MockTopicsRepository.swift,
+				govuk_ios/govuk_ios_unit_tests/Mocks/Services/MockAppEnvironmentService.swift,
 				govuk_ios/govuk_ios_unit_tests/Mocks/Services/MockAuthenticationService.swift,
 				govuk_ios/govuk_ios_unit_tests/Mocks/Services/MockLocalAuthenticationService.swift,
 				govuk_ios/govuk_ios_unit_tests/Mocks/Services/MockNotificationCentreService.swift,
@@ -2516,6 +2523,7 @@
 		81D2583F2FC71A8C00A4F988 /* DVLA */ = {
 			isa = PBXGroup;
 			children = (
+				817ECB3C3024DDF700BFC5FF /* DVLAAuthenticationView.swift */,
 				813610172FFFDA7C0011D851 /* DrivingRecordView.swift */,
 				1663A3FC2FF3C2B50002CFDB /* TaxValidityStatusView.swift */,
 				81E92CC13001439D00707530 /* DrivingLicenceNoticeView.swift */,
@@ -2545,6 +2553,7 @@
 				815018EF2F7D6AA100E7469C /* DVLAAccountViewModel.swift */,
 				81BFBFEE2FA4E1A300249569 /* DVLAAccountWidgetViewModel.swift */,
 				81D240BE2FC08FF800A4F988 /* DVLAAccountSummaryViewModel.swift */,
+				817ECB3A3024D7A200BFC5FF /* DVLAAuthenticationViewModel.swift */,
 				81217B8C2FD0B5A40048BBCD /* VehiclesViewModel.swift */,
 				81A6DF1F2FD04E40006FB0F0 /* DrivingLicenceViewModel.swift */,
 				81E92CBF3001437700707530 /* DrivingLicenceNoticeViewModel.swift */,
@@ -3179,6 +3188,7 @@
 				D08A9A862DB92F79002E9C78 /* SignOutConfirmationViewModel.swift in Sources */,
 				81353DEF2FE97669008A7DE1 /* ExpiryProgressView.swift in Sources */,
 				815841562F8D0F5E009E6486 /* ServiceAccountLinkCardView.swift in Sources */,
+				817ECB3D3024DE0100BFC5FF /* DVLAAuthenticationView.swift in Sources */,
 				D0C36F8B2EB3901A005A2455 /* EmergencyBannerWidgetView.swift in Sources */,
 				D0EB04842D37F34200B310D8 /* GOV.xcdatamodeld in Sources */,
 				D04191782CA57A6F0034722A /* TopicsService.swift in Sources */,
@@ -3565,6 +3575,7 @@
 				D0A8B3C42C9DD01200849304 /* Codable+Extensions.swift in Sources */,
 				D0EB02812D37F02400B310D8 /* CoreDataRepository.swift in Sources */,
 				4EA8357C2DBBBE13000AFB8A /* StoredLocalAuthorityCardModel.swift in Sources */,
+				817ECB3B3024D7AA00BFC5FF /* DVLAAuthenticationViewModel.swift in Sources */,
 				16A31E782E37959900C984D6 /* Intro.swift in Sources */,
 				815C58682EE970E200322705 /* RemoteConfigService.swift in Sources */,
 				5D14B1FE2EB0BA65003C151F /* SecureStoreable+Convenience.swift in Sources */,
