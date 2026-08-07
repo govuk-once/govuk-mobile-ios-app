@@ -874,5 +874,22 @@ class ViewControllerBuilder {
             }
             return viewController
         }
+
+    func dvlaAuthentication(
+        authenticationService: AuthenticationServiceInterface,
+        appEnvironmentService: AppEnvironmentServiceInterface,
+        completionAction: @escaping (URL) -> Void,
+        errorAction: @escaping () -> Void
+    ) -> UIViewController {
+        let viewModel = DVLAAuthenticationViewModel(
+            authenticationService: authenticationService,
+            appEnvironmentService: appEnvironmentService,
+            completionAction: completionAction,
+            errorAction: errorAction
+        )
+        let view = DVLAAuthenticationView(viewModel: viewModel)
+        let viewController = HostingViewController(rootView: view)
+        return viewController
+    }
 }
 // swiftlint:enable file_length
