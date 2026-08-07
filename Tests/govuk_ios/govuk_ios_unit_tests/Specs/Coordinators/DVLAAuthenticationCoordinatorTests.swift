@@ -14,8 +14,7 @@ class DVLAAuthenticationCoordinatorTests {
         mockAuthenticationService._stubbedTokenRefreshRequest = .success(.arrange)
         mockAuthenticationService._stubbedFetchIdentityVerificationResult = .success(
             .init(
-                verificationHash: "test-token",
-                sessionHash: "test-session",
+                token: "test-token",
             )
         )
 
@@ -56,8 +55,7 @@ class DVLAAuthenticationCoordinatorTests {
         mockAuthenticationService._stubbedTokenRefreshRequest = .success(.arrange)
         mockAuthenticationService._stubbedFetchIdentityVerificationResult = .success(
             .init(
-                verificationHash: "test-token",
-                sessionHash: "test-session",
+                token: "test-token",
             )
         )
         let mockAppEnvironmentService = MockAppEnvironmentService()
@@ -90,8 +88,7 @@ class DVLAAuthenticationCoordinatorTests {
         let mockAuthenticationService = MockAuthenticationService()
         mockAuthenticationService._stubbedFetchIdentityVerificationResult = .success(
             .init(
-                verificationHash: "test-token",
-                sessionHash: "test-session",
+                token: "test-token",
             )
         )
         let mockNavigationController = MockNavigationController()

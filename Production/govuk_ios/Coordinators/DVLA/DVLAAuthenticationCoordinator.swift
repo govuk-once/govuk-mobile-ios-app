@@ -41,24 +41,21 @@ final class DVLAAuthenticationCoordinator: BaseCoordinator {
         switch result {
         case .success(let result):
             authenticate(
-                verificationHash: result.verificationHash,
-                sessionHash: result.sessionHash
+                token: result.token,
             )
         case .failure:
             presentError()
         }
     }
 
-    private func authenticate(verificationHash: String,
-                              sessionHash: String) {
+    private func authenticate(token: String) {
         let authenticationUrl = appEnvironmentService.dvlaAuthenticationURL
         var components = URLComponents(
             url: authenticationUrl,
             resolvingAgainstBaseURL: true
         )
         components?.queryItems = [
-            .init(name: "verification", value: verificationHash),
-            .init(name: "session", value: sessionHash),
+            .init(name: "token", value: token),
         ]
         guard let url = components?.url
         else { return presentError() }
