@@ -18,7 +18,6 @@ final class DVLAAuthenticationViewModel: ObservableObject {
 
     @MainActor
     func refreshToken() async {
-        print("KRISDEBUG: refresh token")
         let result = await authenticationService.tokenRefreshRequest()
         switch result {
         case .success:

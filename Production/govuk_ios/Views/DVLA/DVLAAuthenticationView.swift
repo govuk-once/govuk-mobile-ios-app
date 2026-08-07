@@ -26,6 +26,7 @@ struct DVLAAuthenticationView: View {
             ProgressView()
                 .controlSize(.large)
                 .tint(Color(UIColor.govUK.text.header))
+                .accessibilityLabel(.DVLA.loadingAccessibilityLabel)
         }
     }
 }
