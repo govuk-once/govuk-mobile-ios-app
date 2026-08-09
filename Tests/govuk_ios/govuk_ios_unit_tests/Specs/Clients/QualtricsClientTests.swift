@@ -35,7 +35,7 @@ struct QualtricsClientTests {
     }
 
     @Test
-    func trackEvent_evaluatesClickEventWithParams() async throws {
+    func trackEvent_evaluatesEventWithParams() async throws {
         let mockQualtricsService = MockQualtricsService()
         let sut = QualtricsClient(
             qualtricsService: mockQualtricsService
@@ -49,15 +49,15 @@ struct QualtricsClientTests {
         sut.track(event: event)
 
         try await Task.sleep(for: .seconds(1))
-        #expect(mockQualtricsService._didCallEvaluateClickEvent)
-        let params = mockQualtricsService._stubbedClickParams
+        #expect(mockQualtricsService._didCallEvaluateEvent)
+        let params = mockQualtricsService._stubbedParams
         #expect(params?["text"] == "Test button")
         #expect(params?["section"] == "Test")
         #expect(params?["action"] == "Click")
     }
 
     @Test
-    func trackEcommmerceEvent_viewList_doesNot_evaluatesClickEventWithParams() {
+    func trackEcommmerceEvent_viewList_doesNot_evaluatesEventWithParams() {
         let mockQualtricsService = MockQualtricsService()
         let sut = QualtricsClient(
             qualtricsService: mockQualtricsService
@@ -70,12 +70,12 @@ struct QualtricsClientTests {
 
         sut.track(event: event)
 
-        #expect(!mockQualtricsService._didCallEvaluateClickEvent)
-        #expect(mockQualtricsService._stubbedClickParams == nil)
+        #expect(!mockQualtricsService._didCallEvaluateEvent)
+        #expect(mockQualtricsService._stubbedParams == nil)
     }
 
     @Test
-    func trackEcommmerceEvent_selectItem_doesNot_evaluatesClickEventWithParams() {
+    func trackEcommmerceEvent_selectItem_doesNot_evaluatesEventWithParams() {
         let mockQualtricsService = MockQualtricsService()
         let sut = QualtricsClient(
             qualtricsService: mockQualtricsService
@@ -89,7 +89,7 @@ struct QualtricsClientTests {
 
         sut.track(event: event)
 
-        #expect(!mockQualtricsService._didCallEvaluateClickEvent)
-        #expect(mockQualtricsService._stubbedClickParams == nil)
+        #expect(!mockQualtricsService._didCallEvaluateEvent)
+        #expect(mockQualtricsService._stubbedParams == nil)
     }
 }

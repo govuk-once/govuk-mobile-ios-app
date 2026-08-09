@@ -35,7 +35,7 @@ struct QualtricsClient: AnalyticsClient {
         guard !event.isEcommerceEvent else { return }
         let params: [String: String] = event.params?.compactMapValues( { $0 as? String }) ?? [:]
         Task {
-            await qualtricsService.evaluateClickEvent(params: params)
+            await qualtricsService.evaluateEvent(params: params)
         }
     }
 

@@ -25,7 +25,7 @@ struct QualtricsServiceTests {
 
     @Test
     @MainActor
-    func evaluateViewEvent_presentsSurveyIfTargetValid() async {
+    func evaluateViewEvent_targetValid_presentsSurvey() async {
         let mockQualtrics = MockQualtricsWrapper()
         let sut = QualtricsService(
             brandId: "",
@@ -50,7 +50,7 @@ struct QualtricsServiceTests {
 
     @Test
     @MainActor
-    func evaluateClickEvent_presentsSurveyIfTargetValid() async {
+    func evaluateEvent_targetValid_presentsSurvey() async {
         let mockQualtrics = MockQualtricsWrapper()
         let sut = QualtricsService(
             brandId: "",
@@ -63,9 +63,33 @@ struct QualtricsServiceTests {
 
         let targetResult = MockTargetingResult()
         targetResult._stubbedTargetPassed = true
-        targetResult._stubbedSurveyUrl = "http://www.example.com"
         mockQualtrics._stubbedTargetingResults = ["interceptId": targetResult]
-        await sut.evaluateClickEvent(
+        await sut.evaluateEvent(
+            params: ["test_key": "test_value"]
+        )
+
+        #expect(mockQualtrics._didDisplayViewController)
+    }
+
+    @Test
+    @MainActor
+    func evaluateViewEvent_targetValidAndHidePrompt_presentsSurvey() async {
+        let mockQualtrics = MockQualtricsWrapper()
+        let sut = QualtricsService(
+            brandId: "",
+            projectId: "",
+            qualtrics: mockQualtrics,
+            firebaseIDsService: MockFirebaseIDsService(),
+            firebaseClient: MockAnalyticsClient(),
+            presentationController: UIViewController()
+        )
+
+        let targetResult = MockTargetingResult()
+        targetResult._stubbedTargetPassed = true
+        targetResult._stubbedSurveyUrl = "http://www.example.com?hide_prompt=true"
+        mockQualtrics._stubbedTargetingResults = ["interceptId": targetResult]
+        await sut.evaluateViewEvent(
+            screenName: "Test screen",
             params: ["test_key": "test_value"]
         )
 
@@ -105,8 +129,8 @@ struct QualtricsServiceTests {
             }
         }
 
-        await sut.evaluateClickEvent(params: ["text": "Give feedback",
-                                        "url": "http://www.example.com"])
+        await sut.evaluateEvent(params: ["text": "Give feedback",
+                                         "url": "http://www.example.com"])
 
         #expect(mockQualtrics.properties.count == 14)
         for property in mockQualtrics.properties {
@@ -181,7 +205,7 @@ struct QualtricsServiceTests {
 
     @Test
     @MainActor
-    func evaluateClickEvent_valid_sendsTrackingEvent() async {
+    func evaluateEvent_valid_sendsTrackingEvent() async {
         let mockQualtrics = MockQualtricsWrapper()
         let mockAnalyticsClient = MockAnalyticsClient()
         let sut = QualtricsService(
@@ -197,7 +221,7 @@ struct QualtricsServiceTests {
         targetResult._stubbedTargetPassed = true
         targetResult._stubbedSurveyUrl = "http://www.example.com"
         mockQualtrics._stubbedTargetingResults = ["interceptId": targetResult]
-        await sut.evaluateClickEvent(
+        await sut.evaluateEvent(
             params: ["test_key": "test_value"]
         )
 

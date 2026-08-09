@@ -12,11 +12,11 @@ class MockQualtricsService: QualtricsServiceInterface {
         _stubbedViewParams = params
     }
 
-    var _didCallEvaluateClickEvent = false
-    var _stubbedClickParams: [String: String]?
-    func evaluateClickEvent(params: [String : String]) async {
-        _didCallEvaluateClickEvent = true
-        _stubbedClickParams = params
+    var _didCallEvaluateEvent = false
+    var _stubbedParams: [String: String]?
+    func evaluateEvent(params: [String : String]) async {
+        _didCallEvaluateEvent = true
+        _stubbedParams = params
     }
 }
 

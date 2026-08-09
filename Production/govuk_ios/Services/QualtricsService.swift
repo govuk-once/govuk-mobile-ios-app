@@ -9,7 +9,9 @@ protocol QualtricsServiceInterface {
         screenName: String,
         params: [String: String]
     ) async
-    func evaluateClickEvent(params: [String: String]) async
+    func evaluateEvent(
+        params: [String: String]
+    ) async
 }
 
 actor QualtricsService: QualtricsServiceInterface {
@@ -23,8 +25,8 @@ actor QualtricsService: QualtricsServiceInterface {
 
     @MainActor
     private var surveyController: UIViewController? {
-        if let controller = presentationController {
-            return controller
+        if let viewController = presentationController {
+            return viewController
         }
         let sceneDelegate = UIApplication
             .shared
@@ -66,17 +68,36 @@ actor QualtricsService: QualtricsServiceInterface {
 
     func evaluateViewEvent(
         screenName screen: String,
-        params properties: [String: String]
+        params: [String: String]
     ) async {
-        setQualtricsProperties(properties)
         qualtrics.registerViewVisit(viewName: screen)
+        await evaluate(params: params)
+    }
 
-        await evaluate { id, result in
-            guard let viewController = await surveyController,
-                  result.passed()
+    func evaluateEvent(params: [String: String]) async {
+        await evaluate(params: params)
+    }
+
+    private func evaluate(params: [String: String]) async {
+        setQualtricsProperties(params)
+        await evaluateTargets { id, result in
+            guard result.passed(),
+                  let viewController = await surveyController
             else { return }
 
             trackSurveyOpened(targetingID: id)
+
+            if let url = result.getSurveyUrl() {
+                let urlParams = URLComponents(string: url)?.queryItems
+                let hidePrompt = urlParams?.first {
+                    $0.name == "hide_prompt"
+                }
+                if hidePrompt?.value == "true" {
+                    result.recordImpression()
+                    await openSurveyByUrl(url, viewController: viewController)
+                    return
+                }
+            }
 
             _ = qualtrics.display(
                 viewController: viewController,
@@ -85,31 +106,18 @@ actor QualtricsService: QualtricsServiceInterface {
         }
     }
 
-    func evaluateClickEvent(
-        params properties: [String: String]
+    private func openSurveyByUrl(
+        _ url: String,
+        viewController: UIViewController
     ) async {
-        setQualtricsProperties(properties)
-        await evaluate { id, result in
-            guard result.passed(),
-                  let url = result.getSurveyUrl(),
-                  let viewController = presentationController
-            else { return }
-
-            result.recordImpression()
-            trackSurveyOpened(targetingID: id)
-
-            await MainActor.run {
-                // We are assuming the user clicked on a "Give feedback" button
-                // or other CTA that informs a survey is about to be presented,
-                // so we diplay the survey directly without the intitial prompt
-                let surveyController = QualtricsSurveyViewController(url: url)
-                surveyController.modalPresentationStyle = .overFullScreen
-                viewController.present(surveyController, animated: true)
-            }
+        await MainActor.run {
+            let surveyController = QualtricsSurveyViewController(url: url)
+            surveyController.modalPresentationStyle = .overFullScreen
+            viewController.present(surveyController, animated: true)
         }
     }
 
-    private func evaluate(
+    private func evaluateTargets(
         onPass: (String, TargetingResultInterface) async -> Void
     ) async {
         if let (id, res) = await withCheckedContinuation({ cont in
