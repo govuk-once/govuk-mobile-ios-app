@@ -5,16 +5,19 @@ import Firebase
 import FirebaseCore
 import FirebaseAnalytics
 
-struct FirebaseClient: AnalyticsClient {
+class FirebaseClient: AnalyticsClient {
     private let firebaseApp: FirebaseAppInterface.Type
     private let firebaseAnalytics: FirebaseAnalyticsInterface.Type
+    private let firebaseIDsService: FirebaseIDsServiceInterface
 
     init(
         firebaseApp: FirebaseAppInterface.Type,
         firebaseAnalytics: FirebaseAnalyticsInterface.Type,
+        firebaseIDsService: FirebaseIDsServiceInterface
     ) {
         self.firebaseApp = firebaseApp
         self.firebaseAnalytics = firebaseAnalytics
+        self.firebaseIDsService = firebaseIDsService
     }
 
     func launch() {
@@ -26,9 +29,18 @@ struct FirebaseClient: AnalyticsClient {
     }
 
     func track(event: AppEvent) {
+        let params: [String: Any] = [
+            "fb_session_id": firebaseIDsService.sessionID,
+            "fb_user_pseudo_id": firebaseIDsService.appInstanceID
+        ]
+            .compactMapValues({ $0 })
+            .merging(
+                event.params ?? [:],
+                uniquingKeysWith: { param, _ in param }
+            )
         firebaseAnalytics.logEvent(
             event.name,
-            parameters: event.params ?? [:]
+            parameters: params
         )
     }
 
@@ -37,7 +49,9 @@ struct FirebaseClient: AnalyticsClient {
             AnalyticsParameterScreenName: screen.trackingName,
             AnalyticsParameterScreenClass: screen.trackingClass,
             "screen_title": screen.trackingTitle,
-            "language": screen.trackingLanguage
+            "language": screen.trackingLanguage,
+            "fb_session_id": firebaseIDsService.sessionID,
+            "fb_user_pseudo_id": firebaseIDsService.appInstanceID
         ]
             .compactMapValues({ $0 })
             .merging(
@@ -68,6 +82,8 @@ protocol FirebaseAnalyticsInterface {
     static func setAnalyticsCollectionEnabled(_ newValue: Bool)
     static func logEvent(_ eventName: String, parameters: [String: Any]?)
     static func setUserProperty(_ value: String?, forName name: String)
+    static func appInstanceID() -> String?
+    static func sessionID() async throws -> Int64
 }
 
 extension FirebaseApp: FirebaseAppInterface {}
