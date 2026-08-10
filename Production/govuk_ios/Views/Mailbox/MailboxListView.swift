@@ -14,9 +14,11 @@ struct MailboxListView: View {
             Color(uiColor: .govUK.fills.surfaceBackground)
                 .ignoresSafeArea()
 
-            if viewModel.isLoading && viewModel.messages.isEmpty {
+            if viewModel.isLoading && viewModel.messages.isEmpty && viewModel.loadError == nil {
                 ProgressView()
                     .accessibilityLabel("Loading messages")
+            } else if let loadError = viewModel.loadError {
+                errorState(loadError)
             } else if viewModel.messages.isEmpty {
                 emptyState
             } else {
@@ -30,36 +32,71 @@ struct MailboxListView: View {
     }
 
     private var messageList: some View {
-        ScrollView {
-            LazyVStack(spacing: 12) {
-                ForEach(viewModel.messages) { message in
-                    MailboxMessageRow(message: message) {
-                        viewModel.selectMessage(message)
-                    }
-                    .contextMenu {
-                        if !message.isUnopened {
-                            Button {
-                                viewModel.markAsUnopened(message)
+        VStack(spacing: 0) {
+            if viewModel.refreshFailed {
+                refreshErrorBanner
+            }
+            ScrollView {
+                LazyVStack(spacing: 12) {
+                    ForEach(viewModel.messages) { message in
+                        MailboxMessageRow(message: message) {
+                            viewModel.selectMessage(message)
+                        }
+                        .contextMenu {
+                            if !message.isUnopened {
+                                Button {
+                                    viewModel.markAsUnopened(message)
+                                } label: {
+                                    Label(
+                                        "Mark as unopened",
+                                        systemImage: "envelope.badge"
+                                    )
+                                }
+                            }
+                            Button(role: .destructive) {
+                                viewModel.deleteMessage(message)
                             } label: {
                                 Label(
-                                    "Mark as unopened",
-                                    systemImage: "envelope.badge"
+                                    "Delete",
+                                    systemImage: "trash"
                                 )
                             }
                         }
-                        Button(role: .destructive) {
-                            viewModel.deleteMessage(message)
-                        } label: {
-                            Label(
-                                "Delete",
-                                systemImage: "trash"
-                            )
-                        }
                     }
                 }
+                .padding(.horizontal, 16)
+                .padding(.bottom, 16)
             }
-            .padding(.horizontal, 16)
-            .padding(.bottom, 16)
+            .refreshable {
+                await viewModel.refreshMessages()
+            }
+        }
+    }
+
+    private var refreshErrorBanner: some View {
+        HStack(spacing: 8) {
+            Image(systemName: "exclamationmark.circle")
+                .foregroundStyle(Color(uiColor: .govUK.text.trailingIcon))
+                .accessibilityHidden(true)
+            Text("Couldn't refresh messages")
+                .font(Font.govUK.body)
+                .foregroundStyle(Color(uiColor: .govUK.text.primary))
+            Spacer()
+        }
+        .padding(.horizontal, 16)
+        .padding(.vertical, 10)
+        .background(Color(uiColor: .govUK.fills.surfaceCardDefault))
+        .accessibilityElement(children: .combine)
+    }
+
+    private func errorState(_ errorViewModel: InlineActionErrorViewModel) -> some View {
+        ScrollView {
+            InlineActionErrorView(viewModel: errorViewModel)
+                .frame(maxWidth: .infinity, minHeight: 100)
+                .background(Color(uiColor: .govUK.fills.surfaceList))
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+                .padding(.horizontal, 16)
+                .padding(.top, 16)
         }
         .refreshable {
             await viewModel.refreshMessages()
