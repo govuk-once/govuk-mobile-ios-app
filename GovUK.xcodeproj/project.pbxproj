@@ -442,9 +442,6 @@
 		D04DD32F2E0046DC002B5F19 /* Answer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04DD3282E0046DC002B5F19 /* Answer.swift */; };
 		D04DD3302E0046DC002B5F19 /* History.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04DD32A2E0046DC002B5F19 /* History.swift */; };
 		D04DD3322E0046FB002B5F19 /* GOVRequest+Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04DD3312E0046FB002B5F19 /* GOVRequest+Chat.swift */; };
-		MB00000001B0000100000001 /* GOVRequest+Mailbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = MB00000001A0000100000001 /* GOVRequest+Mailbox.swift */; };
-		MB00000002B0000200000002 /* MailboxServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = MB00000002A0000200000002 /* MailboxServiceClient.swift */; };
-		MB00000003B0000300000003 /* MailboxTokenProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = MB00000003A0000300000003 /* MailboxTokenProvider.swift */; };
 		D04DD3352E00471C002B5F19 /* ChatServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04DD3342E00471C002B5F19 /* ChatServiceClient.swift */; };
 		D04DD3362E00471C002B5F19 /* ChatResponseHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04DD3332E00471C002B5F19 /* ChatResponseHandler.swift */; };
 		D04DD3382E004737002B5F19 /* ChatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04DD3372E004737002B5F19 /* ChatService.swift */; };
@@ -535,6 +532,9 @@
 		D0F6813E2DD4CF8E004421C0 /* LocalAuthorityPostcodeEntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F6813C2DD4CF8E004421C0 /* LocalAuthorityPostcodeEntryViewModel.swift */; };
 		D0F6813F2DD4CF8E004421C0 /* LocalAuthorityWidgetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F6813D2DD4CF8E004421C0 /* LocalAuthorityWidgetViewModel.swift */; };
 		D0F681402DD4CF8E004421C0 /* LocalAuthorityExplainerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F6813B2DD4CF8E004421C0 /* LocalAuthorityExplainerViewModel.swift */; };
+		MB00000001B0000100000001 /* GOVRequest+Mailbox.swift in Sources */ = {isa = PBXBuildFile; fileRef = MB00000001A0000100000001 /* GOVRequest+Mailbox.swift */; };
+		MB00000002B0000200000002 /* MailboxServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = MB00000002A0000200000002 /* MailboxServiceClient.swift */; };
+		MB00000003B0000300000003 /* MailboxTokenProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = MB00000003A0000300000003 /* MailboxTokenProvider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1010,9 +1010,6 @@
 		D04DD32A2E0046DC002B5F19 /* History.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = History.swift; sourceTree = "<group>"; };
 		D04DD32B2E0046DC002B5F19 /* PendingQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingQuestion.swift; sourceTree = "<group>"; };
 		D04DD3312E0046FB002B5F19 /* GOVRequest+Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GOVRequest+Chat.swift"; sourceTree = "<group>"; };
-		MB00000001A0000100000001 /* GOVRequest+Mailbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GOVRequest+Mailbox.swift"; sourceTree = "<group>"; };
-		MB00000002A0000200000002 /* MailboxServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MailboxServiceClient.swift; path = Production/govuk_ios/ServiceClients/MailboxServiceClient.swift; sourceTree = SOURCE_ROOT; };
-		MB00000003A0000300000003 /* MailboxTokenProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MailboxTokenProvider.swift; path = Production/govuk_ios/Services/MailboxTokenProvider.swift; sourceTree = SOURCE_ROOT; };
 		D04DD3332E00471C002B5F19 /* ChatResponseHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatResponseHandler.swift; sourceTree = "<group>"; };
 		D04DD3342E00471C002B5F19 /* ChatServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatServiceClient.swift; sourceTree = "<group>"; };
 		D04DD3372E004737002B5F19 /* ChatService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatService.swift; sourceTree = "<group>"; };
@@ -1105,10 +1102,13 @@
 		D0F6813D2DD4CF8E004421C0 /* LocalAuthorityWidgetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthorityWidgetViewModel.swift; sourceTree = "<group>"; };
 		FAEF423B98027BDDC4D963B7 /* MailboxListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MailboxListViewModel.swift; path = Production/govuk_ios/ViewModels/Mailbox/MailboxListViewModel.swift; sourceTree = SOURCE_ROOT; };
 		FFF3427EAC3AC430198E97E2 /* MailboxListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MailboxListView.swift; path = Production/govuk_ios/Views/Mailbox/MailboxListView.swift; sourceTree = SOURCE_ROOT; };
+		MB00000001A0000100000001 /* GOVRequest+Mailbox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GOVRequest+Mailbox.swift"; sourceTree = "<group>"; };
+		MB00000002A0000200000002 /* MailboxServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MailboxServiceClient.swift; path = Production/govuk_ios/ServiceClients/MailboxServiceClient.swift; sourceTree = SOURCE_ROOT; };
+		MB00000003A0000300000003 /* MailboxTokenProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MailboxTokenProvider.swift; path = Production/govuk_ios/Services/MailboxTokenProvider.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		5D9CDF202CD928FB0045DFC3 = {
+		5D9CDF202CD928FB0045DFC3 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				govuk_ios/govuk_ios_unit_tests/Resources/MockAppConfigResponse.json,
@@ -1128,7 +1128,7 @@
 			);
 			target = 5DAD71732BD250DB0075F648 /* govuk_ios */;
 		};
-		5D9CDF212CD928FB0045DFC3 = {
+		5D9CDF212CD928FB0045DFC3 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				govuk_ios/govuk_ios_snapshot_tests/Helpers/SnapshotTestCase.swift,
@@ -1223,7 +1223,7 @@
 			);
 			target = 5DAD71892BD250DF0075F648 /* govuk_ios_unit_tests */;
 		};
-		5D9CDF222CD928FB0045DFC3 = {
+		5D9CDF222CD928FB0045DFC3 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				govuk_ios/govuk_ios_snapshot_tests/Helpers/SnapshotTestCase.swift,
@@ -1359,7 +1359,7 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		5D9CDE3A2CD928FB0045DFC3 /* Tests */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (5D9CDF202CD928FB0045DFC3, 5D9CDF212CD928FB0045DFC3, 5D9CDF222CD928FB0045DFC3, ); explicitFileTypes = {}; explicitFolders = (govuk_ios/govuk_ios_snapshot_tests/ReferenceImages_64, ); path = Tests; sourceTree = "<group>"; };
+		5D9CDE3A2CD928FB0045DFC3 /* Tests */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (5D9CDF202CD928FB0045DFC3 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 5D9CDF212CD928FB0045DFC3 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 5D9CDF222CD928FB0045DFC3 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (govuk_ios/govuk_ios_snapshot_tests/ReferenceImages_64, ); path = Tests; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2906,7 +2906,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 5DAD716F2BD250DA0075F648 /* Build configuration list for PBXProject "govuk_ios" */;
+			buildConfigurationList = 5DAD716F2BD250DA0075F648 /* Build configuration list for PBXProject "GovUK" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = "en-GB";
 			hasScannedForEncodings = 0;
@@ -4068,7 +4068,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5DAD716F2BD250DA0075F648 /* Build configuration list for PBXProject "govuk_ios" */ = {
+		5DAD716F2BD250DA0075F648 /* Build configuration list for PBXProject "GovUK" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				5DAD719C2BD250DF0075F648 /* Debug */,

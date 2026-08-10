@@ -118,7 +118,7 @@ extension Container {
     var mailboxTokenAPIClient: Factory<APIServiceClientInterface> {
         Factory(self) {
             APIServiceClient(
-                baseUrl: URL(string: "https://xd2oxqfeqb.execute-api.eu-west-2.amazonaws.com")!,
+                baseUrl: URL(string: "https://2th5vrcog2.execute-api.eu-west-2.amazonaws.com")!,
                 session: self.urlSession(),
                 requestBuilder: RequestBuilder()
             )
@@ -136,7 +136,7 @@ extension Container {
     var mailboxAPIClient: Factory<APIServiceClientInterface> {
         Factory(self) {
             APIServiceClient(
-                baseUrl: URL(string: "https://access.mailbox.development.mb-core.once.service.gov.uk")!,
+                baseUrl: URL(string: "https://demo.access.development.mb-core.once.service.gov.uk")!,
                 session: self.urlSession(),
                 requestBuilder: RequestBuilder(),
                 tokenProvider: self.mailboxTokenProvider()
