@@ -9,6 +9,8 @@ class MailboxListViewModel: ObservableObject {
 
     @Published var messages: [MailboxMessage] = []
     @Published var isLoading: Bool = false
+    @Published private(set) var loadError: InlineActionErrorViewModel?
+    @Published private(set) var refreshFailed: Bool = false
 
     init(mailboxService: MailboxServiceInterface,
          analyticsService: AnalyticsServiceInterface,
@@ -28,12 +30,19 @@ class MailboxListViewModel: ObservableObject {
         isLoading = true
         mailboxService.fetchMessages { [weak self] result in
             DispatchQueue.main.async {
-                self?.isLoading = false
+                guard let self else { return }
+                self.isLoading = false
                 switch result {
                 case .success(let messages):
-                    self?.messages = messages
+                    self.messages = messages
+                    self.loadError = nil
+                    self.refreshFailed = false
                 case .failure:
-                    break
+                    if self.messages.isEmpty {
+                        self.loadError = self.mailboxLoadErrorViewModel
+                    } else {
+                        self.refreshFailed = true
+                    }
                 }
             }
         }
@@ -81,5 +90,13 @@ class MailboxListViewModel: ObservableObject {
 
     func trackScreen(screen: TrackableScreen) {
         analyticsService.track(screen: screen)
+    }
+
+    private var mailboxLoadErrorViewModel: InlineActionErrorViewModel {
+        InlineActionErrorViewModel(
+            title: "Cannot load messages",
+            markdownBody: "Check your connection, then pull down to try again.",
+            openURLAction: { _ in }
+        )
     }
 }
