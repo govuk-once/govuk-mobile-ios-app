@@ -195,7 +195,7 @@ class SettingsViewModel: SettingsViewModelInterface {
         return [
             accountSection,
             appConfigService.isFeatureEnabled(key: .dvla) ? linkedAccountsSection : nil,
-            messagesSection,
+            appConfigService.isFeatureEnabled(key: .messages) ? messagesSection : nil,
             appOptionsSection,
             aboutSection,
             policiesSection,

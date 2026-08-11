@@ -25,7 +25,7 @@ class SettingsViewModelTests {
         mockAuthenticationService._stubbedIsSignedIn = true
         mockAuthenticationService._stubbedUserEmail = "test@example.com"
         mockAppConfigService._stubbedTermsAndConditions = Config.arrange.termsAndConditions
-        mockAppConfigService.features = [.profile, .dvla]
+        mockAppConfigService.features = [.profile, .dvla, .messages]
         assembleSUT()
     }
 
@@ -164,7 +164,28 @@ class SettingsViewModelTests {
         let rowIds = yourAccountsRow.rows.map { $0.id }
         #expect(!rowIds.contains("settings.accounts.row"))
     }
+    
+    @Test
+    func messagesDisabled_hidesMessagesRow() {
+        mockAppConfigService.features = []
+        let sut = SettingsViewModel(
+            analyticsService: mockAnalyticsService,
+            urlOpener: mockURLOpener,
+            versionProvider: mockVersionProvider,
+            deviceInformationProvider: mockDeviceInformationProvider,
+            authenticationService: mockAuthenticationService,
+            notificationService: mockNotificationsService,
+            notificationCenter: .default,
+            localAuthenticationService: mockLocalAuthenticationService,
+            appConfigService: mockAppConfigService,
+            userService: MockUserService(),
+            notificationCentreService: MockNotificationCentreService()
+        )
 
+        let messagesRow = sut.listContent[SectionIndexes.messages]
+        let rowIds = messagesRow.rows.map { $0.id }
+        #expect(!rowIds.contains("settings.messages.row"))
+    }
 
     @Test
     func analytics_toggledOnThenOff_deniesPermissions() throws {
