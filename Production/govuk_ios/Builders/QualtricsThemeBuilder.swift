@@ -23,38 +23,44 @@ struct QualtricsThemeBuilder {
     )
 
     static let thumbsTheme = ThumbButtonTheme.init(
-        thumbUpColor: .white,
-        thumbUpBackground: .govUK.fills.surfaceButtonPrimary,
-        thumbDownColor: .white,
-        thumbDownBackground: .govUK.fills.surfaceButtonDestructive,
-        pressedThumbColor: .white,
-        pressedThumbBackground: .govUK.fills.surfaceButtonPrimaryHighlight
+        thumbUpColor: .qualtricsPurple,
+        thumbUpBackground: .govUK.fills.surfaceList,
+        thumbDownColor: .qualtricsPurple,
+        thumbDownBackground: .govUK.fills.surfaceList,
+        pressedThumbColor: .qualtricsPurple,
+        pressedThumbBackground: .qualtricsPurple
+    )
+
+    static let emojiTheme = EmojiButtonTheme.init(
+        backgroundColor: .qualtricsPurple,
+        borderColor: .qualtricsPurple,
+        tintColor: .white
     )
 
     static let yesNoTheme = YesNoButtonTheme.init(
-        yesButtonTitleColor: .govUK.text.buttonPrimary,
+        yesButtonTitleColor: .white,
         yesButtonFont: .govUK.body,
-        yesButtonBackgroundColor: .govUK.fills.surfaceButtonPrimary,
-        yesButtonBorderColor: .clear,
-        noButtonTitleColor: .govUK.text.buttonPrimary,
+        yesButtonBackgroundColor: .qualtricsPurple,
+        yesButtonBorderColor: .qualtricsPurple,
+        noButtonTitleColor: .qualtricsPurple,
         noButtonFont: .govUK.body,
-        noButtonBackgroundColor: .govUK.fills.surfaceButtonDestructive,
-        noButtonBorderColor: .clear,
-        pressedButtonColor: .govUK.fills.surfaceBackground,
-        pressedButtonBackground: .govUK.fills.surfaceChatBackground
+        noButtonBackgroundColor: .govUK.fills.surfaceList,
+        noButtonBorderColor: .qualtricsPurple,
+        pressedButtonColor: .qualtricsPurple,
+        pressedButtonBackground: .qualtricsPurple
     )
 
     static let starTheme = StarButtonTheme.init(
         backgroundColor: .govUK.fills.surfaceModal,
-        tintColor: .govUK.fills.surfaceButtonPrimary,
-        pressedTintColor: .govUK.fills.surfaceButtonPrimary,
-        pressedBackgroundColor: .govUK.fills.surfaceModal
+        tintColor: .qualtricsPurple,
+        pressedTintColor: .qualtricsPurple,
+        pressedBackgroundColor: .qualtricsPurple
     )
 
     static let submitTheme = SubmitButtonTheme.init(
-        textColor: .govUK.text.primary,
+        textColor: .white,
         font: .govUK.body,
-        fillColor: .govUK.fills.surfaceButtonPrimary,
+        fillColor: .qualtricsPurple,
         separatorColor: .govUK.strokes.listDivider
     )
 
@@ -71,7 +77,7 @@ struct QualtricsThemeBuilder {
 
     static let multipleChoiceTheme = MultipleChoiceTheme.init(
         questionTextColor: .govUK.text.primary,
-        questionTextFont: .govUK.body,
+        questionTextFont: .govUK.title3Semibold,
         otherAnswerTextColor: .govUK.text.primary,
         otherAnswerTextFont: .govUK.body,
         otherAnswerBackgroundColor: .govUK.fills.surfaceBackground,
@@ -79,7 +85,8 @@ struct QualtricsThemeBuilder {
     )
 
     static let followupQuestionTheme = FollowupQuestionTheme.init(
-        color: .govUK.fills.surfaceModal,
+        color: .govUK.text.primary,
+        font: .govUK.title3Semibold,
         textInputColor: .govUK.text.primary,
         textInputFont: .govUK.body,
         textInputBackgroundcolor: .govUK.fills.surfaceBackground
@@ -103,17 +110,18 @@ extension MobileAppPromptTheme {
 extension EmbeddedAppFeedbackTheme {
     static var govUK: EmbeddedAppFeedbackTheme {
         EmbeddedAppFeedbackTheme.init(
-            dialogBackgroundColor: .govUK.fills.surfaceModal,
+            dialogBackgroundColor: .govUK.fills.surfaceList,
             dialogShadowColor: .clear,
             closeButtonColor: .govUK.text.primary,
             initialQuestionColor: .govUK.text.primary,
-            initialQuestionFont: .govUK.title3,
+            initialQuestionFont: .govUK.title3Semibold,
             thankYouTextColor: .govUK.text.primary,
-            thankYouTextFont: .govUK.title3,
+            thankYouTextFont: .govUK.title3Semibold,
             followupQuestionTheme: QualtricsThemeBuilder.followupQuestionTheme,
             thumbsButtonsTheme: QualtricsThemeBuilder.thumbsTheme,
             yesNoButtonsTheme: QualtricsThemeBuilder.yesNoTheme,
             starTheme: QualtricsThemeBuilder.starTheme,
+            emojiTheme: QualtricsThemeBuilder.emojiTheme,
             submitButtonTheme: QualtricsThemeBuilder.submitTheme,
             multipleChoiceTheme: QualtricsThemeBuilder.multipleChoiceTheme
         )
