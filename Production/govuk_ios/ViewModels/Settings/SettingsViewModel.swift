@@ -24,7 +24,7 @@ protocol SettingsViewModelInterface: ObservableObject {
     func handleNotificationAlertAction()
     func trackScreen(screen: TrackableScreen)
     func updateEmail()
-//    func loadMessages()
+    func loadMessages()
 }
 
 struct SettingsViewModelURLParameters {
@@ -37,10 +37,10 @@ struct SettingsViewModelURLParameters {
 class SettingsViewModel: SettingsViewModelInterface {
     var yourAccountsAction: (() -> Void)?
     private enum MessagesState {
-        case notDetermined, loading, error, success(unreadCount: Int), unlinked
+        case loading, error, success(unreadCount: Int)
     }
 
-    @Published private var messagesState: MessagesState = .notDetermined
+    @Published private var messagesState: MessagesState = .loading
     private var messagesStateCancelable: AnyCancellable?
 
     let title: String = String(localized: .Settings.pageTitle)
@@ -167,24 +167,12 @@ class SettingsViewModel: SettingsViewModelInterface {
         }
     }
 
-//    func loadMessages() {
-//        Task {
-//            await update(messagesState: .loading)
-//
-//            if let linkedAccounts = userService.linkedAccounts {
-//                await loadMessageCount(isLinked: !linkedAccounts.isEmpty)
-//            } else {
-//                let linked = await userService.fetchLinkedAccounts()
-//
-//                switch linked {
-//                case .success(let linkedAccounts):
-//                    await loadMessageCount(isLinked: !linkedAccounts.isEmpty)
-//                case .failure:
-//                    await update(messagesState: .error)
-//                }
-//            }
-//        }
-//    }
+    func loadMessages() {
+        Task {
+            await update(messagesState: .loading)
+            await loadMessageCount()
+        }
+    }
 
     @MainActor
     private func update(messagesState: MessagesState) {
@@ -192,18 +180,13 @@ class SettingsViewModel: SettingsViewModelInterface {
     }
 
     @MainActor
-    private func loadMessageCount(isLinked: Bool) {
-        guard isLinked else {
-            update(messagesState: .unlinked)
-            return
-        }
-
+    private func loadMessageCount() {
         notificationCentreService.fetchNotifications { [weak self] res in
             if case .success(let notifications) = res {
                 let unreadCount = notifications.count(where: \.isUnread)
                 self?.update(messagesState: .success(unreadCount: unreadCount))
             } else {
-                self?.update(messagesState: .error)
+                self?.update(messagesState: .success(unreadCount: 0))
             }
         }
     }
@@ -212,6 +195,7 @@ class SettingsViewModel: SettingsViewModelInterface {
         return [
             accountSection,
             appConfigService.isFeatureEnabled(key: .dvla) ? linkedAccountsSection : nil,
+            messagesSection,
             appOptionsSection,
             aboutSection,
             policiesSection,
@@ -258,11 +242,11 @@ class SettingsViewModel: SettingsViewModelInterface {
         var state: CountRow.State
 
         switch messagesState {
-        case .notDetermined, .loading:
+        case .loading:
              state = .loading
         case .success(let unreadCount):
            state = .idle(showIndicator: unreadCount > 0, count: unreadCount)
-        case .error, .unlinked:
+        case .error:
             return nil
         }
         return GroupedListSection(
