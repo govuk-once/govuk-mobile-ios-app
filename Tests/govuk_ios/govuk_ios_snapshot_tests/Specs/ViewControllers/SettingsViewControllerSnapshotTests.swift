@@ -32,6 +32,7 @@ class SettingsViewControllerSnapshotTests: SnapshotTestCase {
         userService._stubbedLinkedAccounts = []
 
         notificationCentreService = MockNotificationCentreService()
+        notificationCentreService._stubbedFetchNotificationsResult = .success([])
     }
 
     private func assembleSUT() -> SettingsViewModel {
