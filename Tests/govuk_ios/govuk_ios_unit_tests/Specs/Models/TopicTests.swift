@@ -88,5 +88,31 @@ struct TopicTests {
 
         #expect(topic.iconName == iconName)
     }
+    func topic_isTravelTopic_returnsValues() async {
+        let coreData = await CoreDataRepository.arrange
+        let topic = Topic(context: coreData.viewContext)
+        topic.ref = "travel-abroad"
+        #expect(topic.isTravelTopic == true)
+        
+        topic.ref = "driving-transport"
+        #expect(topic.isTravelTopic == false)
+        
+        topic.ref = "other-topic"
+        #expect(topic.isTravelTopic == false)
+    }
+    
+    func topic_isDrivingTopic_returnsValues() async {
+        let coreData = await CoreDataRepository.arrange
+        let topic = Topic(context: coreData.viewContext)
+        topic.ref = "travel-abroad"
+        #expect(topic.isTravelTopic == false)
+        
+        topic.ref = "driving-transport"
+        #expect(topic.isTravelTopic == true)
+        
+        topic.ref = "other-topic"
+        #expect(topic.isTravelTopic == false)
+    }
+
 
 }

@@ -501,6 +501,25 @@ struct CoordinatorBuilderTests {
         )
         #expect(topicWidgetProvider is DrivingTopicWidgetCoordinator)
     }
+    
+    @Test
+    func topicWidgetProvider_forTravelTopic_returnsTravelTopicWidgetCoordinator() async {
+        let mockCoreDataViewContext = await CoreDataRepository.arrangeAndLoad.viewContext
+        let travelTopic = Topic.arrange(
+            context: mockCoreDataViewContext,
+            ref: "travel-abroad"
+        )
+        let container = Container()
+        container.analyticsService.register(factory: { MockAnalyticsService() })
+        container.userService.register(factory: { MockUserService() })
+        let subject = CoordinatorBuilder(container: container)
+        let topicWidgetProvider = subject.topicWidgetProvider(
+            topic: travelTopic,
+            navigationController: UINavigationController()
+        )
+        #expect(topicWidgetProvider is TravelTopicWidgetCoordinator)
+    }
+
 
     @Test
     func sarSettings_returnsExpectedResult() {

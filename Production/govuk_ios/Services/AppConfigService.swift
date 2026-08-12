@@ -150,12 +150,14 @@ public final class AppConfigService: AppConfigServiceInterface {
         [
             .profile: true, // featureFlags[Feature.profile.rawValue] ?? false,
             .dvla: true, // featureFlags[Feature.dvla.rawValue] ?? false
-            .messages: true // featureFlags[Feature.messages.rawValue] ?? false
+            .messages: true, // featureFlags[Feature.messages.rawValue] ?? false
+            .travelAlerts: true // featureFlags[Feature.travelAlerts.rawValue] ?? false
         ]
     #else
         [
             .dvla: false,
-            .messages: false
+            .messages: false,
+            .travelAlerts: false
         ]
     #endif
     }

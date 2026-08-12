@@ -240,19 +240,31 @@ class CoordinatorBuilder {
         topic: Topic,
         navigationController: UINavigationController
     ) -> TopicWidgetProvider? {
-        guard topic.ref == "driving-transport" else {
+        if topic.isDrivingTopic {
+            return DrivingTopicWidgetCoordinator(
+                navigationController: navigationController,
+                analyticsService: container.analyticsService.resolve(),
+                configService: container.appConfigService.resolve(),
+                userService: container.userService.resolve(),
+                dvlaService: container.dvlaService.resolve(),
+                coordinatorBuilder: self,
+                widgetViewBuilder: WidgetViewBuilder(),
+                urlOpener: UIApplication.shared
+            )
+        } else if topic.isTravelTopic {
+            return TravelTopicWidgetCoordinator(
+                navigationController: navigationController,
+                analyticsService: container.analyticsService.resolve(),
+                configService: container.appConfigService.resolve(),
+                userService: container.userService.resolve(),
+                coordinatorBuilder: self,
+                widgetViewBuilder: WidgetViewBuilder(),
+                viewControllerBuilder: ViewControllerBuilder(),
+                urlOpener: UIApplication.shared
+            )
+        } else {
             return nil
         }
-        return DrivingTopicWidgetCoordinator(
-            navigationController: navigationController,
-            analyticsService: container.analyticsService.resolve(),
-            configService: container.appConfigService.resolve(),
-            userService: container.userService.resolve(),
-            dvlaService: container.dvlaService.resolve(),
-            coordinatorBuilder: self,
-            widgetViewBuilder: WidgetViewBuilder(),
-            urlOpener: UIApplication.shared
-        )
     }
 
     func localAuthority(navigationController: UINavigationController,
