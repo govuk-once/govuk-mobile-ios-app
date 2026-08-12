@@ -7,19 +7,19 @@ import GovKitUI
 /// for examples of what each theme component controls.
 struct QualtricsThemeBuilder {
     static let primaryButtonTheme = ButtonTheme.init(
-        textColor: .govUK.text.buttonPrimary,
-        linkColor: .govUK.text.link,
+        textColor: .white,
+        linkColor: .qualtricsPurple,
         font: .govUK.body,
-        backgroundColor: .govUK.fills.surfaceButtonPrimary,
-        borderColor: .clear
+        backgroundColor: .qualtricsPurple,
+        borderColor: .qualtricsPurple
     )
 
     static let secondaryButtonTheme = ButtonTheme.init(
-        textColor: .govUK.text.buttonSecondary,
-        linkColor: .govUK.text.link,
+        textColor: .qualtricsPurple,
+        linkColor: .qualtricsPurple,
         font: .govUK.body,
-        backgroundColor: .govUK.fills.surfaceButtonSecondary,
-        borderColor: .clear
+        backgroundColor: .govUK.fills.surfaceList,
+        borderColor: .qualtricsPurple
     )
 
     static let thumbsTheme = ThumbButtonTheme.init(
@@ -96,11 +96,12 @@ struct QualtricsThemeBuilder {
 extension MobileAppPromptTheme {
     static var govUK: MobileAppPromptTheme {
         MobileAppPromptTheme.init(
-            backgroundColor: .govUK.fills.surfaceModal,
+            backgroundColor: .govUK.fills.surfaceList,
             headlineTextColor: .govUK.text.primary,
-            headlineFont: .govUK.headlineSemibold,
-            descriptionTextColor: .govUK.text.secondary,
+            headlineFont: .govUK.title3Semibold,
+            descriptionTextColor: .govUK.text.primary,
             descriptionFont: .govUK.body,
+            closeButtonColor: .govUK.text.primary,
             buttonOneTheme: QualtricsThemeBuilder.secondaryButtonTheme,
             buttonTwoTheme: QualtricsThemeBuilder.primaryButtonTheme
         )
