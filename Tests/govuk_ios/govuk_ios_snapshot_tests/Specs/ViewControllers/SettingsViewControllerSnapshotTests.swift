@@ -22,7 +22,7 @@ class SettingsViewControllerSnapshotTests: SnapshotTestCase {
         mockVersionProvider.buildNumber = "123"
 
         notificationService = MockNotificationService()
-        notificationService._stubbedIsFetureEnabled = true
+        notificationService._stubbedIsFeatureEnabled = true
 
         authenticationService = MockAuthenticationService()
         authenticationService._stubbedIsSignedIn = true
@@ -32,6 +32,7 @@ class SettingsViewControllerSnapshotTests: SnapshotTestCase {
         userService._stubbedLinkedAccounts = []
 
         notificationCentreService = MockNotificationCentreService()
+        notificationCentreService._stubbedFetchNotificationResult = .success(NotificationCentreViewModel.MockData.recentNotifications.first)
     }
 
     private func assembleSUT() -> SettingsViewModel {
@@ -52,6 +53,7 @@ class SettingsViewControllerSnapshotTests: SnapshotTestCase {
 
     func test_loadInNavigationController_light_rendersCorrectly() async {
         let viewModel = assembleSUT()
+        notificationCentreService._stubbedFetchNotificationsResult = .success(NotificationCentreViewModel.MockData.recentNotifications)
 
         let settingsContentView = SettingsView(
             viewModel: viewModel
@@ -82,6 +84,7 @@ class SettingsViewControllerSnapshotTests: SnapshotTestCase {
 
     func test_loadInNavigationController_dark_rendersCorrectly() async {
         let viewModel = assembleSUT()
+        notificationCentreService._stubbedFetchNotificationsResult = .success(NotificationCentreViewModel.MockData.recentNotifications)
 
         let settingsContentView = SettingsView(
             viewModel: viewModel
@@ -112,7 +115,8 @@ class SettingsViewControllerSnapshotTests: SnapshotTestCase {
     }
 
     func test_loadInNavigationController_notificationsFeatureEnabled_light_rendersCorrectly() async {
-        notificationService._stubbedIsFetureEnabled = true
+        notificationService._stubbedIsFeatureEnabled = true
+        notificationCentreService._stubbedFetchNotificationsResult = .success(NotificationCentreViewModel.MockData.recentNotifications)
 
         let viewModel = assembleSUT()
 
@@ -143,7 +147,8 @@ class SettingsViewControllerSnapshotTests: SnapshotTestCase {
     }
 
     func test_loadInNavigationController_notificationsFeatureEnabled_dark_rendersCorrectly() async {
-        notificationService._stubbedIsFetureEnabled = true
+        notificationService._stubbedIsFeatureEnabled = true
+        notificationCentreService._stubbedFetchNotificationsResult = .success(NotificationCentreViewModel.MockData.recentNotifications)
 
         let viewModel = assembleSUT()
 
