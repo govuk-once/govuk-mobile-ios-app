@@ -41,11 +41,14 @@ final class TravelTopicWidgetCoordinator: BaseCoordinator,
               configService.isFeatureEnabled(key: .travelAlerts) else {
             return nil
         }
-        let placeholder = HStack(alignment: .center) {
-            Text("Placeholder Travel Alerts")
-                .padding(.horizontal, 16)
-            Spacer()
-        }
-        return AnyView(placeholder)
+        return widgetViewBuilder.followCountryWidget(
+            analyticsService: analyticsService,
+            userService: userService,
+            configService: configService,
+            linkAction: {},
+            openURLAction: { [weak self] url in
+                self?.urlOpener.openIfPossible(url)
+            }
+        )
     }
 }

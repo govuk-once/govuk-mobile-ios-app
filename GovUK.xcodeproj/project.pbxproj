@@ -428,6 +428,7 @@
 		81F91D2A2FDB26A500BF709E /* VehicleSpecFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F91D292FDB26A000BF709E /* VehicleSpecFormatter.swift */; };
 		81F9296F2FDC25A500BF709E /* VehicleDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F9296E2FDC259800BF709E /* VehicleDetailCoordinator.swift */; };
 		855B8BF1302DD050001D1A9C /* IconActionCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855B8BF0302DD050001D1A9C /* IconActionCardViewModel.swift */; };
+		855B8BF9302DEAEE001D1A9C /* Travel.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 855B8BF8302DEAEE001D1A9C /* Travel.xcstrings */; };
 		85DD7C68302CA901007F5170 /* TravelTopicWidgetCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DD7C67302CA901007F5170 /* TravelTopicWidgetCoordinator.swift */; };
 		85DD7C6E302CC38E007F5170 /* IconActionCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DD7C6D302CC38E007F5170 /* IconActionCardView.swift */; };
 		945E1F052F714E920064CA22 /* SearchDeepLinkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945E1F042F714E830064CA22 /* SearchDeepLinkRoute.swift */; };
@@ -1014,6 +1015,7 @@
 		81F91D292FDB26A000BF709E /* VehicleSpecFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleSpecFormatter.swift; sourceTree = "<group>"; };
 		81F9296E2FDC259800BF709E /* VehicleDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleDetailCoordinator.swift; sourceTree = "<group>"; };
 		855B8BF0302DD050001D1A9C /* IconActionCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconActionCardViewModel.swift; sourceTree = "<group>"; };
+		855B8BF8302DEAEE001D1A9C /* Travel.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Travel.xcstrings; sourceTree = "<group>"; };
 		85DD7C67302CA901007F5170 /* TravelTopicWidgetCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelTopicWidgetCoordinator.swift; sourceTree = "<group>"; };
 		85DD7C6D302CC38E007F5170 /* IconActionCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconActionCardView.swift; sourceTree = "<group>"; };
 		945E1F042F714E830064CA22 /* SearchDeepLinkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDeepLinkRoute.swift; sourceTree = "<group>"; };
@@ -2029,6 +2031,7 @@
 				33A323DC2F503D240022BAFC /* NotificationCentre.xcstrings */,
 				81E2E78C2F5F6D90009D96A0 /* ServiceAccount.xcstrings */,
 				815018F42F7D96F100E7469C /* DVLA.xcstrings */,
+				855B8BF8302DEAEE001D1A9C /* Travel.xcstrings */,
 			);
 			path = Strings;
 			sourceTree = "<group>";
@@ -3096,6 +3099,7 @@
 				3D3378122CAAC0A0004BF83F /* AppAvailability.xcstrings in Resources */,
 				5D742BDC2C99799000E7B87A /* Search.xcstrings in Resources */,
 				16E9432A2F4745F500487AD1 /* chat_loading_message_dark.json in Resources */,
+				855B8BF9302DEAEE001D1A9C /* Travel.xcstrings in Resources */,
 				5D09C6EC2D5C8D5900805D8F /* Notifications.xcstrings in Resources */,
 				D08AA4262DB950F2002E9C78 /* SignOut.xcstrings in Resources */,
 			);

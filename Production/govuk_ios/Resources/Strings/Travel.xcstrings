@@ -1,0 +1,28 @@
+{
+  "sourceLanguage" : "en-GB",
+  "strings" : {
+    "followCountriesDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Get travel advice and alerts for up to 10 countries"
+          }
+        }
+      }
+    },
+    "followCountriesTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Follow countries for updates"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.2"
+}
