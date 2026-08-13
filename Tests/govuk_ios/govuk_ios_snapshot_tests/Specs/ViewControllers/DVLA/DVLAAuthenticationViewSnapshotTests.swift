@@ -8,14 +8,18 @@ import GovKit
 @MainActor
 class DVLAAuthenticationViewSnapshotTests: SnapshotTestCase {
     func test_loadingView_light_rendersCorrectly() {
+        let authenticationService = MockAuthenticationService()
+        authenticationService._stubbedFetchIdentityVerificationResult = .success(
+            .init(token: "test_token")
+        )
         let viewModel = DVLAAuthenticationViewModel(
-            authenticationService: MockAuthenticationService(),
+            authenticationService: authenticationService,
             appEnvironmentService: MockAppEnvironmentService(),
             completionAction: { _ in },
             errorAction: { }
         )
         let view = DVLAAuthenticationView(viewModel: viewModel)
-        let hostingViewController =  HostingViewController(
+        let hostingViewController = HostingViewController(
             rootView: view
         )
         VerifySnapshotInNavigationController(
@@ -25,14 +29,18 @@ class DVLAAuthenticationViewSnapshotTests: SnapshotTestCase {
     }
 
     func test_loadingView_dark_rendersCorrectly() {
+        let authenticationService = MockAuthenticationService()
+        authenticationService._stubbedFetchIdentityVerificationResult = .success(
+            .init(token: "test_token")
+        )
         let viewModel = DVLAAuthenticationViewModel(
-            authenticationService: MockAuthenticationService(),
+            authenticationService: authenticationService,
             appEnvironmentService: MockAppEnvironmentService(),
             completionAction: { _ in },
             errorAction: { }
         )
         let view = DVLAAuthenticationView(viewModel: viewModel)
-        let hostingViewController =  HostingViewController(
+        let hostingViewController = HostingViewController(
             rootView: view
         )
         VerifySnapshotInNavigationController(
