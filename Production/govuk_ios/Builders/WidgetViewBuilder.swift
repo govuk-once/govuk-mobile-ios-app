@@ -34,20 +34,13 @@ class WidgetViewBuilder {
         userService: UserServiceInterface,
         configService: AppConfigServiceInterface,
         linkAction: @escaping () -> Void,
-        openURLAction: @escaping (URL) -> Void
+        dismissAction: @escaping () -> Void
     ) -> AnyView? {
-        let widget = IconActionCardView(
-            viewModel: IconActionCardViewModel(
-                iconName: "plus.circle",
-                title: String(localized: .Travel.followCountriesTitle),
-                description: String(localized: .Travel.followCountriesDescription),
-                action: linkAction,
-                contentPadding: 24,
-                iconBottomPadding: 16
-            )
+        let viewModel = TravelTopicWidgetViewModel(
+            linkAction: linkAction,
+            dismissAction: dismissAction
         )
-            .padding(.horizontal, 16)
-            .padding(.vertical, 16)
+        let widget = TravelTopicWidgetView(viewModel: viewModel)
         return AnyView(widget)
     }
 }

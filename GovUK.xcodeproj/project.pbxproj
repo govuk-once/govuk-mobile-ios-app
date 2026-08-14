@@ -429,6 +429,11 @@
 		81F9296F2FDC25A500BF709E /* VehicleDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F9296E2FDC259800BF709E /* VehicleDetailCoordinator.swift */; };
 		855B8BF1302DD050001D1A9C /* IconActionCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855B8BF0302DD050001D1A9C /* IconActionCardViewModel.swift */; };
 		855B8BF9302DEAEE001D1A9C /* Travel.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 855B8BF8302DEAEE001D1A9C /* Travel.xcstrings */; };
+		855B8BFD302E07C6001D1A9C /* FollowCountryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855B8BFC302E07C6001D1A9C /* FollowCountryView.swift */; };
+		855B8BFF302E0868001D1A9C /* FollowCountryCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855B8BFE302E0868001D1A9C /* FollowCountryCoordinator.swift */; };
+		85611CCF302F4CE6008EB3B1 /* TravelTopicWidgetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85611CCE302F4CE6008EB3B1 /* TravelTopicWidgetViewModel.swift */; };
+		85611CD1302F4EFD008EB3B1 /* TravelTopicWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85611CD0302F4EFD008EB3B1 /* TravelTopicWidgetView.swift */; };
+		85611CD3302F6217008EB3B1 /* FollowCountryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85611CD2302F6217008EB3B1 /* FollowCountryViewModel.swift */; };
 		85DD7C68302CA901007F5170 /* TravelTopicWidgetCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DD7C67302CA901007F5170 /* TravelTopicWidgetCoordinator.swift */; };
 		85DD7C6E302CC38E007F5170 /* IconActionCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DD7C6D302CC38E007F5170 /* IconActionCardView.swift */; };
 		945E1F052F714E920064CA22 /* SearchDeepLinkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945E1F042F714E830064CA22 /* SearchDeepLinkRoute.swift */; };
@@ -1016,6 +1021,11 @@
 		81F9296E2FDC259800BF709E /* VehicleDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleDetailCoordinator.swift; sourceTree = "<group>"; };
 		855B8BF0302DD050001D1A9C /* IconActionCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconActionCardViewModel.swift; sourceTree = "<group>"; };
 		855B8BF8302DEAEE001D1A9C /* Travel.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Travel.xcstrings; sourceTree = "<group>"; };
+		855B8BFC302E07C6001D1A9C /* FollowCountryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowCountryView.swift; sourceTree = "<group>"; };
+		855B8BFE302E0868001D1A9C /* FollowCountryCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowCountryCoordinator.swift; sourceTree = "<group>"; };
+		85611CCE302F4CE6008EB3B1 /* TravelTopicWidgetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelTopicWidgetViewModel.swift; sourceTree = "<group>"; };
+		85611CD0302F4EFD008EB3B1 /* TravelTopicWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelTopicWidgetView.swift; sourceTree = "<group>"; };
+		85611CD2302F6217008EB3B1 /* FollowCountryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowCountryViewModel.swift; sourceTree = "<group>"; };
 		85DD7C67302CA901007F5170 /* TravelTopicWidgetCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelTopicWidgetCoordinator.swift; sourceTree = "<group>"; };
 		85DD7C6D302CC38E007F5170 /* IconActionCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconActionCardView.swift; sourceTree = "<group>"; };
 		945E1F042F714E830064CA22 /* SearchDeepLinkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDeepLinkRoute.swift; sourceTree = "<group>"; };
@@ -1855,6 +1865,7 @@
 		5D41DB5E2C0875460011E691 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				855B8C00302E15B2001D1A9C /* Travel */,
 				811229D22FFBC35600278D46 /* InlineActionErrorViewModel.swift */,
 				855B8BF0302DD050001D1A9C /* IconActionCardViewModel.swift */,
 				5DDE5D192FFBC5FC00DF6B34 /* Home */,
@@ -2039,6 +2050,7 @@
 		5D79AEBE2C32B8CB0061F344 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				855B8BFB302E07B3001D1A9C /* Travel */,
 				81D2583F2FC71A8C00A4F988 /* DVLA */,
 				81DE66992F5B742C0087F48E /* ServiceAccount */,
 				D052CA312E0B04800048F98A /* Chat */,
@@ -2644,9 +2656,28 @@
 			path = DVLA;
 			sourceTree = "<group>";
 		};
+		855B8BFB302E07B3001D1A9C /* Travel */ = {
+			isa = PBXGroup;
+			children = (
+				85611CD0302F4EFD008EB3B1 /* TravelTopicWidgetView.swift */,
+				855B8BFC302E07C6001D1A9C /* FollowCountryView.swift */,
+			);
+			path = Travel;
+			sourceTree = "<group>";
+		};
+		855B8C00302E15B2001D1A9C /* Travel */ = {
+			isa = PBXGroup;
+			children = (
+				85611CD2302F6217008EB3B1 /* FollowCountryViewModel.swift */,
+				85611CCE302F4CE6008EB3B1 /* TravelTopicWidgetViewModel.swift */,
+			);
+			path = Travel;
+			sourceTree = "<group>";
+		};
 		85DD7C66302CA8FA007F5170 /* Travel */ = {
 			isa = PBXGroup;
 			children = (
+				855B8BFE302E0868001D1A9C /* FollowCountryCoordinator.swift */,
 				85DD7C67302CA901007F5170 /* TravelTopicWidgetCoordinator.swift */,
 			);
 			path = Travel;
@@ -3316,6 +3347,7 @@
 				D02578772EB8CB73008AD2BF /* EmergencyBannerWidgetViewModel.swift in Sources */,
 				81BF887E2FA1029C00249569 /* ServiceAccountLinkSuccessViewModel.swift in Sources */,
 				333A5D262FCF071C0018BA1D /* NotificationCentreDetailMarkdownTheme.swift in Sources */,
+				855B8BFF302E0868001D1A9C /* FollowCountryCoordinator.swift in Sources */,
 				16C34B432C492FF90031AD32 /* HomeDeepLinkRoute.swift in Sources */,
 				81CDB3712FDAF43100328F7C /* VehicleSpecView.swift in Sources */,
 				81DAF94B2F6D885C001C4E09 /* DVLAAuthenticationCoordinator.swift in Sources */,
@@ -3457,6 +3489,7 @@
 				D06C2A512DDF39C90045C674 /* LocalAuthorityResponseHandler.swift in Sources */,
 				815935DB2F213EC700F8D206 /* GOVRequest+UserState.swift in Sources */,
 				4E5E79A82DEF063800CA9B4D /* LocalAuthorityConfirmationView.swift in Sources */,
+				85611CCF302F4CE6008EB3B1 /* TravelTopicWidgetViewModel.swift in Sources */,
 				4EFE22A12D0CD08900136D56 /* Redactor.swift in Sources */,
 				3D4A9E622E6735B0003ABE53 /* UserFeedbackWidgetViewModel.swift in Sources */,
 				81F9296F2FDC25A500BF709E /* VehicleDetailCoordinator.swift in Sources */,
@@ -3474,6 +3507,7 @@
 				D04DD3322E0046FB002B5F19 /* GOVRequest+Chat.swift in Sources */,
 				D0F5FF7E2D64D22400C3BF51 /* AppEvent+ECommerce.swift in Sources */,
 				D04C542C2D7081CC0070EE79 /* TopicCommerceItem.swift in Sources */,
+				85611CD1302F4EFD008EB3B1 /* TravelTopicWidgetView.swift in Sources */,
 				81CDB3732FDAF47700328F7C /* VehicleSpecViewModel.swift in Sources */,
 				5D0BD45B2C9B206F00220625 /* JSONDecoder+Extensions.swift in Sources */,
 				4EFE22A52D0CD0D500136D56 /* RegexRedactor.swift in Sources */,
@@ -3498,6 +3532,7 @@
 				5DD4CB102D95485200459FB5 /* DateFormatter+Convenience.swift in Sources */,
 				81D258412FC71AB900A4F988 /* VehicleSummaryView.swift in Sources */,
 				16A435932F193EE1000AAAA6 /* AlertDetails.swift in Sources */,
+				85611CD3302F6217008EB3B1 /* FollowCountryViewModel.swift in Sources */,
 				D0AC166F2E8ADBDB00AACE5C /* PrivacyCoordinator.swift in Sources */,
 				33A323E02F51E11D0022BAFC /* NotificationCentreDetailViewModel.swift in Sources */,
 				5D18E83E2CCFB68900F20419 /* Container+APIClients.swift in Sources */,
@@ -3549,6 +3584,7 @@
 				5D8683972C3430C90024F2D8 /* DeeplinkRoutingComponents.swift in Sources */,
 				5DAD71782BD250DB0075F648 /* AppDelegate.swift in Sources */,
 				5D899A202C946F540074C0AD /* UIViewController+Extensions.swift in Sources */,
+				855B8BFD302E07C6001D1A9C /* FollowCountryView.swift in Sources */,
 				4E2A875D2D48FC41002A01D7 /* UIApplication+Window.swift in Sources */,
 				5D962D682C29BD0B0038BC0A /* TabCoordinator.swift in Sources */,
 				4EE5F3E92DAFD463008C60ED /* LocalAuthorityPostcodeEntryView.swift in Sources */,

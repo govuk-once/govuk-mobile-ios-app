@@ -1,18 +1,29 @@
 {
   "sourceLanguage" : "en-GB",
   "strings" : {
-    "followCountriesDescription" : {
+    "followACountryTitle" : {
       "extractionState" : "manual",
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Get travel advice and alerts for up to 10 countries"
+            "value" : "Follow a country"
           }
         }
       }
     },
-    "followCountriesTitle" : {
+    "followCountryWidgetDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Get messages and notifications when travel advice changes"
+          }
+        }
+      }
+    },
+    "followCountryWidgetTitle" : {
       "extractionState" : "manual",
       "localizations" : {
         "en-GB" : {

@@ -45,10 +45,24 @@ final class TravelTopicWidgetCoordinator: BaseCoordinator,
             analyticsService: analyticsService,
             userService: userService,
             configService: configService,
-            linkAction: {},
-            openURLAction: { [weak self] url in
-                self?.urlOpener.openIfPossible(url)
+            linkAction: { [weak self] in
+                self?.startCountrySelection()
+            },
+            dismissAction: { [weak self] in
+                self?.root.viewWillReAppear()
             }
         )
+    }
+
+    private func startCountrySelection() {
+        let navigationController = BaseNavigationController()
+        navigationController.modalPresentationStyle = .fullScreen
+        let coordinator = coordinatorBuilder.followCountry(
+            navigationController: navigationController,
+            completion: { _ in
+                print("select countries dismissed")
+            }
+        )
+        present(coordinator)
     }
 }

@@ -619,4 +619,18 @@ class CoordinatorBuilder {
             coordinatorBuilder: self
         )
     }
+
+    func followCountry(
+        navigationController: UINavigationController,
+        completion: @escaping (Bool) -> Void
+    ) -> BaseCoordinator {
+        FollowCountryCoordinator(
+            navigationController: navigationController,
+            coordinatorBuilder: self,
+            viewControllerBuilder: ViewControllerBuilder(),
+            analyticsService: container.analyticsService.resolve(),
+            userService: container.userService.resolve(),
+            completion: completion
+        )
+    }
 }
