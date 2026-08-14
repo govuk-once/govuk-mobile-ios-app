@@ -23,7 +23,8 @@ class MockAppConfigService: AppConfigServiceInterface {
         .recentActivity,
         .localServices,
         .dvla,
-        .messages
+        .messages,
+        .travelAlerts
     ]
 
     var _stubbedAlertBanner: AlertBanner?

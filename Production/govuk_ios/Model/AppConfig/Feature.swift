@@ -12,4 +12,5 @@ enum Feature: String {
     case profile = "profile_v2"
     case dvla
     case messages
+    case travelAlerts = "travelalerts"
 }
