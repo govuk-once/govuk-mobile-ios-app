@@ -255,8 +255,8 @@ class CoordinatorBuilder {
             return TravelTopicWidgetCoordinator(
                 navigationController: navigationController,
                 analyticsService: container.analyticsService.resolve(),
+                travelService: container.travelService.resolve(),
                 configService: container.appConfigService.resolve(),
-                userService: container.userService.resolve(),
                 coordinatorBuilder: self,
                 widgetViewBuilder: WidgetViewBuilder(),
                 viewControllerBuilder: ViewControllerBuilder(),

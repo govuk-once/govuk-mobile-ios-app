@@ -46,6 +46,14 @@ extension Container {
         }
     }
 
+    var travelServiceClient: Factory<TravelServiceClientInterface> {
+        Factory(self) {
+            TravelServiceClient(
+                apiServiceClient: self.appAPIClient()
+            )
+        }
+    }
+
     var authenticationServiceClient: Factory<AuthenticationServiceClientInterface> {
         Factory(self) {
             AuthenticationServiceClient(

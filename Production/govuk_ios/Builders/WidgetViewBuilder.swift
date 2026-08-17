@@ -31,12 +31,12 @@ class WidgetViewBuilder {
 
     func followCountryWidget(
         analyticsService: AnalyticsServiceInterface,
-        userService: UserServiceInterface,
-        configService: AppConfigServiceInterface,
+        travelService: TravelServiceInterface,
         linkAction: @escaping () -> Void,
         dismissAction: @escaping () -> Void
     ) -> AnyView? {
         let viewModel = TravelTopicWidgetViewModel(
+            travelService: travelService,
             linkAction: linkAction,
             dismissAction: dismissAction
         )

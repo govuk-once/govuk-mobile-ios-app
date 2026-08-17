@@ -4,9 +4,9 @@ import GovKit
 
 final class TravelTopicWidgetCoordinator: BaseCoordinator,
                                           TopicWidgetProvider {
-    private let userService: UserServiceInterface
     private let viewControllerBuilder: ViewControllerBuilder
     private let widgetViewBuilder: WidgetViewBuilder
+    private let travelService: TravelServiceInterface
     private let analyticsService: AnalyticsServiceInterface
     private let configService: AppConfigServiceInterface
     private let coordinatorBuilder: CoordinatorBuilder
@@ -14,15 +14,15 @@ final class TravelTopicWidgetCoordinator: BaseCoordinator,
 
     init(navigationController: UINavigationController,
          analyticsService: AnalyticsServiceInterface,
+         travelService: TravelServiceInterface,
          configService: AppConfigServiceInterface,
-         userService: UserServiceInterface,
          coordinatorBuilder: CoordinatorBuilder,
          widgetViewBuilder: WidgetViewBuilder,
          viewControllerBuilder: ViewControllerBuilder,
          urlOpener: URLOpener) {
         self.analyticsService = analyticsService
+        self.travelService = travelService
         self.configService = configService
-        self.userService = userService
         self.coordinatorBuilder = coordinatorBuilder
         self.widgetViewBuilder = widgetViewBuilder
         self.viewControllerBuilder = viewControllerBuilder
@@ -43,8 +43,7 @@ final class TravelTopicWidgetCoordinator: BaseCoordinator,
         }
         return widgetViewBuilder.followCountryWidget(
             analyticsService: analyticsService,
-            userService: userService,
-            configService: configService,
+            travelService: travelService,
             linkAction: { [weak self] in
                 self?.startCountrySelection()
             },

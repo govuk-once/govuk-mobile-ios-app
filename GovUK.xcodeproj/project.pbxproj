@@ -434,6 +434,10 @@
 		85611CCF302F4CE6008EB3B1 /* TravelTopicWidgetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85611CCE302F4CE6008EB3B1 /* TravelTopicWidgetViewModel.swift */; };
 		85611CD1302F4EFD008EB3B1 /* TravelTopicWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85611CD0302F4EFD008EB3B1 /* TravelTopicWidgetView.swift */; };
 		85611CD3302F6217008EB3B1 /* FollowCountryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85611CD2302F6217008EB3B1 /* FollowCountryViewModel.swift */; };
+		85611CD5302F6614008EB3B1 /* GOVRequest+Travel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85611CD4302F6614008EB3B1 /* GOVRequest+Travel.swift */; };
+		85611CD8302F68C9008EB3B1 /* TravelGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85611CD7302F68C9008EB3B1 /* TravelGroup.swift */; };
+		85611CDA302F6987008EB3B1 /* TravelServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85611CD9302F6987008EB3B1 /* TravelServiceClient.swift */; };
+		857F30DA303311FC0080E209 /* TravelService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857F30D9303311FC0080E209 /* TravelService.swift */; };
 		85DD7C68302CA901007F5170 /* TravelTopicWidgetCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DD7C67302CA901007F5170 /* TravelTopicWidgetCoordinator.swift */; };
 		85DD7C6E302CC38E007F5170 /* IconActionCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DD7C6D302CC38E007F5170 /* IconActionCardView.swift */; };
 		945E1F052F714E920064CA22 /* SearchDeepLinkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945E1F042F714E830064CA22 /* SearchDeepLinkRoute.swift */; };
@@ -1026,6 +1030,10 @@
 		85611CCE302F4CE6008EB3B1 /* TravelTopicWidgetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelTopicWidgetViewModel.swift; sourceTree = "<group>"; };
 		85611CD0302F4EFD008EB3B1 /* TravelTopicWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelTopicWidgetView.swift; sourceTree = "<group>"; };
 		85611CD2302F6217008EB3B1 /* FollowCountryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowCountryViewModel.swift; sourceTree = "<group>"; };
+		85611CD4302F6614008EB3B1 /* GOVRequest+Travel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GOVRequest+Travel.swift"; sourceTree = "<group>"; };
+		85611CD7302F68C9008EB3B1 /* TravelGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelGroup.swift; sourceTree = "<group>"; };
+		85611CD9302F6987008EB3B1 /* TravelServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelServiceClient.swift; sourceTree = "<group>"; };
+		857F30D9303311FC0080E209 /* TravelService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelService.swift; sourceTree = "<group>"; };
 		85DD7C67302CA901007F5170 /* TravelTopicWidgetCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelTopicWidgetCoordinator.swift; sourceTree = "<group>"; };
 		85DD7C6D302CC38E007F5170 /* IconActionCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconActionCardView.swift; sourceTree = "<group>"; };
 		945E1F042F714E830064CA22 /* SearchDeepLinkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDeepLinkRoute.swift; sourceTree = "<group>"; };
@@ -1634,9 +1642,7 @@
 		3D09A6D92C9DC78A005858D0 /* ServiceClients */ = {
 			isa = PBXGroup;
 			children = (
-				16C6BE802F965C290015E6F6 /* TermsAndConditionsServiceClient.swift */,
 				3D09A6DA2C9DC873005858D0 /* AppConfigServiceClient.swift */,
-				815C58692EE973F400322705 /* RemoteConfigServiceClient.swift */,
 				164091FD2DA41C0700E3BE99 /* AuthenticationServiceClient.swift */,
 				815011D62F7C4EEC00E7469C /* DVLAServiceClient.swift */,
 				81E92CBD300126E900707530 /* DVLAResponseHandler.swift */,
@@ -1645,8 +1651,11 @@
 				4EBCA3282DAC546A0063A723 /* LocalAuthorityServiceClient.swift */,
 				33D4AF2A2F6C215D00C74038 /* NotificationCentre */,
 				5D056C232E5706EF00D28DAE /* OneSignalServiceClient.swift */,
+				815C58692EE973F400322705 /* RemoteConfigServiceClient.swift */,
 				5D0BD4582C9B1BBA00220625 /* SearchServiceClient.swift */,
+				16C6BE802F965C290015E6F6 /* TermsAndConditionsServiceClient.swift */,
 				D04191852CA6A5910034722A /* TopicsServiceClient.swift */,
+				85611CD9302F6987008EB3B1 /* TravelServiceClient.swift */,
 				815935DC2F22351700F8D206 /* User */,
 				4E02D5AC2F6B89AB0083164C /* AccessTokenError.swift */,
 			);
@@ -1912,7 +1921,6 @@
 				5DC2506B2C91DB13009E9E7F /* Analytics */,
 				D0839FCE2DE7ABAF00CA5C27 /* AppAttest */,
 				4E5ED2002C6E06FB00750BDA /* AppConfigService.swift */,
-				815C58672EE970DC00322705 /* RemoteConfigService.swift */,
 				D0EAB4FE2CDE5D5B007ACBCD /* AppEnvironmentService.swift */,
 				5D8100862CEB3FD600EE7D15 /* AppLaunchService.swift */,
 				164091FB2DA41B2700E3BE99 /* AuthenticationService.swift */,
@@ -1925,10 +1933,12 @@
 				4EBCA3262DAC541B0063A723 /* LocalAuthorityService.swift */,
 				33A323E72F51FBEF0022BAFC /* NotificationCentreService.swift */,
 				4EA1E27F2D8C611D0062453D /* Notifications */,
+				815C58672EE970DC00322705 /* RemoteConfigService.swift */,
 				16A788B12DCC288400CA64E2 /* ReturningUserService.swift */,
 				5DD09EC72C9ADB8500494550 /* SearchService.swift */,
 				D0EB7EF12F3F968E00BEB0A1 /* TermsAndConditionsService.swift */,
 				D04191772CA57A6F0034722A /* TopicsService.swift */,
+				857F30D9303311FC0080E209 /* TravelService.swift */,
 				5D60E6AC2E4A46E20046C1A1 /* UserDefaultsService.swift */,
 				815935DF2F22381400F8D206 /* UserService.swift */,
 			);
@@ -2025,23 +2035,23 @@
 		5D742BD32C99781300E7B87A /* Strings */ = {
 			isa = PBXGroup;
 			children = (
-				3D3956A82DA6C32000673D3A /* Deeplinks.xcstrings */,
-				1618D8F82F3F8607008EF26B /* TermsAndConditions.xcstrings */,
-				16FAB82B2E1D375C00B23440 /* Chat.xcstrings */,
-				162EC84C2DDB54E3000A7224 /* LocalAuthentication.xcstrings */,
 				3D3378112CAAC0A0004BF83F /* AppAvailability.xcstrings */,
+				16FAB82B2E1D375C00B23440 /* Chat.xcstrings */,
+				3D3956A82DA6C32000673D3A /* Deeplinks.xcstrings */,
+				815018F42F7D96F100E7469C /* DVLA.xcstrings */,
+				162EC84C2DDB54E3000A7224 /* LocalAuthentication.xcstrings */,
+				4EE5F3EF2DAFDB80008C60ED /* LocalAuthority.xcstrings */,
 				5D742BD72C9978B800E7B87A /* Home.xcstrings */,
 				5D09C6EB2D5C8D5900805D8F /* Notifications.xcstrings */,
+				33A323DC2F503D240022BAFC /* NotificationCentre.xcstrings */,
 				5D742BDD2C997ABB00E7B87A /* Onboarding.xcstrings */,
 				5DD4CB132D9548EF00459FB5 /* RecentActivity.xcstrings */,
 				5D742BDB2C99799000E7B87A /* Search.xcstrings */,
-				5D742BD92C99791A00E7B87A /* Settings.xcstrings */,
-				5D54F4722CC8473900A3B6A7 /* Topics.xcstrings */,
-				4EE5F3EF2DAFDB80008C60ED /* LocalAuthority.xcstrings */,
-				D08AA4252DB950F2002E9C78 /* SignOut.xcstrings */,
-				33A323DC2F503D240022BAFC /* NotificationCentre.xcstrings */,
 				81E2E78C2F5F6D90009D96A0 /* ServiceAccount.xcstrings */,
-				815018F42F7D96F100E7469C /* DVLA.xcstrings */,
+				5D742BD92C99791A00E7B87A /* Settings.xcstrings */,
+				D08AA4252DB950F2002E9C78 /* SignOut.xcstrings */,
+				1618D8F82F3F8607008EF26B /* TermsAndConditions.xcstrings */,
+				5D54F4722CC8473900A3B6A7 /* Topics.xcstrings */,
 				855B8BF8302DEAEE001D1A9C /* Travel.xcstrings */,
 			);
 			path = Strings;
@@ -2312,16 +2322,17 @@
 		5DC79FB32CA18AEA00014446 /* GOVRequest */ = {
 			isa = PBXGroup;
 			children = (
-				16C6BE862F96627B0015E6F6 /* GOVRequest+TermsAndConditions.swift */,
-				D04DD3312E0046FB002B5F19 /* GOVRequest+Chat.swift */,
-				815935DA2F213EBE00F8D206 /* GOVRequest+UserState.swift */,
-				D0E855D52DDB910A003B4D7A /* GovRequest+Authentication.swift */,
 				5DB6370C2D7736AD00A44E36 /* GOVRequest+App.swift */,
-				5DC79FB12CA18A9A00014446 /* GOVRequest+Search.swift */,
-				5DB637072D7732A800A44E36 /* GOVRequest+Topics.swift */,
+				D0E855D52DDB910A003B4D7A /* GovRequest+Authentication.swift */,
+				D04DD3312E0046FB002B5F19 /* GOVRequest+Chat.swift */,
+				815011D82F7C4F8B00E7469C /* GOVRequest+DVLA.swift */,
 				4EBCA3352DAC5E2E0063A723 /* GOVRequest+LocalAuthority.swift */,
 				3300A4F52F69B2B10042D340 /* GOVRequest+NotificationCentre.swift */,
-				815011D82F7C4F8B00E7469C /* GOVRequest+DVLA.swift */,
+				5DC79FB12CA18A9A00014446 /* GOVRequest+Search.swift */,
+				5DB637072D7732A800A44E36 /* GOVRequest+Topics.swift */,
+				16C6BE862F96627B0015E6F6 /* GOVRequest+TermsAndConditions.swift */,
+				85611CD4302F6614008EB3B1 /* GOVRequest+Travel.swift */,
+				815935DA2F213EBE00F8D206 /* GOVRequest+UserState.swift */,
 			);
 			path = GOVRequest;
 			sourceTree = "<group>";
@@ -2391,16 +2402,17 @@
 				8101A23D2F28BAA4009E639B /* AppUnavailableError.swift */,
 				D04DD32C2E0046DC002B5F19 /* Chat */,
 				1631DE982C2B0D020050CB9D /* DeviceInformationProvider.swift */,
+				815018EA2F7D28F000E7469C /* DVLA */,
 				4E265F142DB0E6B70089CF9E /* LocalAuthority */,
 				33D4AF272F6C20F000C74038 /* NotificationCentre */,
 				5DCCCBBC2EA0F5690097430C /* ReturningUserServiceError.swift */,
 				D0D9CB922D3024C00051EDDD /* Search */,
 				16FCDE772DC4E38F000E870D /* TokenRefreshResponse.swift */,
 				D041917C2CA57B3D0034722A /* Topics */,
+				85611CD6302F6871008EB3B1 /* Travel */,
 				81D239712F2CD2D200AC7DA5 /* User */,
 				8132DC382F62D1EE00F24CB6 /* ServiceAccountType.swift */,
 				81D53D642FD8447500E25622 /* LinkedServiceAccounts.swift */,
-				815018EA2F7D28F000E7469C /* DVLA */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2670,6 +2682,14 @@
 			children = (
 				85611CD2302F6217008EB3B1 /* FollowCountryViewModel.swift */,
 				85611CCE302F4CE6008EB3B1 /* TravelTopicWidgetViewModel.swift */,
+			);
+			path = Travel;
+			sourceTree = "<group>";
+		};
+		85611CD6302F6871008EB3B1 /* Travel */ = {
+			isa = PBXGroup;
+			children = (
+				85611CD7302F68C9008EB3B1 /* TravelGroup.swift */,
 			);
 			path = Travel;
 			sourceTree = "<group>";
@@ -3332,6 +3352,7 @@
 				D0ABA5D42FA4F95000C5A244 /* SARSettingsCoordinator.swift in Sources */,
 				D03D52FB2E32A2C900CE6008 /* RegexValidator.swift in Sources */,
 				4E00EF072CCB12CD007B61E8 /* BaseTabBarController.swift in Sources */,
+				857F30DA303311FC0080E209 /* TravelService.swift in Sources */,
 				5D0CFAA72C33E72C00B3DEFD /* DeeplinkDataStore.swift in Sources */,
 				81A6DB212FCF3C4F006FB0F0 /* VehicleDetailViewModel.swift in Sources */,
 				5DFA017B2D89651100EAC839 /* ActivityItemCreateParams+Extensions.swift in Sources */,
@@ -3408,6 +3429,7 @@
 				8101BEEB2F2A24B8009E639B /* RemoteConfigValue.swift in Sources */,
 				8101BEEC2F2A24B8009E639B /* RemoteConfig.swift in Sources */,
 				5D51C8352C5BB9A80011ABE9 /* UIScrollView+Extensions.swift in Sources */,
+				85611CD5302F6614008EB3B1 /* GOVRequest+Travel.swift in Sources */,
 				16A99D6B2D35F19300C72DEB /* SearchSuggestionsViewModel.swift in Sources */,
 				5DFBB1C22FD6B83A005B4C2D /* ServiceAccountRedirectCoordinator.swift in Sources */,
 				81D240C12FC0939800A4F988 /* DVLAAccountSummaryView.swift in Sources */,
@@ -3424,6 +3446,7 @@
 				5DD09EC82C9ADB8500494550 /* SearchService.swift in Sources */,
 				D052CCE02E0B09AA0048F98A /* ChatCellView.swift in Sources */,
 				4EB7D8512DB85A33002B6765 /* LocalAuthorityServiceCoordinator.swift in Sources */,
+				85611CDA302F6987008EB3B1 /* TravelServiceClient.swift in Sources */,
 				D0D9CFD52D302F2A0051EDDD /* SearchHistoryRepository.swift in Sources */,
 				D09046812DBFD8480096EE66 /* InfoView.swift in Sources */,
 				D093BA632CB0499A004F489B /* EditTopicsView.swift in Sources */,
@@ -3610,6 +3633,7 @@
 				4E0043142D9BE25E00DDDA8A /* NotificationSettingsCoordinator.swift in Sources */,
 				D0B985192EB11818001E6FDC /* AppErrorViewModel+Topic.swift in Sources */,
 				16C34B452C4954910031AD32 /* SettingsDeepLinkRoute.swift in Sources */,
+				85611CD8302F68C9008EB3B1 /* TravelGroup.swift in Sources */,
 				5D6B90152DCB7F0000D36463 /* NotificationConsentAlertViewController.swift in Sources */,
 				D0E85A882DDCDBBC003B4D7A /* AmbiguousAuthorities.swift in Sources */,
 				16161FD32E2FFB2300228028 /* ConditionalAnimation.swift in Sources */,

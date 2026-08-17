@@ -8,7 +8,18 @@ struct TravelTopicWidgetView: View {
 
     var body: some View {
         VStack(spacing: 16) {
+            switch viewModel.viewState {
+            case .loading:
+                Text("LOADING")
+            case .loaded:
+                emptyCountryListView
+            case .error:
+                Text("THERE IS AN ERROR")
+            }
             emptyCountryListView
+        }
+        .task {
+            await viewModel.viewDidAppear()
         }
         .sheet(
             isPresented: $isShowingCountryList,
@@ -26,7 +37,8 @@ struct TravelTopicWidgetView: View {
                         )
                     )
                 }
-            })
+            }
+        )
     }
 
     var emptyCountryListView: some View {
