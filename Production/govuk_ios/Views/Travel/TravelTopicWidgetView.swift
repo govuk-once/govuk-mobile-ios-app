@@ -10,13 +10,12 @@ struct TravelTopicWidgetView: View {
         VStack(spacing: 16) {
             switch viewModel.viewState {
             case .loading:
-                Text("LOADING")
+                loadingView
             case .loaded:
                 emptyCountryListView
             case .error:
                 Text("THERE IS AN ERROR")
             }
-            emptyCountryListView
         }
         .task {
             await viewModel.viewDidAppear()
@@ -41,7 +40,18 @@ struct TravelTopicWidgetView: View {
         )
     }
 
-    var emptyCountryListView: some View {
+    private var loadingView: some View {
+        ZStack {
+            ProgressView()
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 86)
+        }
+        .background(Color(UIColor.govUK.fills.surfaceList))
+        .clipShape(RoundedRectangle(cornerRadius: 10))
+        .padding(.horizontal, 16)
+    }
+
+    private var emptyCountryListView: some View {
         IconActionCardView(
             viewModel: IconActionCardViewModel(
                 iconName: "plus.circle",

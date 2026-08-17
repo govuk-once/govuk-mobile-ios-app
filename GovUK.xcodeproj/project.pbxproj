@@ -2393,8 +2393,6 @@
 			isa = PBXGroup;
 			children = (
 				818AEB972FE18203005ECBC6 /* AccessibleString.swift */,
-				8154B58E2FB727CB00792FB5 /* ErrorViewModel.swift */,
-				16C6BE842F9660050015E6F6 /* TermsAndConditionsResponse.swift */,
 				16A435922F193EDB000AAAA6 /* AlertDetails.swift */,
 				D04C542A2D7081C00070EE79 /* Analytics */,
 				4E003E7D2C75F497008FCBF2 /* AppConfig */,
@@ -2403,16 +2401,18 @@
 				D04DD32C2E0046DC002B5F19 /* Chat */,
 				1631DE982C2B0D020050CB9D /* DeviceInformationProvider.swift */,
 				815018EA2F7D28F000E7469C /* DVLA */,
+				8154B58E2FB727CB00792FB5 /* ErrorViewModel.swift */,
 				4E265F142DB0E6B70089CF9E /* LocalAuthority */,
+				81D53D642FD8447500E25622 /* LinkedServiceAccounts.swift */,
 				33D4AF272F6C20F000C74038 /* NotificationCentre */,
 				5DCCCBBC2EA0F5690097430C /* ReturningUserServiceError.swift */,
 				D0D9CB922D3024C00051EDDD /* Search */,
+				8132DC382F62D1EE00F24CB6 /* ServiceAccountType.swift */,
+				16C6BE842F9660050015E6F6 /* TermsAndConditionsResponse.swift */,
 				16FCDE772DC4E38F000E870D /* TokenRefreshResponse.swift */,
 				D041917C2CA57B3D0034722A /* Topics */,
 				85611CD6302F6871008EB3B1 /* Travel */,
 				81D239712F2CD2D200AC7DA5 /* User */,
-				8132DC382F62D1EE00F24CB6 /* ServiceAccountType.swift */,
-				81D53D642FD8447500E25622 /* LinkedServiceAccounts.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";

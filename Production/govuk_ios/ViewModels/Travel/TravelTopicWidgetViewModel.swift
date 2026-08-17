@@ -43,7 +43,7 @@ final class TravelTopicWidgetViewModel: ObservableObject {
                 switch result {
                 case .success:
                     self?.viewState = .loaded
-                case let .failure(error):
+                case .failure:
                     self?.viewState = .error
                 }
             }
