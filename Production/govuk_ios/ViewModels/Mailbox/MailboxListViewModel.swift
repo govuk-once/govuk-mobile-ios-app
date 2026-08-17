@@ -11,6 +11,18 @@ class MailboxListViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published private(set) var loadError: InlineActionErrorViewModel?
     @Published private(set) var refreshFailed: Bool = false
+    @Published var selectedSenderFilter: MessageSender?
+
+    var filteredMessages: [MailboxMessage] {
+        guard let filter = selectedSenderFilter else {
+            return messages
+        }
+        return messages.filter { $0.sender == filter }
+    }
+
+    var hasMessages: Bool {
+        !filteredMessages.isEmpty
+    }
 
     init(mailboxService: MailboxServiceInterface,
          analyticsService: AnalyticsServiceInterface,
@@ -86,6 +98,10 @@ class MailboxListViewModel: ObservableObject {
                 self?.messages.removeAll { $0.messageId == message.messageId }
             }
         }
+    }
+
+    func setFilter(_ sender: MessageSender?) {
+        selectedSenderFilter = sender
     }
 
     func trackScreen(screen: TrackableScreen) {

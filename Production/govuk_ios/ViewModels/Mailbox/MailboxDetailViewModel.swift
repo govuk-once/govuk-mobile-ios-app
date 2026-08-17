@@ -12,6 +12,7 @@ class MailboxDetailViewModel: ObservableObject {
 
     @Published var bodyText: String = ""
     @Published var actions: [MessageAction] = []
+    @Published var actionStatus: ActionStatus?
     @Published var isLoadingBody: Bool = false
 
     var senderName: String { message.senderDisplayName }
@@ -49,6 +50,7 @@ class MailboxDetailViewModel: ObservableObject {
                 case .success(let fullMessage):
                     self?.bodyText = fullMessage.displayBody
                     self?.actions = fullMessage.parsedActions
+                    self?.actionStatus = fullMessage.parsedStatus
                 case .failure:
                     self?.bodyText = ""
                 }
