@@ -69,6 +69,21 @@ struct MailboxMessageRow: View {
                         )
                 }
             }
+            if let status = message.parsedStatus {
+                statusBadge(for: status)
+                    .padding(.top, 2)
+            }
+        }
+    }
+
+    private func statusBadge(for status: ActionStatus) -> some View {
+        HStack(spacing: 4) {
+            Image(systemName: status.iconName)
+                .font(.system(size: 10))
+                .foregroundStyle(Color(uiColor: status.color))
+            Text(status.rawValue)
+                .font(Font.govUK.caption1)
+                .foregroundStyle(Color(uiColor: status.color))
         }
     }
 

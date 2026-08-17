@@ -36,40 +36,70 @@ struct MailboxListView: View {
             if viewModel.refreshFailed {
                 refreshErrorBanner
             }
+            filterChips
+                .padding(.top, 8)
+                .padding(.bottom, 4)
             ScrollView {
-                LazyVStack(spacing: 12) {
-                    ForEach(viewModel.messages) { message in
-                        MailboxMessageRow(message: message) {
-                            viewModel.selectMessage(message)
-                        }
-                        .contextMenu {
-                            if !message.isUnopened {
-                                Button {
-                                    viewModel.markAsUnopened(message)
+                if viewModel.hasMessages {
+                    LazyVStack(spacing: 12) {
+                        ForEach(viewModel.filteredMessages) { message in
+                            MailboxMessageRow(message: message) {
+                                viewModel.selectMessage(message)
+                            }
+                            .contextMenu {
+                                if !message.isUnopened {
+                                    Button {
+                                        viewModel.markAsUnopened(message)
+                                    } label: {
+                                        Label(
+                                            "Mark as unopened",
+                                            systemImage: "envelope.badge"
+                                        )
+                                    }
+                                }
+                                Button(role: .destructive) {
+                                    viewModel.deleteMessage(message)
                                 } label: {
                                     Label(
-                                        "Mark as unopened",
-                                        systemImage: "envelope.badge"
+                                        "Delete",
+                                        systemImage: "trash"
                                     )
                                 }
                             }
-                            Button(role: .destructive) {
-                                viewModel.deleteMessage(message)
-                            } label: {
-                                Label(
-                                    "Delete",
-                                    systemImage: "trash"
-                                )
-                            }
                         }
                     }
+                    .padding(.horizontal, 16)
+                    .padding(.bottom, 16)
+                } else {
+                    filteredEmptyState
+                        .padding(.top, 48)
                 }
-                .padding(.horizontal, 16)
-                .padding(.bottom, 16)
             }
             .refreshable {
                 await viewModel.refreshMessages()
             }
+        }
+    }
+
+    private var filterChips: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 8) {
+                FilterChip(
+                    title: "All",
+                    isSelected: viewModel.selectedSenderFilter == nil,
+                    action: { viewModel.setFilter(nil) }
+                )
+
+                ForEach(MessageSender.allCases, id: \.self) { sender in
+                    FilterChip(
+                        title: sender.displayName,
+                        isSelected: viewModel.selectedSenderFilter == sender,
+                        action: { viewModel.setFilter(sender) }
+                    )
+                }
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 4)
         }
     }
 
@@ -119,6 +149,61 @@ struct MailboxListView: View {
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 32)
         }
+    }
+
+    private var filteredEmptyState: some View {
+        VStack(spacing: 12) {
+            Image(systemName: "envelope.open")
+                .font(.system(size: 36))
+                .foregroundStyle(Color(uiColor: .govUK.text.secondary))
+
+            Text("No messages from this sender")
+                .font(Font.govUK.body)
+                .foregroundStyle(Color(uiColor: .govUK.text.secondary))
+
+            Button("Show all messages") {
+                viewModel.setFilter(nil)
+            }
+            .font(Font.govUK.bodySemibold)
+            .foregroundStyle(Color(uiColor: .govUK.text.link))
+        }
+    }
+}
+
+private struct FilterChip: View {
+    let title: String
+    let isSelected: Bool
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            Text(title)
+                .font(Font.govUK.caption1)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 6)
+                .background(
+                    isSelected
+                        ? Color(uiColor: .govUK.fills.surfaceButtonPrimary)
+                        : Color(uiColor: .govUK.fills.surfaceCardDefault)
+                )
+                .foregroundStyle(
+                    isSelected
+                        ? Color.white
+                        : Color(uiColor: .govUK.text.primary)
+                )
+                .clipShape(Capsule())
+                .overlay(
+                    Capsule()
+                        .stroke(
+                            isSelected
+                                ? Color.clear
+                                : Color(uiColor: .govUK.strokes.cardDefault),
+                            lineWidth: 1
+                        )
+                )
+        }
+        .buttonStyle(.plain)
+        .accessibilityAddTraits(isSelected ? .isSelected : [])
     }
 }
 

@@ -49,7 +49,36 @@ enum MessageSender: String, CaseIterable {
     }
 }
 
-// MARK: - Actions
+// MARK: - Actions & Status
+
+enum ActionStatus: String {
+    case actionRequired = "Action required"
+    case paymentPending = "Payment pending"
+    case paid = "Paid"
+    case complete = "Complete"
+
+    var iconName: String {
+        switch self {
+        case .actionRequired:
+            return "exclamationmark.circle.fill"
+        case .paymentPending:
+            return "clock.fill"
+        case .paid, .complete:
+            return "checkmark.circle.fill"
+        }
+    }
+
+    var color: UIColor {
+        switch self {
+        case .actionRequired:
+            return UIColor(red: 0.85, green: 0.47, blue: 0.0, alpha: 1.0)
+        case .paymentPending:
+            return UIColor(red: 0.0, green: 0.45, blue: 0.74, alpha: 1.0)
+        case .paid, .complete:
+            return UIColor(red: 0.0, green: 0.54, blue: 0.27, alpha: 1.0)
+        }
+    }
+}
 
 enum MessageAction {
     case applyInApp(title: String, destination: MessageDestination)
@@ -108,6 +137,10 @@ struct MailboxMessage: Identifiable, Decodable {
         parsedContent.actions
     }
 
+    var parsedStatus: ActionStatus? {
+        parsedContent.status
+    }
+
     private var parsedContent: ParsedMessageContent {
         MessageBodyParser.parse(body)
     }
@@ -134,6 +167,7 @@ struct MailboxMessagesResponse: Decodable {
 struct ParsedMessageContent {
     let body: String
     let actions: [MessageAction]
+    let status: ActionStatus?
 }
 
 enum MessageBodyParser {
@@ -141,11 +175,11 @@ enum MessageBodyParser {
 
     static func parse(_ rawBody: String?) -> ParsedMessageContent {
         guard let rawBody, !rawBody.isEmpty else {
-            return ParsedMessageContent(body: "", actions: [])
+            return ParsedMessageContent(body: "", actions: [], status: nil)
         }
 
         guard let markerRange = rawBody.range(of: marker) else {
-            return ParsedMessageContent(body: rawBody, actions: [])
+            return ParsedMessageContent(body: rawBody, actions: [], status: nil)
         }
 
         let displayBody = String(rawBody[..<markerRange.lowerBound])
@@ -153,7 +187,7 @@ enum MessageBodyParser {
 
         let jsonStart = markerRange.upperBound
         guard let endRange = rawBody.range(of: "-->", range: jsonStart..<rawBody.endIndex) else {
-            return ParsedMessageContent(body: displayBody, actions: [])
+            return ParsedMessageContent(body: displayBody, actions: [], status: nil)
         }
 
         let jsonString = String(rawBody[jsonStart..<endRange.lowerBound])
@@ -161,7 +195,14 @@ enum MessageBodyParser {
 
         guard let jsonData = jsonString.data(using: .utf8),
               let json = try? JSONSerialization.jsonObject(with: jsonData) as? [String: Any] else {
-            return ParsedMessageContent(body: displayBody, actions: [])
+            return ParsedMessageContent(body: displayBody, actions: [], status: nil)
+        }
+
+        let status: ActionStatus?
+        if let statusString = json["status"] as? String {
+            status = ActionStatus(rawValue: statusString)
+        } else {
+            status = nil
         }
 
         var actions: [MessageAction] = []
@@ -173,7 +214,7 @@ enum MessageBodyParser {
             }
         }
 
-        return ParsedMessageContent(body: displayBody, actions: actions)
+        return ParsedMessageContent(body: displayBody, actions: actions, status: status)
     }
 
     private static func parseAction(_ dict: [String: Any]) -> MessageAction? {

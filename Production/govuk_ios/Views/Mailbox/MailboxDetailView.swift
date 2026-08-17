@@ -23,6 +23,11 @@ struct MailboxDetailView: View {
                 subjectSection
                     .padding(.bottom, 16)
 
+                if let actionStatus = viewModel.actionStatus {
+                    actionStatusBadge(for: actionStatus)
+                        .padding(.bottom, 16)
+                }
+
                 bodySection
                     .padding(.bottom, 24)
 
@@ -127,6 +132,24 @@ struct MailboxDetailView: View {
         Text(viewModel.subject)
             .font(Font.govUK.title3Semibold)
             .foregroundStyle(Color(uiColor: .govUK.text.primary))
+    }
+
+    private func actionStatusBadge(
+        for actionStatus: ActionStatus
+    ) -> some View {
+        HStack(spacing: 8) {
+            Image(systemName: actionStatus.iconName)
+                .foregroundStyle(Color(uiColor: actionStatus.color))
+            Text(actionStatus.rawValue)
+                .font(Font.govUK.bodySemibold)
+                .foregroundStyle(Color(uiColor: actionStatus.color))
+        }
+        .padding(.horizontal, 12)
+        .padding(.vertical, 8)
+        .background(
+            RoundedRectangle(cornerRadius: 6)
+                .fill(Color(uiColor: actionStatus.color).opacity(0.1))
+        )
     }
 
     @ViewBuilder
