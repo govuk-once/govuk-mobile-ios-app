@@ -15,15 +15,18 @@ final class TravelTopicWidgetViewModel: ObservableObject {
     @Published private(set) var viewState: ViewState = .loading
 
     private let travelService: TravelServiceInterface
+    private let analyticsService: AnalyticsServiceInterface
     private let linkAction: () -> Void
     private let dismissAction: () -> Void
 
     init(
         travelService: TravelServiceInterface,
+        analyticsService: AnalyticsServiceInterface,
         linkAction: @escaping () -> Void = {},
         dismissAction: @escaping () -> Void = {}
     ) {
         self.travelService = travelService
+        self.analyticsService = analyticsService
         self.linkAction = linkAction
         self.dismissAction = dismissAction
     }
@@ -50,6 +53,12 @@ final class TravelTopicWidgetViewModel: ObservableObject {
     }
 
     func openCountryList() {
+        let event = AppEvent.widgetNavigation(
+            text: "Add your countries",
+            external: false,
+            params: ["section": "Travel Abroad Notifications"]
+        )
+        analyticsService.track(event: event)
         isShowingList = true
     }
 

@@ -37,6 +37,7 @@ class WidgetViewBuilder {
     ) -> AnyView? {
         let viewModel = TravelTopicWidgetViewModel(
             travelService: travelService,
+            analyticsService: analyticsService,
             linkAction: linkAction,
             dismissAction: dismissAction
         )
