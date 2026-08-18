@@ -8,14 +8,18 @@ struct TravelTopicWidgetView: View {
 
     var body: some View {
         VStack(spacing: 16) {
-            switch viewModel.viewState {
-            case .loading:
-                loadingView
-            case .loaded:
-                emptyCountryListView
-            case .error:
-                Text("THERE IS AN ERROR")
+            Group {
+                switch viewModel.viewState {
+                case .loading:
+                    loadingView
+                case .loaded:
+                    emptyCountryListView
+                case .error:
+                    Text("Error Placeholder")
+                }
             }
+            .padding(.vertical, 16)
+            .padding(.horizontal, 16)
         }
         .task {
             await viewModel.viewDidAppear()
@@ -48,7 +52,6 @@ struct TravelTopicWidgetView: View {
         }
         .background(Color(UIColor.govUK.fills.surfaceList))
         .clipShape(RoundedRectangle(cornerRadius: 10))
-        .padding(.horizontal, 16)
     }
 
     private var emptyCountryListView: some View {
@@ -65,7 +68,5 @@ struct TravelTopicWidgetView: View {
                 iconBottomPadding: 8
             )
         )
-        .padding(.horizontal, 16)
-        .padding(.vertical, 16)
     }
 }

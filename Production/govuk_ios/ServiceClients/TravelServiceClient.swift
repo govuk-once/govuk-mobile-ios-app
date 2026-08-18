@@ -30,6 +30,10 @@ class TravelServiceClient: TravelServiceClientInterface {
             let nsError = (error as NSError)
             if nsError.code == NSURLErrorNotConnectedToInternet {
                 return TravelError.networkUnavailable
+            } else if let travelError = error as? TravelError {
+                return travelError
+            } else if error is TokenRefreshError {
+                return TravelError.authenticationError
             } else {
                 return TravelError.apiUnavailable
             }
@@ -37,7 +41,7 @@ class TravelServiceClient: TravelServiceClientInterface {
             do {
                 let travelResult: T = try JSONDecoder().decode(from: data)
                 return .success(travelResult)
-            } catch let error as DecodingError {
+            } catch _ as DecodingError {
                 return .failure(TravelError.decodingError)
             } catch {
                 return .failure(TravelError.unknown)
@@ -50,5 +54,17 @@ enum TravelError: Error {
     case apiUnavailable
     case networkUnavailable
     case decodingError
+    case authenticationError
     case unknown
+}
+
+struct TravelResponseHandler: ResponseHandler {
+    func handleStatusCode(_ statusCode: Int) -> Error {
+        switch statusCode {
+        case 401, 403:
+            TravelError.authenticationError
+        default:
+            TravelError.apiUnavailable
+        }
+    }
 }
