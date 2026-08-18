@@ -36,9 +36,8 @@ final class TravelTopicWidgetViewModel: ObservableObject {
     @MainActor
     private func fetchCountryList() async {
         viewState = .loading
-        try? await Task.sleep(for: .seconds(2))
 
-        travelService.getGroups { [weak self] result in
+        travelService.getGroups(forceRefresh: false) { [weak self] result in
             Task { @MainActor in
                 switch result {
                 case .success:

@@ -8,8 +8,8 @@ class MockTravelService: TravelServiceInterface {
     var _getGroupsCompletion: (() -> Void)?
 
     var _stubbedGetGroupsResult: TravelGroupResult?
-
-    func getGroups(completion: @escaping TravelGroupResultCompletion) {
+    func getGroups(forceRefresh: Bool,
+                   completion: @escaping TravelGroupResultCompletion) {
         _getGroupsCalled = true
         _receivedGetGroupsCompletion = completion
 
@@ -20,5 +20,10 @@ class MockTravelService: TravelServiceInterface {
         }
 
         _getGroupsCompletion?()
+    }
+
+    var _invalidateCacheCalled = false
+    func invalidateCache() {
+        _invalidateCacheCalled = true
     }
 }

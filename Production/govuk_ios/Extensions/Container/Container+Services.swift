@@ -320,7 +320,8 @@ extension Container {
         Factory(self) {
             TravelService(
                 travelServiceClient: self.travelServiceClient(),
-                analyticsService: self.analyticsService.resolve()
+                analyticsService: self.analyticsService.resolve(),
+                repository: self.travelRepository.resolve()
             )
         }.scope(.singleton)
     }

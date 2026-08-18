@@ -31,7 +31,7 @@ struct TravelServiceClientTests {
         }
         let groups = try? result.get()
         #expect(groups?.count == 1)
-        #expect(groups?.first?.namespace == "travel-advice")
+        #expect(groups?.first?.namespace == "Travel-Namespace")
     }
 
     @Test

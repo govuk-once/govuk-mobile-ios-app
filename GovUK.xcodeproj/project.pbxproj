@@ -427,6 +427,7 @@
 		81E92CC2300143A700707530 /* DrivingLicenceNoticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E92CC13001439D00707530 /* DrivingLicenceNoticeView.swift */; };
 		81F91D2A2FDB26A500BF709E /* VehicleSpecFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F91D292FDB26A000BF709E /* VehicleSpecFormatter.swift */; };
 		81F9296F2FDC25A500BF709E /* VehicleDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F9296E2FDC259800BF709E /* VehicleDetailCoordinator.swift */; };
+		854F5B47303464C800F7BC5C /* TravelRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854F5B46303464C800F7BC5C /* TravelRepository.swift */; };
 		855B8BF1302DD050001D1A9C /* IconActionCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855B8BF0302DD050001D1A9C /* IconActionCardViewModel.swift */; };
 		855B8BF9302DEAEE001D1A9C /* Travel.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 855B8BF8302DEAEE001D1A9C /* Travel.xcstrings */; };
 		855B8BFD302E07C6001D1A9C /* FollowCountryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855B8BFC302E07C6001D1A9C /* FollowCountryView.swift */; };
@@ -1023,6 +1024,7 @@
 		81E92CC13001439D00707530 /* DrivingLicenceNoticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrivingLicenceNoticeView.swift; sourceTree = "<group>"; };
 		81F91D292FDB26A000BF709E /* VehicleSpecFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleSpecFormatter.swift; sourceTree = "<group>"; };
 		81F9296E2FDC259800BF709E /* VehicleDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleDetailCoordinator.swift; sourceTree = "<group>"; };
+		854F5B46303464C800F7BC5C /* TravelRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelRepository.swift; sourceTree = "<group>"; };
 		855B8BF0302DD050001D1A9C /* IconActionCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconActionCardViewModel.swift; sourceTree = "<group>"; };
 		855B8BF8302DEAEE001D1A9C /* Travel.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Travel.xcstrings; sourceTree = "<group>"; };
 		855B8BFC302E07C6001D1A9C /* FollowCountryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowCountryView.swift; sourceTree = "<group>"; };
@@ -1976,14 +1978,15 @@
 		5D41DB6A2C088CA30011E691 /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
-				D096BFED2E03F60F00426C51 /* ChatRepository.swift */,
 				5DD4CB112D9548DF00459FB5 /* ActivityRepository.swift */,
+				D096BFED2E03F60F00426C51 /* ChatRepository.swift */,
 				D0EB02802D37F02400B310D8 /* CoreDataRepository.swift */,
 				D0EB04812D37F34200B310D8 /* GOV.xcdatamodeld */,
+				D07E7A572DAE662A00B92D40 /* LocalAuthorityRepository.swift */,
 				33A323E52F51EF090022BAFC /* NotificationCentreRepository.swift */,
 				D0D9CFD42D302F2A0051EDDD /* SearchHistoryRepository.swift */,
 				D028CCF32CB4247100742620 /* TopicsRepository.swift */,
-				D07E7A572DAE662A00B92D40 /* LocalAuthorityRepository.swift */,
+				854F5B46303464C800F7BC5C /* TravelRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -3259,6 +3262,7 @@
 				B04C2E802DA9141400F0F63E /* WebDeeplinkRoute.swift in Sources */,
 				5DBE08062C480CA700B58DBE /* UIAlertController+Convenience.swift in Sources */,
 				16FC6F0D2DDFE300007879E7 /* GovUIWindow.swift in Sources */,
+				854F5B47303464C800F7BC5C /* TravelRepository.swift in Sources */,
 				4E9F5D032DB78DBA0063FA78 /* LocalAuthorityItem.swift in Sources */,
 				D08A9A862DB92F79002E9C78 /* SignOutConfirmationViewModel.swift in Sources */,
 				81353DEF2FE97669008A7DE1 /* ExpiryProgressView.swift in Sources */,
