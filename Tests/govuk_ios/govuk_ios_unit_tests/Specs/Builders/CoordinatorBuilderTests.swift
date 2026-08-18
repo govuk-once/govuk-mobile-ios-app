@@ -517,7 +517,7 @@ struct CoordinatorBuilderTests {
             topic: travelTopic,
             navigationController: UINavigationController()
         )
-        #expect(topicWidgetProvider is TravelTopicWidgetCoordinator)
+        #expect(topicWidgetProvider is TravelAlertsWidgetCoordinator)
     }
 
 

@@ -35,13 +35,13 @@ class WidgetViewBuilder {
         linkAction: @escaping () -> Void,
         dismissAction: @escaping () -> Void
     ) -> AnyView? {
-        let viewModel = TravelTopicWidgetViewModel(
+        let viewModel = TravelAlertsWidgetViewModel(
             travelService: travelService,
             analyticsService: analyticsService,
             linkAction: linkAction,
             dismissAction: dismissAction
         )
-        let widget = TravelTopicWidgetView(viewModel: viewModel)
+        let widget = TravelAlertsWidgetView(viewModel: viewModel)
         return AnyView(widget)
     }
 }

@@ -2,7 +2,7 @@ import UIKit
 import SwiftUI
 import GovKit
 
-final class TravelTopicWidgetCoordinator: BaseCoordinator,
+final class TravelAlertsWidgetCoordinator: BaseCoordinator,
                                           TopicWidgetProvider {
     private let viewControllerBuilder: ViewControllerBuilder
     private let widgetViewBuilder: WidgetViewBuilder

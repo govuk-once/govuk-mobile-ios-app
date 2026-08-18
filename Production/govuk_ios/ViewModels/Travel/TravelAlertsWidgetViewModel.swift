@@ -3,7 +3,7 @@ import UIKit
 import CoreData
 import GovKit
 
-final class TravelTopicWidgetViewModel: ObservableObject {
+final class TravelAlertsWidgetViewModel: ObservableObject {
     enum ViewState {
         case loading
         case loaded

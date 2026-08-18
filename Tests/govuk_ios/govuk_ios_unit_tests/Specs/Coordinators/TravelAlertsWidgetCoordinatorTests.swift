@@ -6,7 +6,7 @@ import Testing
 
 @Suite
 @MainActor
-struct TravelTopicWidgetCoordinatorTests {
+struct TravelAlertsWidgetCoordinatorTests {
 
     let mockAnalyticsService = MockAnalyticsService()
     let mockConfigService = MockAppConfigService()
@@ -28,7 +28,7 @@ struct TravelTopicWidgetCoordinatorTests {
         )
         mockConfigService.features = [.travelAlerts]
 
-        let sut = TravelTopicWidgetCoordinator(
+        let sut = TravelAlertsWidgetCoordinator(
             navigationController: UINavigationController(),
             analyticsService: mockAnalyticsService,
             travelService: mockTravelService,
@@ -50,7 +50,7 @@ struct TravelTopicWidgetCoordinatorTests {
         )
         mockConfigService.features = []
 
-        let sut = TravelTopicWidgetCoordinator(
+        let sut = TravelAlertsWidgetCoordinator(
             navigationController: UINavigationController(),
             analyticsService: mockAnalyticsService,
             travelService: mockTravelService,
@@ -71,7 +71,7 @@ struct TravelTopicWidgetCoordinatorTests {
             ref: "business"
         )
 
-        let sut = TravelTopicWidgetCoordinator(
+        let sut = TravelAlertsWidgetCoordinator(
             navigationController: UINavigationController(),
             analyticsService: mockAnalyticsService,
             travelService: mockTravelService,

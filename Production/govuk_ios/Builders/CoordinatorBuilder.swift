@@ -252,7 +252,7 @@ class CoordinatorBuilder {
                 urlOpener: UIApplication.shared
             )
         } else if topic.isTravelTopic {
-            return TravelTopicWidgetCoordinator(
+            return TravelAlertsWidgetCoordinator(
                 navigationController: navigationController,
                 analyticsService: container.analyticsService.resolve(),
                 travelService: container.travelService.resolve(),

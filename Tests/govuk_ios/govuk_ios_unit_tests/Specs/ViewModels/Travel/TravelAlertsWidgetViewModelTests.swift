@@ -8,11 +8,11 @@ import Testing
 
 @Suite
 @MainActor
-struct TravelTopicWidgetViewModelTests {
+struct TravelAlertsWidgetViewModelTests {
 
     @Test
     func initialState_isLoadingAndSheetClosed() {
-        let sut = TravelTopicWidgetViewModel(
+        let sut = TravelAlertsWidgetViewModel(
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService()
         )
@@ -32,7 +32,7 @@ struct TravelTopicWidgetViewModelTests {
             TravelGroup(namespace: "travel-advice", group: "travel-group", subgroup: "travel-subgroup")
         ])
         let mockAnalyticsService = MockAnalyticsService()
-        let sut = TravelTopicWidgetViewModel(
+        let sut = TravelAlertsWidgetViewModel(
             travelService: mockTravelService,
             analyticsService: mockAnalyticsService
         )
@@ -53,7 +53,7 @@ struct TravelTopicWidgetViewModelTests {
         let mockTravelService = MockTravelService()
         mockTravelService._stubbedGetGroupsResult = .failure(.apiUnavailable)
         let mockAnalyticsService = MockAnalyticsService()
-        let sut = TravelTopicWidgetViewModel(
+        let sut = TravelAlertsWidgetViewModel(
             travelService: mockTravelService,
             analyticsService: mockAnalyticsService
         )
@@ -72,7 +72,7 @@ struct TravelTopicWidgetViewModelTests {
     @Test
     func openCountryList_setsSheetVisible_sendsAnalytic() {
         let mockAnalyticsService = MockAnalyticsService()
-        let sut = TravelTopicWidgetViewModel(
+        let sut = TravelAlertsWidgetViewModel(
             travelService: MockTravelService(),
             analyticsService: mockAnalyticsService
         )
@@ -92,7 +92,7 @@ struct TravelTopicWidgetViewModelTests {
     @Test
     func didDismissList_hidesSheet_andCallsDismissAction() {
         var dismissCalled = false
-        let sut = TravelTopicWidgetViewModel(
+        let sut = TravelAlertsWidgetViewModel(
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
             dismissAction: { dismissCalled = true }
