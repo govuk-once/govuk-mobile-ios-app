@@ -28,7 +28,7 @@ struct AppUnavailableContainerView: View {
                 .ignoresSafeArea()
             SwiftUIButton(
                 viewModel.error == AppUnavailableError.networkUnavailable
-                ? .primary : .groupedSecondary,
+                ? .primary : .secondary,
                 viewModel: viewModel.buttonViewModel
             )
             .accessibilityLabel(viewModel.buttonAccessibilityTitle)

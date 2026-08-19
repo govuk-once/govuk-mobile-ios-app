@@ -217,7 +217,7 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
                 text: buttonTitle,
                 url: buttonURL
             )},
-            buttonConfiguration: .groupedSecondary
+            buttonConfiguration: .secondary
         )
     }
 
