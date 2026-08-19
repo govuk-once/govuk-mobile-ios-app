@@ -6,7 +6,7 @@ import GovKitUI
 extension Theme {
     static let govUK: Theme = Theme.basic
         .text {
-            FontFamily(.custom("GDS Transport Website"))
+            FontFamily(.custom("GDSTransportWebsite"))
         }
         .link {
             ForegroundColor(Color(UIColor.govUK.text.linkSecondary))
@@ -68,7 +68,7 @@ extension Theme {
 
     static let govUKBasic: Theme = Theme.basic
         .text {
-            FontFamily(.custom("GDS Transport Website"))
+            FontFamily(.custom("GDSTransportWebsite"))
         }
         .link {
             ForegroundColor(Color(UIColor.govUK.text.linkSecondary))

@@ -101,15 +101,6 @@
       }
     },
     {
-      "identity" : "govuk-mobile-ios-gov-kit",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/govuk-once/govuk-mobile-ios-gov-kit.git",
-      "state" : {
-        "branch" : "main",
-        "revision" : "6174ee7c8d103de5887250c95ce77d21b9877fb5"
-      }
-    },
-    {
       "identity" : "grpc-binary",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/grpc-binary.git",
