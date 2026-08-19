@@ -22,8 +22,8 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
     init(
         travelService: TravelServiceInterface,
         analyticsService: AnalyticsServiceInterface,
-        linkAction: @escaping () -> Void = {},
-        dismissAction: @escaping () -> Void = {}
+        linkAction: @escaping () -> Void,
+        dismissAction: @escaping () -> Void
     ) {
         self.travelService = travelService
         self.analyticsService = analyticsService

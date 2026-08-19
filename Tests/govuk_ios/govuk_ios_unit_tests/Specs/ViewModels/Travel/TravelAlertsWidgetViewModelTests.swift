@@ -1,6 +1,3 @@
-//
-
-
 import Foundation
 import Testing
 
@@ -14,7 +11,9 @@ struct TravelAlertsWidgetViewModelTests {
     func initialState_isLoadingAndSheetClosed() {
         let sut = TravelAlertsWidgetViewModel(
             travelService: MockTravelService(),
-            analyticsService: MockAnalyticsService()
+            analyticsService: MockAnalyticsService(),
+            linkAction: { /*Empty For Tests*/ },
+            dismissAction: { /*Empty For Tests*/ }
         )
 
         if case .loading = sut.viewState {
@@ -34,7 +33,9 @@ struct TravelAlertsWidgetViewModelTests {
         let mockAnalyticsService = MockAnalyticsService()
         let sut = TravelAlertsWidgetViewModel(
             travelService: mockTravelService,
-            analyticsService: mockAnalyticsService
+            analyticsService: mockAnalyticsService,
+            linkAction: { /*Empty For Tests*/ },
+            dismissAction: { /*Empty For Tests*/ }
         )
 
         await sut.viewDidAppear()
@@ -55,7 +56,9 @@ struct TravelAlertsWidgetViewModelTests {
         let mockAnalyticsService = MockAnalyticsService()
         let sut = TravelAlertsWidgetViewModel(
             travelService: mockTravelService,
-            analyticsService: mockAnalyticsService
+            analyticsService: mockAnalyticsService,
+            linkAction: { /*Empty For Tests*/ },
+            dismissAction: { /*Empty For Tests*/ }
         )
 
         await sut.viewDidAppear()
@@ -74,7 +77,9 @@ struct TravelAlertsWidgetViewModelTests {
         let mockAnalyticsService = MockAnalyticsService()
         let sut = TravelAlertsWidgetViewModel(
             travelService: MockTravelService(),
-            analyticsService: mockAnalyticsService
+            analyticsService: mockAnalyticsService,
+            linkAction: { /*Empty For Tests*/ },
+            dismissAction: { /*Empty For Tests*/ }
         )
 
         sut.openCountryList()
@@ -95,6 +100,7 @@ struct TravelAlertsWidgetViewModelTests {
         let sut = TravelAlertsWidgetViewModel(
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
+            linkAction: { /*Empty For Tests*/ },
             dismissAction: { dismissCalled = true }
         )
 

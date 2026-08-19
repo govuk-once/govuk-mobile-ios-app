@@ -101,7 +101,9 @@ final class TravelAlertsWidgetViewSnapshotTests: SnapshotTestCase {
         let travelService = SnapshotTravelService(result: result)
         return TravelAlertsWidgetViewModel(
             travelService: travelService,
-            analyticsService: MockAnalyticsService()
+            analyticsService: MockAnalyticsService(),
+            linkAction: { /*EmptyForTests*/ },
+            dismissAction: { /*EmptyForTests*/ }
         )
     }
 
