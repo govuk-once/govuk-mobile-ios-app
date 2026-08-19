@@ -67,7 +67,7 @@ extension InfoViewModelInterface {
     var secondaryButtonViewModel: GOVUKButton.ButtonViewModel? { nil }
 
     @MainActor
-    var secondaryButtonConfiguration: GOVUKButton.ButtonConfiguration { .groupedSecondary }
+    var secondaryButtonConfiguration: GOVUKButton.ButtonConfiguration { .secondary }
 
     func trackScreen(screen: TrackableScreen) {
         if let analyticsService = analyticsService {
