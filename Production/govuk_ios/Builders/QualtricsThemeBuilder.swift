@@ -7,60 +7,60 @@ import GovKitUI
 /// for examples of what each theme component controls.
 struct QualtricsThemeBuilder {
     static let primaryButtonTheme = ButtonTheme.init(
-        textColor: .white,
-        linkColor: .qualtricsPurple,
+        textColor: .govUK.text.buttonPrimary,
+        linkColor: .govUK.text.linkSecondary,
         font: .govUK.body,
-        backgroundColor: .qualtricsPurple,
-        borderColor: .qualtricsPurple
+        backgroundColor: .govUK.text.linkSecondary,
+        borderColor: .govUK.text.linkSecondary
     )
 
     static let secondaryButtonTheme = ButtonTheme.init(
-        textColor: .qualtricsPurple,
-        linkColor: .qualtricsPurple,
+        textColor: .govUK.text.linkSecondary,
+        linkColor: .govUK.text.linkSecondary,
         font: .govUK.body,
         backgroundColor: .govUK.fills.surfaceList,
-        borderColor: .qualtricsPurple
+        borderColor: .govUK.text.linkSecondary
     )
 
     static let thumbsTheme = ThumbButtonTheme.init(
-        thumbUpColor: .qualtricsPurple,
+        thumbUpColor: .govUK.text.linkSecondary,
         thumbUpBackground: .govUK.fills.surfaceList,
-        thumbDownColor: .qualtricsPurple,
+        thumbDownColor: .govUK.text.linkSecondary,
         thumbDownBackground: .govUK.fills.surfaceList,
-        pressedThumbColor: .qualtricsPurple,
-        pressedThumbBackground: .qualtricsPurple
+        pressedThumbColor: .govUK.text.linkSecondary,
+        pressedThumbBackground: .govUK.text.linkSecondary
     )
 
     static let emojiTheme = EmojiButtonTheme.init(
-        backgroundColor: .qualtricsPurple,
-        borderColor: .qualtricsPurple,
+        backgroundColor: .govUK.text.linkSecondary,
+        borderColor: .govUK.text.linkSecondary,
         tintColor: .white
     )
 
     static let yesNoTheme = YesNoButtonTheme.init(
         yesButtonTitleColor: .white,
         yesButtonFont: .govUK.body,
-        yesButtonBackgroundColor: .qualtricsPurple,
-        yesButtonBorderColor: .qualtricsPurple,
-        noButtonTitleColor: .qualtricsPurple,
+        yesButtonBackgroundColor: .govUK.text.linkSecondary,
+        yesButtonBorderColor: .govUK.text.linkSecondary,
+        noButtonTitleColor: .govUK.text.linkSecondary,
         noButtonFont: .govUK.body,
         noButtonBackgroundColor: .govUK.fills.surfaceList,
-        noButtonBorderColor: .qualtricsPurple,
-        pressedButtonColor: .qualtricsPurple,
-        pressedButtonBackground: .qualtricsPurple
+        noButtonBorderColor: .govUK.text.linkSecondary,
+        pressedButtonColor: .govUK.text.linkSecondary,
+        pressedButtonBackground: .govUK.text.linkSecondary
     )
 
     static let starTheme = StarButtonTheme.init(
         backgroundColor: .govUK.fills.surfaceModal,
-        tintColor: .qualtricsPurple,
-        pressedTintColor: .qualtricsPurple,
-        pressedBackgroundColor: .qualtricsPurple
+        tintColor: .govUK.text.linkSecondary,
+        pressedTintColor: .govUK.text.linkSecondary,
+        pressedBackgroundColor: .govUK.text.linkSecondary
     )
 
     static let submitTheme = SubmitButtonTheme.init(
-        textColor: .white,
+        textColor: .govUK.text.buttonPrimary,
         font: .govUK.body,
-        fillColor: .qualtricsPurple,
+        fillColor: .govUK.fills.surfaceButtonPrimary,
         separatorColor: .govUK.strokes.listDivider
     )
 
