@@ -115,7 +115,7 @@ struct CoordinatorBuilderTests {
 
         #expect(coordinator is JailbreakCoordinator)
     }
-    
+
     @Test
     func appUnavailable_returnsExpectedResult() {
         let container = Container()
@@ -501,7 +501,7 @@ struct CoordinatorBuilderTests {
         )
         #expect(topicWidgetProvider is DrivingTopicWidgetCoordinator)
     }
-    
+
     @Test
     func topicWidgetProvider_forTravelTopic_returnsTravelTopicWidgetCoordinator() async {
         let mockCoreDataViewContext = await CoreDataRepository.arrangeAndLoad.viewContext
@@ -519,7 +519,6 @@ struct CoordinatorBuilderTests {
         )
         #expect(topicWidgetProvider is TravelAlertsWidgetCoordinator)
     }
-
 
     @Test
     func sarSettings_returnsExpectedResult() {
@@ -559,3 +558,4 @@ struct CoordinatorBuilderTests {
         #expect(coordinator is NotificationCentreCoordinator)
     }
 }
+
