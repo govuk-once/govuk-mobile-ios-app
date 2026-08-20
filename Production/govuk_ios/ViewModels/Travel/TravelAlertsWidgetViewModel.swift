@@ -31,6 +31,16 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
         self.dismissAction = dismissAction
     }
 
+    lazy var followCountryViewModel: FollowCountryViewModel = {
+        FollowCountryViewModel(
+            travelService: travelService,
+            dismissAction: {
+                self.dismissAction()
+                self.didDismissList()
+            }
+        )
+    }()
+
     @MainActor
     func viewDidAppear() async {
         await fetchCountryList()

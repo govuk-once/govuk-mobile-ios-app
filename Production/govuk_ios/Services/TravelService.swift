@@ -3,6 +3,7 @@ import GovKit
 
 protocol TravelServiceInterface {
     func getGroups(forceRefresh: Bool, completion: @escaping TravelGroupResultCompletion)
+    func getCountries(forceRefresh: Bool, completion: @escaping CountriesListResultCompletion)
     func invalidateCache()
 }
 
@@ -36,6 +37,29 @@ class TravelService: TravelServiceInterface {
                 case .success(let groups):
                     self.repository.store(groups: groups)
                     completion(.success(groups))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+        )
+    }
+
+    func getCountries(
+        forceRefresh: Bool = false,
+        completion: @escaping CountriesListResultCompletion
+    ) {
+        if forceRefresh == false,
+           let cachedCountriesList = repository.fetchCountries() {
+            completion(.success(cachedCountriesList))
+            return
+        }
+
+        travelServiceClient.fetchCountries(
+            completion: { result in
+                switch result {
+                case .success(let countries):
+                    self.repository.store(countries: countries)
+                    completion(.success(countries))
                 case .failure(let error):
                     completion(.failure(error))
                 }

@@ -2,9 +2,12 @@ import Foundation
 
 typealias TravelGroupResultCompletion = (sending TravelGroupResult) -> Void
 typealias TravelGroupResult = Result<[TravelGroup], TravelError>
+typealias CountriesListResultCompletion = (sending CountriesListResult) -> Void
+typealias CountriesListResult = Result<[Country], TravelError>
 
 protocol TravelServiceClientInterface {
     func fetchGroups(completion: @escaping TravelGroupResultCompletion)
+    func fetchCountries(completion: @escaping CountriesListResultCompletion)
 }
 
 class TravelServiceClient: TravelServiceClientInterface {
@@ -17,6 +20,15 @@ class TravelServiceClient: TravelServiceClientInterface {
     func fetchGroups(completion: @escaping TravelGroupResultCompletion) {
         apiServiceClient.send(
             request: .travelGroups,
+            completion: { result in
+                completion(self.handleResponse(result))
+            }
+        )
+    }
+
+    func fetchCountries(completion: @escaping CountriesListResultCompletion) {
+        apiServiceClient.send(
+            request: .countriesList,
             completion: { result in
                 completion(self.handleResponse(result))
             }

@@ -30,7 +30,9 @@ final class FollowCountryViewSnapshotTests: SnapshotTestCase {
     }
 
     private func makeViewModel() -> FollowCountryViewModel {
+        let mockTravelService = MockTravelService()
         return FollowCountryViewModel(
+            travelService: mockTravelService,
             dismissAction: { /*EmptyForTests*/ }
         )
     }

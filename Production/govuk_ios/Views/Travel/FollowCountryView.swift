@@ -1,26 +1,38 @@
 import SwiftUI
 
 struct FollowCountryView: View {
-    private var viewModel: FollowCountryViewModel
+    @StateObject var viewModel: FollowCountryViewModel
 
     init(viewModel: FollowCountryViewModel) {
-        self.viewModel = viewModel
+        _viewModel = StateObject(wrappedValue: viewModel)
     }
 
     var body: some View {
-        GeometryReader { geometry in
-            VStack {
-                modifiedScrollView(geometry: geometry)
+        VStack {
+            Group {
+                switch viewModel.viewState {
+                case .loading:
+                    Text("LOADING")
+                case .loaded:
+                    Text("LOADED")
+                case .error:
+                    Text("Error")
+                }
             }
-            .ignoresSafeArea(.all, edges: .bottom)
-            .navigationTitle(String(localized: .Travel.followACountryTitle))
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                closeButton
-            }
-            .toolbarBackground(.hidden, for: .navigationBar)
-            .background(Color(.govUK.fills.surfaceModal))
+            .padding(.vertical, 16)
+            .padding(.horizontal, 16)
         }
+        .task {
+            await viewModel.viewDidAppear()
+        }
+        .ignoresSafeArea(.all, edges: .bottom)
+        .navigationTitle(String(localized: .Travel.followACountryTitle))
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            closeButton
+        }
+        .toolbarBackground(.hidden, for: .navigationBar)
+        .background(Color(.govUK.fills.surfaceModal))
     }
 
     private var closeButton: some ToolbarContent {

@@ -893,9 +893,11 @@ class ViewControllerBuilder {
     }
 
     func selectCountry(
+        travelService: TravelServiceInterface,
         dismissAction: @escaping () -> Void
     ) -> UIViewController {
         let viewModel = FollowCountryViewModel(
+            travelService: travelService,
             dismissAction: dismissAction
         )
         let view = FollowCountryView(viewModel: viewModel)
