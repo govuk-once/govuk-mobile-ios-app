@@ -14,7 +14,6 @@ struct Config: Decodable {
         case alertBanner
         case chatBanner = "chatBanner_v2"
         case promoBanners
-        case userFeedbackBanner
         case emergencyBanners
         case chatUrls
         case termsAndConditions
@@ -33,7 +32,6 @@ struct Config: Decodable {
     let alertBanner: AlertBanner?
     let chatBanner: ChatBanner?
     let promoBanners: [PromoBanner]?
-    let userFeedbackBanner: UserFeedbackBanner?
     let emergencyBanners: [EmergencyBanner]?
     let chatUrls: ChatURLs?
     let termsAndConditions: TermsAndConditions
