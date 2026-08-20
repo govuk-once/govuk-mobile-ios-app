@@ -148,4 +148,35 @@ struct Container_APIClientTests {
         }
     }
 
+    @Test
+        func travelAPIClient_createsExpectedRequest() async throws {
+            let container = Container()
+            let mockAuthenticationService = MockAuthenticationService()
+            mockAuthenticationService._stubbedAccessToken = "testToken"
+            container.authenticationService.register {
+                mockAuthenticationService
+            }
+            container.urlSession.register { URLSession.mock }
+            container.appEnvironmentService.register {
+                MockAppEnvironmentService()
+            }
+            let sut = container.travelAPIClient()
+
+            await withCheckedContinuation { continuation in
+                MockURLProtocol.registerHandler(forUrl: "https://www.flex.gov.uk/app/uns/v1/notifications") { request in
+                    #expect(request.httpMethod == "GET")
+                    #expect(request.allHTTPHeaderFields?["Authorization"] == "Bearer testToken")
+                    #expect(request.allHTTPHeaderFields?["Content-Type"] == "application/json")
+                    return (.arrangeSuccess, nil, nil)
+                }
+
+                sut.send(
+                    request: .travelGroups,
+                    completion: { _ in
+                        continuation.resume()
+                    }
+                )
+            }
+        }
+
 }

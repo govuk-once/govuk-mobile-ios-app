@@ -91,6 +91,14 @@ extension Container {
         }
     }
 
+    var travelServiceClient: Factory<TravelServiceClientInterface> {
+        Factory(self) {
+            TravelServiceClient(
+                apiServiceClient: self.travelAPIClient()
+            )
+        }
+    }
+
     var notificationCentreServiceClient: Factory<NotificationCentreServiceClientInterface> {
         Factory(self) {
             NotificationCentreServiceClient(

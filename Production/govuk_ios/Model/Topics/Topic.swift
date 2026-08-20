@@ -78,6 +78,12 @@ class Topic: NSManagedObject,
             return "default"
         }
     }
+    var isTravelTopic: Bool {
+        self.ref == "travel-abroad"
+    }
+    var isDrivingTopic: Bool {
+        self.ref == "driving-transport"
+    }
 
     func update(item: TopicResponseItem) {
         self.ref = item.ref

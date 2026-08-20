@@ -348,4 +348,14 @@ extension Container {
                 repository: self.notificationCentreRepository.resolve())
         }
     }
+
+    var travelService: Factory<TravelServiceInterface> {
+        Factory(self) {
+            TravelService(
+                travelServiceClient: self.travelServiceClient(),
+                analyticsService: self.analyticsService.resolve(),
+                repository: self.travelRepository.resolve()
+            )
+        }.scope(.singleton)
+    }
 }
