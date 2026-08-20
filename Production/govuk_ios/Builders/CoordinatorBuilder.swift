@@ -252,11 +252,11 @@ class CoordinatorBuilder {
                 urlOpener: UIApplication.shared
             )
         } else if topic.isTravelTopic {
-            return TravelTopicWidgetCoordinator(
+            return TravelAlertsWidgetCoordinator(
                 navigationController: navigationController,
                 analyticsService: container.analyticsService.resolve(),
+                travelService: container.travelService.resolve(),
                 configService: container.appConfigService.resolve(),
-                userService: container.userService.resolve(),
                 coordinatorBuilder: self,
                 widgetViewBuilder: WidgetViewBuilder(),
                 viewControllerBuilder: ViewControllerBuilder(),
@@ -617,6 +617,20 @@ class CoordinatorBuilder {
             notificationCentreService: container.notificationCentreService.resolve(),
             analyticsService: container.analyticsService.resolve(),
             coordinatorBuilder: self
+        )
+    }
+
+    func followCountry(
+        navigationController: UINavigationController,
+        completion: @escaping (Bool) -> Void
+    ) -> BaseCoordinator {
+        FollowCountryCoordinator(
+            navigationController: navigationController,
+            coordinatorBuilder: self,
+            viewControllerBuilder: ViewControllerBuilder(),
+            analyticsService: container.analyticsService.resolve(),
+            userService: container.userService.resolve(),
+            completion: completion
         )
     }
 }

@@ -472,4 +472,13 @@ class MockViewControllerBuilder: ViewControllerBuilder {
         _receivedDvlaAuthenticationErrorAction = errorAction
         return _stubbedDvlaAuthenticationViewController ?? UIViewController()
     }
+
+    var _stubbedSelectCountryViewController: UIViewController?
+        var _receivedSelectCountryDismissAction: (() -> Void)?
+        override func selectCountry(
+            dismissAction: @escaping () -> Void
+        ) -> UIViewController {
+            _receivedSelectCountryDismissAction = dismissAction
+            return _stubbedSelectCountryViewController ?? UIViewController()
+        }
 }

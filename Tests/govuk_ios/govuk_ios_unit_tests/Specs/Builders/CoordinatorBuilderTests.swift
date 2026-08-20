@@ -115,7 +115,7 @@ struct CoordinatorBuilderTests {
 
         #expect(coordinator is JailbreakCoordinator)
     }
-    
+
     @Test
     func appUnavailable_returnsExpectedResult() {
         let container = Container()
@@ -501,7 +501,7 @@ struct CoordinatorBuilderTests {
         )
         #expect(topicWidgetProvider is DrivingTopicWidgetCoordinator)
     }
-    
+
     @Test
     func topicWidgetProvider_forTravelTopic_returnsTravelTopicWidgetCoordinator() async {
         let mockCoreDataViewContext = await CoreDataRepository.arrangeAndLoad.viewContext
@@ -517,9 +517,8 @@ struct CoordinatorBuilderTests {
             topic: travelTopic,
             navigationController: UINavigationController()
         )
-        #expect(topicWidgetProvider is TravelTopicWidgetCoordinator)
+        #expect(topicWidgetProvider is TravelAlertsWidgetCoordinator)
     }
-
 
     @Test
     func sarSettings_returnsExpectedResult() {
@@ -558,4 +557,20 @@ struct CoordinatorBuilderTests {
 
         #expect(coordinator is NotificationCentreCoordinator)
     }
+
+    @Test
+    func followCountry_returnsExpectedResult() {
+        let container = Container()
+        container.userService.register { MockUserService() }
+        container.analyticsService.register(factory: { MockAnalyticsService() })
+        let subject = CoordinatorBuilder(container: container)
+        let coordinator = subject
+            .followCountry(
+                navigationController: UINavigationController(),
+                completion: { _ in }
+            )
+
+        #expect(coordinator is FollowCountryCoordinator)
+    }
 }
+

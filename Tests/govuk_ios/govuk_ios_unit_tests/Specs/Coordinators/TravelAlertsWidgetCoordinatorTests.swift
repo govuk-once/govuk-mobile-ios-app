@@ -6,11 +6,11 @@ import Testing
 
 @Suite
 @MainActor
-struct TravelTopicWidgetCoordinatorTests {
+struct TravelAlertsWidgetCoordinatorTests {
 
     let mockAnalyticsService = MockAnalyticsService()
     let mockConfigService = MockAppConfigService()
-    let mockUserService = MockUserService()
+    let mockTravelService = MockTravelService()
     let mockNavigationController = MockNavigationController()
     let mockWidgetViewBuilder = MockWidgetViewBuilder()
     let mockViewControllerBuilder = MockViewControllerBuilder()
@@ -28,11 +28,11 @@ struct TravelTopicWidgetCoordinatorTests {
         )
         mockConfigService.features = [.travelAlerts]
 
-        let sut = TravelTopicWidgetCoordinator(
+        let sut = TravelAlertsWidgetCoordinator(
             navigationController: UINavigationController(),
             analyticsService: mockAnalyticsService,
+            travelService: mockTravelService,
             configService: mockConfigService,
-            userService: mockUserService,
             coordinatorBuilder: CoordinatorBuilder.mock,
             widgetViewBuilder: mockWidgetViewBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
@@ -50,11 +50,11 @@ struct TravelTopicWidgetCoordinatorTests {
         )
         mockConfigService.features = []
 
-        let sut = TravelTopicWidgetCoordinator(
+        let sut = TravelAlertsWidgetCoordinator(
             navigationController: UINavigationController(),
             analyticsService: mockAnalyticsService,
+            travelService: mockTravelService,
             configService: mockConfigService,
-            userService: mockUserService,
             coordinatorBuilder: CoordinatorBuilder.mock,
             widgetViewBuilder: mockWidgetViewBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
@@ -71,11 +71,11 @@ struct TravelTopicWidgetCoordinatorTests {
             ref: "business"
         )
 
-        let sut = TravelTopicWidgetCoordinator(
+        let sut = TravelAlertsWidgetCoordinator(
             navigationController: UINavigationController(),
             analyticsService: mockAnalyticsService,
+            travelService: mockTravelService,
             configService: mockConfigService,
-            userService: mockUserService,
             coordinatorBuilder: CoordinatorBuilder.mock,
             widgetViewBuilder: mockWidgetViewBuilder,
             viewControllerBuilder: mockViewControllerBuilder,

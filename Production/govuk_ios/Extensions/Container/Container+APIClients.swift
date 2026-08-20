@@ -115,6 +115,18 @@ extension Container {
         }
     }
 
+    var travelAPIClient: Factory<APIServiceClientInterface> {
+            Factory(self) {
+                APIServiceClient(
+                    baseUrl: self.appEnvironmentService().flexBaseURL,
+                    session: self.urlSession(),
+                    requestBuilder: RequestBuilder(),
+                    responseHandler: TravelResponseHandler(),
+                    tokenProvider: self.authenticationService()
+                )
+            }
+        }
+
     var notificationCentreAPIClient: Factory<APIServiceClientInterface> {
         Factory(self) {
             APIServiceClient(baseUrl: self.appEnvironmentService().flexBaseURL,

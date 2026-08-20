@@ -28,4 +28,20 @@ class WidgetViewBuilder {
         let view = DVLAAccountWidgetView(viewModel: viewModel)
         return AnyView(view)
     }
+
+    func followCountryWidget(
+        analyticsService: AnalyticsServiceInterface,
+        travelService: TravelServiceInterface,
+        linkAction: @escaping () -> Void,
+        dismissAction: @escaping () -> Void
+    ) -> AnyView? {
+        let viewModel = TravelAlertsWidgetViewModel(
+            travelService: travelService,
+            analyticsService: analyticsService,
+            linkAction: linkAction,
+            dismissAction: dismissAction
+        )
+        let widget = TravelAlertsWidgetView(viewModel: viewModel)
+        return AnyView(widget)
+    }
 }
