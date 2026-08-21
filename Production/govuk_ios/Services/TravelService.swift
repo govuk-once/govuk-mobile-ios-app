@@ -48,6 +48,26 @@ class TravelService: TravelServiceInterface {
         forceRefresh: Bool = false,
         completion: @escaping CountriesListResultCompletion
     ) {
+#if DEBUG
+        completion(.success([
+            Country(slug: "australia", country: "Australia", lastUpdated: "", synonyms: []),
+            Country(slug: "brazil", country: "Brazil", lastUpdated: "", synonyms: []),
+            Country(slug: "canada", country: "Canada", lastUpdated: "", synonyms: []),
+            Country(slug: "france", country: "France", lastUpdated: "", synonyms: []),
+            Country(slug: "germany", country: "Germany", lastUpdated: "", synonyms: []),
+            Country(slug: "italy", country: "Italy", lastUpdated: "", synonyms: []),
+            Country(slug: "japan", country: "Japan", lastUpdated: "", synonyms: []),
+            Country(slug: "spain", country: "Spain", lastUpdated: "", synonyms: []),
+            Country(slug: "united-kingdom", country: "United Kingdom",
+                    lastUpdated: "", synonyms: ["uk"]
+                   ),
+            Country(slug: "united-states", country: "United States",
+                    lastUpdated: "", synonyms: ["us"]
+                   )
+        ]))
+        return
+#endif
+
         if forceRefresh == false,
            let cachedCountriesList = repository.fetchCountries() {
             completion(.success(cachedCountriesList))
