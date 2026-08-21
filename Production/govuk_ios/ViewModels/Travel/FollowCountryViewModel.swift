@@ -11,6 +11,7 @@ class FollowCountryViewModel: ObservableObject {
 
     @Published private(set) var viewState: ViewState = .loading
     @Published private(set) var sections = [GroupedListSection]()
+    @Published var searchText = ""
 
     private let travelService: TravelServiceInterface
     private let countrySelectedAction: (Country) -> Void
@@ -54,6 +55,7 @@ class FollowCountryViewModel: ObservableObject {
         }
 
         let rows = sortedCountries.map { country in
+            // Update Row to be a new custom SelectableRow
             NavigationRow(
                 id: country.slug,
                 title: country.country,

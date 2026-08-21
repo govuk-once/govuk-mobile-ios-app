@@ -1,6 +1,7 @@
 import SwiftUI
 import GovKitUI
 import GovKit
+import UIKit
 
 struct FollowCountryView: View {
     @StateObject var viewModel: FollowCountryViewModel
@@ -29,7 +30,14 @@ struct FollowCountryView: View {
         .task {
             await viewModel.viewDidAppear()
         }
-        .ignoresSafeArea(.all, edges: .bottom)
+        .overlay(alignment: .bottom) {
+            if case .loaded = viewModel.viewState {
+                SearchBarView(text: $viewModel.searchText)
+                    .padding(.horizontal, 14)
+                    .padding(.bottom, 0)
+                    .background(.clear)
+            }
+        }
         .navigationTitle(String(localized: .Travel.followACountryTitle))
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
