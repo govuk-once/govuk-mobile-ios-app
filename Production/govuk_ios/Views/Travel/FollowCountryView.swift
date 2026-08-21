@@ -1,4 +1,6 @@
 import SwiftUI
+import GovKitUI
+import GovKit
 
 struct FollowCountryView: View {
     @StateObject var viewModel: FollowCountryViewModel
@@ -12,14 +14,16 @@ struct FollowCountryView: View {
             Group {
                 switch viewModel.viewState {
                 case .loading:
-                    Text("LOADING")
+                    FollowCountryLoadingView()
                 case .loaded:
-                    Text("LOADED")
+                    GeometryReader { geometry in
+                        modifiedScrollView(geometry: geometry)
+                    }
                 case .error:
-                    Text("Error")
+                    FollowCountryErrorView()
                 }
             }
-            .padding(.vertical, 16)
+            .padding(.vertical, 10)
             .padding(.horizontal, 16)
         }
         .task {
@@ -59,10 +63,48 @@ struct FollowCountryView: View {
     @ViewBuilder
     var scrollView: some View {
         ScrollView {
-            Text(String.topics.localized("Placeholder"))
-                .multilineTextAlignment(.leading)
-                .padding(.horizontal, 12)
-                .padding(.top, 10)
+            GroupedList(
+                content: viewModel.sections,
+                sectionBackgroundColor: .govUK.fills.surfaceListAlt
+            )
         }
+    }
+}
+
+struct FollowCountryLoadingView: View {
+    var body: some View {
+        VStack(alignment: .center) {
+            Spacer()
+            ProgressView()
+                .controlSize(.large)
+                .accessibilityLabel(.Travel.followACountryScreenLoading)
+            Spacer()
+        }
+    }
+}
+
+struct FollowCountryErrorView: View {
+    var body: some View {
+        VStack(alignment: .center) {
+            Image(systemName: "exclamationmark.circle")
+                .resizable()
+                .frame(width: 32, height: 32)
+                .padding(.bottom, 16)
+                .accessibilityHidden(true)
+                .foregroundStyle(Color(GOVUKColors.text.iconTertiary))
+            Text(.Travel.followACountryErrorTitle)
+                .padding(.bottom, 8)
+                .font(Font.govUK.bodySemibold)
+                .fontWeight(.bold)
+                .multilineTextAlignment(.center)
+                .foregroundStyle(Color(GOVUKColors.text.primary))
+            Text(.Travel.followACountryScreenErrorBody)
+                .font(Font.govUK.body)
+                .multilineTextAlignment(.center)
+                .foregroundStyle(Color(UIColor.govUK.text.primary))
+            Spacer()
+        }
+        .padding(.horizontal, 32)
+        .padding(.top, 32)
     }
 }

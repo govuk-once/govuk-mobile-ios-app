@@ -4,7 +4,6 @@ import GovKit
 
 struct TravelAlertsWidgetView: View {
     @StateObject var viewModel: TravelAlertsWidgetViewModel
-    @State var isShowingCountryList: Bool = false
 
     var body: some View {
         VStack(spacing: 16) {
@@ -15,7 +14,6 @@ struct TravelAlertsWidgetView: View {
                 case .loaded:
                     TravelAlertsLoadedView(onTapAction: {
                         viewModel.openCountryList()
-                        isShowingCountryList = true
                     })
                 case .error:
                     TravelAlertsErrorView()
@@ -28,10 +26,9 @@ struct TravelAlertsWidgetView: View {
             await viewModel.viewDidAppear()
         }
         .sheet(
-            isPresented: $isShowingCountryList,
+            isPresented: $viewModel.isShowingList,
             onDismiss: {
                 viewModel.didDismissList()
-                viewModel.isShowingList = false
             }, content: {
                 NavigationView {
                     FollowCountryView(

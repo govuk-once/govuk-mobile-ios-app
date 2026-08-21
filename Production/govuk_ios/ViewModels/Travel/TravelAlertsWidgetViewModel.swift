@@ -34,6 +34,9 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
     lazy var followCountryViewModel: FollowCountryViewModel = {
         FollowCountryViewModel(
             travelService: travelService,
+            countrySelectedAction: { _ in
+                // Selection flow will be implented in a future change.
+            },
             dismissAction: {
                 self.dismissAction()
                 self.didDismissList()

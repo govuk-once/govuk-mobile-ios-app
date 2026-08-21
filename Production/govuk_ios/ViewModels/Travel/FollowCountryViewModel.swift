@@ -10,15 +10,19 @@ class FollowCountryViewModel: ObservableObject {
     }
 
     @Published private(set) var viewState: ViewState = .loading
+    @Published private(set) var sections = [GroupedListSection]()
 
     private let travelService: TravelServiceInterface
+    private let countrySelectedAction: (Country) -> Void
     let dismissAction: () -> Void
 
     init(
         travelService: TravelServiceInterface,
+        countrySelectedAction: @escaping (Country) -> Void,
         dismissAction: @escaping () -> Void
     ) {
         self.travelService = travelService
+        self.countrySelectedAction = countrySelectedAction
         self.dismissAction = dismissAction
     }
 
@@ -34,12 +38,42 @@ class FollowCountryViewModel: ObservableObject {
         travelService.getCountries(forceRefresh: false) { [weak self] result in
             Task { @MainActor in
                 switch result {
-                case .success:
+                case .success(let countries):
+                    self?.sections = self?.buildSections(from: countries) ?? []
                     self?.viewState = .loaded
                 case .failure:
                     self?.viewState = .error
                 }
             }
         }
+    }
+
+    private func buildSections(from countries: [Country]) -> [GroupedListSection] {
+        let sortedCountries = countries.sorted {
+            $0.country.localizedCaseInsensitiveCompare($1.country) == .orderedAscending
+        }
+
+        let rows = sortedCountries.map { country in
+            NavigationRow(
+                id: country.slug,
+                title: country.country,
+                body: nil,
+                action: { [countrySelectedAction] in
+                    countrySelectedAction(country)
+                }
+            )
+        }
+
+        guard rows.isEmpty == false else {
+            return []
+        }
+
+        return [
+            GroupedListSection(
+                heading: nil,
+                rows: rows,
+                footer: nil
+            )
+        ]
     }
 }
