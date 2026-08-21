@@ -33,7 +33,8 @@ final class FollowCountryViewSnapshotTests: SnapshotTestCase {
         let mockTravelService = MockTravelService()
         return FollowCountryViewModel(
             travelService: mockTravelService,
-            dismissAction: { /*EmptyForTests*/ }
+            countrySelectedAction: { _ in /*Empty for tests*/},
+            dismissAction: { /*Empty For Tests*/ }
         )
     }
 

@@ -35,7 +35,7 @@ struct TravelRepositoryTests {
 
         repository.clear()
 
-        #expect(repository.fetchGroups() == nil)
+        #expect(repository.fetchGroups() == [])
     }
 
     @Test
