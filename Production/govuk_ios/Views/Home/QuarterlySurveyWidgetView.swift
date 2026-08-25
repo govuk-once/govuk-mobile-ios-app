@@ -5,7 +5,7 @@ struct QuarterlySurveyWidgetView: View {
     let viewModel: QuarterlySurveyWidgetViewModel
 
     var body: some View {
-        VStack(spacing: 12) {
+        VStack(spacing: 16) {
             Text(.Home.quarterlySurveyWidgetTitle)
                 .font(.govUK.body)
                 .multilineTextAlignment(.center)
