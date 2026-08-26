@@ -1203,6 +1203,9 @@
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/LocalAuthorityPostcodeEntryViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/LocalAuthorityWidgetViewControllerSnapshots.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/NonTappableCardViewControllerSnapshotTests.swift,
+				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/NotificationCentre/NotificationCentreDetailViewSnapshotTests.swift,
+				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/NotificationCentre/NotificationCentreErrorViewsSnapshotTests.swift,
+				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/NotificationCentre/NotificationCentreViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/NotificationConsentAlertViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/NotificationsOnboardingViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/PrivacyViewControllerSnapshotTests.swift,
@@ -1299,6 +1302,9 @@
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/LocalAuthorityPostcodeEntryViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/LocalAuthorityWidgetViewControllerSnapshots.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/NonTappableCardViewControllerSnapshotTests.swift,
+				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/NotificationCentre/NotificationCentreDetailViewSnapshotTests.swift,
+				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/NotificationCentre/NotificationCentreErrorViewsSnapshotTests.swift,
+				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/NotificationCentre/NotificationCentreViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/NotificationConsentAlertViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/NotificationsOnboardingViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/PrivacyViewControllerSnapshotTests.swift,
@@ -1357,6 +1363,7 @@
 				"govuk_ios/shared/Arrangers/Repositories/CoreDataRepository+Arrangers.swift",
 				"govuk_ios/shared/Extensions/Bundle+Tests.swift",
 				"govuk_ios/shared/Extensions/Data+Load.swift",
+				govuk_ios/shared/Mocks/Builders/MockLicenceStatusViewModelBuilder.swift,
 				govuk_ios/shared/Mocks/MockAccessibilityManager.swift,
 				govuk_ios/shared/Mocks/MockAppVersionProvider.swift,
 				govuk_ios/shared/Mocks/MockDeviceInformationProvider.swift,
@@ -1380,6 +1387,8 @@
 				govuk_ios/shared/Mocks/Services/MockTermsAndConditionsService.swift,
 				govuk_ios/shared/Mocks/Services/MockTopicsService.swift,
 				govuk_ios/shared/Mocks/Services/RecentActivity/MockActivityService.swift,
+				govuk_ios/shared/Mocks/ViewModels/MockDrivingLicenceViewModel.swift,
+				govuk_ios/shared/Mocks/ViewModels/MockVehiclesViewModel.swift,
 				govuk_ios/shared/SupportingFiles/TestAppDelegate.swift,
 				govuk_ios/shared/SupportingFiles/TestSceneDelegate.swift,
 			);
@@ -4263,12 +4272,12 @@
 		};
 		5DB5F7ED3017B6940023E78C /* GovKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 5DB5F7EC3017B6940023E78C /* XCLocalSwiftPackageReference "govuk-mobile-ios-gov-kit" */;
+			package = 5DB5F7EC3017B6940023E78C /* XCRemoteSwiftPackageReference "govuk-mobile-ios-gov-kit" */;
 			productName = GovKit;
 		};
 		5DB5F7EF3017B6940023E78C /* GovKitUI */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 5DB5F7EC3017B6940023E78C /* XCLocalSwiftPackageReference "govuk-mobile-ios-gov-kit" */;
+			package = 5DB5F7EC3017B6940023E78C /* XCRemoteSwiftPackageReference "govuk-mobile-ios-gov-kit" */;
 			productName = GovKitUI;
 		};
 		5DC2505F2C91D395009E9E7F /* FirebaseAnalyticsWithoutAdIdSupport */ = {
