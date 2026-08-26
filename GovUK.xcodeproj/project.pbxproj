@@ -3103,7 +3103,7 @@
 				8181DBF82EE214B100F47531 /* XCRemoteSwiftPackageReference "Factory" */,
 				4E6B2D642EEC332B00D61966 /* XCRemoteSwiftPackageReference "google-tag-manager-ios-sdk" */,
 				D04CC0932FB335F0000688FD /* XCRemoteSwiftPackageReference "qualtrics-digital-ios-sdk" */,
-				5DB5F7EC3017B6940023E78C /* XCLocalSwiftPackageReference "govuk-mobile-ios-gov-kit" */,
+				5DB5F7EC3017B6940023E78C /* XCRemoteSwiftPackageReference "govuk-mobile-ios-gov-kit" */,
 			);
 			productRefGroup = 5DAD71752BD250DB0075F648 /* Products */;
 			projectDirPath = "";
@@ -4300,9 +4300,13 @@
 				minimumVersion = 8.0.0;
 			};
 		};
-		5DB5F7EC3017B6940023E78C /* XCLocalSwiftPackageReference "govuk-mobile-ios-gov-kit" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = "../govuk-mobile-ios-gov-kit";
+		5DB5F7EC3017B6940023E78C /* XCRemoteSwiftPackageReference "govuk-mobile-ios-gov-kit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/govuk-once/govuk-mobile-ios-gov-kit.git";
+			requirement = {
+				branch = "feature/transport-font";
+				kind = branch;
+			};
 		};
 		5DC2505E2C91D395009E9E7F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;

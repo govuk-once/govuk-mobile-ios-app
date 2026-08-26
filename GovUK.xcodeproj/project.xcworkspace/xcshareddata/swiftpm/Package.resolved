@@ -2,6 +2,15 @@
   "originHash" : "97da4db4ba85e5829f48e4496d015672ca933ce26e658709bc048e5e022ef67e",
   "pins" : [
     {
+      "identity" : "govuk-mobile-ios-gov-kit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/govuk-once/govuk-mobile-ios-gov-kit.git",
+      "state" : {
+        "branch" : "feature/transport-font",
+        "revision" : "696e99c43302220fda2d747f4c59ee8d1bf2bdde"
+      }
+    },
+    {
       "identity" : "abseil-cpp-binary",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/abseil-cpp-binary.git",
