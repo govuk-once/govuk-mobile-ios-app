@@ -106,6 +106,26 @@ class ChatCellViewModel: ObservableObject {
         trackCopyToClipboard()
     }
 
+    func answerThumbsUpAction() {
+        analyticsService?.track(
+            event: .navigation(
+                text: "Thumbs up",
+                type: "chat_positive_rating",
+                external: false
+            )
+        )
+    }
+
+    func answerThumbsDownAction() {
+        analyticsService?.track(
+            event: .navigation(
+                text: "Thumbs down",
+                type: "chat_negative_rating",
+                external: false
+            )
+        )
+    }
+
     func openURL(url: URL, type: ChatLinkType) {
         openURLAction?(url)
         let event = AppEvent.chatLinkNavigation(
