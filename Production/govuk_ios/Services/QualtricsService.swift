@@ -92,9 +92,17 @@ actor QualtricsService: QualtricsServiceInterface {
                 let hidePrompt = urlParams?.first {
                     $0.name == "hide_prompt"
                 }
+                let autoClose = urlParams?.first {
+                    $0.name == "auto_close"
+                }
+                let autoCloseSurvey = autoClose?.value == "true" ? true : false
                 if hidePrompt?.value == "true" {
                     result.recordImpression()
-                    await openSurveyByUrl(url, viewController: viewController)
+                    await openSurveyByUrl(
+                        url,
+                        viewController: viewController,
+                        autoCloseSurvey: autoCloseSurvey
+                    )
                     return
                 }
             }
@@ -108,10 +116,14 @@ actor QualtricsService: QualtricsServiceInterface {
 
     private func openSurveyByUrl(
         _ url: String,
-        viewController: UIViewController
+        viewController: UIViewController,
+        autoCloseSurvey: Bool
     ) async {
         await MainActor.run {
-            let surveyController = QualtricsSurveyViewController(url: url)
+            let surveyController = QualtricsSurveyViewController(
+                url: url,
+                autoCloseSurvey: NSNumber(value: autoCloseSurvey)
+            )
             surveyController.modalPresentationStyle = .overFullScreen
             viewController.present(surveyController, animated: true)
         }
