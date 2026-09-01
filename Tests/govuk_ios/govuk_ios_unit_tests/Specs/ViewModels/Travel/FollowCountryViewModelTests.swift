@@ -51,8 +51,8 @@ struct FollowCountryViewModelTests {
         let rows = viewModel.sections.first?.rows ?? []
         #expect(rows.count == 2)
 
-        let firstRow = rows.first as? NavigationRow
-        let secondRow = rows.dropFirst().first as? NavigationRow
+        let firstRow = rows.first as? SelectableRow
+        let secondRow = rows.dropFirst().first as? SelectableRow
         #expect(firstRow?.title == "Argentina")
         #expect(secondRow?.title == "Brazil")
     }
@@ -102,7 +102,7 @@ struct FollowCountryViewModelTests {
         await viewModel.viewDidAppear()
         await Task.yield()
 
-        let firstRow = viewModel.sections.first?.rows.first as? NavigationRow
+        let firstRow = viewModel.sections.first?.rows.first as? SelectableRow
         firstRow?.action()
 
         #expect(capturedCountry == selectedCountry)
