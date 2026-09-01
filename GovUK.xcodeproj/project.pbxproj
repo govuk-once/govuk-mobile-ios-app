@@ -4317,7 +4317,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-once/govuk-mobile-ios-gov-kit.git";
 			requirement = {
-				branch = main;
+				branch = feature/addSelectableRow;
 				kind = branch;
 			};
 		};

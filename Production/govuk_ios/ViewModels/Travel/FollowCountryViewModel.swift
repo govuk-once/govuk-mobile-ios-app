@@ -55,11 +55,9 @@ class FollowCountryViewModel: ObservableObject {
         }
 
         let rows = sortedCountries.map { country in
-            // Update Row to be a new custom SelectableRow
-            NavigationRow(
+            SelectableRow(
                 id: country.slug,
                 title: country.country,
-                body: nil,
                 action: { [countrySelectedAction] in
                     countrySelectedAction(country)
                 }
