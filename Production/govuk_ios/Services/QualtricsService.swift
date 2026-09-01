@@ -88,15 +88,12 @@ actor QualtricsService: QualtricsServiceInterface {
             trackSurveyOpened(targetingID: id)
 
             if let url = result.getSurveyUrl() {
-                let urlParams = URLComponents(string: url)?.queryItems
-                let hidePrompt = urlParams?.first {
-                    $0.name == "hide_prompt"
-                }
-                let autoClose = urlParams?.first {
-                    $0.name == "auto_close"
-                }
-                let autoCloseSurvey = autoClose?.value == "true" ? true : false
-                if hidePrompt?.value == "true" {
+                let urlComponents = URLComponents(string: url)
+                let hidePrompt = urlComponents?.lowercaseQueryParamValue(for: "hide_prompt")
+                let autoClose = urlComponents?.lowercaseQueryParamValue(for: "auto_close")
+                let autoCloseSurvey = autoClose == "true" ? true : false
+
+                if hidePrompt == "true" {
                     result.recordImpression()
                     await openSurveyByUrl(
                         url,
