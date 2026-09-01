@@ -3,6 +3,7 @@ import GovKitUI
 import GovKit
 
 class LocalAuthorityExplainerViewModel {
+    @NativeInject(\.analyticsService) private var analyticsService
     private let explainerPrimaryButtonTitle: String = String.localAuthority.localized(
         "localAuthorityExplainerViewPrimaryButtonTitle"
     )
@@ -18,15 +19,12 @@ class LocalAuthorityExplainerViewModel {
     let navigationTitle: String = String.localAuthority.localized(
         "localAuthorityNavigationTitle"
     )
-    private let analyticsService: AnalyticsServiceInterface
     private let navigateToPostcodeEntry: () -> Void
     let dismissAction: () -> Void
 
 
-    init(analyticsService: AnalyticsServiceInterface,
-         navigateToPostcodeEntry: @escaping () -> Void,
+    init(navigateToPostcodeEntry: @escaping () -> Void,
          dismissAction: @escaping () -> Void) {
-        self.analyticsService = analyticsService
         self.navigateToPostcodeEntry = navigateToPostcodeEntry
         self.dismissAction = dismissAction
     }
