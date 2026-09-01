@@ -29,6 +29,7 @@ class ChatViewModel: ObservableObject {
     @Published var requestInFlight: Bool = false
     @Published var showValidationAlert: Bool = false
     @Published var showProgressView: Bool = false
+    @Published var showExampleQuestions: Bool = true
 
     private var disclosureListeners = Set<AnyCancellable>()
 
@@ -59,6 +60,7 @@ class ChatViewModel: ObservableObject {
 
     func askQuestion(_ question: String? = nil,
                      completion: ((Bool) -> Void)? = nil) {
+        showExampleQuestions = false
         let localQuestion = (question ?? latestQuestion)
             .trimmingCharacters(in: .whitespacesAndNewlines)
         guard !containsPII(localQuestion) else {
@@ -141,6 +143,7 @@ class ChatViewModel: ObservableObject {
             cellModels.removeAll()
             appendIntroMessage(animate: true)
             shouldLoadHistory = false
+            showExampleQuestions = true
             return
         }
         requestInFlight = true
@@ -159,6 +162,7 @@ class ChatViewModel: ObservableObject {
                     self?.chatService.clearHistory()
                     self?.cellModels.removeAll()
                     self?.appendIntroMessage(animate: true)
+                    self?.showExampleQuestions = true
                 } else {
                     self?.processError(error)
                 }
@@ -236,13 +240,27 @@ class ChatViewModel: ObservableObject {
             answer.isVisible = true
             cellModels.append(answer)
         }
-        if let pendingQuestion = history.pendingQuestion {
+        let pendingQuestion = history.pendingQuestion
+        if let pendingQuestion {
             cellModels.append(ChatCellViewModel(
                 question: pendingQuestion,
                 analyticsService: analyticsService)
             )
             pollForAnswer(pendingQuestion)
         }
+        showExampleQuestions = shouldShowExampleQuestions(
+            pendingQuestion: pendingQuestion,
+            answers: answers
+        )
+    }
+
+    func shouldShowExampleQuestions(
+        pendingQuestion: PendingQuestion?,
+        answers: [AnsweredQuestion]
+    ) -> Bool {
+        guard pendingQuestion == nil else { return false }
+        guard answers.isEmpty else { return false }
+        return true
     }
 
     private func containsPII(_ input: String) -> Bool {
@@ -255,6 +273,7 @@ class ChatViewModel: ObservableObject {
         chatService.clearHistory()
         appendIntroMessage(animate: true)
         scrollToTop = true
+        showExampleQuestions = true
     }
 
     func openAboutURL() {

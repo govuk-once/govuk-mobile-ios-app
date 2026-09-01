@@ -131,6 +131,8 @@ struct ChatView: View {
                 .accessibilityAddTraits(.isHeader)
                 .padding(.bottom, 4.0)
             chatCellsView
+            Text("Try asking:")
+                .opacity(viewModel.showExampleQuestions && !textAreaFocused ? 1 : 0)
             Text("")
                 .id(bottomID)
         }
