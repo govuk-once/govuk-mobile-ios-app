@@ -18,6 +18,7 @@ struct Config: Decodable {
         case chatUrls
         case termsAndConditions
         case dvlaUrls
+        case chatExampleQuestions
     }
 
     let available: Bool
@@ -36,6 +37,7 @@ struct Config: Decodable {
     let chatUrls: ChatURLs?
     let termsAndConditions: TermsAndConditions
     let dvlaUrls: DvlaURLs?
+    let chatExampleQuestions: [String]?
 }
 
 struct ChatURLs: Decodable {
