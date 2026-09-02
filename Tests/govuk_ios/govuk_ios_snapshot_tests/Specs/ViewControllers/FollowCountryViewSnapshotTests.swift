@@ -7,6 +7,7 @@ import GovKit
 
 @MainActor
 final class FollowCountryViewSnapshotTests: SnapshotTestCase {
+    var coreData: CoreDataRepository!
     func test_loadInNavigationController_light_rendersCorrectly() {
         let viewModel = makeViewModel()
         let viewController = makeViewController(viewModel: viewModel)
@@ -31,8 +32,10 @@ final class FollowCountryViewSnapshotTests: SnapshotTestCase {
 
     private func makeViewModel() -> FollowCountryViewModel {
         let mockTravelService = MockTravelService()
+        let analyticsService = MockAnalyticsService()
         return FollowCountryViewModel(
             travelService: mockTravelService,
+            analyticsService: analyticsService,
             countrySelectedAction: { _ in /*Empty for tests*/},
             dismissAction: { /*Empty For Tests*/ }
         )

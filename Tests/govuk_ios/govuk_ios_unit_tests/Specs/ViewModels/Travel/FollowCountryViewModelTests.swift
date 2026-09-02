@@ -14,6 +14,7 @@ struct FollowCountryViewModelTests {
 
         let viewModel = FollowCountryViewModel(
             travelService: MockTravelService(),
+            analyticsService: MockAnalyticsService(),
             countrySelectedAction: { _ in /*EmptyForTests*/ },
             dismissAction: {
             didCallDismiss = true
@@ -25,14 +26,32 @@ struct FollowCountryViewModelTests {
     }
 
     @Test
+    func trackScreen_createsCorrectEvent() {
+        let mockAnalyticsService = MockAnalyticsService()
+        let viewModel = FollowCountryViewModel(
+            travelService: MockTravelService(),
+            analyticsService: mockAnalyticsService,
+            countrySelectedAction: { _ in /*EmptyForTests*/ },
+            dismissAction: { /*EmptyForTests*/ })
+
+        let screen = FollowCountryView(viewModel: viewModel)
+        viewModel.trackScreen(screen: screen)
+
+        let screens = mockAnalyticsService._trackScreenReceivedScreens
+        #expect(screens.count == 1)
+        #expect(screens.first?.trackingClass == screen.trackingClass)
+    }
+
+    @Test
     func viewDidAppear_whenFetchSucceeds_buildsSingleSortedSectionAndSetsLoadedState() async {
         let mockTravelService = MockTravelService()
         mockTravelService._stubbedGetCountriesResult = .success([
-            Country(slug: "brazil", country: "Brazil", lastUpdated: "", synonyms: []),
-            Country(slug: "argentina", country: "Argentina", lastUpdated: "", synonyms: [])
+            Country(country: "Brazil", slug: "brazil", lastUpdate: "", synonyms: []),
+            Country(country: "Argentina", slug: "argentina", lastUpdate: "", synonyms: [])
         ])
         let viewModel = FollowCountryViewModel(
             travelService: mockTravelService,
+            analyticsService: MockAnalyticsService(),
             countrySelectedAction: { _ in /*EmptyForTests*/ },
             dismissAction: { /*EmptyForTests*/ }
         )
@@ -63,6 +82,7 @@ struct FollowCountryViewModelTests {
         mockTravelService._stubbedGetCountriesResult = .failure(.apiUnavailable)
         let viewModel = FollowCountryViewModel(
             travelService: mockTravelService,
+            analyticsService: MockAnalyticsService(),
             countrySelectedAction: { _ in /*EmptyForTests*/ },
             dismissAction: { /*EmptyForTests*/ }
         )
@@ -83,9 +103,9 @@ struct FollowCountryViewModelTests {
     func selectingARow_executesCountrySelectedAction() async {
         let mockTravelService = MockTravelService()
         let selectedCountry = Country(
-            slug: "argentina",
             country: "Argentina",
-            lastUpdated: "",
+            slug: "argentina",
+            lastUpdate: "",
             synonyms: []
         )
         mockTravelService._stubbedGetCountriesResult = .success([selectedCountry])
@@ -93,6 +113,7 @@ struct FollowCountryViewModelTests {
         var capturedCountry: Country?
         let viewModel = FollowCountryViewModel(
             travelService: mockTravelService,
+            analyticsService: MockAnalyticsService(),
             countrySelectedAction: { country in
                 capturedCountry = country
             },

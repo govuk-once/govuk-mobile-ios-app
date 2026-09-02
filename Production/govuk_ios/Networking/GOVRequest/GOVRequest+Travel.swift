@@ -8,7 +8,7 @@ extension GOVRequest {
 
     static var travelGroups: GOVRequest {
         GOVRequest(
-            urlPath: "/app/uns/v1/notifications",
+            urlPath: "/app/groups/v1/groups",
             method: .get,
             body: nil,
             queryParameters: nil,
@@ -19,7 +19,7 @@ extension GOVRequest {
 
     static var countriesList: GOVRequest {
         GOVRequest(
-            urlPath: "/travel/v1/countries",
+            urlPath: "app/travel/v1/countries",
             method: .get,
             body: nil,
             queryParameters: nil,

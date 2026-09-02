@@ -17,7 +17,7 @@ struct TravelServiceClientTests {
     @Test
     func fetchGroups_sendsExpectedRequest() {
         sut.fetchGroups { _ in }
-        #expect(mockAPI._receivedSendRequest?.urlPath == "/app/uns/v1/notifications")
+        #expect(mockAPI._receivedSendRequest?.urlPath == "/app/groups/v1/groups")
         #expect(mockAPI._receivedSendRequest?.method == .get)
     }
 

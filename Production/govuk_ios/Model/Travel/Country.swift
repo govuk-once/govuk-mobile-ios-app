@@ -1,6 +1,6 @@
 struct Country: Codable, Equatable {
-    let slug: String
     let country: String
-    let lastUpdated: String
+    let slug: String
+    let lastUpdate: String
     let synonyms: [String]
 }

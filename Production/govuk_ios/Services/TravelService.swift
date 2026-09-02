@@ -50,23 +50,23 @@ class TravelService: TravelServiceInterface {
     ) {
 #if DEBUG
         completion(.success([
-            Country(slug: "australia", country: "Australia", lastUpdated: "", synonyms: []),
-            Country(slug: "brazil", country: "Brazil", lastUpdated: "", synonyms: []),
-            Country(slug: "canada", country: "Canada", lastUpdated: "", synonyms: []),
-            Country(slug: "france", country: "France", lastUpdated: "", synonyms: []),
-            Country(slug: "germany", country: "Germany", lastUpdated: "", synonyms: []),
-            Country(slug: "italy", country: "Italy", lastUpdated: "", synonyms: []),
-            Country(slug: "japan", country: "Japan", lastUpdated: "", synonyms: []),
-            Country(slug: "spain", country: "Spain", lastUpdated: "", synonyms: []),
-            Country(slug: "united-kingdom", country: "United Kingdom",
-                    lastUpdated: "", synonyms: ["uk"]
+            Country(country: "Australia", slug: "australia", lastUpdate: "", synonyms: []),
+            Country(country: "Brazil", slug: "brazil", lastUpdate: "", synonyms: []),
+            Country(country: "Canada", slug: "canada", lastUpdate: "", synonyms: []),
+            Country(country: "France", slug: "france", lastUpdate: "", synonyms: []),
+            Country(country: "Germany", slug: "germany", lastUpdate: "", synonyms: []),
+            Country(country: "Italy", slug: "italy", lastUpdate: "", synonyms: []),
+            Country(country: "Japan", slug: "japan", lastUpdate: "", synonyms: []),
+            Country(country: "Spain", slug: "spain", lastUpdate: "", synonyms: []),
+            Country(country: "United Kingdom", slug: "united-kingdom",
+                    lastUpdate: "", synonyms: ["uk"]
                    ),
-            Country(slug: "united-states", country: "United States",
-                    lastUpdated: "", synonyms: ["us"]
+            Country(country: "United States", slug: "united-states",
+                    lastUpdate: "", synonyms: ["us"]
                    )
         ]))
         return
-#endif
+ #endif
 
         if forceRefresh == false,
            let cachedCountriesList = repository.fetchCountries() {
@@ -81,6 +81,7 @@ class TravelService: TravelServiceInterface {
                     self.repository.store(countries: countries)
                     completion(.success(countries))
                 case .failure(let error):
+                    print(error.localizedDescription)
                     completion(.failure(error))
                 }
             }
