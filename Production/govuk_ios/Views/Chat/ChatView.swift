@@ -9,6 +9,7 @@ struct ChatView: View {
     @AccessibilityFocusState private(set) var textAreaAccessibilityFocused: Bool
     @Namespace var bottomID
     @FocusState private var textAreaFocused: Bool
+    @State private var textAreaFocusedAnimationTrigger = true
     @State var showClearChatAlert: Bool = false
     @State private var backgroundOpacity = 0.25
     private let introDuration = 0.5
@@ -88,6 +89,7 @@ struct ChatView: View {
             viewModel: viewModel,
             textAreaFocused: $textAreaFocused,
             showClearChatAlert: $showClearChatAlert,
+            textAreaFocusedAnimationTrigger: $textAreaFocusedAnimationTrigger,
             maxTextEditorFrameHeight: frameHeight
         )
 
@@ -131,13 +133,7 @@ struct ChatView: View {
                 .accessibilityAddTraits(.isHeader)
                 .padding(.bottom, 4.0)
             chatCellsView
-            ChatExampleQuestionsView(
-                viewModel: viewModel.chatExampleQuestionsViewModel,
-                askQuestion: askQuestion
-            )
-            .opacity(viewModel.showExampleQuestions ? 1 : 0)
-            Text("Try asking:")
-                .opacity(viewModel.showExampleQuestions && !textAreaFocused ? 1 : 0)
+            chatExampleQuestionsView
             Text("")
                 .id(bottomID)
         }
@@ -158,6 +154,17 @@ struct ChatView: View {
             }
             viewModel.scrollToTop = false
         }
+    }
+
+    @ViewBuilder
+    private var chatExampleQuestionsView: some View {
+        let exampleQuestions = viewModel.showExampleQuestions && textAreaFocusedAnimationTrigger
+        ChatExampleQuestionsView(
+            viewModel: viewModel.chatExampleQuestionsViewModel,
+            askQuestion: askQuestion
+        )
+        .opacity(exampleQuestions ? 1 : 0)
+        .frame(maxHeight: exampleQuestions ? .infinity : 0, alignment: .top)
     }
 
     private func askQuestion(_ question: String) {
