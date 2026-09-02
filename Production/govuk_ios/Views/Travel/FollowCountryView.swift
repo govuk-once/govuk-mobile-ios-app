@@ -30,6 +30,9 @@ struct FollowCountryView: View {
         .task {
             await viewModel.viewDidAppear()
         }
+        .onAppear {
+            viewModel.trackScreen(screen: self)
+        }
         .overlay(alignment: .bottom) {
             if case .loaded = viewModel.viewState {
                 SearchBarView(text: $viewModel.searchText)
@@ -115,4 +118,9 @@ struct FollowCountryErrorView: View {
         .padding(.horizontal, 32)
         .padding(.top, 32)
     }
+}
+
+extension FollowCountryView: TrackableScreen {
+    var trackingTitle: String? { trackingName }
+    var trackingName: String { "FollowACountryScreen" }
 }

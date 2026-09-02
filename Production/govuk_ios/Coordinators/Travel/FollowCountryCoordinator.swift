@@ -27,12 +27,13 @@ final class FollowCountryCoordinator: BaseCoordinator {
     }
 
     override func start(url: URL?) {
-        selectCountry()
+        followACountry()
     }
 
-    private func selectCountry() {
-        let viewController = viewControllerBuilder.selectCountry(
+    private func followACountry() {
+        let viewController = viewControllerBuilder.followACountry(
             travelService: travelService,
+            analyticsService: analyticsService,
             dismissAction: dismissModal
         )
         set(viewController)

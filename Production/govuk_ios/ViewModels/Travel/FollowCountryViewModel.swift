@@ -14,17 +14,24 @@ class FollowCountryViewModel: ObservableObject {
     @Published var searchText = ""
 
     private let travelService: TravelServiceInterface
+    private let analyticsService: AnalyticsServiceInterface
     private let countrySelectedAction: (Country) -> Void
     let dismissAction: () -> Void
 
     init(
         travelService: TravelServiceInterface,
+        analyticsService: AnalyticsServiceInterface,
         countrySelectedAction: @escaping (Country) -> Void,
         dismissAction: @escaping () -> Void
     ) {
         self.travelService = travelService
+        self.analyticsService = analyticsService
         self.countrySelectedAction = countrySelectedAction
         self.dismissAction = dismissAction
+    }
+
+    func trackScreen(screen: TrackableScreen) {
+        analyticsService.track(screen: screen)
     }
 
     @MainActor

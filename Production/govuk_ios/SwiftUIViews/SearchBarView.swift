@@ -63,7 +63,7 @@ struct SearchBarView: UIViewRepresentable {
             whenContainedInInstancesOf: [UISearchBar.self]
         )
         searchBarButton.setTitleTextAttributes(
-            [.foregroundColor: UIColor.govUK.text.linkHeader],
+            [.foregroundColor: UIColor.govUK.text.primary],
             for: .normal
         )
     }
