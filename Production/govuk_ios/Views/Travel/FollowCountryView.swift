@@ -10,6 +10,21 @@ struct FollowCountryView: View {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
 
+    private var searchAlignment: Alignment {
+        if #available(iOS 18.0, *) {
+            return .top
+        } else {
+            return .bottom
+        }
+    }
+
+    private var topPadding: CGFloat {
+        let isSearchAtTop = if #available(iOS 26.0, *) { false } else { true }
+        let isLoaded = if case .loaded = viewModel.viewState { true } else { false }
+
+        return (isSearchAtTop && isLoaded) ? 60 : 10
+    }
+
     var body: some View {
         VStack {
             Group {
@@ -24,7 +39,8 @@ struct FollowCountryView: View {
                     FollowCountryErrorView()
                 }
             }
-            .padding(.vertical, 10)
+            .padding(.top, topPadding)
+            .padding(.bottom, 10)
             .padding(.horizontal, 16)
         }
         .task {
@@ -33,7 +49,7 @@ struct FollowCountryView: View {
         .onAppear {
             viewModel.trackScreen(screen: self)
         }
-        .overlay(alignment: .bottom) {
+        .overlay(alignment: searchAlignment) {
             if case .loaded = viewModel.viewState {
                 SearchBarView(text: $viewModel.searchText)
                     .padding(.horizontal, 14)
