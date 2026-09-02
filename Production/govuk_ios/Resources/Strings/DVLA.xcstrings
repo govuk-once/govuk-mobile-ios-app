@@ -981,6 +981,17 @@
         }
       }
     },
+    "noTaxToPay" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No tax to pay"
+          }
+        }
+      }
+    },
     "offTheRoadSorn" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1351,17 +1362,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "We could not get your vehicle details"
-          }
-        }
-      }
-    },
-    "vehicleTaxNotNeeded" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Not needed"
           }
         }
       }

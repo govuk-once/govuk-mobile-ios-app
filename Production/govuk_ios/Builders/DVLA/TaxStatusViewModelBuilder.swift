@@ -183,7 +183,7 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
     private func makeTaxNotNeededViewModel() -> ValidityStatusViewModel {
         return ValidityStatusViewModel(
             title: String(localized: .DVLA.taxStatusTitle),
-            formattedStatus: String(localized: .DVLA.vehicleTaxNotNeeded)
+            formattedStatus: String(localized: .DVLA.noTaxToPay)
         )
     }
 
