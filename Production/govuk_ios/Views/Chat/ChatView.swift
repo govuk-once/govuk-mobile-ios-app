@@ -166,6 +166,7 @@ struct ChatView: View {
         .opacity(exampleQuestions ? 1 : 0)
         .frame(maxHeight: exampleQuestions ? .infinity : 0, alignment: .top)
         .padding(.top, 4)
+        .animation(.smooth(duration: 0.2), value: viewModel.showExampleQuestions)
     }
 
     private func askQuestion(_ question: String) {
