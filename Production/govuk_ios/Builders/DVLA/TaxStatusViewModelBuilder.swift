@@ -87,13 +87,7 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
     private func makeExpiredViewModel(
         validToDate: Date?
     ) -> ValidityStatusViewModel {
-        let formattedStatus: String
-        if let dateString = formattedDate(validToDate) {
-            formattedStatus = String(localized: .DVLA.expiredOn(date: dateString))
-        } else {
-            formattedStatus = String(localized: .DVLA.expired)
-        }
-
+        let formattedStatus = String(localized: .DVLA.untaxed)                
         let buttonTitle = String(localized: .DVLA.renewTaxButtonTitle)
         let buttonURL = urls?.taxVehicle ?? Constants.API.defaultDvlaTaxVehicleUrl
         return ValidityStatusViewModel(
