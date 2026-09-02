@@ -8,6 +8,7 @@ class ChatCoordinator: TabItemCoordinator {
     private let deeplinkStore: DeeplinkDataStore
     private let analyticsService: AnalyticsServiceInterface
     private let chatService: ChatServiceInterface
+    private let configService: AppConfigServiceInterface
     private let authenticationService: AuthenticationServiceInterface
     private let cancelOnboardingAction: () -> Void
     var isShowingError = false
@@ -15,6 +16,7 @@ class ChatCoordinator: TabItemCoordinator {
         viewControllerBuilder.chat(
             analyticsService: analyticsService,
             chatService: chatService,
+            configService: configService,
             openURLAction: presentWebView,
             handleError: handleChatError
         )
@@ -31,6 +33,7 @@ class ChatCoordinator: TabItemCoordinator {
          analyticsService: AnalyticsServiceInterface,
          chatService: ChatServiceInterface,
          authenticationService: AuthenticationServiceInterface,
+         configService: AppConfigServiceInterface,
          cancelOnboardingAction: @escaping () -> Void) {
         self.coordinatorBuilder = coordinatorBuilder
         self.viewControllerBuilder = viewControllerBuilder
@@ -38,6 +41,7 @@ class ChatCoordinator: TabItemCoordinator {
         self.analyticsService = analyticsService
         self.chatService = chatService
         self.authenticationService = authenticationService
+        self.configService = configService
         self.cancelOnboardingAction = cancelOnboardingAction
         super.init(navigationController: navigationController)
     }

@@ -131,6 +131,11 @@ struct ChatView: View {
                 .accessibilityAddTraits(.isHeader)
                 .padding(.bottom, 4.0)
             chatCellsView
+            ChatExampleQuestionsView(
+                viewModel: viewModel.chatExampleQuestionsViewModel,
+                askQuestion: askQuestion
+            )
+            .opacity(viewModel.showExampleQuestions ? 1 : 0)
             Text("Try asking:")
                 .opacity(viewModel.showExampleQuestions && !textAreaFocused ? 1 : 0)
             Text("")
@@ -152,6 +157,12 @@ struct ChatView: View {
                 }
             }
             viewModel.scrollToTop = false
+        }
+    }
+
+    private func askQuestion(_ question: String) {
+        viewModel.askQuestion(question) { success in
+            textAreaFocused = !success
         }
     }
 }

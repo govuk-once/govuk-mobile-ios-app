@@ -17,6 +17,7 @@ class ChatViewModel: ObservableObject {
         message: "",
         primaryButtonTitle: "OK"
     )
+    let chatExampleQuestionsViewModel: ChatExampleQuestionsViewModel
 
     @Published var cellModels: [ChatCellViewModel] = []
     @Published var latestQuestion: String = ""
@@ -29,7 +30,7 @@ class ChatViewModel: ObservableObject {
     @Published var requestInFlight: Bool = false
     @Published var showValidationAlert: Bool = false
     @Published var showProgressView: Bool = false
-    @Published var showExampleQuestions: Bool = true
+    @Published var showExampleQuestions: Bool = false
 
     private var disclosureListeners = Set<AnyCancellable>()
 
@@ -50,12 +51,17 @@ class ChatViewModel: ObservableObject {
 
     init(chatService: ChatServiceInterface,
          analyticsService: AnalyticsServiceInterface,
+         configService: AppConfigServiceInterface,
          openURLAction: @escaping (URL) -> Void,
          handleError: @escaping (ChatError) -> Void) {
         self.chatService = chatService
         self.analyticsService = analyticsService
         self.openURLAction = openURLAction
         self.handleError = handleError
+        self.chatExampleQuestionsViewModel = .init(
+            analyticsService: analyticsService,
+            configService: configService
+        )
     }
 
     func askQuestion(_ question: String? = nil,
