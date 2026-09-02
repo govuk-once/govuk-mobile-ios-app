@@ -34,9 +34,7 @@ struct TaxStatusViewModelBuilderTests {
             #expect(vm.iconName == "exclamationmark.triangle.fill")
             #expect(vm.buttonTitle == String(localized: .DVLA.renewTaxButtonTitle))
             #expect(vm.progressViewModel == nil)
-            #expect(vm.formattedStatus == String(
-                localized: .DVLA.expiredOn(date: dateFormatter.string(from: date)))
-            )
+            #expect(vm.formattedStatus == String(localized: .DVLA.untaxed))
 
             vm.buttonAction?()
 
@@ -65,7 +63,7 @@ struct TaxStatusViewModelBuilderTests {
             )
         )
 
-        #expect(vm.formattedStatus == "Expired")
+        #expect(vm.formattedStatus == String(localized: .DVLA.untaxed))
     }
 
     // MARK: - Valid
