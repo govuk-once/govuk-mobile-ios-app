@@ -165,6 +165,7 @@ struct ChatView: View {
         )
         .opacity(exampleQuestions ? 1 : 0)
         .frame(maxHeight: exampleQuestions ? .infinity : 0, alignment: .top)
+        .padding(.top, 4)
     }
 
     private func askQuestion(_ question: String) {
