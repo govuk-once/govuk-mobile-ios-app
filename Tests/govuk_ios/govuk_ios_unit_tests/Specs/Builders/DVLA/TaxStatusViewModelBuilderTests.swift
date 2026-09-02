@@ -297,7 +297,7 @@ struct TaxStatusViewModelBuilderTests {
         #expect(vm.title == String(localized: .DVLA.taxStatusTitle))
         #expect(vm.progressViewModel == nil)
         #expect(vm.formattedStatus == String(
-            localized: .DVLA.vehicleTaxNotNeeded
+            localized: .DVLA.noTaxToPay
         ))
     }
 }
