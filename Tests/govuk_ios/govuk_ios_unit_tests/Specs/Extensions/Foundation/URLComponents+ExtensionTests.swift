@@ -6,14 +6,14 @@ import Testing
 @Suite
 struct URLComponents_ExtensionsTests {
     @Test
-    func lowercaseQueryParamValue_present_returnsValue() {
-        let sut = URLComponents(string: "https://www.gov.uk?test_key=True")!
-        #expect(sut.lowercaseQueryParamValue(for: "test_key") == "true")
+    func caseInsensitiveQueryParam_present_returnsValue() {
+        let sut = URLComponents(string: "https://www.gov.uk?Test_Key=True")!
+        #expect(sut.caseInsensitiveQueryParam(for: "test_key") == "true")
     }
 
     @Test
-    func lowercaseQueryParamValue_absent_returnsNil() {
+    func caseInsensitiveQueryParam_absent_returnsNil() {
         let sut = URLComponents(string: "https://www.gov.uk")!
-        #expect(sut.lowercaseQueryParamValue(for: "test_key") == nil)
+        #expect(sut.caseInsensitiveQueryParam(for: "test_key") == nil)
     }
 }

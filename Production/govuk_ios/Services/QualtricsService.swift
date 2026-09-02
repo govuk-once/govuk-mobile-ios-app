@@ -89,8 +89,8 @@ actor QualtricsService: QualtricsServiceInterface {
 
             if let url = result.getSurveyUrl() {
                 let urlComponents = URLComponents(string: url)
-                let hidePrompt = urlComponents?.lowercaseQueryParamValue(for: "hide_prompt")
-                let autoClose = urlComponents?.lowercaseQueryParamValue(for: "auto_close")
+                let hidePrompt = urlComponents?.caseInsensitiveQueryParam(for: "hide_prompt")
+                let autoClose = urlComponents?.caseInsensitiveQueryParam(for: "auto_close")
                 let autoCloseSurvey = autoClose == "true" ? true : false
 
                 if hidePrompt == "true" {
