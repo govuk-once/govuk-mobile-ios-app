@@ -65,9 +65,9 @@ struct FollowCountryViewModelTests {
         } else {
             Issue.record("Expected viewState to be .loaded after a successful countries fetch")
         }
-        #expect(viewModel.sections.count == 1)
+        #expect(viewModel.filteredSections.count == 1)
 
-        let rows = viewModel.sections.first?.rows ?? []
+        let rows = viewModel.filteredSections.first?.rows ?? []
         #expect(rows.count == 2)
 
         let firstRow = rows.first as? SelectableRow
@@ -96,7 +96,7 @@ struct FollowCountryViewModelTests {
         } else {
             Issue.record("Expected viewState to be .error after a failed countries fetch")
         }
-        #expect(viewModel.sections.isEmpty)
+        #expect(viewModel.filteredSections.isEmpty)
     }
 
     @Test
@@ -123,9 +123,181 @@ struct FollowCountryViewModelTests {
         await viewModel.viewDidAppear()
         await Task.yield()
 
-        let firstRow = viewModel.sections.first?.rows.first as? SelectableRow
+        let firstRow = viewModel.filteredSections.first?.rows.first as? SelectableRow
         firstRow?.action()
 
         #expect(capturedCountry == selectedCountry)
+    }
+
+    @Test
+    func searchText_filtersCountriesByName() async {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedGetCountriesResult = .success([
+            Country(country: "Brazil", slug: "brazil", lastUpdate: "", synonyms: []),
+            Country(country: "Argentina", slug: "argentina", lastUpdate: "", synonyms: []),
+            Country(country: "Belgium", slug: "belgium", lastUpdate: "", synonyms: [])
+        ])
+        let viewModel = FollowCountryViewModel(
+            travelService: mockTravelService,
+            analyticsService: MockAnalyticsService(),
+            countrySelectedAction: { _ in /*EmptyForTests*/ },
+            dismissAction: { /*EmptyForTests*/ }
+        )
+
+        await viewModel.viewDidAppear()
+        await Task.yield()
+
+        viewModel.searchText = "Brazil"
+
+        let rows = viewModel.filteredSections.first?.rows ?? []
+        #expect(rows.count == 1)
+        #expect((rows.first as? SelectableRow)?.title == "Brazil")
+    }
+
+    @Test
+    func searchText_filtersCountriesBySynonyms() async {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedGetCountriesResult = .success([
+            Country(country: "United Kingdom", slug: "uk", lastUpdate: "", synonyms: ["Great Britain", "UK"]),
+            Country(country: "United States", slug: "usa", lastUpdate: "", synonyms: ["America", "US"])
+        ])
+        let viewModel = FollowCountryViewModel(
+            travelService: mockTravelService,
+            analyticsService: MockAnalyticsService(),
+            countrySelectedAction: { _ in /*EmptyForTests*/ },
+            dismissAction: { /*EmptyForTests*/ }
+        )
+
+        await viewModel.viewDidAppear()
+        await Task.yield()
+
+        viewModel.searchText = "uk"
+
+        let rows = viewModel.filteredSections.first?.rows ?? []
+        #expect(rows.count == 1)
+        #expect((rows.first as? SelectableRow)?.title == "United Kingdom")
+    }
+
+    @Test
+    func searchText_caseInsensitiveSearch() async {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedGetCountriesResult = .success([
+            Country(country: "Brazil", slug: "brazil", lastUpdate: "", synonyms: []),
+            Country(country: "Argentina", slug: "argentina", lastUpdate: "", synonyms: [])
+        ])
+        let viewModel = FollowCountryViewModel(
+            travelService: mockTravelService,
+            analyticsService: MockAnalyticsService(),
+            countrySelectedAction: { _ in /*EmptyForTests*/ },
+            dismissAction: { /*EmptyForTests*/ }
+        )
+
+        await viewModel.viewDidAppear()
+        await Task.yield()
+
+        viewModel.searchText = "BRAZIL"
+
+        let rows = viewModel.filteredSections.first?.rows ?? []
+        #expect(rows.count == 1)
+        #expect((rows.first as? SelectableRow)?.title == "Brazil")
+    }
+
+    @Test
+    func searchText_trimsWhitespace() async {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedGetCountriesResult = .success([
+            Country(country: "Brazil", slug: "brazil", lastUpdate: "", synonyms: []),
+            Country(country: "Argentina", slug: "argentina", lastUpdate: "", synonyms: [])
+        ])
+        let viewModel = FollowCountryViewModel(
+            travelService: mockTravelService,
+            analyticsService: MockAnalyticsService(),
+            countrySelectedAction: { _ in /*EmptyForTests*/ },
+            dismissAction: { /*EmptyForTests*/ }
+        )
+
+        await viewModel.viewDidAppear()
+        await Task.yield()
+
+        viewModel.searchText = "   Bra    "
+
+        let rows = viewModel.filteredSections.first?.rows ?? []
+        #expect(rows.count == 1)
+        #expect((rows.first as? SelectableRow)?.title == "Brazil")
+    }
+
+    @Test
+    func searchText_emptySearchShowsAllCountries() async {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedGetCountriesResult = .success([
+            Country(country: "Brazil", slug: "brazil", lastUpdate: "", synonyms: []),
+            Country(country: "Argentina", slug: "argentina", lastUpdate: "", synonyms: [])
+        ])
+        let viewModel = FollowCountryViewModel(
+            travelService: mockTravelService,
+            analyticsService: MockAnalyticsService(),
+            countrySelectedAction: { _ in /*EmptyForTests*/ },
+            dismissAction: { /*EmptyForTests*/ }
+        )
+
+        await viewModel.viewDidAppear()
+        await Task.yield()
+
+        viewModel.searchText = "Brazil"
+        #expect(viewModel.filteredSections.first?.rows.count == 1)
+
+        viewModel.searchText = ""
+        #expect(viewModel.filteredSections.first?.rows.count == 2)
+    }
+
+    @Test
+    func searchText_noMatchesResultsInEmptyState() async {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedGetCountriesResult = .success([
+            Country(country: "Brazil", slug: "brazil", lastUpdate: "", synonyms: []),
+            Country(country: "Argentina", slug: "argentina", lastUpdate: "", synonyms: [])
+        ])
+        let viewModel = FollowCountryViewModel(
+            travelService: mockTravelService,
+            analyticsService: MockAnalyticsService(),
+            countrySelectedAction: { _ in /*EmptyForTests*/ },
+            dismissAction: { /*EmptyForTests*/ }
+        )
+
+        await viewModel.viewDidAppear()
+        await Task.yield()
+
+        viewModel.searchText = "NonExistentCountry"
+
+        if case .empty = viewModel.viewState {
+            // expected
+        } else {
+            Issue.record("Expected viewState to be .empty when search returns no results")
+        }
+        #expect(viewModel.filteredSections.isEmpty)
+    }
+
+    @Test
+    func partialSearch_matchesCountriesByPrefix() async {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedGetCountriesResult = .success([
+            Country(country: "Brazil", slug: "brazil", lastUpdate: "", synonyms: []),
+            Country(country: "British Virgin Islands", slug: "british virgin islands", lastUpdate: "", synonyms: ["bvi"]),
+            Country(country: "Argentina", slug: "argentina", lastUpdate: "", synonyms: [])
+        ])
+        let viewModel = FollowCountryViewModel(
+            travelService: mockTravelService,
+            analyticsService: MockAnalyticsService(),
+            countrySelectedAction: { _ in /*EmptyForTests*/ },
+            dismissAction: { /*EmptyForTests*/ }
+        )
+
+        await viewModel.viewDidAppear()
+        await Task.yield()
+
+        viewModel.searchText = "Br"
+
+        let rows = viewModel.filteredSections.first?.rows ?? []
+        #expect(rows.count == 2)
     }
 }

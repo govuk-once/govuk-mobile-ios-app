@@ -91,12 +91,13 @@ class FollowCountryViewModel: ObservableObject {
     }
 
     private func updateFilteredSections() {
-        let filtered = searchText.trimmingCharacters(in: .whitespaces).isEmpty
+        let trimmedSearch = searchText.trimmingCharacters(in: .whitespaces)
+        let filtered = trimmedSearch.isEmpty
         ? allCountries
         : allCountries.filter { item in
-            let matchesCountry = item.country.localizedCaseInsensitiveContains(searchText)
+            let matchesCountry = item.country.localizedCaseInsensitiveContains(trimmedSearch)
             let matchesSynonym = item.synonyms.contains {
-                $0.localizedCaseInsensitiveContains(searchText)
+                $0.localizedCaseInsensitiveContains(trimmedSearch)
             }
 
             return matchesCountry || matchesSynonym

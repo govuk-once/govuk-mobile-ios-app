@@ -146,16 +146,19 @@ struct FollowCountryErrorView: View {
                 .padding(.bottom, 16)
                 .accessibilityHidden(true)
                 .foregroundStyle(Color(GOVUKColors.text.iconTertiary))
+
             Text(.Travel.followACountryErrorTitle)
                 .padding(.bottom, 8)
                 .font(Font.govUK.bodySemibold)
                 .fontWeight(.bold)
                 .multilineTextAlignment(.center)
                 .foregroundStyle(Color(GOVUKColors.text.primary))
+
             Text(.Travel.followACountryScreenErrorBody)
                 .font(Font.govUK.body)
                 .multilineTextAlignment(.center)
                 .foregroundStyle(Color(UIColor.govUK.text.primary))
+
             Spacer()
         }
         .padding(.horizontal, 32)
