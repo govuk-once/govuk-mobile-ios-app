@@ -10,7 +10,7 @@ struct FollowCountryView: View {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
 
-    private var searchAlignment: Alignment {
+    private var searchBarAlignment: Alignment {
         if #available(iOS 26.0, *) {
             return .bottom
         } else {
@@ -18,11 +18,10 @@ struct FollowCountryView: View {
         }
     }
 
-    private var topPadding: CGFloat {
-        let isSearchAtTop = if #available(iOS 26.0, *) { false } else { true }
+    private var searchBarPadding: CGFloat {
         let isLoaded = if case .loaded = viewModel.viewState { true } else { false }
 
-        return (isSearchAtTop && isLoaded) ? 60 : 10
+        return isLoaded ? 60 : 10
     }
 
     var body: some View {
@@ -39,7 +38,6 @@ struct FollowCountryView: View {
                     FollowCountryErrorView()
                 }
             }
-            .padding(.bottom, 10)
             .padding(.horizontal, 16)
         }
         .task {
@@ -48,7 +46,7 @@ struct FollowCountryView: View {
         .onAppear {
             viewModel.trackScreen(screen: self)
         }
-        .overlay(alignment: searchAlignment) {
+        .overlay(alignment: searchBarAlignment) {
             if case .loaded = viewModel.viewState {
                 SearchBarView(text: $viewModel.searchText)
                     .padding(.horizontal, 14)
@@ -61,7 +59,7 @@ struct FollowCountryView: View {
         .toolbar {
             closeButton
         }
-        .toolbarBackground(.hidden, for: .navigationBar)
+        .toolbarBackground(Color(.govUK.fills.surfaceModal), for: .navigationBar)
         .background(Color(.govUK.fills.surfaceModal))
     }
 
@@ -80,7 +78,16 @@ struct FollowCountryView: View {
     func modifiedScrollView(geometry: GeometryProxy) -> some View {
         if #available(iOS 17.0, *) {
             scrollView
-                .contentMargins(.bottom, geometry.safeAreaInsets.bottom, for: .scrollContent)
+                .contentMargins(
+                    .top, searchBarAlignment == .top
+                    ? 10
+                    : 10, for: .scrollContent
+                )
+                .contentMargins(
+                    .bottom, searchBarAlignment == .bottom
+                    ? 10
+                    : geometry.safeAreaInsets.bottom, for: .scrollContent
+                )
         } else {
             scrollView
         }
@@ -89,11 +96,23 @@ struct FollowCountryView: View {
     @ViewBuilder
     var scrollView: some View {
         ScrollView {
-            GroupedList(
-                content: viewModel.filteredSections,
-                sectionBackgroundColor: .govUK.fills.surfaceListAlt
-            )
-        }.padding(.top, topPadding)
+            VStack(spacing: 0) {
+                if searchBarAlignment == .top {
+                    Spacer()
+                        .frame(height: searchBarPadding)
+                }
+
+                GroupedList(
+                    content: viewModel.filteredSections,
+                    sectionBackgroundColor: .govUK.fills.surfaceListAlt
+                )
+
+                if searchBarAlignment == .bottom {
+                    Spacer()
+                        .frame(height: searchBarPadding)
+                }
+            }
+        }
     }
 }
 
