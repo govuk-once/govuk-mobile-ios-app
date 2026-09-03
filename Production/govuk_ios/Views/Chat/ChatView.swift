@@ -158,13 +158,14 @@ struct ChatView: View {
 
     @ViewBuilder
     private var chatExampleQuestionsView: some View {
-        let exampleQuestions = viewModel.showExampleQuestions && textAreaFocusedAnimationTrigger
+        let showExampleQuestions = viewModel.showExampleQuestions &&
+        textAreaFocusedAnimationTrigger
         ChatExampleQuestionsView(
             viewModel: viewModel.chatExampleQuestionsViewModel,
             askQuestion: askQuestion
         )
-        .opacity(exampleQuestions ? 1 : 0)
-        .frame(maxHeight: exampleQuestions ? .infinity : 0, alignment: .top)
+        .opacity(showExampleQuestions ? 1 : 0)
+        .frame(maxHeight: showExampleQuestions ? .infinity : 0, alignment: .top)
         .padding(.top, 4)
         .animation(.smooth(duration: 0.2), value: viewModel.showExampleQuestions)
     }

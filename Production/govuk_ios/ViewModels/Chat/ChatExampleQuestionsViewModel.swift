@@ -7,9 +7,7 @@ struct ChatExampleQuestionsViewModel {
     let configService: AppConfigServiceInterface
 
     var exampleQuestions: [ChatExampleQuestion]? {
-        guard let questions = configService.chatExampleQuestions else { return nil }
-
-        return questions.map { question in
+        configService.chatExampleQuestions?.map { question in
             ChatExampleQuestion(body: question)
         }
     }
