@@ -14,10 +14,17 @@ Before the app will build, you will need to navigate to `File -> Packages -> Res
 >[!Note]
 >You will need to have an Apple developer account to run the project on a physical device, but it can run on a simulator.
 
-## Unit tests
-The application has several unit tests and snapshot tests. Although the unit tests do not depend on a specific simulator, the snapshot tests do.
-If you wish to run the full suite of tests successfully, the current device requirement can be found [here](/Fastlane/.build.yml) under `[scan][devices]`
+## Unit tests and Snapshot tests
+The application has several unit tests and snapshot tests.  
+Unit tests do not depend on a specific simulator, but the snapshot tests do.
 
+### Snapshot test requirements
+
+To successfully run snapshot tests:
+- [git-lfs](https://git-lfs.com/) must be installed
+- the snapshot tests must be run on a specific simulator
+
+The current device requirement can be found [here](/Fastlane/.build.yml) under `[scan][devices]`
 
 ## Linting
 
