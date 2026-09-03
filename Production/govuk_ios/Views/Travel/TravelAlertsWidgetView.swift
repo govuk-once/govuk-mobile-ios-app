@@ -92,7 +92,8 @@ private struct TravelAlertsErrorView: View {
                 Spacer()
             }
             .padding(.horizontal, 32)
-            .padding(.top, 32)
+            .padding(.vertical, 32)
+            .frame(maxWidth: .infinity)
         }
         .background(Color(UIColor.govUK.fills.surfaceList))
         .clipShape(RoundedRectangle(cornerRadius: 10))

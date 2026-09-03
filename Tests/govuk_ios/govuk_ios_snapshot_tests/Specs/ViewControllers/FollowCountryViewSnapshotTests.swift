@@ -8,6 +8,7 @@ import GovKit
 @MainActor
 final class FollowCountryViewSnapshotTests: SnapshotTestCase {
     var coreData: CoreDataRepository!
+
     func test_loadInNavigationController_light_rendersCorrectly() {
         let viewModel = makeViewModel()
         let viewController = makeViewController(viewModel: viewModel)
@@ -30,8 +31,118 @@ final class FollowCountryViewSnapshotTests: SnapshotTestCase {
         )
     }
 
-    private func makeViewModel() -> FollowCountryViewModel {
+    func test_loadInNavigationController_loaded_light_rendersCorrectly() async {
         let mockTravelService = MockTravelService()
+        mockTravelService._stubbedGetCountriesResult = .success([
+            Country(country: "Argentina", slug: "argentina", lastUpdate: "", synonyms: []),
+            Country(country: "Belgium", slug: "belgium", lastUpdate: "", synonyms: []),
+            Country(country: "Brazil", slug: "brazil", lastUpdate: "", synonyms: [])
+        ])
+        let viewModel = makeViewModel(travelService: mockTravelService)
+
+        await viewModel.viewDidAppear()
+        await Task.yield()
+
+        let viewController = makeViewController(viewModel: viewModel)
+
+        VerifySnapshotInNavigationController(
+            viewController: viewController,
+            mode: .light,
+            navBarHidden: true
+        )
+    }
+
+    func test_loadInNavigationController_loaded_dark_rendersCorrectly() async {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedGetCountriesResult = .success([
+            Country(country: "Argentina", slug: "argentina", lastUpdate: "", synonyms: []),
+            Country(country: "Belgium", slug: "belgium", lastUpdate: "", synonyms: []),
+            Country(country: "Brazil", slug: "brazil", lastUpdate: "", synonyms: [])
+        ])
+        let viewModel = makeViewModel(travelService: mockTravelService)
+
+        await viewModel.viewDidAppear()
+        await Task.yield()
+
+        let viewController = makeViewController(viewModel: viewModel)
+
+        VerifySnapshotInNavigationController(
+            viewController: viewController,
+            mode: .dark,
+            navBarHidden: true
+        )
+    }
+
+    func test_loadInNavigationController_empty_light_rendersCorrectly() async {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedGetCountriesResult = .success([])
+        let viewModel = makeViewModel(travelService: mockTravelService)
+
+        await viewModel.viewDidAppear()
+        await Task.yield()
+
+        let viewController = makeViewController(viewModel: viewModel)
+
+        VerifySnapshotInNavigationController(
+            viewController: viewController,
+            mode: .light,
+            navBarHidden: true
+        )
+    }
+
+    func test_loadInNavigationController_empty_dark_rendersCorrectly() async {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedGetCountriesResult = .success([])
+        let viewModel = makeViewModel(travelService: mockTravelService)
+
+        await viewModel.viewDidAppear()
+        await Task.yield()
+
+        let viewController = makeViewController(viewModel: viewModel)
+
+        VerifySnapshotInNavigationController(
+            viewController: viewController,
+            mode: .dark,
+            navBarHidden: true
+        )
+    }
+
+    func test_loadInNavigationController_error_light_rendersCorrectly() async {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedGetCountriesResult = .failure(.apiUnavailable)
+        let viewModel = makeViewModel(travelService: mockTravelService)
+
+        await viewModel.viewDidAppear()
+        await Task.yield()
+
+        let viewController = makeViewController(viewModel: viewModel)
+
+        VerifySnapshotInNavigationController(
+            viewController: viewController,
+            mode: .light,
+            navBarHidden: true
+        )
+    }
+
+    func test_loadInNavigationController_error_dark_rendersCorrectly() async {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedGetCountriesResult = .failure(.apiUnavailable)
+        let viewModel = makeViewModel(travelService: mockTravelService)
+
+        await viewModel.viewDidAppear()
+        await Task.yield()
+
+        let viewController = makeViewController(viewModel: viewModel)
+
+        VerifySnapshotInNavigationController(
+            viewController: viewController,
+            mode: .dark,
+            navBarHidden: true
+        )
+    }
+
+    private func makeViewModel(travelService: TravelServiceInterface? = nil) -> FollowCountryViewModel {
+        let mockTravelService = travelService ?? MockTravelService()
         let analyticsService = MockAnalyticsService()
         return FollowCountryViewModel(
             travelService: mockTravelService,
