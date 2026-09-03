@@ -210,17 +210,37 @@ extension NotificationCentreContainerView: TrackableScreen {
     var trackingTitle: String? { trackingName }
     var trackingName: String { "Messages" }
 }
-
+#if DEBUG
 #Preview("Loading") {
     NotificationCentreLoadingView()
 }
 
 #Preview("Loaded") {
-    let testNotifications = NotificationCentreViewModel.MockData.testNotificationGroups
-
     NotificationCentreLoadedView(
-        notifications: testNotifications,
-        onNotificationTap: { _ in /* No-op */ })
+        notifications: .init(
+            recent: [
+                .init(title: "Unread Notification", date: "Today", isUnread: true, id: "1"),
+                .init(title: "Unread Notification 2", date: "2 Days ago", isUnread: true, id: "2")
+                ],
+            older: [
+                .init(title: "Read Notification", date: "26 July", isUnread: false, id: "3")
+            ]
+        ),
+        onNotificationTap: { _ in /* No-op */ }
+    )
+}
+
+#Preview("Loaded - long truncated title") {
+    NotificationCentreLoadedView(
+        notifications: .init(
+            recent: [
+                .init(title: "Really long notification title that " + " will truncate",
+                      date: "Today", isUnread: true, id: "1")
+                ],
+            older: []
+        ),
+        onNotificationTap: { _ in /* No-op */ }
+    )
 }
 
 #Preview("Empty") {
@@ -240,3 +260,4 @@ extension NotificationCentreContainerView: TrackableScreen {
     )
     NotificationCentreRow(notification: notification, onTap: { _ in /* no-op */ })
 }
+#endif

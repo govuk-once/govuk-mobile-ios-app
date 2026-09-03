@@ -22,8 +22,12 @@ final class NotificationCentreServiceTests {
 
     @Test
     func fetchNotifications_hitsRepo_returnsExpectedValue() async throws {
-        mockNotificationCentreRepository
-            ._fetchAllResponse = NotificationCentreViewModel.MockData.recentNotifications
+        let cached: [govuk_ios.Notification] = [
+            .arrange(id: "1"),
+            .arrange(id: "2"),
+            .arrange(id: "3")
+        ]
+        mockNotificationCentreRepository._fetchAllResponse = cached
 
         let result = await withCheckedContinuation { continuation in
             SUT.fetchNotifications(callback: {
@@ -32,7 +36,7 @@ final class NotificationCentreServiceTests {
         }
 
         let response = try #require(try? result.get())
-        #expect(response.count == 7)
+        #expect(response.count == cached.count)
     }
 
     @Test
@@ -40,9 +44,8 @@ final class NotificationCentreServiceTests {
         mockNotificationCentreRepository
             ._fetchAllResponse = []
 
-        mockNotificationCentreServiceClient
-            ._fetchNotificationsResult =
-            .success(NotificationCentreViewModel.MockData.olderNotifications)
+        let fetched: [govuk_ios.Notification] = [.arrange(id: "1"), .arrange(id: "2")]
+        mockNotificationCentreServiceClient._fetchNotificationsResult = .success(fetched)
 
         let result = await withCheckedContinuation { continuation in
             SUT.fetchNotifications(callback: {
@@ -51,7 +54,7 @@ final class NotificationCentreServiceTests {
         }
 
         let response = try #require(try? result.get())
-        #expect(response.count == 4)
+        #expect(response.count == fetched.count)
     }
 
     @Test
@@ -77,9 +80,8 @@ final class NotificationCentreServiceTests {
 
     @Test
     func fetchSingleNotification_hitsRepo_returnsExpectedValue() async throws {
-        mockNotificationCentreRepository
-            ._fetchNotificationResponse = NotificationCentreViewModel
-            .MockData.recentNotifications.first
+        mockNotificationCentreRepository._fetchNotificationResponse =
+            .arrange(id: "1", body: "Body 1", status: "UNREAD")
 
         let result = await withCheckedContinuation { continuation in
             SUT.fetchNotification(with: "1", callback: {
@@ -100,9 +102,8 @@ final class NotificationCentreServiceTests {
         mockNotificationCentreRepository
             ._fetchNotificationResponse = nil
 
-        mockNotificationCentreServiceClient
-            ._fetchNotificationResult = .success(NotificationCentreViewModel
-                .MockData.recentNotifications[1])
+        mockNotificationCentreServiceClient._fetchNotificationResult =
+            .success(.arrange(id: "2", title: "Test 2"))
 
 
         let result = await withCheckedContinuation { continuation in
