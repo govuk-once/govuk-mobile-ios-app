@@ -146,6 +146,7 @@
 		4E6663C82C7370750063E81C /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E6663C72C7370750063E81C /* AppConfig.swift */; };
 		4E6663CA2C737EF50063E81C /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E6663C92C737EF50063E81C /* Config.swift */; };
 		4E6663CF2C73F3220063E81C /* AppConfigError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E6663CE2C73F3220063E81C /* AppConfigError.swift */; };
+		4E66D34C304648B4006D139E /* DependencyRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E66D34B304648B4006D139E /* DependencyRegistry.swift */; };
 		4E71F8A12FA24F4300DBC037 /* AppIconRelease.icon in Resources */ = {isa = PBXBuildFile; fileRef = 4E71F8A02FA24F4300DBC037 /* AppIconRelease.icon */; };
 		4E837E252E7D8C8600B3CC5A /* RecentActivityHomepageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E837E242E7D8C8600B3CC5A /* RecentActivityHomepageViewModel.swift */; };
 		4E8A2A962E74979100BD14A9 /* RecentActivityWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8A2A952E74979100BD14A9 /* RecentActivityWidgetView.swift */; };
@@ -759,6 +760,7 @@
 		4E6663C72C7370750063E81C /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
 		4E6663C92C737EF50063E81C /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		4E6663CE2C73F3220063E81C /* AppConfigError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfigError.swift; sourceTree = "<group>"; };
+		4E66D34B304648B4006D139E /* DependencyRegistry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyRegistry.swift; sourceTree = "<group>"; };
 		4E71F8A02FA24F4300DBC037 /* AppIconRelease.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIconRelease.icon; sourceTree = "<group>"; };
 		4E837E242E7D8C8600B3CC5A /* RecentActivityHomepageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentActivityHomepageViewModel.swift; sourceTree = "<group>"; };
 		4E8A2A952E74979100BD14A9 /* RecentActivityWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentActivityWidgetView.swift; sourceTree = "<group>"; };
@@ -1717,6 +1719,14 @@
 			path = Notifications;
 			sourceTree = "<group>";
 		};
+		4E536EC83046FA0700EF912C /* DependencyInjection */ = {
+			isa = PBXGroup;
+			children = (
+				4E66D34B304648B4006D139E /* DependencyRegistry.swift */,
+			);
+			path = DependencyInjection;
+			sourceTree = "<group>";
+		};
 		4E71F89F2FA24EBD00DBC037 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
@@ -1839,6 +1849,7 @@
 		5D1353AE2BE0D9A700414441 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				4E536EC83046FA0700EF912C /* DependencyInjection */,
 				81E3AC322FBB8DE60021B6A4 /* ViewModel */,
 				5DE970552C297CF3009D66C4 /* Analytics */,
 				5DCCCBB72EA0DC240097430C /* Authentication */,
@@ -3338,6 +3349,7 @@
 				D02416472DEDC0C500F81C6D /* SignInSuccessCoordinator.swift in Sources */,
 				D0EC94C72DCBAEE400A9707E /* SignInErrorViewModel.swift in Sources */,
 				81A820A830136CF8006E1692 /* NotificationName+Extensions.swift in Sources */,
+				4E66D34C304648B4006D139E /* DependencyRegistry.swift in Sources */,
 				5DE2BBBC2C982593003116B6 /* Bundle+Extensions.swift in Sources */,
 				815011D92F7C4F9600E7469C /* GOVRequest+DVLA.swift in Sources */,
 				4EEC0F342DBB7CDA00D745F2 /* StoredLocalAuthorityCardView.swift in Sources */,

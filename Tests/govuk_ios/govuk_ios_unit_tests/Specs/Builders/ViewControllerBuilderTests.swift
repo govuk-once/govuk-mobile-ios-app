@@ -209,7 +209,6 @@ struct ViewControllerBuilderTests {
     func localAuthorityExaplainerView_returnsExpectedResult() {
         let subject = ViewControllerBuilder()
         let result = subject.localAuthorityExplainerView(
-            analyticsService: MockAnalyticsService(),
             navigateToPostCodeEntryViewAction: {},
             dismissAction: {}
         )

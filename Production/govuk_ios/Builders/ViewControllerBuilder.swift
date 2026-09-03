@@ -98,11 +98,9 @@ class ViewControllerBuilder {
     }
 
     func localAuthorityExplainerView(
-        analyticsService: AnalyticsServiceInterface,
         navigateToPostCodeEntryViewAction: @escaping () -> Void,
         dismissAction: @escaping () -> Void) -> UIViewController {
             let viewModel = LocalAuthorityExplainerViewModel(
-                analyticsService: analyticsService,
                 navigateToPostcodeEntry: navigateToPostCodeEntryViewAction,
                 dismissAction: dismissAction
             )
