@@ -17,7 +17,7 @@ struct DVLAAuthenticationView: View {
         .ignoresSafeArea(edges: .vertical)
         .navigationBarHidden(true)
         .task {
-            await viewModel.refreshToken()
+            await viewModel.fetchIdentityVerification()
         }
     }
 
