@@ -11,10 +11,10 @@ struct FollowCountryView: View {
     }
 
     private var searchAlignment: Alignment {
-        if #available(iOS 18.0, *) {
-            return .top
-        } else {
+        if #available(iOS 26.0, *) {
             return .bottom
+        } else {
+            return .top
         }
     }
 
@@ -39,7 +39,6 @@ struct FollowCountryView: View {
                     FollowCountryErrorView()
                 }
             }
-            .padding(.top, topPadding)
             .padding(.bottom, 10)
             .padding(.horizontal, 16)
         }
@@ -91,10 +90,10 @@ struct FollowCountryView: View {
     var scrollView: some View {
         ScrollView {
             GroupedList(
-                content: viewModel.sections,
+                content: viewModel.filteredSections,
                 sectionBackgroundColor: .govUK.fills.surfaceListAlt
             )
-        }
+        }.padding(.top, topPadding)
     }
 }
 

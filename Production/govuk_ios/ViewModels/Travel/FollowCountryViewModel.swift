@@ -10,9 +10,14 @@ class FollowCountryViewModel: ObservableObject {
     }
 
     @Published private(set) var viewState: ViewState = .loading
-    @Published private(set) var sections = [GroupedListSection]()
-    @Published var searchText = ""
+    @Published var searchText = "" {
+        didSet {
+            updateFilteredSections()
+        }
+    }
+    @Published private(set) var filteredSections = [GroupedListSection]()
 
+    private var allCountries: [Country] = []
     private let travelService: TravelServiceInterface
     private let analyticsService: AnalyticsServiceInterface
     private let countrySelectedAction: (Country) -> Void
@@ -47,7 +52,8 @@ class FollowCountryViewModel: ObservableObject {
             Task { @MainActor in
                 switch result {
                 case .success(let countries):
-                    self?.sections = self?.buildSections(from: countries) ?? []
+                    self?.allCountries = countries
+                    self?.updateFilteredSections()
                     self?.viewState = .loaded
                 case .failure:
                     self?.viewState = .error
@@ -82,5 +88,13 @@ class FollowCountryViewModel: ObservableObject {
                 footer: nil
             )
         ]
+    }
+
+    private func updateFilteredSections() {
+        let filtered = searchText.trimmingCharacters(in: .whitespaces).isEmpty
+        ? allCountries
+        : allCountries.filter { $0.country.localizedCaseInsensitiveContains(searchText)}
+
+        filteredSections = buildSections(from: filtered)
     }
 }
