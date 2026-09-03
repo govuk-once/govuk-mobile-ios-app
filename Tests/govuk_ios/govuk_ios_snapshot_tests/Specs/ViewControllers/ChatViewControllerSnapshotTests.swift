@@ -5,6 +5,21 @@ import SwiftUI
 @testable import govuk_ios
 
 final class ChatViewControllerSnapshotTests: SnapshotTestCase {
+    func test_loadInNavigationController_newChat_light_rendersCorrectly() {
+        VerifySnapshotInNavigationController(
+            view: newChatView,
+            mode: .light,
+            navBarHidden: true
+        )
+    }
+
+    func test_loadInNavigationController_newChat_dark_rendersCorrectly() {
+        VerifySnapshotInNavigationController(
+            view: newChatView,
+            mode: .dark,
+            navBarHidden: true
+        )
+    }
 
     func test_loadInNavigationController_light_rendersCorrectly() {
         VerifySnapshotInNavigationController(
@@ -242,5 +257,30 @@ final class ChatViewControllerSnapshotTests: SnapshotTestCase {
 
         return ChatView(viewModel: viewModel)
             .environment(\.isTesting, true)
+    }
+
+    private var newChatView: some View {
+        let mockConfigService = MockAppConfigService()
+        mockConfigService._stubbedChatExampleQuestions = [
+            "First question",
+            "Second question that is quite long and has a lot of text saying not a lot",
+            "Third question"
+        ]
+        let viewModel = ChatViewModel(
+            chatService: MockChatService(),
+            analyticsService: MockAnalyticsService(),
+            configService: mockConfigService,
+            openURLAction: { _ in },
+            handleError: { _ in }
+        )
+
+        viewModel.loadHistory()
+        // isVisible is set on main DispatchQueue and not executed before
+        // snapshot is taken so setting manually
+        viewModel.cellModels.first?.isVisible = true
+
+        let view = ChatView(viewModel: viewModel)
+            .environment(\.isTesting, true)
+        return view
     }
 }
