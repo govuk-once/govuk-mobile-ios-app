@@ -36,11 +36,13 @@ final class ChatActionViewControllerSnapshotTests: SnapshotTestCase {
     struct WarningTestView: View {
         @FocusState var textAreaFocused: Bool
         @State var showClearChatAlert: Bool = false
+        @State var textAreaFocusedAnimationTrigger: Bool = false
 
         var body: some View {
             let viewModel = ChatViewModel(
                 chatService: MockChatService(),
                 analyticsService: MockAnalyticsService(),
+                configService: MockAppConfigService(),
                 openURLAction: { _ in },
                 handleError: { _ in }
             )
@@ -48,6 +50,7 @@ final class ChatActionViewControllerSnapshotTests: SnapshotTestCase {
                 viewModel: viewModel,
                 textAreaFocused: $textAreaFocused,
                 showClearChatAlert: $showClearChatAlert,
+                textAreaFocusedAnimationTrigger: $textAreaFocusedAnimationTrigger,
                 maxTextEditorFrameHeight: 640
             )
             .environment(\.isTesting, true)
@@ -63,11 +66,13 @@ final class ChatActionViewControllerSnapshotTests: SnapshotTestCase {
     struct ErrorTestView: View {
         @FocusState var textAreaFocused: Bool
         @State var showClearChatAlert: Bool = false
+        @State var textAreaFocusedAnimationTrigger: Bool = false
 
         var body: some View {
             let viewModel = ChatViewModel(
                 chatService: MockChatService(),
                 analyticsService: MockAnalyticsService(),
+                configService: MockAppConfigService(),
                 openURLAction: { _ in },
                 handleError: { _ in }
             )
@@ -75,6 +80,7 @@ final class ChatActionViewControllerSnapshotTests: SnapshotTestCase {
                 viewModel: viewModel,
                 textAreaFocused: $textAreaFocused,
                 showClearChatAlert: $showClearChatAlert,
+                textAreaFocusedAnimationTrigger: $textAreaFocusedAnimationTrigger,
                 maxTextEditorFrameHeight: 640
             )
             .environment(\.isTesting, true)

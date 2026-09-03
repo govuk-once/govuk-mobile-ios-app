@@ -15,6 +15,7 @@ struct ChatViewModelTests {
         let sut = ChatViewModel(
             chatService: mockChatService,
             analyticsService: MockAnalyticsService(),
+            configService: MockAppConfigService(),
             openURLAction: { _ in },
             handleError: { _ in }
         )
@@ -37,6 +38,7 @@ struct ChatViewModelTests {
         let sut = ChatViewModel(
             chatService: mockChatService,
             analyticsService: mockAnalyticsService,
+            configService: MockAppConfigService(),
             openURLAction: { _ in },
             handleError: { _ in }
         )
@@ -63,6 +65,7 @@ struct ChatViewModelTests {
         let sut = ChatViewModel(
             chatService: mockChatService,
             analyticsService: MockAnalyticsService(),
+            configService: MockAppConfigService(),
             openURLAction: { _ in },
             handleError: { error in
                 chatError = error
@@ -86,6 +89,7 @@ struct ChatViewModelTests {
         let sut = ChatViewModel(
             chatService: mockChatService,
             analyticsService: MockAnalyticsService(),
+            configService: MockAppConfigService(),
             openURLAction: { _ in },
             handleError: { error in
                 chatError = error
@@ -108,6 +112,7 @@ struct ChatViewModelTests {
         let sut = ChatViewModel(
             chatService: mockChatService,
             analyticsService: mockAnalyticsService,
+            configService: MockAppConfigService(),
             openURLAction: { _ in },
             handleError: { error in
                 chatError = error
@@ -136,6 +141,7 @@ struct ChatViewModelTests {
         let sut = ChatViewModel(
             chatService: mockChatService,
             analyticsService: MockAnalyticsService(),
+            configService: MockAppConfigService(),
             openURLAction: { _ in },
             handleError: { error in
                 chatError = error
@@ -210,6 +216,7 @@ struct ChatViewModelTests {
         let sut = ChatViewModel(
             chatService: mockChatService,
             analyticsService: MockAnalyticsService(),
+            configService: MockAppConfigService(),
             openURLAction: { _ in },
             handleError: { _ in }
         )
@@ -234,6 +241,7 @@ struct ChatViewModelTests {
         let sut = ChatViewModel(
             chatService: mockChatService,
             analyticsService: MockAnalyticsService(),
+            configService: MockAppConfigService(),
             openURLAction: { _ in },
             handleError: { error in
                 chatError = error
@@ -254,6 +262,7 @@ struct ChatViewModelTests {
         let sut = ChatViewModel(
             chatService: mockChatService,
             analyticsService: MockAnalyticsService(),
+            configService: MockAppConfigService(),
             openURLAction: { _ in },
             handleError: { error in
                 chatError = error
@@ -275,6 +284,7 @@ struct ChatViewModelTests {
         let sut = ChatViewModel(
             chatService: mockChatService,
             analyticsService: MockAnalyticsService(),
+            configService: MockAppConfigService(),
             openURLAction: { _ in },
             handleError: { _ in }
         )
@@ -293,6 +303,7 @@ struct ChatViewModelTests {
             let sut = ChatViewModel(
                 chatService: MockChatService(),
                 analyticsService: mockAnalyticsService,
+                configService: MockAppConfigService(),
                 openURLAction: { _ in confirmation() },
                 handleError: { _ in }
             )
@@ -310,6 +321,7 @@ struct ChatViewModelTests {
             let sut = ChatViewModel(
                 chatService: MockChatService(),
                 analyticsService: mockAnalyticsService,
+                configService: MockAppConfigService(),
                 openURLAction: { _ in confirmation() },
                 handleError: { _ in }
             )
@@ -327,6 +339,7 @@ struct ChatViewModelTests {
             let sut = ChatViewModel(
                 chatService: MockChatService(),
                 analyticsService: mockAnalyticsService,
+                configService: MockAppConfigService(),
                 openURLAction: { _ in confirmation() },
                 handleError: { _ in }
             )
@@ -343,6 +356,7 @@ struct ChatViewModelTests {
         let sut = ChatViewModel(
             chatService: MockChatService(),
             analyticsService: mockAnalyticsService,
+            configService: MockAppConfigService(),
             openURLAction: { _ in },
             handleError: { _ in }
         )
@@ -358,6 +372,7 @@ struct ChatViewModelTests {
         let sut = ChatViewModel(
             chatService: MockChatService(),
             analyticsService: mockAnalyticsService,
+            configService: MockAppConfigService(),
             openURLAction: { _ in },
             handleError: { _ in }
         )
@@ -373,6 +388,7 @@ struct ChatViewModelTests {
         let sut = ChatViewModel(
             chatService: MockChatService(),
             analyticsService: mockAnalyticsService,
+            configService: MockAppConfigService(),
             openURLAction: { _ in },
             handleError: { _ in }
         )
@@ -396,6 +412,7 @@ struct ChatViewModelTests {
         let sut = ChatViewModel(
             chatService: MockChatService(),
             analyticsService: mockAnalyticsService,
+            configService: MockAppConfigService(),
             openURLAction: { _ in },
             handleError: { _ in }
         )
@@ -421,6 +438,7 @@ struct ChatViewModelTests {
         let sut = ChatViewModel(
             chatService: MockChatService(),
             analyticsService: mockAnalyticsService,
+            configService: MockAppConfigService(),
             openURLAction: { _ in },
             handleError: { _ in }
         )

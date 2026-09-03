@@ -49,6 +49,7 @@ final class ChatViewControllerSnapshotTests: SnapshotTestCase {
         let viewModel = ChatViewModel(
             chatService: mockChatService,
             analyticsService: MockAnalyticsService(),
+            configService: MockAppConfigService(),
             openURLAction: { _ in },
             handleError: { _ in }
         )
@@ -80,6 +81,7 @@ final class ChatViewControllerSnapshotTests: SnapshotTestCase {
         let viewModel = ChatViewModel(
             chatService: mockChatService,
             analyticsService: MockAnalyticsService(),
+            configService: MockAppConfigService(),
             openURLAction: { _ in },
             handleError: { _ in }
         )
@@ -165,7 +167,8 @@ final class ChatViewControllerSnapshotTests: SnapshotTestCase {
             pendingQuestion: pendingQuestion,
             answeredQuestions: [answeredQuestion],
             createdAt: createdAt,
-            id: "4456")
+            id: "4456"
+        )
 
         mockChatService._stubbedConversationId = conversationId
         mockChatService._stubbedHistoryResult = .success(history)
@@ -175,6 +178,7 @@ final class ChatViewControllerSnapshotTests: SnapshotTestCase {
         let viewModel = ChatViewModel(
             chatService: mockChatService,
             analyticsService: MockAnalyticsService(),
+            configService: MockAppConfigService(),
             openURLAction: { _ in },
             handleError: { _ in }
         )
@@ -204,6 +208,7 @@ final class ChatViewControllerSnapshotTests: SnapshotTestCase {
         let viewModel = ChatViewModel(
             chatService: mockChatService,
             analyticsService: MockAnalyticsService(),
+            configService: MockAppConfigService(),
             openURLAction: { _ in },
             handleError: { _ in }
         )
