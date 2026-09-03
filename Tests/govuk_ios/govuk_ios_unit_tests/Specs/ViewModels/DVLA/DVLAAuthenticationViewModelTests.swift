@@ -6,52 +6,12 @@ import Testing
 struct DVLAAuthenticationViewModelTests {
 
     @Test
-    func refreshToken_success_callsFetchIdentityVerification() async {
-        let mockAuthenticationService = MockAuthenticationService()
-        mockAuthenticationService._stubbedTokenRefreshRequest = .success(.arrange)
-        mockAuthenticationService._stubbedFetchIdentityVerificationResult = .success(
-            .init(
-                verificationHash: "test-token",
-                sessionHash: "test-session",
-            )
-        )
-
-        let sut = DVLAAuthenticationViewModel(
-            authenticationService: mockAuthenticationService,
-            appEnvironmentService: MockAppEnvironmentService(),
-            completionAction: { _ in },
-            errorAction: { }
-        )
-        await sut.refreshToken()
-        #expect(mockAuthenticationService._fetchIdentityVerificationCalled == true)
-    }
-
-    @Test
-    func refreshToken_failure_callsErrorAction() async {
-        let mockAuthenticationService = MockAuthenticationService()
-        mockAuthenticationService._stubbedTokenRefreshRequest = .failure(.genericError)
-        var errorActionWasCalled = false
-
-        let sut = DVLAAuthenticationViewModel(
-            authenticationService: mockAuthenticationService,
-            appEnvironmentService: MockAppEnvironmentService(),
-            completionAction: { _ in },
-            errorAction: {
-                errorActionWasCalled = true
-            }
-        )
-        await sut.refreshToken()
-        #expect(errorActionWasCalled == true)
-    }
-
-    @Test
     func fetchIdentityVerification_success_callsCompletionAction() async {
         let mockAuthenticationService = MockAuthenticationService()
         mockAuthenticationService._stubbedTokenRefreshRequest = .success(.arrange)
         mockAuthenticationService._stubbedFetchIdentityVerificationResult = .success(
             .init(
-                verificationHash: "test-token",
-                sessionHash: "test-session",
+                token: "test-token",
             )
         )
         let mockAppEnvironmentService = MockAppEnvironmentService()
@@ -69,9 +29,9 @@ struct DVLAAuthenticationViewModelTests {
             },
             errorAction: { }
         )
-        await sut.refreshToken()
+        await sut.fetchIdentityVerification()
         #expect(completionActionWasCalled == true)
-        #expect(completionActionUrl?.absoluteString == "https://dvla.gov.uk/auth?verification=test-token&session=test-session")
+        #expect(completionActionUrl?.absoluteString == "https://dvla.gov.uk/auth?token=test-token")
     }
 
     @Test
@@ -89,8 +49,7 @@ struct DVLAAuthenticationViewModelTests {
                 errorActionWasCalled = true
             }
         )
-        await sut.refreshToken()
+        await sut.fetchIdentityVerification()
         #expect(errorActionWasCalled == true)
     }
 }
-

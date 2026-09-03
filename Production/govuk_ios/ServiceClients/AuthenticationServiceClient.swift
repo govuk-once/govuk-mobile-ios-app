@@ -18,8 +18,7 @@ protocol AuthenticationServiceClientInterface {
 }
 
 struct VerificationResult: Decodable {
-    let verificationHash: String
-    let sessionHash: String
+    let token: String
 }
 
 class AuthenticationServiceClient: AuthenticationServiceClientInterface {
