@@ -15,6 +15,7 @@ struct ValidityStatusView: View {
                         Text(title)
                             .font(.govUK.title3Semibold)
                             .multilineTextAlignment(.leading)
+                            .accessibilityAddTraits(.isHeader)
                     }
                     statusTextView
                 }
