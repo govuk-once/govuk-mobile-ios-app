@@ -1,6 +1,17 @@
 {
   "sourceLanguage" : "en-GB",
   "strings" : {
+    "followACountryEmptyTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No results found"
+          }
+        }
+      }
+    },
     "followACountryErrorTitle" : {
       "extractionState" : "manual",
       "localizations" : {

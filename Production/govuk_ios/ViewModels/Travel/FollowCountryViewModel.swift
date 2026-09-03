@@ -6,6 +6,7 @@ class FollowCountryViewModel: ObservableObject {
     enum ViewState {
         case loading
         case loaded
+        case empty
         case error
     }
 
@@ -54,7 +55,6 @@ class FollowCountryViewModel: ObservableObject {
                 case .success(let countries):
                     self?.allCountries = countries
                     self?.updateFilteredSections()
-                    self?.viewState = .loaded
                 case .failure:
                     self?.viewState = .error
                 }
@@ -103,5 +103,11 @@ class FollowCountryViewModel: ObservableObject {
         }
 
         filteredSections = buildSections(from: filtered)
+
+        if filteredSections.count > 0 {
+            self.viewState = .loaded
+        } else {
+            self.viewState = .empty
+        }
     }
 }
