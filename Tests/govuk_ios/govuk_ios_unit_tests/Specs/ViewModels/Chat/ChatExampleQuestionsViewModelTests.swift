@@ -20,6 +20,7 @@ struct ChatExampleQuestionsViewModelTests {
 
         #expect(sut.exampleQuestions.count == 3)
         #expect(sut.exampleQuestions.first?.body == "First question")
+        #expect(sut.exampleQuestions.first?.accessibilityLabel == "Try asking: First question")
     }
 
     @Test

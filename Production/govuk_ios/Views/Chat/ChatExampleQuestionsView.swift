@@ -10,6 +10,7 @@ struct ChatExampleQuestionsView: View {
                 .font(.govUK.body)
                 .foregroundStyle(Color(UIColor.govUK.text.secondary))
                 .padding(.trailing, 16)
+                .accessibilityHidden(true)
             ForEach(viewModel.exampleQuestions, id: \.id) { question in
                 Button {
                     askQuestion(question.body)
@@ -26,6 +27,7 @@ struct ChatExampleQuestionsView: View {
                             borderColor: Color(UIColor.govUK.text.link),
                             borderWidth: 1
                         )
+                        .accessibilityLabel(question.accessibilityLabel)
                 }
             }
         }
