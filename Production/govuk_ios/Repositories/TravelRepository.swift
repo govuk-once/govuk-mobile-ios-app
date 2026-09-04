@@ -3,11 +3,14 @@ import Foundation
 protocol TravelRepositoryInterface {
     func fetchGroups() -> [TravelGroup]?
     func store(groups: [TravelGroup])
+    func fetchCountries() -> [Country]?
+    func store(countries: [Country])
     func clear()
 }
 
 final class TravelRepository: TravelRepositoryInterface {
     private var groups: [TravelGroup]?
+    private var countries: [Country]?
 
     func fetchGroups() -> [TravelGroup]? {
         groups
@@ -17,7 +20,16 @@ final class TravelRepository: TravelRepositoryInterface {
         self.groups = groups
     }
 
+    func fetchCountries() -> [Country]? {
+        countries
+    }
+
+    func store(countries: [Country]) {
+        self.countries = countries
+    }
+
     func clear() {
-        groups = nil
+        groups?.removeAll()
+        countries?.removeAll()
     }
 }

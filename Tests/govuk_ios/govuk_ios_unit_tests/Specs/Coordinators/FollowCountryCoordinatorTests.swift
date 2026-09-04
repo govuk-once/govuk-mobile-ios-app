@@ -19,6 +19,7 @@ struct FollowCountryCoordinatorTests {
             coordinatorBuilder: CoordinatorBuilder.mock,
             viewControllerBuilder: mockViewControllerBuilder,
             analyticsService: MockAnalyticsService(),
+            travelService: MockTravelService(),
             userService: MockUserService(),
             completion: { _ in }
         )
@@ -38,6 +39,7 @@ struct FollowCountryCoordinatorTests {
             coordinatorBuilder: CoordinatorBuilder.mock,
             viewControllerBuilder: mockViewControllerBuilder,
             analyticsService: MockAnalyticsService(),
+            travelService: MockTravelService(),
             userService: MockUserService(),
             completion: { _ in }
         )

@@ -474,11 +474,14 @@ class MockViewControllerBuilder: ViewControllerBuilder {
     }
 
     var _stubbedSelectCountryViewController: UIViewController?
-        var _receivedSelectCountryDismissAction: (() -> Void)?
-        override func selectCountry(
-            dismissAction: @escaping () -> Void
-        ) -> UIViewController {
-            _receivedSelectCountryDismissAction = dismissAction
-            return _stubbedSelectCountryViewController ?? UIViewController()
-        }
+    var _receivedSelectCountryDismissAction: (() -> Void)?
+
+    override func followACountry(
+        travelService: TravelServiceInterface,
+        analyticsService: AnalyticsServiceInterface,
+        dismissAction: @escaping () -> Void
+    ) -> UIViewController {
+        _receivedSelectCountryDismissAction = dismissAction
+        return _stubbedSelectCountryViewController ?? UIViewController()
+    }
 }

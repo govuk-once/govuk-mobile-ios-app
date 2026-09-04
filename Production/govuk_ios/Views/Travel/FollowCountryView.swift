@@ -1,26 +1,66 @@
 import SwiftUI
+import GovKitUI
+import GovKit
+import UIKit
 
 struct FollowCountryView: View {
-    private var viewModel: FollowCountryViewModel
+    @StateObject var viewModel: FollowCountryViewModel
 
     init(viewModel: FollowCountryViewModel) {
-        self.viewModel = viewModel
+        _viewModel = StateObject(wrappedValue: viewModel)
+    }
+
+    private var searchBarAlignment: Alignment {
+        if #available(iOS 26.0, *) {
+            return .bottom
+        } else {
+            return .top
+        }
+    }
+
+    private var searchBarPadding: CGFloat {
+        let isLoaded = if case .loaded = viewModel.viewState { true } else { false }
+
+        return isLoaded ? 60 : 10
     }
 
     var body: some View {
-        GeometryReader { geometry in
-            VStack {
-                modifiedScrollView(geometry: geometry)
+        VStack {
+            Group {
+                switch viewModel.viewState {
+                case .loading:
+                    FollowCountryLoadingView()
+                case .loaded:
+                    GeometryReader { geometry in
+                        modifiedScrollView(geometry: geometry)
+                    }
+                case .error:
+                    FollowCountryErrorView()
+                }
             }
-            .ignoresSafeArea(.all, edges: .bottom)
-            .navigationTitle(String(localized: .Travel.followACountryTitle))
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                closeButton
-            }
-            .toolbarBackground(.hidden, for: .navigationBar)
-            .background(Color(.govUK.fills.surfaceModal))
+            .padding(.horizontal, 16)
         }
+        .task {
+            await viewModel.viewDidAppear()
+        }
+        .onAppear {
+            viewModel.trackScreen(screen: self)
+        }
+        .overlay(alignment: searchBarAlignment) {
+            if case .loaded = viewModel.viewState {
+                SearchBarView(text: $viewModel.searchText)
+                    .padding(.horizontal, 14)
+                    .padding(.bottom, 0)
+                    .background(.clear)
+            }
+        }
+        .navigationTitle(String(localized: .Travel.followACountryTitle))
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            closeButton
+        }
+        .toolbarBackground(Color(.govUK.fills.surfaceModal), for: .navigationBar)
+        .background(Color(.govUK.fills.surfaceModal))
     }
 
     private var closeButton: some ToolbarContent {
@@ -38,7 +78,14 @@ struct FollowCountryView: View {
     func modifiedScrollView(geometry: GeometryProxy) -> some View {
         if #available(iOS 17.0, *) {
             scrollView
-                .contentMargins(.bottom, geometry.safeAreaInsets.bottom, for: .scrollContent)
+                .contentMargins(
+                    .top, 10
+                )
+                .contentMargins(
+                    .bottom, searchBarAlignment == .bottom
+                    ? 10
+                    : geometry.safeAreaInsets.bottom, for: .scrollContent
+                )
         } else {
             scrollView
         }
@@ -47,10 +94,66 @@ struct FollowCountryView: View {
     @ViewBuilder
     var scrollView: some View {
         ScrollView {
-            Text(String.topics.localized("Placeholder"))
-                .multilineTextAlignment(.leading)
-                .padding(.horizontal, 12)
-                .padding(.top, 10)
+            VStack(spacing: 0) {
+                if searchBarAlignment == .top {
+                    Spacer()
+                        .frame(height: searchBarPadding)
+                }
+
+                GroupedList(
+                    content: viewModel.sections,
+                    sectionBackgroundColor: .govUK.fills.surfaceListAlt
+                )
+
+                if searchBarAlignment == .bottom {
+                    Spacer()
+                        .frame(height: searchBarPadding)
+                }
+            }
         }
     }
+}
+
+struct FollowCountryLoadingView: View {
+    var body: some View {
+        VStack(alignment: .center) {
+            Spacer()
+            ProgressView()
+                .controlSize(.large)
+                .accessibilityLabel(.Travel.followACountryScreenLoading)
+            Spacer()
+        }
+    }
+}
+
+struct FollowCountryErrorView: View {
+    var body: some View {
+        VStack(alignment: .center) {
+            Image(systemName: "exclamationmark.circle")
+                .resizable()
+                .frame(width: 32, height: 32)
+                .padding(.bottom, 16)
+                .accessibilityHidden(true)
+                .foregroundStyle(Color(GOVUKColors.text.iconTertiary))
+            Text(.Travel.followACountryErrorTitle)
+                .padding(.bottom, 8)
+                .font(Font.govUK.bodySemibold)
+                .fontWeight(.bold)
+                .multilineTextAlignment(.center)
+                .foregroundStyle(Color(GOVUKColors.text.primary))
+            Text(.Travel.followACountryScreenErrorBody)
+                .font(Font.govUK.body)
+                .multilineTextAlignment(.center)
+                .foregroundStyle(Color(UIColor.govUK.text.primary))
+            Spacer()
+        }
+        .padding(.horizontal, 32)
+        .padding(.top, 32)
+    }
+}
+
+extension FollowCountryView: TrackableScreen {
+    var trackingClass: String { "CountryListScreen" }
+    var trackingTitle: String? { "Follow a country" }
+    var trackingName: String { "Follow a country" }
 }

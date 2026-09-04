@@ -629,6 +629,7 @@ class CoordinatorBuilder {
             coordinatorBuilder: self,
             viewControllerBuilder: ViewControllerBuilder(),
             analyticsService: container.analyticsService.resolve(),
+            travelService: container.travelService.resolve(),
             userService: container.userService.resolve(),
             completion: completion
         )
