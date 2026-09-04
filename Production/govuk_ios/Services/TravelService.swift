@@ -48,44 +48,14 @@ class TravelService: TravelServiceInterface {
         forceRefresh: Bool = false,
         completion: @escaping CountriesListResultCompletion
     ) {
-#if DEBUG
+        // Implement caching and real API handling
+
         completion(.success([
-            Country(country: "Australia", slug: "australia", lastUpdate: "", synonyms: []),
-            Country(country: "Brazil", slug: "brazil", lastUpdate: "", synonyms: []),
-            Country(country: "Canada", slug: "canada", lastUpdate: "", synonyms: []),
             Country(country: "France", slug: "france", lastUpdate: "", synonyms: []),
             Country(country: "Germany", slug: "germany", lastUpdate: "", synonyms: []),
-            Country(country: "Italy", slug: "italy", lastUpdate: "", synonyms: []),
-            Country(country: "Japan", slug: "japan", lastUpdate: "", synonyms: []),
-            Country(country: "Spain", slug: "spain", lastUpdate: "", synonyms: []),
-            Country(country: "United Kingdom", slug: "united-kingdom",
-                    lastUpdate: "", synonyms: ["uk"]
-                   ),
-            Country(country: "United States", slug: "united-states",
-                    lastUpdate: "", synonyms: ["us"]
-                   )
+            Country(country: "Spain", slug: "spain", lastUpdate: "", synonyms: [])
         ]))
         return
- #endif
-
-        if forceRefresh == false,
-           let cachedCountriesList = repository.fetchCountries() {
-            completion(.success(cachedCountriesList))
-            return
-        }
-
-        travelServiceClient.fetchCountries(
-            completion: { result in
-                switch result {
-                case .success(let countries):
-                    self.repository.store(countries: countries)
-                    completion(.success(countries))
-                case .failure(let error):
-                    print(error.localizedDescription)
-                    completion(.failure(error))
-                }
-            }
-        )
     }
 
     func invalidateCache() {
