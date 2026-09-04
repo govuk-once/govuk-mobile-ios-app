@@ -327,6 +327,7 @@ class MockViewControllerBuilder: ViewControllerBuilder {
     override func chat(
         analyticsService: AnalyticsServiceInterface,
         chatService: ChatServiceInterface,
+        configService: AppConfigServiceInterface,
         openURLAction: @escaping (URL) -> Void,
         handleError: @escaping (ChatError) -> Void
     ) -> UIViewController {
