@@ -26,6 +26,7 @@ struct ChatExampleQuestionsView: View {
                             borderColor: Color(UIColor.govUK.text.link),
                             borderWidth: 1
                         )
+                        .accessibilityLabel(question.accessibilityLabel)
                 }
             }
         }

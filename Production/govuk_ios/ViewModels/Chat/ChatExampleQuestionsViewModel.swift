@@ -19,12 +19,16 @@ struct ChatExampleQuestionsViewModel {
         else { return [] }
 
         return exampleQuestions.map { question in
-            ChatExampleQuestion(body: question)
+            ChatExampleQuestion(
+                body: question,
+                accessibilityLabel: "\(String(localized: .Chat.exampleQuestionsTitle)) " + question
+            )
         }
     }
 
     struct ChatExampleQuestion: Identifiable {
         let id = UUID()
         let body: String
+        let accessibilityLabel: String
     }
 }
