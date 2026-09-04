@@ -300,4 +300,25 @@ struct FollowCountryViewModelTests {
         let rows = viewModel.filteredSections.first?.rows ?? []
         #expect(rows.count == 2)
     }
+
+    func followCountryViewModel_initialisedWithDependencies() {
+        let mockTravelService = MockTravelService()
+        let mockAnalyticsService = MockAnalyticsService()
+        var dismissActionCalled = false
+        let sut = TravelAlertsWidgetViewModel(
+            travelService: mockTravelService,
+            analyticsService: mockAnalyticsService,
+            linkAction: { /*Empty For Tests*/ },
+            dismissAction: { dismissActionCalled = true }
+        )
+
+        let followCountryVM = sut.followCountryViewModel
+
+        #expect(followCountryVM != nil)
+
+        followCountryVM.dismissAction()
+
+        #expect(dismissActionCalled == true)
+        #expect(sut.isShowingList == false)
+    }
 }

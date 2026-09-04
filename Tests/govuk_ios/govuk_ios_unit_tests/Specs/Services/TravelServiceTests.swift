@@ -90,6 +90,26 @@ struct TravelServiceTests {
         sut.invalidateCache()
         #expect(mockTravelRepository._clearCalled)
     }
+
+
+
+    @Test
+    func getCountries_clientReturnsCountries_returnsValues() async throws {
+        mockTravelRepository._fetchCountriesResult = nil
+
+        let result = await withCheckedContinuation { continuation in
+            sut.getCountries { result in
+                continuation.resume(returning: result)
+            }
+            mockTravelServiceClient
+                ._receivedFetchCountriesCompletion?(.success(Self.remoteCountries))
+        }
+
+        let groups = try #require(try? result.get())
+        #expect(groups == Self.remoteCountries)
+        #expect(mockTravelServiceClient._fetchCountriesCallCount == 0)
+    }
+
 }
 
 private extension TravelServiceTests {
@@ -99,5 +119,16 @@ private extension TravelServiceTests {
 
     static let remoteGroups: [TravelGroup] = [
         TravelGroup(namespace: "travel-advice", group: "travel-group-2", subgroup: "travel-subgroup-2")
+    ]
+
+    static let cachedCountries: [Country] = [
+        Country(country: "United Kingdom", slug: "united-kingdom", lastUpdate: "2024-01-01", synonyms: ["UK"]),
+        Country(country: "France", slug: "france", lastUpdate: "2024-01-01", synonyms: [])
+    ]
+
+    static let remoteCountries: [Country] = [
+        Country(country: "France", slug: "france", lastUpdate: "", synonyms: []),
+        Country(country: "Germany", slug: "germany", lastUpdate: "", synonyms: []),
+        Country(country: "Spain", slug: "spain", lastUpdate: "", synonyms: [])
     ]
 }

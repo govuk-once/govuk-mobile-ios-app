@@ -7,9 +7,9 @@ class MockTravelRepository: TravelRepositoryInterface {
         _fetchGroupsResult
     }
 
-    var _fetchCountiresResult: [Country]?
+    var _fetchCountriesResult: [Country]?
     func fetchCountries() -> [Country]? {
-        _fetchCountiresResult
+        _fetchCountriesResult
     }
 
     var _storedGroups: [TravelGroup]?

@@ -88,9 +88,7 @@ struct FollowCountryView: View {
         if #available(iOS 17.0, *) {
             scrollView
                 .contentMargins(
-                    .top, searchBarAlignment == .top
-                    ? 10
-                    : 10, for: .scrollContent
+                    .top, 10
                 )
                 .contentMargins(
                     .bottom, searchBarAlignment == .bottom
@@ -189,6 +187,7 @@ private struct FollowCountryEmptyView: View {
 }
 
 extension FollowCountryView: TrackableScreen {
-    var trackingTitle: String? { trackingName }
-    var trackingName: String { "FollowACountryScreen" }
+    var trackingClass: String { "CountryListScreen" }
+    var trackingTitle: String? { "Follow a country" }
+    var trackingName: String { "Follow a country" }
 }

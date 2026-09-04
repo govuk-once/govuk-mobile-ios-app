@@ -19,7 +19,7 @@ extension GOVRequest {
 
     static var countriesList: GOVRequest {
         GOVRequest(
-            urlPath: "app/travel/v1/countries",
+            urlPath: "/app/travel/v1/countries",
             method: .get,
             body: nil,
             queryParameters: nil,
