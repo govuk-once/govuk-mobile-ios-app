@@ -70,7 +70,7 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
             )
         case .notTaxedForOnRoadUse:
             return makeTaxNotNeededViewModel()
-        default:
+        case .unknown:
             return makeNotKnownViewModel()
         }
     }
