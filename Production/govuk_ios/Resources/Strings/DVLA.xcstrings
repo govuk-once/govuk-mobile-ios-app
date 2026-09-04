@@ -992,6 +992,17 @@
         }
       }
     },
+    "notFoundContactDVLA" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not found - contact DVLA"
+          }
+        }
+      }
+    },
     "offTheRoadSorn" : {
       "extractionState" : "manual",
       "localizations" : {

@@ -145,9 +145,11 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
 
     // MARK: - Unknown
     private func makeNotKnownViewModel() -> ValidityStatusViewModel {
+        let unknownStatus: TaxValidityStatus = .unknown
         return ValidityStatusViewModel(
             title: String(localized: .DVLA.taxStatusTitle),
-            formattedStatus: String(localized: .DVLA.unknown)
+            formattedStatus: String(localized: .DVLA.notFoundContactDVLA),
+            status: unknownStatus
         )
     }
 
