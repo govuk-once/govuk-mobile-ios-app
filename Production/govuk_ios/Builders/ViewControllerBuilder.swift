@@ -900,7 +900,9 @@ class ViewControllerBuilder {
         let viewModel = FollowCountryViewModel(
             travelService: travelService,
             analyticsService: analyticsService,
-            countrySelectedAction: { _ in },
+            countrySelectedAction: { _ in
+                // To be applied in upcoming work
+            },
             dismissAction: dismissAction
         )
         let view = FollowCountryView(viewModel: viewModel)

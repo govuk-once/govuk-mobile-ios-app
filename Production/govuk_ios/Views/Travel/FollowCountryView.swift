@@ -155,6 +155,7 @@ struct FollowCountryErrorView: View {
 }
 
 extension FollowCountryView: TrackableScreen {
-    var trackingTitle: String? { trackingName }
-    var trackingName: String { "FollowACountryScreen" }
+    var trackingClass: String { "CountryListScreen" }
+    var trackingTitle: String? { "Follow a country" }
+    var trackingName: String { "Follow a country" }
 }
