@@ -10,7 +10,7 @@ struct ChatExampleQuestionsView: View {
                 .font(.govUK.body)
                 .foregroundStyle(Color(UIColor.govUK.text.secondary))
                 .padding(.trailing, 16)
-            ForEach(viewModel.exampleQuestions ?? [], id: \.id) { question in
+            ForEach(viewModel.exampleQuestions, id: \.id) { question in
                 Button {
                     askQuestion(question.body)
                 } label: {
