@@ -60,6 +60,45 @@ struct ValidityStatusView: View {
 
     @ViewBuilder
     private var statusTextView: some View {
+        if let status = (viewModel.status as? TaxValidityStatus) {
+            switch status {
+            case .unknown:
+                unknownStatusView
+            case .notTaxedForOnRoadUse,
+                    .sorn,
+                    .futureSorn,
+                    .untaxed,
+                    .taxed:
+                knownStatusTextView
+            }
+        } else {
+            knownStatusTextView
+        }
+    }
+
+    @ViewBuilder
+    private var unknownStatusView: some View {
+        if !viewModel.formattedStatus.isEmpty {
+            if let statusLinkAction = viewModel.statusLinkAction {
+                Button(action: statusLinkAction) {
+                    Text(viewModel.formattedStatus)
+                        .multilineTextAlignment(.leading)
+                        .accessibilityLabel(
+                            viewModel.statusAccessibilityLabel ?? viewModel.formattedStatus
+                        )
+                }
+            } else {
+                Text(viewModel.formattedStatus)
+                    .multilineTextAlignment(.leading)
+                    .accessibilityLabel(
+                        viewModel.statusAccessibilityLabel ?? viewModel.formattedStatus
+                    )
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var knownStatusTextView: some View {
         if let statusAccessibilityLabel = viewModel.statusAccessibilityLabel {
             Text(viewModel.formattedStatus)
                 .multilineTextAlignment(.leading)
