@@ -137,7 +137,7 @@ struct CountryListViewModelTests {
             Country(country: "Argentina", slug: "argentina", lastUpdate: "", synonyms: []),
             Country(country: "Belgium", slug: "belgium", lastUpdate: "", synonyms: [])
         ])
-        let viewModel = FollowCountryViewModel(
+        let viewModel = CountryListViewModel(
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             countrySelectedAction: { _ in /*EmptyForTests*/ },
@@ -161,7 +161,7 @@ struct CountryListViewModelTests {
             Country(country: "United Kingdom", slug: "uk", lastUpdate: "", synonyms: ["Great Britain", "UK"]),
             Country(country: "United States", slug: "usa", lastUpdate: "", synonyms: ["America", "US"])
         ])
-        let viewModel = FollowCountryViewModel(
+        let viewModel = CountryListViewModel(
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             countrySelectedAction: { _ in /*EmptyForTests*/ },
@@ -185,7 +185,7 @@ struct CountryListViewModelTests {
             Country(country: "Brazil", slug: "brazil", lastUpdate: "", synonyms: []),
             Country(country: "Argentina", slug: "argentina", lastUpdate: "", synonyms: [])
         ])
-        let viewModel = FollowCountryViewModel(
+        let viewModel = CountryListViewModel(
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             countrySelectedAction: { _ in /*EmptyForTests*/ },
@@ -209,7 +209,7 @@ struct CountryListViewModelTests {
             Country(country: "Brazil", slug: "brazil", lastUpdate: "", synonyms: []),
             Country(country: "Argentina", slug: "argentina", lastUpdate: "", synonyms: [])
         ])
-        let viewModel = FollowCountryViewModel(
+        let viewModel = CountryListViewModel(
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             countrySelectedAction: { _ in /*EmptyForTests*/ },
@@ -233,7 +233,7 @@ struct CountryListViewModelTests {
             Country(country: "Brazil", slug: "brazil", lastUpdate: "", synonyms: []),
             Country(country: "Argentina", slug: "argentina", lastUpdate: "", synonyms: [])
         ])
-        let viewModel = FollowCountryViewModel(
+        let viewModel = CountryListViewModel(
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             countrySelectedAction: { _ in /*EmptyForTests*/ },
@@ -257,7 +257,7 @@ struct CountryListViewModelTests {
             Country(country: "Brazil", slug: "brazil", lastUpdate: "", synonyms: []),
             Country(country: "Argentina", slug: "argentina", lastUpdate: "", synonyms: [])
         ])
-        let viewModel = FollowCountryViewModel(
+        let viewModel = CountryListViewModel(
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             countrySelectedAction: { _ in /*EmptyForTests*/ },
@@ -285,7 +285,7 @@ struct CountryListViewModelTests {
             Country(country: "British Virgin Islands", slug: "british virgin islands", lastUpdate: "", synonyms: ["bvi"]),
             Country(country: "Argentina", slug: "argentina", lastUpdate: "", synonyms: [])
         ])
-        let viewModel = FollowCountryViewModel(
+        let viewModel = CountryListViewModel(
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             countrySelectedAction: { _ in /*EmptyForTests*/ },
