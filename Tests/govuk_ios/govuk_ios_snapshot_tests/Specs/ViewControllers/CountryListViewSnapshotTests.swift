@@ -6,7 +6,7 @@ import GovKit
 @testable import govuk_ios
 
 @MainActor
-final class FollowCountryViewSnapshotTests: SnapshotTestCase {
+final class CountryListViewSnapshotTests: SnapshotTestCase {
     var coreData: CoreDataRepository!
 
     func test_loadInNavigationController_light_rendersCorrectly() {
@@ -229,10 +229,10 @@ final class FollowCountryViewSnapshotTests: SnapshotTestCase {
          )
      }
 
-    private func makeViewModel(travelService: TravelServiceInterface? = nil) -> FollowCountryViewModel {
+    private func makeViewModel(travelService: TravelServiceInterface? = nil) -> CountryListViewModel {
         let mockTravelService = travelService ?? MockTravelService()
         let analyticsService = MockAnalyticsService()
-        return FollowCountryViewModel(
+        return CountryListViewModel(
             travelService: mockTravelService,
             analyticsService: analyticsService,
             countrySelectedAction: { _ in /*Empty for tests*/},
@@ -240,8 +240,8 @@ final class FollowCountryViewSnapshotTests: SnapshotTestCase {
         )
     }
 
-    private func makeViewController(viewModel: FollowCountryViewModel) -> UIViewController {
-        let view = FollowCountryView(viewModel: viewModel)
+    private func makeViewController(viewModel: CountryListViewModel) -> UIViewController {
+        let view = CountryListView(viewModel: viewModel)
         let viewController = HostingViewController(rootView: view)
         viewController.view.backgroundColor = .govUK.fills.surfaceModal
         return viewController

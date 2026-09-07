@@ -24,7 +24,8 @@ class MockAppConfigService: AppConfigServiceInterface {
         .localServices,
         .dvla,
         .messages,
-        .travelAlerts
+        .travelAlerts,
+        .quarterlySurvey
     ]
 
     var _stubbedAlertBanner: AlertBanner?
@@ -43,19 +44,6 @@ class MockAppConfigService: AppConfigServiceInterface {
     )
     var chatBannerLink: ChatBanner.Link {
         _stubbedChatBannerLink
-    }
-
-    var _stubbedUserFeedbackBanner: UserFeedbackBanner?
-    var userFeedbackBanner: UserFeedbackBanner? {
-        _stubbedUserFeedbackBanner
-    }
-
-    var _stubbedUserFeedbackBannerLink: UserFeedbackBanner.Link = .init(
-        title: "test",
-        url: URL(string: "https://test.com")!
-    )
-    var userFeedbackBannerLink: UserFeedbackBanner.Link {
-        _stubbedUserFeedbackBannerLink
     }
 
     var _stubbedEmergencyBanners: [EmergencyBanner]?

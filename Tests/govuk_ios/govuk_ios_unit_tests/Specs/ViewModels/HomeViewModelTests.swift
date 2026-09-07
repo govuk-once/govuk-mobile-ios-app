@@ -73,7 +73,7 @@ struct HomeViewModelTests {
         let widgets = subject.widgets
       
         #expect((widgets as Any) is [HomepageWidget])
-        #expect(widgets.count == 6)
+        #expect(widgets.count == 7)
     }
 
     @Test
@@ -81,7 +81,6 @@ struct HomeViewModelTests {
         let coreData = await CoreDataRepository.arrangeAndLoad
         let configService = MockAppConfigService()
         configService.features = []
-
 
         let topicsViewModel = TopicsWidgetViewModel(
             topicsService: MockTopicsService(),

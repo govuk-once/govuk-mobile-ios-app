@@ -13,4 +13,5 @@ enum Feature: String {
     case dvla
     case messages
     case travelAlerts = "travelalerts"
+    case quarterlySurvey
 }

@@ -559,18 +559,18 @@ struct CoordinatorBuilderTests {
     }
 
     @Test
-    func followCountry_returnsExpectedResult() {
+    func countryList_returnsExpectedResult() {
         let container = Container()
         container.userService.register { MockUserService() }
         container.analyticsService.register(factory: { MockAnalyticsService() })
         let subject = CoordinatorBuilder(container: container)
         let coordinator = subject
-            .followCountry(
+            .countryList(
                 navigationController: UINavigationController(),
                 completion: { _ in }
             )
 
-        #expect(coordinator is FollowCountryCoordinator)
+        #expect(coordinator is CountryListCoordinator)
     }
 }
 

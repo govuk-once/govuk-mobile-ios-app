@@ -2,7 +2,7 @@ import UIKit
 import GovKit
 import AuthenticationServices
 
-final class FollowCountryCoordinator: BaseCoordinator {
+final class CountryListCoordinator: BaseCoordinator {
     private let coordinatorBuilder: CoordinatorBuilder
     private let viewControllerBuilder: ViewControllerBuilder
     private let analyticsService: AnalyticsServiceInterface
@@ -27,11 +27,11 @@ final class FollowCountryCoordinator: BaseCoordinator {
     }
 
     override func start(url: URL?) {
-        followACountry()
+        showCountryList()
     }
 
-    private func followACountry() {
-        let viewController = viewControllerBuilder.followACountry(
+    private func showCountryList() {
+        let viewController = viewControllerBuilder.countryList(
             travelService: travelService,
             analyticsService: analyticsService,
             dismissAction: dismissModal

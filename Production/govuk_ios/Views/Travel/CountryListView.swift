@@ -3,10 +3,10 @@ import GovKitUI
 import GovKit
 import UIKit
 
-struct FollowCountryView: View {
-    @StateObject var viewModel: FollowCountryViewModel
+struct CountryListView: View {
+    @StateObject var viewModel: CountryListViewModel
 
-    init(viewModel: FollowCountryViewModel) {
+    init(viewModel: CountryListViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
 
@@ -30,7 +30,7 @@ struct FollowCountryView: View {
             Group {
                 switch viewModel.viewState {
                 case .loading:
-                    FollowCountryLoadingView()
+                    CountryListLoadingView()
                 case .loaded:
                     GeometryReader { geometry in
                         modifiedScrollView(geometry: geometry)
@@ -41,10 +41,10 @@ struct FollowCountryView: View {
                         searchBarPadding: searchBarPadding
                     )
                 case .error:
-                    FollowCountryErrorView()
+                    ErrorView(viewModel: createErrorViewModel())
                 }
             }
-            .padding(.horizontal, 16)
+            .padding(.horizontal, viewModel.viewState == .error ? 0 : 16)
         }
         .task {
             await viewModel.viewDidAppear()
@@ -63,7 +63,7 @@ struct FollowCountryView: View {
                 EmptyView()
             }
         }
-        .navigationTitle(String(localized: .Travel.followACountryTitle))
+        .navigationTitle(String(localized: .Travel.countryListTitle))
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             closeButton
@@ -123,44 +123,15 @@ struct FollowCountryView: View {
     }
 }
 
-struct FollowCountryLoadingView: View {
+struct CountryListLoadingView: View {
     var body: some View {
         VStack(alignment: .center) {
             Spacer()
             ProgressView()
                 .controlSize(.large)
-                .accessibilityLabel(.Travel.followACountryScreenLoading)
+                .accessibilityLabel(.Travel.countryListScreenLoading)
             Spacer()
         }
-    }
-}
-
-struct FollowCountryErrorView: View {
-    var body: some View {
-        VStack(alignment: .center) {
-            Image(systemName: "exclamationmark.circle")
-                .resizable()
-                .frame(width: 32, height: 32)
-                .padding(.bottom, 16)
-                .accessibilityHidden(true)
-                .foregroundStyle(Color(GOVUKColors.text.iconTertiary))
-
-            Text(.Travel.followACountryErrorTitle)
-                .padding(.bottom, 8)
-                .font(Font.govUK.bodySemibold)
-                .fontWeight(.bold)
-                .multilineTextAlignment(.center)
-                .foregroundStyle(Color(GOVUKColors.text.primary))
-
-            Text(.Travel.followACountryScreenErrorBody)
-                .font(Font.govUK.body)
-                .multilineTextAlignment(.center)
-                .foregroundStyle(Color(UIColor.govUK.text.primary))
-
-            Spacer()
-        }
-        .padding(.horizontal, 32)
-        .padding(.top, 32)
     }
 }
 
@@ -175,7 +146,7 @@ private struct FollowCountryEmptyView: View {
                     .frame(height: searchBarPadding)
             }
 
-            Text(String(localized: .Travel.followACountryEmptyTitle))
+            Text(String(localized: .Travel.countryListScreenEmptyTitle))
                 .font(Font.govUK.body)
                 .multilineTextAlignment(.center)
                 .foregroundStyle(Color(GOVUKColors.text.primary))
@@ -186,8 +157,27 @@ private struct FollowCountryEmptyView: View {
     }
 }
 
-extension FollowCountryView: TrackableScreen {
+extension CountryListView: TrackableScreen {
     var trackingClass: String { "CountryListScreen" }
     var trackingTitle: String? { "Follow a country" }
     var trackingName: String { "Follow a country" }
+}
+
+extension CountryListView {
+    private func createErrorViewModel() -> ErrorViewModel {
+        ErrorViewModel(
+            analyticsService: viewModel.analyticsService,
+            title: String(localized: .Travel.countryListScreenErrorTitle),
+            subtitle: String(localized: .Travel.countryListScreenErrorBody),
+            systemImageName: "exclamationmark.circle",
+            primaryButtonTitle: String(localized: .Travel.countryListScreenErrorButtonTitle),
+            primaryAction: { [weak viewModel] in
+                Task {
+                    await viewModel?.retryFetchCountryList()
+                }
+            },
+            contentAlignment: .center,
+            trackingName: "CountryListErrorScreen"
+        )
+    }
 }

@@ -6,13 +6,13 @@ import Testing
 
 @Suite
 @MainActor
-struct FollowCountryViewModelTests {
+struct CountryListViewModelTests {
 
     @Test
     func dismissAction_executesClosure() {
         var didCallDismiss = false
 
-        let viewModel = FollowCountryViewModel(
+        let viewModel = CountryListViewModel(
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
             countrySelectedAction: { _ in /*EmptyForTests*/ },
@@ -28,13 +28,13 @@ struct FollowCountryViewModelTests {
     @Test
     func trackScreen_createsCorrectEvent() {
         let mockAnalyticsService = MockAnalyticsService()
-        let viewModel = FollowCountryViewModel(
+        let viewModel = CountryListViewModel(
             travelService: MockTravelService(),
             analyticsService: mockAnalyticsService,
             countrySelectedAction: { _ in /*EmptyForTests*/ },
             dismissAction: { /*EmptyForTests*/ })
 
-        let screen = FollowCountryView(viewModel: viewModel)
+        let screen = CountryListView(viewModel: viewModel)
         viewModel.trackScreen(screen: screen)
 
         let screens = mockAnalyticsService._trackScreenReceivedScreens
@@ -49,7 +49,7 @@ struct FollowCountryViewModelTests {
             Country(country: "Brazil", slug: "brazil", lastUpdate: "", synonyms: []),
             Country(country: "Argentina", slug: "argentina", lastUpdate: "", synonyms: [])
         ])
-        let viewModel = FollowCountryViewModel(
+        let viewModel = CountryListViewModel(
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             countrySelectedAction: { _ in /*EmptyForTests*/ },
@@ -80,7 +80,7 @@ struct FollowCountryViewModelTests {
     func viewDidAppear_whenFetchFails_setsErrorStateAndClearsSections() async {
         let mockTravelService = MockTravelService()
         mockTravelService._stubbedGetCountriesResult = .failure(.apiUnavailable)
-        let viewModel = FollowCountryViewModel(
+        let viewModel = CountryListViewModel(
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             countrySelectedAction: { _ in /*EmptyForTests*/ },
@@ -111,7 +111,7 @@ struct FollowCountryViewModelTests {
         mockTravelService._stubbedGetCountriesResult = .success([selectedCountry])
 
         var capturedCountry: Country?
-        let viewModel = FollowCountryViewModel(
+        let viewModel = CountryListViewModel(
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             countrySelectedAction: { country in
@@ -301,7 +301,7 @@ struct FollowCountryViewModelTests {
         #expect(rows.count == 2)
     }
 
-    func followCountryViewModel_initialisedWithDependencies() {
+    func countryListViewModel_initialisedWithDependencies() {
         let mockTravelService = MockTravelService()
         let mockAnalyticsService = MockAnalyticsService()
         var dismissActionCalled = false
@@ -312,11 +312,11 @@ struct FollowCountryViewModelTests {
             dismissAction: { dismissActionCalled = true }
         )
 
-        let followCountryVM = sut.followCountryViewModel
+        let countryListVM = sut.countryListViewModel
 
-        #expect(followCountryVM != nil)
+        #expect(countryListVM != nil)
 
-        followCountryVM.dismissAction()
+        countryListVM.dismissAction()
 
         #expect(dismissActionCalled == true)
         #expect(sut.isShowingList == false)

@@ -5,7 +5,7 @@ import Testing
 
 @Suite
 @MainActor
-struct FollowCountryCoordinatorTests {
+struct CountryListCoordinatorTests {
 
     @Test
     func start_setsSelectCountryViewController() {
@@ -14,7 +14,7 @@ struct FollowCountryCoordinatorTests {
         let expectedViewController = UIViewController()
         mockViewControllerBuilder._stubbedSelectCountryViewController = expectedViewController
 
-        let sut = FollowCountryCoordinator(
+        let sut = CountryListCoordinator(
             navigationController: mockNavigationController,
             coordinatorBuilder: CoordinatorBuilder.mock,
             viewControllerBuilder: mockViewControllerBuilder,
@@ -34,7 +34,7 @@ struct FollowCountryCoordinatorTests {
         let mockNavigationController = MockNavigationController()
         let mockViewControllerBuilder = MockViewControllerBuilder()
 
-        let sut = FollowCountryCoordinator(
+        let sut = CountryListCoordinator(
             navigationController: mockNavigationController,
             coordinatorBuilder: CoordinatorBuilder.mock,
             viewControllerBuilder: mockViewControllerBuilder,
