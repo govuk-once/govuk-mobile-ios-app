@@ -570,6 +570,7 @@
 		D0F6813E2DD4CF8E004421C0 /* LocalAuthorityPostcodeEntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F6813C2DD4CF8E004421C0 /* LocalAuthorityPostcodeEntryViewModel.swift */; };
 		D0F6813F2DD4CF8E004421C0 /* LocalAuthorityWidgetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F6813D2DD4CF8E004421C0 /* LocalAuthorityWidgetViewModel.swift */; };
 		D0F681402DD4CF8E004421C0 /* LocalAuthorityExplainerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F6813B2DD4CF8E004421C0 /* LocalAuthorityExplainerViewModel.swift */; };
+		DE523C72304EF43E00C0605C /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE523C71304EF43E00C0605C /* Notification.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1172,6 +1173,7 @@
 		D0F6813B2DD4CF8E004421C0 /* LocalAuthorityExplainerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthorityExplainerViewModel.swift; sourceTree = "<group>"; };
 		D0F6813C2DD4CF8E004421C0 /* LocalAuthorityPostcodeEntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthorityPostcodeEntryViewModel.swift; sourceTree = "<group>"; };
 		D0F6813D2DD4CF8E004421C0 /* LocalAuthorityWidgetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthorityWidgetViewModel.swift; sourceTree = "<group>"; };
+		DE523C71304EF43E00C0605C /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -2430,8 +2432,9 @@
 				1631DE982C2B0D020050CB9D /* DeviceInformationProvider.swift */,
 				815018EA2F7D28F000E7469C /* DVLA */,
 				8154B58E2FB727CB00792FB5 /* ErrorViewModel.swift */,
-				4E265F142DB0E6B70089CF9E /* LocalAuthority */,
 				81D53D642FD8447500E25622 /* LinkedServiceAccounts.swift */,
+				4E265F142DB0E6B70089CF9E /* LocalAuthority */,
+				DE523C70304EF43300C0605C /* Messages */,
 				33D4AF272F6C20F000C74038 /* NotificationCentre */,
 				5DCCCBBC2EA0F5690097430C /* ReturningUserServiceError.swift */,
 				D0D9CB922D3024C00051EDDD /* Search */,
@@ -2953,6 +2956,14 @@
 				D05AF4D92CAD3C2900F86DD0 /* TopicDetailView.swift */,
 			);
 			path = Topics;
+			sourceTree = "<group>";
+		};
+		DE523C70304EF43300C0605C /* Messages */ = {
+			isa = PBXGroup;
+			children = (
+				DE523C71304EF43E00C0605C /* Notification.swift */,
+			);
+			path = Messages;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -3647,6 +3658,7 @@
 				5D41DB652C087BCE0011E691 /* Container+Services.swift in Sources */,
 				81217B8D2FD0B5B90048BBCD /* VehiclesViewModel.swift in Sources */,
 				3D9FD4BE2E79C37B00928E92 /* ChatDeeplinkRoute.swift in Sources */,
+				DE523C72304EF43E00C0605C /* Notification.swift in Sources */,
 				3D15E7B42CB5630D0046CE64 /* AppRecommendUpdateContainerViewModel.swift in Sources */,
 				16A4421A2F1E8C82000AAAA6 /* ExpandingButtonStyle.swift in Sources */,
 				5DCAFA752D4004E700C3F284 /* NotificationService.swift in Sources */,
