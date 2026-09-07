@@ -1,29 +1,7 @@
 {
   "sourceLanguage" : "en-GB",
   "strings" : {
-    "followACountryErrorButtonTitle" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Try again"
-          }
-        }
-      }
-    },
-    "followACountryErrorTitle" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "There’s a problem"
-          }
-        }
-      }
-    },
-    "followACountryScreenErrorBody" : {
+    "countryListScreenErrorBody" : {
       "extractionState" : "manual",
       "localizations" : {
         "en-GB" : {
@@ -34,7 +12,29 @@
         }
       }
     },
-    "followACountryScreenLoading" : {
+    "countryListScreenErrorButtonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try again"
+          }
+        }
+      }
+    },
+    "countryListScreenErrorTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "There’s a problem"
+          }
+        }
+      }
+    },
+    "countryListScreenLoading" : {
       "extractionState" : "manual",
       "localizations" : {
         "en-GB" : {
@@ -45,7 +45,7 @@
         }
       }
     },
-    "followACountryTitle" : {
+    "countryListTitle" : {
       "extractionState" : "manual",
       "localizations" : {
         "en-GB" : {

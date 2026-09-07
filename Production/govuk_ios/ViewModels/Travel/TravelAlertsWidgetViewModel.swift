@@ -31,8 +31,8 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
         self.dismissAction = dismissAction
     }
 
-    lazy var followCountryViewModel: FollowCountryViewModel = {
-        FollowCountryViewModel(
+    lazy var countryListViewModel: CountryListViewModel = {
+        CountryListViewModel(
             travelService: travelService,
             analyticsService: analyticsService,
             countrySelectedAction: { _ in

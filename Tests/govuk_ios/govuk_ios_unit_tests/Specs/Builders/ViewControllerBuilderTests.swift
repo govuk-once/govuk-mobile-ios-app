@@ -495,16 +495,16 @@ struct ViewControllerBuilderTests {
     }
 
     @Test
-    func followCountry_returnsExpectedResult() {
+    func countryList_returnsExpectedResult() {
         let subject = ViewControllerBuilder()
-        let result = subject.followACountry(
+        let result = subject.countryList(
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
             dismissAction: {
                 /* No-op */
             })
 
-        let rootView = (result as? HostingViewController<FollowCountryView>)?.rootView
+        let rootView = (result as? HostingViewController<CountryListView>)?.rootView
         #expect(rootView != nil)
     }
 }

@@ -31,8 +31,8 @@ struct TravelAlertsWidgetView: View {
                 viewModel.didDismissList()
             }, content: {
                 NavigationView {
-                    FollowCountryView(
-                        viewModel: viewModel.followCountryViewModel
+                    CountryListView(
+                        viewModel: viewModel.countryListViewModel
                     )
                 }
             }

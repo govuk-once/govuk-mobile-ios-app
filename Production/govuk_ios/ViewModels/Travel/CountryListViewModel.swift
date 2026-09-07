@@ -2,7 +2,7 @@ import Foundation
 import GovKitUI
 import GovKit
 
-class FollowCountryViewModel: ObservableObject {
+class CountryListViewModel: ObservableObject {
     enum ViewState {
         case loading
         case loaded

@@ -3,10 +3,10 @@ import GovKitUI
 import GovKit
 import UIKit
 
-struct FollowCountryView: View {
-    @StateObject var viewModel: FollowCountryViewModel
+struct CountryListView: View {
+    @StateObject var viewModel: CountryListViewModel
 
-    init(viewModel: FollowCountryViewModel) {
+    init(viewModel: CountryListViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
 
@@ -29,7 +29,7 @@ struct FollowCountryView: View {
             Group {
                 switch viewModel.viewState {
                 case .loading:
-                    FollowCountryLoadingView()
+                    CountryListLoadingView()
                 case .loaded:
                     GeometryReader { geometry in
                         modifiedScrollView(geometry: geometry)
@@ -54,7 +54,7 @@ struct FollowCountryView: View {
                     .background(.clear)
             }
         }
-        .navigationTitle(String(localized: .Travel.followACountryTitle))
+        .navigationTitle(String(localized: .Travel.countryListTitle))
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             closeButton
@@ -114,32 +114,32 @@ struct FollowCountryView: View {
     }
 }
 
-struct FollowCountryLoadingView: View {
+struct CountryListLoadingView: View {
     var body: some View {
         VStack(alignment: .center) {
             Spacer()
             ProgressView()
                 .controlSize(.large)
-                .accessibilityLabel(.Travel.followACountryScreenLoading)
+                .accessibilityLabel(.Travel.countryListScreenLoading)
             Spacer()
         }
     }
 }
 
-extension FollowCountryView: TrackableScreen {
+extension CountryListView: TrackableScreen {
     var trackingClass: String { "CountryListScreen" }
     var trackingTitle: String? { "Follow a country" }
     var trackingName: String { "Follow a country" }
 }
 
-extension FollowCountryView {
+extension CountryListView {
     private func createErrorViewModel() -> ErrorViewModel {
         ErrorViewModel(
             analyticsService: viewModel.analyticsService,
-            title: String(localized: .Travel.followACountryErrorTitle),
-            subtitle: String(localized: .Travel.followACountryScreenErrorBody),
+            title: String(localized: .Travel.countryListScreenErrorTitle),
+            subtitle: String(localized: .Travel.countryListScreenErrorBody),
             systemImageName: "exclamationmark.circle",
-            primaryButtonTitle: String(localized: .Travel.followACountryErrorButtonTitle),
+            primaryButtonTitle: String(localized: .Travel.countryListScreenErrorButtonTitle),
             primaryAction: { [weak viewModel] in
                 Task {
                     await viewModel?.retryFetchCountryList()

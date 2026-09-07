@@ -41,7 +41,7 @@ final class TravelAlertsWidgetCoordinator: BaseCoordinator,
               configService.isFeatureEnabled(key: .travelAlerts) else {
             return nil
         }
-        return widgetViewBuilder.followCountryWidget(
+        return widgetViewBuilder.travelAlertWidget(
             analyticsService: analyticsService,
             travelService: travelService,
             linkAction: { [weak self] in
@@ -56,7 +56,7 @@ final class TravelAlertsWidgetCoordinator: BaseCoordinator,
     private func startCountrySelection() {
         let navigationController = BaseNavigationController()
         navigationController.modalPresentationStyle = .fullScreen
-        let coordinator = coordinatorBuilder.followCountry(
+        let coordinator = coordinatorBuilder.countryList(
             navigationController: navigationController,
             completion: { _ in
                 print("select countries dismissed")
