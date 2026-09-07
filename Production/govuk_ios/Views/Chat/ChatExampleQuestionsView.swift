@@ -11,7 +11,7 @@ struct ChatExampleQuestionsView: View {
                 .foregroundStyle(Color(UIColor.govUK.text.secondary))
                 .padding(.trailing, 16)
                 .accessibilityHidden(true)
-            ForEach(viewModel.exampleQuestions, id: \.id) { question in
+            ForEach(viewModel.exampleQuestions, id: \.body) { question in
                 Button {
                     askQuestion(question.body)
                 } label: {

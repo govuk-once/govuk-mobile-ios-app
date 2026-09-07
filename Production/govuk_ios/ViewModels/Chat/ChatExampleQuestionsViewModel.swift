@@ -26,9 +26,8 @@ struct ChatExampleQuestionsViewModel {
         }
     }
 
-    struct ChatExampleQuestion: Identifiable {
-        let id = UUID()
-        let body: String
+    struct ChatExampleQuestion {
+        var body: String
         let accessibilityLabel: String
     }
 }
