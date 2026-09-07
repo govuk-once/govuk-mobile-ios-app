@@ -30,6 +30,29 @@ extension govuk_ios.Notification {
     }
 }
 
+extension Array where Element == govuk_ios.Notification {
+    private static var oneDay: TimeInterval { 60 * 60 * 24 }
+
+    static func arrangeRecent(
+        referenceDate: Date
+    ) -> [govuk_ios.Notification] {
+        [
+            .arrange(id: "1", date: referenceDate),
+            .arrange(id: "2", date: referenceDate.addingTimeInterval(-oneDay)),
+            .arrange(id: "3", date: referenceDate.addingTimeInterval(-oneDay * 6))
+        ]
+    }
+
+    static func arrangeOlder(
+        referenceDate: Date
+    ) -> [govuk_ios.Notification] {
+        [
+            .arrange(id: "4", date: referenceDate.addingTimeInterval(-oneDay * 8)),
+            .arrange(id: "5", date: referenceDate.addingTimeInterval(-oneDay * 14))
+        ]
+    }
+}
+
 extension govuk_ios.Notification.Metadata {
     static var arrange: govuk_ios.Notification.Metadata {
         arrange()

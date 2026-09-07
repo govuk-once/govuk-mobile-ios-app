@@ -10,7 +10,6 @@ class NotificationCentreViewModelTests {
 
     // Fri, 27 Feb 2026 13:26:24 GMT
     private static let referenceDate: Date = Date(timeIntervalSince1970: 1772198784)
-    private static let oneDay: TimeInterval = 60 * 60 * 24
 
     class MockDateProvider: NotificationCentreViewModel.DateProvider {
         override var currentDate: Date {
@@ -18,16 +17,8 @@ class NotificationCentreViewModelTests {
         }
     }
 
-    private let recentNotifications: [govuk_ios.Notification] = [
-        .arrange(id: "1", date: referenceDate),
-        .arrange(id: "2", date: referenceDate.addingTimeInterval(-oneDay)),
-        .arrange(id: "3", date: referenceDate.addingTimeInterval(-oneDay * 6))
-    ]
-
-    private let olderNotifications: [govuk_ios.Notification] = [
-        .arrange(id: "4", date: referenceDate.addingTimeInterval(-oneDay * 8)),
-        .arrange(id: "5", date: referenceDate.addingTimeInterval(-oneDay * 14))
-    ]
+    private let recentNotifications: [govuk_ios.Notification] = .arrangeRecent(referenceDate: referenceDate)
+    private let olderNotifications: [govuk_ios.Notification] = .arrangeOlder(referenceDate: referenceDate)
 
     var SUT: NotificationCentreViewModel!
 
