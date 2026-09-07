@@ -37,12 +37,6 @@ extension Config {
                     url: URL(string: "https://test.com")!)
             ),
             promoBanners: promoBanners,
-            userFeedbackBanner: .init(
-                body: "test",
-                link: UserFeedbackBanner.Link(
-                    title: "test",
-                    url: URL(string: "https://test.com")!)
-            ),
             emergencyBanners: [
                 .init(
                     id: "4321",

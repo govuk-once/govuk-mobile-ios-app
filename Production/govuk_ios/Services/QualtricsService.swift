@@ -88,13 +88,18 @@ actor QualtricsService: QualtricsServiceInterface {
             trackSurveyOpened(targetingID: id)
 
             if let url = result.getSurveyUrl() {
-                let urlParams = URLComponents(string: url)?.queryItems
-                let hidePrompt = urlParams?.first {
-                    $0.name == "hide_prompt"
-                }
-                if hidePrompt?.value == "true" {
+                let urlComponents = URLComponents(string: url)
+                let hidePrompt = urlComponents?.caseInsensitiveQueryParam(for: "hide_prompt")
+                let autoClose = urlComponents?.caseInsensitiveQueryParam(for: "auto_close")
+                let autoCloseSurvey = autoClose == "true" ? true : false
+
+                if hidePrompt == "true" {
                     result.recordImpression()
-                    await openSurveyByUrl(url, viewController: viewController)
+                    await openSurveyByUrl(
+                        url,
+                        viewController: viewController,
+                        autoCloseSurvey: autoCloseSurvey
+                    )
                     return
                 }
             }
@@ -108,10 +113,14 @@ actor QualtricsService: QualtricsServiceInterface {
 
     private func openSurveyByUrl(
         _ url: String,
-        viewController: UIViewController
+        viewController: UIViewController,
+        autoCloseSurvey: Bool
     ) async {
         await MainActor.run {
-            let surveyController = QualtricsSurveyViewController(url: url)
+            let surveyController = QualtricsSurveyViewController(
+                url: url,
+                autoCloseSurvey: NSNumber(value: autoCloseSurvey)
+            )
             surveyController.modalPresentationStyle = .overFullScreen
             viewController.present(surveyController, animated: true)
         }

@@ -17,41 +17,27 @@ final class DVLAAuthenticationViewModel: ObservableObject {
     }
 
     @MainActor
-    func refreshToken() async {
-        let result = await authenticationService.tokenRefreshRequest()
-        switch result {
-        case .success:
-            await fetchIdentityVerification()
-        case .failure:
-            errorAction()
-        }
-    }
-
-    @MainActor
-    private func fetchIdentityVerification() async {
+    func fetchIdentityVerification() async {
         let result = await authenticationService.fetchIdentityVerification()
         switch result {
         case .success(let result):
             authenticate(
-                verificationHash: result.verificationHash,
-                sessionHash: result.sessionHash
-                )
+                token: result.token,
+            )
         case .failure:
             errorAction()
         }
     }
 
     @MainActor
-    private func authenticate(verificationHash: String,
-                              sessionHash: String) {
+    private func authenticate(token: String) {
         let authenticationUrl = appEnvironmentService.dvlaAuthenticationURL
         var components = URLComponents(
             url: authenticationUrl,
             resolvingAgainstBaseURL: true
         )
         components?.queryItems = [
-            .init(name: "verification", value: verificationHash),
-            .init(name: "session", value: sessionHash),
+            .init(name: "token", value: token),
         ]
         if let url = components?.url {
             completionAction(url)
