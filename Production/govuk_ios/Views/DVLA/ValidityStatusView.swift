@@ -127,3 +127,28 @@ struct ValidityStatusView: View {
         Color(uiColor: .govUK.fills.surfaceBackground)
     }
 }
+
+#Preview("Not Known status") {
+    let notKnownVM: ValidityStatusViewModel = {
+            let dummyOpenURLAction: (URL) -> Void = { url in print("click url: \(url)") }
+
+            func openURLAction(text: String, url: URL) {
+                dummyOpenURLAction(url)
+            }
+
+            let statusUnknown: TaxValidityStatus = .unknown
+            let url = URL(string: "https://www.gov.uk/contact-the-dvla")!
+
+            let title = String(localized: .DVLA.taxStatusTitle)
+            let formattedStatus = String(localized: .DVLA.notFoundContactDVLA)
+
+            return ValidityStatusViewModel(
+                title: title,
+                formattedStatus: formattedStatus,
+                status: statusUnknown,
+                statusLinkAction: { openURLAction(text: title, url: url) }
+            )
+        }()
+
+    ValidityStatusView(viewModel: notKnownVM)
+}
