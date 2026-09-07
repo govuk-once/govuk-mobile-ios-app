@@ -1,6 +1,72 @@
 {
   "sourceLanguage" : "en-GB",
   "strings" : {
+    "countryListAlertCancel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        }
+      }
+    },
+    "countryListAlertContinue" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Get notifications"
+          }
+        }
+      }
+    },
+    "countryListAlertDescription1" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You will receive in-app messages when travel advice changes for %@"
+          }
+        }
+      }
+    },
+    "countryListAlertDescription2" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Would you also like push notifications?"
+          }
+        }
+      }
+    },
+    "countryListAlertNotNow" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not now"
+          }
+        }
+      }
+    },
+    "countryListAlertTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Get notifications?"
+          }
+        }
+      }
+    },
     "countryListScreenEmptyTitle" : {
       "extractionState" : "manual",
       "localizations" : {

@@ -17,6 +17,7 @@ class CountryListViewModel: ObservableObject {
         }
     }
     @Published private(set) var filteredSections = [GroupedListSection]()
+    @Published var selectedCountry: Country?
 
     private var allCountries: [Country] = []
     private let travelService: TravelServiceInterface
@@ -38,6 +39,10 @@ class CountryListViewModel: ObservableObject {
 
     func trackScreen(screen: TrackableScreen) {
         analyticsService.track(screen: screen)
+    }
+
+    func handleCountrySelection(_ country: Country) {
+        countrySelectedAction(country)
     }
 
     @MainActor
@@ -76,8 +81,8 @@ class CountryListViewModel: ObservableObject {
             SelectableRow(
                 id: country.slug,
                 title: country.country,
-                action: { [countrySelectedAction] in
-                    countrySelectedAction(country)
+                action: { [weak self] in
+                    self?.selectedCountry = country
                 }
             )
         }

@@ -70,6 +70,29 @@ struct CountryListView: View {
         }
         .toolbarBackground(Color(.govUK.fills.surfaceModal), for: .navigationBar)
         .background(Color(.govUK.fills.surfaceModal))
+        .alert(
+            String(localized: .Travel.countryListAlertTitle),
+            isPresented: Binding(
+                get: { viewModel.selectedCountry != nil },
+                set: { if !$0 { viewModel.selectedCountry = nil } }
+            ),
+            presenting: viewModel.selectedCountry
+        ) { country in
+            Button(String(localized: .Travel.countryListAlertContinue)) {
+                viewModel.handleCountrySelection(country)
+                viewModel.selectedCountry = nil
+            }
+            Button(String(localized: .Travel.countryListAlertNotNow)) {
+                viewModel.selectedCountry = nil
+            }
+            Button(String(localized: .Travel.countryListAlertCancel), role: .cancel) {
+                viewModel.selectedCountry = nil
+            }
+        } message: { country in
+            Text(String(localized: .Travel.countryListAlertDescription1(country.country)))
+                + Text("\n\n")
+                + Text(String(localized: .Travel.countryListAlertDescription2))
+        }
     }
 
     private var closeButton: some ToolbarContent {
