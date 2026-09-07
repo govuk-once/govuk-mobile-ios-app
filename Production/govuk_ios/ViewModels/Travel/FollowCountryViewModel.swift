@@ -14,7 +14,7 @@ class FollowCountryViewModel: ObservableObject {
     @Published var searchText = ""
 
     private let travelService: TravelServiceInterface
-    private let analyticsService: AnalyticsServiceInterface
+    let analyticsService: AnalyticsServiceInterface
     private let countrySelectedAction: (Country) -> Void
     let dismissAction: () -> Void
 
@@ -36,6 +36,11 @@ class FollowCountryViewModel: ObservableObject {
 
     @MainActor
     func viewDidAppear() async {
+        await fetchCountryList()
+    }
+
+    @MainActor
+    func retryFetchCountryList() async {
         await fetchCountryList()
     }
 

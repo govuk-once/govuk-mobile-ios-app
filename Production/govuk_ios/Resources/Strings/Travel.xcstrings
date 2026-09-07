@@ -1,13 +1,24 @@
 {
   "sourceLanguage" : "en-GB",
   "strings" : {
+    "followACountryErrorButtonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try again"
+          }
+        }
+      }
+    },
     "followACountryErrorTitle" : {
       "extractionState" : "manual",
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Error"
+            "value" : "There’s a problem"
           }
         }
       }
@@ -18,7 +29,7 @@
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "We’re unable to load the countries list right now. Try again later."
+            "value" : "We could not load travel alerts. Try again later."
           }
         }
       }

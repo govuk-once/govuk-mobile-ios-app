@@ -35,10 +35,10 @@ struct FollowCountryView: View {
                         modifiedScrollView(geometry: geometry)
                     }
                 case .error:
-                    FollowCountryErrorView()
+                    ErrorView(viewModel: createErrorViewModel())
                 }
             }
-            .padding(.horizontal, 16)
+            .padding(.horizontal, viewModel.viewState == .error ? 0 : 16)
         }
         .task {
             await viewModel.viewDidAppear()
@@ -126,34 +126,27 @@ struct FollowCountryLoadingView: View {
     }
 }
 
-struct FollowCountryErrorView: View {
-    var body: some View {
-        VStack(alignment: .center) {
-            Image(systemName: "exclamationmark.circle")
-                .resizable()
-                .frame(width: 32, height: 32)
-                .padding(.bottom, 16)
-                .accessibilityHidden(true)
-                .foregroundStyle(Color(GOVUKColors.text.iconTertiary))
-            Text(.Travel.followACountryErrorTitle)
-                .padding(.bottom, 8)
-                .font(Font.govUK.bodySemibold)
-                .fontWeight(.bold)
-                .multilineTextAlignment(.center)
-                .foregroundStyle(Color(GOVUKColors.text.primary))
-            Text(.Travel.followACountryScreenErrorBody)
-                .font(Font.govUK.body)
-                .multilineTextAlignment(.center)
-                .foregroundStyle(Color(UIColor.govUK.text.primary))
-            Spacer()
-        }
-        .padding(.horizontal, 32)
-        .padding(.top, 32)
-    }
-}
-
 extension FollowCountryView: TrackableScreen {
     var trackingClass: String { "CountryListScreen" }
     var trackingTitle: String? { "Follow a country" }
     var trackingName: String { "Follow a country" }
+}
+
+extension FollowCountryView {
+    private func createErrorViewModel() -> ErrorViewModel {
+        ErrorViewModel(
+            analyticsService: viewModel.analyticsService,
+            title: String(localized: .Travel.followACountryErrorTitle),
+            subtitle: String(localized: .Travel.followACountryScreenErrorBody),
+            systemImageName: "exclamationmark.circle",
+            primaryButtonTitle: String(localized: .Travel.followACountryErrorButtonTitle),
+            primaryAction: { [weak viewModel] in
+                Task {
+                    await viewModel?.retryFetchCountryList()
+                }
+            },
+            contentAlignment: .center,
+            trackingName: "CountryListErrorScreen"
+        )
+    }
 }
