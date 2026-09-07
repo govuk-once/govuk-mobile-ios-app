@@ -81,11 +81,21 @@ struct ValidityStatusView: View {
         if !viewModel.formattedStatus.isEmpty {
             if let statusLinkAction = viewModel.statusLinkAction {
                 Button(action: statusLinkAction) {
-                    Text(viewModel.formattedStatus)
-                        .multilineTextAlignment(.leading)
-                        .accessibilityLabel(
-                            viewModel.statusAccessibilityLabel ?? viewModel.formattedStatus
-                        )
+                    HStack {
+                        Text(viewModel.formattedStatus)
+                            .multilineTextAlignment(.leading)
+                            .font(Font.govUK.body)
+                            .foregroundStyle(Color(uiColor: .govUK.text.link))
+                            .accessibilityLabel(
+                                viewModel.statusAccessibilityLabel ?? viewModel.formattedStatus
+                            )
+                        Spacer()
+                        Image(systemName: "arrow.up.forward")
+                            .foregroundColor(
+                                Color(UIColor.govUK.text.linkSecondary)
+                            )
+                            .font(Font.govUK.bodySemibold)
+                    }
                 }
             } else {
                 Text(viewModel.formattedStatus)
