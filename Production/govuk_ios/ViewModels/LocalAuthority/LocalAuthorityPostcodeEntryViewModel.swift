@@ -77,6 +77,7 @@ class LocalAuthorityPostcodeEntryViewModel: ObservableObject {
                     authorities: localAuthorities,
                     addresses: addresses
                 )
+                self.dismissKeyboard()
                 self.resolveAmbiguityAction(ambiguousAuthorities, self.postCode)
             case .failure(let error):
                 self?.populateErrorMessage(error)
@@ -86,6 +87,15 @@ class LocalAuthorityPostcodeEntryViewModel: ObservableObject {
 
     func trackScreen(screen: TrackableScreen) {
         analyticsService.track(screen: screen)
+    }
+
+    private func dismissKeyboard() {
+        UIApplication.shared.sendAction(
+            #selector(UIResponder.resignFirstResponder),
+            to: nil,
+            from: nil,
+            for: nil
+        )
     }
 
     private func trackNavigationEvent(_ title: String) {
@@ -149,6 +159,7 @@ class LocalAuthorityPostcodeEntryViewModel: ObservableObject {
     private func handleFetchLocalAuthorityResponse(_ response: LocalAuthorityResponse) {
         switch response.type {
         case .authority(let authority):
+            dismissKeyboard()
             localAuthoritySelected(authority)
         case .addresses(let addressess):
             fetchAuthoritiesWithAddresses(addressess)
