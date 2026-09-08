@@ -120,14 +120,10 @@ platform :ios do
 
   private_lane :update_build_number do
     if !configuration.firebase_app_id.nil?
-      begin
-        latest_release = firebase_app_distribution_get_latest_release(
-          app: configuration.firebase_app_id
-        )
-        current_build_number = latest_release[:buildVersion].to_i
-      rescue StandardError
-        current_build_number = 0
-      end
+      latest_release = firebase_app_distribution_get_latest_release(
+        app: configuration.firebase_app_id
+      )
+      current_build_number = latest_release[:buildVersion].to_i
     else
       current_build_number = fetch_build_number_from_testflight
     end
