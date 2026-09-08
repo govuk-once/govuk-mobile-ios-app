@@ -83,4 +83,41 @@ class TaxValidityStatusViewSnapshotTests: SnapshotTestCase {
             mode: .dark
         )
     }
+    
+    
+    fileprivate func viewModelForUnknownStatus() -> ValidityStatusViewModel {
+        ValidityStatusViewModel(
+            title: String(localized: .DVLA.taxStatusTitle),
+            formattedStatus: String(localized: .DVLA.notFoundContactDVLA),
+            status: TaxValidityStatus.unknown,
+            statusLinkAction: {}
+        )
+
+    }
+    
+    func test_unknownStatus_light_rendersCorrectly() {
+        let viewModel = viewModelForUnknownStatus()
+        let view = TaxValidityStatusView(viewModel: viewModel)
+        let hostingViewController =  HostingViewController(
+            rootView: view
+        )
+        VerifySnapshotInNavigationController(
+            viewController: hostingViewController,
+            mode: .light
+        )
+    }
+
+    func test_unknownStatus_dark_rendersCorrectly() {
+        let viewModel = viewModelForUnknownStatus()
+        let view = TaxValidityStatusView(viewModel: viewModel)
+        let hostingViewController =  HostingViewController(
+            rootView: view
+        )
+        VerifySnapshotInNavigationController(
+            viewController: hostingViewController,
+            mode: .dark
+        )
+    }
+
+    
 }
