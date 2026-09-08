@@ -26,7 +26,7 @@ class NotificationCentreRepositoryTests {
 
     @Test
     func store_retrievesCorrectly() {
-        let testObjs = NotificationCentreViewModel.MockData.recentNotifications
+        let testObjs: [govuk_ios.Notification] = [.arrange(id: "1"), .arrange(id: "2")]
 
         SUT.store(notifications: testObjs)
 
@@ -37,7 +37,7 @@ class NotificationCentreRepositoryTests {
 
     @Test
     func retrieve_onceExpired_fails() {
-        let testObjs = NotificationCentreViewModel.MockData.recentNotifications
+        let testObjs: [govuk_ios.Notification] = [.arrange(id: "1")]
 
         // Set it back 10 minutes
         mockDateProvider._mockDate = dateForTest.addingTimeInterval(-600)
@@ -54,7 +54,10 @@ class NotificationCentreRepositoryTests {
 
     @Test
     func retrieve_single_returnsExpectedValue() throws {
-        let testObjs = NotificationCentreViewModel.MockData.recentNotifications
+        let testObjs: [govuk_ios.Notification] = [
+            .arrange(id: "1"),
+            .arrange(id: "3", body: "Body 3 read", status: "READ")
+        ]
 
         SUT.store(notifications: testObjs)
 
@@ -66,7 +69,7 @@ class NotificationCentreRepositoryTests {
 
     @Test
     func retrieve_single_withInvalidID_returnsNil() {
-        let testObjs = NotificationCentreViewModel.MockData.recentNotifications
+        let testObjs: [govuk_ios.Notification] = [.arrange(id: "1")]
 
         SUT.store(notifications: testObjs)
 
@@ -77,7 +80,11 @@ class NotificationCentreRepositoryTests {
 
     @Test
     func delete_updatesAll() {
-        let testObjs = NotificationCentreViewModel.MockData.recentNotifications
+        let testObjs: [govuk_ios.Notification] = [
+            .arrange(id: "1"),
+            .arrange(id: "2"),
+            .arrange(id: "4")
+        ]
 
         SUT.store(notifications: testObjs)
 
@@ -85,7 +92,7 @@ class NotificationCentreRepositoryTests {
 
         let stored = SUT.fetchAll()
 
-        #expect(stored.count == 6)
+        #expect(stored.count == testObjs.count - 1)
 
         let deleted = stored.first(where: { $0.id == "4" })
         #expect(deleted == nil)
@@ -93,7 +100,7 @@ class NotificationCentreRepositoryTests {
 
     @Test
     func update_setsFlagCorrectly() throws {
-        let testObjs = NotificationCentreViewModel.MockData.recentNotifications
+        let testObjs: [govuk_ios.Notification] = [.arrange(id: "5", status: "READ")]
 
         SUT.store(notifications: testObjs)
 

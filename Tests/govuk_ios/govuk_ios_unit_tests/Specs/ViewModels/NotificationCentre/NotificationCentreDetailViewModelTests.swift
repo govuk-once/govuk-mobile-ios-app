@@ -15,11 +15,9 @@ class NotificationCentreDetailViewModelTests {
 
     var _showNotificationActionID: String?
 
-    let testNotificationId = NotificationCentreViewModel.MockData
-        .recentNotifications.first!.id
-
-    let mockNotification = NotificationCentreViewModel.MockData
-        .recentNotifications.first!
+    let mockNotification = govuk_ios.Notification.arrange(id: "1")
+    
+    var testNotificationId: String { mockNotification.id }
 
     let testUrl = URL(string:"https://gds.test")!
 

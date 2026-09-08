@@ -190,13 +190,17 @@ extension NotificationCentreDetailContainerView: TrackableScreen {
 }
 
 #Preview("Loaded") {
-    let testNotification = NotificationCentreViewModel.MockData.recentNotifications.first!
-
     NotificationCentreDetailLoadedView(
-        notification: NotificationCentreDetailViewModel
-            .NotificationDetailContent(notification: testNotification),
+        notification: .init(
+            title: "Notification title",
+            body: "Notification body",
+            sender: "Sender name",
+            date: "27 August 2026",
+            id: "1"
+        ),
         onLinkTapped: { _ in /* no-op */ },
         onConfirmDelete: { /* no-op */ },
         onCancelDelete: { /* no-op */ },
-        showDeleteConfirmation: false)
+        showDeleteConfirmation: false
+    )
 }
