@@ -34,6 +34,10 @@
 	</array>
 	<key>CHAT_BASE_URL</key>
 	<string>$(CHAT_BASE_URL)</string>
+	<key>MAILBOX_BASE_URL</key>
+	<string>$(MAILBOX_BASE_URL)</string>
+	<key>MAILBOX_TOKEN_BASE_URL</key>
+	<string>$(MAILBOX_TOKEN_BASE_URL)</string>
 	<key>FLEX_BASE_URL</key>
 	<string>$(FLEX_BASE_URL)</string>
 	<key>FirebaseAutomaticScreenReportingEnabled</key>

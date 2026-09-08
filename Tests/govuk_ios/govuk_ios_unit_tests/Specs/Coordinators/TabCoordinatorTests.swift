@@ -18,6 +18,9 @@ struct TabCoordinatorTests {
         let mockChatCoordinator = MockBaseCoordinator()
         mockCoordinatorBuilder._stubbedChatCoordinator = mockChatCoordinator
 
+        let mockMailboxCoordinator = MockBaseCoordinator()
+        mockCoordinatorBuilder._stubbedMailboxCoordinator = mockMailboxCoordinator
+
         let mockSettingsCoordinator = MockBaseCoordinator()
         mockCoordinatorBuilder._stubbedSettingsCoordinator = mockSettingsCoordinator
 
@@ -32,10 +35,11 @@ struct TabCoordinatorTests {
 
         #expect(navigationController.viewControllers.count == 1)
         let tabController = navigationController.viewControllers.first as? UITabBarController
-        #expect(tabController?.viewControllers?.count == 3)
+        #expect(tabController?.viewControllers?.count == 4)
         let expectedCoordinators = [
             mockHomeCoordinator,
             mockChatCoordinator,
+            mockMailboxCoordinator,
             mockSettingsCoordinator
         ]
         expectedCoordinators.forEach {
@@ -53,6 +57,9 @@ struct TabCoordinatorTests {
 
         let mockChatCoordinator = MockBaseCoordinator()
         mockCoordinatorBuilder._stubbedChatCoordinator = mockChatCoordinator
+
+        let mockMailboxCoordinator = MockBaseCoordinator()
+        mockCoordinatorBuilder._stubbedMailboxCoordinator = mockMailboxCoordinator
 
         let mockSettingsCoordinator = MockBaseCoordinator()
         let mockRoute = MockDeeplinkRoute(pattern: "/test")
@@ -73,7 +80,7 @@ struct TabCoordinatorTests {
         subject.start(url: url)
         let tabController = navigationController.viewControllers.first as? UITabBarController
 
-        #expect(tabController?.selectedIndex == 2)
+        #expect(tabController?.selectedIndex == 3)
         #expect(mockRoute._actionCalled)
 
         #expect(mockAnalyticsService._trackedEvents.count == 1)
@@ -222,6 +229,9 @@ struct TabCoordinatorTests {
         let mockChatCoordinator = MockBaseCoordinator()
         mockCoordinatorBuilder._stubbedChatCoordinator = mockChatCoordinator
 
+        let mockMailboxCoordinator = MockBaseCoordinator()
+        mockCoordinatorBuilder._stubbedMailboxCoordinator = mockMailboxCoordinator
+
         let mockSettingsCoordinator = MockBaseCoordinator()
         mockCoordinatorBuilder._stubbedSettingsCoordinator = mockSettingsCoordinator
 
@@ -244,6 +254,8 @@ struct TabCoordinatorTests {
         case 1:
             startingCoordinator = mockChatCoordinator
         case 2:
+            startingCoordinator = mockMailboxCoordinator
+        case 3:
             startingCoordinator = mockSettingsCoordinator
         default:
             Issue.record("selectedIndex \(selectedIndex) is out of bounds")
@@ -273,6 +285,9 @@ struct TabCoordinatorTests {
         let mockChatCoordinator = MockBaseCoordinator()
         mockCoordinatorBuilder._stubbedChatCoordinator = mockChatCoordinator
 
+        let mockMailboxCoordinator = MockBaseCoordinator()
+        mockCoordinatorBuilder._stubbedMailboxCoordinator = mockMailboxCoordinator
+
         let settingsCoordinator = SettingsCoordinator(
             navigationController: MockNavigationController(),
             viewControllerBuilder: MockViewControllerBuilder(),
@@ -297,8 +312,8 @@ struct TabCoordinatorTests {
         )
 
         subject.start(url: nil)
-        #expect(subject.childCoordinators.count == 3)
+        #expect(subject.childCoordinators.count == 4)
         settingsCoordinator.finish()
-        #expect(subject.childCoordinators.count == 2)
+        #expect(subject.childCoordinators.count == 3)
     }
 }

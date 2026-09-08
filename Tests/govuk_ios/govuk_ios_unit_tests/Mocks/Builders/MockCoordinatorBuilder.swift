@@ -122,6 +122,14 @@ class MockCoordinatorBuilder: CoordinatorBuilder {
         )
     }
 
+    var _stubbedMailboxCoordinator: TabItemCoordinator?
+    override var mailbox: any TabItemCoordinator {
+        return _stubbedMailboxCoordinator ??
+        MockBaseCoordinator(
+            navigationController: .init()
+        )
+    }
+
     var _stubbedJailbreakCoordinator: BaseCoordinator?
     var _receivedJailbreakDismissAction: (() -> Void)?
     override func jailbreakDetector(navigationController: UINavigationController,

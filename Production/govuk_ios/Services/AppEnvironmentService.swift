@@ -11,6 +11,8 @@ protocol AppEnvironmentServiceInterface {
     var tokenBaseURL: URL { get }
     var flexBaseURL: URL { get }
     var dvlaAuthenticationURL: URL { get }
+    var mailboxBaseURL: URL { get }
+    var mailboxTokenBaseURL: URL { get }
 }
 
 enum AppEnvironmentKey: String {
@@ -22,6 +24,8 @@ enum AppEnvironmentKey: String {
     case chatBaseURL = "CHAT_BASE_URL"
     case flexBaseURL = "FLEX_BASE_URL"
     case dvlaAuthenticationURL = "DVLA_AUTHENTICATION_URL"
+    case mailboxBaseURL = "MAILBOX_BASE_URL"
+    case mailboxTokenBaseURL = "MAILBOX_TOKEN_BASE_URL"
 }
 
 struct AppEnvironmentService: AppEnvironmentServiceInterface {
@@ -81,6 +85,16 @@ struct AppEnvironmentService: AppEnvironmentServiceInterface {
 
     var dvlaAuthenticationURL: URL {
         let urlString = string(for: .dvlaAuthenticationURL)
+        return URL(string: urlString)!
+    }
+
+    var mailboxBaseURL: URL {
+        let urlString = string(for: .mailboxBaseURL)
+        return URL(string: urlString)!
+    }
+
+    var mailboxTokenBaseURL: URL {
+        let urlString = string(for: .mailboxTokenBaseURL)
         return URL(string: urlString)!
     }
 }
