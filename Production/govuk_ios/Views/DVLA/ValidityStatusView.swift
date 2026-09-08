@@ -85,7 +85,9 @@ struct ValidityStatusView: View {
                         Text(viewModel.formattedStatus)
                             .multilineTextAlignment(.leading)
                             .font(Font.govUK.body)
-                            .foregroundStyle(Color(uiColor: .govUK.text.link))
+                            .foregroundColor(
+                                Color(UIColor.govUK.text.linkSecondary)
+                            )
                             .accessibilityLabel(
                                 viewModel.statusAccessibilityLabel ?? viewModel.formattedStatus
                             )
