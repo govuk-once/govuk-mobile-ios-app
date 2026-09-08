@@ -246,8 +246,7 @@ class ChatViewModel: ObservableObject {
             answer.isVisible = true
             cellModels.append(answer)
         }
-        let pendingQuestion = history.pendingQuestion
-        if let pendingQuestion {
+        if let pendingQuestion = history.pendingQuestion {
             cellModels.append(ChatCellViewModel(
                 question: pendingQuestion,
                 analyticsService: analyticsService)
@@ -255,7 +254,7 @@ class ChatViewModel: ObservableObject {
             pollForAnswer(pendingQuestion)
         }
         showExampleQuestions = shouldShowExampleQuestions(
-            pendingQuestion: pendingQuestion,
+            pendingQuestion: history.pendingQuestion,
             answers: answers
         )
     }
