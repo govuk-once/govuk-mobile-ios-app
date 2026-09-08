@@ -5,6 +5,7 @@ import Testing
 @testable import govuk_ios
 
 @Suite
+@MainActor
 struct HomeViewModelTests {
     @MainActor
     @Test
