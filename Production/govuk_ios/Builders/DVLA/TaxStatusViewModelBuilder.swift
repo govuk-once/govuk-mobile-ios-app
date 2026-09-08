@@ -34,9 +34,7 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
         let status = taxValidityStatus(vehicle: vehicle)
         switch status {
         case .untaxed:
-            return makeExpiredViewModel(
-                validToDate: vehicle.taxedUntil
-            )
+            return makeExpiredViewModel()
         case .taxed:
             if let validToDate = vehicle.taxedUntil {
                 let expiryProgress = expiryProgressCalculator.calculate(
@@ -44,9 +42,7 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
                     currentDate: Date.now
                 )
                 if expiryProgress.isExpired {
-                    return makeExpiredViewModel(
-                        validToDate: validToDate
-                    )
+                    return makeExpiredViewModel()
                 }
                 if expiryProgress.isWithinCountdownWindow {
                     return makeExpiringViewModel(
@@ -84,9 +80,7 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
     }
 
     // MARK: - Expired
-    private func makeExpiredViewModel(
-        validToDate: Date?
-    ) -> ValidityStatusViewModel {
+    private func makeExpiredViewModel() -> ValidityStatusViewModel {
         let formattedStatus = String(localized: .DVLA.untaxed)
         let buttonTitle = String(localized: .DVLA.renewTaxButtonTitle)
         let buttonURL = urls?.taxVehicle ?? Constants.API.defaultDvlaTaxVehicleUrl
