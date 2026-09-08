@@ -2,10 +2,11 @@ import UIKit
 import GovKit
 import AuthenticationServices
 
-final class FollowCountryCoordinator: BaseCoordinator {
+final class CountryListCoordinator: BaseCoordinator {
     private let coordinatorBuilder: CoordinatorBuilder
     private let viewControllerBuilder: ViewControllerBuilder
     private let analyticsService: AnalyticsServiceInterface
+    private let travelService: TravelServiceInterface
     private let userService: UserServiceInterface
     private let completion: (Bool) -> Void
 
@@ -13,22 +14,26 @@ final class FollowCountryCoordinator: BaseCoordinator {
          coordinatorBuilder: CoordinatorBuilder,
          viewControllerBuilder: ViewControllerBuilder,
          analyticsService: AnalyticsServiceInterface,
+         travelService: TravelServiceInterface,
          userService: UserServiceInterface,
          completion: @escaping (Bool) -> Void) {
         self.coordinatorBuilder = coordinatorBuilder
         self.viewControllerBuilder = viewControllerBuilder
         self.analyticsService = analyticsService
+        self.travelService = travelService
         self.userService = userService
         self.completion = completion
         super.init(navigationController: navigationController)
     }
 
     override func start(url: URL?) {
-        selectCountry()
+        showCountryList()
     }
 
-    private func selectCountry() {
-        let viewController = viewControllerBuilder.selectCountry(
+    private func showCountryList() {
+        let viewController = viewControllerBuilder.countryList(
+            travelService: travelService,
+            analyticsService: analyticsService,
             dismissAction: dismissModal
         )
         set(viewController)

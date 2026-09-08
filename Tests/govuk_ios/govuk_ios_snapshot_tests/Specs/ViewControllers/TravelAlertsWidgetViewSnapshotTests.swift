@@ -98,7 +98,9 @@ final class TravelAlertsWidgetViewSnapshotTests: SnapshotTestCase {
     }
 
     private func makeViewModel(result: TravelGroupResult?) -> TravelAlertsWidgetViewModel {
-        let travelService = SnapshotTravelService(result: result)
+        let travelService = SnapshotTravelService(
+            travelGroupResult: result
+        )
         return TravelAlertsWidgetViewModel(
             travelService: travelService,
             analyticsService: MockAnalyticsService(),
@@ -117,15 +119,26 @@ final class TravelAlertsWidgetViewSnapshotTests: SnapshotTestCase {
 }
 
 private final class SnapshotTravelService: TravelServiceInterface {
-    private let result: TravelGroupResult?
+    
+    private let travelGroupResult: TravelGroupResult?
+    private let countryListResult: CountriesListResult?
 
-    init(result: TravelGroupResult?) {
-        self.result = result
+    init(
+        travelGroupResult: TravelGroupResult?,
+        countryListResult: CountriesListResult? = nil
+    ) {
+        self.travelGroupResult = travelGroupResult
+        self.countryListResult = countryListResult
     }
 
     func getGroups(forceRefresh: Bool, completion: @escaping TravelGroupResultCompletion) {
-        guard let result else { return }
-        completion(result)
+        guard let travelGroupResult else { return }
+        completion(travelGroupResult)
+    }
+
+    func getCountries(forceRefresh: Bool, completion: @escaping CountriesListResultCompletion) {
+        guard let countryListResult else { return }
+        completion(countryListResult)
     }
 
     func invalidateCache() {}

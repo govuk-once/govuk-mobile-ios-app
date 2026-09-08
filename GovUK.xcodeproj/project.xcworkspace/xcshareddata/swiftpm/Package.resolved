@@ -1,5 +1,5 @@
 {
-  "originHash" : "97da4db4ba85e5829f48e4496d015672ca933ce26e658709bc048e5e022ef67e",
+  "originHash" : "a63cf15d2acc43eafe7875ec6d4b9d5cb7131c744a0c173429f181dafd676ecd",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -106,7 +106,7 @@
       "location" : "https://github.com/govuk-once/govuk-mobile-ios-gov-kit.git",
       "state" : {
         "branch" : "main",
-        "revision" : "6174ee7c8d103de5887250c95ce77d21b9877fb5"
+        "revision" : "b0d3b064e145903b9838124b8a08353c4ac6905a"
       }
     },
     {

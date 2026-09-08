@@ -29,7 +29,7 @@ class WidgetViewBuilder {
         return AnyView(view)
     }
 
-    func followCountryWidget(
+    func travelAlertWidget(
         analyticsService: AnalyticsServiceInterface,
         travelService: TravelServiceInterface,
         linkAction: @escaping () -> Void,

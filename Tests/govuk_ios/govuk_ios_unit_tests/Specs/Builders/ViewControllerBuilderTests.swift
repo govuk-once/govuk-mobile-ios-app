@@ -493,4 +493,18 @@ struct ViewControllerBuilderTests {
         let rootView = (result as? HostingViewController<NotificationCentreDetailContainerView>)?.rootView
         #expect(rootView != nil)
     }
+
+    @Test
+    func countryList_returnsExpectedResult() {
+        let subject = ViewControllerBuilder()
+        let result = subject.countryList(
+            travelService: MockTravelService(),
+            analyticsService: MockAnalyticsService(),
+            dismissAction: {
+                /* No-op */
+            })
+
+        let rootView = (result as? HostingViewController<CountryListView>)?.rootView
+        #expect(rootView != nil)
+    }
 }

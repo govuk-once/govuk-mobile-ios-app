@@ -1,7 +1,51 @@
 {
   "sourceLanguage" : "en-GB",
   "strings" : {
-    "followACountryTitle" : {
+    "countryListScreenErrorBody" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We could not load travel alerts. Try again later."
+          }
+        }
+      }
+    },
+    "countryListScreenErrorButtonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try again"
+          }
+        }
+      }
+    },
+    "countryListScreenErrorTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "There’s a problem"
+          }
+        }
+      }
+    },
+    "countryListScreenLoading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading"
+          }
+        }
+      }
+    },
+    "countryListTitle" : {
       "extractionState" : "manual",
       "localizations" : {
         "en-GB" : {

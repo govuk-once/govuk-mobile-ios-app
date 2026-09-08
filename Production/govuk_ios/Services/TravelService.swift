@@ -3,6 +3,7 @@ import GovKit
 
 protocol TravelServiceInterface {
     func getGroups(forceRefresh: Bool, completion: @escaping TravelGroupResultCompletion)
+    func getCountries(forceRefresh: Bool, completion: @escaping CountriesListResultCompletion)
     func invalidateCache()
 }
 
@@ -41,6 +42,20 @@ class TravelService: TravelServiceInterface {
                 }
             }
         )
+    }
+
+    func getCountries(
+        forceRefresh: Bool = false,
+        completion: @escaping CountriesListResultCompletion
+    ) {
+        // Implement caching and real API handling
+
+        completion(.success([
+            Country(country: "France", slug: "france", lastUpdate: "", synonyms: []),
+            Country(country: "Germany", slug: "germany", lastUpdate: "", synonyms: []),
+            Country(country: "Spain", slug: "spain", lastUpdate: "", synonyms: [])
+        ]))
+        return
     }
 
     func invalidateCache() {

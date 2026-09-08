@@ -892,13 +892,20 @@ class ViewControllerBuilder {
         return viewController
     }
 
-    func selectCountry(
+    func countryList(
+        travelService: TravelServiceInterface,
+        analyticsService: AnalyticsServiceInterface,
         dismissAction: @escaping () -> Void
     ) -> UIViewController {
-        let viewModel = FollowCountryViewModel(
+        let viewModel = CountryListViewModel(
+            travelService: travelService,
+            analyticsService: analyticsService,
+            countrySelectedAction: { _ in
+                // To be applied in upcoming work
+            },
             dismissAction: dismissAction
         )
-        let view = FollowCountryView(viewModel: viewModel)
+        let view = CountryListView(viewModel: viewModel)
         let viewController = HostingViewController(
             rootView: view
         )

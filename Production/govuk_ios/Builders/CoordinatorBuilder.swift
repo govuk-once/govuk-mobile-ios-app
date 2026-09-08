@@ -620,15 +620,16 @@ class CoordinatorBuilder {
         )
     }
 
-    func followCountry(
+    func countryList(
         navigationController: UINavigationController,
         completion: @escaping (Bool) -> Void
     ) -> BaseCoordinator {
-        FollowCountryCoordinator(
+        CountryListCoordinator(
             navigationController: navigationController,
             coordinatorBuilder: self,
             viewControllerBuilder: ViewControllerBuilder(),
             analyticsService: container.analyticsService.resolve(),
+            travelService: container.travelService.resolve(),
             userService: container.userService.resolve(),
             completion: completion
         )
