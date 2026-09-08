@@ -2,51 +2,6 @@ import Combine
 import Foundation
 import GovKit
 
-struct Notification: Identifiable, Codable, Equatable {
-    let id: String
-    let title: String
-    let body: String
-    let date: Date
-    let status: String
-    let messageTitle: String?
-    let messageBody: String?
-    let metadata: Metadata
-
-    struct Metadata: Codable, Equatable {
-        struct Sender: Codable, Equatable {
-            let displayName: String
-            // swiftlint:disable:next nesting
-            enum CodingKeys: String, CodingKey {
-                case displayName = "DisplayName"
-            }
-        }
-
-        let sender: Sender
-
-        enum CodingKeys: String, CodingKey {
-            case sender = "Sender"
-        }
-    }
-    var isUnread: Bool {
-        status != "READ"
-    }
-
-    var senderName: String {
-        metadata.sender.displayName
-    }
-
-    enum CodingKeys: String, CodingKey {
-        case id = "NotificationID"
-        case title = "NotificationTitle"
-        case body = "NotificationBody"
-        case date = "DispatchedDateTime"
-        case status = "Status"
-        case messageTitle = "MessageTitle"
-        case messageBody = "MessageBody"
-        case metadata = "Metadata"
-    }
-}
-
 class NotificationCentreViewModel: ObservableObject {
     enum State: Equatable {
         case loading,
