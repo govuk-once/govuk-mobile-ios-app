@@ -479,6 +479,7 @@ class MockViewControllerBuilder: ViewControllerBuilder {
     override func countryList(
         travelService: TravelServiceInterface,
         analyticsService: AnalyticsServiceInterface,
+        notificationService: NotificationServiceInterface,
         dismissAction: @escaping () -> Void
     ) -> UIViewController {
         _receivedSelectCountryDismissAction = dismissAction

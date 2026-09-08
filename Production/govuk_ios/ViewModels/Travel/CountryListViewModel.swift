@@ -18,21 +18,29 @@ class CountryListViewModel: ObservableObject {
     }
     @Published private(set) var filteredSections = [GroupedListSection]()
     @Published var selectedCountry: Country?
+    @Published var showTravelAlertsPermission = false
 
     private var allCountries: [Country] = []
     private let travelService: TravelServiceInterface
     let analyticsService: AnalyticsServiceInterface
+    private let notificationService: NotificationServiceInterface
     private let countrySelectedAction: (Country) -> Void
     let dismissAction: () -> Void
+
+    var hasNotificationConsent: Bool {
+        notificationService.hasGivenConsent
+    }
 
     init(
         travelService: TravelServiceInterface,
         analyticsService: AnalyticsServiceInterface,
+        notificationService: NotificationServiceInterface,
         countrySelectedAction: @escaping (Country) -> Void,
         dismissAction: @escaping () -> Void
     ) {
         self.travelService = travelService
         self.analyticsService = analyticsService
+        self.notificationService = notificationService
         self.countrySelectedAction = countrySelectedAction
         self.dismissAction = dismissAction
     }
@@ -41,7 +49,16 @@ class CountryListViewModel: ObservableObject {
         analyticsService.track(screen: screen)
     }
 
-    func handleCountrySelection(_ country: Country) {
+    func handleCountrySelection(_ country: Country, notificationOptIn: Bool) {
+        // Given global notifications are off and user is attempting to optIn, navigate to the consent screen
+        if !notificationService.hasGivenConsent && notificationOptIn {
+            showTravelAlertsPermission = true
+        } else {
+            proceedWithCountrySelection(country)
+        }
+    }
+
+    func proceedWithCountrySelection(_ country: Country) {
         countrySelectedAction(country)
     }
 

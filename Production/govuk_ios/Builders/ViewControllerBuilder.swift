@@ -895,11 +895,13 @@ class ViewControllerBuilder {
     func countryList(
         travelService: TravelServiceInterface,
         analyticsService: AnalyticsServiceInterface,
+        notificationService: NotificationServiceInterface,
         dismissAction: @escaping () -> Void
     ) -> UIViewController {
         let viewModel = CountryListViewModel(
             travelService: travelService,
             analyticsService: analyticsService,
+            notificationService: notificationService,
             countrySelectedAction: { _ in
                 // To be applied in upcoming work
             },

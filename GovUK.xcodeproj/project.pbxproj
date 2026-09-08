@@ -441,6 +441,8 @@
 		85611CD5302F6614008EB3B1 /* GOVRequest+Travel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85611CD4302F6614008EB3B1 /* GOVRequest+Travel.swift */; };
 		85611CD8302F68C9008EB3B1 /* TravelGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85611CD7302F68C9008EB3B1 /* TravelGroup.swift */; };
 		85611CDA302F6987008EB3B1 /* TravelServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85611CD9302F6987008EB3B1 /* TravelServiceClient.swift */; };
+		85625913304F0F8C00FBB5EF /* TravelAlertsPermissionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85625912304F0F8B00FBB5EF /* TravelAlertsPermissionViewModel.swift */; };
+		85625915304F0FD100FBB5EF /* TravelAlertsPermissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85625914304F0FD100FBB5EF /* TravelAlertsPermissionView.swift */; };
 		857F30DA303311FC0080E209 /* TravelService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857F30D9303311FC0080E209 /* TravelService.swift */; };
 		85D6F0473035F10900A2F0CB /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D6F0463035F10900A2F0CB /* Country.swift */; };
 		85DD7C68302CA901007F5170 /* TravelAlertsWidgetCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DD7C67302CA901007F5170 /* TravelAlertsWidgetCoordinator.swift */; };
@@ -1047,6 +1049,8 @@
 		85611CD4302F6614008EB3B1 /* GOVRequest+Travel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GOVRequest+Travel.swift"; sourceTree = "<group>"; };
 		85611CD7302F68C9008EB3B1 /* TravelGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelGroup.swift; sourceTree = "<group>"; };
 		85611CD9302F6987008EB3B1 /* TravelServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelServiceClient.swift; sourceTree = "<group>"; };
+		85625912304F0F8B00FBB5EF /* TravelAlertsPermissionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelAlertsPermissionViewModel.swift; sourceTree = "<group>"; };
+		85625914304F0FD100FBB5EF /* TravelAlertsPermissionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelAlertsPermissionView.swift; sourceTree = "<group>"; };
 		857F30D9303311FC0080E209 /* TravelService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelService.swift; sourceTree = "<group>"; };
 		85D6F0463035F10900A2F0CB /* Country.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
 		85DD7C67302CA901007F5170 /* TravelAlertsWidgetCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelAlertsWidgetCoordinator.swift; sourceTree = "<group>"; };
@@ -2703,6 +2707,7 @@
 		855B8BFB302E07B3001D1A9C /* Travel */ = {
 			isa = PBXGroup;
 			children = (
+				85625914304F0FD100FBB5EF /* TravelAlertsPermissionView.swift */,
 				85611CD0302F4EFD008EB3B1 /* TravelAlertsWidgetView.swift */,
 				855B8BFC302E07C6001D1A9C /* CountryListView.swift */,
 			);
@@ -2712,6 +2717,7 @@
 		855B8C00302E15B2001D1A9C /* Travel */ = {
 			isa = PBXGroup;
 			children = (
+				85625912304F0F8B00FBB5EF /* TravelAlertsPermissionViewModel.swift */,
 				85611CD2302F6217008EB3B1 /* CountryListViewModel.swift */,
 				85611CCE302F4CE6008EB3B1 /* TravelAlertsWidgetViewModel.swift */,
 			);
@@ -3516,6 +3522,7 @@
 				3D3378162CAAC113004BF83F /* AppUnavailableContainerViewModel.swift in Sources */,
 				16E8644C2D28362000BCC0FC /* SearchSuggestions.swift in Sources */,
 				815018F22F7D93E200E7469C /* AppErrorViewModel+DVLA.swift in Sources */,
+				85625915304F0FD100FBB5EF /* TravelAlertsPermissionView.swift in Sources */,
 				1679D5752C3F5E6900AA2EB0 /* SettingsCoordinator.swift in Sources */,
 				815011DD2F7C537F00E7469C /* DrivingLicence.swift in Sources */,
 				5D15A8E82C6A47770050C780 /* GOVRequest.swift in Sources */,
@@ -3702,6 +3709,7 @@
 				D0EB02812D37F02400B310D8 /* CoreDataRepository.swift in Sources */,
 				4EA8357C2DBBBE13000AFB8A /* StoredLocalAuthorityCardModel.swift in Sources */,
 				817ECB3B3024D7AA00BFC5FF /* DVLAAuthenticationViewModel.swift in Sources */,
+				85625913304F0F8C00FBB5EF /* TravelAlertsPermissionViewModel.swift in Sources */,
 				16A31E782E37959900C984D6 /* Intro.swift in Sources */,
 				815C58682EE970E200322705 /* RemoteConfigService.swift in Sources */,
 				5D14B1FE2EB0BA65003C151F /* SecureStoreable+Convenience.swift in Sources */,

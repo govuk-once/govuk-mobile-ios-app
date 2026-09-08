@@ -32,12 +32,14 @@ class WidgetViewBuilder {
     func travelAlertWidget(
         analyticsService: AnalyticsServiceInterface,
         travelService: TravelServiceInterface,
+        notificationService: NotificationServiceInterface,
         linkAction: @escaping () -> Void,
         dismissAction: @escaping () -> Void
     ) -> AnyView? {
         let viewModel = TravelAlertsWidgetViewModel(
             travelService: travelService,
             analyticsService: analyticsService,
+            notificationService: notificationService,
             linkAction: linkAction,
             dismissAction: dismissAction
         )

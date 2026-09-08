@@ -26,73 +26,110 @@ struct CountryListView: View {
     }
 
     var body: some View {
-        VStack {
-            Group {
+        mainContentView
+            .task {
+                await viewModel.viewDidAppear()
+            }
+            .onAppear {
+                viewModel.trackScreen(screen: self)
+            }
+            .overlay(alignment: searchBarAlignment) {
                 switch viewModel.viewState {
-                case .loading:
-                    CountryListLoadingView()
-                case .loaded:
-                    GeometryReader { geometry in
-                        modifiedScrollView(geometry: geometry)
-                    }
-                case .empty:
-                    FollowCountryEmptyView(
-                        searchBarAlignment: searchBarAlignment,
-                        searchBarPadding: searchBarPadding
-                    )
-                case .error:
-                    ErrorView(viewModel: createErrorViewModel())
+                case .loaded, .empty:
+                    SearchBarView(text: $viewModel.searchText)
+                        .padding(.horizontal, 14)
+                        .padding(.bottom, 0)
+                        .background(.clear)
+                default:
+                    EmptyView()
                 }
             }
-            .padding(.horizontal, viewModel.viewState == .error ? 0 : 16)
-        }
-        .task {
-            await viewModel.viewDidAppear()
-        }
-        .onAppear {
-            viewModel.trackScreen(screen: self)
-        }
-        .overlay(alignment: searchBarAlignment) {
+            .navigationTitle(String(localized: .Travel.countryListTitle))
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                closeButton
+            }
+            .toolbarBackground(Color(.govUK.fills.surfaceModal), for: .navigationBar)
+            .background(Color(.govUK.fills.surfaceModal))
+            .alert(
+                String(localized: .Travel.countryListAlertTitle),
+                isPresented: Binding(
+                    get: { viewModel.selectedCountry != nil },
+                    set: { if !$0 { viewModel.selectedCountry = nil } }
+                ),
+                presenting: viewModel.selectedCountry
+            ) { country in
+                alertActions(for: country)
+            } message: { country in
+                alertMessage(for: country)
+            }
+            .sheet(isPresented: $viewModel.showTravelAlertsPermission) {
+                let permissionViewModel = TravelAlertsPermissionViewModel(
+                    analyticsService: viewModel.analyticsService,
+                    showImage: true,
+                    title: String(localized: "title"),
+                    body: String(localized: "body"),
+                    primaryButtonTitle: String(localized: "primary CTA"),
+                    secondaryButtonTitle: String(localized: "secondary CTA"),
+                    completeAction: {
+                        viewModel.showTravelAlertsPermission = false
+                        if let country = viewModel.selectedCountry {
+                            viewModel.proceedWithCountrySelection(country)
+                            viewModel.selectedCountry = nil
+                        }
+                    },
+                    dismissAction: {
+                        viewModel.showTravelAlertsPermission = false
+                        viewModel.selectedCountry = nil
+                    }
+                )
+                TravelAlertsPermissionView(viewModel: permissionViewModel)
+            }
+    }
+
+    @ViewBuilder
+    private var mainContentView: some View {
+        VStack {
             switch viewModel.viewState {
-            case .loaded, .empty:
-                SearchBarView(text: $viewModel.searchText)
-                    .padding(.horizontal, 14)
-                    .padding(.bottom, 0)
-                    .background(.clear)
-            default:
-                EmptyView()
+            case .loading:
+                CountryListLoadingView()
+            case .loaded:
+                GeometryReader { geometry in
+                    modifiedScrollView(geometry: geometry)
+                }
+            case .empty:
+                FollowCountryEmptyView(
+                    searchBarAlignment: searchBarAlignment,
+                    searchBarPadding: searchBarPadding
+                )
+            case .error:
+                ErrorView(viewModel: createErrorViewModel())
             }
         }
-        .navigationTitle(String(localized: .Travel.countryListTitle))
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-            closeButton
+        .padding(.horizontal, viewModel.viewState == .error ? 0 : 16)
+    }
+
+    @ViewBuilder
+    private func alertActions(for country: Country) -> some View {
+        Button(String(localized: .Travel.countryListAlertContinue)) {
+            viewModel.handleCountrySelection(country, notificationOptIn: true)
+            viewModel.selectedCountry = nil
         }
-        .toolbarBackground(Color(.govUK.fills.surfaceModal), for: .navigationBar)
-        .background(Color(.govUK.fills.surfaceModal))
-        .alert(
-            String(localized: .Travel.countryListAlertTitle),
-            isPresented: Binding(
-                get: { viewModel.selectedCountry != nil },
-                set: { if !$0 { viewModel.selectedCountry = nil } }
-            ),
-            presenting: viewModel.selectedCountry
-        ) { country in
-            Button(String(localized: .Travel.countryListAlertContinue)) {
-                viewModel.handleCountrySelection(country)
-                viewModel.selectedCountry = nil
-            }
-            Button(String(localized: .Travel.countryListAlertNotNow)) {
-                viewModel.selectedCountry = nil
-            }
-            Button(String(localized: .Travel.countryListAlertCancel), role: .cancel) {
-                viewModel.selectedCountry = nil
-            }
-        } message: { country in
-            Text(String(localized: .Travel.countryListAlertDescription1(country.country)))
-                + Text("\n\n")
-                + Text(String(localized: .Travel.countryListAlertDescription2))
+        Button(String(localized: .Travel.countryListAlertNotNow)) {
+            viewModel.handleCountrySelection(country, notificationOptIn: false)
+            viewModel.selectedCountry = nil
+            viewModel.dismissAction()
         }
+        Button(String(localized: .Travel.countryListAlertCancel), role: .cancel) {
+            viewModel.selectedCountry = nil
+        }
+    }
+
+    @ViewBuilder
+    private func alertMessage(for country: Country) -> some View {
+        Text(String(localized: .Travel.countryListAlertDescription1(country.country)))
+        + Text("\n\n")
+        + Text(String(localized: .Travel.countryListAlertDescription2))
     }
 
     private var closeButton: some ToolbarContent {

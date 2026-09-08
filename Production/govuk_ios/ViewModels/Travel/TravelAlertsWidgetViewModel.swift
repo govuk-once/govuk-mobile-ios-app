@@ -16,17 +16,20 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
 
     private let travelService: TravelServiceInterface
     private let analyticsService: AnalyticsServiceInterface
+    private let notificationService: NotificationServiceInterface
     private let linkAction: () -> Void
     private let dismissAction: () -> Void
 
     init(
         travelService: TravelServiceInterface,
         analyticsService: AnalyticsServiceInterface,
+        notificationService: NotificationServiceInterface,
         linkAction: @escaping () -> Void,
         dismissAction: @escaping () -> Void
     ) {
         self.travelService = travelService
         self.analyticsService = analyticsService
+        self.notificationService = notificationService
         self.linkAction = linkAction
         self.dismissAction = dismissAction
     }
@@ -35,6 +38,7 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
         CountryListViewModel(
             travelService: travelService,
             analyticsService: analyticsService,
+            notificationService: notificationService,
             countrySelectedAction: { _ in
                 // Selection flow will be implented in a future change.
             },
