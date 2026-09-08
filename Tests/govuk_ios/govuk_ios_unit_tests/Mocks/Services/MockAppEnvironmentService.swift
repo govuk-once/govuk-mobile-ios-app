@@ -14,4 +14,6 @@ class MockAppEnvironmentService: AppEnvironmentServiceInterface {
     var tokenBaseURL: URL = URL(string: "https://www.govuk-token.com")!
     var flexBaseURL: URL = URL(string: "https://www.flex.gov.uk")!
     var dvlaAuthenticationURL: URL = URL(string: "https://www.dvla.gov.uk/auth")!
+    var mailboxBaseURL: URL = URL(string: "https://www.govuk-mailbox.com")!
+    var mailboxTokenBaseURL: URL = URL(string: "https://www.govuk-mailbox-token.com")!
 }
