@@ -25,10 +25,4 @@ final class IconActionCardViewModel: ObservableObject {
         self.contentPadding = contentPadding
         self.iconBottomPadding = iconBottomPadding
     }
-
-    var accessibilityLabel: String {
-        [title, description]
-            .compactMap { $0 }
-            .joined(separator: ", ")
-    }
 }

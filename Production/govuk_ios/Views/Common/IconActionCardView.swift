@@ -20,6 +20,7 @@ struct IconActionCardView: View {
                         .font(.title)
                         .foregroundColor(Color(UIColor.govUK.text.iconTertiary))
                         .padding(.bottom, viewModel.iconBottomPadding)
+                        .accessibilityHidden(true)
 
                     VStack(spacing: 8) {
                         if let title = viewModel.title {
@@ -58,7 +59,6 @@ struct IconActionCardView: View {
             )
         }
         .buttonStyle(.plain)
-        .accessibilityElement(children: .ignore)
-        .accessibilityLabel(Text(viewModel.accessibilityLabel))
+        .accessibilityElement(children: .combine)
     }
 }
