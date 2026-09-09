@@ -13,15 +13,6 @@ struct LocalAuthorityExplainerView: View {
         ZStack {
             Color(uiColor: .govUK.fills.surfaceModal)
             VStack {
-                HStack {
-                    Spacer()
-                    CancelButton(
-                        action: {
-                            viewModel.dismissAction()
-                        }
-                    )
-                }
-                .padding(16)
                 GeometryReader { geometry in
                     ScrollView {
                         VStack {
@@ -53,9 +44,25 @@ struct LocalAuthorityExplainerView: View {
                 )
                 .padding(.bottom, 16)
             }
+            .toolbar {
+                cancelButton
+            }
+            .toolbarBackground(
+                Color(uiColor: .govUK.fills.surfaceModal),
+            )
+            .toolbarBackground(.visible)
             .onAppear {
                 viewModel.trackScreen(screen: self)
             }
+        }
+    }
+
+    private var cancelButton: some ToolbarContent {
+        ToolbarItem(placement: .confirmationAction) {
+            Button(viewModel.cancelButtonTitle) {
+                viewModel.dismissAction()
+            }
+            .foregroundColor(Color(UIColor.govUK.text.linkSecondary))
         }
     }
 }
