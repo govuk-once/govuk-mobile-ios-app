@@ -40,6 +40,11 @@ class CountryListViewModel: ObservableObject {
         analyticsService.track(screen: screen)
     }
 
+    func trackSearchInput(text: String) {
+        let searchEvent = AppEvent.searchTerm(term: text, type: .typed, section: "country_search")
+        analyticsService.track(event: searchEvent)
+    }
+
     @MainActor
     func viewDidAppear() async {
         await fetchCountryList()

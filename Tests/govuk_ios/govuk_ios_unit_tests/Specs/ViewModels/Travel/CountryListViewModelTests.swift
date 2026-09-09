@@ -301,6 +301,115 @@ struct CountryListViewModelTests {
         #expect(rows.count == 2)
     }
 
+    @Test
+    func trackSearchInput_tracksSearchEvent() {
+        let mockAnalyticsService = MockAnalyticsService()
+        let viewModel = CountryListViewModel(
+            travelService: MockTravelService(),
+            analyticsService: mockAnalyticsService,
+            countrySelectedAction: { _ in /*EmptyForTests*/ },
+            dismissAction: { /*EmptyForTests*/ }
+        )
+
+        let searchTerm = "United Kingdom"
+        viewModel.trackSearchInput(text: searchTerm)
+
+        let events = mockAnalyticsService._trackedEvents
+        #expect(events.count == 1)
+        #expect(events.first?.name == "Search")
+    }
+
+    @Test
+    func trackSearchInput_includesSearchTextInParams() {
+        let mockAnalyticsService = MockAnalyticsService()
+        let viewModel = CountryListViewModel(
+            travelService: MockTravelService(),
+            analyticsService: mockAnalyticsService,
+            countrySelectedAction: { _ in /*EmptyForTests*/ },
+            dismissAction: { /*EmptyForTests*/ }
+        )
+
+        let searchTerm = "Brazil"
+        viewModel.trackSearchInput(text: searchTerm)
+
+        let events = mockAnalyticsService._trackedEvents
+        let textParam = events.first?.params?["text"] as? String
+        #expect(textParam == searchTerm)
+    }
+
+    @Test
+    func trackSearchInput_usesTypedInvocationType() {
+        let mockAnalyticsService = MockAnalyticsService()
+        let viewModel = CountryListViewModel(
+            travelService: MockTravelService(),
+            analyticsService: mockAnalyticsService,
+            countrySelectedAction: { _ in /*EmptyForTests*/ },
+            dismissAction: { /*EmptyForTests*/ }
+        )
+
+        viewModel.trackSearchInput(text: "test")
+
+        let events = mockAnalyticsService._trackedEvents
+        let typeParam = events.first?.params?["type"] as? String
+        #expect(typeParam == "typed")
+    }
+
+    @Test
+    func trackSearchInput_includesSectionInParams() {
+        let mockAnalyticsService = MockAnalyticsService()
+        let viewModel = CountryListViewModel(
+            travelService: MockTravelService(),
+            analyticsService: mockAnalyticsService,
+            countrySelectedAction: { _ in /*EmptyForTests*/ },
+            dismissAction: { /*EmptyForTests*/ }
+        )
+
+        viewModel.trackSearchInput(text: "test")
+
+        let events = mockAnalyticsService._trackedEvents
+        let typeParam = events.first?.params?["section"] as? String
+        #expect(typeParam == "country_search")
+    }
+
+    @Test
+    func trackSearchInput_withSpecialCharacters_tracksEvent() {
+        let mockAnalyticsService = MockAnalyticsService()
+        let viewModel = CountryListViewModel(
+            travelService: MockTravelService(),
+            analyticsService: mockAnalyticsService,
+            countrySelectedAction: { _ in /*EmptyForTests*/ },
+            dismissAction: { /*EmptyForTests*/ }
+        )
+
+        let searchTerm = "test@#$%&*()"
+        viewModel.trackSearchInput(text: searchTerm)
+
+        let events = mockAnalyticsService._trackedEvents
+        let textParam = events.first?.params?["text"] as? String
+        #expect(textParam == searchTerm)
+    }
+
+    @Test
+    func trackSearchInput_multipleInvocations_tracksAllEvents() {
+        let mockAnalyticsService = MockAnalyticsService()
+        let viewModel = CountryListViewModel(
+            travelService: MockTravelService(),
+            analyticsService: mockAnalyticsService,
+            countrySelectedAction: { _ in /*EmptyForTests*/ },
+            dismissAction: { /*EmptyForTests*/ }
+        )
+
+        viewModel.trackSearchInput(text: "first")
+        viewModel.trackSearchInput(text: "second")
+        viewModel.trackSearchInput(text: "third")
+
+        let events = mockAnalyticsService._trackedEvents
+        #expect(events.count == 3)
+        #expect((events[0].params?["text"] as? String) == "first")
+        #expect((events[1].params?["text"] as? String) == "second")
+        #expect((events[2].params?["text"] as? String) == "third")
+    }
+
     func countryListViewModel_initialisedWithDependencies() {
         let mockTravelService = MockTravelService()
         let mockAnalyticsService = MockAnalyticsService()
