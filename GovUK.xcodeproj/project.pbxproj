@@ -3316,6 +3316,7 @@
 			files = (
 				11AF47F48DDCC4DCF19B2610 /* MailboxListView.swift in Sources */,
 				16E54F8FA344D7409215E421 /* MailboxService.swift in Sources */,
+				MB00000003B0000300000003 /* MailboxTokenProvider.swift in Sources */,
 				46AF473090A42536977A5D68 /* MailboxListViewModel.swift in Sources */,
 				517A4795B1EE784642B25640 /* MailboxMessageRow.swift in Sources */,
 				54CA4DB2A80AD7850F8015B5 /* MailboxDetailView.swift in Sources */,
