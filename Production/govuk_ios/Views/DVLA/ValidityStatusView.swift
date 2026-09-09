@@ -86,7 +86,7 @@ struct ValidityStatusView: View {
                             .multilineTextAlignment(.leading)
                             .font(Font.govUK.body)
                             .foregroundColor(
-                                Color(UIColor.govUK.text.linkSecondary)
+                                Color(UIColor.govUK.text.link)
                             )
                             .accessibilityLabel(
                                 viewModel.statusAccessibilityLabel ?? viewModel.formattedStatus
@@ -94,7 +94,7 @@ struct ValidityStatusView: View {
                         Spacer()
                         Image(systemName: "arrow.up.forward")
                             .foregroundColor(
-                                Color(UIColor.govUK.text.linkSecondary)
+                                Color(UIColor.govUK.text.link)
                             )
                             .font(Font.govUK.bodySemibold)
                     }
