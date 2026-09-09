@@ -31,12 +31,12 @@ struct MotValidityStatusView: View {
                                 .multilineTextAlignment(.leading)
                                 .font(Font.govUK.body)
                                 .foregroundColor(
-                                    Color(UIColor.govUK.text.linkSecondary)
+                                    Color(UIColor.govUK.text.link)
                                 )
                             Spacer()
                             Image(systemName: "arrow.up.forward")
                                 .foregroundColor(
-                                    Color(UIColor.govUK.text.linkSecondary)
+                                    Color(UIColor.govUK.text.link)
                                 )
                                 .font(Font.govUK.bodySemibold)
                         }
