@@ -2380,6 +2380,7 @@
 				D04DD3312E0046FB002B5F19 /* GOVRequest+Chat.swift */,
 				815011D82F7C4F8B00E7469C /* GOVRequest+DVLA.swift */,
 				4EBCA3352DAC5E2E0063A723 /* GOVRequest+LocalAuthority.swift */,
+				MB00000001A0000100000001 /* GOVRequest+Mailbox.swift */,
 				3300A4F52F69B2B10042D340 /* GOVRequest+NotificationCentre.swift */,
 				5DC79FB12CA18A9A00014446 /* GOVRequest+Search.swift */,
 				5DB637072D7732A800A44E36 /* GOVRequest+Topics.swift */,
@@ -3313,6 +3314,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11AF47F48DDCC4DCF19B2610 /* MailboxListView.swift in Sources */,
+				16E54F8FA344D7409215E421 /* MailboxService.swift in Sources */,
+				46AF473090A42536977A5D68 /* MailboxListViewModel.swift in Sources */,
+				517A4795B1EE784642B25640 /* MailboxMessageRow.swift in Sources */,
+				54CA4DB2A80AD7850F8015B5 /* MailboxDetailView.swift in Sources */,
+				55F3462DA849A33494F06016 /* MailboxMessage.swift in Sources */,
+				B4124CF087C1135FF2951E48 /* MailboxDetailViewModel.swift in Sources */,
+				CF104C5C8B666A64BFF5426F /* MailboxCoordinator.swift in Sources */,
+				MB00000001B0000100000001 /* GOVRequest+Mailbox.swift in Sources */,
+				MB00000002B0000200000002 /* MailboxServiceClient.swift in Sources */,
 				5DDE1AE32E4609EE0033EF88 /* ChatView.swift in Sources */,
 				169842DE2DB05F2900E3EA66 /* LocalAuthenticationOnboardingView.swift in Sources */,
 				33A323EA2F51FE450022BAFC /* NotificationCentreServiceClient.swift in Sources */,
