@@ -4,19 +4,16 @@ import GovKit
 
 class LocalAuthorityServiceCoordinator: BaseCoordinator {
     private let viewControllerBuilder: ViewControllerBuilder
-    private let analyticsService: AnalyticsServiceInterface
     private let localAuthorityService: LocalAuthorityServiceInterface
     private let coordinatorBuilder: CoordinatorBuilder
     private let dismissed: () -> Void
 
     init(navigationController: UINavigationController,
          viewControllerBuilder: ViewControllerBuilder,
-         analyticsService: AnalyticsServiceInterface,
          localAuthorityService: LocalAuthorityServiceInterface,
          coordinatorBuilder: CoordinatorBuilder,
          dismissed: @escaping () -> Void) {
         self.viewControllerBuilder = viewControllerBuilder
-        self.analyticsService = analyticsService
         self.localAuthorityService = localAuthorityService
         self.coordinatorBuilder = coordinatorBuilder
         self.dismissed = dismissed
@@ -25,7 +22,6 @@ class LocalAuthorityServiceCoordinator: BaseCoordinator {
 
     override func start(url: URL?) {
         let viewController = viewControllerBuilder.localAuthorityExplainerView(
-            analyticsService: analyticsService,
             navigateToPostCodeEntryViewAction: { [weak self] in
                 self?.navigateToPostcodeEntryView()
             },

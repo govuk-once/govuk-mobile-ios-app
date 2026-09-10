@@ -5,17 +5,21 @@ import Testing
 
 @Suite
 struct LocalAuthorityExplainerViewModelTests {
-
     @Test
     func explainerViewPrimaryButtonViewModel_action_trackNavigationEvent() async throws {
+
         let mockAnalyticsService = MockAnalyticsService()
-        let sut = LocalAuthorityExplainerViewModel(
-            analyticsService: mockAnalyticsService,
-            navigateToPostcodeEntry: {},
-            dismissAction: {}
-        )
-        sut.primaryButtonViewModel.action()
-        let receivedTitle = mockAnalyticsService._trackedEvents.first?.params?["text"] as? String
-        #expect(receivedTitle == "Continue")
+        let testContainer = DependencyRegistry()
+        testContainer.analyticsService = mockAnalyticsService
+
+        DependencyRegistry.$testing.withValue(testContainer) {
+            let sut = LocalAuthorityExplainerViewModel(
+                navigateToPostcodeEntry: {},
+                dismissAction: {}
+            )
+            sut.primaryButtonViewModel.action()
+            let receivedTitle = mockAnalyticsService._trackedEvents.first?.params?["text"] as? String
+            #expect(receivedTitle == "Continue")
+        }
     }
 }

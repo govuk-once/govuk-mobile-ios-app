@@ -134,9 +134,10 @@ class MockViewControllerBuilder: ViewControllerBuilder {
     var _stubbedLocalAuthorityExplainerViewController: UIViewController?
     var _receivedNavigateToPostCodeEntryViewAction: (() -> Void)?
     var _receivedLocalAuthorityExplainerDismissAction: (() -> Void)?
-    override func localAuthorityExplainerView(analyticsService: AnalyticsServiceInterface,
-                                              navigateToPostCodeEntryViewAction: @escaping () -> Void,
-                                              dismissAction: @escaping () -> Void) -> UIViewController {
+    override func localAuthorityExplainerView(
+        navigateToPostCodeEntryViewAction: @escaping () -> Void,
+        dismissAction: @escaping () -> Void
+    ) -> UIViewController {
         _receivedNavigateToPostCodeEntryViewAction = navigateToPostCodeEntryViewAction
         _receivedLocalAuthorityExplainerDismissAction = dismissAction
         return _stubbedLocalAuthorityExplainerViewController ?? UIViewController()
