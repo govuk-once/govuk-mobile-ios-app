@@ -59,21 +59,21 @@ class TravelService: TravelServiceInterface {
 
         completion(.success([
             Country(
-                country: "France",
+                name: "France",
                 slug: "france",
-                lastUpdate: "2024-01-01T00:00:00Z",
+                rawLastUpdate: "2024-01-01T00:00:00Z",
                 synonyms: []
             ),
             Country(
-                country: "Germany",
+                name: "Germany",
                 slug: "germany",
-                lastUpdate: "2024-01-01T00:00:00Z",
+                rawLastUpdate: "2024-01-01T00:00:00Z",
                 synonyms: []
             ),
             Country(
-                country: "Spain",
+                name: "Spain",
                 slug: "spain",
-                lastUpdate: "2024-01-01T00:00:00Z",
+                rawLastUpdate: "2024-01-01T00:00:00Z",
                 synonyms: []
             )
         ]))

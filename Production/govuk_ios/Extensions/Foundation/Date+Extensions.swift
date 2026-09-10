@@ -26,7 +26,7 @@ extension Date {
 
      Else -> 7 December
      */
-    public func formatMessageListDate(now: Date = Date()) -> String {
+    public func formatToRelativeDate(now: Date = Date()) -> String {
         let london = TimeZone(identifier: "Europe/London")!
         var calendar = Calendar.current
         calendar.timeZone = london

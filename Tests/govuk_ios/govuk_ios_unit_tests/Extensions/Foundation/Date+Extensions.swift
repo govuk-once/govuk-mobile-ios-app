@@ -22,49 +22,49 @@ struct Date_ExtensionsTest {
 
     @Test
     func messageList_today_showsTodayWithTime() {
-        #expect(referenceDate.formatMessageListDate(now: referenceDate) == "Today, 10:45am")
+        #expect(referenceDate.formatToRelativeDate(now: referenceDate) == "Today, 10:45am")
     }
 
     @Test
     func messageList_todayPM_showsTodayWithPMTime() {
         let date = makeDate(year: 2026, month: 7, day: 7, hour: 21, minute: 30)
-        #expect(date.formatMessageListDate(now: referenceDate) == "Today, 9:30pm")
+        #expect(date.formatToRelativeDate(now: referenceDate) == "Today, 9:30pm")
     }
 
     @Test
     func messageList_yesterday_showsYesterday() {
         let date = makeDate(year: 2026, month: 7, day: 6)
-        #expect(date.formatMessageListDate(now: referenceDate) == "Yesterday")
+        #expect(date.formatToRelativeDate(now: referenceDate) == "Yesterday")
     }
 
     @Test
     func messageList_2DaysAgo_showsWeekday() {
         let date = makeDate(year: 2026, month: 7, day: 5)
-        #expect(date.formatMessageListDate(now: referenceDate) == "Sunday")
+        #expect(date.formatToRelativeDate(now: referenceDate) == "Sunday")
     }
 
     @Test
     func messageList_6DaysAgo_showsWeekday() {
         let date = makeDate(year: 2026, month: 7, day: 2)
-        #expect(date.formatMessageListDate(now: referenceDate) == "Thursday")
+        #expect(date.formatToRelativeDate(now: referenceDate) == "Thursday")
     }
 
     @Test
     func messageList_7DaysAgo_showsFullDate() {
         let date = makeDate(year: 2026, month: 6, day: 29)
-        #expect(date.formatMessageListDate(now: referenceDate) == "29 June")
+        #expect(date.formatToRelativeDate(now: referenceDate) == "29 June")
     }
 
     @Test
     func messageList_olderDate_showsFullDate() {
         let date = makeDate(year: 2026, month: 1, day: 15)
-        #expect(date.formatMessageListDate(now: referenceDate) == "15 January")
+        #expect(date.formatToRelativeDate(now: referenceDate) == "15 January")
     }
 
     @Test
     func messageList_differentYear_showsFullDate() {
         let date = makeDate(year: 2025, month: 12, day: 25)
-        #expect(date.formatMessageListDate(now: referenceDate) == "25 December")
+        #expect(date.formatToRelativeDate(now: referenceDate) == "25 December")
     }
 
     // MARK: - formatMessageDetailDate

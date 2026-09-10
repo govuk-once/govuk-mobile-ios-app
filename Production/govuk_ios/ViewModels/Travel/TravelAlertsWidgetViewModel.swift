@@ -93,8 +93,10 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
 
             return LinkRow(
                 id: group.group,
-                title: country.country,
-                body: country.lastUpdate,
+                title: country.name,
+                body: String(localized: .Travel.travelAlertLastUpdated(
+                    formattedDate: country.formattedLastUpdate
+                )),
                 showLinkImage: false,
                 action: { [weak self] in
                     guard let url else { return }

@@ -63,13 +63,13 @@ class CountryListViewModel: ObservableObject {
 
     private func buildSections(from countries: [Country]) -> [GroupedListSection] {
         let sortedCountries = countries.sorted {
-            $0.country.localizedCaseInsensitiveCompare($1.country) == .orderedAscending
+            $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending
         }
 
         let rows = sortedCountries.map { country in
             SelectableRow(
                 id: country.slug,
-                title: country.country,
+                title: country.name,
                 action: { [countrySelectedAction] in
                     countrySelectedAction(country)
                 }
