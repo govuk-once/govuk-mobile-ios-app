@@ -11,42 +11,70 @@ struct ChatCellView: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading) {
-            switch viewModel.type {
-            case .question:
+        messageContent
+    }
+
+    @ViewBuilder
+    private var messageContent: some View {
+        switch viewModel.type {
+        case .question:
+            bubble {
                 questionView
-            case .pendingAnswer:
+            }
+
+        case .pendingAnswer:
+            bubble(cornerRadius: 0) {
                 pendingAnswerView
-            case .answer:
-                answerView
-            case .intro:
+            }
+
+        case .answer:
+            VStack(alignment: .leading, spacing: 8) {
+                bubble {
+                    answerView
+                }
+                feedbackView
+                    .padding(.leading, 16)
+            }
+
+        case .intro:
+            bubble {
                 introView
-            case .sending:
+            }
+
+        case .sending:
+            bubble {
                 sendingView
             }
         }
+    }
+
+    private func bubble<Content: View>(
+        cornerRadius: CGFloat = 18,
+        @ViewBuilder content: () -> Content
+    ) -> some View {
+        VStack(alignment: .leading) {
+            content()
+        }
         .background(viewModel.backgroundColor)
         .clipShape(
-            RoundedRectangle(
-                cornerRadius: viewModel.type == .pendingAnswer ? 0 : 18
-            )
+            RoundedRectangle(cornerRadius: cornerRadius)
         )
         .opacity(viewModel.isVisible ? 1 : 0)
         .offset(y: viewModel.isVisible ? 0 : viewModel.offset)
         .animation(
             .easeIn(duration: viewModel.animationDuration)
-            .delay(viewModel.delay),
+                .delay(viewModel.delay),
             value: viewModel.isVisible
         )
         .padding(.top, viewModel.topPadding)
         .contextMenu {
             if viewModel.isCopyable {
-                Button(action: {
+                Button {
                     viewModel.copyToClipboard()
-                }, label: {
+                } label: {
                     Text(String.chat.localized("copyToClipboardTitle"))
                     Image(systemName: "doc.on.doc.fill")
-                })
+                }
             }
         }
     }
@@ -101,7 +129,7 @@ struct ChatCellView: View {
 
     private var answerView: some View {
         VStack(alignment: .leading, spacing: 8) {
-                markdownView
+            markdownView
             if !viewModel.sources.isEmpty {
                 Divider()
                     .overlay(Color(UIColor.govUK.strokes.chatDivider))
@@ -114,6 +142,30 @@ struct ChatCellView: View {
         .padding()
         .accessibilityElement(children: .contain)
         .accessibilityLabel(.Chat.answerTitle)
+    }
+
+    private var feedbackView: some View {
+        HStack {
+            Button(
+                action: {
+                    viewModel.answerThumbsUpAction()
+                }, label: {
+                    Image(systemName: "hand.thumbsup.fill")
+                        .foregroundStyle(Color(uiColor: .govUK.text.buttonSecondary))
+                        .fontWeight(.semibold)
+                }
+            )
+            Button(
+                action: {
+                    viewModel.answerThumbsDownAction()
+                }, label: {
+                    Image(systemName: "hand.thumbsdown.fill")
+                        .foregroundStyle(Color(uiColor: .govUK.text.buttonSecondary))
+                        .fontWeight(.semibold)
+                }
+            )
+            Spacer()
+        }
     }
 
     private var sourceView: some View {
