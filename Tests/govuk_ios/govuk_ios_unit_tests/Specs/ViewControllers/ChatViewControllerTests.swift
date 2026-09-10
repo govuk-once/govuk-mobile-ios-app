@@ -21,6 +21,7 @@ struct ChatViewControllerTests {
         let viewModel = ChatViewModel(
             chatService: mockChatService,
             analyticsService: MockAnalyticsService(),
+            configService: MockAppConfigService(),
             openURLAction: { _ in },
             handleError: { _ in }
         )

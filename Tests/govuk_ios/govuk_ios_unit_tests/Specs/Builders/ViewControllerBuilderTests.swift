@@ -316,6 +316,7 @@ struct ViewControllerBuilderTests {
         let result = subject.chat(
             analyticsService: MockAnalyticsService(),
             chatService: MockChatService(),
+            configService: MockAppConfigService(),
             openURLAction: { _ in },
             handleError: { _ in }
         )
