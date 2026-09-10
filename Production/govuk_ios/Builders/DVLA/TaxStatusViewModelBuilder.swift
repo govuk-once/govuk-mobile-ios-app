@@ -36,25 +36,7 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
         case .untaxed:
             return makeExpiredViewModel()
         case .taxed:
-            if let validToDate = vehicle.taxedUntil {
-                let expiryProgress = expiryProgressCalculator.calculate(
-                    expiryDate: validToDate,
-                    currentDate: Date.now
-                )
-                if expiryProgress.isExpired {
-                    return makeExpiredViewModel()
-                }
-                if expiryProgress.isWithinCountdownWindow {
-                    return makeExpiringViewModel(
-                        validToDate: validToDate,
-                        paymentMethod: vehicle.currentLicencePaymentMethod ?? "",
-                        expiryProgress: expiryProgress
-                    )
-                }
-            }
-            return makeValidViewModel(
-                validToDate: vehicle.taxedUntil
-            )
+            return makeViewModelForTaxed(vehicle: vehicle)
         case .sorn:
             return makeSornViewModel(
                 status: status,
@@ -77,6 +59,30 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
         } else {
             return nil
         }
+    }
+
+    // MARK: - Taxed
+    @MainActor
+    private func makeViewModelForTaxed(vehicle: TaxValidityVehicle) -> ValidityStatusViewModel {
+        if let validToDate = vehicle.taxedUntil {
+            let expiryProgress = expiryProgressCalculator.calculate(
+                expiryDate: validToDate,
+                currentDate: Date.now
+            )
+            if expiryProgress.isExpired {
+                return makeExpiredViewModel()
+            }
+            if expiryProgress.isWithinCountdownWindow {
+                return makeExpiringViewModel(
+                    validToDate: validToDate,
+                    paymentMethod: vehicle.currentLicencePaymentMethod ?? "",
+                    expiryProgress: expiryProgress
+                )
+            }
+        }
+        return makeValidViewModel(
+            validToDate: vehicle.taxedUntil
+        )
     }
 
     // MARK: - Expired
