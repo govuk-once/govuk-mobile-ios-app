@@ -153,7 +153,7 @@ extension Container {
                 baseUrl: self.appEnvironmentService().mailboxBaseURL,
                 session: self.urlSession(),
                 requestBuilder: RequestBuilder(),
-                tokenProvider: self.mailboxTokenProvider.resolve()
+                tokenProvider: self.authenticationService()
             )
         }
     }
