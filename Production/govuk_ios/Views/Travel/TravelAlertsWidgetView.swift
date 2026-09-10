@@ -11,10 +11,18 @@ struct TravelAlertsWidgetView: View {
                 switch viewModel.viewState {
                 case .loading:
                     TravelAlertsLoadingView()
-                case .loaded:
-                    TravelAlertsLoadedView(onTapAction: {
-                        viewModel.openCountryList()
-                    })
+                case .loaded(let url):
+                    TravelAlertsLoadedView(
+                        onTapAction: {
+                            viewModel.openExternalURL(url)
+                        }
+                    )
+                case .empty:
+                    TravelAlertsEmptyView(
+                        onTapAction: {
+                            viewModel.openCountryList()
+                        }
+                    )
                 case .error:
                     TravelAlertsErrorView()
                 }
@@ -40,7 +48,7 @@ struct TravelAlertsWidgetView: View {
     }
 }
 
-private struct TravelAlertsLoadedView: View {
+private struct TravelAlertsEmptyView: View {
     let onTapAction: () -> Void
 
     var body: some View {
@@ -54,6 +62,20 @@ private struct TravelAlertsLoadedView: View {
                 iconBottomPadding: 8
             )
         )
+    }
+}
+
+private struct TravelAlertsLoadedView: View {
+    let onTapAction: () -> Void
+
+    var body: some View {
+        SectionHeaderLabelView(model: SectionHeaderLabelViewModel(
+            title: String(localized: .Travel.travelAlertLoadedHeading),
+            button: .init(
+                localisedTitle: String(localized: .Travel.travelAlertLoadedButtonEdit),
+                action: { onTapAction() }
+            )
+        ))
     }
 }
 

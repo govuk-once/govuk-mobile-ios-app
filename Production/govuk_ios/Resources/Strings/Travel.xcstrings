@@ -77,6 +77,28 @@
           }
         }
       }
+    },
+    "travelAlertLoadedButtonEdit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit"
+          }
+        }
+      }
+    },
+    "travelAlertLoadedHeading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Countries you follow"
+          }
+        }
+      }
     }
   },
   "version" : "1.2"
