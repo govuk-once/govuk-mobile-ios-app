@@ -31,6 +31,13 @@ class TravelService: TravelServiceInterface {
             return
         }
 
+        completion(.success([
+            TravelGroup(namespace: "travel", group: "france", subgroup: "daily"),
+            TravelGroup(namespace: "travel", group: "germany", subgroup: "daily"),
+            TravelGroup(namespace: "travel", group: "spain", subgroup: "daily")
+        ]))
+        return
+
         travelServiceClient.fetchGroups(
             completion: { result in
                 switch result {
@@ -51,9 +58,24 @@ class TravelService: TravelServiceInterface {
         // Implement caching and real API handling
 
         completion(.success([
-            Country(country: "France", slug: "france", lastUpdate: "", synonyms: []),
-            Country(country: "Germany", slug: "germany", lastUpdate: "", synonyms: []),
-            Country(country: "Spain", slug: "spain", lastUpdate: "", synonyms: [])
+            Country(
+                country: "France",
+                slug: "france",
+                lastUpdate: "2024-01-01T00:00:00Z",
+                synonyms: []
+            ),
+            Country(
+                country: "Germany",
+                slug: "germany",
+                lastUpdate: "2024-01-01T00:00:00Z",
+                synonyms: []
+            ),
+            Country(
+                country: "Spain",
+                slug: "spain",
+                lastUpdate: "2024-01-01T00:00:00Z",
+                synonyms: []
+            )
         ]))
         return
     }

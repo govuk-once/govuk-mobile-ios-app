@@ -11,12 +11,8 @@ struct TravelAlertsWidgetView: View {
                 switch viewModel.viewState {
                 case .loading:
                     TravelAlertsLoadingView()
-                case .loaded(let url):
-                    TravelAlertsLoadedView(
-                        onTapAction: {
-                            viewModel.openExternalURL(url)
-                        }
-                    )
+                case let .loaded(rows):
+                    TravelAlertsLoadedView(rows: rows)
                 case .empty:
                     TravelAlertsEmptyView(
                         onTapAction: {
@@ -66,16 +62,23 @@ private struct TravelAlertsEmptyView: View {
 }
 
 private struct TravelAlertsLoadedView: View {
-    let onTapAction: () -> Void
+    let rows: [GroupedListSection]
 
     var body: some View {
-        SectionHeaderLabelView(model: SectionHeaderLabelViewModel(
-            title: String(localized: .Travel.travelAlertLoadedHeading),
-            button: .init(
-                localisedTitle: String(localized: .Travel.travelAlertLoadedButtonEdit),
-                action: { onTapAction() }
+        VStack(spacing: 8) {
+            SectionHeaderLabelView(model: SectionHeaderLabelViewModel(
+                title: String(localized: .Travel.travelAlertLoadedHeading),
+                button: .init(
+                    localisedTitle: String(localized: .Travel.travelAlertLoadedButtonEdit),
+                    action: { }
+                )
+            ))
+
+            GroupedList(
+                content: rows,
+                sectionBackgroundColor: .govUK.fills.surfaceListAlt
             )
-        ))
+        }
     }
 }
 

@@ -6,7 +6,7 @@ import GovKit
 final class TravelAlertsWidgetViewModel: ObservableObject {
     enum ViewState {
         case loading
-        case loaded(url: URL)
+        case loaded(groupedList: [GroupedListSection])
         case empty
         case error
     }
@@ -65,14 +65,51 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
                     if groups.isEmpty {
                         self?.viewState = .empty
                     } else {
-                        let emptyStateUrl = Constants.API.govukBaseUrl
-                        self?.viewState = .loaded(url: emptyStateUrl)
+                        self?.travelService.getCountries(
+                            forceRefresh: false
+                        ) { [weak self] countriesResult in
+                            Task { @MainActor in
+                                let countries = (try? countriesResult.get()) ?? []
+                                self?.buildSections(from: groups, countries: countries)
+                            }
+                        }
                     }
                 case .failure:
                     self?.viewState = .error
                 }
             }
         }
+    }
+
+    private func buildSections(from groups: [TravelGroup], countries: [Country]) {
+        let countryMap = Dictionary(uniqueKeysWithValues: countries.map {
+            ($0.slug.lowercased(), $0)
+        })
+
+        let rows = groups.compactMap { group -> LinkRow? in
+            guard let country = countryMap[group.group.lowercased()] else { return nil }
+
+            let url = URL(string: "https://www.gov.uk/foreign-travel-advice\(country.slug.lowercased())")
+
+            return LinkRow(
+                id: group.group,
+                title: country.country,
+                body: country.lastUpdate,
+                showLinkImage: false,
+                action: { [weak self] in
+                    guard let url else { return }
+                    self?.openURLAction(url)
+                }
+            )
+        }
+
+        self.viewState = .loaded(groupedList: [
+            GroupedListSection(
+                heading: nil,
+                rows: rows,
+                footer: nil
+            )
+        ])
     }
 
     func openCountryList() {
