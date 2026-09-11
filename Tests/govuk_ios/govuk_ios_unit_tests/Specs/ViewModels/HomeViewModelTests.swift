@@ -12,6 +12,7 @@ struct HomeViewModelTests {
         let topicsViewModel = TopicsWidgetViewModel(
             topicsService: MockTopicsService(),
             analyticsService: MockAnalyticsService(),
+            userDefaultsService: MockUserDefaultsService(),
             topicAction: { _ in },
             dismissEditAction: { }
         )
@@ -85,6 +86,7 @@ struct HomeViewModelTests {
         let topicsViewModel = TopicsWidgetViewModel(
             topicsService: MockTopicsService(),
             analyticsService: MockAnalyticsService(),
+            userDefaultsService: MockUserDefaultsService(),
             topicAction: { _ in },
             dismissEditAction: { }
         )
@@ -118,6 +120,7 @@ struct HomeViewModelTests {
         let topicsViewModel = TopicsWidgetViewModel(
             topicsService: MockTopicsService(),
             analyticsService: MockAnalyticsService(),
+            userDefaultsService: MockUserDefaultsService(),
             topicAction: { _ in },
             dismissEditAction: { }
         )
@@ -181,6 +184,7 @@ struct HomeViewModelTests {
         let topicsViewModel = TopicsWidgetViewModel(
             topicsService: MockTopicsService(),
             analyticsService: MockAnalyticsService(),
+            userDefaultsService: MockUserDefaultsService(),
             topicAction: { _ in },
             dismissEditAction: { }
         )

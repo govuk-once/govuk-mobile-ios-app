@@ -211,6 +211,7 @@ class HomeCoordinator: TabItemCoordinator {
         TopicsWidgetViewModel(
             topicsService: topicsService,
             analyticsService: analyticsService,
+            userDefaultsService: userDefaultsService,
             topicAction: startTopicDetailCoordinator,
             dismissEditAction: { [weak self] in
                 self?.root.viewWillReAppear()
