@@ -315,7 +315,7 @@
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "GOV.UK Chat uses AI and can sometimes make mistakes"
+            "value" : "GOV.UK Chat uses AI and can sometimes make mistakes."
           }
         }
       }
