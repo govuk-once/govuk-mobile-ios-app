@@ -76,7 +76,7 @@ private struct TravelAlertsLoadedView: View {
 
             GroupedList(
                 content: rows,
-                sectionBackgroundColor: .govUK.fills.surfaceListAlt
+                sectionBackgroundColor: .govUK.fills.surfaceList
             )
         }
     }

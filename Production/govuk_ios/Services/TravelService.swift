@@ -31,13 +31,6 @@ class TravelService: TravelServiceInterface {
             return
         }
 
-        completion(.success([
-            TravelGroup(namespace: "travel", group: "france", subgroup: "daily"),
-            TravelGroup(namespace: "travel", group: "germany", subgroup: "daily"),
-            TravelGroup(namespace: "travel", group: "spain", subgroup: "daily")
-        ]))
-        return
-
         travelServiceClient.fetchGroups(
             completion: { result in
                 switch result {

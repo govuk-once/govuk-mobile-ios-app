@@ -62,16 +62,12 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
             Task { @MainActor in
                 switch result {
                 case .success(let groups):
-                    if groups.isEmpty {
-                        self?.viewState = .empty
-                    } else {
-                        self?.travelService.getCountries(
-                            forceRefresh: false
-                        ) { [weak self] countriesResult in
-                            Task { @MainActor in
-                                let countries = (try? countriesResult.get()) ?? []
-                                self?.buildSections(from: groups, countries: countries)
-                            }
+                    self?.travelService.getCountries(
+                        forceRefresh: false
+                    ) { [weak self] countriesResult in
+                        Task { @MainActor in
+                            let countries = (try? countriesResult.get()) ?? []
+                            self?.buildSections(from: groups, countries: countries)
                         }
                     }
                 case .failure:
@@ -89,7 +85,7 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
         let rows = groups.compactMap { group -> LinkRow? in
             guard let country = countryMap[group.group.lowercased()] else { return nil }
 
-            let url = URL(string: "https://www.gov.uk/foreign-travel-advice\(country.slug.lowercased())")
+            let url = URL(string: "https://www.gov.uk/foreign-travel-advice/\(country.slug.lowercased())")
 
             return LinkRow(
                 id: group.group,
@@ -105,13 +101,17 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
             )
         }
 
-        self.viewState = .loaded(groupedList: [
-            GroupedListSection(
-                heading: nil,
-                rows: rows,
-                footer: nil
-            )
-        ])
+        if rows.isEmpty {
+            self.viewState = .empty
+        } else {
+            self.viewState = .loaded(groupedList: [
+                GroupedListSection(
+                    heading: nil,
+                    rows: rows,
+                    footer: nil
+                )
+            ])
+        }
     }
 
     func openCountryList() {
