@@ -26,6 +26,58 @@ struct ChatExampleQuestionsViewModel {
         }
     }
 
+    func trackEcommerce() {
+        let event = AppEvent.viewItemList(
+            name: "chat suggestions",
+            id: "chat suggestions",
+            items: exampleQuestions.enumerated().map { index, question in
+                ChatExampleQuestionItem(
+                    name: question.body,
+                    listId: "chat_suggestion",
+                    index: index + 1
+                )
+            }
+        )
+        analyticsService.track(event: event)
+    }
+
+    func trackExampleQuestionSelected(
+        text: String,
+        index: Int
+    ) {
+        let event = AppEvent.function(
+            text: text,
+            type: "suggestion",
+            section: "Chat",
+            action: "Tapped"
+        )
+        analyticsService.track(event: event)
+        trackEcommerceItemSelected(
+            text: text,
+            index: index
+        )
+    }
+
+    private func trackEcommerceItemSelected(
+        text: String,
+        index: Int
+    ) {
+        let listName = "chat suggestions"
+        let event = AppEvent.selectItem(
+            listName: listName,
+            listId: listName,
+            results: exampleQuestions.count,
+            items: [
+                ChatExampleQuestionItem(
+                    name: text,
+                    listId: listName,
+                    index: index
+                )
+            ]
+        )
+        analyticsService.track(event: event)
+    }
+
     struct ChatExampleQuestion {
         var body: String
         let accessibilityLabel: String

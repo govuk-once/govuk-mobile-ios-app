@@ -11,9 +11,15 @@ struct ChatExampleQuestionsView: View {
                 .foregroundStyle(Color(UIColor.govUK.text.secondary))
                 .padding(.trailing, 16)
                 .accessibilityHidden(true)
-            ForEach(viewModel.exampleQuestions, id: \.body) { question in
+            ForEach(
+                Array(viewModel.exampleQuestions.enumerated()), id: \.offset
+            ) { index, question in
                 Button {
                     askQuestion(question.body)
+                    viewModel.trackExampleQuestionSelected(
+                        text: question.body,
+                        index: index + 1
+                    )
                 } label: {
                     Text(question.body)
                         .font(.govUK.body)
@@ -32,5 +38,8 @@ struct ChatExampleQuestionsView: View {
             }
         }
         .padding(.leading, 44)
+        .onAppear {
+            viewModel.trackEcommerce()
+        }
     }
 }
