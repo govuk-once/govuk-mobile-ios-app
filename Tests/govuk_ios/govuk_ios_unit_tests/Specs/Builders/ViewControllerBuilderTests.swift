@@ -29,6 +29,7 @@ struct ViewControllerBuilderTests {
         let viewModel = TopicsWidgetViewModel(
             topicsService: MockTopicsService(),
             analyticsService: MockAnalyticsService(),
+            userDefaultsService: MockUserDefaultsService(),
             topicAction: { _ in },
             dismissEditAction: { }
         )
@@ -316,6 +317,7 @@ struct ViewControllerBuilderTests {
         let result = subject.chat(
             analyticsService: MockAnalyticsService(),
             chatService: MockChatService(),
+            configService: MockAppConfigService(),
             openURLAction: { _ in },
             handleError: { _ in }
         )

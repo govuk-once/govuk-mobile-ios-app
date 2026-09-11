@@ -111,7 +111,6 @@ class ViewControllerBuilder {
             )
             let viewController = HostingViewController(
                 rootView: view,
-                navigationBarHidden: true
             )
             viewController.view.backgroundColor = .govUK.fills.surfaceModal
             return viewController
@@ -136,7 +135,6 @@ class ViewControllerBuilder {
         )
         let viewController  = HostingViewController(
             rootView: view,
-            navigationBarHidden: true
         )
         viewController.view.backgroundColor = .govUK.fills.surfaceModal
         return viewController
@@ -434,11 +432,13 @@ class ViewControllerBuilder {
 
     func chat(analyticsService: AnalyticsServiceInterface,
               chatService: ChatServiceInterface,
+              configService: AppConfigServiceInterface,
               openURLAction: @escaping (URL) -> Void,
               handleError: @escaping (ChatError) -> Void) -> UIViewController {
         let viewModel = ChatViewModel(
             chatService: chatService,
             analyticsService: analyticsService,
+            configService: configService,
             openURLAction: openURLAction,
             handleError: handleError
         )

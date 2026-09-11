@@ -15,6 +15,7 @@ struct ChatViewModelTests {
         let sut = ChatViewModel(
             chatService: mockChatService,
             analyticsService: MockAnalyticsService(),
+            configService: MockAppConfigService(),
             openURLAction: { _ in },
             handleError: { _ in }
         )
@@ -25,6 +26,7 @@ struct ChatViewModelTests {
         #expect(sut.cellModels.first?.type == .question)
         #expect(sut.cellModels.last?.type == .answer)
         #expect(sut.latestQuestion == "")
+        #expect(sut.showExampleQuestions == false)
     }
 
     @Test
@@ -36,6 +38,7 @@ struct ChatViewModelTests {
         let sut = ChatViewModel(
             chatService: mockChatService,
             analyticsService: mockAnalyticsService,
+            configService: MockAppConfigService(),
             openURLAction: { _ in },
             handleError: { _ in }
         )
@@ -62,6 +65,7 @@ struct ChatViewModelTests {
         let sut = ChatViewModel(
             chatService: mockChatService,
             analyticsService: MockAnalyticsService(),
+            configService: MockAppConfigService(),
             openURLAction: { _ in },
             handleError: { error in
                 chatError = error
@@ -74,16 +78,18 @@ struct ChatViewModelTests {
         #expect(sut.cellModels.count == 1)
         #expect(sut.cellModels.first?.type == .question)
         #expect(chatError == .apiUnavailable)
+        #expect(sut.showExampleQuestions == false)
     }
 
     @Test
     func askQuestion_question_failure_callsHandleError() {
         let mockChatService = MockChatService()
-        mockChatService._stubbedQuestionResult = .failure(ChatError.pageNotFound)
+        mockChatService._stubbedQuestionResult = .failure(ChatError.authenticationError)
         var chatError: ChatError?
         let sut = ChatViewModel(
             chatService: mockChatService,
             analyticsService: MockAnalyticsService(),
+            configService: MockAppConfigService(),
             openURLAction: { _ in },
             handleError: { error in
                 chatError = error
@@ -93,7 +99,8 @@ struct ChatViewModelTests {
 
         sut.askQuestion()
 
-        #expect(chatError == .pageNotFound)
+        #expect(chatError == .authenticationError)
+        #expect(sut.showExampleQuestions == false)
     }
 
     @Test
@@ -105,6 +112,7 @@ struct ChatViewModelTests {
         let sut = ChatViewModel(
             chatService: mockChatService,
             analyticsService: mockAnalyticsService,
+            configService: MockAppConfigService(),
             openURLAction: { _ in },
             handleError: { error in
                 chatError = error
@@ -122,6 +130,7 @@ struct ChatViewModelTests {
         #expect(sut.showValidationAlert == true)
         #expect(!sut.latestQuestion.isEmpty)
         #expect(mockAnalyticsService._trackedEvents.count == 0)
+        #expect(sut.showExampleQuestions == false)
     }
 
     @Test
@@ -132,6 +141,7 @@ struct ChatViewModelTests {
         let sut = ChatViewModel(
             chatService: mockChatService,
             analyticsService: MockAnalyticsService(),
+            configService: MockAppConfigService(),
             openURLAction: { _ in },
             handleError: { error in
                 chatError = error
@@ -148,6 +158,7 @@ struct ChatViewModelTests {
         #expect(sut.validationAlertDetails.title == "Personal data")
         #expect(sut.showValidationAlert == true)
         #expect(!sut.latestQuestion.isEmpty)
+        #expect(sut.showExampleQuestions == false)
     }
 
     @Test
@@ -205,6 +216,7 @@ struct ChatViewModelTests {
         let sut = ChatViewModel(
             chatService: mockChatService,
             analyticsService: MockAnalyticsService(),
+            configService: MockAppConfigService(),
             openURLAction: { _ in },
             handleError: { _ in }
         )
@@ -217,6 +229,7 @@ struct ChatViewModelTests {
         #expect(sut.cellModels[3].type == .question)
         #expect(sut.cellModels[4].type == .answer)
         #expect(sut.cellModels[5].type == .question)
+        #expect(sut.showExampleQuestions == false)
     }
 
     @Test
@@ -228,6 +241,7 @@ struct ChatViewModelTests {
         let sut = ChatViewModel(
             chatService: mockChatService,
             analyticsService: MockAnalyticsService(),
+            configService: MockAppConfigService(),
             openURLAction: { _ in },
             handleError: { error in
                 chatError = error
@@ -248,6 +262,7 @@ struct ChatViewModelTests {
         let sut = ChatViewModel(
             chatService: mockChatService,
             analyticsService: MockAnalyticsService(),
+            configService: MockAppConfigService(),
             openURLAction: { _ in },
             handleError: { error in
                 chatError = error
@@ -259,6 +274,7 @@ struct ChatViewModelTests {
         #expect(sut.cellModels.count == 1)
         #expect(chatError == nil)
         #expect(mockChatService.currentConversationId == nil)
+        #expect(sut.showExampleQuestions == true)
     }
 
     @Test
@@ -268,6 +284,7 @@ struct ChatViewModelTests {
         let sut = ChatViewModel(
             chatService: mockChatService,
             analyticsService: MockAnalyticsService(),
+            configService: MockAppConfigService(),
             openURLAction: { _ in },
             handleError: { _ in }
         )
@@ -276,6 +293,7 @@ struct ChatViewModelTests {
 
         sut.newChat()
         #expect(mockChatService._clearHistoryCalled)
+        #expect(sut.showExampleQuestions == true)
     }
 
     @Test
@@ -285,6 +303,7 @@ struct ChatViewModelTests {
             let sut = ChatViewModel(
                 chatService: MockChatService(),
                 analyticsService: mockAnalyticsService,
+                configService: MockAppConfigService(),
                 openURLAction: { _ in confirmation() },
                 handleError: { _ in }
             )
@@ -302,6 +321,7 @@ struct ChatViewModelTests {
             let sut = ChatViewModel(
                 chatService: MockChatService(),
                 analyticsService: mockAnalyticsService,
+                configService: MockAppConfigService(),
                 openURLAction: { _ in confirmation() },
                 handleError: { _ in }
             )
@@ -319,6 +339,7 @@ struct ChatViewModelTests {
             let sut = ChatViewModel(
                 chatService: MockChatService(),
                 analyticsService: mockAnalyticsService,
+                configService: MockAppConfigService(),
                 openURLAction: { _ in confirmation() },
                 handleError: { _ in }
             )
@@ -335,6 +356,7 @@ struct ChatViewModelTests {
         let sut = ChatViewModel(
             chatService: MockChatService(),
             analyticsService: mockAnalyticsService,
+            configService: MockAppConfigService(),
             openURLAction: { _ in },
             handleError: { _ in }
         )
@@ -350,6 +372,7 @@ struct ChatViewModelTests {
         let sut = ChatViewModel(
             chatService: MockChatService(),
             analyticsService: mockAnalyticsService,
+            configService: MockAppConfigService(),
             openURLAction: { _ in },
             handleError: { _ in }
         )
@@ -365,6 +388,7 @@ struct ChatViewModelTests {
         let sut = ChatViewModel(
             chatService: MockChatService(),
             analyticsService: mockAnalyticsService,
+            configService: MockAppConfigService(),
             openURLAction: { _ in },
             handleError: { _ in }
         )
@@ -388,6 +412,7 @@ struct ChatViewModelTests {
         let sut = ChatViewModel(
             chatService: MockChatService(),
             analyticsService: mockAnalyticsService,
+            configService: MockAppConfigService(),
             openURLAction: { _ in },
             handleError: { _ in }
         )
@@ -413,6 +438,7 @@ struct ChatViewModelTests {
         let sut = ChatViewModel(
             chatService: MockChatService(),
             analyticsService: mockAnalyticsService,
+            configService: MockAppConfigService(),
             openURLAction: { _ in },
             handleError: { _ in }
         )

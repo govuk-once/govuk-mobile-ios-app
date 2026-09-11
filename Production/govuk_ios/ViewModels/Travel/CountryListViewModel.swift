@@ -6,13 +6,19 @@ class CountryListViewModel: ObservableObject {
     enum ViewState {
         case loading
         case loaded
+        case empty
         case error
     }
 
     @Published private(set) var viewState: ViewState = .loading
-    @Published private(set) var sections = [GroupedListSection]()
-    @Published var searchText = ""
+    @Published var searchText = "" {
+        didSet {
+            updateFilteredSections()
+        }
+    }
+    @Published private(set) var filteredSections = [GroupedListSection]()
 
+    private var allCountries: [Country] = []
     private let travelService: TravelServiceInterface
     let analyticsService: AnalyticsServiceInterface
     private let countrySelectedAction: (Country) -> Void
@@ -34,6 +40,11 @@ class CountryListViewModel: ObservableObject {
         analyticsService.track(screen: screen)
     }
 
+    func trackSearchInput(text: String) {
+        let searchEvent = AppEvent.searchTerm(term: text, type: .typed, section: "country_search")
+        analyticsService.track(event: searchEvent)
+    }
+
     @MainActor
     func viewDidAppear() async {
         await fetchCountryList()
@@ -52,8 +63,8 @@ class CountryListViewModel: ObservableObject {
             Task { @MainActor in
                 switch result {
                 case .success(let countries):
-                    self?.sections = self?.buildSections(from: countries) ?? []
-                    self?.viewState = .loaded
+                    self?.allCountries = countries
+                    self?.updateFilteredSections()
                 case .failure:
                     self?.viewState = .error
                 }
@@ -87,5 +98,27 @@ class CountryListViewModel: ObservableObject {
                 footer: nil
             )
         ]
+    }
+
+    private func updateFilteredSections() {
+        let trimmedSearch = searchText.trimmingCharacters(in: .whitespaces)
+        let filtered = trimmedSearch.isEmpty
+        ? allCountries
+        : allCountries.filter { item in
+            let matchesCountry = item.country.localizedCaseInsensitiveContains(trimmedSearch)
+            let matchesSynonym = item.synonyms.contains {
+                $0.localizedCaseInsensitiveContains(trimmedSearch)
+            }
+
+            return matchesCountry || matchesSynonym
+        }
+
+        filteredSections = buildSections(from: filtered)
+
+        if filteredSections.count > 0 {
+            self.viewState = .loaded
+        } else {
+            self.viewState = .empty
+        }
     }
 }

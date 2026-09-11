@@ -77,6 +77,7 @@ class LocalAuthorityPostcodeEntryViewModel: ObservableObject {
                     authorities: localAuthorities,
                     addresses: addresses
                 )
+                UIApplication.shared.dismissKeyboard()
                 self.resolveAmbiguityAction(ambiguousAuthorities, self.postCode)
             case .failure(let error):
                 self?.populateErrorMessage(error)
@@ -149,6 +150,7 @@ class LocalAuthorityPostcodeEntryViewModel: ObservableObject {
     private func handleFetchLocalAuthorityResponse(_ response: LocalAuthorityResponse) {
         switch response.type {
         case .authority(let authority):
+            UIApplication.shared.dismissKeyboard()
             localAuthoritySelected(authority)
         case .addresses(let addressess):
             fetchAuthoritiesWithAddresses(addressess)

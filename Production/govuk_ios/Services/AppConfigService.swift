@@ -14,6 +14,7 @@ protocol AppConfigServiceInterface {
     var dvlaUrls: DvlaURLs? { get }
     var refreshTokenExpirySeconds: Int? { get }
     var termsAndConditions: TermsAndConditions? { get }
+    var chatExampleQuestions: [String]? { get }
 }
 
 public final class AppConfigService: AppConfigServiceInterface {
@@ -33,6 +34,7 @@ public final class AppConfigService: AppConfigServiceInterface {
     private(set) var dvlaUrls: DvlaURLs?
     private(set) var refreshTokenExpirySeconds: Int?
     private(set) var termsAndConditions: TermsAndConditions?
+    private(set) var chatExampleQuestions: [String]?
 
     init(appConfigServiceClient: AppConfigServiceClientInterface,
          termsAndConditionsServiceClient: TermsAndConditionsServiceClientInterface,
@@ -94,6 +96,7 @@ public final class AppConfigService: AppConfigServiceInterface {
         chatUrls = config.chatUrls
         dvlaUrls = config.dvlaUrls
         termsAndConditions = config.termsAndConditions
+        chatExampleQuestions = config.chatExampleQuestions
     }
 
     private func updateChatPollInterval(_ interval: TimeInterval?) {
