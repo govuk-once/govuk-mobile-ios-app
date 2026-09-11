@@ -1,13 +1,24 @@
 {
   "sourceLanguage" : "en-GB",
   "strings" : {
+    "countryListScreenEmptyTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No results found"
+          }
+        }
+      }
+    },
     "countryListScreenErrorBody" : {
       "extractionState" : "manual",
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "We could not load travel alerts. Try again later."
+            "value" : "We’re unable to load the countries list right now. Try again later."
           }
         }
       }
@@ -29,7 +40,7 @@
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "There’s a problem"
+            "value" : "Error"
           }
         }
       }

@@ -20,8 +20,9 @@ struct CountryListView: View {
 
     private var searchBarPadding: CGFloat {
         let isLoaded = if case .loaded = viewModel.viewState { true } else { false }
+        let isEmpty = if case .empty = viewModel.viewState { true } else { false }
 
-        return isLoaded ? 60 : 10
+        return (isLoaded || isEmpty) ? 60 : 10
     }
 
     var body: some View {
@@ -34,6 +35,11 @@ struct CountryListView: View {
                     GeometryReader { geometry in
                         modifiedScrollView(geometry: geometry)
                     }
+                case .empty:
+                    FollowCountryEmptyView(
+                        searchBarAlignment: searchBarAlignment,
+                        searchBarPadding: searchBarPadding
+                    )
                 case .error:
                     ErrorView(viewModel: createErrorViewModel())
                 }
@@ -47,11 +53,19 @@ struct CountryListView: View {
             viewModel.trackScreen(screen: self)
         }
         .overlay(alignment: searchBarAlignment) {
-            if case .loaded = viewModel.viewState {
-                SearchBarView(text: $viewModel.searchText)
-                    .padding(.horizontal, 14)
-                    .padding(.bottom, 0)
-                    .background(.clear)
+            switch viewModel.viewState {
+            case .loaded, .empty:
+                SearchBarView(
+                    text: $viewModel.searchText,
+                    onSearchTextChanged: { text in
+                        viewModel.trackSearchInput(text: text)
+                    }
+                )
+                .padding(.horizontal, 14)
+                .padding(.bottom, 0)
+                .background(.clear)
+            default:
+                EmptyView()
             }
         }
         .navigationTitle(String(localized: .Travel.countryListTitle))
@@ -101,7 +115,7 @@ struct CountryListView: View {
                 }
 
                 GroupedList(
-                    content: viewModel.sections,
+                    content: viewModel.filteredSections,
                     sectionBackgroundColor: .govUK.fills.surfaceListAlt
                 )
 
@@ -123,6 +137,28 @@ struct CountryListLoadingView: View {
                 .accessibilityLabel(.Travel.countryListScreenLoading)
             Spacer()
         }
+    }
+}
+
+private struct FollowCountryEmptyView: View {
+    var searchBarAlignment: Alignment
+    var searchBarPadding: CGFloat
+
+    var body: some View {
+        VStack(spacing: 0) {
+            if searchBarAlignment == .top {
+                Spacer()
+                    .frame(height: searchBarPadding)
+            }
+
+            Text(String(localized: .Travel.countryListScreenEmptyTitle))
+                .font(Font.govUK.body)
+                .multilineTextAlignment(.center)
+                .foregroundStyle(Color(GOVUKColors.text.primary))
+                .padding(.top, 6)
+
+            Spacer()
+        }.frame(maxWidth: .infinity)
     }
 }
 
