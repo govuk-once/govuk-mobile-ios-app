@@ -39,7 +39,6 @@ final class LocalAuthorityPostcodeEntryViewControllerSnapshotTests: SnapshotTest
         viewModel.primaryButtonViewModel.action()
         let viewController = HostingViewController(
             rootView: view,
-            navigationBarHidden: true
         )
         viewController.view.backgroundColor = .govUK.fills.surfaceModal
         VerifySnapshotInNavigationController(
@@ -66,7 +65,6 @@ final class LocalAuthorityPostcodeEntryViewControllerSnapshotTests: SnapshotTest
 
         let viewController = HostingViewController(
             rootView: view,
-            navigationBarHidden: true
         )
         viewController.view.backgroundColor = .govUK.fills.surfaceModal
 
@@ -90,7 +88,6 @@ final class LocalAuthorityPostcodeEntryViewControllerSnapshotTests: SnapshotTest
         )
         let viewController = HostingViewController(
             rootView: view,
-            navigationBarHidden: true
         )
         viewController.view.backgroundColor = .govUK.fills.surfaceModal
         return viewController

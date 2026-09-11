@@ -111,7 +111,6 @@ class ViewControllerBuilder {
             )
             let viewController = HostingViewController(
                 rootView: view,
-                navigationBarHidden: true
             )
             viewController.view.backgroundColor = .govUK.fills.surfaceModal
             return viewController
@@ -136,7 +135,6 @@ class ViewControllerBuilder {
         )
         let viewController  = HostingViewController(
             rootView: view,
-            navigationBarHidden: true
         )
         viewController.view.backgroundColor = .govUK.fills.surfaceModal
         return viewController

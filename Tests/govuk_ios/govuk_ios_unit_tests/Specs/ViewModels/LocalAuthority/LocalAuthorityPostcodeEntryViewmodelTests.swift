@@ -7,7 +7,8 @@ import Combine
 
 @Suite
 struct LocalAuthorityPostcodeEntryViewmodelTests {
-    
+
+    @MainActor
     @Test
     func fetchLocalAuthority_addressList_returnsExpectedResults() async throws {
         let addresses:[LocalAuthorityAddress] = [
