@@ -57,72 +57,8 @@ struct ValidityStatusView: View {
         }
         .padding(Self.standardPadding)
     }
-
-    @ViewBuilder
-    private var statusTextView: some View {
-        if let status = (viewModel.status as? TaxValidityStatus) {
-            switch status {
-            case .unknown:
-                unknownStatusView
-            case .notTaxedForOnRoadUse,
-                    .sorn,
-                    .futureSorn,
-                    .untaxed,
-                    .taxed:
-                knownStatusTextView
-            }
-        } else {
-            knownStatusTextView
-        }
-    }
-
-    @ViewBuilder
-    private var unknownStatusView: some View {
-        if !viewModel.formattedStatus.isEmpty {
-            if let statusLinkAction = viewModel.statusLinkAction {
-                Button(action: statusLinkAction) {
-                    HStack {
-                        Text(viewModel.formattedStatus)
-                            .multilineTextAlignment(.leading)
-                            .font(Font.govUK.body)
-                            .foregroundColor(
-                                Color(UIColor.govUK.text.link)
-                            )
-                            .accessibilityLabel(
-                                viewModel.statusAccessibilityLabel ?? viewModel.formattedStatus
-                            )
-                        Spacer()
-                        Image(systemName: "arrow.up.forward")
-                            .foregroundColor(
-                                Color(UIColor.govUK.text.link)
-                            )
-                            .font(Font.govUK.bodySemibold)
-                    }
-                }
-            } else {
-                Text(viewModel.formattedStatus)
-                    .multilineTextAlignment(.leading)
-                    .accessibilityLabel(
-                        viewModel.statusAccessibilityLabel ?? viewModel.formattedStatus
-                    )
-            }
-        }
-    }
-
-    @ViewBuilder
-    private var knownStatusTextView: some View {
-        if let statusAccessibilityLabel = viewModel.statusAccessibilityLabel {
-            Text(viewModel.formattedStatus)
-                .multilineTextAlignment(.leading)
-                .accessibilityLabel(statusAccessibilityLabel)
-        } else {
-            if viewModel.formattedStatus != "" {
-                Text(viewModel.formattedStatus)
-                    .multilineTextAlignment(.leading)
-            }
-        }
-    }
 }
+
 
 #Preview {
     let viewModel = ValidityStatusViewModel(
