@@ -1,6 +1,17 @@
 {
   "sourceLanguage" : "en-GB",
   "strings" : {
+    ".introMessageRetention" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Messages will be saved for 90 days."
+          }
+        }
+      }
+    },
     "aboutMenuAccessibilityTitle" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -216,7 +227,7 @@
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hello, I’m GOV.UK Chat 👋. I’m an experimental AI tool. \n\nWhen you ask a question, I’ll find the most relevant information from GOV.UK and use it to create an answer.\n\nMessages will be available for 90 days."
+            "value" : "Hi, I’m GOV.UK Chat 👋. I use AI to help you find what you need on GOV.UK."
           }
         }
       }
@@ -227,7 +238,7 @@
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hello, I’m GOV.UK Chat. I’m an experimental AI tool. \n\nWhen you ask a question, I’ll find the most relevant information from GOV.UK and use it to create an answer.\n\nMessages will be available for 90 days."
+            "value" : "Hi, I’m GOV.UK Chat. I use AI to help you find what you need on GOV.UK."
           }
         }
       }
@@ -304,7 +315,7 @@
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "GOV.UK Chat is an AI tool and can sometimes make mistakes."
+            "value" : "GOV.UK Chat uses AI and can sometimes make mistakes."
           }
         }
       }
@@ -381,7 +392,7 @@
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "We analyse questions and answers to improve Chat, as we’re still developing it.\n\nFind out more, including how to ask us to delete your data, in the [privacy notice](%@)."
+            "value" : "Chat is an experimental AI tool. We analyse questions and answers to improve it.\n  \nFind out more, including how to ask us to delete your data, in the [privacy notice](%@).\n\n[Chat terms and conditions](%@)"
           }
         }
       }
