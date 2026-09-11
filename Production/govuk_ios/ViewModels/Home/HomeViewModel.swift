@@ -93,7 +93,7 @@ class HomeViewModel: ObservableObject {
             addLocalAuthorityWidget,
             storedLocalAuthorityWidget,
             recentActivityWidget,
-            feedbackWidget
+            quarterlySurveyWidget
         ].compactMap { $0 }
     }
 
@@ -126,17 +126,12 @@ class HomeViewModel: ObservableObject {
         )
     }
 
-    private var feedbackWidget: HomepageWidget? {
-        guard let userFeedbackBanner = configService.userFeedbackBanner
-        else { return nil }
-
-        let viewModel = UserFeedbackWidgetViewModel(
-            userFeedback: userFeedbackBanner,
-            analyticsService: analyticsService,
-            urlOpener: urlOpener
+    private var quarterlySurveyWidget: HomepageWidget? {
+        guard featureEnabled(.quarterlySurvey) else { return nil }
+        let viewModel = QuarterlySurveyWidgetViewModel(
+            analyticsService: analyticsService
         )
-
-        let view = UserFeedbackWidgetView(
+        let view = QuarterlySurveyWidgetView(
             viewModel: viewModel
         )
         return HomepageWidget(

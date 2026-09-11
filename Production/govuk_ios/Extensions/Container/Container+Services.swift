@@ -12,6 +12,7 @@ import FirebaseAppCheck
 import FirebasePerformance
 import FirebaseRemoteConfig
 import OneSignalFramework
+import Qualtrics
 
 extension Container {
     var activityService: Factory<ActivityServiceInterface> {
@@ -28,12 +29,22 @@ extension Container {
                 clients: [
                     self.firebaseClient.resolve(),
                     self.crashlyticsClient.resolve(),
+                    self.qualtricsClient.resolve(),
                     self.performanceClient.resolve()
                 ],
                 userDefaultsService: self.userDefaultsService.resolve(),
                 isSignedIn: {
                     self.authenticationService.resolve().isSignedIn
                 }
+            )
+        }
+        .scope(.singleton)
+    }
+
+    var firebaseIDsService: Factory<FirebaseIDsServiceInterface> {
+        Factory(self) {
+            FirebaseIDsService(
+                firebaseAnalytics: Analytics.self
             )
         }
         .scope(.singleton)
@@ -46,6 +57,7 @@ extension Container {
             return FirebaseClient(
                 firebaseApp: FirebaseApp.self,
                 firebaseAnalytics: Analytics.self,
+                firebaseIDsService: self.firebaseIDsService.resolve()
             )
         }
     }
@@ -53,6 +65,27 @@ extension Container {
     var crashlyticsClient: Factory<AnalyticsClient> {
         Factory(self) {
             CrashlyticsClient(crashlytics: Crashlytics.crashlytics())
+        }
+    }
+
+    var qualtricsClient: Factory<AnalyticsClient> {
+        Factory(self) {
+            QualtricsClient(
+                qualtricsService: self.qualtrics.resolve()
+            )
+        }
+    }
+
+    var qualtrics: Factory<QualtricsServiceInterface> {
+        Factory(self) {
+            QualtricsService(
+                brandId: "yourBrandId",
+                projectId: "yourProjectId",
+                qualtrics: Qualtrics.shared,
+                firebaseIDsService: self.firebaseIDsService.resolve(),
+                firebaseClient: self.firebaseClient.resolve(),
+                theme: self.qualtricsTheme.resolve()
+            )
         }
     }
 
@@ -314,5 +347,15 @@ extension Container {
                 serviceClient: self.notificationCentreServiceClient.resolve(),
                 repository: self.notificationCentreRepository.resolve())
         }
+    }
+
+    var travelService: Factory<TravelServiceInterface> {
+        Factory(self) {
+            TravelService(
+                travelServiceClient: self.travelServiceClient(),
+                analyticsService: self.analyticsService.resolve(),
+                repository: self.travelRepository.resolve()
+            )
+        }.scope(.singleton)
     }
 }

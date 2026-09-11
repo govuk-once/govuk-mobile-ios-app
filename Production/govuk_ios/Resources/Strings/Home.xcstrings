@@ -78,17 +78,6 @@
         }
       }
     },
-    "feedbackWidgetTitle" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tell us what you think about the app"
-          }
-        }
-      }
-    },
     "logoAccessibilityTitle" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -151,6 +140,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Your topics"
+          }
+        }
+      }
+    },
+    "quartelySurveyButtonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Give feedback"
+          }
+        }
+      }
+    },
+    "quarterlySurveyWidgetTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tell us what you think about the app"
           }
         }
       }

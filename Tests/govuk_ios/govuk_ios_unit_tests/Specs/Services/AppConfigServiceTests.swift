@@ -154,6 +154,21 @@ struct AppConfigServiceTests {
 
         #expect(sut.isFeatureEnabled(key: .search) == false)
     }
+
+    @Test
+    func isFeatureEnabled_whenFeatureFlagIsDVLA_returnsTrue() {
+        let result = Config.arrange(releaseFlags: ["dvla": true]).toResult()
+        mockAppConfigServiceClient._fetchAppConfigReturn = result
+        #expect(sut.isFeatureEnabled(key: .dvla) == true)
+    }
+    
+    @Test
+    func isFeatureEnabled_whenFeatureFlagIsMessages_returnsTrue() {
+        let result = Config.arrange(releaseFlags: ["messages": true]).toResult()
+        mockAppConfigServiceClient._fetchAppConfigReturn = result
+        #expect(sut.isFeatureEnabled(key: .messages) == true)
+    }
+    
 }
 
 private extension Config {

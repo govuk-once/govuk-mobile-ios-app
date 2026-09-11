@@ -1,0 +1,124 @@
+import Foundation
+import GovKitUI
+import GovKit
+
+class CountryListViewModel: ObservableObject {
+    enum ViewState {
+        case loading
+        case loaded
+        case empty
+        case error
+    }
+
+    @Published private(set) var viewState: ViewState = .loading
+    @Published var searchText = "" {
+        didSet {
+            updateFilteredSections()
+        }
+    }
+    @Published private(set) var filteredSections = [GroupedListSection]()
+
+    private var allCountries: [Country] = []
+    private let travelService: TravelServiceInterface
+    let analyticsService: AnalyticsServiceInterface
+    private let countrySelectedAction: (Country) -> Void
+    let dismissAction: () -> Void
+
+    init(
+        travelService: TravelServiceInterface,
+        analyticsService: AnalyticsServiceInterface,
+        countrySelectedAction: @escaping (Country) -> Void,
+        dismissAction: @escaping () -> Void
+    ) {
+        self.travelService = travelService
+        self.analyticsService = analyticsService
+        self.countrySelectedAction = countrySelectedAction
+        self.dismissAction = dismissAction
+    }
+
+    func trackScreen(screen: TrackableScreen) {
+        analyticsService.track(screen: screen)
+    }
+
+    func trackSearchInput(text: String) {
+        let searchEvent = AppEvent.searchTerm(term: text, type: .typed, section: "country_search")
+        analyticsService.track(event: searchEvent)
+    }
+
+    @MainActor
+    func viewDidAppear() async {
+        await fetchCountryList()
+    }
+
+    @MainActor
+    func retryFetchCountryList() async {
+        await fetchCountryList()
+    }
+
+    @MainActor
+    private func fetchCountryList() async {
+        viewState = .loading
+
+        travelService.getCountries(forceRefresh: false) { [weak self] result in
+            Task { @MainActor in
+                switch result {
+                case .success(let countries):
+                    self?.allCountries = countries
+                    self?.updateFilteredSections()
+                case .failure:
+                    self?.viewState = .error
+                }
+            }
+        }
+    }
+
+    private func buildSections(from countries: [Country]) -> [GroupedListSection] {
+        let sortedCountries = countries.sorted {
+            $0.country.localizedCaseInsensitiveCompare($1.country) == .orderedAscending
+        }
+
+        let rows = sortedCountries.map { country in
+            SelectableRow(
+                id: country.slug,
+                title: country.country,
+                action: { [countrySelectedAction] in
+                    countrySelectedAction(country)
+                }
+            )
+        }
+
+        guard rows.isEmpty == false else {
+            return []
+        }
+
+        return [
+            GroupedListSection(
+                heading: nil,
+                rows: rows,
+                footer: nil
+            )
+        ]
+    }
+
+    private func updateFilteredSections() {
+        let trimmedSearch = searchText.trimmingCharacters(in: .whitespaces)
+        let filtered = trimmedSearch.isEmpty
+        ? allCountries
+        : allCountries.filter { item in
+            let matchesCountry = item.country.localizedCaseInsensitiveContains(trimmedSearch)
+            let matchesSynonym = item.synonyms.contains {
+                $0.localizedCaseInsensitiveContains(trimmedSearch)
+            }
+
+            return matchesCountry || matchesSynonym
+        }
+
+        filteredSections = buildSections(from: filtered)
+
+        if filteredSections.count > 0 {
+            self.viewState = .loaded
+        } else {
+            self.viewState = .empty
+        }
+    }
+}

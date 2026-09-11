@@ -17,6 +17,7 @@ struct FirebaseClientTests {
         let sut = FirebaseClient(
             firebaseApp: mockApp,
             firebaseAnalytics: mockAnalytics,
+            firebaseIDsService: MockFirebaseIDsService()
         )
 
         MockFirebaseApp._configureCalled = false
@@ -32,6 +33,7 @@ struct FirebaseClientTests {
         let sut = FirebaseClient(
             firebaseApp: mockApp,
             firebaseAnalytics: mockAnalytics,
+            firebaseIDsService: MockFirebaseIDsService()
         )
 
         mockAnalytics.clearValues()
@@ -47,6 +49,7 @@ struct FirebaseClientTests {
         let sut = FirebaseClient(
             firebaseApp: mockApp,
             firebaseAnalytics: mockAnalytics,
+            firebaseIDsService: MockFirebaseIDsService()
         )
 
         mockAnalytics.clearValues()
@@ -56,12 +59,13 @@ struct FirebaseClientTests {
     }
 
     @Test
-    func trackEvent_noParams_tracksExpectedEvent() {
+    func trackEvent_noAdditionalParams_tracksExpectedEvent() {
         let mockApp = MockFirebaseApp.self
         let mockAnalytics = MockFirebaseAnalytics.self
         let sut = FirebaseClient(
             firebaseApp: mockApp,
             firebaseAnalytics: mockAnalytics,
+            firebaseIDsService: MockFirebaseIDsService()
         )
         let expectedName = UUID().uuidString
         let expectedEvent = AppEvent(
@@ -71,16 +75,20 @@ struct FirebaseClientTests {
         sut.track(event: expectedEvent)
 
         #expect(mockAnalytics._logEventReceivedEventName == expectedName)
-        #expect(mockAnalytics._logEventReceivedEventParameters?.isEmpty == true)
+        let receivedParams = mockAnalytics._logEventReceivedEventParameters
+        #expect(receivedParams?.count == 2)
+        #expect(receivedParams?["fb_session_id"] as? String == "321")
+        #expect(receivedParams?["fb_user_pseudo_id"] as? String == "123")
     }
 
     @Test
-    func trackEvent_withParams_tracksExpectedEvent() {
+    func trackEvent_withAdditionalParams_tracksExpectedEvent() {
         let mockApp = MockFirebaseApp.self
         let mockAnalytics = MockFirebaseAnalytics.self
         let sut = FirebaseClient(
             firebaseApp: mockApp,
             firebaseAnalytics: mockAnalytics,
+            firebaseIDsService: MockFirebaseIDsService()
         )
         let expectedName = UUID().uuidString
         let expectedValue = UUID().uuidString
@@ -97,8 +105,10 @@ struct FirebaseClientTests {
 
         #expect(mockAnalytics._logEventReceivedEventName == expectedName)
         let receivedParams = mockAnalytics._logEventReceivedEventParameters
-        #expect(receivedParams?.count == 1)
+        #expect(receivedParams?.count == 3)
         #expect(receivedParams?["test_param"] as? String == expectedValue)
+        #expect(receivedParams?["fb_session_id"] as? String == "321")
+        #expect(receivedParams?["fb_user_pseudo_id"] as? String == "123")
     }
 
     @Test
@@ -109,6 +119,7 @@ struct FirebaseClientTests {
         let sut = FirebaseClient(
             firebaseApp: mockApp,
             firebaseAnalytics: mockAnalytics,
+            firebaseIDsService: MockFirebaseIDsService()
         )
         let expectedScreen = MockBaseViewController(analyticsService: MockAnalyticsService())
         let expectedTitle = UUID().uuidString
@@ -118,13 +129,15 @@ struct FirebaseClientTests {
 
         #expect(mockAnalytics._logEventReceivedEventName == AnalyticsEventScreenView)
         let receivedParams = mockAnalytics._logEventReceivedEventParameters
-        #expect(receivedParams?.count == 5)
+        #expect(receivedParams?.count == 7)
         #expect(receivedParams?[AnalyticsParameterScreenName] as? String == expectedScreen.trackingName)
         #expect(receivedParams?[AnalyticsParameterScreenClass] as? String == expectedScreen.trackingClass)
         #expect(receivedParams?["screen_title"] as? String == expectedTitle)
         #expect(receivedParams?["language"] as? String == expectedScreen.trackingLanguage)
         #expect(receivedParams?["test_param"] as? String
                 == expectedScreen.additionalParameters["test_param"] as? String)
+        #expect(receivedParams?["fb_session_id"] as? String == "321")
+        #expect(receivedParams?["fb_user_pseudo_id"] as? String == "123")
     }
 
     @Test
@@ -135,6 +148,7 @@ struct FirebaseClientTests {
         let sut = FirebaseClient(
             firebaseApp: mockApp,
             firebaseAnalytics: mockAnalytics,
+            firebaseIDsService: MockFirebaseIDsService()
         )
         let expectedName = UUID().uuidString
         let expectedValue = UUID().uuidString
@@ -156,6 +170,7 @@ struct FirebaseClientTests {
         let sut = FirebaseClient(
             firebaseApp: mockApp,
             firebaseAnalytics: mockAnalytics,
+            firebaseIDsService: MockFirebaseIDsService()
         )
         let error = NSError(domain: "test", code: 1)
         sut.track(error: error)
@@ -165,46 +180,4 @@ struct FirebaseClientTests {
         #expect(mockAnalytics._setUserPropertyReveivedValue == nil)
     }
 
-}
-
-class MockFirebaseApp: FirebaseAppInterface {
-    static var _configureCalled: Bool = false
-    static func configure() {
-        _configureCalled = true
-    }
-
-    static func _clearValues() {
-        _configureCalled = false
-    }
-}
-
-class MockFirebaseAnalytics: FirebaseAnalyticsInterface {
-    static func clearValues() {
-        _setAnalyticsCollectionEnabledReveivedEnabled = nil
-        _logEventReceivedEventName = nil
-        _logEventReceivedEventParameters = nil
-        _setUserPropertyReveivedName = nil
-        _setUserPropertyReveivedValue = nil
-    }
-
-    static var _setAnalyticsCollectionEnabledReveivedEnabled: Bool?
-    static func setAnalyticsCollectionEnabled(_ newValue: Bool) {
-        _setAnalyticsCollectionEnabledReveivedEnabled = newValue
-    }
-    
-    static var _logEventReceivedEventName: String?
-    static var _logEventReceivedEventParameters: [String : Any]?
-    static func logEvent(_ eventName: String,
-                         parameters: [String : Any]?) {
-        _logEventReceivedEventName = eventName
-        _logEventReceivedEventParameters = parameters
-    }
-
-    static var _setUserPropertyReveivedValue: String?
-    static var _setUserPropertyReveivedName: String?
-    static func setUserProperty(_ value: String?,
-                                forName name: String) {
-        _setUserPropertyReveivedValue = value
-        _setUserPropertyReveivedName = name
-    }
 }

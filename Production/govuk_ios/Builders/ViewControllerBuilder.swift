@@ -111,7 +111,6 @@ class ViewControllerBuilder {
             )
             let viewController = HostingViewController(
                 rootView: view,
-                navigationBarHidden: true
             )
             viewController.view.backgroundColor = .govUK.fills.surfaceModal
             return viewController
@@ -136,7 +135,6 @@ class ViewControllerBuilder {
         )
         let viewController  = HostingViewController(
             rootView: view,
-            navigationBarHidden: true
         )
         viewController.view.backgroundColor = .govUK.fills.surfaceModal
         return viewController
@@ -341,19 +339,19 @@ class ViewControllerBuilder {
         localAuthorityItem: Authority,
         dismiss: @escaping () -> Void
     ) -> UIViewController {
-            let viewModel = LocalAuthorityConfirmationViewModel(
-                analyticsService: analyticsService,
-                localAuthorityItem: localAuthorityItem,
-                dismiss: dismiss
-            )
-            let view = LocalAuthorityConfirmationView(viewModel: viewModel)
-            let viewController = HostingViewController(
-                rootView: view,
-                navigationBarTintColor: .govUK.text.linkSecondary
-            )
-            viewController.view.backgroundColor = .govUK.fills.surfaceModal
-            return viewController
-        }
+        let viewModel = LocalAuthorityConfirmationViewModel(
+            analyticsService: analyticsService,
+            localAuthorityItem: localAuthorityItem,
+            dismiss: dismiss
+        )
+        let view = LocalAuthorityConfirmationView(viewModel: viewModel)
+        let viewController = HostingViewController(
+            rootView: view,
+            navigationBarTintColor: .govUK.text.linkSecondary
+        )
+        viewController.view.backgroundColor = .govUK.fills.surfaceModal
+        return viewController
+    }
 
     @MainActor
     // swiftlint:disable:next function_parameter_count
@@ -434,11 +432,13 @@ class ViewControllerBuilder {
 
     func chat(analyticsService: AnalyticsServiceInterface,
               chatService: ChatServiceInterface,
+              configService: AppConfigServiceInterface,
               openURLAction: @escaping (URL) -> Void,
               handleError: @escaping (ChatError) -> Void) -> UIViewController {
         let viewModel = ChatViewModel(
             chatService: chatService,
             analyticsService: analyticsService,
+            configService: configService,
             openURLAction: openURLAction,
             handleError: handleError
         )
@@ -834,46 +834,46 @@ class ViewControllerBuilder {
         analyticsService: AnalyticsServiceInterface,
         actions: NotificationCentreDetailViewModel.Actions
     ) -> UIViewController {
-            let viewModel = NotificationCentreDetailViewModel(
-                notificationId: notificationId,
-                notificationService: notificationService,
-                analyticsService: analyticsService,
-                actions: actions)
+        let viewModel = NotificationCentreDetailViewModel(
+            notificationId: notificationId,
+            notificationService: notificationService,
+            analyticsService: analyticsService,
+            actions: actions)
 
-            let viewController = HostingViewController(
-                rootView: NotificationCentreDetailContainerView(viewModel: viewModel),
-            )
-            viewController.navigationItem.largeTitleDisplayMode = .never
-            viewController.hidesBottomBarWhenPushed = true
+        let viewController = HostingViewController(
+            rootView: NotificationCentreDetailContainerView(viewModel: viewModel),
+        )
+        viewController.navigationItem.largeTitleDisplayMode = .never
+        viewController.hidesBottomBarWhenPushed = true
 
-            if #unavailable(iOS 26) {
-                // On iOS versions without liquid glass, use the Nav Bar Items as they look nicer
-                // than the toolbar
-                let unreadButton = UIBarButtonItem(
-                    image: UIImage(
-                        resource: .notcenUnread),
-                    primaryAction: UIAction { [weak viewModel] _ in
-                        viewModel?.onMarkUnread()
-                    })
-                unreadButton.accessibilityLabel = String
-                    .notificationCentre.localized("notificationCentreDetailUnreadA11yLabel")
+        if #unavailable(iOS 26) {
+            // On iOS versions without liquid glass, use the Nav Bar Items as they look nicer
+            // than the toolbar
+            let unreadButton = UIBarButtonItem(
+                image: UIImage(
+                    resource: .notcenUnread),
+                primaryAction: UIAction { [weak viewModel] _ in
+                    viewModel?.onMarkUnread()
+                })
+            unreadButton.accessibilityLabel = String
+                .notificationCentre.localized("notificationCentreDetailUnreadA11yLabel")
 
-                let deleteButton = UIBarButtonItem(
-                    image: UIImage(
-                        resource: .notcenDelete),
-                    primaryAction: UIAction { [weak viewModel] _ in
-                        viewModel?.onDelete()
-                    })
-                deleteButton.accessibilityLabel = String
-                    .notificationCentre.localized("notificationCentreDetailDeleteA11yLabel")
+            let deleteButton = UIBarButtonItem(
+                image: UIImage(
+                    resource: .notcenDelete),
+                primaryAction: UIAction { [weak viewModel] _ in
+                    viewModel?.onDelete()
+                })
+            deleteButton.accessibilityLabel = String
+                .notificationCentre.localized("notificationCentreDetailDeleteA11yLabel")
 
-                viewController.navigationItem.rightBarButtonItems = [
-                    deleteButton,
-                    unreadButton
-                ]
-            }
-            return viewController
+            viewController.navigationItem.rightBarButtonItems = [
+                deleteButton,
+                unreadButton
+            ]
         }
+        return viewController
+    }
 
     func dvlaAuthentication(
         authenticationService: AuthenticationServiceInterface,
@@ -889,6 +889,26 @@ class ViewControllerBuilder {
         )
         let view = DVLAAuthenticationView(viewModel: viewModel)
         let viewController = HostingViewController(rootView: view)
+        return viewController
+    }
+
+    func countryList(
+        travelService: TravelServiceInterface,
+        analyticsService: AnalyticsServiceInterface,
+        dismissAction: @escaping () -> Void
+    ) -> UIViewController {
+        let viewModel = CountryListViewModel(
+            travelService: travelService,
+            analyticsService: analyticsService,
+            countrySelectedAction: { _ in
+                // To be applied in upcoming work
+            },
+            dismissAction: dismissAction
+        )
+        let view = CountryListView(viewModel: viewModel)
+        let viewController = HostingViewController(
+            rootView: view
+        )
         return viewController
     }
 }

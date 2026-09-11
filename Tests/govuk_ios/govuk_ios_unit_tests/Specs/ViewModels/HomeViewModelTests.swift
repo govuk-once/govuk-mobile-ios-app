@@ -12,6 +12,7 @@ struct HomeViewModelTests {
         let topicsViewModel = TopicsWidgetViewModel(
             topicsService: MockTopicsService(),
             analyticsService: MockAnalyticsService(),
+            userDefaultsService: MockUserDefaultsService(),
             topicAction: { _ in },
             dismissEditAction: { }
         )
@@ -73,7 +74,7 @@ struct HomeViewModelTests {
         let widgets = subject.widgets
       
         #expect((widgets as Any) is [HomepageWidget])
-        #expect(widgets.count == 6)
+        #expect(widgets.count == 7)
     }
 
     @Test
@@ -82,10 +83,10 @@ struct HomeViewModelTests {
         let configService = MockAppConfigService()
         configService.features = []
 
-
         let topicsViewModel = TopicsWidgetViewModel(
             topicsService: MockTopicsService(),
             analyticsService: MockAnalyticsService(),
+            userDefaultsService: MockUserDefaultsService(),
             topicAction: { _ in },
             dismissEditAction: { }
         )
@@ -119,6 +120,7 @@ struct HomeViewModelTests {
         let topicsViewModel = TopicsWidgetViewModel(
             topicsService: MockTopicsService(),
             analyticsService: MockAnalyticsService(),
+            userDefaultsService: MockUserDefaultsService(),
             topicAction: { _ in },
             dismissEditAction: { }
         )
@@ -182,6 +184,7 @@ struct HomeViewModelTests {
         let topicsViewModel = TopicsWidgetViewModel(
             topicsService: MockTopicsService(),
             analyticsService: MockAnalyticsService(),
+            userDefaultsService: MockUserDefaultsService(),
             topicAction: { _ in },
             dismissEditAction: { }
         )

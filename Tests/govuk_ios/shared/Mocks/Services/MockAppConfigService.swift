@@ -3,6 +3,11 @@ import Foundation
 @testable import govuk_ios
 
 class MockAppConfigService: AppConfigServiceInterface {
+    var _stubbedChatExampleQuestions: [String]?
+    var chatExampleQuestions: [String]? {
+        _stubbedChatExampleQuestions
+    }
+
     var refreshTokenExpirySeconds: Int?
 
     var _stubbedChatPollIntervalSeconds: TimeInterval = 3.0
@@ -22,7 +27,10 @@ class MockAppConfigService: AppConfigServiceInterface {
         .topics,
         .recentActivity,
         .localServices,
-        .dvla
+        .dvla,
+        .messages,
+        .travelAlerts,
+        .quarterlySurvey
     ]
 
     var _stubbedAlertBanner: AlertBanner?
@@ -41,19 +49,6 @@ class MockAppConfigService: AppConfigServiceInterface {
     )
     var chatBannerLink: ChatBanner.Link {
         _stubbedChatBannerLink
-    }
-
-    var _stubbedUserFeedbackBanner: UserFeedbackBanner?
-    var userFeedbackBanner: UserFeedbackBanner? {
-        _stubbedUserFeedbackBanner
-    }
-
-    var _stubbedUserFeedbackBannerLink: UserFeedbackBanner.Link = .init(
-        title: "test",
-        url: URL(string: "https://test.com")!
-    )
-    var userFeedbackBannerLink: UserFeedbackBanner.Link {
-        _stubbedUserFeedbackBannerLink
     }
 
     var _stubbedEmergencyBanners: [EmergencyBanner]?

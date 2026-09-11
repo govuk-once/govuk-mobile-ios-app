@@ -126,6 +126,31 @@ struct AppEvent_EcommerceTests {
         #expect(firstItem["index"] == "1")
     }
 
+    @Test
+    func isEcommerceEvent_returnsTrueForEcommerceEvents() {
+        let viewEvent = AppEvent.viewItemList(
+            name: "list_name",
+            id: "list_id",
+            items: []
+        )
+        let selectEvent = AppEvent.selectItem(
+            listName: "list_name",
+            listId: "list_id",
+            results: 0,
+            items: []
+        )
+
+        #expect(viewEvent.isEcommerceEvent)
+        #expect(selectEvent.isEcommerceEvent)
+    }
+
+    @Test
+    func isEcommerceEvent_returnsFalseForOtherEvents() {
+        let event = AppEvent.buttonNavigation(
+            text: "button",
+            external: false)
+        #expect(!event.isEcommerceEvent)
+    }
 }
 
 extension TopicCommerceItem {

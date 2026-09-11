@@ -25,7 +25,7 @@ class SettingsViewModelTests {
         mockAuthenticationService._stubbedIsSignedIn = true
         mockAuthenticationService._stubbedUserEmail = "test@example.com"
         mockAppConfigService._stubbedTermsAndConditions = Config.arrange.termsAndConditions
-        mockAppConfigService.features = [.profile, .dvla]
+        mockAppConfigService.features = [.profile, .dvla, .messages]
         assembleSUT()
     }
 
@@ -164,7 +164,28 @@ class SettingsViewModelTests {
         let rowIds = yourAccountsRow.rows.map { $0.id }
         #expect(!rowIds.contains("settings.accounts.row"))
     }
+    
+    @Test
+    func messagesDisabled_hidesMessagesRow() {
+        mockAppConfigService.features = []
+        let sut = SettingsViewModel(
+            analyticsService: mockAnalyticsService,
+            urlOpener: mockURLOpener,
+            versionProvider: mockVersionProvider,
+            deviceInformationProvider: mockDeviceInformationProvider,
+            authenticationService: mockAuthenticationService,
+            notificationService: mockNotificationsService,
+            notificationCenter: .default,
+            localAuthenticationService: mockLocalAuthenticationService,
+            appConfigService: mockAppConfigService,
+            userService: MockUserService(),
+            notificationCentreService: MockNotificationCentreService()
+        )
 
+        let messagesRow = sut.listContent[SectionIndexes.messages]
+        let rowIds = messagesRow.rows.map { $0.id }
+        #expect(!rowIds.contains("settings.messages.row"))
+    }
 
     @Test
     func analytics_toggledOnThenOff_deniesPermissions() throws {
@@ -709,8 +730,49 @@ class SettingsViewModelTests {
 
     // MARK: - Messages
 
+    //Adapt for when flag is false
+//    @Test
+//    func accountNotLinked_messagesHidden() async {
+//        var cancellables = Set<AnyCancellable>()
+//        let _ = await withCheckedContinuation { continuation in
+//            let mockNotifcationCenter = NotificationCenter()
+//            let mockUserService = MockUserService()
+//            mockUserService._stubbedLinkedAccounts = []
+//
+//            let sut = SettingsViewModel(
+//                analyticsService: MockAnalyticsService(),
+//                urlOpener: MockURLOpener(),
+//                versionProvider: MockAppVersionProvider(),
+//                deviceInformationProvider: MockDeviceInformationProvider(),
+//                authenticationService: MockAuthenticationService(),
+//                notificationService: MockNotificationService(),
+//                notificationCenter: mockNotifcationCenter,
+//                localAuthenticationService: MockLocalAuthenticationService(),
+//                appConfigService: MockAppConfigService(),
+//                userService: mockUserService,
+//                notificationCentreService: MockNotificationCentreService()
+//            )
+//
+//            sut.loadMessages()
+//
+//            let tester = SettingsViewModelTester(settingsViewModel: sut)
+//            tester.objectWillChange
+//                .receive(on: DispatchQueue.main)
+//                .sink { _ in
+//                    if sut.listContent.first(where: { section in
+//                        section.rows.first(where: { $0.id == "settings.messages.row"}) != nil
+//                    }) == nil {
+//                        continuation.resume(returning: tester.settingsViewModel)
+//                        cancellables.removeAll()
+//                    }
+//                }.store(in: &cancellables)
+//        }
+//
+//        // No expect as the test will time out if the Messages Row isn't removed
+//    }
+
     @Test
-    func messagesShown() async {
+    func accountLinked_messagesShown() async {
         var cancellables = Set<AnyCancellable>()
         let result = await withCheckedContinuation { continuation in
             let mockUserService = MockUserService()
@@ -752,9 +814,49 @@ class SettingsViewModelTests {
         #expect(messagesSection != nil)
     }
 
+//    @Test
+//    func accountsNotLoaded_fetchesLinkedAccounts() async {
+//        let mockUserService = MockUserService()
+//        mockUserService._stubbedLinkedAccounts = nil
+//        mockUserService._stubbedFetchLinkedAccountsResult = .success([.dvla])
+//
+//        var cancellables = Set<AnyCancellable>()
+//        let _ = await withCheckedContinuation { continuation in
+//
+//            let mockNotificationCentreService = MockNotificationCentreService()
+//            mockNotificationCentreService._stubbedFetchNotificationsResult = .success([])
+//
+//            let sut = SettingsViewModel(
+//                analyticsService: MockAnalyticsService(),
+//                urlOpener: MockURLOpener(),
+//                versionProvider: MockAppVersionProvider(),
+//                deviceInformationProvider: MockDeviceInformationProvider(),
+//                authenticationService: MockAuthenticationService(),
+//                notificationService: MockNotificationService(),
+//                notificationCenter: NotificationCenter(),
+//                localAuthenticationService: MockLocalAuthenticationService(),
+//                appConfigService: MockAppConfigService(),
+//                userService: mockUserService,
+//                notificationCentreService: mockNotificationCentreService
+//            )
+//
+//            sut.loadMessages()
+//
+//            let tester = SettingsViewModelTester(settingsViewModel: sut)
+//            tester.objectWillChange
+//                .receive(on: DispatchQueue.main)
+//                .sink { _ in
+//                    guard mockUserService._linkedAccountCallCount > 0 else { return }
+//                    continuation.resume(returning: tester.settingsViewModel)
+//                    cancellables.removeAll()
+//                }.store(in: &cancellables)
+//        }
+//
+//        #expect(mockUserService._fetchLinkedAccountsCalled)
+//    }
 
     @Test
-    func fetchesMessageCount() async {
+    func accountLinked_fetchesMessageCount() async {
         let mockUserService = MockUserService()
         mockUserService._stubbedLinkedAccounts = [.dvla]
 

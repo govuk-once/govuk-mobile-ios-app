@@ -40,4 +40,10 @@ extension Container {
             NotificationCentreRepository()
         }.scope(.singleton) // This wouldn't strictly be necessary if it was using CoreData
     }
+
+    var travelRepository: Factory<TravelRepositoryInterface> {
+        Factory(self) {
+            TravelRepository()
+        }.scope(.singleton)
+    }
 }

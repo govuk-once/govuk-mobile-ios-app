@@ -26,6 +26,7 @@ struct ChatDeeplinkRouteTests {
             analyticsService: MockAnalyticsService(),
             chatService: MockChatService(),
             authenticationService: MockAuthenticationService(),
+            configService: MockAppConfigService(),
             cancelOnboardingAction: { }
         )
         

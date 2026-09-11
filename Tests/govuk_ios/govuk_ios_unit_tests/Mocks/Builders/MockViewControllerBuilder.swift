@@ -15,6 +15,7 @@ extension ViewControllerBuilder {
             let topicsViewModel = TopicsWidgetViewModel(
                 topicsService: MockTopicsService(),
                 analyticsService: MockAnalyticsService(),
+                userDefaultsService: MockUserDefaultsService(),
                 topicAction: { _ in },
                 dismissEditAction: { }
             )
@@ -327,6 +328,7 @@ class MockViewControllerBuilder: ViewControllerBuilder {
     override func chat(
         analyticsService: AnalyticsServiceInterface,
         chatService: ChatServiceInterface,
+        configService: AppConfigServiceInterface,
         openURLAction: @escaping (URL) -> Void,
         handleError: @escaping (ChatError) -> Void
     ) -> UIViewController {
@@ -471,5 +473,17 @@ class MockViewControllerBuilder: ViewControllerBuilder {
         _receivedDvlaAuthenticationCompletionAction = completionAction
         _receivedDvlaAuthenticationErrorAction = errorAction
         return _stubbedDvlaAuthenticationViewController ?? UIViewController()
+    }
+
+    var _stubbedSelectCountryViewController: UIViewController?
+    var _receivedSelectCountryDismissAction: (() -> Void)?
+
+    override func countryList(
+        travelService: TravelServiceInterface,
+        analyticsService: AnalyticsServiceInterface,
+        dismissAction: @escaping () -> Void
+    ) -> UIViewController {
+        _receivedSelectCountryDismissAction = dismissAction
+        return _stubbedSelectCountryViewController ?? UIViewController()
     }
 }

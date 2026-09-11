@@ -30,9 +30,9 @@ class MockNotificationService: NotificationServiceInterface {
         _stubbedShouldRequestPermission
     }
 
-    var _stubbedIsFetureEnabled: Bool = true
+    var _stubbedIsFeatureEnabled: Bool = true
     var isFeatureEnabled: Bool {
-        _stubbedIsFetureEnabled
+        _stubbedIsFeatureEnabled
     }
 
     var _onClickAction: ((URL) -> Void)?

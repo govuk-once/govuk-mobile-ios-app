@@ -53,4 +53,3 @@ struct DVLAAuthenticationViewModelTests {
         #expect(errorActionWasCalled == true)
     }
 }
-

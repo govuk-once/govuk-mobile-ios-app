@@ -123,6 +123,7 @@ class CoordinatorBuilder {
             analyticsService: container.analyticsService.resolve(),
             chatService: container.chatService.resolve(),
             authenticationService: container.authenticationService(),
+            configService: container.appConfigService.resolve(),
             cancelOnboardingAction: cancelOnboardingAction,
         )
     }
@@ -240,19 +241,31 @@ class CoordinatorBuilder {
         topic: Topic,
         navigationController: UINavigationController
     ) -> TopicWidgetProvider? {
-        guard topic.ref == "driving-transport" else {
+        if topic.isDrivingTopic {
+            return DrivingTopicWidgetCoordinator(
+                navigationController: navigationController,
+                analyticsService: container.analyticsService.resolve(),
+                configService: container.appConfigService.resolve(),
+                userService: container.userService.resolve(),
+                dvlaService: container.dvlaService.resolve(),
+                coordinatorBuilder: self,
+                widgetViewBuilder: WidgetViewBuilder(),
+                urlOpener: UIApplication.shared
+            )
+        } else if topic.isTravelTopic {
+            return TravelAlertsWidgetCoordinator(
+                navigationController: navigationController,
+                analyticsService: container.analyticsService.resolve(),
+                travelService: container.travelService.resolve(),
+                configService: container.appConfigService.resolve(),
+                coordinatorBuilder: self,
+                widgetViewBuilder: WidgetViewBuilder(),
+                viewControllerBuilder: ViewControllerBuilder(),
+                urlOpener: UIApplication.shared
+            )
+        } else {
             return nil
         }
-        return DrivingTopicWidgetCoordinator(
-            navigationController: navigationController,
-            analyticsService: container.analyticsService.resolve(),
-            configService: container.appConfigService.resolve(),
-            userService: container.userService.resolve(),
-            dvlaService: container.dvlaService.resolve(),
-            coordinatorBuilder: self,
-            widgetViewBuilder: WidgetViewBuilder(),
-            urlOpener: UIApplication.shared
-        )
     }
 
     func localAuthority(navigationController: UINavigationController,
@@ -605,6 +618,21 @@ class CoordinatorBuilder {
             notificationCentreService: container.notificationCentreService.resolve(),
             analyticsService: container.analyticsService.resolve(),
             coordinatorBuilder: self
+        )
+    }
+
+    func countryList(
+        navigationController: UINavigationController,
+        completion: @escaping (Bool) -> Void
+    ) -> BaseCoordinator {
+        CountryListCoordinator(
+            navigationController: navigationController,
+            coordinatorBuilder: self,
+            viewControllerBuilder: ViewControllerBuilder(),
+            analyticsService: container.analyticsService.resolve(),
+            travelService: container.travelService.resolve(),
+            userService: container.userService.resolve(),
+            completion: completion
         )
     }
 }

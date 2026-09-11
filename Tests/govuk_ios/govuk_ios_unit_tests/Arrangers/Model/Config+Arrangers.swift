@@ -16,7 +16,8 @@ extension Config {
                         promoBanners: [PromoBanner]? = nil,
                         authenticationIssuerBaseUrl: String = "https://test.com",
                         chatPollIntervalSeconds: TimeInterval? = 3,
-                        refreshTokenExpirySeconds: Int? = 3600) -> Config {
+                        refreshTokenExpirySeconds: Int? = 3600,
+                        chatExampleQuestions: [String]? = ["First prompt", "Second prompt"])-> Config {
         .init(
             available: available,
             minimumVersion: minimumVersion,
@@ -37,12 +38,6 @@ extension Config {
                     url: URL(string: "https://test.com")!)
             ),
             promoBanners: promoBanners,
-            userFeedbackBanner: .init(
-                body: "test",
-                link: UserFeedbackBanner.Link(
-                    title: "test",
-                    url: URL(string: "https://test.com")!)
-            ),
             emergencyBanners: [
                 .init(
                     id: "4321",
@@ -64,7 +59,8 @@ extension Config {
                 contentItemApiPath: "/api/content/random",
                 lastUpdated: Date.now
             ),
-            dvlaUrls: .arrange
+            dvlaUrls: .arrange,
+            chatExampleQuestions: chatExampleQuestions
         )
     }
 }

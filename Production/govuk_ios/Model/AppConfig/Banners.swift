@@ -75,18 +75,6 @@ extension PromoBanner {
     }
 }
 
-struct UserFeedbackBanner: Decodable {
-    let body: String
-    let link: Link
-}
-
-extension UserFeedbackBanner {
-    struct Link: Decodable {
-        let title: String
-        let url: URL
-    }
-}
-
 enum EmergencyBannerType: String {
     case notableDeath = "notable-death"
     case nationalEmergency = "national-emergency"

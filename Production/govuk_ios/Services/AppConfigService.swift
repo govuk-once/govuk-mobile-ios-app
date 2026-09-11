@@ -9,12 +9,12 @@ protocol AppConfigServiceInterface {
     var alertBanner: AlertBanner? { get }
     var chatBanner: ChatBanner? { get }
     var promoBanners: [PromoBanner]? { get }
-    var userFeedbackBanner: UserFeedbackBanner? { get }
     var emergencyBanners: [EmergencyBanner]? { get }
     var chatUrls: ChatURLs? { get }
     var dvlaUrls: DvlaURLs? { get }
     var refreshTokenExpirySeconds: Int? { get }
     var termsAndConditions: TermsAndConditions? { get }
+    var chatExampleQuestions: [String]? { get }
 }
 
 public final class AppConfigService: AppConfigServiceInterface {
@@ -28,13 +28,13 @@ public final class AppConfigService: AppConfigServiceInterface {
     var chatPollIntervalSeconds: TimeInterval = 3.0
     var alertBanner: AlertBanner?
     var chatBanner: ChatBanner?
-    var userFeedbackBanner: UserFeedbackBanner?
     var emergencyBanners: [EmergencyBanner]?
     private(set) var promoBanners: [PromoBanner]?
     private(set) var chatUrls: ChatURLs?
     private(set) var dvlaUrls: DvlaURLs?
     private(set) var refreshTokenExpirySeconds: Int?
     private(set) var termsAndConditions: TermsAndConditions?
+    private(set) var chatExampleQuestions: [String]?
 
     init(appConfigServiceClient: AppConfigServiceClientInterface,
          termsAndConditionsServiceClient: TermsAndConditionsServiceClientInterface,
@@ -93,10 +93,10 @@ public final class AppConfigService: AppConfigServiceInterface {
         emergencyBanners = config.emergencyBanners
         chatBanner = config.chatBanner
         promoBanners = config.promoBanners
-        userFeedbackBanner = config.userFeedbackBanner
         chatUrls = config.chatUrls
         dvlaUrls = config.dvlaUrls
         termsAndConditions = config.termsAndConditions
+        chatExampleQuestions = config.chatExampleQuestions
     }
 
     private func updateChatPollInterval(_ interval: TimeInterval?) {
@@ -146,6 +146,19 @@ public final class AppConfigService: AppConfigServiceInterface {
     }
 
     private var developmentOverrides: [Feature: Bool] {
-        [:]
+    #if STAGING
+        [
+            .profile: true, // featureFlags[Feature.profile.rawValue] ?? false,
+            .dvla: true, // featureFlags[Feature.dvla.rawValue] ?? false
+            .messages: true, // featureFlags[Feature.messages.rawValue] ?? false
+            .travelAlerts: true // featureFlags[Feature.travelAlerts.rawValue] ?? false
+        ]
+    #else
+        [
+            .dvla: false,
+            .messages: false,
+            .travelAlerts: false
+        ]
+    #endif
     }
 }

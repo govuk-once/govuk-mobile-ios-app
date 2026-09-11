@@ -34,16 +34,11 @@ final class HomeContentViewControllerSnapshotTests: SnapshotTestCase {
         let topicsWidgetViewModel = TopicsWidgetViewModel(
             topicsService: MockTopicsService(),
             analyticsService: MockAnalyticsService(),
+            userDefaultsService: MockUserDefaultsService(),
             topicAction: {_ in },
             dismissEditAction: { }
         )
         let configService = MockAppConfigService()
-        configService._stubbedUserFeedbackBanner = UserFeedbackBanner(
-            body: "",
-            link: .init(
-                title: "testUrl",
-                url: URL(string: "https://www.gov.uk/")!)
-        )
 
         let viewModel = HomeViewModel(
             analyticsService: MockAnalyticsService(),

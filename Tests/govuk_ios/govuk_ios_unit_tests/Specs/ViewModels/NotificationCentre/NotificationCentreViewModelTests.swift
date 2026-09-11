@@ -8,11 +8,17 @@ import Combine
 @Suite(.serialized)
 class NotificationCentreViewModelTests {
 
+    // Fri, 27 Feb 2026 13:26:24 GMT
+    private static let referenceDate: Date = Date(timeIntervalSince1970: 1772198784)
+
     class MockDateProvider: NotificationCentreViewModel.DateProvider {
         override var currentDate: Date {
-            Date(timeIntervalSince1970: 1772198784) // Fri, 27 Feb 2026 13:26:24 GMT
+            NotificationCentreViewModelTests.referenceDate
         }
     }
+
+    private let recentNotifications: [govuk_ios.Notification] = .arrangeRecent(referenceDate: referenceDate)
+    private let olderNotifications: [govuk_ios.Notification] = .arrangeOlder(referenceDate: referenceDate)
 
     var SUT: NotificationCentreViewModel!
 
@@ -42,7 +48,7 @@ class NotificationCentreViewModelTests {
 
     @Test
     func tapNotification_triggersAction() {
-        let testNotification = NotificationCentreViewModel.MockData.recentNotifications.first!
+        let testNotification = govuk_ios.Notification.arrange(id: "1")
         SUT.onTapNotification(
             notification: testNotification.id)
         #expect(_showNotificationActionID == testNotification.id)
@@ -61,8 +67,8 @@ class NotificationCentreViewModelTests {
 
     @Test
     func fetchComplete_withNotifications_setsStateLoaded() async {
-        let recent = NotificationCentreViewModel.MockData.recentNotifications
-        let older = NotificationCentreViewModel.MockData.olderNotifications
+        let recent = recentNotifications
+        let older = olderNotifications
         let allNotifications = recent + older
 
         mockNotificationCentreService._stubbedFetchNotificationsResult = .success(allNotifications)

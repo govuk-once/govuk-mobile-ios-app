@@ -3,6 +3,7 @@ import Foundation
 import FactoryKit
 import Lottie
 import SecureStore
+import Qualtrics
 
 extension Container {
     var lottieConfiguration: Factory<LottieConfiguration> {
@@ -49,6 +50,15 @@ extension Container {
             SecureStorageConfiguration(
                 id: "openSecureStorage",
                 accessControlLevel: SecureStorageConfiguration.AccessControlLevel.open
+            )
+        }
+    }
+
+    var qualtricsTheme: Factory<QualtricsTheme> {
+        Factory(self) {
+            return QualtricsTheme(
+                mobileAppPromptTheme: .govUK,
+                embeddedAppFeedbackTheme: .govUK
             )
         }
     }

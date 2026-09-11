@@ -29,6 +29,7 @@ struct ViewControllerBuilderTests {
         let viewModel = TopicsWidgetViewModel(
             topicsService: MockTopicsService(),
             analyticsService: MockAnalyticsService(),
+            userDefaultsService: MockUserDefaultsService(),
             topicAction: { _ in },
             dismissEditAction: { }
         )
@@ -316,6 +317,7 @@ struct ViewControllerBuilderTests {
         let result = subject.chat(
             analyticsService: MockAnalyticsService(),
             chatService: MockChatService(),
+            configService: MockAppConfigService(),
             openURLAction: { _ in },
             handleError: { _ in }
         )
@@ -491,6 +493,20 @@ struct ViewControllerBuilderTests {
         )
         
         let rootView = (result as? HostingViewController<NotificationCentreDetailContainerView>)?.rootView
+        #expect(rootView != nil)
+    }
+
+    @Test
+    func countryList_returnsExpectedResult() {
+        let subject = ViewControllerBuilder()
+        let result = subject.countryList(
+            travelService: MockTravelService(),
+            analyticsService: MockAnalyticsService(),
+            dismissAction: {
+                /* No-op */
+            })
+
+        let rootView = (result as? HostingViewController<CountryListView>)?.rootView
         #expect(rootView != nil)
     }
 }
