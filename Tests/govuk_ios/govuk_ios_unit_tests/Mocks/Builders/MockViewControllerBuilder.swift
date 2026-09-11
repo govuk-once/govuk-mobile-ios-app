@@ -15,6 +15,7 @@ extension ViewControllerBuilder {
             let topicsViewModel = TopicsWidgetViewModel(
                 topicsService: MockTopicsService(),
                 analyticsService: MockAnalyticsService(),
+                userDefaultsService: MockUserDefaultsService(),
                 topicAction: { _ in },
                 dismissEditAction: { }
             )

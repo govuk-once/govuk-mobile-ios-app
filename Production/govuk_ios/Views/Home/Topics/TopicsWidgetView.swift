@@ -26,7 +26,7 @@ struct TopicsWidgetView: View {
                     VStack(spacing: 0) {
                         topicPicker
                             .padding(1)
-                        switch viewModel.topicsScreen {
+                        switch viewModel.selectedTab {
                         case .favourite:
                             if viewModel.hasFavouritedTopics {
                                 topicsListViewFor(topics: viewModel.favouriteTopics)
@@ -64,16 +64,16 @@ struct TopicsWidgetView: View {
 
     private var topicPicker: some View {
         Picker(
-            selection: $viewModel.topicsScreen,
+            selection: $viewModel.selectedTab,
             label: Text(viewModel.widgetTitle)) {
                 Text(viewModel.personalisedTopicsPickerTitle)
                     .foregroundColor(
                         Color(UIColor.govUK.text.primary)
-                    ).tag(TopicSegment.favourite)
+                    ).tag(TopicsTab.favourite)
                 Text(viewModel.allTopicsPickerTitle)
                     .foregroundColor(
                         Color(UIColor.govUK.text.primary)
-                    ).tag(TopicSegment.all)
+                    ).tag(TopicsTab.all)
             }
             .pickerStyle(SegmentedPickerStyle())
             .padding(.horizontal, 16)

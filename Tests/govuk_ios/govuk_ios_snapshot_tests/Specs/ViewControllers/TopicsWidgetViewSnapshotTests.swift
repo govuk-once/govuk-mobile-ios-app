@@ -16,7 +16,7 @@ final class TopicsWidgetViewSnapshotTests: SnapshotTestCase {
 
     func test_loadInNavigationController_populated_light_rendersCorrectly() {
         VerifySnapshotInNavigationController(
-            viewController: viewController(topicScreen: .favourite),
+            viewController: viewController(selectedTab: .favourite),
             mode: .light,
             prefersLargeTitles: true
         )
@@ -24,7 +24,7 @@ final class TopicsWidgetViewSnapshotTests: SnapshotTestCase {
 
     func test_loadInNavigationController_populated_dark_rendersCorrectly() {
         VerifySnapshotInNavigationController(
-            viewController: viewController(topicScreen: .favourite),
+            viewController: viewController(selectedTab: .favourite),
             mode: .dark,
             prefersLargeTitles: true
         )
@@ -32,7 +32,7 @@ final class TopicsWidgetViewSnapshotTests: SnapshotTestCase {
 
     func test_loadInNavigationController_populated_allTopics_light_rendersCorrectly() {
         VerifySnapshotInNavigationController(
-            viewController: viewController(topicScreen: .all),
+            viewController: viewController(selectedTab: .all),
             mode: .light,
             prefersLargeTitles: true
         )
@@ -40,13 +40,13 @@ final class TopicsWidgetViewSnapshotTests: SnapshotTestCase {
 
     func test_loadInNavigationController_populated_allTopics_dark_rendersCorrectly() {
         VerifySnapshotInNavigationController(
-            viewController: viewController(topicScreen: .all),
+            viewController: viewController(selectedTab: .all),
             mode: .dark,
             prefersLargeTitles: true
         )
     }
 
-    private func viewController(topicScreen: TopicSegment) -> UIViewController {
+    private func viewController(selectedTab: TopicsTab) -> UIViewController {
 
         let mockTopicService = MockTopicsService()
         let favouriteOne = Topic.arrange(
@@ -65,10 +65,11 @@ final class TopicsWidgetViewSnapshotTests: SnapshotTestCase {
         let viewModel = TopicsWidgetViewModel(
             topicsService: mockTopicService,
             analyticsService: MockAnalyticsService(),
+            userDefaultsService: MockUserDefaultsService(),
             topicAction: { _ in },
             dismissEditAction: { }
         )
-        viewModel.topicsScreen = topicScreen
+        viewModel.selectedTab = selectedTab
 
         let view = TopicsWidgetView(
             viewModel: viewModel
