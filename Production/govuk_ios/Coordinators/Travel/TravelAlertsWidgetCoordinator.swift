@@ -49,6 +49,9 @@ final class TravelAlertsWidgetCoordinator: BaseCoordinator,
             },
             dismissAction: { [weak self] in
                 self?.root.viewWillReAppear()
+            },
+            openURLAction: { [weak self] url in
+                self?.urlOpener.openIfPossible(url)
             }
         )
     }

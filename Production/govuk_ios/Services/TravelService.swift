@@ -51,9 +51,24 @@ class TravelService: TravelServiceInterface {
         // Implement caching and real API handling
 
         completion(.success([
-            Country(country: "France", slug: "france", lastUpdate: "", synonyms: []),
-            Country(country: "Germany", slug: "germany", lastUpdate: "", synonyms: []),
-            Country(country: "Spain", slug: "spain", lastUpdate: "", synonyms: [])
+            Country(
+                name: "France",
+                slug: "france",
+                rawLastUpdate: "2024-01-01T00:00:00Z",
+                synonyms: []
+            ),
+            Country(
+                name: "Germany",
+                slug: "germany",
+                rawLastUpdate: "2024-01-01T00:00:00Z",
+                synonyms: []
+            ),
+            Country(
+                name: "Spain",
+                slug: "spain",
+                rawLastUpdate: "2024-01-01T00:00:00Z",
+                synonyms: []
+            )
         ]))
         return
     }
