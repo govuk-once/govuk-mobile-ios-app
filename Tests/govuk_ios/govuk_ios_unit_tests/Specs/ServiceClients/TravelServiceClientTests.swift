@@ -86,7 +86,7 @@ struct TravelServiceClientTests {
         }
         let countries = try? result.get()
         #expect(countries?.count == 1)
-        #expect(countries?.first?.country == "Test Country")
+        #expect(countries?.first?.name == "Test Country")
         #expect(countries?.first?.slug == "test-country")
     }
 

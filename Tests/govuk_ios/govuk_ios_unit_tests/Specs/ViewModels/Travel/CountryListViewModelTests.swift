@@ -46,8 +46,8 @@ struct CountryListViewModelTests {
     func viewDidAppear_whenFetchSucceeds_buildsSingleSortedSectionAndSetsLoadedState() async {
         let mockTravelService = MockTravelService()
         mockTravelService._stubbedGetCountriesResult = .success([
-            Country(country: "Brazil", slug: "brazil", lastUpdate: "", synonyms: []),
-            Country(country: "Argentina", slug: "argentina", lastUpdate: "", synonyms: [])
+            Country(name: "Brazil", slug: "brazil", rawLastUpdate: "", synonyms: []),
+            Country(name: "Argentina", slug: "argentina", rawLastUpdate: "", synonyms: [])
         ])
         let viewModel = CountryListViewModel(
             travelService: mockTravelService,
@@ -103,9 +103,9 @@ struct CountryListViewModelTests {
     func selectingARow_executesCountrySelectedAction() async {
         let mockTravelService = MockTravelService()
         let selectedCountry = Country(
-            country: "Argentina",
+            name: "Argentina",
             slug: "argentina",
-            lastUpdate: "",
+            rawLastUpdate: "",
             synonyms: []
         )
         mockTravelService._stubbedGetCountriesResult = .success([selectedCountry])
@@ -138,7 +138,8 @@ struct CountryListViewModelTests {
             travelService: mockTravelService,
             analyticsService: mockAnalyticsService,
             linkAction: { /*Empty For Tests*/ },
-            dismissAction: { dismissActionCalled = true }
+            dismissAction: { dismissActionCalled = true },
+            openURLAction: { _ in /*Empty For Tests*/ }
         )
 
         let countryListVM = sut.countryListViewModel
