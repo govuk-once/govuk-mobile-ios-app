@@ -105,7 +105,7 @@ class CountryListViewModel: ObservableObject {
         let filtered = trimmedSearch.isEmpty
         ? allCountries
         : allCountries.filter { item in
-            let matchesCountry = item.country.localizedCaseInsensitiveContains(trimmedSearch)
+            let matchesCountry = item.name.localizedCaseInsensitiveContains(trimmedSearch)
             let matchesSynonym = item.synonyms.contains {
                 $0.localizedCaseInsensitiveContains(trimmedSearch)
             }

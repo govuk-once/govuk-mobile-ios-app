@@ -144,8 +144,8 @@ final class CountryListViewSnapshotTests: SnapshotTestCase {
     func test_loadInNavigationController_searchResults_light_rendersCorrectly() async {
          let mockTravelService = MockTravelService()
          mockTravelService._stubbedGetCountriesResult = .success([
-             Country(country: "Brazil", slug: "brazil", lastUpdate: "", synonyms: []),
-             Country(country: "Argentina", slug: "argentina", lastUpdate: "", synonyms: [])
+             Country(name: "Brazil", slug: "brazil", rawLastUpdate: "", synonyms: []),
+             Country(name: "Argentina", slug: "argentina", rawLastUpdate: "", synonyms: [])
          ])
          let viewModel = makeViewModel(travelService: mockTravelService)
 
@@ -166,8 +166,8 @@ final class CountryListViewSnapshotTests: SnapshotTestCase {
      func test_loadInNavigationController_searchResults_dark_rendersCorrectly() async {
          let mockTravelService = MockTravelService()
          mockTravelService._stubbedGetCountriesResult = .success([
-             Country(country: "Brazil", slug: "brazil", lastUpdate: "", synonyms: []),
-             Country(country: "Argentina", slug: "argentina", lastUpdate: "", synonyms: [])
+             Country(name: "Brazil", slug: "brazil", rawLastUpdate: "", synonyms: []),
+             Country(name: "Argentina", slug: "argentina", rawLastUpdate: "", synonyms: [])
          ])
          let viewModel = makeViewModel(travelService: mockTravelService)
 
@@ -188,8 +188,8 @@ final class CountryListViewSnapshotTests: SnapshotTestCase {
      func test_loadInNavigationController_emptySearchResult_light_rendersCorrectly() async {
          let mockTravelService = MockTravelService()
          mockTravelService._stubbedGetCountriesResult = .success([
-             Country(country: "Brazil", slug: "brazil", lastUpdate: "", synonyms: []),
-             Country(country: "Argentina", slug: "argentina", lastUpdate: "", synonyms: [])
+             Country(name: "Brazil", slug: "brazil", rawLastUpdate: "", synonyms: []),
+             Country(name: "Argentina", slug: "argentina", rawLastUpdate: "", synonyms: [])
          ])
          let viewModel = makeViewModel(travelService: mockTravelService)
 
@@ -210,8 +210,8 @@ final class CountryListViewSnapshotTests: SnapshotTestCase {
      func test_loadInNavigationController_emptySearchResult_dark_rendersCorrectly() async {
          let mockTravelService = MockTravelService()
          mockTravelService._stubbedGetCountriesResult = .success([
-             Country(country: "Brazil", slug: "brazil", lastUpdate: "", synonyms: []),
-             Country(country: "Argentina", slug: "argentina", lastUpdate: "", synonyms: [])
+             Country(name: "Brazil", slug: "brazil", rawLastUpdate: "", synonyms: []),
+             Country(name: "Argentina", slug: "argentina", rawLastUpdate: "", synonyms: [])
          ])
          let viewModel = makeViewModel(travelService: mockTravelService)
 
