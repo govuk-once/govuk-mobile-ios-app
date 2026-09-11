@@ -84,7 +84,7 @@
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Last updated (%1$(formattedDate)@"
+            "value" : "Last updated %1$(formattedDate)@"
           }
         }
       }
