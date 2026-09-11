@@ -34,9 +34,7 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
         let status = taxValidityStatus(vehicle: vehicle)
         switch status {
         case .untaxed:
-            return makeExpiredViewModel(
-                validToDate: vehicle.taxedUntil
-            )
+            return makeExpiredViewModel()
         case .taxed:
             if let validToDate = vehicle.taxedUntil {
                 let expiryProgress = expiryProgressCalculator.calculate(
@@ -44,9 +42,7 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
                     currentDate: Date.now
                 )
                 if expiryProgress.isExpired {
-                    return makeExpiredViewModel(
-                        validToDate: validToDate
-                    )
+                    return makeExpiredViewModel()
                 }
                 if expiryProgress.isWithinCountdownWindow {
                     return makeExpiringViewModel(
@@ -70,7 +66,7 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
             )
         case .notTaxedForOnRoadUse:
             return makeTaxNotNeededViewModel()
-        default:
+        case .unknown:
             return makeNotKnownViewModel()
         }
     }
@@ -84,16 +80,8 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
     }
 
     // MARK: - Expired
-    private func makeExpiredViewModel(
-        validToDate: Date?
-    ) -> ValidityStatusViewModel {
-        let formattedStatus: String
-        if let dateString = formattedDate(validToDate) {
-            formattedStatus = String(localized: .DVLA.expiredOn(date: dateString))
-        } else {
-            formattedStatus = String(localized: .DVLA.expired)
-        }
-
+    private func makeExpiredViewModel() -> ValidityStatusViewModel {
+        let formattedStatus = String(localized: .DVLA.untaxed)
         let buttonTitle = String(localized: .DVLA.renewTaxButtonTitle)
         let buttonURL = urls?.taxVehicle ?? Constants.API.defaultDvlaTaxVehicleUrl
         return ValidityStatusViewModel(
@@ -151,9 +139,19 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
 
     // MARK: - Unknown
     private func makeNotKnownViewModel() -> ValidityStatusViewModel {
+        var statusLinkAction: (() -> Void)?
+        if let contactURL = urls?.contact {
+            statusLinkAction = {
+                let title = String(localized: .DVLA.notFoundContactDVLA)
+                openURLAction(text: title, url: contactURL)
+            }
+        }
+
         return ValidityStatusViewModel(
             title: String(localized: .DVLA.taxStatusTitle),
-            formattedStatus: String(localized: .DVLA.unknown)
+            formattedStatus: String(localized: .DVLA.notFoundContactDVLA),
+            status: TaxValidityStatus.unknown,
+            statusLinkAction: statusLinkAction
         )
     }
 
@@ -189,7 +187,7 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
     private func makeTaxNotNeededViewModel() -> ValidityStatusViewModel {
         return ValidityStatusViewModel(
             title: String(localized: .DVLA.taxStatusTitle),
-            formattedStatus: String(localized: .DVLA.vehicleTaxNotNeeded)
+            formattedStatus: String(localized: .DVLA.noTaxToPay)
         )
     }
 

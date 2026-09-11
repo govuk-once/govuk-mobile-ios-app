@@ -60,6 +60,57 @@ struct ValidityStatusView: View {
 
     @ViewBuilder
     private var statusTextView: some View {
+        if let status = (viewModel.status as? TaxValidityStatus) {
+            switch status {
+            case .unknown:
+                unknownStatusView
+            case .notTaxedForOnRoadUse,
+                    .sorn,
+                    .futureSorn,
+                    .untaxed,
+                    .taxed:
+                knownStatusTextView
+            }
+        } else {
+            knownStatusTextView
+        }
+    }
+
+    @ViewBuilder
+    private var unknownStatusView: some View {
+        if !viewModel.formattedStatus.isEmpty {
+            if let statusLinkAction = viewModel.statusLinkAction {
+                Button(action: statusLinkAction) {
+                    HStack {
+                        Text(viewModel.formattedStatus)
+                            .multilineTextAlignment(.leading)
+                            .font(Font.govUK.body)
+                            .foregroundColor(
+                                Color(UIColor.govUK.text.link)
+                            )
+                            .accessibilityLabel(
+                                viewModel.statusAccessibilityLabel ?? viewModel.formattedStatus
+                            )
+                        Spacer()
+                        Image(systemName: "arrow.up.forward")
+                            .foregroundColor(
+                                Color(UIColor.govUK.text.link)
+                            )
+                            .font(Font.govUK.bodySemibold)
+                    }
+                }
+            } else {
+                Text(viewModel.formattedStatus)
+                    .multilineTextAlignment(.leading)
+                    .accessibilityLabel(
+                        viewModel.statusAccessibilityLabel ?? viewModel.formattedStatus
+                    )
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var knownStatusTextView: some View {
         if let statusAccessibilityLabel = viewModel.statusAccessibilityLabel {
             Text(viewModel.formattedStatus)
                 .multilineTextAlignment(.leading)
@@ -87,4 +138,29 @@ struct ValidityStatusView: View {
         ValidityStatusView(viewModel: viewModel)
         Color(uiColor: .govUK.fills.surfaceBackground)
     }
+}
+
+#Preview("Not Known status") {
+    let notKnownVM: ValidityStatusViewModel = {
+            let dummyOpenURLAction: (URL) -> Void = { url in print("click url: \(url)") }
+
+            func openURLAction(text: String, url: URL) {
+                dummyOpenURLAction(url)
+            }
+
+            let statusUnknown: TaxValidityStatus = .unknown
+            let url = URL(string: "https://www.gov.uk/contact-the-dvla")!
+
+            let title = String(localized: .DVLA.taxStatusTitle)
+            let formattedStatus = String(localized: .DVLA.notFoundContactDVLA)
+
+            return ValidityStatusViewModel(
+                title: title,
+                formattedStatus: formattedStatus,
+                status: statusUnknown,
+                statusLinkAction: { openURLAction(text: title, url: url) }
+            )
+        }()
+
+    ValidityStatusView(viewModel: notKnownVM)
 }
