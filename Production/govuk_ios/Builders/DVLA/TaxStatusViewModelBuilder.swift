@@ -53,14 +53,6 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
         }
     }
 
-    private func formattedDate(_ date: Date?) -> String? {
-        if let date = date {
-            return dateFormatter.string(from: date)
-        } else {
-            return nil
-        }
-    }
-
     // MARK: - Taxed
     @MainActor
     private func makeViewModelForTaxed(vehicle: TaxValidityVehicle) -> ValidityStatusViewModel {
@@ -280,6 +272,17 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
             return .taxed
         case (.none, _):
             return .unknown
+        }
+    }
+}
+
+// MARK: - Helper methods
+extension TaxStatusViewModelBuilder {
+    private func formattedDate(_ date: Date?) -> String? {
+        if let date = date {
+            return dateFormatter.string(from: date)
+        } else {
+            return nil
         }
     }
 
