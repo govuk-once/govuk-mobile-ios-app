@@ -572,6 +572,7 @@
 		D0F6813F2DD4CF8E004421C0 /* LocalAuthorityWidgetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F6813D2DD4CF8E004421C0 /* LocalAuthorityWidgetViewModel.swift */; };
 		D0F681402DD4CF8E004421C0 /* LocalAuthorityExplainerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F6813B2DD4CF8E004421C0 /* LocalAuthorityExplainerViewModel.swift */; };
 		DE523C72304EF43E00C0605C /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE523C71304EF43E00C0605C /* Notification.swift */; };
+		FBD9E9C5305315220031B76A /* StatusRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD9E9C4305315220031B76A /* StatusRowView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1176,6 +1177,7 @@
 		D0F6813C2DD4CF8E004421C0 /* LocalAuthorityPostcodeEntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthorityPostcodeEntryViewModel.swift; sourceTree = "<group>"; };
 		D0F6813D2DD4CF8E004421C0 /* LocalAuthorityWidgetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthorityWidgetViewModel.swift; sourceTree = "<group>"; };
 		DE523C71304EF43E00C0605C /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		FBD9E9C4305315220031B76A /* StatusRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusRowView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -2594,6 +2596,7 @@
 		81D2583F2FC71A8C00A4F988 /* DVLA */ = {
 			isa = PBXGroup;
 			children = (
+				FBD9E9C4305315220031B76A /* StatusRowView.swift */,
 				817ECB3C3024DDF700BFC5FF /* DVLAAuthenticationView.swift */,
 				813610172FFFDA7C0011D851 /* DrivingRecordView.swift */,
 				1663A3FC2FF3C2B50002CFDB /* TaxValidityStatusView.swift */,
@@ -3752,6 +3755,7 @@
 				D06C49B62DE5D2510045C674 /* JailbreakDetectionService.swift in Sources */,
 				4E11AC442F22653700838894 /* GOVUKColors+Chat.swift in Sources */,
 				4E265D2A2DB0E6510089CF9E /* Authority.swift in Sources */,
+				FBD9E9C5305315220031B76A /* StatusRowView.swift in Sources */,
 				D096BFF22E04124E00426C51 /* ChatItem.swift in Sources */,
 				4E265D2D2DB0E6510089CF9E /* LocalAuthorityAddress.swift in Sources */,
 				5D54F4752CC84A5B00A3B6A7 /* TopicDetailsCoordinator.swift in Sources */,
