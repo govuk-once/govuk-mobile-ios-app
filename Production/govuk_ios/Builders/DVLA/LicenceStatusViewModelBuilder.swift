@@ -104,13 +104,14 @@ struct LicenceStatusViewModelBuilder: LicenceStatusViewModelBuilderInterface {
              }
          }
          return ValidityStatusViewModel(
-             formattedStatus: status,
-             statusAccessibilityLabel: accessibilityLabel(for: status),
-             statusInformation: nil,
-             iconName: "exclamationmark.triangle.fill",
-             footer: String(localized: .DVLA.licenceStatusFooter),
-             buttonTitle: buttonTitle,
-             buttonAction: buttonAction
+            statusInformation: StatusInformation(
+                status,
+                accessibilityLabel: accessibilityLabel(for: status)
+            ),
+            iconName: "exclamationmark.triangle.fill",
+            footer: String(localized: .DVLA.licenceStatusFooter),
+            buttonTitle: buttonTitle,
+            buttonAction: buttonAction
          )
      }
 
@@ -124,11 +125,12 @@ struct LicenceStatusViewModelBuilder: LicenceStatusViewModelBuilderInterface {
              formattedStatus = String(localized: .DVLA.valid)
          }
          return ValidityStatusViewModel(
-            formattedStatus: formattedStatus,
-             statusAccessibilityLabel: accessibilityLabel(for: formattedStatus),
-             statusInformation: nil,
-             iconName: "checkmark.circle.fill",
-             iconTintColour: .govUK.fills.surfaceButtonPrimary
+            statusInformation: StatusInformation(
+                formattedStatus,
+                accessibilityLabel: accessibilityLabel(for: formattedStatus)
+            ),
+            iconName: "checkmark.circle.fill",
+            iconTintColour: .govUK.fills.surfaceButtonPrimary
          )
      }
 
@@ -156,9 +158,9 @@ struct LicenceStatusViewModelBuilder: LicenceStatusViewModelBuilderInterface {
             }
         }
         return ValidityStatusViewModel(
-            formattedStatus: formattedStatus,
-            statusAccessibilityLabel: accessibilityLabel(for: formattedStatus),
-            statusInformation: nil,
+            statusInformation: StatusInformation(
+                formattedStatus,
+                accessibilityLabel: accessibilityLabel(for: formattedStatus)),
             progressViewModel: progressViewModel,
             footer: String(localized: .DVLA.licenceStatusFooter),
             buttonTitle: buttonTitle,
@@ -170,12 +172,9 @@ struct LicenceStatusViewModelBuilder: LicenceStatusViewModelBuilderInterface {
         let formattedStatus = String(localized: .DVLA.unknown)
         let accessibilityLabel = accessibilityLabel(for: formattedStatus)
         return ValidityStatusViewModel(
-            formattedStatus: formattedStatus,
-            statusAccessibilityLabel: accessibilityLabel,
             statusInformation: StatusInformation(
-                title: formattedStatus,
-                accessibilityLabel: accessibilityLabel,
-                linkAction: nil)
+                formattedStatus,
+                accessibilityLabel: accessibilityLabel)
         )
     }
  }
