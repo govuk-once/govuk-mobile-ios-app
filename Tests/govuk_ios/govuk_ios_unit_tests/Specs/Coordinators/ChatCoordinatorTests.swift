@@ -29,6 +29,7 @@ struct ChatCoordinatorTests {
             analyticsService: MockAnalyticsService(),
             chatService: mockChatService,
             authenticationService: MockAuthenticationService(),
+            configService: MockAppConfigService(),
             cancelOnboardingAction: { }
         )
 
@@ -53,6 +54,7 @@ struct ChatCoordinatorTests {
             analyticsService: MockAnalyticsService(),
             chatService: mockChatService,
             authenticationService: MockAuthenticationService(),
+            configService: MockAppConfigService(),
             cancelOnboardingAction: { }
         )
 
@@ -81,6 +83,7 @@ struct ChatCoordinatorTests {
             analyticsService: MockAnalyticsService(),
             chatService: mockChatService,
             authenticationService: MockAuthenticationService(),
+            configService: MockAppConfigService(),
             cancelOnboardingAction: { }
         )
 
@@ -106,6 +109,7 @@ struct ChatCoordinatorTests {
             analyticsService: MockAnalyticsService(),
             chatService: mockChatService,
             authenticationService: MockAuthenticationService(),
+            configService: MockAppConfigService(),
             cancelOnboardingAction: { }
         )
 
@@ -134,6 +138,7 @@ struct ChatCoordinatorTests {
             analyticsService: MockAnalyticsService(),
             chatService: mockChatService,
             authenticationService: MockAuthenticationService(),
+            configService: MockAppConfigService(),
             cancelOnboardingAction: { }
         )
 
@@ -166,6 +171,7 @@ struct ChatCoordinatorTests {
             analyticsService: MockAnalyticsService(),
             chatService: mockChatService,
             authenticationService: MockAuthenticationService(),
+            configService: MockAppConfigService(),
             cancelOnboardingAction: { }
         )
 
@@ -199,6 +205,7 @@ struct ChatCoordinatorTests {
             analyticsService: MockAnalyticsService(),
             chatService: mockChatService,
             authenticationService: mockAuthenticationService,
+            configService: MockAppConfigService(),
             cancelOnboardingAction: { }
         )
 
@@ -230,6 +237,7 @@ struct ChatCoordinatorTests {
             analyticsService: MockAnalyticsService(),
             chatService: mockChatService,
             authenticationService: MockAuthenticationService(),
+            configService: MockAppConfigService(),
             cancelOnboardingAction: { }
         )
         sut.isShowingError = true
@@ -258,6 +266,7 @@ struct ChatCoordinatorTests {
             analyticsService: MockAnalyticsService(),
             chatService: mockChatService,
             authenticationService: MockAuthenticationService(),
+            configService: MockAppConfigService(),
             cancelOnboardingAction: { }
         )
 
@@ -289,6 +298,7 @@ struct ChatCoordinatorTests {
             analyticsService: MockAnalyticsService(),
             chatService: mockChatService,
             authenticationService: MockAuthenticationService(),
+            configService: MockAppConfigService(),
             cancelOnboardingAction: { }
         )
 

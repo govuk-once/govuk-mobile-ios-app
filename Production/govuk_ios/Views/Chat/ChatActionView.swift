@@ -7,6 +7,7 @@ struct ChatActionView: View {
     @State private var placeholderText: String? = String.chat.localized("textEditorPlaceholder")
     @State private var warningErrorHeight: CGFloat = 0
     @Binding var showClearChatAlert: Bool
+    @Binding var textAreaFocusedAnimationTrigger: Bool
     private var animationDuration = 0.3
     private var maxTextEditorFrameHeight: CGFloat
     private var actionDimensions: CGSize = CGSize(width: 36, height: 36)
@@ -14,10 +15,12 @@ struct ChatActionView: View {
     init(viewModel: ChatViewModel,
          textAreaFocused: FocusState<Bool>.Binding,
          showClearChatAlert: Binding<Bool>,
+         textAreaFocusedAnimationTrigger: Binding<Bool>,
          maxTextEditorFrameHeight: CGFloat) {
         _viewModel = StateObject(wrappedValue: viewModel)
         _textAreaFocused = textAreaFocused
         _showClearChatAlert = showClearChatAlert
+        _textAreaFocusedAnimationTrigger = textAreaFocusedAnimationTrigger
         self.maxTextEditorFrameHeight = maxTextEditorFrameHeight
     }
 
@@ -27,6 +30,11 @@ struct ChatActionView: View {
             messageView(warningErrorMessage)
 
             chatActionComponentsView(maxFrameHeight: maxTextEditorFrameHeight - warningErrorHeight)
+        }
+        .onChange(of: textAreaFocused) { focused in
+            withAnimation(.smooth) {
+                textAreaFocusedAnimationTrigger = !focused
+            }
         }
         .onChange(of: viewModel.latestQuestion) { _ in
             viewModel.updateCharacterCount()

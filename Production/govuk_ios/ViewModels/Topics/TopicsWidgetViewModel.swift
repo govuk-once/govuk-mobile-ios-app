@@ -4,7 +4,7 @@ import CoreData
 import GovKit
 import GovKitUI
 
-enum TopicSegment {
+enum TopicsTab: String {
     case favourite
     case all
 }
@@ -12,15 +12,17 @@ enum TopicSegment {
 final class TopicsWidgetViewModel: ObservableObject {
     private let topicsService: TopicsServiceInterface
     private let analyticsService: AnalyticsServiceInterface
+    private let userDefaultsService: UserDefaultsServiceInterface
     private let urlOpener: URLOpener
     let topicAction: (Topic) -> Void
     private let dismissEditAction: () -> Void
     @Published var fetchTopicsError = false
     @Published var favouriteTopics: [Topic] = []
     @Published var allTopics: [Topic] = []
-    @Published var topicsScreen: TopicSegment = .favourite {
+    @Published var selectedTab: TopicsTab {
         didSet {
-            if oldValue != topicsScreen &&
+            userDefaultsService.set(selectedTab.rawValue, forKey: .topicsSelectedTab)
+            if oldValue != selectedTab &&
                 initialLoadComplete {
                 trackECommerce()
             }
@@ -59,14 +61,18 @@ final class TopicsWidgetViewModel: ObservableObject {
 
     init(topicsService: TopicsServiceInterface,
          analyticsService: AnalyticsServiceInterface,
+         userDefaultsService: UserDefaultsServiceInterface,
          urlOpener: URLOpener = UIApplication.shared,
          topicAction: @escaping (Topic) -> Void,
          dismissEditAction: @escaping () -> Void) {
         self.topicsService = topicsService
         self.analyticsService = analyticsService
+        self.userDefaultsService = userDefaultsService
         self.urlOpener = urlOpener
         self.topicAction = topicAction
         self.dismissEditAction = dismissEditAction
+        let selectedTabRawValue = userDefaultsService.value(forKey: .topicsSelectedTab) as? String
+        self.selectedTab = selectedTabRawValue.flatMap({ TopicsTab(rawValue: $0) }) ?? .favourite
     }
 
     lazy var editTopicViewModel: EditTopicsViewModel = {
@@ -118,11 +124,11 @@ final class TopicsWidgetViewModel: ObservableObject {
     }
 
     private var listName: String {
-        topicsScreen == .favourite ? "Your topics" : "All topics"
+        selectedTab == .favourite ? "Your topics" : "All topics"
     }
 
     func trackECommerce() {
-        let trackedTopics = topicsScreen == .favourite ? favouriteTopics : allTopics
+        let trackedTopics = selectedTab == .favourite ? favouriteTopics : allTopics
         var items = [HomeCommerceItem]()
         trackedTopics.enumerated().forEach { index, topic in
             let item = HomeCommerceItem(
@@ -143,7 +149,7 @@ final class TopicsWidgetViewModel: ObservableObject {
     }
 
     func trackECommerceSelection(_ name: String) {
-        let trackedTopics = topicsScreen == .favourite ? favouriteTopics : allTopics
+        let trackedTopics = selectedTab == .favourite ? favouriteTopics : allTopics
         guard let topic = trackedTopics.first(where: {$0.title == name}),
               let index = trackedTopics.firstIndex(of: topic)
         else { return }

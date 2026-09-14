@@ -12,7 +12,6 @@ final class LocalAuthorityExplainerViewSnapshotTests: SnapshotTestCase {
         VerifySnapshotInNavigationController(
             viewController: viewController(),
             mode: .light,
-            prefersLargeTitles: true
         )
     }
 
@@ -20,7 +19,6 @@ final class LocalAuthorityExplainerViewSnapshotTests: SnapshotTestCase {
         VerifySnapshotInNavigationController(
             viewController: viewController(),
             mode: .dark,
-            prefersLargeTitles: true
         )
     }
 
@@ -35,7 +33,6 @@ final class LocalAuthorityExplainerViewSnapshotTests: SnapshotTestCase {
         )
         let viewController = HostingViewController(
             rootView: view,
-            navigationBarHidden: true
         )
         viewController.view.backgroundColor = .govUK.fills.surfaceModal
         return viewController

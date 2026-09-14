@@ -28,6 +28,7 @@ final class HomepageWidgetSnapshotTests: SnapshotTestCase {
         let viewModel = TopicsWidgetViewModel(
             topicsService: MockTopicsService(),
             analyticsService: MockAnalyticsService(),
+            userDefaultsService: MockUserDefaultsService(),
             topicAction: {_ in},
             dismissEditAction: { }
         )

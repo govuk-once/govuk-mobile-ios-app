@@ -127,7 +127,7 @@ struct CountryListView: View {
 
     @ViewBuilder
     private func alertMessage(for country: Country) -> some View {
-        Text(String(localized: .Travel.countryListAlertDescription1(country.country)))
+        Text(String(localized: .Travel.countryListAlertDescription1(country.name)))
         + Text("\n\n")
         + Text(String(localized: .Travel.countryListAlertDescription2))
     }

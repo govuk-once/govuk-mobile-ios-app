@@ -133,6 +133,17 @@
         }
       }
     },
+    "exampleQuestionsTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try asking:"
+          }
+        }
+      }
+    },
     "feedbackMenuAccessibilityTitle" : {
       "extractionState" : "manual",
       "localizations" : {

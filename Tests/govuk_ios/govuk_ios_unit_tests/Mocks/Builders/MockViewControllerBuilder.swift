@@ -15,6 +15,7 @@ extension ViewControllerBuilder {
             let topicsViewModel = TopicsWidgetViewModel(
                 topicsService: MockTopicsService(),
                 analyticsService: MockAnalyticsService(),
+                userDefaultsService: MockUserDefaultsService(),
                 topicAction: { _ in },
                 dismissEditAction: { }
             )
@@ -327,6 +328,7 @@ class MockViewControllerBuilder: ViewControllerBuilder {
     override func chat(
         analyticsService: AnalyticsServiceInterface,
         chatService: ChatServiceInterface,
+        configService: AppConfigServiceInterface,
         openURLAction: @escaping (URL) -> Void,
         handleError: @escaping (ChatError) -> Void
     ) -> UIViewController {

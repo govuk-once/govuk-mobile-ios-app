@@ -8,6 +8,7 @@ import UIKit
 class HomeViewControllerSnapshotTests: SnapshotTestCase {
     let mockTopicService = MockTopicsService()
     let mockAnalyticsService = MockAnalyticsService()
+    let mockUserDefaultsService = MockUserDefaultsService()
     var coreData: CoreDataRepository!
 
     override func setUp() async throws {
@@ -83,6 +84,7 @@ class HomeViewControllerSnapshotTests: SnapshotTestCase {
         let topicsViewModel = TopicsWidgetViewModel(
             topicsService: mockTopicService,
             analyticsService: mockAnalyticsService,
+            userDefaultsService: mockUserDefaultsService,
             topicAction: { _ in },
             dismissEditAction: { }
         )

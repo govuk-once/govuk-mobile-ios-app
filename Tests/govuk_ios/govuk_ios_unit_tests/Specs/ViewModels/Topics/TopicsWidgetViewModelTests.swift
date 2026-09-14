@@ -9,6 +9,7 @@ import FactoryKit
 class TopicsWidgetViewModelTests {
     let mockTopicService = MockTopicsService()
     let mockAnalyticsService = MockAnalyticsService()
+    let mockUserDefaultsService = MockUserDefaultsService()
 
     @Test
     @MainActor
@@ -19,6 +20,7 @@ class TopicsWidgetViewModelTests {
         let sut = TopicsWidgetViewModel(
             topicsService: mockTopicService,
             analyticsService: mockAnalyticsService,
+            userDefaultsService: mockUserDefaultsService,
             topicAction: { _ in },
             dismissEditAction: { }
         )
@@ -46,6 +48,7 @@ class TopicsWidgetViewModelTests {
         let sut = TopicsWidgetViewModel(
             topicsService: mockTopicService,
             analyticsService: mockAnalyticsService,
+            userDefaultsService: mockUserDefaultsService,
             topicAction: { _ in },
             dismissEditAction: { }
         )
@@ -72,6 +75,7 @@ class TopicsWidgetViewModelTests {
         let sut = TopicsWidgetViewModel(
             topicsService: mockTopicService,
             analyticsService: mockAnalyticsService,
+            userDefaultsService: mockUserDefaultsService,
             topicAction: { _ in
                 expectedValue = true
             },
@@ -96,6 +100,7 @@ class TopicsWidgetViewModelTests {
             let sut = TopicsWidgetViewModel(
                 topicsService: mockTopicService,
                 analyticsService: mockAnalyticsService,
+                userDefaultsService: mockUserDefaultsService,
                 topicAction: { _ in },
                 dismissEditAction: { }
             )
@@ -127,6 +132,7 @@ class TopicsWidgetViewModelTests {
         let sut = TopicsWidgetViewModel(
             topicsService: mockTopicService,
             analyticsService: mockAnalyticsService,
+            userDefaultsService: mockUserDefaultsService,
             topicAction: { _ in },
             dismissEditAction: { }
         )
@@ -152,6 +158,7 @@ class TopicsWidgetViewModelTests {
             let sut = TopicsWidgetViewModel(
                 topicsService: mockTopicService,
                 analyticsService: mockAnalyticsService,
+                userDefaultsService: mockUserDefaultsService,
                 topicAction: { _ in },
                 dismissEditAction: { }
             )
@@ -175,6 +182,7 @@ class TopicsWidgetViewModelTests {
         let sut = TopicsWidgetViewModel(
             topicsService: mockTopicService,
             analyticsService: mockAnalyticsService,
+            userDefaultsService: mockUserDefaultsService,
             topicAction: { _ in },
             dismissEditAction: { }
         )
@@ -183,7 +191,7 @@ class TopicsWidgetViewModelTests {
 
     @Test
     @MainActor
-    func setTopicsScreen_allTopics_createsExpectedECommerceEvent() async throws {
+    func setSelectedTab_allTopics_createsExpectedECommerceEvent() async throws {
         let coreData = await CoreDataRepository.arrangeAndLoad
         let allOne = Topic.arrange(context: coreData.backgroundContext)
         let allTwo = Topic.arrange(context: coreData.backgroundContext)
@@ -193,12 +201,13 @@ class TopicsWidgetViewModelTests {
         let sut = TopicsWidgetViewModel(
             topicsService: mockTopicService,
             analyticsService: mockAnalyticsService,
+            userDefaultsService: mockUserDefaultsService,
             topicAction: { _ in },
             dismissEditAction: { }
         )
         sut.refreshTopics()
         sut.initialLoadComplete = true
-        sut.topicsScreen = .all
+        sut.selectedTab = .all
         #expect(mockAnalyticsService._trackedEvents.count == 1)
         #expect(mockAnalyticsService._trackedEvents.first?.name == "view_item_list")
         let eventParams = try #require(mockAnalyticsService._trackedEvents.first?.params)
@@ -209,7 +218,7 @@ class TopicsWidgetViewModelTests {
 
     @Test
     @MainActor
-    func setTopicsScreen_favouriteTopics_createsExpectedECommerceEvent() async throws {
+    func setSelectedTab_favouriteTopics_createsExpectedECommerceEvent() async throws {
         let coreData = await CoreDataRepository.arrangeAndLoad
         let favouriteOne = Topic.arrange(
             context: coreData.backgroundContext,
@@ -225,13 +234,14 @@ class TopicsWidgetViewModelTests {
         let sut = TopicsWidgetViewModel(
             topicsService: mockTopicService,
             analyticsService: mockAnalyticsService,
+            userDefaultsService: mockUserDefaultsService,
             topicAction: { _ in },
             dismissEditAction: { }
         )
         sut.initialLoadComplete = true
         sut.refreshTopics()
-        sut.topicsScreen = .all
-        sut.topicsScreen = .favourite
+        sut.selectedTab = .all
+        sut.selectedTab = .favourite
         #expect(mockAnalyticsService._trackedEvents.count == 2)
         #expect(mockAnalyticsService._trackedEvents.first?.name == "view_item_list")
         let eventParams = try #require(mockAnalyticsService._trackedEvents[1].params)
@@ -241,7 +251,7 @@ class TopicsWidgetViewModelTests {
 
     @Test
     @MainActor
-    func setTopicsScreen_isTheSameAsOldValue_doesNotCreateECommerceEvent() async throws {
+    func setSelectedTab_isTheSameAsOldValue_doesNotCreateECommerceEvent() async throws {
         let coreData = await CoreDataRepository.arrangeAndLoad
         let favouriteOne = Topic.arrange(
             context: coreData.backgroundContext,
@@ -251,28 +261,29 @@ class TopicsWidgetViewModelTests {
             context: coreData.backgroundContext,
             isFavourite: true
         )
-        var lastTopicsScreen = [TopicSegment]()
+        var lastSelectedTab = [TopicsTab]()
 
         mockTopicService._stubbedFetchFavouriteTopics = [favouriteOne, favouriteTwo]
 
         let sut = TopicsWidgetViewModel(
             topicsService: mockTopicService,
             analyticsService: mockAnalyticsService,
+            userDefaultsService: mockUserDefaultsService,
             topicAction: { _ in },
             dismissEditAction: { }
         )
-        lastTopicsScreen.append(sut.topicsScreen)
+        lastSelectedTab.append(sut.selectedTab)
         sut.initialLoadComplete = true
         sut.refreshTopics()
-        sut.topicsScreen = .favourite
+        sut.selectedTab = .favourite
         mockAnalyticsService._trackedEvents = []
-        sut.topicsScreen = .favourite
+        sut.selectedTab = .favourite
         #expect(mockAnalyticsService._trackedEvents.count == 0)
     }
 
     @Test
     @MainActor
-    func setTopicsScreen_initialLoadCompleteIsFalse_andTopicsIsDifferentFromOldValue_doesNotcreateECommerceEvent() async throws {
+    func setSelectedTab_initialLoadCompleteIsFalse_andTopicsIsDifferentFromOldValue_doesNotcreateECommerceEvent() async throws {
 
         let coreData = await CoreDataRepository.arrangeAndLoad
         let allOne = Topic.arrange(context: coreData.backgroundContext)
@@ -283,14 +294,55 @@ class TopicsWidgetViewModelTests {
         let sut = TopicsWidgetViewModel(
             topicsService: mockTopicService,
             analyticsService: mockAnalyticsService,
+            userDefaultsService: mockUserDefaultsService,
             topicAction: { _ in },
             dismissEditAction: { }
         )
         sut.initialLoadComplete = false
         sut.refreshTopics()
-        sut.topicsScreen = .all
+        sut.selectedTab = .all
         #expect(mockAnalyticsService._trackedEvents.count == 0)
         #expect(mockAnalyticsService._trackedEvents.first?.name == nil)
+    }
+
+    @Test
+    func setSelectedTab_storesTabInUserDefaults() throws {
+        let sut = TopicsWidgetViewModel(
+            topicsService: mockTopicService,
+            analyticsService: mockAnalyticsService,
+            userDefaultsService: mockUserDefaultsService,
+            topicAction: { _ in },
+            dismissEditAction: { }
+        )
+        sut.selectedTab = .all
+        let storedTab = try #require(mockUserDefaultsService.value(forKey: .topicsSelectedTab)) as? String
+        #expect(storedTab == TopicsTab.all.rawValue)
+    }
+
+    @Test
+    func init_restoresSelectedTabFromUserDefaults() {
+        let userDefaultsKey = UserDefaultsKeys.topicsSelectedTab.rawValue
+        mockUserDefaultsService._stub(value: TopicsTab.all.rawValue, key: userDefaultsKey)
+        let sut = TopicsWidgetViewModel(
+            topicsService: mockTopicService,
+            analyticsService: mockAnalyticsService,
+            userDefaultsService: mockUserDefaultsService,
+            topicAction: { _ in },
+            dismissEditAction: { }
+        )
+        #expect(sut.selectedTab == .all)
+    }
+
+    @Test
+    func init_whenUserDefaultsSelectedTabIsNil_defaultsToFavourite() {
+        let sut = TopicsWidgetViewModel(
+            topicsService: mockTopicService,
+            analyticsService: mockAnalyticsService,
+            userDefaultsService: mockUserDefaultsService,
+            topicAction: { _ in },
+            dismissEditAction: { }
+        )
+        #expect(sut.selectedTab == .favourite)
     }
 
     @Test
@@ -313,6 +365,7 @@ class TopicsWidgetViewModelTests {
         let sut = TopicsWidgetViewModel(
             topicsService: mockTopicService,
             analyticsService: mockAnalyticsService,
+            userDefaultsService: mockUserDefaultsService,
             topicAction: { _ in},
             dismissEditAction: { }
         )

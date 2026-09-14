@@ -123,6 +123,7 @@ class CoordinatorBuilder {
             analyticsService: container.analyticsService.resolve(),
             chatService: container.chatService.resolve(),
             authenticationService: container.authenticationService(),
+            configService: container.appConfigService.resolve(),
             cancelOnboardingAction: cancelOnboardingAction,
         )
     }

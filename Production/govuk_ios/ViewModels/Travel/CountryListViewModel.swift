@@ -49,6 +49,11 @@ class CountryListViewModel: ObservableObject {
         analyticsService.track(screen: screen)
     }
 
+    func trackSearchInput(text: String) {
+        let searchEvent = AppEvent.searchTerm(term: text, type: .typed, section: "country_search")
+        analyticsService.track(event: searchEvent)
+    }
+
     func handleCountrySelection(_ country: Country, notificationOptIn: Bool) {
         // Given global notifications are off and user is attempting to optIn, navigate to the consent screen
         if !notificationService.hasGivenConsent && notificationOptIn {
@@ -91,13 +96,13 @@ class CountryListViewModel: ObservableObject {
 
     private func buildSections(from countries: [Country]) -> [GroupedListSection] {
         let sortedCountries = countries.sorted {
-            $0.country.localizedCaseInsensitiveCompare($1.country) == .orderedAscending
+            $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending
         }
 
         let rows = sortedCountries.map { country in
             SelectableRow(
                 id: country.slug,
-                title: country.country,
+                title: country.name,
                 action: { [weak self] in
                     self?.selectedCountry = country
                 }
@@ -122,7 +127,7 @@ class CountryListViewModel: ObservableObject {
         let filtered = trimmedSearch.isEmpty
         ? allCountries
         : allCountries.filter { item in
-            let matchesCountry = item.country.localizedCaseInsensitiveContains(trimmedSearch)
+            let matchesCountry = item.name.localizedCaseInsensitiveContains(trimmedSearch)
             let matchesSynonym = item.synonyms.contains {
                 $0.localizedCaseInsensitiveContains(trimmedSearch)
             }

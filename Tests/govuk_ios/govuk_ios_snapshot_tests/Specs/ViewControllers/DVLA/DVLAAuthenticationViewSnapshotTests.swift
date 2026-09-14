@@ -49,4 +49,3 @@ class DVLAAuthenticationViewSnapshotTests: SnapshotTestCase {
         )
     }
 }
-
