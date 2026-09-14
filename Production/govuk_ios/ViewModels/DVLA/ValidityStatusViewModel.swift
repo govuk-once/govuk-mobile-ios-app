@@ -28,8 +28,14 @@ struct ValidityStatusViewModel {
     let title: String?
     let formattedStatus: String
     let status: ValidityStatus?
-    let statusAccessibilityLabel: String?
+
+    let statusInformation: StatusInformation?
+
+    let statusAccessibilityLabel: String?       // license status doesnt have title | used for
+                                                // todo:
+                                                //   consider: statusOveride?
     let statusLinkAction: (() -> Void)?
+
     let iconName: String?
     let iconTintColour: UIColor?
     let progressViewModel: ExpiryProgressViewModel?
@@ -54,6 +60,7 @@ struct ValidityStatusViewModel {
          status: ValidityStatus? = nil,
          statusAccessibilityLabel: String? = nil,
          statusLinkAction: (() -> Void)? = nil,
+         statusInformation: StatusInformation?,
          iconName: String? = nil,
          iconTintColour: UIColor? = nil,
          progressViewModel: ExpiryProgressViewModel? = nil,
@@ -73,5 +80,6 @@ struct ValidityStatusViewModel {
         self.buttonConfiguration = buttonConfiguration
         self.status = status
         self.statusLinkAction = statusLinkAction
+        self.statusInformation = statusInformation
     }
 }
