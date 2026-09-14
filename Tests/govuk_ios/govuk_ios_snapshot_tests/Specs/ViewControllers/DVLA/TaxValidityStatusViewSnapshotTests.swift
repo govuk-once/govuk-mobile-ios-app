@@ -88,9 +88,9 @@ class TaxValidityStatusViewSnapshotTests: SnapshotTestCase {
     fileprivate func viewModelForUnknownStatus() -> ValidityStatusViewModel {
         ValidityStatusViewModel(
             title: String(localized: .DVLA.taxStatusTitle),
-            formattedStatus: String(localized: .DVLA.notFoundContactDVLA),
             status: TaxValidityStatus.unknown,
-            statusLinkAction: {}
+            statusInformation: .init(String(localized: .DVLA.notFoundContactDVLA),
+                                     linkAction: {}),
         )
 
     }
