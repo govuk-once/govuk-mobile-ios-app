@@ -100,6 +100,7 @@ struct MotStatusViewModelBuilder: MotStatusViewModelBuilderInterface {
             title: String(localized: .DVLA.motStatusTitle),
             formattedStatus: formattedStatus,
             status: MOTValidityStatus.expired,
+            statusInformation: nil,
             iconName: "exclamationmark.triangle.fill"
         )
     }
@@ -118,6 +119,7 @@ struct MotStatusViewModelBuilder: MotStatusViewModelBuilderInterface {
             title: String(localized: .DVLA.motStatusTitle),
             formattedStatus: formattedStatus,
             status: MOTValidityStatus.valid,
+            statusInformation: nil,
             iconName: "checkmark.circle.fill",
             iconTintColour: .govUK.fills.surfaceButtonPrimary
         )
@@ -140,6 +142,7 @@ struct MotStatusViewModelBuilder: MotStatusViewModelBuilderInterface {
                     formattedDate(validToDate) ?? "")
             ),
             status: MOTValidityStatus.expiringSoon,
+            statusInformation: nil,
             progressViewModel: progressViewModel,
             footer: String(localized: .DVLA.motSyncDelayNotice)
         )
@@ -149,7 +152,8 @@ struct MotStatusViewModelBuilder: MotStatusViewModelBuilderInterface {
         return ValidityStatusViewModel(
             title: String(localized: .DVLA.motStatusTitle),
             formattedStatus: String(localized: .DVLA.motUnknown),
-            status: MOTValidityStatus.unknown
+            status: MOTValidityStatus.unknown,
+            statusInformation: nil,
         )
     }
 

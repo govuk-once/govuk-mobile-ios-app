@@ -106,6 +106,7 @@ struct LicenceStatusViewModelBuilder: LicenceStatusViewModelBuilderInterface {
          return ValidityStatusViewModel(
              formattedStatus: status,
              statusAccessibilityLabel: accessibilityLabel(for: status),
+             statusInformation: nil,
              iconName: "exclamationmark.triangle.fill",
              footer: String(localized: .DVLA.licenceStatusFooter),
              buttonTitle: buttonTitle,
@@ -125,6 +126,7 @@ struct LicenceStatusViewModelBuilder: LicenceStatusViewModelBuilderInterface {
          return ValidityStatusViewModel(
             formattedStatus: formattedStatus,
              statusAccessibilityLabel: accessibilityLabel(for: formattedStatus),
+             statusInformation: nil,
              iconName: "checkmark.circle.fill",
              iconTintColour: .govUK.fills.surfaceButtonPrimary
          )
@@ -156,6 +158,7 @@ struct LicenceStatusViewModelBuilder: LicenceStatusViewModelBuilderInterface {
         return ValidityStatusViewModel(
             formattedStatus: formattedStatus,
             statusAccessibilityLabel: accessibilityLabel(for: formattedStatus),
+            statusInformation: nil,
             progressViewModel: progressViewModel,
             footer: String(localized: .DVLA.licenceStatusFooter),
             buttonTitle: buttonTitle,

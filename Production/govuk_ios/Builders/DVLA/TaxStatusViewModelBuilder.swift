@@ -93,6 +93,7 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
         return ValidityStatusViewModel(
             title: String(localized: .DVLA.taxStatusTitle),
             formattedStatus: formattedStatus,
+            statusInformation: nil,
             iconName: "exclamationmark.triangle.fill",
             footer: String(localized: .DVLA.renewTaxExpiringFooter),
             buttonTitle: buttonTitle,
@@ -118,6 +119,7 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
         return ValidityStatusViewModel(
             title: String(localized: .DVLA.taxStatusTitle),
             formattedStatus: formattedStatus,
+            statusInformation: nil,
             iconName: "checkmark.circle.fill",
             iconTintColour: .govUK.fills.surfaceButtonPrimary
         )
@@ -168,6 +170,7 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
         return ValidityStatusViewModel(
             formattedStatus: String(localized: .DVLA.offTheRoadSorn),
             status: status,
+            statusInformation: nil,
             iconName: "parkingsign.brakesignal"
         )
     }
@@ -184,6 +187,7 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
         return ValidityStatusViewModel(
             formattedStatus: String(localized: .DVLA.offTheRoadSorn),
             status: status,
+            statusInformation: nil,
             iconName: "parkingsign.brakesignal",
             footer: footer
         )
@@ -193,7 +197,8 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
     private func makeTaxNotNeededViewModel() -> ValidityStatusViewModel {
         return ValidityStatusViewModel(
             title: String(localized: .DVLA.taxStatusTitle),
-            formattedStatus: String(localized: .DVLA.noTaxToPay)
+            formattedStatus: String(localized: .DVLA.noTaxToPay),
+            statusInformation: nil,
         )
     }
 
@@ -214,6 +219,7 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
             formattedStatus: String(
                 localized: .DVLA.renewsOn(date: formattedDate(validToDate) ?? "")
             ),
+            statusInformation: nil,
             progressViewModel: progressViewModel,
             footer: String(localized: .DVLA.renewTaxExpiringFooter),
             buttonTitle: buttonTitle,
@@ -241,6 +247,7 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
             formattedStatus: String(
                 localized: .DVLA.expiringOn(date: formattedDate(validToDate) ?? "")
             ),
+            statusInformation: nil,
             progressViewModel: progressViewModel,
             footer: String(localized: .DVLA.renewTaxExpiringFooter),
             buttonTitle: buttonTitle,
