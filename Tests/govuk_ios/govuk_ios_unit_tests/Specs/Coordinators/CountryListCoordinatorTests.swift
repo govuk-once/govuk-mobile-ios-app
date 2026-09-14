@@ -20,6 +20,7 @@ struct CountryListCoordinatorTests {
             viewControllerBuilder: mockViewControllerBuilder,
             analyticsService: MockAnalyticsService(),
             travelService: MockTravelService(),
+            notificationService: MockNotificationService(),
             userService: MockUserService(),
             completion: { _ in }
         )
@@ -40,6 +41,7 @@ struct CountryListCoordinatorTests {
             viewControllerBuilder: mockViewControllerBuilder,
             analyticsService: MockAnalyticsService(),
             travelService: MockTravelService(),
+            notificationService: MockNotificationService(),
             userService: MockUserService(),
             completion: { _ in }
         )

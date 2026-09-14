@@ -29,6 +29,7 @@ class WidgetViewBuilder {
         return AnyView(view)
     }
 
+    // swiftlint:disable:next function_parameter_count
     func travelAlertWidget(
         analyticsService: AnalyticsServiceInterface,
         travelService: TravelServiceInterface,
