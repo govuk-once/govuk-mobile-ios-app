@@ -10,7 +10,7 @@ class ValidityStatusViewSnapshotTests: SnapshotTestCase {
     func test_statusWithButtonAndFooter_light_rendersCorrectly() {
         let viewModel = ValidityStatusViewModel(
             title: nil,
-            formattedStatus: "Expired 22 June 2026",
+            statusInformation: .init("Expired 22 June 2026"),
             iconName: "exclamationmark.triangle.fill",
             iconTintColour: nil,
             footer: "Your licence status may not update immediately after renewing.",
@@ -30,7 +30,7 @@ class ValidityStatusViewSnapshotTests: SnapshotTestCase {
     func test_statusWithButtonAndFooter_dark_rendersCorrectly() {
         let viewModel = ValidityStatusViewModel(
             title: nil,
-            formattedStatus: "Expired 22 June 2026",
+            statusInformation: .init("Expired 22 June 2026"),
             iconName: "exclamationmark.triangle.fill",
             iconTintColour: nil,
             footer: "Your licence status may not update immediately after renewing.",
@@ -50,7 +50,7 @@ class ValidityStatusViewSnapshotTests: SnapshotTestCase {
     func test_statusWithoutButtonAndFooter_light_rendersCorrectly() {
         let viewModel = ValidityStatusViewModel(
             title: nil,
-            formattedStatus: "Valid until 22 June 2026",
+            statusInformation: .init("Valid until 22 June 2026"),
             iconName: "checkmark.circle.fill",
             iconTintColour: .govUK.fills.surfaceButtonPrimary,
             footer: nil,
@@ -70,7 +70,7 @@ class ValidityStatusViewSnapshotTests: SnapshotTestCase {
     func test_statusWithoutButtonAndFooter_dark_rendersCorrectly() {
         let viewModel = ValidityStatusViewModel(
             title: nil,
-            formattedStatus: "Valid until 22 June 2026",
+            statusInformation: .init("Valid until 22 June 2026"),
             iconName: "checkmark.circle.fill",
             iconTintColour: .govUK.fills.surfaceButtonPrimary,
             footer: nil,
@@ -89,7 +89,7 @@ class ValidityStatusViewSnapshotTests: SnapshotTestCase {
 
     func test_statusWithProgressBar_light_rendersCorrectly() {
         let viewModel = ValidityStatusViewModel(
-            formattedStatus: "Expiring 22 June 2026",
+            statusInformation: .init("Expiring 22 June 2026"),
             progressViewModel: ExpiryProgressViewModel(progress: 0.5, daysLeft: 10),
             footer: "Your licence status may not update immediately after renewing.",
             buttonTitle: "Renew licence",
@@ -107,7 +107,7 @@ class ValidityStatusViewSnapshotTests: SnapshotTestCase {
 
     func test_statusWithProgressBar_dark_rendersCorrectly() {
         let viewModel = ValidityStatusViewModel(
-            formattedStatus: "Expiring 22 June 2026",
+            statusInformation: .init("Expiring 22 June 2026"),
             progressViewModel: ExpiryProgressViewModel(progress: 0.5, daysLeft: 10),
             footer: "Your licence status may not update immediately after renewing.",
             buttonTitle: "Renew licence",

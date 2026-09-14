@@ -11,8 +11,8 @@ class MotStatusViewControllerSnapshotTests: SnapshotTestCase {
         let status: MOTValidityStatus  = .noDetailsHeldByDVLA
         let viewModel = ValidityStatusViewModel(
             title: "MOT",
-            formattedStatus: "",
             status: status,
+            statusInformation: StatusInformation(""),
             iconName: nil,
             iconTintColour: nil,
             footer:  nil,
@@ -33,8 +33,8 @@ class MotStatusViewControllerSnapshotTests: SnapshotTestCase {
         let status: MOTValidityStatus  = .noDetailsHeldByDVLA
         let viewModel = ValidityStatusViewModel(
             title: "MOT",
-            formattedStatus: "",
             status: status,
+            statusInformation: StatusInformation(""),
             iconName: nil,
             iconTintColour: nil,
             footer:  nil,
@@ -54,8 +54,8 @@ class MotStatusViewControllerSnapshotTests: SnapshotTestCase {
         let status: MOTValidityStatus = .noResultsReturned
         let viewModel = ValidityStatusViewModel(
             title: "MOT",
-            formattedStatus: "",
             status: status,
+            statusInformation: StatusInformation(""),
             iconName: nil,
             iconTintColour: nil,
             footer:  nil,
@@ -76,8 +76,8 @@ class MotStatusViewControllerSnapshotTests: SnapshotTestCase {
         let status: MOTValidityStatus = .noResultsReturned
         let viewModel = ValidityStatusViewModel(
             title: "MOT",
-            formattedStatus: "",
             status: status,
+            statusInformation: StatusInformation(""),
             iconName: nil,
             iconTintColour: nil,
             footer:  nil,
