@@ -14,15 +14,6 @@ struct ValidityStatusView: View {
 
     let viewModel: ValidityStatusViewModel
 
-    @ViewBuilder
-    private var formattedStatusIfNotEmpty: some View {
-        if !viewModel.formattedStatus.isEmpty {
-            Text(viewModel.formattedStatus)
-                .multilineTextAlignment(.leading)
-                .accessibilityLabel(viewModel.statusAccessibilityLabel ?? "")
-        }
-    }
-
     var body: some View {
         VStack(spacing: 0) {
             HStack {
@@ -33,8 +24,6 @@ struct ValidityStatusView: View {
                             .multilineTextAlignment(.leading)
                             .accessibilityAddTraits(.isHeader)
                     }
-
-                    formattedStatusIfNotEmpty
 
                     if let statusInformation = viewModel.statusInformation {
                         StatusRowView(status: statusInformation)
