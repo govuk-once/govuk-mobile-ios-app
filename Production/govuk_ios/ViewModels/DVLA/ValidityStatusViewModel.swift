@@ -35,6 +35,12 @@ struct StatusInformation: Equatable {
         self.linkAction = nil
     }
 
+    init(_ title: String, linkAction: (() -> Void)?) {
+        self.title = title
+        self.accessibilityLabel = nil
+        self.linkAction = linkAction
+    }
+
     init(_ title: String, accessibilityLabel: String) {
         self.title = title
         self.accessibilityLabel = accessibilityLabel
