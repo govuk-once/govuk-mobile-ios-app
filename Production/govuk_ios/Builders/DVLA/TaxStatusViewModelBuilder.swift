@@ -155,11 +155,16 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
             }
         }
 
+        let formattedStatus = String(localized: .DVLA.notFoundContactDVLA)
+
         return ValidityStatusViewModel(
             title: String(localized: .DVLA.taxStatusTitle),
-            formattedStatus: String(localized: .DVLA.notFoundContactDVLA),
+            formattedStatus: formattedStatus,
             status: TaxValidityStatus.unknown,
-            statusLinkAction: statusLinkAction
+            statusLinkAction: statusLinkAction,
+            statusInformation: StatusInformation(title: formattedStatus,
+                                                 accessibilityLabel: nil,
+                                                 linkAction: statusLinkAction)
         )
     }
 

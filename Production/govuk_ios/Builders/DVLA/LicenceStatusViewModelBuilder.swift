@@ -168,9 +168,14 @@ struct LicenceStatusViewModelBuilder: LicenceStatusViewModelBuilderInterface {
 
     private func makeUnknownViewModel() -> ValidityStatusViewModel {
         let formattedStatus = String(localized: .DVLA.unknown)
+        let accessibilityLabel = accessibilityLabel(for: formattedStatus)
         return ValidityStatusViewModel(
             formattedStatus: formattedStatus,
-            statusAccessibilityLabel: accessibilityLabel(for: formattedStatus)
+            statusAccessibilityLabel: accessibilityLabel,
+            statusInformation: StatusInformation(
+                title: formattedStatus,
+                accessibilityLabel: accessibilityLabel,
+                linkAction: nil)
         )
     }
  }
