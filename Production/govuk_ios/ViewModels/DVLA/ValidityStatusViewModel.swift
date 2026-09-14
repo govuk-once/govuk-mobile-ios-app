@@ -22,6 +22,18 @@ struct StatusInformation: Equatable {
             lhs.accessibilityLabel == rhs.accessibilityLabel &&
             ((lhs.linkAction == nil) == (rhs.linkAction == nil))
     }
+
+    init(title: String, accessibilityLabel: String?, linkAction: (() -> Void)?) {
+        self.title = title
+        self.accessibilityLabel = accessibilityLabel
+        self.linkAction = linkAction
+    }
+
+    init(_ title: String) {
+        self.title = title
+        self.accessibilityLabel = nil
+        self.linkAction = nil
+    }
 }
 
 struct ValidityStatusViewModel {
