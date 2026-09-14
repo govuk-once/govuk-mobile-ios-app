@@ -48,8 +48,8 @@ struct CountryListViewModelTests {
     func viewDidAppear_whenFetchSucceeds_buildsSingleSortedSectionAndSetsLoadedState() async {
         let mockTravelService = MockTravelService()
         mockTravelService._stubbedGetCountriesResult = .success([
-            Country(country: "Brazil", slug: "brazil", lastUpdate: "", synonyms: []),
-            Country(country: "Argentina", slug: "argentina", lastUpdate: "", synonyms: [])
+            Country(name: "Brazil", slug: "brazil", rawLastUpdate: "", synonyms: []),
+            Country(name: "Argentina", slug: "argentina", rawLastUpdate: "", synonyms: [])
         ])
         let viewModel = CountryListViewModel(
             travelService: mockTravelService,
@@ -107,9 +107,9 @@ struct CountryListViewModelTests {
     func selectingARow_executesCountrySelectedAction() async {
         let mockTravelService = MockTravelService()
         let selectedCountry = Country(
-            country: "Argentina",
+            name: "Argentina",
             slug: "argentina",
-            lastUpdate: "",
+            rawLastUpdate: "",
             synonyms: []
         )
         mockTravelService._stubbedGetCountriesResult = .success([selectedCountry])
@@ -138,9 +138,9 @@ struct CountryListViewModelTests {
     func searchText_filtersCountriesByName() async {
         let mockTravelService = MockTravelService()
         mockTravelService._stubbedGetCountriesResult = .success([
-            Country(country: "Brazil", slug: "brazil", lastUpdate: "", synonyms: []),
-            Country(country: "Argentina", slug: "argentina", lastUpdate: "", synonyms: []),
-            Country(country: "Belgium", slug: "belgium", lastUpdate: "", synonyms: [])
+            Country(name: "Brazil", slug: "brazil", rawLastUpdate: "", synonyms: []),
+            Country(name: "Argentina", slug: "argentina", rawLastUpdate: "", synonyms: []),
+            Country(name: "Belgium", slug: "belgium", rawLastUpdate: "", synonyms: [])
         ])
         let viewModel = CountryListViewModel(
             travelService: mockTravelService,
@@ -164,8 +164,8 @@ struct CountryListViewModelTests {
     func searchText_filtersCountriesBySynonyms() async {
         let mockTravelService = MockTravelService()
         mockTravelService._stubbedGetCountriesResult = .success([
-            Country(country: "United Kingdom", slug: "uk", lastUpdate: "", synonyms: ["Great Britain", "UK"]),
-            Country(country: "United States", slug: "usa", lastUpdate: "", synonyms: ["America", "US"])
+            Country(name: "United Kingdom", slug: "uk", rawLastUpdate: "", synonyms: ["Great Britain", "UK"]),
+            Country(name: "United States", slug: "usa", rawLastUpdate: "", synonyms: ["America", "US"])
         ])
         let viewModel = CountryListViewModel(
             travelService: mockTravelService,
@@ -189,8 +189,8 @@ struct CountryListViewModelTests {
     func searchText_caseInsensitiveSearch() async {
         let mockTravelService = MockTravelService()
         mockTravelService._stubbedGetCountriesResult = .success([
-            Country(country: "Brazil", slug: "brazil", lastUpdate: "", synonyms: []),
-            Country(country: "Argentina", slug: "argentina", lastUpdate: "", synonyms: [])
+            Country(name: "Brazil", slug: "brazil", rawLastUpdate: "", synonyms: []),
+            Country(name: "Argentina", slug: "argentina", rawLastUpdate: "", synonyms: [])
         ])
         let viewModel = CountryListViewModel(
             travelService: mockTravelService,
@@ -214,8 +214,8 @@ struct CountryListViewModelTests {
     func searchText_trimsWhitespace() async {
         let mockTravelService = MockTravelService()
         mockTravelService._stubbedGetCountriesResult = .success([
-            Country(country: "Brazil", slug: "brazil", lastUpdate: "", synonyms: []),
-            Country(country: "Argentina", slug: "argentina", lastUpdate: "", synonyms: [])
+            Country(name: "Brazil", slug: "brazil", rawLastUpdate: "", synonyms: []),
+            Country(name: "Argentina", slug: "argentina", rawLastUpdate: "", synonyms: [])
         ])
         let viewModel = CountryListViewModel(
             travelService: mockTravelService,
@@ -239,8 +239,8 @@ struct CountryListViewModelTests {
     func searchText_emptySearchShowsAllCountries() async {
         let mockTravelService = MockTravelService()
         mockTravelService._stubbedGetCountriesResult = .success([
-            Country(country: "Brazil", slug: "brazil", lastUpdate: "", synonyms: []),
-            Country(country: "Argentina", slug: "argentina", lastUpdate: "", synonyms: [])
+            Country(name: "Brazil", slug: "brazil", rawLastUpdate: "", synonyms: []),
+            Country(name: "Argentina", slug: "argentina", rawLastUpdate: "", synonyms: [])
         ])
         let viewModel = CountryListViewModel(
             travelService: mockTravelService,
@@ -264,8 +264,8 @@ struct CountryListViewModelTests {
     func searchText_noMatchesResultsInEmptyState() async {
         let mockTravelService = MockTravelService()
         mockTravelService._stubbedGetCountriesResult = .success([
-            Country(country: "Brazil", slug: "brazil", lastUpdate: "", synonyms: []),
-            Country(country: "Argentina", slug: "argentina", lastUpdate: "", synonyms: [])
+            Country(name: "Brazil", slug: "brazil", rawLastUpdate: "", synonyms: []),
+            Country(name: "Argentina", slug: "argentina", rawLastUpdate: "", synonyms: [])
         ])
         let viewModel = CountryListViewModel(
             travelService: mockTravelService,
@@ -292,9 +292,9 @@ struct CountryListViewModelTests {
     func partialSearch_matchesCountriesByPrefix() async {
         let mockTravelService = MockTravelService()
         mockTravelService._stubbedGetCountriesResult = .success([
-            Country(country: "Brazil", slug: "brazil", lastUpdate: "", synonyms: []),
-            Country(country: "British Virgin Islands", slug: "british virgin islands", lastUpdate: "", synonyms: ["bvi"]),
-            Country(country: "Argentina", slug: "argentina", lastUpdate: "", synonyms: [])
+            Country(name: "Brazil", slug: "brazil", rawLastUpdate: "", synonyms: []),
+            Country(name: "British Virgin Islands", slug: "british virgin islands", rawLastUpdate: "", synonyms: ["bvi"]),
+            Country(name: "Argentina", slug: "argentina", rawLastUpdate: "", synonyms: [])
         ])
         let viewModel = CountryListViewModel(
             travelService: mockTravelService,
@@ -323,7 +323,8 @@ struct CountryListViewModelTests {
             analyticsService: mockAnalyticsService,
             notificationService: mockNotificationService,
             linkAction: { /*Empty For Tests*/ },
-            dismissAction: { dismissActionCalled = true }
+            dismissAction: { dismissActionCalled = true },
+            openURLAction: { _ in }
         )
 
         let countryListVM = sut.countryListViewModel
