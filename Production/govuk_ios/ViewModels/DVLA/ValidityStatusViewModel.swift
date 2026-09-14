@@ -4,6 +4,26 @@ import GovKitUI
 
 protocol ValidityStatus {}
 
+///
+/// Represents information to be displayed in a status section of the UI.
+/// This will replace the use of `formattedStatus` which is being used inconsistently.
+///
+struct StatusInformation: Equatable {
+    let title: String   // formattedStatus
+    let accessibilityLabel: String?
+    let linkAction: (() -> Void)?
+
+    var accessibilityLabelOrTitle: String {
+        accessibilityLabel ?? title
+    }
+
+    static func == (lhs: StatusInformation, rhs: StatusInformation) -> Bool {
+            lhs.title == rhs.title &&
+            lhs.accessibilityLabel == rhs.accessibilityLabel &&
+            ((lhs.linkAction == nil) == (rhs.linkAction == nil))
+    }
+}
+
 struct ValidityStatusViewModel {
     let title: String?
     let formattedStatus: String
