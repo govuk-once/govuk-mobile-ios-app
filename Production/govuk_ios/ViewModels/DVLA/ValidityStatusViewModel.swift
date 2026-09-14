@@ -50,15 +50,9 @@ struct StatusInformation: Equatable {
 
 struct ValidityStatusViewModel {
     let title: String?
-    let formattedStatus: String
     let status: ValidityStatus?
 
     let statusInformation: StatusInformation?
-
-    let statusAccessibilityLabel: String?       // license status doesnt have title | used for
-                                                // todo:
-                                                //   consider: statusOveride?
-    let statusLinkAction: (() -> Void)?
 
     let iconName: String?
     let iconTintColour: UIColor?
@@ -80,10 +74,7 @@ struct ValidityStatusViewModel {
     }
 
     init(title: String? = nil,
-         formattedStatus: String,
          status: ValidityStatus? = nil,
-         statusAccessibilityLabel: String? = nil,
-         statusLinkAction: (() -> Void)? = nil,
          statusInformation: StatusInformation?,
          iconName: String? = nil,
          iconTintColour: UIColor? = nil,
@@ -93,8 +84,6 @@ struct ValidityStatusViewModel {
          buttonAction: (() -> Void)? = nil,
          buttonConfiguration: GOVUKButton.ButtonConfiguration? = nil) {
         self.title = title
-        self.formattedStatus = formattedStatus
-        self.statusAccessibilityLabel = statusAccessibilityLabel
         self.iconName = iconName
         self.iconTintColour = iconTintColour
         self.progressViewModel = progressViewModel
@@ -103,7 +92,6 @@ struct ValidityStatusViewModel {
         self.buttonAction = buttonAction
         self.buttonConfiguration = buttonConfiguration
         self.status = status
-        self.statusLinkAction = statusLinkAction
         self.statusInformation = statusInformation
     }
 }
