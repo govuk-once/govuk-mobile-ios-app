@@ -34,7 +34,7 @@ struct TaxStatusViewModelBuilderTests {
             #expect(vm.iconName == "exclamationmark.triangle.fill")
             #expect(vm.buttonTitle == String(localized: .DVLA.renewTaxButtonTitle))
             #expect(vm.progressViewModel == nil)
-            #expect(vm.formattedStatus == String(localized: .DVLA.untaxed))
+            #expect(vm.statusInformation?.title == String(localized: .DVLA.untaxed))
 
             vm.buttonAction?()
 
@@ -63,7 +63,7 @@ struct TaxStatusViewModelBuilderTests {
             )
         )
 
-        #expect(vm.formattedStatus == String(localized: .DVLA.untaxed))
+        #expect(vm.statusInformation?.title == String(localized: .DVLA.untaxed))
     }
 
     // MARK: - Valid
@@ -88,7 +88,7 @@ struct TaxStatusViewModelBuilderTests {
         #expect(vm.iconName == "checkmark.circle.fill")
         #expect(vm.progressViewModel == nil)
         #expect(vm.buttonTitle == nil)
-        #expect(vm.formattedStatus == String(
+        #expect(vm.statusInformation?.title == String(
             localized: .DVLA.validUntil(date: dateFormatter.string(from: date)))
         )
     }
@@ -114,7 +114,7 @@ struct TaxStatusViewModelBuilderTests {
         #expect(vm.iconName == "checkmark.circle.fill")
         #expect(vm.progressViewModel == nil)
         #expect(vm.buttonTitle == nil)
-        #expect(vm.formattedStatus == String(
+        #expect(vm.statusInformation?.title == String(
             localized: .DVLA.valid)
         )
     }
@@ -142,7 +142,7 @@ struct TaxStatusViewModelBuilderTests {
             #expect(vm.title == String(localized: .DVLA.taxStatusTitle))
             #expect(vm.progressViewModel != nil)
             #expect(vm.buttonTitle == String(localized: .DVLA.renewTaxButtonTitle))
-            #expect(vm.formattedStatus == String(
+            #expect(vm.statusInformation?.title == String(
                 localized: .DVLA.expiringOn(date: dateFormatter.string(from: date)))
             )
             #expect(vm.footer == String(localized: .DVLA.renewTaxExpiringFooter))
@@ -180,7 +180,7 @@ struct TaxStatusViewModelBuilderTests {
             #expect(vm.title == String(localized: .DVLA.taxStatusTitle))
             #expect(vm.progressViewModel != nil)
             #expect(vm.buttonTitle == String(localized: .DVLA.expiringTaxManagePaymentButtonTitle))
-            #expect(vm.formattedStatus == String(
+            #expect(vm.statusInformation?.title == String(
                 localized: .DVLA.renewsOn(date: dateFormatter.string(from: date)))
             )
             #expect(vm.footer == String(localized: .DVLA.renewTaxExpiringFooter))
@@ -214,7 +214,7 @@ struct TaxStatusViewModelBuilderTests {
 
         #expect(vm.title == String(localized: .DVLA.taxStatusTitle))
         #expect(vm.progressViewModel == nil)
-        #expect(vm.formattedStatus == String(
+        #expect(vm.statusInformation?.title == String(
             localized: .DVLA.notFoundContactDVLA
         ))
     }
@@ -241,7 +241,7 @@ struct TaxStatusViewModelBuilderTests {
         #expect(vm.status as? TaxValidityStatus == .sorn)
         #expect(vm.iconName == "parkingsign.brakesignal")
         #expect(vm.progressViewModel == nil)
-        #expect(vm.formattedStatus == String(
+        #expect(vm.statusInformation?.title == String(
             localized: .DVLA.offTheRoadSorn
         ))
         #expect(vm.footer == nil)
@@ -269,7 +269,7 @@ struct TaxStatusViewModelBuilderTests {
         #expect(vm.status as? TaxValidityStatus == .futureSorn)
         #expect(vm.iconName == "parkingsign.brakesignal")
         #expect(vm.progressViewModel == nil)
-        #expect(vm.formattedStatus == String(
+        #expect(vm.statusInformation?.title == String(
             localized: .DVLA.offTheRoadSorn
         ))
         #expect(vm.footer == String(
@@ -296,7 +296,7 @@ struct TaxStatusViewModelBuilderTests {
 
         #expect(vm.title == String(localized: .DVLA.taxStatusTitle))
         #expect(vm.progressViewModel == nil)
-        #expect(vm.formattedStatus == String(
+        #expect(vm.statusInformation?.title == String(
             localized: .DVLA.noTaxToPay
         ))
     }

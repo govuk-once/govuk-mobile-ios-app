@@ -24,7 +24,7 @@ struct MOTStatusViewModelBuilderTests {
         let result = sut.makeViewModel(vehicle: vehicle)
 
         #expect(result.title == String(localized: .DVLA.motStatusTitle))
-        #expect(result.formattedStatus == String(
+        #expect(result.statusInformation?.title == String(
             localized: .DVLA.motValidUntil(dateFormatter.string(from: expiryDate)))
         )
         #expect(result.iconName == "checkmark.circle.fill")
@@ -49,7 +49,7 @@ struct MOTStatusViewModelBuilderTests {
         let result = sut.makeViewModel(vehicle: vehicle)
 
         #expect(result.title == String(localized: .DVLA.motStatusTitle))
-        #expect(result.formattedStatus == String(
+        #expect(result.statusInformation?.title == String(
             localized: .DVLA.motExpiringOn(dateFormatter.string(from: expiryDate)))
         )
         #expect(result.status as? MOTValidityStatus == .expiringSoon)
@@ -75,7 +75,7 @@ struct MOTStatusViewModelBuilderTests {
         let result = sut.makeViewModel(vehicle: vehicle)
 
         #expect(result.title == String(localized: .DVLA.motStatusTitle))
-        #expect(result.formattedStatus == String(
+        #expect(result.statusInformation?.title == String(
             localized: .DVLA.motExpiredOn(dateFormatter.string(from: expiryDate)))
         )
         #expect(result.iconName == "exclamationmark.triangle.fill")
@@ -98,7 +98,7 @@ struct MOTStatusViewModelBuilderTests {
         )
         let result = sut.makeViewModel(vehicle: vehicle)
 
-        #expect(result.formattedStatus == "")
+        #expect(result.statusInformation?.title == "")
         #expect(result.buttonTitle == String(localized: .DVLA.motCheckIfItNeedsAnMOT))
         #expect(result.status as? MOTValidityStatus == .noResultsReturned)
 
@@ -126,7 +126,7 @@ struct MOTStatusViewModelBuilderTests {
         )
         let result = sut.makeViewModel(vehicle: vehicle)
         #expect(result.title == String(localized: .DVLA.motStatusTitle))
-        #expect(result.formattedStatus == String(
+        #expect(result.statusInformation?.title == String(
             localized: .DVLA.motExpiredOn(dateFormatter.string(from: pastExpiryDate)))
         )
         #expect(result.iconName == "exclamationmark.triangle.fill")
