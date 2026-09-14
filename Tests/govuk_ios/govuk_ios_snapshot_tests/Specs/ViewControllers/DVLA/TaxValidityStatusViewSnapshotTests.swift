@@ -10,7 +10,7 @@ class TaxValidityStatusViewSnapshotTests: SnapshotTestCase {
     func test_statusWithButtonAndFooter_light_rendersCorrectly() {
         let viewModel = ValidityStatusViewModel(
             title: "Tax",
-            formattedStatus: "Expired 22 June 2026",
+            statusInformation: .init("Expired 22 June 2026"),
             iconName: "exclamationmark.triangle.fill",
             iconTintColour: nil,
             footer: "Your tax status may not update immediately after renewing.",
@@ -30,7 +30,7 @@ class TaxValidityStatusViewSnapshotTests: SnapshotTestCase {
     func test_statusWithButtonAndFooter_dark_rendersCorrectly() {
         let viewModel = ValidityStatusViewModel(
             title: "Tax",
-            formattedStatus: "Expired 22 June 2026",
+            statusInformation: .init("Expired 22 June 2026"),
             iconName: "exclamationmark.triangle.fill",
             iconTintColour: nil,
             footer: "Your tax status may not update immediately after renewing.",
@@ -50,8 +50,8 @@ class TaxValidityStatusViewSnapshotTests: SnapshotTestCase {
     func test_sornStatus_light_rendersCorrectly() {
         let viewModel = ValidityStatusViewModel(
             title: nil,
-            formattedStatus: "SORN",
             status: TaxValidityStatus.sorn,
+            statusInformation: .init("SORN"),
             iconName: "parkingsign.brakesignal",
             iconTintColour: nil,
         )
@@ -68,8 +68,8 @@ class TaxValidityStatusViewSnapshotTests: SnapshotTestCase {
     func test_futureSornStatus_dark_rendersCorrectly() {
         let viewModel = ValidityStatusViewModel(
             title: nil,
-            formattedStatus: "SORN",
             status: TaxValidityStatus.futureSorn,
+            statusInformation: .init("SORN"),
             iconName: "parkingsign.brakesignal",
             iconTintColour: nil,
             footer: "From 2nd June 2016"
