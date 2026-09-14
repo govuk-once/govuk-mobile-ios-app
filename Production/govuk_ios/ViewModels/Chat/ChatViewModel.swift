@@ -64,17 +64,17 @@ class ChatViewModel: ObservableObject {
         )
     }
 
-    func askQuestion(_ question: String? = nil,
+    func askQuestion(_ questionRequest: AskQuestionRequest,
                      completion: ((Bool) -> Void)? = nil) {
         showExampleQuestions = false
-        let localQuestion = (question ?? latestQuestion)
+        let localQuestion = (questionRequest.question ?? latestQuestion)
             .trimmingCharacters(in: .whitespacesAndNewlines)
         guard !containsPII(localQuestion) else {
             setPersonalDataValidationAlertDetails()
             showValidationAlert = true
             return
         }
-        trackAskQuestionSubmission()
+        trackAskQuestionSubmission(type: questionRequest.type.rawValue)
         errorText = nil
         warningText = nil
         let currentQuestionModel = ChatCellViewModel(
@@ -349,8 +349,8 @@ class ChatViewModel: ObservableObject {
         analyticsService.track(event: event)
     }
 
-    private func trackAskQuestionSubmission() {
-        let event = AppEvent.chatAskQuestion()
+    private func trackAskQuestionSubmission(type: String) {
+        let event = AppEvent.chatAskQuestion(type: type)
         analyticsService.track(event: event)
     }
 

@@ -82,6 +82,7 @@
 		16E943362F47469F00487AD1 /* chat_onboarding_two_dark.json in Resources */ = {isa = PBXBuildFile; fileRef = 16E943312F47469F00487AD1 /* chat_onboarding_two_dark.json */; };
 		16E943382F47469F00487AD1 /* chat_onboarding_one_light.json in Resources */ = {isa = PBXBuildFile; fileRef = 16E9432E2F47469F00487AD1 /* chat_onboarding_one_light.json */; };
 		16EC8A4B305410A40013307E /* ChatExampleQuestionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16EC8A4A305410670013307E /* ChatExampleQuestionItem.swift */; };
+		16EC93D330581E900013307E /* AskQuestionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16EC93D230581E8A0013307E /* AskQuestionRequest.swift */; };
 		16EE1A412C6F8968005E820F /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16EE1A402C6F8968005E820F /* SearchViewController.swift */; };
 		16EE1A432C6F89D9005E820F /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16EE1A422C6F89D9005E820F /* SearchViewModel.swift */; };
 		16F935FE2FFE845D00ADA47B /* CustomerVehicleDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F935FD2FFE844800ADA47B /* CustomerVehicleDetails.swift */; };
@@ -700,6 +701,7 @@
 		16E943312F47469F00487AD1 /* chat_onboarding_two_dark.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = chat_onboarding_two_dark.json; sourceTree = "<group>"; };
 		16E943322F47469F00487AD1 /* chat_onboarding_two_light.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = chat_onboarding_two_light.json; sourceTree = "<group>"; };
 		16EC8A4A305410670013307E /* ChatExampleQuestionItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatExampleQuestionItem.swift; sourceTree = "<group>"; };
+		16EC93D230581E8A0013307E /* AskQuestionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AskQuestionRequest.swift; sourceTree = "<group>"; };
 		16EE1A402C6F8968005E820F /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		16EE1A422C6F89D9005E820F /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		16F74EBD2E26975800CA8CCB /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
@@ -2857,6 +2859,7 @@
 		D052CA342E0B08B80048F98A /* Chat */ = {
 			isa = PBXGroup;
 			children = (
+				16EC93D230581E8A0013307E /* AskQuestionRequest.swift */,
 				16DC30F03047326A00243B69 /* ChatExampleQuestionsViewModel.swift */,
 				16D186AB2E462F06006ACC7A /* ChatConsentOnboardingViewModel.swift */,
 				1607E7BE2E439473006E599A /* ChatInfoOnboardingViewModel.swift */,
@@ -3427,6 +3430,7 @@
 				815935D92F212EF700F8D206 /* UserServiceClient.swift in Sources */,
 				D02578772EB8CB73008AD2BF /* EmergencyBannerWidgetViewModel.swift in Sources */,
 				81BF887E2FA1029C00249569 /* ServiceAccountLinkSuccessViewModel.swift in Sources */,
+				16EC93D330581E900013307E /* AskQuestionRequest.swift in Sources */,
 				333A5D262FCF071C0018BA1D /* NotificationCentreDetailMarkdownTheme.swift in Sources */,
 				855B8BFF302E0868001D1A9C /* CountryListCoordinator.swift in Sources */,
 				16C34B432C492FF90031AD32 /* HomeDeepLinkRoute.swift in Sources */,

@@ -41,24 +41,7 @@ struct ChatExampleQuestionsViewModel {
         analyticsService.track(event: event)
     }
 
-    func trackExampleQuestionSelected(
-        text: String,
-        index: Int
-    ) {
-        let event = AppEvent.function(
-            text: text,
-            type: "suggestion",
-            section: "Chat",
-            action: "Tapped"
-        )
-        analyticsService.track(event: event)
-        trackEcommerceItemSelected(
-            text: text,
-            index: index
-        )
-    }
-
-    private func trackEcommerceItemSelected(
+    func trackEcommerceItemSelected(
         text: String,
         index: Int
     ) {

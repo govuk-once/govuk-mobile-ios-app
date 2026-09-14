@@ -87,6 +87,7 @@ struct ChatView: View {
     private func chatContainerView(_ frameHeight: CGFloat) -> some View {
         let chatActionView = ChatActionView(
             viewModel: viewModel,
+            askQuestion: askQuestion,
             textAreaFocused: $textAreaFocused,
             showClearChatAlert: $showClearChatAlert,
             textAreaFocusedAnimationTrigger: $textAreaFocusedAnimationTrigger,
@@ -171,8 +172,8 @@ struct ChatView: View {
         }
     }
 
-    private func askQuestion(_ question: String) {
-        viewModel.askQuestion(question) { success in
+    private func askQuestion(_ questionRequest: AskQuestionRequest) {
+        viewModel.askQuestion(questionRequest) { success in
             textAreaFocused = !success
         }
     }

@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ChatExampleQuestionsView: View {
     let viewModel: ChatExampleQuestionsViewModel
-    let askQuestion: (String) -> Void
+    let askQuestion: (AskQuestionRequest) -> Void
 
     var body: some View {
         VStack(alignment: .trailing, spacing: 12) {
@@ -15,8 +15,8 @@ struct ChatExampleQuestionsView: View {
                 Array(viewModel.exampleQuestions.enumerated()), id: \.offset
             ) { index, question in
                 Button {
-                    askQuestion(question.body)
-                    viewModel.trackExampleQuestionSelected(
+                    askQuestion(.suggestion(question: question.body))
+                    viewModel.trackEcommerceItemSelected(
                         text: question.body,
                         index: index + 1
                     )
