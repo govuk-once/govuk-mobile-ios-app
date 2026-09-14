@@ -34,6 +34,12 @@ struct StatusInformation: Equatable {
         self.accessibilityLabel = nil
         self.linkAction = nil
     }
+
+    init(_ title: String, accessibilityLabel: String) {
+        self.title = title
+        self.accessibilityLabel = accessibilityLabel
+        self.linkAction = nil
+    }
 }
 
 struct ValidityStatusViewModel {
