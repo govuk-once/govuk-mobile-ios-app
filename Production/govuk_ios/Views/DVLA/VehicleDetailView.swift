@@ -81,7 +81,7 @@ struct VehicleDetailView: View {
                     .overlay(Color(uiColor: .govUK.strokes.listDivider))
                     .padding(.horizontal, Self.standardPadding)
                     .padding(.vertical, 8)
-                MotValidityStatusView(viewModel: viewVehicleDetails.motStatusViewModel)
+                ValidityStatusView(viewModel: viewVehicleDetails.motStatusViewModel)
                 Text(.DVLA.registeredTo)
                     .font(.govUK.title2Bold)
                     .frame(
