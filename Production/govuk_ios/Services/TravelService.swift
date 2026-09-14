@@ -48,29 +48,23 @@ class TravelService: TravelServiceInterface {
         forceRefresh: Bool = false,
         completion: @escaping CountriesListResultCompletion
     ) {
-        // Implement caching and real API handling
+        if forceRefresh == false,
+           let cachedCountriesList = repository.fetchCountries() {
+            completion(.success(cachedCountriesList))
+            return
+        }
 
-        completion(.success([
-            Country(
-                name: "France",
-                slug: "france",
-                rawLastUpdate: "2024-01-01T00:00:00Z",
-                synonyms: []
-            ),
-            Country(
-                name: "Germany",
-                slug: "germany",
-                rawLastUpdate: "2024-01-01T00:00:00Z",
-                synonyms: []
-            ),
-            Country(
-                name: "Spain",
-                slug: "spain",
-                rawLastUpdate: "2024-01-01T00:00:00Z",
-                synonyms: []
-            )
-        ]))
-        return
+        travelServiceClient.fetchCountries(
+            completion: { result in
+                switch result {
+                case .success(let countries):
+                    self.repository.store(countries: countries)
+                    completion(.success(countries))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+        )
     }
 
     func invalidateCache() {
