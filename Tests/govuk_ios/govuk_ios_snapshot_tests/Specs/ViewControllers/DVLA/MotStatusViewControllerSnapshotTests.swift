@@ -12,14 +12,13 @@ class MotStatusViewControllerSnapshotTests: SnapshotTestCase {
         let viewModel = ValidityStatusViewModel(
             title: "MOT",
             status: status,
-            statusInformation: StatusInformation(""),
+            statusInformation: StatusInformation(String(localized: .DVLA.motCheckIfItNeedsAnMOT),
+                                                 linkAction: {}),
             iconName: nil,
             iconTintColour: nil,
             footer:  nil,
-            buttonTitle: "Check if it needs Mot",
-            buttonAction: { }
         )
-        let view = MotValidityStatusView(viewModel: viewModel)
+        let view = ValidityStatusView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
             rootView: view
         )
@@ -34,14 +33,13 @@ class MotStatusViewControllerSnapshotTests: SnapshotTestCase {
         let viewModel = ValidityStatusViewModel(
             title: "MOT",
             status: status,
-            statusInformation: StatusInformation(""),
+            statusInformation: StatusInformation(String(localized: .DVLA.motCheckIfItNeedsAnMOT),
+                                                linkAction: {}),
             iconName: nil,
             iconTintColour: nil,
             footer:  nil,
-            buttonTitle: "Check if it needs Mot",
-            buttonAction: { }
         )
-        let view = MotValidityStatusView(viewModel: viewModel)
+        let view = ValidityStatusView(viewModel: viewModel)
         let hostingViewController = HostingViewController(
             rootView: view
         )
@@ -55,14 +53,13 @@ class MotStatusViewControllerSnapshotTests: SnapshotTestCase {
         let viewModel = ValidityStatusViewModel(
             title: "MOT",
             status: status,
-            statusInformation: StatusInformation(""),
+            statusInformation: StatusInformation(String(localized: .DVLA.motCheckIfItNeedsAnMOT),
+                                                 linkAction: {}),
             iconName: nil,
             iconTintColour: nil,
             footer:  nil,
-            buttonTitle: "Check if it needs Mot",
-            buttonAction: { }
         )
-        let view = MotValidityStatusView(viewModel: viewModel)
+        let view = ValidityStatusView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
             rootView: view
         )
@@ -77,14 +74,13 @@ class MotStatusViewControllerSnapshotTests: SnapshotTestCase {
         let viewModel = ValidityStatusViewModel(
             title: "MOT",
             status: status,
-            statusInformation: StatusInformation(""),
+            statusInformation: StatusInformation(String(localized: .DVLA.motCheckIfItNeedsAnMOT),
+                                                linkAction: {}),
             iconName: nil,
             iconTintColour: nil,
             footer:  nil,
-            buttonTitle: "Check if it needs Mot",
-            buttonAction: { }
         )
-        let view = MotValidityStatusView(viewModel: viewModel)
+        let view = ValidityStatusView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
             rootView: view
         )
