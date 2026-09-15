@@ -66,6 +66,7 @@ class ChatViewModel: ObservableObject {
 
     func askQuestion(_ question: String? = nil,
                      completion: ((Bool) -> Void)? = nil) {
+        guard !requestInFlight else { return }
         showExampleQuestions = false
         let localQuestion = (question ?? latestQuestion)
             .trimmingCharacters(in: .whitespacesAndNewlines)
