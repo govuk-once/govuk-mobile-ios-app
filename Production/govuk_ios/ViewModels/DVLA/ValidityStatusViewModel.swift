@@ -4,50 +4,6 @@ import GovKitUI
 
 protocol ValidityStatus {}
 
-///
-/// Represents information to be displayed in a status section of the UI.
-/// This will replace the use of `formattedStatus` which is being used inconsistently.
-///
-struct StatusInformation: Equatable {
-    let title: String   // formattedStatus
-    let accessibilityLabel: String?
-    let linkAction: (() -> Void)?
-
-    var accessibilityLabelOrTitle: String {
-        accessibilityLabel ?? title
-    }
-
-    static func == (lhs: StatusInformation, rhs: StatusInformation) -> Bool {
-            lhs.title == rhs.title &&
-            lhs.accessibilityLabel == rhs.accessibilityLabel &&
-            ((lhs.linkAction == nil) == (rhs.linkAction == nil))
-    }
-
-    init(title: String, accessibilityLabel: String?, linkAction: (() -> Void)?) {
-        self.title = title
-        self.accessibilityLabel = accessibilityLabel
-        self.linkAction = linkAction
-    }
-
-    init(_ title: String) {
-        self.title = title
-        self.accessibilityLabel = nil
-        self.linkAction = nil
-    }
-
-    init(_ title: String, linkAction: (() -> Void)?) {
-        self.title = title
-        self.accessibilityLabel = nil
-        self.linkAction = linkAction
-    }
-
-    init(_ title: String, accessibilityLabel: String) {
-        self.title = title
-        self.accessibilityLabel = accessibilityLabel
-        self.linkAction = nil
-    }
-}
-
 struct ValidityStatusViewModel {
     let title: String?
     let status: ValidityStatus?
@@ -93,5 +49,49 @@ struct ValidityStatusViewModel {
         self.buttonConfiguration = buttonConfiguration
         self.status = status
         self.statusInformation = statusInformation
+    }
+}
+
+///
+/// Represents information to be displayed in a status section of the UI.
+/// This will replace the use of `formattedStatus` which is being used inconsistently.
+///
+struct StatusInformation: Equatable {
+    let title: String   // formattedStatus
+    let accessibilityLabel: String?
+    let linkAction: (() -> Void)?
+
+    var accessibilityLabelOrTitle: String {
+        accessibilityLabel ?? title
+    }
+
+    static func == (lhs: StatusInformation, rhs: StatusInformation) -> Bool {
+            lhs.title == rhs.title &&
+            lhs.accessibilityLabel == rhs.accessibilityLabel &&
+            ((lhs.linkAction == nil) == (rhs.linkAction == nil))
+    }
+
+    init(title: String, accessibilityLabel: String?, linkAction: (() -> Void)?) {
+        self.title = title
+        self.accessibilityLabel = accessibilityLabel
+        self.linkAction = linkAction
+    }
+
+    init(_ title: String) {
+        self.title = title
+        self.accessibilityLabel = nil
+        self.linkAction = nil
+    }
+
+    init(_ title: String, linkAction: (() -> Void)?) {
+        self.title = title
+        self.accessibilityLabel = nil
+        self.linkAction = linkAction
+    }
+
+    init(_ title: String, accessibilityLabel: String) {
+        self.title = title
+        self.accessibilityLabel = accessibilityLabel
+        self.linkAction = nil
     }
 }
