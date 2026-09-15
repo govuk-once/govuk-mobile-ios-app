@@ -180,7 +180,7 @@ struct ValidityStatusView: View {
         title: "mot title",
         status: MOTValidityStatus.noResultsReturned,
         statusInformation: StatusInformation(
-            "status title - formattedStatus",
+            "status title",
             linkAction: {}),
         buttonTitle: "buttonTitle",
     )
@@ -188,26 +188,50 @@ struct ValidityStatusView: View {
     ValidityStatusViewModel(
         title: "mot title",
         status: MOTValidityStatus.noResultsReturned,
-        statusInformation: StatusInformation("status title - formattedStatus"),
-        buttonTitle: "buttonTitle",
+        statusInformation: StatusInformation("status title")
     )
 
+    ScrollView {
+        VStack {
+            HStack {
+                Spacer()
+                Text("known status: .taxed")
+                    .padding()
+            }
+            ValidityStatusView(viewModel: knownVM)
+            Divider()
 
-    VStack {
-        Text("known status: .taxed")
-        ValidityStatusView(viewModel: knownVM)
+            HStack {
+                Spacer()
+                Text("unknown status: .unknown")
+                    .padding()
+            }
+            ValidityStatusView(viewModel: notKnownVM)
+            Divider()
 
-        Text("unknown status: .unknown")
-        ValidityStatusView(viewModel: notKnownVM)
+            HStack {
+                Spacer()
+                Text("MOTValidity with Link...")
+                    .padding()
+            }
+            ValidityStatusView(viewModel: motViewModelWithLink)
+            Divider()
 
-        Text("MotValidity with Link...")
-        MotValidityStatusView(viewModel: motViewModelWithLink)
+            HStack {
+                Spacer()
+                Text("MOTValidity without Link...")
+                    .padding()
+            }
+            ValidityStatusView(viewModel: motViewModelWithoutLink)
+            Divider()
 
-        Text("MotValidity without Link...")
-        MotValidityStatusView(viewModel: motViewModelWithoutLink)
-
-        Text("ValidityStatus without Link...")
-        ValidityStatusView(viewModel: motViewModelWithoutLink)
+            HStack {
+                Spacer()
+                Text("ValidityStatus without Link...")
+                    .padding()
+            }
+            ValidityStatusView(viewModel: motViewModelWithoutLink)
+        }
     }
 }
 
