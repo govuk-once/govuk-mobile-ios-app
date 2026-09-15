@@ -54,7 +54,6 @@ struct ValidityStatusViewModel {
 
 ///
 /// Represents information to be displayed in a status section of the UI.
-/// This will replace the use of `formattedStatus` which is being used inconsistently.
 ///
 struct StatusInformation: Equatable {
     let title: String   // formattedStatus
