@@ -4,6 +4,9 @@ import GovKit
 protocol TravelServiceInterface {
     func getGroups(forceRefresh: Bool, completion: @escaping TravelGroupResultCompletion)
     func getCountries(forceRefresh: Bool, completion: @escaping CountriesListResultCompletion)
+    func subscribeToGroups(slug: String, completion: @escaping SubscriptionResultCompletion)
+    func invalidateGroups()
+    func invalidateCountries()
     func invalidateCache()
 }
 
@@ -65,6 +68,32 @@ class TravelService: TravelServiceInterface {
                 }
             }
         )
+    }
+
+    func subscribeToGroups(
+        slug: String,
+        completion: @escaping SubscriptionResultCompletion
+    ) {
+        travelServiceClient.subscribeToGroups(
+            slug: slug,
+            completion: { result in
+                switch result {
+                case .success:
+                    self.invalidateGroups()
+                    completion(.success(()))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+        )
+    }
+
+    func invalidateGroups() {
+        repository.invalidateGroups()
+    }
+
+    func invalidateCountries() {
+        repository.invalidateCountries()
     }
 
     func invalidateCache() {

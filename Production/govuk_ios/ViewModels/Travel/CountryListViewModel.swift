@@ -64,7 +64,22 @@ class CountryListViewModel: ObservableObject {
     }
 
     func proceedWithCountrySelection(_ country: Country) {
-        countrySelectedAction(country)
+        subscribeToCountryAlerts(country)
+    }
+
+    private func subscribeToCountryAlerts(_ country: Country) {
+        travelService.subscribeToGroups(
+            slug: country.slug,
+            completion: { [weak self] result in
+                switch result {
+                case .success:
+                    self?.dismissAction()
+                case .failure(let error):
+                    // Log error for analytics/debugging
+                    print("Failed to subscribe to country alerts: \(error)")
+                }
+            }
+        )
     }
 
     @MainActor

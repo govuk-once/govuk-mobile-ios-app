@@ -445,6 +445,7 @@
 		85611CDA302F6987008EB3B1 /* TravelServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85611CD9302F6987008EB3B1 /* TravelServiceClient.swift */; };
 		85625913304F0F8C00FBB5EF /* TravelAlertsPermissionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85625912304F0F8B00FBB5EF /* TravelAlertsPermissionViewModel.swift */; };
 		85625915304F0FD100FBB5EF /* TravelAlertsPermissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85625914304F0FD100FBB5EF /* TravelAlertsPermissionView.swift */; };
+		8579EBDA30583C92005D77D8 /* SubscriptionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8579EBD930583C8C005D77D8 /* SubscriptionRequest.swift */; };
 		857F30DA303311FC0080E209 /* TravelService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857F30D9303311FC0080E209 /* TravelService.swift */; };
 		85D6F0473035F10900A2F0CB /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D6F0463035F10900A2F0CB /* Country.swift */; };
 		85DD7C68302CA901007F5170 /* TravelAlertsWidgetCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DD7C67302CA901007F5170 /* TravelAlertsWidgetCoordinator.swift */; };
@@ -1056,6 +1057,7 @@
 		85611CD9302F6987008EB3B1 /* TravelServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelServiceClient.swift; sourceTree = "<group>"; };
 		85625912304F0F8B00FBB5EF /* TravelAlertsPermissionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelAlertsPermissionViewModel.swift; sourceTree = "<group>"; };
 		85625914304F0FD100FBB5EF /* TravelAlertsPermissionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelAlertsPermissionView.swift; sourceTree = "<group>"; };
+		8579EBD930583C8C005D77D8 /* SubscriptionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionRequest.swift; sourceTree = "<group>"; };
 		857F30D9303311FC0080E209 /* TravelService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelService.swift; sourceTree = "<group>"; };
 		85D6F0463035F10900A2F0CB /* Country.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
 		85DD7C67302CA901007F5170 /* TravelAlertsWidgetCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelAlertsWidgetCoordinator.swift; sourceTree = "<group>"; };
@@ -2737,6 +2739,7 @@
 		85611CD6302F6871008EB3B1 /* Travel */ = {
 			isa = PBXGroup;
 			children = (
+				8579EBD930583C8C005D77D8 /* SubscriptionRequest.swift */,
 				85D6F0463035F10900A2F0CB /* Country.swift */,
 				85611CD7302F68C9008EB3B1 /* TravelGroup.swift */,
 			);
@@ -3686,6 +3689,7 @@
 				3D9FD4BE2E79C37B00928E92 /* ChatDeeplinkRoute.swift in Sources */,
 				DE523C72304EF43E00C0605C /* Notification.swift in Sources */,
 				3D15E7B42CB5630D0046CE64 /* AppRecommendUpdateContainerViewModel.swift in Sources */,
+				8579EBDA30583C92005D77D8 /* SubscriptionRequest.swift in Sources */,
 				16A4421A2F1E8C82000AAAA6 /* ExpandingButtonStyle.swift in Sources */,
 				5DCAFA752D4004E700C3F284 /* NotificationService.swift in Sources */,
 				D028CD122CC14A0100742620 /* DisplayableTopic.swift in Sources */,
