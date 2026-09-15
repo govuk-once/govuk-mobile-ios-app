@@ -15,6 +15,8 @@ struct Country: Codable, Equatable {
 
     var formattedLastUpdate: String {
         let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+
         guard let date = formatter.date(from: rawLastUpdate) else {
             return rawLastUpdate
         }

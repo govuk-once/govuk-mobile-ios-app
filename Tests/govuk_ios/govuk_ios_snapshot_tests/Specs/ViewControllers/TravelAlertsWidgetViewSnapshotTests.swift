@@ -37,9 +37,9 @@ final class TravelAlertsWidgetViewSnapshotTests: SnapshotTestCase {
                 TravelGroup(namespace: "travel", group: "spain", subgroup: "daily")
             ]),
             countriesResult: .success([
-                Country(name: "France", slug: "france", rawLastUpdate: "2024-01-01T00:00:00Z", synonyms: []),
-                Country(name: "Germany", slug: "germany", rawLastUpdate: "2024-01-01T00:00:00Z", synonyms: []),
-                Country(name: "Spain", slug: "spain", rawLastUpdate: "2024-01-01T00:00:00Z", synonyms: [])
+                Country(name: "France", slug: "france", rawLastUpdate: "2024-01-01T00:00:00.000Z", synonyms: []),
+                Country(name: "Germany", slug: "germany", rawLastUpdate: "2024-01-01T00:00:00.000Z", synonyms: []),
+                Country(name: "Spain", slug: "spain", rawLastUpdate: "2024-01-01T00:00:00.000Z", synonyms: [])
             ])
         )
 
@@ -64,9 +64,9 @@ final class TravelAlertsWidgetViewSnapshotTests: SnapshotTestCase {
                 TravelGroup(namespace: "travel", group: "spain", subgroup: "daily")
             ]),
             countriesResult: .success([
-                Country(name: "France", slug: "france", rawLastUpdate: "2024-01-01T00:00:00Z", synonyms: []),
-                Country(name: "Germany", slug: "germany", rawLastUpdate: "2024-01-01T00:00:00Z", synonyms: []),
-                Country(name: "Spain", slug: "spain", rawLastUpdate: "2024-01-01T00:00:00Z", synonyms: [])
+                Country(name: "France", slug: "france", rawLastUpdate: "2024-01-01T00:00:00.000Z", synonyms: []),
+                Country(name: "Germany", slug: "germany", rawLastUpdate: "2024-01-01T00:00:00.000Z", synonyms: []),
+                Country(name: "Spain", slug: "spain", rawLastUpdate: "2024-01-01T00:00:00.000Z", synonyms: [])
             ])
         )
 
