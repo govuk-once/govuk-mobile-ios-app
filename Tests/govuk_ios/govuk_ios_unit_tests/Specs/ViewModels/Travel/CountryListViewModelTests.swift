@@ -16,7 +16,6 @@ struct CountryListViewModelTests {
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            countrySelectedAction: { _ in /*EmptyForTests*/ },
             dismissAction: {
             didCallDismiss = true
         })
@@ -33,7 +32,6 @@ struct CountryListViewModelTests {
             travelService: MockTravelService(),
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
-            countrySelectedAction: { _ in /*EmptyForTests*/ },
             dismissAction: { /*EmptyForTests*/ })
 
         let screen = CountryListView(viewModel: viewModel)
@@ -42,6 +40,22 @@ struct CountryListViewModelTests {
         let screens = mockAnalyticsService._trackScreenReceivedScreens
         #expect(screens.count == 1)
         #expect(screens.first?.trackingClass == screen.trackingClass)
+    }
+
+    @Test
+    func trackSearchInput_createsCorrectAnalyticsEvent() {
+        let mockAnalyticsService = MockAnalyticsService()
+        let viewModel = CountryListViewModel(
+            travelService: MockTravelService(),
+            analyticsService: mockAnalyticsService,
+            notificationService: MockNotificationService(),
+            dismissAction: { /*EmptyForTests*/ }
+        )
+
+        viewModel.trackSearchInput(text: "France")
+
+        let events = mockAnalyticsService._trackedEvents
+        #expect(events.count == 1)
     }
 
     @Test
@@ -55,7 +69,6 @@ struct CountryListViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            countrySelectedAction: { _ in /*EmptyForTests*/ },
             dismissAction: { /*EmptyForTests*/ }
         )
 
@@ -87,7 +100,6 @@ struct CountryListViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            countrySelectedAction: { _ in /*EmptyForTests*/ },
             dismissAction: { /*EmptyForTests*/ }
         )
 
@@ -104,37 +116,6 @@ struct CountryListViewModelTests {
     }
 
     @Test
-    func selectingARow_executesCountrySelectedAction() async {
-        let mockTravelService = MockTravelService()
-        let selectedCountry = Country(
-            name: "Argentina",
-            slug: "argentina",
-            rawLastUpdate: "",
-            synonyms: []
-        )
-        mockTravelService._stubbedGetCountriesResult = .success([selectedCountry])
-
-        var capturedCountry: Country?
-        let viewModel = CountryListViewModel(
-            travelService: mockTravelService,
-            analyticsService: MockAnalyticsService(),
-            notificationService: MockNotificationService(),
-            countrySelectedAction: { country in
-                capturedCountry = country
-            },
-            dismissAction: { /*EmptyForTests*/ }
-        )
-
-        await viewModel.viewDidAppear()
-        await Task.yield()
-
-        let firstRow = viewModel.filteredSections.first?.rows.first as? SelectableRow
-        firstRow?.action()
-
-        #expect(capturedCountry == selectedCountry)
-    }
-
-    @Test
     func searchText_filtersCountriesByName() async {
         let mockTravelService = MockTravelService()
         mockTravelService._stubbedGetCountriesResult = .success([
@@ -146,7 +127,6 @@ struct CountryListViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            countrySelectedAction: { _ in /*EmptyForTests*/ },
             dismissAction: { /*EmptyForTests*/ }
         )
 
@@ -171,7 +151,6 @@ struct CountryListViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            countrySelectedAction: { _ in /*EmptyForTests*/ },
             dismissAction: { /*EmptyForTests*/ }
         )
 
@@ -196,7 +175,6 @@ struct CountryListViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            countrySelectedAction: { _ in /*EmptyForTests*/ },
             dismissAction: { /*EmptyForTests*/ }
         )
 
@@ -221,7 +199,6 @@ struct CountryListViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            countrySelectedAction: { _ in /*EmptyForTests*/ },
             dismissAction: { /*EmptyForTests*/ }
         )
 
@@ -246,7 +223,6 @@ struct CountryListViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            countrySelectedAction: { _ in /*EmptyForTests*/ },
             dismissAction: { /*EmptyForTests*/ }
         )
 
@@ -271,7 +247,6 @@ struct CountryListViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            countrySelectedAction: { _ in /*EmptyForTests*/ },
             dismissAction: { /*EmptyForTests*/ }
         )
 
@@ -300,7 +275,6 @@ struct CountryListViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            countrySelectedAction: { _ in /*EmptyForTests*/ },
             dismissAction: { /*EmptyForTests*/ }
         )
 
@@ -311,6 +285,122 @@ struct CountryListViewModelTests {
 
         let rows = viewModel.filteredSections.first?.rows ?? []
         #expect(rows.count == 2)
+    }
+
+    @Test
+    func handleCountrySelection_whenNotificationOptInTrueAndNoConsent_showsPermissionScreen() {
+        let mockNotificationService = MockNotificationService()
+        mockNotificationService._stubbedhasGivenConsent = false
+
+        let viewModel = CountryListViewModel(
+            travelService: MockTravelService(),
+            analyticsService: MockAnalyticsService(),
+            notificationService: mockNotificationService,
+            dismissAction: { /*EmptyForTests*/ }
+        )
+
+        let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
+        viewModel.handleCountrySelection(country, notificationOptIn: true)
+
+        #expect(viewModel.showTravelAlertsPermission == true)
+    }
+
+    @Test
+    func handleCountrySelection_whenNotificationOptInFalse_proceedsWithSelection() {
+        let mockTravelService = MockTravelService()
+        let mockNotificationService = MockNotificationService()
+        mockNotificationService._stubbedhasGivenConsent = false
+
+        let viewModel = CountryListViewModel(
+            travelService: mockTravelService,
+            analyticsService: MockAnalyticsService(),
+            notificationService: mockNotificationService,
+            dismissAction: { /*EmptyForTests*/ }
+        )
+
+        let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
+        viewModel.handleCountrySelection(country, notificationOptIn: false)
+
+        #expect(mockTravelService._subscribeToGroupsCalled == true)
+        #expect(mockTravelService._receivedSubscribeSlug == "france")
+    }
+
+    @Test
+    func handleCountrySelection_whenHasConsentAndOptIn_proceedsWithSelection() {
+        let mockTravelService = MockTravelService()
+        let mockNotificationService = MockNotificationService()
+        mockNotificationService._stubbedhasGivenConsent = true
+
+        let viewModel = CountryListViewModel(
+            travelService: mockTravelService,
+            analyticsService: MockAnalyticsService(),
+            notificationService: mockNotificationService,
+            dismissAction: { /*EmptyForTests*/ }
+        )
+
+        let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
+        viewModel.handleCountrySelection(country, notificationOptIn: true)
+
+        #expect(mockTravelService._subscribeToGroupsCalled == true)
+    }
+
+    @Test
+    func proceedWithCountrySelection_callsSubscribeToGroups() {
+        let mockTravelService = MockTravelService()
+        let viewModel = CountryListViewModel(
+            travelService: mockTravelService,
+            analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService(),
+            dismissAction: { /*EmptyForTests*/ }
+        )
+
+        let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
+        viewModel.proceedWithCountrySelection(country)
+
+        #expect(mockTravelService._subscribeToGroupsCalled == true)
+        #expect(mockTravelService._receivedSubscribeSlug == country.slug)
+    }
+
+    @Test
+    func subscribeToCountryAlerts_onSuccess_callsDismissAction() {
+        var didCallDismiss = false
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedSubscribeResult = .success(())
+
+        let viewModel = CountryListViewModel(
+            travelService: mockTravelService,
+            analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService(),
+            dismissAction: { didCallDismiss = true }
+        )
+
+        let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
+        viewModel.proceedWithCountrySelection(country)
+
+        mockTravelService._receivedSubscribeCompletion?(.success(()))
+
+        #expect(didCallDismiss == true)
+    }
+
+    @Test
+    func subscribeToCountryAlerts_onFailure_doesNotCallDismissAction() {
+        var didCallDismiss = false
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedSubscribeResult = .failure(.apiUnavailable)
+
+        let viewModel = CountryListViewModel(
+            travelService: mockTravelService,
+            analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService(),
+            dismissAction: { didCallDismiss = true }
+        )
+
+        let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
+        viewModel.proceedWithCountrySelection(country)
+
+        mockTravelService._receivedSubscribeCompletion?(.failure(.apiUnavailable))
+
+        #expect(didCallDismiss == false)
     }
 
     func countryListViewModel_initialisedWithDependencies() {

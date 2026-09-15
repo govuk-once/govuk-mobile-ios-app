@@ -24,7 +24,6 @@ class CountryListViewModel: ObservableObject {
     private let travelService: TravelServiceInterface
     let analyticsService: AnalyticsServiceInterface
     private let notificationService: NotificationServiceInterface
-    private let countrySelectedAction: (Country) -> Void
     let dismissAction: () -> Void
 
     var hasNotificationConsent: Bool {
@@ -35,13 +34,11 @@ class CountryListViewModel: ObservableObject {
         travelService: TravelServiceInterface,
         analyticsService: AnalyticsServiceInterface,
         notificationService: NotificationServiceInterface,
-        countrySelectedAction: @escaping (Country) -> Void,
         dismissAction: @escaping () -> Void
     ) {
         self.travelService = travelService
         self.analyticsService = analyticsService
         self.notificationService = notificationService
-        self.countrySelectedAction = countrySelectedAction
         self.dismissAction = dismissAction
     }
 

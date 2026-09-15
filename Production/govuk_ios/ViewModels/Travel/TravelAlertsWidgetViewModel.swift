@@ -43,9 +43,6 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
             travelService: travelService,
             analyticsService: analyticsService,
             notificationService: notificationService,
-            countrySelectedAction: { _ in
-                // Selection flow will be implented in a future change.
-            },
             dismissAction: {
                 self.dismissAction()
                 self.didDismissList()

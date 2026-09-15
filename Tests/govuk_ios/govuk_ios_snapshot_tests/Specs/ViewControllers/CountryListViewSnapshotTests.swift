@@ -237,7 +237,6 @@ final class CountryListViewSnapshotTests: SnapshotTestCase {
             travelService: mockTravelService,
             analyticsService: analyticsService,
             notificationService: notificationService,
-            countrySelectedAction: { _ in /*Empty for tests*/},
             dismissAction: { /*Empty For Tests*/ }
         )
     }

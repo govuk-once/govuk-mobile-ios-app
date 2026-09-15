@@ -902,9 +902,6 @@ class ViewControllerBuilder {
             travelService: travelService,
             analyticsService: analyticsService,
             notificationService: notificationService,
-            countrySelectedAction: { _ in
-                // Navigation/next screen handling
-            },
             dismissAction: dismissAction
         )
         let view = CountryListView(viewModel: viewModel)
