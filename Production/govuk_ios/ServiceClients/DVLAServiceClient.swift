@@ -135,7 +135,15 @@ class DVLAServiceClient: DVLAServiceClientInterface {
 
 // KK_TODO: Nuke all of the following
 // MARK: - Code for Testing and dev
+//
+//  Vends out some fixed test data for demo purposes.
+//  Matches the data used in this Android ticket:
+//
+//      https://govukverify.atlassian.net/browse/GOVUKAPP-3942?focusedCommentId=341645
+//
+
 extension DVLAServiceClient {
+
     // KK_TODO: delete this and uncomment the real method in the main class definition
     private func mapResult<T: Decodable>(
         _ result: NetworkResult<Data>
