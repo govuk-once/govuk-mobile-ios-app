@@ -1,10 +1,10 @@
 struct SubscriptionRequest: Codable {
     enum SubscriptionType: String, Codable {
-        case notification = "Notification"
+        case notification = "NOTIFICATION"
     }
 
     enum SubscriptionAction: String, Codable {
-        case join = "Join"
+        case join = "JOIN"
     }
 
     enum SubscriptionGroup: String, Codable {

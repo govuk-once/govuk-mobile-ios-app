@@ -29,9 +29,7 @@ extension GOVRequest {
         )
     }
 
-    static func subscribeToGroups(
-        slug: String,
-    ) -> GOVRequest {
+    static func subscribeToGroups(slug: String) -> GOVRequest {
         let body = [SubscriptionRequest(
             namespace: "travel",
             group: slug,
