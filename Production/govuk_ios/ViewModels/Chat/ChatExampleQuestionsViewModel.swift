@@ -53,7 +53,7 @@ struct ChatExampleQuestionsViewModel {
             items: [
                 ChatExampleQuestionItem(
                     name: text,
-                    listId: listName,
+                    listId: "chat_suggestion",
                     index: index
                 )
             ]
