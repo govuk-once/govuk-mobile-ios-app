@@ -187,6 +187,50 @@
           }
         }
       }
+    },
+    "travelAlertPermissionDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We need your permission to send notifications and collect app usage statistics. \nYou can change this at any time in your phone settings."
+          }
+        }
+      }
+    },
+    "travelAlertPermissionPrimaryButton" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agree and continue"
+          }
+        }
+      }
+    },
+    "travelAlertPermissionSecondaryButton" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not now"
+          }
+        }
+      }
+    },
+    "travelAlertPermissionTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Give permission"
+          }
+        }
+      }
     }
   },
   "version" : "1.2"

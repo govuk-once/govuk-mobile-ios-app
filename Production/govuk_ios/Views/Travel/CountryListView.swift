@@ -67,13 +67,18 @@ struct CountryListView: View {
                 let permissionViewModel = TravelAlertsPermissionViewModel(
                     analyticsService: viewModel.analyticsService,
                     showImage: true,
-                    title: String(localized: "title"),
-                    body: String(localized: "body"),
-                    primaryButtonTitle: String(localized: "primary CTA"),
-                    secondaryButtonTitle: String(localized: "secondary CTA"),
+                    title: String(localized: .Travel.travelAlertPermissionTitle),
+                    body: String(localized: .Travel.travelAlertPermissionDescription),
+                    primaryButtonTitle: String(
+                        localized: .Travel.travelAlertPermissionPrimaryButton
+                    ),
+                    secondaryButtonTitle: String(
+                        localized: .Travel.travelAlertPermissionSecondaryButton
+                    ),
                     completeAction: {
                         viewModel.showTravelAlertsPermission = false
                         if let country = viewModel.selectedCountry {
+                            // Will update with notification logic in upcoming work
                             viewModel.proceedWithCountrySelection(country)
                             viewModel.selectedCountry = nil
                         }
