@@ -98,11 +98,10 @@ struct MOTStatusViewModelBuilderTests {
         )
         let result = sut.makeViewModel(vehicle: vehicle)
 
-        #expect(result.statusInformation?.title == "")
-        #expect(result.buttonTitle == String(localized: .DVLA.motCheckIfItNeedsAnMOT))
+        #expect(result.statusInformation?.title == String(localized: .DVLA.motCheckIfItNeedsAnMOT))
         #expect(result.status as? MOTValidityStatus == .noResultsReturned)
 
-        result.buttonAction?()
+        result.statusInformation?.linkAction?()
         #expect(openedUrl == Constants.API.defaultDvlaNoResultsUrl)
     }
 
