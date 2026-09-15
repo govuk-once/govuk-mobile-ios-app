@@ -70,10 +70,13 @@ struct ValidityStatusView: View {
 }
 
 #Preview {
+    let statusInformation = StatusInformation(
+        "Expired 24 April 2026",
+    )
+
     let viewModel = ValidityStatusViewModel(
         title: nil,
-        formattedStatus: "Expired 24 April 2026",
-        statusInformation: nil,
+        statusInformation: statusInformation,
         iconName: "exclamationmark.triangle.fill",
         footer: "Your licence status may not update immediately when you renew it",
         buttonTitle: "Renew licence",
@@ -102,12 +105,9 @@ struct ValidityStatusView: View {
 
             return ValidityStatusViewModel(
                 title: title,
-                formattedStatus: formattedStatus,
                 status: statusUnknown,
-                statusLinkAction: { openURLAction(text: title, url: url) },
                 statusInformation: StatusInformation(
-                    title: formattedStatus,
-                    accessibilityLabel: nil,
+                    formattedStatus,
                     linkAction: { openURLAction(text: title, url: url) }
                 ),
             )
@@ -126,13 +126,10 @@ struct ValidityStatusView: View {
 
         return ValidityStatusViewModel(
             title: title,
-            formattedStatus: formattedStatus,
             status: statusUnknown,
-            statusLinkAction: nil,
             statusInformation: StatusInformation(
-                title: formattedStatus,
-                accessibilityLabel: nil,
-                linkAction: nil)
+                formattedStatus
+            )
         )
     }()
 
@@ -149,13 +146,10 @@ struct ValidityStatusView: View {
 
         return ValidityStatusViewModel(
             title: title,
-            formattedStatus: formattedStatus,
             status: statusTaxed,
-            statusLinkAction: nil,
             statusInformation: StatusInformation(
-                title: formattedStatus,
-                accessibilityLabel: nil,
-                linkAction: nil)
+                formattedStatus
+            )
         )
     }()
 
@@ -175,38 +169,28 @@ struct ValidityStatusView: View {
 
             return ValidityStatusViewModel(
                 title: title,
-                formattedStatus: formattedStatus,
                 status: statusUnknown,
-                statusLinkAction: statusLinkAction,
                 statusInformation: StatusInformation(
-                    title: formattedStatus,
-                    accessibilityLabel: nil,
-                    linkAction: statusLinkAction)
+                    formattedStatus,
+                    linkAction: statusLinkAction
+                )
             )
         }()
 
     let motViewModelWithLink =
     ValidityStatusViewModel(
         title: "mot title",
-        formattedStatus: "formattedStatus",
         status: MOTValidityStatus.noResultsReturned,
-        statusLinkAction: {},
         statusInformation: StatusInformation(
-            title: "status title - formattedStatus",
-            accessibilityLabel: nil,
+            "status title - formattedStatus",
             linkAction: {}),
         buttonTitle: "buttonTitle",
     )
     let motViewModelWithoutLink =
     ValidityStatusViewModel(
         title: "mot title",
-        formattedStatus: "formattedStatus",
         status: MOTValidityStatus.noResultsReturned,
-        statusLinkAction: {},
-        statusInformation: StatusInformation(
-            title: "status title - formattedStatus",
-            accessibilityLabel: nil,
-            linkAction: nil),
+        statusInformation: StatusInformation("status title - formattedStatus"),
         buttonTitle: "buttonTitle",
     )
 
@@ -237,10 +221,12 @@ struct ValidityStatusView: View {
         string: "https://www.gov.uk/vehicle-tax"
     )!
     let buttonURL =  defaultDvlaTaxVehicleUrl
+
+    let statusInformation = StatusInformation(formattedStatus)
+
     let viewModel = ValidityStatusViewModel(
         title: String(localized: .DVLA.taxStatusTitle),
-        formattedStatus: formattedStatus,
-        statusInformation: nil,
+        statusInformation: statusInformation,
         iconName: "exclamationmark.triangle.fill",
         footer: String(localized: .DVLA.renewTaxExpiringFooter),
         buttonTitle: buttonTitle,
@@ -256,15 +242,11 @@ struct ValidityStatusView: View {
         string: "https://www.gov.uk/vehicle-tax"
     )!
     let buttonURL =  defaultDvlaTaxVehicleUrl
-//    let statusInformation = StatusInformation(
-//        title: formattedStatus,
-//        accessibilityLabel: nil,
-//        linkAction: nil
-//    )
-    let statusInformation: StatusInformation? = nil
+
+    let statusInformation = StatusInformation(formattedStatus)
+
     let viewModel = ValidityStatusViewModel(
         title: String(localized: .DVLA.taxStatusTitle),
-        formattedStatus: formattedStatus,
         statusInformation: statusInformation,
         iconName: "exclamationmark.triangle.fill",
         footer: String(localized: .DVLA.renewTaxExpiringFooter),
@@ -275,22 +257,16 @@ struct ValidityStatusView: View {
 }
 
 #Preview("Empty formattedStatus") {
-//    let formattedStatus = ""
-    let formattedStatus = String(localized: .DVLA.untaxed)
     let buttonTitle = String(localized: .DVLA.renewTaxButtonTitle)
     let defaultDvlaTaxVehicleUrl: URL = URL(
         string: "https://www.gov.uk/vehicle-tax"
     )!
     let buttonURL =  defaultDvlaTaxVehicleUrl
-    let statusInformation = StatusInformation(
-        title: "formattedStatus",
-        accessibilityLabel: nil,
-        linkAction: nil
-    )
-//    let statusInformation: StatusInformation? = nil
+    let formattedStatus = String(localized: .DVLA.untaxed)
+    let statusInformation = StatusInformation(formattedStatus)
+
     let viewModel = ValidityStatusViewModel(
         title: String(localized: .DVLA.taxStatusTitle),
-        formattedStatus: formattedStatus,
         statusInformation: statusInformation,
         iconName: "exclamationmark.triangle.fill",
         footer: String(localized: .DVLA.renewTaxExpiringFooter),
