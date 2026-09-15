@@ -134,6 +134,7 @@ struct ValidityStatusView: View {
     ValidityStatusView(viewModel: knownVM)
 }
 
+#if DEBUG
 #Preview("Both") {
     let knownVM: ValidityStatusViewModel = {
         let statusTaxed: TaxValidityStatus = .taxed
@@ -297,3 +298,4 @@ struct ValidityStatusView: View {
     )
     ValidityStatusView(viewModel: viewModel)
 }
+#endif // DEBUG

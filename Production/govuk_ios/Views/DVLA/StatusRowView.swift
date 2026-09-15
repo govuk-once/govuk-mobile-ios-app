@@ -57,6 +57,7 @@ struct StatusLinkContent: View {
     }
 }
 
+#if DEBUG
 #Preview("StatusLinkContent") {
     VStack {
         StatusLinkContent(text: "some label")
@@ -87,3 +88,4 @@ struct StatusLinkContent: View {
         StatusRowView(status: statusWithAction)
     }
 }
+#endif // DEBUG
