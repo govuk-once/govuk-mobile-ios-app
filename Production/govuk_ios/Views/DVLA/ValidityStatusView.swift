@@ -5,8 +5,6 @@ import GovKitUI
 /// This view conditionally renders UI elements based on the values in `ValidityStatusViewModel`.
 ///
 /// Optional values that are `nil` don't get displayed.
-/// Old/existing way: Rendering of status information is determined by `ValidityStatusViewModel.formattedStatus` being a non-empty string.
-/// New approach: we will display status information from `ValidityStatusViewModel.statusInformation`
 ///
 struct ValidityStatusView: View {
     private static let iconSize: CGFloat = 36
