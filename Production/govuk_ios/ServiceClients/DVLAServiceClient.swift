@@ -85,28 +85,25 @@ class DVLAServiceClient: DVLAServiceClientInterface {
         }
     }
 
-// KK_TODO: uncomment the following method
-//       currently replaced in an extension below for test/demo purposes
-
-//    private func mapResult<T: Decodable>(
-//        _ result: NetworkResult<Data>
-//    ) -> Result<T, DVLAError> {
-//        return result.mapError { error in
-//            let nsError = (error as NSError)
-//            if nsError.code == NSURLErrorNotConnectedToInternet {
-//                return DVLAError.networkUnavailable
-//            } else {
-//                return (error as? DVLAError) ?? DVLAError.apiUnavailable
-//            }
-//        }.flatMap {
-//            do {
-//                let response = try decoder.decode(T.self, from: $0)
-//                return .success(response)
-//            } catch {
-//                return .failure(DVLAError.decodingError)
-//            }
-//        }
-//    }
+    private func mapResult<T: Decodable>(
+        _ result: NetworkResult<Data>
+    ) -> Result<T, DVLAError> {
+        return result.mapError { error in
+            let nsError = (error as NSError)
+            if nsError.code == NSURLErrorNotConnectedToInternet {
+                return DVLAError.networkUnavailable
+            } else {
+                return (error as? DVLAError) ?? DVLAError.apiUnavailable
+            }
+        }.flatMap {
+            do {
+                let response = try decoder.decode(T.self, from: $0)
+                return .success(response)
+            } catch {
+                return .failure(DVLAError.decodingError)
+            }
+        }
+    }
 
     private lazy var decoder: JSONDecoder = {
         let decoder = JSONDecoder()
