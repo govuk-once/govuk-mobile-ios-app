@@ -61,22 +61,6 @@ class DVLAServiceClient: DVLAServiceClientInterface {
             apiServiceClient.send(
                 request: request,
                 completion: {
-                    let result: Result<T, DVLAError> = self.mapResult($0)
-                    continuation.resume(
-                        returning: result
-                    )
-                }
-            )
-        }
-    }
-
-    private func origPerformRequest<T: Decodable>(
-        _ request: GOVRequest
-    ) async -> Result<T, DVLAError> {
-        await withCheckedContinuation { continuation in
-            apiServiceClient.send(
-                request: request,
-                completion: {
                     continuation.resume(
                         returning: self.mapResult($0)
                     )
