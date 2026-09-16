@@ -182,7 +182,9 @@ struct ValidityStatusView: View {
         status: MOTValidityStatus.noResultsReturned,
         statusInformation: StatusInformation(
             "status title",
-            linkAction: {}),
+            linkAction: {
+                // placeholder closure for Preview
+            }),
         buttonTitle: "buttonTitle",
     )
     let motViewModelWithoutLink =

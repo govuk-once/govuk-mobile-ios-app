@@ -68,7 +68,10 @@ struct StatusLinkContent: View {
     VStack {
         StatusLinkButton(text: "StatusLinkView",
                        accessibilityLabel: "accessible",
-                       action: {})
+                       action: {
+                                // placeholder closure for Preview
+                                }
+        )
     }
 }
 
@@ -81,7 +84,9 @@ struct StatusLinkContent: View {
     let statusWithAction = StatusInformation(
         title: "status with an action",
         accessibilityLabel: "accessibilityLabel",
-        linkAction: {})
+        linkAction: {
+            // placeholder closure for Preview
+        })
 
     VStack {
         StatusRowView(status: statusWithNoAction)
