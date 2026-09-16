@@ -25,8 +25,14 @@ final class MockChatService: ChatServiceInterface {
     }
 
     var _stubbedQuestionResult: ChatQuestionResult?
+    var _shouldHoldQuestionCompletetion = false
+    var _receivedQuestions: [String] = []
+    var _receivedQuestionCompletion: ((ChatQuestionResult) -> Void)?
     func askQuestion(_ question: String,
                      completion: @escaping (ChatQuestionResult) -> Void) {
+        _receivedQuestions.append(question)
+        _receivedQuestionCompletion = completion
+        guard !_shouldHoldQuestionCompletetion else { return }
         guard let result = _stubbedQuestionResult else {
             return completion(.failure(ChatError.apiUnavailable))
         }
