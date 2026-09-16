@@ -95,11 +95,7 @@ struct MotStatusViewModelBuilder: MotStatusViewModelBuilderInterface {
             String(localized: .DVLA.expired)
         }
 
-        let statusInformation = StatusInformation(
-            title: formattedStatus,
-            accessibilityLabel: nil,
-            linkAction: nil
-        )
+        let statusInformation = StatusInformation(formattedStatus)
 
         return ValidityStatusViewModel(
             title: String(localized: .DVLA.motStatusTitle),
@@ -118,10 +114,7 @@ struct MotStatusViewModelBuilder: MotStatusViewModelBuilderInterface {
             String(localized: .DVLA.valid)
         }
 
-        let statusInformation = StatusInformation(
-            title: formattedStatus,
-            accessibilityLabel: nil,
-            linkAction: nil)
+        let statusInformation = StatusInformation(formattedStatus)
 
         return ValidityStatusViewModel(
             title: String(localized: .DVLA.motStatusTitle),
@@ -147,10 +140,7 @@ struct MotStatusViewModelBuilder: MotStatusViewModelBuilderInterface {
                 formattedDate(validToDate) ?? "")
         )
 
-        let statusInformation = StatusInformation(
-            title: formattedStatus,
-            accessibilityLabel: nil,
-            linkAction: nil)
+        let statusInformation = StatusInformation(formattedStatus)
 
         return ValidityStatusViewModel(
             title: String(localized: .DVLA.motStatusTitle),
@@ -166,9 +156,8 @@ struct MotStatusViewModelBuilder: MotStatusViewModelBuilderInterface {
             title: String(localized: .DVLA.motStatusTitle),
             status: MOTValidityStatus.unknown,
             statusInformation: StatusInformation(
-                title: String(localized: .DVLA.motUnknown),
-                accessibilityLabel: nil,
-                linkAction: nil),
+                String(localized: .DVLA.motUnknown)
+            ),
         )
     }
 
@@ -185,8 +174,7 @@ struct MotStatusViewModelBuilder: MotStatusViewModelBuilderInterface {
             title: String(localized: .DVLA.motStatusTitle),
             status: MOTValidityStatus.noResultsReturned,
             statusInformation: StatusInformation(
-                title: statusLinkTitle,
-                accessibilityLabel: nil,
+                statusLinkTitle,
                 linkAction: statusLinkAction)
         )
     }
@@ -216,8 +204,7 @@ struct MotStatusViewModelBuilder: MotStatusViewModelBuilderInterface {
             title: String(localized: .DVLA.motStatusTitle),
             status: MOTValidityStatus.noDetailsHeldByDVLA,
             statusInformation: StatusInformation(
-                title: title,
-                accessibilityLabel: nil,
+                title,
                 linkAction: statusLinkAction)
         )
     }

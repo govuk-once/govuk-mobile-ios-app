@@ -70,27 +70,9 @@ struct StatusInformation: Equatable {
             ((lhs.linkAction == nil) == (rhs.linkAction == nil))
     }
 
-    init(title: String, accessibilityLabel: String?, linkAction: (() -> Void)?) {
+    init(_ title: String, accessibilityLabel: String? = nil, linkAction: (() -> Void)? = nil) {
         self.title = title
         self.accessibilityLabel = accessibilityLabel
         self.linkAction = linkAction
-    }
-
-    init(_ title: String) {
-        self.title = title
-        self.accessibilityLabel = nil
-        self.linkAction = nil
-    }
-
-    init(_ title: String, linkAction: (() -> Void)?) {
-        self.title = title
-        self.accessibilityLabel = nil
-        self.linkAction = linkAction
-    }
-
-    init(_ title: String, accessibilityLabel: String) {
-        self.title = title
-        self.accessibilityLabel = accessibilityLabel
-        self.linkAction = nil
     }
 }

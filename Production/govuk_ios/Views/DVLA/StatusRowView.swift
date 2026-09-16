@@ -77,12 +77,11 @@ struct StatusLinkContent: View {
 
 #Preview("StatusRowView") {
     let statusWithNoAction = StatusInformation(
-        title: "status with no action",
-        accessibilityLabel: "accessibilityLabel",
-        linkAction: nil)
+        "status with no action",
+        accessibilityLabel: "accessibilityLabel")
 
     let statusWithAction = StatusInformation(
-        title: "status with an action",
+        "status with an action",
         accessibilityLabel: "accessibilityLabel",
         linkAction: {
             // placeholder closure for Preview

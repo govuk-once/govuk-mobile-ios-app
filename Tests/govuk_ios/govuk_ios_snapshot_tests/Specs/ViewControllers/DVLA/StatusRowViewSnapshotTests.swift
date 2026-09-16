@@ -10,7 +10,7 @@ final class StatusRowViewSnapshotTests: SnapshotTestCase {
     /// Test when a link action is available (renders StatusLinkButton / StatusLinkContent)
     func testStatusRowView_WithLinkAction_light_rendersCorrectly() {
         let status = StatusInformation(
-            title: "View service guidance",
+            "View service guidance",
             accessibilityLabel: "View service guidance accessibility label",
             linkAction: {
                 // Dummy action for testing state
@@ -30,7 +30,7 @@ final class StatusRowViewSnapshotTests: SnapshotTestCase {
 
     func testStatusRowView_WithLinkAction_dark_rendersCorrectly() {
         let status = StatusInformation(
-            title: "View service guidance",
+            "View service guidance",
             accessibilityLabel: "View service guidance accessibility label",
             linkAction: {
                 // Dummy action for testing state
@@ -52,7 +52,7 @@ final class StatusRowViewSnapshotTests: SnapshotTestCase {
     /// Test when there is no link action (renders plain Text)
     func testStatusRowView_PlainText_light_rendersCorrectly() {
         let status = StatusInformation(
-            title: "View service guidance",
+            "View service guidance",
             accessibilityLabel: "View service guidance accessibility label",
             linkAction: nil)
 
@@ -69,7 +69,7 @@ final class StatusRowViewSnapshotTests: SnapshotTestCase {
 
     func testStatusRowView_PlainText_dark_rendersCorrectly() {
         let status = StatusInformation(
-            title: "View service guidance",
+            "View service guidance",
             accessibilityLabel: "View service guidance accessibility label",
             linkAction: nil)
 
