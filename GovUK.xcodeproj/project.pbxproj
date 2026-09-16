@@ -571,6 +571,7 @@
 		D0F6813F2DD4CF8E004421C0 /* LocalAuthorityWidgetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F6813D2DD4CF8E004421C0 /* LocalAuthorityWidgetViewModel.swift */; };
 		D0F681402DD4CF8E004421C0 /* LocalAuthorityExplainerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F6813B2DD4CF8E004421C0 /* LocalAuthorityExplainerViewModel.swift */; };
 		DE523C72304EF43E00C0605C /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE523C71304EF43E00C0605C /* Notification.swift */; };
+		FB45D1C9305A985400592313 /* ValidityStatusView+Previews.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB45D1C8305A984700592313 /* ValidityStatusView+Previews.swift */; };
 		FBD9E9C5305315220031B76A /* StatusRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD9E9C4305315220031B76A /* StatusRowView.swift */; };
 /* End PBXBuildFile section */
 
@@ -1175,6 +1176,7 @@
 		D0F6813C2DD4CF8E004421C0 /* LocalAuthorityPostcodeEntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthorityPostcodeEntryViewModel.swift; sourceTree = "<group>"; };
 		D0F6813D2DD4CF8E004421C0 /* LocalAuthorityWidgetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthorityWidgetViewModel.swift; sourceTree = "<group>"; };
 		DE523C71304EF43E00C0605C /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		FB45D1C8305A984700592313 /* ValidityStatusView+Previews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ValidityStatusView+Previews.swift"; sourceTree = "<group>"; };
 		FBD9E9C4305315220031B76A /* StatusRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusRowView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -2607,6 +2609,7 @@
 				81A6DB222FCF40B9006FB0F0 /* VehicleDetailView.swift */,
 				81CDB3702FDAF42B00328F7C /* VehicleSpecView.swift */,
 				81D258472FC7383D00A4F988 /* ValidityStatusView.swift */,
+				FB45D1C8305A984700592313 /* ValidityStatusView+Previews.swift */,
 				81BF975A2FA2523600249569 /* DVLAAccountWidgetView.swift */,
 				81D240C02FC0938F00A4F988 /* DVLAAccountSummaryView.swift */,
 			);
@@ -3609,6 +3612,7 @@
 				4E2468B52FFFB2C400248C5F /* MotStatusViewModelBuilder.swift in Sources */,
 				D0D9CB932D3024C00051EDDD /* SearchResult.swift in Sources */,
 				D0D9CB942D3024C00051EDDD /* SearchItem.swift in Sources */,
+				FB45D1C9305A985400592313 /* ValidityStatusView+Previews.swift in Sources */,
 				D0D9CB952D3024C00051EDDD /* SearchHistoryItem.swift in Sources */,
 				5D41DB5D2C0870020011E691 /* Container+Aliases.swift in Sources */,
 				81BF88802FA10EB500249569 /* ServiceAccountLinkSuccessView.swift in Sources */,
