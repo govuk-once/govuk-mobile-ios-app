@@ -48,6 +48,7 @@ final class ChatActionViewControllerSnapshotTests: SnapshotTestCase {
             )
             return ChatActionView(
                 viewModel: viewModel,
+                askQuestion: { _ in },
                 textAreaFocused: $textAreaFocused,
                 showClearChatAlert: $showClearChatAlert,
                 textAreaFocusedAnimationTrigger: $textAreaFocusedAnimationTrigger,
@@ -78,6 +79,7 @@ final class ChatActionViewControllerSnapshotTests: SnapshotTestCase {
             )
             return ChatActionView(
                 viewModel: viewModel,
+                askQuestion: { _ in },
                 textAreaFocused: $textAreaFocused,
                 showClearChatAlert: $showClearChatAlert,
                 textAreaFocusedAnimationTrigger: $textAreaFocusedAnimationTrigger,

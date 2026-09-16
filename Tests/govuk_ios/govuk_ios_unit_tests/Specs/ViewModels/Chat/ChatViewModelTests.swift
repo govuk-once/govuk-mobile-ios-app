@@ -20,7 +20,7 @@ struct ChatViewModelTests {
             handleError: { _ in }
         )
         sut.latestQuestion = "This is the question"
-        sut.askQuestion()
+        sut.askQuestion(.typed())
 
         #expect(sut.cellModels.count == 2)
         #expect(sut.cellModels.first?.type == .question)
@@ -43,17 +43,14 @@ struct ChatViewModelTests {
             handleError: { _ in }
         )
         sut.latestQuestion = "This is the question"
-        sut.askQuestion()
+        sut.askQuestion(.typed())
 
         #expect(mockAnalyticsService._trackedEvents.count == 2)
-        #expect(
-            mockAnalyticsService
-                ._trackedEvents.first?.params?["text"] as? String == ""
-        )
-        #expect(
-            mockAnalyticsService
-                ._trackedEvents.last?.params?["text"] as? String == "Chat Question Answer Returned"
-        )
+        let firstParams = mockAnalyticsService._trackedEvents.first?.params
+        let lastParams = mockAnalyticsService._trackedEvents.last?.params
+        #expect(firstParams?["text"] as? String == "")
+        #expect(firstParams?["type"] as? String == "typed")
+        #expect(lastParams?["text"] as? String == "Chat Question Answer Returned")
     }
 
     @Test
@@ -72,8 +69,7 @@ struct ChatViewModelTests {
             }
         )
         sut.latestQuestion = "This is the question"
-
-        sut.askQuestion()
+        sut.askQuestion(.typed())
 
         #expect(sut.cellModels.count == 1)
         #expect(sut.cellModels.first?.type == .question)
@@ -96,8 +92,7 @@ struct ChatViewModelTests {
             }
         )
         sut.latestQuestion = "This is the question"
-
-        sut.askQuestion()
+        sut.askQuestion(.typed())
 
         #expect(chatError == .authenticationError)
         #expect(sut.showExampleQuestions == false)
@@ -122,7 +117,7 @@ struct ChatViewModelTests {
 
         #expect(sut.showValidationAlert == false)
         #expect(sut.validationAlertDetails.title == "Validation error")
-        sut.askQuestion()
+        sut.askQuestion(.typed())
 
         #expect(sut.cellModels.count == 0)
         #expect(chatError == nil)
@@ -151,7 +146,7 @@ struct ChatViewModelTests {
 
         #expect(sut.showValidationAlert == false)
         #expect(sut.validationAlertDetails.title == "Validation error")
-        sut.askQuestion()
+        sut.askQuestion(.typed())
 
         #expect(sut.cellModels.count == 0)
         #expect(chatError == nil)
@@ -159,6 +154,82 @@ struct ChatViewModelTests {
         #expect(sut.showValidationAlert == true)
         #expect(!sut.latestQuestion.isEmpty)
         #expect(sut.showExampleQuestions == false)
+    }
+    
+    @Test
+    func askQuestion_requestInFlight_ignoresMultipleSubsequentQuestions() {
+        let mockChatService = MockChatService()
+        mockChatService._shouldHoldQuestionCompletetion = true
+        let sut = ChatViewModel(
+            chatService: mockChatService,
+            analyticsService: MockAnalyticsService(),
+            configService: MockAppConfigService(),
+            openURLAction: { _ in },
+            handleError: { _ in }
+        )
+        sut.askQuestion("First Question")
+        sut.askQuestion("Second Question")
+        sut.askQuestion("Third Question")
+        
+        #expect(mockChatService._receivedQuestions == ["First Question"])
+        #expect(sut.cellModels.filter { $0.type == .question }.count == 1)
+    }
+    
+    @Test
+    func askQuestion_answerReturned_allowNextQuestion() {
+        let mockChatService = MockChatService()
+        mockChatService._shouldHoldQuestionCompletetion = true
+        mockChatService._stubbedAnswerResults = [.success(.answeredAnswer)]
+        let sut = ChatViewModel(
+            chatService: mockChatService,
+            analyticsService: MockAnalyticsService(),
+            configService: MockAppConfigService(),
+            openURLAction: { _ in },
+            handleError: { _ in }
+        )
+        sut.askQuestion("First Question")
+        mockChatService._receivedQuestionCompletion?(.success(.pendingQuestion))
+        sut.askQuestion("Second Question")
+        
+        #expect(mockChatService._receivedQuestions == ["First Question", "Second Question"])
+    }
+    
+    @Test
+    func askQuestion_questionFailure_allowNextQuestion() {
+        let mockChatService = MockChatService()
+        mockChatService._shouldHoldQuestionCompletetion = true
+        let sut = ChatViewModel(
+            chatService: mockChatService,
+            analyticsService: MockAnalyticsService(),
+            configService: MockAppConfigService(),
+            openURLAction: { _ in },
+            handleError: { _ in }
+        )
+        sut.askQuestion("First Question")
+        mockChatService._receivedQuestionCompletion?(.failure(.apiUnavailable))
+        sut.askQuestion("Second Question")
+        
+        #expect(mockChatService._receivedQuestions == ["First Question", "Second Question"])
+    }
+    
+    @Test
+    func newChat_afterAnswerReturned_allowsExampleQuestion() {
+        let mockChatService = MockChatService()
+        mockChatService._stubbedQuestionResult = .success(.pendingQuestion)
+        mockChatService._stubbedAnswerResults = [.success(.answeredAnswer)]
+        let sut = ChatViewModel(
+            chatService: mockChatService,
+            analyticsService: MockAnalyticsService(),
+            configService: MockAppConfigService(),
+            openURLAction: { _ in },
+            handleError: { _ in }
+        )
+        sut.askQuestion("First Question")
+        sut.newChat()
+        #expect(sut.showExampleQuestions == true)
+        sut.askQuestion("Second Question")
+
+        #expect(mockChatService._receivedQuestions == ["First Question", "Second Question"])
     }
 
     @Test
