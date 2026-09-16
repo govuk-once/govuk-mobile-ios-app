@@ -194,7 +194,7 @@
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "We need your permission to send notifications and collect app usage statistics. \nYou can change this at any time in your phone settings."
+            "value" : "We need your permission to send notifications and collect app usage statistics. \n\nYou can change this at any time in your phone settings."
           }
         }
       }
