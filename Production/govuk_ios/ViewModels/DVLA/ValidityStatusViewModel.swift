@@ -56,7 +56,7 @@ struct ValidityStatusViewModel {
 /// Represents information to be displayed in a status section of the UI.
 ///
 struct StatusInformation: Equatable {
-    let title: String   // formattedStatus
+    let title: String
     let accessibilityLabel: String?
     let linkAction: (() -> Void)?
 
