@@ -31,7 +31,6 @@ import GovKitUI
                 dummyOpenURLAction(url)
             }
 
-            let statusUnknown: TaxValidityStatus = .unknown
             let url = URL(string: "https://www.gov.uk/contact-the-dvla")!
 
             let title = String(localized: .DVLA.taxStatusTitle)
@@ -39,7 +38,7 @@ import GovKitUI
 
             return ValidityStatusViewModel(
                 title: title,
-                status: statusUnknown,
+                status: TaxValidityStatus.unknown,
                 statusInformation: StatusInformation(
                     formattedStatus,
                     linkAction: { openURLAction(title, url: url) }
@@ -52,7 +51,6 @@ import GovKitUI
 
 #Preview("Tax - Taxed status") {
     let knownVM: ValidityStatusViewModel = {
-        let statusUnknown: TaxValidityStatus = .taxed
         let url = URL(string: "https://www.gov.uk/contact-the-dvla")!
 
         let title = String(localized: .DVLA.taxStatusTitle)
@@ -60,7 +58,7 @@ import GovKitUI
 
         return ValidityStatusViewModel(
             title: title,
-            status: statusUnknown,
+            status: TaxValidityStatus.taxed,
             statusInformation: StatusInformation(
                 formattedStatus
             )
@@ -72,7 +70,6 @@ import GovKitUI
 
 #Preview("ValidityStatusViews with and without links") {
     let knownVM: ValidityStatusViewModel = {
-        let statusTaxed: TaxValidityStatus = .taxed
         let url = URL(string: "https://www.gov.uk/contact-the-dvla")!
 
         let title = String(localized: .DVLA.taxStatusTitle)
@@ -80,7 +77,7 @@ import GovKitUI
 
         return ValidityStatusViewModel(
             title: title,
-            status: statusTaxed,
+            status: TaxValidityStatus.taxed,
             statusInformation: StatusInformation(
                 formattedStatus
             )
@@ -94,7 +91,6 @@ import GovKitUI
                 dummyOpenURLAction(url)
             }
 
-            let statusUnknown: TaxValidityStatus = .unknown
             let url = URL(string: "https://www.gov.uk/contact-the-dvla")!
 
             let title = String(localized: .DVLA.taxStatusTitle)
@@ -103,7 +99,7 @@ import GovKitUI
 
             return ValidityStatusViewModel(
                 title: title,
-                status: statusUnknown,
+                status: TaxValidityStatus.unknown,
                 statusInformation: StatusInformation(
                     formattedStatus,
                     linkAction: statusLinkAction
