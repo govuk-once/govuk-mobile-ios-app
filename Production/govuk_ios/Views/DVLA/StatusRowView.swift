@@ -9,15 +9,15 @@ struct StatusRowView: View {
     var body: some View {
         if let statusLinkAction = status.linkAction {
             StatusLinkButton(
-                text: status.title,
+                text: status.displayValue,
                 accessibilityLabel:
-                    status.accessibilityLabelOrTitle,
+                    status.accessibilityLabel,
                 action: statusLinkAction
             )
         } else {
-            Text(status.title)
+            Text(status.displayValue)
                 .multilineTextAlignment(.leading)
-                .accessibilityLabel(status.accessibilityLabelOrTitle)
+                .accessibilityLabel(status.accessibilityLabel)
         }
     }
 }

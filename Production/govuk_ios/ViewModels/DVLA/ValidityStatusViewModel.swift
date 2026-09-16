@@ -56,23 +56,19 @@ struct ValidityStatusViewModel {
 /// Represents information to be displayed in a status section of the UI.
 ///
 struct StatusInformation: Equatable {
-    let title: String
-    let accessibilityLabel: String?
+    private let title: AccessibleString
     let linkAction: (() -> Void)?
 
-    var accessibilityLabelOrTitle: String {
-        accessibilityLabel ?? title
-    }
+    var displayValue: String { title.displayValue }
+    var accessibilityLabel: String { title.accessibilityLabel }
 
     static func == (lhs: StatusInformation, rhs: StatusInformation) -> Bool {
             lhs.title == rhs.title &&
-            lhs.accessibilityLabel == rhs.accessibilityLabel &&
             ((lhs.linkAction == nil) == (rhs.linkAction == nil))
     }
 
     init(_ title: String, accessibilityLabel: String? = nil, linkAction: (() -> Void)? = nil) {
-        self.title = title
-        self.accessibilityLabel = accessibilityLabel
+        self.title = AccessibleString(title, accessibilityLabel: accessibilityLabel)
         self.linkAction = linkAction
     }
 }
