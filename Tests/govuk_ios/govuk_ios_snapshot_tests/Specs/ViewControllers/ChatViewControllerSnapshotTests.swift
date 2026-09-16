@@ -68,7 +68,7 @@ final class ChatViewControllerSnapshotTests: SnapshotTestCase {
             openURLAction: { _ in },
             handleError: { _ in }
         )
-        viewModel.askQuestion()
+        viewModel.askQuestion(.typed())
         // With no history loading to create cellModels, modify the array
         // directly
         let loadingModel = ChatCellViewModel.loadingQuestion
@@ -100,7 +100,7 @@ final class ChatViewControllerSnapshotTests: SnapshotTestCase {
             openURLAction: { _ in },
             handleError: { _ in }
         )
-        viewModel.askQuestion()
+        viewModel.askQuestion(.typed())
 
         let loadingModel = ChatCellViewModel.loadingQuestion
         loadingModel.isVisible = true
@@ -227,7 +227,7 @@ final class ChatViewControllerSnapshotTests: SnapshotTestCase {
             openURLAction: { _ in },
             handleError: { _ in }
         )
-        viewModel.askQuestion()
+        viewModel.askQuestion(.typed())
         // With no history loading to create cellModels, modify the array
         // directly
 

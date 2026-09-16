@@ -8,11 +8,13 @@ struct ChatActionView: View {
     @State private var warningErrorHeight: CGFloat = 0
     @Binding var showClearChatAlert: Bool
     @Binding var textAreaFocusedAnimationTrigger: Bool
+    private let askQuestion: (AskQuestionRequest) -> Void
     private var animationDuration = 0.3
     private var maxTextEditorFrameHeight: CGFloat
     private var actionDimensions: CGSize = CGSize(width: 36, height: 36)
 
     init(viewModel: ChatViewModel,
+         askQuestion: @escaping (AskQuestionRequest) -> Void,
          textAreaFocused: FocusState<Bool>.Binding,
          showClearChatAlert: Binding<Bool>,
          textAreaFocusedAnimationTrigger: Binding<Bool>,
@@ -21,6 +23,7 @@ struct ChatActionView: View {
         _textAreaFocused = textAreaFocused
         _showClearChatAlert = showClearChatAlert
         _textAreaFocusedAnimationTrigger = textAreaFocusedAnimationTrigger
+        self.askQuestion = askQuestion
         self.maxTextEditorFrameHeight = maxTextEditorFrameHeight
     }
 
@@ -202,23 +205,26 @@ struct ChatActionView: View {
         HStack(alignment: .center) {
             Spacer()
 
-            Button(action: askQuestion) {
-                ZStack {
-                    Circle()
-                        .fill(Color(UIColor.govUK.text.buttonSecondary))
-                        .frame(
-                            width: actionDimensions.width,
-                            height: actionDimensions.height
-                        )
+            Button(
+                action: { askQuestion(.typed()) },
+                label: {
+                    ZStack {
+                        Circle()
+                            .fill(Color(UIColor.govUK.text.buttonSecondary))
+                            .frame(
+                                width: actionDimensions.width,
+                                height: actionDimensions.height
+                            )
 
-                    Image(systemName: "arrow.up")
-                        .font(.system(size: 16, weight: .semibold))
-                        .foregroundColor(Color(UIColor.govUK.text.buttonPrimary))
+                        Image(systemName: "arrow.up")
+                            .font(.system(size: 16, weight: .semibold))
+                            .foregroundColor(Color(UIColor.govUK.text.buttonPrimary))
+                    }
+                    .frame(width: 44, height: 44, alignment: .center)
+                    .contentShape(Circle())
+                    .opacity(viewModel.shouldDisableSend ? 0.4 : 1)
                 }
-                .frame(width: 44, height: 44, alignment: .center)
-                .contentShape(Circle())
-                .opacity(viewModel.shouldDisableSend ? 0.4 : 1)
-            }
+            )
             .buttonStyle(
                 ExpandingButtonStyle(
                     baseSize: actionDimensions.width,
@@ -236,12 +242,6 @@ struct ChatActionView: View {
             .opacity(shouldShowSendButton ? 1 : 0)
             .conditionalAnimation(shouldShowSendButton ? .easeInOut(duration: 0.3) : .none,
                                   value: shouldShowSendButton)
-        }
-    }
-
-    private func askQuestion() {
-        viewModel.askQuestion { success in
-            textAreaFocused = !success
         }
     }
 
