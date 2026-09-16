@@ -6,11 +6,13 @@ struct StatusInformationTests {
     // MARK: - Tests for accessibilityLabelOrTitle
 
     @Test("Returns accessibility label when present, otherwise falls back to title")
-    func testAccessibilityLabelOrTitle() {
+    func accessibilityLabelOrTitle_onlyTitle_returnsTitle() {
         // Given a status with only a title
         let statusWithoutLabel = StatusInformation("Loading...")
         #expect(statusWithoutLabel.accessibilityLabelOrTitle == "Loading...")
+    }
 
+    func accessibilityLabelOrTitle_hasAccessibilityLabel_returnsAccessibilityLabel() {
         // Given a status with both a title and an accessibility label
         let statusWithLabel = StatusInformation("Loading...", accessibilityLabel: "Content is currently loading")
         #expect(statusWithLabel.accessibilityLabelOrTitle == "Content is currently loading")
@@ -19,7 +21,7 @@ struct StatusInformationTests {
     // MARK: - Tests for Equatable (==)
 
     @Test("Identical properties are equal")
-    func testEqualityWithIdenticalValues() {
+    func equatable_identicalValues_returnsTrue() {
         let statusA = StatusInformation("Online", accessibilityLabel: "User is online")
         let statusB = StatusInformation("Online", accessibilityLabel: "User is online")
 
@@ -27,7 +29,7 @@ struct StatusInformationTests {
     }
 
     @Test("Different titles result in inequality")
-    func testInequalityByTitle() {
+    func equatable_differentTitles_returnsFalse() {
         let statusA = StatusInformation("Online")
         let statusB = StatusInformation("Offline")
 
@@ -35,7 +37,7 @@ struct StatusInformationTests {
     }
 
     @Test("Different accessibility labels result in inequality")
-    func testInequalityByAccessibilityLabel() {
+    func equatable_differentAccessibilityLabels_returnsFalse() {
         let statusA = StatusInformation("Active", accessibilityLabel: "Label A")
         let statusB = StatusInformation("Active", accessibilityLabel: "Label B")
 
@@ -43,7 +45,7 @@ struct StatusInformationTests {
     }
 
     @Test("Link action presence determines equality, not closure contents")
-    func testEqualityByLinkActionPresence() {
+    func equatable_linkActionsArePresent_returnsTrue() {
         let action1: () -> Void = {}
         let action2: () -> Void = {}
 
