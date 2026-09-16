@@ -27,7 +27,7 @@ import GovKitUI
     let notKnownVM: ValidityStatusViewModel = {
             let dummyOpenURLAction: (URL) -> Void = { url in print("click url: \(url)") }
 
-            func openURLAction(text: String, url: URL) {
+            func openURLAction(_ text: String, url: URL) {
                 dummyOpenURLAction(url)
             }
 
@@ -42,7 +42,7 @@ import GovKitUI
                 status: statusUnknown,
                 statusInformation: StatusInformation(
                     formattedStatus,
-                    linkAction: { openURLAction(text: title, url: url) }
+                    linkAction: { openURLAction(title, url: url) }
                 ),
             )
         }()
