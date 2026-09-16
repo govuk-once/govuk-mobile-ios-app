@@ -216,7 +216,7 @@ struct DrivingLicenceSummaryViewModelTests {
         #expect(mockStatusViewModelBuilder._receivedValidToDate == validToDate)
         #expect(sut.licenceStatusViewModel.title == nil)
         #expect(mockStatusViewModelBuilder._makeViewModelCallCount == 1)
-        #expect(sut.licenceStatusViewModel.statusInformation?.title == "Mock licence status")
+        #expect(sut.licenceStatusViewModel.statusInformation?.displayValue == "Mock licence status")
     }
 
     @Test
