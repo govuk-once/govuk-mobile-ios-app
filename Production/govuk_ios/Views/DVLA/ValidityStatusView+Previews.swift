@@ -3,8 +3,7 @@
 import SwiftUI
 import GovKitUI
 
-
-#Preview {
+#Preview("No title | With a button") {
     let statusInformation = StatusInformation(
         "Expired 24 April 2026",
     )
@@ -15,7 +14,7 @@ import GovKitUI
         iconName: "exclamationmark.triangle.fill",
         footer: "Your licence status may not update immediately when you renew it",
         buttonTitle: "Renew licence",
-        buttonAction: { }
+        buttonAction: { print("button tapped") }
     )
     VStack(spacing: 0) {
         Color(uiColor: .govUK.fills.surfaceBackground)
@@ -24,7 +23,7 @@ import GovKitUI
     }
 }
 
-#Preview("Not Known status") {
+#Preview("Tax - Not Known status") {
     let notKnownVM: ValidityStatusViewModel = {
             let dummyOpenURLAction: (URL) -> Void = { url in print("click url: \(url)") }
 
@@ -51,7 +50,7 @@ import GovKitUI
     ValidityStatusView(viewModel: notKnownVM)
 }
 
-#Preview("A Known status") {
+#Preview("Tax - Taxed status") {
     let knownVM: ValidityStatusViewModel = {
         let statusUnknown: TaxValidityStatus = .taxed
         let url = URL(string: "https://www.gov.uk/contact-the-dvla")!
@@ -71,7 +70,7 @@ import GovKitUI
     ValidityStatusView(viewModel: knownVM)
 }
 
-#Preview("Both") {
+#Preview("ValidityStatusViews with and without links") {
     let knownVM: ValidityStatusViewModel = {
         let statusTaxed: TaxValidityStatus = .taxed
         let url = URL(string: "https://www.gov.uk/contact-the-dvla")!
@@ -174,57 +173,13 @@ import GovKitUI
     }
 }
 
-
-#Preview("formattedStatus Lab") {
-    let formattedStatus = String(localized: .DVLA.untaxed)
+#Preview("Empty StatusInformation") {
     let buttonTitle = String(localized: .DVLA.renewTaxButtonTitle)
     let defaultDvlaTaxVehicleUrl: URL = URL(
         string: "https://www.gov.uk/vehicle-tax"
     )!
     let buttonURL =  defaultDvlaTaxVehicleUrl
-
-    let statusInformation = StatusInformation(formattedStatus)
-
-    let viewModel = ValidityStatusViewModel(
-        title: String(localized: .DVLA.taxStatusTitle),
-        statusInformation: statusInformation,
-        iconName: "exclamationmark.triangle.fill",
-        footer: String(localized: .DVLA.renewTaxExpiringFooter),
-        buttonTitle: buttonTitle,
-        buttonAction: { print(buttonURL)}
-    )
-    ValidityStatusView(viewModel: viewModel)
-}
-
-#Preview("formattedStatus 2 Lab") {
-    let formattedStatus = String(localized: .DVLA.untaxed)
-    let buttonTitle = String(localized: .DVLA.renewTaxButtonTitle)
-    let defaultDvlaTaxVehicleUrl: URL = URL(
-        string: "https://www.gov.uk/vehicle-tax"
-    )!
-    let buttonURL =  defaultDvlaTaxVehicleUrl
-
-    let statusInformation = StatusInformation(formattedStatus)
-
-    let viewModel = ValidityStatusViewModel(
-        title: String(localized: .DVLA.taxStatusTitle),
-        statusInformation: statusInformation,
-        iconName: "exclamationmark.triangle.fill",
-        footer: String(localized: .DVLA.renewTaxExpiringFooter),
-        buttonTitle: buttonTitle,
-        buttonAction: { print(buttonURL)}
-    )
-    ValidityStatusView(viewModel: viewModel)
-}
-
-#Preview("Empty formattedStatus") {
-    let buttonTitle = String(localized: .DVLA.renewTaxButtonTitle)
-    let defaultDvlaTaxVehicleUrl: URL = URL(
-        string: "https://www.gov.uk/vehicle-tax"
-    )!
-    let buttonURL =  defaultDvlaTaxVehicleUrl
-    let formattedStatus = String(localized: .DVLA.untaxed)
-    let statusInformation = StatusInformation(formattedStatus)
+    let statusInformation = StatusInformation("")
 
     let viewModel = ValidityStatusViewModel(
         title: String(localized: .DVLA.taxStatusTitle),
