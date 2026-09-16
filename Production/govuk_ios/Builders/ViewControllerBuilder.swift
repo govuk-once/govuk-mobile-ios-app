@@ -770,23 +770,6 @@ class ViewControllerBuilder {
         return viewController
     }
 
-    func dvlaAccount(
-        dvlaService: DVLAServiceInterface,
-        viewType: DVLAAccountViewType
-    ) -> UIViewController {
-        let viewModel = DVLAAccountViewModel(
-            dvlaService: dvlaService,
-            viewType: viewType
-        )
-        let view = DVLAAccountView(
-            viewModel: viewModel
-        )
-        let viewController = HostingViewController(
-            rootView: view
-        )
-        return viewController
-    }
-
     func vehicleDetail(
         analyticsService: AnalyticsServiceInterface,
         dvlaService: DVLAServiceInterface,

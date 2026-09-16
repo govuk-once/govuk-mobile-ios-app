@@ -75,9 +75,9 @@ struct DVLAServiceTests {
     func fetchVehicle_success_returnsExpectedResult() async throws {
         mockServiceClient._stubbedFetchVehicleResult = .success(.arrange)
         let result = await sut.fetchVehicle(registration: "AA19AMP")
-        let vehicle = try #require(try? result.get())
+        let vehicle = try #require(try? result.get().vehicle)
         #expect(vehicle.make == "FORD")
-        #expect(vehicle.fuelType == "DIESEL")
+        #expect(vehicle.fuelType == .diesel)
     }
 
     @Test
