@@ -167,9 +167,9 @@ struct ChatViewModelTests {
             openURLAction: { _ in },
             handleError: { _ in }
         )
-        sut.askQuestion("First Question")
-        sut.askQuestion("Second Question")
-        sut.askQuestion("Third Question")
+        sut.askQuestion(.suggestion(question: "First Question"))
+        sut.askQuestion(.suggestion(question: "Second Question"))
+        sut.askQuestion(.suggestion(question: "Third Question"))
         
         #expect(mockChatService._receivedQuestions == ["First Question"])
         #expect(sut.cellModels.filter { $0.type == .question }.count == 1)
@@ -187,9 +187,9 @@ struct ChatViewModelTests {
             openURLAction: { _ in },
             handleError: { _ in }
         )
-        sut.askQuestion("First Question")
+        sut.askQuestion(.suggestion(question: "First Question"))
         mockChatService._receivedQuestionCompletion?(.success(.pendingQuestion))
-        sut.askQuestion("Second Question")
+        sut.askQuestion(.suggestion(question: "Second Question"))
         
         #expect(mockChatService._receivedQuestions == ["First Question", "Second Question"])
     }
@@ -205,9 +205,9 @@ struct ChatViewModelTests {
             openURLAction: { _ in },
             handleError: { _ in }
         )
-        sut.askQuestion("First Question")
+        sut.askQuestion(.suggestion(question: "First Question"))
         mockChatService._receivedQuestionCompletion?(.failure(.apiUnavailable))
-        sut.askQuestion("Second Question")
+        sut.askQuestion(.suggestion(question: "Second Question"))
         
         #expect(mockChatService._receivedQuestions == ["First Question", "Second Question"])
     }
@@ -224,10 +224,10 @@ struct ChatViewModelTests {
             openURLAction: { _ in },
             handleError: { _ in }
         )
-        sut.askQuestion("First Question")
+        sut.askQuestion(.suggestion(question: "First Question"))
         sut.newChat()
         #expect(sut.showExampleQuestions == true)
-        sut.askQuestion("Second Question")
+        sut.askQuestion(.suggestion(question: "Second Question"))
 
         #expect(mockChatService._receivedQuestions == ["First Question", "Second Question"])
     }
