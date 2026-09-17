@@ -50,4 +50,31 @@ class MockTravelService: TravelServiceInterface {
     func invalidateCache() {
         _invalidateCacheCalled = true
     }
+
+    var _subscribeToGroupsCalled = false
+    var _receivedSubscribeSlug: String?
+    var _receivedSubscribeCompletion: SubscriptionResultCompletion?
+    var _stubbedSubscribeResult: SubscriptionResult?
+
+    func subscribeToGroups(slug: String, completion: @escaping SubscriptionResultCompletion) {
+        _subscribeToGroupsCalled = true
+        _receivedSubscribeSlug = slug
+        _receivedSubscribeCompletion = completion
+
+        if let result = _stubbedSubscribeResult {
+            completion(result)
+        } else {
+            completion(.success(()))
+        }
+    }
+
+    var _invalidateGroupsCalled = false
+    func invalidateGroups() {
+        _invalidateGroupsCalled = true
+    }
+
+    var _invalidateCountriesCalled = false
+    func invalidateCountries() {
+        _invalidateCountriesCalled = true
+    }
 }

@@ -124,6 +124,66 @@ struct TravelServiceClientTests {
         }
         #expect(result.getError() == .decodingError)
     }
+
+    @Test
+    func subscribeToGroups_sendsExpectedRequest() {
+        sut.subscribeToGroups(slug: "test-slug") { _ in }
+        #expect(mockAPI._receivedSendRequest?.urlPath == "/app/groups/v1/groups")
+        #expect(mockAPI._receivedSendRequest?.method == .post)
+    }
+
+    @Test
+    func subscribeToGroups_success_returnsSuccessResult() async {
+        mockAPI._stubbedSendResponse = .success(Data())
+        let result = await withCheckedContinuation { continuation in
+            sut.subscribeToGroups(slug: "test-slug") { result in
+                continuation.resume(returning: result)
+            }
+        }
+        #expect(result.getError() == nil)
+        do {
+            try result.get()
+        } catch {
+            #expect(Bool(false), "Expected success but got error: \(error)")
+        }
+    }
+
+    @Test
+    func subscribeToGroups_networkUnavailable_mapsExpectedError() async {
+        mockAPI._stubbedSendResponse = .failure(
+            NSError(domain: "TestError", code: NSURLErrorNotConnectedToInternet)
+        )
+        let result = await withCheckedContinuation { continuation in
+            sut.subscribeToGroups(slug: "test-slug") { result in
+                continuation.resume(returning: result)
+            }
+        }
+        #expect(result.getError() == .networkUnavailable)
+    }
+
+    @Test
+    func subscribeToGroups_authenticationError_preservesTypedError() async {
+        mockAPI._stubbedSendResponse = .failure(TravelError.authenticationError)
+        let result = await withCheckedContinuation { continuation in
+            sut.subscribeToGroups(slug: "test-slug") { result in
+                continuation.resume(returning: result)
+            }
+        }
+        #expect(result.getError() == .authenticationError)
+    }
+
+    @Test
+    func subscribeToGroups_genericError_mapsToApiUnavailable() async {
+        mockAPI._stubbedSendResponse = .failure(
+            NSError(domain: "TestError", code: 0)
+        )
+        let result = await withCheckedContinuation { continuation in
+            sut.subscribeToGroups(slug: "test-slug") { result in
+                continuation.resume(returning: result)
+            }
+        }
+        #expect(result.getError() == .apiUnavailable)
+    }
 }
 
 private extension TravelServiceClientTests {

@@ -7,6 +7,7 @@ final class CountryListCoordinator: BaseCoordinator {
     private let viewControllerBuilder: ViewControllerBuilder
     private let analyticsService: AnalyticsServiceInterface
     private let travelService: TravelServiceInterface
+    private let notificationService: NotificationServiceInterface
     private let userService: UserServiceInterface
     private let completion: (Bool) -> Void
 
@@ -15,12 +16,14 @@ final class CountryListCoordinator: BaseCoordinator {
          viewControllerBuilder: ViewControllerBuilder,
          analyticsService: AnalyticsServiceInterface,
          travelService: TravelServiceInterface,
+         notificationService: NotificationServiceInterface,
          userService: UserServiceInterface,
          completion: @escaping (Bool) -> Void) {
         self.coordinatorBuilder = coordinatorBuilder
         self.viewControllerBuilder = viewControllerBuilder
         self.analyticsService = analyticsService
         self.travelService = travelService
+        self.notificationService = notificationService
         self.userService = userService
         self.completion = completion
         super.init(navigationController: navigationController)
@@ -34,6 +37,7 @@ final class CountryListCoordinator: BaseCoordinator {
         let viewController = viewControllerBuilder.countryList(
             travelService: travelService,
             analyticsService: analyticsService,
+            notificationService: notificationService,
             dismissAction: dismissModal
         )
         set(viewController)

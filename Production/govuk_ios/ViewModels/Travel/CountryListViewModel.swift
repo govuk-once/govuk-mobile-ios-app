@@ -17,22 +17,28 @@ class CountryListViewModel: ObservableObject {
         }
     }
     @Published private(set) var filteredSections = [GroupedListSection]()
+    @Published var selectedCountry: Country?
+    @Published var showTravelAlertsPermission = false
 
     private var allCountries: [Country] = []
     private let travelService: TravelServiceInterface
     let analyticsService: AnalyticsServiceInterface
-    private let countrySelectedAction: (Country) -> Void
+    private let notificationService: NotificationServiceInterface
     let dismissAction: () -> Void
+
+    var hasNotificationConsent: Bool {
+        notificationService.hasGivenConsent
+    }
 
     init(
         travelService: TravelServiceInterface,
         analyticsService: AnalyticsServiceInterface,
-        countrySelectedAction: @escaping (Country) -> Void,
+        notificationService: NotificationServiceInterface,
         dismissAction: @escaping () -> Void
     ) {
         self.travelService = travelService
         self.analyticsService = analyticsService
-        self.countrySelectedAction = countrySelectedAction
+        self.notificationService = notificationService
         self.dismissAction = dismissAction
     }
 
@@ -43,6 +49,34 @@ class CountryListViewModel: ObservableObject {
     func trackSearchInput(text: String) {
         let searchEvent = AppEvent.searchTerm(term: text, type: .typed, section: "country_search")
         analyticsService.track(event: searchEvent)
+    }
+
+    func handleCountrySelection(_ country: Country, notificationOptIn: Bool) {
+        // Given global notifications are off and user is attempting to optIn, navigate to the consent screen
+        if !notificationService.hasGivenConsent && notificationOptIn {
+            showTravelAlertsPermission = true
+        } else {
+            proceedWithCountrySelection(country)
+        }
+    }
+
+    func proceedWithCountrySelection(_ country: Country) {
+        subscribeToCountryAlerts(country)
+    }
+
+    private func subscribeToCountryAlerts(_ country: Country) {
+        travelService.subscribeToGroups(
+            slug: country.slug,
+            completion: { [weak self] result in
+                switch result {
+                case .success:
+                    self?.dismissAction()
+                case .failure(let error):
+                    // Log error for analytics/debugging
+                    print("Failed to subscribe to country alerts: \(error)")
+                }
+            }
+        )
     }
 
     @MainActor
@@ -81,8 +115,8 @@ class CountryListViewModel: ObservableObject {
             SelectableRow(
                 id: country.slug,
                 title: country.name,
-                action: { [countrySelectedAction] in
-                    countrySelectedAction(country)
+                action: { [weak self] in
+                    self?.selectedCountry = country
                 }
             )
         }

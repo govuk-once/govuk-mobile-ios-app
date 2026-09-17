@@ -36,7 +36,7 @@ struct TravelRepositoryTests {
 
         repository.clear()
 
-        #expect(repository.fetchGroups() == [])
+        #expect(repository.fetchGroups() == nil)
     }
 
     @Test
@@ -88,7 +88,7 @@ struct TravelRepositoryTests {
 
         repository.clear()
 
-        #expect(repository.fetchCountries() == [])
+        #expect(repository.fetchCountries() == nil)
     }
 
     @Test

@@ -491,6 +491,7 @@ struct ViewControllerBuilderTests {
         let result = subject.countryList(
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService(),
             dismissAction: {
                 /* No-op */
             })
