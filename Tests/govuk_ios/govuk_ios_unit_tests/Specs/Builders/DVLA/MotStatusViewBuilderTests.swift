@@ -132,4 +132,33 @@ struct MOTStatusViewModelBuilderTests {
         #expect(result.status as? MOTValidityStatus == .expired)
     }
 
+    @MainActor
+    @Test
+    func makeViewModel_noDetailsHeldByDVLA_returnsExpectedResultAndQueryParameters() {
+        var openedUrl: URL?
+        let vehicle = MotStatusVehicle(
+            motStatus: "No details held by DVLA",
+            motExpiryDate: nil,
+            registrationNumber: "LG04 NBF"
+        )
+        let sut = MotStatusViewModelBuilder(
+            urls: nil,
+            analyticsService: MockAnalyticsService(),
+            openURLAction: { url in openedUrl = url }
+        )
+        let result = sut.makeViewModel(vehicle: vehicle)
+
+        #expect(result.title == String(localized: .DVLA.motStatusTitle))
+        #expect(result.status as? MOTValidityStatus == .noDetailsHeldByDVLA)
+        #expect(result.statusInformation?.displayValue == String(localized: .DVLA.motSeeStatusOnTheWebsite))
+
+        result.statusInformation?.linkAction?()
+
+        var expectedComponents = URLComponents(string: Constants.API.defaultDvlaNoDetailsBaseUrlString)!
+        expectedComponents.queryItems = [
+            URLQueryItem(name: "registration", value: "LG04 NBF"),
+            URLQueryItem(name: "checkRecalls", value: "true")
+        ]
+        #expect(openedUrl == expectedComponents.url)
+    }
 }
