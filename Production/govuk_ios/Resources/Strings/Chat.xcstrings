@@ -309,24 +309,13 @@
         }
       }
     },
-    "onboardingConsentFirstListItemText" : {
+    "onboardingConsentDescription" : {
       "extractionState" : "manual",
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "GOV.UK Chat uses AI and can sometimes make mistakes."
-          }
-        }
-      }
-    },
-    "onboardingConsentSecondListItemText" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "It’s simple to double-check information. Use the links provided with each answer."
+            "value" : "GOV.UK Chat uses AI and can sometimes make mistakes.\n\nIt’s simple to double-check information. Use the links provided with each answer."
           }
         }
       }
