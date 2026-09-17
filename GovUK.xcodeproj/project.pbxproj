@@ -448,6 +448,8 @@
 		8579EBDA30583C92005D77D8 /* SubscriptionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8579EBD930583C8C005D77D8 /* SubscriptionRequest.swift */; };
 		857F30DA303311FC0080E209 /* TravelService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857F30D9303311FC0080E209 /* TravelService.swift */; };
 		85D6F0473035F10900A2F0CB /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D6F0463035F10900A2F0CB /* Country.swift */; };
+		85D6F088305A8750006123B7 /* EditCountriesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D6F087305A8750006123B7 /* EditCountriesViewModel.swift */; };
+		85D6F08A305A8AA1006123B7 /* EditCountriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D6F089305A8AA1006123B7 /* EditCountriesView.swift */; };
 		85DD7C68302CA901007F5170 /* TravelAlertsWidgetCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DD7C67302CA901007F5170 /* TravelAlertsWidgetCoordinator.swift */; };
 		85DD7C6E302CC38E007F5170 /* IconActionCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DD7C6D302CC38E007F5170 /* IconActionCardView.swift */; };
 		945E1F052F714E920064CA22 /* SearchDeepLinkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945E1F042F714E830064CA22 /* SearchDeepLinkRoute.swift */; };
@@ -1060,6 +1062,8 @@
 		8579EBD930583C8C005D77D8 /* SubscriptionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionRequest.swift; sourceTree = "<group>"; };
 		857F30D9303311FC0080E209 /* TravelService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelService.swift; sourceTree = "<group>"; };
 		85D6F0463035F10900A2F0CB /* Country.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
+		85D6F087305A8750006123B7 /* EditCountriesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCountriesViewModel.swift; sourceTree = "<group>"; };
+		85D6F089305A8AA1006123B7 /* EditCountriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCountriesView.swift; sourceTree = "<group>"; };
 		85DD7C67302CA901007F5170 /* TravelAlertsWidgetCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelAlertsWidgetCoordinator.swift; sourceTree = "<group>"; };
 		85DD7C6D302CC38E007F5170 /* IconActionCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconActionCardView.swift; sourceTree = "<group>"; };
 		945E1F042F714E830064CA22 /* SearchDeepLinkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDeepLinkRoute.swift; sourceTree = "<group>"; };
@@ -2724,6 +2728,7 @@
 				85625914304F0FD100FBB5EF /* TravelAlertsPermissionView.swift */,
 				85611CD0302F4EFD008EB3B1 /* TravelAlertsWidgetView.swift */,
 				855B8BFC302E07C6001D1A9C /* CountryListView.swift */,
+				85D6F089305A8AA1006123B7 /* EditCountriesView.swift */,
 			);
 			path = Travel;
 			sourceTree = "<group>";
@@ -2731,8 +2736,9 @@
 		855B8C00302E15B2001D1A9C /* Travel */ = {
 			isa = PBXGroup;
 			children = (
-				85625912304F0F8B00FBB5EF /* TravelAlertsPermissionViewModel.swift */,
 				85611CD2302F6217008EB3B1 /* CountryListViewModel.swift */,
+				85D6F087305A8750006123B7 /* EditCountriesViewModel.swift */,
+				85625912304F0F8B00FBB5EF /* TravelAlertsPermissionViewModel.swift */,
 				85611CCE302F4CE6008EB3B1 /* TravelAlertsWidgetViewModel.swift */,
 			);
 			path = Travel;
@@ -3655,6 +3661,7 @@
 				81D2583E2FC6044A00A4F988 /* GOVUKFontBuilder+DVLA.swift in Sources */,
 				811A43272FB23AD6006BC782 /* ShareCode.swift in Sources */,
 				D028CD0E2CBFEA4E00742620 /* TopicDetailViewModel.swift in Sources */,
+				85D6F088305A8750006123B7 /* EditCountriesViewModel.swift in Sources */,
 				D052CA362E0B08CF0048F98A /* ChatCellViewModel.swift in Sources */,
 				4E5ED2012C6E06FB00750BDA /* AppConfigService.swift in Sources */,
 				81D3E36D2FE3EDF0006049CC /* LicenceStatusViewModelBuilder.swift in Sources */,
@@ -3671,6 +3678,7 @@
 				811229D52FFBC50300278D46 /* InlineActionErrorView.swift in Sources */,
 				164091FE2DA41C1000E3BE99 /* AuthenticationServiceClient.swift in Sources */,
 				813610182FFFDA8F0011D851 /* DrivingRecordView.swift in Sources */,
+				85D6F08A305A8AA1006123B7 /* EditCountriesView.swift in Sources */,
 				812EFD992FEC34F400054F3A /* ExpiryProgressViewModel.swift in Sources */,
 				85DD7C68302CA901007F5170 /* TravelAlertsWidgetCoordinator.swift in Sources */,
 				D04191862CA6A59D0034722A /* TopicsServiceClient.swift in Sources */,
@@ -4358,7 +4366,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/govuk-once/govuk-mobile-ios-gov-kit.git";
 			requirement = {
-				branch = main;
+				branch = feature/addIconToSelectableRow;
 				kind = branch;
 			};
 		};
