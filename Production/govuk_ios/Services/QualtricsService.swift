@@ -182,6 +182,12 @@ actor QualtricsService: QualtricsServiceInterface {
             qualtrics.setString(string: value, for: key)
         }
 
+        DispatchQueue.main.async {
+            self.qualtrics.setString(
+                string: self.isDarkMode ? "dark" : "light",
+                for: "app_theme"
+            )
+        }
         qualtrics.setString(
             string: firebaseIDsService.appInstanceID,
             for: "fb_user_pseudo_id"
@@ -203,5 +209,10 @@ actor QualtricsService: QualtricsServiceInterface {
                 ]
             )
         )
+    }
+    
+    @MainActor
+    private var isDarkMode: Bool {
+        surveyController?.traitCollection.userInterfaceStyle == .dark
     }
 }
