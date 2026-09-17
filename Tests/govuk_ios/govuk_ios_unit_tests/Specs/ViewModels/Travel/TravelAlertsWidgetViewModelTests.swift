@@ -1,5 +1,7 @@
 import Foundation
 import Testing
+import Combine
+import XCTest
 
 @testable import govuk_ios
 
@@ -27,7 +29,7 @@ struct TravelAlertsWidgetViewModelTests {
     }
 
     @Test
-    func viewDidAppear_whenFetchSucceeds_setsLoadedState() async {
+    func viewDidAppear_whenFetchSucceeds_setsLoadedState() async throws {
         let mockTravelService = MockTravelService()
         mockTravelService._stubbedGetGroupsResult = .success([
             TravelGroup(namespace: "travel-advice", group: "france", subgroup: "travel-subgroup")
@@ -46,20 +48,17 @@ struct TravelAlertsWidgetViewModelTests {
         )
 
         await sut.viewDidAppear()
-        // Wait for all async tasks to complete
-        try? await Task.sleep(nanoseconds: 100_000_000) // 0.1 seconds
+        try await waitForViewState(of: sut) { state in
+            if case .loaded = state { return true }
+            return false
+        }
 
         #expect(mockTravelService._getGroupsCalled)
         #expect(mockTravelService._getCountriesCalled)
-        if case .loaded = sut.viewState {
-            // expected
-        } else {
-            Issue.record("Expected state to be .loaded after successful fetch, but got \(sut.viewState)")
-        }
     }
 
     @Test
-    func viewDidAppear_whenFetchFails_setsErrorState() async {
+    func viewDidAppear_whenFetchFails_setsErrorState() async throws {
         let mockTravelService = MockTravelService()
         mockTravelService._stubbedGetGroupsResult = .failure(.apiUnavailable)
         let mockAnalyticsService = MockAnalyticsService()
@@ -73,15 +72,12 @@ struct TravelAlertsWidgetViewModelTests {
         )
 
         await sut.viewDidAppear()
-        // Wait for all async tasks to complete
-        try? await Task.sleep(nanoseconds: 100_000_000) // 0.1 seconds
+        try await waitForViewState(of: sut) { state in
+            if case .error = state { return true }
+            return false
+        }
 
         #expect(mockTravelService._getGroupsCalled)
-        if case .error = sut.viewState {
-            // expected
-        } else {
-            Issue.record("Expected state to be .error after failed fetch")
-        }
     }
 
     @Test
@@ -146,7 +142,7 @@ struct TravelAlertsWidgetViewModelTests {
     }
 
     @Test
-    func viewDidAppear_whenGroupsAreEmpty_setsEmptyState() async {
+    func viewDidAppear_whenGroupsAreEmpty_setsEmptyState() async throws {
         let mockTravelService = MockTravelService()
         mockTravelService._stubbedGetGroupsResult = .success([])
         let mockAnalyticsService = MockAnalyticsService()
@@ -160,19 +156,16 @@ struct TravelAlertsWidgetViewModelTests {
         )
 
         await sut.viewDidAppear()
-        // Wait for all async tasks to complete
-        try? await Task.sleep(nanoseconds: 100_000_000) // 0.1 seconds
+        try await waitForViewState(of: sut) { state in
+            if case .empty = state { return true }
+            return false
+        }
 
         #expect(mockTravelService._getGroupsCalled)
-        if case .empty = sut.viewState {
-            // expected
-        } else {
-            Issue.record("Expected state to be .empty when groups are empty")
-        }
     }
 
     @Test
-    func viewDidAppear_whenCountriesFetchFails_setsLoadedWithFilteredRows() async {
+    func viewDidAppear_whenCountriesFetchFails_setsEmptyState() async throws {
         let mockTravelService = MockTravelService()
         let testGroups = [
             TravelGroup(namespace: "travel-advice", group: "france", subgroup: "travel-subgroup")
@@ -190,20 +183,16 @@ struct TravelAlertsWidgetViewModelTests {
         )
 
         await sut.viewDidAppear()
-        // Wait for all async tasks to complete
-        try? await Task.sleep(nanoseconds: 100_000_000) // 0.1 seconds
+        try await waitForViewState(of: sut) { state in
+            if case .empty = state { return true }
+            return false
+        }
 
         #expect(mockTravelService._getCountriesCalled)
-        // When countries fetch fails, no rows can be built (empty countries array), so state is .empty
-        if case .empty = sut.viewState {
-            // expected - countries failed, so no rows can be displayed
-        } else {
-            Issue.record("Expected state to be .empty when countries fetch fails and no rows can be built")
-        }
     }
 
     @Test
-    func buildSections_createsCorrectSectionCount() async {
+    func buildSections_createsCorrectSectionCount() async throws {
         let mockTravelService = MockTravelService()
         let testGroups = [
             TravelGroup(namespace: "travel-advice", group: "france", subgroup: "travel-subgroup"),
@@ -226,13 +215,11 @@ struct TravelAlertsWidgetViewModelTests {
         )
 
         await sut.viewDidAppear()
-        // Wait for all async tasks to complete
-        try? await Task.sleep(nanoseconds: 100_000_000) // 0.1 seconds
-
-        if case .loaded(let sections) = sut.viewState {
-            #expect(sections.count == 1)
-        } else {
-            Issue.record("Expected state to be .loaded with exactly one section")
+        try await waitForViewState(of: sut) { state in
+            if case .loaded(let sections) = state {
+                return sections.count == 1
+            }
+            return false
         }
     }
 
@@ -286,5 +273,15 @@ struct TravelAlertsWidgetViewModelTests {
         #expect(sut.isShowingList == false)
         sut.openCountryList()
         #expect(sut.isShowingList == true)
+    }
+
+    private func waitForViewState(
+        of viewModel: TravelAlertsWidgetViewModel,
+        matching predicate: @escaping (TravelAlertsWidgetViewModel.ViewState) -> Bool,
+        timeout: TimeInterval = 2.0
+    ) async throws {
+        for await state in viewModel.$viewState.dropFirst().values {
+            if predicate(state) { return }
+        }
     }
 }

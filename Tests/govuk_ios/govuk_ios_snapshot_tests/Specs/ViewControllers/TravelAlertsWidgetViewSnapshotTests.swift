@@ -174,7 +174,7 @@ final class TravelAlertsWidgetViewSnapshotTests: SnapshotTestCase {
 
     private func makeViewController(viewModel: TravelAlertsWidgetViewModel) -> UIViewController {
         let view = TravelAlertsWidgetView(viewModel: viewModel)
-            .frame(height: 90)
+            .frame(maxHeight: 230)
         let viewController = HostingViewController(rootView: view)
         viewController.view.backgroundColor = .govUK.fills.surfaceBackground
         return viewController
