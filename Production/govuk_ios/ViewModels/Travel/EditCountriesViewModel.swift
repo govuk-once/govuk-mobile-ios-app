@@ -16,6 +16,16 @@ class EditCountriesViewModel: ObservableObject {
     private let travelService: TravelServiceInterface
     let analyticsService: AnalyticsServiceInterface
 
+    let title = String(
+        localized: .Travel.editCountriesTitle
+    )
+    let description = String(
+        localized: .Travel.editCountriesDescription
+    )
+    let followAnotherTitle = String(
+        localized: .Travel.editCountriesFollowAnother
+    )
+
     init(
         travelService: TravelServiceInterface,
         analyticsService: AnalyticsServiceInterface,
@@ -48,6 +58,7 @@ class EditCountriesViewModel: ObservableObject {
                         Task { @MainActor in
                             let countries = (try? countriesResult.get()) ?? []
                             self?.buildRows(from: groups, countries: countries)
+                            self?.buildFooterRow()
                         }
                     }
                 case .failure:
@@ -75,20 +86,19 @@ class EditCountriesViewModel: ObservableObject {
             )
         }
 
-        if rows.isEmpty {
-
-        }
         countriesSection = [GroupedListSection(
             heading: nil,
             rows: rows,
             footer: nil
         )]
+
+        self.viewState = .loaded
     }
 
     private func buildFooterRow() {
         let footerRow = [SelectableRow(
             id: "follow",
-            title: "Follow a country",
+            title: self.followAnotherTitle,
             imageName: "plus.circle",
             action: {
                 // Navigate to country list

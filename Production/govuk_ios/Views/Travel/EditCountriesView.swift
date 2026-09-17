@@ -22,6 +22,10 @@ struct EditCountriesView: View {
         .task {
             await viewModel.viewDidAppear()
         }
+        .padding(.vertical, 16)
+        .background(Color(uiColor: .govUK.fills.surfaceBackground)
+            .ignoresSafeArea()
+        )
     }
 
     @ViewBuilder
@@ -37,16 +41,23 @@ struct EditCountriesView: View {
     @ViewBuilder
     var scrollView: some View {
         ScrollView {
-            VStack(spacing: 0) {
-                GroupedList(
-                    content: viewModel.countriesSection,
-                    sectionBackgroundColor: .govUK.fills.surfaceListAlt
-                )
+            VStack(spacing: 16) {
+                Text(viewModel.description)
+                    .foregroundColor(Color(UIColor.govUK.text.primary))
+                    .font(Font.govUK.body)
+                    .multilineTextAlignment(.leading)
 
-                GroupedList(
-                    content: viewModel.footerSection,
-                    sectionBackgroundColor: .govUK.fills.surfaceListAlt
-                )
+                Group {
+                    GroupedList(
+                        content: viewModel.countriesSection,
+                        sectionBackgroundColor: .govUK.fills.surfaceCardDefault
+                    )
+
+                    GroupedList(
+                        content: viewModel.footerSection,
+                        sectionBackgroundColor: .govUK.fills.surfaceCardDefault
+                    )
+                }.padding(.horizontal, 16)
             }
         }
     }

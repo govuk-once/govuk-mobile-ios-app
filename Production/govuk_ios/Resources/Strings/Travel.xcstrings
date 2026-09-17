@@ -133,6 +133,39 @@
         }
       }
     },
+    "editCountriesDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Manage the countries you follow and how you’re updated"
+          }
+        }
+      }
+    },
+    "editCountriesFollowAnother" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Follow another country"
+          }
+        }
+      }
+    },
+    "editCountriesTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit countries"
+          }
+        }
+      }
+    },
     "followCountryWidgetDescription" : {
       "extractionState" : "manual",
       "localizations" : {

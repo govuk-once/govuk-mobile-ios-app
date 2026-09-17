@@ -879,5 +879,22 @@ class ViewControllerBuilder {
         )
         return viewController
     }
+
+    func editCountries(
+        travelService: TravelServiceInterface,
+        analyticsService: AnalyticsServiceInterface
+    ) -> UIViewController {
+        let viewModel = EditCountriesViewModel(
+            travelService: travelService,
+            analyticsService: analyticsService
+        )
+        let view = EditCountriesView(viewModel: viewModel)
+        let viewController = HostingViewController(
+            rootView: view
+            )
+        viewController.title = viewModel.title
+        viewController.navigationItem.largeTitleDisplayMode = .always
+        return viewController
+    }
 }
 // swiftlint:enable file_length

@@ -625,4 +625,17 @@ class CoordinatorBuilder {
             completion: completion
         )
     }
+
+    func editCountries(
+        navigationController: UINavigationController,
+        completion: @escaping () -> Void
+    ) -> BaseCoordinator {
+        EditCountriesCoordinator(
+            navigationController: navigationController,
+            viewControllerBuilder: ViewControllerBuilder(),
+            analyticsService: container.analyticsService.resolve(),
+            travelService: container.travelService.resolve(),
+            completion: completion
+        )
+    }
 }

@@ -36,6 +36,7 @@ class WidgetViewBuilder {
         notificationService: NotificationServiceInterface,
         linkAction: @escaping () -> Void,
         dismissAction: @escaping () -> Void,
+        editAction: @escaping () -> Void,
         openURLAction: @escaping (URL) -> Void
     ) -> AnyView? {
         let viewModel = TravelAlertsWidgetViewModel(
@@ -44,6 +45,7 @@ class WidgetViewBuilder {
             notificationService: notificationService,
             linkAction: linkAction,
             dismissAction: dismissAction,
+            editAction: editAction,
             openURLAction: openURLAction
         )
         let widget = TravelAlertsWidgetView(viewModel: viewModel)

@@ -12,7 +12,12 @@ struct TravelAlertsWidgetView: View {
                 case .loading:
                     TravelAlertsLoadingView()
                 case let .loaded(rows):
-                    TravelAlertsLoadedView(rows: rows)
+                    TravelAlertsLoadedView(
+                        rows: rows,
+                        editAction: {
+                            viewModel.openEditCountries()
+                        }
+                    )
                 case .empty:
                     TravelAlertsEmptyView(
                         onTapAction: {
@@ -63,6 +68,7 @@ private struct TravelAlertsEmptyView: View {
 
 private struct TravelAlertsLoadedView: View {
     let rows: [GroupedListSection]
+    let editAction: () -> Void
 
     var body: some View {
         VStack(spacing: 8) {
@@ -70,7 +76,7 @@ private struct TravelAlertsLoadedView: View {
                 title: String(localized: .Travel.travelAlertLoadedHeading),
                 button: .init(
                     localisedTitle: String(localized: .Travel.travelAlertLoadedButtonEdit),
-                    action: { }
+                    action: editAction
                 )
             ))
 
