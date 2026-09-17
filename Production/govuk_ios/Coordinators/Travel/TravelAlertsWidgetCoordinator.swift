@@ -79,7 +79,8 @@ final class TravelAlertsWidgetCoordinator: BaseCoordinator,
         self.root.navigationBar.prefersLargeTitles = true
         let viewController = viewControllerBuilder.editCountries(
             travelService: travelService,
-            analyticsService: analyticsService
+            analyticsService: analyticsService,
+            notificationService: notificationService
         )
         push(viewController)
     }

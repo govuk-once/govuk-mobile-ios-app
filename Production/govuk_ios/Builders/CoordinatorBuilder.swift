@@ -635,6 +635,7 @@ class CoordinatorBuilder {
             viewControllerBuilder: ViewControllerBuilder(),
             analyticsService: container.analyticsService.resolve(),
             travelService: container.travelService.resolve(),
+            notificationService: container.notificationService.resolve(),
             completion: completion
         )
     }

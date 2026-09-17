@@ -882,11 +882,13 @@ class ViewControllerBuilder {
 
     func editCountries(
         travelService: TravelServiceInterface,
-        analyticsService: AnalyticsServiceInterface
+        analyticsService: AnalyticsServiceInterface,
+        notificationService: NotificationServiceInterface
     ) -> UIViewController {
         let viewModel = EditCountriesViewModel(
             travelService: travelService,
-            analyticsService: analyticsService
+            analyticsService: analyticsService,
+            notificationService: notificationService
         )
         let view = EditCountriesView(viewModel: viewModel)
         let viewController = HostingViewController(

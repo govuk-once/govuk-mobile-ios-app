@@ -5,16 +5,19 @@ final class EditCountriesCoordinator: BaseCoordinator {
     private let viewControllerBuilder: ViewControllerBuilder
     private let analyticsService: AnalyticsServiceInterface
     private let travelService: TravelServiceInterface
+    private let notificationService: NotificationServiceInterface
     private let completion: () -> Void
 
     init(navigationController: UINavigationController,
          viewControllerBuilder: ViewControllerBuilder,
          analyticsService: AnalyticsServiceInterface,
          travelService: TravelServiceInterface,
+         notificationService: NotificationServiceInterface,
          completion: @escaping () -> Void) {
         self.viewControllerBuilder = viewControllerBuilder
         self.analyticsService = analyticsService
         self.travelService = travelService
+        self.notificationService = notificationService
         self.completion = completion
         super.init(navigationController: navigationController)
     }
@@ -27,6 +30,7 @@ final class EditCountriesCoordinator: BaseCoordinator {
         let viewController = viewControllerBuilder.editCountries(
             travelService: travelService,
             analyticsService: analyticsService,
+            notificationService: notificationService
         )
         set(viewController)
     }

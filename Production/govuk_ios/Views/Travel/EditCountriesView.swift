@@ -21,6 +21,16 @@ struct EditCountriesView: View {
             await viewModel.viewDidAppear()
         }
         .background(Color(uiColor: .govUK.fills.surfaceBackground).ignoresSafeArea())
+        .sheet(
+            isPresented: $viewModel.isShowingList,
+            onDismiss: {
+                viewModel.didDismissList()
+            }, content: {
+                NavigationView {
+                    CountryListView(viewModel: viewModel.countryListViewModel)
+                }
+            }
+        )
     }
 
     private var scrollView: some View {

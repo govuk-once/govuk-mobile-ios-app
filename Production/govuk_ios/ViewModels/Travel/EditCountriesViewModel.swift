@@ -12,8 +12,10 @@ class EditCountriesViewModel: ObservableObject {
     @Published private(set) var viewState: ViewState = .loading
     @Published private(set) var countriesSection = [GroupedListSection]()
     @Published private(set) var footerSection = [GroupedListSection]()
+    @Published var isShowingList = false
 
     private let travelService: TravelServiceInterface
+    private let notificationService: NotificationServiceInterface
     let analyticsService: AnalyticsServiceInterface
 
     let title = String(
@@ -29,10 +31,23 @@ class EditCountriesViewModel: ObservableObject {
     init(
         travelService: TravelServiceInterface,
         analyticsService: AnalyticsServiceInterface,
+        notificationService: NotificationServiceInterface
     ) {
         self.travelService = travelService
         self.analyticsService = analyticsService
+        self.notificationService = notificationService
     }
+
+    lazy var countryListViewModel: CountryListViewModel = {
+        CountryListViewModel(
+            travelService: travelService,
+            analyticsService: analyticsService,
+            notificationService: notificationService,
+            dismissAction: { [weak self] in
+                self?.didDismissList()
+            }
+        )
+    }()
 
     @MainActor
     func viewDidAppear() async {
@@ -100,13 +115,21 @@ class EditCountriesViewModel: ObservableObject {
             id: "follow",
             title: self.followAnotherTitle,
             imageName: "plus.circle",
-            action: {
-                // Navigate to country list
+            action: { [weak self] in
+                self?.openCountryList()
             }
         )]
 
         footerSection = [GroupedListSection(
             heading: nil, rows: footerRow, footer: nil)
         ]
+    }
+
+    func openCountryList() {
+        isShowingList = true
+    }
+
+    func didDismissList() {
+        isShowingList = false
     }
 }
