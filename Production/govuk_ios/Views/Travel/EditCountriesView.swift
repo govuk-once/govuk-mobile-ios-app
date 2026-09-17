@@ -7,14 +7,12 @@ struct EditCountriesView: View {
     @StateObject var viewModel: EditCountriesViewModel
 
     var body: some View {
-        VStack(spacing: 16) {
+        Group {
             switch viewModel.viewState {
             case .loading:
                 EditCountriesLoadingView()
             case .loaded:
-                GeometryReader { geometry in
-                    modifiedScrollView(geometry: geometry)
-                }
+                scrollView
             case .error:
                 ErrorView(viewModel: createErrorViewModel())
             }
@@ -22,43 +20,30 @@ struct EditCountriesView: View {
         .task {
             await viewModel.viewDidAppear()
         }
-        .padding(.vertical, 16)
-        .background(Color(uiColor: .govUK.fills.surfaceBackground)
-            .ignoresSafeArea()
-        )
+        .background(Color(uiColor: .govUK.fills.surfaceBackground).ignoresSafeArea())
     }
 
-    @ViewBuilder
-    func modifiedScrollView(geometry: GeometryProxy) -> some View {
-        if #available(iOS 17.0, *) {
-            scrollView
-                .contentMargins(.bottom, geometry.safeAreaInsets.bottom, for: .scrollContent)
-        } else {
-            scrollView
-        }
-    }
-
-    @ViewBuilder
-    var scrollView: some View {
+    private var scrollView: some View {
         ScrollView {
-            VStack(spacing: 16) {
+            VStack(alignment: .leading, spacing: 16) {
                 Text(viewModel.description)
                     .foregroundColor(Color(UIColor.govUK.text.primary))
                     .font(Font.govUK.body)
                     .multilineTextAlignment(.leading)
+                    .frame(maxWidth: .infinity, alignment: .leading)
 
-                Group {
-                    GroupedList(
-                        content: viewModel.countriesSection,
-                        sectionBackgroundColor: .govUK.fills.surfaceCardDefault
-                    )
+                GroupedList(
+                    content: viewModel.countriesSection,
+                    sectionBackgroundColor: .govUK.fills.surfaceCardDefault
+                )
 
-                    GroupedList(
-                        content: viewModel.footerSection,
-                        sectionBackgroundColor: .govUK.fills.surfaceCardDefault
-                    )
-                }.padding(.horizontal, 16)
+                GroupedList(
+                    content: viewModel.footerSection,
+                    sectionBackgroundColor: .govUK.fills.surfaceCardDefault
+                )
             }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 16)
         }
     }
 }
@@ -72,6 +57,7 @@ private struct EditCountriesLoadingView: View {
         }
         .background(Color(UIColor.govUK.fills.surfaceList))
         .clipShape(RoundedRectangle(cornerRadius: 10))
+        .padding(.horizontal, 16)
     }
 }
 

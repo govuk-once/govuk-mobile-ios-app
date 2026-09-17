@@ -76,6 +76,7 @@ final class TravelAlertsWidgetCoordinator: BaseCoordinator,
     }
 
     private func startEditCountries() {
+        self.root.navigationBar.prefersLargeTitles = true
         let viewController = viewControllerBuilder.editCountries(
             travelService: travelService,
             analyticsService: analyticsService
