@@ -6,7 +6,8 @@ import GovKit
 final class TravelAlertsWidgetViewModel: ObservableObject {
     enum ViewState {
         case loading
-        case loaded
+        case loaded(groupedList: [GroupedListSection])
+        case empty
         case error
     }
 
@@ -18,17 +19,20 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
     private let analyticsService: AnalyticsServiceInterface
     private let linkAction: () -> Void
     private let dismissAction: () -> Void
+    private let openURLAction: (URL) -> Void
 
     init(
         travelService: TravelServiceInterface,
         analyticsService: AnalyticsServiceInterface,
         linkAction: @escaping () -> Void,
-        dismissAction: @escaping () -> Void
+        dismissAction: @escaping () -> Void,
+        openURLAction: @escaping (URL) -> Void
     ) {
         self.travelService = travelService
         self.analyticsService = analyticsService
         self.linkAction = linkAction
         self.dismissAction = dismissAction
+        self.openURLAction = openURLAction
     }
 
     lazy var countryListViewModel: CountryListViewModel = {
@@ -57,12 +61,56 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
         travelService.getGroups(forceRefresh: false) { [weak self] result in
             Task { @MainActor in
                 switch result {
-                case .success:
-                    self?.viewState = .loaded
+                case .success(let groups):
+                    self?.travelService.getCountries(
+                        forceRefresh: false
+                    ) { [weak self] countriesResult in
+                        Task { @MainActor in
+                            let countries = (try? countriesResult.get()) ?? []
+                            self?.buildSections(from: groups, countries: countries)
+                        }
+                    }
                 case .failure:
                     self?.viewState = .error
                 }
             }
+        }
+    }
+
+    private func buildSections(from groups: [TravelGroup], countries: [Country]) {
+        let countryMap = Dictionary(uniqueKeysWithValues: countries.map {
+            ($0.slug.lowercased(), $0)
+        })
+
+        let rows = groups.compactMap { group -> LinkRow? in
+            guard let country = countryMap[group.group.lowercased()] else { return nil }
+
+            let url = URL(string: "https://www.gov.uk/foreign-travel-advice/\(country.slug.lowercased())")
+
+            return LinkRow(
+                id: group.group,
+                title: country.name,
+                body: String(localized: .Travel.travelAlertLastUpdated(
+                    formattedDate: country.formattedLastUpdate
+                )),
+                showLinkImage: false,
+                action: { [weak self] in
+                    guard let url else { return }
+                    self?.openURLAction(url)
+                }
+            )
+        }
+
+        if rows.isEmpty {
+            self.viewState = .empty
+        } else {
+            self.viewState = .loaded(groupedList: [
+                GroupedListSection(
+                    heading: nil,
+                    rows: rows,
+                    footer: nil
+                )
+            ])
         }
     }
 
@@ -74,6 +122,10 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
         )
         analyticsService.track(event: event)
         isShowingList = true
+    }
+
+    func openExternalURL(_ url: URL) {
+        openURLAction(url)
     }
 
     func didDismissList() {

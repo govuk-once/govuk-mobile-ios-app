@@ -31,7 +31,7 @@ class NotificationCentreViewModel: ObservableObject {
 
         init(notification: Notification) {
             self.title = notification.title
-            self.date = notification.date.formatMessageListDate()
+            self.date = notification.date.formatToRelativeDate()
             self.isUnread = notification.isUnread
             self.id = notification.id
         }
