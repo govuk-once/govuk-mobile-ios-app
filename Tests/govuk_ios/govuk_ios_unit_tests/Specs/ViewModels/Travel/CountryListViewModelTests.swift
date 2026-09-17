@@ -414,7 +414,7 @@ struct CountryListViewModelTests {
             notificationService: mockNotificationService,
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { dismissActionCalled = true },
-            openURLAction: { _ in }
+            openURLAction: { _ in /*Empty For Tests*/ }
         )
 
         let countryListVM = sut.countryListViewModel

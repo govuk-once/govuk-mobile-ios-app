@@ -3,8 +3,6 @@ import SwiftUI
 import GovKitUI
 import GovKit
 
-import SwiftUI
-
 struct EditCountriesView: View {
     @StateObject var viewModel: EditCountriesViewModel
 

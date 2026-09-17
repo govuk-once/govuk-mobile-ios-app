@@ -463,16 +463,6 @@ struct CoordinatorBuilderTests {
     }
 
     @Test
-    func dvlaAccount_returnsExpectedResult() {
-        let subject = CoordinatorBuilder(container: Container())
-        let coordinator = subject.dvlaAccount(
-            navigationController: UINavigationController(),
-            viewType: .shareCodeList
-        )
-        #expect(coordinator is DVLAAccountCoordinator)
-    }
-
-    @Test
     func serviceAccountRedirect_returnsExpectedResult() {
         let subject = CoordinatorBuilder(container: Container())
         let coordinator = subject.serviceAccountRedirect(
