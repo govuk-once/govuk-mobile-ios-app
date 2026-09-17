@@ -565,18 +565,6 @@ class CoordinatorBuilder {
         )
     }
 
-    func dvlaAccount(
-        navigationController: UINavigationController,
-        viewType: DVLAAccountViewType
-    ) -> BaseCoordinator {
-        DVLAAccountCoordinator(
-            navigationController: navigationController,
-            viewControllerBuilder: ViewControllerBuilder(),
-            dvlaService: container.dvlaService.resolve(),
-            viewType: viewType
-        )
-    }
-
     func serviceAccountRedirect(
         navigationController: UINavigationController,
         accountType: ServiceAccountType,

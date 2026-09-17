@@ -428,17 +428,6 @@ struct ViewControllerBuilderTests {
         let rootView = (result as? HostingViewController<ServiceAccountConsentView>)?.rootView
         #expect(rootView != nil)
     }
-
-    @Test
-    func dvlaAccount_returnsExpectedResult() {
-        let subject = ViewControllerBuilder()
-        let result = subject.dvlaAccount(
-            dvlaService: MockDVLAService(),
-            viewType: .createShareCode
-        )
-        let rootView = (result as? HostingViewController<DVLAAccountView>)?.rootView
-        #expect(rootView != nil)
-    }
     
     @Test
     func sarSettings_returnsExpectedResult() {
