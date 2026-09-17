@@ -20,6 +20,9 @@ struct EditCountriesView: View {
         .task {
             await viewModel.viewDidAppear()
         }
+        .onAppear {
+            viewModel.trackScreen(screen: self)
+        }
         .background(Color(uiColor: .govUK.fills.surfaceBackground).ignoresSafeArea())
         .sheet(
             isPresented: $viewModel.isShowingList,
@@ -69,6 +72,12 @@ private struct EditCountriesLoadingView: View {
         .clipShape(RoundedRectangle(cornerRadius: 10))
         .padding(.horizontal, 16)
     }
+}
+
+extension EditCountriesView: TrackableScreen {
+    var trackingClass: String { "EditCountriesScreen" }
+    var trackingTitle: String? { "Edit countries" }
+    var trackingName: String { "Edit countries" }
 }
 
 extension EditCountriesView {

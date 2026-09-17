@@ -54,6 +54,10 @@ class EditCountriesViewModel: ObservableObject {
         await fetchCountryList()
     }
 
+    func trackScreen(screen: TrackableScreen) {
+        analyticsService.track(screen: screen)
+    }
+
     @MainActor
     func retryFetchCountryList() async {
         await fetchCountryList()
