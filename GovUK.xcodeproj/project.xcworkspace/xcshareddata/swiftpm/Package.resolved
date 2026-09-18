@@ -105,8 +105,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/govuk-once/govuk-mobile-ios-gov-kit.git",
       "state" : {
-        "branch" : "feature/addIconToSelectableRow",
-        "revision" : "66e1e9c2e1dd797e48ee58f96d8b2846fb6e3fa3"
+        "branch" : "main",
+        "revision" : "21343f5186b4c57c6510298353fa94606473c63b"
       }
     },
     {
