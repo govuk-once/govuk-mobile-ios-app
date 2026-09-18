@@ -34,6 +34,18 @@ struct EditCountriesView: View {
                 }
             }
         )
+        .sheet(
+            isPresented: $viewModel.isShowingCountryDetails,
+            content: {
+                if let selectedCountry = viewModel.selectedCountry {
+                    EditCountryDetailsBottomSheet(
+                        viewModel: viewModel,
+                        countryId: selectedCountry.id,
+                        countryName: selectedCountry.name
+                    )
+                }
+            }
+        )
     }
 
     private var scrollView: some View {

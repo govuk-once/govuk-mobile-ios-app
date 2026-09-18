@@ -155,6 +155,39 @@
         }
       }
     },
+    "editCountryDetailsGetNotifications" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Get notifications"
+          }
+        }
+      }
+    },
+    "editCountryDetailUnfollowButton" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unfollow"
+          }
+        }
+      }
+    },
+    "editCountryDetailUnfollowFooter" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unfollow this country to stop receiving travel advice messages."
+          }
+        }
+      }
+    },
     "followCountryWidgetDescription" : {
       "extractionState" : "manual",
       "localizations" : {

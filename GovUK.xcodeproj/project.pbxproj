@@ -92,6 +92,7 @@
 		16FCDE782DC4E39A000E870D /* TokenRefreshResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FCDE772DC4E38F000E870D /* TokenRefreshResponse.swift */; };
 		16FD684A2D39AEB5002F1597 /* SuggestionHighlighterProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FD68482D39AEAE002F1597 /* SuggestionHighlighterProcessor.swift */; };
 		16FE77672EBB72A7009D02B1 /* TopicsOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FE77662EBB7290009D02B1 /* TopicsOnboardingView.swift */; };
+		2DD46BD5305D524500B83F7C /* EditCountryDetailsBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD46BD4305D524500B83F7C /* EditCountryDetailsBottomSheet.swift */; };
 		3300A4F62F69B2B10042D340 /* GOVRequest+NotificationCentre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3300A4F52F69B2B10042D340 /* GOVRequest+NotificationCentre.swift */; };
 		333A5D262FCF071C0018BA1D /* NotificationCentreDetailMarkdownTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333A5D252FCF071C0018BA1D /* NotificationCentreDetailMarkdownTheme.swift */; };
 		3365BE5A2F3DCC3300817D7E /* NotificationCentreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3365BE592F3DCC2E00817D7E /* NotificationCentreViewModel.swift */; };
@@ -713,6 +714,7 @@
 		16FCDE772DC4E38F000E870D /* TokenRefreshResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenRefreshResponse.swift; sourceTree = "<group>"; };
 		16FD68482D39AEAE002F1597 /* SuggestionHighlighterProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionHighlighterProcessor.swift; sourceTree = "<group>"; };
 		16FE77662EBB7290009D02B1 /* TopicsOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsOnboardingView.swift; sourceTree = "<group>"; };
+		2DD46BD4305D524500B83F7C /* EditCountryDetailsBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCountryDetailsBottomSheet.swift; sourceTree = "<group>"; };
 		3300A4F52F69B2B10042D340 /* GOVRequest+NotificationCentre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GOVRequest+NotificationCentre.swift"; sourceTree = "<group>"; };
 		333A5D252FCF071C0018BA1D /* NotificationCentreDetailMarkdownTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCentreDetailMarkdownTheme.swift; sourceTree = "<group>"; };
 		3365BE592F3DCC2E00817D7E /* NotificationCentreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCentreViewModel.swift; sourceTree = "<group>"; };
@@ -2718,6 +2720,7 @@
 		855B8BFB302E07B3001D1A9C /* Travel */ = {
 			isa = PBXGroup;
 			children = (
+				2DD46BD4305D524500B83F7C /* EditCountryDetailsBottomSheet.swift */,
 				85625914304F0FD100FBB5EF /* TravelAlertsPermissionView.swift */,
 				85611CD0302F4EFD008EB3B1 /* TravelAlertsWidgetView.swift */,
 				855B8BFC302E07C6001D1A9C /* CountryListView.swift */,
@@ -3777,6 +3780,7 @@
 				5DA6E5332C47BD2700D41263 /* DeeplinkRouteProvider.swift in Sources */,
 				5DFDEBF12CEE396D00F7A365 /* UserProperty+Convenience.swift in Sources */,
 				4EA4937B2FE4CD8A000261CD /* UnlinkAccountsErrorViewModel.swift in Sources */,
+				2DD46BD5305D524500B83F7C /* EditCountryDetailsBottomSheet.swift in Sources */,
 				81BFBFEF2FA4E1AA00249569 /* DVLAAccountWidgetViewModel.swift in Sources */,
 				33C2627A2FD8676B00574491 /* NotificationCentreErrorViews.swift in Sources */,
 				D06C49B62DE5D2510045C674 /* JailbreakDetectionService.swift in Sources */,
@@ -4080,7 +4084,6 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSFaceIDUsageDescription = "Your Face ID will only be used to unlock the app. It’s not shared with GOV.UK.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = "";
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -4128,7 +4131,6 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSFaceIDUsageDescription = "Your Face ID will only be used to unlock the app. It’s not shared with GOV.UK.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = "";
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

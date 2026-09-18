@@ -9,14 +9,25 @@ class EditCountriesViewModel: ObservableObject {
         case error
     }
 
+    struct SelectedCountry {
+        let id: String
+        let name: String
+    }
+
     @Published private(set) var viewState: ViewState = .loading
     @Published private(set) var countriesSection = [GroupedListSection]()
     @Published private(set) var footerSection = [GroupedListSection]()
     @Published var isShowingList = false
+    @Published var isShowingCountryDetails = false
+    @Published var selectedCountry: SelectedCountry?
+    @Published var selectedCountryNotificationEnabled = false
+    @Published var isToggleLoading = false
 
     private let travelService: TravelServiceInterface
     private let notificationService: NotificationServiceInterface
     let analyticsService: AnalyticsServiceInterface
+    private var allCountries: [Country] = []
+    private var follewedCountries: Set<String> = []
 
     let title = String(
         localized: .Travel.editCountriesTitle
@@ -88,19 +99,21 @@ class EditCountriesViewModel: ObservableObject {
     }
 
     private func buildRows(from groups: [TravelGroup], countries: [Country]) {
+        self.allCountries = countries
         let countryMap = Dictionary(uniqueKeysWithValues: countries.map {
             ($0.slug.lowercased(), $0)
         })
 
         let rows = groups.compactMap { group -> SelectableRow? in
             guard let country = countryMap[group.group.lowercased()] else { return nil }
+            self.follewedCountries.insert(group.group)
 
             return SelectableRow(
                 id: group.group,
                 title: country.name,
                 imageName: "ellipsis",
                 action: {
-                    // Implement logic in upcoming work
+                    self.showCountryDetails(countryId: group.group, countryName: country.name)
                 }
             )
         }
@@ -135,5 +148,26 @@ class EditCountriesViewModel: ObservableObject {
 
     func didDismissList() {
         isShowingList = false
+    }
+
+    private func showCountryDetails(countryId: String, countryName: String) {
+        selectedCountry = SelectedCountry(id: countryId, name: countryName)
+        selectedCountryNotificationEnabled = false
+        isShowingCountryDetails = true
+    }
+
+    @MainActor
+    func toggleNotifications(for countryId: String) async {
+        isToggleLoading = true
+        let newState = !selectedCountryNotificationEnabled
+
+        // Make API call to update notification state
+    }
+
+    @MainActor
+    func unfollowCountry(_ countryId: String) async {
+        isToggleLoading = true
+
+        // Make API call to unfollow the country
     }
 }
