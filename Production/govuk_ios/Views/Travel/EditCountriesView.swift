@@ -63,14 +63,13 @@ struct EditCountriesView: View {
 
 private struct EditCountriesLoadingView: View {
     var body: some View {
-        ZStack {
+        VStack(alignment: .center) {
+            Spacer()
             ProgressView()
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 86)
+                .controlSize(.large)
+                .accessibilityLabel(.Travel.travelAlertsLoading)
+            Spacer()
         }
-        .background(Color(UIColor.govUK.fills.surfaceList))
-        .clipShape(RoundedRectangle(cornerRadius: 10))
-        .padding(.horizontal, 16)
     }
 }
 

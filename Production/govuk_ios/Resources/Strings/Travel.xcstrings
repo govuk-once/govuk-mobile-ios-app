@@ -111,17 +111,6 @@
         }
       }
     },
-    "countryListScreenLoading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Loading"
-          }
-        }
-      }
-    },
     "countryListTitle" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -261,6 +250,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Give permission"
+          }
+        }
+      }
+    },
+    "travelAlertsLoading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading"
           }
         }
       }

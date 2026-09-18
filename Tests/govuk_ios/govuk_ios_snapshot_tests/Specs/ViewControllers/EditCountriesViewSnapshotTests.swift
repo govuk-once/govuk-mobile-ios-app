@@ -32,10 +32,23 @@ final class EditCountriesViewSnapshotTests: SnapshotTestCase {
     }
 
     func test_loadInNavigationController_loaded_light_rendersCorrectly() async {
-        let viewModel = makeViewModel(travelService: nil)
+        let viewModel = makeViewModel(travelService: SnapshotTravelService(
+            travelGroupResult: .success([
+                TravelGroup(namespace: "travel", group: "france", subgroup: "daily"),
+                TravelGroup(namespace: "travel", group: "germany", subgroup: "daily"),
+                TravelGroup(namespace: "travel", group: "spain", subgroup: "daily")
+            ]),
+            countryListResult: .success([
+                Country(name: "France", slug: "france", rawLastUpdate: "2024-01-01T00:00:00.000Z", synonyms: []),
+                Country(name: "Germany", slug: "germany", rawLastUpdate: "2024-01-01T00:00:00.000Z", synonyms: []),
+                Country(name: "Spain", slug: "spain", rawLastUpdate: "2024-01-01T00:00:00.000Z", synonyms: [])
+            ])
+        ))
 
         await viewModel.viewDidAppear()
         await Task.yield()
+        // Wait for all async tasks to complete
+        try? await Task.sleep(for: .seconds(1))
 
         let viewController = makeViewController(viewModel: viewModel)
 
@@ -47,10 +60,23 @@ final class EditCountriesViewSnapshotTests: SnapshotTestCase {
     }
 
     func test_loadInNavigationController_loaded_dark_rendersCorrectly() async {
-        let viewModel = makeViewModel(travelService: nil)
+        let viewModel = makeViewModel(travelService: SnapshotTravelService(
+            travelGroupResult: .success([
+                TravelGroup(namespace: "travel", group: "france", subgroup: "daily"),
+                TravelGroup(namespace: "travel", group: "germany", subgroup: "daily"),
+                TravelGroup(namespace: "travel", group: "spain", subgroup: "daily")
+            ]),
+            countryListResult: .success([
+                Country(name: "France", slug: "france", rawLastUpdate: "2024-01-01T00:00:00.000Z", synonyms: []),
+                Country(name: "Germany", slug: "germany", rawLastUpdate: "2024-01-01T00:00:00.000Z", synonyms: []),
+                Country(name: "Spain", slug: "spain", rawLastUpdate: "2024-01-01T00:00:00.000Z", synonyms: [])
+            ])
+        ))
 
         await viewModel.viewDidAppear()
         await Task.yield()
+        // Wait for all async tasks to complete
+        try? await Task.sleep(for: .seconds(1))
 
         let viewController = makeViewController(viewModel: viewModel)
 
@@ -97,16 +123,8 @@ final class EditCountriesViewSnapshotTests: SnapshotTestCase {
 
     private func makeViewModel(travelService: TravelServiceInterface? = nil) -> EditCountriesViewModel {
         let defaultTravelService = SnapshotTravelService(
-            travelGroupResult: .success([
-                TravelGroup(namespace: "travel", group: "france", subgroup: "daily"),
-                TravelGroup(namespace: "travel", group: "germany", subgroup: "daily"),
-                TravelGroup(namespace: "travel", group: "spain", subgroup: "daily")
-            ]),
-            countryListResult: .success([
-                Country(name: "France", slug: "france", rawLastUpdate: "2024-01-01T00:00:00.000Z", synonyms: []),
-                Country(name: "Germany", slug: "germany", rawLastUpdate: "2024-01-01T00:00:00.000Z", synonyms: []),
-                Country(name: "Spain", slug: "spain", rawLastUpdate: "2024-01-01T00:00:00.000Z", synonyms: [])
-            ])
+            travelGroupResult: nil,
+            countryListResult: nil
         )
         let mockTravelService = travelService ?? defaultTravelService
         let analyticsService = MockAnalyticsService()
