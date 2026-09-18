@@ -12,6 +12,7 @@ class ChatViewModel: ObservableObject {
     private let openURLAction: (URL) -> Void
     private let handleError: (ChatError) -> Void
     private var shouldLoadHistory: Bool = true
+    private var disclosureListeners = Set<AnyCancellable>()
     // Default values will be overridden
     private(set) var validationAlertDetails = AlertDetails(
         title: "Validation error",
@@ -19,7 +20,6 @@ class ChatViewModel: ObservableObject {
         primaryButtonTitle: "OK"
     )
     let chatExampleQuestionsViewModel: ChatExampleQuestionsViewModel
-
     @Published var cellModels: [ChatCellViewModel] = []
     @Published var latestQuestion: String = ""
     @Published var scrollToBottom: Bool = false
@@ -32,8 +32,6 @@ class ChatViewModel: ObservableObject {
     @Published var showValidationAlert: Bool = false
     @Published var showProgressView: Bool = false
     @Published var showExampleQuestions: Bool = false
-
-    private var disclosureListeners = Set<AnyCancellable>()
 
     var absoluteRemainingCharacters: Int {
         abs(maxCharacters - latestQuestion.count)
@@ -145,9 +143,7 @@ class ChatViewModel: ObservableObject {
     }
 
     func loadHistory() {
-        guard shouldLoadHistory else {
-            return
-        }
+        guard shouldLoadHistory else { return }
         guard let conversationId = chatService.currentConversationId else {
             cellModels.removeAll()
             appendIntroMessage(animate: true)
@@ -192,11 +188,10 @@ class ChatViewModel: ObservableObject {
         let introMessage = Intro(
             message: String.chat.localized("introMessage")
         )
-        let model =
-            ChatCellViewModel(
-                intro: introMessage,
-                analyticsService: analyticsService
-            )
+        let model = ChatCellViewModel(
+            intro: introMessage,
+            analyticsService: analyticsService
+        )
         latestQuestionID = model.id
         if animate {
             addCellModels([model])
@@ -350,7 +345,6 @@ class ChatViewModel: ObservableObject {
         guard let questions = configService.chatExampleQuestions else {
             return false
         }
-
         return !questions.isEmpty
     }
 
