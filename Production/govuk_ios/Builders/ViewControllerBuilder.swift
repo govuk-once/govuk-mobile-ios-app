@@ -864,20 +864,38 @@ class ViewControllerBuilder {
     func countryList(
         travelService: TravelServiceInterface,
         analyticsService: AnalyticsServiceInterface,
+        notificationService: NotificationServiceInterface,
         dismissAction: @escaping () -> Void
     ) -> UIViewController {
         let viewModel = CountryListViewModel(
             travelService: travelService,
             analyticsService: analyticsService,
-            countrySelectedAction: { _ in
-                // To be applied in upcoming work
-            },
+            notificationService: notificationService,
             dismissAction: dismissAction
         )
         let view = CountryListView(viewModel: viewModel)
         let viewController = HostingViewController(
             rootView: view
         )
+        return viewController
+    }
+
+    func editCountries(
+        travelService: TravelServiceInterface,
+        analyticsService: AnalyticsServiceInterface,
+        notificationService: NotificationServiceInterface
+    ) -> UIViewController {
+        let viewModel = EditCountriesViewModel(
+            travelService: travelService,
+            analyticsService: analyticsService,
+            notificationService: notificationService
+        )
+        let view = EditCountriesView(viewModel: viewModel)
+        let viewController = HostingViewController(
+            rootView: view
+            )
+        viewController.title = viewModel.title
+        viewController.navigationItem.largeTitleDisplayMode = .always
         return viewController
     }
 }

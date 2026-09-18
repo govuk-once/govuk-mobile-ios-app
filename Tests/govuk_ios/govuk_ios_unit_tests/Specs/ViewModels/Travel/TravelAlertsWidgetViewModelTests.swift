@@ -14,8 +14,10 @@ struct TravelAlertsWidgetViewModelTests {
         let sut = TravelAlertsWidgetViewModel(
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
+            editAction: { /*Empty For Tests*/ },
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 
@@ -40,8 +42,10 @@ struct TravelAlertsWidgetViewModelTests {
         let sut = TravelAlertsWidgetViewModel(
             travelService: mockTravelService,
             analyticsService: mockAnalyticsService,
+            notificationService: MockNotificationService(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
+            editAction: { /*Empty For Tests*/ },
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 
@@ -63,8 +67,10 @@ struct TravelAlertsWidgetViewModelTests {
         let sut = TravelAlertsWidgetViewModel(
             travelService: mockTravelService,
             analyticsService: mockAnalyticsService,
+            notificationService: MockNotificationService(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
+            editAction: { /*Empty For Tests*/ },
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 
@@ -83,8 +89,10 @@ struct TravelAlertsWidgetViewModelTests {
         let sut = TravelAlertsWidgetViewModel(
             travelService: MockTravelService(),
             analyticsService: mockAnalyticsService,
+            notificationService: MockNotificationService(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
+            editAction: { /*Empty For Tests*/ },
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 
@@ -106,8 +114,10 @@ struct TravelAlertsWidgetViewModelTests {
         let sut = TravelAlertsWidgetViewModel(
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { dismissCalled = true },
+            editAction: { /*Empty For Tests*/ },
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 
@@ -125,8 +135,10 @@ struct TravelAlertsWidgetViewModelTests {
         let sut = TravelAlertsWidgetViewModel(
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
+            editAction: { /*Empty For Tests*/ },
             openURLAction: { url in openedURL = url }
         )
 
@@ -143,8 +155,10 @@ struct TravelAlertsWidgetViewModelTests {
         let sut = TravelAlertsWidgetViewModel(
             travelService: mockTravelService,
             analyticsService: mockAnalyticsService,
+            notificationService: MockNotificationService(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
+            editAction: { /*Empty For Tests*/ },
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 
@@ -169,8 +183,10 @@ struct TravelAlertsWidgetViewModelTests {
         let sut = TravelAlertsWidgetViewModel(
             travelService: mockTravelService,
             analyticsService: mockAnalyticsService,
+            notificationService: MockNotificationService(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
+            editAction: { /*Empty For Tests*/ },
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 
@@ -200,8 +216,10 @@ struct TravelAlertsWidgetViewModelTests {
         let sut = TravelAlertsWidgetViewModel(
             travelService: mockTravelService,
             analyticsService: mockAnalyticsService,
+            notificationService: MockNotificationService(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
+            editAction: { /*Empty For Tests*/ },
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 
@@ -221,8 +239,10 @@ struct TravelAlertsWidgetViewModelTests {
         let sut = TravelAlertsWidgetViewModel(
             travelService: mockTravelService,
             analyticsService: mockAnalyticsService,
+            notificationService: MockNotificationService(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
+            editAction: { /*Empty For Tests*/ },
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 
@@ -238,8 +258,10 @@ struct TravelAlertsWidgetViewModelTests {
         let sut = TravelAlertsWidgetViewModel(
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { dismissActionCalled = true },
+            editAction: { /*Empty For Tests*/ },
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 
@@ -253,8 +275,10 @@ struct TravelAlertsWidgetViewModelTests {
         let sut = TravelAlertsWidgetViewModel(
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
+            editAction: { /*Empty For Tests*/ },
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 

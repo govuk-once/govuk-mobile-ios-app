@@ -8,6 +8,7 @@ final class TravelAlertsWidgetCoordinator: BaseCoordinator,
     private let widgetViewBuilder: WidgetViewBuilder
     private let travelService: TravelServiceInterface
     private let analyticsService: AnalyticsServiceInterface
+    private let notificationService: NotificationServiceInterface
     private let configService: AppConfigServiceInterface
     private let coordinatorBuilder: CoordinatorBuilder
     private let urlOpener: URLOpener
@@ -16,6 +17,7 @@ final class TravelAlertsWidgetCoordinator: BaseCoordinator,
          analyticsService: AnalyticsServiceInterface,
          travelService: TravelServiceInterface,
          configService: AppConfigServiceInterface,
+         notificationService: NotificationServiceInterface,
          coordinatorBuilder: CoordinatorBuilder,
          widgetViewBuilder: WidgetViewBuilder,
          viewControllerBuilder: ViewControllerBuilder,
@@ -23,6 +25,7 @@ final class TravelAlertsWidgetCoordinator: BaseCoordinator,
         self.analyticsService = analyticsService
         self.travelService = travelService
         self.configService = configService
+        self.notificationService = notificationService
         self.coordinatorBuilder = coordinatorBuilder
         self.widgetViewBuilder = widgetViewBuilder
         self.viewControllerBuilder = viewControllerBuilder
@@ -44,11 +47,15 @@ final class TravelAlertsWidgetCoordinator: BaseCoordinator,
         return widgetViewBuilder.travelAlertWidget(
             analyticsService: analyticsService,
             travelService: travelService,
+            notificationService: notificationService,
             linkAction: { [weak self] in
                 self?.startCountrySelection()
             },
             dismissAction: { [weak self] in
                 self?.root.viewWillReAppear()
+            },
+            editAction: { [weak self] in
+                self?.startEditCountries()
             },
             openURLAction: { [weak self] url in
                 self?.urlOpener.openIfPossible(url)
@@ -66,5 +73,15 @@ final class TravelAlertsWidgetCoordinator: BaseCoordinator,
             }
         )
         present(coordinator)
+    }
+
+    private func startEditCountries() {
+        self.root.navigationBar.prefersLargeTitles = true
+        let viewController = viewControllerBuilder.editCountries(
+            travelService: travelService,
+            analyticsService: analyticsService,
+            notificationService: notificationService
+        )
+        push(viewController)
     }
 }

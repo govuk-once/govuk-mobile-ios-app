@@ -562,5 +562,20 @@ struct CoordinatorBuilderTests {
 
         #expect(coordinator is CountryListCoordinator)
     }
+
+    @Test
+    func editCountries_returnsExpectedResult() {
+        let container = Container()
+        container.userService.register { MockUserService() }
+        container.analyticsService.register(factory: { MockAnalyticsService() })
+        let subject = CoordinatorBuilder(container: container)
+        let coordinator = subject
+            .editCountries(
+                navigationController: UINavigationController(),
+                completion: { }
+            )
+
+        #expect(coordinator is EditCountriesCoordinator)
+    }
 }
 

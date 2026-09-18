@@ -1,3 +1,6 @@
+//
+
+
 import UIKit
 import Testing
 
@@ -5,51 +8,48 @@ import Testing
 
 @Suite
 @MainActor
-struct CountryListCoordinatorTests {
+struct EditCountriesCoordinatorTests {
 
     @Test
-    func start_setsSelectCountryViewController() {
+    func start_setsEditCountriesViewController() {
         let mockNavigationController = MockNavigationController()
         let mockViewControllerBuilder = MockViewControllerBuilder()
         let expectedViewController = UIViewController()
-        mockViewControllerBuilder._stubbedSelectCountryViewController = expectedViewController
+        mockViewControllerBuilder._stubbedEditCountriesViewController = expectedViewController
 
-        let sut = CountryListCoordinator(
+        let sut = EditCountriesCoordinator(
             navigationController: mockNavigationController,
-            coordinatorBuilder: CoordinatorBuilder.mock,
             viewControllerBuilder: mockViewControllerBuilder,
             analyticsService: MockAnalyticsService(),
             travelService: MockTravelService(),
             notificationService: MockNotificationService(),
-            userService: MockUserService(),
-            completion: { _ in }
+            completion: { }
         )
 
-        sut.start()
+        sut.start(url: nil)
 
-        #expect(mockNavigationController._setViewControllers?.first == expectedViewController)
+        #expect(mockNavigationController.viewControllers.first == expectedViewController)
     }
 
     @Test
-    func dismissAction_dismissesModal() {
+    func start_withURL_setsEditCountriesViewController() {
         let mockNavigationController = MockNavigationController()
         let mockViewControllerBuilder = MockViewControllerBuilder()
+        let expectedViewController = UIViewController()
+        let testURL = URL(string: "https://example.com")!
+        mockViewControllerBuilder._stubbedEditCountriesViewController = expectedViewController
 
-        let sut = CountryListCoordinator(
+        let sut = EditCountriesCoordinator(
             navigationController: mockNavigationController,
-            coordinatorBuilder: CoordinatorBuilder.mock,
             viewControllerBuilder: mockViewControllerBuilder,
             analyticsService: MockAnalyticsService(),
             travelService: MockTravelService(),
             notificationService: MockNotificationService(),
-            userService: MockUserService(),
-            completion: { _ in }
+            completion: { }
         )
 
-        sut.start()
-        mockViewControllerBuilder._receivedSelectCountryDismissAction?()
+        sut.start(url: testURL)
 
-        #expect(mockNavigationController._dismissCalled)
-        #expect(mockNavigationController._receivedDismissAnimated == true)
+        #expect(mockNavigationController.viewControllers.first == expectedViewController)
     }
 }

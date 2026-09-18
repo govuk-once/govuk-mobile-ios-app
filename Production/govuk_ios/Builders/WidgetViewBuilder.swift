@@ -29,18 +29,23 @@ class WidgetViewBuilder {
         return AnyView(view)
     }
 
+    // swiftlint:disable:next function_parameter_count
     func travelAlertWidget(
         analyticsService: AnalyticsServiceInterface,
         travelService: TravelServiceInterface,
+        notificationService: NotificationServiceInterface,
         linkAction: @escaping () -> Void,
         dismissAction: @escaping () -> Void,
+        editAction: @escaping () -> Void,
         openURLAction: @escaping (URL) -> Void
     ) -> AnyView? {
         let viewModel = TravelAlertsWidgetViewModel(
             travelService: travelService,
             analyticsService: analyticsService,
+            notificationService: notificationService,
             linkAction: linkAction,
             dismissAction: dismissAction,
+            editAction: editAction,
             openURLAction: openURLAction
         )
         let widget = TravelAlertsWidgetView(viewModel: viewModel)

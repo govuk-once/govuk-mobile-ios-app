@@ -1,49 +1,37 @@
 import UIKit
 import GovKit
-import AuthenticationServices
 
-final class CountryListCoordinator: BaseCoordinator {
-    private let coordinatorBuilder: CoordinatorBuilder
+final class EditCountriesCoordinator: BaseCoordinator {
     private let viewControllerBuilder: ViewControllerBuilder
     private let analyticsService: AnalyticsServiceInterface
     private let travelService: TravelServiceInterface
     private let notificationService: NotificationServiceInterface
-    private let userService: UserServiceInterface
-    private let completion: (Bool) -> Void
+    private let completion: () -> Void
 
     init(navigationController: UINavigationController,
-         coordinatorBuilder: CoordinatorBuilder,
          viewControllerBuilder: ViewControllerBuilder,
          analyticsService: AnalyticsServiceInterface,
          travelService: TravelServiceInterface,
          notificationService: NotificationServiceInterface,
-         userService: UserServiceInterface,
-         completion: @escaping (Bool) -> Void) {
-        self.coordinatorBuilder = coordinatorBuilder
+         completion: @escaping () -> Void) {
         self.viewControllerBuilder = viewControllerBuilder
         self.analyticsService = analyticsService
         self.travelService = travelService
         self.notificationService = notificationService
-        self.userService = userService
         self.completion = completion
         super.init(navigationController: navigationController)
     }
 
     override func start(url: URL?) {
-        showCountryList()
+        showEditCountries()
     }
 
-    private func showCountryList() {
-        let viewController = viewControllerBuilder.countryList(
+    private func showEditCountries() {
+        let viewController = viewControllerBuilder.editCountries(
             travelService: travelService,
             analyticsService: analyticsService,
-            notificationService: notificationService,
-            dismissAction: dismissModal
+            notificationService: notificationService
         )
         set(viewController)
-    }
-
-    private func dismissModal() {
-        root.dismiss(animated: true, completion: nil)
     }
 }

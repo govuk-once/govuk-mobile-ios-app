@@ -4,10 +4,13 @@ typealias TravelGroupResultCompletion = (sending TravelGroupResult) -> Void
 typealias TravelGroupResult = Result<[TravelGroup], TravelError>
 typealias CountriesListResultCompletion = (sending CountriesListResult) -> Void
 typealias CountriesListResult = Result<[Country], TravelError>
+typealias SubscriptionResultCompletion = (sending SubscriptionResult) -> Void
+typealias SubscriptionResult = Result<Void, TravelError>
 
 protocol TravelServiceClientInterface {
     func fetchGroups(completion: @escaping TravelGroupResultCompletion)
     func fetchCountries(completion: @escaping CountriesListResultCompletion)
+    func subscribeToGroups(slug: String, completion: @escaping SubscriptionResultCompletion)
 }
 
 class TravelServiceClient: TravelServiceClientInterface {
@@ -35,20 +38,32 @@ class TravelServiceClient: TravelServiceClientInterface {
         )
     }
 
+    func subscribeToGroups(
+        slug: String,
+        completion: @escaping SubscriptionResultCompletion
+    ) {
+        let request = GOVRequest.subscribeToGroups(
+            slug: slug,
+        )
+        apiServiceClient.send(
+            request: request,
+            completion: { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case .failure(let error):
+                    let travelError = self.mapError(error)
+                    completion(.failure(travelError))
+                }
+            }
+        )
+    }
+
     private func handleResponse<T: Decodable>(
         _ result: NetworkResult<Data>
     ) -> Result<T, TravelError> {
         return result.mapError { error in
-            let nsError = (error as NSError)
-            if nsError.code == NSURLErrorNotConnectedToInternet {
-                return TravelError.networkUnavailable
-            } else if let travelError = error as? TravelError {
-                return travelError
-            } else if error is TokenRefreshError {
-                return TravelError.authenticationError
-            } else {
-                return TravelError.apiUnavailable
-            }
+            mapError(error)
         }.flatMap { data in
             do {
                 let travelResult: T = try JSONDecoder().decode(from: data)
@@ -58,6 +73,19 @@ class TravelServiceClient: TravelServiceClientInterface {
             } catch {
                 return .failure(TravelError.unknown)
             }
+        }
+    }
+
+    private func mapError(_ error: Error) -> TravelError {
+        let nsError = (error as NSError)
+        if nsError.code == NSURLErrorNotConnectedToInternet {
+            return TravelError.networkUnavailable
+        } else if let travelError = error as? TravelError {
+            return travelError
+        } else if error is TokenRefreshError {
+            return TravelError.authenticationError
+        } else {
+            return TravelError.apiUnavailable
         }
     }
 }

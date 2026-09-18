@@ -491,11 +491,25 @@ struct ViewControllerBuilderTests {
         let result = subject.countryList(
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService(),
             dismissAction: {
                 /* No-op */
             })
 
         let rootView = (result as? HostingViewController<CountryListView>)?.rootView
+        #expect(rootView != nil)
+    }
+
+    @Test
+    func editCountries_returnsExpectedResult() {
+        let subject = ViewControllerBuilder()
+        let result = subject.editCountries(
+            travelService: MockTravelService(),
+            analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService()
+        )
+
+        let rootView = (result as? HostingViewController<EditCountriesView>)?.rootView
         #expect(rootView != nil)
     }
 }

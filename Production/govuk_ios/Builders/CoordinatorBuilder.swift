@@ -258,6 +258,7 @@ class CoordinatorBuilder {
                 analyticsService: container.analyticsService.resolve(),
                 travelService: container.travelService.resolve(),
                 configService: container.appConfigService.resolve(),
+                notificationService: container.notificationService.resolve(),
                 coordinatorBuilder: self,
                 widgetViewBuilder: WidgetViewBuilder(),
                 viewControllerBuilder: ViewControllerBuilder(),
@@ -619,7 +620,22 @@ class CoordinatorBuilder {
             viewControllerBuilder: ViewControllerBuilder(),
             analyticsService: container.analyticsService.resolve(),
             travelService: container.travelService.resolve(),
+            notificationService: container.notificationService.resolve(),
             userService: container.userService.resolve(),
+            completion: completion
+        )
+    }
+
+    func editCountries(
+        navigationController: UINavigationController,
+        completion: @escaping () -> Void
+    ) -> BaseCoordinator {
+        EditCountriesCoordinator(
+            navigationController: navigationController,
+            viewControllerBuilder: ViewControllerBuilder(),
+            analyticsService: container.analyticsService.resolve(),
+            travelService: container.travelService.resolve(),
+            notificationService: container.notificationService.resolve(),
             completion: completion
         )
     }

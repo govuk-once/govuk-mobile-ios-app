@@ -11,6 +11,7 @@ struct TravelAlertsWidgetCoordinatorTests {
     let mockAnalyticsService = MockAnalyticsService()
     let mockConfigService = MockAppConfigService()
     let mockTravelService = MockTravelService()
+    let mockNotificationService = MockNotificationService()
     let mockNavigationController = MockNavigationController()
     let mockWidgetViewBuilder = MockWidgetViewBuilder()
     let mockViewControllerBuilder = MockViewControllerBuilder()
@@ -33,6 +34,7 @@ struct TravelAlertsWidgetCoordinatorTests {
             analyticsService: mockAnalyticsService,
             travelService: mockTravelService,
             configService: mockConfigService,
+            notificationService: mockNotificationService,
             coordinatorBuilder: CoordinatorBuilder.mock,
             widgetViewBuilder: mockWidgetViewBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
@@ -55,6 +57,7 @@ struct TravelAlertsWidgetCoordinatorTests {
             analyticsService: mockAnalyticsService,
             travelService: mockTravelService,
             configService: mockConfigService,
+            notificationService: mockNotificationService,
             coordinatorBuilder: CoordinatorBuilder.mock,
             widgetViewBuilder: mockWidgetViewBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
@@ -76,6 +79,7 @@ struct TravelAlertsWidgetCoordinatorTests {
             analyticsService: mockAnalyticsService,
             travelService: mockTravelService,
             configService: mockConfigService,
+            notificationService: mockNotificationService,
             coordinatorBuilder: CoordinatorBuilder.mock,
             widgetViewBuilder: mockWidgetViewBuilder,
             viewControllerBuilder: mockViewControllerBuilder,

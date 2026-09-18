@@ -160,7 +160,7 @@ struct InfoView<Model>: View where Model: InfoViewModelInterface {
                 shouldReduceMotion: true,
                 playbackMode: LottieLoopMode.playOnce
             )
-            .aspectRatio(contentMode: .fit)
+            .scaledToFit()
             .frame(maxHeight: 252)
         case .none:
             EmptyView()
