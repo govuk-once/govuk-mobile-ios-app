@@ -1215,6 +1215,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				govuk_ios/govuk_ios_snapshot_tests/Helpers/SnapshotTestCase.swift,
+				govuk_ios/govuk_ios_snapshot_tests/Helpers/SnapshotTravelService.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Mocks/MockDVLAAccountSummaryViewModel.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Mocks/MockDVLAAccountWidgetViewModel.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Mocks/MockTopicDetailViewModel.swift,
@@ -1246,6 +1247,7 @@
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/VehicleSpecViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/VehicleSummaryViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/VehiclesViewSnapshotTests.swift,
+				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/EditCountriesViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/EditTopicsViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/EmergencyBannerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/ErrorViewSnapshotTests.swift,
@@ -1319,6 +1321,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				govuk_ios/govuk_ios_snapshot_tests/Helpers/SnapshotTestCase.swift,
+				govuk_ios/govuk_ios_snapshot_tests/Helpers/SnapshotTravelService.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Mocks/MockDVLAAccountSummaryViewModel.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Mocks/MockDVLAAccountWidgetViewModel.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Mocks/MockTopicDetailViewModel.swift,
@@ -1349,6 +1352,7 @@
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/VehicleSpecViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/VehicleSummaryViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/VehiclesViewSnapshotTests.swift,
+				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/EditCountriesViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/EditTopicsViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/EmergencyBannerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/ErrorViewSnapshotTests.swift,
