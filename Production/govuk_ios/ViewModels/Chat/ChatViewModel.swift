@@ -7,6 +7,7 @@ import Combine
 class ChatViewModel: ObservableObject {
     private let chatService: ChatServiceInterface
     private let analyticsService: AnalyticsServiceInterface
+    private let configService: AppConfigServiceInterface
     let maxCharacters = 300
     private let openURLAction: (URL) -> Void
     private let handleError: (ChatError) -> Void
@@ -56,6 +57,7 @@ class ChatViewModel: ObservableObject {
          handleError: @escaping (ChatError) -> Void) {
         self.chatService = chatService
         self.analyticsService = analyticsService
+        self.configService = configService
         self.openURLAction = openURLAction
         self.handleError = handleError
         self.chatExampleQuestionsViewModel = .init(
@@ -150,7 +152,7 @@ class ChatViewModel: ObservableObject {
             cellModels.removeAll()
             appendIntroMessage(animate: true)
             shouldLoadHistory = false
-            showExampleQuestions = true
+            showExampleQuestions = exampleQuestionsPresent
             return
         }
         requestInFlight = true
@@ -158,24 +160,26 @@ class ChatViewModel: ObservableObject {
         chatService.chatHistory(
             conversationId: conversationId
         ) { [weak self] result in
-            self?.requestInFlight = false
-            self?.showProgressView = false
+            guard let self else { return }
+
+            requestInFlight = false
+            showProgressView = false
             switch result {
             case .success(let answers):
-                self?.shouldLoadHistory = false
-                self?.handleHistoryResponse(answers)
+                shouldLoadHistory = false
+                handleHistoryResponse(answers)
             case .failure(let error):
                 if error == .pageNotFound {
-                    self?.chatService.clearHistory()
-                    self?.cellModels.removeAll()
-                    self?.appendIntroMessage(animate: true)
-                    self?.showExampleQuestions = true
+                    chatService.clearHistory()
+                    cellModels.removeAll()
+                    appendIntroMessage(animate: true)
+                    showExampleQuestions = exampleQuestionsPresent
                 } else {
-                    self?.processError(error)
+                    processError(error)
                 }
             }
-            self?.scrollToBottom = true
-            self?.listenForDisclosure()
+            scrollToBottom = true
+            listenForDisclosure()
         }
     }
 
@@ -266,7 +270,7 @@ class ChatViewModel: ObservableObject {
     ) -> Bool {
         guard pendingQuestion == nil else { return false }
         guard answers.isEmpty else { return false }
-        return true
+        return exampleQuestionsPresent
     }
 
     private func containsPII(_ input: String) -> Bool {
@@ -279,7 +283,7 @@ class ChatViewModel: ObservableObject {
         chatService.clearHistory()
         appendIntroMessage(animate: true)
         scrollToTop = true
-        showExampleQuestions = true
+        showExampleQuestions = exampleQuestionsPresent
     }
 
     func openAboutURL() {
@@ -340,6 +344,14 @@ class ChatViewModel: ObservableObject {
             errorText = nil
             warningText = nil
         }
+    }
+
+    private var exampleQuestionsPresent: Bool {
+        guard let questions = configService.chatExampleQuestions else {
+            return false
+        }
+
+        return !questions.isEmpty
     }
 
     private func trackMenuTap(_ itemTitle: String) {
