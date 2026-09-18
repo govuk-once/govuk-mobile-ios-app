@@ -217,10 +217,12 @@ struct ChatViewModelTests {
         let mockChatService = MockChatService()
         mockChatService._stubbedQuestionResult = .success(.pendingQuestion)
         mockChatService._stubbedAnswerResults = [.success(.answeredAnswer)]
+        let configService = MockAppConfigService()
+        configService._stubbedChatExampleQuestions = ["First question"]
         let sut = ChatViewModel(
             chatService: mockChatService,
             analyticsService: MockAnalyticsService(),
-            configService: MockAppConfigService(),
+            configService: configService,
             openURLAction: { _ in },
             handleError: { _ in }
         )
@@ -345,7 +347,8 @@ struct ChatViewModelTests {
         #expect(sut.cellModels.count == 1)
         #expect(chatError == nil)
         #expect(mockChatService.currentConversationId == nil)
-        #expect(sut.showExampleQuestions == true)
+        // Example questions not present in config
+        #expect(sut.showExampleQuestions == false)
     }
 
     @Test
@@ -364,6 +367,53 @@ struct ChatViewModelTests {
 
         sut.newChat()
         #expect(mockChatService._clearHistoryCalled)
+    }
+
+    @Test
+    func newChat_emptyExampleQuestions_doesntShowQuestions() {
+        let configService = MockAppConfigService()
+        configService._stubbedChatExampleQuestions = []
+        let sut = ChatViewModel(
+            chatService: MockChatService(),
+            analyticsService: MockAnalyticsService(),
+            configService: configService,
+            openURLAction: { _ in },
+            handleError: { _ in }
+        )
+
+        sut.newChat()
+        #expect(sut.showExampleQuestions == false)
+    }
+
+    @Test
+    func newChat_nilExampleQuestions_doesntShowQuestions() {
+        let configService = MockAppConfigService()
+        configService._stubbedChatExampleQuestions = nil
+        let sut = ChatViewModel(
+            chatService: MockChatService(),
+            analyticsService: MockAnalyticsService(),
+            configService: configService,
+            openURLAction: { _ in },
+            handleError: { _ in }
+        )
+
+        sut.newChat()
+        #expect(sut.showExampleQuestions == false)
+    }
+
+    @Test
+    func newChat_exampleQuestions_showsQuestions() {
+        let configService = MockAppConfigService()
+        configService._stubbedChatExampleQuestions = ["First question"]
+        let sut = ChatViewModel(
+            chatService: MockChatService(),
+            analyticsService: MockAnalyticsService(),
+            configService: configService,
+            openURLAction: { _ in },
+            handleError: { _ in }
+        )
+
+        sut.newChat()
         #expect(sut.showExampleQuestions == true)
     }
 
