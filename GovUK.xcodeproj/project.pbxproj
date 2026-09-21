@@ -1425,10 +1425,8 @@
 				govuk_ios/govuk_ios_unit_tests/Mocks/Services/MockUserDefaultsService.swift,
 				govuk_ios/govuk_ios_unit_tests/Mocks/Services/MockUserService.swift,
 				govuk_ios/govuk_ios_unit_tests/Specs/Views/CentreAlignedBarButtonItemTests.swift,
-				"govuk_ios/shared/Arrangers/Foundation/Date+Arrangers.swift",
 				"govuk_ios/shared/Arrangers/Foundation/URL+Arrangers.swift",
 				"govuk_ios/shared/Arrangers/Model/Chat+Arrangers.swift",
-				"govuk_ios/shared/Arrangers/Model/CustomerVehicleDetails+Arrangers.swift",
 				"govuk_ios/shared/Arrangers/Model/CustomerVehicles+Arrangers.swift",
 				"govuk_ios/shared/Arrangers/Model/DrivingLicence+Arrangers.swift",
 				"govuk_ios/shared/Arrangers/Model/DvlaURLs+Arrangers.swift",
@@ -1454,11 +1452,8 @@
 				govuk_ios/shared/Mocks/MockURLOpener.swift,
 				govuk_ios/shared/Mocks/MockVehicleSpecFormatter.swift,
 				govuk_ios/shared/Mocks/Services/MockAccessibilityAnnouncerService.swift,
-				govuk_ios/shared/Mocks/Services/MockAnalyticsService.swift,
-				govuk_ios/shared/Mocks/Services/MockAppConfigService.swift,
 				govuk_ios/shared/Mocks/Services/MockAppLaunchService.swift,
 				govuk_ios/shared/Mocks/Services/MockChatService.swift,
-				govuk_ios/shared/Mocks/Services/MockDVLAService.swift,
 				govuk_ios/shared/Mocks/Services/MockInactivityService.swift,
 				govuk_ios/shared/Mocks/Services/MockLocalAuthorityService.swift,
 				govuk_ios/shared/Mocks/Services/MockNotificationService.swift,
@@ -1479,6 +1474,7 @@
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		5D9CDE3A2CD928FB0045DFC3 /* Tests */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (5D9CDF202CD928FB0045DFC3 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 5D9CDF212CD928FB0045DFC3 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 5D9CDF222CD928FB0045DFC3 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (govuk_ios/govuk_ios_snapshot_tests/ReferenceImages_64, ); path = Tests; sourceTree = "<group>"; };
+		FB983E0430615F3E00158FC7 /* Support */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Support; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2332,6 +2328,7 @@
 		5DAD71B42BD286730075F648 /* Production */ = {
 			isa = PBXGroup;
 			children = (
+				FB983E0430615F3E00158FC7 /* Support */,
 				5DAD71762BD250DB0075F648 /* govuk_ios */,
 				5DCAFA712D3FFB5600C3F284 /* govuk_ios_notification_service */,
 			);
@@ -3050,6 +3047,9 @@
 			);
 			dependencies = (
 				5DCAFA672D3FE0E800C3F284 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				FB983E0430615F3E00158FC7 /* Support */,
 			);
 			name = govuk_ios;
 			packageProductDependencies = (
