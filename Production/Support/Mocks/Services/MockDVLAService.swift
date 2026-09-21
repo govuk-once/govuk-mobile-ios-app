@@ -1,6 +1,7 @@
+#if DEBUG
 import Foundation
 
-@testable import govuk_ios
+//@testable import govuk_ios
 
 class MockDVLAService: DVLAServiceInterface {
     var _fetchCustomerVehiclesCallCount = 0
@@ -54,3 +55,4 @@ class MockDVLAService: DVLAServiceInterface {
         return _stubbedCancelShareCodeResult!
     }
 }
+#endif // DEBUG

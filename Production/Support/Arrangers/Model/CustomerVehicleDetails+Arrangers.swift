@@ -1,6 +1,5 @@
+#if DEBUG
 import Foundation
-
-@testable import govuk_ios
 
 extension CustomerVehicleDetails {
     static var arrange: CustomerVehicleDetails {
@@ -68,7 +67,7 @@ extension CustomerVehicleDetails.Vehicle {
             keeperFullAddress: keeperFullAddress,
             engineCapacity: engineCapacity,
             exhaustEmissionsCo2: exhaustEmissionsCo2
-
         )
     }
 }
+#endif // DEBUG

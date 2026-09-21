@@ -1,6 +1,5 @@
+#if DEBUG
 import Foundation
-
-@testable import govuk_ios
 
 extension Date {
     public static var arrangeRandomDateFromThisMonth: Date {
@@ -31,11 +30,11 @@ extension Date {
     }
 
     public static func arrange(_ string: String = "01/02/1993",
-                        format: String = "dd/MM/yyyy") -> Date {
+                               format: String = "dd/MM/yyyy") -> Date {
         let formatter = DateFormatter()
         formatter.dateFormat = format
         formatter.timeZone = TimeZone(secondsFromGMT: 0)
         return formatter.date(from: string)!
     }
-
 }
+#endif // DEBUG
