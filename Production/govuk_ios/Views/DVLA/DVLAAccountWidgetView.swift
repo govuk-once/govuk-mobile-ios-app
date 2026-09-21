@@ -17,7 +17,7 @@ struct DVLAAccountWidgetView: View {
             await viewModel.viewDidAppear()
         }
     }
-    
+
     @ViewBuilder
     private var accountContentView: some View {
         switch viewModel.viewState {
@@ -31,7 +31,7 @@ struct DVLAAccountWidgetView: View {
             makeErrorView(for: errorViewModel)
         }
     }
-    
+
     @ViewBuilder
     private var vehicleCheckView: some View {
         switch viewModel.viewState {

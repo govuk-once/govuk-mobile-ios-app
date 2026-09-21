@@ -19,7 +19,7 @@ struct VehicleCheckSectionView: View {
                 .padding(.top, 8)
         }
     }
-    
+
     var button: some View {
         Button(
             action: {
@@ -55,7 +55,6 @@ struct VehicleCheckSectionView: View {
                 .background(Color(uiColor: .govUK.fills.surfaceList))
                 .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
             }
-            
         )
     }
 }

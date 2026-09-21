@@ -20,7 +20,7 @@ class DVLAAccountWidgetViewModel: ObservableObject {
     private let configService: AppConfigServiceInterface
     private let notificationCenter: NotificationCenter
     private let actions: Actions
-    
+
     var vehicleCheckSectionViewModel: VehicleCheckSectionViewModel {
         .init(
             action: { [weak self] buttonTitle in
@@ -157,7 +157,7 @@ class DVLAAccountWidgetViewModel: ObservableObject {
         )
         analyticsService.track(event: event)
     }
-    
+
     private func trackVehicleCheckNavigation(buttonTitle: String) {
         let event = AppEvent.buttonNavigation(
             text: buttonTitle,
