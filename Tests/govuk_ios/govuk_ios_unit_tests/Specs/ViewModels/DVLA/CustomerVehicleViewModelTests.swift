@@ -60,7 +60,7 @@ struct CustomerVehicleViewModelTests {
         let expectedStatusString = "Valid until \(expectedDateString)"
 
         #expect(sut.taxStatusViewModel.title == String.dvla.localized("taxStatusTitle"))
-        #expect(sut.taxStatusViewModel.formattedStatus == expectedStatusString)
+        #expect(sut.taxStatusViewModel.statusInformation?.displayValue == expectedStatusString)
     }
 
     @Test
@@ -75,7 +75,7 @@ struct CustomerVehicleViewModelTests {
             configService: MockAppConfigService(),
             analyticsService: MockAnalyticsService()
         )
-        #expect(sut.taxStatusViewModel.formattedStatus == String(localized: .DVLA.valid))
+        #expect(sut.taxStatusViewModel.statusInformation?.displayValue == String(localized: .DVLA.valid))
     }
 
     @Test
@@ -97,7 +97,7 @@ struct CustomerVehicleViewModelTests {
         String(localized: .DVLA.validUntil(date: expectedDateString))
         #expect(sut.motStatusViewModel.title ==
                 String(localized: .DVLA.motStatusTitle))
-        #expect(sut.motStatusViewModel.formattedStatus == expectedStatusString)
+        #expect(sut.motStatusViewModel.statusInformation?.displayValue == expectedStatusString)
     }
 
     @Test
@@ -114,7 +114,7 @@ struct CustomerVehicleViewModelTests {
             analyticsService: MockAnalyticsService()
         )
 
-        #expect(sut.motStatusViewModel.formattedStatus == String(localized: .DVLA.motUnknown))
+        #expect(sut.motStatusViewModel.statusInformation?.displayValue == String(localized: .DVLA.motUnknown))
     }
 
     @Test
