@@ -1,6 +1,9 @@
 included:
   - Production
 
+excluded:
+  - Production/Support
+
 analyzer_rules:
 - unused_import
 
