@@ -83,17 +83,4 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator,
         )
         present(coordinator)
     }
-
-    private func startUnlinkAccount() {
-        let navigationController = UINavigationController()
-        navigationController.modalPresentationStyle = .fullScreen
-        let coordinator = coordinatorBuilder.serviceAccountUnlink(
-            navigationController: navigationController,
-            accountType: .dvla,
-            completion: {
-                print("service account unlinking dismissed")
-            }
-        )
-        present(coordinator)
-    }
 }
