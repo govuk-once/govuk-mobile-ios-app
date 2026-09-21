@@ -56,6 +56,9 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator,
             },
             openURLAction: { [weak self] url in
                 self?.urlOpener.openIfPossible(url)
+            },
+            vehicleCheckAction: {
+                print("check a vehicle button tapped")
             }
         )
     }

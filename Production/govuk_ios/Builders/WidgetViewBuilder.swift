@@ -10,12 +10,14 @@ class WidgetViewBuilder {
         configService: AppConfigServiceInterface,
         linkAction: @escaping () -> Void,
         vehicleDetailAction: @escaping (Int) -> Void,
-        openURLAction: @escaping (URL) -> Void
+        openURLAction: @escaping (URL) -> Void,
+        vehicleCheckAction: @escaping () -> Void
     ) -> AnyView? {
         let actions = DVLAAccountWidgetViewModel.Actions(
             linkAction: linkAction,
             vehicleDetailAction: vehicleDetailAction,
-            openURLAction: openURLAction
+            openURLAction: openURLAction,
+            vehicleCheckAction: vehicleCheckAction
         )
         let viewModel = DVLAAccountWidgetViewModel(
             analyticsService: analyticsService,

@@ -1168,6 +1168,50 @@
         }
       }
     },
+    "vehicleCheckButtonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search for a vehicle"
+          }
+        }
+      }
+    },
+    "vehicleCheckSubtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tax and MOT information for any vehicle"
+          }
+        }
+      }
+    },
+    "vehicleCheckSubtitleAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tax and M.O.T. information for any vehicle"
+          }
+        }
+      }
+    },
+    "vehicleCheckTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check vehicle details"
+          }
+        }
+      }
+    },
     "vehicleMake" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1285,6 +1329,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Model"
+          }
+        }
+      }
+    },
+    "vehicleRegAbc" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ABC"
           }
         }
       }

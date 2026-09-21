@@ -20,6 +20,15 @@ class DVLAAccountWidgetViewModel: ObservableObject {
     private let configService: AppConfigServiceInterface
     private let notificationCenter: NotificationCenter
     private let actions: Actions
+    
+    var vehicleCheckSectionViewModel: VehicleCheckSectionViewModel {
+        .init(
+            action: { [weak self] buttonTitle in
+                self?.trackVehicleCheckNavigation(buttonTitle: buttonTitle)
+                self?.actions.vehicleCheckAction()
+            }
+        )
+    }
 
     init(viewState: ViewState = .loading,
          analyticsService: AnalyticsServiceInterface,
@@ -77,7 +86,8 @@ class DVLAAccountWidgetViewModel: ObservableObject {
             )
             let accountSummaryViewModel = DVLAAccountSummaryViewModel(
                 vehiclesViewModel: vehiclesViewModel,
-                licenceViewModel: licenceViewModel
+                licenceViewModel: licenceViewModel,
+                vehicleCheckSectionViewModel: vehicleCheckSectionViewModel
             )
             viewState = .linked(
                 accountSummary: accountSummaryViewModel
@@ -147,6 +157,15 @@ class DVLAAccountWidgetViewModel: ObservableObject {
         )
         analyticsService.track(event: event)
     }
+    
+    private func trackVehicleCheckNavigation(buttonTitle: String) {
+        let event = AppEvent.buttonNavigation(
+            text: buttonTitle,
+            external: false,
+            section: "Driving"
+        )
+        analyticsService.track(event: event)
+    }
 }
 
 extension DVLAAccountWidgetViewModel {
@@ -154,5 +173,6 @@ extension DVLAAccountWidgetViewModel {
         let linkAction: () -> Void
         let vehicleDetailAction: (Int) -> Void
         let openURLAction: (URL) -> Void
+        let vehicleCheckAction: () -> Void
     }
 }

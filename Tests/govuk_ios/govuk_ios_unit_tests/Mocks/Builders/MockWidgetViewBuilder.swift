@@ -13,7 +13,8 @@ class MockWidgetViewBuilder: WidgetViewBuilder {
         configService: AppConfigServiceInterface,
         linkAction: @escaping () -> Void,
         vehicleDetailAction: @escaping (Int) -> Void,
-        openURLAction: @escaping (URL) -> Void
+        openURLAction: @escaping (URL) -> Void,
+        vehicleCheckAction: @escaping () -> Void
     ) -> AnyView? {
         _receivedDvlaAccountWidgetLinkAction = linkAction
         _receivedVehicleDetailAction = vehicleDetailAction

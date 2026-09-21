@@ -129,7 +129,8 @@ struct DVLAAccountWidgetViewModelTests {
                     linkActionCalled = true
                 },
                 vehicleDetailAction: { _ in },
-                openURLAction: { _ in }
+                openURLAction: { _ in },
+                vehicleCheckAction: {}
             )
         )
         await sut.viewDidAppear()
@@ -194,6 +195,27 @@ struct DVLAAccountWidgetViewModelTests {
         }
         #expect(viewStateIsLinked == false)
     }
+    
+    @Test
+    func vehicleCheckSectionViewModelAction_tracksNavigationEvent() async {
+        mockUserService._stubbedLinkedAccounts = []
+        let sut = DVLAAccountWidgetViewModel(
+            analyticsService: mockAnalyticsService,
+            userService: mockUserService,
+            dvlaService: mockDvlaService,
+            configService: mockConfigService,
+            notificationCenter: mockNotificationCenter,
+            actions: .empty
+        )
+        await sut.viewDidAppear()
+        sut.vehicleCheckSectionViewModel.action("Search for a vehicle")
+
+        let navigationEvent = mockAnalyticsService._trackedEvents.first
+        #expect(navigationEvent?.params?["text"] as? String == "Search for a vehicle")
+        #expect(navigationEvent?.params?["type"] as? String == "Button")
+        #expect(navigationEvent?.params?["section"] as? String == "Driving")
+        #expect(navigationEvent?.name == "Navigation")
+    }
 
 }
 
@@ -202,7 +224,8 @@ extension DVLAAccountWidgetViewModel.Actions {
         .init(
             linkAction: {},
             vehicleDetailAction: { _ in },
-            openURLAction: { _ in }
+            openURLAction: { _ in },
+            vehicleCheckAction: {}
         )
     }
 }

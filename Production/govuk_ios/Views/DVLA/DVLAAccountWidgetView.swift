@@ -9,20 +9,37 @@ struct DVLAAccountWidgetView: View {
     }
 
     var body: some View {
-        Group {
-            switch viewModel.viewState {
-            case .loading:
-                loadingView
-            case .linked(let accountSummaryViewModel):
-                makeAccountSummaryView(for: accountSummaryViewModel)
-            case .unlinked(let linkCardViewModel):
-                makeLinkCardView(for: linkCardViewModel)
-            case .error(let errorViewModel):
-                makeErrorView(for: errorViewModel)
-            }
+        VStack(spacing: 0) {
+            accountContentView
+            vehicleCheckView
         }
         .task {
             await viewModel.viewDidAppear()
+        }
+    }
+    
+    @ViewBuilder
+    private var accountContentView: some View {
+        switch viewModel.viewState {
+        case .loading:
+            loadingView
+        case .linked(let accountSummaryViewModel):
+            makeAccountSummaryView(for: accountSummaryViewModel)
+        case .unlinked(let linkCardViewModel):
+            makeLinkCardView(for: linkCardViewModel)
+        case .error(let errorViewModel):
+            makeErrorView(for: errorViewModel)
+        }
+    }
+    
+    @ViewBuilder
+    private var vehicleCheckView: some View {
+        switch viewModel.viewState {
+        case .loading, .unlinked, .error:
+            VehicleCheckSectionView(viewModel: viewModel.vehicleCheckSectionViewModel)
+                .padding([.horizontal, .top], 16)
+        case .linked:
+            EmptyView()
         }
     }
 
