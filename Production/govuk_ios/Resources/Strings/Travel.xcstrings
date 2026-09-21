@@ -133,6 +133,28 @@
         }
       }
     },
+    "editCountriesErrorDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This action could not be completed. Please try again."
+          }
+        }
+      }
+    },
+    "editCountriesErrorTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "There was a problem"
+          }
+        }
+      }
+    },
     "editCountriesFollowAnother" : {
       "extractionState" : "manual",
       "localizations" : {

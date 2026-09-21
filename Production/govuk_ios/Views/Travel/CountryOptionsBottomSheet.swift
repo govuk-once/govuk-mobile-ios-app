@@ -1,10 +1,16 @@
 import SwiftUI
 import GovKitUI
 
-struct EditCountryDetailsBottomSheet: View {
+struct CountryOptionsBottomSheet: View {
     @ObservedObject var viewModel: EditCountriesViewModel
-    let countryId: String
-    let countryName: String
+    let country: Country
+    let notificationsEnabled: Bool
+    let isTogglingNotifications: Bool
+    let isUnfollowing: Bool
+    let toggleError: String?
+    let onNotificationsToggle: (Bool) -> Void
+    let onUnfollow: () -> Void
+    let onClearToggleError: () -> Void
     @Environment(\.dismiss) var dismiss
 
     var body: some View {
@@ -21,7 +27,7 @@ struct EditCountryDetailsBottomSheet: View {
 
                 Spacer()
 
-                Text(countryName)
+                Text(country.name)
                     .font(Font.govUK.headlineSemibold)
                     .foregroundColor(Color(UIColor.govUK.text.primary))
 
@@ -49,11 +55,9 @@ struct EditCountryDetailsBottomSheet: View {
                         )
                         .disabled(viewModel.isToggleLoading)
                         .onChange(
-                            of: viewModel.selectedCountryNotificationEnabled
+                            of: notificationsEnabled
                         ) { _ in
-                            Task { [countryId] in
-                                await viewModel.toggleNotifications(for: countryId)
-                            }
+                            onNotificationsToggle(notificationsEnabled)
                         }
                     }
                     .padding(.horizontal, 16)
@@ -62,9 +66,7 @@ struct EditCountryDetailsBottomSheet: View {
                     .roundedBorder(borderColor: Color(UIColor.govUK.fills.surfaceListAlt))
 
                     Button {
-                        Task {
-                            await viewModel.unfollowCountry(countryId)
-                        }
+                        onUnfollow()
                     } label: {
                         HStack(alignment: .center) {
                             Spacer()

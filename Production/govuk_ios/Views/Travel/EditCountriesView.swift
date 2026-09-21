@@ -38,11 +38,11 @@ struct EditCountriesView: View {
             isPresented: $viewModel.isShowingCountryDetails,
             content: {
                 if let selectedCountry = viewModel.selectedCountry {
-                    EditCountryDetailsBottomSheet(
-                        viewModel: viewModel,
-                        countryId: selectedCountry.id,
-                        countryName: selectedCountry.name
-                    )
+//                    CountryOptionsBottomSheet(
+//                        viewModel: viewModel,
+//                        countryId: selectedCountry.id,
+//                        countryName: selectedCountry.name
+//                    )
                 }
             }
         )

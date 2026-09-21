@@ -22,6 +22,9 @@ class EditCountriesViewModel: ObservableObject {
     @Published var selectedCountry: SelectedCountry?
     @Published var selectedCountryNotificationEnabled = false
     @Published var isToggleLoading = false
+    @Published var isUnfollowing = false
+    @Published var toggleError: String?
+    @Published var unfollowError: String?
 
     private let travelService: TravelServiceInterface
     private let notificationService: NotificationServiceInterface
@@ -76,14 +79,15 @@ class EditCountriesViewModel: ObservableObject {
 
     @MainActor
     func toggleNotifications(slug: String, enabled: Bool) async {
+        isToggleLoading = true
         travelService.toggleNotifications(slug: slug, enabled: enabled) { [weak self] result in
             Task { @MainActor in
                 switch result {
                 case .success:
-                    // Update toggle logic
-                    break
+                    self?.isToggleLoading = false
                 case .failure:
-                    self?.viewState = .error
+                    self?.isToggleLoading = false
+                    self?.toggleError = "Failed to update notifications"
                 }
             }
         }
@@ -91,6 +95,7 @@ class EditCountriesViewModel: ObservableObject {
 
     @MainActor
     func unfollowCountry(slug: String, enabled: Bool) async {
+        isUnfollowing = true
         travelService.unfollowCountry(
             slug: slug,
             currentNotificationsEnabled: enabled
@@ -100,7 +105,8 @@ class EditCountriesViewModel: ObservableObject {
                 case .success:
                     await self?.fetchCountryList()
                 case .failure:
-                    self?.viewState = .error
+                    self?.isUnfollowing = false
+                    self?.unfollowError = "Failed to unfollow country"
                 }
             }
         }
@@ -186,20 +192,5 @@ class EditCountriesViewModel: ObservableObject {
         selectedCountry = SelectedCountry(id: countryId, name: countryName)
         selectedCountryNotificationEnabled = false
         isShowingCountryDetails = true
-    }
-
-    @MainActor
-    func toggleNotifications(for countryId: String) async {
-        isToggleLoading = true
-        let newState = !selectedCountryNotificationEnabled
-
-        // Make API call to update notification state
-    }
-
-    @MainActor
-    func unfollowCountry(_ countryId: String) async {
-        isToggleLoading = true
-
-        // Make API call to unfollow the country
     }
 }
