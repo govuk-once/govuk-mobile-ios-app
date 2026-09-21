@@ -1,7 +1,5 @@
 import Foundation
 
-@testable import govuk_ios
-
 class MockUserService: UserServiceInterface {
     var _stubbedLinkedAccounts: [ServiceAccountType]?
     var _linkedAccountCallCount = 0

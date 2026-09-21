@@ -1,7 +1,5 @@
 import Foundation
 
-@testable import govuk_ios
-
 extension DrivingLicence {
     static var arrange: DrivingLicence {
         arrange()
