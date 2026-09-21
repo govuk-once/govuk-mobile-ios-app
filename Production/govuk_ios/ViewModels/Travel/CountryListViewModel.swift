@@ -65,7 +65,7 @@ class CountryListViewModel: ObservableObject {
     }
 
     private func subscribeToCountryAlerts(_ country: Country) {
-        travelService.subscribeToGroups(
+        travelService.subscribeToCountry(
             slug: country.slug,
             completion: { [weak self] result in
                 switch result {

@@ -75,6 +75,38 @@ class EditCountriesViewModel: ObservableObject {
     }
 
     @MainActor
+    func toggleNotifications(slug: String, enabled: Bool) async {
+        travelService.toggleNotifications(slug: slug, enabled: enabled) { [weak self] result in
+            Task { @MainActor in
+                switch result {
+                case .success:
+                    // Update toggle logic
+                    break
+                case .failure:
+                    self?.viewState = .error
+                }
+            }
+        }
+    }
+
+    @MainActor
+    func unfollowCountry(slug: String, enabled: Bool) async {
+        travelService.unfollowCountry(
+            slug: slug,
+            currentNotificationsEnabled: enabled
+        ) { [weak self] result in
+            Task { @MainActor in
+                switch result {
+                case .success:
+                    await self?.fetchCountryList()
+                case .failure:
+                    self?.viewState = .error
+                }
+            }
+        }
+    }
+
+    @MainActor
     private func fetchCountryList() async {
         viewState = .loading
 

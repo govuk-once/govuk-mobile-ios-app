@@ -24,7 +24,7 @@ class MockTravelServiceClient: TravelServiceClientInterface {
         _receivedFetchCountriesCompletion = completion
     }
 
-    func subscribeToGroups(slug: String, completion: @escaping SubscriptionResultCompletion) {
+    func subscribeToCountry(slug: String, completion: @escaping SubscriptionResultCompletion) {
         _subscribeToGroupsCallCount += 1
         _receivedSubscribeSlug = slug
         _receivedSubscribeCompletion = completion

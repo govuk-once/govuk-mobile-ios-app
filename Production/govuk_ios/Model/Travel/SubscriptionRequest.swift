@@ -5,10 +5,12 @@ struct SubscriptionRequest: Codable {
 
     enum SubscriptionAction: String, Codable {
         case join = "JOIN"
+        case leave = "LEAVE"
     }
 
     enum SubscriptionGroup: String, Codable {
         case DAILY = "daily"
+        case NONE = "none"
     }
 
     let namespace: String

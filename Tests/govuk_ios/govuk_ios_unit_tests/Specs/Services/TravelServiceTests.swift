@@ -126,7 +126,7 @@ struct TravelServiceTests {
         let slug = "travel-group-1"
 
         let result = await withCheckedContinuation { continuation in
-            sut.subscribeToGroups(slug: slug) { result in
+            sut.subscribeToCountry(slug: slug) { result in
                 continuation.resume(returning: result)
             }
             mockTravelServiceClient._receivedSubscribeCompletion?(.success(()))
@@ -142,7 +142,7 @@ struct TravelServiceTests {
         let slug = "travel-group-1"
 
         let result = await withCheckedContinuation { continuation in
-            sut.subscribeToGroups(slug: slug) { result in
+            sut.subscribeToCountry(slug: slug) { result in
                 continuation.resume(returning: result)
             }
             mockTravelServiceClient._receivedSubscribeCompletion?(.success(()))
@@ -157,7 +157,7 @@ struct TravelServiceTests {
         let slug = "travel-group-1"
 
         let result = await withCheckedContinuation { continuation in
-            sut.subscribeToGroups(slug: slug) { result in
+            sut.subscribeToCountry(slug: slug) { result in
                 continuation.resume(returning: result)
             }
             mockTravelServiceClient._receivedSubscribeCompletion?(.failure(.apiUnavailable))

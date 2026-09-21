@@ -4,7 +4,17 @@ import GovKit
 protocol TravelServiceInterface {
     func getGroups(forceRefresh: Bool, completion: @escaping TravelGroupResultCompletion)
     func getCountries(forceRefresh: Bool, completion: @escaping CountriesListResultCompletion)
-    func subscribeToGroups(slug: String, completion: @escaping SubscriptionResultCompletion)
+    func subscribeToCountry(slug: String, completion: @escaping SubscriptionResultCompletion)
+    func toggleNotifications(
+        slug: String,
+        enabled: Bool,
+        completion: @escaping SubscriptionResultCompletion
+    )
+    func unfollowCountry(
+        slug: String,
+        currentNotificationsEnabled: Bool,
+        completion: @escaping SubscriptionResultCompletion
+    )
     func invalidateGroups()
     func invalidateCountries()
     func invalidateCache()
@@ -70,12 +80,52 @@ class TravelService: TravelServiceInterface {
         )
     }
 
-    func subscribeToGroups(
+    func subscribeToCountry(
         slug: String,
         completion: @escaping SubscriptionResultCompletion
     ) {
-        travelServiceClient.subscribeToGroups(
+        travelServiceClient.subscribeToCountry(
             slug: slug,
+            completion: { result in
+                switch result {
+                case .success:
+                    self.invalidateGroups()
+                    completion(.success(()))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+        )
+    }
+
+    func toggleNotifications(
+        slug: String,
+        enabled: Bool,
+        completion: @escaping SubscriptionResultCompletion
+    ) {
+        travelServiceClient.toggleNotifications(
+            slug: slug,
+            enabled: enabled,
+            completion: { result in
+                switch result {
+                case .success:
+                    self.invalidateGroups()
+                    completion(.success(()))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+        )
+    }
+
+    func unfollowCountry(
+        slug: String,
+        currentNotificationsEnabled: Bool,
+        completion: @escaping SubscriptionResultCompletion
+    ) {
+        travelServiceClient.unfollowCountry(
+            slug: slug,
+            currentNotificationsEnabled: currentNotificationsEnabled,
             completion: { result in
                 switch result {
                 case .success:

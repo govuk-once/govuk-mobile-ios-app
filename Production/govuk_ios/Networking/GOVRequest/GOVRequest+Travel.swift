@@ -29,18 +29,11 @@ extension GOVRequest {
         )
     }
 
-    static func subscribeToGroups(slug: String) -> GOVRequest {
-        let body = [SubscriptionRequest(
-            namespace: "travel",
-            group: slug,
-            subgroup: .DAILY,
-            type: .notification,
-            action: .join
-        )]
+    static func subscribeToGroups(subscriptionsBody: [SubscriptionRequest]) -> GOVRequest {
         return GOVRequest(
             urlPath: groupsPath,
             method: .post,
-            body: body,
+            body: subscriptionsBody,
             queryParameters: nil,
             additionalHeaders: additionalHeaders,
             requiresAuthentication: true

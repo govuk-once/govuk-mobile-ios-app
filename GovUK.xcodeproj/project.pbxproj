@@ -2720,11 +2720,11 @@
 		855B8BFB302E07B3001D1A9C /* Travel */ = {
 			isa = PBXGroup;
 			children = (
+				855B8BFC302E07C6001D1A9C /* CountryListView.swift */,
 				2DD46BD4305D524500B83F7C /* EditCountryDetailsBottomSheet.swift */,
+				85D6F089305A8AA1006123B7 /* EditCountriesView.swift */,
 				85625914304F0FD100FBB5EF /* TravelAlertsPermissionView.swift */,
 				85611CD0302F4EFD008EB3B1 /* TravelAlertsWidgetView.swift */,
-				855B8BFC302E07C6001D1A9C /* CountryListView.swift */,
-				85D6F089305A8AA1006123B7 /* EditCountriesView.swift */,
 			);
 			path = Travel;
 			sourceTree = "<group>";
