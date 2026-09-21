@@ -6,9 +6,10 @@ protocol ValidityStatus {}
 
 struct ValidityStatusViewModel {
     let title: String?
-    let formattedStatus: String
     let status: ValidityStatus?
-    let statusAccessibilityLabel: String?
+
+    let statusInformation: StatusInformation?
+
     let iconName: String?
     let iconTintColour: UIColor?
     let progressViewModel: ExpiryProgressViewModel?
@@ -29,9 +30,8 @@ struct ValidityStatusViewModel {
     }
 
     init(title: String? = nil,
-         formattedStatus: String,
          status: ValidityStatus? = nil,
-         statusAccessibilityLabel: String? = nil,
+         statusInformation: StatusInformation?,
          iconName: String? = nil,
          iconTintColour: UIColor? = nil,
          progressViewModel: ExpiryProgressViewModel? = nil,
@@ -40,8 +40,6 @@ struct ValidityStatusViewModel {
          buttonAction: (() -> Void)? = nil,
          buttonConfiguration: GOVUKButton.ButtonConfiguration? = nil) {
         self.title = title
-        self.formattedStatus = formattedStatus
-        self.statusAccessibilityLabel = statusAccessibilityLabel
         self.iconName = iconName
         self.iconTintColour = iconTintColour
         self.progressViewModel = progressViewModel
@@ -50,5 +48,27 @@ struct ValidityStatusViewModel {
         self.buttonAction = buttonAction
         self.buttonConfiguration = buttonConfiguration
         self.status = status
+        self.statusInformation = statusInformation
+    }
+}
+
+///
+/// Represents information to be displayed in a status section of the UI.
+///
+struct StatusInformation: Equatable {
+    private let title: AccessibleString
+    let linkAction: (() -> Void)?
+
+    var displayValue: String { title.displayValue }
+    var accessibilityLabel: String { title.accessibilityLabel }
+
+    static func == (lhs: StatusInformation, rhs: StatusInformation) -> Bool {
+            lhs.title == rhs.title &&
+            ((lhs.linkAction == nil) == (rhs.linkAction == nil))
+    }
+
+    init(_ title: String, accessibilityLabel: String? = nil, linkAction: (() -> Void)? = nil) {
+        self.title = AccessibleString(title, accessibilityLabel: accessibilityLabel)
+        self.linkAction = linkAction
     }
 }

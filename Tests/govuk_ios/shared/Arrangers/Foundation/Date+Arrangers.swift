@@ -34,6 +34,7 @@ extension Date {
                         format: String = "dd/MM/yyyy") -> Date {
         let formatter = DateFormatter()
         formatter.dateFormat = format
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)
         return formatter.date(from: string)!
     }
 

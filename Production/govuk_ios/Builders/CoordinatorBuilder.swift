@@ -258,6 +258,7 @@ class CoordinatorBuilder {
                 analyticsService: container.analyticsService.resolve(),
                 travelService: container.travelService.resolve(),
                 configService: container.appConfigService.resolve(),
+                notificationService: container.notificationService.resolve(),
                 coordinatorBuilder: self,
                 widgetViewBuilder: WidgetViewBuilder(),
                 viewControllerBuilder: ViewControllerBuilder(),
@@ -564,18 +565,6 @@ class CoordinatorBuilder {
         )
     }
 
-    func dvlaAccount(
-        navigationController: UINavigationController,
-        viewType: DVLAAccountViewType
-    ) -> BaseCoordinator {
-        DVLAAccountCoordinator(
-            navigationController: navigationController,
-            viewControllerBuilder: ViewControllerBuilder(),
-            dvlaService: container.dvlaService.resolve(),
-            viewType: viewType
-        )
-    }
-
     func serviceAccountRedirect(
         navigationController: UINavigationController,
         accountType: ServiceAccountType,
@@ -631,6 +620,7 @@ class CoordinatorBuilder {
             viewControllerBuilder: ViewControllerBuilder(),
             analyticsService: container.analyticsService.resolve(),
             travelService: container.travelService.resolve(),
+            notificationService: container.notificationService.resolve(),
             userService: container.userService.resolve(),
             completion: completion
         )

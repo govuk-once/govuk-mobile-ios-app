@@ -3,7 +3,7 @@ import Foundation
 typealias DrivingLicenceResult = Result<DrivingLicence, DVLAError>
 typealias CustomerVehiclesResult = Result<CustomerVehicles, DVLAError>
 typealias CustomerVehicleDetailsResult = Result<CustomerVehicleDetails, DVLAError>
-typealias VehicleResult = Result<Vehicle, DVLAError>
+typealias VehicleResult = Result<VehicleEnquiryResponse, DVLAError>
 typealias ShareCodesResult = Result<ShareCodeListResponse, DVLAError>
 typealias ShareCodeResult = Result<ShareCodeResponse, DVLAError>
 
