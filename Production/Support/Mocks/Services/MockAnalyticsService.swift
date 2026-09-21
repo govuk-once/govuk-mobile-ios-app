@@ -1,6 +1,6 @@
-import XCTest
+#if DEBUG
 
-@testable import GovKit
+import GovKit
 
 class MockAnalyticsService: AnalyticsServiceInterface {
     var _setExistingConsentCalled: Bool = false
@@ -49,3 +49,4 @@ class MockAnalyticsService: AnalyticsServiceInterface {
         _stubbedPermissionState
     }
 }
+#endif // DEBUG

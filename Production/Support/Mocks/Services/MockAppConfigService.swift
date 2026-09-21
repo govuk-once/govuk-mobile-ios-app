@@ -1,6 +1,5 @@
+#if DEBUG
 import Foundation
-
-@testable import govuk_ios
 
 class MockAppConfigService: AppConfigServiceInterface {
     var _stubbedChatExampleQuestions: [String]?
@@ -99,3 +98,4 @@ class MockAppConfigService: AppConfigServiceInterface {
         _stubbedPromoBannersLink
     }
 }
+#endif // DEBUG
