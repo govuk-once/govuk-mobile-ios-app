@@ -7,7 +7,7 @@ struct TopicSelectionCardView: View {
     var body: some View {
         HStack(spacing: 16) {
             Image(viewModel.iconName)
-                .aspectRatio(contentMode: .fit)
+                .scaledToFit()
                 .frame(width: 40, height: 40)
             Text(viewModel.title)
                 .font(.govUK.bodySemibold)
