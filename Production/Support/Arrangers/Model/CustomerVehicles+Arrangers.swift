@@ -1,7 +1,5 @@
 import Foundation
 
-@testable import govuk_ios
-
 extension CustomerVehicles {
     static var arrange: CustomerVehicles {
         arrange()
