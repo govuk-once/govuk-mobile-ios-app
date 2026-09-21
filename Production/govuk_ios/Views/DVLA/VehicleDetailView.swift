@@ -173,3 +173,31 @@ extension VehicleDetailView: TrackableScreen {
     var trackingTitle: String? { trackingName }
     var trackingName: String { "VehicleDetailsScreen" }
 }
+
+#if DEBUG
+@available(iOS 17.0, *)
+#Preview("Vehicle Details") {
+    @Previewable @StateObject var viewModel: VehicleDetailViewModel = {
+        let vehicle = CustomerVehicleDetails.Vehicle.arrange(
+            taxedUntil: .arrange("12/12/2030"),
+            motStatus: "Valid",
+            motExpiryDate: .arrange("12/12/2030")
+        )
+
+        let dvlaService = MockDVLAService()
+        dvlaService._stubbedCustomerVehicleDetailsResult = .success(
+            .arrange(customerVehicleDetails: vehicle)
+        )
+
+        return VehicleDetailViewModel(vehicleId: vehicle.vehicleId,
+                                      analyticsService: MockAnalyticsService(),
+                                      dvlaService: dvlaService,
+                                      configService: MockAppConfigService(),
+                                      openURLAction: {_ in })
+    }()
+
+    NavigationStack {
+        VehicleDetailView(viewModel: viewModel)
+    }
+}
+#endif // DEBUG
