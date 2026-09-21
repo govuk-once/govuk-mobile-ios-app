@@ -5,6 +5,8 @@ protocol TravelRepositoryInterface {
     func store(groups: [TravelGroup])
     func fetchCountries() -> [Country]?
     func store(countries: [Country])
+    func invalidateGroups()
+    func invalidateCountries()
     func clear()
 }
 
@@ -28,8 +30,16 @@ final class TravelRepository: TravelRepositoryInterface {
         self.countries = countries
     }
 
+    func invalidateGroups() {
+        groups = nil
+    }
+
+    func invalidateCountries() {
+        countries = nil
+    }
+
     func clear() {
-        groups?.removeAll()
-        countries?.removeAll()
+        groups = nil
+        countries = nil
     }
 }

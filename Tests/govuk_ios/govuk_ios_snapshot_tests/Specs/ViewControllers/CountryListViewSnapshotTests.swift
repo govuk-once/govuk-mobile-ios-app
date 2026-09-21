@@ -232,10 +232,11 @@ final class CountryListViewSnapshotTests: SnapshotTestCase {
     private func makeViewModel(travelService: TravelServiceInterface? = nil) -> CountryListViewModel {
         let mockTravelService = travelService ?? MockTravelService()
         let analyticsService = MockAnalyticsService()
+        let notificationService = MockNotificationService()
         return CountryListViewModel(
             travelService: mockTravelService,
             analyticsService: analyticsService,
-            countrySelectedAction: { _ in /*Empty for tests*/},
+            notificationService: notificationService,
             dismissAction: { /*Empty For Tests*/ }
         )
     }
