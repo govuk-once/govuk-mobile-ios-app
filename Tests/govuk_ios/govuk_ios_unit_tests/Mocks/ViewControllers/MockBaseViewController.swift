@@ -2,6 +2,8 @@ import Foundation
 import UIKit
 import GovKit
 
+@testable import govuk_ios
+
 @MainActor
 class MockBaseViewController: BaseViewController,
                               TrackableScreen {
