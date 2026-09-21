@@ -33,7 +33,7 @@ struct VehicleSummaryView: View {
                 .overlay(Color(uiColor: .govUK.strokes.listDivider))
                 .padding(.horizontal, Self.standardPadding)
                 .padding(.vertical, 8)
-            MotValidityStatusView(viewModel: viewModel.motStatusViewModel)
+            ValidityStatusView(viewModel: viewModel.motStatusViewModel)
             Divider()
                 .overlay(Color(uiColor: .govUK.strokes.listDivider))
                 .padding(.top, 8)
