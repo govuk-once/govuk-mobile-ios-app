@@ -84,4 +84,24 @@ struct AppEnvironmentServiceTests {
         )
         #expect(sut.dvlaAuthenticationURL.absoluteString == "https://www.dvla.gov.uk/auth")
     }
+
+    @Test
+    func qualtricsBrandId_returnsExpectedValue() {
+        let mockConfig = ["QUALTRICS_BRAND_ID": "123456"]
+        let sut = AppEnvironmentService(
+            config: mockConfig
+        )
+
+        #expect(sut.qualtricsBrandId == "123456")
+    }
+
+    @Test
+    func qualtricsProjectId_returnsExpectedValue() {
+        let mockConfig = ["QUALTRICS_PROJECT_ID": "123456"]
+        let sut = AppEnvironmentService(
+            config: mockConfig
+        )
+
+        #expect(sut.qualtricsProjectId == "123456")
+    }
 }

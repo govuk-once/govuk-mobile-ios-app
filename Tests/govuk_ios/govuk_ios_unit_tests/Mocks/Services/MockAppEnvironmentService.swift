@@ -3,6 +3,8 @@ import Foundation
 @testable import govuk_ios
 
 class MockAppEnvironmentService: AppEnvironmentServiceInterface {
+    var qualtricsBrandId: String = "brandID"
+    var qualtricsProjectId: String = "projectID"
     var baseURL: URL = URL(string: "www.google.com")!
     var oneSignalAppId: String = "one_signal_test"
     var authenticationClientId: String = "clientID"
