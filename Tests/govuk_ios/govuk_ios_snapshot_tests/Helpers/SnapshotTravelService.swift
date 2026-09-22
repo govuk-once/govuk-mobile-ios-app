@@ -30,6 +30,14 @@ final class SnapshotTravelService: TravelServiceInterface {
         completion(.success(()))
     }
 
+    func toggleNotifications(slug: String, enabled: Bool, completion: @escaping SubscriptionResultCompletion) {
+        completion(.success(()))
+    }
+
+    func unfollowCountry(slug: String, currentNotificationsEnabled: Bool, completion: @escaping SubscriptionResultCompletion) {
+        completion(.success(()))
+    }
+
     func invalidateCache() {}
 
     func invalidateGroups() {}

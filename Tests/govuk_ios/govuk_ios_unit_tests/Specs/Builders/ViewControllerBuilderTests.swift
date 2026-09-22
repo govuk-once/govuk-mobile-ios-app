@@ -492,7 +492,7 @@ struct ViewControllerBuilderTests {
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            dismissAction: {
+            dismissAction: { _ in 
                 /* No-op */
             })
 

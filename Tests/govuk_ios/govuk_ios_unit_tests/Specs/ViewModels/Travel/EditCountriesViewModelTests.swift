@@ -302,7 +302,7 @@ struct EditCountriesViewModelTests {
 
         sut.openCountryList()
         #expect(sut.isShowingList == true)
-        sut.didDismissList()
+        sut.didDismissList(forceRefresh: true)
         #expect(sut.isShowingList == false)
     }
 
@@ -352,7 +352,7 @@ struct EditCountriesViewModelTests {
         #expect(sut.isShowingList == true)
 
         // The lazy countryListViewModel's dismissAction should call didDismissList
-        sut.didDismissList()
+        sut.didDismissList(forceRefresh: true)
         #expect(sut.isShowingList == false)
     }
 

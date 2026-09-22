@@ -16,11 +16,11 @@ struct CountryListViewModelTests {
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            dismissAction: {
+            dismissAction: { _ in
             didCallDismiss = true
         })
 
-        viewModel.dismissAction()
+        viewModel.dismissAction(true)
 
         #expect(didCallDismiss == true)
     }
@@ -32,7 +32,7 @@ struct CountryListViewModelTests {
             travelService: MockTravelService(),
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
-            dismissAction: { /*EmptyForTests*/ })
+            dismissAction: { _ in /*EmptyForTests*/ })
 
         let screen = CountryListView(viewModel: viewModel)
         viewModel.trackScreen(screen: screen)
@@ -49,7 +49,7 @@ struct CountryListViewModelTests {
             travelService: MockTravelService(),
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
-            dismissAction: { /*EmptyForTests*/ }
+            dismissAction: { _ in  /*EmptyForTests*/ }
         )
 
         viewModel.trackSearchInput(text: "France")
@@ -69,7 +69,7 @@ struct CountryListViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            dismissAction: { /*EmptyForTests*/ }
+            dismissAction: { _ in  /*EmptyForTests*/ }
         )
 
         await viewModel.viewDidAppear()
@@ -100,7 +100,7 @@ struct CountryListViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            dismissAction: { /*EmptyForTests*/ }
+            dismissAction: { _ in  /*EmptyForTests*/ }
         )
 
         await viewModel.viewDidAppear()
@@ -127,7 +127,7 @@ struct CountryListViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            dismissAction: { /*EmptyForTests*/ }
+            dismissAction: { _ in  /*EmptyForTests*/ }
         )
 
         await viewModel.viewDidAppear()
@@ -151,7 +151,7 @@ struct CountryListViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            dismissAction: { /*EmptyForTests*/ }
+            dismissAction: { _ in  /*EmptyForTests*/ }
         )
 
         await viewModel.viewDidAppear()
@@ -175,7 +175,7 @@ struct CountryListViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            dismissAction: { /*EmptyForTests*/ }
+            dismissAction: { _ in  /*EmptyForTests*/ }
         )
 
         await viewModel.viewDidAppear()
@@ -199,7 +199,7 @@ struct CountryListViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            dismissAction: { /*EmptyForTests*/ }
+            dismissAction: { _ in  /*EmptyForTests*/ }
         )
 
         await viewModel.viewDidAppear()
@@ -223,7 +223,7 @@ struct CountryListViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            dismissAction: { /*EmptyForTests*/ }
+            dismissAction: { _ in  /*EmptyForTests*/ }
         )
 
         await viewModel.viewDidAppear()
@@ -247,7 +247,7 @@ struct CountryListViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            dismissAction: { /*EmptyForTests*/ }
+            dismissAction: { _ in /*EmptyForTests*/ }
         )
 
         await viewModel.viewDidAppear()
@@ -275,7 +275,7 @@ struct CountryListViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            dismissAction: { /*EmptyForTests*/ }
+            dismissAction: { _ in  /*EmptyForTests*/ }
         )
 
         await viewModel.viewDidAppear()
@@ -296,7 +296,7 @@ struct CountryListViewModelTests {
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
             notificationService: mockNotificationService,
-            dismissAction: { /*EmptyForTests*/ }
+            dismissAction: { _ in  /*EmptyForTests*/ }
         )
 
         let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
@@ -315,7 +315,7 @@ struct CountryListViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: mockNotificationService,
-            dismissAction: { /*EmptyForTests*/ }
+            dismissAction: { _ in  /*EmptyForTests*/ }
         )
 
         let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
@@ -335,7 +335,7 @@ struct CountryListViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: mockNotificationService,
-            dismissAction: { /*EmptyForTests*/ }
+            dismissAction: { _ in  /*EmptyForTests*/ }
         )
 
         let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
@@ -351,7 +351,7 @@ struct CountryListViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            dismissAction: { /*EmptyForTests*/ }
+            dismissAction: { _ in  /*EmptyForTests*/ }
         )
 
         let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
@@ -371,7 +371,7 @@ struct CountryListViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            dismissAction: { didCallDismiss = true }
+            dismissAction: { _ in  didCallDismiss = true }
         )
 
         let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
@@ -392,7 +392,7 @@ struct CountryListViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            dismissAction: { didCallDismiss = true }
+            dismissAction: { _ in  didCallDismiss = true }
         )
 
         let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
@@ -422,7 +422,7 @@ struct CountryListViewModelTests {
 
         #expect(countryListVM != nil)
 
-        countryListVM.dismissAction()
+        countryListVM.dismissAction(true)
 
         #expect(dismissActionCalled == true)
         #expect(sut.isShowingList == false)

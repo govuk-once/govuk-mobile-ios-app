@@ -77,4 +77,42 @@ class MockTravelService: TravelServiceInterface {
     func invalidateCountries() {
         _invalidateCountriesCalled = true
     }
+
+    var _toggleNotificationsCalled = false
+    var _receivedToggleNotificationSlug: String?
+    var _recievedToggleNotificationEnabled: Bool?
+    var _receivedToggleNotificationCompletion: SubscriptionResultCompletion?
+    var _stubbedToggleResult: SubscriptionResult?
+
+    func toggleNotifications(slug: String, enabled: Bool, completion: @escaping SubscriptionResultCompletion) {
+        _toggleNotificationsCalled = true
+        _receivedToggleNotificationSlug = slug
+        _recievedToggleNotificationEnabled = enabled
+        _receivedToggleNotificationCompletion = completion
+
+        if let result = _stubbedToggleResult {
+            completion(result)
+        } else {
+            completion(.success(()))
+        }
+    }
+
+    var _unfollowCountryCalled = false
+    var _receivedUnfollowCountrySlug: String?
+    var _recievedUnfollowCountryEnabled: Bool?
+    var _receivedUnfollowCountryCompletion: SubscriptionResultCompletion?
+    var _stubbedUnfollowResult: SubscriptionResult?
+
+    func unfollowCountry(slug: String, currentNotificationsEnabled: Bool, completion: @escaping SubscriptionResultCompletion) {
+        _unfollowCountryCalled = true
+        _receivedUnfollowCountrySlug = slug
+        _recievedUnfollowCountryEnabled = currentNotificationsEnabled
+        _receivedUnfollowCountryCompletion = completion
+
+        if let result = _stubbedUnfollowResult {
+            completion(result)
+        } else {
+            completion(.success(()))
+        }
+    }
 }
