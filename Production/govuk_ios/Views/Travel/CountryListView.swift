@@ -5,6 +5,7 @@ import UIKit
 
 struct CountryListView: View {
     @StateObject var viewModel: CountryListViewModel
+    @Environment(\.sizeCategory) var sizeCategory
 
     init(viewModel: CountryListViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
@@ -18,11 +19,17 @@ struct CountryListView: View {
         }
     }
 
-    private var searchBarPadding: CGFloat {
-        let isLoaded = if case .loaded = viewModel.viewState { true } else { false }
-        let isEmpty = if case .empty = viewModel.viewState { true } else { false }
+    @ScaledMetric(relativeTo: .body) private var searchBarBasePadding: CGFloat = 10
 
-        return (isLoaded || isEmpty) ? 60 : 10
+    private var searchBarPadding: CGFloat {
+        let basePadding: CGFloat = switch viewModel.viewState {
+        case .loaded, .empty:
+            60
+        default:
+            10
+        }
+
+        return UIFontMetrics.default.scaledValue(for: basePadding)
     }
 
     var body: some View {
