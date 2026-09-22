@@ -53,13 +53,16 @@ class EditCountriesViewModel: ObservableObject {
         self.notificationService = notificationService
     }
 
+    @MainActor
     lazy var countryListViewModel: CountryListViewModel = {
         CountryListViewModel(
             travelService: travelService,
             analyticsService: analyticsService,
             notificationService: notificationService,
-            dismissAction: { [weak self] in
-                self?.didDismissList()
+            dismissAction: { [weak self] forceRefresh in
+                Task {
+                    self?.didDismissList(forceRefresh: forceRefresh)
+                }
             }
         )
     }()
@@ -120,6 +123,7 @@ class EditCountriesViewModel: ObservableObject {
     @MainActor
     private func fetchCountryList(forceRefresh: Bool = false) async {
         viewState = .loading
+        countriesSection = []
 
         travelService.getGroups(forceRefresh: forceRefresh) { [weak self] result in
             Task { @MainActor in
@@ -160,14 +164,14 @@ class EditCountriesViewModel: ObservableObject {
                 }
             )
         }
+        .sorted { $0.title.localizedCaseInsensitiveCompare($1.title) == .orderedAscending }
+
         if rows.count > 0 {
             countriesSection = [GroupedListSection(
                 heading: nil,
                 rows: rows,
                 footer: nil
             )]
-        } else {
-            countriesSection = []
         }
 
         self.viewState = .loaded
@@ -192,8 +196,13 @@ class EditCountriesViewModel: ObservableObject {
         isShowingList = true
     }
 
-    func didDismissList() {
+    func didDismissList(forceRefresh: Bool) {
         isShowingList = false
+        if forceRefresh {
+            Task {
+                await fetchCountryList(forceRefresh: true)
+            }
+        }
     }
 
     func clearToggleError() {

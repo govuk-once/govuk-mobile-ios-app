@@ -24,7 +24,7 @@ class CountryListViewModel: ObservableObject {
     private let travelService: TravelServiceInterface
     let analyticsService: AnalyticsServiceInterface
     private let notificationService: NotificationServiceInterface
-    let dismissAction: () -> Void
+    let dismissAction: (Bool) -> Void
 
     var hasNotificationConsent: Bool {
         notificationService.hasGivenConsent
@@ -34,7 +34,7 @@ class CountryListViewModel: ObservableObject {
         travelService: TravelServiceInterface,
         analyticsService: AnalyticsServiceInterface,
         notificationService: NotificationServiceInterface,
-        dismissAction: @escaping () -> Void
+        dismissAction: @escaping (Bool) -> Void
     ) {
         self.travelService = travelService
         self.analyticsService = analyticsService
@@ -65,15 +65,18 @@ class CountryListViewModel: ObservableObject {
     }
 
     private func subscribeToCountryAlerts(_ country: Country) {
+        viewState = .loading
         travelService.subscribeToCountry(
             slug: country.slug,
             completion: { [weak self] result in
-                switch result {
-                case .success:
-                    self?.dismissAction()
-                case .failure(let error):
-                    // Log error for analytics/debugging
-                    print("Failed to subscribe to country alerts: \(error)")
+                Task { @MainActor in
+                    switch result {
+                    case .success:
+                        self?.dismissAction(true)
+                    case .failure(let error):
+                        print("Failed to subscribe to country alerts: \(error)")
+                        self?.viewState = .loaded
+                    }
                 }
             }
         )

@@ -43,7 +43,7 @@ final class CountryListCoordinator: BaseCoordinator {
         set(viewController)
     }
 
-    private func dismissModal() {
+    private func dismissModal(_: Bool) {
         root.dismiss(animated: true, completion: nil)
     }
 }

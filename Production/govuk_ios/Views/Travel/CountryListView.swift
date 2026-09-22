@@ -130,7 +130,6 @@ struct CountryListView: View {
         Button(String(localized: .Travel.countryListAlertNotNow)) {
             viewModel.handleCountrySelection(country, notificationOptIn: false)
             viewModel.selectedCountry = nil
-            viewModel.dismissAction()
         }
         Button(String(localized: .Travel.countryListAlertCancel), role: .cancel) {
             viewModel.selectedCountry = nil
@@ -147,7 +146,8 @@ struct CountryListView: View {
     private var closeButton: some ToolbarContent {
         ToolbarItem(placement: ToolbarItemPlacement.cancellationAction) {
             Button {
-                viewModel.dismissAction()
+                viewModel.selectedCountry = nil
+                viewModel.dismissAction(false)
             } label: {
                 Image(systemName: "xmark")
                     .foregroundStyle(Color(uiColor: .govUK.text.primary))

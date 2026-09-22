@@ -27,7 +27,7 @@ struct EditCountriesView: View {
         .sheet(
             isPresented: $viewModel.isShowingList,
             onDismiss: {
-                viewModel.didDismissList()
+                viewModel.didDismissList(forceRefresh: false)
             }, content: {
                 NavigationView {
                     CountryListView(viewModel: viewModel.countryListViewModel)

@@ -46,8 +46,7 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
             travelService: travelService,
             analyticsService: analyticsService,
             notificationService: notificationService,
-            dismissAction: {
-                self.dismissAction()
+            dismissAction: {_ in
                 self.didDismissList()
             }
         )
@@ -104,6 +103,7 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
                 }
             )
         }
+        .sorted { $0.title.localizedCaseInsensitiveCompare($1.title) == .orderedAscending }
 
         if rows.isEmpty {
             self.viewState = .empty
