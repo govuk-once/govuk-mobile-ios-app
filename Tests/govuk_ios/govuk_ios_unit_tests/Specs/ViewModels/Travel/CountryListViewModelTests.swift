@@ -414,6 +414,7 @@ struct CountryListViewModelTests {
             notificationService: mockNotificationService,
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { dismissActionCalled = true },
+            editAction: { /*Empty For Tests*/ },
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 

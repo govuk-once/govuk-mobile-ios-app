@@ -194,7 +194,7 @@ struct CountryListLoadingView: View {
             Spacer()
             ProgressView()
                 .controlSize(.large)
-                .accessibilityLabel(.Travel.countryListScreenLoading)
+                .accessibilityLabel(.Travel.travelAlertsLoading)
             Spacer()
         }
     }
