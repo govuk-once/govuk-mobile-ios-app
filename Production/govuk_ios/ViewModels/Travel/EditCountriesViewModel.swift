@@ -31,6 +31,7 @@ class EditCountriesViewModel: ObservableObject {
     let analyticsService: AnalyticsServiceInterface
     private var allCountries: [Country] = []
     private var follewedCountries: Set<String> = []
+    private var notificationStateCache: [String: Bool] = [:]
 
     let title = String(
         localized: .Travel.editCountriesTitle
@@ -80,6 +81,7 @@ class EditCountriesViewModel: ObservableObject {
     @MainActor
     func toggleNotifications(slug: String, enabled: Bool) async {
         isToggleLoading = true
+        notificationStateCache[slug] = enabled
         travelService.toggleNotifications(slug: slug, enabled: enabled) { [weak self] result in
             Task { @MainActor in
                 switch result {
@@ -103,6 +105,7 @@ class EditCountriesViewModel: ObservableObject {
             Task { @MainActor in
                 switch result {
                 case .success:
+                    self?.notificationStateCache.removeValue(forKey: slug)
                     await self?.fetchCountryList(forceRefresh: true)
                     self?.isUnfollowing = false
                     self?.isShowingCountryDetails = false
@@ -199,7 +202,11 @@ class EditCountriesViewModel: ObservableObject {
 
     private func showCountryDetails(country: Country, subgroup: String) {
         selectedCountry = SelectedCountry(country: country, subgroup: subgroup)
-        selectedCountryNotificationEnabled = subgroup.lowercased() == "daily"
+        if let cachedState = notificationStateCache[country.slug] {
+            selectedCountryNotificationEnabled = cachedState
+        } else {
+            selectedCountryNotificationEnabled = subgroup.lowercased() == "daily"
+        }
         isShowingCountryDetails = true
     }
 }
