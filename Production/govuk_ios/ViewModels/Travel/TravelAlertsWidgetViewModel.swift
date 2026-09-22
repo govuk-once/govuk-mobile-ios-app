@@ -89,7 +89,7 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
         let rows = groups.compactMap { group -> LinkRow? in
             guard let country = countryMap[group.group.lowercased()] else { return nil }
 
-            let url = URL(string: "https://www.gov.uk/foreign-travel-advice/\(country.slug.lowercased())")
+            let url = URL(string: "govuk://app.gov.uk/web?url=https://www.gov.uk/foreign-travel-advice/\(country.slug.lowercased())")
 
             return LinkRow(
                 id: group.group,

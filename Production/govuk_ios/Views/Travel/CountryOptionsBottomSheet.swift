@@ -2,9 +2,8 @@ import SwiftUI
 import GovKitUI
 
 struct CountryOptionsBottomSheet: View {
-    @ObservedObject var viewModel: EditCountriesViewModel
     let country: Country
-    let notificationsEnabled: Bool
+    @Binding var notificationsEnabled: Bool
     let isTogglingNotifications: Bool
     let isUnfollowing: Bool
     let toggleError: String?
@@ -17,7 +16,9 @@ struct CountryOptionsBottomSheet: View {
         VStack(alignment: .leading, spacing: 0) {
             HStack {
                 Button {
-                    dismiss()
+                    if !isUnfollowing || !isTogglingNotifications {
+                        dismiss()
+                    }
                 } label: {
                     Image(systemName: "xmark")
                         .font(.system(size: 16, weight: .semibold))
@@ -51,13 +52,14 @@ struct CountryOptionsBottomSheet: View {
 
                         Toggle(
                             "",
-                            isOn: $viewModel.selectedCountryNotificationEnabled
+                            isOn: $notificationsEnabled
                         )
-                        .disabled(viewModel.isToggleLoading)
                         .onChange(
                             of: notificationsEnabled
                         ) { _ in
-                            onNotificationsToggle(notificationsEnabled)
+                            if !isUnfollowing || !isTogglingNotifications {
+                                onNotificationsToggle(notificationsEnabled)
+                            }
                         }
                     }
                     .padding(.horizontal, 16)
@@ -66,19 +68,27 @@ struct CountryOptionsBottomSheet: View {
                     .roundedBorder(borderColor: Color(UIColor.govUK.fills.surfaceListAlt))
 
                     Button {
-                        onUnfollow()
+                        if !isUnfollowing || !isTogglingNotifications {
+                            onUnfollow()
+                        }
                     } label: {
                         HStack(alignment: .center) {
                             Spacer()
-                            Text(String(localized: .Travel.editCountryDetailUnfollowButton))
-                                .font(Font.govUK.body)
-                                .foregroundColor(Color(UIColor.govUK.text.buttonDestructive))
-                                .padding(.vertical, 16)
+                            Group {
+                                if isUnfollowing {
+                                    ProgressView()
+                                } else {
+                                    Text(String(localized: .Travel.editCountryDetailUnfollowButton))
+                                        .font(Font.govUK.body)
+                                        .foregroundColor(
+                                            Color(UIColor.govUK.text.buttonDestructive)
+                                        )
+                                }
+                            }
+                            .padding(.vertical, 16)
                             Spacer()
                         }
                     }
-                    .disabled(viewModel.isToggleLoading)
-                    .opacity(viewModel.isToggleLoading ? 0.6 : 1.0)
                     .frame(maxWidth: .infinity)
                     .padding(.horizontal, 16)
                     .background(Color(UIColor.govUK.fills.surfaceListAlt))

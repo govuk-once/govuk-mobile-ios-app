@@ -133,6 +133,17 @@
         }
       }
     },
+    "editCountriesErrorButton" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        }
+      }
+    },
     "editCountriesErrorDescription" : {
       "extractionState" : "manual",
       "localizations" : {

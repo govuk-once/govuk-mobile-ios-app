@@ -10,8 +10,8 @@ class EditCountriesViewModel: ObservableObject {
     }
 
     struct SelectedCountry {
-        let id: String
-        let name: String
+        let country: Country
+        let subgroup: String
     }
 
     @Published private(set) var viewState: ViewState = .loading
@@ -103,7 +103,9 @@ class EditCountriesViewModel: ObservableObject {
             Task { @MainActor in
                 switch result {
                 case .success:
-                    await self?.fetchCountryList()
+                    await self?.fetchCountryList(forceRefresh: true)
+                    self?.isUnfollowing = false
+                    self?.isShowingCountryDetails = false
                 case .failure:
                     self?.isUnfollowing = false
                     self?.unfollowError = "Failed to unfollow country"
@@ -113,10 +115,10 @@ class EditCountriesViewModel: ObservableObject {
     }
 
     @MainActor
-    private func fetchCountryList() async {
+    private func fetchCountryList(forceRefresh: Bool = false) async {
         viewState = .loading
 
-        travelService.getGroups(forceRefresh: false) { [weak self] result in
+        travelService.getGroups(forceRefresh: forceRefresh) { [weak self] result in
             Task { @MainActor in
                 switch result {
                 case .success(let groups):
@@ -151,16 +153,19 @@ class EditCountriesViewModel: ObservableObject {
                 title: country.name,
                 imageName: "ellipsis",
                 action: {
-                    self.showCountryDetails(countryId: group.group, countryName: country.name)
+                    self.showCountryDetails(country: country, subgroup: group.subgroup)
                 }
             )
         }
-
-        countriesSection = [GroupedListSection(
-            heading: nil,
-            rows: rows,
-            footer: nil
-        )]
+        if rows.count > 0 {
+            countriesSection = [GroupedListSection(
+                heading: nil,
+                rows: rows,
+                footer: nil
+            )]
+        } else {
+            countriesSection = []
+        }
 
         self.viewState = .loaded
     }
@@ -188,9 +193,13 @@ class EditCountriesViewModel: ObservableObject {
         isShowingList = false
     }
 
-    private func showCountryDetails(countryId: String, countryName: String) {
-        selectedCountry = SelectedCountry(id: countryId, name: countryName)
-        selectedCountryNotificationEnabled = false
+    func clearToggleError() {
+        toggleError = nil
+    }
+
+    private func showCountryDetails(country: Country, subgroup: String) {
+        selectedCountry = SelectedCountry(country: country, subgroup: subgroup)
+        selectedCountryNotificationEnabled = subgroup.lowercased() == "daily"
         isShowingCountryDetails = true
     }
 }

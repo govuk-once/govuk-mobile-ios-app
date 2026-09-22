@@ -132,7 +132,7 @@ class TravelServiceClient: TravelServiceClientInterface {
                 group: slug,
                 subgroup: subgroupToLeave,
                 type: .notification,
-                action: .join
+                action: .leave
             )]
         )
         apiServiceClient.send(
