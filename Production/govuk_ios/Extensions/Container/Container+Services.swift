@@ -79,8 +79,7 @@ extension Container {
     var qualtrics: Factory<QualtricsServiceInterface> {
         Factory(self) {
             QualtricsService(
-                brandId: "yourBrandId",
-                projectId: "yourProjectId",
+                environmentService: self.appEnvironmentService.resolve(),
                 qualtrics: Qualtrics.shared,
                 firebaseIDsService: self.firebaseIDsService.resolve(),
                 firebaseClient: self.firebaseClient.resolve(),

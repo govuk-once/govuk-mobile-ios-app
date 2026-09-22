@@ -10,6 +10,8 @@ class MockQualtricsWrapper: QualtricsWrapperInterface {
         _stubbedTheme = theme
     }
     
+    var _setBrandId: String?
+    var _setProjectId: String?
     var _didInitializeProject = false
     func initializeProject(
         brandId: String,
@@ -18,6 +20,8 @@ class MockQualtricsWrapper: QualtricsWrapperInterface {
         completion: QualtricsInitializationResult?
     ) {
         _didInitializeProject  = true
+        _setBrandId = brandId
+        _setProjectId = projectId
     }
 
     var _didEvaluateProject = false
