@@ -487,4 +487,15 @@ class MockViewControllerBuilder: ViewControllerBuilder {
         _receivedSelectCountryDismissAction = dismissAction
         return _stubbedSelectCountryViewController ?? UIViewController()
     }
+
+    var _stubbedEditCountriesViewController: UIViewController?
+    var _receivedEditCountriesEditAction: (() -> Void)?
+
+    override func editCountries(
+        travelService: TravelServiceInterface,
+        analyticsService: AnalyticsServiceInterface,
+        notificationService: NotificationServiceInterface
+    ) -> UIViewController {
+        return _stubbedEditCountriesViewController ?? UIViewController()
+    }
 }

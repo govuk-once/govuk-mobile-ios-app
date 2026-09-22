@@ -111,17 +111,6 @@
         }
       }
     },
-    "countryListScreenLoading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Loading"
-          }
-        }
-      }
-    },
     "countryListTitle" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -129,6 +118,39 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Follow a country"
+          }
+        }
+      }
+    },
+    "editCountriesDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Manage the countries you follow and how you’re updated"
+          }
+        }
+      }
+    },
+    "editCountriesFollowAnother" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Follow another country"
+          }
+        }
+      }
+    },
+    "editCountriesTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit countries"
           }
         }
       }
@@ -228,6 +250,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Give permission"
+          }
+        }
+      }
+    },
+    "travelAlertsLoading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading"
           }
         }
       }

@@ -20,6 +20,7 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
     private let notificationService: NotificationServiceInterface
     private let linkAction: () -> Void
     private let dismissAction: () -> Void
+    private let editAction: () -> Void
     private let openURLAction: (URL) -> Void
 
     init(
@@ -28,6 +29,7 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
         notificationService: NotificationServiceInterface,
         linkAction: @escaping () -> Void,
         dismissAction: @escaping () -> Void,
+        editAction: @escaping () -> Void,
         openURLAction: @escaping (URL) -> Void
     ) {
         self.travelService = travelService
@@ -36,6 +38,7 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
         self.linkAction = linkAction
         self.dismissAction = dismissAction
         self.openURLAction = openURLAction
+        self.editAction = editAction
     }
 
     lazy var countryListViewModel: CountryListViewModel = {
@@ -123,6 +126,10 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
         )
         analyticsService.track(event: event)
         isShowingList = true
+    }
+
+    func openEditCountries() {
+        editAction()
     }
 
     func openExternalURL(_ url: URL) {
