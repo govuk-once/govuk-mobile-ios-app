@@ -67,6 +67,28 @@
         }
       }
     },
+    "countryListErrorDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We could not load travel alerts. Try again later."
+          }
+        }
+      }
+    },
+    "countryListErrorTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "There’s a problem"
+          }
+        }
+      }
+    },
     "countryListScreenEmptyTitle" : {
       "extractionState" : "manual",
       "localizations" : {
