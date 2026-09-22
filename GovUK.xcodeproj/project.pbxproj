@@ -399,6 +399,7 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		5D9CDE3A2CD928FB0045DFC3 /* Tests */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (5D9CDF202CD928FB0045DFC3 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 5D9CDF212CD928FB0045DFC3 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 5D9CDF222CD928FB0045DFC3 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (govuk_ios/govuk_ios_snapshot_tests/ReferenceImages_64, ); path = Tests; sourceTree = "<group>"; };
 		DE6748AC307D659600169492 /* Production */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (DE674AE1307D659700169492 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, DE674AE2307D659700169492 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, DE674AE3307D659700169492 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Production; sourceTree = "<group>"; };
+		FB984C7A3062C2E300158FC7 /* Development */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Development; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -474,6 +475,7 @@
 		5DAD716B2BD250DA0075F648 = {
 			isa = PBXGroup;
 			children = (
+				FB984C7A3062C2E300158FC7 /* Development */,
 				D05284812FDB0216005C99DC /* container */,
 				DE6748AC307D659600169492 /* Production */,
 				5D9CDE3A2CD928FB0045DFC3 /* Tests */,
@@ -575,7 +577,6 @@
 		5DAD71B42BD286730075F648 /* Production */ = {
 			isa = PBXGroup;
 			children = (
-				FB983E0430615F3E00158FC7 /* Support */,
 				5DAD71762BD250DB0075F648 /* govuk_ios */,
 				5DCAFA712D3FFB5600C3F284 /* govuk_ios_notification_service */,
 			);
@@ -1298,6 +1299,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				DE6748AC307D659600169492 /* Production */,
+				FB984C7A3062C2E300158FC7 /* Development */,
 			);
 			name = govuk_ios;
 			packageProductDependencies = (
@@ -1785,7 +1787,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Production/govuk_ios/SupportingFiles/$(CODE_SIGN_ENTITLEMENTS_APP)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = Production/Support;
+				DEVELOPMENT_ASSET_PATHS = Development/Support;
 				DEVELOPMENT_TEAM = N8W395F695;
 				DVLA_AUTHENTICATION_URL = "https://customer-account-external-ui-ext.dvla.gov.uk/govuk-app";
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
@@ -1832,7 +1834,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = Production/Support;
+				DEVELOPMENT_ASSET_PATHS = Development/Support;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = N8W395F695;
 				DVLA_AUTHENTICATION_URL = "https://customer-account-external-ui-ext.dvla.gov.uk/govuk-app";
