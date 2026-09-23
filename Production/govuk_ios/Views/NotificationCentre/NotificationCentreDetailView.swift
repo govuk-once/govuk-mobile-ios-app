@@ -193,6 +193,7 @@ extension NotificationCentreDetailContainerView: TrackableScreen {
     var trackingClass: String { "MessagesDetailScreen" }
 }
 
+#if DEBUG
 #Preview("Loading") {
     NotificationCentreDetailLoadingView()
 }
@@ -212,3 +213,4 @@ extension NotificationCentreDetailContainerView: TrackableScreen {
         showDeleteConfirmation: false
     )
 }
+#endif // DEBUG

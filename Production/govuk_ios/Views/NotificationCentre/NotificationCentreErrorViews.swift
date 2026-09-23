@@ -54,6 +54,7 @@ struct NotificationCentreNoInternetView: View {
     }
 }
 
+#if DEBUG
 #Preview("Error") {
     NotificationCentreErrorView()
 }
@@ -61,3 +62,4 @@ struct NotificationCentreNoInternetView: View {
 #Preview("NoInternet") {
     NotificationCentreNoInternetView()
 }
+#endif // DEBUG

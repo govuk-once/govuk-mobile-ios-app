@@ -231,6 +231,7 @@ struct ChatDisclosure: DisclosureGroupStyle {
     }
 }
 
+#if DEBUG
 #Preview {
     let previewMessage: String = """
         There are different ways to get a passport depending on whether it's
@@ -304,3 +305,4 @@ struct ChatDisclosure: DisclosureGroupStyle {
         ChatCellViewModel.gettingAnswer.isVisible = true
     }
 }
+#endif // DEBUG
