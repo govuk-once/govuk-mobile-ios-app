@@ -350,6 +350,10 @@
 				govuk_ios/shared/Mocks/MockTimer.swift,
 				govuk_ios/shared/Mocks/MockURLOpener.swift,
 				govuk_ios/shared/Mocks/MockVehicleSpecFormatter.swift,
+				govuk_ios/shared/Mocks/Services/MockSearchService.swift,
+				govuk_ios/shared/Mocks/Services/RecentActivity/MockActivityService.swift,
+				govuk_ios/shared/Mocks/ViewModels/MockDrivingLicenceViewModel.swift,
+				govuk_ios/shared/Mocks/ViewModels/MockVehiclesViewModel.swift,
 				govuk_ios/shared/SupportingFiles/TestAppDelegate.swift,
 				govuk_ios/shared/SupportingFiles/TestSceneDelegate.swift,
 			);
