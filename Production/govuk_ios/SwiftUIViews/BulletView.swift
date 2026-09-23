@@ -35,9 +35,11 @@ struct BulletView: View {
     }
 }
 
+#if DEBUG
 #Preview {
     BulletView(
         bulletText: ["if you’re using Face ID or Touch ID to unlock the app, this will be off",
                      "you’ll stop sharing statistics about how you use the app"]
     )
 }
+#endif // DEBUG
