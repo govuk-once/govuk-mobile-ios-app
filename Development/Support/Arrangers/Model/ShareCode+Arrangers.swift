@@ -1,6 +1,5 @@
+#if DEBUG
 import Foundation
-
-@testable import govuk_ios
 
 extension ShareCode {
     static var arrange: ShareCode {
@@ -61,4 +60,4 @@ extension ShareCodeListResponse {
         .init(shareCodes: shareCodes)
     }
 }
-
+#endif // DEBUG
