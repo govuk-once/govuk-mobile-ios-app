@@ -57,11 +57,15 @@ public struct ButtonStackView: View {
 #Preview {
     let primary = GOVUKButton.ButtonViewModel(
         localisedTitle: "Primary",
-        action: { }
+        action: {
+            /* no-op */
+        }
     )
     let secondary = GOVUKButton.ButtonViewModel(
         localisedTitle: "Secondary",
-        action: { }
+        action: {
+            /* no-op */
+        }
     )
     ButtonStackView(primaryButtonViewModel: primary,
                     secondaryButtonViewModel: secondary)

@@ -199,9 +199,15 @@ extension NotificationCentreDetailContainerView: TrackableScreen {
             date: "27 August 2026",
             id: "1"
         ),
-        onLinkTapped: { _ in /* no-op */ },
-        onConfirmDelete: { /* no-op */ },
-        onCancelDelete: { /* no-op */ },
+        onLinkTapped: { _ in
+            /* no-op */
+        },
+        onConfirmDelete: {
+            /* no-op */
+        },
+        onCancelDelete: {
+            /* no-op */
+        },
         showDeleteConfirmation: false
     )
 }
