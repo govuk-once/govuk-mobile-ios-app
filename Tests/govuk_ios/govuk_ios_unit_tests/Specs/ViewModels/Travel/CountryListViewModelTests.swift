@@ -17,8 +17,8 @@ struct CountryListViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             dismissAction: { _ in
-            didCallDismiss = true
-        })
+                didCallDismiss = true
+            })
 
         viewModel.dismissAction(true)
 
@@ -111,6 +111,28 @@ struct CountryListViewModelTests {
             // expected
         } else {
             Issue.record("Expected viewState to be .error after a failed countries fetch")
+        }
+        #expect(viewModel.filteredSections.isEmpty)
+    }
+
+    @Test
+    func viewDidAppear_withEmptyCountries_setsEmptyState() async {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedGetCountriesResult = .success([])
+        let viewModel = CountryListViewModel(
+            travelService: mockTravelService,
+            analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService(),
+            dismissAction: { _ in  /*EmptyForTests*/ }
+        )
+
+        await viewModel.viewDidAppear()
+        await Task.yield()
+
+        if case .empty = viewModel.viewState {
+            // expected
+        } else {
+            Issue.record("Expected viewState to be .empty when countries fetch returns empty array")
         }
         #expect(viewModel.filteredSections.isEmpty)
     }
@@ -362,10 +384,11 @@ struct CountryListViewModelTests {
     }
 
     @Test
-    func subscribeToCountryAlerts_onSuccess_callsDismissAction() {
+    func subscribeToCountryAlerts_onSuccess_callsDismissAction() async {
         var didCallDismiss = false
         let mockTravelService = MockTravelService()
         mockTravelService._stubbedSubscribeResult = .success(())
+        mockTravelService._autoCallSubscribeCompletion = false
 
         let viewModel = CountryListViewModel(
             travelService: mockTravelService,
@@ -379,14 +402,40 @@ struct CountryListViewModelTests {
 
         mockTravelService._receivedSubscribeCompletion?(.success(()))
 
+        await Task.yield()
+
         #expect(didCallDismiss == true)
     }
 
     @Test
-    func subscribeToCountryAlerts_onFailure_doesNotCallDismissAction() {
+    func subscribeToCountryAlerts_onSuccess_setsLoadingState() async {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedSubscribeResult = .success(())
+        mockTravelService._autoCallSubscribeCompletion = false
+
+        let viewModel = CountryListViewModel(
+            travelService: mockTravelService,
+            analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService(),
+            dismissAction: { _ in /*EmptyForTests*/ }
+        )
+
+        let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
+        viewModel.proceedWithCountrySelection(country)
+
+        if case .loading = viewModel.viewState {
+            // expected
+        } else {
+            Issue.record("Expected viewState to be .loading when subscription starts")
+        }
+    }
+
+    @Test
+    func subscribeToCountryAlerts_onFailure_doesNotCallDismissAction() async {
         var didCallDismiss = false
         let mockTravelService = MockTravelService()
         mockTravelService._stubbedSubscribeResult = .failure(.apiUnavailable)
+        mockTravelService._autoCallSubscribeCompletion = false
 
         let viewModel = CountryListViewModel(
             travelService: mockTravelService,
@@ -400,7 +449,36 @@ struct CountryListViewModelTests {
 
         mockTravelService._receivedSubscribeCompletion?(.failure(.apiUnavailable))
 
+        await Task.yield()
+
         #expect(didCallDismiss == false)
+    }
+
+    @Test
+    func subscribeToCountryAlerts_onFailure_setsLoadedStateAfterError() async {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedSubscribeResult = .failure(.apiUnavailable)
+        mockTravelService._autoCallSubscribeCompletion = false
+
+        let viewModel = CountryListViewModel(
+            travelService: mockTravelService,
+            analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService(),
+            dismissAction: { _ in /*EmptyForTests*/ }
+        )
+
+        let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
+        viewModel.proceedWithCountrySelection(country)
+
+        mockTravelService._receivedSubscribeCompletion?(.failure(.apiUnavailable))
+
+        await Task.yield()
+
+        if case .loaded = viewModel.viewState {
+            // expected
+        } else {
+            Issue.record("Expected viewState to be .loaded after subscription failure")
+        }
     }
 
     func countryListViewModel_initialisedWithDependencies() {
@@ -426,5 +504,78 @@ struct CountryListViewModelTests {
 
         #expect(dismissActionCalled == true)
         #expect(sut.isShowingList == false)
+    }
+
+    @Test
+    func retryFetchCountryList_whenFetchSucceeds_setsLoadedState() async {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedGetCountriesResult = .success([
+            Country(name: "Brazil", slug: "brazil", rawLastUpdate: "", synonyms: [])
+        ])
+        let viewModel = CountryListViewModel(
+            travelService: mockTravelService,
+            analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService(),
+            dismissAction: { _ in  /*EmptyForTests*/ }
+        )
+
+        await viewModel.retryFetchCountryList()
+        await Task.yield()
+
+        #expect(mockTravelService._getCountriesCalled)
+        if case .loaded = viewModel.viewState {
+            // expected
+        } else {
+            Issue.record("Expected viewState to be .loaded after successful retry fetch")
+        }
+        #expect(viewModel.filteredSections.count == 1)
+    }
+
+    @Test
+    func retryFetchCountryList_whenFetchFails_setsErrorState() async {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedGetCountriesResult = .failure(.apiUnavailable)
+        let viewModel = CountryListViewModel(
+            travelService: mockTravelService,
+            analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService(),
+            dismissAction: { _ in  /*EmptyForTests*/ }
+        )
+
+        await viewModel.retryFetchCountryList()
+        await Task.yield()
+
+        #expect(mockTravelService._getCountriesCalled)
+        if case .error = viewModel.viewState {
+            // expected
+        } else {
+            Issue.record("Expected viewState to be .error after failed retry fetch")
+        }
+        #expect(viewModel.filteredSections.isEmpty)
+    }
+
+    @Test
+    func selectedCountry_isSetWhenCountryActionInvoked() async {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedGetCountriesResult = .success([
+            Country(name: "Brazil", slug: "brazil", rawLastUpdate: "", synonyms: [])
+        ])
+        let viewModel = CountryListViewModel(
+            travelService: mockTravelService,
+            analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService(),
+            dismissAction: { _ in  /*EmptyForTests*/ }
+        )
+
+        await viewModel.viewDidAppear()
+        await Task.yield()
+
+        let rows = viewModel.filteredSections.first?.rows ?? []
+        if let selectableRow = rows.first as? SelectableRow {
+            selectableRow.action()
+        }
+
+        #expect(viewModel.selectedCountry?.name == "Brazil")
+        #expect(viewModel.selectedCountry?.slug == "brazil")
     }
 }
