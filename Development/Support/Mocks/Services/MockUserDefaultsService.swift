@@ -1,6 +1,5 @@
+#if DEBUG
 import Foundation
-
-@testable import govuk_ios
 
 class MockUserDefaultsService: UserDefaultsServiceInterface {
     private(set) var store: [String?: Any] = [:]
@@ -39,3 +38,4 @@ class MockUserDefaultsService: UserDefaultsServiceInterface {
         store[banner.id] != nil
     }
 }
+#endif // DEBUG
