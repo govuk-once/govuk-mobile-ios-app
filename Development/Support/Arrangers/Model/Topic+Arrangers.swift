@@ -1,7 +1,6 @@
+#if DEBUG
 import Foundation
 import CoreData
-
-@testable import govuk_ios
 
 extension Topic {
 
@@ -50,3 +49,4 @@ extension Topic {
         return topic
     }
 }
+#endif // DEBUG
