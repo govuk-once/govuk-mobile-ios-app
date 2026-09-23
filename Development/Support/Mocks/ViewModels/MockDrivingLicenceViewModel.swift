@@ -1,6 +1,5 @@
+#if DEBUG
 import Foundation
-
-@testable import govuk_ios
 
 class MockDrivingLicenceViewModel: DrivingLicenceViewModel {
     var _viewDidAppearCalled: Bool = false
@@ -18,3 +17,4 @@ class MockDrivingLicenceViewModel: DrivingLicenceViewModel {
         )
     }
 }
+#endif // DEBUG

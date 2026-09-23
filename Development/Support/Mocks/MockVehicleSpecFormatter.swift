@@ -1,5 +1,5 @@
+#if DEBUG
 import Foundation
-@testable import govuk_ios
 
 struct MockVehicleSpecFormatter: VehicleSpecFormatterInterface {
     var _stubbedFormattedYear: String?
@@ -39,3 +39,4 @@ struct MockVehicleSpecFormatter: VehicleSpecFormatterInterface {
         AccessibleString("display value", accessibilityLabel: "accessibility label")
     }
 }
+#endif // DEBUG
