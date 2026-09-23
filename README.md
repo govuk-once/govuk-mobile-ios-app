@@ -34,3 +34,10 @@ The application uses SwiftLint for linting swift code. Rules can be found [here]
 If you want swiftlint to highlight issues in Xcode, make sure you have it installed. You can do this using [Homebrew](https://brew.sh/)
 
 `brew install swiftlint`
+
+## Project Organisation
+
+Production/
+  All code and resources here are strictly for production builds.
+Development/
+  For code and resources that must not be included in production builds.
