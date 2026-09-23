@@ -1,8 +1,7 @@
+#if DEBUG
 import Foundation
-import  CoreData
+import CoreData
 import GovKit
-
-@testable import govuk_ios
 
 class MockActivityService: ActivityServiceInterface {
     private let managedObjectContext: NSManagedObjectContext
@@ -51,3 +50,4 @@ class MockActivityService: ActivityServiceInterface {
             .existingObject(with: objectId) as? ActivityItem
     }
 }
+#endif // DEBUG
