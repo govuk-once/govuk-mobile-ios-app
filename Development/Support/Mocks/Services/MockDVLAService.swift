@@ -1,8 +1,6 @@
 #if DEBUG
 import Foundation
 
-//@testable import govuk_ios
-
 class MockDVLAService: DVLAServiceInterface {
     var _fetchCustomerVehiclesCallCount = 0
     var _fetchCustomerVehiclesCalledContinuation: CheckedContinuation<Void, Never>?
