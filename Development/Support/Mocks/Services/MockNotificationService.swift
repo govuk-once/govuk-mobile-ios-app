@@ -1,7 +1,6 @@
+#if DEBUG
 import Foundation
 import UIKit
-
-@testable import govuk_ios
 
 class MockNotificationService: NotificationServiceInterface {
     var _stubbededPermissionState: NotificationPermissionState = .notDetermined
@@ -79,3 +78,4 @@ class MockNotificationService: NotificationServiceInterface {
         _stubbedPushId = nil
     }
 }
+#endif // DEBUG
