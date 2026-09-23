@@ -117,3 +117,156 @@ struct VehiclesView: View {
             .padding(.horizontal, 16)
     }
 }
+
+#if DEBUG
+@available(iOS 17.0, *)
+#Preview("Multiple vehicles") {
+    @Previewable @StateObject var viewModel: VehiclesViewModel = {
+        let dvlaService = MockDVLAService()
+        dvlaService._stubbedCustomerVehiclesResult = .success(
+            .arrange(
+                customerVehicles: [
+                    .arrange(
+                        vehicleId: 1,
+                        registrationNumber: "AB71 CDE",
+                        make: "MITSUBISHI",
+                        model: "MIRAGE",
+                        taxStatus: .taxed,
+                        taxedUntil: .arrange("15/09/2030"),
+                        motStatus: "Valid",
+                        motExpiryDate: .arrange("15/09/2030")
+                    ),
+                    .arrange(
+                        vehicleId: 2,
+                        registrationNumber: "XY19 ZAB",
+                        make: "LAND ROVER",
+                        model: "RANGE ROVER SPORT",
+                        taxStatus: .sorn,
+                        motStatus: "Not valid",
+                        motExpiryDate: .arrange("01/03/2024"),
+                        sornStart: .arrange("01/01/2025")
+                    ),
+                    .arrange(
+                        vehicleId: 3,
+                        registrationNumber: "MN65 PQR",
+                        make: "VOLKSWAGEN",
+                        model: "GOLF",
+                        taxStatus: .untaxed,
+                        motStatus: "Valid",
+                        motExpiryDate: .arrange("20/11/2030")
+                    )
+                ]
+            )
+        )
+
+        return VehiclesViewModel(
+            analyticsService: MockAnalyticsService(),
+            dvlaService: dvlaService,
+            configService: MockAppConfigService(),
+            detailAction: { _ in /* no-op */ },
+            openURLAction: { _ in /* no-op */ }
+        )
+    }()
+
+    NavigationStack {
+        ScrollView {
+            VehiclesView(viewModel: viewModel)
+                .padding(.vertical)
+        }
+        .background(Color(uiColor: .govUK.fills.surfaceBackground))
+        .navigationTitle("Vehicles")
+    }
+}
+
+@available(iOS 17.0, *)
+#Preview("Single vehicle") {
+    @Previewable @StateObject var viewModel: VehiclesViewModel = {
+        let dvlaService = MockDVLAService()
+        dvlaService._stubbedCustomerVehiclesResult = .success(
+            .arrange(
+                customerVehicles: [
+                    .arrange(
+                        vehicleId: 1,
+                        registrationNumber: "FG23 HIJ",
+                        make: "TESLA",
+                        model: "MODEL 3",
+                        taxStatus: .taxed,
+                        taxedUntil: .arrange("01/04/2031"),
+                        motStatus: "Valid",
+                        motExpiryDate: .arrange("01/04/2031")
+                    )
+                ]
+            )
+        )
+
+        return VehiclesViewModel(
+            analyticsService: MockAnalyticsService(),
+            dvlaService: dvlaService,
+            configService: MockAppConfigService(),
+            detailAction: { _ in /* no-op */ },
+            openURLAction: { _ in /* no-op */ }
+        )
+    }()
+
+    NavigationStack {
+        ScrollView {
+            VehiclesView(viewModel: viewModel)
+                .padding(.vertical)
+        }
+        .background(Color(uiColor: .govUK.fills.surfaceBackground))
+        .navigationTitle("Vehicles")
+    }
+}
+
+@available(iOS 17.0, *)
+#Preview("No vehicles") {
+    @Previewable @StateObject var viewModel: VehiclesViewModel = {
+        let dvlaService = MockDVLAService()
+        dvlaService._stubbedCustomerVehiclesResult = .success(
+            .arrange(customerVehicles: [])
+        )
+
+        return VehiclesViewModel(
+            analyticsService: MockAnalyticsService(),
+            dvlaService: dvlaService,
+            configService: MockAppConfigService(),
+            detailAction: { _ in /* no-op */ },
+            openURLAction: { _ in /* no-op */ }
+        )
+    }()
+
+    NavigationStack {
+        ScrollView {
+            VehiclesView(viewModel: viewModel)
+                .padding(.vertical)
+        }
+        .background(Color(uiColor: .govUK.fills.surfaceBackground))
+        .navigationTitle("Vehicles")
+    }
+}
+
+@available(iOS 17.0, *)
+#Preview("Error") {
+    @Previewable @StateObject var viewModel: VehiclesViewModel = {
+        let dvlaService = MockDVLAService()
+        dvlaService._stubbedCustomerVehiclesResult = .failure(.apiUnavailable)
+
+        return VehiclesViewModel(
+            analyticsService: MockAnalyticsService(),
+            dvlaService: dvlaService,
+            configService: MockAppConfigService(),
+            detailAction: { _ in /* no-op */ },
+            openURLAction: { _ in /* no-op */ }
+        )
+    }()
+
+    NavigationStack {
+        ScrollView {
+            VehiclesView(viewModel: viewModel)
+                .padding(.vertical)
+        }
+        .background(Color(uiColor: .govUK.fills.surfaceBackground))
+        .navigationTitle("Vehicles")
+    }
+}
+#endif // DEBUG
