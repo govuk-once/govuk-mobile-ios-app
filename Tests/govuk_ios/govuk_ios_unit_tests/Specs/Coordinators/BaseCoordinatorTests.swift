@@ -186,38 +186,6 @@ struct BaseCoordinatorTests {
     }
 }
 
-//@MainActor
-//class BaseCoordinatorTests: XCTestCase {
-//    func test_viewControllerPopped_remainingViewControllers_doesNothing() {
-//        let navigationController = UINavigationController()
-//        let subject = TestCoordinator(navigationController: navigationController)
-//
-//        let parentCoordinator = MockBaseCoordinator()
-//        parentCoordinator.start(subject)
-//
-//        subject.push(UIViewController(), animated: false)
-//        subject.push(UIViewController(), animated: false)
-//
-//        let expectation = expectation()
-//        var completionCalled = false
-//        parentCoordinator._childDidFinishHandler = { child in
-//            completionCalled = true
-//        }
-//
-//        navigationController.popViewController(animated: false)
-//
-//        expectation.fulfillAfter(0.2)
-//        waitForExpectations(
-//            timeout: 0.5,
-//            handler: { _ in
-//                Task { @MainActor in
-//                    XCTAssertFalse(completionCalled)
-//                }
-//            }
-//        )
-//    }
-//}
-
 private class TestCoordinator: BaseCoordinator {
 
     override func start(url: URL?) { }

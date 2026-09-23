@@ -24,17 +24,22 @@ class NotificationServiceTests {
         #expect(mockOneSignalClient._receivedConsentRequiredValue == true)
         #expect(mockOneSignalClient._receivedInitializeAppId == mockEnvironmentService.oneSignalAppId)
     }
-    //    @Test
-    //    func shouldRequestPermissions_statusNotDetermined_returnsTrue() async {
-    //        let mockUserNotificationCenter = MockUserNotificationCenter()
-    //        mockUserNotificationCenter._stubbedAuthorizationStatus = .notDetermined
-    //        let sut = NotificationService(
-    //            environmentService: MockAppEnvironmentService(),
-    //            notificationCenter: mockUserNotificationCenter,
-    //            userDefaults: MockUserDefaults()
-    //        )
-    //        #expect(await sut.shouldRequestPermission)
-    //    }
+    
+        @Test
+        func shouldRequestPermissions_statusNotDetermined_returnsTrue() async {
+            let mockUserNotificationCenter = MockUserNotificationCenter()
+            mockUserNotificationCenter._stubbedAuthorizationStatus = .notDetermined
+            let mockConfig = MockAppConfigService()
+            mockConfig.features = [.notifications]
+            let sut = NotificationService(
+                environmentService: MockAppEnvironmentService(),
+                notificationCenter: mockUserNotificationCenter,
+                configService: mockConfig,
+                userDefaultsService: MockUserDefaultsService(),
+                oneSignalServiceClient: MockOneSignalServiceClient.self
+            )
+            #expect(await sut.shouldRequestPermission)
+        }
 
     @Test(arguments: [
         UNAuthorizationStatus.authorized,
