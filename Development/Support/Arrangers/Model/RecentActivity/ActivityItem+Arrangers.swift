@@ -1,8 +1,6 @@
 import Foundation
 import CoreData
 
-@testable import govuk_ios
-
 extension ActivityItem {
     static func arrange(id: String = UUID().uuidString,
                         title: String = UUID().uuidString,
