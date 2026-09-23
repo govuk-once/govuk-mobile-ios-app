@@ -1,6 +1,5 @@
+#if DEBUG
 import Foundation
-
-@testable import govuk_ios
 
 extension TermsAndConditionsResponse {
     static func arrange(fileName: String) -> TermsAndConditionsResponse {
@@ -11,3 +10,4 @@ extension TermsAndConditionsResponse {
         )
     }
 }
+#endif // DEBUG

@@ -1,6 +1,5 @@
+#if DEBUG
 import Foundation
-
-@testable import govuk_ios
 
 extension DvlaURLs {
     static var arrange: DvlaURLs {
@@ -55,3 +54,4 @@ extension DvlaURLs {
         )
     }
 }
+#endif // DEBUG

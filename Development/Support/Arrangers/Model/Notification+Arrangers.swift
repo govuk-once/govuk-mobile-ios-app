@@ -1,6 +1,5 @@
+#if DEBUG
 import Foundation
-
-@testable import govuk_ios
 
 extension govuk_ios.Notification {
     static var arrange: govuk_ios.Notification {
@@ -76,3 +75,4 @@ extension govuk_ios.Notification.Metadata.Sender {
         .init(displayName: displayName)
     }
 }
+#endif // DEBUG

@@ -1,6 +1,5 @@
+#if DEBUG
 import Foundation
-
-@testable import govuk_ios
 
 extension TopicDetailResponse {
 
@@ -111,3 +110,4 @@ extension TopicDetailResponse.Content {
     }
 
 }
+#endif // DEBUG
