@@ -1,6 +1,5 @@
+#if DEBUG
 import Foundation
-
-@testable import govuk_ios
 
 class MockNotificationCentreService: NotificationCentreServiceInterface {
     var _stubbedFetchNotificationsResult: govuk_ios.NotificationResult!
@@ -42,3 +41,4 @@ class MockNotificationCentreService: NotificationCentreServiceInterface {
         _onDeleteCalled?()
     }
 }
+#endif // DEBUG

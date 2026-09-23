@@ -1,8 +1,7 @@
+#if DEBUG
 import Foundation
 import UIKit
 import Authentication
-
-@testable import govuk_ios
 
 class MockAuthenticationService: AuthenticationServiceInterface {
     var _storedRefreshToken = true
@@ -80,3 +79,4 @@ class MockAuthenticationService: AuthenticationServiceInterface {
         refreshToken = nil
     }
 }
+#endif // DEBUG
