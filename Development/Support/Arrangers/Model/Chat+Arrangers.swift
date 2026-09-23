@@ -1,6 +1,5 @@
+#if DEBUG
 import Foundation
-
-@testable import govuk_ios
 
 extension Answer {
     static var answeredAnswer: Answer {
@@ -57,4 +56,4 @@ extension History {
         id: "930634c7-d453-41cb-beda-ecec6f8601f4"
     )
 }
-
+#endif // DEBUG
