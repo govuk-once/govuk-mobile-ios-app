@@ -1,6 +1,5 @@
+#if DEBUG
 import Foundation
-
-@testable import govuk_ios
 
 class MockVehiclesViewModel: VehiclesViewModel {
     var _viewDidAppearCalled: Bool = false
@@ -19,3 +18,4 @@ class MockVehiclesViewModel: VehiclesViewModel {
         )
     }
 }
+#endif // DEBUG
