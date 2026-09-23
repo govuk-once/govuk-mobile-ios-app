@@ -26,9 +26,11 @@ struct ChatEllipsesView: View {
     }
 }
 
+#if DEBUG
 #Preview {
     HStack {
         ChatEllipsesView("Generating your answer")
         Spacer()
     }
 }
+#endif // DEBUG

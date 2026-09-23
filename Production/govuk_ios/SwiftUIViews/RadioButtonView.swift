@@ -34,6 +34,7 @@ struct RadioButtonView: View {
     }
 }
 
+#if DEBUG
 #Preview {
     RadioButtonView(title: "APPLETREE COTTAGE, BARRACK ROAD, WEST PARLEY, FERNDOWN, BH22 8UB",
                     selected: .constant(false),
@@ -48,3 +49,4 @@ struct RadioButtonView: View {
                     isLastRow: true
     )
 }
+#endif // DEBUG

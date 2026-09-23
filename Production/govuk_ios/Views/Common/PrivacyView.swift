@@ -16,6 +16,8 @@ struct PrivacyView: View {
     }
 }
 
+#if DEBUG
 #Preview {
     PrivacyView()
 }
+#endif // DEBUG
