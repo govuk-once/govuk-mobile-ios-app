@@ -1,6 +1,5 @@
+#if DEBUG
 import Foundation
-
-@testable import govuk_ios
 
 class MockAccessibilityAnnouncerService: AccessibilityAnnouncerServiceInterface {
     var _receivedAnnounceValue: String?
@@ -8,3 +7,4 @@ class MockAccessibilityAnnouncerService: AccessibilityAnnouncerServiceInterface 
         _receivedAnnounceValue = value
     }
 }
+#endif // DEBUG

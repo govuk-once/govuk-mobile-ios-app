@@ -1,6 +1,5 @@
+#if DEBUG
 import Foundation
-
-@testable import govuk_ios
 
 class MockInactivityService: InactivityServiceInterface {
 
@@ -37,3 +36,4 @@ class MockInactivityService: InactivityServiceInterface {
         _stubbedInactive = false
     }
 }
+#endif // DEBUG
