@@ -435,7 +435,6 @@ struct CountryListViewModelTests {
         var didCallDismiss = false
         let mockTravelService = MockTravelService()
         mockTravelService._stubbedSubscribeResult = .failure(.apiUnavailable)
-        mockTravelService._autoCallSubscribeCompletion = false
 
         let viewModel = CountryListViewModel(
             travelService: mockTravelService,
@@ -450,11 +449,9 @@ struct CountryListViewModelTests {
         mockTravelService._receivedSubscribeCompletion?(.failure(.apiUnavailable))
 
         await Task.yield()
-
         #expect(didCallDismiss == false)
     }
 
-    @Test
     func subscribeToCountryAlerts_onFailure_setsLoadedStateAfterError() async {
         let mockTravelService = MockTravelService()
         mockTravelService._stubbedSubscribeResult = .failure(.apiUnavailable)

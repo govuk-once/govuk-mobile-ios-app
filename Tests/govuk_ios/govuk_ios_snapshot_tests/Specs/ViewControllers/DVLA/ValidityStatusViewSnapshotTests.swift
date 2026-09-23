@@ -10,7 +10,7 @@ class ValidityStatusViewSnapshotTests: SnapshotTestCase {
     func test_statusWithButtonAndFooter_light_rendersCorrectly() {
         let viewModel = ValidityStatusViewModel(
             title: nil,
-            formattedStatus: "Expired 22 June 2026",
+            statusInformation: .init("Expired 22 June 2026"),
             iconName: "exclamationmark.triangle.fill",
             iconTintColour: nil,
             footer: "Your licence status may not update immediately after renewing.",
@@ -30,7 +30,7 @@ class ValidityStatusViewSnapshotTests: SnapshotTestCase {
     func test_statusWithButtonAndFooter_dark_rendersCorrectly() {
         let viewModel = ValidityStatusViewModel(
             title: nil,
-            formattedStatus: "Expired 22 June 2026",
+            statusInformation: .init("Expired 22 June 2026"),
             iconName: "exclamationmark.triangle.fill",
             iconTintColour: nil,
             footer: "Your licence status may not update immediately after renewing.",
@@ -50,7 +50,7 @@ class ValidityStatusViewSnapshotTests: SnapshotTestCase {
     func test_statusWithoutButtonAndFooter_light_rendersCorrectly() {
         let viewModel = ValidityStatusViewModel(
             title: nil,
-            formattedStatus: "Valid until 22 June 2026",
+            statusInformation: .init("Valid until 22 June 2026"),
             iconName: "checkmark.circle.fill",
             iconTintColour: .govUK.fills.surfaceButtonPrimary,
             footer: nil,
@@ -70,7 +70,7 @@ class ValidityStatusViewSnapshotTests: SnapshotTestCase {
     func test_statusWithoutButtonAndFooter_dark_rendersCorrectly() {
         let viewModel = ValidityStatusViewModel(
             title: nil,
-            formattedStatus: "Valid until 22 June 2026",
+            statusInformation: .init("Valid until 22 June 2026"),
             iconName: "checkmark.circle.fill",
             iconTintColour: .govUK.fills.surfaceButtonPrimary,
             footer: nil,
@@ -89,7 +89,7 @@ class ValidityStatusViewSnapshotTests: SnapshotTestCase {
 
     func test_statusWithProgressBar_light_rendersCorrectly() {
         let viewModel = ValidityStatusViewModel(
-            formattedStatus: "Expiring 22 June 2026",
+            statusInformation: .init("Expiring 22 June 2026"),
             progressViewModel: ExpiryProgressViewModel(progress: 0.5, daysLeft: 10),
             footer: "Your licence status may not update immediately after renewing.",
             buttonTitle: "Renew licence",
@@ -107,7 +107,7 @@ class ValidityStatusViewSnapshotTests: SnapshotTestCase {
 
     func test_statusWithProgressBar_dark_rendersCorrectly() {
         let viewModel = ValidityStatusViewModel(
-            formattedStatus: "Expiring 22 June 2026",
+            statusInformation: .init("Expiring 22 June 2026"),
             progressViewModel: ExpiryProgressViewModel(progress: 0.5, daysLeft: 10),
             footer: "Your licence status may not update immediately after renewing.",
             buttonTitle: "Renew licence",
@@ -122,4 +122,91 @@ class ValidityStatusViewSnapshotTests: SnapshotTestCase {
             mode: .dark
         )
     }
+
+    // MARK: - MOT Status related
+    // Code in this extension was copied and pasted from: `MotStatusViewControllerSnapshotTests.swift`
+
+        func test_noDetailsHeldByDVLA_light_rendersCorrectly() {
+            let status: MOTValidityStatus  = .noDetailsHeldByDVLA
+            let viewModel = ValidityStatusViewModel(
+                title: "MOT",
+                status: status,
+                statusInformation: StatusInformation(String(localized: .DVLA.motCheckIfItNeedsAnMOT),
+                                                     linkAction: {}),
+                iconName: nil,
+                iconTintColour: nil,
+                footer:  nil,
+            )
+            let view = ValidityStatusView(viewModel: viewModel)
+            let hostingViewController =  HostingViewController(
+                rootView: view
+            )
+            VerifySnapshotInNavigationController(
+                viewController: hostingViewController,
+                mode: .light
+            )
+        }
+
+        func test_noDetailsHeldByDVLA_dark_rendersCorrectly() {
+            let status: MOTValidityStatus  = .noDetailsHeldByDVLA
+            let viewModel = ValidityStatusViewModel(
+                title: "MOT",
+                status: status,
+                statusInformation: StatusInformation(String(localized: .DVLA.motCheckIfItNeedsAnMOT),
+                                                    linkAction: {}),
+                iconName: nil,
+                iconTintColour: nil,
+                footer:  nil,
+            )
+            let view = ValidityStatusView(viewModel: viewModel)
+            let hostingViewController = HostingViewController(
+                rootView: view
+            )
+            VerifySnapshotInNavigationController(
+                viewController: hostingViewController,
+                mode: .dark
+            )
+        }
+        func test_noResultsReturned_light_rendersCorrectly() {
+            let status: MOTValidityStatus = .noResultsReturned
+            let viewModel = ValidityStatusViewModel(
+                title: "MOT",
+                status: status,
+                statusInformation: StatusInformation(String(localized: .DVLA.motCheckIfItNeedsAnMOT),
+                                                     linkAction: {}),
+                iconName: nil,
+                iconTintColour: nil,
+                footer:  nil,
+            )
+            let view = ValidityStatusView(viewModel: viewModel)
+            let hostingViewController =  HostingViewController(
+                rootView: view
+            )
+            VerifySnapshotInNavigationController(
+                viewController: hostingViewController,
+                mode: .light
+            )
+        }
+
+        func test_noResultsReturned_dark_rendersCorrectly() {
+            let status: MOTValidityStatus = .noResultsReturned
+            let viewModel = ValidityStatusViewModel(
+                title: "MOT",
+                status: status,
+                statusInformation: StatusInformation(String(localized: .DVLA.motCheckIfItNeedsAnMOT),
+                                                    linkAction: {}),
+                iconName: nil,
+                iconTintColour: nil,
+                footer:  nil,
+            )
+            let view = ValidityStatusView(viewModel: viewModel)
+            let hostingViewController =  HostingViewController(
+                rootView: view
+            )
+            VerifySnapshotInNavigationController(
+                viewController: hostingViewController,
+                mode: .dark
+            )
+        }
+
 }
