@@ -47,3 +47,152 @@ struct DVLAAccountSummaryView: View {
             .padding(.horizontal, 16)
     }
 }
+
+#if DEBUG
+@available(iOS 17.0, *)
+#Preview("Vehicles tab") {
+    @Previewable @StateObject var viewModel: DVLAAccountSummaryViewModel = {
+        let dvlaService = MockDVLAService()
+        dvlaService._stubbedCustomerVehiclesResult = .success(
+            .arrange(
+                customerVehicles: [
+                    .arrange(
+                        vehicleId: 1,
+                        registrationNumber: "AB71 CDE",
+                        make: "MITSUBISHI",
+                        model: "MIRAGE",
+                        taxStatus: .taxed,
+                        taxedUntil: .arrange("15/09/2030"),
+                        motStatus: "Valid",
+                        motExpiryDate: .arrange("15/09/2030")
+                    ),
+                    .arrange(
+                        vehicleId: 2,
+                        registrationNumber: "XY19 ZAB",
+                        make: "LAND ROVER",
+                        model: "RANGE ROVER SPORT",
+                        taxStatus: .sorn,
+                        motStatus: "Not valid",
+                        motExpiryDate: .arrange("01/03/2024"),
+                        sornStart: .arrange("01/01/2025")
+                    )
+                ]
+            )
+        )
+        dvlaService._stubbedFetchDrivingLicenceResult = .success(
+            .arrange(
+                tokenValidToDate: .arrange("15/06/2035"),
+                licenceStatus: .valid
+            )
+        )
+
+        let analyticsService = MockAnalyticsService()
+        let configService = MockAppConfigService()
+
+        let vehiclesVM = VehiclesViewModel(
+            analyticsService: analyticsService,
+            dvlaService: dvlaService,
+            configService: configService,
+            detailAction: { _ in
+                /* no-op */
+            },
+            openURLAction: { _ in
+                /* no-op */
+            }
+        )
+        let licenceVM = DrivingLicenceViewModel(
+            analyticsService: analyticsService,
+            dvlaService: dvlaService,
+            configService: configService,
+            openURLAction: { _ in
+                /* no-op */
+            }
+        )
+
+        return DVLAAccountSummaryViewModel(
+            vehiclesViewModel: vehiclesVM,
+            licenceViewModel: licenceVM
+        )
+    }()
+
+    NavigationStack {
+        ScrollView {
+            DVLAAccountSummaryView(viewModel: viewModel)
+                .padding(.vertical)
+        }
+        .background(Color(uiColor: .govUK.fills.surfaceBackground))
+        .navigationTitle("Driving")
+    }
+}
+
+@available(iOS 17.0, *)
+#Preview("Licence tab") {
+    @Previewable @StateObject var viewModel: DVLAAccountSummaryViewModel = {
+        let dvlaService = MockDVLAService()
+        dvlaService._stubbedCustomerVehiclesResult = .success(
+            .arrange(customerVehicles: [
+                .arrange(
+                    vehicleId: 1,
+                    registrationNumber: "FG23 HIJ",
+                    make: "TESLA",
+                    model: "MODEL 3",
+                    taxStatus: .taxed,
+                    taxedUntil: .arrange("01/04/2031"),
+                    motStatus: "Valid",
+                    motExpiryDate: .arrange("01/04/2031")
+                )
+            ])
+        )
+        dvlaService._stubbedFetchDrivingLicenceResult = .success(
+            .arrange(
+                licenceNumber: "JONES810200HJ9NK",
+                driverTitle: "MR",
+                driverFirstNames: "HYWEL",
+                driverLastName: "JONES",
+                driverFullAddress: "42 HEOL FAWR\nSWANSEA\nSA1 5DF",
+                tokenValidToDate: .arrange("01/03/2023"),
+                licenceStatus: .expired
+            )
+        )
+
+        let analyticsService = MockAnalyticsService()
+        let configService = MockAppConfigService()
+
+        let vehiclesVM = VehiclesViewModel(
+            analyticsService: analyticsService,
+            dvlaService: dvlaService,
+            configService: configService,
+            detailAction: { _ in
+                /* no-op */
+            },
+            openURLAction: { _ in
+                /* no-op */
+            }
+        )
+        let licenceVM = DrivingLicenceViewModel(
+            analyticsService: analyticsService,
+            dvlaService: dvlaService,
+            configService: configService,
+            openURLAction: { _ in
+                /* no-op */
+            }
+        )
+
+        let viewModel = DVLAAccountSummaryViewModel(
+            vehiclesViewModel: vehiclesVM,
+            licenceViewModel: licenceVM
+        )
+        viewModel.selectedScreen = .drivingLicence
+        return viewModel
+    }()
+
+    NavigationStack {
+        ScrollView {
+            DVLAAccountSummaryView(viewModel: viewModel)
+                .padding(.vertical)
+        }
+        .background(Color(uiColor: .govUK.fills.surfaceBackground))
+        .navigationTitle("Driving")
+    }
+}
+#endif // DEBUG
