@@ -7,6 +7,7 @@ private typealias DataSource =
     UITableViewDiffableDataSource<SearchHistorySection, NSManagedObjectID>
 private typealias Snapshot = NSDiffableDataSourceSnapshot<SearchHistorySection, NSManagedObjectID>
 
+@MainActor
 final class SearchHistoryViewController: UIViewController {
     private let viewModel: SearchHistoryViewModelInterface
     private let selectionAction: ((String) -> Void)
