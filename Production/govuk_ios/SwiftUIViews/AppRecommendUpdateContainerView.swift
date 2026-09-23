@@ -28,6 +28,7 @@ struct AppRecommendUpdateContainerView: View {
     }
 }
 
+#if DEBUG
 #Preview {
     let viewModel = AppRecommendUpdateContainerViewModel(
         dismissAction: {
@@ -36,3 +37,4 @@ struct AppRecommendUpdateContainerView: View {
     )
     return AppRecommendUpdateContainerView(viewModel: viewModel)
 }
+#endif // DEBUG

@@ -210,6 +210,8 @@ extension NotificationCentreContainerView: TrackableScreen {
     var trackingTitle: String? { trackingName }
     var trackingName: String { "Messages" }
 }
+
+#if DEBUG
 #Preview("Loading") {
     NotificationCentreLoadingView()
 }
@@ -259,3 +261,4 @@ extension NotificationCentreContainerView: TrackableScreen {
     )
     NotificationCentreRow(notification: notification, onTap: { _ in /* no-op */ })
 }
+#endif // DEBUG

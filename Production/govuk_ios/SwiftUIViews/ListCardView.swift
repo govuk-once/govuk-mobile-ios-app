@@ -45,6 +45,7 @@ struct ListCardView: View {
     }
 }
 
+#if DEBUG
 #Preview {
     let modelOne = ListCardViewModel(
         title: "Card title",
@@ -64,3 +65,4 @@ struct ListCardView: View {
         .padding(.horizontal)
     }
 }
+#endif // DEBUG

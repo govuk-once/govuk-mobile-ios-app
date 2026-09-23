@@ -53,6 +53,7 @@ public struct ButtonStackView: View {
     }
 }
 
+#if DEBUG
 #Preview {
     let primary = GOVUKButton.ButtonViewModel(
         localisedTitle: "Primary",
@@ -65,3 +66,4 @@ public struct ButtonStackView: View {
     ButtonStackView(primaryButtonViewModel: primary,
                     secondaryButtonViewModel: secondary)
 }
+#endif // DEBUG
