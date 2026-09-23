@@ -1,7 +1,6 @@
+#if DEBUG
 import Foundation
 import CoreData
-
-@testable import govuk_ios
 
 class MockSearchService: SearchServiceInterface {
     var _suggestionsReceivedTerm: String?
@@ -54,3 +53,4 @@ class MockSearchService: SearchServiceInterface {
             .existingObject(with: objectId) as? SearchHistoryItem
     }
 }
+#endif // DEBUG
