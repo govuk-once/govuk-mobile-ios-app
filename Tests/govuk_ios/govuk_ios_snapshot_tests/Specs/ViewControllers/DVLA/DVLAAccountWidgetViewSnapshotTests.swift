@@ -165,8 +165,8 @@ import GovKit
     }
 }
 
-extension DVLAAccountWidgetViewModel.Actions {
-    static var empty: DVLAAccountWidgetViewModel.Actions {
+extension DVLAAccountWidgetActions {
+    static var empty: DVLAAccountWidgetActions {
         .init(
             linkAction: {},
             vehicleDetailAction: { _ in },

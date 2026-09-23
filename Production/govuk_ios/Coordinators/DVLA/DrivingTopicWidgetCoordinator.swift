@@ -45,11 +45,7 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator,
               configService.isFeatureEnabled(key: .dvla) else {
             return nil
         }
-        return widgetViewBuilder.dvlaAccountWidget(
-            analyticsService: analyticsService,
-            userService: userService,
-            dvlaService: dvlaService,
-            configService: configService,
+        let actions = DVLAAccountWidgetActions(
             linkAction: startLinkAccount,
             vehicleDetailAction: { [weak self] vehicleID in
                 self?.startVehicleDetail(vehicleID)
@@ -58,8 +54,16 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator,
                 self?.urlOpener.openIfPossible(url)
             },
             vehicleCheckAction: {
+                // reg number input screen has not been implemented yet
                 print("check a vehicle button tapped")
             }
+        )
+        return widgetViewBuilder.dvlaAccountWidget(
+            analyticsService: analyticsService,
+            userService: userService,
+            dvlaService: dvlaService,
+            configService: configService,
+            actions: actions
         )
     }
 

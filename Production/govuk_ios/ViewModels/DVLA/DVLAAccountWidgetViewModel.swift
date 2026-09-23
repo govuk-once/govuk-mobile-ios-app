@@ -2,6 +2,13 @@ import Foundation
 import GovKit
 import SwiftUI
 
+struct DVLAAccountWidgetActions {
+    let linkAction: () -> Void
+    let vehicleDetailAction: (Int) -> Void
+    let openURLAction: (URL) -> Void
+    let vehicleCheckAction: () -> Void
+}
+
 class DVLAAccountWidgetViewModel: ObservableObject {
     enum ViewState {
         case loading
@@ -19,7 +26,7 @@ class DVLAAccountWidgetViewModel: ObservableObject {
     private let dvlaService: DVLAServiceInterface
     private let configService: AppConfigServiceInterface
     private let notificationCenter: NotificationCenter
-    private let actions: Actions
+    private let actions: DVLAAccountWidgetActions
 
     var vehicleCheckSectionViewModel: VehicleCheckSectionViewModel {
         .init(
@@ -36,7 +43,7 @@ class DVLAAccountWidgetViewModel: ObservableObject {
          dvlaService: DVLAServiceInterface,
          configService: AppConfigServiceInterface,
          notificationCenter: NotificationCenter,
-         actions: Actions) {
+         actions: DVLAAccountWidgetActions) {
         self.viewState = viewState
         self.analyticsService = analyticsService
         self.userService = userService
@@ -165,14 +172,5 @@ class DVLAAccountWidgetViewModel: ObservableObject {
             section: "Driving"
         )
         analyticsService.track(event: event)
-    }
-}
-
-extension DVLAAccountWidgetViewModel {
-    struct Actions {
-        let linkAction: () -> Void
-        let vehicleDetailAction: (Int) -> Void
-        let openURLAction: (URL) -> Void
-        let vehicleCheckAction: () -> Void
     }
 }
