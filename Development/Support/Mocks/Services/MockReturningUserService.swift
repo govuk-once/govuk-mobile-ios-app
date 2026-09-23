@@ -1,6 +1,5 @@
+#if DEBUG
 import Foundation
-
-@testable import govuk_ios
 
 class MockReturningUserService: ReturningUserServiceInterface {
     var _stubbedReturningUserResult: ReturningUserResult = .success(true)
@@ -8,3 +7,4 @@ class MockReturningUserService: ReturningUserServiceInterface {
         _stubbedReturningUserResult
     }
 }
+#endif // DEBUG

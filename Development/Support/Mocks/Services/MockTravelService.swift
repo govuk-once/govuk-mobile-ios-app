@@ -1,6 +1,5 @@
+#if DEBUG
 import Foundation
-
-@testable import govuk_ios
 
 class MockTravelService: TravelServiceInterface {
     var _getGroupsCalled = false
@@ -134,3 +133,4 @@ class MockTravelService: TravelServiceInterface {
         }
     }
 }
+#endif // DEBUG
