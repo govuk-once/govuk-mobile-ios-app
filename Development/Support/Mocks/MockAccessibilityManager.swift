@@ -1,7 +1,7 @@
+#if DEBUG
 import Foundation
-
-@testable import govuk_ios
 
 class MockAccessibilityManager: AccessibilityManagerInterface {
     var animationsEnabled: Bool = true
 }
+#endif // DEBUG

@@ -1,8 +1,7 @@
+#if DEBUG
 import Foundation
 import GovKit
 import GovKitUI
-
-@testable import govuk_ios
 
 class MockLicenceStatusViewModelBuilder: LicenceStatusViewModelBuilderInterface {
     var _stubbedViewModel: ValidityStatusViewModel = .init(
@@ -27,3 +26,4 @@ class MockLicenceStatusViewModelBuilder: LicenceStatusViewModelBuilderInterface 
         return _stubbedViewModel
     }
 }
+#endif // DEBUG
