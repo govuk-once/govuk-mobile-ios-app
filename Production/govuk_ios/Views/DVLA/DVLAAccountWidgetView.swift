@@ -121,9 +121,15 @@ struct DVLAAccountWidgetView: View {
             configService: MockAppConfigService(),
             notificationCenter: NotificationCenter(),
             actions: .init(
-                linkAction: {},
-                vehicleDetailAction: { _ in },
-                openURLAction: { _ in}
+                linkAction: {
+                    /* no-op */
+                },
+                vehicleDetailAction: { _ in
+                    /* no-op */
+                },
+                openURLAction: { _ in
+                    /* no-op */
+                }
             )
         )
     }()

@@ -193,7 +193,10 @@ extension VehicleDetailView: TrackableScreen {
                                       analyticsService: MockAnalyticsService(),
                                       dvlaService: dvlaService,
                                       configService: MockAppConfigService(),
-                                      openURLAction: {_ in })
+                                      openURLAction: { _ in
+                                            /* no-op */
+                                      }
+                                    )
     }()
 
     NavigationStack {
