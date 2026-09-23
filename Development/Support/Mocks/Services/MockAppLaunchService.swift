@@ -1,6 +1,5 @@
+#if DEBUG
 import Foundation
-
-@testable import govuk_ios
 
 class MockAppLaunchService: AppLaunchServiceInterface {
     var _stubbedFetchAppLaunchResponse: AppLaunchResponse?
@@ -12,3 +11,4 @@ class MockAppLaunchService: AppLaunchServiceInterface {
         }
     }
 }
+#endif // DEBUG

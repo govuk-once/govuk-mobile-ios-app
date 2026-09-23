@@ -1,6 +1,5 @@
+#if DEBUG
 import Foundation
-
-@testable import govuk_ios
 
 final class MockTermsAndConditionsService: TermsAndConditionsServiceInterface {
     var _stubbedTermsAcceptanceIsValid: Bool = false
@@ -28,3 +27,4 @@ final class MockTermsAndConditionsService: TermsAndConditionsServiceInterface {
         _didResetAcceptanceDate = true
     }
 }
+#endif // DEBUG

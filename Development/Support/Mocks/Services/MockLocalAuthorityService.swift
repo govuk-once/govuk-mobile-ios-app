@@ -1,6 +1,5 @@
+#if DEBUG
 import Foundation
-
-@testable import govuk_ios
 
 class MockLocalAuthorityService: LocalAuthorityServiceInterface {
 
@@ -38,4 +37,4 @@ class MockLocalAuthorityService: LocalAuthorityServiceInterface {
         _savedAuthority = localAuthority
     }
 }
-
+#endif // DEBUG

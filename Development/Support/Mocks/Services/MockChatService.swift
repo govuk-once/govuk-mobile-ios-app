@@ -1,6 +1,5 @@
+#if DEBUG
 import Foundation
-
-@testable import govuk_ios
 
 final class MockChatService: ChatServiceInterface {
     var chatOnboardingSeen = false
@@ -103,3 +102,4 @@ final class MockChatService: ChatServiceInterface {
         _stubbedFeedback
     }
 }
+#endif // DEBUG

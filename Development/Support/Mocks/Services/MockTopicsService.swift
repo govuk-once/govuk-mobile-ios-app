@@ -1,6 +1,5 @@
+#if DEBUG
 import Foundation
-
-@testable import govuk_ios
 
 class MockTopicsService: TopicsServiceInterface {
     var _didCallRollback = false
@@ -76,3 +75,4 @@ class MockTopicsService: TopicsServiceInterface {
         _resetOnboardingCalled = true
     }
 }
+#endif // DEBUG
