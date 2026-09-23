@@ -1,7 +1,6 @@
+#if DEBUG
 import Foundation
 import LocalAuthentication
-
-@testable import govuk_ios
 
 class MockLocalAuthenticationService: LocalAuthenticationServiceInterface {
     var _stubbedFaceIdSkipped: Bool = false
@@ -72,3 +71,4 @@ class MockLocalAuthenticationService: LocalAuthenticationServiceInterface {
         _clearCalled = true
     }
 }
+#endif // DEBUG
