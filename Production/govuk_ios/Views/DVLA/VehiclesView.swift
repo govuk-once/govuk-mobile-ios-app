@@ -163,8 +163,12 @@ struct VehiclesView: View {
             analyticsService: MockAnalyticsService(),
             dvlaService: dvlaService,
             configService: MockAppConfigService(),
-            detailAction: { _ in /* no-op */ },
-            openURLAction: { _ in /* no-op */ }
+            detailAction: { _ in
+                /* no-op */
+            },
+            openURLAction: { _ in
+                /* no-op */
+            }
         )
     }()
 
@@ -203,8 +207,12 @@ struct VehiclesView: View {
             analyticsService: MockAnalyticsService(),
             dvlaService: dvlaService,
             configService: MockAppConfigService(),
-            detailAction: { _ in /* no-op */ },
-            openURLAction: { _ in /* no-op */ }
+            detailAction: { _ in
+                /* no-op */
+            },
+            openURLAction: { _ in
+                /* no-op */
+            }
         )
     }()
 
@@ -230,8 +238,12 @@ struct VehiclesView: View {
             analyticsService: MockAnalyticsService(),
             dvlaService: dvlaService,
             configService: MockAppConfigService(),
-            detailAction: { _ in /* no-op */ },
-            openURLAction: { _ in /* no-op */ }
+            detailAction: { _ in
+                /* no-op */
+            },
+            openURLAction: { _ in
+                /* no-op */
+            }
         )
     }()
 
@@ -255,8 +267,12 @@ struct VehiclesView: View {
             analyticsService: MockAnalyticsService(),
             dvlaService: dvlaService,
             configService: MockAppConfigService(),
-            detailAction: { _ in /* no-op */ },
-            openURLAction: { _ in /* no-op */ }
+            detailAction: { _ in
+                /* no-op */
+            },
+            openURLAction: { _ in
+                /* no-op */
+            }
         )
     }()
 
