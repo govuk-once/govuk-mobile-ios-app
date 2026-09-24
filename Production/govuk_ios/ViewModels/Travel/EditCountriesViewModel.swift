@@ -218,6 +218,10 @@ class EditCountriesViewModel: ObservableObject {
         displayUnfollowError = false
     }
 
+    func clearFollowError() {
+        isShowingFollowError = false
+    }
+
     private func showCountryDetails(country: Country, subgroup: String) {
         selectedCountry = SelectedCountry(country: country, subgroup: subgroup)
         if let cachedState = notificationStateCache[country.slug] {

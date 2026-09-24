@@ -377,7 +377,7 @@ struct CountryListViewModelTests {
         )
 
         let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
-        viewModel.proceedWithCountrySelection(country)
+        viewModel.proceedWithCountrySelection(country, true)
 
         #expect(mockTravelService._subscribeToGroupsCalled == true)
         #expect(mockTravelService._receivedSubscribeSlug == country.slug)
@@ -398,7 +398,7 @@ struct CountryListViewModelTests {
         )
 
         let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
-        viewModel.proceedWithCountrySelection(country)
+        viewModel.proceedWithCountrySelection(country, true)
 
         mockTravelService._receivedSubscribeCompletion?(.success(()))
 
@@ -421,7 +421,7 @@ struct CountryListViewModelTests {
         )
 
         let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
-        viewModel.proceedWithCountrySelection(country)
+        viewModel.proceedWithCountrySelection(country, true)
 
         if case .loading = viewModel.viewState {
             // expected
@@ -431,7 +431,7 @@ struct CountryListViewModelTests {
     }
 
     @Test
-    func subscribeToCountryAlerts_onFailure_doesNotCallDismissAction() async {
+    func subscribeToCountryAlerts_onFailure_doesCallDismissAction() async {
         var didCallDismiss = false
         let mockTravelService = MockTravelService()
         mockTravelService._stubbedSubscribeResult = .failure(.apiUnavailable)
@@ -444,12 +444,111 @@ struct CountryListViewModelTests {
         )
 
         let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
-        viewModel.proceedWithCountrySelection(country)
+        viewModel.proceedWithCountrySelection(country, true)
 
         mockTravelService._receivedSubscribeCompletion?(.failure(.apiUnavailable))
 
         await Task.yield()
-        #expect(didCallDismiss == false)
+        #expect(didCallDismiss == true)
+    }
+
+    @Test
+    func subscribeToCountryAlerts_onFailure_callsErrorCallback() async {
+        var didCallErrorCallback = false
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedSubscribeResult = .failure(.apiUnavailable)
+
+        let viewModel = CountryListViewModel(
+            travelService: mockTravelService,
+            analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService(),
+            dismissAction: { _ in },
+            errorCallback: { didCallErrorCallback = true }
+        )
+
+        let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
+        viewModel.proceedWithCountrySelection(country, true)
+
+        mockTravelService._receivedSubscribeCompletion?(.failure(.apiUnavailable))
+
+        await Task.yield()
+        #expect(didCallErrorCallback == true)
+    }
+
+    @Test
+    func handleCountrySelection_tracksToggleAnalytics() {
+        let mockAnalyticsService = MockAnalyticsService()
+        let mockNotificationService = MockNotificationService()
+        mockNotificationService._stubbedhasGivenConsent = false
+
+        let viewModel = CountryListViewModel(
+            travelService: MockTravelService(),
+            analyticsService: mockAnalyticsService,
+            notificationService: mockNotificationService,
+            dismissAction: { _ in }
+        )
+
+        let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
+        viewModel.handleCountrySelection(country, notificationOptIn: false)
+
+        let events = mockAnalyticsService._trackedEvents
+        #expect(events.count >= 1)
+        let toggleEvent = events.first(where: { $0.params?["text"] as? String == "France" })
+        #expect(toggleEvent != nil)
+        #expect(toggleEvent?.params?["section"] as? String == "Travel Abroad Notifications")
+        #expect(toggleEvent?.params?["action"] as? String == "Add")
+    }
+
+    @Test
+    func searchText_tracksSearchEvent() {
+        let mockAnalyticsService = MockAnalyticsService()
+        let viewModel = CountryListViewModel(
+            travelService: MockTravelService(),
+            analyticsService: mockAnalyticsService,
+            notificationService: MockNotificationService(),
+            dismissAction: { _ in }
+        )
+
+        viewModel.searchText = "France"
+        let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
+        viewModel.handleCountrySelection(country, notificationOptIn: false)
+
+        let events = mockAnalyticsService._trackedEvents
+        #expect(events.count >= 1)
+        let searchEvent = events.first(where: { $0.name == "Search" })
+        #expect(searchEvent != nil)
+        #expect(searchEvent?.params?["text"] as? String == "France")
+        #expect(searchEvent?.params?["section"] as? String == "country_search")
+    }
+
+    @Test
+    func hasNotificationConsent_returnsTrueWhenServiceReturnsTrue() {
+        let mockNotificationService = MockNotificationService()
+        mockNotificationService._stubbedhasGivenConsent = true
+
+        let viewModel = CountryListViewModel(
+            travelService: MockTravelService(),
+            analyticsService: MockAnalyticsService(),
+            notificationService: mockNotificationService,
+            dismissAction: { _ in }
+        )
+
+        #expect(viewModel.hasNotificationConsent == true)
+    }
+
+    @Test
+    func hasNotificationConsent_returnsFalseWhenServiceReturnsFalse() {
+        let mockNotificationService = MockNotificationService()
+        mockNotificationService._stubbedhasGivenConsent = false
+
+        let viewModel = CountryListViewModel(
+            travelService: MockTravelService(),
+            analyticsService: MockAnalyticsService(),
+            notificationService: mockNotificationService,
+            dismissAction: { _ in }
+        )
+
+        #expect(viewModel.hasNotificationConsent == false)
     }
 
     func subscribeToCountryAlerts_onFailure_setsLoadedStateAfterError() async {
@@ -465,7 +564,7 @@ struct CountryListViewModelTests {
         )
 
         let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
-        viewModel.proceedWithCountrySelection(country)
+        viewModel.proceedWithCountrySelection(country, true)
 
         mockTravelService._receivedSubscribeCompletion?(.failure(.apiUnavailable))
 

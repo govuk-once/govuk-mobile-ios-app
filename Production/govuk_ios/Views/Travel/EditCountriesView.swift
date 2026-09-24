@@ -94,7 +94,7 @@ struct EditCountriesView: View {
             presenting: viewModel.isShowingFollowError
         ) { _ in
             Button(String(localized: .Travel.editCountriesErrorButton)) {
-                viewModel.isShowingFollowError = false
+                viewModel.clearFollowError()
             }
         } message: { _ in
             Text(String(localized: .Travel.editCountriesErrorDescription))
