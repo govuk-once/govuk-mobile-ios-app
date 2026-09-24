@@ -46,6 +46,17 @@ struct TravelAlertsWidgetView: View {
                 }
             }
         )
+        .alert(
+            String(localized: .Travel.editCountriesErrorTitle),
+            isPresented: $viewModel.isShowingError,
+            presenting: viewModel.isShowingError
+        ) { _ in
+            Button(String(localized: .Travel.editCountriesErrorButton)) {
+                viewModel.isShowingError = false
+            }
+        } message: { _ in
+            Text(String(localized: .Travel.editCountriesErrorDescription))
+        }
     }
 }
 

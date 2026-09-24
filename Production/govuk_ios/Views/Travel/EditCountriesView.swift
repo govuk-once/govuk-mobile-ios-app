@@ -88,6 +88,17 @@ struct EditCountriesView: View {
         } message: { _ in
             Text(String(localized: .Travel.editCountriesErrorDescription))
         }
+        .alert(
+            String(localized: .Travel.editCountriesErrorTitle),
+            isPresented: $viewModel.isShowingFollowError,
+            presenting: viewModel.isShowingFollowError
+        ) { _ in
+            Button(String(localized: .Travel.editCountriesErrorButton)) {
+                viewModel.isShowingFollowError = false
+            }
+        } message: { _ in
+            Text(String(localized: .Travel.editCountriesErrorDescription))
+        }
     }
 
     private var scrollView: some View {

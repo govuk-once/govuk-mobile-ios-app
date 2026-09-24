@@ -19,13 +19,13 @@ class CountryListViewModel: ObservableObject {
     @Published private(set) var filteredSections = [GroupedListSection]()
     @Published var selectedCountry: Country?
     @Published var showTravelAlertsPermission = false
-    @Published var displayFollowError: Bool = false
 
     private var allCountries: [Country] = []
     private let travelService: TravelServiceInterface
     let analyticsService: AnalyticsServiceInterface
     private let notificationService: NotificationServiceInterface
     let dismissAction: (Bool) -> Void
+    let errorCallback: () -> Void
 
     var hasNotificationConsent: Bool {
         notificationService.hasGivenConsent
@@ -35,12 +35,14 @@ class CountryListViewModel: ObservableObject {
         travelService: TravelServiceInterface,
         analyticsService: AnalyticsServiceInterface,
         notificationService: NotificationServiceInterface,
-        dismissAction: @escaping (Bool) -> Void
+        dismissAction: @escaping (Bool) -> Void,
+        errorCallback: @escaping () -> Void = {}
     ) {
         self.travelService = travelService
         self.analyticsService = analyticsService
         self.notificationService = notificationService
         self.dismissAction = dismissAction
+        self.errorCallback = errorCallback
     }
 
     func trackScreen(screen: TrackableScreen) {
@@ -89,8 +91,8 @@ class CountryListViewModel: ObservableObject {
                     case .success:
                         self?.dismissAction(true)
                     case .failure:
-                        self?.displayFollowError = true
-                        self?.viewState = .loaded
+                        self?.dismissAction(false)
+                        self?.errorCallback()
                     }
                 }
             }
@@ -167,9 +169,5 @@ class CountryListViewModel: ObservableObject {
 
         filteredSections = buildSections(from: filtered)
         viewState = filteredSections.isEmpty ? .empty : .loaded
-    }
-
-    func clearFollowError() {
-        displayFollowError = false
     }
 }

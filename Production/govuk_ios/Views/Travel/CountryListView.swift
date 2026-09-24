@@ -80,17 +80,6 @@ struct CountryListView: View {
                     viewModel: createPermissionViewModel()
                 )
             }
-            .alert(
-                String(localized: .Travel.editCountriesErrorTitle),
-                isPresented: .constant(viewModel.displayFollowError),
-                presenting: viewModel.displayFollowError
-            ) { _ in
-                Button(String(localized: .Travel.editCountriesErrorButton)) {
-                    viewModel.clearFollowError()
-                }
-            } message: { _ in
-                Text(String(localized: .Travel.editCountriesErrorDescription))
-            }
     }
 
     @ViewBuilder
