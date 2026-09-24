@@ -129,6 +129,9 @@ struct DVLAAccountWidgetView: View {
                 },
                 openURLAction: { _ in
                     /* no-op */
+                },
+                vehicleCheckAction: {
+                    /* no-op */
                 }
             )
         )
