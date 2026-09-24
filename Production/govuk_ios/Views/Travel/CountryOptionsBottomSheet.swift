@@ -6,7 +6,6 @@ struct CountryOptionsBottomSheet: View {
     @Binding var notificationsEnabled: Bool
     let isTogglingNotifications: Bool
     let isUnfollowing: Bool
-    let toggleError: String?
     let onNotificationsToggle: (Bool) -> Void
     let onUnfollow: () -> Void
     let onClearToggleError: () -> Void

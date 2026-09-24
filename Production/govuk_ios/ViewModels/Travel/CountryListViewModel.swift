@@ -74,7 +74,7 @@ class CountryListViewModel: ObservableObject {
                     case .success:
                         self?.dismissAction(true)
                     case .failure(let error):
-                        print("Failed to subscribe to country alerts: \(error)")
+                        debugPrint("Failed to subscribe to country alerts: \(error)")
                         self?.viewState = .loaded
                     }
                 }

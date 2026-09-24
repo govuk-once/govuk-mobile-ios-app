@@ -7,7 +7,6 @@ import GovKit
 
 @MainActor
 final class EditCountriesViewSnapshotTests: SnapshotTestCase {
-    var coreData: CoreDataRepository!
 
     func test_loadInNavigationController_loading_light_rendersCorrectly() {
         let viewModel = makeViewModel()

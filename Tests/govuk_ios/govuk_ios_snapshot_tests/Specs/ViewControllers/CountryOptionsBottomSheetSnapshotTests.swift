@@ -15,7 +15,6 @@ final class CountryOptionsBottomSheetSnapshotTests: SnapshotTestCase {
             notificationsEnabled: .constant(false),
             isTogglingNotifications: false,
             isUnfollowing: false,
-            toggleError: nil,
             onNotificationsToggle: { _ in },
             onUnfollow: {},
             onClearToggleError: {}
@@ -35,7 +34,6 @@ final class CountryOptionsBottomSheetSnapshotTests: SnapshotTestCase {
             notificationsEnabled: .constant(false),
             isTogglingNotifications: false,
             isUnfollowing: false,
-            toggleError: nil,
             onNotificationsToggle: { _ in },
             onUnfollow: {},
             onClearToggleError: {}
@@ -55,7 +53,6 @@ final class CountryOptionsBottomSheetSnapshotTests: SnapshotTestCase {
             notificationsEnabled: .constant(true),
             isTogglingNotifications: false,
             isUnfollowing: false,
-            toggleError: nil,
             onNotificationsToggle: { _ in },
             onUnfollow: {},
             onClearToggleError: {}
@@ -75,7 +72,6 @@ final class CountryOptionsBottomSheetSnapshotTests: SnapshotTestCase {
             notificationsEnabled: .constant(true),
             isTogglingNotifications: false,
             isUnfollowing: false,
-            toggleError: nil,
             onNotificationsToggle: { _ in },
             onUnfollow: {},
             onClearToggleError: {}
@@ -95,7 +91,6 @@ final class CountryOptionsBottomSheetSnapshotTests: SnapshotTestCase {
             notificationsEnabled: .constant(true),
             isTogglingNotifications: false,
             isUnfollowing: true,
-            toggleError: nil,
             onNotificationsToggle: { _ in },
             onUnfollow: {},
             onClearToggleError: {}
@@ -115,7 +110,6 @@ final class CountryOptionsBottomSheetSnapshotTests: SnapshotTestCase {
             notificationsEnabled: .constant(true),
             isTogglingNotifications: false,
             isUnfollowing: true,
-            toggleError: nil,
             onNotificationsToggle: { _ in },
             onUnfollow: {},
             onClearToggleError: {}
@@ -141,7 +135,6 @@ final class CountryOptionsBottomSheetSnapshotTests: SnapshotTestCase {
             notificationsEnabled: .constant(false),
             isTogglingNotifications: false,
             isUnfollowing: false,
-            toggleError: nil,
             onNotificationsToggle: { _ in },
             onUnfollow: {},
             onClearToggleError: {}
@@ -167,7 +160,6 @@ final class CountryOptionsBottomSheetSnapshotTests: SnapshotTestCase {
             notificationsEnabled: .constant(false),
             isTogglingNotifications: false,
             isUnfollowing: false,
-            toggleError: nil,
             onNotificationsToggle: { _ in },
             onUnfollow: {},
             onClearToggleError: {}

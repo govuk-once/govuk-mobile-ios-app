@@ -43,7 +43,6 @@ struct EditCountriesView: View {
                         notificationsEnabled: $viewModel.selectedCountryNotificationEnabled,
                         isTogglingNotifications: viewModel.isToggleLoading,
                         isUnfollowing: viewModel.isUnfollowing,
-                        toggleError: viewModel.toggleError,
                         onNotificationsToggle: { enabled in
                             Task {
                                 await viewModel.toggleNotifications(
@@ -66,8 +65,8 @@ struct EditCountriesView: View {
                     )
                     .alert(
                         String(localized: .Travel.editCountriesErrorTitle),
-                        isPresented: .constant(viewModel.toggleError != nil),
-                        presenting: viewModel.toggleError
+                        isPresented: .constant(viewModel.displayToggleError),
+                        presenting: viewModel.displayToggleError
                     ) { _ in
                         Button(String(localized: .Travel.editCountriesErrorButton)) {
                             viewModel.clearToggleError()
@@ -80,12 +79,11 @@ struct EditCountriesView: View {
         )
         .alert(
             String(localized: .Travel.editCountriesErrorTitle),
-            isPresented: .constant(viewModel.unfollowError != nil),
-            presenting: viewModel.unfollowError
+            isPresented: .constant(viewModel.displayUnfollowError),
+            presenting: viewModel.displayUnfollowError
         ) { _ in
             Button(String(localized: .Travel.editCountriesErrorButton)) {
-                viewModel.isShowingCountryDetails = false
-                viewModel.unfollowError = nil
+                viewModel.clearUnfollowError()
             }
         } message: { _ in
             Text(String(localized: .Travel.editCountriesErrorDescription))

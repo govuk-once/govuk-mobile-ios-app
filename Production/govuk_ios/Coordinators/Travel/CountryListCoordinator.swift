@@ -38,12 +38,12 @@ final class CountryListCoordinator: BaseCoordinator {
             travelService: travelService,
             analyticsService: analyticsService,
             notificationService: notificationService,
-            dismissAction: dismissModal
+            dismissAction: { _ in self.dismissModal() }
         )
         set(viewController)
     }
 
-    private func dismissModal(_: Bool) {
+    private func dismissModal() {
         root.dismiss(animated: true, completion: nil)
     }
 }

@@ -23,8 +23,8 @@ class EditCountriesViewModel: ObservableObject {
     @Published var selectedCountryNotificationEnabled = false
     @Published var isToggleLoading = false
     @Published var isUnfollowing = false
-    @Published var toggleError: String?
-    @Published var unfollowError: String?
+    @Published var displayToggleError: Bool = false
+    @Published var displayUnfollowError: Bool = false
 
     private let travelService: TravelServiceInterface
     private let notificationService: NotificationServiceInterface
@@ -92,7 +92,7 @@ class EditCountriesViewModel: ObservableObject {
                     self?.isToggleLoading = false
                 case .failure:
                     self?.isToggleLoading = false
-                    self?.toggleError = "Failed to update notifications"
+                    self?.displayToggleError = true
                 }
             }
         }
@@ -114,7 +114,7 @@ class EditCountriesViewModel: ObservableObject {
                     self?.isShowingCountryDetails = false
                 case .failure:
                     self?.isUnfollowing = false
-                    self?.unfollowError = "Failed to unfollow country"
+                    self?.displayUnfollowError = true
                 }
             }
         }
@@ -206,7 +206,12 @@ class EditCountriesViewModel: ObservableObject {
     }
 
     func clearToggleError() {
-        toggleError = nil
+        displayToggleError = false
+    }
+
+    func clearUnfollowError() {
+        isShowingCountryDetails = false
+        displayUnfollowError = false
     }
 
     private func showCountryDetails(country: Country, subgroup: String) {

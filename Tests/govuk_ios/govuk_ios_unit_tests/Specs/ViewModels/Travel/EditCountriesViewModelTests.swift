@@ -376,7 +376,7 @@ struct EditCountriesViewModelTests {
         await Task.yield()
 
         #expect(sut.isToggleLoading == false)
-        #expect(sut.toggleError == nil)
+        #expect(sut.displayToggleError == false)
     }
 
     @Test
@@ -398,7 +398,7 @@ struct EditCountriesViewModelTests {
         await Task.yield()
 
         #expect(sut.isToggleLoading == false)
-        #expect(sut.toggleError == "Failed to update notifications")
+        #expect(sut.displayToggleError == true)
     }
 
     @Test
@@ -455,7 +455,7 @@ struct EditCountriesViewModelTests {
 
         #expect(sut.isUnfollowing == false)
         #expect(sut.isShowingCountryDetails == false)
-        #expect(sut.unfollowError == nil)
+        #expect(sut.displayUnfollowError == false)
     }
 
     @Test
@@ -480,7 +480,8 @@ struct EditCountriesViewModelTests {
 
         #expect(sut.isUnfollowing == false)
         #expect(sut.isShowingCountryDetails == true)
-        #expect(sut.unfollowError == "Failed to unfollow country")
+        #expect(sut.displayUnfollowError == true)
+
     }
 
     @Test
@@ -520,11 +521,30 @@ struct EditCountriesViewModelTests {
             notificationService: MockNotificationService()
         )
 
-        sut.toggleError = "Some error occurred"
-        #expect(sut.toggleError != nil)
+        sut.displayToggleError = true
+        #expect(sut.displayToggleError == true)
 
         sut.clearToggleError()
-        #expect(sut.toggleError == nil)
+        #expect(sut.displayToggleError == false)
+    }
+
+    @Test
+    func clearUnfollowError_removesErrorMessage() {
+        let sut = EditCountriesViewModel(
+            travelService: MockTravelService(),
+            analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService()
+        )
+
+        sut.displayUnfollowError = true
+        #expect(sut.displayUnfollowError == true)
+        sut.isShowingCountryDetails = true
+        #expect(sut.isShowingCountryDetails == true)
+
+
+        sut.clearUnfollowError()
+        #expect(sut.displayUnfollowError == false)
+        #expect(sut.isShowingCountryDetails == false)
     }
 
     @Test
