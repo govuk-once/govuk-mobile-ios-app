@@ -45,18 +45,25 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator,
               configService.isFeatureEnabled(key: .dvla) else {
             return nil
         }
-        return widgetViewBuilder.dvlaAccountWidget(
-            analyticsService: analyticsService,
-            userService: userService,
-            dvlaService: dvlaService,
-            configService: configService,
+        let actions = DVLAAccountWidgetActions(
             linkAction: startLinkAccount,
             vehicleDetailAction: { [weak self] vehicleID in
                 self?.startVehicleDetail(vehicleID)
             },
             openURLAction: { [weak self] url in
                 self?.urlOpener.openIfPossible(url)
+            },
+            vehicleCheckAction: {
+                // reg number input screen has not been implemented yet
+                print("check a vehicle button tapped")
             }
+        )
+        return widgetViewBuilder.dvlaAccountWidget(
+            analyticsService: analyticsService,
+            userService: userService,
+            dvlaService: dvlaService,
+            configService: configService,
+            actions: actions
         )
     }
 
@@ -76,19 +83,6 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator,
             accountType: .dvla,
             completion: { _ in
                 print("service account linking dismissed")
-            }
-        )
-        present(coordinator)
-    }
-
-    private func startUnlinkAccount() {
-        let navigationController = UINavigationController()
-        navigationController.modalPresentationStyle = .fullScreen
-        let coordinator = coordinatorBuilder.serviceAccountUnlink(
-            navigationController: navigationController,
-            accountType: .dvla,
-            completion: {
-                print("service account unlinking dismissed")
             }
         )
         present(coordinator)
