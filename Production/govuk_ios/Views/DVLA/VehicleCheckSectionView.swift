@@ -29,6 +29,7 @@ struct VehicleCheckSectionView: View {
                 HStack(spacing: 8) {
                     Text(viewModel.buttonTitle)
                         .foregroundStyle(Color(uiColor: .govUK.text.primary))
+                        .multilineTextAlignment(.leading)
                     Spacer()
                     Text(.DVLA.vehicleRegAbc)
                         .font(.govUK.vehicleRegistrationMarkBody)
