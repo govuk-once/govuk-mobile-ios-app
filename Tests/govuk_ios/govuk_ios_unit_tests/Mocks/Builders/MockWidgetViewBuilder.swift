@@ -11,12 +11,10 @@ class MockWidgetViewBuilder: WidgetViewBuilder {
         userService: UserServiceInterface,
         dvlaService: DVLAServiceInterface,
         configService: AppConfigServiceInterface,
-        linkAction: @escaping () -> Void,
-        vehicleDetailAction: @escaping (Int) -> Void,
-        openURLAction: @escaping (URL) -> Void
+        actions: DVLAAccountWidgetActions
     ) -> AnyView? {
-        _receivedDvlaAccountWidgetLinkAction = linkAction
-        _receivedVehicleDetailAction = vehicleDetailAction
+        _receivedDvlaAccountWidgetLinkAction = actions.linkAction
+        _receivedVehicleDetailAction = actions.vehicleDetailAction
         return AnyView(EmptyView())
     }
 }
