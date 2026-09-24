@@ -127,7 +127,7 @@ struct TravelServiceClientTests {
 
     @Test
     func subscribeToCountry_sendsExpectedRequest() {
-        sut.subscribeToCountry(slug: "france") { _ in }
+        sut.followCountry(slug: "france") { _ in }
         #expect(mockAPI._receivedSendRequest != nil)
     }
 
@@ -135,7 +135,7 @@ struct TravelServiceClientTests {
     func subscribeToCountry_success_returnsSuccess() async {
         mockAPI._stubbedSendResponse = .success(Data())
         let result = await withCheckedContinuation { continuation in
-            sut.subscribeToCountry(slug: "france") { result in
+            sut.followCountry(slug: "france") { result in
                 continuation.resume(returning: result)
             }
         }
@@ -153,7 +153,7 @@ struct TravelServiceClientTests {
             NSError(domain: "TestError", code: NSURLErrorNotConnectedToInternet)
         )
         let result = await withCheckedContinuation { continuation in
-            sut.subscribeToCountry(slug: "france") { result in
+            sut.followCountry(slug: "france") { result in
                 continuation.resume(returning: result)
             }
         }
@@ -164,7 +164,7 @@ struct TravelServiceClientTests {
     func subscribeToCountry_authenticationError_preservesError() async {
         mockAPI._stubbedSendResponse = .failure(TravelError.authenticationError)
         let result = await withCheckedContinuation { continuation in
-            sut.subscribeToCountry(slug: "france") { result in
+            sut.followCountry(slug: "france") { result in
                 continuation.resume(returning: result)
             }
         }
@@ -177,7 +177,7 @@ struct TravelServiceClientTests {
             NSError(domain: "TestError", code: -1)
         )
         let result = await withCheckedContinuation { continuation in
-            sut.subscribeToCountry(slug: "france") { result in
+            sut.followCountry(slug: "france") { result in
                 continuation.resume(returning: result)
             }
         }

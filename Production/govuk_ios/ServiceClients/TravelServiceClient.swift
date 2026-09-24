@@ -10,7 +10,11 @@ typealias SubscriptionResult = Result<Void, TravelError>
 protocol TravelServiceClientInterface {
     func fetchGroups(completion: @escaping TravelGroupResultCompletion)
     func fetchCountries(completion: @escaping CountriesListResultCompletion)
-    func subscribeToCountry(slug: String, completion: @escaping SubscriptionResultCompletion)
+    func followCountry(
+        slug: String,
+        notificationsEnabled: Bool,
+        completion: @escaping SubscriptionResultCompletion
+    )
     func toggleNotifications(
         slug: String,
         enabled: Bool,
@@ -48,18 +52,33 @@ class TravelServiceClient: TravelServiceClientInterface {
         )
     }
 
-    func subscribeToCountry(
+    func followCountry(
         slug: String,
+        notificationsEnabled: Bool,
         completion: @escaping SubscriptionResultCompletion
     ) {
-        let request = GOVRequest.subscribeToGroups(
-            subscriptionsBody: [SubscriptionRequest(
+        let (leaveSubgroup, joinSubgroup) = notificationsEnabled
+        ? (SubscriptionRequest.SubscriptionGroup.NONE, SubscriptionRequest.SubscriptionGroup.DAILY)
+        : (SubscriptionRequest.SubscriptionGroup.DAILY, SubscriptionRequest.SubscriptionGroup.NONE)
+
+        let body = [
+            SubscriptionRequest(
                 namespace: "travel",
                 group: slug,
-                subgroup: .DAILY,
+                subgroup: leaveSubgroup,
+                type: .notification,
+                action: .leave
+            ), SubscriptionRequest(
+                namespace: "travel",
+                group: slug,
+                subgroup: joinSubgroup,
                 type: .notification,
                 action: .join
-            )]
+            )
+        ]
+
+        let request = GOVRequest.subscribeToGroups(
+            subscriptionsBody: body
         )
         apiServiceClient.send(
             request: request,

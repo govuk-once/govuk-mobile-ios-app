@@ -19,6 +19,7 @@ class CountryListViewModel: ObservableObject {
     @Published private(set) var filteredSections = [GroupedListSection]()
     @Published var selectedCountry: Country?
     @Published var showTravelAlertsPermission = false
+    @Published var displayFollowError: Bool = false
 
     private var allCountries: [Country] = []
     private let travelService: TravelServiceInterface
@@ -51,30 +52,44 @@ class CountryListViewModel: ObservableObject {
         analyticsService.track(event: searchEvent)
     }
 
+    func trackToggleFunction(countryName: String) {
+        let toggleEvent = AppEvent.toggleAction(
+            text: countryName,
+            section: "Travel Abroad Notifications",
+            action: "Add"
+        )
+        analyticsService.track(event: toggleEvent)
+    }
+
     func handleCountrySelection(_ country: Country, notificationOptIn: Bool) {
+        trackToggleFunction(countryName: country.name)
+        if !searchText.isEmpty {
+            trackSearchInput(text: searchText)
+        }
         // Given global notifications are off and user is attempting to optIn, navigate to the consent screen
         if !notificationService.hasGivenConsent && notificationOptIn {
             showTravelAlertsPermission = true
         } else {
-            proceedWithCountrySelection(country)
+            subscribeToCountryAlerts(country, notificationOptIn)
         }
     }
 
-    func proceedWithCountrySelection(_ country: Country) {
-        subscribeToCountryAlerts(country)
+    func proceedWithCountrySelection(_ country: Country, _ notificationEnabled: Bool) {
+        subscribeToCountryAlerts(country, notificationEnabled)
     }
 
-    private func subscribeToCountryAlerts(_ country: Country) {
+    private func subscribeToCountryAlerts(_ country: Country, _ notificationsEnabled: Bool) {
         viewState = .loading
         travelService.subscribeToCountry(
             slug: country.slug,
+            notificationsEnabled: notificationsEnabled,
             completion: { [weak self] result in
                 Task { @MainActor in
                     switch result {
                     case .success:
                         self?.dismissAction(true)
-                    case .failure(let error):
-                        debugPrint("Failed to subscribe to country alerts: \(error)")
+                    case .failure:
+                        self?.displayFollowError = true
                         self?.viewState = .loaded
                     }
                 }
@@ -124,7 +139,7 @@ class CountryListViewModel: ObservableObject {
             )
         }
 
-        guard rows.isEmpty == false else {
+        guard !rows.isEmpty else {
             return []
         }
 
@@ -151,11 +166,10 @@ class CountryListViewModel: ObservableObject {
         }
 
         filteredSections = buildSections(from: filtered)
+        viewState = filteredSections.isEmpty ? .empty : .loaded
+    }
 
-        if filteredSections.count > 0 {
-            self.viewState = .loaded
-        } else {
-            self.viewState = .empty
-        }
+    func clearFollowError() {
+        displayFollowError = false
     }
 }
