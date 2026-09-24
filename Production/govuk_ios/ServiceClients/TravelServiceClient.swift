@@ -10,7 +10,17 @@ typealias SubscriptionResult = Result<Void, TravelError>
 protocol TravelServiceClientInterface {
     func fetchGroups(completion: @escaping TravelGroupResultCompletion)
     func fetchCountries(completion: @escaping CountriesListResultCompletion)
-    func subscribeToGroups(slug: String, completion: @escaping SubscriptionResultCompletion)
+    func subscribeToCountry(slug: String, completion: @escaping SubscriptionResultCompletion)
+    func toggleNotifications(
+        slug: String,
+        enabled: Bool,
+        completion: @escaping SubscriptionResultCompletion
+    )
+    func unfollowCountry(
+        slug: String,
+        currentNotificationsEnabled: Bool,
+        completion: @escaping SubscriptionResultCompletion
+    )
 }
 
 class TravelServiceClient: TravelServiceClientInterface {
@@ -38,12 +48,92 @@ class TravelServiceClient: TravelServiceClientInterface {
         )
     }
 
-    func subscribeToGroups(
+    func subscribeToCountry(
         slug: String,
         completion: @escaping SubscriptionResultCompletion
     ) {
         let request = GOVRequest.subscribeToGroups(
-            slug: slug,
+            subscriptionsBody: [SubscriptionRequest(
+                namespace: "travel",
+                group: slug,
+                subgroup: .DAILY,
+                type: .notification,
+                action: .join
+            )]
+        )
+        apiServiceClient.send(
+            request: request,
+            completion: { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case .failure(let error):
+                    let travelError = self.mapError(error)
+                    completion(.failure(travelError))
+                }
+            }
+        )
+    }
+
+    func toggleNotifications(
+        slug: String,
+        enabled: Bool,
+        completion: @escaping SubscriptionResultCompletion
+    ) {
+        let (leaveSubgroup, joinSubgroup) = enabled
+        ? (SubscriptionRequest.SubscriptionGroup.NONE, SubscriptionRequest.SubscriptionGroup.DAILY)
+        : (SubscriptionRequest.SubscriptionGroup.DAILY, SubscriptionRequest.SubscriptionGroup.NONE)
+
+        let body = [
+            SubscriptionRequest(
+                namespace: "travel",
+                group: slug,
+                subgroup: leaveSubgroup,
+                type: .notification,
+                action: .leave
+            ), SubscriptionRequest(
+                namespace: "travel",
+                group: slug,
+                subgroup: joinSubgroup,
+                type: .notification,
+                action: .join
+            )
+        ]
+
+        let request = GOVRequest.subscribeToGroups(
+            subscriptionsBody: body
+        )
+        apiServiceClient.send(
+            request: request,
+            completion: { result in
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case .failure(let error):
+                    let travelError = self.mapError(error)
+                    completion(.failure(travelError))
+                }
+            }
+        )
+    }
+
+    func unfollowCountry(
+        slug: String,
+        currentNotificationsEnabled: Bool,
+        completion: @escaping SubscriptionResultCompletion
+    ) {
+        let subgroupToLeave = currentNotificationsEnabled
+        ? SubscriptionRequest.SubscriptionGroup.DAILY
+        : SubscriptionRequest.SubscriptionGroup.NONE
+
+        let request = GOVRequest.subscribeToGroups(
+            subscriptionsBody: [SubscriptionRequest(
+                namespace: "travel",
+                group: slug,
+                subgroup: subgroupToLeave,
+                type: .notification,
+                action: .leave
+            )]
         )
         apiServiceClient.send(
             request: request,

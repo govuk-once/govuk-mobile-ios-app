@@ -27,13 +27,67 @@ struct EditCountriesView: View {
         .sheet(
             isPresented: $viewModel.isShowingList,
             onDismiss: {
-                viewModel.didDismissList()
+                viewModel.didDismissList(forceRefresh: false)
             }, content: {
                 NavigationView {
                     CountryListView(viewModel: viewModel.countryListViewModel)
                 }
             }
         )
+        .sheet(
+            isPresented: $viewModel.isShowingCountryDetails,
+            content: {
+                if let selectedCountry = viewModel.selectedCountry {
+                    CountryOptionsBottomSheet(
+                        country: selectedCountry.country,
+                        notificationsEnabled: $viewModel.selectedCountryNotificationEnabled,
+                        isTogglingNotifications: viewModel.isToggleLoading,
+                        isUnfollowing: viewModel.isUnfollowing,
+                        onNotificationsToggle: { enabled in
+                            Task {
+                                await viewModel.toggleNotifications(
+                                    slug: selectedCountry.country.slug,
+                                    enabled: enabled
+                                )
+                            }
+                        },
+                        onUnfollow: {
+                            Task {
+                                await viewModel.unfollowCountry(
+                                    slug: selectedCountry.country.slug,
+                                    enabled: viewModel.selectedCountryNotificationEnabled
+                                )
+                            }
+                        },
+                        onClearToggleError: {
+                            viewModel.clearToggleError()
+                        }
+                    )
+                    .alert(
+                        String(localized: .Travel.editCountriesErrorTitle),
+                        isPresented: .constant(viewModel.displayToggleError),
+                        presenting: viewModel.displayToggleError
+                    ) { _ in
+                        Button(String(localized: .Travel.editCountriesErrorButton)) {
+                            viewModel.clearToggleError()
+                        }
+                    } message: { _ in
+                        Text(String(localized: .Travel.editCountriesErrorDescription))
+                    }
+                }
+            }
+        )
+        .alert(
+            String(localized: .Travel.editCountriesErrorTitle),
+            isPresented: .constant(viewModel.displayUnfollowError),
+            presenting: viewModel.displayUnfollowError
+        ) { _ in
+            Button(String(localized: .Travel.editCountriesErrorButton)) {
+                viewModel.clearUnfollowError()
+            }
+        } message: { _ in
+            Text(String(localized: .Travel.editCountriesErrorDescription))
+        }
     }
 
     private var scrollView: some View {
@@ -45,10 +99,12 @@ struct EditCountriesView: View {
                     .multilineTextAlignment(.leading)
                     .frame(maxWidth: .infinity, alignment: .leading)
 
-                GroupedList(
-                    content: viewModel.countriesSection,
-                    sectionBackgroundColor: .govUK.fills.surfaceCardDefault
-                )
+                if !viewModel.countriesSection.isEmpty {
+                    GroupedList(
+                        content: viewModel.countriesSection,
+                        sectionBackgroundColor: .govUK.fills.surfaceCardDefault
+                    )
+                }
 
                 GroupedList(
                     content: viewModel.footerSection,
@@ -70,6 +126,7 @@ private struct EditCountriesLoadingView: View {
                 .accessibilityLabel(.Travel.travelAlertsLoading)
             Spacer()
         }
+        .frame(maxWidth: .infinity)
     }
 }
 

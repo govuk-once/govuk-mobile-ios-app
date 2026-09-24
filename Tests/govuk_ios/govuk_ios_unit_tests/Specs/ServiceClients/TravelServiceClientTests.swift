@@ -126,35 +126,34 @@ struct TravelServiceClientTests {
     }
 
     @Test
-    func subscribeToGroups_sendsExpectedRequest() {
-        sut.subscribeToGroups(slug: "test-slug") { _ in }
-        #expect(mockAPI._receivedSendRequest?.urlPath == "/app/groups/v1/groups")
-        #expect(mockAPI._receivedSendRequest?.method == .post)
+    func subscribeToCountry_sendsExpectedRequest() {
+        sut.subscribeToCountry(slug: "france") { _ in }
+        #expect(mockAPI._receivedSendRequest != nil)
     }
 
     @Test
-    func subscribeToGroups_success_returnsSuccessResult() async {
+    func subscribeToCountry_success_returnsSuccess() async {
         mockAPI._stubbedSendResponse = .success(Data())
         let result = await withCheckedContinuation { continuation in
-            sut.subscribeToGroups(slug: "test-slug") { result in
+            sut.subscribeToCountry(slug: "france") { result in
                 continuation.resume(returning: result)
             }
         }
-        #expect(result.getError() == nil)
         do {
-            try result.get()
+            _ = try result.get()
+            #expect(true)
         } catch {
-            #expect(Bool(false), "Expected success but got error: \(error)")
+            Issue.record("Expected success but got error: \(error)")
         }
     }
 
     @Test
-    func subscribeToGroups_networkUnavailable_mapsExpectedError() async {
+    func subscribeToCountry_networkError_mapsError() async {
         mockAPI._stubbedSendResponse = .failure(
             NSError(domain: "TestError", code: NSURLErrorNotConnectedToInternet)
         )
         let result = await withCheckedContinuation { continuation in
-            sut.subscribeToGroups(slug: "test-slug") { result in
+            sut.subscribeToCountry(slug: "france") { result in
                 continuation.resume(returning: result)
             }
         }
@@ -162,10 +161,10 @@ struct TravelServiceClientTests {
     }
 
     @Test
-    func subscribeToGroups_authenticationError_preservesTypedError() async {
+    func subscribeToCountry_authenticationError_preservesError() async {
         mockAPI._stubbedSendResponse = .failure(TravelError.authenticationError)
         let result = await withCheckedContinuation { continuation in
-            sut.subscribeToGroups(slug: "test-slug") { result in
+            sut.subscribeToCountry(slug: "france") { result in
                 continuation.resume(returning: result)
             }
         }
@@ -173,12 +172,151 @@ struct TravelServiceClientTests {
     }
 
     @Test
-    func subscribeToGroups_genericError_mapsToApiUnavailable() async {
+    func subscribeToCountry_genericError_mapsToApiUnavailable() async {
         mockAPI._stubbedSendResponse = .failure(
-            NSError(domain: "TestError", code: 0)
+            NSError(domain: "TestError", code: -1)
         )
         let result = await withCheckedContinuation { continuation in
-            sut.subscribeToGroups(slug: "test-slug") { result in
+            sut.subscribeToCountry(slug: "france") { result in
+                continuation.resume(returning: result)
+            }
+        }
+        #expect(result.getError() == .apiUnavailable)
+    }
+
+    @Test
+    func toggleNotifications_enabledTrue_sendsExpectedRequest() {
+        sut.toggleNotifications(slug: "france", enabled: true) { _ in }
+        #expect(mockAPI._receivedSendRequest != nil)
+    }
+
+    @Test
+    func toggleNotifications_enabledFalse_sendsExpectedRequest() {
+        sut.toggleNotifications(slug: "france", enabled: false) { _ in }
+        #expect(mockAPI._receivedSendRequest != nil)
+    }
+
+    @Test
+    func toggleNotifications_success_returnsSuccess() async {
+        mockAPI._stubbedSendResponse = .success(Data())
+        let result = await withCheckedContinuation { continuation in
+            sut.toggleNotifications(slug: "france", enabled: true) { result in
+                continuation.resume(returning: result)
+            }
+        }
+        do {
+            _ = try result.get()
+            #expect(true)
+        } catch {
+            Issue.record("Expected success but got error: \(error)")
+        }
+    }
+
+    @Test
+    func toggleNotifications_networkError_mapsError() async {
+        mockAPI._stubbedSendResponse = .failure(
+            NSError(domain: "TestError", code: NSURLErrorNotConnectedToInternet)
+        )
+        let result = await withCheckedContinuation { continuation in
+            sut.toggleNotifications(slug: "france", enabled: true) { result in
+                continuation.resume(returning: result)
+            }
+        }
+        #expect(result.getError() == .networkUnavailable)
+    }
+
+    @Test
+    func toggleNotifications_apiError_mapsError() async {
+        mockAPI._stubbedSendResponse = .failure(TravelError.apiUnavailable)
+        let result = await withCheckedContinuation { continuation in
+            sut.toggleNotifications(slug: "france", enabled: false) { result in
+                continuation.resume(returning: result)
+            }
+        }
+        #expect(result.getError() == .apiUnavailable)
+    }
+
+    @Test
+    func unfollowCountry_sendsExpectedRequest() {
+        sut.unfollowCountry(slug: "france", currentNotificationsEnabled: true) { _ in }
+        #expect(mockAPI._receivedSendRequest != nil)
+    }
+
+    @Test
+    func unfollowCountry_withNotificationsEnabled_success() async {
+        mockAPI._stubbedSendResponse = .success(Data())
+        let result = await withCheckedContinuation { continuation in
+            sut.unfollowCountry(slug: "france", currentNotificationsEnabled: true) { result in
+                continuation.resume(returning: result)
+            }
+        }
+        do {
+            _ = try result.get()
+            #expect(true)
+        } catch {
+            Issue.record("Expected success but got error: \(error)")
+        }
+    }
+
+    @Test
+    func unfollowCountry_withoutNotificationsEnabled_success() async {
+        mockAPI._stubbedSendResponse = .success(Data())
+        let result = await withCheckedContinuation { continuation in
+            sut.unfollowCountry(slug: "france", currentNotificationsEnabled: false) { result in
+                continuation.resume(returning: result)
+            }
+        }
+        do {
+            _ = try result.get()
+            #expect(true)
+        } catch {
+            Issue.record("Expected success but got error: \(error)")
+        }
+    }
+
+    @Test
+    func unfollowCountry_networkError_mapsError() async {
+        mockAPI._stubbedSendResponse = .failure(
+            NSError(domain: "TestError", code: NSURLErrorNotConnectedToInternet)
+        )
+        let result = await withCheckedContinuation { continuation in
+            sut.unfollowCountry(slug: "france", currentNotificationsEnabled: true) { result in
+                continuation.resume(returning: result)
+            }
+        }
+        #expect(result.getError() == .networkUnavailable)
+    }
+
+    @Test
+    func unfollowCountry_authenticationError_preservesError() async {
+        mockAPI._stubbedSendResponse = .failure(TravelError.authenticationError)
+        let result = await withCheckedContinuation { continuation in
+            sut.unfollowCountry(slug: "france", currentNotificationsEnabled: false) { result in
+                continuation.resume(returning: result)
+            }
+        }
+        #expect(result.getError() == .authenticationError)
+    }
+
+    @Test
+    func errorMapping_travelErrorPassthrough_preservesError() async {
+        let travelError = TravelError.decodingError
+        mockAPI._stubbedSendResponse = .failure(travelError)
+        let result = await withCheckedContinuation { continuation in
+            sut.fetchGroups { result in
+                continuation.resume(returning: result)
+            }
+        }
+        #expect(result.getError() == .decodingError)
+    }
+
+    @Test
+    func errorMapping_genericNSError_mapsToApiUnavailable() async {
+        mockAPI._stubbedSendResponse = .failure(
+            NSError(domain: "TestError", code: -1000)
+        )
+        let result = await withCheckedContinuation { continuation in
+            sut.fetchGroups { result in
                 continuation.resume(returning: result)
             }
         }

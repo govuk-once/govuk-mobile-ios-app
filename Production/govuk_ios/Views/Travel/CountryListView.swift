@@ -5,6 +5,7 @@ import UIKit
 
 struct CountryListView: View {
     @StateObject var viewModel: CountryListViewModel
+    @Environment(\.sizeCategory) var sizeCategory
 
     init(viewModel: CountryListViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
@@ -18,11 +19,17 @@ struct CountryListView: View {
         }
     }
 
-    private var searchBarPadding: CGFloat {
-        let isLoaded = if case .loaded = viewModel.viewState { true } else { false }
-        let isEmpty = if case .empty = viewModel.viewState { true } else { false }
+    @ScaledMetric(relativeTo: .body) private var searchBarBasePadding: CGFloat = 10
 
-        return (isLoaded || isEmpty) ? 60 : 10
+    private var searchBarPadding: CGFloat {
+        let basePadding: CGFloat = switch viewModel.viewState {
+        case .loaded, .empty:
+            60
+        default:
+            10
+        }
+
+        return UIFontMetrics.default.scaledValue(for: basePadding)
     }
 
     var body: some View {
@@ -123,7 +130,6 @@ struct CountryListView: View {
         Button(String(localized: .Travel.countryListAlertNotNow)) {
             viewModel.handleCountrySelection(country, notificationOptIn: false)
             viewModel.selectedCountry = nil
-            viewModel.dismissAction()
         }
         Button(String(localized: .Travel.countryListAlertCancel), role: .cancel) {
             viewModel.selectedCountry = nil
@@ -140,7 +146,8 @@ struct CountryListView: View {
     private var closeButton: some ToolbarContent {
         ToolbarItem(placement: ToolbarItemPlacement.cancellationAction) {
             Button {
-                viewModel.dismissAction()
+                viewModel.selectedCountry = nil
+                viewModel.dismissAction(false)
             } label: {
                 Image(systemName: "xmark")
                     .foregroundStyle(Color(uiColor: .govUK.text.primary))

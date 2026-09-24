@@ -26,7 +26,15 @@ final class SnapshotTravelService: TravelServiceInterface {
         }
     }
 
-    func subscribeToGroups(slug: String, completion: @escaping SubscriptionResultCompletion) {
+    func subscribeToCountry(slug: String, completion: @escaping SubscriptionResultCompletion) {
+        completion(.success(()))
+    }
+
+    func toggleNotifications(slug: String, enabled: Bool, completion: @escaping SubscriptionResultCompletion) {
+        completion(.success(()))
+    }
+
+    func unfollowCountry(slug: String, currentNotificationsEnabled: Bool, completion: @escaping SubscriptionResultCompletion) {
         completion(.success(()))
     }
 

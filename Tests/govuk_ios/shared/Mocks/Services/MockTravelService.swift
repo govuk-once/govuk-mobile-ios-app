@@ -55,16 +55,19 @@ class MockTravelService: TravelServiceInterface {
     var _receivedSubscribeSlug: String?
     var _receivedSubscribeCompletion: SubscriptionResultCompletion?
     var _stubbedSubscribeResult: SubscriptionResult?
+    var _autoCallSubscribeCompletion = true
 
-    func subscribeToGroups(slug: String, completion: @escaping SubscriptionResultCompletion) {
+    func subscribeToCountry(slug: String, completion: @escaping SubscriptionResultCompletion) {
         _subscribeToGroupsCalled = true
         _receivedSubscribeSlug = slug
         _receivedSubscribeCompletion = completion
 
-        if let result = _stubbedSubscribeResult {
-            completion(result)
-        } else {
-            completion(.success(()))
+        if _autoCallSubscribeCompletion {
+            if let result = _stubbedSubscribeResult {
+                completion(result)
+            } else {
+                completion(.success(()))
+            }
         }
     }
 
@@ -76,5 +79,49 @@ class MockTravelService: TravelServiceInterface {
     var _invalidateCountriesCalled = false
     func invalidateCountries() {
         _invalidateCountriesCalled = true
+    }
+
+    var _toggleNotificationsCalled = false
+    var _receivedToggleNotificationSlug: String?
+    var _recievedToggleNotificationEnabled: Bool?
+    var _receivedToggleNotificationCompletion: SubscriptionResultCompletion?
+    var _stubbedToggleResult: SubscriptionResult?
+    var _autoCallToggleCompletion = true
+
+    func toggleNotifications(slug: String, enabled: Bool, completion: @escaping SubscriptionResultCompletion) {
+        _toggleNotificationsCalled = true
+        _receivedToggleNotificationSlug = slug
+        _recievedToggleNotificationEnabled = enabled
+        _receivedToggleNotificationCompletion = completion
+
+        if _autoCallToggleCompletion {
+            if let result = _stubbedToggleResult {
+                completion(result)
+            } else {
+                completion(.success(()))
+            }
+        }
+    }
+
+    var _unfollowCountryCalled = false
+    var _receivedUnfollowCountrySlug: String?
+    var _recievedUnfollowCountryEnabled: Bool?
+    var _receivedUnfollowCountryCompletion: SubscriptionResultCompletion?
+    var _stubbedUnfollowResult: SubscriptionResult?
+    var _autoCallUnfollowCompletion = true
+
+    func unfollowCountry(slug: String, currentNotificationsEnabled: Bool, completion: @escaping SubscriptionResultCompletion) {
+        _unfollowCountryCalled = true
+        _receivedUnfollowCountrySlug = slug
+        _recievedUnfollowCountryEnabled = currentNotificationsEnabled
+        _receivedUnfollowCountryCompletion = completion
+
+        if _autoCallUnfollowCompletion {
+            if let result = _stubbedUnfollowResult {
+                completion(result)
+            } else {
+                completion(.success(()))
+            }
+        }
     }
 }

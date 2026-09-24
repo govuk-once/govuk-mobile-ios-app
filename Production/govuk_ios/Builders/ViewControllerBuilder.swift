@@ -865,7 +865,7 @@ class ViewControllerBuilder {
         travelService: TravelServiceInterface,
         analyticsService: AnalyticsServiceInterface,
         notificationService: NotificationServiceInterface,
-        dismissAction: @escaping () -> Void
+        dismissAction: @escaping (Bool) -> Void
     ) -> UIViewController {
         let viewModel = CountryListViewModel(
             travelService: travelService,

@@ -46,8 +46,7 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
             travelService: travelService,
             analyticsService: analyticsService,
             notificationService: notificationService,
-            dismissAction: {
-                self.dismissAction()
+            dismissAction: {_ in
                 self.didDismissList()
             }
         )
@@ -89,7 +88,7 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
         let rows = groups.compactMap { group -> LinkRow? in
             guard let country = countryMap[group.group.lowercased()] else { return nil }
 
-            let url = URL(string: "https://www.gov.uk/foreign-travel-advice/\(country.slug.lowercased())")
+            let url = URL(string: "govuk://app.gov.uk/web?url=https://www.gov.uk/foreign-travel-advice/\(country.slug.lowercased())")
 
             return LinkRow(
                 id: group.group,
@@ -104,6 +103,7 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
                 }
             )
         }
+        .sorted { $0.title.localizedCaseInsensitiveCompare($1.title) == .orderedAscending }
 
         if rows.isEmpty {
             self.viewState = .empty

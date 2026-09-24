@@ -47,7 +47,7 @@ struct CountryListCoordinatorTests {
         )
 
         sut.start()
-        mockViewControllerBuilder._receivedSelectCountryDismissAction?()
+        mockViewControllerBuilder._receivedSelectCountryDismissAction?(true)
 
         #expect(mockNavigationController._dismissCalled)
         #expect(mockNavigationController._receivedDismissAnimated == true)

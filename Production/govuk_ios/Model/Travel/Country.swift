@@ -14,10 +14,19 @@ struct Country: Codable, Equatable {
     }
 
     var formattedLastUpdate: String {
-        let formatter = ISO8601DateFormatter()
-        formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        var date: Date?
 
-        guard let date = formatter.date(from: rawLastUpdate) else {
+        let formatterWithFractional = ISO8601DateFormatter()
+        formatterWithFractional.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        date = formatterWithFractional.date(from: rawLastUpdate)
+
+        if date == nil {
+            let formatterWithoutFractional = ISO8601DateFormatter()
+            formatterWithoutFractional.formatOptions = [.withInternetDateTime]
+            date = formatterWithoutFractional.date(from: rawLastUpdate)
+        }
+
+        guard let date = date else {
             return rawLastUpdate
         }
         return date.formatToRelativeDate()

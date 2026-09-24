@@ -155,6 +155,39 @@
         }
       }
     },
+    "editCountriesErrorButton" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        }
+      }
+    },
+    "editCountriesErrorDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This action could not be completed. Please try again."
+          }
+        }
+      }
+    },
+    "editCountriesErrorTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "There was a problem"
+          }
+        }
+      }
+    },
     "editCountriesFollowAnother" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -173,6 +206,39 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Edit countries"
+          }
+        }
+      }
+    },
+    "editCountryDetailsGetNotifications" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Get notifications"
+          }
+        }
+      }
+    },
+    "editCountryDetailUnfollowButton" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unfollow"
+          }
+        }
+      }
+    },
+    "editCountryDetailUnfollowFooter" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unfollow this country to stop receiving travel advice messages."
           }
         }
       }

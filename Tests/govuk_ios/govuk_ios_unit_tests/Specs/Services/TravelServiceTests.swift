@@ -126,7 +126,7 @@ struct TravelServiceTests {
         let slug = "travel-group-1"
 
         let result = await withCheckedContinuation { continuation in
-            sut.subscribeToGroups(slug: slug) { result in
+            sut.subscribeToCountry(slug: slug) { result in
                 continuation.resume(returning: result)
             }
             mockTravelServiceClient._receivedSubscribeCompletion?(.success(()))
@@ -142,7 +142,7 @@ struct TravelServiceTests {
         let slug = "travel-group-1"
 
         let result = await withCheckedContinuation { continuation in
-            sut.subscribeToGroups(slug: slug) { result in
+            sut.subscribeToCountry(slug: slug) { result in
                 continuation.resume(returning: result)
             }
             mockTravelServiceClient._receivedSubscribeCompletion?(.success(()))
@@ -157,7 +157,7 @@ struct TravelServiceTests {
         let slug = "travel-group-1"
 
         let result = await withCheckedContinuation { continuation in
-            sut.subscribeToGroups(slug: slug) { result in
+            sut.subscribeToCountry(slug: slug) { result in
                 continuation.resume(returning: result)
             }
             mockTravelServiceClient._receivedSubscribeCompletion?(.failure(.apiUnavailable))
@@ -167,6 +167,212 @@ struct TravelServiceTests {
         #expect(mockTravelRepository._invalidateGroupsCalled == false)
     }
 
+    @Test
+    func getCountries_cacheAvailable_returnsCachedCountries() async throws {
+        mockTravelRepository._fetchCountriesResult = Self.cachedCountries
+
+        let result = await withCheckedContinuation { continuation in
+            sut.getCountries { result in
+                continuation.resume(returning: result)
+            }
+        }
+
+        let countries = try #require(try? result.get())
+        #expect(countries == Self.cachedCountries)
+        #expect(mockTravelServiceClient._fetchCountriesCallCount == 0)
+    }
+
+    @Test
+    func getCountries_forceRefresh_overridesCache() async throws {
+        mockTravelRepository._fetchCountriesResult = Self.cachedCountries
+
+        let result = await withCheckedContinuation { continuation in
+            sut.getCountries(forceRefresh: true) { result in
+                continuation.resume(returning: result)
+            }
+            mockTravelServiceClient
+                ._receivedFetchCountriesCompletion?(.success(Self.remoteCountries))
+        }
+
+        let countries = try #require(try? result.get())
+        #expect(countries == Self.remoteCountries)
+        #expect(mockTravelServiceClient._fetchCountriesCallCount == 1)
+        #expect(mockTravelRepository._storedCountries == Self.remoteCountries)
+    }
+
+    @Test
+    func getCountries_clientFailure_doesNotStoreCache() async {
+        mockTravelRepository._fetchCountriesResult = nil
+
+        let result = await withCheckedContinuation { continuation in
+            sut.getCountries { result in
+                continuation.resume(returning: result)
+            }
+            mockTravelServiceClient
+                ._receivedFetchCountriesCompletion?(.failure(.networkUnavailable))
+        }
+
+        #expect(result.getError() == .networkUnavailable)
+        #expect(mockTravelRepository._storedCountries == nil)
+    }
+
+    @Test
+    func toggleNotifications_enabledTrue_success_invalidatesGroupsCache() async throws {
+        let slug = "france"
+
+        let result = await withCheckedContinuation { continuation in
+            sut.toggleNotifications(slug: slug, enabled: true) { result in
+                continuation.resume(returning: result)
+            }
+            mockTravelServiceClient._receivedToggleCompletion?(.success(()))
+        }
+
+        _ = try #require(try? result.get())
+        #expect(mockTravelServiceClient._toggleNotificationsCallCount == 1)
+        #expect(mockTravelRepository._invalidateGroupsCalled)
+    }
+
+    @Test
+    func toggleNotifications_enabledFalse_success_invalidatesGroupsCache() async throws {
+        let slug = "france"
+
+        let result = await withCheckedContinuation { continuation in
+            sut.toggleNotifications(slug: slug, enabled: false) { result in
+                continuation.resume(returning: result)
+            }
+            mockTravelServiceClient._receivedToggleCompletion?(.success(()))
+        }
+
+        _ = try #require(try? result.get())
+        #expect(mockTravelServiceClient._toggleNotificationsCallCount == 1)
+        #expect(mockTravelRepository._invalidateGroupsCalled)
+    }
+
+    @Test
+    func toggleNotifications_failure_doesNotInvalidateCache() async {
+        let slug = "france"
+
+        let result = await withCheckedContinuation { continuation in
+            sut.toggleNotifications(slug: slug, enabled: true) { result in
+                continuation.resume(returning: result)
+            }
+            mockTravelServiceClient._receivedToggleCompletion?(.failure(.apiUnavailable))
+        }
+
+        #expect(result.getError() == .apiUnavailable)
+        #expect(mockTravelRepository._invalidateGroupsCalled == false)
+    }
+
+    @Test
+    func toggleNotifications_enabledTrue_passesEnabledParameter() async throws {
+        let slug = "france"
+
+        let result = await withCheckedContinuation { continuation in
+            sut.toggleNotifications(slug: slug, enabled: true) { result in
+                continuation.resume(returning: result)
+            }
+            mockTravelServiceClient._receivedToggleCompletion?(.success(()))
+        }
+
+        _ = try #require(try? result.get())
+        #expect(mockTravelServiceClient._receivedToggleSlug == slug)
+        #expect(mockTravelServiceClient._receivedToggleEnabled == true)
+    }
+
+    @Test
+    func toggleNotifications_enabledFalse_passesEnabledParameter() async throws {
+        let slug = "spain"
+
+        let result = await withCheckedContinuation { continuation in
+            sut.toggleNotifications(slug: slug, enabled: false) { result in
+                continuation.resume(returning: result)
+            }
+            mockTravelServiceClient._receivedToggleCompletion?(.success(()))
+        }
+
+        _ = try #require(try? result.get())
+        #expect(mockTravelServiceClient._receivedToggleSlug == slug)
+        #expect(mockTravelServiceClient._receivedToggleEnabled == false)
+    }
+
+    @Test
+    func unfollowCountry_withNotificationsEnabled_success_invalidatesGroupsCache() async throws {
+        let slug = "france"
+
+        let result = await withCheckedContinuation { continuation in
+            sut.unfollowCountry(slug: slug, currentNotificationsEnabled: true) { result in
+                continuation.resume(returning: result)
+            }
+            mockTravelServiceClient._receivedUnfollowCompletion?(.success(()))
+        }
+
+        _ = try #require(try? result.get())
+        #expect(mockTravelServiceClient._unfollowCallCount == 1)
+        #expect(mockTravelRepository._invalidateGroupsCalled)
+    }
+
+    @Test
+    func unfollowCountry_withoutNotificationsEnabled_success_invalidatesGroupsCache() async throws {
+        let slug = "france"
+
+        let result = await withCheckedContinuation { continuation in
+            sut.unfollowCountry(slug: slug, currentNotificationsEnabled: false) { result in
+                continuation.resume(returning: result)
+            }
+            mockTravelServiceClient._receivedUnfollowCompletion?(.success(()))
+        }
+
+        _ = try #require(try? result.get())
+        #expect(mockTravelServiceClient._unfollowCallCount == 1)
+        #expect(mockTravelRepository._invalidateGroupsCalled)
+    }
+
+    @Test
+    func unfollowCountry_failure_doesNotInvalidateCache() async {
+        let slug = "france"
+
+        let result = await withCheckedContinuation { continuation in
+            sut.unfollowCountry(slug: slug, currentNotificationsEnabled: true) { result in
+                continuation.resume(returning: result)
+            }
+            mockTravelServiceClient._receivedUnfollowCompletion?(.failure(.authenticationError))
+        }
+
+        #expect(result.getError() == .authenticationError)
+        #expect(mockTravelRepository._invalidateGroupsCalled == false)
+    }
+
+    @Test
+    func unfollowCountry_withNotificationsEnabled_passesCorrectParameters() async throws {
+        let slug = "spain"
+
+        let result = await withCheckedContinuation { continuation in
+            sut.unfollowCountry(slug: slug, currentNotificationsEnabled: true) { result in
+                continuation.resume(returning: result)
+            }
+            mockTravelServiceClient._receivedUnfollowCompletion?(.success(()))
+        }
+
+        _ = try #require(try? result.get())
+        #expect(mockTravelServiceClient._receivedUnfollowSlug == slug)
+        #expect(mockTravelServiceClient._receivedUnfollowEnabled == true)
+    }
+
+    @Test
+    func unfollowCountry_withoutNotificationsEnabled_passesCorrectParameters() async throws {
+        let slug = "germany"
+
+        let result = await withCheckedContinuation { continuation in
+            sut.unfollowCountry(slug: slug, currentNotificationsEnabled: false) { result in
+                continuation.resume(returning: result)
+            }
+            mockTravelServiceClient._receivedUnfollowCompletion?(.success(()))
+        }
+
+        _ = try #require(try? result.get())
+        #expect(mockTravelServiceClient._receivedUnfollowSlug == slug)
+        #expect(mockTravelServiceClient._receivedUnfollowEnabled == false)
+    }
 }
 
 private extension TravelServiceTests {
