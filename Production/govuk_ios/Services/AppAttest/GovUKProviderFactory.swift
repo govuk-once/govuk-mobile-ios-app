@@ -5,13 +5,17 @@ import FirebaseAppCheck
 
 class GovUKProviderFactory: NSObject,
                             AppCheckProviderFactory {
-    func createProvider(with app: FirebaseApp) -> (any AppCheckProvider)? {
-        #if STAGING
-        return EmptyTokenProvider()
-        #else
-        return AppAttestProvider(app: app)
-        #endif
-    }
+        func createProvider(with app: FirebaseApp) -> (any AppCheckProvider)? {
+            return createProviderInternal(with: app)
+        }
+        func createProviderInternal(with app: any FirebaseAppInterface) -> (any AppCheckProvider)? {
+            #if STAGING
+            return EmptyTokenProvider()
+            #else
+            guard let concreteApp = app as? FirebaseApp else { return nil }
+            return AppAttestProvider(app: concreteApp)
+            #endif
+        }
 }
 
 class EmptyTokenProvider: NSObject,
