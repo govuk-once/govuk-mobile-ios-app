@@ -107,10 +107,10 @@ struct CountryListView: View {
     @ViewBuilder
     private func alertActions(for country: Country) -> some View {
         Button(String(localized: .Travel.countryListAlertContinue)) {
-            viewModel.handleCountrySelection(country, notificationOptIn: true)
+            viewModel.onGetNotificationAlertTap(country)
         }
         Button(String(localized: .Travel.countryListAlertNotNow)) {
-            viewModel.handleCountrySelection(country, notificationOptIn: false)
+            viewModel.onNotNowAlertTap(country)
         }
         Button(String(localized: .Travel.countryListAlertCancel), role: .cancel) {
             viewModel.selectedCountry = nil

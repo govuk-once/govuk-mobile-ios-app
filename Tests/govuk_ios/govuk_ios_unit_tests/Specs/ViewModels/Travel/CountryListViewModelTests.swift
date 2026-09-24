@@ -43,22 +43,6 @@ struct CountryListViewModelTests {
     }
 
     @Test
-    func trackSearchInput_createsCorrectAnalyticsEvent() {
-        let mockAnalyticsService = MockAnalyticsService()
-        let viewModel = CountryListViewModel(
-            travelService: MockTravelService(),
-            analyticsService: mockAnalyticsService,
-            notificationService: MockNotificationService(),
-            dismissAction: { _ in  /*EmptyForTests*/ }
-        )
-
-        viewModel.trackSearchInput(text: "France")
-
-        let events = mockAnalyticsService._trackedEvents
-        #expect(events.count == 1)
-    }
-
-    @Test
     func viewDidAppear_whenFetchSucceeds_buildsSingleSortedSectionAndSetsLoadedState() async {
         let mockTravelService = MockTravelService()
         mockTravelService._stubbedGetCountriesResult = .success([
@@ -322,7 +306,7 @@ struct CountryListViewModelTests {
         )
 
         let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
-        viewModel.handleCountrySelection(country, notificationOptIn: true)
+        viewModel.onGetNotificationAlertTap(country)
 
         #expect(viewModel.showTravelAlertsPermission == true)
     }
@@ -341,7 +325,7 @@ struct CountryListViewModelTests {
         )
 
         let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
-        viewModel.handleCountrySelection(country, notificationOptIn: false)
+        viewModel.onNotNowAlertTap(country)
 
         #expect(mockTravelService._subscribeToGroupsCalled == true)
         #expect(mockTravelService._receivedSubscribeSlug == "france")
@@ -361,7 +345,7 @@ struct CountryListViewModelTests {
         )
 
         let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
-        viewModel.handleCountrySelection(country, notificationOptIn: true)
+        viewModel.onGetNotificationAlertTap(country)
 
         #expect(mockTravelService._subscribeToGroupsCalled == true)
     }
@@ -489,7 +473,7 @@ struct CountryListViewModelTests {
         )
 
         let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
-        viewModel.handleCountrySelection(country, notificationOptIn: false)
+        viewModel.onNotNowAlertTap(country)
 
         let events = mockAnalyticsService._trackedEvents
         #expect(events.count >= 1)
@@ -511,7 +495,7 @@ struct CountryListViewModelTests {
 
         viewModel.searchText = "France"
         let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
-        viewModel.handleCountrySelection(country, notificationOptIn: false)
+        viewModel.onNotNowAlertTap(country)
 
         let events = mockAnalyticsService._trackedEvents
         #expect(events.count >= 1)

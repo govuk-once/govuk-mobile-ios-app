@@ -49,12 +49,12 @@ class CountryListViewModel: ObservableObject {
         analyticsService.track(screen: screen)
     }
 
-    func trackSearchInput(text: String) {
+    private func trackSearchInput(text: String) {
         let searchEvent = AppEvent.searchTerm(term: text, type: .typed, section: "country_search")
         analyticsService.track(event: searchEvent)
     }
 
-    func trackToggleFunction(countryName: String) {
+    private func trackToggleFunction(countryName: String) {
         let toggleEvent = AppEvent.toggleAction(
             text: countryName,
             section: "Travel Abroad Notifications",
@@ -63,7 +63,15 @@ class CountryListViewModel: ObservableObject {
         analyticsService.track(event: toggleEvent)
     }
 
-    func handleCountrySelection(_ country: Country, notificationOptIn: Bool) {
+    func onGetNotificationAlertTap(_ country: Country) {
+        handleCountrySelection(country, notificationOptIn: true)
+    }
+
+    func onNotNowAlertTap(_ country: Country) {
+        handleCountrySelection(country, notificationOptIn: false)
+    }
+
+    private func handleCountrySelection(_ country: Country, notificationOptIn: Bool) {
         trackToggleFunction(countryName: country.name)
         if !searchText.isEmpty {
             trackSearchInput(text: searchText)
