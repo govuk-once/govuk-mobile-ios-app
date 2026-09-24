@@ -89,9 +89,14 @@ struct DVLAAccountSummaryView: View {
             }
         )
 
+        let vehicleCheckSectionVM = VehicleCheckSectionViewModel(action: { _ in
+            /* no-op */
+        })
+
         return DVLAAccountSummaryViewModel(
             vehiclesViewModel: vehiclesVM,
-            licenceViewModel: licenceVM
+            licenceViewModel: licenceVM,
+            vehicleCheckSectionViewModel: vehicleCheckSectionVM
         )
     }()
 
@@ -149,9 +154,14 @@ struct DVLAAccountSummaryView: View {
             }
         )
 
+        let vehicleCheckSectionVM = VehicleCheckSectionViewModel(action: { _ in
+            /* no-op */
+        })
+
         let viewModel = DVLAAccountSummaryViewModel(
             vehiclesViewModel: vehiclesVM,
-            licenceViewModel: licenceVM
+            licenceViewModel: licenceVM,
+            vehicleCheckSectionViewModel: vehicleCheckSectionVM
         )
         viewModel.selectedScreen = .drivingLicence
         return viewModel
