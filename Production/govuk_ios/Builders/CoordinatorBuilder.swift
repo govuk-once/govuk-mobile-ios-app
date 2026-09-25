@@ -622,6 +622,7 @@ class CoordinatorBuilder {
             travelService: container.travelService.resolve(),
             notificationService: container.notificationService.resolve(),
             userService: container.userService.resolve(),
+            urlOpener: UIApplication.shared,
             completion: completion
         )
     }

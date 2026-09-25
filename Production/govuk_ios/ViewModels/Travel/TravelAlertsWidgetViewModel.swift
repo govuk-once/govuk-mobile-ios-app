@@ -56,8 +56,8 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
             errorCallback: { [weak self] in
                 self?.isShowingError = true
             },
-            openPrivacyPolicyAction: { [weak self] in
-                self?.viewPrivacyAction()
+            openURLAction: { [weak self] url in
+                self?.openURLAction(url)
             }
         )
     }()

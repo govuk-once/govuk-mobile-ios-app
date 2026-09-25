@@ -30,7 +30,7 @@ class EditCountriesViewModel: ObservableObject {
     private let travelService: TravelServiceInterface
     private let notificationService: NotificationServiceInterface
     let analyticsService: AnalyticsServiceInterface
-    let openPrivacyPolicyAction: () -> Void
+    private let openURLAction: (URL) -> Void
     private var allCountries: [Country] = []
     private var follewedCountries: Set<String> = []
     private var notificationStateCache: [String: Bool] = [:]
@@ -49,12 +49,12 @@ class EditCountriesViewModel: ObservableObject {
         travelService: TravelServiceInterface,
         analyticsService: AnalyticsServiceInterface,
         notificationService: NotificationServiceInterface,
-        openPrivacyPolicyAction: @escaping () -> Void
+        openURLAction: @escaping (URL) -> Void
     ) {
         self.travelService = travelService
         self.analyticsService = analyticsService
         self.notificationService = notificationService
-        self.openPrivacyPolicyAction = openPrivacyPolicyAction
+        self.openURLAction = openURLAction
     }
 
     @MainActor
@@ -71,8 +71,8 @@ class EditCountriesViewModel: ObservableObject {
             errorCallback: { [weak self] in
                 self?.isShowingFollowError = true
             },
-            openPrivacyPolicyAction: { [weak self] in
-                self?.openPrivacyPolicyAction()
+            openURLAction: { [weak self] url in
+                self?.openURLAction(url)
             }
         )
     }()

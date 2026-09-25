@@ -27,7 +27,7 @@ class CountryListViewModel: ObservableObject {
     private let notificationService: NotificationServiceInterface
     let dismissAction: (Bool) -> Void
     let errorCallback: () -> Void
-    let openPrivacyPolicyAction: () -> Void
+    private let openURLAction: (URL) -> Void
 
     var hasNotificationConsent: Bool {
         notificationService.hasGivenConsent
@@ -39,14 +39,14 @@ class CountryListViewModel: ObservableObject {
         notificationService: NotificationServiceInterface,
         dismissAction: @escaping (Bool) -> Void,
         errorCallback: @escaping () -> Void = {},
-        openPrivacyPolicyAction: @escaping () -> Void
+        openURLAction: @escaping (URL) -> Void
     ) {
         self.travelService = travelService
         self.analyticsService = analyticsService
         self.notificationService = notificationService
         self.dismissAction = dismissAction
         self.errorCallback = errorCallback
-        self.openPrivacyPolicyAction = openPrivacyPolicyAction
+        self.openURLAction = openURLAction
     }
 
     func trackScreen(screen: TrackableScreen) {
@@ -186,6 +186,7 @@ class CountryListViewModel: ObservableObject {
 
     func createPermissionViewModel() -> TravelAlertsPermissionViewModel {
         let countryToProcess = self.countryForPermissionFlow
+        let openURL = self.openURLAction
         return TravelAlertsPermissionViewModel(
             analyticsService: analyticsService,
             showImage: true,
@@ -217,9 +218,7 @@ class CountryListViewModel: ObservableObject {
                     self?.countryForPermissionFlow = nil
                 }
             },
-            viewPrivacyAction: { [weak self] in
-                self?.openPrivacyPolicyAction()
-            }
+            openURLAction: openURL
         )
     }
 }

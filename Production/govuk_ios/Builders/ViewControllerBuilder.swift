@@ -866,14 +866,14 @@ class ViewControllerBuilder {
         analyticsService: AnalyticsServiceInterface,
         notificationService: NotificationServiceInterface,
         dismissAction: @escaping (Bool) -> Void,
-        viewPrivacyPolicyAction: @escaping () -> Void
+        openURLAction: @escaping (URL) -> Void
     ) -> UIViewController {
         let viewModel = CountryListViewModel(
             travelService: travelService,
             analyticsService: analyticsService,
             notificationService: notificationService,
             dismissAction: dismissAction,
-            openPrivacyPolicyAction: viewPrivacyPolicyAction
+            openURLAction: openURLAction
         )
         let view = CountryListView(viewModel: viewModel)
         let viewController = HostingViewController(
@@ -886,13 +886,13 @@ class ViewControllerBuilder {
         travelService: TravelServiceInterface,
         analyticsService: AnalyticsServiceInterface,
         notificationService: NotificationServiceInterface,
-        viewPrivacyPolicyAction: @escaping () -> Void
+        openURLAction: @escaping (URL) -> Void
     ) -> UIViewController {
         let viewModel = EditCountriesViewModel(
             travelService: travelService,
             analyticsService: analyticsService,
             notificationService: notificationService,
-            openPrivacyPolicyAction: viewPrivacyPolicyAction
+            openURLAction: openURLAction
         )
         let view = EditCountriesView(viewModel: viewModel)
         let viewController = HostingViewController(

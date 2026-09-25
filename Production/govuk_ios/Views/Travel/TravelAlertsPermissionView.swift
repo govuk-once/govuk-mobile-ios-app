@@ -54,8 +54,9 @@ struct TravelAlertsPermissionView: View {
                     .accessibilitySortPriority(0)
 
                 HStack(alignment: .center) {
-                    Button(action: viewModel.openPrivacyPolicy,
-                           label: {
+                    Button(action: {
+                        viewModel.openPrivacyPolicy()
+                    }, label: {
                         Text(viewModel.privacyPolicyLinkTitle)
                             .frame(alignment: .center)
                             .foregroundColor(Color(UIColor.govUK.text.linkSecondary))

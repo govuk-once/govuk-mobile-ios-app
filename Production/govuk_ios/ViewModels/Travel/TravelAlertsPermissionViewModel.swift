@@ -7,7 +7,7 @@ class TravelAlertsPermissionViewModel: ObservableObject {
     let dismissSheetAction: () -> Void
     let allowNotificationsAction: () -> Void
     let notNowAction: () -> Void
-    let viewPrivacyAction: () -> Void
+    let openURLAction: (URL) -> Void
     let showImage: Bool
 
     let title: String
@@ -28,7 +28,7 @@ class TravelAlertsPermissionViewModel: ObservableObject {
          dismissSheetAction: @escaping () -> Void,
          allowNotificationsAction: @escaping () -> Void,
          notNowAction: @escaping () -> Void,
-         viewPrivacyAction: @escaping () -> Void
+         openURLAction: @escaping (URL) -> Void
     ) {
         self.analyticsService = analyticsService
         self.showImage = showImage
@@ -40,7 +40,7 @@ class TravelAlertsPermissionViewModel: ObservableObject {
         self.dismissSheetAction = dismissSheetAction
         self.allowNotificationsAction = allowNotificationsAction
         self.notNowAction = notNowAction
-        self.viewPrivacyAction = viewPrivacyAction
+        self.openURLAction = openURLAction
     }
 
     var primaryButtonViewModel: GOVUKButton.ButtonViewModel {
@@ -62,6 +62,9 @@ class TravelAlertsPermissionViewModel: ObservableObject {
     }
 
     func openPrivacyPolicy() {
-        viewPrivacyAction()
+        let privacyPolicyURL = URL(string: "govuk://app.gov.uk/web?url=\(Constants.API.privacyPolicyUrl.absoluteString)")
+        if let url = privacyPolicyURL {
+            openURLAction(url)
+        }
     }
 }

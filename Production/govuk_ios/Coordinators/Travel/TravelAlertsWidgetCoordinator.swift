@@ -84,10 +84,8 @@ final class TravelAlertsWidgetCoordinator: BaseCoordinator,
             travelService: travelService,
             analyticsService: analyticsService,
             notificationService: notificationService,
-            viewPrivacyPolicyAction: { [weak self] in
-                DispatchQueue.main.async {
-                    self?.openPrivacy()
-                }
+            openURLAction: { [weak self] url in
+                self?.urlOpener.openIfPossible(url)
             }
         )
         push(viewController)
