@@ -57,42 +57,10 @@ class TravelServiceClient: TravelServiceClientInterface {
         notificationsEnabled: Bool,
         completion: @escaping SubscriptionResultCompletion
     ) {
-        let (leaveSubgroup, joinSubgroup) = notificationsEnabled
-        ? (SubscriptionRequest.SubscriptionGroup.NONE,
-           SubscriptionRequest.SubscriptionGroup.INSTANT)
-        : (SubscriptionRequest.SubscriptionGroup.INSTANT,
-           SubscriptionRequest.SubscriptionGroup.NONE)
-
-        let body = [
-            SubscriptionRequest(
-                namespace: "travel",
-                group: slug,
-                subgroup: leaveSubgroup,
-                type: .notification,
-                action: .leave
-            ), SubscriptionRequest(
-                namespace: "travel",
-                group: slug,
-                subgroup: joinSubgroup,
-                type: .notification,
-                action: .join
-            )
-        ]
-
-        let request = GOVRequest.subscribeToGroups(
-            subscriptionsBody: body
-        )
-        apiServiceClient.send(
-            request: request,
-            completion: { result in
-                switch result {
-                case .success:
-                    completion(.success(()))
-                case .failure(let error):
-                    let travelError = self.mapError(error)
-                    completion(.failure(travelError))
-                }
-            }
+        updateNotificationSubscription(
+            slug: slug,
+            enabled: notificationsEnabled,
+            completion: completion
         )
     }
 
@@ -101,11 +69,23 @@ class TravelServiceClient: TravelServiceClientInterface {
         enabled: Bool,
         completion: @escaping SubscriptionResultCompletion
     ) {
+        updateNotificationSubscription(
+            slug: slug,
+            enabled: enabled,
+            completion: completion
+        )
+    }
+
+    private func updateNotificationSubscription(
+        slug: String,
+        enabled: Bool,
+        completion: @escaping SubscriptionResultCompletion
+    ) {
         let (leaveSubgroup, joinSubgroup) = enabled
-        ? (SubscriptionRequest.SubscriptionGroup.NONE,
-           SubscriptionRequest.SubscriptionGroup.INSTANT)
-        : (SubscriptionRequest.SubscriptionGroup.INSTANT,
-           SubscriptionRequest.SubscriptionGroup.NONE)
+            ? (SubscriptionRequest.SubscriptionGroup.NONE,
+               SubscriptionRequest.SubscriptionGroup.INSTANT)
+            : (SubscriptionRequest.SubscriptionGroup.INSTANT,
+               SubscriptionRequest.SubscriptionGroup.NONE)
 
         let body = [
             SubscriptionRequest(
@@ -114,7 +94,8 @@ class TravelServiceClient: TravelServiceClientInterface {
                 subgroup: leaveSubgroup,
                 type: .notification,
                 action: .leave
-            ), SubscriptionRequest(
+            ),
+            SubscriptionRequest(
                 namespace: "travel",
                 group: slug,
                 subgroup: joinSubgroup,
@@ -123,12 +104,12 @@ class TravelServiceClient: TravelServiceClientInterface {
             )
         ]
 
-        let request = GOVRequest.subscribeToGroups(
-            subscriptionsBody: body
-        )
+        let request = GOVRequest.subscribeToGroups(subscriptionsBody: body)
+
         apiServiceClient.send(
             request: request,
-            completion: { result in
+            completion: { [weak self] result in
+                guard let self = self else { return }
                 switch result {
                 case .success:
                     completion(.success(()))
