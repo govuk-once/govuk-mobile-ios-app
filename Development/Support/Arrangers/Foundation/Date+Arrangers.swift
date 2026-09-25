@@ -1,4 +1,3 @@
-#if DEBUG
 import Foundation
 
 extension Date {
@@ -37,4 +36,3 @@ extension Date {
         return formatter.date(from: string)!
     }
 }
-#endif // DEBUG
