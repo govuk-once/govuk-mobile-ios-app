@@ -1,4 +1,3 @@
-#if DEBUG
 import Foundation
 
 extension TermsAndConditionsResponse {
@@ -10,4 +9,3 @@ extension TermsAndConditionsResponse {
         )
     }
 }
-#endif // DEBUG

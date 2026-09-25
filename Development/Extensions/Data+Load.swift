@@ -1,4 +1,3 @@
-#if DEBUG
 import Foundation
 
 extension Data {
@@ -20,4 +19,3 @@ extension Data {
     }
 
 }
-#endif // DEBUG

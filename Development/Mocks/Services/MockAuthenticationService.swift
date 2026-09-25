@@ -1,4 +1,3 @@
-#if DEBUG
 import Foundation
 import UIKit
 import Authentication
@@ -79,4 +78,3 @@ class MockAuthenticationService: AuthenticationServiceInterface {
         refreshToken = nil
     }
 }
-#endif // DEBUG

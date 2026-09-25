@@ -1,4 +1,3 @@
-#if DEBUG
 import Foundation
 
 class MockDrivingLicenceViewModel: DrivingLicenceViewModel {
@@ -17,4 +16,3 @@ class MockDrivingLicenceViewModel: DrivingLicenceViewModel {
         )
     }
 }
-#endif // DEBUG

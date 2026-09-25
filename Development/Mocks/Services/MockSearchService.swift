@@ -1,4 +1,3 @@
-#if DEBUG
 import Foundation
 import CoreData
 
@@ -53,4 +52,3 @@ class MockSearchService: SearchServiceInterface {
             .existingObject(with: objectId) as? SearchHistoryItem
     }
 }
-#endif // DEBUG

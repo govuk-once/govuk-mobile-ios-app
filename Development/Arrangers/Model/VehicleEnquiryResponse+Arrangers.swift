@@ -1,4 +1,3 @@
-#if DEBUG
 import Foundation
 
 extension VehicleEnquiryResponse {
@@ -50,4 +49,3 @@ extension VehicleEnquiryResponse.Vehicle {
         )
     }
 }
-#endif // DEBUG

@@ -1,4 +1,3 @@
-#if DEBUG
 import Foundation
 
 extension Answer {
@@ -68,4 +67,3 @@ extension History {
         id: "930634c7-d453-41cb-beda-ecec6f8601f4"
     )
 }
-#endif // DEBUG

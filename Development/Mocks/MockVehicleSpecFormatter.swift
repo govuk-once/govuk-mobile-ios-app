@@ -1,4 +1,3 @@
-#if DEBUG
 import Foundation
 
 struct MockVehicleSpecFormatter: VehicleSpecFormatterInterface {
@@ -39,4 +38,3 @@ struct MockVehicleSpecFormatter: VehicleSpecFormatterInterface {
         AccessibleString("display value", accessibilityLabel: "accessibility label")
     }
 }
-#endif // DEBUG

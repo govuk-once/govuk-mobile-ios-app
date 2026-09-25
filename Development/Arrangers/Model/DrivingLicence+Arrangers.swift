@@ -1,4 +1,3 @@
-#if DEBUG
 import Foundation
 
 extension DrivingLicence {
@@ -28,4 +27,3 @@ extension DrivingLicence {
         )
     }
 }
-#endif // DEBUG

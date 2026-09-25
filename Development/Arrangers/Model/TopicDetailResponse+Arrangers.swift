@@ -1,4 +1,3 @@
-#if DEBUG
 import Foundation
 
 extension TopicDetailResponse {
@@ -110,4 +109,3 @@ extension TopicDetailResponse.Content {
     }
 
 }
-#endif // DEBUG

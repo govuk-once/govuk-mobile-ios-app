@@ -1,4 +1,3 @@
-#if DEBUG
 import Foundation
 
 class MockDVLAService: DVLAServiceInterface {
@@ -53,4 +52,3 @@ class MockDVLAService: DVLAServiceInterface {
         return _stubbedCancelShareCodeResult!
     }
 }
-#endif // DEBUG

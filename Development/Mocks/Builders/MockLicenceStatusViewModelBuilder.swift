@@ -1,4 +1,3 @@
-#if DEBUG
 import Foundation
 import GovKit
 import GovKitUI
@@ -26,4 +25,3 @@ class MockLicenceStatusViewModelBuilder: LicenceStatusViewModelBuilderInterface 
         return _stubbedViewModel
     }
 }
-#endif // DEBUG

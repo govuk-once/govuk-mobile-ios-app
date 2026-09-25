@@ -1,4 +1,3 @@
-#if DEBUG
 import Foundation
 
 class MockVehiclesViewModel: VehiclesViewModel {
@@ -18,4 +17,3 @@ class MockVehiclesViewModel: VehiclesViewModel {
         )
     }
 }
-#endif // DEBUG

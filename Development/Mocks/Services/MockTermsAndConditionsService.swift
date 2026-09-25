@@ -1,4 +1,3 @@
-#if DEBUG
 import Foundation
 
 final class MockTermsAndConditionsService: TermsAndConditionsServiceInterface {
@@ -27,4 +26,3 @@ final class MockTermsAndConditionsService: TermsAndConditionsServiceInterface {
         _didResetAcceptanceDate = true
     }
 }
-#endif // DEBUG

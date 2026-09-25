@@ -1,4 +1,3 @@
-#if DEBUG
 import Foundation
 
 class MockLocalAuthorityService: LocalAuthorityServiceInterface {
@@ -37,4 +36,3 @@ class MockLocalAuthorityService: LocalAuthorityServiceInterface {
         _savedAuthority = localAuthority
     }
 }
-#endif // DEBUG

@@ -1,4 +1,3 @@
-#if DEBUG
 import Foundation
 import CoreData
 import GovKit
@@ -50,4 +49,3 @@ class MockActivityService: ActivityServiceInterface {
             .existingObject(with: objectId) as? ActivityItem
     }
 }
-#endif // DEBUG
