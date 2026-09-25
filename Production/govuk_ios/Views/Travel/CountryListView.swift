@@ -7,6 +7,13 @@ struct CountryListView: View {
     @StateObject var viewModel: CountryListViewModel
     @Environment(\.sizeCategory) var sizeCategory
 
+    private let horizontalPadding: CGFloat = 16
+    private let searchBarHorizontalPadding: CGFloat = 14
+    private let searchBarBottomPadding: CGFloat = 0
+    private let defaultPadding: CGFloat = 10
+    private let contentMarginsPadding: CGFloat = 10
+    private let loadedSearchBarBasePadding: CGFloat = 60
+
     init(viewModel: CountryListViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
@@ -19,14 +26,12 @@ struct CountryListView: View {
         }
     }
 
-    @ScaledMetric(relativeTo: .body) private var searchBarBasePadding: CGFloat = 10
-
     private var searchBarPadding: CGFloat {
         let basePadding: CGFloat = switch viewModel.viewState {
         case .loaded, .empty:
-            60
+            loadedSearchBarBasePadding
         default:
-            10
+            defaultPadding
         }
 
         return UIFontMetrics.default.scaledValue(for: basePadding)
@@ -44,8 +49,8 @@ struct CountryListView: View {
                 switch viewModel.viewState {
                 case .loaded, .empty:
                     SearchBarView(text: $viewModel.searchText)
-                        .padding(.horizontal, 14)
-                        .padding(.bottom, 0)
+                        .padding(.horizontal, searchBarHorizontalPadding)
+                        .padding(.bottom, searchBarBottomPadding)
                         .background(.clear)
                 default:
                     EmptyView()
@@ -71,31 +76,9 @@ struct CountryListView: View {
                 alertMessage(for: country)
             }
             .sheet(isPresented: $viewModel.showTravelAlertsPermission) {
-                let permissionViewModel = TravelAlertsPermissionViewModel(
-                    analyticsService: viewModel.analyticsService,
-                    showImage: true,
-                    title: String(localized: .Travel.travelAlertPermissionTitle),
-                    body: String(localized: .Travel.travelAlertPermissionDescription),
-                    primaryButtonTitle: String(
-                        localized: .Travel.travelAlertPermissionPrimaryButton
-                    ),
-                    secondaryButtonTitle: String(
-                        localized: .Travel.travelAlertPermissionSecondaryButton
-                    ),
-                    completeAction: {
-                        viewModel.showTravelAlertsPermission = false
-                        if let country = viewModel.selectedCountry {
-                            // Will update with notification logic in upcoming work
-                            viewModel.proceedWithCountrySelection(country)
-                            viewModel.selectedCountry = nil
-                        }
-                    },
-                    dismissAction: {
-                        viewModel.showTravelAlertsPermission = false
-                        viewModel.selectedCountry = nil
-                    }
+                TravelAlertsPermissionView(
+                    viewModel: viewModel.createPermissionViewModel()
                 )
-                TravelAlertsPermissionView(viewModel: permissionViewModel)
             }
     }
 
@@ -118,18 +101,16 @@ struct CountryListView: View {
                 ErrorView(viewModel: createErrorViewModel())
             }
         }
-        .padding(.horizontal, viewModel.viewState == .error ? 0 : 16)
+        .padding(.horizontal, viewModel.viewState == .error ? 0 : horizontalPadding)
     }
 
     @ViewBuilder
     private func alertActions(for country: Country) -> some View {
         Button(String(localized: .Travel.countryListAlertContinue)) {
-            viewModel.handleCountrySelection(country, notificationOptIn: true)
-            viewModel.selectedCountry = nil
+            viewModel.onGetNotificationAlertTap(country)
         }
         Button(String(localized: .Travel.countryListAlertNotNow)) {
-            viewModel.handleCountrySelection(country, notificationOptIn: false)
-            viewModel.selectedCountry = nil
+            viewModel.onNotNowAlertTap(country)
         }
         Button(String(localized: .Travel.countryListAlertCancel), role: .cancel) {
             viewModel.selectedCountry = nil
@@ -160,11 +141,11 @@ struct CountryListView: View {
         if #available(iOS 17.0, *) {
             scrollView
                 .contentMargins(
-                    .top, 10
+                    .top, contentMarginsPadding
                 )
                 .contentMargins(
                     .bottom, searchBarAlignment == .bottom
-                    ? 10
+                    ? contentMarginsPadding
                     : geometry.safeAreaInsets.bottom, for: .scrollContent
                 )
         } else {

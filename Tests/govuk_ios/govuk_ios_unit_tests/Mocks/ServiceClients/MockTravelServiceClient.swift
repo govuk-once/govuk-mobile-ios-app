@@ -11,6 +11,7 @@ class MockTravelServiceClient: TravelServiceClientInterface {
 
     var _subscribeToGroupsCallCount = 0
     var _receivedSubscribeSlug: String?
+    var _receivedSubscribeBool: Bool?
     var _receivedSubscribeCompletion: SubscriptionResultCompletion?
 
     var _toggleNotificationsCallCount = 0
@@ -33,9 +34,10 @@ class MockTravelServiceClient: TravelServiceClientInterface {
         _receivedFetchCountriesCompletion = completion
     }
 
-    func subscribeToCountry(slug: String, completion: @escaping SubscriptionResultCompletion) {
+    func followCountry(slug: String, notificationsEnabled: Bool, completion: @escaping SubscriptionResultCompletion) {
         _subscribeToGroupsCallCount += 1
         _receivedSubscribeSlug = slug
+        _receivedSubscribeBool = notificationsEnabled
         _receivedSubscribeCompletion = completion
     }
 
