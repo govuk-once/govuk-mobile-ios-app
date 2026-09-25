@@ -144,7 +144,7 @@ struct TravelAlertsPermissionViewModelTests {
             viewPrivacyAction: { /*Empty For Tests*/ }
         )
 
-        viewModel.completeAction()
+        viewModel.allowNotificationsAction()
 
         #expect(completeActionCalled == true)
     }
@@ -165,7 +165,7 @@ struct TravelAlertsPermissionViewModelTests {
             viewPrivacyAction: { /*Empty For Tests*/ }
         )
 
-        viewModel.dismissAction()
+        viewModel.notNowAction()
 
         #expect(dismissActionCalled == true)
     }

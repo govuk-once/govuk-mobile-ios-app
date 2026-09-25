@@ -19,6 +19,11 @@ struct TravelAlertsPermissionView: View {
                 secondaryButtonViewModel: viewModel.secondaryButtonViewModel
             )
         }
+        .navigationTitle("")
+        .toolbar {
+            backButton
+        }
+        .toolbarBackground(Color(.govUK.fills.surfaceModal), for: .navigationBar)
         .background(Color(uiColor: UIColor.govUK.fills.surfaceFullscreen))
         .accessibilityElement(children: .contain)
     }
@@ -73,6 +78,17 @@ struct TravelAlertsPermissionView: View {
         .padding(.top, verticalSizeClass == .compact ? 30 : 46)
         .padding(.horizontal, 16)
         .modifier(ScrollBounceBehaviorModifier())
+    }
+
+    private var backButton: some ToolbarContent {
+        ToolbarItem(placement: ToolbarItemPlacement.cancellationAction) {
+            Button {
+                viewModel.dismissSheetAction()
+            } label: {
+                Image(systemName: "chevron.left")
+                    .foregroundStyle(Color(uiColor: .govUK.text.primary))
+            }
+        }
     }
 }
 

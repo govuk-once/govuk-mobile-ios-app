@@ -4,8 +4,9 @@ import GovKitUI
 
 class TravelAlertsPermissionViewModel: ObservableObject {
     let analyticsService: AnalyticsServiceInterface
-    let completeAction: () -> Void
-    let dismissAction: () -> Void
+    let dismissSheetAction: () -> Void
+    let allowNotificationsAction: () -> Void
+    let notNowAction: () -> Void
     let viewPrivacyAction: () -> Void
     let showImage: Bool
 
@@ -24,8 +25,9 @@ class TravelAlertsPermissionViewModel: ObservableObject {
          privacyPolicyLinkTitle: String = String(
             localized: .Travel.travelAlertPermissionPrivacyButtonTitle
          ),
-         completeAction: @escaping () -> Void,
-         dismissAction: @escaping () -> Void,
+         dismissSheetAction: @escaping () -> Void,
+         allowNotificationsAction: @escaping () -> Void,
+         notNowAction: @escaping () -> Void,
          viewPrivacyAction: @escaping () -> Void
     ) {
         self.analyticsService = analyticsService
@@ -35,8 +37,9 @@ class TravelAlertsPermissionViewModel: ObservableObject {
         self.primaryButtonTitle = primaryButtonTitle
         self.secondaryButtonTitle = secondaryButtonTitle
         self.privacyPolicyLinkTitle = privacyPolicyLinkTitle
-        self.completeAction = completeAction
-        self.dismissAction = dismissAction
+        self.dismissSheetAction = dismissSheetAction
+        self.allowNotificationsAction = allowNotificationsAction
+        self.notNowAction = notNowAction
         self.viewPrivacyAction = viewPrivacyAction
     }
 
@@ -44,8 +47,7 @@ class TravelAlertsPermissionViewModel: ObservableObject {
         return .init(
             localisedTitle: primaryButtonTitle,
             action: { [weak self] in
-                self?.trackButtonActionEvent(title: self?.primaryButtonTitle ?? "")
-                self?.completeAction()
+                self?.allowNotificationsAction()
             }
         )
     }
@@ -54,18 +56,12 @@ class TravelAlertsPermissionViewModel: ObservableObject {
         return .init(
             localisedTitle: secondaryButtonTitle,
             action: { [weak self] in
-                self?.trackButtonActionEvent(title: self?.secondaryButtonTitle ?? "")
-                self?.dismissAction()
+                self?.notNowAction()
             }
         )
     }
 
     func openPrivacyPolicy() {
         viewPrivacyAction()
-    }
-
-    private func trackButtonActionEvent(title: String) {
-        let event = AppEvent.buttonNavigation(text: title, external: false)
-        analyticsService.track(event: event)
     }
 }

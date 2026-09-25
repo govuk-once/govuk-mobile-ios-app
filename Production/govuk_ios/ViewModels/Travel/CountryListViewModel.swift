@@ -19,6 +19,7 @@ class CountryListViewModel: ObservableObject {
     @Published private(set) var filteredSections = [GroupedListSection]()
     @Published var selectedCountry: Country?
     @Published var showTravelAlertsPermission = false
+    private var countryForPermissionFlow: Country?
 
     private var allCountries: [Country] = []
     private let travelService: TravelServiceInterface
@@ -81,6 +82,7 @@ class CountryListViewModel: ObservableObject {
         }
         // Given global notifications are off and user is attempting to optIn, navigate to the consent screen
         if !notificationService.hasGivenConsent && notificationOptIn {
+            countryForPermissionFlow = country
             showTravelAlertsPermission = true
         } else {
             subscribeToCountryAlerts(country, notificationOptIn)
@@ -183,7 +185,8 @@ class CountryListViewModel: ObservableObject {
     }
 
     func createPermissionViewModel() -> TravelAlertsPermissionViewModel {
-        TravelAlertsPermissionViewModel(
+        let countryToProcess = self.countryForPermissionFlow
+        return TravelAlertsPermissionViewModel(
             analyticsService: analyticsService,
             showImage: true,
             title: String(localized: .Travel.travelAlertPermissionTitle),
@@ -194,19 +197,28 @@ class CountryListViewModel: ObservableObject {
             secondaryButtonTitle: String(
                 localized: .Travel.travelAlertPermissionSecondaryButton
             ),
-            completeAction: { [weak self] in
-                if let country = self?.selectedCountry {
+            dismissSheetAction: { [weak self] in
+                self?.showTravelAlertsPermission = false
+                self?.countryForPermissionFlow = nil
+            },
+            allowNotificationsAction: { [weak self, country = countryToProcess] in
+                if let country = country {
                     self?.proceedWithCountrySelection(country, true)
                     self?.showTravelAlertsPermission = false
                     self?.selectedCountry = nil
+                    self?.countryForPermissionFlow = nil
                 }
             },
-            dismissAction: { [weak self] in
-                if let country = self?.selectedCountry {
+            notNowAction: { [weak self, country = countryToProcess] in
+                if let country = country {
                     self?.proceedWithCountrySelection(country, false)
                     self?.showTravelAlertsPermission = false
                     self?.selectedCountry = nil
+                    self?.countryForPermissionFlow = nil
                 }
+            },
+            viewPrivacyAction: { [weak self] in
+                self?.openPrivacyPolicyAction()
             }
         )
     }
