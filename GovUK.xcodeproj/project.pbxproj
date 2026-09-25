@@ -362,7 +362,6 @@
 		8144120A2F8900D300103197 /* FirebasePerformance in Frameworks */ = {isa = PBXBuildFile; productRef = 814412092F8900D300103197 /* FirebasePerformance */; };
 		8146FBBE2F8E603B00F87C76 /* ServiceAccountUnlinkCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8146FBBD2F8E603300F87C76 /* ServiceAccountUnlinkCoordinator.swift */; };
 		8146FC012F8EB2ED00F87C76 /* AppEvent+ServiceAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8146FC002F8EB2E400F87C76 /* AppEvent+ServiceAccount.swift */; };
-		815011D52F7C346D00E7469C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5DAD71802BD250DE0075F648 /* Assets.xcassets */; };
 		815011D72F7C4EF200E7469C /* DVLAServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815011D62F7C4EEC00E7469C /* DVLAServiceClient.swift */; };
 		815011D92F7C4F9600E7469C /* GOVRequest+DVLA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815011D82F7C4F8B00E7469C /* GOVRequest+DVLA.swift */; };
 		815011DB2F7C52C200E7469C /* DVLAService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815011DA2F7C52BE00E7469C /* DVLAService.swift */; };
@@ -3147,7 +3146,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8154FB5E2FBB611D00792FB5 /* AppIconAlpha.icon in Resources */,
-				815011D52F7C346D00E7469C /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
