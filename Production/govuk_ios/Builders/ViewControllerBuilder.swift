@@ -872,6 +872,7 @@ class ViewControllerBuilder {
             travelService: travelService,
             analyticsService: analyticsService,
             notificationService: notificationService,
+            urlOpener: UIApplication.shared,
             dismissAction: dismissAction,
             openURLAction: openURLAction
         )
@@ -892,6 +893,7 @@ class ViewControllerBuilder {
             travelService: travelService,
             analyticsService: analyticsService,
             notificationService: notificationService,
+            urlOpener: UIApplication.shared,
             openURLAction: openURLAction
         )
         let view = EditCountriesView(viewModel: viewModel)

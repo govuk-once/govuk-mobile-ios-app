@@ -15,7 +15,8 @@ struct EditCountriesViewModelTests {
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            openPrivacyPolicyAction: { /*Empty For Tests*/ }
+            urlOpener: MockURLOpener(),
+            openURLAction: { _ in /*Empty For Tests*/ }
         )
 
         if case .loading = sut.viewState {
@@ -295,7 +296,8 @@ struct EditCountriesViewModelTests {
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            openPrivacyPolicyAction: { /*Empty For Tests*/ }
+            urlOpener: MockURLOpener(),
+            openURLAction: { _ in /*Empty For Tests*/ }
         )
 
         #expect(sut.isShowingList == false)
@@ -309,7 +311,8 @@ struct EditCountriesViewModelTests {
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            openPrivacyPolicyAction: { /*Empty For Tests*/ }
+            urlOpener: MockURLOpener(),
+            openURLAction: { _ in /*Empty For Tests*/ }
         )
 
         sut.openCountryList()
@@ -541,7 +544,8 @@ struct EditCountriesViewModelTests {
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            openPrivacyPolicyAction: { /*Empty For Tests*/ }
+            urlOpener: MockURLOpener(),
+            openURLAction: { _ in /*Empty For Tests*/ }
         )
 
         sut.displayToggleError = true
@@ -557,7 +561,8 @@ struct EditCountriesViewModelTests {
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            openPrivacyPolicyAction: { /*Empty For Tests*/ }
+            urlOpener: MockURLOpener(),
+            openURLAction: { _ in /*Empty For Tests*/ }
         )
 
         sut.displayUnfollowError = true
@@ -798,7 +803,8 @@ struct EditCountriesViewModelTests {
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            openPrivacyPolicyAction: { /*Empty For Tests*/ }
+            urlOpener: MockURLOpener(),
+            openURLAction: { _ in /*Empty For Tests*/ }
         )
 
         sut.isShowingFollowError = true

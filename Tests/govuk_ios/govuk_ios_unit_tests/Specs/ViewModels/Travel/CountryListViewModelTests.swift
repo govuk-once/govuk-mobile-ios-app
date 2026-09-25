@@ -16,10 +16,11 @@ struct CountryListViewModelTests {
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
+            urlOpener: MockURLOpener(),
             dismissAction: { _ in
                 didCallDismiss = true
             },
-            openPrivacyPolicyAction: { /*Empty For Tests*/ }
+            openURLAction: { _ in /*Empty For Tests*/ }
         )
 
         viewModel.dismissAction(true)

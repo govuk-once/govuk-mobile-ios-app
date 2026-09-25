@@ -29,6 +29,7 @@ class EditCountriesViewModel: ObservableObject {
 
     private let travelService: TravelServiceInterface
     private let notificationService: NotificationServiceInterface
+    private let urlOpener: URLOpener
     let analyticsService: AnalyticsServiceInterface
     private let openURLAction: (URL) -> Void
     private var allCountries: [Country] = []
@@ -49,11 +50,13 @@ class EditCountriesViewModel: ObservableObject {
         travelService: TravelServiceInterface,
         analyticsService: AnalyticsServiceInterface,
         notificationService: NotificationServiceInterface,
+        urlOpener: URLOpener,
         openURLAction: @escaping (URL) -> Void
     ) {
         self.travelService = travelService
         self.analyticsService = analyticsService
         self.notificationService = notificationService
+        self.urlOpener = urlOpener
         self.openURLAction = openURLAction
     }
 
@@ -63,6 +66,7 @@ class EditCountriesViewModel: ObservableObject {
             travelService: travelService,
             analyticsService: analyticsService,
             notificationService: notificationService,
+            urlOpener: urlOpener,
             dismissAction: { [weak self] forceRefresh in
                 Task {
                     self?.didDismissList(forceRefresh: forceRefresh)

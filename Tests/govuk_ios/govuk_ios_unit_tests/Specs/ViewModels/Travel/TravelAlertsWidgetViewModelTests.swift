@@ -15,11 +15,11 @@ struct TravelAlertsWidgetViewModelTests {
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
+            urlOpener: MockURLOpener(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ },
-            viewPrivacyAction: { /*Empty For Tests*/ }
+            openURLAction: { _ in /*Empty For Tests*/ }
         )
 
         if case .loading = sut.viewState {
@@ -36,11 +36,11 @@ struct TravelAlertsWidgetViewModelTests {
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
+            urlOpener: MockURLOpener(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ },
-            viewPrivacyAction: { /*Empty For Tests*/ }
+            openURLAction: { _ in /*Empty For Tests*/ }
         )
 
         #expect(sut.isShowingError == false)
@@ -333,11 +333,11 @@ struct TravelAlertsWidgetViewModelTests {
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
+            urlOpener: MockURLOpener(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ },
-            viewPrivacyAction: { /*Empty For Tests*/ }
+            openURLAction: { _ in /*Empty For Tests*/ }
         )
 
         #expect(sut.isShowingList == false)
@@ -351,11 +351,11 @@ struct TravelAlertsWidgetViewModelTests {
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
+            urlOpener: MockURLOpener(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ },
-            viewPrivacyAction: { /*Empty For Tests*/ }
+            openURLAction: { _ in /*Empty For Tests*/ }
         )
 
         let viewModel = sut.countryListViewModel

@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 import GovKit
 import GovKitUI
 
@@ -9,34 +10,50 @@ class TravelAlertsPermissionViewModel: ObservableObject {
     }
 
     @Published private(set) var viewState: ViewState = .idle
+    @Published var displayNotificationSettingsAlert: Bool = false
 
     private let travelService: TravelServiceInterface
+    private let notificationService: NotificationServiceInterface
+    private let urlOpener: URLOpener
+    private let notificationCenter: NotificationCenter
     let analyticsService: AnalyticsServiceInterface
     let dismissSheetAction: () -> Void
     let openURLAction: (URL) -> Void
     let showImage: Bool
 
-    let title: String
-    let body: String
-    let primaryButtonTitle: String
-    let secondaryButtonTitle: String
-    let privacyPolicyLinkTitle: String
+    let title: String = String(localized: .Travel.travelAlertPermissionTitle)
+    let body: String = String(localized: .Travel.travelAlertPermissionDescription)
+    let primaryButtonTitle: String = String(localized: .Travel.travelAlertPermissionPrimaryButton)
+    let secondaryButtonTitle: String = String(
+        localized: .Travel.travelAlertPermissionSecondaryButton
+    )
+    let privacyPolicyLinkTitle: String = String(
+        localized: .Travel.travelAlertPermissionPrivacyButtonTitle
+    )
+
+    var notificationSettingsAlertTitle: String {
+        String(localized: .Settings.notificationsAlertTitleDisabled)
+    }
+
+    var notificationSettingsAlertBody: String {
+        String(localized: .Settings.notificationsAlertBodyDisabled)
+    }
+
+    var notificationAlertButtonTitle: String {
+        String(localized: .Settings.notificationAlertPrimaryButtonTitle)
+    }
 
     private var countryToProcess: Country?
     private var dismissAfterSuccessAction: (() -> Void)?
     private var dismissAfterErrorAction: (() -> Void)?
+    private var isPendingPermissionCheck: Bool = false
 
     init(
         travelService: TravelServiceInterface,
+        notificationService: NotificationServiceInterface,
         analyticsService: AnalyticsServiceInterface,
+        urlOpener: URLOpener,
         showImage: Bool = true,
-        title: String,
-        body: String,
-        primaryButtonTitle: String,
-        secondaryButtonTitle: String,
-        privacyPolicyLinkTitle: String = String(
-            localized: .Travel.travelAlertPermissionPrivacyButtonTitle
-        ),
         country: Country,
         dismissSheetAction: @escaping () -> Void,
         openURLAction: @escaping (URL) -> Void,
@@ -44,18 +61,17 @@ class TravelAlertsPermissionViewModel: ObservableObject {
         dismissAfterErrorAction: @escaping () -> Void
     ) {
         self.travelService = travelService
+        self.notificationService = notificationService
         self.analyticsService = analyticsService
+        self.urlOpener = urlOpener
+        self.notificationCenter = NotificationCenter.default
         self.showImage = showImage
-        self.title = title
-        self.body = body
-        self.primaryButtonTitle = primaryButtonTitle
-        self.secondaryButtonTitle = secondaryButtonTitle
-        self.privacyPolicyLinkTitle = privacyPolicyLinkTitle
         self.countryToProcess = country
         self.dismissSheetAction = dismissSheetAction
         self.openURLAction = openURLAction
         self.dismissAfterSuccessAction = dismissAfterSuccessAction
         self.dismissAfterErrorAction = dismissAfterErrorAction
+        observeAppMoveToForeground()
     }
 
     var primaryButtonViewModel: GOVUKButton.ButtonViewModel {
@@ -77,7 +93,26 @@ class TravelAlertsPermissionViewModel: ObservableObject {
     }
 
     func allowNotificationsAction() {
-        subscribeToCountry(notificationsEnabled: true)
+        Task {
+            let permissionState = await notificationService.permissionState
+            DispatchQueue.main.async {
+                if permissionState == .authorized {
+                    self.subscribeToCountry(notificationsEnabled: true)
+                } else if permissionState == .denied {
+                    self.displayNotificationSettingsAlert = true
+                } else {
+                    self.requestNotificationPermission()
+                }
+            }
+        }
+    }
+
+    private func requestNotificationPermission() {
+        notificationService.requestPermissions { [weak self] granted in
+            if granted {
+                self?.subscribeToCountry(notificationsEnabled: true)
+            }
+        }
     }
 
     func notNowAction() {
@@ -97,7 +132,7 @@ class TravelAlertsPermissionViewModel: ObservableObject {
                     case .success:
                         self?.viewState = .idle
                         self?.dismissAfterSuccessAction?()
-                    case .failure(let error):
+                    case .failure:
                         self?.dismissAfterErrorAction?()
                     }
                 }
@@ -109,6 +144,41 @@ class TravelAlertsPermissionViewModel: ObservableObject {
         let privacyPolicyURL = URL(string: Constants.API.privacyPolicyUrl.absoluteString)
         if let url = privacyPolicyURL {
             openURLAction(url)
+        }
+    }
+
+    func handleNotificationAlertAction() {
+        if urlOpener.openNotificationSettings() {
+            notificationService.toggleHasGivenConsent()
+            isPendingPermissionCheck = true
+        }
+    }
+
+    private func observeAppMoveToForeground() {
+        notificationCenter.addObserver(
+            self,
+            selector: #selector(retryPermissionCheckAfterSettings),
+            name: UIApplication.willEnterForegroundNotification,
+            object: nil
+        )
+    }
+
+    @objc
+    private func retryPermissionCheckAfterSettings() {
+        guard isPendingPermissionCheck else { return }
+
+        Task {
+            let permissionState = await notificationService.permissionState
+            DispatchQueue.main.async {
+                if permissionState == .authorized {
+                    self.isPendingPermissionCheck = false
+                    self.displayNotificationSettingsAlert = false
+                    self.subscribeToCountry(notificationsEnabled: true)
+                } else {
+                    self.isPendingPermissionCheck = false
+                    self.displayNotificationSettingsAlert = false
+                }
+            }
         }
     }
 }

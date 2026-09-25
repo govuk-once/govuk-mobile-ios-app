@@ -25,6 +25,7 @@ class CountryListViewModel: ObservableObject {
     private let travelService: TravelServiceInterface
     let analyticsService: AnalyticsServiceInterface
     private let notificationService: NotificationServiceInterface
+    private let urlOpener: URLOpener
     let dismissAction: (Bool) -> Void
     let errorCallback: () -> Void
     private let openURLAction: (URL) -> Void
@@ -37,6 +38,7 @@ class CountryListViewModel: ObservableObject {
         travelService: TravelServiceInterface,
         analyticsService: AnalyticsServiceInterface,
         notificationService: NotificationServiceInterface,
+        urlOpener: URLOpener,
         dismissAction: @escaping (Bool) -> Void,
         errorCallback: @escaping () -> Void = {},
         openURLAction: @escaping (URL) -> Void
@@ -44,6 +46,7 @@ class CountryListViewModel: ObservableObject {
         self.travelService = travelService
         self.analyticsService = analyticsService
         self.notificationService = notificationService
+        self.urlOpener = urlOpener
         self.dismissAction = dismissAction
         self.errorCallback = errorCallback
         self.openURLAction = openURLAction
@@ -189,16 +192,10 @@ class CountryListViewModel: ObservableObject {
         let openURL = self.openURLAction
         return TravelAlertsPermissionViewModel(
             travelService: travelService,
+            notificationService: notificationService,
             analyticsService: analyticsService,
+            urlOpener: urlOpener,
             showImage: true,
-            title: String(localized: .Travel.travelAlertPermissionTitle),
-            body: String(localized: .Travel.travelAlertPermissionDescription),
-            primaryButtonTitle: String(
-                localized: .Travel.travelAlertPermissionPrimaryButton
-            ),
-            secondaryButtonTitle: String(
-                localized: .Travel.travelAlertPermissionSecondaryButton
-            ),
             country: countryToProcess,
             dismissSheetAction: { [weak self] in
                 self?.showTravelAlertsPermission = false

@@ -31,6 +31,16 @@ struct TravelAlertsPermissionView: View {
         .toolbarBackground(Color(.govUK.fills.surfaceModal), for: .navigationBar)
         .background(Color(uiColor: UIColor.govUK.fills.surfaceFullscreen))
         .accessibilityElement(children: .contain)
+        .alert(isPresented: $viewModel.displayNotificationSettingsAlert) {
+            Alert(
+                title: Text(viewModel.notificationSettingsAlertTitle),
+                message: Text(viewModel.notificationSettingsAlertBody),
+                primaryButton: .default(Text(viewModel.notificationAlertButtonTitle)) {
+                    viewModel.handleNotificationAlertAction()
+                },
+                secondaryButton: .cancel()
+            )
+        }
     }
 
     private var scrollView: some View {
