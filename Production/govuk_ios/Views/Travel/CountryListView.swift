@@ -77,7 +77,7 @@ struct CountryListView: View {
             }
             .sheet(isPresented: $viewModel.showTravelAlertsPermission) {
                 TravelAlertsPermissionView(
-                    viewModel: createPermissionViewModel()
+                    viewModel: viewModel.createPermissionViewModel()
                 )
             }
     }
@@ -217,35 +217,6 @@ extension CountryListView: TrackableScreen {
 }
 
 extension CountryListView {
-    private func createPermissionViewModel() -> TravelAlertsPermissionViewModel {
-        TravelAlertsPermissionViewModel(
-            analyticsService: viewModel.analyticsService,
-            showImage: true,
-            title: String(localized: .Travel.travelAlertPermissionTitle),
-            body: String(localized: .Travel.travelAlertPermissionDescription),
-            primaryButtonTitle: String(
-                localized: .Travel.travelAlertPermissionPrimaryButton
-            ),
-            secondaryButtonTitle: String(
-                localized: .Travel.travelAlertPermissionSecondaryButton
-            ),
-            completeAction: {
-                if let country = viewModel.selectedCountry {
-                    viewModel.proceedWithCountrySelection(country, true)
-                    viewModel.showTravelAlertsPermission = false
-                    viewModel.selectedCountry = nil
-                }
-            },
-            dismissAction: {
-                if let country = viewModel.selectedCountry {
-                    viewModel.proceedWithCountrySelection(country, false)
-                    viewModel.showTravelAlertsPermission = false
-                    viewModel.selectedCountry = nil
-                }
-            }
-        )
-    }
-
     private func createErrorViewModel() -> ErrorViewModel {
         ErrorViewModel(
             analyticsService: viewModel.analyticsService,

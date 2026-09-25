@@ -178,4 +178,33 @@ class CountryListViewModel: ObservableObject {
         filteredSections = buildSections(from: filtered)
         viewState = filteredSections.isEmpty ? .empty : .loaded
     }
+
+    func createPermissionViewModel() -> TravelAlertsPermissionViewModel {
+        TravelAlertsPermissionViewModel(
+            analyticsService: analyticsService,
+            showImage: true,
+            title: String(localized: .Travel.travelAlertPermissionTitle),
+            body: String(localized: .Travel.travelAlertPermissionDescription),
+            primaryButtonTitle: String(
+                localized: .Travel.travelAlertPermissionPrimaryButton
+            ),
+            secondaryButtonTitle: String(
+                localized: .Travel.travelAlertPermissionSecondaryButton
+            ),
+            completeAction: { [weak self] in
+                if let country = self?.selectedCountry {
+                    self?.proceedWithCountrySelection(country, true)
+                    self?.showTravelAlertsPermission = false
+                    self?.selectedCountry = nil
+                }
+            },
+            dismissAction: { [weak self] in
+                if let country = self?.selectedCountry {
+                    self?.proceedWithCountrySelection(country, false)
+                    self?.showTravelAlertsPermission = false
+                    self?.selectedCountry = nil
+                }
+            }
+        )
+    }
 }

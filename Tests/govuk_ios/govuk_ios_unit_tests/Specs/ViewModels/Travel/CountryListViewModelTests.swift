@@ -658,4 +658,22 @@ struct CountryListViewModelTests {
         #expect(viewModel.selectedCountry?.name == "Brazil")
         #expect(viewModel.selectedCountry?.slug == "brazil")
     }
+
+    @Test
+    func createPermissionViewModel_returnsViewModelWithCorrectDetails() {
+        let mockAnalyticsService = MockAnalyticsService()
+        let viewModel = CountryListViewModel(
+            travelService: MockTravelService(),
+            analyticsService: mockAnalyticsService,
+            notificationService: MockNotificationService(),
+            dismissAction: { _ in }
+        )
+
+        let permissionViewModel = viewModel.createPermissionViewModel()
+
+        #expect(permissionViewModel.showImage == true)
+        #expect(permissionViewModel.title == "Give permission")
+        #expect(permissionViewModel.primaryButtonTitle == "Agree and continue")
+        #expect(permissionViewModel.secondaryButtonTitle == "Not now")
+    }
 }
