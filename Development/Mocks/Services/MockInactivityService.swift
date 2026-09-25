@@ -1,4 +1,3 @@
-#if DEBUG
 import Foundation
 
 class MockInactivityService: InactivityServiceInterface {
@@ -36,4 +35,3 @@ class MockInactivityService: InactivityServiceInterface {
         _stubbedInactive = false
     }
 }
-#endif // DEBUG

@@ -1,4 +1,3 @@
-#if DEBUG
 import Foundation
 
 extension SearchItem {
@@ -20,4 +19,3 @@ extension SearchItem {
     }
 
 }
-#endif // DEBUG

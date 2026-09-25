@@ -1,4 +1,3 @@
-#if DEBUG
 import Foundation
 
 class MockTravelService: TravelServiceInterface {
@@ -130,4 +129,3 @@ class MockTravelService: TravelServiceInterface {
         }
     }
 }
-#endif // DEBUG

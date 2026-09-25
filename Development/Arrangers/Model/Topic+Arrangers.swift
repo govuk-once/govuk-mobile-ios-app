@@ -1,4 +1,3 @@
-#if DEBUG
 import Foundation
 import CoreData
 
@@ -49,4 +48,3 @@ extension Topic {
         return topic
     }
 }
-#endif // DEBUG
