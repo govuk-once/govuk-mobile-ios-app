@@ -676,4 +676,56 @@ struct CountryListViewModelTests {
         #expect(permissionViewModel.primaryButtonTitle == "Agree and continue")
         #expect(permissionViewModel.secondaryButtonTitle == "Not now")
     }
+
+    @Test
+    func createPermissionViewModel_completeAction_proceedsWithCountrySelection() {
+        let mockTravelService = MockTravelService()
+        let mockNotificationService = MockNotificationService()
+        mockNotificationService._stubbedhasGivenConsent = false
+
+        let viewModel = CountryListViewModel(
+            travelService: mockTravelService,
+            analyticsService: MockAnalyticsService(),
+            notificationService: mockNotificationService,
+            dismissAction: { _ in }
+        )
+
+        let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
+        viewModel.selectedCountry = country
+        viewModel.showTravelAlertsPermission = true
+
+        let permissionViewModel = viewModel.createPermissionViewModel()
+        permissionViewModel.completeAction()
+
+        #expect(mockTravelService._subscribeToGroupsCalled == true)
+        #expect(mockTravelService._receivedSubscribeSlug == "france")
+        #expect(viewModel.showTravelAlertsPermission == false)
+        #expect(viewModel.selectedCountry == nil)
+    }
+
+    @Test
+    func createPermissionViewModel_dismissAction_proceedsWithCountrySelectionWithoutConsent() {
+        let mockTravelService = MockTravelService()
+        let mockNotificationService = MockNotificationService()
+        mockNotificationService._stubbedhasGivenConsent = false
+
+        let viewModel = CountryListViewModel(
+            travelService: mockTravelService,
+            analyticsService: MockAnalyticsService(),
+            notificationService: mockNotificationService,
+            dismissAction: { _ in }
+        )
+
+        let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
+        viewModel.selectedCountry = country
+        viewModel.showTravelAlertsPermission = true
+
+        let permissionViewModel = viewModel.createPermissionViewModel()
+        permissionViewModel.dismissAction()
+
+        #expect(mockTravelService._subscribeToGroupsCalled == true)
+        #expect(mockTravelService._receivedSubscribeSlug == "france")
+        #expect(viewModel.showTravelAlertsPermission == false)
+        #expect(viewModel.selectedCountry == nil)
+    }
 }
