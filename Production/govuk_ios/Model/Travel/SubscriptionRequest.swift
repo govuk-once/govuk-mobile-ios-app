@@ -9,7 +9,7 @@ struct SubscriptionRequest: Codable {
     }
 
     enum SubscriptionGroup: String, Codable {
-        case DAILY = "daily"
+        case INSTANT = "instant"
         case NONE = "none"
     }
 

@@ -32,9 +32,9 @@ final class TravelAlertsWidgetViewSnapshotTests: SnapshotTestCase {
     func test_loaded_light_rendersCorrectly() async {
         let viewModel = makeViewModel(
             result: .success([
-                TravelGroup(namespace: "travel", group: "france", subgroup: "daily"),
-                TravelGroup(namespace: "travel", group: "germany", subgroup: "daily"),
-                TravelGroup(namespace: "travel", group: "spain", subgroup: "daily")
+                TravelGroup(namespace: "travel", group: "france", subgroup: "instant"),
+                TravelGroup(namespace: "travel", group: "germany", subgroup: "instant"),
+                TravelGroup(namespace: "travel", group: "spain", subgroup: "instant")
             ]),
             countriesResult: .success([
                 Country(name: "France", slug: "france", rawLastUpdate: "2024-01-01T00:00:00.000Z", synonyms: []),
@@ -59,9 +59,9 @@ final class TravelAlertsWidgetViewSnapshotTests: SnapshotTestCase {
     func test_loaded_dark_rendersCorrectly() async {
         let viewModel = makeViewModel(
             result: .success([
-                TravelGroup(namespace: "travel", group: "france", subgroup: "daily"),
-                TravelGroup(namespace: "travel", group: "germany", subgroup: "daily"),
-                TravelGroup(namespace: "travel", group: "spain", subgroup: "daily")
+                TravelGroup(namespace: "travel", group: "france", subgroup: "instant"),
+                TravelGroup(namespace: "travel", group: "germany", subgroup: "instant"),
+                TravelGroup(namespace: "travel", group: "spain", subgroup: "instant")
             ]),
             countriesResult: .success([
                 Country(name: "France", slug: "france", rawLastUpdate: "2024-01-01T00:00:00.000Z", synonyms: []),
