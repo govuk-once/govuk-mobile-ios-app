@@ -1,4 +1,3 @@
-#if DEBUG
 import Foundation
 
 extension DvlaURLs {
@@ -46,4 +45,3 @@ extension DvlaURLs {
         )
     }
 }
-#endif // DEBUG

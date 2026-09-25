@@ -1,4 +1,3 @@
-#if DEBUG
 import Foundation
 import UIKit
 
@@ -78,4 +77,3 @@ class MockNotificationService: NotificationServiceInterface {
         _stubbedPushId = nil
     }
 }
-#endif // DEBUG

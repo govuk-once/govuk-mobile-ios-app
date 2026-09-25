@@ -1,4 +1,3 @@
-#if DEBUG
 import Foundation
 
 class MockAccessibilityAnnouncerService: AccessibilityAnnouncerServiceInterface {
@@ -7,4 +6,3 @@ class MockAccessibilityAnnouncerService: AccessibilityAnnouncerServiceInterface 
         _receivedAnnounceValue = value
     }
 }
-#endif // DEBUG

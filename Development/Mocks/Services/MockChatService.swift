@@ -1,4 +1,3 @@
-#if DEBUG
 import Foundation
 
 final class MockChatService: ChatServiceInterface {
@@ -92,4 +91,3 @@ final class MockChatService: ChatServiceInterface {
         _stubbedFeedback
     }
 }
-#endif // DEBUG

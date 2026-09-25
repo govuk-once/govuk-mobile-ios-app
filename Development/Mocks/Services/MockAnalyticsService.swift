@@ -1,4 +1,3 @@
-#if DEBUG
 
 import GovKit
 
@@ -49,4 +48,3 @@ class MockAnalyticsService: AnalyticsServiceInterface {
         _stubbedPermissionState
     }
 }
-#endif // DEBUG

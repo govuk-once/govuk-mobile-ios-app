@@ -1,4 +1,3 @@
-#if DEBUG
 import Foundation
 
 struct MockDisplayableTopic: DisplayableTopic {
@@ -6,4 +5,3 @@ struct MockDisplayableTopic: DisplayableTopic {
     let title: String
     let topicDescription: String?
 }
-#endif // DEBUG
