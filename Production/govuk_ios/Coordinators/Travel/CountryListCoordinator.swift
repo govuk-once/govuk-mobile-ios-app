@@ -38,12 +38,26 @@ final class CountryListCoordinator: BaseCoordinator {
             travelService: travelService,
             analyticsService: analyticsService,
             notificationService: notificationService,
-            dismissAction: { _ in self.dismissModal() }
+            dismissAction: { _ in self.dismissModal() },
+            viewPrivacyPolicyAction: { [weak self] in
+                DispatchQueue.main.async {
+                    self?.openPrivacy()
+                }
+            }
         )
         set(viewController)
     }
 
     private func dismissModal() {
         root.dismiss(animated: true, completion: nil)
+    }
+
+    private func openPrivacy() {
+        let coordinator = coordinatorBuilder.safari(
+            navigationController: root,
+            url: Constants.API.privacyPolicyUrl,
+            fullScreen: false
+        )
+        start(coordinator)
     }
 }

@@ -30,6 +30,7 @@ class EditCountriesViewModel: ObservableObject {
     private let travelService: TravelServiceInterface
     private let notificationService: NotificationServiceInterface
     let analyticsService: AnalyticsServiceInterface
+    let openPrivacyPolicyAction: () -> Void
     private var allCountries: [Country] = []
     private var follewedCountries: Set<String> = []
     private var notificationStateCache: [String: Bool] = [:]
@@ -47,11 +48,13 @@ class EditCountriesViewModel: ObservableObject {
     init(
         travelService: TravelServiceInterface,
         analyticsService: AnalyticsServiceInterface,
-        notificationService: NotificationServiceInterface
+        notificationService: NotificationServiceInterface,
+        openPrivacyPolicyAction: @escaping () -> Void
     ) {
         self.travelService = travelService
         self.analyticsService = analyticsService
         self.notificationService = notificationService
+        self.openPrivacyPolicyAction = openPrivacyPolicyAction
     }
 
     @MainActor
@@ -67,6 +70,9 @@ class EditCountriesViewModel: ObservableObject {
             },
             errorCallback: { [weak self] in
                 self?.isShowingFollowError = true
+            },
+            openPrivacyPolicyAction: { [weak self] in
+                self?.openPrivacyPolicyAction()
             }
         )
     }()

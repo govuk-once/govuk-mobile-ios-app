@@ -26,6 +26,7 @@ class CountryListViewModel: ObservableObject {
     private let notificationService: NotificationServiceInterface
     let dismissAction: (Bool) -> Void
     let errorCallback: () -> Void
+    let openPrivacyPolicyAction: () -> Void
 
     var hasNotificationConsent: Bool {
         notificationService.hasGivenConsent
@@ -36,13 +37,15 @@ class CountryListViewModel: ObservableObject {
         analyticsService: AnalyticsServiceInterface,
         notificationService: NotificationServiceInterface,
         dismissAction: @escaping (Bool) -> Void,
-        errorCallback: @escaping () -> Void = {}
+        errorCallback: @escaping () -> Void = {},
+        openPrivacyPolicyAction: @escaping () -> Void
     ) {
         self.travelService = travelService
         self.analyticsService = analyticsService
         self.notificationService = notificationService
         self.dismissAction = dismissAction
         self.errorCallback = errorCallback
+        self.openPrivacyPolicyAction = openPrivacyPolicyAction
     }
 
     func trackScreen(screen: TrackableScreen) {

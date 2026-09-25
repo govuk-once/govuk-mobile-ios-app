@@ -29,7 +29,8 @@ class WidgetViewBuilder {
         linkAction: @escaping () -> Void,
         dismissAction: @escaping () -> Void,
         editAction: @escaping () -> Void,
-        openURLAction: @escaping (URL) -> Void
+        openURLAction: @escaping (URL) -> Void,
+        viewPrivacyAction: @escaping () -> Void
     ) -> AnyView? {
         let viewModel = TravelAlertsWidgetViewModel(
             travelService: travelService,
@@ -38,7 +39,8 @@ class WidgetViewBuilder {
             linkAction: linkAction,
             dismissAction: dismissAction,
             editAction: editAction,
-            openURLAction: openURLAction
+            openURLAction: openURLAction,
+            viewPrivacyAction: viewPrivacyAction
         )
         let widget = TravelAlertsWidgetView(viewModel: viewModel)
         return AnyView(widget)

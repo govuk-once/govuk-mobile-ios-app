@@ -161,4 +161,60 @@ struct TravelAlertsPermissionViewModelTests {
 
         #expect(dismissActionCalled == true)
     }
+
+    @Test
+    func openPrivacyPolicy_whenActionProvided_callsAction() {
+        var privacyActionCalled = false
+
+        let viewModel = TravelAlertsPermissionViewModel(
+            analyticsService: mockAnalyticsService,
+            showImage: true,
+            title: "Enable Notifications",
+            body: "Get travel alerts",
+            primaryButtonTitle: "Enable",
+            secondaryButtonTitle: "Not Now",
+            completeAction: { /*EmptyForTests*/ },
+            dismissAction: { /*EmptyForTests*/ },
+            viewPrivacyAction: { privacyActionCalled = true }
+        )
+
+        viewModel.openPrivacyPolicy()
+
+        #expect(privacyActionCalled == true)
+    }
+
+    @Test
+    func openPrivacyPolicy_whenNoActionProvided_doesNotCrash() {
+        let viewModel = TravelAlertsPermissionViewModel(
+            analyticsService: mockAnalyticsService,
+            showImage: true,
+            title: "Enable Notifications",
+            body: "Get travel alerts",
+            primaryButtonTitle: "Enable",
+            secondaryButtonTitle: "Not Now",
+            completeAction: { /*EmptyForTests*/ },
+            dismissAction: { /*EmptyForTests*/ }
+        )
+
+        viewModel.openPrivacyPolicy()
+    }
+
+    @Test
+    func initialization_setsPrivacyPolicyLinkTitle() {
+        let customTitle = "Custom Privacy Link"
+
+        let viewModel = TravelAlertsPermissionViewModel(
+            analyticsService: mockAnalyticsService,
+            showImage: true,
+            title: "Enable Notifications",
+            body: "Get travel alerts",
+            primaryButtonTitle: "Enable",
+            secondaryButtonTitle: "Not Now",
+            privacyPolicyLinkTitle: customTitle,
+            completeAction: { /*EmptyForTests*/ },
+            dismissAction: { /*EmptyForTests*/ }
+        )
+
+        #expect(viewModel.privacyPolicyLinkTitle == customTitle)
+    }
 }

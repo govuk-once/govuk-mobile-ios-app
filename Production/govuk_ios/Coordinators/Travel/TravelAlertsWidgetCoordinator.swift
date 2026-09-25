@@ -59,6 +59,9 @@ final class TravelAlertsWidgetCoordinator: BaseCoordinator,
             },
             openURLAction: { [weak self] url in
                 self?.urlOpener.openIfPossible(url)
+            },
+            viewPrivacyAction: { [weak self] in
+                self?.openPrivacy()
             }
         )
     }
@@ -80,8 +83,22 @@ final class TravelAlertsWidgetCoordinator: BaseCoordinator,
         let viewController = viewControllerBuilder.editCountries(
             travelService: travelService,
             analyticsService: analyticsService,
-            notificationService: notificationService
+            notificationService: notificationService,
+            viewPrivacyPolicyAction: { [weak self] in
+                DispatchQueue.main.async {
+                    self?.openPrivacy()
+                }
+            }
         )
         push(viewController)
+    }
+
+    private func openPrivacy() {
+        let coordinator = coordinatorBuilder.safari(
+            navigationController: root,
+            url: Constants.API.privacyPolicyUrl,
+            fullScreen: true
+        )
+        start(coordinator)
     }
 }

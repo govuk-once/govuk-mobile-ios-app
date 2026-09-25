@@ -30,7 +30,8 @@ final class EditCountriesCoordinator: BaseCoordinator {
         let viewController = viewControllerBuilder.editCountries(
             travelService: travelService,
             analyticsService: analyticsService,
-            notificationService: notificationService
+            notificationService: notificationService,
+            viewPrivacyPolicyAction: { }
         )
         set(viewController)
     }

@@ -66,7 +66,8 @@ final class TravelAlertsPermissionViewSnapshotTests: SnapshotTestCase {
             primaryButtonTitle: primaryButtonTitle,
             secondaryButtonTitle: secondaryButtonTitle,
             completeAction: { /*EmptyForTests*/ },
-            dismissAction: { /*EmptyForTests*/ }
+            dismissAction: { /*EmptyForTests*/ },
+            viewPrivacyAction: { /*EmptyForTests*/ }
         )
     }
 

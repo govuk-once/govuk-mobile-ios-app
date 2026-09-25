@@ -6,12 +6,14 @@ class TravelAlertsPermissionViewModel: ObservableObject {
     let analyticsService: AnalyticsServiceInterface
     let completeAction: () -> Void
     let dismissAction: () -> Void
+    let viewPrivacyAction: () -> Void
     let showImage: Bool
 
     let title: String
     let body: String
     let primaryButtonTitle: String
     let secondaryButtonTitle: String
+    let privacyPolicyLinkTitle: String
 
     init(analyticsService: AnalyticsServiceInterface,
          showImage: Bool = true,
@@ -19,16 +21,23 @@ class TravelAlertsPermissionViewModel: ObservableObject {
          body: String,
          primaryButtonTitle: String,
          secondaryButtonTitle: String,
+         privacyPolicyLinkTitle: String = String(
+            localized: .Travel.travelAlertPermissionPrivacyButtonTitle
+         ),
          completeAction: @escaping () -> Void,
-         dismissAction: @escaping () -> Void) {
+         dismissAction: @escaping () -> Void,
+         viewPrivacyAction: @escaping () -> Void
+    ) {
         self.analyticsService = analyticsService
         self.showImage = showImage
         self.title = title
         self.body = body
         self.primaryButtonTitle = primaryButtonTitle
         self.secondaryButtonTitle = secondaryButtonTitle
+        self.privacyPolicyLinkTitle = privacyPolicyLinkTitle
         self.completeAction = completeAction
         self.dismissAction = dismissAction
+        self.viewPrivacyAction = viewPrivacyAction
     }
 
     var primaryButtonViewModel: GOVUKButton.ButtonViewModel {
@@ -49,6 +58,10 @@ class TravelAlertsPermissionViewModel: ObservableObject {
                 self?.dismissAction()
             }
         )
+    }
+
+    func openPrivacyPolicy() {
+        viewPrivacyAction()
     }
 
     private func trackButtonActionEvent(title: String) {

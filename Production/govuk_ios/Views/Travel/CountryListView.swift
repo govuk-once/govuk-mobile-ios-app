@@ -242,6 +242,9 @@ extension CountryListView {
                     viewModel.showTravelAlertsPermission = false
                     viewModel.selectedCountry = nil
                 }
+            },
+            viewPrivacyAction: {
+                viewModel.openPrivacyPolicyAction()
             }
         )
     }

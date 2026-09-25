@@ -52,4 +52,25 @@ struct CountryListCoordinatorTests {
         #expect(mockNavigationController._dismissCalled)
         #expect(mockNavigationController._receivedDismissAnimated == true)
     }
+
+    @Test
+    func start_passesViewPrivacyPolicyActionToViewControllerBuilder() {
+        let mockNavigationController = MockNavigationController()
+        let mockViewControllerBuilder = MockViewControllerBuilder()
+
+        let sut = CountryListCoordinator(
+            navigationController: mockNavigationController,
+            coordinatorBuilder: CoordinatorBuilder.mock,
+            viewControllerBuilder: mockViewControllerBuilder,
+            analyticsService: MockAnalyticsService(),
+            travelService: MockTravelService(),
+            notificationService: MockNotificationService(),
+            userService: MockUserService(),
+            completion: { _ in }
+        )
+
+        sut.start()
+
+        #expect(mockViewControllerBuilder._receivedSelectCountryViewPrivacyPolicyAction != nil)
+    }
 }
