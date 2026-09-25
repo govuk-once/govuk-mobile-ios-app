@@ -13,11 +13,16 @@ struct TravelAlertsPermissionView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            scrollView
-            ButtonStackView(
-                primaryButtonViewModel: viewModel.primaryButtonViewModel,
-                secondaryButtonViewModel: viewModel.secondaryButtonViewModel
-            )
+            switch viewModel.viewState {
+            case .idle:
+                scrollView
+                ButtonStackView(
+                    primaryButtonViewModel: viewModel.primaryButtonViewModel,
+                    secondaryButtonViewModel: viewModel.secondaryButtonViewModel
+                )
+            case .loading:
+                TravelAlertPermissionLoadingView()
+            }
         }
         .navigationTitle("")
         .toolbar {
@@ -84,7 +89,9 @@ struct TravelAlertsPermissionView: View {
     private var backButton: some ToolbarContent {
         ToolbarItem(placement: ToolbarItemPlacement.cancellationAction) {
             Button {
-                viewModel.dismissSheetAction()
+                if viewModel.viewState != .loading {
+                    viewModel.dismissSheetAction()
+                }
             } label: {
                 Image(systemName: "chevron.left")
                     .foregroundStyle(Color(uiColor: .govUK.text.primary))
@@ -92,6 +99,19 @@ struct TravelAlertsPermissionView: View {
         }
     }
 }
+
+struct TravelAlertPermissionLoadingView: View {
+    var body: some View {
+        VStack(alignment: .center) {
+            Spacer()
+            ProgressView()
+                .controlSize(.large)
+                .accessibilityLabel(.Travel.travelAlertsLoading)
+            Spacer()
+        }
+    }
+}
+
 
 extension TravelAlertsPermissionView: TrackableScreen {
     var trackingName: String { "TravelAlertsPermissionScreen" }

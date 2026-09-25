@@ -6,22 +6,29 @@ import Testing
 @Suite
 struct TravelAlertsPermissionViewModelTests {
     let mockAnalyticsService = MockAnalyticsService()
+    let mockTravelService = MockTravelService()
+    let testCountry = Country(
+        slug: "france",
+        name: "France",
+        synonyms: [],
+        updatedAt: nil,
+        id: "1"
+    )
 
     @Test
     func initialization_setsAllProperties() {
-        var completeActionCalled = false
-        var dismissActionCalled = false
-
         let viewModel = TravelAlertsPermissionViewModel(
+            travelService: mockTravelService,
             analyticsService: mockAnalyticsService,
             showImage: true,
             title: "Enable Notifications",
             body: "Get travel alerts",
             primaryButtonTitle: "Enable",
             secondaryButtonTitle: "Not Now",
-            completeAction: { completeActionCalled = true },
-            dismissAction: { dismissActionCalled = true },
-            viewPrivacyAction: { /*Empty For Tests*/ }
+            country: testCountry,
+            dismissSheetAction: { /*Empty For Tests*/ },
+            openURLAction: { _ in /*Empty For Tests*/ },
+            dismissAfterAction: { /*Empty For Tests*/ }
         )
 
         #expect(viewModel.showImage == true)
@@ -29,20 +36,23 @@ struct TravelAlertsPermissionViewModelTests {
         #expect(viewModel.body == "Get travel alerts")
         #expect(viewModel.primaryButtonTitle == "Enable")
         #expect(viewModel.secondaryButtonTitle == "Not Now")
+        #expect(viewModel.viewState == .idle)
     }
 
     @Test
     func primaryButtonViewModel_hasCorrectTitle() {
         let viewModel = TravelAlertsPermissionViewModel(
+            travelService: mockTravelService,
             analyticsService: mockAnalyticsService,
             showImage: true,
             title: "Enable Notifications",
             body: "Get travel alerts",
             primaryButtonTitle: "Enable",
             secondaryButtonTitle: "Not Now",
-            completeAction: { /*EmptyForTests*/ },
-            dismissAction: { /*EmptyForTests*/ },
-            viewPrivacyAction: { /*Empty For Tests*/ }
+            country: testCountry,
+            dismissSheetAction: { /*Empty For Tests*/ },
+            openURLAction: { _ in /*Empty For Tests*/ },
+            dismissAfterAction: { /*Empty For Tests*/ }
         )
 
         #expect(viewModel.primaryButtonViewModel.localisedTitle == "Enable")
@@ -51,161 +61,39 @@ struct TravelAlertsPermissionViewModelTests {
     @Test
     func secondaryButtonViewModel_hasCorrectTitle() {
         let viewModel = TravelAlertsPermissionViewModel(
+            travelService: mockTravelService,
             analyticsService: mockAnalyticsService,
             showImage: true,
             title: "Enable Notifications",
             body: "Get travel alerts",
             primaryButtonTitle: "Enable",
             secondaryButtonTitle: "Not Now",
-            completeAction: { /*EmptyForTests*/ },
-            dismissAction: { /*EmptyForTests*/ },
-            viewPrivacyAction: { /*Empty For Tests*/ }
+            country: testCountry,
+            dismissSheetAction: { /*Empty For Tests*/ },
+            openURLAction: { _ in /*Empty For Tests*/ },
+            dismissAfterAction: { /*Empty For Tests*/ }
         )
 
         #expect(viewModel.secondaryButtonViewModel.localisedTitle == "Not Now")
     }
 
     @Test
-    func primaryButtonAction_tracksEventAndCallsCompleteAction() {
-        var completeActionCalled = false
-
-        let viewModel = TravelAlertsPermissionViewModel(
-            analyticsService: mockAnalyticsService,
-            showImage: true,
-            title: "Enable Notifications",
-            body: "Get travel alerts",
-            primaryButtonTitle: "Enable",
-            secondaryButtonTitle: "Not Now",
-            completeAction: { completeActionCalled = true },
-            dismissAction: { /*EmptyForTests*/ },
-            viewPrivacyAction: { /*Empty For Tests*/ }
-        )
-
-        viewModel.primaryButtonViewModel.action()
-
-        #expect(completeActionCalled == true)
-        let events = mockAnalyticsService._trackedEvents
-        #expect(events.count == 1)
-    }
-
-    @Test
-    func secondaryButtonAction_tracksEventAndCallsDismissAction() {
-        var dismissActionCalled = false
-
-        let viewModel = TravelAlertsPermissionViewModel(
-            analyticsService: mockAnalyticsService,
-            showImage: true,
-            title: "Enable Notifications",
-            body: "Get travel alerts",
-            primaryButtonTitle: "Enable",
-            secondaryButtonTitle: "Not Now",
-            completeAction: { /*EmptyForTests*/ },
-            dismissAction: { dismissActionCalled = true },
-            viewPrivacyAction: { /*Empty For Tests*/ }
-        )
-
-        viewModel.secondaryButtonViewModel.action()
-
-        #expect(dismissActionCalled == true)
-        let events = mockAnalyticsService._trackedEvents
-        #expect(events.count == 1)
-    }
-
-    @Test
     func showImage_canBeSetToFalse() {
         let viewModel = TravelAlertsPermissionViewModel(
+            travelService: mockTravelService,
             analyticsService: mockAnalyticsService,
             showImage: false,
             title: "Enable Notifications",
             body: "Get travel alerts",
             primaryButtonTitle: "Enable",
             secondaryButtonTitle: "Not Now",
-            completeAction: { /*EmptyForTests*/ },
-            dismissAction: { /*EmptyForTests*/ },
-            viewPrivacyAction: { /*Empty For Tests*/ }
+            country: testCountry,
+            dismissSheetAction: { /*Empty For Tests*/ },
+            openURLAction: { _ in /*Empty For Tests*/ },
+            dismissAfterAction: { /*Empty For Tests*/ }
         )
 
         #expect(viewModel.showImage == false)
-    }
-
-    @Test
-    func completeAction_canBeInvoked() {
-        var completeActionCalled = false
-
-        let viewModel = TravelAlertsPermissionViewModel(
-            analyticsService: mockAnalyticsService,
-            showImage: true,
-            title: "Enable Notifications",
-            body: "Get travel alerts",
-            primaryButtonTitle: "Enable",
-            secondaryButtonTitle: "Not Now",
-            completeAction: { completeActionCalled = true },
-            dismissAction: { /*EmptyForTests*/ },
-            viewPrivacyAction: { /*Empty For Tests*/ }
-        )
-
-        viewModel.allowNotificationsAction()
-
-        #expect(completeActionCalled == true)
-    }
-
-    @Test
-    func dismissAction_canBeInvoked() {
-        var dismissActionCalled = false
-
-        let viewModel = TravelAlertsPermissionViewModel(
-            analyticsService: mockAnalyticsService,
-            showImage: true,
-            title: "Enable Notifications",
-            body: "Get travel alerts",
-            primaryButtonTitle: "Enable",
-            secondaryButtonTitle: "Not Now",
-            completeAction: { /*EmptyForTests*/ },
-            dismissAction: { dismissActionCalled = true },
-            viewPrivacyAction: { /*Empty For Tests*/ }
-        )
-
-        viewModel.notNowAction()
-
-        #expect(dismissActionCalled == true)
-    }
-
-    @Test
-    func openPrivacyPolicy_whenActionProvided_callsAction() {
-        var privacyActionCalled = false
-
-        let viewModel = TravelAlertsPermissionViewModel(
-            analyticsService: mockAnalyticsService,
-            showImage: true,
-            title: "Enable Notifications",
-            body: "Get travel alerts",
-            primaryButtonTitle: "Enable",
-            secondaryButtonTitle: "Not Now",
-            completeAction: { /*EmptyForTests*/ },
-            dismissAction: { /*EmptyForTests*/ },
-            viewPrivacyAction: { privacyActionCalled = true }
-        )
-
-        viewModel.openPrivacyPolicy()
-
-        #expect(privacyActionCalled == true)
-    }
-
-    @Test
-    func openPrivacyPolicy_whenNoActionProvided_doesNotCrash() {
-        let viewModel = TravelAlertsPermissionViewModel(
-            analyticsService: mockAnalyticsService,
-            showImage: true,
-            title: "Enable Notifications",
-            body: "Get travel alerts",
-            primaryButtonTitle: "Enable",
-            secondaryButtonTitle: "Not Now",
-            completeAction: { /*EmptyForTests*/ },
-            dismissAction: { /*EmptyForTests*/ },
-            viewPrivacyAction: { /*Empty For Tests*/ }
-        )
-
-        viewModel.openPrivacyPolicy()
     }
 
     @Test
@@ -213,6 +101,7 @@ struct TravelAlertsPermissionViewModelTests {
         let customTitle = "Custom Privacy Link"
 
         let viewModel = TravelAlertsPermissionViewModel(
+            travelService: mockTravelService,
             analyticsService: mockAnalyticsService,
             showImage: true,
             title: "Enable Notifications",
@@ -220,11 +109,35 @@ struct TravelAlertsPermissionViewModelTests {
             primaryButtonTitle: "Enable",
             secondaryButtonTitle: "Not Now",
             privacyPolicyLinkTitle: customTitle,
-            completeAction: { /*EmptyForTests*/ },
-            dismissAction: { /*EmptyForTests*/ },
-            viewPrivacyAction: { /*Empty For Tests*/ }
+            country: testCountry,
+            dismissSheetAction: { /*Empty For Tests*/ },
+            openURLAction: { _ in /*Empty For Tests*/ },
+            dismissAfterAction: { /*Empty For Tests*/ }
         )
 
         #expect(viewModel.privacyPolicyLinkTitle == customTitle)
+    }
+
+    @Test
+    func openPrivacyPolicy_callsOpenURLAction() {
+        var openURLActionCalled = false
+
+        let viewModel = TravelAlertsPermissionViewModel(
+            travelService: mockTravelService,
+            analyticsService: mockAnalyticsService,
+            showImage: true,
+            title: "Enable Notifications",
+            body: "Get travel alerts",
+            primaryButtonTitle: "Enable",
+            secondaryButtonTitle: "Not Now",
+            country: testCountry,
+            dismissSheetAction: { /*Empty For Tests*/ },
+            openURLAction: { _ in openURLActionCalled = true },
+            dismissAfterAction: { /*Empty For Tests*/ }
+        )
+
+        viewModel.openPrivacyPolicy()
+
+        #expect(openURLActionCalled == true)
     }
 }

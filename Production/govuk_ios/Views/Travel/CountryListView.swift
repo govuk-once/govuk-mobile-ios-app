@@ -76,10 +76,10 @@ struct CountryListView: View {
                 alertMessage(for: country)
             }
             .sheet(isPresented: $viewModel.showTravelAlertsPermission) {
-                NavigationStack {
-                    TravelAlertsPermissionView(
-                        viewModel: viewModel.createPermissionViewModel()
-                    )
+                if let permissionViewModel = viewModel.createPermissionViewModel() {
+                    NavigationStack {
+                        TravelAlertsPermissionView(viewModel: permissionViewModel)
+                    }
                 }
             }
     }

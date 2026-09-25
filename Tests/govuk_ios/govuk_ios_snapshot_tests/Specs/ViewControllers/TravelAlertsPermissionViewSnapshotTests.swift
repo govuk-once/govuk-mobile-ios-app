@@ -58,16 +58,25 @@ final class TravelAlertsPermissionViewSnapshotTests: SnapshotTestCase {
         primaryButtonTitle: String = "Agree and continue",
         secondaryButtonTitle: String = "Not now"
     ) -> TravelAlertsPermissionViewModel {
-        TravelAlertsPermissionViewModel(
+        let testCountry = Country(
+            slug: "france",
+            name: "France",
+            synonyms: [],
+            updatedAt: nil,
+            id: "1"
+        )
+        return TravelAlertsPermissionViewModel(
+            travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
             showImage: showImage,
             title: title,
             body: body,
             primaryButtonTitle: primaryButtonTitle,
             secondaryButtonTitle: secondaryButtonTitle,
-            completeAction: { /*EmptyForTests*/ },
-            dismissAction: { /*EmptyForTests*/ },
-            viewPrivacyAction: { /*EmptyForTests*/ }
+            country: testCountry,
+            dismissSheetAction: { /*EmptyForTests*/ },
+            openURLAction: { _ in /*EmptyForTests*/ },
+            dismissAfterAction: { /*EmptyForTests*/ }
         )
     }
 

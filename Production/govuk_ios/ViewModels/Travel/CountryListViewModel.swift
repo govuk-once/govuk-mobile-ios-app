@@ -184,10 +184,11 @@ class CountryListViewModel: ObservableObject {
         viewState = filteredSections.isEmpty ? .empty : .loaded
     }
 
-    func createPermissionViewModel() -> TravelAlertsPermissionViewModel {
-        let countryToProcess = self.countryForPermissionFlow
+    func createPermissionViewModel() -> TravelAlertsPermissionViewModel? {
+        guard let countryToProcess = self.countryForPermissionFlow else { return nil }
         let openURL = self.openURLAction
         return TravelAlertsPermissionViewModel(
+            travelService: travelService,
             analyticsService: analyticsService,
             showImage: true,
             title: String(localized: .Travel.travelAlertPermissionTitle),
@@ -198,27 +199,28 @@ class CountryListViewModel: ObservableObject {
             secondaryButtonTitle: String(
                 localized: .Travel.travelAlertPermissionSecondaryButton
             ),
+            country: countryToProcess,
             dismissSheetAction: { [weak self] in
                 self?.showTravelAlertsPermission = false
                 self?.countryForPermissionFlow = nil
             },
-            allowNotificationsAction: { [weak self, country = countryToProcess] in
-                if let country = country {
-                    self?.proceedWithCountrySelection(country, true)
-                    self?.showTravelAlertsPermission = false
-                    self?.selectedCountry = nil
-                    self?.countryForPermissionFlow = nil
-                }
+            openURLAction: openURL,
+            dismissAfterSuccessAction: { [weak self] in
+                self?.returnFromNotificationPermissions(forceRefresh: true)
             },
-            notNowAction: { [weak self, country = countryToProcess] in
-                if let country = country {
-                    self?.proceedWithCountrySelection(country, false)
-                    self?.showTravelAlertsPermission = false
-                    self?.selectedCountry = nil
-                    self?.countryForPermissionFlow = nil
-                }
-            },
-            openURLAction: openURL
+            dismissAfterErrorAction: { [weak self] in
+                self?.returnFromNotificationPermissions(forceRefresh: false, didError: true)
+            }
         )
+    }
+
+    private func returnFromNotificationPermissions(forceRefresh: Bool, didError: Bool = false) {
+        self.showTravelAlertsPermission = false
+        self.selectedCountry = nil
+        self.countryForPermissionFlow = nil
+        if didError {
+            self.errorCallback()
+        }
+        self.dismissAction(forceRefresh)
     }
 }
