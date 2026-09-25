@@ -1,4 +1,3 @@
-#if DEBUG
 import Foundation
 
 class MockAppLaunchService: AppLaunchServiceInterface {
@@ -11,4 +10,3 @@ class MockAppLaunchService: AppLaunchServiceInterface {
         }
     }
 }
-#endif // DEBUG

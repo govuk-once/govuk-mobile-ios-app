@@ -1,4 +1,3 @@
-#if DEBUG
 import Foundation
 
 class MockUserDefaultsService: UserDefaultsServiceInterface {
@@ -38,4 +37,3 @@ class MockUserDefaultsService: UserDefaultsServiceInterface {
         store[banner.id] != nil
     }
 }
-#endif // DEBUG

@@ -1,4 +1,3 @@
-#if DEBUG
 import Foundation
 
 extension ShareCode {
@@ -60,4 +59,3 @@ extension ShareCodeListResponse {
         .init(shareCodes: shareCodes)
     }
 }
-#endif // DEBUG

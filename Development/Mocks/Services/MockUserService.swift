@@ -1,4 +1,3 @@
-#if DEBUG
 import Foundation
 
 class MockUserService: UserServiceInterface {
@@ -66,4 +65,3 @@ class MockUserService: UserServiceInterface {
         return _stubbedFetchLinkedAccountsResult
     }
 }
-#endif // DEBUG

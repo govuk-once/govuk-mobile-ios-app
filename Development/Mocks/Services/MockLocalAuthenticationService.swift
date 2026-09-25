@@ -1,4 +1,3 @@
-#if DEBUG
 import Foundation
 import LocalAuthentication
 
@@ -71,4 +70,3 @@ class MockLocalAuthenticationService: LocalAuthenticationServiceInterface {
         _clearCalled = true
     }
 }
-#endif // DEBUG

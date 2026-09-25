@@ -1,4 +1,3 @@
-#if DEBUG
 import Foundation
 
 class MockReturningUserService: ReturningUserServiceInterface {
@@ -7,4 +6,3 @@ class MockReturningUserService: ReturningUserServiceInterface {
         _stubbedReturningUserResult
     }
 }
-#endif // DEBUG

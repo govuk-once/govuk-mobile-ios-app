@@ -1,4 +1,3 @@
-#if DEBUG
 import Foundation
 
 class MockTopicsService: TopicsServiceInterface {
@@ -75,4 +74,3 @@ class MockTopicsService: TopicsServiceInterface {
         _resetOnboardingCalled = true
     }
 }
-#endif // DEBUG

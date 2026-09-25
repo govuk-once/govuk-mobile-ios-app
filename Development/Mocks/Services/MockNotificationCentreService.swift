@@ -1,4 +1,3 @@
-#if DEBUG
 import Foundation
 
 class MockNotificationCentreService: NotificationCentreServiceInterface {
@@ -41,4 +40,3 @@ class MockNotificationCentreService: NotificationCentreServiceInterface {
         _onDeleteCalled?()
     }
 }
-#endif // DEBUG

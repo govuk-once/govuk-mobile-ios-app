@@ -1,4 +1,3 @@
-#if DEBUG
 import Foundation
 
 extension URL {
@@ -7,4 +6,3 @@ extension URL {
         URL(string: "https://www.google.com")!
     }
 }
-#endif // DEBUG

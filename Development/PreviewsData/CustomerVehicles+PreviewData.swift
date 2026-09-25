@@ -1,4 +1,3 @@
-#if DEBUG
 
 extension CustomerVehicles.Vehicle {
     /// Holds sample vehicles for Previews
@@ -51,5 +50,4 @@ extension CustomerVehicles.Vehicle {
     }
 }
 
-#endif // DEBUG
 

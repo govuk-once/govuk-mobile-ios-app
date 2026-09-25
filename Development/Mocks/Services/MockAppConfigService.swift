@@ -1,4 +1,3 @@
-#if DEBUG
 import Foundation
 
 class MockAppConfigService: AppConfigServiceInterface {
@@ -98,4 +97,3 @@ class MockAppConfigService: AppConfigServiceInterface {
         _stubbedPromoBannersLink
     }
 }
-#endif // DEBUG
