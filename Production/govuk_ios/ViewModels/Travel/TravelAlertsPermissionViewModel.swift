@@ -62,7 +62,7 @@ class TravelAlertsPermissionViewModel: ObservableObject {
     }
 
     func openPrivacyPolicy() {
-        let privacyPolicyURL = URL(string: "govuk://app.gov.uk/web?url=\(Constants.API.privacyPolicyUrl.absoluteString)")
+        let privacyPolicyURL = URL(string: Constants.API.privacyPolicyUrl.absoluteString)
         if let url = privacyPolicyURL {
             openURLAction(url)
         }

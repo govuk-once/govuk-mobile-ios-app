@@ -23,7 +23,6 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
     private let dismissAction: () -> Void
     private let editAction: () -> Void
     private let openURLAction: (URL) -> Void
-    private let viewPrivacyAction: () -> Void
 
     init(
         travelService: TravelServiceInterface,
@@ -32,8 +31,7 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
         linkAction: @escaping () -> Void,
         dismissAction: @escaping () -> Void,
         editAction: @escaping () -> Void,
-        openURLAction: @escaping (URL) -> Void,
-        viewPrivacyAction: @escaping () -> Void
+        openURLAction: @escaping (URL) -> Void
     ) {
         self.travelService = travelService
         self.analyticsService = analyticsService
@@ -42,7 +40,6 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
         self.dismissAction = dismissAction
         self.openURLAction = openURLAction
         self.editAction = editAction
-        self.viewPrivacyAction = viewPrivacyAction
     }
 
     lazy var countryListViewModel: CountryListViewModel = {
