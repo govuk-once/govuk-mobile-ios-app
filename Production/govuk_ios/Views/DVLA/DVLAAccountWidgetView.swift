@@ -72,3 +72,78 @@ struct DVLAAccountWidgetView: View {
         .padding(.horizontal, 16)
     }
 }
+
+#if DEBUG
+@available(iOS 17.0, *)
+#Preview("DVLA - linked account") {
+    @Previewable @StateObject var viewModel: DVLAAccountWidgetViewModel = {
+        let userService = MockUserService()
+        userService._stubbedLinkedAccounts = [.dvla]
+
+        let dvlaService = MockDVLAService()
+        dvlaService._stubbedCustomerVehiclesResult = .success(
+            .arrange(
+                customerVehicles: [
+                    .arrange(
+                        vehicleId: 1,
+                        registrationNumber: "AB71 CDE",
+                        make: "MITSUBISHI",
+                        model: "MIRAGE",
+                        taxedUntil: .arrange("12/12/2030"),
+                        motStatus: "Valid",
+                        motExpiryDate: .arrange("12/12/2030")
+                    ),
+                    .arrange(
+                        vehicleId: 2,
+                        registrationNumber: "XY19 ZAB",
+                        make: "LAND ROVER",
+                        model: "RANGE ROVER SPORT",
+                        taxStatus: .sorn,
+                        motStatus: "Not valid",
+                        motExpiryDate: .arrange("12/12/2030"),
+                        sornStart: .arrange("01/01/2025")
+                    )
+                ]
+            )
+        )
+
+        dvlaService._stubbedFetchDrivingLicenceResult = .success(
+            .arrange(
+                tokenValidToDate: .arrange("12/12/2030"),
+                licenceStatus: .valid
+            )
+        )
+
+        return DVLAAccountWidgetViewModel(
+            analyticsService: MockAnalyticsService(),
+            userService: userService,
+            dvlaService: dvlaService,
+            configService: MockAppConfigService(),
+            notificationCenter: NotificationCenter(),
+            actions: .init(
+                linkAction: {
+                    /* no-op */
+                },
+                vehicleDetailAction: { _ in
+                    /* no-op */
+                },
+                openURLAction: { _ in
+                    /* no-op */
+                },
+                vehicleCheckAction: {
+                    /* no-op */
+                }
+            )
+        )
+    }()
+
+    NavigationStack {
+        ScrollView {
+            DVLAAccountWidgetView(viewModel: viewModel)
+                .padding(.vertical)
+        }
+        .background(Color(uiColor: .govUK.fills.surfaceBackground))
+        .navigationTitle("Driving")
+    }
+}
+#endif // DEBUG

@@ -1,0 +1,81 @@
+#if DEBUG
+import Foundation
+import UIKit
+
+class MockNotificationService: NotificationServiceInterface {
+    var _stubbededPermissionState: NotificationPermissionState = .notDetermined
+    var permissionState: NotificationPermissionState {
+        get async {
+            _stubbededPermissionState
+        }
+    }
+
+    var _setRedirectedToNotificationsOnboardinCalled: Bool?
+    func setRedirectedToNotificationsOnboarding(redirected: Bool) {
+        _setRedirectedToNotificationsOnboardinCalled = redirected
+    }
+
+    func appDidFinishLaunching(launchOptions: [UIApplication.LaunchOptionsKey : Any]?) {
+
+    }
+
+    var _receivedRequestPermissionsCompletion: ((Bool) -> Void)?
+    func requestPermissions(completion: ((Bool) -> Void)?) {
+        _receivedRequestPermissionsCompletion = completion
+    }
+
+    var _stubbedShouldRequestPermission: Bool = true
+    var shouldRequestPermission: Bool {
+        _stubbedShouldRequestPermission
+    }
+
+    var _stubbedIsFeatureEnabled: Bool = true
+    var isFeatureEnabled: Bool {
+        _stubbedIsFeatureEnabled
+    }
+
+    var _onClickAction: ((URL) -> Void)?
+    func addClickListener(onClickAction: @escaping (URL) -> Void) {
+        _onClickAction = onClickAction
+    }
+
+    var _receivedOnConsentChangedAction: ((Bool) -> Void)?
+    func addConsentChangedListener(action: @escaping (Bool) -> Void) {
+        _receivedOnConsentChangedAction = action
+    }
+
+    var _acceptConsentCalled: Bool = false
+    func acceptConsent() {
+        _acceptConsentCalled = true
+    }
+
+    var _rejectConsentCalled: Bool = false
+    func rejectConsent() {
+        _rejectConsentCalled = true
+    }
+
+    var _toggleHasGivenConsentCalled: Bool = false
+    func toggleHasGivenConsent() {
+        _toggleHasGivenConsentCalled = true
+    }
+
+    var _stubbedhasGivenConsent: Bool = false
+    var hasGivenConsent: Bool {
+        _stubbedhasGivenConsent
+    }
+
+    var _stubbedFetchConsentAlignmentResult: NotificationConsentResult = .aligned
+    func fetchConsentAlignment() async -> NotificationConsentResult {
+        _stubbedFetchConsentAlignmentResult
+    }
+
+    var _stubbedPushId: String? = nil
+    func register(pushId: String) {
+        _stubbedPushId = pushId
+    }
+
+    func unregisterPushId() {
+        _stubbedPushId = nil
+    }
+}
+#endif // DEBUG

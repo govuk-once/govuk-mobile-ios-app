@@ -34,7 +34,9 @@ struct AppForcedUpdateContainerView: View {
     }
 }
 
+#if DEBUG
 #Preview {
     let viewModel = AppForcedUpdateContainerViewModel()
     return AppForcedUpdateContainerView(viewModel: viewModel)
 }
+#endif // DEBUG
