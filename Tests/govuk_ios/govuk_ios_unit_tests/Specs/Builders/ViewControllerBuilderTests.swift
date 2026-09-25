@@ -494,7 +494,9 @@ struct ViewControllerBuilderTests {
             notificationService: MockNotificationService(),
             dismissAction: { _ in 
                 /* No-op */
-            })
+            },
+            viewPrivacyPolicyAction: { /* No-op */}
+        )
 
         let rootView = (result as? HostingViewController<CountryListView>)?.rootView
         #expect(rootView != nil)
@@ -506,7 +508,8 @@ struct ViewControllerBuilderTests {
         let result = subject.editCountries(
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
-            notificationService: MockNotificationService()
+            notificationService: MockNotificationService(),
+            viewPrivacyPolicyAction: { /* No-op */ }
         )
 
         let rootView = (result as? HostingViewController<EditCountriesView>)?.rootView

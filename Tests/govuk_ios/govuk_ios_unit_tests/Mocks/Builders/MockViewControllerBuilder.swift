@@ -493,12 +493,4 @@ class MockViewControllerBuilder: ViewControllerBuilder {
 
     var _stubbedEditCountriesViewController: UIViewController?
     var _receivedEditCountriesEditAction: (() -> Void)?
-
-    override func editCountries(
-        travelService: TravelServiceInterface,
-        analyticsService: AnalyticsServiceInterface,
-        notificationService: NotificationServiceInterface
-    ) -> UIViewController {
-        return _stubbedEditCountriesViewController ?? UIViewController()
-    }
 }

@@ -169,7 +169,8 @@ final class TravelAlertsWidgetViewSnapshotTests: SnapshotTestCase {
             linkAction: { /*EmptyForTests*/ },
             dismissAction: { /*EmptyForTests*/ },
             editAction: { /*EmptyForTests*/ },
-            openURLAction: { _ in /*EmptyForTests*/ }
+            openURLAction: { _ in /*EmptyForTests*/ },
+            viewPrivacyAction: { /*EmptyForTests*/ }
         )
     }
 

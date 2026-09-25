@@ -20,7 +20,8 @@ struct TravelAlertsPermissionViewModelTests {
             primaryButtonTitle: "Enable",
             secondaryButtonTitle: "Not Now",
             completeAction: { completeActionCalled = true },
-            dismissAction: { dismissActionCalled = true }
+            dismissAction: { dismissActionCalled = true },
+            viewPrivacyAction: { /*Empty For Tests*/ }
         )
 
         #expect(viewModel.showImage == true)
@@ -40,7 +41,8 @@ struct TravelAlertsPermissionViewModelTests {
             primaryButtonTitle: "Enable",
             secondaryButtonTitle: "Not Now",
             completeAction: { /*EmptyForTests*/ },
-            dismissAction: { /*EmptyForTests*/ }
+            dismissAction: { /*EmptyForTests*/ },
+            viewPrivacyAction: { /*Empty For Tests*/ }
         )
 
         #expect(viewModel.primaryButtonViewModel.localisedTitle == "Enable")
@@ -56,7 +58,8 @@ struct TravelAlertsPermissionViewModelTests {
             primaryButtonTitle: "Enable",
             secondaryButtonTitle: "Not Now",
             completeAction: { /*EmptyForTests*/ },
-            dismissAction: { /*EmptyForTests*/ }
+            dismissAction: { /*EmptyForTests*/ },
+            viewPrivacyAction: { /*Empty For Tests*/ }
         )
 
         #expect(viewModel.secondaryButtonViewModel.localisedTitle == "Not Now")
@@ -74,7 +77,8 @@ struct TravelAlertsPermissionViewModelTests {
             primaryButtonTitle: "Enable",
             secondaryButtonTitle: "Not Now",
             completeAction: { completeActionCalled = true },
-            dismissAction: { /*EmptyForTests*/ }
+            dismissAction: { /*EmptyForTests*/ },
+            viewPrivacyAction: { /*Empty For Tests*/ }
         )
 
         viewModel.primaryButtonViewModel.action()
@@ -96,7 +100,8 @@ struct TravelAlertsPermissionViewModelTests {
             primaryButtonTitle: "Enable",
             secondaryButtonTitle: "Not Now",
             completeAction: { /*EmptyForTests*/ },
-            dismissAction: { dismissActionCalled = true }
+            dismissAction: { dismissActionCalled = true },
+            viewPrivacyAction: { /*Empty For Tests*/ }
         )
 
         viewModel.secondaryButtonViewModel.action()
@@ -116,7 +121,8 @@ struct TravelAlertsPermissionViewModelTests {
             primaryButtonTitle: "Enable",
             secondaryButtonTitle: "Not Now",
             completeAction: { /*EmptyForTests*/ },
-            dismissAction: { /*EmptyForTests*/ }
+            dismissAction: { /*EmptyForTests*/ },
+            viewPrivacyAction: { /*Empty For Tests*/ }
         )
 
         #expect(viewModel.showImage == false)
@@ -134,7 +140,8 @@ struct TravelAlertsPermissionViewModelTests {
             primaryButtonTitle: "Enable",
             secondaryButtonTitle: "Not Now",
             completeAction: { completeActionCalled = true },
-            dismissAction: { /*EmptyForTests*/ }
+            dismissAction: { /*EmptyForTests*/ },
+            viewPrivacyAction: { /*Empty For Tests*/ }
         )
 
         viewModel.completeAction()
@@ -154,7 +161,8 @@ struct TravelAlertsPermissionViewModelTests {
             primaryButtonTitle: "Enable",
             secondaryButtonTitle: "Not Now",
             completeAction: { /*EmptyForTests*/ },
-            dismissAction: { dismissActionCalled = true }
+            dismissAction: { dismissActionCalled = true },
+            viewPrivacyAction: { /*Empty For Tests*/ }
         )
 
         viewModel.dismissAction()
@@ -193,7 +201,8 @@ struct TravelAlertsPermissionViewModelTests {
             primaryButtonTitle: "Enable",
             secondaryButtonTitle: "Not Now",
             completeAction: { /*EmptyForTests*/ },
-            dismissAction: { /*EmptyForTests*/ }
+            dismissAction: { /*EmptyForTests*/ },
+            viewPrivacyAction: { /*Empty For Tests*/ }
         )
 
         viewModel.openPrivacyPolicy()
@@ -212,7 +221,8 @@ struct TravelAlertsPermissionViewModelTests {
             secondaryButtonTitle: "Not Now",
             privacyPolicyLinkTitle: customTitle,
             completeAction: { /*EmptyForTests*/ },
-            dismissAction: { /*EmptyForTests*/ }
+            dismissAction: { /*EmptyForTests*/ },
+            viewPrivacyAction: { /*Empty For Tests*/ }
         )
 
         #expect(viewModel.privacyPolicyLinkTitle == customTitle)

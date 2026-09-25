@@ -18,7 +18,8 @@ struct TravelAlertsWidgetViewModelTests {
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ }
+            openURLAction: { _ in /*Empty For Tests*/ },
+            viewPrivacyAction: { /*Empty For Tests*/ }
         )
 
         if case .loading = sut.viewState {
@@ -38,7 +39,8 @@ struct TravelAlertsWidgetViewModelTests {
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ }
+            openURLAction: { _ in /*Empty For Tests*/ },
+            viewPrivacyAction: { /*Empty For Tests*/ }
         )
 
         #expect(sut.isShowingError == false)
@@ -61,7 +63,8 @@ struct TravelAlertsWidgetViewModelTests {
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ }
+            openURLAction: { _ in /*Empty For Tests*/ },
+            viewPrivacyAction: { /*Empty For Tests*/ }
         )
 
         await sut.viewDidAppear()
@@ -90,7 +93,8 @@ struct TravelAlertsWidgetViewModelTests {
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ }
+            openURLAction: { _ in /*Empty For Tests*/ },
+            viewPrivacyAction: { /*Empty For Tests*/ }
         )
 
         await sut.viewDidAppear()
@@ -115,7 +119,8 @@ struct TravelAlertsWidgetViewModelTests {
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ }
+            openURLAction: { _ in /*Empty For Tests*/ },
+            viewPrivacyAction: { /*Empty For Tests*/ }
         )
 
         await sut.viewDidAppear()
@@ -137,7 +142,8 @@ struct TravelAlertsWidgetViewModelTests {
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ }
+            openURLAction: { _ in /*Empty For Tests*/ },
+            viewPrivacyAction: { /*Empty For Tests*/ }
         )
 
         sut.openCountryList()
@@ -162,7 +168,8 @@ struct TravelAlertsWidgetViewModelTests {
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { dismissCalled = true },
             editAction: { /*Empty For Tests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ }
+            openURLAction: { _ in /*Empty For Tests*/ },
+            viewPrivacyAction: { /*Empty For Tests*/ }
         )
 
         sut.openCountryList()
@@ -183,7 +190,8 @@ struct TravelAlertsWidgetViewModelTests {
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
-            openURLAction: { url in openedURL = url }
+            openURLAction: { url in openedURL = url },
+            viewPrivacyAction: { /*Empty For Tests*/ }
         )
 
         sut.openExternalURL(testURL)
@@ -203,7 +211,8 @@ struct TravelAlertsWidgetViewModelTests {
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ }
+            openURLAction: { _ in /*Empty For Tests*/ },
+            viewPrivacyAction: { /*Empty For Tests*/ }
         )
 
         await sut.viewDidAppear()
@@ -231,7 +240,8 @@ struct TravelAlertsWidgetViewModelTests {
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ }
+            openURLAction: { _ in /*Empty For Tests*/ },
+            viewPrivacyAction: { /*Empty For Tests*/ }
         )
 
         await sut.viewDidAppear()
@@ -264,7 +274,8 @@ struct TravelAlertsWidgetViewModelTests {
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ }
+            openURLAction: { _ in /*Empty For Tests*/ },
+            viewPrivacyAction: { /*Empty For Tests*/ }
         )
 
         await sut.viewDidAppear()
@@ -287,7 +298,8 @@ struct TravelAlertsWidgetViewModelTests {
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ }
+            openURLAction: { _ in /*Empty For Tests*/ },
+            viewPrivacyAction: { /*Empty For Tests*/ }
         )
 
         // Accessing the lazy property should initialize it
@@ -306,7 +318,8 @@ struct TravelAlertsWidgetViewModelTests {
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { dismissActionCalled = true },
             editAction: { /*Empty For Tests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ }
+            openURLAction: { _ in /*Empty For Tests*/ },
+            viewPrivacyAction: { /*Empty For Tests*/ }
         )
 
         sut.didDismissList()
@@ -323,7 +336,8 @@ struct TravelAlertsWidgetViewModelTests {
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ }
+            openURLAction: { _ in /*Empty For Tests*/ },
+            viewPrivacyAction: { /*Empty For Tests*/ }
         )
 
         #expect(sut.isShowingList == false)
@@ -340,7 +354,8 @@ struct TravelAlertsWidgetViewModelTests {
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ }
+            openURLAction: { _ in /*Empty For Tests*/ },
+            viewPrivacyAction: { /*Empty For Tests*/ }
         )
 
         let viewModel = sut.countryListViewModel
@@ -361,7 +376,8 @@ struct TravelAlertsWidgetViewModelTests {
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { editActionCalled = true },
-            openURLAction: { _ in /*Empty For Tests*/ }
+            openURLAction: { _ in /*Empty For Tests*/ },
+            viewPrivacyAction: { /*Empty For Tests*/ }
         )
 
         sut.openEditCountries()

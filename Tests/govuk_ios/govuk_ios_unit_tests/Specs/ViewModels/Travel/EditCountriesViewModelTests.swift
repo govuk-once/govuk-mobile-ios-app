@@ -14,7 +14,8 @@ struct EditCountriesViewModelTests {
         let sut = EditCountriesViewModel(
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
-            notificationService: MockNotificationService()
+            notificationService: MockNotificationService(),
+            openPrivacyPolicyAction: { /*Empty For Tests*/ }
         )
 
         if case .loading = sut.viewState {
@@ -40,7 +41,8 @@ struct EditCountriesViewModelTests {
         let sut = EditCountriesViewModel(
             travelService: mockTravelService,
             analyticsService: mockAnalyticsService,
-            notificationService: MockNotificationService()
+            notificationService: MockNotificationService(),
+            openPrivacyPolicyAction: { /*Empty For Tests*/ }
         )
 
         await sut.viewDidAppear()
@@ -62,7 +64,8 @@ struct EditCountriesViewModelTests {
         let sut = EditCountriesViewModel(
             travelService: mockTravelService,
             analyticsService: mockAnalyticsService,
-            notificationService: MockNotificationService()
+            notificationService: MockNotificationService(),
+            openPrivacyPolicyAction: { /*Empty For Tests*/ }
         )
 
         await sut.viewDidAppear()
@@ -86,7 +89,8 @@ struct EditCountriesViewModelTests {
         let sut = EditCountriesViewModel(
             travelService: mockTravelService,
             analyticsService: mockAnalyticsService,
-            notificationService: MockNotificationService()
+            notificationService: MockNotificationService(),
+            openPrivacyPolicyAction: { /*Empty For Tests*/ }
         )
 
         await sut.viewDidAppear()
@@ -111,7 +115,8 @@ struct EditCountriesViewModelTests {
         let sut = EditCountriesViewModel(
             travelService: mockTravelService,
             analyticsService: mockAnalyticsService,
-            notificationService: MockNotificationService()
+            notificationService: MockNotificationService(),
+            openPrivacyPolicyAction: { /*Empty For Tests*/ }
         )
 
         await sut.retryFetchCountryList()
@@ -132,7 +137,8 @@ struct EditCountriesViewModelTests {
         let sut = EditCountriesViewModel(
             travelService: mockTravelService,
             analyticsService: mockAnalyticsService,
-            notificationService: MockNotificationService()
+            notificationService: MockNotificationService(),
+            openPrivacyPolicyAction: { /*Empty For Tests*/ }
         )
 
         await sut.retryFetchCountryList()
@@ -161,7 +167,8 @@ struct EditCountriesViewModelTests {
         let sut = EditCountriesViewModel(
             travelService: mockTravelService,
             analyticsService: mockAnalyticsService,
-            notificationService: MockNotificationService()
+            notificationService: MockNotificationService(),
+            openPrivacyPolicyAction: { /*Empty For Tests*/ }
         )
 
         await sut.viewDidAppear()
@@ -184,7 +191,8 @@ struct EditCountriesViewModelTests {
         let sut = EditCountriesViewModel(
             travelService: mockTravelService,
             analyticsService: mockAnalyticsService,
-            notificationService: MockNotificationService()
+            notificationService: MockNotificationService(),
+            openPrivacyPolicyAction: { /*Empty For Tests*/ }
         )
 
         await sut.viewDidAppear()
@@ -212,7 +220,8 @@ struct EditCountriesViewModelTests {
         let sut = EditCountriesViewModel(
             travelService: mockTravelService,
             analyticsService: mockAnalyticsService,
-            notificationService: MockNotificationService()
+            notificationService: MockNotificationService(),
+            openPrivacyPolicyAction: { /*Empty For Tests*/ }
         )
 
         await sut.viewDidAppear()
@@ -240,7 +249,8 @@ struct EditCountriesViewModelTests {
         let sut = EditCountriesViewModel(
             travelService: mockTravelService,
             analyticsService: mockAnalyticsService,
-            notificationService: MockNotificationService()
+            notificationService: MockNotificationService(),
+            openPrivacyPolicyAction: { /*Empty For Tests*/ }
         )
 
         await sut.viewDidAppear()
@@ -266,7 +276,8 @@ struct EditCountriesViewModelTests {
         let sut = EditCountriesViewModel(
             travelService: mockTravelService,
             analyticsService: mockAnalyticsService,
-            notificationService: MockNotificationService()
+            notificationService: MockNotificationService(),
+            openPrivacyPolicyAction: { /*Empty For Tests*/ }
         )
 
         await sut.viewDidAppear()
@@ -283,7 +294,8 @@ struct EditCountriesViewModelTests {
         let sut = EditCountriesViewModel(
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
-            notificationService: MockNotificationService()
+            notificationService: MockNotificationService(),
+            openPrivacyPolicyAction: { /*Empty For Tests*/ }
         )
 
         #expect(sut.isShowingList == false)
@@ -296,7 +308,8 @@ struct EditCountriesViewModelTests {
         let sut = EditCountriesViewModel(
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
-            notificationService: MockNotificationService()
+            notificationService: MockNotificationService(),
+            openPrivacyPolicyAction: { /*Empty For Tests*/ }
         )
 
         sut.openCountryList()
@@ -311,7 +324,8 @@ struct EditCountriesViewModelTests {
         let sut = EditCountriesViewModel(
             travelService: MockTravelService(),
             analyticsService: mockAnalyticsService,
-            notificationService: MockNotificationService()
+            notificationService: MockNotificationService(),
+            openPrivacyPolicyAction: { /*Empty For Tests*/ }
         )
         let screen = EditCountriesView(viewModel: sut)
         sut.trackScreen(screen: screen)
@@ -328,7 +342,8 @@ struct EditCountriesViewModelTests {
         let sut = EditCountriesViewModel(
             travelService: mockTravelService,
             analyticsService: mockAnalyticsService,
-            notificationService: MockNotificationService()
+            notificationService: MockNotificationService(),
+            openPrivacyPolicyAction: { /*Empty For Tests*/ }
         )
 
         // Accessing the lazy property should initialize it
@@ -344,7 +359,8 @@ struct EditCountriesViewModelTests {
         let sut = EditCountriesViewModel(
             travelService: mockTravelService,
             analyticsService: mockAnalyticsService,
-            notificationService: MockNotificationService()
+            notificationService: MockNotificationService(),
+            openPrivacyPolicyAction: { /*Empty For Tests*/ }
         )
 
         sut.openCountryList()
@@ -363,7 +379,8 @@ struct EditCountriesViewModelTests {
         let sut = EditCountriesViewModel(
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
-            notificationService: MockNotificationService()
+            notificationService: MockNotificationService(),
+            openPrivacyPolicyAction: { /*Empty For Tests*/ }
         )
 
         await sut.toggleNotifications(slug: "france", enabled: true)
@@ -387,7 +404,8 @@ struct EditCountriesViewModelTests {
         let sut = EditCountriesViewModel(
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
-            notificationService: MockNotificationService()
+            notificationService: MockNotificationService(),
+            openPrivacyPolicyAction: { /*Empty For Tests*/ }
         )
 
         await sut.toggleNotifications(slug: "france", enabled: false)
@@ -409,7 +427,8 @@ struct EditCountriesViewModelTests {
         let sut = EditCountriesViewModel(
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
-            notificationService: MockNotificationService()
+            notificationService: MockNotificationService(),
+            openPrivacyPolicyAction: { /*Empty For Tests*/ }
         )
 
         // Toggle notifications to enabled
@@ -442,7 +461,8 @@ struct EditCountriesViewModelTests {
         let sut = EditCountriesViewModel(
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
-            notificationService: MockNotificationService()
+            notificationService: MockNotificationService(),
+            openPrivacyPolicyAction: { /*Empty For Tests*/ }
         )
 
         sut.isShowingCountryDetails = true
@@ -467,7 +487,8 @@ struct EditCountriesViewModelTests {
         let sut = EditCountriesViewModel(
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
-            notificationService: MockNotificationService()
+            notificationService: MockNotificationService(),
+            openPrivacyPolicyAction: { /*Empty For Tests*/ }
         )
 
         sut.isShowingCountryDetails = true
@@ -497,7 +518,8 @@ struct EditCountriesViewModelTests {
         let sut = EditCountriesViewModel(
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
-            notificationService: MockNotificationService()
+            notificationService: MockNotificationService(),
+            openPrivacyPolicyAction: { /*Empty For Tests*/ }
         )
 
         // First toggle to populate cache
@@ -518,7 +540,8 @@ struct EditCountriesViewModelTests {
         let sut = EditCountriesViewModel(
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
-            notificationService: MockNotificationService()
+            notificationService: MockNotificationService(),
+            openPrivacyPolicyAction: { /*Empty For Tests*/ }
         )
 
         sut.displayToggleError = true
@@ -533,7 +556,8 @@ struct EditCountriesViewModelTests {
         let sut = EditCountriesViewModel(
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
-            notificationService: MockNotificationService()
+            notificationService: MockNotificationService(),
+            openPrivacyPolicyAction: { /*Empty For Tests*/ }
         )
 
         sut.displayUnfollowError = true
@@ -560,7 +584,8 @@ struct EditCountriesViewModelTests {
         let sut = EditCountriesViewModel(
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
-            notificationService: MockNotificationService()
+            notificationService: MockNotificationService(),
+            openPrivacyPolicyAction: { /*Empty For Tests*/ }
         )
 
         // Toggle to cache enabled state
@@ -583,7 +608,8 @@ struct EditCountriesViewModelTests {
         let sut = EditCountriesViewModel(
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
-            notificationService: MockNotificationService()
+            notificationService: MockNotificationService(),
+            openPrivacyPolicyAction: { /*Empty For Tests*/ }
         )
 
         await sut.toggleNotifications(slug: "spain", enabled: false)
@@ -606,7 +632,8 @@ struct EditCountriesViewModelTests {
         let sut = EditCountriesViewModel(
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
-            notificationService: MockNotificationService()
+            notificationService: MockNotificationService(),
+            openPrivacyPolicyAction: { /*Empty For Tests*/ }
         )
 
         // First toggle to populate cache
@@ -637,7 +664,8 @@ struct EditCountriesViewModelTests {
         let sut = EditCountriesViewModel(
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
-            notificationService: MockNotificationService()
+            notificationService: MockNotificationService(),
+            openPrivacyPolicyAction: { /*Empty For Tests*/ }
         )
 
         await sut.unfollowCountry(slug: "france", enabled: true)
@@ -657,7 +685,8 @@ struct EditCountriesViewModelTests {
         let sut = EditCountriesViewModel(
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
-            notificationService: MockNotificationService()
+            notificationService: MockNotificationService(),
+            openPrivacyPolicyAction: { /*Empty For Tests*/ }
         )
 
         await sut.unfollowCountry(slug: "spain", enabled: false)
@@ -685,7 +714,8 @@ struct EditCountriesViewModelTests {
         let sut = EditCountriesViewModel(
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
-            notificationService: MockNotificationService()
+            notificationService: MockNotificationService(),
+            openPrivacyPolicyAction: { /*Empty For Tests*/ }
         )
 
         await sut.viewDidAppear()
@@ -705,7 +735,8 @@ struct EditCountriesViewModelTests {
         let sut = EditCountriesViewModel(
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
-            notificationService: MockNotificationService()
+            notificationService: MockNotificationService(),
+            openPrivacyPolicyAction: { /*Empty For Tests*/ }
         )
 
         sut.openCountryList()
@@ -729,7 +760,8 @@ struct EditCountriesViewModelTests {
         let sut = EditCountriesViewModel(
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
-            notificationService: MockNotificationService()
+            notificationService: MockNotificationService(),
+            openPrivacyPolicyAction: { /*Empty For Tests*/ }
         )
 
         sut.openCountryList()
@@ -748,7 +780,8 @@ struct EditCountriesViewModelTests {
         let sut = EditCountriesViewModel(
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
-            notificationService: MockNotificationService()
+            notificationService: MockNotificationService(),
+            openPrivacyPolicyAction: { /*Empty For Tests*/ }
         )
 
         let countryListVM = sut.countryListViewModel
@@ -764,7 +797,8 @@ struct EditCountriesViewModelTests {
         let sut = EditCountriesViewModel(
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
-            notificationService: MockNotificationService()
+            notificationService: MockNotificationService(),
+            openPrivacyPolicyAction: { /*Empty For Tests*/ }
         )
 
         sut.isShowingFollowError = true

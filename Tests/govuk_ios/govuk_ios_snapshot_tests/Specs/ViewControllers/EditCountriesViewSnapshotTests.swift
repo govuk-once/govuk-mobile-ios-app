@@ -131,7 +131,8 @@ final class EditCountriesViewSnapshotTests: SnapshotTestCase {
         return EditCountriesViewModel(
             travelService: mockTravelService,
             analyticsService: analyticsService,
-            notificationService: notificationService
+            notificationService: notificationService,
+            openPrivacyPolicyAction: { /*NO-OP*/ }
         )
     }
 
