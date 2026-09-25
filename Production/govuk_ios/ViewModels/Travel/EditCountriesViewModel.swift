@@ -227,7 +227,7 @@ class EditCountriesViewModel: ObservableObject {
         if let cachedState = notificationStateCache[country.slug] {
             selectedCountryNotificationEnabled = cachedState
         } else {
-            selectedCountryNotificationEnabled = subgroup.lowercased() == "daily"
+            selectedCountryNotificationEnabled = subgroup.lowercased() == "instant"
         }
         isShowingCountryDetails = true
     }

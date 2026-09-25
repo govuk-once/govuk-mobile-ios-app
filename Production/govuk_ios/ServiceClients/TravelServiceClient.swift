@@ -58,8 +58,10 @@ class TravelServiceClient: TravelServiceClientInterface {
         completion: @escaping SubscriptionResultCompletion
     ) {
         let (leaveSubgroup, joinSubgroup) = notificationsEnabled
-        ? (SubscriptionRequest.SubscriptionGroup.NONE, SubscriptionRequest.SubscriptionGroup.DAILY)
-        : (SubscriptionRequest.SubscriptionGroup.DAILY, SubscriptionRequest.SubscriptionGroup.NONE)
+        ? (SubscriptionRequest.SubscriptionGroup.NONE,
+           SubscriptionRequest.SubscriptionGroup.INSTANT)
+        : (SubscriptionRequest.SubscriptionGroup.INSTANT,
+           SubscriptionRequest.SubscriptionGroup.NONE)
 
         let body = [
             SubscriptionRequest(
@@ -100,8 +102,10 @@ class TravelServiceClient: TravelServiceClientInterface {
         completion: @escaping SubscriptionResultCompletion
     ) {
         let (leaveSubgroup, joinSubgroup) = enabled
-        ? (SubscriptionRequest.SubscriptionGroup.NONE, SubscriptionRequest.SubscriptionGroup.DAILY)
-        : (SubscriptionRequest.SubscriptionGroup.DAILY, SubscriptionRequest.SubscriptionGroup.NONE)
+        ? (SubscriptionRequest.SubscriptionGroup.NONE,
+           SubscriptionRequest.SubscriptionGroup.INSTANT)
+        : (SubscriptionRequest.SubscriptionGroup.INSTANT,
+           SubscriptionRequest.SubscriptionGroup.NONE)
 
         let body = [
             SubscriptionRequest(
@@ -142,7 +146,7 @@ class TravelServiceClient: TravelServiceClientInterface {
         completion: @escaping SubscriptionResultCompletion
     ) {
         let subgroupToLeave = currentNotificationsEnabled
-        ? SubscriptionRequest.SubscriptionGroup.DAILY
+        ? SubscriptionRequest.SubscriptionGroup.INSTANT
         : SubscriptionRequest.SubscriptionGroup.NONE
 
         let request = GOVRequest.subscribeToGroups(
