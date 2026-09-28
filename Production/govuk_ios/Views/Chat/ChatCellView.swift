@@ -93,13 +93,13 @@ struct ChatCellView: View {
             Text(viewModel.message)
                 .font(Font.govUK.body)
                 .foregroundStyle(Color(UIColor.govUK.text.primary))
+                .accessibilityLabel(.Chat.introMessageAccessibility)
             Text(.Chat.introMessageRetention)
                 .font(Font.govUK.footnote)
                 .foregroundStyle(Color(UIColor.govUK.text.secondary))
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
-        .accessibilityLabel(.Chat.introMessageAccessibility)
     }
 
     private var answerView: some View {
