@@ -47,8 +47,8 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
             travelService: travelService,
             analyticsService: analyticsService,
             notificationService: notificationService,
-            dismissAction: {_ in
-                self.didDismissList()
+            dismissAction: { [weak self] forceRefresh in
+                self?.didDismissList(forceRefresh: forceRefresh)
             },
             errorCallback: { [weak self] in
                 self?.isShowingError = true
@@ -62,15 +62,15 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
     }
 
     @MainActor
-    private func fetchCountryList() async {
+    private func fetchCountryList(forceRefresh: Bool = false) async {
         viewState = .loading
 
-        travelService.getGroups(forceRefresh: false) { [weak self] result in
+        travelService.getGroups(forceRefresh: forceRefresh) { [weak self] result in
             Task { @MainActor in
                 switch result {
                 case .success(let groups):
                     self?.travelService.getCountries(
-                        forceRefresh: false
+                        forceRefresh: forceRefresh
                     ) { [weak self] countriesResult in
                         Task { @MainActor in
                             let countries = (try? countriesResult.get()) ?? []
@@ -140,8 +140,12 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
         openURLAction(url)
     }
 
-    func didDismissList() {
+    func didDismissList(forceRefresh: Bool = false) {
         isShowingList = false
         dismissAction()
+        guard forceRefresh else { return }
+        Task { @MainActor [weak self] in
+            await self?.fetchCountryList(forceRefresh: true)
+        }
     }
 }
