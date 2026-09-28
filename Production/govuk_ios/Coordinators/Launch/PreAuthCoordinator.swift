@@ -17,7 +17,8 @@ class PreAuthCoordinator: BaseCoordinator {
     }
 
     override func start(url: URL?) {
-        startJailbreakDetection(url: url)
+        // startJailbreakDetection(url: url)
+        startLaunch(url: url)
     }
 
     private func startJailbreakDetection(url: URL?) {

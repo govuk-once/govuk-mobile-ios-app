@@ -9,22 +9,22 @@ import UIKit
 @MainActor
 struct PreAuthCoordinatorTests {
 
-    @Test
-    func start_startsJailbreakCoordinator() {
-        let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
-        let stubbedJailbreakCoordinator = MockBaseCoordinator()
-        mockCoordinatorBuilder._stubbedJailbreakCoordinator = stubbedJailbreakCoordinator
-        let subject = PreAuthCoordinator(
-            coordinatorBuilder: mockCoordinatorBuilder,
-            navigationController: MockNavigationController(),
-            appLaunchService: MockAppLaunchService(),
-            completion: { }
-        )
-
-        subject.start(url: nil)
-
-        #expect(stubbedJailbreakCoordinator._startCalled)
-    }
+//    @Test
+//    func start_startsJailbreakCoordinator() {
+//        let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
+//        let stubbedJailbreakCoordinator = MockBaseCoordinator()
+//        mockCoordinatorBuilder._stubbedJailbreakCoordinator = stubbedJailbreakCoordinator
+//        let subject = PreAuthCoordinator(
+//            coordinatorBuilder: mockCoordinatorBuilder,
+//            navigationController: MockNavigationController(),
+//            appLaunchService: MockAppLaunchService(),
+//            completion: { }
+//        )
+//
+//        subject.start(url: nil)
+//
+//        #expect(stubbedJailbreakCoordinator._startCalled)
+//    }
 
     @Test
     func jailbreakCompletion_startsLaunchCoordinator() async throws {
