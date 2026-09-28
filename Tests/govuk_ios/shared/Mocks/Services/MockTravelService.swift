@@ -53,13 +53,19 @@ class MockTravelService: TravelServiceInterface {
 
     var _subscribeToGroupsCalled = false
     var _receivedSubscribeSlug: String?
+    var _recievedSubscribeBool: Bool?
     var _receivedSubscribeCompletion: SubscriptionResultCompletion?
     var _stubbedSubscribeResult: SubscriptionResult?
     var _autoCallSubscribeCompletion = true
 
-    func subscribeToCountry(slug: String, completion: @escaping SubscriptionResultCompletion) {
+    func subscribeToCountry(
+        slug: String,
+        notificationsEnabled: Bool,
+        completion: @escaping SubscriptionResultCompletion
+    ) {
         _subscribeToGroupsCalled = true
         _receivedSubscribeSlug = slug
+        _recievedSubscribeBool = notificationsEnabled
         _receivedSubscribeCompletion = completion
 
         if _autoCallSubscribeCompletion {

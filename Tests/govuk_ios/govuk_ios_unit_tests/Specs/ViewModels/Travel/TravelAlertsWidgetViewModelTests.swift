@@ -30,6 +30,21 @@ struct TravelAlertsWidgetViewModelTests {
     }
 
     @Test
+    func initialState_errorShowingFalse() {
+        let sut = TravelAlertsWidgetViewModel(
+            travelService: MockTravelService(),
+            analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService(),
+            linkAction: { /*Empty For Tests*/ },
+            dismissAction: { /*Empty For Tests*/ },
+            editAction: { /*Empty For Tests*/ },
+            openURLAction: { _ in /*Empty For Tests*/ }
+        )
+
+        #expect(sut.isShowingError == false)
+    }
+
+    @Test
     func viewDidAppear_whenFetchSucceeds_setsLoadedState() async throws {
         let mockTravelService = MockTravelService()
         mockTravelService._stubbedGetGroupsResult = .success([
@@ -42,6 +57,35 @@ struct TravelAlertsWidgetViewModelTests {
         let sut = TravelAlertsWidgetViewModel(
             travelService: mockTravelService,
             analyticsService: mockAnalyticsService,
+            notificationService: MockNotificationService(),
+            linkAction: { /*Empty For Tests*/ },
+            dismissAction: { /*Empty For Tests*/ },
+            editAction: { /*Empty For Tests*/ },
+            openURLAction: { _ in /*Empty For Tests*/ }
+        )
+
+        await sut.viewDidAppear()
+        try await waitForViewState(of: sut) { state in
+            if case .loaded = state { return true }
+            return false
+        }
+
+        #expect(mockTravelService._getGroupsCalled)
+        #expect(mockTravelService._getCountriesCalled)
+    }
+
+    @Test
+    func viewDidAppear_loadsData() async throws {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedGetGroupsResult = .success([
+            TravelGroup(namespace: "travel-advice", group: "france", subgroup: "travel-subgroup")
+        ])
+        mockTravelService._stubbedGetCountriesResult = .success([
+            Country(name: "France", slug: "france", rawLastUpdate: "2024-08-05", synonyms: [])
+        ])
+        let sut = TravelAlertsWidgetViewModel(
+            travelService: mockTravelService,
+            analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
@@ -285,6 +329,44 @@ struct TravelAlertsWidgetViewModelTests {
         #expect(sut.isShowingList == false)
         sut.openCountryList()
         #expect(sut.isShowingList == true)
+    }
+
+    @Test
+    func countryListViewModel_hasErrorCallback() {
+        let sut = TravelAlertsWidgetViewModel(
+            travelService: MockTravelService(),
+            analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService(),
+            linkAction: { /*Empty For Tests*/ },
+            dismissAction: { /*Empty For Tests*/ },
+            editAction: { /*Empty For Tests*/ },
+            openURLAction: { _ in /*Empty For Tests*/ }
+        )
+
+        let viewModel = sut.countryListViewModel
+        #expect(viewModel is CountryListViewModel)
+
+        // Calling errorCallback should set isShowingError
+        viewModel.errorCallback()
+        #expect(sut.isShowingError == true)
+    }
+
+    @Test
+    func openEditCountries_callsEditAction() {
+        var editActionCalled = false
+        let sut = TravelAlertsWidgetViewModel(
+            travelService: MockTravelService(),
+            analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService(),
+            linkAction: { /*Empty For Tests*/ },
+            dismissAction: { /*Empty For Tests*/ },
+            editAction: { editActionCalled = true },
+            openURLAction: { _ in /*Empty For Tests*/ }
+        )
+
+        sut.openEditCountries()
+
+        #expect(editActionCalled == true)
     }
 
     private func waitForViewState(

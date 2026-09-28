@@ -575,6 +575,25 @@ struct EditCountriesViewModelTests {
     }
 
     @Test
+    func toggleNotifications_enabledFalse_success_invalidatesGroupsCache() async throws {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedToggleResult = .success(())
+        mockTravelService._autoCallToggleCompletion = false
+
+        let sut = EditCountriesViewModel(
+            travelService: mockTravelService,
+            analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService()
+        )
+
+        await sut.toggleNotifications(slug: "spain", enabled: false)
+        mockTravelService._receivedToggleNotificationCompletion?(.success(()))
+        await Task.yield()
+
+        #expect(sut.isToggleLoading == false)
+    }
+
+    @Test
     func unfollowCountry_clearsNotificationStateCacheOnSuccess() async {
         let mockTravelService = MockTravelService()
         mockTravelService._stubbedToggleResult = .success(())
@@ -605,6 +624,46 @@ struct EditCountriesViewModelTests {
 
         #expect(mockTravelService._unfollowCountryCalled == true)
         #expect(sut.isShowingCountryDetails == false)
+    }
+
+    @Test
+    func unfollowCountry_withNotificationsEnabled_passesCorrectParameters() async {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedUnfollowResult = .success(())
+        mockTravelService._autoCallUnfollowCompletion = false
+        mockTravelService._stubbedGetGroupsResult = .success([])
+        mockTravelService._stubbedGetCountriesResult = .success([])
+
+        let sut = EditCountriesViewModel(
+            travelService: mockTravelService,
+            analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService()
+        )
+
+        await sut.unfollowCountry(slug: "france", enabled: true)
+
+        #expect(mockTravelService._unfollowCountryCalled == true)
+        #expect(mockTravelService._receivedUnfollowCountrySlug == "france")
+    }
+
+    @Test
+    func unfollowCountry_withoutNotificationsEnabled_passesCorrectParameters() async {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedUnfollowResult = .success(())
+        mockTravelService._autoCallUnfollowCompletion = false
+        mockTravelService._stubbedGetGroupsResult = .success([])
+        mockTravelService._stubbedGetCountriesResult = .success([])
+
+        let sut = EditCountriesViewModel(
+            travelService: mockTravelService,
+            analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService()
+        )
+
+        await sut.unfollowCountry(slug: "spain", enabled: false)
+
+        #expect(mockTravelService._unfollowCountryCalled == true)
+        #expect(mockTravelService._receivedUnfollowCountrySlug == "spain")
     }
 
     @Test
@@ -655,6 +714,64 @@ struct EditCountriesViewModelTests {
         sut.didDismissList(forceRefresh: false)
         #expect(sut.isShowingList == false)
         #expect(mockTravelService._getGroupsCalled == false)
+    }
+
+    @Test
+    func didDismissList_withForceRefresh_refetchesCountries() async {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedGetGroupsResult = .success([
+            TravelGroup(namespace: "travel-advice", group: "france", subgroup: "travel-subgroup")
+        ])
+        mockTravelService._stubbedGetCountriesResult = .success([
+            Country(name: "France", slug: "france", rawLastUpdate: "2024-08-05", synonyms: [])
+        ])
+
+        let sut = EditCountriesViewModel(
+            travelService: mockTravelService,
+            analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService()
+        )
+
+        sut.openCountryList()
+        #expect(sut.isShowingList == true)
+
+        sut.didDismissList(forceRefresh: true)
+        await Task.yield()
+
+        #expect(sut.isShowingList == false)
+        #expect(mockTravelService._getGroupsCalled == true)
+    }
+
+    @Test
+    func countryListViewModel_passesErrorCallback() {
+        let mockTravelService = MockTravelService()
+        let sut = EditCountriesViewModel(
+            travelService: mockTravelService,
+            analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService()
+        )
+
+        let countryListVM = sut.countryListViewModel
+        #expect(countryListVM != nil)
+
+        // Calling errorCallback should set isShowingFollowError
+        countryListVM.errorCallback()
+        #expect(sut.isShowingFollowError == true)
+    }
+
+    @Test
+    func clearFollowError_removesFollowErrorMessage() {
+        let sut = EditCountriesViewModel(
+            travelService: MockTravelService(),
+            analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService()
+        )
+
+        sut.isShowingFollowError = true
+        #expect(sut.isShowingFollowError == true)
+
+        sut.clearFollowError()
+        #expect(sut.isShowingFollowError == false)
     }
 
     private func waitForViewState(

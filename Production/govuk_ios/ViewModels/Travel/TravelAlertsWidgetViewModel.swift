@@ -14,6 +14,7 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
     // Drives .sheet(isPresented:) in the widget view
     @Published var isShowingList = false
     @Published private(set) var viewState: ViewState = .loading
+    @Published var isShowingError = false
 
     private let travelService: TravelServiceInterface
     private let analyticsService: AnalyticsServiceInterface
@@ -48,6 +49,9 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
             notificationService: notificationService,
             dismissAction: {_ in
                 self.didDismissList()
+            },
+            errorCallback: { [weak self] in
+                self?.isShowingError = true
             }
         )
     }()

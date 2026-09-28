@@ -25,6 +25,7 @@ class EditCountriesViewModel: ObservableObject {
     @Published var isUnfollowing = false
     @Published var displayToggleError: Bool = false
     @Published var displayUnfollowError: Bool = false
+    @Published var isShowingFollowError = false
 
     private let travelService: TravelServiceInterface
     private let notificationService: NotificationServiceInterface
@@ -63,6 +64,9 @@ class EditCountriesViewModel: ObservableObject {
                 Task {
                     self?.didDismissList(forceRefresh: forceRefresh)
                 }
+            },
+            errorCallback: { [weak self] in
+                self?.isShowingFollowError = true
             }
         )
     }()
@@ -214,12 +218,16 @@ class EditCountriesViewModel: ObservableObject {
         displayUnfollowError = false
     }
 
+    func clearFollowError() {
+        isShowingFollowError = false
+    }
+
     private func showCountryDetails(country: Country, subgroup: String) {
         selectedCountry = SelectedCountry(country: country, subgroup: subgroup)
         if let cachedState = notificationStateCache[country.slug] {
             selectedCountryNotificationEnabled = cachedState
         } else {
-            selectedCountryNotificationEnabled = subgroup.lowercased() == "daily"
+            selectedCountryNotificationEnabled = subgroup.lowercased() == "instant"
         }
         isShowingCountryDetails = true
     }

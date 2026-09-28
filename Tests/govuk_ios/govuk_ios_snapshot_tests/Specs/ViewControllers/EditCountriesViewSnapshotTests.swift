@@ -33,9 +33,9 @@ final class EditCountriesViewSnapshotTests: SnapshotTestCase {
     func test_loadInNavigationController_loaded_light_rendersCorrectly() async {
         let viewModel = makeViewModel(travelService: SnapshotTravelService(
             travelGroupResult: .success([
-                TravelGroup(namespace: "travel", group: "france", subgroup: "daily"),
-                TravelGroup(namespace: "travel", group: "germany", subgroup: "daily"),
-                TravelGroup(namespace: "travel", group: "spain", subgroup: "daily")
+                TravelGroup(namespace: "travel", group: "france", subgroup: "instant"),
+                TravelGroup(namespace: "travel", group: "germany", subgroup: "instant"),
+                TravelGroup(namespace: "travel", group: "spain", subgroup: "instant")
             ]),
             countryListResult: .success([
                 Country(name: "France", slug: "france", rawLastUpdate: "2024-01-01T00:00:00.000Z", synonyms: []),
@@ -61,9 +61,9 @@ final class EditCountriesViewSnapshotTests: SnapshotTestCase {
     func test_loadInNavigationController_loaded_dark_rendersCorrectly() async {
         let viewModel = makeViewModel(travelService: SnapshotTravelService(
             travelGroupResult: .success([
-                TravelGroup(namespace: "travel", group: "france", subgroup: "daily"),
-                TravelGroup(namespace: "travel", group: "germany", subgroup: "daily"),
-                TravelGroup(namespace: "travel", group: "spain", subgroup: "daily")
+                TravelGroup(namespace: "travel", group: "france", subgroup: "instant"),
+                TravelGroup(namespace: "travel", group: "germany", subgroup: "instant"),
+                TravelGroup(namespace: "travel", group: "spain", subgroup: "instant")
             ]),
             countryListResult: .success([
                 Country(name: "France", slug: "france", rawLastUpdate: "2024-01-01T00:00:00.000Z", synonyms: []),
