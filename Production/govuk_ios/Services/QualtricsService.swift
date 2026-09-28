@@ -15,9 +15,8 @@ protocol QualtricsServiceInterface {
 }
 
 actor QualtricsService: QualtricsServiceInterface {
-    private let brandId: String
-    private let projectId: String
     private let qualtrics: QualtricsWrapperInterface
+    private let environmentService: AppEnvironmentServiceInterface
     // presentationController is for testing only
     private let presentationController: UIViewController?
     private let firebaseIDsService: FirebaseIDsServiceInterface
@@ -40,8 +39,7 @@ actor QualtricsService: QualtricsServiceInterface {
     }
 
     init(
-        brandId: String,
-        projectId: String,
+        environmentService: AppEnvironmentServiceInterface,
         qualtrics: QualtricsWrapperInterface,
         firebaseIDsService: FirebaseIDsServiceInterface,
         firebaseClient: AnalyticsClient,
@@ -49,15 +47,14 @@ actor QualtricsService: QualtricsServiceInterface {
         completion: QualtricsInitializationResult? = nil,
         presentationController: UIViewController? = nil
     ) {
-        self.brandId = brandId
-        self.projectId = projectId
+        self.environmentService = environmentService
         self.qualtrics = qualtrics
         self.firebaseIDsService = firebaseIDsService
         self.firebaseClient = firebaseClient
         self.presentationController = presentationController
         qualtrics.initializeProject(
-            brandId: brandId,
-            projectId: projectId,
+            brandId: environmentService.qualtricsBrandId,
+            projectId: environmentService.qualtricsProjectId,
             extRefId: nil,
             completion: completion
         )

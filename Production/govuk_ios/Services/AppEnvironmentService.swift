@@ -11,6 +11,8 @@ protocol AppEnvironmentServiceInterface {
     var tokenBaseURL: URL { get }
     var flexBaseURL: URL { get }
     var dvlaAuthenticationURL: URL { get }
+    var qualtricsBrandId: String { get }
+    var qualtricsProjectId: String { get }
 }
 
 enum AppEnvironmentKey: String {
@@ -22,6 +24,8 @@ enum AppEnvironmentKey: String {
     case chatBaseURL = "CHAT_BASE_URL"
     case flexBaseURL = "FLEX_BASE_URL"
     case dvlaAuthenticationURL = "DVLA_AUTHENTICATION_URL"
+    case qualtricsProjectId = "QUALTRICS_PROJECT_ID"
+    case qualtricsBrandId = "QUALTRICS_BRAND_ID"
 }
 
 struct AppEnvironmentService: AppEnvironmentServiceInterface {
@@ -82,5 +86,13 @@ struct AppEnvironmentService: AppEnvironmentServiceInterface {
     var dvlaAuthenticationURL: URL {
         let urlString = string(for: .dvlaAuthenticationURL)
         return URL(string: urlString)!
+    }
+
+    var qualtricsBrandId: String {
+        string(for: .qualtricsBrandId)
+    }
+
+    var qualtricsProjectId: String {
+        string(for: .qualtricsProjectId)
     }
 }

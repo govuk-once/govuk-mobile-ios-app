@@ -67,6 +67,10 @@
 	</array>
 	<key>UIDesignRequiresCompatibility</key>
 	<false/>
+	<key>QUALTRICS_BRAND_ID</key>
+	<string>$(QUALTRICS_BRAND_ID)</string>
+	<key>QUALTRICS_PROJECT_ID</key>
+	<string>$(QUALTRICS_PROJECT_ID)</string>
 	<key>UILaunchScreen</key>
 	<dict>
 		<key>UIColorName</key>
