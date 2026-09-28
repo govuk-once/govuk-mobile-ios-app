@@ -117,3 +117,131 @@ struct VehiclesView: View {
             .padding(.horizontal, 16)
     }
 }
+
+#if DEBUG
+@available(iOS 17.0, *)
+#Preview("Multiple vehicles") {
+    @Previewable @StateObject var viewModel: VehiclesViewModel = {
+        let dvlaService = MockDVLAService()
+        dvlaService._stubbedCustomerVehiclesResult = .success(
+            .arrange(
+                customerVehicles: CustomerVehicles.Vehicle.PreviewsData.collection
+            )
+        )
+
+        return VehiclesViewModel(
+            analyticsService: MockAnalyticsService(),
+            dvlaService: dvlaService,
+            configService: MockAppConfigService(),
+            detailAction: { _ in
+                /* no-op */
+            },
+            openURLAction: { _ in
+                /* no-op */
+            }
+        )
+    }()
+
+    NavigationStack {
+        ScrollView {
+            VehiclesView(viewModel: viewModel)
+                .padding(.vertical)
+        }
+        .background(Color(uiColor: .govUK.fills.surfaceBackground))
+        .navigationTitle("Vehicles")
+    }
+}
+
+@available(iOS 17.0, *)
+#Preview("Single vehicle") {
+    @Previewable @StateObject var viewModel: VehiclesViewModel = {
+        let dvlaService = MockDVLAService()
+        dvlaService._stubbedCustomerVehiclesResult = .success(
+            .arrange(
+                customerVehicles: [CustomerVehicles.Vehicle.PreviewsData.teslaVehicle]
+            )
+        )
+
+        return VehiclesViewModel(
+            analyticsService: MockAnalyticsService(),
+            dvlaService: dvlaService,
+            configService: MockAppConfigService(),
+            detailAction: { _ in
+                /* no-op */
+            },
+            openURLAction: { _ in
+                /* no-op */
+            }
+        )
+    }()
+
+    NavigationStack {
+        ScrollView {
+            VehiclesView(viewModel: viewModel)
+                .padding(.vertical)
+        }
+        .background(Color(uiColor: .govUK.fills.surfaceBackground))
+        .navigationTitle("Vehicles")
+    }
+}
+
+@available(iOS 17.0, *)
+#Preview("No vehicles") {
+    @Previewable @StateObject var viewModel: VehiclesViewModel = {
+        let dvlaService = MockDVLAService()
+        dvlaService._stubbedCustomerVehiclesResult = .success(
+            .arrange(customerVehicles: [])
+        )
+
+        return VehiclesViewModel(
+            analyticsService: MockAnalyticsService(),
+            dvlaService: dvlaService,
+            configService: MockAppConfigService(),
+            detailAction: { _ in
+                /* no-op */
+            },
+            openURLAction: { _ in
+                /* no-op */
+            }
+        )
+    }()
+
+    NavigationStack {
+        ScrollView {
+            VehiclesView(viewModel: viewModel)
+                .padding(.vertical)
+        }
+        .background(Color(uiColor: .govUK.fills.surfaceBackground))
+        .navigationTitle("Vehicles")
+    }
+}
+
+@available(iOS 17.0, *)
+#Preview("Error") {
+    @Previewable @StateObject var viewModel: VehiclesViewModel = {
+        let dvlaService = MockDVLAService()
+        dvlaService._stubbedCustomerVehiclesResult = .failure(.apiUnavailable)
+
+        return VehiclesViewModel(
+            analyticsService: MockAnalyticsService(),
+            dvlaService: dvlaService,
+            configService: MockAppConfigService(),
+            detailAction: { _ in
+                /* no-op */
+            },
+            openURLAction: { _ in
+                /* no-op */
+            }
+        )
+    }()
+
+    NavigationStack {
+        ScrollView {
+            VehiclesView(viewModel: viewModel)
+                .padding(.vertical)
+        }
+        .background(Color(uiColor: .govUK.fills.surfaceBackground))
+        .navigationTitle("Vehicles")
+    }
+}
+#endif // DEBUG
