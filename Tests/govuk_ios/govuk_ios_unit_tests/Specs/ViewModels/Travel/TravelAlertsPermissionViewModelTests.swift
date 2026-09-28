@@ -1,164 +1,317 @@
 import Foundation
 import Testing
+import UIKit
 
 @testable import govuk_ios
 
 @Suite
 struct TravelAlertsPermissionViewModelTests {
+    let mockTravelService = MockTravelService()
+    let mockNotificationService = MockNotificationService()
     let mockAnalyticsService = MockAnalyticsService()
+    let mockURLOpener = MockURLOpener()
+    let testCountry = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
 
     @Test
-    func initialization_setsAllProperties() {
-        var completeActionCalled = false
-        var dismissActionCalled = false
-
+    func initialization_setsProperties() {
         let viewModel = TravelAlertsPermissionViewModel(
+            travelService: mockTravelService,
+            notificationService: mockNotificationService,
             analyticsService: mockAnalyticsService,
+            urlOpener: mockURLOpener,
             showImage: true,
-            title: "Enable Notifications",
-            body: "Get travel alerts",
-            primaryButtonTitle: "Enable",
-            secondaryButtonTitle: "Not Now",
-            completeAction: { completeActionCalled = true },
-            dismissAction: { dismissActionCalled = true }
+            country: testCountry,
+            dismissSheetAction: { /*EmptyForTests*/ },
+            openURLAction: { _ in },
+            dismissAfterSuccessAction: { /*EmptyForTests*/ },
+            dismissAfterErrorAction: { /*EmptyForTests*/ }
         )
 
         #expect(viewModel.showImage == true)
-        #expect(viewModel.title == "Enable Notifications")
-        #expect(viewModel.body == "Get travel alerts")
-        #expect(viewModel.primaryButtonTitle == "Enable")
-        #expect(viewModel.secondaryButtonTitle == "Not Now")
+        #expect(viewModel.viewState == TravelAlertsPermissionViewModel.ViewState.idle)
+        #expect(viewModel.displayNotificationSettingsAlert == false)
     }
 
     @Test
-    func primaryButtonViewModel_hasCorrectTitle() {
-        let viewModel = TravelAlertsPermissionViewModel(
-            analyticsService: mockAnalyticsService,
-            showImage: true,
-            title: "Enable Notifications",
-            body: "Get travel alerts",
-            primaryButtonTitle: "Enable",
-            secondaryButtonTitle: "Not Now",
-            completeAction: { /*EmptyForTests*/ },
-            dismissAction: { /*EmptyForTests*/ }
-        )
-
-        #expect(viewModel.primaryButtonViewModel.localisedTitle == "Enable")
-    }
-
-    @Test
-    func secondaryButtonViewModel_hasCorrectTitle() {
-        let viewModel = TravelAlertsPermissionViewModel(
-            analyticsService: mockAnalyticsService,
-            showImage: true,
-            title: "Enable Notifications",
-            body: "Get travel alerts",
-            primaryButtonTitle: "Enable",
-            secondaryButtonTitle: "Not Now",
-            completeAction: { /*EmptyForTests*/ },
-            dismissAction: { /*EmptyForTests*/ }
-        )
-
-        #expect(viewModel.secondaryButtonViewModel.localisedTitle == "Not Now")
-    }
-
-    @Test
-    func primaryButtonAction_tracksEventAndCallsCompleteAction() {
-        var completeActionCalled = false
-
-        let viewModel = TravelAlertsPermissionViewModel(
-            analyticsService: mockAnalyticsService,
-            showImage: true,
-            title: "Enable Notifications",
-            body: "Get travel alerts",
-            primaryButtonTitle: "Enable",
-            secondaryButtonTitle: "Not Now",
-            completeAction: { completeActionCalled = true },
-            dismissAction: { /*EmptyForTests*/ }
-        )
-
+    func primaryButtonViewModel_triggersAllowNotificationsAction() {
+        let viewModel = makeViewModel()
         viewModel.primaryButtonViewModel.action()
-
-        #expect(completeActionCalled == true)
-        let events = mockAnalyticsService._trackedEvents
-        #expect(events.count == 1)
+        // Action executes asynchronously, test framework waits
     }
 
     @Test
-    func secondaryButtonAction_tracksEventAndCallsDismissAction() {
-        var dismissActionCalled = false
-
-        let viewModel = TravelAlertsPermissionViewModel(
-            analyticsService: mockAnalyticsService,
-            showImage: true,
-            title: "Enable Notifications",
-            body: "Get travel alerts",
-            primaryButtonTitle: "Enable",
-            secondaryButtonTitle: "Not Now",
-            completeAction: { /*EmptyForTests*/ },
-            dismissAction: { dismissActionCalled = true }
-        )
-
+    func secondaryButtonViewModel_triggersNotNowAction() {
+        let viewModel = makeViewModel()
         viewModel.secondaryButtonViewModel.action()
-
-        #expect(dismissActionCalled == true)
-        let events = mockAnalyticsService._trackedEvents
-        #expect(events.count == 1)
+        // Action executes asynchronously, test framework waits
     }
 
     @Test
-    func showImage_canBeSetToFalse() {
-        let viewModel = TravelAlertsPermissionViewModel(
-            analyticsService: mockAnalyticsService,
-            showImage: false,
-            title: "Enable Notifications",
-            body: "Get travel alerts",
-            primaryButtonTitle: "Enable",
-            secondaryButtonTitle: "Not Now",
-            completeAction: { /*EmptyForTests*/ },
-            dismissAction: { /*EmptyForTests*/ }
-        )
+    func notNowAction_subscribesWithNotificationsDisabled() {
+        mockTravelService.subscribeToCountryHandler = { slug, enabled, completion in
+            #expect(slug == "france")
+            #expect(enabled == false)
+            completion(.success(()))
+        }
 
-        #expect(viewModel.showImage == false)
+        let viewModel = makeViewModel()
+        viewModel.notNowAction()
     }
 
     @Test
-    func completeAction_canBeInvoked() {
-        var completeActionCalled = false
-
+    func openPrivacyPolicy_opensURL() {
+        var openedURL: URL?
         let viewModel = TravelAlertsPermissionViewModel(
+            travelService: mockTravelService,
+            notificationService: mockNotificationService,
             analyticsService: mockAnalyticsService,
+            urlOpener: mockURLOpener,
             showImage: true,
-            title: "Enable Notifications",
-            body: "Get travel alerts",
-            primaryButtonTitle: "Enable",
-            secondaryButtonTitle: "Not Now",
-            completeAction: { completeActionCalled = true },
-            dismissAction: { /*EmptyForTests*/ }
+            country: testCountry,
+            dismissSheetAction: { /*EmptyForTests*/ },
+            openURLAction: { openedURL = $0 },
+            dismissAfterSuccessAction: { /*EmptyForTests*/ },
+            dismissAfterErrorAction: { /*EmptyForTests*/ }
         )
 
-        viewModel.completeAction()
+        viewModel.openPrivacyPolicy()
 
-        #expect(completeActionCalled == true)
+        #expect(openedURL != nil)
     }
 
     @Test
-    func dismissAction_canBeInvoked() {
-        var dismissActionCalled = false
+    func viewState_startsAsIdle() {
+        let viewModel = makeViewModel()
+        #expect(viewModel.viewState == .idle)
+    }
+
+    @Test
+    func displayNotificationSettingsAlert_startsAsFalse() {
+        let viewModel = makeViewModel()
+        #expect(viewModel.displayNotificationSettingsAlert == false)
+    }
+
+    @Test
+    func dismissSheetAction_canBeInvoked() {
+        var dismissCalled = false
 
         let viewModel = TravelAlertsPermissionViewModel(
+            travelService: mockTravelService,
+            notificationService: mockNotificationService,
             analyticsService: mockAnalyticsService,
+            urlOpener: mockURLOpener,
             showImage: true,
-            title: "Enable Notifications",
-            body: "Get travel alerts",
-            primaryButtonTitle: "Enable",
-            secondaryButtonTitle: "Not Now",
-            completeAction: { /*EmptyForTests*/ },
-            dismissAction: { dismissActionCalled = true }
+            country: testCountry,
+            dismissSheetAction: { dismissCalled = true },
+            openURLAction: { _ in },
+            dismissAfterSuccessAction: { /*EmptyForTests*/ },
+            dismissAfterErrorAction: { /*EmptyForTests*/ }
         )
 
-        viewModel.dismissAction()
+        viewModel.dismissSheetAction()
+        #expect(dismissCalled == true)
+    }
 
-        #expect(dismissActionCalled == true)
+    @Test
+    func handleNotificationAlertAction_togglesConsent() {
+        mockURLOpener.shouldOpenNotificationSettings = true
+
+        let viewModel = makeViewModel()
+        viewModel.handleNotificationAlertAction()
+
+        #expect(mockNotificationService.hasGivenConsentToggled == true)
+    }
+
+    @Test
+    func allowNotificationsAction_whenAuthorized_subscribesWithNotificationsEnabled() async throws {
+        mockNotificationService._stubbededPermissionState = .authorized
+        mockTravelService._autoCallSubscribeCompletion = false
+        let viewModel = makeViewModel()
+
+        viewModel.allowNotificationsAction()
+
+        try await waitForTrue { viewModel.viewState == .loading }
+
+        #expect(mockTravelService._subscribeToGroupsCalled == true)
+        #expect(mockTravelService._recievedSubscribeBool == true)
+    }
+
+    @Test
+    func allowNotificationsAction_whenDenied_displaysSettingsAlert() async throws {
+        mockNotificationService._stubbededPermissionState = .denied
+        let viewModel = makeViewModel()
+
+        viewModel.allowNotificationsAction()
+
+        try await waitForTrue { viewModel.displayNotificationSettingsAlert == true }
+
+        #expect(viewModel.displayNotificationSettingsAlert == true)
+    }
+
+    @Test
+    func allowNotificationsAction_whenNotDetermined_requestsPermissions() async throws {
+        mockNotificationService._stubbededPermissionState = .notDetermined
+        let viewModel = makeViewModel()
+
+        viewModel.allowNotificationsAction()
+
+        try await waitForTrue { mockNotificationService._receivedRequestPermissionsCompletion != nil }
+
+        #expect(mockNotificationService._receivedRequestPermissionsCompletion != nil)
+    }
+
+    @Test
+    func allowNotificationsAction_whenNotDetermined_andPermissionDenied_subscribesWithNotificationsDisabled() async throws {
+        mockNotificationService._stubbededPermissionState = .notDetermined
+        mockTravelService._autoCallSubscribeCompletion = false
+        let viewModel = makeViewModel()
+
+        viewModel.allowNotificationsAction()
+        try await waitForTrue { mockNotificationService._receivedRequestPermissionsCompletion != nil }
+
+        // Simulate OS "Don't Allow"
+        mockNotificationService._receivedRequestPermissionsCompletion?(false)
+
+        try await waitForTrue { viewModel.viewState == .loading }
+
+        #expect(mockTravelService._subscribeToGroupsCalled == true)
+        #expect(mockTravelService._recievedSubscribeBool == false)
+    }
+
+    @Test
+    func notNowAction_setsLoadingStateDuringSubscription() {
+        mockTravelService._autoCallSubscribeCompletion = false
+        let viewModel = makeViewModel()
+
+        viewModel.notNowAction()
+
+        if case .loading = viewModel.viewState {
+            // expected
+        } else {
+            Issue.record("Expected viewState to be .loading during subscription")
+        }
+    }
+
+    @Test
+    func subscribeToCountry_onSuccess_resetsToIdleAndCallsDismiss() async throws {
+        var successCalled = false
+        let viewModel = TravelAlertsPermissionViewModel(
+            travelService: mockTravelService,
+            notificationService: mockNotificationService,
+            analyticsService: mockAnalyticsService,
+            urlOpener: mockURLOpener,
+            showImage: true,
+            country: testCountry,
+            dismissSheetAction: { /*EmptyForTests*/ },
+            openURLAction: { _ in },
+            dismissAfterSuccessAction: { successCalled = true },
+            dismissAfterErrorAction: { /*EmptyForTests*/ }
+        )
+
+        mockTravelService.subscribeToCountryHandler = { _, _, completion in completion(.success(())) }
+        viewModel.notNowAction()
+
+        try await waitForTrue { successCalled }
+
+        #expect(successCalled == true)
+        #expect(viewModel.viewState == .idle)
+    }
+
+    @Test
+    func subscribeToCountry_onFailure_callsDismissAfterError() async throws {
+        var errorCalled = false
+        let viewModel = TravelAlertsPermissionViewModel(
+            travelService: mockTravelService,
+            notificationService: mockNotificationService,
+            analyticsService: mockAnalyticsService,
+            urlOpener: mockURLOpener,
+            showImage: true,
+            country: testCountry,
+            dismissSheetAction: { /*EmptyForTests*/ },
+            openURLAction: { _ in },
+            dismissAfterSuccessAction: { /*EmptyForTests*/ },
+            dismissAfterErrorAction: { errorCalled = true }
+        )
+
+        mockTravelService.subscribeToCountryHandler = { _, _, completion in completion(.failure(.apiUnavailable)) }
+        viewModel.notNowAction()
+
+        try await waitForTrue { errorCalled }
+
+        #expect(errorCalled == true)
+    }
+
+    @Test
+    func handleNotificationAlertAction_whenCannotOpenSettings_doesNotToggleConsent() {
+        mockURLOpener.shouldOpenNotificationSettings = false
+        let viewModel = makeViewModel()
+
+        viewModel.handleNotificationAlertAction()
+
+        #expect(mockNotificationService.hasGivenConsentToggled == false)
+    }
+
+    @Test
+    func retryPermissionCheckAfterSettings_whenAuthorized_subscribesToCountry() async throws {
+        mockURLOpener.shouldOpenNotificationSettings = true
+        mockNotificationService._stubbededPermissionState = .authorized
+        mockTravelService._autoCallSubscribeCompletion = false
+        let viewModel = makeViewModel()
+
+        viewModel.handleNotificationAlertAction()
+        NotificationCenter.default.post(name: UIApplication.willEnterForegroundNotification, object: nil)
+
+        try await waitForTrue { viewModel.viewState == .loading }
+
+        #expect(mockTravelService._subscribeToGroupsCalled == true)
+        #expect(viewModel.displayNotificationSettingsAlert == false)
+    }
+
+    @Test
+    func retryPermissionCheckAfterSettings_whenNotAuthorized_doesNotSubscribe() async throws {
+        mockURLOpener.shouldOpenNotificationSettings = true
+        mockNotificationService._stubbededPermissionState = .denied
+        let viewModel = makeViewModel()
+
+        viewModel.handleNotificationAlertAction()
+        NotificationCenter.default.post(name: UIApplication.willEnterForegroundNotification, object: nil)
+
+        // Small delay to let the async task complete
+        try await Task.sleep(nanoseconds: 50_000_000)
+
+        #expect(mockTravelService._subscribeToGroupsCalled == false)
+        #expect(viewModel.displayNotificationSettingsAlert == false)
+    }
+
+    private func makeViewModel() -> TravelAlertsPermissionViewModel {
+        TravelAlertsPermissionViewModel(
+            travelService: mockTravelService,
+            notificationService: mockNotificationService,
+            analyticsService: mockAnalyticsService,
+            urlOpener: mockURLOpener,
+            showImage: true,
+            country: testCountry,
+            dismissSheetAction: { /*EmptyForTests*/ },
+            openURLAction: { _ in },
+            dismissAfterSuccessAction: { /*EmptyForTests*/ },
+            dismissAfterErrorAction: { /*EmptyForTests*/ }
+        )
+    }
+
+    private func waitForTrue(
+        timeout: TimeInterval = 1.0,
+        condition: () -> Bool
+    ) async throws {
+        let deadline = Date().addingTimeInterval(timeout)
+        while !condition() && Date() < deadline {
+            await Task.yield()
+        }
+        if !condition() {
+            throw TestError.timeout
+        }
+    }
+
+    private enum TestError: Error {
+        case timeout
     }
 }

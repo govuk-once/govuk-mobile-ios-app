@@ -512,7 +512,7 @@ class SettingsViewModelTests {
                 }.store(in: &cancellables)
             mockURLOpener._stubbedOpenResult = true
         }
-        #expect(mockNotificationService._toggleHasGivenConsentCalled)
+        #expect(mockNotificationService.hasGivenConsentToggled)
     }
 
     @Test(

@@ -52,22 +52,28 @@ final class TravelAlertsPermissionViewSnapshotTests: SnapshotTestCase {
     }
 
     private func makeViewModel(
-        showImage: Bool = true,
-        title: String = "Give permission",
-        body: String = "We need your permission to send notifications and collect app usage statistics.",
-        primaryButtonTitle: String = "Agree and continue",
-        secondaryButtonTitle: String = "Not now"
+        showImage: Bool = true
     ) -> TravelAlertsPermissionViewModel {
-        TravelAlertsPermissionViewModel(
-            analyticsService: MockAnalyticsService(),
-            showImage: showImage,
-            title: title,
-            body: body,
-            primaryButtonTitle: primaryButtonTitle,
-            secondaryButtonTitle: secondaryButtonTitle,
-            completeAction: { /*EmptyForTests*/ },
-            dismissAction: { /*EmptyForTests*/ }
+        let testCountry = Country(
+            name: "France",
+            slug: "france",
+            rawLastUpdate: "",
+            synonyms: []
         )
+        let viewModel = TravelAlertsPermissionViewModel(
+            travelService: MockTravelService(),
+            notificationService: MockNotificationService(),
+            analyticsService: MockAnalyticsService(),
+            urlOpener: MockURLOpener(),
+            showImage: showImage,
+            country: testCountry,
+            dismissSheetAction: { /*EmptyForTests*/ },
+            openURLAction: { _ in /*EmptyForTests*/ },
+            dismissAfterSuccessAction: { /*EmptyForTests*/ },
+            dismissAfterErrorAction: { /*EmptyForTests*/ }
+        )
+        NotificationCenter.default.removeObserver(viewModel)
+        return viewModel
     }
 
     private func makeViewController(viewModel: TravelAlertsPermissionViewModel) -> UIViewController {

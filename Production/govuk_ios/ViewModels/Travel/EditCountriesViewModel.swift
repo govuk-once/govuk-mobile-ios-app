@@ -29,7 +29,9 @@ class EditCountriesViewModel: ObservableObject {
 
     private let travelService: TravelServiceInterface
     private let notificationService: NotificationServiceInterface
+    private let urlOpener: URLOpener
     let analyticsService: AnalyticsServiceInterface
+    private let openURLAction: (URL) -> Void
     private var allCountries: [Country] = []
     private var follewedCountries: Set<String> = []
     private var notificationStateCache: [String: Bool] = [:]
@@ -47,11 +49,15 @@ class EditCountriesViewModel: ObservableObject {
     init(
         travelService: TravelServiceInterface,
         analyticsService: AnalyticsServiceInterface,
-        notificationService: NotificationServiceInterface
+        notificationService: NotificationServiceInterface,
+        urlOpener: URLOpener,
+        openURLAction: @escaping (URL) -> Void
     ) {
         self.travelService = travelService
         self.analyticsService = analyticsService
         self.notificationService = notificationService
+        self.urlOpener = urlOpener
+        self.openURLAction = openURLAction
     }
 
     @MainActor
@@ -60,6 +66,7 @@ class EditCountriesViewModel: ObservableObject {
             travelService: travelService,
             analyticsService: analyticsService,
             notificationService: notificationService,
+            urlOpener: urlOpener,
             dismissAction: { [weak self] forceRefresh in
                 Task {
                     self?.didDismissList(forceRefresh: forceRefresh)
@@ -67,6 +74,9 @@ class EditCountriesViewModel: ObservableObject {
             },
             errorCallback: { [weak self] in
                 self?.isShowingFollowError = true
+            },
+            openURLAction: { [weak self] url in
+                self?.openURLAction(url)
             }
         )
     }()
