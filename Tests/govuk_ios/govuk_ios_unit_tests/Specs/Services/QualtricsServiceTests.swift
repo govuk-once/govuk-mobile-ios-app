@@ -112,7 +112,7 @@ struct QualtricsServiceTests {
             params: ["screen_class": "test_class"]
         )
 
-        #expect(mockQualtrics.properties.count == 14)
+        #expect(mockQualtrics.properties.count == 15)
         for property in mockQualtrics.properties {
             switch property.key {
             case "screen_class":
@@ -129,7 +129,7 @@ struct QualtricsServiceTests {
         await sut.evaluateEvent(params: ["text": "Give feedback",
                                          "url": "http://www.example.com"])
 
-        #expect(mockQualtrics.properties.count == 14)
+        #expect(mockQualtrics.properties.count == 15)
         for property in mockQualtrics.properties {
             switch property.key {
             case "text":
@@ -164,7 +164,7 @@ struct QualtricsServiceTests {
             params: ["screen_class": "test_class"]
         )
 
-        #expect(mockQualtrics.properties.count == 14)
+        #expect(mockQualtrics.properties.count == 15)
         for property in mockQualtrics.properties {
             switch property.key {
             case "screen_class":
@@ -246,5 +246,24 @@ struct QualtricsServiceTests {
 
         #expect(mockAnalyticsClient._trackEventReceivedEvents.count == 1)
         #expect(mockAnalyticsClient._trackEventReceivedEvents.first!.name == "qualtrics_survey_opened")
+    }
+
+    @Test
+    @MainActor
+    func qualtricProperties_questionId_setThenReset() async {
+        let mockQualtrics = MockQualtricsWrapper()
+        let sut = QualtricsService(
+            environmentService: MockAppEnvironmentService(),
+            qualtrics: mockQualtrics,
+            firebaseIDsService: MockFirebaseIDsService(),
+            firebaseClient: MockAnalyticsClient()
+        )
+
+        await sut.evaluateEvent(params: ["text": "Say what went well",
+                                         "question_id": "questionId"])
+        #expect(mockQualtrics.properties["question_id"] == "questionId")
+
+        await sut.evaluateEvent(params: ["text": "Give feedback"])
+        #expect(mockQualtrics.properties["question_id"] == "")
     }
 }

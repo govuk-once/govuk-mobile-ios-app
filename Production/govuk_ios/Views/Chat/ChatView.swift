@@ -5,6 +5,7 @@ import GovKitUI
 
 struct ChatView: View {
     @Environment(\.verticalSizeClass) var verticalSizeClass
+    @Environment(\.scenePhase) private var scenePhase
     @StateObject private var viewModel: ChatViewModel
     @AccessibilityFocusState private(set) var textAreaAccessibilityFocused: Bool
     @Namespace var bottomID
@@ -43,6 +44,7 @@ struct ChatView: View {
             .ignoresSafeArea()
         })
         .onAppear {
+            viewModel.chatDidAppear()
             viewModel.loadHistory()
             viewModel.trackScreen(screen: self)
             withAnimation(
@@ -55,6 +57,12 @@ struct ChatView: View {
         }
         .onDisappear {
             backgroundOpacity = 0.25
+            viewModel.chatDidDisappear()
+        }
+        .onChange(of: scenePhase) { phase in
+            if phase == .background {
+                viewModel.appDidEnterBackground()
+            }
         }
         .onTapGesture {
             textAreaFocused = false
