@@ -369,6 +369,83 @@ struct TravelAlertsWidgetViewModelTests {
         #expect(editActionCalled == true)
     }
 
+    @Test
+    func didDismissList_withForceRefresh_refetchesCountryList() async throws {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedGetGroupsResult = .success([
+            TravelGroup(namespace: "travel-advice", group: "france", subgroup: "travel-subgroup")
+        ])
+        mockTravelService._stubbedGetCountriesResult = .success([
+            Country(name: "France", slug: "france", rawLastUpdate: "2024-08-05", synonyms: [])
+        ])
+        let sut = TravelAlertsWidgetViewModel(
+            travelService: mockTravelService,
+            analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService(),
+            linkAction: { /*Empty For Tests*/ },
+            dismissAction: { /*Empty For Tests*/ },
+            editAction: { /*Empty For Tests*/ },
+            openURLAction: { _ in /*Empty For Tests*/ }
+        )
+
+        sut.didDismissList(forceRefresh: true)
+
+        try await waitForViewState(of: sut) { state in
+            if case .loaded = state { return true }
+            return false
+        }
+
+        #expect(mockTravelService._getGroupsCalled)
+        #expect(mockTravelService._getCountriesCalled)
+    }
+
+    @Test
+    func didDismissList_withoutForceRefresh_doesNotRefetch() {
+        let mockTravelService = MockTravelService()
+        let sut = TravelAlertsWidgetViewModel(
+            travelService: mockTravelService,
+            analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService(),
+            linkAction: { /*Empty For Tests*/ },
+            dismissAction: { /*Empty For Tests*/ },
+            editAction: { /*Empty For Tests*/ },
+            openURLAction: { _ in /*Empty For Tests*/ }
+        )
+
+        sut.didDismissList()
+
+        #expect(mockTravelService._getGroupsCalled == false)
+    }
+
+    @Test
+    func countryListViewModel_onSuccessfulSubscribe_triggersWidgetRefresh() async throws {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedGetGroupsResult = .success([
+            TravelGroup(namespace: "travel-advice", group: "france", subgroup: "travel-subgroup")
+        ])
+        mockTravelService._stubbedGetCountriesResult = .success([
+            Country(name: "France", slug: "france", rawLastUpdate: "2024-08-05", synonyms: [])
+        ])
+        let sut = TravelAlertsWidgetViewModel(
+            travelService: mockTravelService,
+            analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService(),
+            linkAction: { /*Empty For Tests*/ },
+            dismissAction: { /*Empty For Tests*/ },
+            editAction: { /*Empty For Tests*/ },
+            openURLAction: { _ in /*Empty For Tests*/ }
+        )
+
+        sut.countryListViewModel.dismissAction(true)
+
+        try await waitForViewState(of: sut) { state in
+            if case .loaded = state { return true }
+            return false
+        }
+
+        #expect(mockTravelService._getGroupsCalled)
+    }
+
     private func waitForViewState(
         of viewModel: TravelAlertsWidgetViewModel,
         matching predicate: @escaping (TravelAlertsWidgetViewModel.ViewState) -> Bool,
