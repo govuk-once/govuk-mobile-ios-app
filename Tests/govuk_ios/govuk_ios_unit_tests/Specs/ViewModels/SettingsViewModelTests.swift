@@ -510,7 +510,7 @@ class SettingsViewModelTests {
                     sut.handleNotificationAlertAction()
                     continuation.resume()
                 }.store(in: &cancellables)
-            mockURLOpener._stubbedOpenResult = true
+            mockURLOpener.shouldOpenNotificationSettings = true
         }
         #expect(mockNotificationService.hasGivenConsentToggled)
     }
@@ -529,10 +529,12 @@ class SettingsViewModelTests {
         let result: String = await withCheckedContinuation { continuation in
             let mockNotificationService = MockNotificationService()
             let analyticsService = MockAnalyticsService()
+            let localURLOpener = MockURLOpener()
+            localURLOpener.shouldOpenNotificationSettings = true
             mockNotificationService._stubbededPermissionState = expectedPermission
             let sut = SettingsViewModel(
                 analyticsService: analyticsService,
-                urlOpener: mockURLOpener,
+                urlOpener: localURLOpener,
                 versionProvider: MockAppVersionProvider(),
                 deviceInformationProvider: MockDeviceInformationProvider(),
                 authenticationService: MockAuthenticationService(),
