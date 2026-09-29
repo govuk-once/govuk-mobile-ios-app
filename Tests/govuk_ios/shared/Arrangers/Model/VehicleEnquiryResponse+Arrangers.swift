@@ -24,7 +24,7 @@ extension VehicleEnquiryResponse.Vehicle {
         registrationNumber: String = "AA19AMP",
         taxStatus: TaxStatus? = .taxed,
         taxedUntil: Date? = .arrange("15/09/2026"),
-        motStatus: String? = "Valid",
+        motStatus: MotStatus? = .valid,
         motExpiryDate: Date? = .arrange("15/09/2026"),
         make: String? = "FORD",
         dateOfFirstRegistration: Date? = .arrange("01/05/2000"),

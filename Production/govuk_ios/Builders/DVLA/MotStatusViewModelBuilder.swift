@@ -39,18 +39,18 @@ struct MotStatusViewModelBuilder: MotStatusViewModelBuilderInterface {
         vehicle: MotStatusVehicle
     ) -> ValidityStatusViewModel {
         switch vehicle.motStatus {
-        case "No results returned":
+        case .noResultsReturned:
             return makeNoResultsViewModel()
 
-        case "No details held by DVLA":
+        case .noDetailsHeldByDVLA:
             return makeNoDetailsViewModel(vehicle: vehicle)
 
-        case "Not valid":
+        case .notValid:
             return makeExpiredViewModel(
                 validToDate: vehicle.motExpiryDate
             )
 
-        case "Valid":
+        case .valid:
             if let validToDate = vehicle.motExpiryDate {
                 let expiryProgress = expiryProgressCalculator.calculate(
                     expiryDate: validToDate,
@@ -72,7 +72,7 @@ struct MotStatusViewModelBuilder: MotStatusViewModelBuilderInterface {
                 validToDate: vehicle.motExpiryDate
             )
 
-        default:
+        case .unknown:
             return makeNotKnownViewModel()
         }
     }
@@ -221,7 +221,7 @@ struct MotStatusViewModelBuilder: MotStatusViewModelBuilderInterface {
 }
 
 struct MotStatusVehicle {
-    let motStatus: String
+    let motStatus: MotStatus
     let motExpiryDate: Date?
     let registrationNumber: String
 }
