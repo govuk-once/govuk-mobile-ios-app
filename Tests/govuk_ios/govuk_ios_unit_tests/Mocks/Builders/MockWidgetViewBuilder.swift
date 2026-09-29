@@ -6,6 +6,7 @@ import GovKit
 class MockWidgetViewBuilder: WidgetViewBuilder {
     var _receivedDvlaAccountWidgetLinkAction: (() -> Void)?
     var _receivedVehicleDetailAction: ((Int) -> Void)?
+
     override func dvlaAccountWidget(
         analyticsService: AnalyticsServiceInterface,
         userService: UserServiceInterface,
@@ -15,6 +16,27 @@ class MockWidgetViewBuilder: WidgetViewBuilder {
     ) -> AnyView? {
         _receivedDvlaAccountWidgetLinkAction = actions.linkAction
         _receivedVehicleDetailAction = actions.vehicleDetailAction
+        return AnyView(EmptyView())
+    }
+
+    var _receivedTravelAlertLinkAction: (() -> Void)?
+    var _receivedTravelAlertDismissAction: (() -> Void)?
+    var _receivedTravelAlertEditAction: (() -> Void)?
+    var _receivedTravelAlertOpenURLAction: ((URL) -> Void)?
+
+    override func travelAlertWidget(
+        analyticsService: AnalyticsServiceInterface,
+        travelService: TravelServiceInterface,
+        notificationService: NotificationServiceInterface,
+        linkAction: @escaping () -> Void,
+        dismissAction: @escaping () -> Void,
+        editAction: @escaping () -> Void,
+        openURLAction: @escaping (URL) -> Void
+    ) -> AnyView? {
+        _receivedTravelAlertLinkAction = linkAction
+        _receivedTravelAlertDismissAction = dismissAction
+        _receivedTravelAlertEditAction = editAction
+        _receivedTravelAlertOpenURLAction = openURLAction
         return AnyView(EmptyView())
     }
 }

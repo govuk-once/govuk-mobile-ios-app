@@ -283,6 +283,40 @@ struct TravelAlertsPermissionViewModelTests {
         #expect(viewModel.displayNotificationSettingsAlert == false)
     }
 
+    @Test
+    func notificationSettingsStrings_returnsLocalisedStrings() {
+        let viewModel = makeViewModel()
+
+        let title = viewModel.notificationSettingsAlertTitle
+        #expect(!title.isEmpty)
+        let body = viewModel.notificationSettingsAlertBody
+        #expect(!body.isEmpty)
+        let buttonTitle = viewModel.notificationAlertButtonTitle
+        #expect(!buttonTitle.isEmpty)
+    }
+
+    @Test
+    func notificationSettingsStrings_remainsConsistentAcrossInstances() {
+        let viewModel1 = makeViewModel()
+        let viewModel2 = makeViewModel()
+
+        let title1 = viewModel1.notificationSettingsAlertTitle
+        let title2 = viewModel2.notificationSettingsAlertTitle
+
+        #expect(title1 == title2)
+
+        let body1 = viewModel1.notificationSettingsAlertBody
+        let body2 = viewModel2.notificationSettingsAlertBody
+
+        #expect(body1 == body2)
+
+
+        let buttonTitle1 = viewModel1.notificationAlertButtonTitle
+        let buttonTitle2 = viewModel2.notificationAlertButtonTitle
+
+        #expect(buttonTitle1 == buttonTitle2)
+    }
+
     private func makeViewModel() -> TravelAlertsPermissionViewModel {
         TravelAlertsPermissionViewModel(
             travelService: mockTravelService,

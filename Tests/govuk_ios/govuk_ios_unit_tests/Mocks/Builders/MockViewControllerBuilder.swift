@@ -474,4 +474,22 @@ class MockViewControllerBuilder: ViewControllerBuilder {
         _receivedDvlaAuthenticationErrorAction = errorAction
         return _stubbedDvlaAuthenticationViewController ?? UIViewController()
     }
+
+    var _editCountriesWasCalled = false
+    var _receivedEditCountriesTravelService: TravelServiceInterface?
+    var _receivedEditCountriesAnalyticsService: AnalyticsServiceInterface?
+    var _receivedEditCountriesNotificationService: NotificationServiceInterface?
+    var _stubbedEditCountriesViewController: UIViewController?
+    override func editCountries(
+        travelService: TravelServiceInterface,
+        analyticsService: AnalyticsServiceInterface,
+        notificationService: NotificationServiceInterface,
+        openURLAction: @escaping (URL) -> Void
+    ) -> UIViewController {
+        _editCountriesWasCalled = true
+        _receivedEditCountriesTravelService = travelService
+        _receivedEditCountriesAnalyticsService = analyticsService
+        _receivedEditCountriesNotificationService = notificationService
+        return _stubbedEditCountriesViewController ?? UIViewController()
+    }
 }

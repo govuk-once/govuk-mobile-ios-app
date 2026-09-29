@@ -51,7 +51,44 @@ final class TravelAlertsPermissionViewSnapshotTests: SnapshotTestCase {
         )
     }
 
+    func test_loadInNavigationController_loading_light_rendersCorrectly() async {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedSubscribeResult = .success(())
+        mockTravelService._autoCallSubscribeCompletion = false
+
+        let viewModel = makeViewModel(travelService: mockTravelService, showImage: true)
+        let viewController = makeViewController(viewModel: viewModel)
+
+        viewModel.notNowAction()
+        await Task.yield()
+
+        VerifySnapshotInNavigationController(
+            viewController: viewController,
+            mode: .light,
+            navBarHidden: true
+        )
+    }
+
+    func test_loadInNavigationController_loading_dark_rendersCorrectly() async {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedSubscribeResult = .success(())
+        mockTravelService._autoCallSubscribeCompletion = false
+
+        let viewModel = makeViewModel(travelService: mockTravelService, showImage: true)
+        let viewController = makeViewController(viewModel: viewModel)
+
+        viewModel.notNowAction()
+        await Task.yield()
+
+        VerifySnapshotInNavigationController(
+            viewController: viewController,
+            mode: .dark,
+            navBarHidden: true
+        )
+    }
+
     private func makeViewModel(
+        travelService: TravelServiceInterface? = nil,
         showImage: Bool = true
     ) -> TravelAlertsPermissionViewModel {
         let testCountry = Country(
@@ -61,7 +98,7 @@ final class TravelAlertsPermissionViewSnapshotTests: SnapshotTestCase {
             synonyms: []
         )
         let viewModel = TravelAlertsPermissionViewModel(
-            travelService: MockTravelService(),
+            travelService: travelService ?? MockTravelService(),
             notificationService: MockNotificationService(),
             analyticsService: MockAnalyticsService(),
             urlOpener: MockURLOpener(),

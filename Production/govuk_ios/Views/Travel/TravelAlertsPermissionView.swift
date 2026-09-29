@@ -123,9 +123,3 @@ struct TravelAlertPermissionLoadingView: View {
         }
     }
 }
-
-
-extension TravelAlertsPermissionView: TrackableScreen {
-    var trackingName: String { "TravelAlertsPermissionScreen" }
-    var trackingTitle: String? { "TravelAlertsPermissionScreen" }
-}
