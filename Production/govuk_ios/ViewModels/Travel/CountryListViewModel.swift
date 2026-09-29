@@ -17,22 +17,28 @@ class CountryListViewModel: ObservableObject {
         }
     }
     @Published private(set) var filteredSections = [GroupedListSection]()
+    @Published var selectedCountry: Country?
+    @Published var showTravelAlertsPermission = false
 
     private var allCountries: [Country] = []
     private let travelService: TravelServiceInterface
     let analyticsService: AnalyticsServiceInterface
-    private let countrySelectedAction: (Country) -> Void
-    let dismissAction: () -> Void
+    private let notificationService: NotificationServiceInterface
+    let dismissAction: (Bool) -> Void
+
+    var hasNotificationConsent: Bool {
+        notificationService.hasGivenConsent
+    }
 
     init(
         travelService: TravelServiceInterface,
         analyticsService: AnalyticsServiceInterface,
-        countrySelectedAction: @escaping (Country) -> Void,
-        dismissAction: @escaping () -> Void
+        notificationService: NotificationServiceInterface,
+        dismissAction: @escaping (Bool) -> Void
     ) {
         self.travelService = travelService
         self.analyticsService = analyticsService
-        self.countrySelectedAction = countrySelectedAction
+        self.notificationService = notificationService
         self.dismissAction = dismissAction
     }
 
@@ -43,6 +49,37 @@ class CountryListViewModel: ObservableObject {
     func trackSearchInput(text: String) {
         let searchEvent = AppEvent.searchTerm(term: text, type: .typed, section: "country_search")
         analyticsService.track(event: searchEvent)
+    }
+
+    func handleCountrySelection(_ country: Country, notificationOptIn: Bool) {
+        // Given global notifications are off and user is attempting to optIn, navigate to the consent screen
+        if !notificationService.hasGivenConsent && notificationOptIn {
+            showTravelAlertsPermission = true
+        } else {
+            proceedWithCountrySelection(country)
+        }
+    }
+
+    func proceedWithCountrySelection(_ country: Country) {
+        subscribeToCountryAlerts(country)
+    }
+
+    private func subscribeToCountryAlerts(_ country: Country) {
+        viewState = .loading
+        travelService.subscribeToCountry(
+            slug: country.slug,
+            completion: { [weak self] result in
+                Task { @MainActor in
+                    switch result {
+                    case .success:
+                        self?.dismissAction(true)
+                    case .failure(let error):
+                        debugPrint("Failed to subscribe to country alerts: \(error)")
+                        self?.viewState = .loaded
+                    }
+                }
+            }
+        )
     }
 
     @MainActor
@@ -74,15 +111,15 @@ class CountryListViewModel: ObservableObject {
 
     private func buildSections(from countries: [Country]) -> [GroupedListSection] {
         let sortedCountries = countries.sorted {
-            $0.country.localizedCaseInsensitiveCompare($1.country) == .orderedAscending
+            $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending
         }
 
         let rows = sortedCountries.map { country in
             SelectableRow(
                 id: country.slug,
-                title: country.country,
-                action: { [countrySelectedAction] in
-                    countrySelectedAction(country)
+                title: country.name,
+                action: { [weak self] in
+                    self?.selectedCountry = country
                 }
             )
         }
@@ -105,7 +142,7 @@ class CountryListViewModel: ObservableObject {
         let filtered = trimmedSearch.isEmpty
         ? allCountries
         : allCountries.filter { item in
-            let matchesCountry = item.country.localizedCaseInsensitiveContains(trimmedSearch)
+            let matchesCountry = item.name.localizedCaseInsensitiveContains(trimmedSearch)
             let matchesSynonym = item.synonyms.contains {
                 $0.localizedCaseInsensitiveContains(trimmedSearch)
             }

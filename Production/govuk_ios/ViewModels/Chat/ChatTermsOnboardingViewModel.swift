@@ -28,7 +28,8 @@ final class ChatTermsOnboardingViewModel: InfoViewModelInterface {
     var markdownText: String {
         String(
             localized: .Chat.onboardingTermsSubtitle(
-                chatService.privacyPolicy.absoluteString
+                chatService.privacyPolicy.absoluteString,
+                chatService.termsAndConditions.absoluteString
             )
         )
     }

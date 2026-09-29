@@ -89,10 +89,13 @@ struct ChatCellView: View {
     }
 
     private var introView: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 24) {
             Text(viewModel.message)
                 .font(Font.govUK.body)
                 .foregroundStyle(Color(UIColor.govUK.text.primary))
+            Text(.Chat.introMessageRetention)
+                .font(Font.govUK.footnote)
+                .foregroundStyle(Color(UIColor.govUK.text.secondary))
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()

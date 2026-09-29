@@ -32,7 +32,11 @@ class ChatConsentOnboardingViewModel: InfoViewModelInterface {
     }
 
     var title: String {
-        String.chat.localized("onboardingConsentTitle")
+        String(localized: .Chat.onboardingConsentTitle)
+    }
+
+    var subtitle: String {
+        String(localized: .Chat.onboardingConsentDescription)
     }
 
     var primaryButtonViewModel: GOVUKButton.ButtonViewModel {
@@ -54,7 +58,7 @@ class ChatConsentOnboardingViewModel: InfoViewModelInterface {
     }
 
     var primaryButtonTitle: String {
-        return String.chat.localized("onboardingConsentButtonTitle")
+        return String(localized: .Chat.onboardingConsentButtonTitle)
     }
 
     var trackingTitle: String {

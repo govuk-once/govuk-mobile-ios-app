@@ -114,12 +114,24 @@ struct DVLAServiceClientTests {
         mockAPI._stubbedSendResponse = .success(Self.vehicleResponse)
 
         let result = await sut.fetchVehicle(registration: "AA19AMP")
-        let vehicle = try #require(try? result.get())
+        let vehicle = try #require(try? result.get().vehicle)
+        #expect(vehicle.vehicleId == 1)
+        #expect(vehicle.registrationNumber == "AA19 AMP")
+        #expect(vehicle.taxStatus == .taxed)
+        let expectedTaxDueDate = Date.arrange("07/05/2027")
+        #expect(vehicle.taxedUntil == expectedTaxDueDate)
+        #expect(vehicle.motStatus == "Valid")
+        let expectedMotExpiryDate = Date.arrange("07/05/2027")
+        #expect(vehicle.motExpiryDate == expectedMotExpiryDate)
         #expect(vehicle.make == "FORD")
-        #expect(vehicle.fuelType == "DIESEL")
+        let expectedDateOfFirstRegistration = Date.arrange("01/04/2018")
+        #expect(vehicle.dateOfFirstRegistration == expectedDateOfFirstRegistration)
+        #expect(vehicle.engineCapacity == 1399)
+        #expect(vehicle.exhaustEmissionsCo2 == 119)
+        #expect(vehicle.fuelType == .diesel)
         #expect(vehicle.colour == "BLACK")
-        let expectedTaxDueDate = Date(timeIntervalSince1970: 1809648000)
-        #expect(vehicle.taxDueDate == expectedTaxDueDate)
+        #expect(vehicle.secondaryColour == "WHITE")
+        
     }
 
     @Test

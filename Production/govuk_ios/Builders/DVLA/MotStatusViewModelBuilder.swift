@@ -89,17 +89,18 @@ struct MotStatusViewModelBuilder: MotStatusViewModelBuilderInterface {
     private func makeExpiredViewModel(
         validToDate: Date?
     ) -> ValidityStatusViewModel {
-        let formattedStatus: String
-        if let dateString = formattedDate(validToDate) {
-            formattedStatus = String(localized: .DVLA.motExpiredOn(dateString))
+        let formattedStatus = if let dateString = formattedDate(validToDate) {
+            String(localized: .DVLA.motExpiredOn(dateString))
         } else {
-            formattedStatus = String(localized: .DVLA.expired)
+            String(localized: .DVLA.expired)
         }
+
+        let statusInformation = StatusInformation(formattedStatus)
 
         return ValidityStatusViewModel(
             title: String(localized: .DVLA.motStatusTitle),
-            formattedStatus: formattedStatus,
             status: MOTValidityStatus.expired,
+            statusInformation: statusInformation,
             iconName: "exclamationmark.triangle.fill"
         )
     }
@@ -107,17 +108,18 @@ struct MotStatusViewModelBuilder: MotStatusViewModelBuilderInterface {
     private func makeValidViewModel(
         validToDate: Date?
     ) -> ValidityStatusViewModel {
-        let formattedStatus: String
-        if let dateString = formattedDate(validToDate) {
-            formattedStatus =  String(localized: .DVLA.motValidUntil(dateString))
+        let formattedStatus = if let dateString = formattedDate(validToDate) {
+            String(localized: .DVLA.motValidUntil(dateString))
         } else {
-            formattedStatus = String(localized: .DVLA.valid)
+            String(localized: .DVLA.valid)
         }
+
+        let statusInformation = StatusInformation(formattedStatus)
 
         return ValidityStatusViewModel(
             title: String(localized: .DVLA.motStatusTitle),
-            formattedStatus: formattedStatus,
             status: MOTValidityStatus.valid,
+            statusInformation: statusInformation,
             iconName: "checkmark.circle.fill",
             iconTintColour: .govUK.fills.surfaceButtonPrimary
         )
@@ -133,13 +135,17 @@ struct MotStatusViewModelBuilder: MotStatusViewModelBuilderInterface {
             daysLeft: expiryProgress.daysLeft
         )
 
+        let formattedStatus = String(
+            localized: .DVLA.motExpiringOn(
+                formattedDate(validToDate) ?? "")
+        )
+
+        let statusInformation = StatusInformation(formattedStatus)
+
         return ValidityStatusViewModel(
             title: String(localized: .DVLA.motStatusTitle),
-            formattedStatus: String(
-                localized: .DVLA.motExpiringOn(
-                    formattedDate(validToDate) ?? "")
-            ),
             status: MOTValidityStatus.expiringSoon,
+            statusInformation: statusInformation,
             progressViewModel: progressViewModel,
             footer: String(localized: .DVLA.motSyncDelayNotice)
         )
@@ -148,32 +154,36 @@ struct MotStatusViewModelBuilder: MotStatusViewModelBuilderInterface {
     private func makeNotKnownViewModel() -> ValidityStatusViewModel {
         return ValidityStatusViewModel(
             title: String(localized: .DVLA.motStatusTitle),
-            formattedStatus: String(localized: .DVLA.motUnknown),
-            status: MOTValidityStatus.unknown
+            status: MOTValidityStatus.unknown,
+            statusInformation: StatusInformation(
+                String(localized: .DVLA.motUnknown)
+            ),
         )
     }
 
     private func makeNoResultsViewModel() -> ValidityStatusViewModel {
-        let buttonTitle = String(localized: .DVLA.motCheckIfItNeedsAnMOT)
-        let buttonURL = Constants.API.defaultDvlaNoResultsUrl
+        let statusLinkTitle = String(localized: .DVLA.motCheckIfItNeedsAnMOT)
+        let statusLinkActionURL = Constants.API.defaultDvlaNoResultsUrl
+
+        let statusLinkAction = {
+            openURLAction(statusLinkActionURL)
+            trackUrlOpenEvent(url: statusLinkActionURL, text: statusLinkTitle)
+        }
 
         return ValidityStatusViewModel(
             title: String(localized: .DVLA.motStatusTitle),
-            formattedStatus: String(localized: ""),
             status: MOTValidityStatus.noResultsReturned,
-            buttonTitle: buttonTitle,
-            buttonAction: {
-                openURLAction(buttonURL)
-                trackUrlOpenEvent(url: buttonURL, text: buttonTitle)
-            }
+            statusInformation: StatusInformation(
+                statusLinkTitle,
+                linkAction: statusLinkAction)
         )
     }
 
     private func makeNoDetailsViewModel(
         vehicle: MotStatusVehicle
     ) -> ValidityStatusViewModel {
-        let buttonTitle = String(localized: .DVLA.motSeeStatusOnTheWebsite)
-        var buttonURL = URL(string: Constants.API.defaultDvlaNoDetailsBaseUrlString)!
+        let title = String(localized: .DVLA.motSeeStatusOnTheWebsite)
+        var statusLinkActionURL = URL(string: Constants.API.defaultDvlaNoDetailsBaseUrlString)!
 
         if let baseUrl = URL(string: Constants.API.defaultDvlaNoDetailsBaseUrlString),
            var components = URLComponents(url: baseUrl, resolvingAgainstBaseURL: true) {
@@ -182,19 +192,20 @@ struct MotStatusViewModelBuilder: MotStatusViewModelBuilderInterface {
                 URLQueryItem(name: "checkRecalls", value: "true")
             ]
             if let completedUrl = components.url {
-                buttonURL = completedUrl
+                statusLinkActionURL = completedUrl
             }
         }
 
+        let statusLinkAction = {
+            openURLAction(statusLinkActionURL)
+            trackUrlOpenEvent(url: statusLinkActionURL, text: title)
+        }
         return ValidityStatusViewModel(
             title: String(localized: .DVLA.motStatusTitle),
-            formattedStatus: String(localized: ""),
             status: MOTValidityStatus.noDetailsHeldByDVLA,
-            buttonTitle: buttonTitle,
-            buttonAction: {
-                openURLAction(buttonURL)
-                trackUrlOpenEvent(url: buttonURL, text: buttonTitle)
-            }
+            statusInformation: StatusInformation(
+                title,
+                linkAction: statusLinkAction)
         )
     }
 

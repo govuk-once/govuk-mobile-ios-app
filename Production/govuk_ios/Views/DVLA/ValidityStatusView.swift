@@ -1,6 +1,11 @@
 import SwiftUI
 import GovKitUI
 
+///
+/// This view conditionally renders UI elements based on the values in `ValidityStatusViewModel`.
+///
+/// Optional values that are `nil` don't get displayed.
+///
 struct ValidityStatusView: View {
     private static let iconSize: CGFloat = 36
     private static let standardPadding: CGFloat = 16.0
@@ -17,7 +22,10 @@ struct ValidityStatusView: View {
                             .multilineTextAlignment(.leading)
                             .accessibilityAddTraits(.isHeader)
                     }
-                    statusTextView
+
+                    if let statusInformation = viewModel.statusInformation {
+                        StatusRowView(status: statusInformation)
+                    }
                 }
                 Spacer()
                 if let iconName = viewModel.iconName {
@@ -56,35 +64,5 @@ struct ValidityStatusView: View {
             }
         }
         .padding(Self.standardPadding)
-    }
-
-    @ViewBuilder
-    private var statusTextView: some View {
-        if let statusAccessibilityLabel = viewModel.statusAccessibilityLabel {
-            Text(viewModel.formattedStatus)
-                .multilineTextAlignment(.leading)
-                .accessibilityLabel(statusAccessibilityLabel)
-        } else {
-            if viewModel.formattedStatus != "" {
-                Text(viewModel.formattedStatus)
-                    .multilineTextAlignment(.leading)
-            }
-        }
-    }
-}
-
-#Preview {
-    let viewModel = ValidityStatusViewModel(
-        title: nil,
-        formattedStatus: "Expired 24 April 2026",
-        iconName: "exclamationmark.triangle.fill",
-        footer: "Your licence status may not update immediately when you renew it",
-        buttonTitle: "Renew licence",
-        buttonAction: { }
-    )
-    VStack(spacing: 0) {
-        Color(uiColor: .govUK.fills.surfaceBackground)
-        ValidityStatusView(viewModel: viewModel)
-        Color(uiColor: .govUK.fills.surfaceBackground)
     }
 }

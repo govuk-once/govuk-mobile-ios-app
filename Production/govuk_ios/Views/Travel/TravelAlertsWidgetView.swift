@@ -11,10 +11,19 @@ struct TravelAlertsWidgetView: View {
                 switch viewModel.viewState {
                 case .loading:
                     TravelAlertsLoadingView()
-                case .loaded:
-                    TravelAlertsLoadedView(onTapAction: {
-                        viewModel.openCountryList()
-                    })
+                case let .loaded(rows):
+                    TravelAlertsLoadedView(
+                        rows: rows,
+                        editAction: {
+                            viewModel.openEditCountries()
+                        }
+                    )
+                case .empty:
+                    TravelAlertsEmptyView(
+                        onTapAction: {
+                            viewModel.openCountryList()
+                        }
+                    )
                 case .error:
                     TravelAlertsErrorView()
                 }
@@ -40,7 +49,7 @@ struct TravelAlertsWidgetView: View {
     }
 }
 
-private struct TravelAlertsLoadedView: View {
+private struct TravelAlertsEmptyView: View {
     let onTapAction: () -> Void
 
     var body: some View {
@@ -54,6 +63,28 @@ private struct TravelAlertsLoadedView: View {
                 iconBottomPadding: 8
             )
         )
+    }
+}
+
+private struct TravelAlertsLoadedView: View {
+    let rows: [GroupedListSection]
+    let editAction: () -> Void
+
+    var body: some View {
+        VStack(spacing: 8) {
+            SectionHeaderLabelView(model: SectionHeaderLabelViewModel(
+                title: String(localized: .Travel.travelAlertLoadedHeading),
+                button: .init(
+                    localisedTitle: String(localized: .Travel.travelAlertLoadedButtonEdit),
+                    action: editAction
+                )
+            ))
+
+            GroupedList(
+                content: rows,
+                sectionBackgroundColor: .govUK.fills.surfaceList
+            )
+        }
     }
 }
 
@@ -79,13 +110,13 @@ private struct TravelAlertsErrorView: View {
                     .padding(.bottom, 16)
                     .accessibilityHidden(true)
                     .foregroundStyle(Color(GOVUKColors.text.iconTertiary))
-                Text("Error placeholder")
+                Text(String(localized: .Travel.countryListErrorTitle))
                     .padding(.bottom, 8)
                     .font(Font.govUK.bodySemibold)
                     .fontWeight(.bold)
                     .multilineTextAlignment(.center)
                     .foregroundStyle(Color(GOVUKColors.text.primary))
-                Text("Error message")
+                Text(String(localized: .Travel.countryListErrorDescription))
                     .font(Font.govUK.body)
                     .multilineTextAlignment(.center)
                     .foregroundStyle(Color(UIColor.govUK.text.primary))

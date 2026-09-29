@@ -189,7 +189,7 @@ struct DrivingLicenceSummaryViewModelTests {
     func init_licenceStatusViewModelIsPopulatedByBuilder() {
         let mockStatusViewModelBuilder = MockLicenceStatusViewModelBuilder()
         mockStatusViewModelBuilder._stubbedViewModel = ValidityStatusViewModel(
-            formattedStatus: "Mock licence status"
+            statusInformation: .init("Mock licence status")
         )
 
         let validToDate = Date.arrange("01/12/2027")
@@ -216,14 +216,14 @@ struct DrivingLicenceSummaryViewModelTests {
         #expect(mockStatusViewModelBuilder._receivedValidToDate == validToDate)
         #expect(sut.licenceStatusViewModel.title == nil)
         #expect(mockStatusViewModelBuilder._makeViewModelCallCount == 1)
-        #expect(sut.licenceStatusViewModel.formattedStatus == "Mock licence status")
+        #expect(sut.licenceStatusViewModel.statusInformation?.displayValue == "Mock licence status")
     }
 
     @Test
     func init_formatsLicenceTypeAccessibilityLabelCorrectly() {
         let mockStatusViewModelBuilder = MockLicenceStatusViewModelBuilder()
         mockStatusViewModelBuilder._stubbedViewModel = ValidityStatusViewModel(
-            formattedStatus: "Mock licence status"
+            statusInformation: .init("Mock licence status")
         )
         let mockDrivingLicence = DrivingLicence.arrange(licenceType: "Provisional")
         let sut = DrivingLicenceSummaryViewModel(
@@ -248,7 +248,7 @@ struct DrivingLicenceSummaryViewModelTests {
     func init_formatsAddressAccessibilityLabelCorrectly() {
         let mockStatusViewModelBuilder = MockLicenceStatusViewModelBuilder()
         mockStatusViewModelBuilder._stubbedViewModel = ValidityStatusViewModel(
-            formattedStatus: "Mock licence status"
+            statusInformation: .init("Mock licence status")
         )
         let mockAddress = "1 LEANDER DRIVE\nCASTLETON\nOL11 4AB"
         let mockDrivingLicence = DrivingLicence.arrange(driverFullAddress: mockAddress)
@@ -279,7 +279,7 @@ struct DrivingLicenceSummaryViewModelTests {
 
         let mockStatusViewModelBuilder = MockLicenceStatusViewModelBuilder()
         mockStatusViewModelBuilder._stubbedViewModel = ValidityStatusViewModel(
-            formattedStatus: "Mock licence status"
+            statusInformation: .init("Mock licence status")
         )
 
         let sut = DrivingLicenceSummaryViewModel(

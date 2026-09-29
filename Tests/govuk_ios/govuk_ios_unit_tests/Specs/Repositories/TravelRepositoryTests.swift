@@ -36,7 +36,7 @@ struct TravelRepositoryTests {
 
         repository.clear()
 
-        #expect(repository.fetchGroups() == [])
+        #expect(repository.fetchGroups() == nil)
     }
 
     @Test
@@ -66,8 +66,8 @@ struct TravelRepositoryTests {
     func fetchCountries_returnCountries() {
         let repository = TravelRepository()
         let sampleCountry = [
-            Country(country: "France", slug: "france", lastUpdate: "", synonyms: []),
-            Country(country: "Spain", slug: "spain", lastUpdate: "", synonyms: []),
+            Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: []),
+            Country(name: "Spain", slug: "spain", rawLastUpdate: "", synonyms: []),
         ]
 
         repository.store(countries: sampleCountry)
@@ -79,8 +79,8 @@ struct TravelRepositoryTests {
     func fetchCountries_returnCountries_thenClearsCache() {
         let repository = TravelRepository()
         let sampleCountries = [
-            Country(country: "France", slug: "france", lastUpdate: "", synonyms: []),
-            Country(country: "Spain", slug: "spain", lastUpdate: "", synonyms: []),
+            Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: []),
+            Country(name: "Spain", slug: "spain", rawLastUpdate: "", synonyms: []),
         ]
 
         repository.store(countries: sampleCountries)
@@ -88,7 +88,7 @@ struct TravelRepositoryTests {
 
         repository.clear()
 
-        #expect(repository.fetchCountries() == [])
+        #expect(repository.fetchCountries() == nil)
     }
 
     @Test

@@ -32,9 +32,12 @@ extension TaxValidityStatusView {
                 )
                 .accessibilityHidden(true)
             VStack(alignment: .leading) {
-                Text(viewModel.formattedStatus)
-                    .font(.govUK.bodySemibold)
-                    .multilineTextAlignment(.leading)
+                if let statusInformation = viewModel.statusInformation {
+                    Text(statusInformation.displayValue)
+                        .font(.govUK.bodySemibold)
+                        .multilineTextAlignment(.leading)
+                        .accessibilityLabel(statusInformation.accessibilityLabel)
+                }
                 if let footer = viewModel.footer {
                     Text(footer)
                         .font(.govUK.body)

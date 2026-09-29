@@ -22,8 +22,23 @@ class MockTravelRepository: TravelRepositoryInterface {
         _storedCountries = countries
     }
 
+    var _invalidateGroupsCalled = false
+    func invalidateGroups() {
+        _invalidateGroupsCalled = true
+        _fetchGroupsResult = nil
+    }
+
+    var _invalidateCountriesCalled = false
+    func invalidateCountries() {
+        _invalidateCountriesCalled = true
+        _fetchCountriesResult = nil
+    }
+
+
     var _clearCalled = false
     func clear() {
         _clearCalled = true
+        _fetchGroupsResult = nil
+        _fetchCountriesResult = nil
     }
 }

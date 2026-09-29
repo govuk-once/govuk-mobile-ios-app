@@ -20,6 +20,7 @@ struct CountryListCoordinatorTests {
             viewControllerBuilder: mockViewControllerBuilder,
             analyticsService: MockAnalyticsService(),
             travelService: MockTravelService(),
+            notificationService: MockNotificationService(),
             userService: MockUserService(),
             completion: { _ in }
         )
@@ -40,12 +41,13 @@ struct CountryListCoordinatorTests {
             viewControllerBuilder: mockViewControllerBuilder,
             analyticsService: MockAnalyticsService(),
             travelService: MockTravelService(),
+            notificationService: MockNotificationService(),
             userService: MockUserService(),
             completion: { _ in }
         )
 
         sut.start()
-        mockViewControllerBuilder._receivedSelectCountryDismissAction?()
+        mockViewControllerBuilder._receivedSelectCountryDismissAction?(true)
 
         #expect(mockNavigationController._dismissCalled)
         #expect(mockNavigationController._receivedDismissAnimated == true)

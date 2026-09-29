@@ -12,7 +12,7 @@ struct UnlinkAccountsErrorView: View {
             VStack(spacing: 24) {
                 Image(systemName: "exclamationmark.circle")
                     .resizable()
-                    .aspectRatio(contentMode: .fit)
+                    .scaledToFit()
                     .frame(width: 107, height: 107)
                     .foregroundColor(Color(uiColor: .govUK.text.primary))
                     .accessibilityHidden(true)

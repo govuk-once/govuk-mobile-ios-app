@@ -23,7 +23,8 @@ extension DvlaURLs {
         drivingRecord: String = "https://www.gov.uk/driving-record",
         changeNameGenderLicence: String = "https://www.gov.uk/change-name-driving-licence",
         replaceLicence: String = "https://www.gov.uk/replace-a-driving-licence",
-        changeLicenceAddress: String = "https://www.gov.uk/change-address-driving-licence"
+        changeLicenceAddress: String = "https://www.gov.uk/change-address-driving-licence",
+        contact: String = "https://www.gov.uk/contact-the-dvla"
     ) -> DvlaURLs {
         DvlaURLs(
             addVehicle: URL(string: addVehicle)!,
@@ -41,7 +42,8 @@ extension DvlaURLs {
             drivingRecord: URL(string: drivingRecord)!,
             changeNameGenderLicence: URL(string: changeNameGenderLicence)!,
             replaceLicence: URL(string: replaceLicence)!,
-            changeLicenceAddress: URL(string: changeLicenceAddress)!
+            changeLicenceAddress: URL(string: changeLicenceAddress)!,
+            contact: URL(string: contact)!
         )
     }
 }

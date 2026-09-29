@@ -59,7 +59,6 @@
 		16A788B22DCC288800CA64E2 /* ReturningUserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A788B12DCC288400CA64E2 /* ReturningUserService.swift */; };
 		16A98EA52D30333F00C72DEB /* SuggestionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A98EA42D30333A00C72DEB /* SuggestionCell.swift */; };
 		16A99D6B2D35F19300C72DEB /* SearchSuggestionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A99D6A2D35F18700C72DEB /* SearchSuggestionsViewModel.swift */; };
-		16AE517F2E6886D3002BCFD7 /* InfoIconListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AE517E2E6886CA002BCFD7 /* InfoIconListView.swift */; };
 		16B2A8583021E601000C6926 /* FirebaseIDsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16B2A8573021E5F5000C6926 /* FirebaseIDsService.swift */; };
 		16C34B432C492FF90031AD32 /* HomeDeepLinkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C34B422C492FF90031AD32 /* HomeDeepLinkRoute.swift */; };
 		16C34B452C4954910031AD32 /* SettingsDeepLinkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C34B442C4954910031AD32 /* SettingsDeepLinkRoute.swift */; };
@@ -93,6 +92,7 @@
 		16FCDE782DC4E39A000E870D /* TokenRefreshResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FCDE772DC4E38F000E870D /* TokenRefreshResponse.swift */; };
 		16FD684A2D39AEB5002F1597 /* SuggestionHighlighterProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FD68482D39AEAE002F1597 /* SuggestionHighlighterProcessor.swift */; };
 		16FE77672EBB72A7009D02B1 /* TopicsOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FE77662EBB7290009D02B1 /* TopicsOnboardingView.swift */; };
+		2DD46BD5305D524500B83F7C /* CountryOptionsBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD46BD4305D524500B83F7C /* CountryOptionsBottomSheet.swift */; };
 		3300A4F62F69B2B10042D340 /* GOVRequest+NotificationCentre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3300A4F52F69B2B10042D340 /* GOVRequest+NotificationCentre.swift */; };
 		333A5D262FCF071C0018BA1D /* NotificationCentreDetailMarkdownTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333A5D252FCF071C0018BA1D /* NotificationCentreDetailMarkdownTheme.swift */; };
 		3365BE5A2F3DCC3300817D7E /* NotificationCentreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3365BE592F3DCC2E00817D7E /* NotificationCentreViewModel.swift */; };
@@ -172,7 +172,6 @@
 		4EBE646B2D15AAD6007A6E97 /* MinimumLengthValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBE646A2D15AAD6007A6E97 /* MinimumLengthValidator.swift */; };
 		4EBE646D2D15AB05007A6E97 /* CharValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBE646C2D15AB05007A6E97 /* CharValidator.swift */; };
 		4EC0466F2F7B239E0087C01F /* GovUKHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC0466E2F7B239D0087C01F /* GovUKHeaderView.swift */; };
-		4EC51011300FCA380050A83F /* MotValidityStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC51010300FCA380050A83F /* MotValidityStatusView.swift */; };
 		4ED2DB652FBCC62C005CF6FD /* YourAccountsSettingsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ED2DB642FBCC62C005CF6FD /* YourAccountsSettingsCoordinator.swift */; };
 		4ED2DB692FBCCE82005CF6FD /* YourAccountsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ED2DB682FBCCE82005CF6FD /* YourAccountsView.swift */; };
 		4ED2DB6B2FBCCF05005CF6FD /* YourAccountsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ED2DB6A2FBCCF05005CF6FD /* YourAccountsViewModel.swift */; };
@@ -367,11 +366,7 @@
 		815011DB2F7C52C200E7469C /* DVLAService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815011DA2F7C52BE00E7469C /* DVLAService.swift */; };
 		815011DD2F7C537F00E7469C /* DrivingLicence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815011DC2F7C537A00E7469C /* DrivingLicence.swift */; };
 		815018EC2F7D290500E7469C /* DVLAError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815018EB2F7D28FC00E7469C /* DVLAError.swift */; };
-		815018F02F7D6AA900E7469C /* DVLAAccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815018EF2F7D6AA100E7469C /* DVLAAccountViewModel.swift */; };
-		815018F22F7D93E200E7469C /* AppErrorViewModel+DVLA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815018F12F7D93DA00E7469C /* AppErrorViewModel+DVLA.swift */; };
 		815018F52F7D96F100E7469C /* DVLA.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 815018F42F7D96F100E7469C /* DVLA.xcstrings */; };
-		815018F72F7E589200E7469C /* DVLAAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815018F62F7E588C00E7469C /* DVLAAccountView.swift */; };
-		81501C7F2F7E815900E7469C /* DVLAAccountCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81501C7E2F7E815200E7469C /* DVLAAccountCoordinator.swift */; };
 		8154B58D2FB71F1B00792FB5 /* ErrorViewModel+Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154B58C2FB71F0F00792FB5 /* ErrorViewModel+Chat.swift */; };
 		8154B58F2FB727CF00792FB5 /* ErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154B58E2FB727CB00792FB5 /* ErrorViewModel.swift */; };
 		8154C5402FB78AB600792FB5 /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8154C53F2FB78AA700792FB5 /* ErrorView.swift */; };
@@ -406,7 +401,7 @@
 		81BFBFED2FA4AB6900249569 /* DrivingTopicWidgetCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BFBFEC2FA4AB5D00249569 /* DrivingTopicWidgetCoordinator.swift */; };
 		81BFBFEF2FA4E1AA00249569 /* DVLAAccountWidgetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BFBFEE2FA4E1A300249569 /* DVLAAccountWidgetViewModel.swift */; };
 		81BFBFF52FA4FE5000249569 /* WidgetViewBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BFBFF42FA4FE4C00249569 /* WidgetViewBuilder.swift */; };
-		81BFE1302FAB8ED600249569 /* Vehicle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BFE12F2FAB8ECE00249569 /* Vehicle.swift */; };
+		81BFE1302FAB8ED600249569 /* VehicleEnquiryResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BFE12F2FAB8ECE00249569 /* VehicleEnquiryResponse.swift */; };
 		81CAC4AE2F8F85BE00E6E6A3 /* GOVUKColors+ServiceAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81CAC4AD2F8F85B500E6E6A3 /* GOVUKColors+ServiceAccount.swift */; };
 		81CDB3712FDAF43100328F7C /* VehicleSpecView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81CDB3702FDAF42B00328F7C /* VehicleSpecView.swift */; };
 		81CDB3732FDAF47700328F7C /* VehicleSpecViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81CDB3722FDAF46D00328F7C /* VehicleSpecViewModel.swift */; };
@@ -433,6 +428,7 @@
 		81E92CC2300143A700707530 /* DrivingLicenceNoticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E92CC13001439D00707530 /* DrivingLicenceNoticeView.swift */; };
 		81F91D2A2FDB26A500BF709E /* VehicleSpecFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F91D292FDB26A000BF709E /* VehicleSpecFormatter.swift */; };
 		81F9296F2FDC25A500BF709E /* VehicleDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F9296E2FDC259800BF709E /* VehicleDetailCoordinator.swift */; };
+		8528563B305C24E800B69C4E /* EditCountriesCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8528563A305C24E800B69C4E /* EditCountriesCoordinator.swift */; };
 		85484F6C303897F700677B0A /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85484F6B303897F700677B0A /* SearchBarView.swift */; };
 		854F5B47303464C800F7BC5C /* TravelRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 854F5B46303464C800F7BC5C /* TravelRepository.swift */; };
 		855B8BF1302DD050001D1A9C /* IconActionCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 855B8BF0302DD050001D1A9C /* IconActionCardViewModel.swift */; };
@@ -445,8 +441,13 @@
 		85611CD5302F6614008EB3B1 /* GOVRequest+Travel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85611CD4302F6614008EB3B1 /* GOVRequest+Travel.swift */; };
 		85611CD8302F68C9008EB3B1 /* TravelGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85611CD7302F68C9008EB3B1 /* TravelGroup.swift */; };
 		85611CDA302F6987008EB3B1 /* TravelServiceClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85611CD9302F6987008EB3B1 /* TravelServiceClient.swift */; };
+		85625913304F0F8C00FBB5EF /* TravelAlertsPermissionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85625912304F0F8B00FBB5EF /* TravelAlertsPermissionViewModel.swift */; };
+		85625915304F0FD100FBB5EF /* TravelAlertsPermissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85625914304F0FD100FBB5EF /* TravelAlertsPermissionView.swift */; };
+		8579EBDA30583C92005D77D8 /* SubscriptionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8579EBD930583C8C005D77D8 /* SubscriptionRequest.swift */; };
 		857F30DA303311FC0080E209 /* TravelService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857F30D9303311FC0080E209 /* TravelService.swift */; };
 		85D6F0473035F10900A2F0CB /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D6F0463035F10900A2F0CB /* Country.swift */; };
+		85D6F088305A8750006123B7 /* EditCountriesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D6F087305A8750006123B7 /* EditCountriesViewModel.swift */; };
+		85D6F08A305A8AA1006123B7 /* EditCountriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85D6F089305A8AA1006123B7 /* EditCountriesView.swift */; };
 		85DD7C68302CA901007F5170 /* TravelAlertsWidgetCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DD7C67302CA901007F5170 /* TravelAlertsWidgetCoordinator.swift */; };
 		85DD7C6E302CC38E007F5170 /* IconActionCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85DD7C6D302CC38E007F5170 /* IconActionCardView.swift */; };
 		945E1F052F714E920064CA22 /* SearchDeepLinkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945E1F042F714E830064CA22 /* SearchDeepLinkRoute.swift */; };
@@ -577,6 +578,8 @@
 		D0F6813F2DD4CF8E004421C0 /* LocalAuthorityWidgetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F6813D2DD4CF8E004421C0 /* LocalAuthorityWidgetViewModel.swift */; };
 		D0F681402DD4CF8E004421C0 /* LocalAuthorityExplainerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0F6813B2DD4CF8E004421C0 /* LocalAuthorityExplainerViewModel.swift */; };
 		DE523C72304EF43E00C0605C /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE523C71304EF43E00C0605C /* Notification.swift */; };
+		FB45D1C9305A985400592313 /* ValidityStatusView+Previews.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB45D1C8305A984700592313 /* ValidityStatusView+Previews.swift */; };
+		FBD9E9C5305315220031B76A /* StatusRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD9E9C4305315220031B76A /* StatusRowView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -678,7 +681,6 @@
 		16A98EA42D30333A00C72DEB /* SuggestionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionCell.swift; sourceTree = "<group>"; };
 		16A99D6A2D35F18700C72DEB /* SearchSuggestionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSuggestionsViewModel.swift; sourceTree = "<group>"; };
 		16A99D6F2D36C60200C72DEB /* SearchSuggestionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchSuggestionsViewController.swift; sourceTree = "<group>"; };
-		16AE517E2E6886CA002BCFD7 /* InfoIconListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoIconListView.swift; sourceTree = "<group>"; };
 		16B2A8573021E5F5000C6926 /* FirebaseIDsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseIDsService.swift; sourceTree = "<group>"; };
 		16C34B422C492FF90031AD32 /* HomeDeepLinkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDeepLinkRoute.swift; sourceTree = "<group>"; };
 		16C34B442C4954910031AD32 /* SettingsDeepLinkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsDeepLinkRoute.swift; sourceTree = "<group>"; };
@@ -713,6 +715,7 @@
 		16FCDE772DC4E38F000E870D /* TokenRefreshResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenRefreshResponse.swift; sourceTree = "<group>"; };
 		16FD68482D39AEAE002F1597 /* SuggestionHighlighterProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionHighlighterProcessor.swift; sourceTree = "<group>"; };
 		16FE77662EBB7290009D02B1 /* TopicsOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsOnboardingView.swift; sourceTree = "<group>"; };
+		2DD46BD4305D524500B83F7C /* CountryOptionsBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryOptionsBottomSheet.swift; sourceTree = "<group>"; };
 		3300A4F52F69B2B10042D340 /* GOVRequest+NotificationCentre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GOVRequest+NotificationCentre.swift"; sourceTree = "<group>"; };
 		333A5D252FCF071C0018BA1D /* NotificationCentreDetailMarkdownTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCentreDetailMarkdownTheme.swift; sourceTree = "<group>"; };
 		3365BE592F3DCC2E00817D7E /* NotificationCentreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCentreViewModel.swift; sourceTree = "<group>"; };
@@ -793,7 +796,6 @@
 		4EBE646A2D15AAD6007A6E97 /* MinimumLengthValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinimumLengthValidator.swift; sourceTree = "<group>"; };
 		4EBE646C2D15AB05007A6E97 /* CharValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharValidator.swift; sourceTree = "<group>"; };
 		4EC0466E2F7B239D0087C01F /* GovUKHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GovUKHeaderView.swift; sourceTree = "<group>"; };
-		4EC51010300FCA380050A83F /* MotValidityStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotValidityStatusView.swift; sourceTree = "<group>"; };
 		4ED2DB642FBCC62C005CF6FD /* YourAccountsSettingsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourAccountsSettingsCoordinator.swift; sourceTree = "<group>"; };
 		4ED2DB682FBCCE82005CF6FD /* YourAccountsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourAccountsView.swift; sourceTree = "<group>"; };
 		4ED2DB6A2FBCCF05005CF6FD /* YourAccountsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourAccountsViewModel.swift; sourceTree = "<group>"; };
@@ -982,11 +984,7 @@
 		815011DA2F7C52BE00E7469C /* DVLAService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DVLAService.swift; sourceTree = "<group>"; };
 		815011DC2F7C537A00E7469C /* DrivingLicence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrivingLicence.swift; sourceTree = "<group>"; };
 		815018EB2F7D28FC00E7469C /* DVLAError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DVLAError.swift; sourceTree = "<group>"; };
-		815018EF2F7D6AA100E7469C /* DVLAAccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DVLAAccountViewModel.swift; sourceTree = "<group>"; };
-		815018F12F7D93DA00E7469C /* AppErrorViewModel+DVLA.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppErrorViewModel+DVLA.swift"; sourceTree = "<group>"; };
 		815018F42F7D96F100E7469C /* DVLA.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = DVLA.xcstrings; sourceTree = "<group>"; };
-		815018F62F7E588C00E7469C /* DVLAAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DVLAAccountView.swift; sourceTree = "<group>"; };
-		81501C7E2F7E815200E7469C /* DVLAAccountCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DVLAAccountCoordinator.swift; sourceTree = "<group>"; };
 		8154B58C2FB71F0F00792FB5 /* ErrorViewModel+Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ErrorViewModel+Chat.swift"; sourceTree = "<group>"; };
 		8154B58E2FB727CB00792FB5 /* ErrorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorViewModel.swift; sourceTree = "<group>"; };
 		8154C53F2FB78AA700792FB5 /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
@@ -1017,7 +1015,7 @@
 		81BFBFEC2FA4AB5D00249569 /* DrivingTopicWidgetCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrivingTopicWidgetCoordinator.swift; sourceTree = "<group>"; };
 		81BFBFEE2FA4E1A300249569 /* DVLAAccountWidgetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DVLAAccountWidgetViewModel.swift; sourceTree = "<group>"; };
 		81BFBFF42FA4FE4C00249569 /* WidgetViewBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetViewBuilder.swift; sourceTree = "<group>"; };
-		81BFE12F2FAB8ECE00249569 /* Vehicle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vehicle.swift; sourceTree = "<group>"; };
+		81BFE12F2FAB8ECE00249569 /* VehicleEnquiryResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleEnquiryResponse.swift; sourceTree = "<group>"; };
 		81CAC4AD2F8F85B500E6E6A3 /* GOVUKColors+ServiceAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GOVUKColors+ServiceAccount.swift"; sourceTree = "<group>"; };
 		81CDB3702FDAF42B00328F7C /* VehicleSpecView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleSpecView.swift; sourceTree = "<group>"; };
 		81CDB3722FDAF46D00328F7C /* VehicleSpecViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleSpecViewModel.swift; sourceTree = "<group>"; };
@@ -1044,6 +1042,7 @@
 		81E92CC13001439D00707530 /* DrivingLicenceNoticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrivingLicenceNoticeView.swift; sourceTree = "<group>"; };
 		81F91D292FDB26A000BF709E /* VehicleSpecFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleSpecFormatter.swift; sourceTree = "<group>"; };
 		81F9296E2FDC259800BF709E /* VehicleDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleDetailCoordinator.swift; sourceTree = "<group>"; };
+		8528563A305C24E800B69C4E /* EditCountriesCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCountriesCoordinator.swift; sourceTree = "<group>"; };
 		85484F6B303897F700677B0A /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
 		854F5B46303464C800F7BC5C /* TravelRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelRepository.swift; sourceTree = "<group>"; };
 		855B8BF0302DD050001D1A9C /* IconActionCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconActionCardViewModel.swift; sourceTree = "<group>"; };
@@ -1056,8 +1055,13 @@
 		85611CD4302F6614008EB3B1 /* GOVRequest+Travel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GOVRequest+Travel.swift"; sourceTree = "<group>"; };
 		85611CD7302F68C9008EB3B1 /* TravelGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelGroup.swift; sourceTree = "<group>"; };
 		85611CD9302F6987008EB3B1 /* TravelServiceClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelServiceClient.swift; sourceTree = "<group>"; };
+		85625912304F0F8B00FBB5EF /* TravelAlertsPermissionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelAlertsPermissionViewModel.swift; sourceTree = "<group>"; };
+		85625914304F0FD100FBB5EF /* TravelAlertsPermissionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelAlertsPermissionView.swift; sourceTree = "<group>"; };
+		8579EBD930583C8C005D77D8 /* SubscriptionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionRequest.swift; sourceTree = "<group>"; };
 		857F30D9303311FC0080E209 /* TravelService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelService.swift; sourceTree = "<group>"; };
 		85D6F0463035F10900A2F0CB /* Country.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
+		85D6F087305A8750006123B7 /* EditCountriesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCountriesViewModel.swift; sourceTree = "<group>"; };
+		85D6F089305A8AA1006123B7 /* EditCountriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCountriesView.swift; sourceTree = "<group>"; };
 		85DD7C67302CA901007F5170 /* TravelAlertsWidgetCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelAlertsWidgetCoordinator.swift; sourceTree = "<group>"; };
 		85DD7C6D302CC38E007F5170 /* IconActionCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconActionCardView.swift; sourceTree = "<group>"; };
 		945E1F042F714E830064CA22 /* SearchDeepLinkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDeepLinkRoute.swift; sourceTree = "<group>"; };
@@ -1186,6 +1190,8 @@
 		D0F6813C2DD4CF8E004421C0 /* LocalAuthorityPostcodeEntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthorityPostcodeEntryViewModel.swift; sourceTree = "<group>"; };
 		D0F6813D2DD4CF8E004421C0 /* LocalAuthorityWidgetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthorityWidgetViewModel.swift; sourceTree = "<group>"; };
 		DE523C71304EF43E00C0605C /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		FB45D1C8305A984700592313 /* ValidityStatusView+Previews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ValidityStatusView+Previews.swift"; sourceTree = "<group>"; };
+		FBD9E9C4305315220031B76A /* StatusRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusRowView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -1213,6 +1219,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				govuk_ios/govuk_ios_snapshot_tests/Helpers/SnapshotTestCase.swift,
+				govuk_ios/govuk_ios_snapshot_tests/Helpers/SnapshotTravelService.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Mocks/MockDVLAAccountSummaryViewModel.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Mocks/MockDVLAAccountWidgetViewModel.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Mocks/MockTopicDetailViewModel.swift,
@@ -1232,19 +1239,20 @@
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/ChatViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/Components/IconActionCardViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/CountryListViewSnapshotTests.swift,
+				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/CountryOptionsBottomSheetSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/DrivingLicenceViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/DVLAAccountSummaryViewSnapshotTests.swift,
-				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/DVLAAccountViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/DVLAAccountWidgetViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/DVLAAuthenticationViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/ExpiryProgressViewSnapshotTests.swift,
-				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/MotStatusViewControllerSnapshotTests.swift,
+				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/StatusRowViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/TaxValidityStatusViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/ValidityStatusViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/VehicleDetailViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/VehicleSpecViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/VehicleSummaryViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/VehiclesViewSnapshotTests.swift,
+				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/EditCountriesViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/EditTopicsViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/EmergencyBannerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/ErrorViewSnapshotTests.swift,
@@ -1291,6 +1299,7 @@
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/TopicOnboardingViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/TopicsWidgetViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/TouchIdSettingsViewControllerSnapshotTests.swift,
+				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/TravelAlertsPermissionViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/TravelAlertsWidgetViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/UnlinkAccountErrorViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/WelcomeOnboardingViewControllerSnapshotTests.swift,
@@ -1317,6 +1326,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				govuk_ios/govuk_ios_snapshot_tests/Helpers/SnapshotTestCase.swift,
+				govuk_ios/govuk_ios_snapshot_tests/Helpers/SnapshotTravelService.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Mocks/MockDVLAAccountSummaryViewModel.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Mocks/MockDVLAAccountWidgetViewModel.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Mocks/MockTopicDetailViewModel.swift,
@@ -1335,19 +1345,20 @@
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/ChatViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/Components/IconActionCardViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/CountryListViewSnapshotTests.swift,
+				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/CountryOptionsBottomSheetSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/DrivingLicenceViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/DVLAAccountSummaryViewSnapshotTests.swift,
-				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/DVLAAccountViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/DVLAAccountWidgetViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/DVLAAuthenticationViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/ExpiryProgressViewSnapshotTests.swift,
-				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/MotStatusViewControllerSnapshotTests.swift,
+				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/StatusRowViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/TaxValidityStatusViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/ValidityStatusViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/VehicleDetailViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/VehicleSpecViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/VehicleSummaryViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/VehiclesViewSnapshotTests.swift,
+				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/EditCountriesViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/EditTopicsViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/EmergencyBannerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/ErrorViewSnapshotTests.swift,
@@ -1394,6 +1405,7 @@
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/TopicOnboardingViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/TopicsWidgetViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/TouchIdSettingsViewControllerSnapshotTests.swift,
+				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/TravelAlertsPermissionViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/TravelAlertsWidgetViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/UnlinkAccountErrorViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/WelcomeOnboardingViewControllerSnapshotTests.swift,
@@ -1423,7 +1435,7 @@
 				"govuk_ios/shared/Arrangers/Model/TermsAndConditionsResponse+Arrangers.swift",
 				"govuk_ios/shared/Arrangers/Model/Topic+Arrangers.swift",
 				"govuk_ios/shared/Arrangers/Model/TopicDetailResponse+Arrangers.swift",
-				"govuk_ios/shared/Arrangers/Model/Vehicle+Arrangers.swift",
+				"govuk_ios/shared/Arrangers/Model/VehicleEnquiryResponse+Arrangers.swift",
 				"govuk_ios/shared/Arrangers/Repositories/CoreDataRepository+Arrangers.swift",
 				"govuk_ios/shared/Extensions/Bundle+Tests.swift",
 				"govuk_ios/shared/Extensions/Data+Load.swift",
@@ -1591,7 +1603,6 @@
 		16AE517B2E6859D8002BCFD7 /* Info */ = {
 			isa = PBXGroup;
 			children = (
-				16AE517E2E6886CA002BCFD7 /* InfoIconListView.swift */,
 				D09046802DBFD8480096EE66 /* InfoView.swift */,
 				D05506622F4DFC18004659F6 /* InfoMarkdownView.swift */,
 			);
@@ -2545,7 +2556,7 @@
 			children = (
 				16F935FD2FFE844800ADA47B /* CustomerVehicleDetails.swift */,
 				1615D80C2FFE72470052F269 /* CustomerVehicles.swift */,
-				81BFE12F2FAB8ECE00249569 /* Vehicle.swift */,
+				81BFE12F2FAB8ECE00249569 /* VehicleEnquiryResponse.swift */,
 				811A43262FB23AD3006BC782 /* ShareCode.swift */,
 				815011DC2F7C537A00E7469C /* DrivingLicence.swift */,
 				815018EB2F7D28FC00E7469C /* DVLAError.swift */,
@@ -2607,6 +2618,7 @@
 		81D2583F2FC71A8C00A4F988 /* DVLA */ = {
 			isa = PBXGroup;
 			children = (
+				FBD9E9C4305315220031B76A /* StatusRowView.swift */,
 				817ECB3C3024DDF700BFC5FF /* DVLAAuthenticationView.swift */,
 				813610172FFFDA7C0011D851 /* DrivingRecordView.swift */,
 				1663A3FC2FF3C2B50002CFDB /* TaxValidityStatusView.swift */,
@@ -2619,10 +2631,9 @@
 				81A6DB222FCF40B9006FB0F0 /* VehicleDetailView.swift */,
 				81CDB3702FDAF42B00328F7C /* VehicleSpecView.swift */,
 				81D258472FC7383D00A4F988 /* ValidityStatusView.swift */,
-				815018F62F7E588C00E7469C /* DVLAAccountView.swift */,
+				FB45D1C8305A984700592313 /* ValidityStatusView+Previews.swift */,
 				81BF975A2FA2523600249569 /* DVLAAccountWidgetView.swift */,
 				81D240C02FC0938F00A4F988 /* DVLAAccountSummaryView.swift */,
-				4EC51010300FCA380050A83F /* MotValidityStatusView.swift */,
 			);
 			path = DVLA;
 			sourceTree = "<group>";
@@ -2634,7 +2645,6 @@
 				16A3D5C82FEBEBAB00AEF073 /* DvlaMenuItemViewModel.swift */,
 				81A6DB202FCF3C43006FB0F0 /* VehicleDetailViewModel.swift */,
 				812EFD982FEC34EC00054F3A /* ExpiryProgressViewModel.swift */,
-				815018EF2F7D6AA100E7469C /* DVLAAccountViewModel.swift */,
 				81BFBFEE2FA4E1A300249569 /* DVLAAccountWidgetViewModel.swift */,
 				81D240BE2FC08FF800A4F988 /* DVLAAccountSummaryViewModel.swift */,
 				817ECB3A3024D7A200BFC5FF /* DVLAAuthenticationViewModel.swift */,
@@ -2697,7 +2707,6 @@
 			isa = PBXGroup;
 			children = (
 				8154B58C2FB71F0F00792FB5 /* ErrorViewModel+Chat.swift */,
-				815018F12F7D93DA00E7469C /* AppErrorViewModel+DVLA.swift */,
 				81DE669C2F5B7AEF0087F48E /* AppErrorViewModel+ServiceAccount.swift */,
 			);
 			path = ViewModel;
@@ -2708,7 +2717,6 @@
 			children = (
 				81F9296E2FDC259800BF709E /* VehicleDetailCoordinator.swift */,
 				81BFBFEC2FA4AB5D00249569 /* DrivingTopicWidgetCoordinator.swift */,
-				81501C7E2F7E815200E7469C /* DVLAAccountCoordinator.swift */,
 				81DAF94A2F6D8855001C4E09 /* DVLAAuthenticationCoordinator.swift */,
 			);
 			path = DVLA;
@@ -2717,8 +2725,11 @@
 		855B8BFB302E07B3001D1A9C /* Travel */ = {
 			isa = PBXGroup;
 			children = (
-				85611CD0302F4EFD008EB3B1 /* TravelAlertsWidgetView.swift */,
 				855B8BFC302E07C6001D1A9C /* CountryListView.swift */,
+				2DD46BD4305D524500B83F7C /* CountryOptionsBottomSheet.swift */,
+				85D6F089305A8AA1006123B7 /* EditCountriesView.swift */,
+				85625914304F0FD100FBB5EF /* TravelAlertsPermissionView.swift */,
+				85611CD0302F4EFD008EB3B1 /* TravelAlertsWidgetView.swift */,
 			);
 			path = Travel;
 			sourceTree = "<group>";
@@ -2727,6 +2738,8 @@
 			isa = PBXGroup;
 			children = (
 				85611CD2302F6217008EB3B1 /* CountryListViewModel.swift */,
+				85D6F087305A8750006123B7 /* EditCountriesViewModel.swift */,
+				85625912304F0F8B00FBB5EF /* TravelAlertsPermissionViewModel.swift */,
 				85611CCE302F4CE6008EB3B1 /* TravelAlertsWidgetViewModel.swift */,
 			);
 			path = Travel;
@@ -2735,6 +2748,7 @@
 		85611CD6302F6871008EB3B1 /* Travel */ = {
 			isa = PBXGroup;
 			children = (
+				8579EBD930583C8C005D77D8 /* SubscriptionRequest.swift */,
 				85D6F0463035F10900A2F0CB /* Country.swift */,
 				85611CD7302F68C9008EB3B1 /* TravelGroup.swift */,
 			);
@@ -2744,6 +2758,7 @@
 		85DD7C66302CA8FA007F5170 /* Travel */ = {
 			isa = PBXGroup;
 			children = (
+				8528563A305C24E800B69C4E /* EditCountriesCoordinator.swift */,
 				855B8BFE302E0868001D1A9C /* CountryListCoordinator.swift */,
 				85DD7C67302CA901007F5170 /* TravelAlertsWidgetCoordinator.swift */,
 			);
@@ -3379,7 +3394,7 @@
 				D0B920C72EA637B7001E6FDC /* ListCardView.swift in Sources */,
 				5D3123862C85AEE20088B931 /* Container+Repositories.swift in Sources */,
 				D0A346D12E6F3038007D3D27 /* ChatEllipsesView.swift in Sources */,
-				81BFE1302FAB8ED600249569 /* Vehicle.swift in Sources */,
+				81BFE1302FAB8ED600249569 /* VehicleEnquiryResponse.swift in Sources */,
 				81D258482FC7385C00A4F988 /* ValidityStatusView.swift in Sources */,
 				16FB8CBF2E216E7500BBB970 /* DynamicTextEditor.swift in Sources */,
 				5D62ABC32C32F49F0072BE6C /* Container+Configs.swift in Sources */,
@@ -3411,7 +3426,6 @@
 				D0EB7EF22F3F968E00BEB0A1 /* TermsAndConditionsService.swift in Sources */,
 				33F55ED1300A59D600EB21E0 /* GOVUKColors+NotificationCentre.swift in Sources */,
 				4ED2DB652FBCC62C005CF6FD /* YourAccountsSettingsCoordinator.swift in Sources */,
-				815018F02F7D6AA900E7469C /* DVLAAccountViewModel.swift in Sources */,
 				D0ABA5D42FA4F95000C5A244 /* SARSettingsCoordinator.swift in Sources */,
 				D03D52FB2E32A2C900CE6008 /* RegexValidator.swift in Sources */,
 				4E00EF072CCB12CD007B61E8 /* BaseTabBarController.swift in Sources */,
@@ -3543,7 +3557,7 @@
 				5DC2B8D72FF54D8900D06826 /* PromoBannerWidgetView.swift in Sources */,
 				3D3378162CAAC113004BF83F /* AppUnavailableContainerViewModel.swift in Sources */,
 				16E8644C2D28362000BCC0FC /* SearchSuggestions.swift in Sources */,
-				815018F22F7D93E200E7469C /* AppErrorViewModel+DVLA.swift in Sources */,
+				85625915304F0FD100FBB5EF /* TravelAlertsPermissionView.swift in Sources */,
 				1679D5752C3F5E6900AA2EB0 /* SettingsCoordinator.swift in Sources */,
 				815011DD2F7C537F00E7469C /* DrivingLicence.swift in Sources */,
 				5D15A8E82C6A47770050C780 /* GOVRequest.swift in Sources */,
@@ -3556,6 +3570,7 @@
 				D04CC0972FB33771000688FD /* QualtricsClient.swift in Sources */,
 				5D9E67C42C5A2C6E00DB7877 /* UITabBarItemAppearance+GOVUK.swift in Sources */,
 				5D0BD4592C9B1BBA00220625 /* SearchServiceClient.swift in Sources */,
+				8528563B305C24E800B69C4E /* EditCountriesCoordinator.swift in Sources */,
 				81D258442FC71B6200A4F988 /* VehicleSummaryViewModel.swift in Sources */,
 				81BF975B2FA2525100249569 /* DVLAAccountWidgetView.swift in Sources */,
 				161FF2C42FE2F9DC003DD09E /* AppEvent+Driving.swift in Sources */,
@@ -3572,7 +3587,6 @@
 				3D3378142CAAC0E0004BF83F /* AppUnavailableContainerView.swift in Sources */,
 				8121778C2FD092B00048BBCD /* DrivingLicenceSummaryView.swift in Sources */,
 				166248242C4AC91E009F7E58 /* HomeCoordinator.swift in Sources */,
-				4EC51011300FCA380050A83F /* MotValidityStatusView.swift in Sources */,
 				16DB3CB82F0417D900F77DF4 /* SearchCommerceItem.swift in Sources */,
 				810A83752F68A46D0039B4A4 /* ServiceAccountUnlinkingViewModel.swift in Sources */,
 				D0839FD02DE7ABE800CA5C27 /* GovUKProviderFactory.swift in Sources */,
@@ -3588,7 +3602,6 @@
 				945E1F052F714E920064CA22 /* SearchDeepLinkRoute.swift in Sources */,
 				4EA3C3502C91B8C4000D731C /* RecentActivityCoordinator.swift in Sources */,
 				D08F2C7E2E6AF8C800133121 /* CGImageSource+Extensions.swift in Sources */,
-				815018F72F7E589200E7469C /* DVLAAccountView.swift in Sources */,
 				5D8683952C340F1B0024F2D8 /* DeeplinkRoute.swift in Sources */,
 				16A5E9D02E02D68C00D5FD0C /* FaceIdSettingsView.swift in Sources */,
 				16624BAB2DDCDD4C00E9B60D /* InactivityService.swift in Sources */,
@@ -3630,6 +3643,7 @@
 				4E2468B52FFFB2C400248C5F /* MotStatusViewModelBuilder.swift in Sources */,
 				D0D9CB932D3024C00051EDDD /* SearchResult.swift in Sources */,
 				D0D9CB942D3024C00051EDDD /* SearchItem.swift in Sources */,
+				FB45D1C9305A985400592313 /* ValidityStatusView+Previews.swift in Sources */,
 				D0D9CB952D3024C00051EDDD /* SearchHistoryItem.swift in Sources */,
 				5D41DB5D2C0870020011E691 /* Container+Aliases.swift in Sources */,
 				81BF88802FA10EB500249569 /* ServiceAccountLinkSuccessView.swift in Sources */,
@@ -3651,6 +3665,7 @@
 				81D2583E2FC6044A00A4F988 /* GOVUKFontBuilder+DVLA.swift in Sources */,
 				811A43272FB23AD6006BC782 /* ShareCode.swift in Sources */,
 				D028CD0E2CBFEA4E00742620 /* TopicDetailViewModel.swift in Sources */,
+				85D6F088305A8750006123B7 /* EditCountriesViewModel.swift in Sources */,
 				D052CA362E0B08CF0048F98A /* ChatCellViewModel.swift in Sources */,
 				4E5ED2012C6E06FB00750BDA /* AppConfigService.swift in Sources */,
 				81D3E36D2FE3EDF0006049CC /* LicenceStatusViewModelBuilder.swift in Sources */,
@@ -3667,6 +3682,7 @@
 				811229D52FFBC50300278D46 /* InlineActionErrorView.swift in Sources */,
 				164091FE2DA41C1000E3BE99 /* AuthenticationServiceClient.swift in Sources */,
 				813610182FFFDA8F0011D851 /* DrivingRecordView.swift in Sources */,
+				85D6F08A305A8AA1006123B7 /* EditCountriesView.swift in Sources */,
 				812EFD992FEC34F400054F3A /* ExpiryProgressViewModel.swift in Sources */,
 				85DD7C68302CA901007F5170 /* TravelAlertsWidgetCoordinator.swift in Sources */,
 				D04191862CA6A59D0034722A /* TopicsServiceClient.swift in Sources */,
@@ -3687,6 +3703,7 @@
 				3D9FD4BE2E79C37B00928E92 /* ChatDeeplinkRoute.swift in Sources */,
 				DE523C72304EF43E00C0605C /* Notification.swift in Sources */,
 				3D15E7B42CB5630D0046CE64 /* AppRecommendUpdateContainerViewModel.swift in Sources */,
+				8579EBDA30583C92005D77D8 /* SubscriptionRequest.swift in Sources */,
 				16A4421A2F1E8C82000AAAA6 /* ExpandingButtonStyle.swift in Sources */,
 				5DCAFA752D4004E700C3F284 /* NotificationService.swift in Sources */,
 				D028CD122CC14A0100742620 /* DisplayableTopic.swift in Sources */,
@@ -3734,6 +3751,7 @@
 				D0EB02812D37F02400B310D8 /* CoreDataRepository.swift in Sources */,
 				4EA8357C2DBBBE13000AFB8A /* StoredLocalAuthorityCardModel.swift in Sources */,
 				817ECB3B3024D7AA00BFC5FF /* DVLAAuthenticationViewModel.swift in Sources */,
+				85625913304F0F8C00FBB5EF /* TravelAlertsPermissionViewModel.swift in Sources */,
 				16A31E782E37959900C984D6 /* Intro.swift in Sources */,
 				815C58682EE970E200322705 /* RemoteConfigService.swift in Sources */,
 				5D14B1FE2EB0BA65003C151F /* SecureStoreable+Convenience.swift in Sources */,
@@ -3755,7 +3773,6 @@
 				5D66D1842CBFC12400006723 /* AppEvent+Function.swift in Sources */,
 				815011DB2F7C52C200E7469C /* DVLAService.swift in Sources */,
 				B0AD6F202DDA86D80077849F /* NotificationsOnboardingService.swift in Sources */,
-				81501C7F2F7E815900E7469C /* DVLAAccountCoordinator.swift in Sources */,
 				16D186AC2E462F14006ACC7A /* ChatConsentOnboardingViewModel.swift in Sources */,
 				16C6BE852F96600C0015E6F6 /* TermsAndConditionsResponse.swift in Sources */,
 				D0EC94C52DCBA5F700A9707E /* InfoViewModelInterface.swift in Sources */,
@@ -3768,11 +3785,13 @@
 				5DA6E5332C47BD2700D41263 /* DeeplinkRouteProvider.swift in Sources */,
 				5DFDEBF12CEE396D00F7A365 /* UserProperty+Convenience.swift in Sources */,
 				4EA4937B2FE4CD8A000261CD /* UnlinkAccountsErrorViewModel.swift in Sources */,
+				2DD46BD5305D524500B83F7C /* CountryOptionsBottomSheet.swift in Sources */,
 				81BFBFEF2FA4E1AA00249569 /* DVLAAccountWidgetViewModel.swift in Sources */,
 				33C2627A2FD8676B00574491 /* NotificationCentreErrorViews.swift in Sources */,
 				D06C49B62DE5D2510045C674 /* JailbreakDetectionService.swift in Sources */,
 				4E11AC442F22653700838894 /* GOVUKColors+Chat.swift in Sources */,
 				4E265D2A2DB0E6510089CF9E /* Authority.swift in Sources */,
+				FBD9E9C5305315220031B76A /* StatusRowView.swift in Sources */,
 				D096BFF22E04124E00426C51 /* ChatItem.swift in Sources */,
 				4E265D2D2DB0E6510089CF9E /* LocalAuthorityAddress.swift in Sources */,
 				5D54F4752CC84A5B00A3B6A7 /* TopicDetailsCoordinator.swift in Sources */,
@@ -3797,7 +3816,6 @@
 				5DCCCBBE2EA0F5690097430C /* ReturningUserServiceError.swift in Sources */,
 				D0D2C6952E13FBE000620DC2 /* JailbreakCoordinator.swift in Sources */,
 				4ED2DB6B2FBCCF05005CF6FD /* YourAccountsViewModel.swift in Sources */,
-				16AE517F2E6886D3002BCFD7 /* InfoIconListView.swift in Sources */,
 				4E4089882DBBEF78003ECB3B /* EditLocalAuthorityCoordinator.swift in Sources */,
 				4E00EEEF2CCB04B0007B61E8 /* TopicsOnboardingViewModel.swift in Sources */,
 				8171AE472F1116A00024312B /* ScrollBottomIndicatorView.swift in Sources */,
@@ -4072,7 +4090,6 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSFaceIDUsageDescription = "Your Face ID will only be used to unlock the app. It’s not shared with GOV.UK.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = "";
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -4081,7 +4098,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.5;
+				MARKETING_VERSION = 1.6;
 				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				OTHER_SWIFT_FLAGS = "$(ADDITIONAL_SWIFT_FLAGS)";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_APP)";
@@ -4120,7 +4137,6 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSFaceIDUsageDescription = "Your Face ID will only be used to unlock the app. It’s not shared with GOV.UK.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = "";
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -4129,7 +4145,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.5;
+				MARKETING_VERSION = 1.6;
 				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				OTHER_SWIFT_FLAGS = "$(ADDITIONAL_SWIFT_FLAGS)";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_APP)";
@@ -4209,7 +4225,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.5;
+				MARKETING_VERSION = 1.6;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_NOTIFICATION_SERVICE)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -4242,7 +4258,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.5;
+				MARKETING_VERSION = 1.6;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER_NOTIFICATION_SERVICE)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "$(PROFILE_SPECIFIER_NOTIFICATION_SERVICE)";

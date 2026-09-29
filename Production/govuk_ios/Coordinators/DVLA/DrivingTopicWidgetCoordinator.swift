@@ -93,12 +93,4 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator,
         )
         present(coordinator)
     }
-
-    private func startDvlaAccount(viewType: DVLAAccountViewType) {
-        let coordinator = coordinatorBuilder.dvlaAccount(
-            navigationController: root,
-            viewType: viewType
-        )
-        start(coordinator)
-    }
 }

@@ -1,6 +1,94 @@
 {
   "sourceLanguage" : "en-GB",
   "strings" : {
+    "countryListAlertCancel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        }
+      }
+    },
+    "countryListAlertContinue" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Get notifications"
+          }
+        }
+      }
+    },
+    "countryListAlertDescription1" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You will receive in-app messages when travel advice changes for %@"
+          }
+        }
+      }
+    },
+    "countryListAlertDescription2" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Would you also like push notifications?"
+          }
+        }
+      }
+    },
+    "countryListAlertNotNow" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not now"
+          }
+        }
+      }
+    },
+    "countryListAlertTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Get notifications?"
+          }
+        }
+      }
+    },
+    "countryListErrorDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We could not load travel alerts. Try again later."
+          }
+        }
+      }
+    },
+    "countryListErrorTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "There’s a problem"
+          }
+        }
+      }
+    },
     "countryListScreenEmptyTitle" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -45,17 +133,6 @@
         }
       }
     },
-    "countryListScreenLoading" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Loading"
-          }
-        }
-      }
-    },
     "countryListTitle" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -63,6 +140,105 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Follow a country"
+          }
+        }
+      }
+    },
+    "editCountriesDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Manage the countries you follow and how you’re updated"
+          }
+        }
+      }
+    },
+    "editCountriesErrorButton" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        }
+      }
+    },
+    "editCountriesErrorDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This action could not be completed. Please try again."
+          }
+        }
+      }
+    },
+    "editCountriesErrorTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "There was a problem"
+          }
+        }
+      }
+    },
+    "editCountriesFollowAnother" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Follow another country"
+          }
+        }
+      }
+    },
+    "editCountriesTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit countries"
+          }
+        }
+      }
+    },
+    "editCountryDetailsGetNotifications" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Get notifications"
+          }
+        }
+      }
+    },
+    "editCountryDetailUnfollowButton" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unfollow"
+          }
+        }
+      }
+    },
+    "editCountryDetailUnfollowFooter" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unfollow this country to stop receiving travel advice messages."
           }
         }
       }
@@ -85,6 +261,94 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Follow countries for updates"
+          }
+        }
+      }
+    },
+    "travelAlertLastUpdated" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Last updated %1$(formattedDate)@"
+          }
+        }
+      }
+    },
+    "travelAlertLoadedButtonEdit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit"
+          }
+        }
+      }
+    },
+    "travelAlertLoadedHeading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Countries you follow"
+          }
+        }
+      }
+    },
+    "travelAlertPermissionDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We need your permission to send notifications and collect app usage statistics. \n\nYou can change this at any time in your phone settings."
+          }
+        }
+      }
+    },
+    "travelAlertPermissionPrimaryButton" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agree and continue"
+          }
+        }
+      }
+    },
+    "travelAlertPermissionSecondaryButton" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not now"
+          }
+        }
+      }
+    },
+    "travelAlertPermissionTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Give permission"
+          }
+        }
+      }
+    },
+    "travelAlertsLoading" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading"
           }
         }
       }

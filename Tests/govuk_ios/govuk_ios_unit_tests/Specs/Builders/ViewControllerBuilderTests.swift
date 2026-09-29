@@ -428,17 +428,6 @@ struct ViewControllerBuilderTests {
         let rootView = (result as? HostingViewController<ServiceAccountConsentView>)?.rootView
         #expect(rootView != nil)
     }
-
-    @Test
-    func dvlaAccount_returnsExpectedResult() {
-        let subject = ViewControllerBuilder()
-        let result = subject.dvlaAccount(
-            dvlaService: MockDVLAService(),
-            viewType: .createShareCode
-        )
-        let rootView = (result as? HostingViewController<DVLAAccountView>)?.rootView
-        #expect(rootView != nil)
-    }
     
     @Test
     func sarSettings_returnsExpectedResult() {
@@ -502,11 +491,25 @@ struct ViewControllerBuilderTests {
         let result = subject.countryList(
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
-            dismissAction: {
+            notificationService: MockNotificationService(),
+            dismissAction: { _ in 
                 /* No-op */
             })
 
         let rootView = (result as? HostingViewController<CountryListView>)?.rootView
+        #expect(rootView != nil)
+    }
+
+    @Test
+    func editCountries_returnsExpectedResult() {
+        let subject = ViewControllerBuilder()
+        let result = subject.editCountries(
+            travelService: MockTravelService(),
+            analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService()
+        )
+
+        let rootView = (result as? HostingViewController<EditCountriesView>)?.rootView
         #expect(rootView != nil)
     }
 }
