@@ -898,5 +898,24 @@ class ViewControllerBuilder {
         viewController.navigationItem.largeTitleDisplayMode = .always
         return viewController
     }
+
+    func vehicleCheckResult(
+        vehicle: VehicleEnquiryResponse.Vehicle,
+        analyticsService: AnalyticsServiceInterface,
+        configService: AppConfigServiceInterface,
+        actions: VehicleCheckResultActions
+    ) -> UIViewController {
+        let viewModel = VehicleCheckResultViewModel(
+            vehicle: vehicle,
+            analyticsService: analyticsService,
+            configService: configService,
+            actions: actions
+        )
+        let view = VehicleCheckResultView(viewModel: viewModel)
+        let viewController = HostingViewController(
+            rootView: view
+        )
+        return viewController
+    }
 }
 // swiftlint:enable file_length

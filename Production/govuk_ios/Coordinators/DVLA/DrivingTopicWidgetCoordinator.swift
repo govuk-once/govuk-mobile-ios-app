@@ -53,9 +53,8 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator,
             openURLAction: { [weak self] url in
                 self?.urlOpener.openIfPossible(url)
             },
-            vehicleCheckAction: {
-                // reg number input screen has not been implemented yet
-                print("check a vehicle button tapped")
+            vehicleCheckAction: { [weak self] in
+                self?.startVehicleCheck()
             }
         )
         return widgetViewBuilder.dvlaAccountWidget(
@@ -73,6 +72,15 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator,
             vehicleId: vehicleId
         )
         start(coordinator)
+    }
+
+    private func startVehicleCheck() {
+        let navigationController = UINavigationController()
+        navigationController.modalPresentationStyle = .pageSheet
+        let coordinator = coordinatorBuilder.vehicleCheck(
+            navigationController: navigationController
+        )
+        present(coordinator)
     }
 
     private func startLinkAccount() {

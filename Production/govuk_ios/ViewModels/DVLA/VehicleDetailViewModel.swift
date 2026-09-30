@@ -15,7 +15,6 @@ final class VehicleDetailViewModel: ObservableObject {
     private let dvlaService: DVLAServiceInterface
     private let configService: AppConfigServiceInterface
     private let openURLAction: (URL) -> Void
-    private let statusFormatter = DVLAValidityStatusFormatter()
     private let specFormatter: VehicleSpecFormatterInterface
     private var vehicleLoaded = false
 
