@@ -43,11 +43,6 @@ enum DrivingLicenceStatus: String, Codable {
     init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         let rawValue = try container.decode(String.self)
-        if let status = DrivingLicenceStatus(rawValue: rawValue) {
-            self = status
-        } else {
-            assertionFailure("Unknown DrivingLicenceStatus: \(rawValue)")
-            self = .unknown
-        }
+        self = DrivingLicenceStatus(rawValue: rawValue) ?? .unknown
     }
 }
