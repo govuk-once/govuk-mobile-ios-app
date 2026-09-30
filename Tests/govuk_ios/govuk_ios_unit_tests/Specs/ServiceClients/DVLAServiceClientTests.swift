@@ -66,7 +66,7 @@ struct DVLAServiceClientTests {
         #expect(vehicle.make == "MITSUBISHI")
         #expect(vehicle.model == "MIRAGE")
         #expect(vehicle.taxStatus == .taxed)
-        #expect(vehicle.motStatus == "Not valid")
+        #expect(vehicle.motStatus == .notValid)
     }
 
     @Test
@@ -89,7 +89,7 @@ struct DVLAServiceClientTests {
         #expect(vehicle.make == "MITSUBISHI")
         #expect(vehicle.model == "MIRAGE")
         #expect(vehicle.taxStatus == .taxed)
-        #expect(vehicle.motStatus == "Not valid")
+        #expect(vehicle.motStatus == .notValid)
     }
 
     @Test
@@ -120,7 +120,7 @@ struct DVLAServiceClientTests {
         #expect(vehicle.taxStatus == .taxed)
         let expectedTaxDueDate = Date.arrange("07/05/2027")
         #expect(vehicle.taxedUntil == expectedTaxDueDate)
-        #expect(vehicle.motStatus == "Valid")
+        #expect(vehicle.motStatus == .valid)
         let expectedMotExpiryDate = Date.arrange("07/05/2027")
         #expect(vehicle.motExpiryDate == expectedMotExpiryDate)
         #expect(vehicle.make == "FORD")

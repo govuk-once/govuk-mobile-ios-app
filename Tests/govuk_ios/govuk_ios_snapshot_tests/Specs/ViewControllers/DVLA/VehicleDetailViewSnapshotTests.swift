@@ -10,7 +10,7 @@ class VehicleDetailViewSnapshotTests: SnapshotTestCase {
     func test_fullyPopulatedVehicle_light_rendersCorrectly() async {
         let mockVehicle = CustomerVehicleDetails.Vehicle.arrange(
             taxedUntil: .arrange("12/12/2030"),
-            motStatus: "Valid",
+            motStatus: .valid,
             motExpiryDate: .arrange("12/12/2030")
         )
         let mockVehicleDetails = CustomerVehicleDetails.arrange(
@@ -39,7 +39,7 @@ class VehicleDetailViewSnapshotTests: SnapshotTestCase {
     func test_fullyPopulatedVehicle_dark_rendersCorrectly() async {
         let mockVehicle = CustomerVehicleDetails.Vehicle.arrange(
             taxedUntil: .arrange("12/12/2030"),
-            motStatus: "Valid",
+            motStatus: .valid,
             motExpiryDate: .arrange("12/12/2030")
         )
         let mockVehicleDetails = CustomerVehicleDetails.arrange(
