@@ -101,9 +101,7 @@ struct TravelAlertsPermissionView: View {
     private var backButton: some ToolbarContent {
         ToolbarItem(placement: ToolbarItemPlacement.cancellationAction) {
             Button {
-                if viewModel.viewState != .loading {
-                    viewModel.dismissSheetAction()
-                }
+                viewModel.dismissSheetAction()
             } label: {
                 Image(systemName: "chevron.left")
                     .foregroundStyle(Color(uiColor: .govUK.text.primary))

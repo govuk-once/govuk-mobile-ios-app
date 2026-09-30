@@ -78,7 +78,8 @@ class TravelAlertsPermissionViewModel: ObservableObject {
         return .init(
             localisedTitle: primaryButtonTitle,
             action: { [weak self] in
-                self?.allowNotificationsAction()
+                guard let self else { return }
+                self.allowNotificationsAction()
             }
         )
     }
@@ -87,7 +88,8 @@ class TravelAlertsPermissionViewModel: ObservableObject {
         return .init(
             localisedTitle: secondaryButtonTitle,
             action: { [weak self] in
-                self?.notNowAction()
+                guard let self else { return }
+                self.notNowAction()
             }
         )
     }
@@ -95,12 +97,13 @@ class TravelAlertsPermissionViewModel: ObservableObject {
     func allowNotificationsAction() {
         Task {
             let permissionState = await notificationService.permissionState
-            DispatchQueue.main.async {
-                if permissionState == .authorized {
-                    self.subscribeToCountry(notificationsEnabled: true)
-                } else if permissionState == .denied {
+            await MainActor.run {
+                switch permissionState {
+                case .denied:
                     self.displayNotificationSettingsAlert = true
-                } else {
+                case .authorized:
+                    self.subscribeToCountry(notificationsEnabled: true)
+                default:
                     self.requestNotificationPermission()
                 }
             }
@@ -109,11 +112,7 @@ class TravelAlertsPermissionViewModel: ObservableObject {
 
     private func requestNotificationPermission() {
         notificationService.requestPermissions { [weak self] granted in
-            if granted {
-                self?.subscribeToCountry(notificationsEnabled: true)
-            } else {
-                self?.subscribeToCountry(notificationsEnabled: false)
-            }
+            self?.subscribeToCountry(notificationsEnabled: granted)
         }
     }
 
@@ -171,12 +170,13 @@ class TravelAlertsPermissionViewModel: ObservableObject {
 
         Task {
             let permissionState = await notificationService.permissionState
-            DispatchQueue.main.async {
-                if permissionState == .authorized {
+            await MainActor.run {
+                switch permissionState {
+                case .authorized:
                     self.isPendingPermissionCheck = false
                     self.displayNotificationSettingsAlert = false
                     self.subscribeToCountry(notificationsEnabled: true)
-                } else {
+                default:
                     self.isPendingPermissionCheck = false
                     self.displayNotificationSettingsAlert = false
                 }

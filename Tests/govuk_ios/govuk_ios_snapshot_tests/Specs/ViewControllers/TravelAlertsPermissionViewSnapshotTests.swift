@@ -109,7 +109,6 @@ final class TravelAlertsPermissionViewSnapshotTests: SnapshotTestCase {
             dismissAfterSuccessAction: { /*EmptyForTests*/ },
             dismissAfterErrorAction: { /*EmptyForTests*/ }
         )
-        NotificationCenter.default.removeObserver(viewModel)
         return viewModel
     }
 
