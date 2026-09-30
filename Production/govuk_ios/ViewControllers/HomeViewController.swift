@@ -242,7 +242,6 @@ class HomeViewController: BaseViewController {
     }
 }
 
-// MARK: - UISearchBarDelegate
 extension HomeViewController: UISearchBarDelegate {
     @discardableResult
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
@@ -258,7 +257,6 @@ extension HomeViewController: UISearchBarDelegate {
     }
 }
 
-// MARK: - ResetsToDefault
 extension HomeViewController: ResetsToDefault {
     @objc func resetState() {
         if viewModel.searchEnabled {
@@ -268,7 +266,6 @@ extension HomeViewController: ResetsToDefault {
     }
 }
 
-// MARK: - TrackableScreen
 extension HomeViewController: TrackableScreen {
     var trackingName: String { "Homepage" }
     var trackingTitle: String? { "Homepage" }

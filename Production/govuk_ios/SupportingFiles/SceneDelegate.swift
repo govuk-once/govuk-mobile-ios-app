@@ -43,7 +43,6 @@ class SceneDelegate: UIResponder,
         guard let windowScene = (scene as? UIWindowScene)
         else { return }
 
-        // 1. Initialize windows with your existing custom working initializers
         privacyWindow = UIWindow(
             windowScene: windowScene
         )

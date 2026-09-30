@@ -276,7 +276,6 @@ class SearchViewController: BaseViewController,
     }
 }
 
-// MARK: - UITextFieldDelegate
 extension SearchViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         searchHistoryViewController.announce()
@@ -336,7 +335,6 @@ extension SearchViewController: UITextFieldDelegate {
     }
 }
 
-// MARK: - UITableViewDelegate
 extension SearchViewController: UITableViewDelegate {
     func setupTableViewDelegate() {
         tableView.delegate = self
@@ -354,7 +352,6 @@ extension SearchViewController: UITableViewDelegate {
     }
 }
 
-// MARK: - Structs and Enums
 enum SearchSection {
     case results
 }
