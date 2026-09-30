@@ -70,19 +70,16 @@ struct LicenceStatusViewModelBuilder: LicenceStatusViewModelBuilderInterface {
         guard let validToDate = validToDate else {
             return makeValidViewModel(validToDate: nil)
         }
-
         let expiryProgress = expiryProgressCalculator.calculate(
             expiryDate: validToDate,
             currentDate: currentDate
         )
-
         if expiryProgress.isExpired {
             return makeExpiredViewModel(
                 validToDate: validToDate,
                 openURLAction: openURLAction
             )
         }
-
         if expiryProgress.isWithinCountdownWindow {
             return makeExpiringViewModel(
                 validToDate: validToDate,
@@ -90,7 +87,6 @@ struct LicenceStatusViewModelBuilder: LicenceStatusViewModelBuilderInterface {
                 openURLAction: openURLAction
             )
         }
-
         return makeValidViewModel(validToDate: validToDate)
     }
 

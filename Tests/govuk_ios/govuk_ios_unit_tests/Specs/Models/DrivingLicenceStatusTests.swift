@@ -4,7 +4,6 @@ import Testing
 @testable import govuk_ios
 
 struct DrivingLicenceStatusTests {
-
     private let decoder = JSONDecoder()
 
     private func encoded(_ string: String) -> Data {
