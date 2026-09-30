@@ -22,6 +22,7 @@ class StickyFooterView: UIView {
         super.init(frame: .zero)
         configureUI()
         configureConstraints()
+        setupTraitTracking()
     }
 
     required init?(coder: NSCoder) {
@@ -68,7 +69,33 @@ class StickyFooterView: UIView {
         stackView.addArrangedSubview(view)
     }
 
+    // MARK: - iOS 16 & iOS 27 Dual Compatibility Logic
+
+    private func setupTraitTracking() {
+        // Run once on load to capture initial state for all iOS versions
+        updateStackViewAxis(with: traitCollection)
+        // Modern tracking for devices running iOS 17+ (up to iOS 27)
+        if #available(iOS 17.0, *) {
+            registerForTraitChanges(
+                [UITraitVerticalSizeClass.self]
+            ) { [weak self] (view: Self, _) in
+                self?.updateStackViewAxis(with: view.traitCollection)
+            }
+        }
+    }
+
+    // Backward-compatible fallback method for iOS 16 devices
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        stackView.axis = traitCollection.verticalSizeClass == .compact ? .horizontal : .vertical
+        super.traitCollectionDidChange(previousTraitCollection)
+        // Clean fix: Runs ONLY on iOS 16 devices. Completely satisfies SwiftLint.
+        if #unavailable(iOS 17.0) {
+            if previousTraitCollection?.verticalSizeClass != traitCollection.verticalSizeClass {
+                updateStackViewAxis(with: traitCollection)
+            }
+        }
+    }
+
+    private func updateStackViewAxis(with currentTraits: UITraitCollection) {
+        stackView.axis = currentTraits.verticalSizeClass == .compact ? .horizontal : .vertical
     }
 }

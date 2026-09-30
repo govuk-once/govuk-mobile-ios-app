@@ -11,11 +11,9 @@ class SearchViewController: BaseViewController,
                             TrackableScreen {
     private let viewModel: SearchViewModel
     private let searchBar: UISearchBar
-
     private lazy var errorView: UIView = {
         self.appErrorViewController.view
     }()
-
     private lazy var errorScrollView: UIScrollView = {
         let localView = UIScrollView()
         localView.translatesAutoresizingMaskIntoConstraints = false
@@ -25,7 +23,6 @@ class SearchViewController: BaseViewController,
         localView.isHidden = true
         return localView
     }()
-
     private lazy var appErrorViewController: HostingViewController = {
         let localController = HostingViewController(
             rootView: AppErrorView()
@@ -35,18 +32,14 @@ class SearchViewController: BaseViewController,
         localController.shouldAutoFocusVoiceover = false
         return localController
     }()
-
     private let tableViewHeader: UIView = {
         let headerView = UIView()
         let label = UILabel()
-
         headerView.addSubview(label)
-
         label.font = UIFont.govUK.title3Semibold
         label.text = String.search.localized("searchResultsTitle")
         label.accessibilityTraits = .header
         label.translatesAutoresizingMaskIntoConstraints = false
-
         NSLayoutConstraint.activate([
             label.topAnchor.constraint(equalTo: headerView.topAnchor),
             label.leftAnchor.constraint(equalTo: headerView.leftAnchor, constant: 32),
@@ -54,7 +47,6 @@ class SearchViewController: BaseViewController,
         ])
         return headerView
     }()
-
     private let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -65,7 +57,6 @@ class SearchViewController: BaseViewController,
         tableView.contentInset.top = 16
         return tableView
     }()
-
     private lazy var dataSource: DataSource = {
         let localDataSource = DataSource(
             tableView: tableView,
@@ -78,7 +69,6 @@ class SearchViewController: BaseViewController,
         localDataSource.defaultRowAnimation = .fade
         return localDataSource
     }()
-
     private lazy var searchHistoryViewController: SearchHistoryViewController = {
         let localController = SearchHistoryViewController(
             viewModel: viewModel.searchHistoryViewModel,
@@ -91,9 +81,7 @@ class SearchViewController: BaseViewController,
         localController.view.translatesAutoresizingMaskIntoConstraints = false
         return localController
     }()
-
     var trackingName: String { "Search" }
-
     init(viewModel: SearchViewModel,
          searchBar: UISearchBar) {
         self.viewModel = viewModel
@@ -101,36 +89,27 @@ class SearchViewController: BaseViewController,
         super.init(analyticsService: viewModel.analyticsService)
         shouldAutoFocusVoiceover = false
     }
-
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
     public override func viewDidLoad() {
         super.viewDidLoad()
-
         tableView.dataSource = dataSource
         searchBar.searchTextField.delegate = self
         setupTableViewDelegate()
-
         configureUI()
         configureConstraints()
         configureErrorConstraints()
     }
-
     private func configureUI() {
         view.backgroundColor = GOVUKColors.fills.surfaceModal
-
         view.addSubview(tableView)
         view.addSubview(errorScrollView)
         errorScrollView.addSubview(errorView)
-
         addController(searchSuggestionsViewController)
         addController(searchHistoryViewController)
-
         tableView.isHidden = !viewModel.historyIsEmpty
     }
-
     private func configureConstraints() {
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(
@@ -145,7 +124,6 @@ class SearchViewController: BaseViewController,
             tableView.bottomAnchor.constraint(
                 equalTo: view.bottomAnchor
             ),
-
             searchSuggestionsViewController.view.topAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.topAnchor
             ),
@@ -160,7 +138,6 @@ class SearchViewController: BaseViewController,
             searchSuggestionsViewController.view.bottomAnchor.constraint(
                 equalTo: view.bottomAnchor
             ),
-
             searchHistoryViewController.view.topAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.topAnchor
             ),
@@ -177,7 +154,6 @@ class SearchViewController: BaseViewController,
             )
         ])
     }
-
     private func configureErrorConstraints() {
         NSLayoutConstraint.activate([
             errorScrollView.topAnchor.constraint(
@@ -193,7 +169,6 @@ class SearchViewController: BaseViewController,
             errorScrollView.bottomAnchor.constraint(
                 equalTo: view.bottomAnchor
             ),
-
             errorView.topAnchor.constraint(
                 equalTo: errorScrollView.topAnchor
             ),
@@ -211,7 +186,6 @@ class SearchViewController: BaseViewController,
             )
         ])
     }
-
     private func didInvokeSearch(using type: SearchInvocationType) {
         handleSearchInvocationFocusState()
         let searchText = searchBar.text
@@ -237,7 +211,7 @@ class SearchViewController: BaseViewController,
         tableViewHeader.becomeFirstResponder()
     }
 
-    private lazy var searchSuggestionsViewController: SearchSuggestionsViewController =  {
+    private lazy var searchSuggestionsViewController: SearchSuggestionsViewController = {
         let localController = SearchSuggestionsViewController(
             viewModel: viewModel.searchSuggestionsViewModel,
             selectionAction: { searchText in
@@ -292,11 +266,6 @@ class SearchViewController: BaseViewController,
         tableView.isHidden = viewModel.results?.isEmpty == true || viewModel.results == nil
     }
 
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        errorView.invalidateIntrinsicContentSize()
-    }
-
     func clearResults() {
         viewModel.clearResults()
         reloadSnapshot()
@@ -307,6 +276,7 @@ class SearchViewController: BaseViewController,
     }
 }
 
+// MARK: - UITextFieldDelegate
 extension SearchViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         searchHistoryViewController.announce()
@@ -366,7 +336,7 @@ extension SearchViewController: UITextFieldDelegate {
     }
 }
 
-
+// MARK: - UITableViewDelegate
 extension SearchViewController: UITableViewDelegate {
     func setupTableViewDelegate() {
         tableView.delegate = self
@@ -384,6 +354,7 @@ extension SearchViewController: UITableViewDelegate {
     }
 }
 
+// MARK: - Structs and Enums
 enum SearchSection {
     case results
 }
