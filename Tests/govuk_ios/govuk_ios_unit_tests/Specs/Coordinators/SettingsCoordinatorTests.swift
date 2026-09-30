@@ -229,7 +229,9 @@ struct SettingsCoordinatorTests {
             viewControllerBuilder: MockViewControllerBuilder(),
             notificationCentreService: MockNotificationCentreService(),
             analyticsService: MockAnalyticsService(),
-            coordinatorBuilder: mockCoordinatorBuilder)
+            coordinatorBuilder: mockCoordinatorBuilder,
+            urlOpener: MockURLOpener()
+        )
 
         mockCoordinatorBuilder._stubbedNotificationCentreCoordinator = mockNotificationCentreCoordinator
         let navigationController = UINavigationController()

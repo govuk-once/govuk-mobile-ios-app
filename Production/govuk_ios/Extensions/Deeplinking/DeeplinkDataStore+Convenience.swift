@@ -17,7 +17,8 @@ extension DeeplinkDataStore {
                     coordinatorBuilder: coordinatorBuilder,
                     analyticsService: analyticsService
                 ),
-                NotificationCentreDetailDeeplinkRoute(coordinatorBuilder: coordinatorBuilder)
+                NotificationCentreDetailDeeplinkRoute(coordinatorBuilder: coordinatorBuilder),
+                TravelAlertsEditDeeplinkRoute(coordinatorBuilder: coordinatorBuilder)
             ],
             root: root
         )

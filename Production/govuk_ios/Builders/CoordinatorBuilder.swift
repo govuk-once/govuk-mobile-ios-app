@@ -606,7 +606,8 @@ class CoordinatorBuilder {
             viewControllerBuilder: ViewControllerBuilder(),
             notificationCentreService: container.notificationCentreService.resolve(),
             analyticsService: container.analyticsService.resolve(),
-            coordinatorBuilder: self
+            coordinatorBuilder: self,
+            urlOpener: UIApplication.shared
         )
     }
 
