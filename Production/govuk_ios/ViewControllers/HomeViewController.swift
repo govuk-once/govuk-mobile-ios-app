@@ -61,7 +61,6 @@ class HomeViewController: BaseViewController {
         }
         configureContentViewController()
         displayHomeContent()
-        // iOS 17+ / iOS 27 Modern Trait Adaptivity Pipeline
         if #available(iOS 17.0, *) {
             registerForTraitChanges([
                 UITraitUserInterfaceStyle.self,
@@ -84,7 +83,6 @@ class HomeViewController: BaseViewController {
         viewModel.trackECommerce()
     }
 
-    // Legacy Fallback Pipeline (Strictly runs on iOS 16 only)
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
 
@@ -103,7 +101,6 @@ class HomeViewController: BaseViewController {
                                              .cgColor
     }
     fileprivate func setLogoHidden(_ hideLogo: Bool) {
-        // Flush any pending layouts before animating header layout
         self.view.layoutIfNeeded()
         if hideLogo && traitCollection.verticalSizeClass == .compact {
             logoHeightConstraint.constant = 0
@@ -129,7 +126,6 @@ class HomeViewController: BaseViewController {
     }
 
     private func configureAppearance(for searchBar: UISearchBar) {
-        // manually resolve colours to fix liquid glass UIKit glitch
         let primaryTextColor = UIColor.govUK.text.primary.resolvedColor(with: traitCollection)
         let secondaryTextColor = UIColor.govUK.text.secondary.resolvedColor(with: traitCollection)
 
