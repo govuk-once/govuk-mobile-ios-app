@@ -99,11 +99,11 @@ class TravelAlertsPermissionViewModel: ObservableObject {
             let permissionState = await notificationService.permissionState
             await MainActor.run {
                 switch permissionState {
-                case .denied:
-                    self.displayNotificationSettingsAlert = true
                 case .authorized:
                     self.subscribeToCountry(notificationsEnabled: true)
-                default:
+                case .denied:
+                    self.displayNotificationSettingsAlert = true
+                case .notDetermined:
                     self.requestNotificationPermission()
                 }
             }
@@ -176,7 +176,7 @@ class TravelAlertsPermissionViewModel: ObservableObject {
                     self.isPendingPermissionCheck = false
                     self.displayNotificationSettingsAlert = false
                     self.subscribeToCountry(notificationsEnabled: true)
-                default:
+                case .denied, .notDetermined:
                     self.isPendingPermissionCheck = false
                     self.displayNotificationSettingsAlert = false
                 }
