@@ -57,6 +57,7 @@ class MockTravelService: TravelServiceInterface {
     var _receivedSubscribeCompletion: SubscriptionResultCompletion?
     var _stubbedSubscribeResult: SubscriptionResult?
     var _autoCallSubscribeCompletion = true
+    var subscribeToCountryHandler: ((String, Bool, @escaping SubscriptionResultCompletion) -> Void)?
 
     func subscribeToCountry(
         slug: String,
@@ -68,7 +69,9 @@ class MockTravelService: TravelServiceInterface {
         _recievedSubscribeBool = notificationsEnabled
         _receivedSubscribeCompletion = completion
 
-        if _autoCallSubscribeCompletion {
+        if let handler = subscribeToCountryHandler {
+            handler(slug, notificationsEnabled, completion)
+        } else if _autoCallSubscribeCompletion {
             if let result = _stubbedSubscribeResult {
                 completion(result)
             } else {

@@ -22,6 +22,14 @@ class MockURLOpener: URLOpener {
     var _receivedOpenIfPossibleUrlString: String?
     func openIfPossible(_ urlString: String) -> Bool {
         _receivedOpenIfPossibleUrlString = urlString
+        if urlString == UIApplication.openNotificationSettingsURLString {
+            return shouldOpenNotificationSettings
+        }
         return _stubbedOpenResult
+    }
+
+    var shouldOpenNotificationSettings: Bool = false
+    func openNotificationSettings() -> Bool {
+        return shouldOpenNotificationSettings
     }
 }

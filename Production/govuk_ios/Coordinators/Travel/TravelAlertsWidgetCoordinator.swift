@@ -80,7 +80,10 @@ final class TravelAlertsWidgetCoordinator: BaseCoordinator,
         let viewController = viewControllerBuilder.editCountries(
             travelService: travelService,
             analyticsService: analyticsService,
-            notificationService: notificationService
+            notificationService: notificationService,
+            openURLAction: { [weak self] url in
+                self?.urlOpener.openIfPossible(url)
+            }
         )
         push(viewController)
     }

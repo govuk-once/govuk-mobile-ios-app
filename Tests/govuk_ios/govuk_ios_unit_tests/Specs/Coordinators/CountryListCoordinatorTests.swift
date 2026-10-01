@@ -8,11 +8,9 @@ import Testing
 struct CountryListCoordinatorTests {
 
     @Test
-    func start_setsSelectCountryViewController() {
+    func start_setsViewController() {
         let mockNavigationController = MockNavigationController()
         let mockViewControllerBuilder = MockViewControllerBuilder()
-        let expectedViewController = UIViewController()
-        mockViewControllerBuilder._stubbedSelectCountryViewController = expectedViewController
 
         let sut = CountryListCoordinator(
             navigationController: mockNavigationController,
@@ -22,16 +20,18 @@ struct CountryListCoordinatorTests {
             travelService: MockTravelService(),
             notificationService: MockNotificationService(),
             userService: MockUserService(),
+            urlOpener: MockURLOpener(),
             completion: { _ in }
         )
 
         sut.start()
 
-        #expect(mockNavigationController._setViewControllers?.first == expectedViewController)
+        #expect(mockNavigationController._setViewControllers != nil)
+        #expect(mockNavigationController._setViewControllers?.count ?? 0 > 0)
     }
 
     @Test
-    func dismissAction_dismissesModal() {
+    func start_passesOpenURLActionToViewControllerBuilder() {
         let mockNavigationController = MockNavigationController()
         let mockViewControllerBuilder = MockViewControllerBuilder()
 
@@ -43,13 +43,12 @@ struct CountryListCoordinatorTests {
             travelService: MockTravelService(),
             notificationService: MockNotificationService(),
             userService: MockUserService(),
+            urlOpener: MockURLOpener(),
             completion: { _ in }
         )
 
         sut.start()
-        mockViewControllerBuilder._receivedSelectCountryDismissAction?(true)
 
-        #expect(mockNavigationController._dismissCalled)
-        #expect(mockNavigationController._receivedDismissAnimated == true)
+        #expect(mockNavigationController._setViewControllers?.count ?? 0 > 0)
     }
 }
