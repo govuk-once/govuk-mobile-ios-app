@@ -44,6 +44,7 @@ final class VehicleCheckCoordinator: BaseCoordinator {
             configService: configService,
             actions: actions
         )
+        viewController.view.backgroundColor = .govUK.fills.surfaceModal
         if let sheet = root.sheetPresentationController {
             sheet.prefersGrabberVisible = true
             sheet.detents = [.large()]

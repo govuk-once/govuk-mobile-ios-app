@@ -342,6 +342,8 @@
 		80056D5D306AD27600697D5C /* VehicleCheckCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80056D5C306AD27100697D5C /* VehicleCheckCoordinator.swift */; };
 		80AB3E6830615E6B00A531CE /* VehicleCheckSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AB3E6730615E6400A531CE /* VehicleCheckSectionViewModel.swift */; };
 		80C119C5305C517C00183EA8 /* VehicleCheckSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C119C4305C4FF200183EA8 /* VehicleCheckSectionView.swift */; };
+		80CBA71A306E708100320F8A /* VehicleSpecSectionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CBA719306E707700320F8A /* VehicleSpecSectionBuilder.swift */; };
+		80CBA71C306EABEF00320F8A /* VehicleSpecData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CBA71B306EABEA00320F8A /* VehicleSpecData.swift */; };
 		8101A23E2F28BAAB009E639B /* AppUnavailableError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8101A23D2F28BAA4009E639B /* AppUnavailableError.swift */; };
 		8101BEEB2F2A24B8009E639B /* RemoteConfigValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8101BEE92F2A24B8009E639B /* RemoteConfigValue.swift */; };
 		8101BEEC2F2A24B8009E639B /* RemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8101BEE82F2A24B8009E639B /* RemoteConfig.swift */; };
@@ -968,6 +970,8 @@
 		80056D5C306AD27100697D5C /* VehicleCheckCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleCheckCoordinator.swift; sourceTree = "<group>"; };
 		80AB3E6730615E6400A531CE /* VehicleCheckSectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleCheckSectionViewModel.swift; sourceTree = "<group>"; };
 		80C119C4305C4FF200183EA8 /* VehicleCheckSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleCheckSectionView.swift; sourceTree = "<group>"; };
+		80CBA719306E707700320F8A /* VehicleSpecSectionBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleSpecSectionBuilder.swift; sourceTree = "<group>"; };
+		80CBA71B306EABEA00320F8A /* VehicleSpecData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleSpecData.swift; sourceTree = "<group>"; };
 		8101A23D2F28BAA4009E639B /* AppUnavailableError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUnavailableError.swift; sourceTree = "<group>"; };
 		8101BEE82F2A24B8009E639B /* RemoteConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfig.swift; sourceTree = "<group>"; };
 		8101BEE92F2A24B8009E639B /* RemoteConfigValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigValue.swift; sourceTree = "<group>"; };
@@ -2568,6 +2572,7 @@
 		815018EA2F7D28F000E7469C /* DVLA */ = {
 			isa = PBXGroup;
 			children = (
+				80CBA71B306EABEA00320F8A /* VehicleSpecData.swift */,
 				16F935FD2FFE844800ADA47B /* CustomerVehicleDetails.swift */,
 				1615D80C2FFE72470052F269 /* CustomerVehicles.swift */,
 				81BFE12F2FAB8ECE00249569 /* VehicleEnquiryResponse.swift */,
@@ -2683,6 +2688,7 @@
 				1663A3F72FEEDCA40002CFDB /* TaxStatusViewModelBuilder.swift */,
 				81D3E36C2FE3EDBB006049CC /* LicenceStatusViewModelBuilder.swift */,
 				4E2468B42FFFB2C400248C5F /* MotStatusViewModelBuilder.swift */,
+				80CBA719306E707700320F8A /* VehicleSpecSectionBuilder.swift */,
 			);
 			path = DVLA;
 			sourceTree = "<group>";
@@ -3396,6 +3402,7 @@
 				16FCDE782DC4E39A000E870D /* TokenRefreshResponse.swift in Sources */,
 				5DDE5D182FFBC5DC00DF6B34 /* PromoBannerWidgetViewModel.swift in Sources */,
 				D0ABA5D22FA4E8AB00C5A244 /* SARExplainerViewModel.swift in Sources */,
+				80CBA71C306EABEF00320F8A /* VehicleSpecData.swift in Sources */,
 				5D66D1882CBFC15000006723 /* AppEvent+Search.swift in Sources */,
 				1677D4042E00695500FB1E56 /* LocalAuthenticationSettingsViewModel.swift in Sources */,
 				4EF407562CE2796900D654FC /* UIButton+Extensions.swift in Sources */,
@@ -3619,6 +3626,7 @@
 				4E5E79A82DEF063800CA9B4D /* LocalAuthorityConfirmationView.swift in Sources */,
 				85611CCF302F4CE6008EB3B1 /* TravelAlertsWidgetViewModel.swift in Sources */,
 				4EFE22A12D0CD08900136D56 /* Redactor.swift in Sources */,
+				80CBA71A306E708100320F8A /* VehicleSpecSectionBuilder.swift in Sources */,
 				81F9296F2FDC25A500BF709E /* VehicleDetailCoordinator.swift in Sources */,
 				D056CE742D3A83F2005845E0 /* NotificationsWidgetViewModel.swift in Sources */,
 				16EE1A412C6F8968005E820F /* SearchViewController.swift in Sources */,

@@ -14,6 +14,7 @@ struct VehicleCheckResultViewModel {
     private let actions: VehicleCheckResultActions
     private let taxStatusViewModelBuilder: TaxStatusViewModelBuilder
     private let motStatusViewModelBuilder: MotStatusViewModelBuilder
+    private let specSectionBuilder: VehicleSpecSectionBuilder
     private let specFormatter = VehicleSpecFormatter()
 
     let regNumberAccessibilityLabelPrefix = String(
@@ -69,6 +70,7 @@ struct VehicleCheckResultViewModel {
             analyticsService: analyticsService,
             openURLAction: actions.openURLAction
         )
+        self.specSectionBuilder = VehicleSpecSectionBuilder(specFormatter: specFormatter)
     }
 
     func dismiss() {
@@ -115,6 +117,13 @@ struct VehicleCheckResultViewModel {
             fuelTypeName: specFormatter.formatFuelTypeShort(from: vehicle.fuelType),
             year: specFormatter.formatYearOfFirstRegistration(from: vehicle.dateOfFirstRegistration)
         )
+    }
+
+    private func specificationSection(
+        for vehicle: VehicleEnquiryResponse.Vehicle
+    ) -> GroupedListSection {
+        let specData = VehicleSpecData(vehicle: vehicle)
+        return specSectionBuilder.makeSection(for: specData)
     }
 
     private func openSoldVehicleURL(_ text: String) {
@@ -221,106 +230,30 @@ extension VehicleCheckResultViewModel {
             )
         )
 
-        if vehicle.motStatus == .valid {
-            if vehicle.taxStatus == .untaxed || vehicle.taxStatus == .sorn
-                || vehicle.taxStatus == .notTaxedForOnRoadUse {
-                items.append(
-                    DvlaMenuItemViewModel(
-                        title: String(localized: .DVLA.vehicleMenuReportOnRoadTitle),
-                        accessibilityLabel: String(
-                            localized: .DVLA.vehicleMenuReportOnRoadAccessibilityLabel
-                        ),
-                        openURLAction: { text in openReportUntaxedVehicleURL(text) }
-                    )
+        let notTaxedStatuses: Set<TaxStatus> = [.untaxed, .sorn, .notTaxedForOnRoadUse]
+        if vehicle.motStatus == .valid,
+            let taxStatus = vehicle.taxStatus,
+            notTaxedStatuses.contains(taxStatus) {
+            items.append(
+                DvlaMenuItemViewModel(
+                    title: String(localized: .DVLA.vehicleMenuReportOnRoadTitle),
+                    accessibilityLabel: String(
+                        localized: .DVLA.vehicleMenuReportOnRoadAccessibilityLabel
+                    ),
+                    openURLAction: { text in openReportUntaxedVehicleURL(text) }
                 )
-            }
+            )
         } else if vehicle.motStatus == .notValid {
-            if vehicle.taxStatus == .taxed || vehicle.taxStatus == .untaxed
-                || vehicle.taxStatus == .sorn || vehicle.taxStatus == .notTaxedForOnRoadUse {
-                items.append(
-                    DvlaMenuItemViewModel(
-                        title: String(localized: .DVLA.vehicleMenuReportOnRoadTitle),
-                        accessibilityLabel: String(
-                            localized: .DVLA.vehicleMenuReportOnRoadAccessibilityLabel
-                        ),
-                        openURLAction: { text in openReportNoMotURL(text) }
-                    )
+            items.append(
+                DvlaMenuItemViewModel(
+                    title: String(localized: .DVLA.vehicleMenuReportOnRoadTitle),
+                    accessibilityLabel: String(
+                        localized: .DVLA.vehicleMenuReportOnRoadAccessibilityLabel
+                    ),
+                    openURLAction: { text in openReportNoMotURL(text) }
                 )
-            }
+            )
         }
         return items
-    }
-}
-
-// MARK: Specification list section
-
-extension VehicleCheckResultViewModel {
-    // swiftlint:disable:next function_body_length
-    private func specificationSection(
-        for vehicle: VehicleEnquiryResponse.Vehicle
-    ) -> GroupedListSection {
-        let engineSize: AccessibleString = specFormatter.formatEngineSize(
-            from: vehicle.engineCapacity
-        )
-        let emissions = specFormatter.formatEmissions(
-            from: vehicle.exhaustEmissionsCo2
-        )
-        return GroupedListSection(
-            heading: nil,
-            rows: [
-                InformationRow(
-                    id: "vehicle.make.row",
-                    title: String(localized: .DVLA.vehicleMake),
-                    body: nil,
-                    detail: vehicle.make
-                ),
-                InformationRow(
-                    id: "vehicle.yearOfFirstRegistration.row",
-                    title: String(localized: .DVLA.firstRegistered),
-                    body: nil,
-                    detail: specFormatter.formatDateOfFirstRegistration(
-                        vehicle.dateOfFirstRegistration
-                    )
-                ),
-                InformationRow(
-                    id: "vehicle.fuelType.row",
-                    title: String(localized: .DVLA.fuelType),
-                    body: nil,
-                    detail: specFormatter.formatFuelTypeLong(from: vehicle.fuelType)
-                ),
-                InformationRow(
-                    id: "vehicle.colour.row",
-                    title: String(localized: .DVLA.colour),
-                    body: nil,
-                    detail: specFormatter.formatColour(
-                        primary: vehicle.colour,
-                        secondary: vehicle.secondaryColour
-                    )
-                ),
-                InformationRow(
-                    id: "vehicle.engineSize.row",
-                    title: String(localized: .DVLA.engineSize),
-                    body: nil,
-                    detail: engineSize.displayValue,
-                    accessibilityLabel: String(
-                        localized: .DVLA.engineSizeAccessibilityLabel(
-                            value: engineSize.accessibilityLabel
-                        )
-                    )
-                ),
-                InformationRow(
-                    id: "vehicle.emissions.row",
-                    title: String(localized: .DVLA.co2Emissions),
-                    body: nil,
-                    detail: emissions,
-                    accessibilityLabel: String(
-                        localized: .DVLA.emissionsAccessibilityLabel(
-                            value: emissions
-                        )
-                    )
-                )
-            ],
-            footer: nil
-        )
     }
 }
