@@ -72,7 +72,7 @@ class MockHomeCoordinator: HomeCoordinator {
     }
 
     var _didShowEditTravelAlertCountries: Bool = false
-    override func showEditTravelAlertCountries() {
+    override func showTravelAlertTopic() {
         _didShowEditTravelAlertCountries = true
     }
 }

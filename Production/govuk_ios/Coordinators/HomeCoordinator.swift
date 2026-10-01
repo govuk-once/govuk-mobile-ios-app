@@ -102,7 +102,7 @@ class HomeCoordinator: TabItemCoordinator {
         startRecentActivityCoordinator()
     }
 
-    func showEditTravelAlertCountries() {
+    func showTravelAlertTopic() {
         let topics = topicsService.fetchAll()
         if let travelTopic = topics.first(where: { $0.isTravelTopic }) {
             let coordinator = coordinatorBuilder.topicDetail(
@@ -110,9 +110,6 @@ class HomeCoordinator: TabItemCoordinator {
                 navigationController: root
             )
             start(coordinator)
-            if let topicDetailsCoordinator = coordinator as? TopicDetailsCoordinator {
-                topicDetailsCoordinator.showEditCountries()
-            }
         }
     }
 
