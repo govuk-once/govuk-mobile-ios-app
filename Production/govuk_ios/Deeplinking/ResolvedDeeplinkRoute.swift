@@ -14,6 +14,8 @@ struct ResolvedDeeplinkRoute {
         self.parent = parent
     }
 
+    var shouldSwitchTab: Bool { route.shouldSwitchTab }
+
     @MainActor
     func action() {
         route.action(

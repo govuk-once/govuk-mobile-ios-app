@@ -63,7 +63,9 @@ class TabCoordinator: BaseCoordinator,
 
         let isDeeplinkFound: Bool
         if let route = route {
-            selectTabIndex(for: route.parent.root)
+            if route.shouldSwitchTab {
+                selectTabIndex(for: route.parent.root)
+            }
             route.action()
             isDeeplinkFound = true
         } else {

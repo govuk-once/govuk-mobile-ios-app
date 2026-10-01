@@ -62,6 +62,6 @@ class NotificationCentreCoordinator: BaseCoordinator {
             url: url,
             fullScreen: false
         )
-        start(coordinator, url: url)
+        start(coordinator)
     }
 }

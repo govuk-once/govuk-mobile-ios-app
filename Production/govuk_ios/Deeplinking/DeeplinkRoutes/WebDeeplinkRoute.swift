@@ -12,6 +12,8 @@ struct WebDeeplinkRoute: DeeplinkRoute {
         "/web"
     }
 
+    var shouldSwitchTab: Bool { false }
+
     @MainActor
     func action(parent: BaseCoordinator, params: [String: String]) {
         if let targetUrl = params["url"],
