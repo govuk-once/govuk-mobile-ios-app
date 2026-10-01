@@ -52,7 +52,7 @@ struct VehicleCheckResultViewModelTests {
     func menuItems_whenMotAndTaxBothValid_containsBaseMenuItemsOnly() {
         let mockVehicle = VehicleEnquiryResponse.Vehicle.arrange(
             taxStatus: .taxed,
-            motStatus: "Valid"
+            motStatus: .valid
             )
         let sut = VehicleCheckResultViewModel(
             vehicle: mockVehicle,
@@ -81,7 +81,7 @@ struct VehicleCheckResultViewModelTests {
 
         let mockVehicle = VehicleEnquiryResponse.Vehicle.arrange(
             taxStatus: taxStatus,
-            motStatus: "Valid"
+            motStatus: .valid
         )
         let sut = VehicleCheckResultViewModel(
             vehicle: mockVehicle,
@@ -116,7 +116,7 @@ struct VehicleCheckResultViewModelTests {
 
         let mockVehicle = VehicleEnquiryResponse.Vehicle.arrange(
             taxStatus: taxStatus,
-            motStatus: "Not valid"
+            motStatus: .notValid
         )
         let sut = VehicleCheckResultViewModel(
             vehicle: mockVehicle,

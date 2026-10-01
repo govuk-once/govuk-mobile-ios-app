@@ -14,7 +14,7 @@ class VehicleCheckResultViewSnapshotTests: SnapshotTestCase {
             registrationNumber: "DF04 FSY",
             taxStatus: .untaxed,
             taxedUntil: nil,
-            motStatus: "Not valid",
+            motStatus: .notValid,
             motExpiryDate: .arrange("10/05/2026"),
             make: "FORD",
             dateOfFirstRegistration: .arrange("01/05/2004"),

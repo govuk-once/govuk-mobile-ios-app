@@ -22,8 +22,8 @@ final class VehicleCheckCoordinator: BaseCoordinator {
 
     override func start(url: URL?) {
         // reg number input view not implemented yet
-        // uncomment line below to show result screen for mock vehicle
-        // setVehicleCheckResult(for: mockVehicle)
+        // show result screen for mock vehicle
+        setVehicleCheckResult(for: mockVehicle)
     }
 
     private func setVehicleCheckResult(for vehicle: VehicleEnquiryResponse.Vehicle) {
@@ -77,7 +77,7 @@ extension VehicleCheckCoordinator {
             registrationNumber: "DF04 FSY",
             taxStatus: .untaxed,
             taxedUntil: nil,
-            motStatus: "Valid",
+            motStatus: .valid,
             motExpiryDate: Date(timeIntervalSince1970: 1793491200),
             make: "FORD",
             dateOfFirstRegistration: Date(timeIntervalSince1970: 1083369600),

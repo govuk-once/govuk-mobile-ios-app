@@ -6,7 +6,7 @@ struct CustomerVehicles: Codable {
         let registrationNumber: String
         let make: String
         let model: String?
-        let motStatus: String
+        let motStatus: MotStatus
         let taxStatus: TaxStatus?
         let dateOfLiability: Date?
         let sornStart: Date?
@@ -23,4 +23,18 @@ enum TaxStatus: String, Codable {
     case sorn = "SORN"
     case untaxed = "Untaxed"
     case taxed = "Taxed"
+}
+
+enum MotStatus: String, Codable {
+    case valid = "Valid"
+    case notValid = "Not valid"
+    case noResultsReturned = "No results returned"
+    case noDetailsHeldByDVLA = "No details held by DVLA"
+    case unknown
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let rawValue = try container.decode(String.self)
+        self = MotStatus(rawValue: rawValue) ?? .unknown
+    }
 }

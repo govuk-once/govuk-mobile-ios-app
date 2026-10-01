@@ -221,7 +221,7 @@ extension VehicleCheckResultViewModel {
             )
         )
 
-        if vehicle.motStatus == "Valid" {
+        if vehicle.motStatus == .valid {
             if vehicle.taxStatus == .untaxed || vehicle.taxStatus == .sorn
                 || vehicle.taxStatus == .notTaxedForOnRoadUse {
                 items.append(
@@ -234,7 +234,7 @@ extension VehicleCheckResultViewModel {
                     )
                 )
             }
-        } else if vehicle.motStatus == "Not valid" {
+        } else if vehicle.motStatus == .notValid {
             if vehicle.taxStatus == .taxed || vehicle.taxStatus == .untaxed
                 || vehicle.taxStatus == .sorn || vehicle.taxStatus == .notTaxedForOnRoadUse {
                 items.append(

@@ -29,7 +29,7 @@ extension CustomerVehicleDetails.Vehicle {
         taxStatus: TaxStatus? = .taxed,
         taxedUntil: Date? = nil,
         dateOfLiability: Date? = nil,
-        motStatus: String = "Not valid",
+        motStatus: MotStatus = .notValid,
         motExpiryDate: Date? = nil,
         dateOfFirstRegistration: Date = .arrange("12/03/2021"),
         colour: String = "YELLOW",

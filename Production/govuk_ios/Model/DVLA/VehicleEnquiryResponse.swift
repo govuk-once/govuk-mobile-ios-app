@@ -6,7 +6,7 @@ struct VehicleEnquiryResponse: Codable {
         let registrationNumber: String
         let taxStatus: TaxStatus?
         let taxedUntil: Date?
-        let motStatus: String
+        let motStatus: MotStatus
         let motExpiryDate: Date?
         let make: String
         let dateOfFirstRegistration: Date
