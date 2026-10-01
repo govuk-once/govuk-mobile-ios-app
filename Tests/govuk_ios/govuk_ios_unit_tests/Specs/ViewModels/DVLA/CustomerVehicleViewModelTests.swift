@@ -82,7 +82,7 @@ struct CustomerVehicleViewModelTests {
     func motStatusViewModel_motExpiryDateIsValid_formatsStatusCorrectly() {
         let futureDate = generateFutureDate(daysAhead: 45)
         let mockVehicle = CustomerVehicles.Vehicle.arrange(
-            motStatus: "Valid", motExpiryDate: futureDate
+            motStatus: .valid, motExpiryDate: futureDate
         )
         let sut = VehicleSummaryViewModel(
             vehicle: mockVehicle,
@@ -103,7 +103,7 @@ struct CustomerVehicleViewModelTests {
     @Test
     func motStatusViewModel_motExpiryDateIsNil_returnsUnknown() {
         let mockVehicle = CustomerVehicles.Vehicle.arrange(
-            motStatus: "Unknown",
+            motStatus: .unknown,
             motExpiryDate: nil
         )
         let sut = VehicleSummaryViewModel(

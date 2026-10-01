@@ -84,6 +84,7 @@ class DVLAServiceClient: DVLAServiceClientInterface {
                 let response = try decoder.decode(T.self, from: $0)
                 return .success(response)
             } catch {
+                assertionFailure("DVLA decoding failed: \(error)")
                 return .failure(DVLAError.decodingError)
             }
         }
