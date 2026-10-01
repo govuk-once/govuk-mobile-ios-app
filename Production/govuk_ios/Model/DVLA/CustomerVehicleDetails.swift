@@ -6,7 +6,7 @@ struct CustomerVehicleDetails: Codable {
         let registrationNumber: String
         let make: String
         let model: String?
-        let motStatus: String
+        let motStatus: MotStatus
         let dateOfFirstRegistration: Date
         let fuelType: FuelType
         let colour: String
