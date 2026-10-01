@@ -11,22 +11,20 @@ struct NotificationCentreCoordinatorTests {
     let navigationController = UINavigationController()
     var mockViewControllerBuilder: MockViewControllerBuilder!
     var mockCoordinatorBuilder: MockCoordinatorBuilder!
-    var mockURLOpener: MockURLOpener!
     var SUT: NotificationCentreCoordinator!
 
     init() {
         UIView.setAnimationsEnabled(false)
         mockViewControllerBuilder = MockViewControllerBuilder()
         mockCoordinatorBuilder = CoordinatorBuilder.mock
-        mockURLOpener = MockURLOpener()
 
         SUT = NotificationCentreCoordinator(
             navigationController: navigationController,
             viewControllerBuilder: mockViewControllerBuilder,
             notificationCentreService: MockNotificationCentreService(),
             analyticsService: MockAnalyticsService(),
-            coordinatorBuilder: CoordinatorBuilder.mock,
-            urlOpener: mockURLOpener)
+            coordinatorBuilder: mockCoordinatorBuilder,
+            urlOpener: MockURLOpener())
     }
 
     @Test
@@ -50,10 +48,12 @@ struct NotificationCentreCoordinatorTests {
     }
 
     @Test
-    func showDetail_govukUrl_opensViaUrlOpener() {
+    func showDetail_govukUrl_startsSafariCoordinator() {
         let govukUrl = URL(string: "govuk://app.gov.uk/travelalerts/edit")
         let expectedViewController = UIViewController()
         mockViewControllerBuilder._stubbedNotificationCentreDetailViewController = expectedViewController
+        let mockSafariCoordinator = MockBaseCoordinator()
+        mockCoordinatorBuilder._stubbedSafariCoordinator = mockSafariCoordinator
 
         SUT.showDetail(for: "1")
 
@@ -64,14 +64,16 @@ struct NotificationCentreCoordinatorTests {
 
         actions.showUrlAction(govukUrl!)
 
-        #expect(mockURLOpener._receivedOpenIfPossibleUrl == govukUrl)
+        #expect(SUT.childCoordinators.contains(mockSafariCoordinator))
     }
 
     @Test
-    func showDetail_httpUrl_doesNotUseUrlOpener() {
+    func showDetail_httpUrl_startsSafariCoordinator() {
         let httpUrl = URL(string: "https://www.example.com")!
         let expectedViewController = UIViewController()
         mockViewControllerBuilder._stubbedNotificationCentreDetailViewController = expectedViewController
+        let mockSafariCoordinator = MockBaseCoordinator()
+        mockCoordinatorBuilder._stubbedSafariCoordinator = mockSafariCoordinator
 
         SUT.showDetail(for: "1")
 
@@ -82,6 +84,6 @@ struct NotificationCentreCoordinatorTests {
 
         actions.showUrlAction(httpUrl)
 
-        #expect(mockURLOpener._receivedOpenIfPossibleUrl == nil)
+        #expect(SUT.childCoordinators.contains(mockSafariCoordinator))
     }
 }

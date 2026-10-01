@@ -17,13 +17,21 @@ private class TestParentCoordinator: MockBaseCoordinator {
 @Suite
 @MainActor
 struct WebDeeplinkRouteTests {
-    
+
     @Test
     func pattern_returnsExpectedValue() {
         let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
         let subject = WebDeeplinkRoute(coordinatorBuilder: mockCoordinatorBuilder)
 
         #expect(subject.pattern == "/web")
+    }
+
+    @Test
+    func shouldSwitchTab_returnsFalse() {
+        let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
+        let subject = WebDeeplinkRoute(coordinatorBuilder: mockCoordinatorBuilder)
+
+        #expect(subject.shouldSwitchTab == false)
     }
     
     @Test

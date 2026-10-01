@@ -261,6 +261,41 @@ struct TabCoordinatorTests {
     }
 
     @Test
+    func start_withWebDeeplinkRoute_doesNotSwitchTab() {
+        let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
+        let mockAnalyticsService = MockAnalyticsService()
+
+        let mockHomeCoordinator = MockBaseCoordinator()
+        mockCoordinatorBuilder._stubbedHomeCoordinator = mockHomeCoordinator
+
+        let mockChatCoordinator = MockBaseCoordinator()
+        mockCoordinatorBuilder._stubbedChatCoordinator = mockChatCoordinator
+
+        let mockSettingsCoordinator = MockBaseCoordinator()
+        let mockRoute = MockDeeplinkRoute(pattern: "/web")
+        mockRoute._shouldSwitchTab = false
+        mockSettingsCoordinator._stubbedRoute = .mock(
+            parent: mockSettingsCoordinator,
+            route: mockRoute
+        )
+        mockCoordinatorBuilder._stubbedSettingsCoordinator = mockSettingsCoordinator
+
+        let navigationController = UINavigationController()
+        let subject = TabCoordinator(
+            coordinatorBuilder: mockCoordinatorBuilder,
+            navigationController: navigationController,
+            analyticsService: mockAnalyticsService
+        )
+
+        let url = URL(string: "govuk://gov.uk/web")
+        subject.start(url: url)
+        let tabController = navigationController.viewControllers.first as? UITabBarController
+
+        #expect(tabController?.selectedIndex == 0)
+        #expect(mockRoute._actionCalled)
+    }
+
+    @Test
     func finishingSettingsTab_finishesTabCoordinator() throws {
         let mockAnalyticsService = MockAnalyticsService()
         let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
