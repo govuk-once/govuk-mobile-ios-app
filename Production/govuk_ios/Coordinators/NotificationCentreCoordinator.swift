@@ -43,16 +43,7 @@ class NotificationCentreCoordinator: BaseCoordinator {
                 actions: .init(
                     showUrlAction: { [weak self] url in
                         guard let self else { return }
-                        if url.scheme == "govuk" {
-                            urlOpener.openIfPossible(url)
-                        } else {
-                            let coordinator = coordinatorBuilder.safari(
-                                navigationController: root,
-                                url: url,
-                                fullScreen: true
-                            )
-                            start(coordinator, url: url)
-                        }
+                        presentWebView(url: url)
                     },
                     onUnreadAction: {
                         self.root.popViewController(animated: true)
@@ -63,5 +54,14 @@ class NotificationCentreCoordinator: BaseCoordinator {
                 )
             )
         self.push(viewController, animated: true)
+    }
+
+    private func presentWebView(url: URL) {
+        let coordinator = coordinatorBuilder.safari(
+            navigationController: root,
+            url: url,
+            fullScreen: false
+        )
+        start(coordinator, url: url)
     }
 }
