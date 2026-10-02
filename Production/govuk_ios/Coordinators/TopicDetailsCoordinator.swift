@@ -77,12 +77,4 @@ final class TopicDetailsCoordinator: BaseCoordinator {
         )
         start(coordinator, url: url)
     }
-
-    func showEditCountries() {
-        guard let travelAlertsCoordinator =
-                topicWidgetProvider as? TravelAlertsWidgetCoordinator else {
-            return
-        }
-        travelAlertsCoordinator.startEditCountries()
-    }
 }
