@@ -7,6 +7,7 @@ protocol TopicsServiceInterface {
                       completion: @escaping FetchTopicDetailsCompletion)
     func fetchAll() -> [Topic]
     func fetchFavourites() -> [Topic]
+    func fetchTravelTopic() -> Topic?
     func save()
     func rollback()
 
@@ -60,6 +61,10 @@ class TopicsService: TopicsServiceInterface {
 
     func fetchFavourites() -> [Topic] {
         topicsRepository().fetchFavourites()
+    }
+
+    func fetchTravelTopic() -> Topic? {
+        fetchAll().first(where: { $0.isTravelTopic })
     }
 
     func save() {

@@ -454,10 +454,12 @@ class MockViewControllerBuilder: ViewControllerBuilder {
     }
 
     var _stubbedNotificationCentreDetailViewController: UIViewController!
+    var _capturedNotificationCentreDetailActions: NotificationCentreDetailViewModel.Actions?
     override func notificationCentreDetail(notificationId: String,
                                            notificationService: any NotificationCentreServiceInterface,
                                            analyticsService: any AnalyticsServiceInterface,
                                            actions: NotificationCentreDetailViewModel.Actions) -> UIViewController {
+        _capturedNotificationCentreDetailActions = actions
         return _stubbedNotificationCentreDetailViewController
     }
 

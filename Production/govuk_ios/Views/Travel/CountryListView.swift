@@ -187,6 +187,7 @@ struct CountryListLoadingView: View {
                 .accessibilityLabel(.Travel.travelAlertsLoading)
             Spacer()
         }
+        .frame(maxWidth: .infinity)
     }
 }
 
