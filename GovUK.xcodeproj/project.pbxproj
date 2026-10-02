@@ -218,7 +218,6 @@
 		5D4B9D3F2C074227005F126A /* iOSSnapshotTestCase in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 5D4B9D3D2C074227005F126A /* iOSSnapshotTestCase */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		5D4F97EB2BFF7725002CBDDE /* CoordinatorBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D4F97EA2BFF7725002CBDDE /* CoordinatorBuilder.swift */; };
 		5D51C8352C5BB9A80011ABE9 /* UIScrollView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D51C8342C5BB9A80011ABE9 /* UIScrollView+Extensions.swift */; };
-		5D51C8382C5BBF600011ABE9 /* WidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D51C8372C5BBF600011ABE9 /* WidgetView.swift */; };
 		5D51D1602C245AAC008AC8E4 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 5D51D15F2C245A1B008AC8E4 /* PrivacyInfo.xcprivacy */; };
 		5D54A82E2BFCAA4E003D0C21 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D54A82D2BFCAA4E003D0C21 /* LaunchViewController.swift */; };
 		5D54F4732CC8473900A3B6A7 /* Topics.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 5D54F4722CC8473900A3B6A7 /* Topics.xcstrings */; };
@@ -846,7 +845,6 @@
 		5D4B9D342C074207005F126A /* govuk_ios_snapshot_tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = govuk_ios_snapshot_tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D4F97EA2BFF7725002CBDDE /* CoordinatorBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorBuilder.swift; sourceTree = "<group>"; };
 		5D51C8342C5BB9A80011ABE9 /* UIScrollView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+Extensions.swift"; sourceTree = "<group>"; };
-		5D51C8372C5BBF600011ABE9 /* WidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetView.swift; sourceTree = "<group>"; };
 		5D51D15F2C245A1B008AC8E4 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		5D54A82D2BFCAA4E003D0C21 /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
 		5D54F4722CC8473900A3B6A7 /* Topics.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Topics.xcstrings; sourceTree = "<group>"; };
@@ -1634,7 +1632,6 @@
 				4EE5F3E32DAFD350008C60ED /* LocalAuthority */,
 				D056CE752D3A847F005845E0 /* InformationView.swift */,
 				D06EB96A2CA6F6FA007EA081 /* Topics */,
-				5D51C8372C5BBF600011ABE9 /* WidgetView.swift */,
 				D0C36F8A2EB3901A005A2455 /* EmergencyBannerWidgetView.swift */,
 				5DC2B8D62FF54D8900D06826 /* PromoBannerWidgetView.swift */,
 			);
@@ -3774,7 +3771,6 @@
 				33A323E42F51E34C0022BAFC /* NotificationCentreCoordinator.swift in Sources */,
 				33A323E62F51EF100022BAFC /* NotificationCentreRepository.swift in Sources */,
 				1631DE992C2B0D020050CB9D /* DeviceInformationProvider.swift in Sources */,
-				5D51C8382C5BBF600011ABE9 /* WidgetView.swift in Sources */,
 				812EECB42FEBEFA600054F3A /* Calendar+Convenience.swift in Sources */,
 				4ED2DB692FBCCE82005CF6FD /* YourAccountsView.swift in Sources */,
 				166BDDB62C330D1C00437AE0 /* HomeViewController.swift in Sources */,

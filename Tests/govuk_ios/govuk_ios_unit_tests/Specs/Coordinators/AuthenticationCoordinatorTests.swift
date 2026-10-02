@@ -23,7 +23,7 @@ class AuthenticationCoordinatorTests {
             .init(returningUser: true)
         )
         let mockAnalyticsService = MockAnalyticsService()
-        let newWindow = UIWindow(frame: UIScreen.main.bounds)
+        let newWindow = UIWindow(frame: .zero)
         newWindow.rootViewController = mockNavigationController
         newWindow.makeKeyAndVisible()
         await withCheckedContinuation { continuation in
@@ -65,7 +65,7 @@ class AuthenticationCoordinatorTests {
         )
 
         let mockAnalyticsService = MockAnalyticsService()
-        let newWindow = UIWindow(frame: UIScreen.main.bounds)
+        let newWindow = UIWindow(frame: .zero)
         newWindow.rootViewController = mockNavigationController
         newWindow.makeKeyAndVisible()
         await withCheckedContinuation { continuation in
@@ -108,7 +108,7 @@ class AuthenticationCoordinatorTests {
             .init(returningUser: true)
         )
         let mockAnalyticsService = MockAnalyticsService()
-        let newWindow = UIWindow(frame: UIScreen.main.bounds)
+        let newWindow = UIWindow(frame: .zero)
         newWindow.rootViewController = mockNavigationController
         newWindow.makeKeyAndVisible()
         await withCheckedContinuation { continuation in
@@ -149,7 +149,7 @@ class AuthenticationCoordinatorTests {
             .init(returningUser: true)
         )
         let mockAnalyticsService = MockAnalyticsService()
-        let newWindow = UIWindow(frame: UIScreen.main.bounds)
+        let newWindow = UIWindow(frame: .zero)
         newWindow.rootViewController = mockNavigationController
         newWindow.makeKeyAndVisible()
         await withCheckedContinuation { continuation in
@@ -190,7 +190,7 @@ class AuthenticationCoordinatorTests {
             .init(returningUser: true)
         )
         let mockAnalyticsService = MockAnalyticsService()
-        let newWindow = UIWindow(frame: UIScreen.main.bounds)
+        let newWindow = UIWindow(frame: .zero)
         newWindow.rootViewController = mockNavigationController
         newWindow.makeKeyAndVisible()
         await withCheckedContinuation { continuation in
@@ -231,7 +231,7 @@ class AuthenticationCoordinatorTests {
             .init(returningUser: true)
         )
         let mockAnalyticsService = MockAnalyticsService()
-        let newWindow = UIWindow(frame: UIScreen.main.bounds)
+        let newWindow = UIWindow(frame: .zero)
         newWindow.rootViewController = mockNavigationController
         newWindow.makeKeyAndVisible()
         await withCheckedContinuation { continuation in
@@ -269,7 +269,7 @@ class AuthenticationCoordinatorTests {
             .init(returningUser: true)
         )
         let mockAnalyticsService = MockAnalyticsService()
-        let newWindow = UIWindow(frame: UIScreen.main.bounds)
+        let newWindow = UIWindow(frame: .zero)
         newWindow.rootViewController = mockNavigationController
         newWindow.makeKeyAndVisible()
         await withCheckedContinuation { continuation in
@@ -306,7 +306,7 @@ class AuthenticationCoordinatorTests {
         mockAuthenticationService._stubbedAuthenticationResult = .failure(.unknown(TestError.anyError))
 
         let mockAnalyticsService = MockAnalyticsService()
-        let newWindow = UIWindow(frame: UIScreen.main.bounds)
+        let newWindow = UIWindow(frame: .zero)
         newWindow.rootViewController = mockNavigationController
         newWindow.makeKeyAndVisible()
 

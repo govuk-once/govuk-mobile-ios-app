@@ -1,6 +1,7 @@
-import Foundation
 import UIKit
+import Foundation
 import GovKit
+import SwiftUI
 
 class HomeViewController: BaseViewController {
     private var searchViewController: SearchViewController!
@@ -32,17 +33,11 @@ class HomeViewController: BaseViewController {
 
     private let imageHeight = 28.0
     private lazy var logoHeightConstraint = {
-        logoImageView.heightAnchor.constraint(
-            equalToConstant: imageHeight
-        )
+        logoImageView.heightAnchor.constraint(equalToConstant: imageHeight)
     }()
     private lazy var searchTopConstraint = {
-        searchBar.topAnchor.constraint(
-            equalTo: logoImageView.bottomAnchor,
-            constant: 16
-        )
+        searchBar.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 16)
     }()
-
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -66,6 +61,15 @@ class HomeViewController: BaseViewController {
         }
         configureContentViewController()
         displayHomeContent()
+        if #available(iOS 17.0, *) {
+            registerForTraitChanges([
+                UITraitUserInterfaceStyle.self,
+                UITraitHorizontalSizeClass.self,
+                UITraitVerticalSizeClass.self
+            ]) { [weak self] (self: Self, _) in
+                self.handleTraitOrLayoutUpdate()
+            }
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -79,10 +83,70 @@ class HomeViewController: BaseViewController {
         viewModel.trackECommerce()
     }
 
-    private func configureContentViewController() {
-        let contentView = HomeContentView(
-            viewModel: viewModel
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        if #unavailable(iOS 17.0) {
+            handleTraitOrLayoutUpdate()
+        }
+    }
+
+    private func handleTraitOrLayoutUpdate() {
+        guard viewModel.searchEnabled else { return }
+        configureAppearance(for: searchBar)
+        setLogoHidden(searchBar.searchTextField.isEditing)
+        searchBar.layer.borderColor = UIColor.govUK
+                                             .fills
+                                             .surfaceHomeHeaderBackground
+                                             .cgColor
+    }
+    fileprivate func setLogoHidden(_ hideLogo: Bool) {
+        self.view.layoutIfNeeded()
+        if hideLogo && traitCollection.verticalSizeClass == .compact {
+            logoHeightConstraint.constant = 0
+            searchTopConstraint.constant = -4
+        } else {
+            logoHeightConstraint.constant = imageHeight
+            searchTopConstraint.constant = 16
+        }
+        UIView.animate(withDuration: 0.25) {
+            self.view.layoutIfNeeded()
+        }
+    }
+
+    private func colorSearchBarButton() {
+        let searchBarButton = UIBarButtonItem.appearance(
+            whenContainedInInstancesOf: [UISearchBar.self]
         )
+        let foregroundColor = NSAttributedString.Key.foregroundColor.rawValue
+        searchBarButton.setTitleTextAttributes(
+            [NSAttributedString.Key(rawValue: foregroundColor): UIColor.govUK.text.linkHeader],
+            for: .normal
+        )
+    }
+
+    private func configureAppearance(for searchBar: UISearchBar) {
+        let primaryTextColor = UIColor.govUK.text.primary.resolvedColor(with: traitCollection)
+        let secondaryTextColor = UIColor.govUK.text.secondary.resolvedColor(with: traitCollection)
+
+        searchBar.searchTextField.defaultTextAttributes = [
+            NSAttributedString.Key.foregroundColor: primaryTextColor,
+            NSAttributedString.Key.font: UIFont.govUK.body,
+        ]
+        searchBar.searchTextField.attributedPlaceholder = NSAttributedString(
+            string: String.search.localized("searchBarPlaceholder"),
+            attributes: [
+                NSAttributedString.Key.foregroundColor: secondaryTextColor,
+                NSAttributedString.Key.font: UIFont.govUK.body
+            ]
+        )
+        searchBar.searchTextField.leftView?.tintColor = secondaryTextColor
+        searchBar.searchTextField.rightView?.tintColor = secondaryTextColor
+        searchBar.tintColor = secondaryTextColor
+    }
+
+    private func configureContentViewController() {
+        let contentView = HomeContentView(viewModel: viewModel)
         let contentViewController = HostingViewController(
             rootView: contentView,
             navigationBarHidden: true
@@ -129,94 +193,25 @@ class HomeViewController: BaseViewController {
         let header = viewModel.searchEnabled ? searchBar : logoImageView
         let headerBottomPadding = viewModel.searchEnabled ? 8.0 : 16.0
         NSLayoutConstraint.activate([
-            content.view.leadingAnchor.constraint(
-                equalTo: view.leadingAnchor
-            ),
-            content.view.trailingAnchor.constraint(
-                equalTo: view.trailingAnchor
-            ),
+            content.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            content.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             content.view.topAnchor.constraint(
                 equalTo: header.bottomAnchor,
                 constant: headerBottomPadding
             ),
-            content.view.bottomAnchor.constraint(
-                equalTo: view.bottomAnchor
-            )
+            content.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
 
     private func configureConstraints() {
         NSLayoutConstraint.activate([
             logoImageView.centerXAnchor.constraint(
-                equalTo: view.centerXAnchor
-            ),
+                equalTo: view.centerXAnchor),
             logoImageView.topAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.topAnchor,
                 constant: 16
             )
         ])
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        if viewModel.searchEnabled {
-            configureAppearance(for: searchBar)
-            setLogoHidden(searchBar.searchTextField.isEditing)
-            if traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) {
-                searchBar.layer.borderColor = UIColor.govUK
-                                                     .fills
-                                                     .surfaceHomeHeaderBackground
-                                                     .cgColor
-            }
-        }
-    }
-
-    fileprivate func setLogoHidden(_ hideLogo: Bool) {
-        // Flush any pending layouts before animating header layout
-        self.view.layoutIfNeeded()
-        if hideLogo &&
-            traitCollection.verticalSizeClass == .compact {
-            logoHeightConstraint.constant = 0
-            searchTopConstraint.constant = -4
-        } else {
-            logoHeightConstraint.constant = imageHeight
-            searchTopConstraint.constant = 16
-        }
-        UIView.animate(withDuration: 0.25) {
-            self.view.layoutIfNeeded()
-        }
-    }
-
-    private func colorSearchBarButton() {
-        let searchBarButton = UIBarButtonItem.appearance(
-            whenContainedInInstancesOf: [UISearchBar.self]
-        )
-        let foregroundColor = NSAttributedString.Key.foregroundColor.rawValue
-        searchBarButton.setTitleTextAttributes(
-            [NSAttributedString.Key(rawValue: foregroundColor): UIColor.govUK.text.linkHeader],
-            for: .normal
-        )
-    }
-
-    private func configureAppearance(for searchBar: UISearchBar) {
-        // manually resolve colours to fix liquid glass UIKit glitch
-        let primaryTextColor = UIColor.govUK.text.primary.resolvedColor(with: traitCollection)
-        let secondaryTextColor = UIColor.govUK.text.secondary.resolvedColor(with: traitCollection)
-
-        searchBar.searchTextField.defaultTextAttributes = [
-            NSAttributedString.Key.foregroundColor: primaryTextColor,
-            NSAttributedString.Key.font: UIFont.govUK.body,
-        ]
-        searchBar.searchTextField.attributedPlaceholder = NSAttributedString(
-            string: String.search.localized("searchBarPlaceholder"),
-            attributes: [
-                NSAttributedString.Key.foregroundColor: secondaryTextColor,
-                NSAttributedString.Key.font: UIFont.govUK.body
-            ]
-        )
-        searchBar.searchTextField.leftView?.tintColor = secondaryTextColor
-        searchBar.searchTextField.rightView?.tintColor = secondaryTextColor
-        searchBar.tintColor = secondaryTextColor
     }
 
     private func cancelSearch() {
