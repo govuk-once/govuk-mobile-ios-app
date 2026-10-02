@@ -569,4 +569,170 @@ struct ChatViewModelTests {
         #expect(sut.errorText == nil)
         #expect(sut.warningText == nil)
     }
+
+    @Test
+    func askQuestion_success_addsFeedbackForPendingQuestionId() throws {
+        let mockChatService = MockChatService()
+        let mockAnalyticsService = MockAnalyticsService()
+        mockChatService._stubbedQuestionResult = .success(.pendingQuestion)
+        mockChatService._stubbedAnswerResults = [.success(.answeredAnswer)]
+        let sut = ChatViewModel(
+            chatService: mockChatService,
+            analyticsService: mockAnalyticsService,
+            configService: MockAppConfigService(),
+            openURLAction: { _ in },
+            handleError: { _ in }
+        )
+        sut.latestQuestion = "This is the question"
+        sut.askQuestion(.typed())
+
+        let feedbackViewModel = try #require(sut.cellModels.last?.feedbackViewModel)
+        #expect(sut.cellModels.first?.feedbackViewModel == nil)
+        feedbackViewModel.rate(isPositive: true)
+        #expect(
+            mockAnalyticsService._trackedEvents.last?.params?["question_id"] as? String ==
+            "expectedPendingQuestionId"
+        )
+    }
+
+    @Test
+    func askQuestion_clearsPreviousFeedback() {
+        let mockChatService = MockChatService()
+        mockChatService._stubbedQuestionResult = .success(.pendingQuestion)
+        mockChatService._stubbedAnswerResults = [
+            .success(.answeredAnswer),
+            .success(.answeredAnswer)
+        ]
+        let sut = ChatViewModel(
+            chatService: mockChatService,
+            analyticsService: MockAnalyticsService(),
+            configService: MockAppConfigService(),
+            openURLAction: { _ in },
+            handleError: { _ in }
+        )
+        sut.latestQuestion = "First question"
+        sut.askQuestion(.typed())
+        let firstAnswer = sut.cellModels.last
+        sut.latestQuestion = "Second question"
+        sut.askQuestion(.typed())
+
+        #expect(firstAnswer?.feedbackViewModel == nil)
+        #expect(sut.cellModels.last?.feedbackViewModel != nil)
+        #expect(sut.cellModels.filter { $0.feedbackViewModel != nil }.count == 1)
+    }
+
+    @Test
+    func loadHistory_answersHaveNoFeedback() {
+        let mockChatService = MockChatService()
+        let answeredQuestion = AnsweredQuestion(
+            answer: .answeredAnswer,
+            conversationId: "conversationId",
+            createdAt: "\(Date())",
+            id: "1",
+            message: "First question"
+        )
+        mockChatService._stubbedConversationId = "conversationId"
+        mockChatService._stubbedHistoryResult = .success(
+            History(
+                pendingQuestion: nil,
+                answeredQuestions: [answeredQuestion],
+                createdAt: "\(Date())",
+                id: "4456"
+            )
+        )
+        let sut = ChatViewModel(
+            chatService: mockChatService,
+            analyticsService: MockAnalyticsService(),
+            configService: MockAppConfigService(),
+            openURLAction: { _ in },
+            handleError: { _ in }
+        )
+
+        sut.loadHistory()
+
+        #expect(sut.cellModels.contains { $0.type == .answer })
+        #expect(sut.cellModels.allSatisfy { $0.feedbackViewModel == nil })
+    }
+
+    @Test(arguments: [0, 1, 2])
+    func chatDidDisappear_clearsFeedbackInEveryState(taps: Int) throws {
+        let sut = makeAnsweredChatViewModel()
+        let answer = try #require(sut.cellModels.last)
+        let feedbackViewModel = try #require(answer.feedbackViewModel)
+        if taps > 0 { feedbackViewModel.rate(isPositive: true) }
+        if taps > 1 { feedbackViewModel.openSurvey() }
+
+        sut.chatDidDisappear()
+
+        #expect(answer.feedbackViewModel == nil)
+    }
+
+    @Test
+    func chatDidDisappear_afterOpeningLink_keepsFeedback() throws {
+        let sut = makeAnsweredChatViewModel()
+        let answer = try #require(sut.cellModels.last)
+        try #require(answer.feedbackViewModel).rate(isPositive: false)
+
+        answer.openURL(url: URL(string: "https://www.gov.uk")!, type: .sourceLink)
+        sut.chatDidDisappear()
+        #expect(answer.feedbackViewModel != nil)
+
+        sut.chatDidAppear()
+        sut.chatDidDisappear()
+        #expect(answer.feedbackViewModel == nil)
+    }
+
+    @Test
+    func chatDidDisappear_afterOpeningMenuLink_keepsFeedback() throws {
+        let sut = makeAnsweredChatViewModel()
+        let answer = try #require(sut.cellModels.last)
+
+        sut.openAboutURL()
+        sut.chatDidDisappear()
+
+        #expect(answer.feedbackViewModel != nil)
+    }
+
+    @Test
+    func appDidEnterBackground_clearsFeedback() throws {
+        let sut = makeAnsweredChatViewModel()
+        let answer = try #require(sut.cellModels.last)
+        sut.openAboutURL()
+
+        sut.appDidEnterBackground()
+
+        #expect(answer.feedbackViewModel == nil)
+    }
+
+    @Test
+    func feedbackConfirmed_scrollsToBottom() throws {
+        let sut = makeAnsweredChatViewModel(scheduleFeedbackConfirmation: { $0() })
+        let feedbackViewModel = try #require(sut.cellModels.last?.feedbackViewModel)
+        sut.scrollToBottom = false
+
+        feedbackViewModel.rate(isPositive: true)
+        feedbackViewModel.openSurvey()
+
+        #expect(feedbackViewModel.state == .confirmed)
+        #expect(sut.scrollToBottom)
+    }
+
+    private func makeAnsweredChatViewModel(
+        scheduleFeedbackConfirmation: @escaping ChatFeedbackViewModel.ConfirmationScheduler = { _ in }
+    ) -> ChatViewModel {
+        let mockChatService = MockChatService()
+        mockChatService._stubbedQuestionResult = .success(.pendingQuestion)
+        mockChatService._stubbedAnswerResults = [.success(.answeredAnswer)]
+        let sut = ChatViewModel(
+            chatService: mockChatService,
+            analyticsService: MockAnalyticsService(),
+            configService: MockAppConfigService(),
+            openURLAction: { _ in },
+            handleError: { _ in },
+            scheduleFeedbackConfirmation: scheduleFeedbackConfirmation
+        )
+        sut.latestQuestion = "This is the question"
+        sut.askQuestion(.typed())
+        return sut
+    }
 }

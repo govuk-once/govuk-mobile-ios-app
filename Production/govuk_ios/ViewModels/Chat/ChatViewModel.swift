@@ -1,3 +1,4 @@
+// swiftlint:disable file_length
 import SwiftUI
 import GovKit
 import GovKitUI
@@ -11,6 +12,8 @@ class ChatViewModel: ObservableObject {
     let maxCharacters = 300
     private let openURLAction: (URL) -> Void
     private let handleError: (ChatError) -> Void
+    private let scheduleFeedbackConfirmation: ChatFeedbackViewModel.ConfirmationScheduler
+    private var isOpeningLink = false
     private var shouldLoadHistory: Bool = true
     private var disclosureListeners = Set<AnyCancellable>()
     // Default values will be overridden
@@ -52,12 +55,15 @@ class ChatViewModel: ObservableObject {
          analyticsService: AnalyticsServiceInterface,
          configService: AppConfigServiceInterface,
          openURLAction: @escaping (URL) -> Void,
-         handleError: @escaping (ChatError) -> Void) {
+         handleError: @escaping (ChatError) -> Void,
+         scheduleFeedbackConfirmation: @escaping ChatFeedbackViewModel.ConfirmationScheduler =
+            ChatFeedbackViewModel.defaultConfirmationScheduler) {
         self.chatService = chatService
         self.analyticsService = analyticsService
         self.configService = configService
         self.openURLAction = openURLAction
         self.handleError = handleError
+        self.scheduleFeedbackConfirmation = scheduleFeedbackConfirmation
         self.chatExampleQuestionsViewModel = .init(
             analyticsService: analyticsService,
             configService: configService
@@ -76,6 +82,7 @@ class ChatViewModel: ObservableObject {
             return
         }
         trackAskQuestionSubmission(type: questionRequest.type.rawValue)
+        clearFeedback()
         errorText = nil
         warningText = nil
         let currentQuestionModel = ChatCellViewModel(
@@ -129,8 +136,11 @@ class ChatViewModel: ObservableObject {
             case .success(let answer):
                 let cellModel = ChatCellViewModel(
                     answer: answer,
-                    openURLAction: openURLAction,
+                    openURLAction: { [weak self] url in self?.openLink(url) },
                     analyticsService: analyticsService
+                )
+                cellModel.feedbackViewModel = makeFeedbackViewModel(
+                    questionId: question.id
                 )
                 scrollToTop = true
                 addCellModels([cellModel])
@@ -177,6 +187,39 @@ class ChatViewModel: ObservableObject {
             scrollToBottom = true
             listenForDisclosure()
         }
+    }
+
+    func chatDidAppear() {
+        isOpeningLink = false
+    }
+
+    func chatDidDisappear() {
+        guard !isOpeningLink else { return }
+        clearFeedback()
+    }
+
+    func appDidEnterBackground() {
+        clearFeedback()
+    }
+
+    private func clearFeedback() {
+        cellModels.forEach { $0.feedbackViewModel = nil }
+    }
+
+    private func makeFeedbackViewModel(questionId: String) -> ChatFeedbackViewModel {
+        ChatFeedbackViewModel(
+            questionId: questionId,
+            analyticsService: analyticsService,
+            scheduleConfirmation: scheduleFeedbackConfirmation,
+            onConfirmed: { [weak self] in
+                self?.scrollToBottom = true
+            }
+        )
+    }
+
+    private func openLink(_ url: URL) {
+        isOpeningLink = true
+        openURLAction(url)
     }
 
     private func processError(_ error: ChatError) {
@@ -240,7 +283,7 @@ class ChatViewModel: ObservableObject {
             cellModels.append(question)
             let answer = ChatCellViewModel(
                 answer: answeredQuestion.answer,
-                openURLAction: openURLAction,
+                openURLAction: { [weak self] url in self?.openLink(url) },
                 analyticsService: analyticsService
             )
             answer.isVisible = true
@@ -283,17 +326,17 @@ class ChatViewModel: ObservableObject {
 
     func openAboutURL() {
         trackMenuTap(String.chat.localized("aboutMenuTitle"))
-        openURLAction(chatService.about)
+        openLink(chatService.about)
     }
 
     func openPrivacyURL() {
         trackMenuTap(String.chat.localized("privacyMenuTitle"))
-        openURLAction(chatService.privacyPolicy)
+        openLink(chatService.privacyPolicy)
     }
 
     func openFeedbackURL() {
         trackMenuTap(String.chat.localized("feedbackMenuTitle"))
-        openURLAction(chatService.feedback)
+        openLink(chatService.feedback)
     }
 
     func trackScreen(screen: TrackableScreen) {
