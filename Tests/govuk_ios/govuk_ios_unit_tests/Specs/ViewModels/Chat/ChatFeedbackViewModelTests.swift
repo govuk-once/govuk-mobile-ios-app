@@ -15,6 +15,7 @@ struct ChatFeedbackViewModelTests {
         sut.rate(isPositive: isPositive)
 
         #expect(sut.state == .rated(isPositive: isPositive))
+        #expect(sut.selection == isPositive)
         try #require(mockAnalyticsService._trackedEvents.count == 1)
         let event = mockAnalyticsService._trackedEvents[0]
         let text = isPositive ? "thumbs up" : "thumbs down"
@@ -126,12 +127,14 @@ struct ChatFeedbackViewModelTests {
         sut.openSurvey()
 
         #expect(sut.state == .surveyOpened(isPositive: false))
+        #expect(sut.selection == false)
         #expect(!didConfirm)
 
         let confirm = try #require(scheduledConfirmation)
         confirm()
 
         #expect(sut.state == .confirmed)
+        #expect(sut.selection == nil)
         #expect(didConfirm)
     }
 

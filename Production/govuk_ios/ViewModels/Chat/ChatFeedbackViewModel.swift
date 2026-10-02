@@ -31,6 +31,15 @@ final class ChatFeedbackViewModel: ObservableObject {
         analyticsService.permissionState == .accepted
     }
 
+    var selection: Bool? {
+        switch state {
+        case .rated(let isPositive), .surveyOpened(let isPositive):
+            return isPositive
+        case .unrated, .confirmed:
+            return nil
+        }
+    }
+
     func rate(isPositive: Bool) {
         guard state == .unrated else { return }
         state = .rated(isPositive: isPositive)

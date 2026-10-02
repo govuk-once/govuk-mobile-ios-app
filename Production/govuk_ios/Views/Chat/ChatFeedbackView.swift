@@ -6,18 +6,22 @@ struct ChatFeedbackView: View {
     @AccessibilityFocusState private var isLinkFocused: Bool
     @AccessibilityFocusState private var isConfirmationFocused: Bool
     private let announcementDelay: Duration = .seconds(1)
+    private let animationDuration: TimeInterval = 0.3
 
     var body: some View {
-        Group {
-            switch viewModel.state {
-            case .unrated:
-                ratingButtons
-            case .rated(let isPositive), .surveyOpened(let isPositive):
-                selectedView(isPositive: isPositive)
-            case .confirmed:
+        ZStack(alignment: .leading) {
+            if viewModel.state == .confirmed {
                 confirmationView
+                    .transition(.opacity)
+            } else {
+                ratingRow
+                    .transition(.opacity)
             }
         }
+        .conditionalAnimation(
+            .easeInOut(duration: animationDuration),
+            value: viewModel.state
+        )
         .padding(.leading, 4)
         .frame(maxWidth: .infinity, alignment: .leading)
         .onChange(of: viewModel.state) { state in
@@ -25,40 +29,49 @@ struct ChatFeedbackView: View {
         }
     }
 
-    private var ratingButtons: some View {
+    private var ratingRow: some View {
         HStack(spacing: 0) {
-            ratingButton(isPositive: true)
-            ratingButton(isPositive: false)
+            if isThumbVisible(isPositive: true) {
+                ratingButton(isPositive: true)
+                    .transition(.opacity)
+            }
+            if isThumbVisible(isPositive: false) {
+                ratingButton(isPositive: false)
+                    .transition(.opacity)
+            }
+            if let selection = viewModel.selection, viewModel.isLinkVisible {
+                surveyLink(isPositive: selection)
+                    .padding(.leading, 8)
+                    .transition(
+                        .opacity.animation(.easeInOut(duration: animationDuration).delay(0.1))
+                    )
+            }
         }
         .accessibilityElement(children: .contain)
         .accessibilityLabel(Text(.Chat.feedbackGroupAccessibilityLabel))
     }
 
+    private func isThumbVisible(isPositive: Bool) -> Bool {
+        viewModel.selection == nil || viewModel.selection == isPositive
+    }
+
     private func ratingButton(isPositive: Bool) -> some View {
-        Button {
+        let isSelected = viewModel.selection == isPositive
+        return Button {
             viewModel.rate(isPositive: isPositive)
         } label: {
             Label {
                 accessibilityLabel(isPositive: isPositive)
             } icon: {
-                thumbImage(isPositive: isPositive, isSelected: false)
+                thumbImage(isPositive: isPositive, isSelected: isSelected)
             }
             .labelStyle(.iconOnly)
             .frame(minWidth: 44, minHeight: 44)
             .contentShape(Rectangle())
         }
-    }
-
-    private func selectedView(isPositive: Bool) -> some View {
-        HStack(spacing: 8) {
-            thumbImage(isPositive: isPositive, isSelected: true)
-                .frame(minWidth: 44, minHeight: 44)
-                .accessibilityLabel(accessibilityLabel(isPositive: isPositive))
-                .accessibilityAddTraits(.isSelected)
-            if viewModel.isLinkVisible {
-                surveyLink(isPositive: isPositive)
-            }
-        }
+        .allowsHitTesting(viewModel.state == .unrated)
+        .accessibilityRemoveTraits(isSelected ? .isButton : [])
+        .accessibilityAddTraits(isSelected ? .isSelected : [])
     }
 
     private func surveyLink(isPositive: Bool) -> some View {
@@ -95,11 +108,14 @@ struct ChatFeedbackView: View {
 
     private func thumbImage(isPositive: Bool, isSelected: Bool) -> some View {
         let name = isPositive ? "hand.thumbsup" : "hand.thumbsdown"
-        return Image(systemName: isSelected ? name + ".fill" : name)
-            .font(.govUK.body)
-            .foregroundStyle(
-                Color(isSelected ? UIColor.govUK.text.primary : UIColor.govUK.text.secondary)
-            )
+        return ZStack {
+            Image(systemName: name)
+                .opacity(isSelected ? 0 : 1)
+            Image(systemName: name + ".fill")
+                .opacity(isSelected ? 1 : 0)
+        }
+        .font(.govUK.body)
+        .foregroundStyle(Color(UIColor.govUK.text.secondary))
     }
 
     private func accessibilityLabel(isPositive: Bool) -> Text {
