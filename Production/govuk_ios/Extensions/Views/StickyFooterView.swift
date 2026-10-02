@@ -22,6 +22,7 @@ class StickyFooterView: UIView {
         super.init(frame: .zero)
         configureUI()
         configureConstraints()
+        setupTraitTracking()
     }
 
     required init?(coder: NSCoder) {
@@ -67,8 +68,27 @@ class StickyFooterView: UIView {
     func addView(_ view: UIView) {
         stackView.addArrangedSubview(view)
     }
+    private func setupTraitTracking() {
+        updateStackViewAxis(with: traitCollection)
+        if #available(iOS 17.0, *) {
+            registerForTraitChanges(
+                [UITraitVerticalSizeClass.self]
+            ) { [weak self] (view: Self, _) in
+                self?.updateStackViewAxis(with: view.traitCollection)
+            }
+        }
+    }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        stackView.axis = traitCollection.verticalSizeClass == .compact ? .horizontal : .vertical
+        super.traitCollectionDidChange(previousTraitCollection)
+        if #unavailable(iOS 17.0) {
+            if previousTraitCollection?.verticalSizeClass != traitCollection.verticalSizeClass {
+                updateStackViewAxis(with: traitCollection)
+            }
+        }
+    }
+
+    private func updateStackViewAxis(with currentTraits: UITraitCollection) {
+        stackView.axis = currentTraits.verticalSizeClass == .compact ? .horizontal : .vertical
     }
 }
