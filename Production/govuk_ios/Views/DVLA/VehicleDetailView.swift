@@ -180,7 +180,7 @@ extension VehicleDetailView: TrackableScreen {
     @Previewable @StateObject var viewModel: VehicleDetailViewModel = {
         let vehicle = CustomerVehicleDetails.Vehicle.arrange(
             taxedUntil: .arrange("12/12/2030"),
-            motStatus: "Valid",
+            motStatus: MotStatus.valid,
             motExpiryDate: .arrange("12/12/2030")
         )
 
