@@ -70,6 +70,34 @@ final class TopicsServiceTests {
     }
 
     @Test
+    func fetchTravelTopic_returnsTravelTopic() async {
+        let coreData = await CoreDataRepository.arrangeAndLoad
+        let travelTopic = Topic(context: coreData.viewContext)
+        travelTopic.ref = "travel-abroad"
+        travelTopic.title = "Travel Abroad"
+
+        mockTopicsRepository._stubbedFetchAllTopics = [travelTopic]
+
+        let result = sut.fetchTravelTopic()
+
+        #expect(result?.ref == "travel-abroad")
+    }
+
+    @Test
+    func fetchTravelTopic_returnsNil_whenNoTravelTopic() async {
+        let coreData = await CoreDataRepository.arrangeAndLoad
+        let otherTopic = Topic(context: coreData.viewContext)
+        otherTopic.ref = "driving-transport"
+        otherTopic.title = "Driving"
+
+        mockTopicsRepository._stubbedFetchAllTopics = [otherTopic]
+
+        let result = sut.fetchTravelTopic()
+
+        #expect(result == nil)
+    }
+
+    @Test
     func save_savesChangesToRepository() {
         sut.save()
         #expect(mockTopicsRepository._didCallSaveChanges)

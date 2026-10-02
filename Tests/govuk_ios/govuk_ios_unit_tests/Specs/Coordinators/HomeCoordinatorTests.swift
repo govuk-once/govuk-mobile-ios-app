@@ -312,13 +312,11 @@ struct HomeCoordinatorTests {
         let mockTopicsService = MockTopicsService()
         let navigationController = UINavigationController()
 
-        // Create a travel topic with ref = "travel-abroad"
         let travelTopic = Topic(context: coreData.viewContext)
         travelTopic.ref = "travel-abroad"
         travelTopic.title = "Travel Abroad"
 
-        // Set up the topics service to return the travel topic
-        mockTopicsService._stubbedFetchAllTopics = [travelTopic]
+        mockTopicsService._stubbedFetchTravelTopic = travelTopic
 
         let subject = HomeCoordinator(
             navigationController: navigationController,

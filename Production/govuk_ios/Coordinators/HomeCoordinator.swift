@@ -103,14 +103,12 @@ class HomeCoordinator: TabItemCoordinator {
     }
 
     func showTravelAlertTopic() {
-        let topics = topicsService.fetchAll()
-        if let travelTopic = topics.first(where: { $0.isTravelTopic }) {
-            let coordinator = coordinatorBuilder.topicDetail(
-                travelTopic,
-                navigationController: root
-            )
-            start(coordinator)
-        }
+        guard let travelTopic = topicsService.fetchTravelTopic() else { return }
+        let coordinator = coordinatorBuilder.topicDetail(
+            travelTopic,
+            navigationController: root
+        )
+        start(coordinator)
     }
 
     private func presentWebView(url: URL) {

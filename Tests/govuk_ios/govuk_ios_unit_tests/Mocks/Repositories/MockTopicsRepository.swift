@@ -20,9 +20,10 @@ class MockTopicsRepository: TopicsRepositoryInterface {
     }
     
     var _didCallFetchAll = false
+    var _stubbedFetchAllTopics: [Topic]?
     func fetchAll() -> [Topic] {
         _didCallFetchAll = true
-        return []
+        return _stubbedFetchAllTopics ?? []
     }
     
     var _didCallSaveChanges = false
