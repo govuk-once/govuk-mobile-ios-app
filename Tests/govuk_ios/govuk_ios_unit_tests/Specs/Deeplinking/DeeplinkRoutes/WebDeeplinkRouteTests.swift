@@ -25,14 +25,6 @@ struct WebDeeplinkRouteTests {
 
         #expect(subject.pattern == "/web")
     }
-
-    @Test
-    func shouldSwitchTab_returnsFalse() {
-        let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
-        let subject = WebDeeplinkRoute(coordinatorBuilder: mockCoordinatorBuilder)
-
-        #expect(subject.shouldSwitchTab == false)
-    }
     
     @Test
     func action_withValidURL_startsSafariCoordinator() {
