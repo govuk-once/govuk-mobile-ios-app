@@ -90,7 +90,7 @@ struct DVLAAccountWidgetView: View {
                         make: "MITSUBISHI",
                         model: "MIRAGE",
                         taxedUntil: .arrange("12/12/2030"),
-                        motStatus: "Valid",
+                        motStatus: MotStatus.valid,
                         motExpiryDate: .arrange("12/12/2030")
                     ),
                     .arrange(
@@ -99,7 +99,7 @@ struct DVLAAccountWidgetView: View {
                         make: "LAND ROVER",
                         model: "RANGE ROVER SPORT",
                         taxStatus: .sorn,
-                        motStatus: "Not valid",
+                        motStatus: MotStatus.notValid,
                         motExpiryDate: .arrange("12/12/2030"),
                         sornStart: .arrange("01/01/2025")
                     )

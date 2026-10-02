@@ -12,7 +12,7 @@ extension CustomerVehicles.Vehicle {
                 model: "MIRAGE",
                 taxStatus: .taxed,
                 taxedUntil: .arrange("15/09/2030"),
-                motStatus: "Valid",
+                motStatus: MotStatus.valid,
                 motExpiryDate: .arrange("15/09/2030")
             ),
             .arrange(
@@ -21,7 +21,7 @@ extension CustomerVehicles.Vehicle {
                 make: "LAND ROVER",
                 model: "RANGE ROVER SPORT",
                 taxStatus: .sorn,
-                motStatus: "Not valid",
+                motStatus: MotStatus.notValid,
                 motExpiryDate: .arrange("01/03/2024"),
                 sornStart: .arrange("01/01/2025")
             ),
@@ -31,7 +31,7 @@ extension CustomerVehicles.Vehicle {
                 make: "VOLKSWAGEN",
                 model: "GOLF",
                 taxStatus: .untaxed,
-                motStatus: "Valid",
+                motStatus: MotStatus.valid,
                 motExpiryDate: .arrange("20/11/2030")
             ),
         ]
@@ -44,7 +44,7 @@ extension CustomerVehicles.Vehicle {
             model: "MODEL 3",
             taxStatus: .taxed,
             taxedUntil: .arrange("01/04/2031"),
-            motStatus: "Valid",
+            motStatus: MotStatus.valid,
             motExpiryDate: .arrange("01/04/2031")
         )
     }
