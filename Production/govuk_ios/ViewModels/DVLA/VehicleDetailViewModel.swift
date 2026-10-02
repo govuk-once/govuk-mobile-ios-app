@@ -15,8 +15,8 @@ final class VehicleDetailViewModel: ObservableObject {
     private let dvlaService: DVLAServiceInterface
     private let configService: AppConfigServiceInterface
     private let openURLAction: (URL) -> Void
-    private let statusFormatter = DVLAValidityStatusFormatter()
     private let specFormatter: VehicleSpecFormatterInterface
+    private let specSectionBuilder: VehicleSpecSectionBuilder
     private var vehicleLoaded = false
 
     let loadingAccessibilityLabel = String(localized: .DVLA.loadingVehicleAccessibilityLabel)
@@ -35,6 +35,7 @@ final class VehicleDetailViewModel: ObservableObject {
         self.configService = configService
         self.openURLAction = openURLAction
         self.specFormatter = specFormatter
+        self.specSectionBuilder = VehicleSpecSectionBuilder(specFormatter: specFormatter)
     }
 
     @MainActor
@@ -150,79 +151,11 @@ final class VehicleDetailViewModel: ObservableObject {
             .joined(separator: " ")
     }
 
-    // swiftlint:disable:next function_body_length
     private func specificationSection(
         _ vehicle: CustomerVehicleDetails.Vehicle
     ) -> GroupedListSection {
-        let engineSize: AccessibleString = specFormatter.formatEngineSize(
-            from: vehicle.engineCapacity
-        )
-        let emissions = specFormatter.formatEmissions(
-            from: vehicle.exhaustEmissionsCo2
-        )
-        return GroupedListSection(
-            heading: nil,
-            rows: [
-                InformationRow(
-                    id: "vehicle.make.row",
-                    title: String(localized: .DVLA.vehicleMake),
-                    body: nil,
-                    detail: vehicle.make
-                ),
-                InformationRow(
-                    id: "vehicle.model.row",
-                    title: String(localized: .DVLA.vehicleModel),
-                    body: nil,
-                    detail: specFormatter.formatModel(from: vehicle.model)
-                ),
-                InformationRow(
-                    id: "vehicle.yearOfFirstRegistration.row",
-                    title: String(localized: .DVLA.firstRegistered),
-                    body: nil,
-                    detail: specFormatter.formatDateOfFirstRegistration(
-                        vehicle.dateOfFirstRegistration
-                    )
-                ),
-                InformationRow(
-                    id: "vehicle.fuelType.row",
-                    title: String(localized: .DVLA.fuelType),
-                    body: nil,
-                    detail: specFormatter.formatFuelTypeLong(from: vehicle.fuelType)
-                ),
-                InformationRow(
-                    id: "vehicle.colour.row",
-                    title: String(localized: .DVLA.colour),
-                    body: nil,
-                    detail: specFormatter.formatColour(
-                        primary: vehicle.colour,
-                        secondary: vehicle.secondaryColour
-                    )
-                ),
-                InformationRow(
-                    id: "vehicle.engineSize.row",
-                    title: String(localized: .DVLA.engineSize),
-                    body: nil,
-                    detail: engineSize.displayValue,
-                    accessibilityLabel: String(
-                        localized: .DVLA.engineSizeAccessibilityLabel(
-                            value: engineSize.accessibilityLabel
-                        )
-                    )
-                ),
-                InformationRow(
-                    id: "vehicle.emissions.row",
-                    title: String(localized: .DVLA.co2Emissions),
-                    body: nil,
-                    detail: emissions,
-                    accessibilityLabel: String(
-                        localized: .DVLA.emissionsAccessibilityLabel(
-                            value: emissions
-                        )
-                    )
-                )
-            ],
-            footer: nil
-        )
+        let specData = VehicleSpecData(vehicle: vehicle)
+        return specSectionBuilder.makeSection(for: specData)
     }
 
     private func handleOpenURL(url: URL, buttonTitle: String) {

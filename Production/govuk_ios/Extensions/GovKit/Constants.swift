@@ -122,6 +122,22 @@ extension Constants.API {
         string: "https://www.gov.uk/contact-the-dvla"
     )!
 
+    public static let defaultBuyingUsedCarChecksUrl: URL = URL(
+        string: "https://www.gov.uk/checks-when-buying-a-used-car"
+    )!
+
+    public static let defaultReportAbandonedVehicleUrl: URL = URL(
+        string: "https://www.gov.uk/report-abandoned-vehicle"
+    )!
+
+    public static let defaultReportUntaxedVehicleUrl: URL = URL(
+        string: "https://www.gov.uk/report-untaxed-vehicle"
+    )!
+
+    public static let defaultReportNoMotUrl: URL = URL(
+        string: "https://www.gov.uk/report-no-mot"
+    )!
+
     public static let betaPrivacyPolicyURL: URL = {
         var components = govukBaseComponents
         components.path = """

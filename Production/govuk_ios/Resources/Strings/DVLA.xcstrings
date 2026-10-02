@@ -1322,6 +1322,72 @@
         }
       }
     },
+    "vehicleMenuRegisterToYouAccessibilityTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Register vehicle to you"
+          }
+        }
+      }
+    },
+    "vehicleMenuRegisterToYouTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Register to you"
+          }
+        }
+      }
+    },
+    "vehicleMenuReportAbandonedAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Report vehicle as abandoned"
+          }
+        }
+      }
+    },
+    "vehicleMenuReportAbandonedTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Report as abandoned"
+          }
+        }
+      }
+    },
+    "vehicleMenuReportOnRoadAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Report vehicle as on the road"
+          }
+        }
+      }
+    },
+    "vehicleMenuReportOnRoadTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Report as on the road"
+          }
+        }
+      }
+    },
     "vehicleMenuSoldVehicleAccessibilityLabelTitle" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1351,6 +1417,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "SORN rules"
+          }
+        }
+      }
+    },
+    "vehicleMenuUsedCarChecksTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Used vehicle checks"
           }
         }
       }
