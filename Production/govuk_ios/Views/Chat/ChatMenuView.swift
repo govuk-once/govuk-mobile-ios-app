@@ -18,7 +18,7 @@ struct ChatMenuView: View {
 
     var body: some View {
         Menu {
-            if viewModel.currentConversationExists {
+            if disableClearChat || viewModel.currentConversationExists {
                 Button(
                     role: .destructive,
                     action: {
