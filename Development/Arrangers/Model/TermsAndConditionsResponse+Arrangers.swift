@@ -5,7 +5,7 @@ extension TermsAndConditionsResponse {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .iso8601
         return try! decoder.decode(
-            from: .load(filename: fileName)
+            from: Data.loadFixture(fileName)
         )
     }
 }
