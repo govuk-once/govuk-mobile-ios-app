@@ -101,6 +101,7 @@ final class VehicleDetailViewModel: ObservableObject {
         _ vehicle: TaxValidityVehicle
     ) -> ValidityStatusViewModel {
         let builder = TaxStatusViewModelBuilder(
+            isOwnedVehicle: true,
             urls: configService.dvlaUrls,
             analyticsService: analyticsService,
             openURLAction: openURLAction
@@ -115,6 +116,7 @@ final class VehicleDetailViewModel: ObservableObject {
         _ vehicle: CustomerVehicleDetails.Vehicle
     ) -> ValidityStatusViewModel {
         let builder = MotStatusViewModelBuilder(
+            isOwnedVehicle: true,
             urls: configService.dvlaUrls,
             analyticsService: analyticsService,
             openURLAction: openURLAction

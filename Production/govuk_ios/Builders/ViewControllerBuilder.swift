@@ -915,6 +915,7 @@ class ViewControllerBuilder {
         let viewController = HostingViewController(
             rootView: view
         )
+        viewController.shouldAutoFocusVoiceover = false
         return viewController
     }
 }

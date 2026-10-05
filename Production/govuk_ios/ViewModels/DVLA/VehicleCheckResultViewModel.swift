@@ -61,11 +61,13 @@ struct VehicleCheckResultViewModel {
         self.configService = configService
         self.actions = actions
         self.taxStatusViewModelBuilder = TaxStatusViewModelBuilder(
+            isOwnedVehicle: false,
             urls: configService.dvlaUrls,
             analyticsService: analyticsService,
             openURLAction: actions.openURLAction
         )
         self.motStatusViewModelBuilder = MotStatusViewModelBuilder(
+            isOwnedVehicle: false,
             urls: configService.dvlaUrls,
             analyticsService: analyticsService,
             openURLAction: actions.openURLAction

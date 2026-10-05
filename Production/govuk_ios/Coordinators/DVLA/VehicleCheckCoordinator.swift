@@ -76,8 +76,8 @@ extension VehicleCheckCoordinator {
         .init(
             vehicleId: 100830769,
             registrationNumber: "DF04 FSY",
-            taxStatus: .untaxed,
-            taxedUntil: nil,
+            taxStatus: .taxed,
+            taxedUntil: Date(timeIntervalSince1970: 1793491200),
             motStatus: .valid,
             motExpiryDate: Date(timeIntervalSince1970: 1793491200),
             make: "FORD",
