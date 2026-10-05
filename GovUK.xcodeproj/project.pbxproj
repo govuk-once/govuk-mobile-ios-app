@@ -1388,7 +1388,6 @@
 				govuk_ios/govuk_ios_unit_tests/Mocks/Services/MockAppEnvironmentService.swift,
 				govuk_ios/govuk_ios_unit_tests/Specs/Views/CentreAlignedBarButtonItemTests.swift,
 				"govuk_ios/shared/Arrangers/Repositories/CoreDataRepository+Arrangers.swift",
-				"govuk_ios/shared/Extensions/Bundle+Tests.swift",
 				govuk_ios/shared/Mocks/MockDeviceInformationProvider.swift,
 				govuk_ios/shared/Mocks/MockNotificationCenter.swift,
 				govuk_ios/shared/Mocks/MockPasteboard.swift,
@@ -1399,11 +1398,51 @@
 			);
 			target = 5D4B9D332C074207005F126A /* govuk_ios_snapshot_tests */;
 		};
+		FBCE94E63073DBEE00CC5E8B /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Resources/MockAppConfigResponse.json,
+				Resources/MockAppConfigResponseInvalid.json,
+				Resources/MockCancelShareCodeResponse.json,
+				Resources/MockCreateShareCodeResponse.json,
+				Resources/MockCustomerVehicleDetailsResponse.json,
+				Resources/MockCustomerVehiclesResponse.json,
+				Resources/MockDrivingLicenceResponse.json,
+				Resources/MockListShareCodesResponse.json,
+				Resources/MockTermsAndConditionsResponse.json,
+				Resources/MockTermsAndConditionsResponseInvalid.json,
+				Resources/MockTopicDetailsResponses/FiveStepByStep.json,
+				Resources/MockTopicDetailsResponses/NoUnpopularContent.json,
+				Resources/MockTopicDetailsResponses/UnpopularContent.json,
+				Resources/MockVehicleResponse.json,
+			);
+			target = 5DAD71732BD250DB0075F648 /* govuk_ios */;
+		};
+		FBCE94E83073DCC900CC5E8B /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Resources/MockAppConfigResponse.json,
+				Resources/MockAppConfigResponseInvalid.json,
+				Resources/MockCancelShareCodeResponse.json,
+				Resources/MockCreateShareCodeResponse.json,
+				Resources/MockCustomerVehicleDetailsResponse.json,
+				Resources/MockCustomerVehiclesResponse.json,
+				Resources/MockDrivingLicenceResponse.json,
+				Resources/MockListShareCodesResponse.json,
+				Resources/MockTermsAndConditionsResponse.json,
+				Resources/MockTermsAndConditionsResponseInvalid.json,
+				Resources/MockTopicDetailsResponses/FiveStepByStep.json,
+				Resources/MockTopicDetailsResponses/NoUnpopularContent.json,
+				Resources/MockTopicDetailsResponses/UnpopularContent.json,
+				Resources/MockVehicleResponse.json,
+			);
+			target = 5DAD71892BD250DF0075F648 /* govuk_ios_unit_tests */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		5D9CDE3A2CD928FB0045DFC3 /* Tests */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (5D9CDF212CD928FB0045DFC3 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 5D9CDF222CD928FB0045DFC3 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (govuk_ios/govuk_ios_snapshot_tests/ReferenceImages_64, ); path = Tests; sourceTree = "<group>"; };
-		FB984C7A3062C2E300158FC7 /* Development */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Development; sourceTree = "<group>"; };
+		FB984C7A3062C2E300158FC7 /* Development */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (FBCE94E63073DBEE00CC5E8B /* PBXFileSystemSynchronizedBuildFileExceptionSet */, FBCE94E83073DCC900CC5E8B /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Development; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
