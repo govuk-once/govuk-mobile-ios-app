@@ -61,13 +61,13 @@ struct VehicleCheckSectionView: View {
 }
 
 #Preview {
-    let viewModel = VehicleCheckSectionViewModel(
+    let tomsTestViewModel = VehicleCheckSectionViewModel(
         action: { buttonTitle in
             print(buttonTitle)
         }
     )
     ZStack {
         Color(uiColor: .govUK.fills.surfaceBackground)
-        VehicleCheckSectionView(viewModel: viewModel)
+        VehicleCheckSectionView(viewModel: tomsTestViewModel)
     }
 }
