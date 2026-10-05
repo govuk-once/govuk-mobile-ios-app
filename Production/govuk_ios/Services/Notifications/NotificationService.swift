@@ -29,6 +29,7 @@ class NotificationService: NSObject,
     private let configService: AppConfigServiceInterface
     private let userDefaultsService: UserDefaultsServiceInterface
     private let oneSignalServiceClient: OneSignalServiceClient.Type
+    private let notificationCentreService: () -> NotificationCentreServiceInterface
     private var onConsentChangedAction: ((Bool) -> Void)?
     var onClickAction: ((URL) -> Void)?
 
@@ -36,12 +37,14 @@ class NotificationService: NSObject,
          notificationCenter: UserNotificationCenterInterface,
          configService: AppConfigServiceInterface,
          userDefaultsService: UserDefaultsServiceInterface,
-         oneSignalServiceClient: OneSignalServiceClient.Type) {
+         oneSignalServiceClient: OneSignalServiceClient.Type,
+         notificationCentreService: @escaping () -> NotificationCentreServiceInterface) {
         self.environmentService = environmentService
         self.notificationCenter = notificationCenter
         self.configService = configService
         self.userDefaultsService = userDefaultsService
         self.oneSignalServiceClient = oneSignalServiceClient
+        self.notificationCentreService = notificationCentreService
     }
 
     func appDidFinishLaunching(launchOptions: [UIApplication.LaunchOptionsKey: Any]?) {
@@ -133,9 +136,19 @@ class NotificationService: NSObject,
     func handleAdditionalData(_ additionalData: [AnyHashable: Any]?) {
         guard let additionalData,
               let deeplinkStr = additionalData["deeplink"] as? String,
-              let deeplink = URL(string: deeplinkStr)
-        else { return }
-        onClickAction?(deeplink)
+              !deeplinkStr.isEmpty,
+              let components = URLComponents(string: deeplinkStr),
+              let url = components.url else {
+            return
+        }
+
+        onClickAction?(url)
+
+        if let notificationId = components.queryItems?.first(
+            where: { $0.name == "notificationID" }
+        )?.value {
+            notificationCentreService().markRead(with: notificationId)
+        }
     }
 
     func fetchConsentAlignment() async -> NotificationConsentResult {
