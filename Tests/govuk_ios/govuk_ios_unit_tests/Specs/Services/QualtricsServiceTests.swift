@@ -260,10 +260,10 @@ struct QualtricsServiceTests {
         )
 
         await sut.evaluateEvent(params: ["text": "Say what went well",
-                                         "question_id": "questionId"])
-        #expect(mockQualtrics.properties["question_id"] == "questionId")
+                                         "questionId": "questionId"])
+        #expect(mockQualtrics.properties["questionId"] == "questionId")
 
         await sut.evaluateEvent(params: ["text": "Give feedback"])
-        #expect(mockQualtrics.properties["question_id"] == "")
+        #expect(mockQualtrics.properties["questionId"] == "")
     }
 }

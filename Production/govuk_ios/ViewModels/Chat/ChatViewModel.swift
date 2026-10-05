@@ -13,7 +13,6 @@ class ChatViewModel: ObservableObject {
     private let openURLAction: (URL) -> Void
     private let handleError: (ChatError) -> Void
     private let scheduleFeedbackConfirmation: ChatFeedbackViewModel.ConfirmationScheduler
-    private var isOpeningLink = false
     private var shouldLoadHistory: Bool = true
     private var disclosureListeners = Set<AnyCancellable>()
     // Default values will be overridden
@@ -136,7 +135,7 @@ class ChatViewModel: ObservableObject {
             case .success(let answer):
                 let cellModel = ChatCellViewModel(
                     answer: answer,
-                    openURLAction: { [weak self] url in self?.openLink(url) },
+                    openURLAction: openURLAction,
                     analyticsService: analyticsService
                 )
                 cellModel.feedbackViewModel = makeFeedbackViewModel(
@@ -189,19 +188,6 @@ class ChatViewModel: ObservableObject {
         }
     }
 
-    func chatDidAppear() {
-        isOpeningLink = false
-    }
-
-    func chatDidDisappear() {
-        guard !isOpeningLink else { return }
-        clearFeedback()
-    }
-
-    func appDidEnterBackground() {
-        clearFeedback()
-    }
-
     private func clearFeedback() {
         cellModels.forEach { $0.feedbackViewModel = nil }
     }
@@ -215,11 +201,6 @@ class ChatViewModel: ObservableObject {
                 self?.scrollToBottom = true
             }
         )
-    }
-
-    private func openLink(_ url: URL) {
-        isOpeningLink = true
-        openURLAction(url)
     }
 
     private func processError(_ error: ChatError) {
@@ -283,11 +264,17 @@ class ChatViewModel: ObservableObject {
             cellModels.append(question)
             let answer = ChatCellViewModel(
                 answer: answeredQuestion.answer,
-                openURLAction: { [weak self] url in self?.openLink(url) },
+                openURLAction: openURLAction,
                 analyticsService: analyticsService
             )
             answer.isVisible = true
             cellModels.append(answer)
+        }
+        if history.pendingQuestion == nil,
+           let latestAnsweredQuestion = answers.last {
+            cellModels.last?.feedbackViewModel = makeFeedbackViewModel(
+                questionId: latestAnsweredQuestion.id
+            )
         }
         if let pendingQuestion = history.pendingQuestion {
             cellModels.append(ChatCellViewModel(
@@ -326,17 +313,17 @@ class ChatViewModel: ObservableObject {
 
     func openAboutURL() {
         trackMenuTap(String.chat.localized("aboutMenuTitle"))
-        openLink(chatService.about)
+        openURLAction(chatService.about)
     }
 
     func openPrivacyURL() {
         trackMenuTap(String.chat.localized("privacyMenuTitle"))
-        openLink(chatService.privacyPolicy)
+        openURLAction(chatService.privacyPolicy)
     }
 
     func openFeedbackURL() {
         trackMenuTap(String.chat.localized("feedbackMenuTitle"))
-        openLink(chatService.feedback)
+        openURLAction(chatService.feedback)
     }
 
     func trackScreen(screen: TrackableScreen) {

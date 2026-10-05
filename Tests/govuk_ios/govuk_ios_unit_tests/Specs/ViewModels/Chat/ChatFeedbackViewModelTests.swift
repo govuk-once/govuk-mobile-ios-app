@@ -18,13 +18,12 @@ struct ChatFeedbackViewModelTests {
         #expect(sut.selection == isPositive)
         try #require(mockAnalyticsService._trackedEvents.count == 1)
         let event = mockAnalyticsService._trackedEvents[0]
-        let text = isPositive ? "thumbs up" : "thumbs down"
-        #expect(event.name == "Function")
-        #expect(event.params?["text"] as? String == text)
-        #expect(event.params?["type"] as? String == "feedback")
+        #expect(event.name == "ChatFeedback")
+        #expect(event.params?["text"] as? String == (isPositive ? "thumbs up" : "thumbs down"))
+        #expect(event.params?["action"] as? String == "icon")
+        #expect(event.params?["type"] as? String == "Feedback")
         #expect(event.params?["section"] as? String == "Chat")
-        #expect(event.params?["action"] as? String == text)
-        #expect(event.params?["question_id"] as? String == "questionId")
+        #expect(event.params?["questionId"] as? String == "questionId")
         #expect(event.params?["conversation_id"] == nil)
     }
 
@@ -66,16 +65,15 @@ struct ChatFeedbackViewModelTests {
         #expect(sut.state == .surveyOpened(isPositive: isPositive))
         try #require(mockAnalyticsService._trackedEvents.count == 2)
         let event = mockAnalyticsService._trackedEvents[1]
-        #expect(event.name == "Navigation")
+        #expect(event.name == "ChatFeedback")
         #expect(
             event.params?["text"] as? String ==
             (isPositive ? "Say what went well" : "Say what went wrong")
         )
-        #expect(event.params?["type"] as? String == "feedback")
+        #expect(event.params?["action"] as? String == "link")
+        #expect(event.params?["type"] as? String == "Feedback")
         #expect(event.params?["section"] as? String == "Chat")
-        #expect(event.params?["external"] as? Bool == false)
-        #expect(event.params?["language"] as? String == "en")
-        #expect(event.params?["question_id"] as? String == "questionId")
+        #expect(event.params?["questionId"] as? String == "questionId")
         #expect(event.params?["conversation_id"] == nil)
     }
 
@@ -90,16 +88,24 @@ struct ChatFeedbackViewModelTests {
         #expect(mockAnalyticsService._trackedEvents.isEmpty)
     }
 
-    @Test
-    func openSurvey_withoutConsent_isIgnored() {
+    @Test(arguments: [true, false])
+    func rate_withoutConsent_tracksEventAndConfirms(isPositive: Bool) {
         let mockAnalyticsService = MockAnalyticsService()
         mockAnalyticsService._stubbedPermissionState = .denied
-        let sut = makeSUT(analyticsService: mockAnalyticsService)
+        var didConfirm = false
+        let sut = makeSUT(
+            analyticsService: mockAnalyticsService,
+            onConfirmed: { didConfirm = true }
+        )
 
-        sut.rate(isPositive: true)
+        sut.rate(isPositive: isPositive)
         sut.openSurvey()
 
-        #expect(sut.state == .rated(isPositive: true))
+        #expect(sut.state == .confirmed)
+        #expect(sut.selection == nil)
+        #expect(didConfirm)
+        #expect(mockAnalyticsService._trackedEvents.count == 1)
+        #expect(mockAnalyticsService._trackedEvents.first?.params?["action"] as? String == "icon")
     }
 
     @Test

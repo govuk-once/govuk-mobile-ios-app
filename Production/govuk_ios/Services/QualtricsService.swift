@@ -154,7 +154,7 @@ actor QualtricsService: QualtricsServiceInterface {
         "item_list_id",
         "item_list_name",
         "language",
-        "question_id",
+        "questionId",
         "screen_class",
         "screen_name",
         "screen_title",

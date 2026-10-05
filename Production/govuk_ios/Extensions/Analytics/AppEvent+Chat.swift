@@ -36,28 +36,33 @@ extension AppEvent {
 
     static func chatFeedbackIcon(isPositive: Bool,
                                  questionId: String) -> AppEvent {
-        let text = isPositive ? "thumbs up" : "thumbs down"
-        return .init(
-            name: "Function",
-            params: [
-                "text": text,
-                "type": "feedback",
-                "section": "Chat",
-                "action": text,
-                "question_id": questionId
-            ]
+        chatFeedback(
+            text: isPositive ? "thumbs up" : "thumbs down",
+            action: "icon",
+            questionId: questionId
         )
     }
 
     static func chatFeedbackLink(isPositive: Bool,
                                  questionId: String) -> AppEvent {
-        navigation(
+        chatFeedback(
             text: isPositive ? "Say what went well" : "Say what went wrong",
-            type: "feedback",
-            external: false,
-            additionalParams: [
+            action: "link",
+            questionId: questionId
+        )
+    }
+
+    private static func chatFeedback(text: String,
+                                     action: String,
+                                     questionId: String) -> AppEvent {
+        .init(
+            name: "ChatFeedback",
+            params: [
+                "text": text,
+                "action": action,
+                "type": "Feedback",
                 "section": "Chat",
-                "question_id": questionId
+                "questionId": questionId
             ]
         )
     }

@@ -20,7 +20,7 @@ final class ChatFeedbackViewModel: ObservableObject {
          analyticsService: AnalyticsServiceInterface,
          scheduleConfirmation: @escaping ConfirmationScheduler =
             ChatFeedbackViewModel.defaultConfirmationScheduler,
-         onConfirmed: @escaping () -> Void = { }) {
+         onConfirmed: @escaping () -> Void = { /* No-op */ }) {
         self.questionId = questionId
         self.analyticsService = analyticsService
         self.scheduleConfirmation = scheduleConfirmation
@@ -42,13 +42,20 @@ final class ChatFeedbackViewModel: ObservableObject {
 
     func rate(isPositive: Bool) {
         guard state == .unrated else { return }
-        state = .rated(isPositive: isPositive)
+        // Without analytics consent AnalyticsService drops this event, so the rating isn't
+        // recorded anywhere. Recording ratings regardless of consent is planned Chat API work.
         analyticsService.track(
             event: .chatFeedbackIcon(
                 isPositive: isPositive,
                 questionId: questionId
             )
         )
+        if isLinkVisible {
+            state = .rated(isPositive: isPositive)
+        } else {
+            state = .confirmed
+            onConfirmed()
+        }
     }
 
     func openSurvey() {

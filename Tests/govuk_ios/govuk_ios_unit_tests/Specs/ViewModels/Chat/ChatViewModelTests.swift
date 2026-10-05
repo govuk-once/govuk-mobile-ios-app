@@ -590,7 +590,7 @@ struct ChatViewModelTests {
         #expect(sut.cellModels.first?.feedbackViewModel == nil)
         feedbackViewModel.rate(isPositive: true)
         #expect(
-            mockAnalyticsService._trackedEvents.last?.params?["question_id"] as? String ==
+            mockAnalyticsService._trackedEvents.last?.params?["questionId"] as? String ==
             "expectedPendingQuestionId"
         )
     }
@@ -622,20 +622,49 @@ struct ChatViewModelTests {
     }
 
     @Test
-    func loadHistory_answersHaveNoFeedback() {
+    func loadHistory_onlyLatestAnswerHasFeedback() throws {
         let mockChatService = MockChatService()
-        let answeredQuestion = AnsweredQuestion(
-            answer: .answeredAnswer,
-            conversationId: "conversationId",
-            createdAt: "\(Date())",
-            id: "1",
-            message: "First question"
-        )
+        let mockAnalyticsService = MockAnalyticsService()
         mockChatService._stubbedConversationId = "conversationId"
         mockChatService._stubbedHistoryResult = .success(
             History(
                 pendingQuestion: nil,
-                answeredQuestions: [answeredQuestion],
+                answeredQuestions: [
+                    answeredQuestion(id: "1", message: "First question"),
+                    answeredQuestion(id: "2", message: "Second question")
+                ],
+                createdAt: "\(Date())",
+                id: "4456"
+            )
+        )
+        let sut = ChatViewModel(
+            chatService: mockChatService,
+            analyticsService: mockAnalyticsService,
+            configService: MockAppConfigService(),
+            openURLAction: { _ in },
+            handleError: { _ in }
+        )
+
+        sut.loadHistory()
+
+        let latestAnswer = try #require(sut.cellModels.last)
+        #expect(latestAnswer.type == .answer)
+        let feedbackViewModel = try #require(latestAnswer.feedbackViewModel)
+        #expect(sut.cellModels.filter { $0.feedbackViewModel != nil }.count == 1)
+        feedbackViewModel.rate(isPositive: true)
+        #expect(
+            mockAnalyticsService._trackedEvents.last?.params?["questionId"] as? String == "2"
+        )
+    }
+
+    @Test
+    func loadHistory_withPendingQuestion_historyAnswersHaveNoFeedback() {
+        let mockChatService = MockChatService()
+        mockChatService._stubbedConversationId = "conversationId"
+        mockChatService._stubbedHistoryResult = .success(
+            History(
+                pendingQuestion: .pendingQuestion,
+                answeredQuestions: [answeredQuestion(id: "1", message: "First question")],
                 createdAt: "\(Date())",
                 id: "4456"
             )
@@ -654,56 +683,6 @@ struct ChatViewModelTests {
         #expect(sut.cellModels.allSatisfy { $0.feedbackViewModel == nil })
     }
 
-    @Test(arguments: [0, 1, 2])
-    func chatDidDisappear_clearsFeedbackInEveryState(taps: Int) throws {
-        let sut = makeAnsweredChatViewModel()
-        let answer = try #require(sut.cellModels.last)
-        let feedbackViewModel = try #require(answer.feedbackViewModel)
-        if taps > 0 { feedbackViewModel.rate(isPositive: true) }
-        if taps > 1 { feedbackViewModel.openSurvey() }
-
-        sut.chatDidDisappear()
-
-        #expect(answer.feedbackViewModel == nil)
-    }
-
-    @Test
-    func chatDidDisappear_afterOpeningLink_keepsFeedback() throws {
-        let sut = makeAnsweredChatViewModel()
-        let answer = try #require(sut.cellModels.last)
-        try #require(answer.feedbackViewModel).rate(isPositive: false)
-
-        answer.openURL(url: URL(string: "https://www.gov.uk")!, type: .sourceLink)
-        sut.chatDidDisappear()
-        #expect(answer.feedbackViewModel != nil)
-
-        sut.chatDidAppear()
-        sut.chatDidDisappear()
-        #expect(answer.feedbackViewModel == nil)
-    }
-
-    @Test
-    func chatDidDisappear_afterOpeningMenuLink_keepsFeedback() throws {
-        let sut = makeAnsweredChatViewModel()
-        let answer = try #require(sut.cellModels.last)
-
-        sut.openAboutURL()
-        sut.chatDidDisappear()
-
-        #expect(answer.feedbackViewModel != nil)
-    }
-
-    @Test
-    func appDidEnterBackground_clearsFeedback() throws {
-        let sut = makeAnsweredChatViewModel()
-        let answer = try #require(sut.cellModels.last)
-        sut.openAboutURL()
-
-        sut.appDidEnterBackground()
-
-        #expect(answer.feedbackViewModel == nil)
-    }
-
     @Test
     func feedbackConfirmed_scrollsToBottom() throws {
         let sut = makeAnsweredChatViewModel(scheduleFeedbackConfirmation: { $0() })
@@ -715,6 +694,16 @@ struct ChatViewModelTests {
 
         #expect(feedbackViewModel.state == .confirmed)
         #expect(sut.scrollToBottom)
+    }
+
+    private func answeredQuestion(id: String, message: String) -> AnsweredQuestion {
+        AnsweredQuestion(
+            answer: .answeredAnswer,
+            conversationId: "conversationId",
+            createdAt: "\(Date())",
+            id: id,
+            message: message
+        )
     }
 
     private func makeAnsweredChatViewModel(
