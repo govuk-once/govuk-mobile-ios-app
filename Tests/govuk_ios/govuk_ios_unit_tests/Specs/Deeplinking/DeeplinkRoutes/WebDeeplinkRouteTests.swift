@@ -17,7 +17,7 @@ private class TestParentCoordinator: MockBaseCoordinator {
 @Suite
 @MainActor
 struct WebDeeplinkRouteTests {
-    
+
     @Test
     func pattern_returnsExpectedValue() {
         let mockCoordinatorBuilder = MockCoordinatorBuilder.mock

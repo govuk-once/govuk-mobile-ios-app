@@ -94,6 +94,7 @@
 		16FE77672EBB72A7009D02B1 /* TopicsOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FE77662EBB7290009D02B1 /* TopicsOnboardingView.swift */; };
 		2D4FCBFB306573FF0016B5B0 /* EditCountriesView+CountryDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D4FCBFA306573FF0016B5B0 /* EditCountriesView+CountryDetails.swift */; };
 		2DD46BD5305D524500B83F7C /* CountryOptionsBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD46BD4305D524500B83F7C /* CountryOptionsBottomSheet.swift */; };
+		2DE01FAB306D1AD400484E18 /* TravelAlertsEditDeeplinkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DE01FAA306D1AD400484E18 /* TravelAlertsEditDeeplinkRoute.swift */; };
 		3300A4F62F69B2B10042D340 /* GOVRequest+NotificationCentre.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3300A4F52F69B2B10042D340 /* GOVRequest+NotificationCentre.swift */; };
 		333A5D262FCF071C0018BA1D /* NotificationCentreDetailMarkdownTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333A5D252FCF071C0018BA1D /* NotificationCentreDetailMarkdownTheme.swift */; };
 		3365BE5A2F3DCC3300817D7E /* NotificationCentreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3365BE592F3DCC2E00817D7E /* NotificationCentreViewModel.swift */; };
@@ -718,6 +719,7 @@
 		16FE77662EBB7290009D02B1 /* TopicsOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsOnboardingView.swift; sourceTree = "<group>"; };
 		2D4FCBFA306573FF0016B5B0 /* EditCountriesView+CountryDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditCountriesView+CountryDetails.swift"; sourceTree = "<group>"; };
 		2DD46BD4305D524500B83F7C /* CountryOptionsBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryOptionsBottomSheet.swift; sourceTree = "<group>"; };
+		2DE01FAA306D1AD400484E18 /* TravelAlertsEditDeeplinkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelAlertsEditDeeplinkRoute.swift; sourceTree = "<group>"; };
 		3300A4F52F69B2B10042D340 /* GOVRequest+NotificationCentre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GOVRequest+NotificationCentre.swift"; sourceTree = "<group>"; };
 		333A5D252FCF071C0018BA1D /* NotificationCentreDetailMarkdownTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCentreDetailMarkdownTheme.swift; sourceTree = "<group>"; };
 		3365BE592F3DCC2E00817D7E /* NotificationCentreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCentreViewModel.swift; sourceTree = "<group>"; };
@@ -2140,10 +2142,11 @@
 				5DFE3C1E2FD319C500DDC5C8 /* DVLAServiceDeeplinkRoute.swift */,
 				945E1F062F7176240064CA22 /* EditTopicsDeepLinkRoute.swift */,
 				16C34B422C492FF90031AD32 /* HomeDeepLinkRoute.swift */,
+				33CA985B2F646D8D0060DCDB /* NotificationCentreDetailDeeplinkRoute.swift */,
 				945E1F082F7180FA0064CA22 /* RecentActivityDeepLinkRoute.swift */,
 				945E1F042F714E830064CA22 /* SearchDeepLinkRoute.swift */,
-				33CA985B2F646D8D0060DCDB /* NotificationCentreDetailDeeplinkRoute.swift */,
 				16C34B442C4954910031AD32 /* SettingsDeepLinkRoute.swift */,
+				2DE01FAA306D1AD400484E18 /* TravelAlertsEditDeeplinkRoute.swift */,
 				B04C2E7F2DA9141400F0F63E /* WebDeeplinkRoute.swift */,
 			);
 			path = DeeplinkRoutes;
@@ -3492,6 +3495,7 @@
 				D04DD32D2E0046DC002B5F19 /* PendingQuestion.swift in Sources */,
 				D04DD32E2E0046DC002B5F19 /* AnsweredQuestion.swift in Sources */,
 				D0A35E0A2E740DFD007D3D27 /* ChatMarkdownTheme.swift in Sources */,
+				2DE01FAB306D1AD400484E18 /* TravelAlertsEditDeeplinkRoute.swift in Sources */,
 				D04DD32F2E0046DC002B5F19 /* Answer.swift in Sources */,
 				D04DD3302E0046DC002B5F19 /* History.swift in Sources */,
 				D090467A2DBBC1AC0096EE66 /* JWTExtractor.swift in Sources */,

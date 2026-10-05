@@ -4,10 +4,10 @@ import UIKit
 
 class MockURLOpener: URLOpener {
 
-    var _receivedCanOpennUrl: URL?
+    var _receivedCanOpenUrl: URL?
     var _stubbedCanOpenResult: Bool = true
     func canOpenURL(_ url: URL) -> Bool {
-        _receivedCanOpennUrl = url
+        _receivedCanOpenUrl = url
         return _stubbedCanOpenResult
     }
 

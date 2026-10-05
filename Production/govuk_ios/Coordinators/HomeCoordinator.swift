@@ -102,6 +102,15 @@ class HomeCoordinator: TabItemCoordinator {
         startRecentActivityCoordinator()
     }
 
+    func showTravelAlertTopic() {
+        guard let travelTopic = topicsService.fetchTravelTopic() else { return }
+        let coordinator = coordinatorBuilder.topicDetail(
+            travelTopic,
+            navigationController: root
+        )
+        start(coordinator)
+    }
+
     private func presentWebView(url: URL) {
         let coordinator = coordinatorBuilder.safari(
             navigationController: root,
