@@ -29,7 +29,6 @@ class NotificationService: NSObject,
     private let configService: AppConfigServiceInterface
     private let userDefaultsService: UserDefaultsServiceInterface
     private let oneSignalServiceClient: OneSignalServiceClient.Type
-    // Lazy resolver to defer init until needed
     private let notificationCentreService: () -> NotificationCentreServiceInterface
     private var onConsentChangedAction: ((Bool) -> Void)?
     var onClickAction: ((URL) -> Void)?
