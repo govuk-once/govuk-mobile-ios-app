@@ -163,6 +163,13 @@ struct ChatView: View {
             }
             viewModel.scrollToTop = false
         }
+        .onChange(of: verticalSizeClass) { _ in
+            if viewModel.requestInFlight {
+                withAnimation {
+                    proxy.scrollTo(viewModel.latestQuestionID, anchor: .top)
+                }
+            }
+        }
     }
 
     @ViewBuilder

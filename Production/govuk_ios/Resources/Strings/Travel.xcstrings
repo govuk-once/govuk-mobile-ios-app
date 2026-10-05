@@ -320,6 +320,17 @@
         }
       }
     },
+    "travelAlertPermissionPrivacyButtonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Read the privacy notice"
+          }
+        }
+      }
+    },
     "travelAlertPermissionSecondaryButton" : {
       "extractionState" : "manual",
       "localizations" : {

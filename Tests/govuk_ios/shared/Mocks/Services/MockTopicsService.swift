@@ -40,6 +40,11 @@ class MockTopicsService: TopicsServiceInterface {
         _stubbedFetchFavouriteTopics ?? []
     }
 
+    var _stubbedFetchTravelTopic: Topic?
+    func fetchTravelTopic() -> Topic? {
+        _stubbedFetchTravelTopic ?? fetchAll().first(where: { $0.isTravelTopic })
+    }
+
     var _saveCalled = false
     func save() {
         _saveCalled = true

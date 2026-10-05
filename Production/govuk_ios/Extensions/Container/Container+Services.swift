@@ -194,7 +194,8 @@ extension Container {
                 notificationCenter: UNUserNotificationCenter.current(),
                 configService: self.appConfigService.resolve(),
                 userDefaultsService: self.userDefaultsService.resolve(),
-                oneSignalServiceClient: OneSignal.self
+                oneSignalServiceClient: OneSignal.self,
+                notificationCentreService: { self.notificationCentreService.resolve() }
             )
         }.scope(.singleton)
     }

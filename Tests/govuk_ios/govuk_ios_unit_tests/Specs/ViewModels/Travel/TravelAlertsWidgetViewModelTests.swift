@@ -15,6 +15,7 @@ struct TravelAlertsWidgetViewModelTests {
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
+            urlOpener: MockURLOpener(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
@@ -35,6 +36,7 @@ struct TravelAlertsWidgetViewModelTests {
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
+            urlOpener: MockURLOpener(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
@@ -58,6 +60,7 @@ struct TravelAlertsWidgetViewModelTests {
             travelService: mockTravelService,
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
+            urlOpener: MockURLOpener(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
@@ -87,6 +90,7 @@ struct TravelAlertsWidgetViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
+            urlOpener: MockURLOpener(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
@@ -112,6 +116,7 @@ struct TravelAlertsWidgetViewModelTests {
             travelService: mockTravelService,
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
+            urlOpener: MockURLOpener(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
@@ -134,6 +139,7 @@ struct TravelAlertsWidgetViewModelTests {
             travelService: MockTravelService(),
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
+            urlOpener: MockURLOpener(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
@@ -159,6 +165,7 @@ struct TravelAlertsWidgetViewModelTests {
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
+            urlOpener: MockURLOpener(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { dismissCalled = true },
             editAction: { /*Empty For Tests*/ },
@@ -180,6 +187,7 @@ struct TravelAlertsWidgetViewModelTests {
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
+            urlOpener: MockURLOpener(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
@@ -200,6 +208,7 @@ struct TravelAlertsWidgetViewModelTests {
             travelService: mockTravelService,
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
+            urlOpener: MockURLOpener(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
@@ -228,6 +237,7 @@ struct TravelAlertsWidgetViewModelTests {
             travelService: mockTravelService,
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
+            urlOpener: MockURLOpener(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
@@ -261,6 +271,7 @@ struct TravelAlertsWidgetViewModelTests {
             travelService: mockTravelService,
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
+            urlOpener: MockURLOpener(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
@@ -277,32 +288,13 @@ struct TravelAlertsWidgetViewModelTests {
     }
 
     @Test
-    func countryListViewModel_isInitializedLazily() {
-        let mockTravelService = MockTravelService()
-        let mockAnalyticsService = MockAnalyticsService()
-        let sut = TravelAlertsWidgetViewModel(
-            travelService: mockTravelService,
-            analyticsService: mockAnalyticsService,
-            notificationService: MockNotificationService(),
-            linkAction: { /*Empty For Tests*/ },
-            dismissAction: { /*Empty For Tests*/ },
-            editAction: { /*Empty For Tests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ }
-        )
-
-        // Accessing the lazy property should initialize it
-        let viewModel = sut.countryListViewModel
-
-        #expect(viewModel is CountryListViewModel)
-    }
-
-    @Test
     func dismissAction_isCalledOnDismiss() {
         var dismissActionCalled = false
         let sut = TravelAlertsWidgetViewModel(
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
+            urlOpener: MockURLOpener(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { dismissActionCalled = true },
             editAction: { /*Empty For Tests*/ },
@@ -320,6 +312,7 @@ struct TravelAlertsWidgetViewModelTests {
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
+            urlOpener: MockURLOpener(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
@@ -337,6 +330,7 @@ struct TravelAlertsWidgetViewModelTests {
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
+            urlOpener: MockURLOpener(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
@@ -344,7 +338,6 @@ struct TravelAlertsWidgetViewModelTests {
         )
 
         let viewModel = sut.countryListViewModel
-        #expect(viewModel is CountryListViewModel)
 
         // Calling errorCallback should set isShowingError
         viewModel.errorCallback()
@@ -358,6 +351,7 @@ struct TravelAlertsWidgetViewModelTests {
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
+            urlOpener: MockURLOpener(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { editActionCalled = true },
@@ -382,6 +376,7 @@ struct TravelAlertsWidgetViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
+            urlOpener: MockURLOpener(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
@@ -400,12 +395,13 @@ struct TravelAlertsWidgetViewModelTests {
     }
 
     @Test
-    func didDismissList_withoutForceRefresh_doesNotRefetch() {
+    func didDismissList_withoutForceRefresh_doesNotRefetch() async throws {
         let mockTravelService = MockTravelService()
         let sut = TravelAlertsWidgetViewModel(
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
+            urlOpener: MockURLOpener(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
@@ -430,12 +426,14 @@ struct TravelAlertsWidgetViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
+            urlOpener: MockURLOpener(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 
+        // Simulate successful subscription via countryListViewModel's dismiss action
         sut.countryListViewModel.dismissAction(true)
 
         try await waitForViewState(of: sut) { state in

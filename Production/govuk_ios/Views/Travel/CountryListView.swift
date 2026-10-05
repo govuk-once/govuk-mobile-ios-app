@@ -76,9 +76,11 @@ struct CountryListView: View {
                 alertMessage(for: country)
             }
             .sheet(isPresented: $viewModel.showTravelAlertsPermission) {
-                TravelAlertsPermissionView(
-                    viewModel: viewModel.createPermissionViewModel()
-                )
+                if let permissionViewModel = viewModel.createPermissionViewModel() {
+                    NavigationStack {
+                        TravelAlertsPermissionView(viewModel: permissionViewModel)
+                    }
+                }
             }
     }
 
@@ -185,6 +187,7 @@ struct CountryListLoadingView: View {
                 .accessibilityLabel(.Travel.travelAlertsLoading)
             Spacer()
         }
+        .frame(maxWidth: .infinity)
     }
 }
 
