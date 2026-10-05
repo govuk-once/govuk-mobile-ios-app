@@ -237,30 +237,30 @@ struct DVLAServiceClientTests {
     // MARK: - Static fixtures
 
     static var drivingLicenceResponse: Data = {
-        .load(filename: "MockDrivingLicenceResponse")
+        .loadFixture("MockDrivingLicenceResponse")
     }()
 
     static var customerVehiclesResponse: Data = {
-        .load(filename: "MockCustomerVehiclesResponse")
+        .loadFixture("MockCustomerVehiclesResponse")
     }()
 
     static var customerVehicleDetailsResponse: Data = {
-        .load(filename: "MockCustomerVehicleDetailsResponse")
+        .loadFixture("MockCustomerVehicleDetailsResponse")
     }()
 
     static var vehicleResponse: Data = {
-        .load(filename: "MockVehicleResponse")
+        .loadFixture("MockVehicleResponse")
     }()
 
     static var listShareCodesResponse: Data = {
-        .load(filename: "MockListShareCodesResponse")
+        .loadFixture("MockListShareCodesResponse")
     }()
 
     static var createShareCodeResponse: Data = {
-        .load(filename: "MockCreateShareCodeResponse")
+        .loadFixture("MockCreateShareCodeResponse")
     }()
 
     static var cancelShareCodeResponse: Data = {
-        .load(filename: "MockCancelShareCodeResponse")
+        .loadFixture("MockCancelShareCodeResponse")
     }()
 }
