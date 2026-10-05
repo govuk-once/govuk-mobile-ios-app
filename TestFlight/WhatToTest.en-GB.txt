@@ -1,1 +1,5 @@
-This is a pre-release version of the Gov.UK app, meaning we may still be making improvements and refining features ahead of the full release. You may occasionally notice small issues or changes as we continue to enhance the experience. Thanks for your understanding—and for any feedback you can share to help us make the app even better!
+This is the test version of the GOV.UK app. We use it to make sure new features work properly before we release them to the public.
+
+When you use the test version of the app, you’ll get early access to new features that we’re still developing. This means some parts of the app might not work as expected. You can share feedback about your experience by following the link in the app’s settings.
+
+Thank you for helping to test the GOV.UK app. Your feedback helps us make the app work better for everyone.
