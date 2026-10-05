@@ -4,7 +4,7 @@ extension TopicDetailResponse {
 
     static func arrange(fileName: String) -> TopicDetailResponse {
         try! JSONDecoder().decode(
-            from: .load(filename: fileName)
+            from: .loadFixture(fileName)
         )
     }
 
