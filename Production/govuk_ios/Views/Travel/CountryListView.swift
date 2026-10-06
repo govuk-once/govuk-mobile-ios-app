@@ -8,6 +8,7 @@ struct CountryListView: View {
     @Environment(\.sizeCategory) var sizeCategory
 
     private let horizontalPadding: CGFloat = 16
+    private let footerPadding: CGFloat = 16
     private let searchBarHorizontalPadding: CGFloat = 14
     private let searchBarBottomPadding: CGFloat = 0
     private let defaultPadding: CGFloat = 10
@@ -169,6 +170,10 @@ struct CountryListView: View {
                     sectionBackgroundColor: .govUK.fills.surfaceListAlt
                 )
 
+                CountryListFooterView(action: {
+                    // Handle tap action here
+                })
+
                 if searchBarAlignment == .bottom {
                     Spacer()
                         .frame(height: searchBarPadding)
@@ -178,7 +183,7 @@ struct CountryListView: View {
     }
 }
 
-struct CountryListLoadingView: View {
+private struct CountryListLoadingView: View {
     var body: some View {
         VStack(alignment: .center) {
             Spacer()
@@ -210,6 +215,30 @@ private struct FollowCountryEmptyView: View {
 
             Spacer()
         }.frame(maxWidth: .infinity)
+    }
+}
+
+private struct CountryListFooterView: View {
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            VStack(alignment: .center, spacing: 0) {
+                Text(String(localized: .Travel.countryListFooterMessage))
+                    .font(Font.govUK.caption1)
+                    .foregroundColor(Color(UIColor.govUK.text.secondary))
+                    .multilineTextAlignment(.center)
+                Text(String(localized: .Travel.countryListFooterLink))
+                    .font(Font.govUK.caption1)
+                    .foregroundStyle(Color(UIColor.govUK.text.link))
+                    .underline()
+                    .multilineTextAlignment(.center)
+            }
+            .frame(maxWidth: .infinity)
+            .fixedSize(horizontal: false, vertical: true)
+            .padding(.vertical, 16)
+            .padding(.horizontal, 16)
+        }
     }
 }
 
