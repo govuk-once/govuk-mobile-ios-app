@@ -21,6 +21,7 @@ actor QualtricsService: QualtricsServiceInterface {
     private let presentationController: UIViewController?
     private let firebaseIDsService: FirebaseIDsServiceInterface
     private let firebaseClient: AnalyticsClient
+    private let notificationCenter: NotificationCenter
 
     @MainActor
     private var surveyController: UIViewController? {
@@ -45,13 +46,15 @@ actor QualtricsService: QualtricsServiceInterface {
         firebaseClient: AnalyticsClient,
         theme: QualtricsTheme? = nil,
         completion: QualtricsInitializationResult? = nil,
-        presentationController: UIViewController? = nil
+        presentationController: UIViewController? = nil,
+        notificationCenter: NotificationCenter = .default
     ) {
         self.environmentService = environmentService
         self.qualtrics = qualtrics
         self.firebaseIDsService = firebaseIDsService
         self.firebaseClient = firebaseClient
         self.presentationController = presentationController
+        self.notificationCenter = notificationCenter
         qualtrics.initializeProject(
             brandId: environmentService.qualtricsBrandId,
             projectId: environmentService.qualtricsProjectId,
@@ -113,13 +116,17 @@ actor QualtricsService: QualtricsServiceInterface {
         viewController: UIViewController,
         autoCloseSurvey: Bool
     ) async {
+        let notificationCenter = notificationCenter
         await MainActor.run {
             let surveyController = QualtricsSurveyViewController(
                 url: url,
                 autoCloseSurvey: NSNumber(value: autoCloseSurvey)
             )
-            surveyController.modalPresentationStyle = .overFullScreen
-            viewController.present(surveyController, animated: true)
+            let hostController = QualtricsSurveyHostViewController(
+                surveyViewController: surveyController,
+                notificationCenter: notificationCenter
+            )
+            viewController.present(hostController, animated: true)
         }
     }
 

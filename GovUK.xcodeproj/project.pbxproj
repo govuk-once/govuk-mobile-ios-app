@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0D3EE9A41951ED9298F899FC /* QualtricsSurveyHostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF582F63435D188F52710665 /* QualtricsSurveyHostViewController.swift */; };
 		1607E7BF2E43947C006E599A /* ChatInfoOnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1607E7BE2E439473006E599A /* ChatInfoOnboardingViewModel.swift */; };
 		160AEAC52DA038030072BA43 /* Authentication in Frameworks */ = {isa = PBXBuildFile; productRef = 160AEAC42DA038030072BA43 /* Authentication */; };
 		160AEAC82DA038550072BA43 /* CryptoService in Frameworks */ = {isa = PBXBuildFile; productRef = 160AEAC72DA038550072BA43 /* CryptoService */; };
@@ -1199,6 +1200,7 @@
 		D0F6813C2DD4CF8E004421C0 /* LocalAuthorityPostcodeEntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthorityPostcodeEntryViewModel.swift; sourceTree = "<group>"; };
 		D0F6813D2DD4CF8E004421C0 /* LocalAuthorityWidgetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthorityWidgetViewModel.swift; sourceTree = "<group>"; };
 		DE523C71304EF43E00C0605C /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		DF582F63435D188F52710665 /* QualtricsSurveyHostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QualtricsSurveyHostViewController.swift; sourceTree = "<group>"; };
 		F273D63AADE2B164E8CEF775 /* ChatFeedbackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatFeedbackViewModel.swift; sourceTree = "<group>"; };
 		FB45D1C8305A984700592313 /* ValidityStatusView+Previews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ValidityStatusView+Previews.swift"; sourceTree = "<group>"; };
 		FBD9E9C4305315220031B76A /* StatusRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusRowView.swift; sourceTree = "<group>"; };
@@ -2317,6 +2319,7 @@
 				5D6B90142DCB7F0000D36463 /* NotificationConsentAlertViewController.swift */,
 				166BDDB52C330D1C00437AE0 /* HomeViewController.swift */,
 				5D54A82D2BFCAA4E003D0C21 /* LaunchViewController.swift */,
+				DF582F63435D188F52710665 /* QualtricsSurveyHostViewController.swift */,
 				5DD4CB172D95491600459FB5 /* RecentActivityListViewController.swift */,
 				5DE93E982E02CF63007E0DAE /* Search */,
 				5DDE372B300F91A4004EDD75 /* BaseNavigationController.swift */,
@@ -3514,6 +3517,7 @@
 				33D4AF292F6C210300C74038 /* NotificationCentreError.swift in Sources */,
 				1677D4062E006B8000FB1E56 /* TouchIdSettingsView.swift in Sources */,
 				5D54A82E2BFCAA4E003D0C21 /* LaunchViewController.swift in Sources */,
+				0D3EE9A41951ED9298F899FC /* QualtricsSurveyHostViewController.swift in Sources */,
 				8154C5402FB78AB600792FB5 /* ErrorView.swift in Sources */,
 				D0ABA5CE2FA4E76000C5A244 /* SARExplainerView.swift in Sources */,
 				167D0DC52E9D41340064A39E /* TopicSelectionCardViewModel.swift in Sources */,

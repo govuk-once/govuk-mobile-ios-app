@@ -3,9 +3,7 @@ import GovKitUI
 
 struct ChatFeedbackView: View {
     @ObservedObject var viewModel: ChatFeedbackViewModel
-    @AccessibilityFocusState private var isLinkFocused: Bool
     @AccessibilityFocusState private var isConfirmationFocused: Bool
-    private let announcementDelay: Duration = .seconds(1)
     private let animationDuration: TimeInterval = 0.3
 
     var body: some View {
@@ -24,8 +22,8 @@ struct ChatFeedbackView: View {
         )
         .padding(.leading, 4)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .onChange(of: viewModel.state) { state in
-            announce(state)
+        .onReceive(viewModel.confirmationFocusRequests) {
+            focusConfirmation()
         }
     }
 
@@ -88,7 +86,6 @@ struct ChatFeedbackView: View {
         .accessibilityRemoveTraits(.isButton)
         .accessibilityAddTraits(.isLink)
         .accessibilityHint(Text(.Chat.feedbackLinkAccessibilityHint))
-        .accessibilityFocused($isLinkFocused)
     }
 
     private var confirmationView: some View {
@@ -124,34 +121,9 @@ struct ChatFeedbackView: View {
                 .Chat.feedbackNotHelpfulAccessibilityLabel)
     }
 
-    private func announce(_ state: ChatFeedbackState) {
-        switch state {
-        case .rated(let isPositive):
-            post(
-                announcement: isPositive ?
-                    LocalizedStringResource.Chat.feedbackHelpfulSelectedAccessibilityAnnouncement :
-                    .Chat.feedbackNotHelpfulSelectedAccessibilityAnnouncement,
-                thenFocus: { isLinkFocused = viewModel.isLinkVisible }
-            )
-        case .confirmed:
-            post(
-                announcement: .Chat.feedbackConfirmationTitle,
-                thenFocus: { isConfirmationFocused = true }
-            )
-        case .unrated, .surveyOpened:
-            break
-        }
-    }
-
-    private func post(announcement: LocalizedStringResource,
-                      thenFocus focus: @escaping () -> Void) {
-        UIAccessibility.post(
-            notification: .announcement,
-            argument: String(localized: announcement)
-        )
-        Task { @MainActor in
-            try? await Task.sleep(for: announcementDelay)
-            focus()
+    private func focusConfirmation() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            isConfirmationFocused = true
         }
     }
 }

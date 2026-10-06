@@ -1,4 +1,5 @@
 import Foundation
+import Combine
 import GovKit
 
 final class ChatFeedbackViewModel: ObservableObject {
@@ -10,21 +11,37 @@ final class ChatFeedbackViewModel: ObservableObject {
     }
 
     @Published private(set) var state: ChatFeedbackState = .unrated
+    let confirmationFocusRequests = PassthroughSubject<Void, Never>()
 
     private let questionId: String
     private let analyticsService: AnalyticsServiceInterface
+    private let accessibilityAnnouncer: AccessibilityAnnouncerServiceInterface
     private let scheduleConfirmation: ConfirmationScheduler
+    private let notificationCenter: NotificationCenter
     private let onConfirmed: () -> Void
+    private var surveyDismissedObserverToken: Any?
 
     init(questionId: String,
          analyticsService: AnalyticsServiceInterface,
+         accessibilityAnnouncer: AccessibilityAnnouncerServiceInterface =
+            AccessibilityAnnouncerService(),
          scheduleConfirmation: @escaping ConfirmationScheduler =
             ChatFeedbackViewModel.defaultConfirmationScheduler,
+         notificationCenter: NotificationCenter = .default,
          onConfirmed: @escaping () -> Void = { /* No-op */ }) {
         self.questionId = questionId
         self.analyticsService = analyticsService
+        self.accessibilityAnnouncer = accessibilityAnnouncer
         self.scheduleConfirmation = scheduleConfirmation
+        self.notificationCenter = notificationCenter
         self.onConfirmed = onConfirmed
+        observeSurveyDismissal()
+    }
+
+    deinit {
+        if let surveyDismissedObserverToken {
+            notificationCenter.removeObserver(surveyDismissedObserverToken)
+        }
     }
 
     var isLinkVisible: Bool {
@@ -52,9 +69,15 @@ final class ChatFeedbackViewModel: ObservableObject {
         )
         if isLinkVisible {
             state = .rated(isPositive: isPositive)
+            accessibilityAnnouncer.announce(
+                String(localized: isPositive ?
+                    .Chat.feedbackHelpfulSelectedAccessibilityAnnouncement :
+                    .Chat.feedbackNotHelpfulSelectedAccessibilityAnnouncement)
+            )
         } else {
             state = .confirmed
             onConfirmed()
+            confirmationFocusRequests.send()
         }
     }
 
@@ -78,5 +101,18 @@ final class ChatFeedbackViewModel: ObservableObject {
         guard case .surveyOpened = state else { return }
         state = .confirmed
         onConfirmed()
+        confirmationFocusRequests.send()
+    }
+
+    private func observeSurveyDismissal() {
+        surveyDismissedObserverToken = notificationCenter.addObserver(
+            forName: .qualtricsSurveyDismissed,
+            object: nil,
+            queue: .main,
+            using: { [weak self] _ in
+                guard self?.state == .confirmed else { return }
+                self?.confirmationFocusRequests.send()
+            }
+        )
     }
 }
