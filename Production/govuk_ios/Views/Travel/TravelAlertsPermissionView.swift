@@ -21,7 +21,7 @@ struct TravelAlertsPermissionView: View {
                     secondaryButtonViewModel: viewModel.secondaryButtonViewModel
                 )
             case .loading:
-                TravelAlertPermissionLoadingView()
+                TravelLoadingView()
             }
         }
         .navigationTitle("")
@@ -110,14 +110,3 @@ struct TravelAlertsPermissionView: View {
     }
 }
 
-struct TravelAlertPermissionLoadingView: View {
-    var body: some View {
-        VStack(alignment: .center) {
-            Spacer()
-            ProgressView()
-                .controlSize(.large)
-                .accessibilityLabel(.Travel.travelAlertsLoading)
-            Spacer()
-        }
-    }
-}
