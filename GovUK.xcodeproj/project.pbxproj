@@ -92,6 +92,7 @@
 		16FCDE782DC4E39A000E870D /* TokenRefreshResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FCDE772DC4E38F000E870D /* TokenRefreshResponse.swift */; };
 		16FD684A2D39AEB5002F1597 /* SuggestionHighlighterProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FD68482D39AEAE002F1597 /* SuggestionHighlighterProcessor.swift */; };
 		16FE77672EBB72A7009D02B1 /* TopicsOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FE77662EBB7290009D02B1 /* TopicsOnboardingView.swift */; };
+		2D3F9EDC30753DE9003212A2 /* TravelLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D3F9EDB30753DE9003212A2 /* TravelLoadingView.swift */; };
 		2D4FCBFB306573FF0016B5B0 /* EditCountriesView+CountryDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D4FCBFA306573FF0016B5B0 /* EditCountriesView+CountryDetails.swift */; };
 		2DD46BD5305D524500B83F7C /* CountryOptionsBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD46BD4305D524500B83F7C /* CountryOptionsBottomSheet.swift */; };
 		2DE01FAB306D1AD400484E18 /* TravelAlertsEditDeeplinkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DE01FAA306D1AD400484E18 /* TravelAlertsEditDeeplinkRoute.swift */; };
@@ -717,6 +718,7 @@
 		16FCDE772DC4E38F000E870D /* TokenRefreshResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenRefreshResponse.swift; sourceTree = "<group>"; };
 		16FD68482D39AEAE002F1597 /* SuggestionHighlighterProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionHighlighterProcessor.swift; sourceTree = "<group>"; };
 		16FE77662EBB7290009D02B1 /* TopicsOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsOnboardingView.swift; sourceTree = "<group>"; };
+		2D3F9EDB30753DE9003212A2 /* TravelLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelLoadingView.swift; sourceTree = "<group>"; };
 		2D4FCBFA306573FF0016B5B0 /* EditCountriesView+CountryDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditCountriesView+CountryDetails.swift"; sourceTree = "<group>"; };
 		2DD46BD4305D524500B83F7C /* CountryOptionsBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryOptionsBottomSheet.swift; sourceTree = "<group>"; };
 		2DE01FAA306D1AD400484E18 /* TravelAlertsEditDeeplinkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelAlertsEditDeeplinkRoute.swift; sourceTree = "<group>"; };
@@ -1305,6 +1307,7 @@
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/TouchIdSettingsViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/TravelAlertsPermissionViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/TravelAlertsWidgetViewSnapshotTests.swift,
+				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/TravelLoadingViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/UnlinkAccountErrorViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/WelcomeOnboardingViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/YourAccountsViewControllerSnapshotTests.swift,
@@ -1411,6 +1414,7 @@
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/TouchIdSettingsViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/TravelAlertsPermissionViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/TravelAlertsWidgetViewSnapshotTests.swift,
+				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/TravelLoadingViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/UnlinkAccountErrorViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/WelcomeOnboardingViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/YourAccountsViewControllerSnapshotTests.swift,
@@ -2737,6 +2741,7 @@
 				2D4FCBFA306573FF0016B5B0 /* EditCountriesView+CountryDetails.swift */,
 				85625914304F0FD100FBB5EF /* TravelAlertsPermissionView.swift */,
 				85611CD0302F4EFD008EB3B1 /* TravelAlertsWidgetView.swift */,
+				2D3F9EDB30753DE9003212A2 /* TravelLoadingView.swift */,
 			);
 			path = Travel;
 			sourceTree = "<group>";
@@ -3679,6 +3684,7 @@
 				4E5ED2012C6E06FB00750BDA /* AppConfigService.swift in Sources */,
 				81D3E36D2FE3EDF0006049CC /* LicenceStatusViewModelBuilder.swift in Sources */,
 				4E9AFCE32C99D43B00DBF66F /* AnalyticsConsentContainerView.swift in Sources */,
+				2D3F9EDC30753DE9003212A2 /* TravelLoadingView.swift in Sources */,
 				D04C542E2D7082000070EE79 /* ECommerceItem.swift in Sources */,
 				81E92CBE300126EF00707530 /* DVLAResponseHandler.swift in Sources */,
 				5D899A222C946F8A0074C0AD /* UIBarButtonItem+Convenience.swift in Sources */,

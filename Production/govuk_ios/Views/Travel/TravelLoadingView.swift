@@ -13,3 +13,7 @@ struct TravelLoadingView: View {
         .frame(maxWidth: .infinity)
     }
 }
+
+#Preview {
+    TravelLoadingView()
+}
