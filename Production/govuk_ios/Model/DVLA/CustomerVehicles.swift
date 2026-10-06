@@ -23,6 +23,10 @@ enum TaxStatus: String, Codable {
     case sorn = "SORN"
     case untaxed = "Untaxed"
     case taxed = "Taxed"
+
+    var isNotTaxed: Bool {
+        [.untaxed, .sorn, .notTaxedForOnRoadUse].contains(self)
+    }
 }
 
 enum MotStatus: String, Codable {

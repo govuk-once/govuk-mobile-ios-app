@@ -232,29 +232,33 @@ extension VehicleCheckResultViewModel {
             )
         )
 
-        let notTaxedStatuses: Set<TaxStatus> = [.untaxed, .sorn, .notTaxedForOnRoadUse]
-        if vehicle.motStatus == .valid,
-            let taxStatus = vehicle.taxStatus,
-            notTaxedStatuses.contains(taxStatus) {
-            items.append(
-                DvlaMenuItemViewModel(
-                    title: String(localized: .DVLA.vehicleMenuReportOnRoadTitle),
-                    accessibilityLabel: String(
-                        localized: .DVLA.vehicleMenuReportOnRoadAccessibilityLabel
-                    ),
-                    openURLAction: { text in openReportUntaxedVehicleURL(text) }
+        switch vehicle.motStatus {
+        case .valid:
+            if let taxStatus = vehicle.taxStatus, taxStatus.isNotTaxed {
+                items.append(
+                    DvlaMenuItemViewModel(
+                        title: String(localized: .DVLA.vehicleMenuReportOnRoadTitle),
+                        accessibilityLabel: String(
+                            localized: .DVLA.vehicleMenuReportOnRoadAccessibilityLabel
+                        ),
+                        openURLAction: { text in openReportUntaxedVehicleURL(text) }
+                    )
                 )
-            )
-        } else if vehicle.motStatus == .notValid {
-            items.append(
-                DvlaMenuItemViewModel(
-                    title: String(localized: .DVLA.vehicleMenuReportOnRoadTitle),
-                    accessibilityLabel: String(
-                        localized: .DVLA.vehicleMenuReportOnRoadAccessibilityLabel
-                    ),
-                    openURLAction: { text in openReportNoMotURL(text) }
+            }
+        case .notValid:
+            if vehicle.motStatus == .notValid {
+                items.append(
+                    DvlaMenuItemViewModel(
+                        title: String(localized: .DVLA.vehicleMenuReportOnRoadTitle),
+                        accessibilityLabel: String(
+                            localized: .DVLA.vehicleMenuReportOnRoadAccessibilityLabel
+                        ),
+                        openURLAction: { text in openReportNoMotURL(text) }
+                    )
                 )
-            )
+            }
+        case .noDetailsHeldByDVLA, .noResultsReturned, .unknown:
+            break
         }
         return items
     }
