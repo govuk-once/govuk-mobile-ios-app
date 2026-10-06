@@ -85,6 +85,10 @@ struct VehicleCheckResultViewModel {
         actions.searchAction()
     }
 
+    func trackScreen(screen: TrackableScreen) {
+        analyticsService.track(screen: screen)
+    }
+
     @MainActor
     private func taxStatusViewModel(
         for vehicle: VehicleEnquiryResponse.Vehicle

@@ -89,6 +89,9 @@ struct VehicleCheckResultView: View {
                 }
             }
         }
+        .onAppear {
+            viewModel.trackScreen(screen: self)
+        }
     }
 
     private var menuView: some View {
