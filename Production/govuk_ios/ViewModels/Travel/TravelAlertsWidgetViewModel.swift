@@ -19,6 +19,7 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
     private let travelService: TravelServiceInterface
     private let analyticsService: AnalyticsServiceInterface
     private let notificationService: NotificationServiceInterface
+    private let versionProvider: AppVersionProvider
     private let urlOpener: URLOpener
     private let linkAction: () -> Void
     private let dismissAction: () -> Void
@@ -29,6 +30,7 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
         travelService: TravelServiceInterface,
         analyticsService: AnalyticsServiceInterface,
         notificationService: NotificationServiceInterface,
+        versionProvider: AppVersionProvider,
         urlOpener: URLOpener,
         linkAction: @escaping () -> Void,
         dismissAction: @escaping () -> Void,
@@ -38,6 +40,7 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
         self.travelService = travelService
         self.analyticsService = analyticsService
         self.notificationService = notificationService
+        self.versionProvider = versionProvider
         self.urlOpener = urlOpener
         self.linkAction = linkAction
         self.dismissAction = dismissAction
@@ -46,7 +49,10 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
     }
 
     lazy var countryListViewModel: CountryListViewModel = {
-        CountryListViewModel(
+        let deviceInfo = DeviceInformationProvider()
+        let feedbackURL = deviceInfo.helpAndFeedbackURL(versionProvider: versionProvider)
+
+        return CountryListViewModel(
             travelService: travelService,
             analyticsService: analyticsService,
             notificationService: notificationService,
@@ -59,7 +65,8 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
             },
             openURLAction: { [weak self] url in
                 self?.openURLAction(url)
-            }
+            },
+            footerLinkURL: feedbackURL
         )
     }()
 

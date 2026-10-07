@@ -35,6 +35,7 @@ class WidgetViewBuilder {
             travelService: travelService,
             analyticsService: analyticsService,
             notificationService: notificationService,
+            versionProvider: Bundle.main,
             urlOpener: UIApplication.shared,
             linkAction: linkAction,
             dismissAction: dismissAction,

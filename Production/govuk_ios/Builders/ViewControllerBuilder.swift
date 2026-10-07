@@ -861,12 +861,15 @@ class ViewControllerBuilder {
         return viewController
     }
 
+    // swiftlint:disable:next function_parameter_count
     func countryList(
         travelService: TravelServiceInterface,
         analyticsService: AnalyticsServiceInterface,
         notificationService: NotificationServiceInterface,
         dismissAction: @escaping (Bool) -> Void,
-        openURLAction: @escaping (URL) -> Void
+        errorCallback: @escaping () -> Void = {},
+        openURLAction: @escaping (URL) -> Void,
+        footerLinkURL: URL
     ) -> UIViewController {
         let viewModel = CountryListViewModel(
             travelService: travelService,
@@ -874,12 +877,12 @@ class ViewControllerBuilder {
             notificationService: notificationService,
             urlOpener: UIApplication.shared,
             dismissAction: dismissAction,
-            openURLAction: openURLAction
+            errorCallback: errorCallback,
+            openURLAction: openURLAction,
+            footerLinkURL: footerLinkURL
         )
         let view = CountryListView(viewModel: viewModel)
-        let viewController = HostingViewController(
-            rootView: view
-        )
+        let viewController = HostingViewController(rootView: view)
         return viewController
     }
 
@@ -894,6 +897,7 @@ class ViewControllerBuilder {
             analyticsService: analyticsService,
             notificationService: notificationService,
             urlOpener: UIApplication.shared,
+            versionProvider: Bundle.main,
             openURLAction: openURLAction
         )
         let view = EditCountriesView(viewModel: viewModel)

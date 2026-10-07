@@ -171,7 +171,7 @@ struct CountryListView: View {
                 )
 
                 CountryListFooterView(action: {
-                    // Handle tap action here
+                    viewModel.openFooterLink()
                 })
 
                 if searchBarAlignment == .bottom {

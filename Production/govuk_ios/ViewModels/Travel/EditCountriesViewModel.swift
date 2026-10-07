@@ -31,6 +31,7 @@ class EditCountriesViewModel: ObservableObject {
     private let notificationService: NotificationServiceInterface
     private let urlOpener: URLOpener
     let analyticsService: AnalyticsServiceInterface
+    private let versionProvider: AppVersionProvider
     private let openURLAction: (URL) -> Void
     private var allCountries: [Country] = []
     private var follewedCountries: Set<String> = []
@@ -51,18 +52,23 @@ class EditCountriesViewModel: ObservableObject {
         analyticsService: AnalyticsServiceInterface,
         notificationService: NotificationServiceInterface,
         urlOpener: URLOpener,
+        versionProvider: AppVersionProvider,
         openURLAction: @escaping (URL) -> Void
     ) {
         self.travelService = travelService
         self.analyticsService = analyticsService
         self.notificationService = notificationService
         self.urlOpener = urlOpener
+        self.versionProvider = versionProvider
         self.openURLAction = openURLAction
     }
 
     @MainActor
     lazy var countryListViewModel: CountryListViewModel = {
-        CountryListViewModel(
+        let deviceInfo = DeviceInformationProvider()
+        let feedbackURL = deviceInfo.helpAndFeedbackURL(versionProvider: versionProvider)
+
+        return CountryListViewModel(
             travelService: travelService,
             analyticsService: analyticsService,
             notificationService: notificationService,
@@ -77,7 +83,8 @@ class EditCountriesViewModel: ObservableObject {
             },
             openURLAction: { [weak self] url in
                 self?.openURLAction(url)
-            }
+            },
+            footerLinkURL: feedbackURL
         )
     }()
 

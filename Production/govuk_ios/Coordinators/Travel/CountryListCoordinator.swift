@@ -37,6 +37,9 @@ final class CountryListCoordinator: BaseCoordinator {
     }
 
     private func showCountryList() {
+        let deviceInfo = DeviceInformationProvider()
+        let feedbackUrl = deviceInfo.helpAndFeedbackURL(versionProvider: Bundle.main)
+
         let viewController = viewControllerBuilder.countryList(
             travelService: travelService,
             analyticsService: analyticsService,
@@ -44,7 +47,8 @@ final class CountryListCoordinator: BaseCoordinator {
             dismissAction: { _ in self.dismissModal() },
             openURLAction: { [weak self] url in
                 self?.urlOpener.openIfPossible(url)
-            }
+            },
+            footerLinkURL: feedbackUrl
         )
         set(viewController)
     }

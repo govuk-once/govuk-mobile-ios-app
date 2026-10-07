@@ -29,6 +29,7 @@ class CountryListViewModel: ObservableObject {
     let dismissAction: (Bool) -> Void
     let errorCallback: () -> Void
     private let openURLAction: (URL) -> Void
+    private let footerLinkURL: URL
 
     var hasNotificationConsent: Bool {
         notificationService.hasGivenConsent
@@ -41,7 +42,8 @@ class CountryListViewModel: ObservableObject {
         urlOpener: URLOpener,
         dismissAction: @escaping (Bool) -> Void,
         errorCallback: @escaping () -> Void = {},
-        openURLAction: @escaping (URL) -> Void
+        openURLAction: @escaping (URL) -> Void,
+        footerLinkURL: URL
     ) {
         self.travelService = travelService
         self.analyticsService = analyticsService
@@ -50,6 +52,7 @@ class CountryListViewModel: ObservableObject {
         self.dismissAction = dismissAction
         self.errorCallback = errorCallback
         self.openURLAction = openURLAction
+        self.footerLinkURL = footerLinkURL
     }
 
     func trackScreen(screen: TrackableScreen) {
@@ -185,6 +188,10 @@ class CountryListViewModel: ObservableObject {
 
         filteredSections = buildSections(from: filtered)
         viewState = filteredSections.isEmpty ? .empty : .loaded
+    }
+
+    func openFooterLink() {
+        openURLAction(footerLinkURL)
     }
 
     func createPermissionViewModel() -> TravelAlertsPermissionViewModel? {
