@@ -5,14 +5,14 @@ final class QualtricsSurveyHostViewController: UIViewController {
     private let notificationCenter: NotificationCenter
 
     init(surveyViewController: UIViewController,
-         notificationCenter: NotificationCenter) {
+         notificationCenter: NotificationCenter = .default) {
         self.surveyViewController = surveyViewController
         self.notificationCenter = notificationCenter
         super.init(nibName: nil, bundle: nil)
         modalPresentationStyle = .overFullScreen
     }
 
-    required init?(coder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
