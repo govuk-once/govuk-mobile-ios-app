@@ -22,20 +22,15 @@ struct VehicleMenuItemsBuilder {
         sornStart: Date?,
         taxStatus: TaxStatus?
     ) -> [DvlaMenuItemViewModel] {
-        var items: [DvlaMenuItemViewModel] = []
-        if sornStart != nil {
-            items.append(sornRulesItem)
-        }
-        items.append(soldVehicleItem)
-        if sornStart == nil {
-            items.append(makeSornItem)
-        }
-        items.append(getLogbookItem)
-        items.append(changeLogbookAddressItem)
-        if taxStatus == .taxed {
-            items.append(cancelTaxItem)
-        }
-        return items
+        let isSorn = sornStart != nil
+        return [
+            isSorn ? sornRulesItem : nil,
+            soldVehicleItem,
+            !isSorn ? makeSornItem : nil,
+            getLogbookItem,
+            changeLogbookAddressItem,
+            taxStatus == .taxed ? cancelTaxItem : nil,
+        ].compactMap { $0 }
     }
 
     private var sornRulesItem: DvlaMenuItemViewModel {
