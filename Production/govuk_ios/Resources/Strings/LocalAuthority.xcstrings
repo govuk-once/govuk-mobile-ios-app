@@ -81,17 +81,6 @@
     "Key" : {
       "extractionState" : "manual"
     },
-    "localAuthorityCancelButton" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cancel"
-          }
-        }
-      }
-    },
     "localAuthorityConfirmationPrimaryButton" : {
       "extractionState" : "manual",
       "localizations" : {
