@@ -46,7 +46,6 @@ actor QualtricsService: QualtricsServiceInterface {
         theme: QualtricsTheme? = nil,
         completion: QualtricsInitializationResult? = nil,
         presentationController: UIViewController? = nil,
-        notificationCenter: NotificationCenter = .default
     ) {
         self.environmentService = environmentService
         self.qualtrics = qualtrics
