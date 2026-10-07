@@ -50,6 +50,27 @@ struct VehicleMenuItemsBuilderTests {
     }
 
     @Test
+    func makeMenuItems_taxed_sorn_returnsExpectedItems() {
+        let sut = VehicleMenuItemsBuilder(
+            urls: urls,
+            analyticsService: MockAnalyticsService(),
+            openURLAction: { _ in }
+        )
+        let items = sut.makeMenuItems(
+            sornStart: Date(),
+            taxStatus: .taxed
+        )
+        let expectedTitles = [
+            String(localized: .DVLA.vehicleMenuSornRulesTitle),
+            String(localized: .DVLA.vehicleMenuSoldVehicleTitle),
+            String(localized: .DVLA.vehicleMenuGetLogbookTitle),
+            String(localized: .DVLA.vehicleMenuChangeLogbookAddressTitle),
+            String(localized: .DVLA.vehicleMenuCancelTaxTitle)
+        ]
+        #expect(items.map(\.title) == expectedTitles)
+    }
+
+    @Test
     func makeMenuItems_notTaxed_notSorn_returnsExpectedItems() {
         let sut = VehicleMenuItemsBuilder(
             urls: urls,
