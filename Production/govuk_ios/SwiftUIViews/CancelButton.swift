@@ -1,8 +1,5 @@
 import SwiftUI
 
-/// A toolbar cancel button. On iOS 26 and later the system renders the
-/// cancel role as the standard close glyph; earlier versions show the
-/// localised "Cancel" text.
 struct CancelButton: View {
     let action: () -> Void
 
