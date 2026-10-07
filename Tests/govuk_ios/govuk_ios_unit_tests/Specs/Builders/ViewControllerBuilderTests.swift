@@ -495,7 +495,8 @@ struct ViewControllerBuilderTests {
             dismissAction: { _ in
                 /* No-op */
             },
-            openURLAction: { _ in /* No-op */}
+            openURLAction: { _ in /* No-op */},
+            footerLinkURL: URL(string: "https://example.com")!
         )
 
         let rootView = (result as? HostingViewController<CountryListView>)?.rootView

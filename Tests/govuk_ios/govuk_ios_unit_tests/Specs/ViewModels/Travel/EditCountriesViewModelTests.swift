@@ -16,6 +16,7 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
+            versionProvider: MockAppVersionProvider(),
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 
@@ -44,6 +45,7 @@ struct EditCountriesViewModelTests {
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
+            versionProvider: MockAppVersionProvider(),
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 
@@ -68,6 +70,7 @@ struct EditCountriesViewModelTests {
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
+            versionProvider: MockAppVersionProvider(),
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 
@@ -94,6 +97,7 @@ struct EditCountriesViewModelTests {
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
+            versionProvider: MockAppVersionProvider(),
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 
@@ -121,6 +125,7 @@ struct EditCountriesViewModelTests {
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
+            versionProvider: MockAppVersionProvider(),
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 
@@ -144,6 +149,7 @@ struct EditCountriesViewModelTests {
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
+            versionProvider: MockAppVersionProvider(),
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 
@@ -175,6 +181,7 @@ struct EditCountriesViewModelTests {
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
+            versionProvider: MockAppVersionProvider(),
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 
@@ -200,6 +207,7 @@ struct EditCountriesViewModelTests {
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
+            versionProvider: MockAppVersionProvider(),
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 
@@ -230,6 +238,7 @@ struct EditCountriesViewModelTests {
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
+            versionProvider: MockAppVersionProvider(),
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 
@@ -260,6 +269,7 @@ struct EditCountriesViewModelTests {
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
+            versionProvider: MockAppVersionProvider(),
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 
@@ -288,6 +298,7 @@ struct EditCountriesViewModelTests {
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
+            versionProvider: MockAppVersionProvider(),
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 
@@ -307,6 +318,7 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
+            versionProvider: MockAppVersionProvider(),
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 
@@ -322,6 +334,7 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
+            versionProvider: MockAppVersionProvider(),
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 
@@ -339,6 +352,7 @@ struct EditCountriesViewModelTests {
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
+            versionProvider: MockAppVersionProvider(),
             openURLAction: { _ in /*Empty For Tests*/ }
         )
         let screen = EditCountriesView(viewModel: sut)
@@ -358,6 +372,7 @@ struct EditCountriesViewModelTests {
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
+            versionProvider: MockAppVersionProvider(),
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 
@@ -379,6 +394,7 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
+            versionProvider: MockAppVersionProvider(),
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 
@@ -405,6 +421,7 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
+            versionProvider: MockAppVersionProvider(),
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 
@@ -429,6 +446,7 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
+            versionProvider: MockAppVersionProvider(),
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 
@@ -464,6 +482,7 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
+            versionProvider: MockAppVersionProvider(),
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 
@@ -491,6 +510,7 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
+            versionProvider: MockAppVersionProvider(),
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 
@@ -523,6 +543,7 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
+            versionProvider: MockAppVersionProvider(),
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 
@@ -546,6 +567,7 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
+            versionProvider: MockAppVersionProvider(),
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 
@@ -563,6 +585,7 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
+            versionProvider: MockAppVersionProvider(),
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 
@@ -592,6 +615,7 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
+            versionProvider: MockAppVersionProvider(),
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 
@@ -617,6 +641,7 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
+            versionProvider: MockAppVersionProvider(),
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 
@@ -642,6 +667,7 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
+            versionProvider: MockAppVersionProvider(),
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 
@@ -675,6 +701,7 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
+            versionProvider: MockAppVersionProvider(),
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 
@@ -697,6 +724,7 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
+            versionProvider: MockAppVersionProvider(),
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 
@@ -727,6 +755,7 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
+            versionProvider: MockAppVersionProvider(),
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 
@@ -749,6 +778,7 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
+            versionProvider: MockAppVersionProvider(),
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 
@@ -775,6 +805,7 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
+            versionProvider: MockAppVersionProvider(),
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 
@@ -796,6 +827,7 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
+            versionProvider: MockAppVersionProvider(),
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 
@@ -813,6 +845,7 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
+            versionProvider: MockAppVersionProvider(),
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 

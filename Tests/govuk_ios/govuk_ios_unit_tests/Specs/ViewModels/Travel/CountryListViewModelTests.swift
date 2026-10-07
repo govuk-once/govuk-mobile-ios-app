@@ -20,7 +20,8 @@ struct CountryListViewModelTests {
             dismissAction: { _ in
                 didCallDismiss = true
             },
-            openURLAction: { _ in /*Empty For Tests*/ }
+            openURLAction: { _ in /*Empty For Tests*/ },
+            footerLinkURL: URL(string: "https://example.com")!
         )
 
         viewModel.dismissAction(true)
@@ -37,7 +38,8 @@ struct CountryListViewModelTests {
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
             dismissAction: { _ in /*EmptyForTests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ }
+            openURLAction: { _ in /*Empty For Tests*/ },
+            footerLinkURL: URL(string: "https://example.com")!
         )
 
         let screen = CountryListView(viewModel: viewModel)
@@ -61,7 +63,8 @@ struct CountryListViewModelTests {
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
             dismissAction: { _ in  /*EmptyForTests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ }
+            openURLAction: { _ in /*Empty For Tests*/ },
+            footerLinkURL: URL(string: "https://example.com")!
         )
 
         await viewModel.viewDidAppear()
@@ -94,7 +97,8 @@ struct CountryListViewModelTests {
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
             dismissAction: { _ in  /*EmptyForTests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ }
+            openURLAction: { _ in /*Empty For Tests*/ },
+            footerLinkURL: URL(string: "https://example.com")!
         )
 
         await viewModel.viewDidAppear()
@@ -119,7 +123,8 @@ struct CountryListViewModelTests {
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
             dismissAction: { _ in  /*EmptyForTests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ }
+            openURLAction: { _ in /*Empty For Tests*/ },
+            footerLinkURL: URL(string: "https://example.com")!
         )
 
         await viewModel.viewDidAppear()
@@ -147,7 +152,8 @@ struct CountryListViewModelTests {
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
             dismissAction: { _ in  /*EmptyForTests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ }
+            openURLAction: { _ in /*Empty For Tests*/ },
+            footerLinkURL: URL(string: "https://example.com")!
         )
 
         await viewModel.viewDidAppear()
@@ -173,7 +179,8 @@ struct CountryListViewModelTests {
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
             dismissAction: { _ in  /*EmptyForTests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ }
+            openURLAction: { _ in /*Empty For Tests*/ },
+            footerLinkURL: URL(string: "https://example.com")!
         )
 
         await viewModel.viewDidAppear()
@@ -199,7 +206,8 @@ struct CountryListViewModelTests {
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
             dismissAction: { _ in  /*EmptyForTests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ }
+            openURLAction: { _ in /*Empty For Tests*/ },
+            footerLinkURL: URL(string: "https://example.com")!
         )
 
         await viewModel.viewDidAppear()
@@ -225,7 +233,8 @@ struct CountryListViewModelTests {
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
             dismissAction: { _ in  /*EmptyForTests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ }
+            openURLAction: { _ in /*Empty For Tests*/ },
+            footerLinkURL: URL(string: "https://example.com")!
         )
 
         await viewModel.viewDidAppear()
@@ -251,7 +260,8 @@ struct CountryListViewModelTests {
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
             dismissAction: { _ in  /*EmptyForTests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ }
+            openURLAction: { _ in /*Empty For Tests*/ },
+            footerLinkURL: URL(string: "https://example.com")!
         )
 
         await viewModel.viewDidAppear()
@@ -277,7 +287,8 @@ struct CountryListViewModelTests {
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
             dismissAction: { _ in /*EmptyForTests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ }
+            openURLAction: { _ in /*Empty For Tests*/ },
+            footerLinkURL: URL(string: "https://example.com")!
         )
 
         await viewModel.viewDidAppear()
@@ -307,7 +318,8 @@ struct CountryListViewModelTests {
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
             dismissAction: { _ in  /*EmptyForTests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ }
+            openURLAction: { _ in /*Empty For Tests*/ },
+            footerLinkURL: URL(string: "https://example.com")!
         )
 
         await viewModel.viewDidAppear()
@@ -330,7 +342,8 @@ struct CountryListViewModelTests {
             notificationService: mockNotificationService,
             urlOpener: MockURLOpener(),
             dismissAction: { _ in  /*EmptyForTests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ }
+            openURLAction: { _ in /*Empty For Tests*/ },
+            footerLinkURL: URL(string: "https://example.com")!
         )
 
         let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
@@ -351,7 +364,8 @@ struct CountryListViewModelTests {
             notificationService: mockNotificationService,
             urlOpener: MockURLOpener(),
             dismissAction: { _ in  /*EmptyForTests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ }
+            openURLAction: { _ in /*Empty For Tests*/ },
+            footerLinkURL: URL(string: "https://example.com")!
         )
 
         let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
@@ -373,7 +387,8 @@ struct CountryListViewModelTests {
             notificationService: mockNotificationService,
             urlOpener: MockURLOpener(),
             dismissAction: { _ in  /*EmptyForTests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ }
+            openURLAction: { _ in /*Empty For Tests*/ },
+            footerLinkURL: URL(string: "https://example.com")!
         )
 
         let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
@@ -391,7 +406,8 @@ struct CountryListViewModelTests {
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
             dismissAction: { _ in  /*EmptyForTests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ }
+            openURLAction: { _ in /*Empty For Tests*/ },
+            footerLinkURL: URL(string: "https://example.com")!
         )
 
         let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
@@ -414,7 +430,8 @@ struct CountryListViewModelTests {
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
             dismissAction: { _ in  didCallDismiss = true },
-            openURLAction: { _ in /*Empty For Tests*/ }
+            openURLAction: { _ in /*Empty For Tests*/ },
+            footerLinkURL: URL(string: "https://example.com")!
         )
 
         let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
@@ -439,7 +456,8 @@ struct CountryListViewModelTests {
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
             dismissAction: { _ in /*EmptyForTests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ }
+            openURLAction: { _ in /*Empty For Tests*/ },
+            footerLinkURL: URL(string: "https://example.com")!
         )
 
         let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
@@ -464,7 +482,8 @@ struct CountryListViewModelTests {
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
             dismissAction: { _ in  didCallDismiss = true },
-            openURLAction: { _ in /*Empty For Tests*/ }
+            openURLAction: { _ in /*Empty For Tests*/ },
+            footerLinkURL: URL(string: "https://example.com")!
         )
 
         let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
@@ -489,7 +508,8 @@ struct CountryListViewModelTests {
             urlOpener: MockURLOpener(),
             dismissAction: { _ in },
             errorCallback: { didCallErrorCallback = true },
-            openURLAction: { _ in /*Empty For Tests*/ }
+            openURLAction: { _ in /*Empty For Tests*/ },
+            footerLinkURL: URL(string: "https://example.com")!
         )
 
         let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
@@ -513,7 +533,8 @@ struct CountryListViewModelTests {
             notificationService: mockNotificationService,
             urlOpener: MockURLOpener(),
             dismissAction: { _ in },
-            openURLAction: { _ in /*Empty For Tests*/ }
+            openURLAction: { _ in /*Empty For Tests*/ },
+            footerLinkURL: URL(string: "https://example.com")!
         )
 
         let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
@@ -536,7 +557,8 @@ struct CountryListViewModelTests {
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
             dismissAction: { _ in },
-            openURLAction: { _ in /*Empty For Tests*/ }
+            openURLAction: { _ in /*Empty For Tests*/ },
+            footerLinkURL: URL(string: "https://example.com")!
         )
 
         viewModel.searchText = "France"
@@ -562,7 +584,8 @@ struct CountryListViewModelTests {
             notificationService: mockNotificationService,
             urlOpener: MockURLOpener(),
             dismissAction: { _ in },
-            openURLAction: { _ in /*Empty For Tests*/ }
+            openURLAction: { _ in /*Empty For Tests*/ },
+            footerLinkURL: URL(string: "https://example.com")!
         )
 
         #expect(viewModel.hasNotificationConsent == true)
@@ -579,7 +602,8 @@ struct CountryListViewModelTests {
             notificationService: mockNotificationService,
             urlOpener: MockURLOpener(),
             dismissAction: { _ in },
-            openURLAction: { _ in /*Empty For Tests*/ }
+            openURLAction: { _ in /*Empty For Tests*/ },
+            footerLinkURL: URL(string: "https://example.com")!
         )
 
         #expect(viewModel.hasNotificationConsent == false)
@@ -596,7 +620,8 @@ struct CountryListViewModelTests {
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
             dismissAction: { _ in /*EmptyForTests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ }
+            openURLAction: { _ in /*Empty For Tests*/ },
+            footerLinkURL: URL(string: "https://example.com")!
         )
 
         let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
@@ -622,6 +647,7 @@ struct CountryListViewModelTests {
             travelService: mockTravelService,
             analyticsService: mockAnalyticsService,
             notificationService: mockNotificationService,
+            versionProvider: MockAppVersionProvider(),
             urlOpener: MockURLOpener(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { dismissActionCalled = true },
@@ -649,7 +675,8 @@ struct CountryListViewModelTests {
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
             dismissAction: { _ in  /*EmptyForTests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ }
+            openURLAction: { _ in /*Empty For Tests*/ },
+            footerLinkURL: URL(string: "https://example.com")!
         )
 
         await viewModel.retryFetchCountryList()
@@ -674,7 +701,8 @@ struct CountryListViewModelTests {
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
             dismissAction: { _ in  /*EmptyForTests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ }
+            openURLAction: { _ in /*Empty For Tests*/ },
+            footerLinkURL: URL(string: "https://example.com")!
         )
 
         await viewModel.retryFetchCountryList()
@@ -701,7 +729,8 @@ struct CountryListViewModelTests {
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
             dismissAction: { _ in  /*EmptyForTests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ }
+            openURLAction: { _ in /*Empty For Tests*/ },
+            footerLinkURL: URL(string: "https://example.com")!
         )
 
         await viewModel.viewDidAppear()
@@ -727,7 +756,8 @@ struct CountryListViewModelTests {
             notificationService: mockNotificationService,
             urlOpener: MockURLOpener(),
             dismissAction: { _ in },
-            openURLAction: { _ in }
+            openURLAction: { _ in },
+            footerLinkURL: URL(string: "https://example.com")!
         )
 
         // Trigger the permission flow by selecting a country without consent
@@ -754,7 +784,8 @@ struct CountryListViewModelTests {
             notificationService: mockNotificationService,
             urlOpener: MockURLOpener(),
             dismissAction: { _ in },
-            openURLAction: { _ in }
+            openURLAction: { _ in },
+            footerLinkURL: URL(string: "https://example.com")!
         )
 
         let permissionViewModel = viewModel.createPermissionViewModel()
@@ -772,7 +803,8 @@ struct CountryListViewModelTests {
             notificationService: mockNotificationService,
             urlOpener: MockURLOpener(),
             dismissAction: { _ in },
-            openURLAction: { _ in }
+            openURLAction: { _ in },
+            footerLinkURL: URL(string: "https://example.com")!
         )
 
         let country = Country(name: "Spain", slug: "spain", rawLastUpdate: "", synonyms: [])
@@ -803,7 +835,8 @@ struct CountryListViewModelTests {
             notificationService: mockNotificationService,
             urlOpener: MockURLOpener(),
             dismissAction: { _ in },
-            openURLAction: { url in capturedURL = url }
+            openURLAction: { url in capturedURL = url },
+            footerLinkURL: URL(string: "https://example.com")!
         )
 
         let country = Country(name: "Italy", slug: "italy", rawLastUpdate: "", synonyms: [])
@@ -829,7 +862,8 @@ struct CountryListViewModelTests {
             notificationService: mockNotificationService,
             urlOpener: MockURLOpener(),
             dismissAction: { _ in },
-            openURLAction: { _ in }
+            openURLAction: { _ in },
+            footerLinkURL: URL(string: "https://example.com")!
         )
 
         let country = Country(name: "Portugal", slug: "portugal", rawLastUpdate: "", synonyms: [])
@@ -853,7 +887,8 @@ struct CountryListViewModelTests {
             notificationService: mockNotificationService,
             urlOpener: MockURLOpener(),
             dismissAction: { _ in },
-            openURLAction: { _ in }
+            openURLAction: { _ in },
+            footerLinkURL: URL(string: "https://example.com")!
         )
 
         let country = Country(name: "Greece", slug: "greece", rawLastUpdate: "", synonyms: [])
@@ -879,7 +914,8 @@ struct CountryListViewModelTests {
             notificationService: mockNotificationService,
             urlOpener: MockURLOpener(),
             dismissAction: { _ in },
-            openURLAction: { _ in }
+            openURLAction: { _ in },
+            footerLinkURL: URL(string: "https://example.com")!
         )
 
         let country = Country(name: "Poland", slug: "poland", rawLastUpdate: "", synonyms: [])
@@ -904,7 +940,8 @@ struct CountryListViewModelTests {
             notificationService: mockNotificationService,
             urlOpener: MockURLOpener(),
             dismissAction: { _ in },
-            openURLAction: { _ in }
+            openURLAction: { _ in },
+            footerLinkURL: URL(string: "https://example.com")!
         )
 
         let country = Country(name: "Sweden", slug: "sweden", rawLastUpdate: "", synonyms: [])
@@ -928,7 +965,8 @@ struct CountryListViewModelTests {
             notificationService: mockNotificationService,
             urlOpener: MockURLOpener(),
             dismissAction: { _ in },
-            openURLAction: { _ in }
+            openURLAction: { _ in },
+            footerLinkURL: URL(string: "https://example.com")!
         )
 
         let country = Country(name: "Norway", slug: "norway", rawLastUpdate: "", synonyms: [])
@@ -951,7 +989,8 @@ struct CountryListViewModelTests {
             notificationService: mockNotificationService,
             urlOpener: MockURLOpener(),
             dismissAction: { _ in },
-            openURLAction: { _ in }
+            openURLAction: { _ in },
+            footerLinkURL: URL(string: "https://example.com")!
         )
 
         let country = Country(name: "Finland", slug: "finland", rawLastUpdate: "", synonyms: [])
@@ -979,7 +1018,8 @@ struct CountryListViewModelTests {
             notificationService: mockNotificationService,
             urlOpener: MockURLOpener(),
             dismissAction: { _ in },
-            openURLAction: { _ in }
+            openURLAction: { _ in },
+            footerLinkURL: URL(string: "https://example.com")!
         )
 
         let country = Country(name: "Denmark", slug: "denmark", rawLastUpdate: "", synonyms: [])
@@ -987,5 +1027,25 @@ struct CountryListViewModelTests {
 
         #expect(mockTravelService._subscribeToGroupsCalled == true)
         #expect(mockTravelService._receivedSubscribeSlug == "denmark")
+    }
+
+    @Test
+    func openFooterLink_callsOpenURLActionWithFooterURL() {
+        var capturedURL: URL?
+        let footerURL = URL(string: "https://example.com/feedback")!
+
+        let viewModel = CountryListViewModel(
+            travelService: MockTravelService(),
+            analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService(),
+            urlOpener: MockURLOpener(),
+            dismissAction: { _ in },
+            openURLAction: { url in capturedURL = url },
+            footerLinkURL: footerURL
+        )
+
+        viewModel.openFooterLink()
+
+        #expect(capturedURL == footerURL)
     }
 }
