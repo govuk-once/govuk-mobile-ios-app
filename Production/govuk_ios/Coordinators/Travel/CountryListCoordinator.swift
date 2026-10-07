@@ -46,11 +46,20 @@ final class CountryListCoordinator: BaseCoordinator {
             notificationService: notificationService,
             dismissAction: { _ in self.dismissModal() },
             openURLAction: { [weak self] url in
-                self?.urlOpener.openIfPossible(url)
+                self?.presentWebView(url: url)
             },
             footerLinkURL: feedbackUrl
         )
         set(viewController)
+    }
+
+    private func presentWebView(url: URL) {
+        let coordinator = coordinatorBuilder.safari(
+            navigationController: root,
+            url: url,
+            fullScreen: false
+        )
+        start(coordinator)
     }
 
     private func dismissModal() {

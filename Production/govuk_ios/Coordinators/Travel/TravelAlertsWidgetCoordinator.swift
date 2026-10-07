@@ -58,7 +58,7 @@ final class TravelAlertsWidgetCoordinator: BaseCoordinator,
                 self?.startEditCountries()
             },
             openURLAction: { [weak self] url in
-                self?.urlOpener.openIfPossible(url)
+                self?.presentWebView(url: url)
             }
         )
     }
@@ -82,9 +82,18 @@ final class TravelAlertsWidgetCoordinator: BaseCoordinator,
             analyticsService: analyticsService,
             notificationService: notificationService,
             openURLAction: { [weak self] url in
-                self?.urlOpener.openIfPossible(url)
+                self?.presentWebView(url: url)
             }
         )
         push(viewController)
+    }
+
+    private func presentWebView(url: URL) {
+        let coordinator = coordinatorBuilder.safari(
+            navigationController: root,
+            url: url,
+            fullScreen: false
+        )
+        start(coordinator)
     }
 }
