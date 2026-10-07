@@ -96,7 +96,7 @@ struct CountryListView: View {
                     modifiedScrollView(geometry: geometry)
                 }
             case .empty:
-                FollowCountryEmptyView(
+                CountryListEmptyView(
                     searchBarAlignment: searchBarAlignment,
                     searchBarPadding: searchBarPadding,
                     onFooterTap: viewModel.openFooterLink
@@ -197,7 +197,7 @@ private struct CountryListLoadingView: View {
     }
 }
 
-private struct FollowCountryEmptyView: View {
+private struct CountryListEmptyView: View {
     var searchBarAlignment: Alignment
     var searchBarPadding: CGFloat
     var onFooterTap: () -> Void
@@ -245,6 +245,9 @@ private struct CountryListFooterView: View {
             .padding(.vertical, 16)
             .padding(.horizontal, 16)
         }
+        .accessibilityElement(children: .combine)
+        .accessibilityRemoveTraits(.isButton)
+        .accessibilityAddTraits(.isLink)
     }
 }
 
