@@ -45,8 +45,11 @@ final class CountryListCoordinator: BaseCoordinator {
             analyticsService: analyticsService,
             notificationService: notificationService,
             dismissAction: { _ in self.dismissModal() },
-            openURLAction: { [weak self] url in
+            openFooterLinkAction: { [weak self] url in
                 self?.presentWebView(url: url)
+            },
+            openExternalURLAction: { [weak self] url in
+                self?.urlOpener.openIfPossible(url)
             },
             footerLinkURL: feedbackUrl
         )

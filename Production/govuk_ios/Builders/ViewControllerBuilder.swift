@@ -868,7 +868,8 @@ class ViewControllerBuilder {
         notificationService: NotificationServiceInterface,
         dismissAction: @escaping (Bool) -> Void,
         errorCallback: @escaping () -> Void = {},
-        openURLAction: @escaping (URL) -> Void,
+        openFooterLinkAction: @escaping (URL) -> Void,
+        openExternalURLAction: @escaping (URL) -> Void,
         footerLinkURL: URL
     ) -> UIViewController {
         let viewModel = CountryListViewModel(
@@ -878,7 +879,8 @@ class ViewControllerBuilder {
             urlOpener: UIApplication.shared,
             dismissAction: dismissAction,
             errorCallback: errorCallback,
-            openURLAction: openURLAction,
+            openFooterLinkAction: openFooterLinkAction,
+            openExternalURLAction: openExternalURLAction,
             footerLinkURL: footerLinkURL
         )
         let view = CountryListView(viewModel: viewModel)

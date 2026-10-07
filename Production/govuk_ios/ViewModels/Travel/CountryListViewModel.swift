@@ -28,7 +28,8 @@ class CountryListViewModel: ObservableObject {
     private let urlOpener: URLOpener
     let dismissAction: (Bool) -> Void
     let errorCallback: () -> Void
-    private let openURLAction: (URL) -> Void
+    private let openFooterLinkAction: (URL) -> Void
+    private let openExternalURLAction: (URL) -> Void
     private let footerLinkURL: URL
 
     var hasNotificationConsent: Bool {
@@ -42,7 +43,8 @@ class CountryListViewModel: ObservableObject {
         urlOpener: URLOpener,
         dismissAction: @escaping (Bool) -> Void,
         errorCallback: @escaping () -> Void = {},
-        openURLAction: @escaping (URL) -> Void,
+        openFooterLinkAction: @escaping (URL) -> Void,
+        openExternalURLAction: @escaping (URL) -> Void,
         footerLinkURL: URL
     ) {
         self.travelService = travelService
@@ -51,7 +53,8 @@ class CountryListViewModel: ObservableObject {
         self.urlOpener = urlOpener
         self.dismissAction = dismissAction
         self.errorCallback = errorCallback
-        self.openURLAction = openURLAction
+        self.openFooterLinkAction = openFooterLinkAction
+        self.openExternalURLAction = openExternalURLAction
         self.footerLinkURL = footerLinkURL
     }
 
@@ -191,12 +194,11 @@ class CountryListViewModel: ObservableObject {
     }
 
     func openFooterLink() {
-        openURLAction(footerLinkURL)
+        openFooterLinkAction(footerLinkURL)
     }
 
     func createPermissionViewModel() -> TravelAlertsPermissionViewModel? {
         guard let countryToProcess = self.countryForPermissionFlow else { return nil }
-        let openURL = self.openURLAction
         return TravelAlertsPermissionViewModel(
             travelService: travelService,
             notificationService: notificationService,
@@ -208,7 +210,7 @@ class CountryListViewModel: ObservableObject {
                 self?.showTravelAlertsPermission = false
                 self?.countryForPermissionFlow = nil
             },
-            openURLAction: openURL,
+            openExternalURLAction: self.openExternalURLAction,
             dismissAfterSuccessAction: { [weak self] in
                 self?.returnFromNotificationPermissions(forceRefresh: true)
             },

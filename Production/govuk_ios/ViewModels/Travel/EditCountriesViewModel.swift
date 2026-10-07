@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 import GovKit
 import GovKitUI
 
@@ -81,8 +82,11 @@ class EditCountriesViewModel: ObservableObject {
             errorCallback: { [weak self] in
                 self?.isShowingFollowError = true
             },
-            openURLAction: { [weak self] url in
+            openFooterLinkAction: { [weak self] url in
                 self?.openURLAction(url)
+            },
+            openExternalURLAction: { url in
+                UIApplication.shared.openIfPossible(url)
             },
             footerLinkURL: feedbackURL
         )

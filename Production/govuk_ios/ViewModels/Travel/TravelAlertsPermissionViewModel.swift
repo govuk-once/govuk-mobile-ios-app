@@ -18,7 +18,7 @@ class TravelAlertsPermissionViewModel: ObservableObject {
     private let notificationCenter: NotificationCenter
     let analyticsService: AnalyticsServiceInterface
     let dismissSheetAction: () -> Void
-    let openURLAction: (URL) -> Void
+    let openExternalURLAction: (URL) -> Void
     let showImage: Bool
 
     let title: String = String(localized: .Travel.travelAlertPermissionTitle)
@@ -56,7 +56,7 @@ class TravelAlertsPermissionViewModel: ObservableObject {
         showImage: Bool = true,
         country: Country,
         dismissSheetAction: @escaping () -> Void,
-        openURLAction: @escaping (URL) -> Void,
+        openExternalURLAction: @escaping (URL) -> Void,
         dismissAfterSuccessAction: @escaping () -> Void,
         dismissAfterErrorAction: @escaping () -> Void
     ) {
@@ -68,7 +68,7 @@ class TravelAlertsPermissionViewModel: ObservableObject {
         self.showImage = showImage
         self.countryToProcess = country
         self.dismissSheetAction = dismissSheetAction
-        self.openURLAction = openURLAction
+        self.openExternalURLAction = openExternalURLAction
         self.dismissAfterSuccessAction = dismissAfterSuccessAction
         self.dismissAfterErrorAction = dismissAfterErrorAction
         observeAppMoveToForeground()
@@ -144,7 +144,7 @@ class TravelAlertsPermissionViewModel: ObservableObject {
     func openPrivacyPolicy() {
         let privacyPolicyURL = URL(string: Constants.API.privacyPolicyUrl.absoluteString)
         if let url = privacyPolicyURL {
-            openURLAction(url)
+            openExternalURLAction(url)
         }
     }
 
