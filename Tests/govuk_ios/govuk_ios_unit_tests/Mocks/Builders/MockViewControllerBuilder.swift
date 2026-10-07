@@ -482,6 +482,8 @@ class MockViewControllerBuilder: ViewControllerBuilder {
     var _receivedCountryListAnalyticsService: AnalyticsServiceInterface?
     var _receivedCountryListNotificationService: NotificationServiceInterface?
     var _receivedCountryListFooterURL: URL?
+    var _receivedCountryListOpenFooterLinkAction: ((URL) -> Void)?
+    var _receivedCountryListOpenExternalURLAction: ((URL) -> Void)?
     var _stubbedCountryListViewController: UIViewController?
     override func countryList(
         travelService: TravelServiceInterface,
@@ -498,6 +500,8 @@ class MockViewControllerBuilder: ViewControllerBuilder {
         _receivedCountryListAnalyticsService = analyticsService
         _receivedCountryListNotificationService = notificationService
         _receivedCountryListFooterURL = footerLinkURL
+        _receivedCountryListOpenFooterLinkAction = openFooterLinkAction
+        _receivedCountryListOpenExternalURLAction = openExternalURLAction
         return _stubbedCountryListViewController ?? UIViewController()
     }
 
