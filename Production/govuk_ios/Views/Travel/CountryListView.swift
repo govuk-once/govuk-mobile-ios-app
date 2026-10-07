@@ -98,7 +98,8 @@ struct CountryListView: View {
             case .empty:
                 FollowCountryEmptyView(
                     searchBarAlignment: searchBarAlignment,
-                    searchBarPadding: searchBarPadding
+                    searchBarPadding: searchBarPadding,
+                    onFooterTap: viewModel.openFooterLink
                 )
             case .error:
                 ErrorView(viewModel: createErrorViewModel())
@@ -199,6 +200,7 @@ private struct CountryListLoadingView: View {
 private struct FollowCountryEmptyView: View {
     var searchBarAlignment: Alignment
     var searchBarPadding: CGFloat
+    var onFooterTap: () -> Void
 
     var body: some View {
         VStack(spacing: 0) {
@@ -212,6 +214,10 @@ private struct FollowCountryEmptyView: View {
                 .multilineTextAlignment(.center)
                 .foregroundStyle(Color(GOVUKColors.text.primary))
                 .padding(.top, 6)
+
+            CountryListFooterView(action: {
+                onFooterTap()
+            })
 
             Spacer()
         }.frame(maxWidth: .infinity)
