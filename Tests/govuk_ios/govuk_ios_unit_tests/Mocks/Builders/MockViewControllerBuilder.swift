@@ -489,7 +489,8 @@ class MockViewControllerBuilder: ViewControllerBuilder {
         notificationService: NotificationServiceInterface,
         dismissAction: @escaping (Bool) -> Void,
         errorCallback: @escaping () -> Void,
-        openURLAction: @escaping (URL) -> Void,
+        openFooterLinkAction: @escaping (URL) -> Void,
+        openExternalURLAction: @escaping (URL) -> Void,
         footerLinkURL: URL
     ) -> UIViewController {
         _countryListWasCalled = true

@@ -20,7 +20,8 @@ struct CountryListViewModelTests {
             dismissAction: { _ in
                 didCallDismiss = true
             },
-            openURLAction: { _ in /*Empty For Tests*/ },
+            openFooterLinkAction: { _ in /*Empty For Tests*/ },
+            openExternalURLAction: { _ in /*Empty For Tests*/ },
             footerLinkURL: URL(string: "https://example.com")!
         )
 
@@ -38,7 +39,8 @@ struct CountryListViewModelTests {
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
             dismissAction: { _ in /*EmptyForTests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ },
+            openFooterLinkAction: { _ in /*Empty For Tests*/ },
+            openExternalURLAction: { _ in /*Empty For Tests*/ },
             footerLinkURL: URL(string: "https://example.com")!
         )
 
@@ -63,7 +65,8 @@ struct CountryListViewModelTests {
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
             dismissAction: { _ in  /*EmptyForTests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ },
+            openFooterLinkAction: { _ in /*Empty For Tests*/ },
+            openExternalURLAction: { _ in /*Empty For Tests*/ },
             footerLinkURL: URL(string: "https://example.com")!
         )
 
@@ -97,7 +100,8 @@ struct CountryListViewModelTests {
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
             dismissAction: { _ in  /*EmptyForTests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ },
+            openFooterLinkAction: { _ in /*Empty For Tests*/ },
+            openExternalURLAction: { _ in /*Empty For Tests*/ },
             footerLinkURL: URL(string: "https://example.com")!
         )
 
@@ -123,7 +127,8 @@ struct CountryListViewModelTests {
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
             dismissAction: { _ in  /*EmptyForTests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ },
+            openFooterLinkAction: { _ in /*Empty For Tests*/ },
+            openExternalURLAction: { _ in /*Empty For Tests*/ },
             footerLinkURL: URL(string: "https://example.com")!
         )
 
@@ -152,7 +157,8 @@ struct CountryListViewModelTests {
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
             dismissAction: { _ in  /*EmptyForTests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ },
+            openFooterLinkAction: { _ in /*Empty For Tests*/ },
+            openExternalURLAction: { _ in /*Empty For Tests*/ },
             footerLinkURL: URL(string: "https://example.com")!
         )
 
@@ -179,7 +185,8 @@ struct CountryListViewModelTests {
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
             dismissAction: { _ in  /*EmptyForTests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ },
+            openFooterLinkAction: { _ in /*Empty For Tests*/ },
+            openExternalURLAction: { _ in /*Empty For Tests*/ },
             footerLinkURL: URL(string: "https://example.com")!
         )
 
@@ -206,7 +213,8 @@ struct CountryListViewModelTests {
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
             dismissAction: { _ in  /*EmptyForTests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ },
+            openFooterLinkAction: { _ in /*Empty For Tests*/ },
+            openExternalURLAction: { _ in /*Empty For Tests*/ },
             footerLinkURL: URL(string: "https://example.com")!
         )
 
@@ -233,7 +241,8 @@ struct CountryListViewModelTests {
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
             dismissAction: { _ in  /*EmptyForTests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ },
+            openFooterLinkAction: { _ in /*Empty For Tests*/ },
+            openExternalURLAction: { _ in /*Empty For Tests*/ },
             footerLinkURL: URL(string: "https://example.com")!
         )
 
@@ -260,7 +269,8 @@ struct CountryListViewModelTests {
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
             dismissAction: { _ in  /*EmptyForTests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ },
+            openFooterLinkAction: { _ in /*Empty For Tests*/ },
+            openExternalURLAction: { _ in /*Empty For Tests*/ },
             footerLinkURL: URL(string: "https://example.com")!
         )
 
@@ -287,7 +297,8 @@ struct CountryListViewModelTests {
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
             dismissAction: { _ in /*EmptyForTests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ },
+            openFooterLinkAction: { _ in /*Empty For Tests*/ },
+            openExternalURLAction: { _ in /*Empty For Tests*/ },
             footerLinkURL: URL(string: "https://example.com")!
         )
 
@@ -318,7 +329,8 @@ struct CountryListViewModelTests {
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
             dismissAction: { _ in  /*EmptyForTests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ },
+            openFooterLinkAction: { _ in /*Empty For Tests*/ },
+            openExternalURLAction: { _ in /*Empty For Tests*/ },
             footerLinkURL: URL(string: "https://example.com")!
         )
 
@@ -342,7 +354,8 @@ struct CountryListViewModelTests {
             notificationService: mockNotificationService,
             urlOpener: MockURLOpener(),
             dismissAction: { _ in  /*EmptyForTests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ },
+            openFooterLinkAction: { _ in /*Empty For Tests*/ },
+            openExternalURLAction: { _ in /*Empty For Tests*/ },
             footerLinkURL: URL(string: "https://example.com")!
         )
 
@@ -364,7 +377,8 @@ struct CountryListViewModelTests {
             notificationService: mockNotificationService,
             urlOpener: MockURLOpener(),
             dismissAction: { _ in  /*EmptyForTests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ },
+            openFooterLinkAction: { _ in /*Empty For Tests*/ },
+            openExternalURLAction: { _ in /*Empty For Tests*/ },
             footerLinkURL: URL(string: "https://example.com")!
         )
 
@@ -387,7 +401,8 @@ struct CountryListViewModelTests {
             notificationService: mockNotificationService,
             urlOpener: MockURLOpener(),
             dismissAction: { _ in  /*EmptyForTests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ },
+            openFooterLinkAction: { _ in /*Empty For Tests*/ },
+            openExternalURLAction: { _ in /*Empty For Tests*/ },
             footerLinkURL: URL(string: "https://example.com")!
         )
 
@@ -406,7 +421,8 @@ struct CountryListViewModelTests {
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
             dismissAction: { _ in  /*EmptyForTests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ },
+            openFooterLinkAction: { _ in /*Empty For Tests*/ },
+            openExternalURLAction: { _ in /*Empty For Tests*/ },
             footerLinkURL: URL(string: "https://example.com")!
         )
 
@@ -430,7 +446,8 @@ struct CountryListViewModelTests {
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
             dismissAction: { _ in  didCallDismiss = true },
-            openURLAction: { _ in /*Empty For Tests*/ },
+            openFooterLinkAction: { _ in /*Empty For Tests*/ },
+            openExternalURLAction: { _ in /*Empty For Tests*/ },
             footerLinkURL: URL(string: "https://example.com")!
         )
 
@@ -456,7 +473,8 @@ struct CountryListViewModelTests {
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
             dismissAction: { _ in /*EmptyForTests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ },
+            openFooterLinkAction: { _ in /*Empty For Tests*/ },
+            openExternalURLAction: { _ in /*Empty For Tests*/ },
             footerLinkURL: URL(string: "https://example.com")!
         )
 
@@ -482,7 +500,8 @@ struct CountryListViewModelTests {
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
             dismissAction: { _ in  didCallDismiss = true },
-            openURLAction: { _ in /*Empty For Tests*/ },
+            openFooterLinkAction: { _ in /*Empty For Tests*/ },
+            openExternalURLAction: { _ in /*Empty For Tests*/ },
             footerLinkURL: URL(string: "https://example.com")!
         )
 
@@ -508,7 +527,8 @@ struct CountryListViewModelTests {
             urlOpener: MockURLOpener(),
             dismissAction: { _ in },
             errorCallback: { didCallErrorCallback = true },
-            openURLAction: { _ in /*Empty For Tests*/ },
+            openFooterLinkAction: { _ in /*Empty For Tests*/ },
+            openExternalURLAction: { _ in /*Empty For Tests*/ },
             footerLinkURL: URL(string: "https://example.com")!
         )
 
@@ -533,7 +553,8 @@ struct CountryListViewModelTests {
             notificationService: mockNotificationService,
             urlOpener: MockURLOpener(),
             dismissAction: { _ in },
-            openURLAction: { _ in /*Empty For Tests*/ },
+            openFooterLinkAction: { _ in /*Empty For Tests*/ },
+            openExternalURLAction: { _ in /*Empty For Tests*/ },
             footerLinkURL: URL(string: "https://example.com")!
         )
 
@@ -557,7 +578,8 @@ struct CountryListViewModelTests {
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
             dismissAction: { _ in },
-            openURLAction: { _ in /*Empty For Tests*/ },
+            openFooterLinkAction: { _ in /*Empty For Tests*/ },
+            openExternalURLAction: { _ in /*Empty For Tests*/ },
             footerLinkURL: URL(string: "https://example.com")!
         )
 
@@ -584,7 +606,8 @@ struct CountryListViewModelTests {
             notificationService: mockNotificationService,
             urlOpener: MockURLOpener(),
             dismissAction: { _ in },
-            openURLAction: { _ in /*Empty For Tests*/ },
+            openFooterLinkAction: { _ in /*Empty For Tests*/ },
+            openExternalURLAction: { _ in /*Empty For Tests*/ },
             footerLinkURL: URL(string: "https://example.com")!
         )
 
@@ -602,7 +625,8 @@ struct CountryListViewModelTests {
             notificationService: mockNotificationService,
             urlOpener: MockURLOpener(),
             dismissAction: { _ in },
-            openURLAction: { _ in /*Empty For Tests*/ },
+            openFooterLinkAction: { _ in /*Empty For Tests*/ },
+            openExternalURLAction: { _ in /*Empty For Tests*/ },
             footerLinkURL: URL(string: "https://example.com")!
         )
 
@@ -620,7 +644,8 @@ struct CountryListViewModelTests {
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
             dismissAction: { _ in /*EmptyForTests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ },
+            openFooterLinkAction: { _ in /*Empty For Tests*/ },
+            openExternalURLAction: { _ in /*Empty For Tests*/ },
             footerLinkURL: URL(string: "https://example.com")!
         )
 
@@ -675,7 +700,8 @@ struct CountryListViewModelTests {
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
             dismissAction: { _ in  /*EmptyForTests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ },
+            openFooterLinkAction: { _ in /*Empty For Tests*/ },
+            openExternalURLAction: { _ in /*Empty For Tests*/ },
             footerLinkURL: URL(string: "https://example.com")!
         )
 
@@ -701,7 +727,8 @@ struct CountryListViewModelTests {
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
             dismissAction: { _ in  /*EmptyForTests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ },
+            openFooterLinkAction: { _ in /*Empty For Tests*/ },
+            openExternalURLAction: { _ in /*Empty For Tests*/ },
             footerLinkURL: URL(string: "https://example.com")!
         )
 
@@ -729,7 +756,8 @@ struct CountryListViewModelTests {
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
             dismissAction: { _ in  /*EmptyForTests*/ },
-            openURLAction: { _ in /*Empty For Tests*/ },
+            openFooterLinkAction: { _ in /*Empty For Tests*/ },
+            openExternalURLAction: { _ in /*Empty For Tests*/ },
             footerLinkURL: URL(string: "https://example.com")!
         )
 
@@ -756,7 +784,8 @@ struct CountryListViewModelTests {
             notificationService: mockNotificationService,
             urlOpener: MockURLOpener(),
             dismissAction: { _ in },
-            openURLAction: { _ in },
+            openFooterLinkAction: { _ in },
+            openExternalURLAction: { _ in },
             footerLinkURL: URL(string: "https://example.com")!
         )
 
@@ -784,7 +813,8 @@ struct CountryListViewModelTests {
             notificationService: mockNotificationService,
             urlOpener: MockURLOpener(),
             dismissAction: { _ in },
-            openURLAction: { _ in },
+            openFooterLinkAction: { _ in },
+            openExternalURLAction: { _ in },
             footerLinkURL: URL(string: "https://example.com")!
         )
 
@@ -803,7 +833,8 @@ struct CountryListViewModelTests {
             notificationService: mockNotificationService,
             urlOpener: MockURLOpener(),
             dismissAction: { _ in },
-            openURLAction: { _ in },
+            openFooterLinkAction: { _ in },
+            openExternalURLAction: { _ in },
             footerLinkURL: URL(string: "https://example.com")!
         )
 
@@ -823,9 +854,9 @@ struct CountryListViewModelTests {
     }
 
     @Test
-    func createPermissionViewModel_usesProvidedOpenURLAction() {
+    func createPermissionViewModel_usesProvidedOpenExternalURLAction() {
         var capturedURL: URL?
-        let testURL = URL(string: "https://example.com")!
+        let testURL = URL(string: "https://www.gov.uk/government/publications/govuk-app-privacy-notice-how-we-use-your-data")!
         let mockAnalyticsService = MockAnalyticsService()
         let mockNotificationService = MockNotificationService()
         mockNotificationService._stubbedhasGivenConsent = false
@@ -835,7 +866,8 @@ struct CountryListViewModelTests {
             notificationService: mockNotificationService,
             urlOpener: MockURLOpener(),
             dismissAction: { _ in },
-            openURLAction: { url in capturedURL = url },
+            openFooterLinkAction: { _ in },
+            openExternalURLAction: { url in capturedURL = url },
             footerLinkURL: URL(string: "https://example.com")!
         )
 
@@ -847,7 +879,7 @@ struct CountryListViewModelTests {
             return
         }
 
-        permissionViewModel.openURLAction(testURL)
+        permissionViewModel.openPrivacyPolicy()
 
         #expect(capturedURL == testURL)
     }
@@ -862,7 +894,8 @@ struct CountryListViewModelTests {
             notificationService: mockNotificationService,
             urlOpener: MockURLOpener(),
             dismissAction: { _ in },
-            openURLAction: { _ in },
+            openFooterLinkAction: { _ in },
+            openExternalURLAction: { _ in },
             footerLinkURL: URL(string: "https://example.com")!
         )
 
@@ -887,7 +920,8 @@ struct CountryListViewModelTests {
             notificationService: mockNotificationService,
             urlOpener: MockURLOpener(),
             dismissAction: { _ in },
-            openURLAction: { _ in },
+            openFooterLinkAction: { _ in },
+            openExternalURLAction: { _ in },
             footerLinkURL: URL(string: "https://example.com")!
         )
 
@@ -914,7 +948,8 @@ struct CountryListViewModelTests {
             notificationService: mockNotificationService,
             urlOpener: MockURLOpener(),
             dismissAction: { _ in },
-            openURLAction: { _ in },
+            openFooterLinkAction: { _ in },
+            openExternalURLAction: { _ in },
             footerLinkURL: URL(string: "https://example.com")!
         )
 
@@ -940,7 +975,8 @@ struct CountryListViewModelTests {
             notificationService: mockNotificationService,
             urlOpener: MockURLOpener(),
             dismissAction: { _ in },
-            openURLAction: { _ in },
+            openFooterLinkAction: { _ in },
+            openExternalURLAction: { _ in },
             footerLinkURL: URL(string: "https://example.com")!
         )
 
@@ -965,7 +1001,8 @@ struct CountryListViewModelTests {
             notificationService: mockNotificationService,
             urlOpener: MockURLOpener(),
             dismissAction: { _ in },
-            openURLAction: { _ in },
+            openFooterLinkAction: { _ in },
+            openExternalURLAction: { _ in },
             footerLinkURL: URL(string: "https://example.com")!
         )
 
@@ -989,7 +1026,8 @@ struct CountryListViewModelTests {
             notificationService: mockNotificationService,
             urlOpener: MockURLOpener(),
             dismissAction: { _ in },
-            openURLAction: { _ in },
+            openFooterLinkAction: { _ in },
+            openExternalURLAction: { _ in },
             footerLinkURL: URL(string: "https://example.com")!
         )
 
@@ -1018,7 +1056,8 @@ struct CountryListViewModelTests {
             notificationService: mockNotificationService,
             urlOpener: MockURLOpener(),
             dismissAction: { _ in },
-            openURLAction: { _ in },
+            openFooterLinkAction: { _ in },
+            openExternalURLAction: { _ in },
             footerLinkURL: URL(string: "https://example.com")!
         )
 
@@ -1030,7 +1069,7 @@ struct CountryListViewModelTests {
     }
 
     @Test
-    func openFooterLink_callsOpenURLActionWithFooterURL() {
+    func openFooterLink_callsOpenFooterLinkActionWithFooterURL() {
         var capturedURL: URL?
         let footerURL = URL(string: "https://example.com/feedback")!
 
@@ -1040,7 +1079,8 @@ struct CountryListViewModelTests {
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
             dismissAction: { _ in },
-            openURLAction: { url in capturedURL = url },
+            openFooterLinkAction: { url in capturedURL = url },
+            openExternalURLAction: { _ in },
             footerLinkURL: footerURL
         )
 

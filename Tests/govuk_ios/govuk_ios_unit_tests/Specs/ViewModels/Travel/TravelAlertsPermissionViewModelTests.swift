@@ -22,7 +22,7 @@ struct TravelAlertsPermissionViewModelTests {
             showImage: true,
             country: testCountry,
             dismissSheetAction: { /*EmptyForTests*/ },
-            openURLAction: { _ in },
+            openExternalURLAction: { _ in },
             dismissAfterSuccessAction: { /*EmptyForTests*/ },
             dismissAfterErrorAction: { /*EmptyForTests*/ }
         )
@@ -69,7 +69,7 @@ struct TravelAlertsPermissionViewModelTests {
             showImage: true,
             country: testCountry,
             dismissSheetAction: { /*EmptyForTests*/ },
-            openURLAction: { openedURL = $0 },
+            openExternalURLAction: { openedURL = $0 },
             dismissAfterSuccessAction: { /*EmptyForTests*/ },
             dismissAfterErrorAction: { /*EmptyForTests*/ }
         )
@@ -103,7 +103,7 @@ struct TravelAlertsPermissionViewModelTests {
             showImage: true,
             country: testCountry,
             dismissSheetAction: { dismissCalled = true },
-            openURLAction: { _ in },
+            openExternalURLAction: { _ in },
             dismissAfterSuccessAction: { /*EmptyForTests*/ },
             dismissAfterErrorAction: { /*EmptyForTests*/ }
         )
@@ -203,7 +203,7 @@ struct TravelAlertsPermissionViewModelTests {
             showImage: true,
             country: testCountry,
             dismissSheetAction: { /*EmptyForTests*/ },
-            openURLAction: { _ in },
+            openExternalURLAction: { _ in },
             dismissAfterSuccessAction: { successCalled = true },
             dismissAfterErrorAction: { /*EmptyForTests*/ }
         )
@@ -228,7 +228,7 @@ struct TravelAlertsPermissionViewModelTests {
             showImage: true,
             country: testCountry,
             dismissSheetAction: { /*EmptyForTests*/ },
-            openURLAction: { _ in },
+            openExternalURLAction: { _ in },
             dismissAfterSuccessAction: { /*EmptyForTests*/ },
             dismissAfterErrorAction: { errorCalled = true }
         )
@@ -326,7 +326,7 @@ struct TravelAlertsPermissionViewModelTests {
             showImage: true,
             country: testCountry,
             dismissSheetAction: { /*EmptyForTests*/ },
-            openURLAction: { _ in },
+            openExternalURLAction: { _ in },
             dismissAfterSuccessAction: { /*EmptyForTests*/ },
             dismissAfterErrorAction: { /*EmptyForTests*/ }
         )

@@ -495,7 +495,8 @@ struct ViewControllerBuilderTests {
             dismissAction: { _ in
                 /* No-op */
             },
-            openURLAction: { _ in /* No-op */},
+            openFooterLinkAction: { _ in /* No-op */},
+            openExternalURLAction: { _ in /* No-op */},
             footerLinkURL: URL(string: "https://example.com")!
         )
 

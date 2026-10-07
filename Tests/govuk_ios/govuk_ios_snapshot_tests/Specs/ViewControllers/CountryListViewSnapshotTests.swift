@@ -239,7 +239,8 @@ final class CountryListViewSnapshotTests: SnapshotTestCase {
             notificationService: notificationService,
             urlOpener: MockURLOpener(),
             dismissAction: { _ in /*Empty For Tests*/ },
-            openURLAction: { _ in /*NO-OP*/ },
+            openFooterLinkAction: { _ in /*NO-OP*/ },
+            openExternalURLAction: { _ in /*NO-OP*/ },
             footerLinkURL: URL(string: "https://example.com")!
         )
     }

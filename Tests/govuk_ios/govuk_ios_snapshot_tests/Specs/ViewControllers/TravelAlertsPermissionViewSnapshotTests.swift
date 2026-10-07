@@ -105,7 +105,7 @@ final class TravelAlertsPermissionViewSnapshotTests: SnapshotTestCase {
             showImage: showImage,
             country: testCountry,
             dismissSheetAction: { /*EmptyForTests*/ },
-            openURLAction: { _ in /*EmptyForTests*/ },
+            openExternalURLAction: { _ in /*EmptyForTests*/ },
             dismissAfterSuccessAction: { /*EmptyForTests*/ },
             dismissAfterErrorAction: { /*EmptyForTests*/ }
         )
