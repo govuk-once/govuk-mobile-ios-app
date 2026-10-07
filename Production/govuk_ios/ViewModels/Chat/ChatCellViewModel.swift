@@ -25,6 +25,7 @@ class ChatCellViewModel: ObservableObject {
     let analyticsService: AnalyticsServiceInterface?
     @Published var isVisible: Bool = false
     @Published var isSourceListExpanded: Bool = false
+    @Published var feedbackViewModel: ChatFeedbackViewModel?
 
     let animationDuration = Constants.Timers.Animation.chatAnimationDuration
 

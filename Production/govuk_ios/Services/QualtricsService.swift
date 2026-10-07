@@ -45,7 +45,7 @@ actor QualtricsService: QualtricsServiceInterface {
         firebaseClient: AnalyticsClient,
         theme: QualtricsTheme? = nil,
         completion: QualtricsInitializationResult? = nil,
-        presentationController: UIViewController? = nil
+        presentationController: UIViewController? = nil,
     ) {
         self.environmentService = environmentService
         self.qualtrics = qualtrics
@@ -118,8 +118,10 @@ actor QualtricsService: QualtricsServiceInterface {
                 url: url,
                 autoCloseSurvey: NSNumber(value: autoCloseSurvey)
             )
-            surveyController.modalPresentationStyle = .overFullScreen
-            viewController.present(surveyController, animated: true)
+            let hostController = QualtricsSurveyHostViewController(
+                surveyViewController: surveyController
+            )
+            viewController.present(hostController, animated: true)
         }
     }
 
@@ -154,6 +156,7 @@ actor QualtricsService: QualtricsServiceInterface {
         "item_list_id",
         "item_list_name",
         "language",
+        "questionId",
         "screen_class",
         "screen_name",
         "screen_title",

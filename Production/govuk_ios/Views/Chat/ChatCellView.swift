@@ -11,6 +11,23 @@ struct ChatCellView: View {
     }
 
     var body: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            bubbleView
+            if let feedbackViewModel = viewModel.feedbackViewModel {
+                ChatFeedbackView(viewModel: feedbackViewModel)
+            }
+        }
+        .opacity(viewModel.isVisible ? 1 : 0)
+        .offset(y: viewModel.isVisible ? 0 : viewModel.offset)
+        .animation(
+            .easeIn(duration: viewModel.animationDuration)
+            .delay(viewModel.delay),
+            value: viewModel.isVisible
+        )
+        .padding(.top, viewModel.topPadding)
+    }
+
+    private var bubbleView: some View {
         VStack(alignment: .leading) {
             switch viewModel.type {
             case .question:
@@ -31,14 +48,6 @@ struct ChatCellView: View {
                 cornerRadius: viewModel.type == .pendingAnswer ? 0 : 18
             )
         )
-        .opacity(viewModel.isVisible ? 1 : 0)
-        .offset(y: viewModel.isVisible ? 0 : viewModel.offset)
-        .animation(
-            .easeIn(duration: viewModel.animationDuration)
-            .delay(viewModel.delay),
-            value: viewModel.isVisible
-        )
-        .padding(.top, viewModel.topPadding)
         .contextMenu {
             if viewModel.isCopyable {
                 Button(action: {

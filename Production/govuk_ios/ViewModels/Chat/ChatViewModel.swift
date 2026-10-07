@@ -1,3 +1,4 @@
+// swiftlint:disable file_length
 import SwiftUI
 import GovKit
 import GovKitUI
@@ -11,6 +12,7 @@ class ChatViewModel: ObservableObject {
     let maxCharacters = 300
     private let openURLAction: (URL) -> Void
     private let handleError: (ChatError) -> Void
+    private let scheduleFeedbackConfirmation: ChatFeedbackViewModel.ConfirmationScheduler
     private var shouldLoadHistory: Bool = true
     private var disclosureListeners = Set<AnyCancellable>()
     // Default values will be overridden
@@ -52,12 +54,15 @@ class ChatViewModel: ObservableObject {
          analyticsService: AnalyticsServiceInterface,
          configService: AppConfigServiceInterface,
          openURLAction: @escaping (URL) -> Void,
-         handleError: @escaping (ChatError) -> Void) {
+         handleError: @escaping (ChatError) -> Void,
+         scheduleFeedbackConfirmation: @escaping ChatFeedbackViewModel.ConfirmationScheduler =
+            ChatFeedbackViewModel.defaultConfirmationScheduler) {
         self.chatService = chatService
         self.analyticsService = analyticsService
         self.configService = configService
         self.openURLAction = openURLAction
         self.handleError = handleError
+        self.scheduleFeedbackConfirmation = scheduleFeedbackConfirmation
         self.chatExampleQuestionsViewModel = .init(
             analyticsService: analyticsService,
             configService: configService
@@ -76,6 +81,7 @@ class ChatViewModel: ObservableObject {
             return
         }
         trackAskQuestionSubmission(type: questionRequest.type.rawValue)
+        clearFeedback()
         errorText = nil
         warningText = nil
         let currentQuestionModel = ChatCellViewModel(
@@ -132,6 +138,9 @@ class ChatViewModel: ObservableObject {
                     openURLAction: openURLAction,
                     analyticsService: analyticsService
                 )
+                cellModel.feedbackViewModel = makeFeedbackViewModel(
+                    questionId: question.id
+                )
                 scrollToTop = true
                 addCellModels([cellModel])
                 announceAnswerReceived()
@@ -177,6 +186,21 @@ class ChatViewModel: ObservableObject {
             scrollToBottom = true
             listenForDisclosure()
         }
+    }
+
+    private func clearFeedback() {
+        cellModels.forEach { $0.feedbackViewModel = nil }
+    }
+
+    private func makeFeedbackViewModel(questionId: String) -> ChatFeedbackViewModel {
+        ChatFeedbackViewModel(
+            questionId: questionId,
+            analyticsService: analyticsService,
+            scheduleConfirmation: scheduleFeedbackConfirmation,
+            onConfirmed: { [weak self] in
+                self?.scrollToBottom = true
+            }
+        )
     }
 
     private func processError(_ error: ChatError) {
@@ -245,6 +269,12 @@ class ChatViewModel: ObservableObject {
             )
             answer.isVisible = true
             cellModels.append(answer)
+        }
+        if history.pendingQuestion == nil,
+           let latestAnsweredQuestion = answers.last {
+            cellModels.last?.feedbackViewModel = makeFeedbackViewModel(
+                questionId: latestAnsweredQuestion.id
+            )
         }
         if let pendingQuestion = history.pendingQuestion {
             cellModels.append(ChatCellViewModel(
