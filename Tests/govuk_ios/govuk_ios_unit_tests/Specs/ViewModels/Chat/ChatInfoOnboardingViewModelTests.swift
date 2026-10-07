@@ -17,14 +17,16 @@ struct ChatInfoOnboardingViewModelTests {
     }
 
     @Test
-    func rightBarButtonItem_returnsBarButton() {
-        let sut = ChatInfoOnboardingViewModel(
-            analyticsService: MockAnalyticsService(),
-            completionAction: { },
-            cancelOnboardingAction: { }
-        )
+    func cancelAction_callsCancelOnboardingAction() async {
+        await confirmation { confirmation in
+            let sut = ChatInfoOnboardingViewModel(
+                analyticsService: MockAnalyticsService(),
+                completionAction: { },
+                cancelOnboardingAction: { confirmation() }
+            )
 
-        #expect((sut.rightBarButtonItem as Any) is UIBarButtonItem)
+            sut.cancelAction?()
+        }
     }
 
     @Test
