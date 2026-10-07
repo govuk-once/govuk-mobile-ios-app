@@ -38,7 +38,7 @@ struct VehicleMenuItemsBuilder {
         return DvlaMenuItemViewModel(
             title: String(localized: .DVLA.vehicleMenuSornRulesTitle),
             accessibilityLabel: nil,
-            openURLAction: { text in openURL(url, text: text) }
+            openURLAction: { text in openAndTrack(url, buttonTitle: text) }
         )
     }
 
@@ -49,7 +49,7 @@ struct VehicleMenuItemsBuilder {
             accessibilityLabel: String(
                 localized: .DVLA.vehicleMenuSoldVehicleAccessibilityLabelTitle
             ),
-            openURLAction: { text in openURL(url, text: text) }
+            openURLAction: { text in openAndTrack(url, buttonTitle: text) }
         )
     }
 
@@ -60,7 +60,7 @@ struct VehicleMenuItemsBuilder {
             accessibilityLabel: String(
                 localized: .DVLA.vehicleMenuMakeSornAccessibilityLabelTitle
             ),
-            openURLAction: { text in openURL(url, text: text) }
+            openURLAction: { text in openAndTrack(url, buttonTitle: text) }
         )
     }
 
@@ -69,7 +69,7 @@ struct VehicleMenuItemsBuilder {
         return DvlaMenuItemViewModel(
             title: String(localized: .DVLA.vehicleMenuGetLogbookTitle),
             accessibilityLabel: nil,
-            openURLAction: { text in openURL(url, text: text) }
+            openURLAction: { text in openAndTrack(url, buttonTitle: text) }
         )
     }
 
@@ -78,7 +78,7 @@ struct VehicleMenuItemsBuilder {
         return DvlaMenuItemViewModel(
             title: String(localized: .DVLA.vehicleMenuChangeLogbookAddressTitle),
             accessibilityLabel: nil,
-            openURLAction: { text in openURL(url, text: text) }
+            openURLAction: { text in openAndTrack(url, buttonTitle: text) }
         )
     }
 
@@ -89,13 +89,13 @@ struct VehicleMenuItemsBuilder {
             accessibilityLabel: String(
                 localized: .DVLA.vehicleMenuCancelTaxAccessibilityLabelTitle
             ),
-            openURLAction: { text in openURL(url, text: text) }
+            openURLAction: { text in openAndTrack(url, buttonTitle: text) }
         )
     }
 
-    private func openURL(_ url: URL, text: String) {
+    private func openAndTrack(_ url: URL, buttonTitle: String) {
         openURLAction(url)
-        trackUrlOpenEvent(url: url, text: text)
+        trackUrlOpenEvent(url: url, text: buttonTitle)
     }
 
     private func trackUrlOpenEvent(url: URL, text: String) {
