@@ -15,6 +15,6 @@ struct TravelAlertsEditDeeplinkRoute: DeeplinkRoute {
     func action(parent: BaseCoordinator, params: [String: String]) {
         guard let homeCoordinator = parent as? HomeCoordinator else { return }
         parent.root.popToRootViewController(animated: false)
-        homeCoordinator.showTravelAlertTopic()
+        homeCoordinator.showEditTravelAlertCountries()
     }
 }
