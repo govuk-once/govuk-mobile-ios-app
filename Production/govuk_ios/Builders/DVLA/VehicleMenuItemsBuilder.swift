@@ -34,96 +34,66 @@ struct VehicleMenuItemsBuilder {
     }
 
     private var sornRulesItem: DvlaMenuItemViewModel {
-        DvlaMenuItemViewModel(
+        let url = urls?.sornRules ?? Constants.API.defaultDvlaSornRulesUrl
+        return DvlaMenuItemViewModel(
             title: String(localized: .DVLA.vehicleMenuSornRulesTitle),
             accessibilityLabel: nil,
-            openURLAction: { text in openSornRulesURL(text) }
+            openURLAction: { text in openURL(url, text: text) }
         )
     }
 
     private var soldVehicleItem: DvlaMenuItemViewModel {
-        DvlaMenuItemViewModel(
+        let url = urls?.soldVehicle ?? Constants.API.defaultDvlaSoldVehicleUrl
+        return DvlaMenuItemViewModel(
             title: String(localized: .DVLA.vehicleMenuSoldVehicleTitle),
             accessibilityLabel: String(
                 localized: .DVLA.vehicleMenuSoldVehicleAccessibilityLabelTitle
             ),
-            openURLAction: { text in openSoldVehicleURL(text) }
+            openURLAction: { text in openURL(url, text: text) }
         )
     }
 
     private var makeSornItem: DvlaMenuItemViewModel {
-        DvlaMenuItemViewModel(
+        let url = urls?.makeSorn ?? Constants.API.defaultDvlaMakeSornUrl
+        return DvlaMenuItemViewModel(
             title: String(localized: .DVLA.vehicleMenuMakeSornTitle),
             accessibilityLabel: String(
                 localized: .DVLA.vehicleMenuMakeSornAccessibilityLabelTitle
             ),
-            openURLAction: { text in openMakeSornURL(text) }
+            openURLAction: { text in openURL(url, text: text) }
         )
     }
 
     private var getLogbookItem: DvlaMenuItemViewModel {
-        DvlaMenuItemViewModel(
+        let url = urls?.getLogbook ?? Constants.API.defaultDvlaGetLogbookUrl
+        return DvlaMenuItemViewModel(
             title: String(localized: .DVLA.vehicleMenuGetLogbookTitle),
             accessibilityLabel: nil,
-            openURLAction: { text in openGetLogbookURL(text) }
+            openURLAction: { text in openURL(url, text: text) }
         )
     }
 
     private var changeLogbookAddressItem: DvlaMenuItemViewModel {
-        DvlaMenuItemViewModel(
+        let url = urls?.changeLogbookAddress ?? Constants.API.defaultDvlaChangeLogbookAddressUrl
+        return DvlaMenuItemViewModel(
             title: String(localized: .DVLA.vehicleMenuChangeLogbookAddressTitle),
             accessibilityLabel: nil,
-            openURLAction: { text in openChangeLogbookAddressURL(text) }
+            openURLAction: { text in openURL(url, text: text) }
         )
     }
 
     private var cancelTaxItem: DvlaMenuItemViewModel {
-        DvlaMenuItemViewModel(
+        let url = urls?.cancelTax ?? Constants.API.defaultDvlaCancelTaxUrl
+        return DvlaMenuItemViewModel(
             title: String(localized: .DVLA.vehicleMenuCancelTaxTitle),
             accessibilityLabel: String(
                 localized: .DVLA.vehicleMenuCancelTaxAccessibilityLabelTitle
             ),
-            openURLAction: { text in openCancelTaxURL(text) }
+            openURLAction: { text in openURL(url, text: text) }
         )
     }
 
-    private func openSornRulesURL(_ text: String) {
-        let url = urls?.sornRules ??
-        Constants.API.defaultDvlaSornRulesUrl
-        openMenuURLAction(url: url, text: text)
-    }
-
-    private func openSoldVehicleURL(_ text: String) {
-        let url = urls?.soldVehicle ??
-        Constants.API.defaultDvlaSoldVehicleUrl
-        openMenuURLAction(url: url, text: text)
-    }
-
-    private func openMakeSornURL(_ text: String) {
-        let url = urls?.makeSorn ??
-        Constants.API.defaultDvlaMakeSornUrl
-        openMenuURLAction(url: url, text: text)
-    }
-
-    private func openGetLogbookURL(_ text: String) {
-        let url = urls?.getLogbook ??
-        Constants.API.defaultDvlaGetLogbookUrl
-        openMenuURLAction(url: url, text: text)
-    }
-
-    private func openChangeLogbookAddressURL(_ text: String) {
-        let url = urls?.changeLogbookAddress ??
-        Constants.API.defaultDvlaChangeLogbookAddressUrl
-        openMenuURLAction(url: url, text: text)
-    }
-
-    private func openCancelTaxURL(_ text: String) {
-        let url = urls?.cancelTax ??
-        Constants.API.defaultDvlaCancelTaxUrl
-        openMenuURLAction(url: url, text: text)
-    }
-
-    private func openMenuURLAction(url: URL, text: String) {
+    private func openURL(_ url: URL, text: String) {
         openURLAction(url)
         trackUrlOpenEvent(url: url, text: text)
     }
