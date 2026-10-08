@@ -96,6 +96,7 @@ class MockCoordinatorBuilder: CoordinatorBuilder {
             configService: MockAppConfigService(),
             topicsService: MockTopicsService(),
             notificationService: MockNotificationService(),
+            travelService: MockTravelService(),
             deviceInformationProvider: MockDeviceInformationProvider(),
             searchService: MockSearchService(),
             activityService: MockActivityService(context: coreData.viewContext),

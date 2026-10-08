@@ -10,6 +10,7 @@ class HomeCoordinator: TabItemCoordinator {
     private let configService: AppConfigServiceInterface
     private let topicsService: TopicsServiceInterface
     private let notificationService: NotificationServiceInterface
+    private let travelService: TravelServiceInterface
 
     private let deviceInformationProvider: DeviceInformationProviderInterface
     private let searchService: SearchServiceInterface
@@ -30,6 +31,7 @@ class HomeCoordinator: TabItemCoordinator {
          configService: AppConfigServiceInterface,
          topicsService: TopicsServiceInterface,
          notificationService: NotificationServiceInterface,
+         travelService: TravelServiceInterface,
          deviceInformationProvider: DeviceInformationProviderInterface,
          searchService: SearchServiceInterface,
          activityService: ActivityServiceInterface,
@@ -43,6 +45,7 @@ class HomeCoordinator: TabItemCoordinator {
         self.configService = configService
         self.topicsService = topicsService
         self.notificationService = notificationService
+        self.travelService = travelService
         self.deviceInformationProvider = deviceInformationProvider
         self.searchService = searchService
         self.activityService = activityService
@@ -102,13 +105,25 @@ class HomeCoordinator: TabItemCoordinator {
         startRecentActivityCoordinator()
     }
 
-    func showTravelAlertTopic() {
+    func showEditTravelAlertCountries() {
         guard let travelTopic = topicsService.fetchTravelTopic() else { return }
-        let coordinator = coordinatorBuilder.topicDetail(
+        let topicCoordinator = coordinatorBuilder.topicDetail(
             travelTopic,
             navigationController: root
         )
-        start(coordinator)
+        start(topicCoordinator)
+
+        root.navigationBar.prefersLargeTitles = true
+        let viewController = viewControllerBuilder.editCountries(
+            travelService: travelService,
+            analyticsService: analyticsService,
+            notificationService: notificationService,
+            openURLAction: { [weak self] url in
+                let urlOpener: URLOpener = UIApplication.shared
+                urlOpener.openIfPossible(url)
+            }
+        )
+        root.pushViewController(viewController, animated: true)
     }
 
     private func presentWebView(url: URL) {
