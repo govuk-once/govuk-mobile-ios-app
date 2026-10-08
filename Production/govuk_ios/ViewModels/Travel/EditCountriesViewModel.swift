@@ -69,24 +69,28 @@ class EditCountriesViewModel: ObservableObject {
         let deviceInfo = DeviceInformationProvider()
         let feedbackURL = deviceInfo.helpAndFeedbackURL(versionProvider: versionProvider)
 
-        return CountryListViewModel(
-            travelService: travelService,
-            analyticsService: analyticsService,
-            notificationService: notificationService,
-            urlOpener: urlOpener,
+        let actions = CountryListViewModel.Actions(
             dismissAction: { [weak self] forceRefresh in
                 Task {
                     self?.didDismissList(forceRefresh: forceRefresh)
                 }
-            },
-            errorCallback: { [weak self] in
-                self?.isShowingFollowError = true
             },
             openFooterLinkAction: { [weak self] url in
                 self?.openURLAction(url)
             },
             openExternalURLAction: { url in
                 UIApplication.shared.openIfPossible(url)
+            }
+        )
+
+        return CountryListViewModel(
+            travelService: travelService,
+            analyticsService: analyticsService,
+            notificationService: notificationService,
+            urlOpener: urlOpener,
+            actions: actions,
+            errorCallback: { [weak self] in
+                self?.isShowingFollowError = true
             },
             footerLinkURL: feedbackURL
         )

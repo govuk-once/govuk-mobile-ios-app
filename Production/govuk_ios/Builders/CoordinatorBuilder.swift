@@ -625,6 +625,8 @@ class CoordinatorBuilder {
             notificationService: container.notificationService.resolve(),
             userService: container.userService.resolve(),
             urlOpener: UIApplication.shared,
+            deviceInformationProvider: DeviceInformationProvider(),
+            versionProvider: Bundle.main,
             completion: completion
         )
     }

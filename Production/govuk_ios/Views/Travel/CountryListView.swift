@@ -132,7 +132,7 @@ struct CountryListView: View {
         ToolbarItem(placement: ToolbarItemPlacement.cancellationAction) {
             Button {
                 viewModel.selectedCountry = nil
-                viewModel.dismissAction(false)
+                viewModel.dismiss(false)
             } label: {
                 Image(systemName: "xmark")
                     .foregroundStyle(Color(uiColor: .govUK.text.primary))

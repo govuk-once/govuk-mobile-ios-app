@@ -10,6 +10,8 @@ final class CountryListCoordinator: BaseCoordinator {
     private let notificationService: NotificationServiceInterface
     private let userService: UserServiceInterface
     private let urlOpener: URLOpener
+    private let deviceInformationProvider: DeviceInformationProviderInterface
+    private let versionProvider: AppVersionProvider
     private let completion: (Bool) -> Void
 
     init(navigationController: UINavigationController,
@@ -20,6 +22,8 @@ final class CountryListCoordinator: BaseCoordinator {
          notificationService: NotificationServiceInterface,
          userService: UserServiceInterface,
          urlOpener: URLOpener,
+         deviceInformationProvider: DeviceInformationProviderInterface,
+         versionProvider: AppVersionProvider,
          completion: @escaping (Bool) -> Void) {
         self.coordinatorBuilder = coordinatorBuilder
         self.viewControllerBuilder = viewControllerBuilder
@@ -28,6 +32,8 @@ final class CountryListCoordinator: BaseCoordinator {
         self.notificationService = notificationService
         self.userService = userService
         self.urlOpener = urlOpener
+        self.deviceInformationProvider = deviceInformationProvider
+        self.versionProvider = versionProvider
         self.completion = completion
         super.init(navigationController: navigationController)
     }
@@ -37,8 +43,9 @@ final class CountryListCoordinator: BaseCoordinator {
     }
 
     private func showCountryList() {
-        let deviceInfo = DeviceInformationProvider()
-        let feedbackUrl = deviceInfo.helpAndFeedbackURL(versionProvider: Bundle.main)
+        let feedbackUrl = deviceInformationProvider.helpAndFeedbackURL(
+            versionProvider: versionProvider
+        )
 
         let viewController = viewControllerBuilder.countryList(
             travelService: travelService,

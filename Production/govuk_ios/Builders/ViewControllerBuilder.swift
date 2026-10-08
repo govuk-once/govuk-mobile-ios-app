@@ -867,20 +867,23 @@ class ViewControllerBuilder {
         analyticsService: AnalyticsServiceInterface,
         notificationService: NotificationServiceInterface,
         dismissAction: @escaping (Bool) -> Void,
-        errorCallback: @escaping () -> Void = {},
+        errorCallback: (() -> Void)? = nil,
         openFooterLinkAction: @escaping (URL) -> Void,
         openExternalURLAction: @escaping (URL) -> Void,
         footerLinkURL: URL
     ) -> UIViewController {
+        let actions = CountryListViewModel.Actions(
+            dismissAction: dismissAction,
+            openFooterLinkAction: openFooterLinkAction,
+            openExternalURLAction: openExternalURLAction
+        )
         let viewModel = CountryListViewModel(
             travelService: travelService,
             analyticsService: analyticsService,
             notificationService: notificationService,
             urlOpener: UIApplication.shared,
-            dismissAction: dismissAction,
+            actions: actions,
             errorCallback: errorCallback,
-            openFooterLinkAction: openFooterLinkAction,
-            openExternalURLAction: openExternalURLAction,
             footerLinkURL: footerLinkURL
         )
         let view = CountryListView(viewModel: viewModel)

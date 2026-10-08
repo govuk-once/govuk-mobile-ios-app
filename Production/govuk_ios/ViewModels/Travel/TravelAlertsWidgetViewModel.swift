@@ -57,17 +57,19 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
             analyticsService: analyticsService,
             notificationService: notificationService,
             urlOpener: urlOpener,
-            dismissAction: { [weak self] forceRefresh in
-                self?.didDismissList(forceRefresh: forceRefresh)
-            },
+            actions: CountryListViewModel.Actions(
+                dismissAction: { [weak self] forceRefresh in
+                    self?.didDismissList(forceRefresh: forceRefresh)
+                },
+                openFooterLinkAction: { [weak self] url in
+                    self?.openURLAction(url)
+                },
+                openExternalURLAction: { url in
+                    UIApplication.shared.openIfPossible(url)
+                }
+            ),
             errorCallback: { [weak self] in
                 self?.isShowingError = true
-            },
-            openFooterLinkAction: { [weak self] url in
-                self?.openURLAction(url)
-            },
-            openExternalURLAction: { url in
-                UIApplication.shared.openIfPossible(url)
             },
             footerLinkURL: feedbackURL
         )
