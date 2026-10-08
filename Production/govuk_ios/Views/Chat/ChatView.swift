@@ -5,7 +5,9 @@ import GovKitUI
 
 struct ChatView: View {
     @Environment(\.verticalSizeClass) var verticalSizeClass
+    @Environment(\.accessibilityVoiceOverEnabled) private var voiceOverEnabled
     @StateObject private var viewModel: ChatViewModel
+    private let voiceOverFocusService: VoiceOverFocusServiceInterface
     @AccessibilityFocusState private(set) var textAreaAccessibilityFocused: Bool
     @Namespace var bottomID
     @FocusState private var textAreaFocused: Bool
@@ -15,8 +17,10 @@ struct ChatView: View {
     private let introDuration = 0.5
     private let transitionDuration = 0.3
 
-    init(viewModel: ChatViewModel) {
+    init(viewModel: ChatViewModel,
+         voiceOverFocusService: VoiceOverFocusServiceInterface = VoiceOverFocusService()) {
         _viewModel = StateObject(wrappedValue: viewModel)
+        self.voiceOverFocusService = voiceOverFocusService
     }
 
     var body: some View {
@@ -47,11 +51,15 @@ struct ChatView: View {
             viewModel.trackScreen(screen: self)
             withAnimation(
                 .easeIn(
-                    duration: viewModel.currentConversationExists ? 0.0 : introDuration * 4
+                    duration: skipIntroFade ? 0.0 : introDuration * 4
                 )
             ) {
                 backgroundOpacity = 1.0
             }
+        }
+        .task {
+            guard voiceOverEnabled else { return }
+            await voiceOverFocusService.focusHeader(labelled: String(localized: .Chat.chatHeader))
         }
         .onDisappear {
             backgroundOpacity = 0.25
@@ -60,7 +68,7 @@ struct ChatView: View {
             textAreaFocused = false
         }
         .onChange(of: viewModel.requestInFlight) { requestInFlight in
-            if requestInFlight {
+            if requestInFlight && !viewModel.showProgressView {
                 textAreaAccessibilityFocused = true
             }
         }
@@ -78,6 +86,10 @@ struct ChatView: View {
         } message: { details in
             Text(details.message)
         }
+    }
+
+    private var skipIntroFade: Bool {
+        viewModel.currentConversationExists || voiceOverEnabled
     }
 
     private var progressOpacity: CGFloat {
