@@ -22,6 +22,9 @@ struct VehicleMenuItemsBuilder {
         sornStart: Date?,
         taxStatus: TaxStatus?
     ) -> [DvlaMenuItemViewModel] {
+        // The API sets taxStatus to .sorn when a SORN is active.
+        // A non-nil sornStart with taxStatus .taxed indicates a future SORN.
+        // The app does not compare sornStart against the current date.
         let isSorn = sornStart != nil
         let canCancelTax = (taxStatus == .taxed) && !isSorn
         return [
