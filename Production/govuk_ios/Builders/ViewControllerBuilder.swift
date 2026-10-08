@@ -449,6 +449,7 @@ class ViewControllerBuilder {
             ),
             navigationBarHidden: true
         )
+        viewController.shouldAutoFocusVoiceover = false
         return viewController
     }
 

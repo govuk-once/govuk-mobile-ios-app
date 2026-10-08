@@ -5,6 +5,7 @@ import GovKitUI
 
 struct ChatView: View {
     @Environment(\.verticalSizeClass) var verticalSizeClass
+    @Environment(\.accessibilityVoiceOverEnabled) private var voiceOverEnabled
     @StateObject private var viewModel: ChatViewModel
     @AccessibilityFocusState private(set) var textAreaAccessibilityFocused: Bool
     @Namespace var bottomID
@@ -47,7 +48,7 @@ struct ChatView: View {
             viewModel.trackScreen(screen: self)
             withAnimation(
                 .easeIn(
-                    duration: viewModel.currentConversationExists ? 0.0 : introDuration * 4
+                    duration: skipIntroFade ? 0.0 : introDuration * 4
                 )
             ) {
                 backgroundOpacity = 1.0
@@ -60,7 +61,7 @@ struct ChatView: View {
             textAreaFocused = false
         }
         .onChange(of: viewModel.requestInFlight) { requestInFlight in
-            if requestInFlight {
+            if requestInFlight && !viewModel.showProgressView {
                 textAreaAccessibilityFocused = true
             }
         }
@@ -78,6 +79,10 @@ struct ChatView: View {
         } message: { details in
             Text(details.message)
         }
+    }
+
+    private var skipIntroFade: Bool {
+        viewModel.currentConversationExists || voiceOverEnabled
     }
 
     private var progressOpacity: CGFloat {
@@ -127,12 +132,7 @@ struct ChatView: View {
             Rectangle()
                 .fill(Color.clear)
                 .frame(height: 16)
-            Text(.Chat.chatHeader)
-                .font(.govUK.title2Bold)
-                .foregroundStyle(Color(UIColor.govUK.text.primary))
-                .multilineTextAlignment(.center)
-                .accessibilityAddTraits(.isHeader)
-                .padding(.bottom, 4.0)
+            ChatHeaderView()
             chatCellsView
             chatExampleQuestionsView
             Text("")
