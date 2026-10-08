@@ -130,6 +130,7 @@
 		3D9C93402CB0176A00EFA337 /* AppForcedUpdateContainerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D9C933F2CB0176A00EFA337 /* AppForcedUpdateContainerViewModel.swift */; };
 		3D9D06D12E7AA36100D1FC4A /* Banners.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D9D06D02E7AA36100D1FC4A /* Banners.swift */; };
 		3D9FD4BE2E79C37B00928E92 /* ChatDeeplinkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D9FD4BD2E79C37B00928E92 /* ChatDeeplinkRoute.swift */; };
+		4B992FF830746D5300A6FA85 /* VehiclePlateOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B992FF730746D4B00A6FA85 /* VehiclePlateOverlayView.swift */; };
 		4E0043142D9BE25E00DDDA8A /* NotificationSettingsCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E0043132D9BE25D00DDDA8A /* NotificationSettingsCoordinator.swift */; };
 		4E00EEEF2CCB04B0007B61E8 /* TopicsOnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E00EEEE2CCB04B0007B61E8 /* TopicsOnboardingViewModel.swift */; };
 		4E00EF072CCB12CD007B61E8 /* BaseTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E00EF062CCB12CD007B61E8 /* BaseTabBarController.swift */; };
@@ -757,6 +758,7 @@
 		3D9C933F2CB0176A00EFA337 /* AppForcedUpdateContainerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppForcedUpdateContainerViewModel.swift; sourceTree = "<group>"; };
 		3D9D06D02E7AA36100D1FC4A /* Banners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Banners.swift; sourceTree = "<group>"; };
 		3D9FD4BD2E79C37B00928E92 /* ChatDeeplinkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDeeplinkRoute.swift; sourceTree = "<group>"; };
+		4B992FF730746D4B00A6FA85 /* VehiclePlateOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehiclePlateOverlayView.swift; sourceTree = "<group>"; };
 		4E0043132D9BE25D00DDDA8A /* NotificationSettingsCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettingsCoordinator.swift; sourceTree = "<group>"; };
 		4E00EEEE2CCB04B0007B61E8 /* TopicsOnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsOnboardingViewModel.swift; sourceTree = "<group>"; };
 		4E00EF062CCB12CD007B61E8 /* BaseTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBarController.swift; sourceTree = "<group>"; };
@@ -2628,6 +2630,7 @@
 		81D2583F2FC71A8C00A4F988 /* DVLA */ = {
 			isa = PBXGroup;
 			children = (
+				4B992FF730746D4B00A6FA85 /* VehiclePlateOverlayView.swift */,
 				80C119C4305C4FF200183EA8 /* VehicleCheckSectionView.swift */,
 				FBD9E9C4305315220031B76A /* StatusRowView.swift */,
 				817ECB3C3024DDF700BFC5FF /* DVLAAuthenticationView.swift */,
@@ -3435,6 +3438,7 @@
 				5D349F672C6B548200B7F747 /* RequestBuilder.swift in Sources */,
 				5DB6370D2D7736AD00A44E36 /* GOVRequest+App.swift in Sources */,
 				D028CCF42CB4247100742620 /* TopicsRepository.swift in Sources */,
+				4B992FF830746D5300A6FA85 /* VehiclePlateOverlayView.swift in Sources */,
 				5DD4CB1A2D95491E00459FB5 /* RecentActivityListViewModel.swift in Sources */,
 				16D186A82E462D94006ACC7A /* ChatConsentOnboardingCoordinator.swift in Sources */,
 				16A788B22DCC288800CA64E2 /* ReturningUserService.swift in Sources */,
