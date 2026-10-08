@@ -64,8 +64,7 @@ struct VehicleMenuItemsBuilderTests {
             String(localized: .DVLA.vehicleMenuSornRulesTitle),
             String(localized: .DVLA.vehicleMenuSoldVehicleTitle),
             String(localized: .DVLA.vehicleMenuGetLogbookTitle),
-            String(localized: .DVLA.vehicleMenuChangeLogbookAddressTitle),
-            String(localized: .DVLA.vehicleMenuCancelTaxTitle)
+            String(localized: .DVLA.vehicleMenuChangeLogbookAddressTitle)
         ]
         #expect(items.map(\.title) == expectedTitles)
     }

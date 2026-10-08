@@ -29,7 +29,7 @@ struct VehicleMenuItemsBuilder {
             !isSorn ? makeSornItem : nil,
             getLogbookItem,
             changeLogbookAddressItem,
-            taxStatus == .taxed ? cancelTaxItem : nil,
+            taxStatus == .taxed && !isSorn ? cancelTaxItem : nil,
         ].compactMap { $0 }
     }
 
