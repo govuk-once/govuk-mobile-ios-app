@@ -23,13 +23,14 @@ struct VehicleMenuItemsBuilder {
         taxStatus: TaxStatus?
     ) -> [DvlaMenuItemViewModel] {
         let isSorn = sornStart != nil
+        let canCancelTax = (taxStatus == .taxed) && !isSorn
         return [
             isSorn ? sornRulesItem : nil,
             soldVehicleItem,
             !isSorn ? makeSornItem : nil,
             getLogbookItem,
             changeLogbookAddressItem,
-            taxStatus == .taxed && !isSorn ? cancelTaxItem : nil,
+            canCancelTax ? cancelTaxItem : nil,
         ].compactMap { $0 }
     }
 
