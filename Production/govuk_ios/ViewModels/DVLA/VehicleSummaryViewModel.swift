@@ -71,14 +71,112 @@ extension VehicleSummaryViewModel {
 
 extension VehicleSummaryViewModel {
     var menuItems: [DvlaMenuItemViewModel] {
-        let builder = VehicleMenuItemsBuilder(
-            urls: configService.dvlaUrls,
-            analyticsService: analyticsService,
-            openURLAction: openURLAction
+        var items: [DvlaMenuItemViewModel] = []
+        if sornStart != nil {
+            items.append(
+                DvlaMenuItemViewModel(
+                    title: String(localized: .DVLA.vehicleMenuSornRulesTitle),
+                    accessibilityLabel: nil,
+                    openURLAction: { text in openSornRulesURL(text) }
+                )
+            )
+        }
+        items.append(
+            DvlaMenuItemViewModel(
+                title: String(localized: .DVLA.vehicleMenuSoldVehicleTitle),
+                accessibilityLabel: String(
+                    localized: .DVLA.vehicleMenuSoldVehicleAccessibilityLabelTitle
+                ),
+                openURLAction: { text in openSoldVehicleURL(text) }
+            )
         )
-        return builder.makeMenuItems(
-            sornStart: sornStart,
-            taxStatus: taxStatus
+        if sornStart == nil {
+            items.append(
+                DvlaMenuItemViewModel(
+                    title: String(localized: .DVLA.vehicleMenuMakeSornTitle),
+                    accessibilityLabel: String(
+                        localized: .DVLA.vehicleMenuMakeSornAccessibilityLabelTitle
+                    ),
+                    openURLAction: { text in openMakeSornURL(text) }
+                )
+            )
+        }
+        items.append(
+            DvlaMenuItemViewModel(
+                title: String(localized: .DVLA.vehicleMenuGetLogbookTitle),
+                accessibilityLabel: nil,
+                openURLAction: { text in openGetLogbookURL(text) }
+            )
         )
+        items.append(
+            DvlaMenuItemViewModel(
+                title: String(localized: .DVLA.vehicleMenuChangeLogbookAddressTitle),
+                accessibilityLabel: nil,
+                openURLAction: { text in openChangeLogbookAddressURL(text) }
+            )
+        )
+        if taxStatus == .taxed {
+            items.append(
+                DvlaMenuItemViewModel(
+                    title: String(localized: .DVLA.vehicleMenuCancelTaxTitle),
+                    accessibilityLabel: String(
+                        localized: .DVLA.vehicleMenuCancelTaxAccessibilityLabelTitle
+                    ),
+                    openURLAction: { text in openCancelTaxURL(text) }
+                )
+            )
+        }
+        return items
+    }
+
+    private func openSornRulesURL(_ text: String) {
+        let url = configService.dvlaUrls?.sornRules ??
+        Constants.API.defaultDvlaSornRulesUrl
+        openMenuURLAction(url: url, text: text)
+    }
+
+    private func openSoldVehicleURL(_ text: String) {
+        let url = configService.dvlaUrls?.soldVehicle ??
+        Constants.API.defaultDvlaSoldVehicleUrl
+        openMenuURLAction(url: url, text: text)
+    }
+
+    private func openMakeSornURL(_ text: String) {
+        let url = configService.dvlaUrls?.makeSorn ??
+        Constants.API.defaultDvlaMakeSornUrl
+        openMenuURLAction(url: url, text: text)
+    }
+
+    private func openGetLogbookURL(_ text: String) {
+        let url = configService.dvlaUrls?.getLogbook ??
+        Constants.API.defaultDvlaGetLogbookUrl
+        openMenuURLAction(url: url, text: text)
+    }
+
+    private func openChangeLogbookAddressURL(_ text: String) {
+        let url = configService.dvlaUrls?.changeLogbookAddress ??
+        Constants.API.defaultDvlaChangeLogbookAddressUrl
+        openMenuURLAction(url: url, text: text)
+    }
+
+    private func openCancelTaxURL(_ text: String) {
+        let url = configService.dvlaUrls?.cancelTax ??
+        Constants.API.defaultDvlaCancelTaxUrl
+        openMenuURLAction(url: url, text: text)
+    }
+
+    private func openMenuURLAction(url: URL, text: String) {
+        openURLAction(url)
+        trackUrlOpenEvent(url: url, text: text)
+    }
+
+    private func trackUrlOpenEvent(url: URL, text: String) {
+        let event = AppEvent.buttonNavigation(
+            text: text,
+            external: true,
+            url: url.absoluteString,
+            section: "Driving"
+        )
+        analyticsService.track(event: event)
     }
 }

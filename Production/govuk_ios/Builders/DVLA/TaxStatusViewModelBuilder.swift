@@ -31,10 +31,7 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
     func makeViewModel(
         vehicle: TaxValidityVehicle
     ) -> ValidityStatusViewModel {
-        let status = TaxValidityStatus(
-            taxStatus: vehicle.taxStatus,
-            sornStartDate: vehicle.sornStart
-        )
+        let status = taxValidityStatus(vehicle: vehicle)
         switch status {
         case .untaxed:
             return makeExpiredViewModel()
@@ -264,6 +261,25 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
             buttonConfiguration: .primary
         )
     }
+
+    private func taxValidityStatus(
+        vehicle: TaxValidityVehicle
+    ) -> TaxValidityStatus {
+        switch (vehicle.taxStatus, vehicle.sornStart) {
+        case (.notTaxedForOnRoadUse, _):
+            return .notTaxedForOnRoadUse
+        case (.sorn, _):
+            return .sorn
+        case (.taxed, .some):
+            return .futureSorn
+        case (.untaxed, _):
+            return .untaxed
+        case (.taxed, _):
+            return .taxed
+        case (.none, _):
+            return .unknown
+        }
+    }
 }
 
 // MARK: - Helper methods
@@ -288,56 +304,13 @@ extension TaxStatusViewModelBuilder {
     }
 }
 
-/// Represents the resolved road tax validity state for a vehicle, combining raw tax status and SORN scheduling data.
-///
-/// Use this type to determine UI displays, warning badges, or permission checks regarding whether a vehicle is legally taxed,
-/// scheduled to go on [Statutory Off Road Notification (SORN)](https://www.gov.uk/make-a-sorn), or untaxed.
-///
-/// - Note: A Statutory Off Road Notification (SORN) informs the DVLA
-///   that a vehicle is being taken off public roads and will not be driven or parked on them.
-///
-/// - Note: A state of ``futureSorn`` occurs when a vehicle is currently taxed but has a SORN start date registered for a future date.
 enum TaxValidityStatus: ValidityStatus {
-    /// The vehicle category or tax class is exempt from standard on-road tax requirements.
     case notTaxedForOnRoadUse
-
-    /// The vehicle is registered under a [SORN](https://www.gov.uk/make-a-sorn) and cannot be legally driven on public roads.
     case sorn
-
-    /// The vehicle is currently taxed, but a [SORN](https://www.gov.uk/make-a-sorn) is scheduled for a future date.
     case futureSorn
-
-    /// The vehicle is untaxed and does not have an active SORN declaration.
     case untaxed
-
-    /// The vehicle is currently taxed for road use with no upcoming SORN.
     case taxed
-
-    // The tax validity status could not be determined due to missing or invalid data.
     case unknown
-
-    init(taxStatus: TaxStatus?, sornStartDate: Date?) {
-        guard let taxStatus else {
-            self = .unknown
-            return
-        }
-
-        switch (taxStatus, sornStartDate) {
-        // 1. Currently Taxed states (active tax)
-        case (.taxed, .some):
-            self = .futureSorn
-        case (.taxed, .none):
-            self = .taxed
-        // 2. SORN states (Off-road declaration)
-        case (.sorn, _):
-            self = .sorn
-        // 3. Unregistered / Untaxed states
-        case (.untaxed, _):
-            self = .untaxed
-        case (.notTaxedForOnRoadUse, _):
-            self = .notTaxedForOnRoadUse
-        }
-    }
 }
 
 struct TaxValidityVehicle {
