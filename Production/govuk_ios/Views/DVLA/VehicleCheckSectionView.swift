@@ -69,7 +69,7 @@ private struct Subtitle: View {
 }
 
 
-struct SearchButtonLabel: View {
+private struct SearchButtonLabel: View {
     let text: LocalizedStringKey
     var body: some View {
         HStack(spacing: 8) {
@@ -106,7 +106,7 @@ struct DvlaRegPlateFoo: View {
     }
 }
 
-struct MagnifyingGlassImage: View {
+private struct MagnifyingGlassImage: View {
     var body: some View {
         Image(systemName: "magnifyingglass")
             .font(.system(size: 15, weight: .bold))
