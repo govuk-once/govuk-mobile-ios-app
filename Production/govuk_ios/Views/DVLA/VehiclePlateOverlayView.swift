@@ -18,6 +18,7 @@ struct VehiclePlateOverlayView: View {
                     .font(.system(size: 32, weight: .bold, design: .monospaced))
                     .textInputAutocapitalization(.characters)
                     .disableAutocorrection(true)
+                    .multilineTextAlignment(.center)
 
             clearInputButton()
                 .frame(height: 36)
