@@ -233,15 +233,17 @@ final class CountryListViewSnapshotTests: SnapshotTestCase {
         let mockTravelService = travelService ?? MockTravelService()
         let analyticsService = MockAnalyticsService()
         let notificationService = MockNotificationService()
+        let actions = CountryListViewModel.Actions(
+            dismissAction: { _ in /*Empty For Tests*/ },
+            openFooterLinkAction: { /*NO-OP*/ },
+            openExternalURLAction: { _ in /*NO-OP*/ }
+        )
         return CountryListViewModel(
             travelService: mockTravelService,
             analyticsService: analyticsService,
             notificationService: notificationService,
             urlOpener: MockURLOpener(),
-            dismissAction: { _ in /*Empty For Tests*/ },
-            openFooterLinkAction: { _ in /*NO-OP*/ },
-            openExternalURLAction: { _ in /*NO-OP*/ },
-            footerLinkURL: URL(string: "https://example.com")!
+            actions: actions
         )
     }
 

@@ -481,26 +481,23 @@ class MockViewControllerBuilder: ViewControllerBuilder {
     var _receivedCountryListTravelService: TravelServiceInterface?
     var _receivedCountryListAnalyticsService: AnalyticsServiceInterface?
     var _receivedCountryListNotificationService: NotificationServiceInterface?
-    var _receivedCountryListFooterURL: URL?
-    var _receivedCountryListOpenFooterLinkAction: ((URL) -> Void)?
     var _receivedCountryListOpenExternalURLAction: ((URL) -> Void)?
     var _stubbedCountryListViewController: UIViewController?
     override func countryList(
         travelService: TravelServiceInterface,
         analyticsService: AnalyticsServiceInterface,
         notificationService: NotificationServiceInterface,
+        deviceInfo: DeviceInformationProviderInterface,
+        versionProvider: AppVersionProvider,
         dismissAction: @escaping (Bool) -> Void,
-        errorCallback: @escaping () -> Void,
+        errorCallback: (() -> Void)? = nil,
         openFooterLinkAction: @escaping (URL) -> Void,
-        openExternalURLAction: @escaping (URL) -> Void,
-        footerLinkURL: URL
+        openExternalURLAction: @escaping (URL) -> Void
     ) -> UIViewController {
         _countryListWasCalled = true
         _receivedCountryListTravelService = travelService
         _receivedCountryListAnalyticsService = analyticsService
         _receivedCountryListNotificationService = notificationService
-        _receivedCountryListFooterURL = footerLinkURL
-        _receivedCountryListOpenFooterLinkAction = openFooterLinkAction
         _receivedCountryListOpenExternalURLAction = openExternalURLAction
         return _stubbedCountryListViewController ?? UIViewController()
     }
@@ -514,6 +511,8 @@ class MockViewControllerBuilder: ViewControllerBuilder {
         travelService: TravelServiceInterface,
         analyticsService: AnalyticsServiceInterface,
         notificationService: NotificationServiceInterface,
+        deviceInfo: DeviceInformationProviderInterface,
+        versionProvider: AppVersionProvider,
         openURLAction: @escaping (URL) -> Void
     ) -> UIViewController {
         _editCountriesWasCalled = true

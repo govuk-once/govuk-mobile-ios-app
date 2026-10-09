@@ -19,7 +19,7 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
     private let travelService: TravelServiceInterface
     private let analyticsService: AnalyticsServiceInterface
     private let notificationService: NotificationServiceInterface
-    private let versionProvider: AppVersionProvider
+    private let feedbackURL: URL
     private let urlOpener: URLOpener
     private let linkAction: () -> Void
     private let dismissAction: () -> Void
@@ -30,7 +30,7 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
         travelService: TravelServiceInterface,
         analyticsService: AnalyticsServiceInterface,
         notificationService: NotificationServiceInterface,
-        versionProvider: AppVersionProvider,
+        feedbackURL: URL,
         urlOpener: URLOpener,
         linkAction: @escaping () -> Void,
         dismissAction: @escaping () -> Void,
@@ -40,7 +40,7 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
         self.travelService = travelService
         self.analyticsService = analyticsService
         self.notificationService = notificationService
-        self.versionProvider = versionProvider
+        self.feedbackURL = feedbackURL
         self.urlOpener = urlOpener
         self.linkAction = linkAction
         self.dismissAction = dismissAction
@@ -49,9 +49,6 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
     }
 
     lazy var countryListViewModel: CountryListViewModel = {
-        let deviceInfo = DeviceInformationProvider()
-        let feedbackURL = deviceInfo.helpAndFeedbackURL(versionProvider: versionProvider)
-
         return CountryListViewModel(
             travelService: travelService,
             analyticsService: analyticsService,
@@ -61,17 +58,17 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
                 dismissAction: { [weak self] forceRefresh in
                     self?.didDismissList(forceRefresh: forceRefresh)
                 },
-                openFooterLinkAction: { [weak self] url in
-                    self?.openURLAction(url)
+                openFooterLinkAction: { [weak self] in
+                    guard let self = self else { return }
+                    self.openURLAction(self.feedbackURL)
                 },
-                openExternalURLAction: { url in
-                    UIApplication.shared.openIfPossible(url)
+                openExternalURLAction: { [weak self] url in
+                    self?.urlOpener.openIfPossible(url)
                 }
             ),
             errorCallback: { [weak self] in
                 self?.isShowingError = true
-            },
-            footerLinkURL: feedbackURL
+            }
         )
     }()
 

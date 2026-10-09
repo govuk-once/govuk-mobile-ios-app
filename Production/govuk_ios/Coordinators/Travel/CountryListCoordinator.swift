@@ -43,22 +43,19 @@ final class CountryListCoordinator: BaseCoordinator {
     }
 
     private func showCountryList() {
-        let feedbackUrl = deviceInformationProvider.helpAndFeedbackURL(
-            versionProvider: versionProvider
-        )
-
         let viewController = viewControllerBuilder.countryList(
             travelService: travelService,
             analyticsService: analyticsService,
             notificationService: notificationService,
+            deviceInfo: deviceInformationProvider,
+            versionProvider: versionProvider,
             dismissAction: { _ in self.dismissModal() },
             openFooterLinkAction: { [weak self] url in
                 self?.presentWebView(url: url)
             },
             openExternalURLAction: { [weak self] url in
                 self?.urlOpener.openIfPossible(url)
-            },
-            footerLinkURL: feedbackUrl
+            }
         )
         set(viewController)
     }

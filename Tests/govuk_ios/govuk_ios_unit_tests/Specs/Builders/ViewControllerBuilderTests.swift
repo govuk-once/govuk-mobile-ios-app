@@ -492,12 +492,13 @@ struct ViewControllerBuilderTests {
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
+            deviceInfo: MockDeviceInformationProvider(),
+            versionProvider: MockAppVersionProvider(),
             dismissAction: { _ in
                 /* No-op */
             },
             openFooterLinkAction: { _ in /* No-op */},
-            openExternalURLAction: { _ in /* No-op */},
-            footerLinkURL: URL(string: "https://example.com")!
+            openExternalURLAction: { _ in /* No-op */}
         )
 
         let rootView = (result as? HostingViewController<CountryListView>)?.rootView
@@ -511,6 +512,8 @@ struct ViewControllerBuilderTests {
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
+            deviceInfo: MockDeviceInformationProvider(),
+            versionProvider: MockAppVersionProvider(),
             openURLAction: { _ in /* No-op */ }
         )
 

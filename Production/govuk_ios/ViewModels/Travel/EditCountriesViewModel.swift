@@ -32,8 +32,8 @@ class EditCountriesViewModel: ObservableObject {
     private let notificationService: NotificationServiceInterface
     private let urlOpener: URLOpener
     let analyticsService: AnalyticsServiceInterface
-    private let versionProvider: AppVersionProvider
-    private let openURLAction: (URL) -> Void
+    private let feedbackURL: URL
+    private let openCountryListFooterAction: () -> Void
     private var allCountries: [Country] = []
     private var follewedCountries: Set<String> = []
     private var notificationStateCache: [String: Bool] = [:]
@@ -53,33 +53,30 @@ class EditCountriesViewModel: ObservableObject {
         analyticsService: AnalyticsServiceInterface,
         notificationService: NotificationServiceInterface,
         urlOpener: URLOpener,
-        versionProvider: AppVersionProvider,
-        openURLAction: @escaping (URL) -> Void
+        feedbackURL: URL,
+        openCountryListFooterAction: @escaping () -> Void
     ) {
         self.travelService = travelService
         self.analyticsService = analyticsService
         self.notificationService = notificationService
         self.urlOpener = urlOpener
-        self.versionProvider = versionProvider
-        self.openURLAction = openURLAction
+        self.feedbackURL = feedbackURL
+        self.openCountryListFooterAction = openCountryListFooterAction
     }
 
     @MainActor
     lazy var countryListViewModel: CountryListViewModel = {
-        let deviceInfo = DeviceInformationProvider()
-        let feedbackURL = deviceInfo.helpAndFeedbackURL(versionProvider: versionProvider)
-
         let actions = CountryListViewModel.Actions(
             dismissAction: { [weak self] forceRefresh in
                 Task {
                     self?.didDismissList(forceRefresh: forceRefresh)
                 }
             },
-            openFooterLinkAction: { [weak self] url in
-                self?.openURLAction(url)
+            openFooterLinkAction: { [weak self] in
+                self?.openCountryListFooterAction()
             },
-            openExternalURLAction: { url in
-                UIApplication.shared.openIfPossible(url)
+            openExternalURLAction: { [weak self] url in
+                self?.urlOpener.openIfPossible(url)
             }
         )
 
@@ -91,8 +88,7 @@ class EditCountriesViewModel: ObservableObject {
             actions: actions,
             errorCallback: { [weak self] in
                 self?.isShowingFollowError = true
-            },
-            footerLinkURL: feedbackURL
+            }
         )
     }()
 

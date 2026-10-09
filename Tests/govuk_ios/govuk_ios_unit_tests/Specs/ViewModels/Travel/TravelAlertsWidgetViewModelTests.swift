@@ -15,7 +15,7 @@ struct TravelAlertsWidgetViewModelTests {
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            versionProvider: MockAppVersionProvider(),
+            feedbackURL: URL(string: "https://example.com/feedback")!,
             urlOpener: MockURLOpener(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
@@ -37,7 +37,7 @@ struct TravelAlertsWidgetViewModelTests {
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            versionProvider: MockAppVersionProvider(),
+            feedbackURL: URL(string: "https://example.com/feedback")!,
             urlOpener: MockURLOpener(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
@@ -62,7 +62,7 @@ struct TravelAlertsWidgetViewModelTests {
             travelService: mockTravelService,
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
-            versionProvider: MockAppVersionProvider(),
+            feedbackURL: URL(string: "https://example.com/feedback")!,
             urlOpener: MockURLOpener(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
@@ -93,7 +93,7 @@ struct TravelAlertsWidgetViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            versionProvider: MockAppVersionProvider(),
+            feedbackURL: URL(string: "https://example.com/feedback")!,
             urlOpener: MockURLOpener(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
@@ -120,7 +120,7 @@ struct TravelAlertsWidgetViewModelTests {
             travelService: mockTravelService,
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
-            versionProvider: MockAppVersionProvider(),
+            feedbackURL: URL(string: "https://example.com/feedback")!,
             urlOpener: MockURLOpener(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
@@ -144,7 +144,7 @@ struct TravelAlertsWidgetViewModelTests {
             travelService: MockTravelService(),
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
-            versionProvider: MockAppVersionProvider(),
+            feedbackURL: URL(string: "https://example.com/feedback")!,
             urlOpener: MockURLOpener(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
@@ -171,7 +171,7 @@ struct TravelAlertsWidgetViewModelTests {
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            versionProvider: MockAppVersionProvider(),
+            feedbackURL: URL(string: "https://example.com/feedback")!,
             urlOpener: MockURLOpener(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { dismissCalled = true },
@@ -194,7 +194,7 @@ struct TravelAlertsWidgetViewModelTests {
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            versionProvider: MockAppVersionProvider(),
+            feedbackURL: URL(string: "https://example.com/feedback")!,
             urlOpener: MockURLOpener(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
@@ -216,7 +216,7 @@ struct TravelAlertsWidgetViewModelTests {
             travelService: mockTravelService,
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
-            versionProvider: MockAppVersionProvider(),
+            feedbackURL: URL(string: "https://example.com/feedback")!,
             urlOpener: MockURLOpener(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
@@ -246,7 +246,7 @@ struct TravelAlertsWidgetViewModelTests {
             travelService: mockTravelService,
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
-            versionProvider: MockAppVersionProvider(),
+            feedbackURL: URL(string: "https://example.com/feedback")!,
             urlOpener: MockURLOpener(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
@@ -281,7 +281,7 @@ struct TravelAlertsWidgetViewModelTests {
             travelService: mockTravelService,
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
-            versionProvider: MockAppVersionProvider(),
+            feedbackURL: URL(string: "https://example.com/feedback")!,
             urlOpener: MockURLOpener(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
@@ -305,7 +305,7 @@ struct TravelAlertsWidgetViewModelTests {
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            versionProvider: MockAppVersionProvider(),
+            feedbackURL: URL(string: "https://example.com/feedback")!,
             urlOpener: MockURLOpener(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { dismissActionCalled = true },
@@ -324,7 +324,7 @@ struct TravelAlertsWidgetViewModelTests {
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            versionProvider: MockAppVersionProvider(),
+            feedbackURL: URL(string: "https://example.com/feedback")!,
             urlOpener: MockURLOpener(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
@@ -343,7 +343,7 @@ struct TravelAlertsWidgetViewModelTests {
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            versionProvider: MockAppVersionProvider(),
+            feedbackURL: URL(string: "https://example.com/feedback")!,
             urlOpener: MockURLOpener(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
@@ -354,7 +354,7 @@ struct TravelAlertsWidgetViewModelTests {
         let viewModel = sut.countryListViewModel
 
         // Calling errorCallback should set isShowingError
-        viewModel.errorCallback()
+        viewModel.errorCallback?()
         #expect(sut.isShowingError == true)
     }
 
@@ -365,7 +365,7 @@ struct TravelAlertsWidgetViewModelTests {
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            versionProvider: MockAppVersionProvider(),
+            feedbackURL: URL(string: "https://example.com/feedback")!,
             urlOpener: MockURLOpener(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
@@ -391,7 +391,7 @@ struct TravelAlertsWidgetViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            versionProvider: MockAppVersionProvider(),
+            feedbackURL: URL(string: "https://example.com/feedback")!,
             urlOpener: MockURLOpener(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
@@ -417,7 +417,7 @@ struct TravelAlertsWidgetViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            versionProvider: MockAppVersionProvider(),
+            feedbackURL: URL(string: "https://example.com/feedback")!,
             urlOpener: MockURLOpener(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
@@ -443,7 +443,7 @@ struct TravelAlertsWidgetViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            versionProvider: MockAppVersionProvider(),
+            feedbackURL: URL(string: "https://example.com/feedback")!,
             urlOpener: MockURLOpener(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
@@ -452,7 +452,7 @@ struct TravelAlertsWidgetViewModelTests {
         )
 
         // Simulate successful subscription via countryListViewModel's dismiss action
-        sut.countryListViewModel.dismissAction(true)
+        sut.countryListViewModel.dismiss(true)
 
         try await waitForViewState(of: sut) { state in
             if case .loaded = state { return true }

@@ -166,7 +166,7 @@ final class TravelAlertsWidgetViewSnapshotTests: SnapshotTestCase {
             travelService: travelService,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            versionProvider: MockAppVersionProvider(),
+            feedbackURL: URL("www.example.com/feedback")!,
             urlOpener: MockURLOpener(),
             linkAction: { /*EmptyForTests*/ },
             dismissAction: { /*EmptyForTests*/ },

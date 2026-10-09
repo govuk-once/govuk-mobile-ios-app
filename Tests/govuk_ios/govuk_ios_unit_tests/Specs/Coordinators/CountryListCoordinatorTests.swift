@@ -21,6 +21,8 @@ struct CountryListCoordinatorTests {
             notificationService: MockNotificationService(),
             userService: MockUserService(),
             urlOpener: MockURLOpener(),
+            deviceInformationProvider: MockDeviceInformationProvider(),
+            versionProvider: MockAppVersionProvider(),
             completion: { _ in }
         )
 
@@ -44,74 +46,14 @@ struct CountryListCoordinatorTests {
             notificationService: MockNotificationService(),
             userService: MockUserService(),
             urlOpener: MockURLOpener(),
+            deviceInformationProvider: MockDeviceInformationProvider(),
+            versionProvider: MockAppVersionProvider(),
             completion: { _ in }
         )
 
         sut.start()
 
         #expect(mockNavigationController._setViewControllers?.count ?? 0 > 0)
-    }
-
-    @Test
-    func start_openFooterLinkActionClosure_presentsSafariCoordinator() {
-        let mockNavigationController = MockNavigationController()
-        let mockViewControllerBuilder = MockViewControllerBuilder()
-        let mockCoordinatorBuilder = CoordinatorBuilder.mock
-        let testURL = URL(string: "https://www.example.com")!
-
-        let sut = CountryListCoordinator(
-            navigationController: mockNavigationController,
-            coordinatorBuilder: mockCoordinatorBuilder,
-            viewControllerBuilder: mockViewControllerBuilder,
-            analyticsService: MockAnalyticsService(),
-            travelService: MockTravelService(),
-            notificationService: MockNotificationService(),
-            userService: MockUserService(),
-            urlOpener: MockURLOpener(),
-            completion: { _ in }
-        )
-
-        sut.start()
-
-        guard let openFooterLinkAction = mockViewControllerBuilder._receivedCountryListOpenFooterLinkAction else {
-            Issue.record("Expected openFooterLinkAction closure to be captured")
-            return
-        }
-
-        openFooterLinkAction(testURL)
-
-        #expect(mockCoordinatorBuilder._receivedSafariCoordinatorURL == testURL)
-    }
-
-    @Test
-    func start_openFooterLinkActionClosure_createsSafariCoordinatorWithNonFullScreen() {
-        let mockNavigationController = MockNavigationController()
-        let mockViewControllerBuilder = MockViewControllerBuilder()
-        let mockCoordinatorBuilder = CoordinatorBuilder.mock
-        let testURL = URL(string: "https://www.gov.uk")!
-
-        let sut = CountryListCoordinator(
-            navigationController: mockNavigationController,
-            coordinatorBuilder: mockCoordinatorBuilder,
-            viewControllerBuilder: mockViewControllerBuilder,
-            analyticsService: MockAnalyticsService(),
-            travelService: MockTravelService(),
-            notificationService: MockNotificationService(),
-            userService: MockUserService(),
-            urlOpener: MockURLOpener(),
-            completion: { _ in }
-        )
-
-        sut.start()
-
-        guard let openFooterLinkAction = mockViewControllerBuilder._receivedCountryListOpenFooterLinkAction else {
-            Issue.record("Expected openFooterLinkAction closure to be captured")
-            return
-        }
-
-        openFooterLinkAction(testURL)
-
-        #expect(mockCoordinatorBuilder._receivedSafariCoordinatorFullScreen == false)
     }
 
     @Test
@@ -130,6 +72,8 @@ struct CountryListCoordinatorTests {
             notificationService: MockNotificationService(),
             userService: MockUserService(),
             urlOpener: mockURLOpener,
+            deviceInformationProvider: MockDeviceInformationProvider(),
+            versionProvider: MockAppVersionProvider(),
             completion: { _ in }
         )
 

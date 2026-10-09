@@ -12,7 +12,7 @@ class CountryListViewModel: ObservableObject {
 
     struct Actions {
         let dismissAction: (Bool) -> Void
-        let openFooterLinkAction: (URL) -> Void
+        let openFooterLinkAction: () -> Void
         let openExternalURLAction: (URL) -> Void
     }
 
@@ -34,7 +34,6 @@ class CountryListViewModel: ObservableObject {
     private let urlOpener: URLOpener
     private let actions: Actions
     let errorCallback: (() -> Void)?
-    private let footerLinkURL: URL
 
     var hasNotificationConsent: Bool {
         notificationService.hasGivenConsent
@@ -46,8 +45,7 @@ class CountryListViewModel: ObservableObject {
         notificationService: NotificationServiceInterface,
         urlOpener: URLOpener,
         actions: Actions,
-        errorCallback: (() -> Void)? = nil,
-        footerLinkURL: URL
+        errorCallback: (() -> Void)? = nil
     ) {
         self.travelService = travelService
         self.analyticsService = analyticsService
@@ -55,7 +53,6 @@ class CountryListViewModel: ObservableObject {
         self.urlOpener = urlOpener
         self.actions = actions
         self.errorCallback = errorCallback
-        self.footerLinkURL = footerLinkURL
     }
 
     func trackScreen(screen: TrackableScreen) {
@@ -194,7 +191,7 @@ class CountryListViewModel: ObservableObject {
     }
 
     func openFooterLink() {
-        actions.openFooterLinkAction(footerLinkURL)
+        actions.openFooterLinkAction()
     }
 
     func dismiss(_ forceRefresh: Bool) {
