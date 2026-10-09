@@ -77,7 +77,7 @@ private struct SearchButtonLabel: View {
                 .foregroundStyle(Color(uiColor: .govUK.text.primary))
                 .multilineTextAlignment(.leading)
             Spacer()
-            DvlaRegPlateFoo()
+            RegistrationPlateSymbol()
             MagnifyingGlassImage()
         }
         .padding(.horizontal, 16)
@@ -87,7 +87,7 @@ private struct SearchButtonLabel: View {
     }
 }
 
-struct DvlaRegPlateFoo: View {
+private struct RegistrationPlateSymbol: View {
     var body: some View {
         Text(.DVLA.vehicleRegAbc)
             .font(.govUK.vehicleRegistrationMarkBody)
@@ -121,8 +121,8 @@ private struct MagnifyingGlassImage: View {
     SearchButtonLabel(text: "Some label text")
 }
 
-#Preview("Dvla Reg Plate thing") {
-    DvlaRegPlateFoo()
+#Preview("RegistrationPlateSymbol") {
+    RegistrationPlateSymbol()
 }
 
 #Preview("MagnifyingGlassImage") {
