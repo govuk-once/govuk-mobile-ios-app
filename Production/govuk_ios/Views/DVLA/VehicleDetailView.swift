@@ -127,25 +127,6 @@ struct VehicleDetailView: View {
                 )
             }
         }
-        .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Menu {
-                    ForEach(viewVehicleDetails.menuItems, id: \.id) { item in
-                        Button(
-                            action: { item.openURLAction(item.title) },
-                            label: {
-                                Text(item.title)
-                                    .accessibilityLabel(item.accessibilityLabel ?? item.title)
-                                    .accessibilityHint(String.common.localized("openWebLinkHint"))
-                            }
-                        )
-                    }
-                } label: {
-                    Image(systemName: "ellipsis")
-                }
-                .accessibilityLabel(String.dvla.localized("moreOptionsButtonAccessibilityLabel"))
-            }
-        }
     }
 
     @ViewBuilder

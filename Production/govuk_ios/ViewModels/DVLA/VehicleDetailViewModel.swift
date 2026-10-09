@@ -80,12 +80,6 @@ final class VehicleDetailViewModel: ObservableObject {
             currentLicencePaymentMethod: vehicle.currentLicencePaymentMethod
         )
 
-        let menuItemsBuilder = VehicleMenuItemsBuilder(
-            urls: configService.dvlaUrls,
-            analyticsService: analyticsService,
-            openURLAction: openURLAction
-        )
-
         return ViewVehicleDetails(
             keeperFullName: keeperFullName(vehicle),
             keeperAddress: keeperAddress ?? "",
@@ -96,10 +90,6 @@ final class VehicleDetailViewModel: ObservableObject {
             motStatusViewModel: motStatusViewModel(vehicle),
             vehicleSpecViewModel: specViewModel(vehicle),
             specificationSection: specificationSection(vehicle),
-            menuItems: menuItemsBuilder.makeMenuItems(
-                sornStart: vehicle.sornStart,
-                taxStatus: vehicle.taxStatus
-            ),
             addressAccessibilityLabel: keeperAddress ?? "",
             regNumberAccessibilityLabelPrefix: regNumberAccessibilityLabelPrefix
         )
@@ -279,7 +269,6 @@ struct ViewVehicleDetails {
     let motStatusViewModel: ValidityStatusViewModel
     let vehicleSpecViewModel: VehicleSpecViewModel
     let specificationSection: GroupedListSection
-    let menuItems: [DvlaMenuItemViewModel]
     let addressAccessibilityLabel: String
     let regNumberAccessibilityLabelPrefix: String
 }
