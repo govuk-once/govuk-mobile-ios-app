@@ -18,7 +18,11 @@ struct DVLAAccountSummaryView: View {
                 DrivingLicenceView(viewModel: viewModel.licenceViewModel)
             case .vehicles:
                 VehiclesView(viewModel: viewModel.vehiclesViewModel)
-                VehicleCheckSectionView() // (viewModel: viewModel.vehicleCheckSectionViewModel)
+                VehicleCheckSectionView(
+                    searchButtonTitle: "viewModel.vehicleCheckSectionViewModel",
+                    onSubmit: { _ in }
+                )
+                    // (viewModel: viewModel.vehicleCheckSectionViewModel)
                      .padding(.top, 24)
                     .padding([.horizontal], 16)
             }

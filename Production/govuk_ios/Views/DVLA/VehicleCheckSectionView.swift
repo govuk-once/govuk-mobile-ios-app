@@ -3,6 +3,10 @@ import GovKit
 
 struct VehicleCheckSectionView: View {
 //  let viewModel: VehicleCheckSectionViewModel
+
+    let searchButtonTitle: LocalizedStringKey
+    let onSubmit: (String) -> Void
+
     @State private var isShowingSheet = false
     @State private var numberPlate = ""
     var body: some View {
@@ -16,7 +20,7 @@ struct VehicleCheckSectionView: View {
             Button {
                 isShowingSheet.toggle()
             } label: {
-                SearchButtonLabel(text: "viewModel.buttonTitle")
+                SearchButtonLabel(text: searchButtonTitle)
             }
             .padding(.top, 8)
         }
@@ -25,10 +29,11 @@ struct VehicleCheckSectionView: View {
                 VehiclePlateOverlayView(
                     isShowingSheet: $isShowingSheet,
                     numberPlate: $numberPlate,
-                    action: { plate in
-                        print(plate)
-                        // viewModel.action(plate)
-                    }
+                    action: onSubmit
+//                    action: { plate in
+//                        print(plate)
+//                        // viewModel.action(plate)
+//                    }
                 )
                 .padding(.horizontal)
                 .transition(.move(edge: .bottom).combined(with: .opacity))
@@ -129,7 +134,9 @@ private struct MagnifyingGlassImage: View {
 }
 
 #Preview {
-    VehicleCheckSectionView()
+    VehicleCheckSectionView(searchButtonTitle: "Search for a vehicle") { plate in
+        print("submitted: \(plate)")
+    }
 //    VStack {
 //        Text("Hello")
 //    }
