@@ -25,10 +25,13 @@ class EditCountriesViewModel: ObservableObject {
     @Published var isUnfollowing = false
     @Published var displayToggleError: Bool = false
     @Published var displayUnfollowError: Bool = false
+    @Published var isShowingFollowError = false
 
     private let travelService: TravelServiceInterface
     private let notificationService: NotificationServiceInterface
+    private let urlOpener: URLOpener
     let analyticsService: AnalyticsServiceInterface
+    private let openURLAction: (URL) -> Void
     private var allCountries: [Country] = []
     private var follewedCountries: Set<String> = []
     private var notificationStateCache: [String: Bool] = [:]
@@ -46,11 +49,15 @@ class EditCountriesViewModel: ObservableObject {
     init(
         travelService: TravelServiceInterface,
         analyticsService: AnalyticsServiceInterface,
-        notificationService: NotificationServiceInterface
+        notificationService: NotificationServiceInterface,
+        urlOpener: URLOpener,
+        openURLAction: @escaping (URL) -> Void
     ) {
         self.travelService = travelService
         self.analyticsService = analyticsService
         self.notificationService = notificationService
+        self.urlOpener = urlOpener
+        self.openURLAction = openURLAction
     }
 
     @MainActor
@@ -59,10 +66,17 @@ class EditCountriesViewModel: ObservableObject {
             travelService: travelService,
             analyticsService: analyticsService,
             notificationService: notificationService,
+            urlOpener: urlOpener,
             dismissAction: { [weak self] forceRefresh in
                 Task {
                     self?.didDismissList(forceRefresh: forceRefresh)
                 }
+            },
+            errorCallback: { [weak self] in
+                self?.isShowingFollowError = true
+            },
+            openURLAction: { [weak self] url in
+                self?.openURLAction(url)
             }
         )
     }()
@@ -214,12 +228,16 @@ class EditCountriesViewModel: ObservableObject {
         displayUnfollowError = false
     }
 
+    func clearFollowError() {
+        isShowingFollowError = false
+    }
+
     private func showCountryDetails(country: Country, subgroup: String) {
         selectedCountry = SelectedCountry(country: country, subgroup: subgroup)
         if let cachedState = notificationStateCache[country.slug] {
             selectedCountryNotificationEnabled = cachedState
         } else {
-            selectedCountryNotificationEnabled = subgroup.lowercased() == "daily"
+            selectedCountryNotificationEnabled = subgroup.lowercased() == "instant"
         }
         isShowingCountryDetails = true
     }

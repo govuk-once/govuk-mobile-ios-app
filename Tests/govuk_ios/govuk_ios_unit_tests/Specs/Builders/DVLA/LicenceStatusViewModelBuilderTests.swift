@@ -130,6 +130,21 @@ struct LicenceStatusViewModelBuilderTests {
     }
 
     @Test
+    func makeViewModel_licenceStatusUnknown_returnsUnknown() {
+        let sut = LicenceStatusViewModelBuilder(urls: .arrange)
+        let result = sut.makeViewModel(
+            status: .unknown,
+            validToDate: nil,
+            openURLAction:  { _, _ in }
+        )
+        #expect(result.statusInformation?.displayValue == String(localized: .DVLA.unknown))
+        #expect(result.footer == nil)
+        #expect(result.buttonTitle == nil)
+        #expect(result.buttonAction == nil)
+        #expect(result.iconName == nil)
+    }
+
+    @Test
     func makeViewModel_licenceValidButTokenValidToDateIsInPast_returnsExpiredViewModel() {
         let dvlaURLs: DvlaURLs = .arrange(renewLicence: "https://renewLicence.com")
         let sut = LicenceStatusViewModelBuilder(urls: dvlaURLs)

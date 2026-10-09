@@ -19,6 +19,10 @@ struct DVLAResponseHandler: ResponseHandler {
         case "GUK-404-05":
             return DVLAError.notAvailable
         default:
+            assertionFailure(
+                "Unhandled DVLA error code: \(errorPayload.error.code) "
+                + "message: \(errorPayload.error.message)"
+            )
             return nil
         }
     }

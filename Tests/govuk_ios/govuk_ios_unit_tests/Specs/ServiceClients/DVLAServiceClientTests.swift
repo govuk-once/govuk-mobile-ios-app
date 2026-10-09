@@ -18,7 +18,7 @@ struct DVLAServiceClientTests {
 
     @Test
     func fetchDrivingLicence_sendsExpectedRequest() async {
-        mockAPI._stubbedSendResponse = .success(Data())
+        mockAPI._stubbedSendResponse = .success(Self.drivingLicenceResponse)
         _ = await sut.fetchDrivingLicence()
         #expect(mockAPI._receivedSendRequest?.urlPath == "/app/dvla/v1/customer/licence")
         #expect(mockAPI._receivedSendRequest?.method == .get)
@@ -47,7 +47,7 @@ struct DVLAServiceClientTests {
 
     @Test
     func fetchCustomerVehicles_sendsExpectedRequest() async {
-        mockAPI._stubbedSendResponse = .success(Data())
+        mockAPI._stubbedSendResponse = .success(Self.customerVehiclesResponse)
         _ = await sut.fetchCustomerVehicles()
         #expect(mockAPI._receivedSendRequest?.urlPath == "/app/dvla/v1/customer/vehicles")
         #expect(mockAPI._receivedSendRequest?.method == .get)
@@ -66,7 +66,7 @@ struct DVLAServiceClientTests {
         #expect(vehicle.make == "MITSUBISHI")
         #expect(vehicle.model == "MIRAGE")
         #expect(vehicle.taxStatus == .taxed)
-        #expect(vehicle.motStatus == "Not valid")
+        #expect(vehicle.motStatus == .notValid)
     }
 
     @Test
@@ -89,7 +89,7 @@ struct DVLAServiceClientTests {
         #expect(vehicle.make == "MITSUBISHI")
         #expect(vehicle.model == "MIRAGE")
         #expect(vehicle.taxStatus == .taxed)
-        #expect(vehicle.motStatus == "Not valid")
+        #expect(vehicle.motStatus == .notValid)
     }
 
     @Test
@@ -102,7 +102,7 @@ struct DVLAServiceClientTests {
 
     @Test
     func fetchVehicle_sendsExpectedRequest() async {
-        mockAPI._stubbedSendResponse = .success(Data())
+        mockAPI._stubbedSendResponse = .success(Self.vehicleResponse)
         _ = await sut.fetchVehicle(registration: "AA19AMP")
         #expect(mockAPI._receivedSendRequest?.urlPath == "/app/dvla/v1/vehicle-enquiry/AA19AMP")
         #expect(mockAPI._receivedSendRequest?.method == .get)
@@ -120,7 +120,7 @@ struct DVLAServiceClientTests {
         #expect(vehicle.taxStatus == .taxed)
         let expectedTaxDueDate = Date.arrange("07/05/2027")
         #expect(vehicle.taxedUntil == expectedTaxDueDate)
-        #expect(vehicle.motStatus == "Valid")
+        #expect(vehicle.motStatus == .valid)
         let expectedMotExpiryDate = Date.arrange("07/05/2027")
         #expect(vehicle.motExpiryDate == expectedMotExpiryDate)
         #expect(vehicle.make == "FORD")
@@ -144,7 +144,7 @@ struct DVLAServiceClientTests {
 
     @Test
     func fetchShareCodes_sendsExpectedRequest() async {
-        mockAPI._stubbedSendResponse = .success(Data())
+        mockAPI._stubbedSendResponse = .success(Self.listShareCodesResponse)
         _ = await sut.fetchShareCodes()
         #expect(mockAPI._receivedSendRequest?.urlPath == "/app/dvla/v1/share-codes")
         #expect(mockAPI._receivedSendRequest?.method == .get)
@@ -175,7 +175,7 @@ struct DVLAServiceClientTests {
 
     @Test
     func createShareCode_sendsExpectedRequest() async {
-        mockAPI._stubbedSendResponse = .success(Data())
+        mockAPI._stubbedSendResponse = .success(Self.createShareCodeResponse)
         _ = await sut.createShareCode()
         #expect(mockAPI._receivedSendRequest?.urlPath == "/app/dvla/v1/share-code")
         #expect(mockAPI._receivedSendRequest?.method == .post)
@@ -207,7 +207,7 @@ struct DVLAServiceClientTests {
 
     @Test
     func cancelShareCode_sendsExpectedRequest() async {
-        mockAPI._stubbedSendResponse = .success(Data())
+        mockAPI._stubbedSendResponse = .success(Self.cancelShareCodeResponse)
         _ = await sut.cancelShareCode(id: "test-share-code-id")
         #expect(mockAPI._receivedSendRequest?.urlPath == "/app/dvla/v1/share-code/test-share-code-id/cancel")
         #expect(mockAPI._receivedSendRequest?.method == .post)

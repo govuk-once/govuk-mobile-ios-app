@@ -79,8 +79,7 @@ extension Container {
     var qualtrics: Factory<QualtricsServiceInterface> {
         Factory(self) {
             QualtricsService(
-                brandId: "yourBrandId",
-                projectId: "yourProjectId",
+                environmentService: self.appEnvironmentService.resolve(),
                 qualtrics: Qualtrics.shared,
                 firebaseIDsService: self.firebaseIDsService.resolve(),
                 firebaseClient: self.firebaseClient.resolve(),
@@ -195,7 +194,8 @@ extension Container {
                 notificationCenter: UNUserNotificationCenter.current(),
                 configService: self.appConfigService.resolve(),
                 userDefaultsService: self.userDefaultsService.resolve(),
-                oneSignalServiceClient: OneSignal.self
+                oneSignalServiceClient: OneSignal.self,
+                notificationCentreService: { self.notificationCentreService.resolve() }
             )
         }.scope(.singleton)
     }

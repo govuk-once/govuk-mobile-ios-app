@@ -11,16 +11,17 @@ struct CountryOptionsBottomSheet: View {
     let onClearToggleError: () -> Void
     @Environment(\.dismiss) var dismiss
     @State private var contentHeight: CGFloat = 200
-
     private var calculatedDetents: Set<PresentationDetent> {
-        let headerHeight: CGFloat = 56
-        let minimumHeight: CGFloat = 100
-        let safetyMargin: CGFloat = 16
-        let totalHeight = headerHeight + contentHeight + safetyMargin
-
-        let calculatedHeight = max(totalHeight, minimumHeight)
-        return [.height(min(calculatedHeight, UIScreen.main.bounds.height * 0.8)), .large]
-    }
+           let headerHeight: CGFloat = 56
+           let minimumHeight: CGFloat = 100
+           let safetyMargin: CGFloat = 16
+           let totalHeight = headerHeight + contentHeight + safetyMargin
+           let calculatedHeight = max(totalHeight, minimumHeight)
+           let windowHeight = UIApplication.shared.connectedScenes
+               .compactMap { $0 as? UIWindowScene }
+               .first?.coordinateSpace.bounds.height ?? 800
+           return [.height(min(calculatedHeight, windowHeight * 0.8)), .large]
+       }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -80,9 +81,7 @@ struct CountryOptionsBottomSheet: View {
                 Text(String(localized: .Travel.editCountryDetailsGetNotifications))
                     .font(Font.govUK.body)
                     .foregroundColor(Color(UIColor.govUK.text.primary))
-
                 Spacer()
-
                 Toggle(
                     "",
                     isOn: $notificationsEnabled

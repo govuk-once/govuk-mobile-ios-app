@@ -4,10 +4,10 @@ import UIKit
 
 class MockURLOpener: URLOpener {
 
-    var _receivedCanOpennUrl: URL?
+    var _receivedCanOpenUrl: URL?
     var _stubbedCanOpenResult: Bool = true
     func canOpenURL(_ url: URL) -> Bool {
-        _receivedCanOpennUrl = url
+        _receivedCanOpenUrl = url
         return _stubbedCanOpenResult
     }
 
@@ -22,6 +22,14 @@ class MockURLOpener: URLOpener {
     var _receivedOpenIfPossibleUrlString: String?
     func openIfPossible(_ urlString: String) -> Bool {
         _receivedOpenIfPossibleUrlString = urlString
+        if urlString == UIApplication.openNotificationSettingsURLString {
+            return shouldOpenNotificationSettings
+        }
         return _stubbedOpenResult
+    }
+
+    var shouldOpenNotificationSettings: Bool = false
+    func openNotificationSettings() -> Bool {
+        return shouldOpenNotificationSettings
     }
 }

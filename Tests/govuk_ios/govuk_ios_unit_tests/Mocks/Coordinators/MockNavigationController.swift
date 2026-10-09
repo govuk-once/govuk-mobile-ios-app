@@ -49,7 +49,7 @@ class MockNavigationController: UINavigationController {
     }
 
     var _pushedViewController: UIViewController?
-    override func pushViewController(_ viewController: UIViewController, 
+    override func pushViewController(_ viewController: UIViewController,
                                      animated: Bool) {
         _pushedViewController = viewController
         super.pushViewController(viewController, animated: animated)
@@ -62,5 +62,16 @@ class MockNavigationController: UINavigationController {
         _setViewControllers = viewControllers
         super.setViewControllers(viewControllers, animated: animated)
         _setViewControllersCalledAction?()
+    }
+
+    var viewWillReAppearWasCalled = false
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewWillReAppearWasCalled = true
+    }
+
+    var _prefersLargeTitles: Bool {
+        get { navigationBar.prefersLargeTitles }
+        set { navigationBar.prefersLargeTitles = newValue }
     }
 }

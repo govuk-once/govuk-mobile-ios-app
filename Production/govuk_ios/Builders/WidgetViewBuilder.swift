@@ -2,21 +2,13 @@ import SwiftUI
 import GovKit
 
 class WidgetViewBuilder {
-    // swiftlint:disable:next function_parameter_count
     func dvlaAccountWidget(
         analyticsService: AnalyticsServiceInterface,
         userService: UserServiceInterface,
         dvlaService: DVLAServiceInterface,
         configService: AppConfigServiceInterface,
-        linkAction: @escaping () -> Void,
-        vehicleDetailAction: @escaping (Int) -> Void,
-        openURLAction: @escaping (URL) -> Void
+        actions: DVLAAccountWidgetActions
     ) -> AnyView? {
-        let actions = DVLAAccountWidgetViewModel.Actions(
-            linkAction: linkAction,
-            vehicleDetailAction: vehicleDetailAction,
-            openURLAction: openURLAction
-        )
         let viewModel = DVLAAccountWidgetViewModel(
             analyticsService: analyticsService,
             userService: userService,
@@ -43,6 +35,7 @@ class WidgetViewBuilder {
             travelService: travelService,
             analyticsService: analyticsService,
             notificationService: notificationService,
+            urlOpener: UIApplication.shared,
             linkAction: linkAction,
             dismissAction: dismissAction,
             editAction: editAction,

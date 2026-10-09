@@ -12,7 +12,7 @@ struct MOTStatusViewModelBuilderTests {
     func makeViewModel_motValid_moreThan28DaysLeft_returnsExpectedResult() {
         let expiryDate = generateFutureDate(daysAhead: 45)
         let vehicle = MotStatusVehicle(
-            motStatus: "Valid",
+            motStatus: .valid,
             motExpiryDate: expiryDate,
             registrationNumber: "LG04 NBF"
         )
@@ -36,7 +36,7 @@ struct MOTStatusViewModelBuilderTests {
     func makeViewModel_motValid_expiringWithinCountdownWindow_returnsExpectedResult() {
         let expiryDate = generateFutureDate(daysAhead: 12)
         let vehicle = MotStatusVehicle(
-            motStatus: "Valid",
+            motStatus: .valid,
             motExpiryDate: expiryDate,
             registrationNumber: "LG04 NBF"
         )
@@ -62,7 +62,7 @@ struct MOTStatusViewModelBuilderTests {
     func makeViewModel_motNotValid_returnsExpiredViewModel() {
         let expiryDate = generateFutureDate(daysAhead: -5)
         let vehicle = MotStatusVehicle(
-            motStatus: "Not valid",
+            motStatus: .notValid,
             motExpiryDate: expiryDate,
             registrationNumber: "LG04 NBF"
         )
@@ -87,7 +87,7 @@ struct MOTStatusViewModelBuilderTests {
     func makeViewModel_noResultsReturned_returnsButtonLinkToHistoricVehicles() {
         var openedUrl: URL?
         let vehicle = MotStatusVehicle(
-            motStatus: "No results returned",
+            motStatus: .noResultsReturned,
             motExpiryDate: nil,
             registrationNumber: "LG04 NBF"
         )
@@ -114,7 +114,7 @@ struct MOTStatusViewModelBuilderTests {
     func makeViewModel_motStatusValidButExpiryDateIsInPast_returnsExpiredViewModel() {
         let pastExpiryDate = generateFutureDate(daysAhead: -5)
         let vehicle = MotStatusVehicle(
-            motStatus: "Valid",
+            motStatus: .valid,
             motExpiryDate: pastExpiryDate,
             registrationNumber: "LG04 NBF"
         )
@@ -137,7 +137,7 @@ struct MOTStatusViewModelBuilderTests {
     func makeViewModel_noDetailsHeldByDVLA_returnsExpectedResultAndQueryParameters() {
         var openedUrl: URL?
         let vehicle = MotStatusVehicle(
-            motStatus: "No details held by DVLA",
+            motStatus: .noDetailsHeldByDVLA,
             motExpiryDate: nil,
             registrationNumber: "LG04 NBF"
         )
@@ -160,5 +160,25 @@ struct MOTStatusViewModelBuilderTests {
             URLQueryItem(name: "checkRecalls", value: "true")
         ]
         #expect(openedUrl == expectedComponents.url)
+    }
+
+    @MainActor
+    @Test
+    func makeViewModel_unknownMotStatus_returnsNotKnownViewModel() {
+        let vehicle = MotStatusVehicle(
+            motStatus: .unknown,
+            motExpiryDate: nil,
+            registrationNumber: "LG04 NBF"
+        )
+        let sut = MotStatusViewModelBuilder(
+            urls: nil,
+            analyticsService: MockAnalyticsService(),
+            openURLAction: { _ in }
+        )
+        let result = sut.makeViewModel(vehicle: vehicle)
+
+        #expect(result.title == String(localized: .DVLA.motStatusTitle))
+        #expect(result.status as? MOTValidityStatus == .unknown)
+        #expect(result.statusInformation?.displayValue == String(localized: .DVLA.motUnknown))
     }
 }

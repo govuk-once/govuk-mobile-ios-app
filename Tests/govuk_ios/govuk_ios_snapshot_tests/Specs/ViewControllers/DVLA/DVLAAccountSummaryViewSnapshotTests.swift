@@ -9,7 +9,8 @@ import GovKit
     func test_vehicleTabSelected_light_rendersCorrectly() {
         let viewModel = DVLAAccountSummaryViewModel(
             vehiclesViewModel: mockVehiclesViewModel,
-            licenceViewModel: mockLicenceViewModel
+            licenceViewModel: mockLicenceViewModel,
+            vehicleCheckSectionViewModel: mockVehicleCheckSectionViewModel
         )
         viewModel.selectedScreen = .vehicles
         let view = DVLAAccountSummaryView(viewModel: viewModel)
@@ -26,7 +27,8 @@ import GovKit
     func test_vehicleTabSelected_dark_rendersCorrectly() {
         let viewModel = DVLAAccountSummaryViewModel(
             vehiclesViewModel: mockVehiclesViewModel,
-            licenceViewModel: mockLicenceViewModel
+            licenceViewModel: mockLicenceViewModel,
+            vehicleCheckSectionViewModel: mockVehicleCheckSectionViewModel
         )
         viewModel.selectedScreen = .vehicles
         let view = DVLAAccountSummaryView(viewModel: viewModel)
@@ -43,7 +45,8 @@ import GovKit
     func test_licenceTabSelected_dark_rendersCorrectly() {
         let viewModel = DVLAAccountSummaryViewModel(
             vehiclesViewModel: mockVehiclesViewModel,
-            licenceViewModel: mockLicenceViewModel
+            licenceViewModel: mockLicenceViewModel,
+            vehicleCheckSectionViewModel: mockVehicleCheckSectionViewModel
         )
         viewModel.selectedScreen = .drivingLicence
         let view = DVLAAccountSummaryView(viewModel: viewModel)
@@ -60,7 +63,8 @@ import GovKit
     func test_licenceTabSelected_light_rendersCorrectly() {
         let viewModel = DVLAAccountSummaryViewModel(
             vehiclesViewModel: mockVehiclesViewModel,
-            licenceViewModel: mockLicenceViewModel
+            licenceViewModel: mockLicenceViewModel,
+            vehicleCheckSectionViewModel: mockVehicleCheckSectionViewModel
         )
         viewModel.selectedScreen = .drivingLicence
         let view = DVLAAccountSummaryView(viewModel: viewModel)
@@ -108,6 +112,10 @@ import GovKit
                 )
             )
         )
+    }
+    
+    private var mockVehicleCheckSectionViewModel: VehicleCheckSectionViewModel {
+        .init(action: { _ in })
     }
 }
 

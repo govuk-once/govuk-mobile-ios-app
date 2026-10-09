@@ -4,7 +4,11 @@ import GovKit
 protocol TravelServiceInterface {
     func getGroups(forceRefresh: Bool, completion: @escaping TravelGroupResultCompletion)
     func getCountries(forceRefresh: Bool, completion: @escaping CountriesListResultCompletion)
-    func subscribeToCountry(slug: String, completion: @escaping SubscriptionResultCompletion)
+    func subscribeToCountry(
+        slug: String,
+        notificationsEnabled: Bool,
+        completion: @escaping SubscriptionResultCompletion
+    )
     func toggleNotifications(
         slug: String,
         enabled: Bool,
@@ -82,10 +86,12 @@ class TravelService: TravelServiceInterface {
 
     func subscribeToCountry(
         slug: String,
+        notificationsEnabled: Bool,
         completion: @escaping SubscriptionResultCompletion
     ) {
-        travelServiceClient.subscribeToCountry(
+        travelServiceClient.followCountry(
             slug: slug,
+            notificationsEnabled: notificationsEnabled,
             completion: { result in
                 switch result {
                 case .success:

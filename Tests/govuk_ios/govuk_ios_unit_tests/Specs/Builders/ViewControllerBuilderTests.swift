@@ -492,9 +492,11 @@ struct ViewControllerBuilderTests {
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            dismissAction: { _ in 
+            dismissAction: { _ in
                 /* No-op */
-            })
+            },
+            openURLAction: { _ in /* No-op */}
+        )
 
         let rootView = (result as? HostingViewController<CountryListView>)?.rootView
         #expect(rootView != nil)
@@ -506,7 +508,8 @@ struct ViewControllerBuilderTests {
         let result = subject.editCountries(
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
-            notificationService: MockNotificationService()
+            notificationService: MockNotificationService(),
+            openURLAction: { _ in /* No-op */ }
         )
 
         let rootView = (result as? HostingViewController<EditCountriesView>)?.rootView

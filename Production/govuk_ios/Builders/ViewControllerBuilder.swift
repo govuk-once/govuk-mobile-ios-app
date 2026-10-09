@@ -865,13 +865,16 @@ class ViewControllerBuilder {
         travelService: TravelServiceInterface,
         analyticsService: AnalyticsServiceInterface,
         notificationService: NotificationServiceInterface,
-        dismissAction: @escaping (Bool) -> Void
+        dismissAction: @escaping (Bool) -> Void,
+        openURLAction: @escaping (URL) -> Void
     ) -> UIViewController {
         let viewModel = CountryListViewModel(
             travelService: travelService,
             analyticsService: analyticsService,
             notificationService: notificationService,
-            dismissAction: dismissAction
+            urlOpener: UIApplication.shared,
+            dismissAction: dismissAction,
+            openURLAction: openURLAction
         )
         let view = CountryListView(viewModel: viewModel)
         let viewController = HostingViewController(
@@ -883,12 +886,15 @@ class ViewControllerBuilder {
     func editCountries(
         travelService: TravelServiceInterface,
         analyticsService: AnalyticsServiceInterface,
-        notificationService: NotificationServiceInterface
+        notificationService: NotificationServiceInterface,
+        openURLAction: @escaping (URL) -> Void
     ) -> UIViewController {
         let viewModel = EditCountriesViewModel(
             travelService: travelService,
             analyticsService: analyticsService,
-            notificationService: notificationService
+            notificationService: notificationService,
+            urlOpener: UIApplication.shared,
+            openURLAction: openURLAction
         )
         let view = EditCountriesView(viewModel: viewModel)
         let viewController = HostingViewController(

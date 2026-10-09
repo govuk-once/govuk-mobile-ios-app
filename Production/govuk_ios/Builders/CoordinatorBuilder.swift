@@ -78,6 +78,7 @@ class CoordinatorBuilder {
             configService: container.appConfigService.resolve(),
             topicsService: container.topicsService.resolve(),
             notificationService: container.notificationService.resolve(),
+            travelService: container.travelService.resolve(),
             deviceInformationProvider: DeviceInformationProvider(),
             searchService: container.searchService.resolve(),
             activityService: container.activityService.resolve(),
@@ -606,7 +607,8 @@ class CoordinatorBuilder {
             viewControllerBuilder: ViewControllerBuilder(),
             notificationCentreService: container.notificationCentreService.resolve(),
             analyticsService: container.analyticsService.resolve(),
-            coordinatorBuilder: self
+            coordinatorBuilder: self,
+            urlOpener: UIApplication.shared
         )
     }
 
@@ -622,20 +624,7 @@ class CoordinatorBuilder {
             travelService: container.travelService.resolve(),
             notificationService: container.notificationService.resolve(),
             userService: container.userService.resolve(),
-            completion: completion
-        )
-    }
-
-    func editCountries(
-        navigationController: UINavigationController,
-        completion: @escaping () -> Void
-    ) -> BaseCoordinator {
-        EditCountriesCoordinator(
-            navigationController: navigationController,
-            viewControllerBuilder: ViewControllerBuilder(),
-            analyticsService: container.analyticsService.resolve(),
-            travelService: container.travelService.resolve(),
-            notificationService: container.notificationService.resolve(),
+            urlOpener: UIApplication.shared,
             completion: completion
         )
     }

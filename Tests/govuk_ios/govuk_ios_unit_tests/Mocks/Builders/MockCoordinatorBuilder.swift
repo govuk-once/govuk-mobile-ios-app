@@ -96,6 +96,7 @@ class MockCoordinatorBuilder: CoordinatorBuilder {
             configService: MockAppConfigService(),
             topicsService: MockTopicsService(),
             notificationService: MockNotificationService(),
+            travelService: MockTravelService(),
             deviceInformationProvider: MockDeviceInformationProvider(),
             searchService: MockSearchService(),
             activityService: MockActivityService(context: coreData.viewContext),
@@ -384,5 +385,12 @@ class MockCoordinatorBuilder: CoordinatorBuilder {
     var _stubbedNotificationCentreCoordinator: MockNotificationCentreCoordinator!
     override func notificationCentre(navigationController: UINavigationController) -> NotificationCentreCoordinator {
         _stubbedNotificationCentreCoordinator
+    }
+
+    var _countryListCoordinatorWasCalled = false
+    override func countryList(navigationController: UINavigationController,
+                             completion: @escaping (Bool) -> Void) -> BaseCoordinator {
+        _countryListCoordinatorWasCalled = true
+        return MockBaseCoordinator()
     }
 }

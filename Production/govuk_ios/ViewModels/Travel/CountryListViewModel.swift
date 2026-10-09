@@ -19,12 +19,16 @@ class CountryListViewModel: ObservableObject {
     @Published private(set) var filteredSections = [GroupedListSection]()
     @Published var selectedCountry: Country?
     @Published var showTravelAlertsPermission = false
+    private var countryForPermissionFlow: Country?
 
     private var allCountries: [Country] = []
     private let travelService: TravelServiceInterface
     let analyticsService: AnalyticsServiceInterface
     private let notificationService: NotificationServiceInterface
+    private let urlOpener: URLOpener
     let dismissAction: (Bool) -> Void
+    let errorCallback: () -> Void
+    private let openURLAction: (URL) -> Void
 
     var hasNotificationConsent: Bool {
         notificationService.hasGivenConsent
@@ -34,48 +38,77 @@ class CountryListViewModel: ObservableObject {
         travelService: TravelServiceInterface,
         analyticsService: AnalyticsServiceInterface,
         notificationService: NotificationServiceInterface,
-        dismissAction: @escaping (Bool) -> Void
+        urlOpener: URLOpener,
+        dismissAction: @escaping (Bool) -> Void,
+        errorCallback: @escaping () -> Void = {},
+        openURLAction: @escaping (URL) -> Void
     ) {
         self.travelService = travelService
         self.analyticsService = analyticsService
         self.notificationService = notificationService
+        self.urlOpener = urlOpener
         self.dismissAction = dismissAction
+        self.errorCallback = errorCallback
+        self.openURLAction = openURLAction
     }
 
     func trackScreen(screen: TrackableScreen) {
         analyticsService.track(screen: screen)
     }
 
-    func trackSearchInput(text: String) {
+    private func trackSearchInput(text: String) {
         let searchEvent = AppEvent.searchTerm(term: text, type: .typed, section: "country_search")
         analyticsService.track(event: searchEvent)
     }
 
-    func handleCountrySelection(_ country: Country, notificationOptIn: Bool) {
+    private func trackToggleFunction(countryName: String) {
+        let toggleEvent = AppEvent.toggleAction(
+            text: countryName,
+            section: "Travel Abroad Notifications",
+            action: "Add"
+        )
+        analyticsService.track(event: toggleEvent)
+    }
+
+    func onGetNotificationAlertTap(_ country: Country) {
+        handleCountrySelection(country, notificationOptIn: true)
+    }
+
+    func onNotNowAlertTap(_ country: Country) {
+        handleCountrySelection(country, notificationOptIn: false)
+    }
+
+    private func handleCountrySelection(_ country: Country, notificationOptIn: Bool) {
+        trackToggleFunction(countryName: country.name)
+        if !searchText.isEmpty {
+            trackSearchInput(text: searchText)
+        }
         // Given global notifications are off and user is attempting to optIn, navigate to the consent screen
         if !notificationService.hasGivenConsent && notificationOptIn {
+            countryForPermissionFlow = country
             showTravelAlertsPermission = true
         } else {
-            proceedWithCountrySelection(country)
+            subscribeToCountryAlerts(country, notificationOptIn)
         }
     }
 
-    func proceedWithCountrySelection(_ country: Country) {
-        subscribeToCountryAlerts(country)
+    func proceedWithCountrySelection(_ country: Country, _ notificationEnabled: Bool) {
+        subscribeToCountryAlerts(country, notificationEnabled)
     }
 
-    private func subscribeToCountryAlerts(_ country: Country) {
+    private func subscribeToCountryAlerts(_ country: Country, _ notificationsEnabled: Bool) {
         viewState = .loading
         travelService.subscribeToCountry(
             slug: country.slug,
+            notificationsEnabled: notificationsEnabled,
             completion: { [weak self] result in
                 Task { @MainActor in
                     switch result {
                     case .success:
                         self?.dismissAction(true)
-                    case .failure(let error):
-                        debugPrint("Failed to subscribe to country alerts: \(error)")
-                        self?.viewState = .loaded
+                    case .failure:
+                        self?.dismissAction(false)
+                        self?.errorCallback()
                     }
                 }
             }
@@ -124,7 +157,7 @@ class CountryListViewModel: ObservableObject {
             )
         }
 
-        guard rows.isEmpty == false else {
+        guard !rows.isEmpty else {
             return []
         }
 
@@ -151,11 +184,40 @@ class CountryListViewModel: ObservableObject {
         }
 
         filteredSections = buildSections(from: filtered)
+        viewState = filteredSections.isEmpty ? .empty : .loaded
+    }
 
-        if filteredSections.count > 0 {
-            self.viewState = .loaded
-        } else {
-            self.viewState = .empty
+    func createPermissionViewModel() -> TravelAlertsPermissionViewModel? {
+        guard let countryToProcess = self.countryForPermissionFlow else { return nil }
+        let openURL = self.openURLAction
+        return TravelAlertsPermissionViewModel(
+            travelService: travelService,
+            notificationService: notificationService,
+            analyticsService: analyticsService,
+            urlOpener: urlOpener,
+            showImage: true,
+            country: countryToProcess,
+            dismissSheetAction: { [weak self] in
+                self?.showTravelAlertsPermission = false
+                self?.countryForPermissionFlow = nil
+            },
+            openURLAction: openURL,
+            dismissAfterSuccessAction: { [weak self] in
+                self?.returnFromNotificationPermissions(forceRefresh: true)
+            },
+            dismissAfterErrorAction: { [weak self] in
+                self?.returnFromNotificationPermissions(forceRefresh: false, didError: true)
+            }
+        )
+    }
+
+    private func returnFromNotificationPermissions(forceRefresh: Bool, didError: Bool = false) {
+        self.showTravelAlertsPermission = false
+        self.selectedCountry = nil
+        self.countryForPermissionFlow = nil
+        if didError {
+            self.errorCallback()
         }
+        self.dismissAction(forceRefresh)
     }
 }

@@ -9,10 +9,10 @@ class MockDeeplinkRoute: DeeplinkRoute {
     init(pattern: URLPattern) {
         self.pattern = pattern
     }
-
+    
     var _actionCalled: Bool = false
     func action(parent: BaseCoordinator,
-                params: [String : String]) { 
+                params: [String : String]) {
         _actionCalled = true
     }
 }

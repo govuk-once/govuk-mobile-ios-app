@@ -14,10 +14,12 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
     // Drives .sheet(isPresented:) in the widget view
     @Published var isShowingList = false
     @Published private(set) var viewState: ViewState = .loading
+    @Published var isShowingError = false
 
     private let travelService: TravelServiceInterface
     private let analyticsService: AnalyticsServiceInterface
     private let notificationService: NotificationServiceInterface
+    private let urlOpener: URLOpener
     private let linkAction: () -> Void
     private let dismissAction: () -> Void
     private let editAction: () -> Void
@@ -27,6 +29,7 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
         travelService: TravelServiceInterface,
         analyticsService: AnalyticsServiceInterface,
         notificationService: NotificationServiceInterface,
+        urlOpener: URLOpener,
         linkAction: @escaping () -> Void,
         dismissAction: @escaping () -> Void,
         editAction: @escaping () -> Void,
@@ -35,6 +38,7 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
         self.travelService = travelService
         self.analyticsService = analyticsService
         self.notificationService = notificationService
+        self.urlOpener = urlOpener
         self.linkAction = linkAction
         self.dismissAction = dismissAction
         self.openURLAction = openURLAction
@@ -46,8 +50,15 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
             travelService: travelService,
             analyticsService: analyticsService,
             notificationService: notificationService,
-            dismissAction: {_ in
-                self.didDismissList()
+            urlOpener: urlOpener,
+            dismissAction: { [weak self] forceRefresh in
+                self?.didDismissList(forceRefresh: forceRefresh)
+            },
+            errorCallback: { [weak self] in
+                self?.isShowingError = true
+            },
+            openURLAction: { [weak self] url in
+                self?.openURLAction(url)
             }
         )
     }()
@@ -58,15 +69,15 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
     }
 
     @MainActor
-    private func fetchCountryList() async {
+    private func fetchCountryList(forceRefresh: Bool = false) async {
         viewState = .loading
 
-        travelService.getGroups(forceRefresh: false) { [weak self] result in
+        travelService.getGroups(forceRefresh: forceRefresh) { [weak self] result in
             Task { @MainActor in
                 switch result {
                 case .success(let groups):
                     self?.travelService.getCountries(
-                        forceRefresh: false
+                        forceRefresh: forceRefresh
                     ) { [weak self] countriesResult in
                         Task { @MainActor in
                             let countries = (try? countriesResult.get()) ?? []
@@ -136,8 +147,12 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
         openURLAction(url)
     }
 
-    func didDismissList() {
+    func didDismissList(forceRefresh: Bool = false) {
         isShowingList = false
         dismissAction()
+        guard forceRefresh else { return }
+        Task { @MainActor [weak self] in
+            await self?.fetchCountryList(forceRefresh: true)
+        }
     }
 }

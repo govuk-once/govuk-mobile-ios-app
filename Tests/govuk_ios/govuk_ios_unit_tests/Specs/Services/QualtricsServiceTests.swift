@@ -13,14 +13,15 @@ struct QualtricsServiceTests {
     func service_does_init() {
         let mockQualtrics = MockQualtricsWrapper()
         _ = QualtricsService(
-            brandId: "",
-            projectId: "",
+            environmentService: MockAppEnvironmentService(),
             qualtrics: mockQualtrics,
             firebaseIDsService: MockFirebaseIDsService(),
             firebaseClient: MockAnalyticsClient()
         )
 
         #expect(mockQualtrics._didInitializeProject)
+        #expect(mockQualtrics._setBrandId == "brandID")
+        #expect(mockQualtrics._setProjectId == "projectID")
     }
 
     @Test
@@ -28,8 +29,7 @@ struct QualtricsServiceTests {
     func evaluateViewEvent_targetValid_presentsSurvey() async {
         let mockQualtrics = MockQualtricsWrapper()
         let sut = QualtricsService(
-            brandId: "",
-            projectId: "",
+            environmentService: MockAppEnvironmentService(),
             qualtrics: mockQualtrics,
             firebaseIDsService: MockFirebaseIDsService(),
             firebaseClient: MockAnalyticsClient(),
@@ -53,8 +53,7 @@ struct QualtricsServiceTests {
     func evaluateEvent_targetValid_presentsSurvey() async {
         let mockQualtrics = MockQualtricsWrapper()
         let sut = QualtricsService(
-            brandId: "",
-            projectId: "",
+            environmentService: MockAppEnvironmentService(),
             qualtrics: mockQualtrics,
             firebaseIDsService: MockFirebaseIDsService(),
             firebaseClient: MockAnalyticsClient(),
@@ -76,8 +75,7 @@ struct QualtricsServiceTests {
     func evaluateViewEvent_targetValidAndHidePrompt_presentsSurvey() async {
         let mockQualtrics = MockQualtricsWrapper()
         let sut = QualtricsService(
-            brandId: "",
-            projectId: "",
+            environmentService: MockAppEnvironmentService(),
             qualtrics: mockQualtrics,
             firebaseIDsService: MockFirebaseIDsService(),
             firebaseClient: MockAnalyticsClient(),
@@ -103,8 +101,7 @@ struct QualtricsServiceTests {
         let expectedAppId = "123"
         let expectedSessionId = "321"
         let sut = QualtricsService(
-            brandId: "",
-            projectId: "",
+            environmentService: MockAppEnvironmentService(),
             qualtrics: mockQualtrics,
             firebaseIDsService: MockFirebaseIDsService(),
             firebaseClient: MockAnalyticsClient()
@@ -156,8 +153,7 @@ struct QualtricsServiceTests {
         let expectedAppId = "123"
         let expectedSessionId = "321"
         let sut = QualtricsService(
-            brandId: "",
-            projectId: "",
+            environmentService: MockAppEnvironmentService(),
             qualtrics: mockQualtrics,
             firebaseIDsService: MockFirebaseIDsService(),
             firebaseClient: MockAnalyticsClient()
@@ -188,8 +184,7 @@ struct QualtricsServiceTests {
     func evaluateViewEvent_refreshesSessionID() async {
         let mockFirebaseIDsService = MockFirebaseIDsService()
         let sut = QualtricsService(
-            brandId: "",
-            projectId: "",
+            environmentService: MockAppEnvironmentService(),
             qualtrics: MockQualtricsWrapper(),
             firebaseIDsService: mockFirebaseIDsService,
             firebaseClient: MockAnalyticsClient()
@@ -209,8 +204,7 @@ struct QualtricsServiceTests {
         let mockQualtrics = MockQualtricsWrapper()
         let mockAnalyticsClient = MockAnalyticsClient()
         let sut = QualtricsService(
-            brandId: "",
-            projectId: "",
+            environmentService: MockAppEnvironmentService(),
             qualtrics: mockQualtrics,
             firebaseIDsService: MockFirebaseIDsService(),
             firebaseClient: mockAnalyticsClient,
@@ -235,8 +229,7 @@ struct QualtricsServiceTests {
         let mockQualtrics = MockQualtricsWrapper()
         let mockAnalyticsClient = MockAnalyticsClient()
         let sut = QualtricsService(
-            brandId: "",
-            projectId: "",
+            environmentService: MockAppEnvironmentService(),
             qualtrics: mockQualtrics,
             firebaseIDsService: MockFirebaseIDsService(),
             firebaseClient: mockAnalyticsClient,

@@ -454,10 +454,12 @@ class MockViewControllerBuilder: ViewControllerBuilder {
     }
 
     var _stubbedNotificationCentreDetailViewController: UIViewController!
+    var _capturedNotificationCentreDetailActions: NotificationCentreDetailViewModel.Actions?
     override func notificationCentreDetail(notificationId: String,
                                            notificationService: any NotificationCentreServiceInterface,
                                            analyticsService: any AnalyticsServiceInterface,
                                            actions: NotificationCentreDetailViewModel.Actions) -> UIViewController {
+        _capturedNotificationCentreDetailActions = actions
         return _stubbedNotificationCentreDetailViewController
     }
 
@@ -475,27 +477,21 @@ class MockViewControllerBuilder: ViewControllerBuilder {
         return _stubbedDvlaAuthenticationViewController ?? UIViewController()
     }
 
-    var _stubbedSelectCountryViewController: UIViewController?
-    var _receivedSelectCountryDismissAction: ((Bool) -> Void)?
-
-    override func countryList(
-        travelService: TravelServiceInterface,
-        analyticsService: AnalyticsServiceInterface,
-        notificationService: NotificationServiceInterface,
-        dismissAction: @escaping (Bool) -> Void
-    ) -> UIViewController {
-        _receivedSelectCountryDismissAction = dismissAction
-        return _stubbedSelectCountryViewController ?? UIViewController()
-    }
-
+    var _editCountriesWasCalled = false
+    var _receivedEditCountriesTravelService: TravelServiceInterface?
+    var _receivedEditCountriesAnalyticsService: AnalyticsServiceInterface?
+    var _receivedEditCountriesNotificationService: NotificationServiceInterface?
     var _stubbedEditCountriesViewController: UIViewController?
-    var _receivedEditCountriesEditAction: (() -> Void)?
-
     override func editCountries(
         travelService: TravelServiceInterface,
         analyticsService: AnalyticsServiceInterface,
-        notificationService: NotificationServiceInterface
+        notificationService: NotificationServiceInterface,
+        openURLAction: @escaping (URL) -> Void
     ) -> UIViewController {
+        _editCountriesWasCalled = true
+        _receivedEditCountriesTravelService = travelService
+        _receivedEditCountriesAnalyticsService = analyticsService
+        _receivedEditCountriesNotificationService = notificationService
         return _stubbedEditCountriesViewController ?? UIViewController()
     }
 }

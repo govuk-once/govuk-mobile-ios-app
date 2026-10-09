@@ -9,15 +9,18 @@ enum DrivingSegment {
 class DVLAAccountSummaryViewModel: ObservableObject {
     let vehiclesViewModel: VehiclesViewModel
     let licenceViewModel: DrivingLicenceViewModel
+    let vehicleCheckSectionViewModel: VehicleCheckSectionViewModel
     @Published var selectedScreen: DrivingSegment = .vehicles
     let widgetTitle = String.dvla.localized("vehiclesTabTitle")
     let vehiclesTabTitle = String.dvla.localized("vehiclesTabTitle")
     let licenceTabTitle = String.dvla.localized("licenceTabTitle")
 
     init(vehiclesViewModel: VehiclesViewModel,
-         licenceViewModel: DrivingLicenceViewModel) {
+         licenceViewModel: DrivingLicenceViewModel,
+         vehicleCheckSectionViewModel: VehicleCheckSectionViewModel) {
         self.vehiclesViewModel = vehiclesViewModel
         self.licenceViewModel = licenceViewModel
+        self.vehicleCheckSectionViewModel = vehicleCheckSectionViewModel
     }
 
     @MainActor

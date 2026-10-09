@@ -2,6 +2,13 @@ import Foundation
 import GovKit
 import SwiftUI
 
+struct DVLAAccountWidgetActions {
+    let linkAction: () -> Void
+    let vehicleDetailAction: (Int) -> Void
+    let openURLAction: (URL) -> Void
+    let vehicleCheckAction: () -> Void
+}
+
 class DVLAAccountWidgetViewModel: ObservableObject {
     enum ViewState {
         case loading
@@ -19,7 +26,16 @@ class DVLAAccountWidgetViewModel: ObservableObject {
     private let dvlaService: DVLAServiceInterface
     private let configService: AppConfigServiceInterface
     private let notificationCenter: NotificationCenter
-    private let actions: Actions
+    private let actions: DVLAAccountWidgetActions
+
+    var vehicleCheckSectionViewModel: VehicleCheckSectionViewModel {
+        .init(
+            action: { [weak self] buttonTitle in
+                self?.trackVehicleCheckNavigation(buttonTitle: buttonTitle)
+                self?.actions.vehicleCheckAction()
+            }
+        )
+    }
 
     init(viewState: ViewState = .loading,
          analyticsService: AnalyticsServiceInterface,
@@ -27,7 +43,7 @@ class DVLAAccountWidgetViewModel: ObservableObject {
          dvlaService: DVLAServiceInterface,
          configService: AppConfigServiceInterface,
          notificationCenter: NotificationCenter,
-         actions: Actions) {
+         actions: DVLAAccountWidgetActions) {
         self.viewState = viewState
         self.analyticsService = analyticsService
         self.userService = userService
@@ -77,7 +93,8 @@ class DVLAAccountWidgetViewModel: ObservableObject {
             )
             let accountSummaryViewModel = DVLAAccountSummaryViewModel(
                 vehiclesViewModel: vehiclesViewModel,
-                licenceViewModel: licenceViewModel
+                licenceViewModel: licenceViewModel,
+                vehicleCheckSectionViewModel: vehicleCheckSectionViewModel
             )
             viewState = .linked(
                 accountSummary: accountSummaryViewModel
@@ -147,12 +164,13 @@ class DVLAAccountWidgetViewModel: ObservableObject {
         )
         analyticsService.track(event: event)
     }
-}
 
-extension DVLAAccountWidgetViewModel {
-    struct Actions {
-        let linkAction: () -> Void
-        let vehicleDetailAction: (Int) -> Void
-        let openURLAction: (URL) -> Void
+    private func trackVehicleCheckNavigation(buttonTitle: String) {
+        let event = AppEvent.buttonNavigation(
+            text: buttonTitle,
+            external: false,
+            section: "Driving"
+        )
+        analyticsService.track(event: event)
     }
 }

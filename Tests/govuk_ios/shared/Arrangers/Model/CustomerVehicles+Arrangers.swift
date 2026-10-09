@@ -28,7 +28,7 @@ extension CustomerVehicles.Vehicle {
         model: String? = "MIRAGE",
         taxStatus: TaxStatus? = .taxed,
         taxedUntil: Date? = nil,
-        motStatus: String = "Not valid",
+        motStatus: MotStatus = .notValid,
         motExpiryDate: Date? = nil,
         dateOfLiability: Date? = nil,
         sornStart: Date? = nil,

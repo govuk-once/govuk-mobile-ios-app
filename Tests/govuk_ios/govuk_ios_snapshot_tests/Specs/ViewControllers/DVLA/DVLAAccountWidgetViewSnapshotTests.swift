@@ -152,9 +152,12 @@ import GovKit
                 )
             )
         )
+        let mockVehicleCheckSectionViewModel = VehicleCheckSectionViewModel(action: { _ in })
+        
         let mockAccountSummaryViewModel = MockDVLAAccountSummaryViewModel(
             vehiclesViewModel: mockVehiclesViewModel,
-            licenceViewModel: mockLicenceViewModel
+            licenceViewModel: mockLicenceViewModel,
+            vehicleCheckSectionViewModel: mockVehicleCheckSectionViewModel
         )
         return MockDVLAAccountWidgetViewModel(
             viewState: .linked(accountSummary: mockAccountSummaryViewModel)
@@ -162,12 +165,13 @@ import GovKit
     }
 }
 
-extension DVLAAccountWidgetViewModel.Actions {
-    static var empty: DVLAAccountWidgetViewModel.Actions {
+extension DVLAAccountWidgetActions {
+    static var empty: DVLAAccountWidgetActions {
         .init(
             linkAction: {},
             vehicleDetailAction: { _ in },
-            openURLAction: { _ in }
+            openURLAction: { _ in },
+            vehicleCheckAction: {}
         )
     }
 }

@@ -16,9 +16,12 @@ struct CountryListViewModelTests {
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
+            urlOpener: MockURLOpener(),
             dismissAction: { _ in
                 didCallDismiss = true
-            })
+            },
+            openURLAction: { _ in /*Empty For Tests*/ }
+        )
 
         viewModel.dismissAction(true)
 
@@ -32,7 +35,10 @@ struct CountryListViewModelTests {
             travelService: MockTravelService(),
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
-            dismissAction: { _ in /*EmptyForTests*/ })
+            urlOpener: MockURLOpener(),
+            dismissAction: { _ in /*EmptyForTests*/ },
+            openURLAction: { _ in /*Empty For Tests*/ }
+        )
 
         let screen = CountryListView(viewModel: viewModel)
         viewModel.trackScreen(screen: screen)
@@ -40,22 +46,6 @@ struct CountryListViewModelTests {
         let screens = mockAnalyticsService._trackScreenReceivedScreens
         #expect(screens.count == 1)
         #expect(screens.first?.trackingClass == screen.trackingClass)
-    }
-
-    @Test
-    func trackSearchInput_createsCorrectAnalyticsEvent() {
-        let mockAnalyticsService = MockAnalyticsService()
-        let viewModel = CountryListViewModel(
-            travelService: MockTravelService(),
-            analyticsService: mockAnalyticsService,
-            notificationService: MockNotificationService(),
-            dismissAction: { _ in  /*EmptyForTests*/ }
-        )
-
-        viewModel.trackSearchInput(text: "France")
-
-        let events = mockAnalyticsService._trackedEvents
-        #expect(events.count == 1)
     }
 
     @Test
@@ -69,7 +59,9 @@ struct CountryListViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            dismissAction: { _ in  /*EmptyForTests*/ }
+            urlOpener: MockURLOpener(),
+            dismissAction: { _ in  /*EmptyForTests*/ },
+            openURLAction: { _ in /*Empty For Tests*/ }
         )
 
         await viewModel.viewDidAppear()
@@ -100,7 +92,9 @@ struct CountryListViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            dismissAction: { _ in  /*EmptyForTests*/ }
+            urlOpener: MockURLOpener(),
+            dismissAction: { _ in  /*EmptyForTests*/ },
+            openURLAction: { _ in /*Empty For Tests*/ }
         )
 
         await viewModel.viewDidAppear()
@@ -123,7 +117,9 @@ struct CountryListViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            dismissAction: { _ in  /*EmptyForTests*/ }
+            urlOpener: MockURLOpener(),
+            dismissAction: { _ in  /*EmptyForTests*/ },
+            openURLAction: { _ in /*Empty For Tests*/ }
         )
 
         await viewModel.viewDidAppear()
@@ -149,7 +145,9 @@ struct CountryListViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            dismissAction: { _ in  /*EmptyForTests*/ }
+            urlOpener: MockURLOpener(),
+            dismissAction: { _ in  /*EmptyForTests*/ },
+            openURLAction: { _ in /*Empty For Tests*/ }
         )
 
         await viewModel.viewDidAppear()
@@ -173,7 +171,9 @@ struct CountryListViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            dismissAction: { _ in  /*EmptyForTests*/ }
+            urlOpener: MockURLOpener(),
+            dismissAction: { _ in  /*EmptyForTests*/ },
+            openURLAction: { _ in /*Empty For Tests*/ }
         )
 
         await viewModel.viewDidAppear()
@@ -197,7 +197,9 @@ struct CountryListViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            dismissAction: { _ in  /*EmptyForTests*/ }
+            urlOpener: MockURLOpener(),
+            dismissAction: { _ in  /*EmptyForTests*/ },
+            openURLAction: { _ in /*Empty For Tests*/ }
         )
 
         await viewModel.viewDidAppear()
@@ -221,7 +223,9 @@ struct CountryListViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            dismissAction: { _ in  /*EmptyForTests*/ }
+            urlOpener: MockURLOpener(),
+            dismissAction: { _ in  /*EmptyForTests*/ },
+            openURLAction: { _ in /*Empty For Tests*/ }
         )
 
         await viewModel.viewDidAppear()
@@ -245,7 +249,9 @@ struct CountryListViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            dismissAction: { _ in  /*EmptyForTests*/ }
+            urlOpener: MockURLOpener(),
+            dismissAction: { _ in  /*EmptyForTests*/ },
+            openURLAction: { _ in /*Empty For Tests*/ }
         )
 
         await viewModel.viewDidAppear()
@@ -269,7 +275,9 @@ struct CountryListViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            dismissAction: { _ in /*EmptyForTests*/ }
+            urlOpener: MockURLOpener(),
+            dismissAction: { _ in /*EmptyForTests*/ },
+            openURLAction: { _ in /*Empty For Tests*/ }
         )
 
         await viewModel.viewDidAppear()
@@ -297,7 +305,9 @@ struct CountryListViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            dismissAction: { _ in  /*EmptyForTests*/ }
+            urlOpener: MockURLOpener(),
+            dismissAction: { _ in  /*EmptyForTests*/ },
+            openURLAction: { _ in /*Empty For Tests*/ }
         )
 
         await viewModel.viewDidAppear()
@@ -318,11 +328,13 @@ struct CountryListViewModelTests {
             travelService: MockTravelService(),
             analyticsService: MockAnalyticsService(),
             notificationService: mockNotificationService,
-            dismissAction: { _ in  /*EmptyForTests*/ }
+            urlOpener: MockURLOpener(),
+            dismissAction: { _ in  /*EmptyForTests*/ },
+            openURLAction: { _ in /*Empty For Tests*/ }
         )
 
         let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
-        viewModel.handleCountrySelection(country, notificationOptIn: true)
+        viewModel.onGetNotificationAlertTap(country)
 
         #expect(viewModel.showTravelAlertsPermission == true)
     }
@@ -337,11 +349,13 @@ struct CountryListViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: mockNotificationService,
-            dismissAction: { _ in  /*EmptyForTests*/ }
+            urlOpener: MockURLOpener(),
+            dismissAction: { _ in  /*EmptyForTests*/ },
+            openURLAction: { _ in /*Empty For Tests*/ }
         )
 
         let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
-        viewModel.handleCountrySelection(country, notificationOptIn: false)
+        viewModel.onNotNowAlertTap(country)
 
         #expect(mockTravelService._subscribeToGroupsCalled == true)
         #expect(mockTravelService._receivedSubscribeSlug == "france")
@@ -357,11 +371,13 @@ struct CountryListViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: mockNotificationService,
-            dismissAction: { _ in  /*EmptyForTests*/ }
+            urlOpener: MockURLOpener(),
+            dismissAction: { _ in  /*EmptyForTests*/ },
+            openURLAction: { _ in /*Empty For Tests*/ }
         )
 
         let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
-        viewModel.handleCountrySelection(country, notificationOptIn: true)
+        viewModel.onGetNotificationAlertTap(country)
 
         #expect(mockTravelService._subscribeToGroupsCalled == true)
     }
@@ -373,11 +389,13 @@ struct CountryListViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            dismissAction: { _ in  /*EmptyForTests*/ }
+            urlOpener: MockURLOpener(),
+            dismissAction: { _ in  /*EmptyForTests*/ },
+            openURLAction: { _ in /*Empty For Tests*/ }
         )
 
         let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
-        viewModel.proceedWithCountrySelection(country)
+        viewModel.proceedWithCountrySelection(country, true)
 
         #expect(mockTravelService._subscribeToGroupsCalled == true)
         #expect(mockTravelService._receivedSubscribeSlug == country.slug)
@@ -394,11 +412,13 @@ struct CountryListViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            dismissAction: { _ in  didCallDismiss = true }
+            urlOpener: MockURLOpener(),
+            dismissAction: { _ in  didCallDismiss = true },
+            openURLAction: { _ in /*Empty For Tests*/ }
         )
 
         let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
-        viewModel.proceedWithCountrySelection(country)
+        viewModel.proceedWithCountrySelection(country, true)
 
         mockTravelService._receivedSubscribeCompletion?(.success(()))
 
@@ -417,11 +437,13 @@ struct CountryListViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            dismissAction: { _ in /*EmptyForTests*/ }
+            urlOpener: MockURLOpener(),
+            dismissAction: { _ in /*EmptyForTests*/ },
+            openURLAction: { _ in /*Empty For Tests*/ }
         )
 
         let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
-        viewModel.proceedWithCountrySelection(country)
+        viewModel.proceedWithCountrySelection(country, true)
 
         if case .loading = viewModel.viewState {
             // expected
@@ -431,7 +453,7 @@ struct CountryListViewModelTests {
     }
 
     @Test
-    func subscribeToCountryAlerts_onFailure_doesNotCallDismissAction() async {
+    func subscribeToCountryAlerts_onFailure_doesCallDismissAction() async {
         var didCallDismiss = false
         let mockTravelService = MockTravelService()
         mockTravelService._stubbedSubscribeResult = .failure(.apiUnavailable)
@@ -440,16 +462,127 @@ struct CountryListViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            dismissAction: { _ in  didCallDismiss = true }
+            urlOpener: MockURLOpener(),
+            dismissAction: { _ in  didCallDismiss = true },
+            openURLAction: { _ in /*Empty For Tests*/ }
         )
 
         let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
-        viewModel.proceedWithCountrySelection(country)
+        viewModel.proceedWithCountrySelection(country, true)
 
         mockTravelService._receivedSubscribeCompletion?(.failure(.apiUnavailable))
 
         await Task.yield()
-        #expect(didCallDismiss == false)
+        #expect(didCallDismiss == true)
+    }
+
+    @Test
+    func subscribeToCountryAlerts_onFailure_callsErrorCallback() async {
+        var didCallErrorCallback = false
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedSubscribeResult = .failure(.apiUnavailable)
+
+        let viewModel = CountryListViewModel(
+            travelService: mockTravelService,
+            analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService(),
+            urlOpener: MockURLOpener(),
+            dismissAction: { _ in },
+            errorCallback: { didCallErrorCallback = true },
+            openURLAction: { _ in /*Empty For Tests*/ }
+        )
+
+        let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
+        viewModel.proceedWithCountrySelection(country, true)
+
+        mockTravelService._receivedSubscribeCompletion?(.failure(.apiUnavailable))
+
+        await Task.yield()
+        #expect(didCallErrorCallback == true)
+    }
+
+    @Test
+    func handleCountrySelection_tracksToggleAnalytics() {
+        let mockAnalyticsService = MockAnalyticsService()
+        let mockNotificationService = MockNotificationService()
+        mockNotificationService._stubbedhasGivenConsent = false
+
+        let viewModel = CountryListViewModel(
+            travelService: MockTravelService(),
+            analyticsService: mockAnalyticsService,
+            notificationService: mockNotificationService,
+            urlOpener: MockURLOpener(),
+            dismissAction: { _ in },
+            openURLAction: { _ in /*Empty For Tests*/ }
+        )
+
+        let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
+        viewModel.onNotNowAlertTap(country)
+
+        let events = mockAnalyticsService._trackedEvents
+        #expect(events.count >= 1)
+        let toggleEvent = events.first(where: { $0.params?["text"] as? String == "France" })
+        #expect(toggleEvent != nil)
+        #expect(toggleEvent?.params?["section"] as? String == "Travel Abroad Notifications")
+        #expect(toggleEvent?.params?["action"] as? String == "Add")
+    }
+
+    @Test
+    func searchText_tracksSearchEvent() {
+        let mockAnalyticsService = MockAnalyticsService()
+        let viewModel = CountryListViewModel(
+            travelService: MockTravelService(),
+            analyticsService: mockAnalyticsService,
+            notificationService: MockNotificationService(),
+            urlOpener: MockURLOpener(),
+            dismissAction: { _ in },
+            openURLAction: { _ in /*Empty For Tests*/ }
+        )
+
+        viewModel.searchText = "France"
+        let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
+        viewModel.onNotNowAlertTap(country)
+
+        let events = mockAnalyticsService._trackedEvents
+        #expect(events.count >= 1)
+        let searchEvent = events.first(where: { $0.name == "Search" })
+        #expect(searchEvent != nil)
+        #expect(searchEvent?.params?["text"] as? String == "France")
+        #expect(searchEvent?.params?["section"] as? String == "country_search")
+    }
+
+    @Test
+    func hasNotificationConsent_returnsTrueWhenServiceReturnsTrue() {
+        let mockNotificationService = MockNotificationService()
+        mockNotificationService._stubbedhasGivenConsent = true
+
+        let viewModel = CountryListViewModel(
+            travelService: MockTravelService(),
+            analyticsService: MockAnalyticsService(),
+            notificationService: mockNotificationService,
+            urlOpener: MockURLOpener(),
+            dismissAction: { _ in },
+            openURLAction: { _ in /*Empty For Tests*/ }
+        )
+
+        #expect(viewModel.hasNotificationConsent == true)
+    }
+
+    @Test
+    func hasNotificationConsent_returnsFalseWhenServiceReturnsFalse() {
+        let mockNotificationService = MockNotificationService()
+        mockNotificationService._stubbedhasGivenConsent = false
+
+        let viewModel = CountryListViewModel(
+            travelService: MockTravelService(),
+            analyticsService: MockAnalyticsService(),
+            notificationService: mockNotificationService,
+            urlOpener: MockURLOpener(),
+            dismissAction: { _ in },
+            openURLAction: { _ in /*Empty For Tests*/ }
+        )
+
+        #expect(viewModel.hasNotificationConsent == false)
     }
 
     func subscribeToCountryAlerts_onFailure_setsLoadedStateAfterError() async {
@@ -461,11 +594,13 @@ struct CountryListViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            dismissAction: { _ in /*EmptyForTests*/ }
+            urlOpener: MockURLOpener(),
+            dismissAction: { _ in /*EmptyForTests*/ },
+            openURLAction: { _ in /*Empty For Tests*/ }
         )
 
         let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
-        viewModel.proceedWithCountrySelection(country)
+        viewModel.proceedWithCountrySelection(country, true)
 
         mockTravelService._receivedSubscribeCompletion?(.failure(.apiUnavailable))
 
@@ -487,6 +622,7 @@ struct CountryListViewModelTests {
             travelService: mockTravelService,
             analyticsService: mockAnalyticsService,
             notificationService: mockNotificationService,
+            urlOpener: MockURLOpener(),
             linkAction: { /*Empty For Tests*/ },
             dismissAction: { dismissActionCalled = true },
             editAction: { /*Empty For Tests*/ },
@@ -494,8 +630,6 @@ struct CountryListViewModelTests {
         )
 
         let countryListVM = sut.countryListViewModel
-
-        #expect(countryListVM != nil)
 
         countryListVM.dismissAction(true)
 
@@ -513,7 +647,9 @@ struct CountryListViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            dismissAction: { _ in  /*EmptyForTests*/ }
+            urlOpener: MockURLOpener(),
+            dismissAction: { _ in  /*EmptyForTests*/ },
+            openURLAction: { _ in /*Empty For Tests*/ }
         )
 
         await viewModel.retryFetchCountryList()
@@ -536,7 +672,9 @@ struct CountryListViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            dismissAction: { _ in  /*EmptyForTests*/ }
+            urlOpener: MockURLOpener(),
+            dismissAction: { _ in  /*EmptyForTests*/ },
+            openURLAction: { _ in /*Empty For Tests*/ }
         )
 
         await viewModel.retryFetchCountryList()
@@ -561,7 +699,9 @@ struct CountryListViewModelTests {
             travelService: mockTravelService,
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
-            dismissAction: { _ in  /*EmptyForTests*/ }
+            urlOpener: MockURLOpener(),
+            dismissAction: { _ in  /*EmptyForTests*/ },
+            openURLAction: { _ in /*Empty For Tests*/ }
         )
 
         await viewModel.viewDidAppear()
@@ -574,5 +714,278 @@ struct CountryListViewModelTests {
 
         #expect(viewModel.selectedCountry?.name == "Brazil")
         #expect(viewModel.selectedCountry?.slug == "brazil")
+    }
+
+    @Test
+    func createPermissionViewModel_returnsViewModelWithCorrectDetails() {
+        let mockAnalyticsService = MockAnalyticsService()
+        let mockNotificationService = MockNotificationService()
+        mockNotificationService._stubbedhasGivenConsent = false
+        let viewModel = CountryListViewModel(
+            travelService: MockTravelService(),
+            analyticsService: mockAnalyticsService,
+            notificationService: mockNotificationService,
+            urlOpener: MockURLOpener(),
+            dismissAction: { _ in },
+            openURLAction: { _ in }
+        )
+
+        // Trigger the permission flow by selecting a country without consent
+        viewModel.onGetNotificationAlertTap(Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: []))
+
+        guard let permissionViewModel = viewModel.createPermissionViewModel() else {
+            Issue.record("Expected createPermissionViewModel() to return a value")
+            return
+        }
+
+        #expect(permissionViewModel.showImage == true)
+        #expect(permissionViewModel.title == "Give permission")
+        #expect(permissionViewModel.primaryButtonTitle == "Agree and continue")
+        #expect(permissionViewModel.secondaryButtonTitle == "Not now")
+    }
+
+    @Test
+    func createPermissionViewModel_returnsNilWhenNoCountryPending() {
+        let mockAnalyticsService = MockAnalyticsService()
+        let mockNotificationService = MockNotificationService()
+        let viewModel = CountryListViewModel(
+            travelService: MockTravelService(),
+            analyticsService: mockAnalyticsService,
+            notificationService: mockNotificationService,
+            urlOpener: MockURLOpener(),
+            dismissAction: { _ in },
+            openURLAction: { _ in }
+        )
+
+        let permissionViewModel = viewModel.createPermissionViewModel()
+        #expect(permissionViewModel == nil)
+    }
+
+    @Test
+    func createPermissionViewModel_dismissSheetActionClearsPermissionState() {
+        let mockAnalyticsService = MockAnalyticsService()
+        let mockNotificationService = MockNotificationService()
+        mockNotificationService._stubbedhasGivenConsent = false
+        let viewModel = CountryListViewModel(
+            travelService: MockTravelService(),
+            analyticsService: mockAnalyticsService,
+            notificationService: mockNotificationService,
+            urlOpener: MockURLOpener(),
+            dismissAction: { _ in },
+            openURLAction: { _ in }
+        )
+
+        let country = Country(name: "Spain", slug: "spain", rawLastUpdate: "", synonyms: [])
+        viewModel.onGetNotificationAlertTap(country)
+
+        #expect(viewModel.showTravelAlertsPermission == true)
+
+        guard let permissionViewModel = viewModel.createPermissionViewModel() else {
+            Issue.record("Expected createPermissionViewModel() to return a value")
+            return
+        }
+
+        permissionViewModel.dismissSheetAction()
+
+        #expect(viewModel.showTravelAlertsPermission == false)
+    }
+
+    @Test
+    func createPermissionViewModel_usesProvidedOpenURLAction() {
+        var capturedURL: URL?
+        let testURL = URL(string: "https://example.com")!
+        let mockAnalyticsService = MockAnalyticsService()
+        let mockNotificationService = MockNotificationService()
+        mockNotificationService._stubbedhasGivenConsent = false
+        let viewModel = CountryListViewModel(
+            travelService: MockTravelService(),
+            analyticsService: mockAnalyticsService,
+            notificationService: mockNotificationService,
+            urlOpener: MockURLOpener(),
+            dismissAction: { _ in },
+            openURLAction: { url in capturedURL = url }
+        )
+
+        let country = Country(name: "Italy", slug: "italy", rawLastUpdate: "", synonyms: [])
+        viewModel.onGetNotificationAlertTap(country)
+
+        guard let permissionViewModel = viewModel.createPermissionViewModel() else {
+            Issue.record("Expected createPermissionViewModel() to return a value")
+            return
+        }
+
+        permissionViewModel.openURLAction(testURL)
+
+        #expect(capturedURL == testURL)
+    }
+
+    @Test
+    func createPermissionViewModel_includesCorrectButtonTitles() {
+        let mockNotificationService = MockNotificationService()
+        mockNotificationService._stubbedhasGivenConsent = false
+        let viewModel = CountryListViewModel(
+            travelService: MockTravelService(),
+            analyticsService: MockAnalyticsService(),
+            notificationService: mockNotificationService,
+            urlOpener: MockURLOpener(),
+            dismissAction: { _ in },
+            openURLAction: { _ in }
+        )
+
+        let country = Country(name: "Portugal", slug: "portugal", rawLastUpdate: "", synonyms: [])
+        viewModel.onGetNotificationAlertTap(country)
+        guard let permissionViewModel = viewModel.createPermissionViewModel() else {
+            Issue.record("Expected createPermissionViewModel() to return a value")
+            return
+        }
+
+        #expect(permissionViewModel.primaryButtonTitle == "Agree and continue")
+        #expect(permissionViewModel.secondaryButtonTitle == "Not now")
+    }
+
+    @Test
+    func createPermissionViewModel_afterDismissSheetAction_returnsNil() {
+        let mockNotificationService = MockNotificationService()
+        mockNotificationService._stubbedhasGivenConsent = false
+        let viewModel = CountryListViewModel(
+            travelService: MockTravelService(),
+            analyticsService: MockAnalyticsService(),
+            notificationService: mockNotificationService,
+            urlOpener: MockURLOpener(),
+            dismissAction: { _ in },
+            openURLAction: { _ in }
+        )
+
+        let country = Country(name: "Greece", slug: "greece", rawLastUpdate: "", synonyms: [])
+        viewModel.onGetNotificationAlertTap(country)
+        guard let permissionViewModel = viewModel.createPermissionViewModel() else {
+            Issue.record("Expected createPermissionViewModel() to return a value")
+            return
+        }
+
+        permissionViewModel.dismissSheetAction()
+
+        let secondPermissionViewModel = viewModel.createPermissionViewModel()
+        #expect(secondPermissionViewModel == nil)
+    }
+
+    @Test
+    func createPermissionViewModel_hasBodyAndTitleText() {
+        let mockNotificationService = MockNotificationService()
+        mockNotificationService._stubbedhasGivenConsent = false
+        let viewModel = CountryListViewModel(
+            travelService: MockTravelService(),
+            analyticsService: MockAnalyticsService(),
+            notificationService: mockNotificationService,
+            urlOpener: MockURLOpener(),
+            dismissAction: { _ in },
+            openURLAction: { _ in }
+        )
+
+        let country = Country(name: "Poland", slug: "poland", rawLastUpdate: "", synonyms: [])
+        viewModel.onGetNotificationAlertTap(country)
+
+        guard let permissionViewModel = viewModel.createPermissionViewModel() else {
+            Issue.record("Expected createPermissionViewModel() to return a value")
+            return
+        }
+
+        #expect(!permissionViewModel.body.isEmpty)
+        #expect(!permissionViewModel.title.isEmpty)
+    }
+
+    @Test
+    func createPermissionViewModel_hasPrivacyPolicyLink() {
+        let mockNotificationService = MockNotificationService()
+        mockNotificationService._stubbedhasGivenConsent = false
+        let viewModel = CountryListViewModel(
+            travelService: MockTravelService(),
+            analyticsService: MockAnalyticsService(),
+            notificationService: mockNotificationService,
+            urlOpener: MockURLOpener(),
+            dismissAction: { _ in },
+            openURLAction: { _ in }
+        )
+
+        let country = Country(name: "Sweden", slug: "sweden", rawLastUpdate: "", synonyms: [])
+        viewModel.onGetNotificationAlertTap(country)
+
+        guard let permissionViewModel = viewModel.createPermissionViewModel() else {
+            Issue.record("Expected createPermissionViewModel() to return a value")
+            return
+        }
+
+        #expect(!permissionViewModel.privacyPolicyLinkTitle.isEmpty)
+    }
+
+    @Test
+    func createPermissionViewModel_doesNotHaveDisplayNotificationSettingsAlert() {
+        let mockNotificationService = MockNotificationService()
+        mockNotificationService._stubbedhasGivenConsent = false
+        let viewModel = CountryListViewModel(
+            travelService: MockTravelService(),
+            analyticsService: MockAnalyticsService(),
+            notificationService: mockNotificationService,
+            urlOpener: MockURLOpener(),
+            dismissAction: { _ in },
+            openURLAction: { _ in }
+        )
+
+        let country = Country(name: "Norway", slug: "norway", rawLastUpdate: "", synonyms: [])
+        viewModel.onGetNotificationAlertTap(country)
+        guard let permissionViewModel = viewModel.createPermissionViewModel() else {
+            Issue.record("Expected createPermissionViewModel() to return a value")
+            return
+        }
+
+        #expect(permissionViewModel.displayNotificationSettingsAlert == false)
+    }
+
+    @Test
+    func createPermissionViewModel_initialViewStateIsIdle() {
+        let mockNotificationService = MockNotificationService()
+        mockNotificationService._stubbedhasGivenConsent = false
+        let viewModel = CountryListViewModel(
+            travelService: MockTravelService(),
+            analyticsService: MockAnalyticsService(),
+            notificationService: mockNotificationService,
+            urlOpener: MockURLOpener(),
+            dismissAction: { _ in },
+            openURLAction: { _ in }
+        )
+
+        let country = Country(name: "Finland", slug: "finland", rawLastUpdate: "", synonyms: [])
+        viewModel.onGetNotificationAlertTap(country)
+        guard let permissionViewModel = viewModel.createPermissionViewModel() else {
+            Issue.record("Expected createPermissionViewModel() to return a value")
+            return
+        }
+
+        if case .idle = permissionViewModel.viewState {
+            // expected
+        } else {
+            Issue.record("Expected viewState to be .idle initially")
+        }
+    }
+
+    @Test
+    func onNotNowAlertTap_withoutConsent_subscribesToCountry() {
+        let mockTravelService = MockTravelService()
+        let mockNotificationService = MockNotificationService()
+        mockNotificationService._stubbedhasGivenConsent = false
+        let viewModel = CountryListViewModel(
+            travelService: mockTravelService,
+            analyticsService: MockAnalyticsService(),
+            notificationService: mockNotificationService,
+            urlOpener: MockURLOpener(),
+            dismissAction: { _ in },
+            openURLAction: { _ in }
+        )
+
+        let country = Country(name: "Denmark", slug: "denmark", rawLastUpdate: "", synonyms: [])
+        viewModel.onNotNowAlertTap(country)
+
+        #expect(mockTravelService._subscribeToGroupsCalled == true)
+        #expect(mockTravelService._receivedSubscribeSlug == "denmark")
     }
 }
