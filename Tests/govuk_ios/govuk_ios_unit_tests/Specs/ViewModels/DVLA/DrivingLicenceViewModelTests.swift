@@ -91,6 +91,27 @@ struct DrivingLicenceViewModelTests {
     }
 
     @Test
+    func viewDidAppear_fetchLicenceSuccess_licenceStatusUnknown_createsNoticeViewModel() async throws {
+        mockDvlaService._stubbedFetchDrivingLicenceResult = .success(
+            .arrange(licenceStatus: .unknown)
+        )
+        let sut = DrivingLicenceViewModel(
+            analyticsService: mockAnalyticsService,
+            dvlaService: mockDvlaService,
+            configService: mockConfigService,
+            openURLAction: { _ in }
+        )
+        await sut.viewDidAppear()
+        var licenceNoticeViewModel: DrivingLicenceNoticeViewModel?
+        if case .notice(let notice) = sut.viewState {
+            licenceNoticeViewModel = notice
+        }
+        let unwrappedLicenceNoticeViewModel = try #require(licenceNoticeViewModel)
+        #expect(unwrappedLicenceNoticeViewModel.title == String(localized: .DVLA.licenceNotAvailableTitle))
+        #expect(unwrappedLicenceNoticeViewModel.body == String(localized: .DVLA.licenceNotAvailableBody))
+    }
+
+    @Test
     func viewDidAppear_fetchLicenceFailure_createsErrorViewModel() async throws {
         let mockDriverDetailsURLString = "https://dvla.gov.uk/driver-details"
         mockDvlaService._stubbedFetchDrivingLicenceResult = .failure(.apiUnavailable)

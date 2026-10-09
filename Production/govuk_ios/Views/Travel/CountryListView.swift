@@ -76,9 +76,11 @@ struct CountryListView: View {
                 alertMessage(for: country)
             }
             .sheet(isPresented: $viewModel.showTravelAlertsPermission) {
-                TravelAlertsPermissionView(
-                    viewModel: viewModel.createPermissionViewModel()
-                )
+                if let permissionViewModel = viewModel.createPermissionViewModel() {
+                    NavigationStack {
+                        TravelAlertsPermissionView(viewModel: permissionViewModel)
+                    }
+                }
             }
     }
 
@@ -87,7 +89,7 @@ struct CountryListView: View {
         VStack {
             switch viewModel.viewState {
             case .loading:
-                CountryListLoadingView()
+                TravelLoadingView()
             case .loaded:
                 GeometryReader { geometry in
                     modifiedScrollView(geometry: geometry)
@@ -172,18 +174,6 @@ struct CountryListView: View {
                         .frame(height: searchBarPadding)
                 }
             }
-        }
-    }
-}
-
-struct CountryListLoadingView: View {
-    var body: some View {
-        VStack(alignment: .center) {
-            Spacer()
-            ProgressView()
-                .controlSize(.large)
-                .accessibilityLabel(.Travel.travelAlertsLoading)
-            Spacer()
         }
     }
 }

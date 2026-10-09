@@ -131,7 +131,9 @@ final class EditCountriesViewSnapshotTests: SnapshotTestCase {
         return EditCountriesViewModel(
             travelService: mockTravelService,
             analyticsService: analyticsService,
-            notificationService: notificationService
+            notificationService: notificationService,
+            urlOpener: MockURLOpener(),
+            openURLAction: { _ in /*NO-OP*/ }
         )
     }
 

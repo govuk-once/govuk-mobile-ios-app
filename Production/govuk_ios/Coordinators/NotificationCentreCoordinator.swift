@@ -6,16 +6,19 @@ class NotificationCentreCoordinator: BaseCoordinator {
     private let notificationCentreService: NotificationCentreServiceInterface
     private let analyticsService: AnalyticsServiceInterface
     private let coordinatorBuilder: CoordinatorBuilder
+    private let urlOpener: URLOpener
 
     init(navigationController: UINavigationController,
          viewControllerBuilder: ViewControllerBuilder,
          notificationCentreService: NotificationCentreServiceInterface,
          analyticsService: AnalyticsServiceInterface,
-         coordinatorBuilder: CoordinatorBuilder) {
+         coordinatorBuilder: CoordinatorBuilder,
+         urlOpener: URLOpener) {
         self.viewControllerBuilder = viewControllerBuilder
         self.notificationCentreService = notificationCentreService
         self.analyticsService = analyticsService
         self.coordinatorBuilder = coordinatorBuilder
+        self.urlOpener = urlOpener
         super.init(navigationController: navigationController)
     }
 
@@ -40,12 +43,7 @@ class NotificationCentreCoordinator: BaseCoordinator {
                 actions: .init(
                     showUrlAction: { [weak self] url in
                         guard let self else { return }
-                        let coordinator = coordinatorBuilder.safari(
-                            navigationController: root,
-                            url: url,
-                            fullScreen: true
-                        )
-                        start(coordinator, url: url)
+                        presentWebView(url: url)
                     },
                     onUnreadAction: {
                         self.root.popViewController(animated: true)
@@ -56,5 +54,14 @@ class NotificationCentreCoordinator: BaseCoordinator {
                 )
             )
         self.push(viewController, animated: true)
+    }
+
+    private func presentWebView(url: URL) {
+        let coordinator = coordinatorBuilder.safari(
+            navigationController: root,
+            url: url,
+            fullScreen: false
+        )
+        start(coordinator)
     }
 }

@@ -38,4 +38,11 @@ enum DrivingLicenceStatus: String, Codable {
     case exchanged = "Exchanged"
     case refused = "Refused"
     case refusedForMedicalReasons = "Refused for medical reasons"
+    case unknown
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let rawValue = try container.decode(String.self)
+        self = DrivingLicenceStatus(rawValue: rawValue) ?? .unknown
+    }
 }

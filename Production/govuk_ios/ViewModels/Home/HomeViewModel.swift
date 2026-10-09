@@ -128,6 +128,8 @@ class HomeViewModel: ObservableObject {
 
     private var quarterlySurveyWidget: HomepageWidget? {
         guard featureEnabled(.quarterlySurvey) else { return nil }
+        guard analyticsService.permissionState == .accepted else { return nil }
+
         let viewModel = QuarterlySurveyWidgetViewModel(
             analyticsService: analyticsService
         )

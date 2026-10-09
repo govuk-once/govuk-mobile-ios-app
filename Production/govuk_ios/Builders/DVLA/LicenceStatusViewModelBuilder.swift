@@ -46,29 +46,48 @@ struct LicenceStatusViewModelBuilder: LicenceStatusViewModelBuilderInterface {
                 openURLAction: openURLAction
             )
         case .valid:
-            if let validToDate = validToDate {
-                let expiryProgress = expiryProgressCalculator.calculate(
-                    expiryDate: validToDate,
-                    currentDate: currentDate
-                )
-                if expiryProgress.isExpired {
-                    return makeExpiredViewModel(
+            return makeValidOrExpiringViewModel(
                         validToDate: validToDate,
+                        currentDate: currentDate,
                         openURLAction: openURLAction
                     )
-                }
-                if expiryProgress.isWithinCountdownWindow {
-                    return makeExpiringViewModel(
-                        validToDate: validToDate,
-                        expiryProgress: expiryProgress,
-                        openURLAction: openURLAction
-                    )
-                }
-            }
-            return makeValidViewModel(validToDate: validToDate)
-        default:
+        case .disqualified,
+                .revoked, .revokedForMedicalReasons,
+                .surrendered, .surrenderedVoluntarily, .surrenderedForMedicalReasons,
+                .exchanged,
+                .refused,
+                .refusedForMedicalReasons,
+                .unknown:
             return makeUnknownViewModel()
         }
+    }
+
+    private func makeValidOrExpiringViewModel(
+        validToDate: Date?,
+        currentDate: Date,
+        openURLAction: @escaping (URL, String) -> Void
+    ) -> ValidityStatusViewModel {
+        guard let validToDate = validToDate else {
+            return makeValidViewModel(validToDate: nil)
+        }
+        let expiryProgress = expiryProgressCalculator.calculate(
+            expiryDate: validToDate,
+            currentDate: currentDate
+        )
+        if expiryProgress.isExpired {
+            return makeExpiredViewModel(
+                validToDate: validToDate,
+                openURLAction: openURLAction
+            )
+        }
+        if expiryProgress.isWithinCountdownWindow {
+            return makeExpiringViewModel(
+                validToDate: validToDate,
+                expiryProgress: expiryProgress,
+                openURLAction: openURLAction
+            )
+        }
+        return makeValidViewModel(validToDate: validToDate)
     }
 
      private func formattedDate(_ date: Date?) -> String? {

@@ -9,6 +9,7 @@ final class CountryListCoordinator: BaseCoordinator {
     private let travelService: TravelServiceInterface
     private let notificationService: NotificationServiceInterface
     private let userService: UserServiceInterface
+    private let urlOpener: URLOpener
     private let completion: (Bool) -> Void
 
     init(navigationController: UINavigationController,
@@ -18,6 +19,7 @@ final class CountryListCoordinator: BaseCoordinator {
          travelService: TravelServiceInterface,
          notificationService: NotificationServiceInterface,
          userService: UserServiceInterface,
+         urlOpener: URLOpener,
          completion: @escaping (Bool) -> Void) {
         self.coordinatorBuilder = coordinatorBuilder
         self.viewControllerBuilder = viewControllerBuilder
@@ -25,6 +27,7 @@ final class CountryListCoordinator: BaseCoordinator {
         self.travelService = travelService
         self.notificationService = notificationService
         self.userService = userService
+        self.urlOpener = urlOpener
         self.completion = completion
         super.init(navigationController: navigationController)
     }
@@ -38,7 +41,10 @@ final class CountryListCoordinator: BaseCoordinator {
             travelService: travelService,
             analyticsService: analyticsService,
             notificationService: notificationService,
-            dismissAction: { _ in self.dismissModal() }
+            dismissAction: { _ in self.dismissModal() },
+            openURLAction: { [weak self] url in
+                self?.urlOpener.openIfPossible(url)
+            }
         )
         set(viewController)
     }

@@ -51,23 +51,65 @@ final class TravelAlertsPermissionViewSnapshotTests: SnapshotTestCase {
         )
     }
 
-    private func makeViewModel(
-        showImage: Bool = true,
-        title: String = "Give permission",
-        body: String = "We need your permission to send notifications and collect app usage statistics.",
-        primaryButtonTitle: String = "Agree and continue",
-        secondaryButtonTitle: String = "Not now"
-    ) -> TravelAlertsPermissionViewModel {
-        TravelAlertsPermissionViewModel(
-            analyticsService: MockAnalyticsService(),
-            showImage: showImage,
-            title: title,
-            body: body,
-            primaryButtonTitle: primaryButtonTitle,
-            secondaryButtonTitle: secondaryButtonTitle,
-            completeAction: { /*EmptyForTests*/ },
-            dismissAction: { /*EmptyForTests*/ }
+    func test_loadInNavigationController_loading_light_rendersCorrectly() async {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedSubscribeResult = .success(())
+        mockTravelService._autoCallSubscribeCompletion = false
+
+        let viewModel = makeViewModel(travelService: mockTravelService, showImage: true)
+        let viewController = makeViewController(viewModel: viewModel)
+
+        viewModel.notNowAction()
+        await Task.yield()
+
+        VerifySnapshotInNavigationController(
+            viewController: viewController,
+            mode: .light,
+            navBarHidden: true
         )
+    }
+
+    func test_loadInNavigationController_loading_dark_rendersCorrectly() async {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedSubscribeResult = .success(())
+        mockTravelService._autoCallSubscribeCompletion = false
+
+        let viewModel = makeViewModel(travelService: mockTravelService, showImage: true)
+        let viewController = makeViewController(viewModel: viewModel)
+
+        viewModel.notNowAction()
+        await Task.yield()
+
+        VerifySnapshotInNavigationController(
+            viewController: viewController,
+            mode: .dark,
+            navBarHidden: true
+        )
+    }
+
+    private func makeViewModel(
+        travelService: TravelServiceInterface? = nil,
+        showImage: Bool = true
+    ) -> TravelAlertsPermissionViewModel {
+        let testCountry = Country(
+            name: "France",
+            slug: "france",
+            rawLastUpdate: "",
+            synonyms: []
+        )
+        let viewModel = TravelAlertsPermissionViewModel(
+            travelService: travelService ?? MockTravelService(),
+            notificationService: MockNotificationService(),
+            analyticsService: MockAnalyticsService(),
+            urlOpener: MockURLOpener(),
+            showImage: showImage,
+            country: testCountry,
+            dismissSheetAction: { /*EmptyForTests*/ },
+            openURLAction: { _ in /*EmptyForTests*/ },
+            dismissAfterSuccessAction: { /*EmptyForTests*/ },
+            dismissAfterErrorAction: { /*EmptyForTests*/ }
+        )
+        return viewModel
     }
 
     private func makeViewController(viewModel: TravelAlertsPermissionViewModel) -> UIViewController {

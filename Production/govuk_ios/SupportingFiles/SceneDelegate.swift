@@ -53,6 +53,9 @@ class SceneDelegate: UIResponder,
             inactivityService: inactivityService
         )
         window?.rootViewController = navigationController
+        let sceneBounds = windowScene.coordinateSpace.bounds
+        privacyWindow?.frame = sceneBounds
+        window?.frame = sceneBounds
         window?.makeKeyAndVisible()
 
         let url = connectionOptions.urlContexts.first?.url

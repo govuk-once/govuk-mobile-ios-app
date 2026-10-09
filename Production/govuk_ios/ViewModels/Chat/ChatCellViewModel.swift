@@ -150,8 +150,11 @@ extension ChatCellViewModel {
     }
 
     var questionWidth: CGFloat {
-        UIScreen.main.bounds.width * 0.2
-    }
+          let windowWidth = UIApplication.shared.connectedScenes
+              .compactMap { $0 as? UIWindowScene }
+              .first?.coordinateSpace.bounds.width ?? 375
+          return windowWidth * 0.2
+      }
 
     var offset: CGFloat {
         if type == .sending || type == .pendingAnswer {

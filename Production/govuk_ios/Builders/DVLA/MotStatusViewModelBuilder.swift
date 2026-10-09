@@ -36,7 +36,6 @@ struct MotStatusViewModelBuilder: MotStatusViewModelBuilderInterface {
         self.openURLAction = openURLAction
     }
 
-
     @MainActor
     func makeViewModel(
         vehicle: MotStatusVehicle
@@ -79,7 +78,6 @@ struct MotStatusViewModelBuilder: MotStatusViewModelBuilderInterface {
             return makeNotKnownViewModel()
         }
     }
-
 
     private func formattedDate(_ date: Date?) -> String? {
         if let date = date {
