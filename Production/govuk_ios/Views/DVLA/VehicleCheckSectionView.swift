@@ -116,7 +116,6 @@ private struct MagnifyingGlassImage: View {
     }
 }
 
-
 #Preview("SearchButtonLabel") {
     SearchButtonLabel(text: "Some label text")
 }
