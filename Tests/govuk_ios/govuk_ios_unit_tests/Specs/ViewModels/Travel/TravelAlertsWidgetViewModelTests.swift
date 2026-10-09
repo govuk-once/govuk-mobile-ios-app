@@ -462,6 +462,85 @@ struct TravelAlertsWidgetViewModelTests {
         #expect(mockTravelService._getGroupsCalled)
     }
 
+    @Test
+    func countryListViewModel_openFooterLinkAction_callsOpenURLActionWithFeedbackURL() {
+        var openedURL: URL? = nil
+        let feedbackURL = URL(string: "https://example.com/feedback")!
+        let sut = TravelAlertsWidgetViewModel(
+            travelService: MockTravelService(),
+            analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService(),
+            feedbackURL: feedbackURL,
+            urlOpener: MockURLOpener(),
+            linkAction: { /*Empty For Tests*/ },
+            dismissAction: { /*Empty For Tests*/ },
+            editAction: { /*Empty For Tests*/ },
+            openURLAction: { url in openedURL = url }
+        )
+
+        let countryListVM = sut.countryListViewModel
+        countryListVM.openFooterLink()
+
+        #expect(openedURL == feedbackURL)
+    }
+
+    @Test
+    func countryListViewModel_createPermissionViewModel_passesOpenExternalURLActionCorrectly() {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedGetCountriesResult = .success([
+            Country(name: "France", slug: "france", rawLastUpdate: "2024-08-05", synonyms: [])
+        ])
+        let mockURLOpener = MockURLOpener()
+        let testURL = URL(string: "https://www.gov.uk/foreign-travel-advice/france")!
+        let sut = TravelAlertsWidgetViewModel(
+            travelService: mockTravelService,
+            analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService(),
+            feedbackURL: URL(string: "https://example.com/feedback")!,
+            urlOpener: mockURLOpener,
+            linkAction: { /*Empty For Tests*/ },
+            dismissAction: { /*Empty For Tests*/ },
+            editAction: { /*Empty For Tests*/ },
+            openURLAction: { _ in /*Empty For Tests*/ }
+        )
+
+        let countryListVM = sut.countryListViewModel
+        let france = Country(name: "France", slug: "france", rawLastUpdate: "2024-08-05", synonyms: [])
+        countryListVM.onGetNotificationAlertTap(france)
+
+        // Create permission view model which receives the openExternalURLAction
+        guard let permissionVM = countryListVM.createPermissionViewModel() else {
+            Issue.record("Expected permission view model to be created")
+            return
+        }
+
+        // action passed to view model
+        permissionVM.openExternalURLAction(testURL)
+
+        #expect(mockURLOpener._receivedOpenIfPossibleUrl == testURL)
+    }
+
+    @Test
+    func countryListViewModel_dismiss_callsDismissActionWithForceRefresh() {
+        var dismissCalled = false
+        let sut = TravelAlertsWidgetViewModel(
+            travelService: MockTravelService(),
+            analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService(),
+            feedbackURL: URL(string: "https://example.com/feedback")!,
+            urlOpener: MockURLOpener(),
+            linkAction: { /*Empty For Tests*/ },
+            dismissAction: { dismissCalled = true },
+            editAction: { /*Empty For Tests*/ },
+            openURLAction: { _ in /*Empty For Tests*/ }
+        )
+
+        let countryListVM = sut.countryListViewModel
+        countryListVM.dismiss(true)
+
+        #expect(dismissCalled == true)
+    }
+
     private func waitForViewState(
         of viewModel: TravelAlertsWidgetViewModel,
         matching predicate: @escaping (TravelAlertsWidgetViewModel.ViewState) -> Bool,
