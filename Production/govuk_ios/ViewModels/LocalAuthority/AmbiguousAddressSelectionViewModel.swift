@@ -15,9 +15,7 @@ class AmbiguousAddressSelectionViewModel: ObservableObject {
     let localAuthoritySelected: (Authority) -> Void
     let title = String.localAuthority.localized("addressSelectionViewTitle")
     let subtitle = String.localAuthority.localized("addressSelectionViewSubtitle")
-    let cancelButtonTitle: String = String.common.localized(
-        "cancel"
-    )
+
     init(analyticsService: AnalyticsServiceInterface,
          localAuthorityService: LocalAuthorityServiceInterface,
          ambiguousAuthorities: AmbiguousAuthorities,

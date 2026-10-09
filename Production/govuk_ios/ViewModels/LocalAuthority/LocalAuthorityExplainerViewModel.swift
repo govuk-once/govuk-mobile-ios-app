@@ -6,9 +6,6 @@ class LocalAuthorityExplainerViewModel {
     private let explainerPrimaryButtonTitle: String = String.localAuthority.localized(
         "localAuthorityExplainerViewPrimaryButtonTitle"
     )
-    let cancelButtonTitle: String = String.common.localized(
-        "cancel"
-    )
     let explainerViewTitle: String = String.localAuthority.localized(
         "localServicesTitle"
     )

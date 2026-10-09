@@ -58,11 +58,10 @@ struct LocalAuthorityExplainerView: View {
     }
 
     private var cancelButton: some ToolbarContent {
-        ToolbarItem(placement: .confirmationAction) {
-            Button(viewModel.cancelButtonTitle) {
+        ToolbarItem(placement: .topBarTrailing) {
+            CancelButton {
                 viewModel.dismissAction()
             }
-            .foregroundColor(Color(UIColor.govUK.text.linkSecondary))
         }
     }
 }

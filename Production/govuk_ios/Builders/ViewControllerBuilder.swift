@@ -522,7 +522,6 @@ class ViewControllerBuilder {
         let viewController = HostingViewController(
             rootView: containerView
         )
-        viewController.navigationItem.rightBarButtonItem = viewModel.rightBarButtonItem
         viewController.isModalInPresentation = true
         return viewController
     }
@@ -546,7 +545,6 @@ class ViewControllerBuilder {
             rootView: containerView,
             navigationBarTintColor: .govUK.text.linkSecondary
         )
-        viewController.navigationItem.rightBarButtonItem = viewModel.rightBarButtonItem
         viewController.isModalInPresentation = true
         return viewController
     }

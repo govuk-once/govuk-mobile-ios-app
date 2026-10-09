@@ -45,8 +45,20 @@ struct InfoView<Model>: View where Model: InfoViewModelInterface {
             .ignoresSafeArea()
         })
         .navigationBarHidden(viewModel.navBarHidden)
+        .toolbar {
+            cancelToolbarItem
+        }
         .onAppear {
             viewModel.trackScreen(screen: self)
+        }
+    }
+
+    @ToolbarContentBuilder
+    private var cancelToolbarItem: some ToolbarContent {
+        if let cancelAction = viewModel.cancelAction {
+            ToolbarItem(placement: .topBarTrailing) {
+                CancelButton(action: cancelAction)
+            }
         }
     }
 

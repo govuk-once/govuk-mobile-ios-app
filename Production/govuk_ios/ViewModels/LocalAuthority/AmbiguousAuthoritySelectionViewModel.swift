@@ -18,9 +18,6 @@ class AmbiguousAuthoritySelectionViewModel: ObservableObject {
         let format = String.localAuthority.localized("ambiguousLocalAuthorityViewSubtitle")
         return String.localizedStringWithFormat(format, postCode)
     }()
-    let cancelButtonTitle: String = String.common.localized(
-        "cancel"
-    )
 
     init(analyticsService: AnalyticsServiceInterface,
          localAuthorityService: LocalAuthorityServiceInterface,
