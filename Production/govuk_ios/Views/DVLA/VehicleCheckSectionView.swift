@@ -2,8 +2,6 @@ import SwiftUI
 import GovKit
 
 struct VehicleCheckSectionView: View {
-//  let viewModel: VehicleCheckSectionViewModel
-
     let searchButtonTitle: LocalizedStringKey
     let onSubmit: (String) -> Void
 
@@ -30,10 +28,6 @@ struct VehicleCheckSectionView: View {
                     isShowingSheet: $isShowingSheet,
                     numberPlate: $numberPlate,
                     action: onSubmit
-//                    action: { plate in
-//                        print(plate)
-//                        // viewModel.action(plate)
-//                    }
                 )
                 .padding(.horizontal)
                 .transition(.move(edge: .bottom).combined(with: .opacity))
