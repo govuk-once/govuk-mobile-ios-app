@@ -18,18 +18,11 @@ struct VehiclePlateOverlayView: View {
                     .font(.system(size: 32, weight: .bold, design: .monospaced))
                     .textInputAutocapitalization(.characters)
                     .disableAutocorrection(true)
-                if !numberPlate.isEmpty {
-                    Button(
-                        action: { numberPlate = "" },
-                        label: {
-                            Image(systemName: "xmark.circle.fill")
-                                .font(.system(size: 22))
-                                .foregroundColor(Color(UIColor.govUK.text.primary))
-                        }
-                    )
-                    .frame(height: 36)
-                    .transition(.opacity.combined(with: .scale))
-                }
+
+            clearInputButton()
+                .frame(height: 36)
+                .transition(.opacity.combined(with: .scale))
+                .opacity(numberPlate.isEmpty ? 0 : 1)
             }
             .padding(.bottom, 12)
             HStack(spacing: 8) {
@@ -73,6 +66,19 @@ struct VehiclePlateOverlayView: View {
         .background(Color.white)
         .cornerRadius(24)
         .shadow(color: Color.black.opacity(0.15), radius: 10)
+    }
+}
+
+extension VehiclePlateOverlayView {
+    @ViewBuilder
+    func clearInputButton() -> some View {
+        Button {
+            numberPlate = ""
+        } label: {
+            Image(systemName: "xmark.circle.fill")
+                .font(.system(size: 22))
+                .foregroundColor(Color(UIColor.govUK.text.primary))
+        }
     }
 }
 
