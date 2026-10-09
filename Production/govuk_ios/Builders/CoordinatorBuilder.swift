@@ -628,4 +628,16 @@ class CoordinatorBuilder {
             completion: completion
         )
     }
+
+    func vehicleCheck(
+        navigationController: UINavigationController
+    ) -> BaseCoordinator {
+        VehicleCheckCoordinator(
+            navigationController: navigationController,
+            viewControllerBuilder: ViewControllerBuilder(),
+            analyticsService: container.analyticsService.resolve(),
+            configService: container.appConfigService.resolve(),
+            urlOpener: UIApplication.shared
+        )
+    }
 }

@@ -37,6 +37,7 @@ extension VehicleSummaryViewModel {
         self.taxStatus = vehicle.taxStatus
 
         let builder = TaxStatusViewModelBuilder(
+            isOwnedVehicle: true,
             urls: configService.dvlaUrls,
             analyticsService: analyticsService,
             openURLAction: openURLAction
@@ -50,6 +51,7 @@ extension VehicleSummaryViewModel {
             )
         )
         let motBuilder = MotStatusViewModelBuilder(
+            isOwnedVehicle: true,
             urls: configService.dvlaUrls,
             analyticsService: analyticsService,
             openURLAction: openURLAction

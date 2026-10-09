@@ -339,8 +339,13 @@
 		5DFDEBF12CEE396D00F7A365 /* UserProperty+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFDEBF02CEE396D00F7A365 /* UserProperty+Convenience.swift */; };
 		5DFE3C1F2FD319C500DDC5C8 /* DVLAServiceDeeplinkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFE3C1E2FD319C500DDC5C8 /* DVLAServiceDeeplinkRoute.swift */; };
 		5DFE5F1E2D6DE5900041E3B4 /* UNUserNotificationCenter+Interface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFE5F1D2D6DE5900041E3B4 /* UNUserNotificationCenter+Interface.swift */; };
+		80054B9B3066C57D00697D5C /* VehicleCheckResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80054B9A3066C57600697D5C /* VehicleCheckResultViewModel.swift */; };
+		80054B9D3066C58700697D5C /* VehicleCheckResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80054B9C3066C58300697D5C /* VehicleCheckResultView.swift */; };
+		80056D5D306AD27600697D5C /* VehicleCheckCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80056D5C306AD27100697D5C /* VehicleCheckCoordinator.swift */; };
 		80AB3E6830615E6B00A531CE /* VehicleCheckSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AB3E6730615E6400A531CE /* VehicleCheckSectionViewModel.swift */; };
 		80C119C5305C517C00183EA8 /* VehicleCheckSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C119C4305C4FF200183EA8 /* VehicleCheckSectionView.swift */; };
+		80CBA71A306E708100320F8A /* VehicleSpecSectionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CBA719306E707700320F8A /* VehicleSpecSectionBuilder.swift */; };
+		80CBA71C306EABEF00320F8A /* VehicleSpecData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CBA71B306EABEA00320F8A /* VehicleSpecData.swift */; };
 		8101A23E2F28BAAB009E639B /* AppUnavailableError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8101A23D2F28BAA4009E639B /* AppUnavailableError.swift */; };
 		8101BEEB2F2A24B8009E639B /* RemoteConfigValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8101BEE92F2A24B8009E639B /* RemoteConfigValue.swift */; };
 		8101BEEC2F2A24B8009E639B /* RemoteConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8101BEE82F2A24B8009E639B /* RemoteConfig.swift */; };
@@ -963,8 +968,13 @@
 		5DFDEBF02CEE396D00F7A365 /* UserProperty+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserProperty+Convenience.swift"; sourceTree = "<group>"; };
 		5DFE3C1E2FD319C500DDC5C8 /* DVLAServiceDeeplinkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DVLAServiceDeeplinkRoute.swift; sourceTree = "<group>"; };
 		5DFE5F1D2D6DE5900041E3B4 /* UNUserNotificationCenter+Interface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UNUserNotificationCenter+Interface.swift"; sourceTree = "<group>"; };
+		80054B9A3066C57600697D5C /* VehicleCheckResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleCheckResultViewModel.swift; sourceTree = "<group>"; };
+		80054B9C3066C58300697D5C /* VehicleCheckResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleCheckResultView.swift; sourceTree = "<group>"; };
+		80056D5C306AD27100697D5C /* VehicleCheckCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleCheckCoordinator.swift; sourceTree = "<group>"; };
 		80AB3E6730615E6400A531CE /* VehicleCheckSectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleCheckSectionViewModel.swift; sourceTree = "<group>"; };
 		80C119C4305C4FF200183EA8 /* VehicleCheckSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleCheckSectionView.swift; sourceTree = "<group>"; };
+		80CBA719306E707700320F8A /* VehicleSpecSectionBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleSpecSectionBuilder.swift; sourceTree = "<group>"; };
+		80CBA71B306EABEA00320F8A /* VehicleSpecData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleSpecData.swift; sourceTree = "<group>"; };
 		8101A23D2F28BAA4009E639B /* AppUnavailableError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUnavailableError.swift; sourceTree = "<group>"; };
 		8101BEE82F2A24B8009E639B /* RemoteConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfig.swift; sourceTree = "<group>"; };
 		8101BEE92F2A24B8009E639B /* RemoteConfigValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteConfigValue.swift; sourceTree = "<group>"; };
@@ -1256,6 +1266,7 @@
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/StatusRowViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/TaxValidityStatusViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/ValidityStatusViewSnapshotTests.swift,
+				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/VehicleCheckResultViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/VehicleDetailViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/VehicleSpecViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/VehicleSummaryViewSnapshotTests.swift,
@@ -1363,6 +1374,7 @@
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/StatusRowViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/TaxValidityStatusViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/ValidityStatusViewSnapshotTests.swift,
+				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/VehicleCheckResultViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/VehicleDetailViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/VehicleSpecViewSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/DVLA/VehicleSummaryViewSnapshotTests.swift,
@@ -2564,6 +2576,7 @@
 		815018EA2F7D28F000E7469C /* DVLA */ = {
 			isa = PBXGroup;
 			children = (
+				80CBA71B306EABEA00320F8A /* VehicleSpecData.swift */,
 				16F935FD2FFE844800ADA47B /* CustomerVehicleDetails.swift */,
 				1615D80C2FFE72470052F269 /* CustomerVehicles.swift */,
 				81BFE12F2FAB8ECE00249569 /* VehicleEnquiryResponse.swift */,
@@ -2629,6 +2642,7 @@
 			isa = PBXGroup;
 			children = (
 				80C119C4305C4FF200183EA8 /* VehicleCheckSectionView.swift */,
+				80054B9C3066C58300697D5C /* VehicleCheckResultView.swift */,
 				FBD9E9C4305315220031B76A /* StatusRowView.swift */,
 				817ECB3C3024DDF700BFC5FF /* DVLAAuthenticationView.swift */,
 				813610172FFFDA7C0011D851 /* DrivingRecordView.swift */,
@@ -2654,6 +2668,7 @@
 			children = (
 				813610152FFFDA420011D851 /* DrivingRecordViewModel.swift */,
 				80AB3E6730615E6400A531CE /* VehicleCheckSectionViewModel.swift */,
+				80054B9A3066C57600697D5C /* VehicleCheckResultViewModel.swift */,
 				16A3D5C82FEBEBAB00AEF073 /* DvlaMenuItemViewModel.swift */,
 				81A6DB202FCF3C43006FB0F0 /* VehicleDetailViewModel.swift */,
 				812EFD982FEC34EC00054F3A /* ExpiryProgressViewModel.swift */,
@@ -2677,6 +2692,7 @@
 				1663A3F72FEEDCA40002CFDB /* TaxStatusViewModelBuilder.swift */,
 				81D3E36C2FE3EDBB006049CC /* LicenceStatusViewModelBuilder.swift */,
 				4E2468B42FFFB2C400248C5F /* MotStatusViewModelBuilder.swift */,
+				80CBA719306E707700320F8A /* VehicleSpecSectionBuilder.swift */,
 				2D96578690983E0EAF51CC17 /* VehicleMenuItemsBuilder.swift */,
 			);
 			path = DVLA;
@@ -2729,6 +2745,7 @@
 			isa = PBXGroup;
 			children = (
 				81F9296E2FDC259800BF709E /* VehicleDetailCoordinator.swift */,
+				80056D5C306AD27100697D5C /* VehicleCheckCoordinator.swift */,
 				81BFBFEC2FA4AB5D00249569 /* DrivingTopicWidgetCoordinator.swift */,
 				81DAF94A2F6D8855001C4E09 /* DVLAAuthenticationCoordinator.swift */,
 			);
@@ -3390,6 +3407,7 @@
 				16FCDE782DC4E39A000E870D /* TokenRefreshResponse.swift in Sources */,
 				5DDE5D182FFBC5DC00DF6B34 /* PromoBannerWidgetViewModel.swift in Sources */,
 				D0ABA5D22FA4E8AB00C5A244 /* SARExplainerViewModel.swift in Sources */,
+				80CBA71C306EABEF00320F8A /* VehicleSpecData.swift in Sources */,
 				5D66D1882CBFC15000006723 /* AppEvent+Search.swift in Sources */,
 				1677D4042E00695500FB1E56 /* LocalAuthenticationSettingsViewModel.swift in Sources */,
 				4EF407562CE2796900D654FC /* UIButton+Extensions.swift in Sources */,
@@ -3419,8 +3437,10 @@
 				D05AF4DA2CAD3C2900F86DD0 /* TopicDetailView.swift in Sources */,
 				5DE970572C297CFE009D66C4 /* AppEvent+Convenience.swift in Sources */,
 				D096BFEE2E03F60F00426C51 /* ChatRepository.swift in Sources */,
+				80056D5D306AD27600697D5C /* VehicleCheckCoordinator.swift in Sources */,
 				1650769D2D3DAC0D0034C4F1 /* SearchSuggestion.swift in Sources */,
 				5D02783C2C29D9BB00F2A4EB /* LaunchViewModel.swift in Sources */,
+				80054B9D3066C58700697D5C /* VehicleCheckResultView.swift in Sources */,
 				5DC069ED2C3BFD6400A81AAE /* AccessibilityManager.swift in Sources */,
 				D0EBFBD22D11C0E7000A3151 /* AnalyticsService.swift in Sources */,
 				81BFBFF52FA4FE5000249569 /* WidgetViewBuilder.swift in Sources */,
@@ -3611,11 +3631,13 @@
 				4E5E79A82DEF063800CA9B4D /* LocalAuthorityConfirmationView.swift in Sources */,
 				85611CCF302F4CE6008EB3B1 /* TravelAlertsWidgetViewModel.swift in Sources */,
 				4EFE22A12D0CD08900136D56 /* Redactor.swift in Sources */,
+				80CBA71A306E708100320F8A /* VehicleSpecSectionBuilder.swift in Sources */,
 				81F9296F2FDC25A500BF709E /* VehicleDetailCoordinator.swift in Sources */,
 				D056CE742D3A83F2005845E0 /* NotificationsWidgetViewModel.swift in Sources */,
 				16EE1A412C6F8968005E820F /* SearchViewController.swift in Sources */,
 				8154B58D2FB71F1B00792FB5 /* ErrorViewModel+Chat.swift in Sources */,
 				945E1F052F714E920064CA22 /* SearchDeepLinkRoute.swift in Sources */,
+				80054B9B3066C57D00697D5C /* VehicleCheckResultViewModel.swift in Sources */,
 				4EA3C3502C91B8C4000D731C /* RecentActivityCoordinator.swift in Sources */,
 				D08F2C7E2E6AF8C800133121 /* CGImageSource+Extensions.swift in Sources */,
 				5D8683952C340F1B0024F2D8 /* DeeplinkRoute.swift in Sources */,

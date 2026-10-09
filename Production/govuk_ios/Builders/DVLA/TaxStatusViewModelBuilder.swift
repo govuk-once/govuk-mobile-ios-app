@@ -11,6 +11,7 @@ protocol TaxStatusViewModelBuilderInterface {
 }
 
 struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
+    private let isOwnedVehicle: Bool
     private let dateFormatter = DateFormatter.dvlaAccount
     private let expiryProgressCalculator = ExpiryProgressCalculator.init(countdownWindowDays: 28)
     private let urls: DvlaURLs?
@@ -18,10 +19,12 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
     private let openURLAction: (URL) -> Void
 
     init(
+        isOwnedVehicle: Bool,
         urls: DvlaURLs?,
         analyticsService: AnalyticsServiceInterface,
         openURLAction: @escaping (URL) -> Void
     ) {
+        self.isOwnedVehicle = isOwnedVehicle
         self.urls = urls
         self.analyticsService = analyticsService
         self.openURLAction = openURLAction
@@ -67,7 +70,7 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
             if expiryProgress.isExpired {
                 return makeExpiredViewModel()
             }
-            if expiryProgress.isWithinCountdownWindow {
+            if expiryProgress.isWithinCountdownWindow && isOwnedVehicle {
                 return makeExpiringViewModel(
                     validToDate: validToDate,
                     paymentMethod: vehicle.currentLicencePaymentMethod ?? "",
@@ -85,21 +88,20 @@ struct TaxStatusViewModelBuilder: TaxStatusViewModelBuilderInterface {
         let formattedStatus = String(localized: .DVLA.untaxed)
         let buttonTitle = String(localized: .DVLA.renewTaxButtonTitle)
         let buttonURL = urls?.taxVehicle ?? Constants.API.defaultDvlaTaxVehicleUrl
-
+        let buttonAction: (() -> Void) = {
+            openURLAction(
+                text: buttonTitle,
+                url: buttonURL
+            )
+        }
         let statusInformation = StatusInformation(formattedStatus)
-
         return ValidityStatusViewModel(
             title: String(localized: .DVLA.taxStatusTitle),
             statusInformation: statusInformation,
             iconName: "exclamationmark.triangle.fill",
-            footer: String(localized: .DVLA.renewTaxExpiringFooter),
-            buttonTitle: buttonTitle,
-            buttonAction: {
-                openURLAction(
-                    text: buttonTitle,
-                    url: buttonURL
-                )
-            }
+            footer: isOwnedVehicle ? String(localized: .DVLA.renewTaxExpiringFooter) : nil,
+            buttonTitle: isOwnedVehicle ? buttonTitle : nil,
+            buttonAction: isOwnedVehicle ? buttonAction : nil
         )
     }
 
