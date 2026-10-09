@@ -7,11 +7,11 @@ struct VehicleCheckSectionView: View {
     @State private var numberPlate = ""
     var body: some View {
         VStack(spacing: 8) {
-            Title(.DVLA.vehicleCheckTitle)
-                .frame(maxWidth: .infinity, alignment: .leading)
-
-            Subtitle(.DVLA.vehicleCheckSubtitle)
-                .frame(maxWidth: .infinity, alignment: .leading)
+            Group {
+                Title(.DVLA.vehicleCheckTitle)
+                Subtitle(.DVLA.vehicleCheckSubtitle)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
 
             Button {
                 isShowingSheet.toggle()
