@@ -75,3 +75,37 @@ struct VehiclePlateOverlayView: View {
         .shadow(color: Color.black.opacity(0.15), radius: 10)
     }
 }
+
+struct VehiclePlateOverlayViewContainer: View {
+    @State private var isShowingSheet = false
+    @State private var numberPlate = ""
+    var body: some View {
+        VStack {
+            Text("Container")
+            Button("Show It") { isShowingSheet.toggle() }
+        }
+        .frame(maxWidth: .infinity)
+        .overlay(alignment: .bottom) {
+            if isShowingSheet {
+                VehiclePlateOverlayView(
+                    isShowingSheet: $isShowingSheet,
+                    numberPlate: $numberPlate,
+                    action: { plate in print(plate) }
+                )
+                .padding(.horizontal)
+                .transition(
+                    .move(edge: .bottom)
+                    .combined(with: .opacity)
+                )
+            }
+        }
+        .animation(
+            .spring(response: 0.35, dampingFraction: 0.8),
+            value: isShowingSheet
+        )
+    }
+}
+
+#Preview {
+    VehiclePlateOverlayViewContainer()
+}
