@@ -2,7 +2,7 @@ import SwiftUI
 import GovKit
 
 struct VehicleCheckSectionView: View {
-    let viewModel: VehicleCheckSectionViewModel
+//  let viewModel: VehicleCheckSectionViewModel
     @State private var isShowingSheet = false
     @State private var numberPlate = ""
     var body: some View {

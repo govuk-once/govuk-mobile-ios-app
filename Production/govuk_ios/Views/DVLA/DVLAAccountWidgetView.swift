@@ -36,7 +36,7 @@ struct DVLAAccountWidgetView: View {
     private var vehicleCheckView: some View {
         switch viewModel.viewState {
         case .loading, .unlinked, .error:
-            VehicleCheckSectionView(viewModel: viewModel.vehicleCheckSectionViewModel)
+            VehicleCheckSectionView() // (viewModel: viewModel.vehicleCheckSectionViewModel)
                 .padding([.horizontal, .top], 16)
         case .linked:
             EmptyView()
