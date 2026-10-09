@@ -43,6 +43,13 @@ struct VehicleCheckSectionView: View {
     }
 }
 
+extension VehicleCheckSectionView {
+    init(viewModel: VehicleCheckSectionViewModel) {
+        searchButtonTitle = LocalizedStringKey(viewModel.buttonTitle)
+        onSubmit = viewModel.action
+    }
+}
+
 private struct Title: View {
     let text: LocalizedStringResource
 
