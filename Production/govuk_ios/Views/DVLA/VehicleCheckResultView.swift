@@ -87,6 +87,7 @@ struct VehicleCheckResultView: View {
                     Image(systemName: "magnifyingglass")
                         .tint(Color(uiColor: .govUK.text.link))
                 }
+                .accessibilityLabel(.DVLA.vehicleCheckSearchButtonAccessibilityLabel)
             }
         }
         .onAppear {
@@ -112,6 +113,7 @@ struct VehicleCheckResultView: View {
             Image(systemName: "ellipsis")
                 .tint(Color(uiColor: .govUK.text.link))
         }
+        .accessibilityLabel(.DVLA.moreOptionsButtonAccessibilityLabel)
     }
 }
 

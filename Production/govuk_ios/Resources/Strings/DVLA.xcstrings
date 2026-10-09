@@ -1212,6 +1212,17 @@
         }
       }
     },
+    "vehicleCheckSearchButtonAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search for another vehicle"
+          }
+        }
+      }
+    },
     "vehicleCheckSubtitle" : {
       "extractionState" : "manual",
       "localizations" : {
