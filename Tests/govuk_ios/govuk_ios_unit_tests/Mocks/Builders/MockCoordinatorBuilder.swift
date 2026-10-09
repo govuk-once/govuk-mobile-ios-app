@@ -102,7 +102,8 @@ class MockCoordinatorBuilder: CoordinatorBuilder {
             activityService: MockActivityService(context: coreData.viewContext),
             localAuthorityService: MockLocalAuthorityService(),
             userDefaultsService: MockUserDefaultsService(),
-            chatService: MockChatService()
+            chatService: MockChatService(),
+            versionProvider: MockAppVersionProvider()
         )
         return mockHomeCoordinator
     }

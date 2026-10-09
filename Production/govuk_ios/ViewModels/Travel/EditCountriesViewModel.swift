@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 import GovKit
 import GovKitUI
 
@@ -31,7 +32,8 @@ class EditCountriesViewModel: ObservableObject {
     private let notificationService: NotificationServiceInterface
     private let urlOpener: URLOpener
     let analyticsService: AnalyticsServiceInterface
-    private let openURLAction: (URL) -> Void
+    private let feedbackURL: URL
+    private let openCountryListFooterAction: () -> Void
     private var allCountries: [Country] = []
     private var follewedCountries: Set<String> = []
     private var notificationStateCache: [String: Bool] = [:]
@@ -51,32 +53,41 @@ class EditCountriesViewModel: ObservableObject {
         analyticsService: AnalyticsServiceInterface,
         notificationService: NotificationServiceInterface,
         urlOpener: URLOpener,
-        openURLAction: @escaping (URL) -> Void
+        feedbackURL: URL,
+        openCountryListFooterAction: @escaping () -> Void
     ) {
         self.travelService = travelService
         self.analyticsService = analyticsService
         self.notificationService = notificationService
         self.urlOpener = urlOpener
-        self.openURLAction = openURLAction
+        self.feedbackURL = feedbackURL
+        self.openCountryListFooterAction = openCountryListFooterAction
     }
 
     @MainActor
     lazy var countryListViewModel: CountryListViewModel = {
-        CountryListViewModel(
-            travelService: travelService,
-            analyticsService: analyticsService,
-            notificationService: notificationService,
-            urlOpener: urlOpener,
+        let actions = CountryListViewModel.Actions(
             dismissAction: { [weak self] forceRefresh in
                 Task {
                     self?.didDismissList(forceRefresh: forceRefresh)
                 }
             },
+            openFooterLinkAction: { [weak self] in
+                self?.openCountryListFooterAction()
+            },
+            openExternalURLAction: { [weak self] url in
+                self?.urlOpener.openIfPossible(url)
+            }
+        )
+
+        return CountryListViewModel(
+            travelService: travelService,
+            analyticsService: analyticsService,
+            notificationService: notificationService,
+            urlOpener: urlOpener,
+            actions: actions,
             errorCallback: { [weak self] in
                 self?.isShowingFollowError = true
-            },
-            openURLAction: { [weak self] url in
-                self?.openURLAction(url)
             }
         )
     }()

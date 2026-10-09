@@ -84,7 +84,8 @@ class CoordinatorBuilder {
             activityService: container.activityService.resolve(),
             localAuthorityService: container.localAuthorityService.resolve(),
             userDefaultsService: container.userDefaultsService.resolve(),
-            chatService: container.chatService.resolve()
+            chatService: container.chatService.resolve(),
+            versionProvider: Bundle.main
         )
     }
 
@@ -260,10 +261,11 @@ class CoordinatorBuilder {
                 travelService: container.travelService.resolve(),
                 configService: container.appConfigService.resolve(),
                 notificationService: container.notificationService.resolve(),
+                deviceInformationProvider: DeviceInformationProvider(),
+                versionProvider: Bundle.main,
                 coordinatorBuilder: self,
                 widgetViewBuilder: WidgetViewBuilder(),
-                viewControllerBuilder: ViewControllerBuilder(),
-                urlOpener: UIApplication.shared
+                viewControllerBuilder: ViewControllerBuilder()
             )
         } else {
             return nil
@@ -625,6 +627,8 @@ class CoordinatorBuilder {
             notificationService: container.notificationService.resolve(),
             userService: container.userService.resolve(),
             urlOpener: UIApplication.shared,
+            deviceInformationProvider: DeviceInformationProvider(),
+            versionProvider: Bundle.main,
             completion: completion
         )
     }

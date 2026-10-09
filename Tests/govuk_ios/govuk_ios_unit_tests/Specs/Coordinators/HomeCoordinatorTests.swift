@@ -35,7 +35,8 @@ struct HomeCoordinatorTests {
                     activityService: MockActivityService(context: coreData.viewContext),
                     localAuthorityService: MockLocalAuthorityService(),
                     userDefaultsService: MockUserDefaultsService(),
-                    chatService: MockChatService()
+                    chatService: MockChatService(),
+                    versionProvider: MockAppVersionProvider()
                 )
         subject.start()
 
@@ -131,7 +132,8 @@ struct HomeCoordinatorTests {
             activityService: MockActivityService(context: coreData.viewContext),
             localAuthorityService: MockLocalAuthorityService(),
             userDefaultsService: MockUserDefaultsService(),
-            chatService: MockChatService()
+            chatService: MockChatService(),
+            versionProvider: MockAppVersionProvider()
         )
         subject.start()
 
@@ -168,7 +170,8 @@ struct HomeCoordinatorTests {
             activityService: MockActivityService(context: coreData.viewContext),
             localAuthorityService: MockLocalAuthorityService(),
             userDefaultsService: MockUserDefaultsService(),
-            chatService: MockChatService()
+            chatService: MockChatService(),
+            versionProvider: MockAppVersionProvider()
         )
         subject.start()
 
@@ -204,7 +207,8 @@ struct HomeCoordinatorTests {
             activityService: MockActivityService(context: coreData.viewContext),
             localAuthorityService: MockLocalAuthorityService(),
             userDefaultsService: MockUserDefaultsService(),
-            chatService: MockChatService()
+            chatService: MockChatService(),
+            versionProvider: MockAppVersionProvider()
         )
         subject.start()
 
@@ -259,7 +263,8 @@ struct HomeCoordinatorTests {
             activityService: MockActivityService(context: coreData.viewContext),
             localAuthorityService: MockLocalAuthorityService(),
             userDefaultsService: MockUserDefaultsService(),
-            chatService: MockChatService()
+            chatService: MockChatService(),
+            versionProvider: MockAppVersionProvider()
         )
 
         subject.start()
@@ -294,7 +299,8 @@ struct HomeCoordinatorTests {
             activityService: MockActivityService(context: coreData.viewContext),
             localAuthorityService: MockLocalAuthorityService(),
             userDefaultsService: MockUserDefaultsService(),
-            chatService: MockChatService()
+            chatService: MockChatService(),
+            versionProvider: MockAppVersionProvider()
         )
 
         let mockSafariCoordinator = MockBaseCoordinator()
@@ -339,7 +345,8 @@ struct HomeCoordinatorTests {
             activityService: MockActivityService(context: coreData.viewContext),
             localAuthorityService: MockLocalAuthorityService(),
             userDefaultsService: MockUserDefaultsService(),
-            chatService: MockChatService()
+            chatService: MockChatService(),
+            versionProvider: MockAppVersionProvider()
         )
 
         let mockTopicDetailCoordinator = MockBaseCoordinator()

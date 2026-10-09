@@ -19,6 +19,7 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
     private let travelService: TravelServiceInterface
     private let analyticsService: AnalyticsServiceInterface
     private let notificationService: NotificationServiceInterface
+    private let feedbackURL: URL
     private let urlOpener: URLOpener
     private let linkAction: () -> Void
     private let dismissAction: () -> Void
@@ -29,6 +30,7 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
         travelService: TravelServiceInterface,
         analyticsService: AnalyticsServiceInterface,
         notificationService: NotificationServiceInterface,
+        feedbackURL: URL,
         urlOpener: URLOpener,
         linkAction: @escaping () -> Void,
         dismissAction: @escaping () -> Void,
@@ -38,6 +40,7 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
         self.travelService = travelService
         self.analyticsService = analyticsService
         self.notificationService = notificationService
+        self.feedbackURL = feedbackURL
         self.urlOpener = urlOpener
         self.linkAction = linkAction
         self.dismissAction = dismissAction
@@ -46,19 +49,25 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
     }
 
     lazy var countryListViewModel: CountryListViewModel = {
-        CountryListViewModel(
+        return CountryListViewModel(
             travelService: travelService,
             analyticsService: analyticsService,
             notificationService: notificationService,
             urlOpener: urlOpener,
-            dismissAction: { [weak self] forceRefresh in
-                self?.didDismissList(forceRefresh: forceRefresh)
-            },
+            actions: CountryListViewModel.Actions(
+                dismissAction: { [weak self] forceRefresh in
+                    self?.didDismissList(forceRefresh: forceRefresh)
+                },
+                openFooterLinkAction: { [weak self] in
+                    guard let self = self else { return }
+                    self.openURLAction(self.feedbackURL)
+                },
+                openExternalURLAction: { [weak self] url in
+                    self?.urlOpener.openIfPossible(url)
+                }
+            ),
             errorCallback: { [weak self] in
                 self?.isShowingError = true
-            },
-            openURLAction: { [weak self] url in
-                self?.openURLAction(url)
             }
         )
     }()

@@ -89,6 +89,28 @@
         }
       }
     },
+    "countryListFooterLink" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tell us the country you’re looking for"
+          }
+        }
+      }
+    },
+    "countryListFooterMessage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We'll add more countries as we test this service."
+          }
+        }
+      }
+    },
     "countryListScreenEmptyTitle" : {
       "extractionState" : "manual",
       "localizations" : {

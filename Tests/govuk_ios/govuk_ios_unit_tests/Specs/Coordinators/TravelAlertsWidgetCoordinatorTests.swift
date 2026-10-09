@@ -35,10 +35,11 @@ struct TravelAlertsWidgetCoordinatorTests {
             travelService: mockTravelService,
             configService: mockConfigService,
             notificationService: mockNotificationService,
+            deviceInformationProvider: MockDeviceInformationProvider(),
+            versionProvider: MockAppVersionProvider(),
             coordinatorBuilder: CoordinatorBuilder.mock,
             widgetViewBuilder: mockWidgetViewBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
-            urlOpener: MockURLOpener()
         )
         let widgetView = sut.makeWidget(for: travelTopic)
         #expect(widgetView != nil)
@@ -58,10 +59,11 @@ struct TravelAlertsWidgetCoordinatorTests {
             travelService: mockTravelService,
             configService: mockConfigService,
             notificationService: mockNotificationService,
+            deviceInformationProvider: MockDeviceInformationProvider(),
+            versionProvider: MockAppVersionProvider(),
             coordinatorBuilder: CoordinatorBuilder.mock,
             widgetViewBuilder: mockWidgetViewBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
-            urlOpener: MockURLOpener()
         )
         let widgetView = sut.makeWidget(for: travelTopic)
         #expect(widgetView == nil)
@@ -80,10 +82,11 @@ struct TravelAlertsWidgetCoordinatorTests {
             travelService: mockTravelService,
             configService: mockConfigService,
             notificationService: mockNotificationService,
+            deviceInformationProvider: MockDeviceInformationProvider(),
+            versionProvider: MockAppVersionProvider(),
             coordinatorBuilder: CoordinatorBuilder.mock,
             widgetViewBuilder: mockWidgetViewBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
-            urlOpener: MockURLOpener()
         )
         let widgetView = sut.makeWidget(for: travelTopic)
         #expect(widgetView == nil)
@@ -104,10 +107,11 @@ struct TravelAlertsWidgetCoordinatorTests {
             travelService: mockTravelService,
             configService: mockConfigService,
             notificationService: mockNotificationService,
+            deviceInformationProvider: MockDeviceInformationProvider(),
+            versionProvider: MockAppVersionProvider(),
             coordinatorBuilder: mockCoordinatorBuilder,
             widgetViewBuilder: mockWidgetViewBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
-            urlOpener: MockURLOpener()
         )
 
         _ = sut.makeWidget(for: travelTopic)
@@ -137,10 +141,11 @@ struct TravelAlertsWidgetCoordinatorTests {
             travelService: mockTravelService,
             configService: mockConfigService,
             notificationService: mockNotificationService,
+            deviceInformationProvider: MockDeviceInformationProvider(),
+            versionProvider: MockAppVersionProvider(),
             coordinatorBuilder: CoordinatorBuilder.mock,
             widgetViewBuilder: mockWidgetViewBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
-            urlOpener: MockURLOpener()
         )
 
         _ = sut.makeWidget(for: travelTopic)
@@ -171,10 +176,11 @@ struct TravelAlertsWidgetCoordinatorTests {
             travelService: mockTravelService,
             configService: mockConfigService,
             notificationService: mockNotificationService,
+            deviceInformationProvider: MockDeviceInformationProvider(),
+            versionProvider: MockAppVersionProvider(),
             coordinatorBuilder: CoordinatorBuilder.mock,
             widgetViewBuilder: mockWidgetViewBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
-            urlOpener: MockURLOpener()
         )
 
         _ = sut.makeWidget(for: travelTopic)
@@ -205,10 +211,11 @@ struct TravelAlertsWidgetCoordinatorTests {
             travelService: mockTravelService,
             configService: mockConfigService,
             notificationService: mockNotificationService,
+            deviceInformationProvider: MockDeviceInformationProvider(),
+            versionProvider: MockAppVersionProvider(),
             coordinatorBuilder: CoordinatorBuilder.mock,
             widgetViewBuilder: mockWidgetViewBuilder,
             viewControllerBuilder: mockViewControllerBuilder,
-            urlOpener: MockURLOpener()
         )
 
         _ = sut.makeWidget(for: travelTopic)
@@ -221,6 +228,76 @@ struct TravelAlertsWidgetCoordinatorTests {
         editAction()
 
         #expect(mockNavigationController._prefersLargeTitles == true)
+    }
+
+    @Test
+    func makeWidget_openURLActionClosure_presentsSafariCoordinator() {
+        let travelTopic = Topic.arrange(
+            context: coreDataRepository.viewContext,
+            ref: "travel-abroad"
+        )
+        mockConfigService.features = [.travelAlerts]
+        let mockCoordinatorBuilder = CoordinatorBuilder.mock
+        let testURL = URL(string: "https://www.example.com")!
+
+        let sut = TravelAlertsWidgetCoordinator(
+            navigationController: UINavigationController(),
+            analyticsService: mockAnalyticsService,
+            travelService: mockTravelService,
+            configService: mockConfigService,
+            notificationService: mockNotificationService,
+            deviceInformationProvider: MockDeviceInformationProvider(),
+            versionProvider: MockAppVersionProvider(),
+            coordinatorBuilder: mockCoordinatorBuilder,
+            widgetViewBuilder: mockWidgetViewBuilder,
+            viewControllerBuilder: mockViewControllerBuilder,
+        )
+
+        _ = sut.makeWidget(for: travelTopic)
+
+        guard let openURLAction = mockWidgetViewBuilder._receivedTravelAlertOpenURLAction else {
+            Issue.record("Expected openURLAction closure to be captured")
+            return
+        }
+
+        openURLAction(testURL)
+
+        #expect(mockCoordinatorBuilder._receivedSafariCoordinatorURL == testURL)
+    }
+
+    @Test
+    func makeWidget_openURLActionClosure_createsSafariCoordinatorWithNonFullScreen() {
+        let travelTopic = Topic.arrange(
+            context: coreDataRepository.viewContext,
+            ref: "travel-abroad"
+        )
+        mockConfigService.features = [.travelAlerts]
+        let mockCoordinatorBuilder = CoordinatorBuilder.mock
+        let testURL = URL(string: "https://www.gov.uk")!
+
+        let sut = TravelAlertsWidgetCoordinator(
+            navigationController: UINavigationController(),
+            analyticsService: mockAnalyticsService,
+            travelService: mockTravelService,
+            configService: mockConfigService,
+            notificationService: mockNotificationService,
+            deviceInformationProvider: MockDeviceInformationProvider(),
+            versionProvider: MockAppVersionProvider(),
+            coordinatorBuilder: mockCoordinatorBuilder,
+            widgetViewBuilder: mockWidgetViewBuilder,
+            viewControllerBuilder: mockViewControllerBuilder,
+        )
+
+        _ = sut.makeWidget(for: travelTopic)
+
+        guard let openURLAction = mockWidgetViewBuilder._receivedTravelAlertOpenURLAction else {
+            Issue.record("Expected openURLAction closure to be captured")
+            return
+        }
+
+        openURLAction(testURL)
+
+        #expect(mockCoordinatorBuilder._receivedSafariCoordinatorFullScreen == false)
     }
 
 }

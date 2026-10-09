@@ -11,25 +11,28 @@ final class TravelAlertsWidgetCoordinator: BaseCoordinator,
     private let notificationService: NotificationServiceInterface
     private let configService: AppConfigServiceInterface
     private let coordinatorBuilder: CoordinatorBuilder
-    private let urlOpener: URLOpener
+    private let deviceInformationProvider: DeviceInformationProviderInterface
+    private let versionProvider: AppVersionProvider
 
     init(navigationController: UINavigationController,
          analyticsService: AnalyticsServiceInterface,
          travelService: TravelServiceInterface,
          configService: AppConfigServiceInterface,
          notificationService: NotificationServiceInterface,
+         deviceInformationProvider: DeviceInformationProviderInterface,
+         versionProvider: AppVersionProvider,
          coordinatorBuilder: CoordinatorBuilder,
          widgetViewBuilder: WidgetViewBuilder,
-         viewControllerBuilder: ViewControllerBuilder,
-         urlOpener: URLOpener) {
+         viewControllerBuilder: ViewControllerBuilder) {
         self.analyticsService = analyticsService
         self.travelService = travelService
         self.configService = configService
         self.notificationService = notificationService
+        self.deviceInformationProvider = deviceInformationProvider
+        self.versionProvider = versionProvider
         self.coordinatorBuilder = coordinatorBuilder
         self.widgetViewBuilder = widgetViewBuilder
         self.viewControllerBuilder = viewControllerBuilder
-        self.urlOpener = urlOpener
         super.init(navigationController: navigationController)
     }
 
@@ -48,6 +51,8 @@ final class TravelAlertsWidgetCoordinator: BaseCoordinator,
             analyticsService: analyticsService,
             travelService: travelService,
             notificationService: notificationService,
+            deviceInfo: deviceInformationProvider,
+            versionProvider: versionProvider,
             linkAction: { [weak self] in
                 self?.startCountrySelection()
             },
@@ -58,7 +63,7 @@ final class TravelAlertsWidgetCoordinator: BaseCoordinator,
                 self?.startEditCountries()
             },
             openURLAction: { [weak self] url in
-                self?.urlOpener.openIfPossible(url)
+                self?.presentWebView(url: url)
             }
         )
     }
@@ -81,10 +86,21 @@ final class TravelAlertsWidgetCoordinator: BaseCoordinator,
             travelService: travelService,
             analyticsService: analyticsService,
             notificationService: notificationService,
+            deviceInfo: deviceInformationProvider,
+            versionProvider: versionProvider,
             openURLAction: { [weak self] url in
-                self?.urlOpener.openIfPossible(url)
+                self?.presentWebView(url: url)
             }
         )
         push(viewController)
+    }
+
+    private func presentWebView(url: URL) {
+        let coordinator = coordinatorBuilder.safari(
+            navigationController: root,
+            url: url,
+            fullScreen: false
+        )
+        start(coordinator)
     }
 }

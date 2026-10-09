@@ -10,6 +10,12 @@ class CountryListViewModel: ObservableObject {
         case error
     }
 
+    struct Actions {
+        let dismissAction: (Bool) -> Void
+        let openFooterLinkAction: () -> Void
+        let openExternalURLAction: (URL) -> Void
+    }
+
     @Published private(set) var viewState: ViewState = .loading
     @Published var searchText = "" {
         didSet {
@@ -26,9 +32,8 @@ class CountryListViewModel: ObservableObject {
     let analyticsService: AnalyticsServiceInterface
     private let notificationService: NotificationServiceInterface
     private let urlOpener: URLOpener
-    let dismissAction: (Bool) -> Void
-    let errorCallback: () -> Void
-    private let openURLAction: (URL) -> Void
+    private let actions: Actions
+    let errorCallback: (() -> Void)?
 
     var hasNotificationConsent: Bool {
         notificationService.hasGivenConsent
@@ -39,17 +44,15 @@ class CountryListViewModel: ObservableObject {
         analyticsService: AnalyticsServiceInterface,
         notificationService: NotificationServiceInterface,
         urlOpener: URLOpener,
-        dismissAction: @escaping (Bool) -> Void,
-        errorCallback: @escaping () -> Void = {},
-        openURLAction: @escaping (URL) -> Void
+        actions: Actions,
+        errorCallback: (() -> Void)? = nil
     ) {
         self.travelService = travelService
         self.analyticsService = analyticsService
         self.notificationService = notificationService
         self.urlOpener = urlOpener
-        self.dismissAction = dismissAction
+        self.actions = actions
         self.errorCallback = errorCallback
-        self.openURLAction = openURLAction
     }
 
     func trackScreen(screen: TrackableScreen) {
@@ -105,10 +108,10 @@ class CountryListViewModel: ObservableObject {
                 Task { @MainActor in
                     switch result {
                     case .success:
-                        self?.dismissAction(true)
+                        self?.actions.dismissAction(true)
                     case .failure:
-                        self?.dismissAction(false)
-                        self?.errorCallback()
+                        self?.actions.dismissAction(false)
+                        self?.errorCallback?()
                     }
                 }
             }
@@ -187,9 +190,16 @@ class CountryListViewModel: ObservableObject {
         viewState = filteredSections.isEmpty ? .empty : .loaded
     }
 
+    func openFooterLink() {
+        actions.openFooterLinkAction()
+    }
+
+    func dismiss(_ forceRefresh: Bool) {
+        actions.dismissAction(forceRefresh)
+    }
+
     func createPermissionViewModel() -> TravelAlertsPermissionViewModel? {
         guard let countryToProcess = self.countryForPermissionFlow else { return nil }
-        let openURL = self.openURLAction
         return TravelAlertsPermissionViewModel(
             travelService: travelService,
             notificationService: notificationService,
@@ -201,7 +211,7 @@ class CountryListViewModel: ObservableObject {
                 self?.showTravelAlertsPermission = false
                 self?.countryForPermissionFlow = nil
             },
-            openURLAction: openURL,
+            openExternalURLAction: self.actions.openExternalURLAction,
             dismissAfterSuccessAction: { [weak self] in
                 self?.returnFromNotificationPermissions(forceRefresh: true)
             },
@@ -216,8 +226,8 @@ class CountryListViewModel: ObservableObject {
         self.selectedCountry = nil
         self.countryForPermissionFlow = nil
         if didError {
-            self.errorCallback()
+            self.errorCallback?()
         }
-        self.dismissAction(forceRefresh)
+        self.actions.dismissAction(forceRefresh)
     }
 }
