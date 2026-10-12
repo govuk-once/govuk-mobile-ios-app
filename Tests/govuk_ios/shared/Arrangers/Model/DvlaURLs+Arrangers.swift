@@ -24,7 +24,11 @@ extension DvlaURLs {
         changeNameGenderLicence: String = "https://www.gov.uk/change-name-driving-licence",
         replaceLicence: String = "https://www.gov.uk/replace-a-driving-licence",
         changeLicenceAddress: String = "https://www.gov.uk/change-address-driving-licence",
-        contact: String = "https://www.gov.uk/contact-the-dvla"
+        contact: String = "https://www.gov.uk/contact-the-dvla",
+        buyingUsedCarChecks: String = "https://www.gov.uk/buying-used-car-checks",
+        reportAbandonedVehicle: String = "https://www.gov.uk/report-an-abandoned-vehicle",
+        reportUntaxedVehicle: String = "https://www.gov.uk/report-an-untaxed-vehicle",
+        reportNoMot: String = "https://www.gov.uk/report-no-mot"
     ) -> DvlaURLs {
         DvlaURLs(
             addVehicle: URL(string: addVehicle)!,
@@ -43,7 +47,11 @@ extension DvlaURLs {
             changeNameGenderLicence: URL(string: changeNameGenderLicence)!,
             replaceLicence: URL(string: replaceLicence)!,
             changeLicenceAddress: URL(string: changeLicenceAddress)!,
-            contact: URL(string: contact)!
+            contact: URL(string: contact)!,
+            buyingUsedCarChecks: URL(string: buyingUsedCarChecks)!,
+            reportAbandonedVehicle: URL(string: reportAbandonedVehicle)!,
+            reportUntaxedVehicle: URL(string: reportUntaxedVehicle)!,
+            reportNoMot: URL(string: reportNoMot)!
         )
     }
 }

@@ -24,14 +24,14 @@ extension VehicleEnquiryResponse.Vehicle {
         registrationNumber: String = "AA19AMP",
         taxStatus: TaxStatus? = .taxed,
         taxedUntil: Date? = .arrange("15/09/2026"),
-        motStatus: MotStatus? = .valid,
+        motStatus: MotStatus = .valid,
         motExpiryDate: Date? = .arrange("15/09/2026"),
-        make: String? = "FORD",
-        dateOfFirstRegistration: Date? = .arrange("01/05/2000"),
+        make: String = "FORD",
+        dateOfFirstRegistration: Date = .arrange("01/05/2000"),
         engineCapacity: Int? = 2000,
         exhaustEmissionsCo2: Int? = 350,
-        fuelType: FuelType? = .diesel,
-        colour: String? = "BLACK",
+        fuelType: FuelType = .diesel,
+        colour: String = "BLACK",
         secondaryColour: String? = nil
     ) -> VehicleEnquiryResponse.Vehicle {
         .init(

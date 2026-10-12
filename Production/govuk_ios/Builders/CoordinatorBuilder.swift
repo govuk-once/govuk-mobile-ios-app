@@ -78,6 +78,7 @@ class CoordinatorBuilder {
             configService: container.appConfigService.resolve(),
             topicsService: container.topicsService.resolve(),
             notificationService: container.notificationService.resolve(),
+            travelService: container.travelService.resolve(),
             deviceInformationProvider: DeviceInformationProvider(),
             searchService: container.searchService.resolve(),
             activityService: container.activityService.resolve(),
@@ -625,6 +626,18 @@ class CoordinatorBuilder {
             userService: container.userService.resolve(),
             urlOpener: UIApplication.shared,
             completion: completion
+        )
+    }
+
+    func vehicleCheck(
+        navigationController: UINavigationController
+    ) -> BaseCoordinator {
+        VehicleCheckCoordinator(
+            navigationController: navigationController,
+            viewControllerBuilder: ViewControllerBuilder(),
+            analyticsService: container.analyticsService.resolve(),
+            configService: container.appConfigService.resolve(),
+            urlOpener: UIApplication.shared
         )
     }
 }

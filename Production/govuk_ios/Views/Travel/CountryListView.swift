@@ -89,7 +89,7 @@ struct CountryListView: View {
         VStack {
             switch viewModel.viewState {
             case .loading:
-                CountryListLoadingView()
+                TravelLoadingView()
             case .loaded:
                 GeometryReader { geometry in
                     modifiedScrollView(geometry: geometry)
@@ -175,19 +175,6 @@ struct CountryListView: View {
                 }
             }
         }
-    }
-}
-
-struct CountryListLoadingView: View {
-    var body: some View {
-        VStack(alignment: .center) {
-            Spacer()
-            ProgressView()
-                .controlSize(.large)
-                .accessibilityLabel(.Travel.travelAlertsLoading)
-            Spacer()
-        }
-        .frame(maxWidth: .infinity)
     }
 }
 

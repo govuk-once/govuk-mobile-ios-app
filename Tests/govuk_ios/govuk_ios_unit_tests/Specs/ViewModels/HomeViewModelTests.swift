@@ -212,4 +212,92 @@ struct HomeViewModelTests {
 
         #expect(topicsViewModel.isEditingTopics == true)
     }
+
+    @MainActor
+    @Test
+    func widgets_analyticsAccepted_returnsQuarterlySurvey() async {
+        let analyticsService = MockAnalyticsService()
+        analyticsService._stubbedPermissionState = .accepted
+        let coreData = await CoreDataRepository.arrangeAndLoad
+        let mockConfigService = MockAppConfigService()
+        mockConfigService.features.append(.quarterlySurvey)
+        let topicsViewModel = TopicsWidgetViewModel(
+            topicsService: MockTopicsService(),
+            analyticsService: MockAnalyticsService(),
+            userDefaultsService: MockUserDefaultsService(),
+            topicAction: { _ in },
+            dismissEditAction: { }
+        )
+
+        let subject = HomeViewModel(
+            analyticsService: analyticsService,
+            configService: mockConfigService,
+            notificationService: MockNotificationService(),
+            userDefaultsService: MockUserDefaultsService(),
+            topicsWidgetViewModel: topicsViewModel,
+            urlOpener: MockURLOpener(),
+            searchService: MockSearchService(),
+            activityService: MockActivityService(context: coreData.viewContext),
+            localAuthorityService: MockLocalAuthorityService(),
+            chatService: MockChatService(),
+            localAuthorityAction: { },
+            editLocalAuthorityAction: { },
+            feedbackAction: { },
+            notificationsAction: {},
+            recentActivityAction: { } ,
+            openURLAction: {_ in } ,
+            openAction: {_ in },
+        )
+
+        let widgets = subject.widgets
+
+        let quarterlySurveyPresent = widgets.contains { item in
+            item.content is QuarterlySurveyWidgetView
+        }
+        #expect(quarterlySurveyPresent)
+    }
+
+    @MainActor
+    @Test
+    func widgets_analyticsDenied_doesntReturnQuarterlySurvey() async {
+        let analyticsService = MockAnalyticsService()
+        analyticsService._stubbedPermissionState = .denied
+        let coreData = await CoreDataRepository.arrangeAndLoad
+        let mockConfigService = MockAppConfigService()
+        mockConfigService.features.append(.quarterlySurvey)
+        let topicsViewModel = TopicsWidgetViewModel(
+            topicsService: MockTopicsService(),
+            analyticsService: MockAnalyticsService(),
+            userDefaultsService: MockUserDefaultsService(),
+            topicAction: { _ in },
+            dismissEditAction: { }
+        )
+
+        let subject = HomeViewModel(
+            analyticsService: analyticsService,
+            configService: mockConfigService,
+            notificationService: MockNotificationService(),
+            userDefaultsService: MockUserDefaultsService(),
+            topicsWidgetViewModel: topicsViewModel,
+            urlOpener: MockURLOpener(),
+            searchService: MockSearchService(),
+            activityService: MockActivityService(context: coreData.viewContext),
+            localAuthorityService: MockLocalAuthorityService(),
+            chatService: MockChatService(),
+            localAuthorityAction: { },
+            editLocalAuthorityAction: { },
+            feedbackAction: { },
+            notificationsAction: {},
+            recentActivityAction: { } ,
+            openURLAction: {_ in } ,
+            openAction: {_ in },
+        )
+
+        let widgets = subject.widgets
+
+        let quarterlySurveyPresent = widgets.contains { item in
+            item.content is QuarterlySurveyWidgetView
+        }
+        #expect(quarterlySurveyPresent == false)
+    }
 }
