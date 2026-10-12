@@ -164,9 +164,10 @@ struct AppConfigServiceTests {
     }
     
     @Test
-    func isFeatureEnabled_whenFeatureFlagIsMessages_returnsTrue() {
+    func isFeatureEnabled_whenFeatureFlagIsMessages_returnsTrue() async {
         let result = Config.arrange(releaseFlags: ["messages": true]).toResult()
         mockAppConfigServiceClient._fetchAppConfigReturn = result
+        _ = await sut.fetchAppConfig()
         #expect(sut.isFeatureEnabled(key: .messages) == true)
     }
     
