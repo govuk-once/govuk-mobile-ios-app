@@ -93,6 +93,7 @@
 		16FCDE782DC4E39A000E870D /* TokenRefreshResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FCDE772DC4E38F000E870D /* TokenRefreshResponse.swift */; };
 		16FD684A2D39AEB5002F1597 /* SuggestionHighlighterProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FD68482D39AEAE002F1597 /* SuggestionHighlighterProcessor.swift */; };
 		16FE77672EBB72A7009D02B1 /* TopicsOnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16FE77662EBB7290009D02B1 /* TopicsOnboardingView.swift */; };
+		259C86454B274A9A6CA7C9DA /* ChatFeedbackReaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = C889E40DDC29E9A8DCD5284D /* ChatFeedbackReaction.swift */; };
 		2D4FCBFB306573FF0016B5B0 /* EditCountriesView+CountryDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D4FCBFA306573FF0016B5B0 /* EditCountriesView+CountryDetails.swift */; };
 		2DD46BD5305D524500B83F7C /* CountryOptionsBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DD46BD4305D524500B83F7C /* CountryOptionsBottomSheet.swift */; };
 		2DE01FAB306D1AD400484E18 /* TravelAlertsEditDeeplinkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DE01FAA306D1AD400484E18 /* TravelAlertsEditDeeplinkRoute.swift */; };
@@ -339,6 +340,7 @@
 		5DFDEBF12CEE396D00F7A365 /* UserProperty+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFDEBF02CEE396D00F7A365 /* UserProperty+Convenience.swift */; };
 		5DFE3C1F2FD319C500DDC5C8 /* DVLAServiceDeeplinkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFE3C1E2FD319C500DDC5C8 /* DVLAServiceDeeplinkRoute.swift */; };
 		5DFE5F1E2D6DE5900041E3B4 /* UNUserNotificationCenter+Interface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFE5F1D2D6DE5900041E3B4 /* UNUserNotificationCenter+Interface.swift */; };
+		79E24125E2DC03E09ACDB4AD /* AnswerFeedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = E10D252F4E1C44ABD3904AC3 /* AnswerFeedback.swift */; };
 		80AB3E6830615E6B00A531CE /* VehicleCheckSectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80AB3E6730615E6400A531CE /* VehicleCheckSectionViewModel.swift */; };
 		80C119C5305C517C00183EA8 /* VehicleCheckSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80C119C4305C4FF200183EA8 /* VehicleCheckSectionView.swift */; };
 		8101A23E2F28BAAB009E639B /* AppUnavailableError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8101A23D2F28BAA4009E639B /* AppUnavailableError.swift */; };
@@ -459,8 +461,10 @@
 		945E1F092F7181070064CA22 /* RecentActivityDeepLinkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945E1F082F7180FA0064CA22 /* RecentActivityDeepLinkRoute.swift */; };
 		960E778EB6B2C4FBEE95776F /* ChatFeedbackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45BA3633B8D0C65713315FB9 /* ChatFeedbackView.swift */; };
 		A75526EE109F4E8733E1B35E /* ChatFeedbackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F273D63AADE2B164E8CEF775 /* ChatFeedbackViewModel.swift */; };
+		A957B9A313DA0B947C6BA22B /* ChatFeedbackViewModelBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBA117E55992C59A920F151 /* ChatFeedbackViewModelBuilder.swift */; };
 		B04C2E802DA9141400F0F63E /* WebDeeplinkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = B04C2E7F2DA9141400F0F63E /* WebDeeplinkRoute.swift */; };
 		B0AD6F202DDA86D80077849F /* NotificationsOnboardingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0AD6F1F2DDA86D80077849F /* NotificationsOnboardingService.swift */; };
+		B689A5270C5470859F6B7B5E /* ChatViewModel+Analytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23873AACCF67AC6EC85F08D1 /* ChatViewModel+Analytics.swift */; };
 		D00984F22D47BC9600D70FEE /* DeviceInformation+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00984F12D47BC9600D70FEE /* DeviceInformation+Convenience.swift */; };
 		D016F29B2E0C51B000659AC3 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D016F29A2E0C51B000659AC3 /* ChatViewModel.swift */; };
 		D016F29E2E0C5C8B00659AC3 /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = D016F29D2E0C5C8B00659AC3 /* MarkdownUI */; };
@@ -721,6 +725,7 @@
 		16FCDE772DC4E38F000E870D /* TokenRefreshResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenRefreshResponse.swift; sourceTree = "<group>"; };
 		16FD68482D39AEAE002F1597 /* SuggestionHighlighterProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestionHighlighterProcessor.swift; sourceTree = "<group>"; };
 		16FE77662EBB7290009D02B1 /* TopicsOnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicsOnboardingView.swift; sourceTree = "<group>"; };
+		23873AACCF67AC6EC85F08D1 /* ChatViewModel+Analytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChatViewModel+Analytics.swift"; sourceTree = "<group>"; };
 		2D4FCBFA306573FF0016B5B0 /* EditCountriesView+CountryDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditCountriesView+CountryDetails.swift"; sourceTree = "<group>"; };
 		2DD46BD4305D524500B83F7C /* CountryOptionsBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryOptionsBottomSheet.swift; sourceTree = "<group>"; };
 		2DE01FAA306D1AD400484E18 /* TravelAlertsEditDeeplinkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelAlertsEditDeeplinkRoute.swift; sourceTree = "<group>"; };
@@ -1079,6 +1084,7 @@
 		B04C2E7F2DA9141400F0F63E /* WebDeeplinkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebDeeplinkRoute.swift; sourceTree = "<group>"; };
 		B0AD6F1F2DDA86D80077849F /* NotificationsOnboardingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsOnboardingService.swift; sourceTree = "<group>"; };
 		B7DF87E52171A51663518975 /* ChatFeedbackState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatFeedbackState.swift; sourceTree = "<group>"; };
+		C889E40DDC29E9A8DCD5284D /* ChatFeedbackReaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatFeedbackReaction.swift; sourceTree = "<group>"; };
 		D00984F12D47BC9600D70FEE /* DeviceInformation+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DeviceInformation+Convenience.swift"; sourceTree = "<group>"; };
 		D016F29A2E0C51B000659AC3 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 		D02416442DEDB1C600F81C6D /* SignInSuccessViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInSuccessViewModel.swift; sourceTree = "<group>"; };
@@ -1201,6 +1207,8 @@
 		D0F6813D2DD4CF8E004421C0 /* LocalAuthorityWidgetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAuthorityWidgetViewModel.swift; sourceTree = "<group>"; };
 		DE523C71304EF43E00C0605C /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		DF582F63435D188F52710665 /* QualtricsSurveyHostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QualtricsSurveyHostViewController.swift; sourceTree = "<group>"; };
+		E10D252F4E1C44ABD3904AC3 /* AnswerFeedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerFeedback.swift; sourceTree = "<group>"; };
+		EFBA117E55992C59A920F151 /* ChatFeedbackViewModelBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatFeedbackViewModelBuilder.swift; sourceTree = "<group>"; };
 		F273D63AADE2B164E8CEF775 /* ChatFeedbackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatFeedbackViewModel.swift; sourceTree = "<group>"; };
 		FB45D1C8305A984700592313 /* ValidityStatusView+Previews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ValidityStatusView+Previews.swift"; sourceTree = "<group>"; };
 		FBD9E9C4305315220031B76A /* StatusRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusRowView.swift; sourceTree = "<group>"; };
@@ -1437,6 +1445,7 @@
 				govuk_ios/govuk_ios_unit_tests/Specs/Views/CentreAlignedBarButtonItemTests.swift,
 				"govuk_ios/shared/Arrangers/Foundation/Date+Arrangers.swift",
 				"govuk_ios/shared/Arrangers/Foundation/URL+Arrangers.swift",
+				"govuk_ios/shared/Arrangers/Model/AnswerFeedback+Arrangers.swift",
 				"govuk_ios/shared/Arrangers/Model/Chat+Arrangers.swift",
 				"govuk_ios/shared/Arrangers/Model/CustomerVehicleDetails+Arrangers.swift",
 				"govuk_ios/shared/Arrangers/Model/CustomerVehicles+Arrangers.swift",
@@ -2073,6 +2082,7 @@
 				81D3E36B2FE3EDB6006049CC /* DVLA */,
 				5D4F97EA2BFF7725002CBDDE /* CoordinatorBuilder.swift */,
 				5DC04B8E2C2D71400036EF2B /* ViewControllerBuilder.swift */,
+				EFBA117E55992C59A920F151 /* ChatFeedbackViewModelBuilder.swift */,
 				D095D1D62FE54D040071FC4F /* QualtricsThemeBuilder.swift */,
 				81BFBFF42FA4FE4C00249569 /* WidgetViewBuilder.swift */,
 			);
@@ -2850,6 +2860,8 @@
 				D04DD3282E0046DC002B5F19 /* Answer.swift */,
 				D04DD3292E0046DC002B5F19 /* AnsweredQuestion.swift */,
 				D04DD32A2E0046DC002B5F19 /* History.swift */,
+				C889E40DDC29E9A8DCD5284D /* ChatFeedbackReaction.swift */,
+				E10D252F4E1C44ABD3904AC3 /* AnswerFeedback.swift */,
 				D04DD32B2E0046DC002B5F19 /* PendingQuestion.swift */,
 				D096BFF12E04124E00426C51 /* ChatItem.swift */,
 			);
@@ -2901,6 +2913,7 @@
 				D055FFFA2F4DBB46004659F6 /* ChatTermsOnboardingViewModel.swift */,
 				F273D63AADE2B164E8CEF775 /* ChatFeedbackViewModel.swift */,
 				B7DF87E52171A51663518975 /* ChatFeedbackState.swift */,
+				23873AACCF67AC6EC85F08D1 /* ChatViewModel+Analytics.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -3852,6 +3865,10 @@
 				5DF32E092E045F5F006C63E0 /* AccessibilityAnnouncerService.swift in Sources */,
 				A75526EE109F4E8733E1B35E /* ChatFeedbackViewModel.swift in Sources */,
 				38D0E8307D57F417E7E3378A /* ChatFeedbackState.swift in Sources */,
+				259C86454B274A9A6CA7C9DA /* ChatFeedbackReaction.swift in Sources */,
+				79E24125E2DC03E09ACDB4AD /* AnswerFeedback.swift in Sources */,
+				B689A5270C5470859F6B7B5E /* ChatViewModel+Analytics.swift in Sources */,
+				A957B9A313DA0B947C6BA22B /* ChatFeedbackViewModelBuilder.swift in Sources */,
 				960E778EB6B2C4FBEE95776F /* ChatFeedbackView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -56,6 +56,112 @@ struct ChatFeedbackViewModelTests {
 
     @Test(arguments: [
         (AnalyticsPermissionState.accepted, true),
+        (AnalyticsPermissionState.accepted, false),
+        (AnalyticsPermissionState.denied, true),
+        (AnalyticsPermissionState.denied, false),
+        (AnalyticsPermissionState.unknown, true)
+    ])
+    func rate_anyConsent_reportsRatingOnce(permissionState: AnalyticsPermissionState,
+                                           isPositive: Bool) {
+        let mockAnalyticsService = MockAnalyticsService()
+        mockAnalyticsService._stubbedPermissionState = permissionState
+        var receivedRatings: [Bool] = []
+        let sut = makeSUT(
+            analyticsService: mockAnalyticsService,
+            sendRating: { isPositive, completion in
+                receivedRatings.append(isPositive)
+                completion(true)
+            }
+        )
+
+        sut.rate(isPositive: isPositive)
+        sut.rate(isPositive: !isPositive)
+        sut.openSurvey()
+
+        #expect(receivedRatings == [isPositive])
+    }
+
+    @Test
+    func rate_whileSending_staysUnselectedAndIgnoresFurtherTaps() throws {
+        let mockAnalyticsService = MockAnalyticsService()
+        var completions: [(Bool) -> Void] = []
+        let sut = makeSUT(
+            analyticsService: mockAnalyticsService,
+            sendRating: { _, completion in completions.append(completion) }
+        )
+
+        sut.rate(isPositive: true)
+        sut.rate(isPositive: false)
+
+        #expect(sut.state == .submitting)
+        #expect(sut.selection == nil)
+        #expect(mockAnalyticsService._trackedEvents.isEmpty)
+        try #require(completions.count == 1)
+
+        completions[0](true)
+
+        #expect(sut.state == .rated(isPositive: true))
+        #expect(mockAnalyticsService._trackedEvents.count == 1)
+    }
+
+    @Test(arguments: [
+        AnalyticsPermissionState.accepted,
+        .denied
+    ])
+    func rate_sendFails_returnsToUnratedWithoutTrackingOrConfirming(
+        permissionState: AnalyticsPermissionState
+    ) {
+        let mockAnalyticsService = MockAnalyticsService()
+        mockAnalyticsService._stubbedPermissionState = permissionState
+        let mockAccessibilityAnnouncer = MockAccessibilityAnnouncerService()
+        var didConfirm = false
+        let sut = makeSUT(
+            analyticsService: mockAnalyticsService,
+            accessibilityAnnouncer: mockAccessibilityAnnouncer,
+            sendRating: { $1(false) },
+            onConfirmed: { didConfirm = true }
+        )
+
+        sut.rate(isPositive: true)
+
+        #expect(sut.state == .unrated)
+        #expect(sut.selection == nil)
+        #expect(mockAnalyticsService._trackedEvents.isEmpty)
+        #expect(mockAccessibilityAnnouncer._receivedAnnounceValue == nil)
+        #expect(!didConfirm)
+    }
+
+    @Test
+    func rate_afterSendFails_canBeRatedAgain() {
+        var results = [false, true]
+        let sut = makeSUT(sendRating: { $1(results.removeFirst()) })
+
+        sut.rate(isPositive: true)
+        sut.rate(isPositive: false)
+
+        #expect(sut.state == .rated(isPositive: false))
+    }
+
+    @Test
+    func rate_resultArrivesTwice_isAppliedOnce() throws {
+        let mockAnalyticsService = MockAnalyticsService()
+        var completions: [(Bool) -> Void] = []
+        let sut = makeSUT(
+            analyticsService: mockAnalyticsService,
+            sendRating: { _, completion in completions.append(completion) }
+        )
+        sut.rate(isPositive: true)
+        try #require(completions.count == 1)
+
+        completions[0](true)
+        completions[0](false)
+
+        #expect(sut.state == .rated(isPositive: true))
+        #expect(mockAnalyticsService._trackedEvents.count == 1)
+    }
+
+    @Test(arguments: [
+        (AnalyticsPermissionState.accepted, true),
         (AnalyticsPermissionState.denied, false),
         (AnalyticsPermissionState.unknown, false)
     ])
@@ -227,6 +333,7 @@ struct ChatFeedbackViewModelTests {
         accessibilityAnnouncer: MockAccessibilityAnnouncerService = MockAccessibilityAnnouncerService(),
         scheduleConfirmation: @escaping ChatFeedbackViewModel.ConfirmationScheduler = { _ in },
         notificationCenter: NotificationCenter = MockNotificationCenter(),
+        sendRating: @escaping ChatFeedbackViewModel.RatingSender = { $1(true) },
         onConfirmed: @escaping () -> Void = { }
     ) -> ChatFeedbackViewModel {
         ChatFeedbackViewModel(
@@ -235,6 +342,7 @@ struct ChatFeedbackViewModelTests {
             accessibilityAnnouncer: accessibilityAnnouncer,
             scheduleConfirmation: scheduleConfirmation,
             notificationCenter: notificationCenter,
+            sendRating: sendRating,
             onConfirmed: onConfirmed
         )
     }

@@ -41,6 +41,19 @@ extension GOVRequest {
         )
     }
 
+    static func sendChatFeedback(conversationId: String,
+                                 answerId: String,
+                                 isPositive: Bool) -> GOVRequest {
+        GOVRequest(
+            urlPath: "/conversation/\(conversationId)/answers/\(answerId)/feedback",
+            method: .post,
+            body: ChatFeedbackReaction(reaction: isPositive ? "positive" : "negative"),
+            queryParameters: nil,
+            additionalHeaders: additionalHeaders,
+            requiresAuthentication: true
+        )
+    }
+
     private static var additionalHeaders: [String: String] {
         ["Content-Type": "application/json"]
     }

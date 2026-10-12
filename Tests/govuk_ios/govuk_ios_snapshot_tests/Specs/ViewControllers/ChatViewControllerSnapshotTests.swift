@@ -153,7 +153,9 @@ final class ChatViewControllerSnapshotTests: SnapshotTestCase {
             createdAt: createdAt,
             id: "12345",
             message: "This is the answer",
-            sources: includeSources ? sources : nil
+            sources: includeSources ? sources : nil,
+            status: nil,
+            feedback: nil
         )
 
         let answeredQuestion = AnsweredQuestion(
@@ -175,7 +177,9 @@ final class ChatViewControllerSnapshotTests: SnapshotTestCase {
             createdAt: createdAt,
             id: "12346",
             message: "This is the pending answer",
-            sources: includeSources ? sources : nil
+            sources: includeSources ? sources : nil,
+            status: nil,
+            feedback: nil
         )
 
         let history = History(
@@ -246,7 +250,9 @@ final class ChatViewControllerSnapshotTests: SnapshotTestCase {
                 1. Number 1
                 2. Number 2
                 """,
-            sources: nil
+            sources: nil,
+            status: nil,
+            feedback: nil
         )
 
         let cellModel = ChatCellViewModel(answer: answer,

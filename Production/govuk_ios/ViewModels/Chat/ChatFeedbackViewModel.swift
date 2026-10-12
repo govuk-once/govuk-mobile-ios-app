@@ -4,6 +4,7 @@ import GovKit
 
 final class ChatFeedbackViewModel: ObservableObject {
     typealias ConfirmationScheduler = (@escaping () -> Void) -> Void
+    typealias RatingSender = (Bool, @escaping (Bool) -> Void) -> Void
 
     private static let confirmationDelay: TimeInterval = 0.5
     static let defaultConfirmationScheduler: ConfirmationScheduler = { confirm in
@@ -18,6 +19,7 @@ final class ChatFeedbackViewModel: ObservableObject {
     private let accessibilityAnnouncer: AccessibilityAnnouncerServiceInterface
     private let scheduleConfirmation: ConfirmationScheduler
     private let notificationCenter: NotificationCenter
+    private let sendRating: RatingSender
     private let onConfirmed: () -> Void
     private var surveyDismissedObserverToken: Any?
 
@@ -28,12 +30,18 @@ final class ChatFeedbackViewModel: ObservableObject {
          scheduleConfirmation: @escaping ConfirmationScheduler =
             ChatFeedbackViewModel.defaultConfirmationScheduler,
          notificationCenter: NotificationCenter = .default,
-         onConfirmed: @escaping () -> Void = { /* No-op */ }) {
+         sendRating: @escaping RatingSender = { _, completion in
+            completion(true)
+         },
+         onConfirmed: @escaping () -> Void = {
+            /* no-op */
+         }) {
         self.questionId = questionId
         self.analyticsService = analyticsService
         self.accessibilityAnnouncer = accessibilityAnnouncer
         self.scheduleConfirmation = scheduleConfirmation
         self.notificationCenter = notificationCenter
+        self.sendRating = sendRating
         self.onConfirmed = onConfirmed
         observeSurveyDismissal()
     }
@@ -52,15 +60,26 @@ final class ChatFeedbackViewModel: ObservableObject {
         switch state {
         case .rated(let isPositive), .surveyOpened(let isPositive):
             return isPositive
-        case .unrated, .confirmed:
+        case .unrated, .submitting, .confirmed:
             return nil
         }
     }
 
     func rate(isPositive: Bool) {
         guard state == .unrated else { return }
-        // Without analytics consent AnalyticsService drops this event, so the rating isn't
-        // recorded anywhere. Recording ratings regardless of consent is planned Chat API work.
+        state = .submitting
+        sendRating(isPositive) { [weak self] didSucceed in
+            self?.handleRatingResult(isPositive: isPositive, didSucceed: didSucceed)
+        }
+    }
+
+    private func handleRatingResult(isPositive: Bool,
+                                    didSucceed: Bool) {
+        guard state == .submitting else { return }
+        guard didSucceed else {
+            state = .unrated
+            return
+        }
         analyticsService.track(
             event: .chatFeedbackIcon(
                 isPositive: isPositive,

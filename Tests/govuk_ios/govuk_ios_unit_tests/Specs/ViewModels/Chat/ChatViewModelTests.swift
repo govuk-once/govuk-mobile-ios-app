@@ -243,13 +243,17 @@ struct ChatViewModelTests {
             createdAt: createdAt,
             id: "12345",
             message: "This is answer one",
-            sources: nil
+            sources: nil,
+            status: nil,
+            feedback: nil
         )
         let answerTwo = Answer(
             createdAt: createdAt,
             id: "67890",
             message: "This is answer two",
-            sources: nil
+            sources: nil,
+            status: nil,
+            feedback: nil
         )
 
         let aqOne = AnsweredQuestion(
@@ -696,6 +700,144 @@ struct ChatViewModelTests {
         #expect(sut.scrollToBottom)
     }
 
+    @Test(arguments: [true, false])
+    func askQuestion_ratingAnswer_sendsFeedbackForAnswer(isPositive: Bool) throws {
+        let mockChatService = MockChatService()
+        let sut = makeAnsweredChatViewModel(chatService: mockChatService)
+        let feedbackViewModel = try #require(sut.cellModels.last?.feedbackViewModel)
+
+        feedbackViewModel.rate(isPositive: isPositive)
+
+        try #require(mockChatService._receivedSendFeedbackCalls.count == 1)
+        let call = mockChatService._receivedSendFeedbackCalls[0]
+        #expect(call.conversationId == PendingQuestion.pendingQuestion.conversationId)
+        #expect(call.answerId == Answer.answeredAnswer.id)
+        #expect(call.isPositive == isPositive)
+    }
+
+    @Test
+    func loadHistory_ratingLatestAnswer_sendsFeedbackForAnswer() throws {
+        let mockChatService = MockChatService()
+        let sut = makeHistoryChatViewModel(
+            chatService: mockChatService,
+            latestAnswer: .arrange(id: "latestAnswerId")
+        )
+        let feedbackViewModel = try #require(sut.cellModels.last?.feedbackViewModel)
+
+        feedbackViewModel.rate(isPositive: false)
+
+        try #require(mockChatService._receivedSendFeedbackCalls.count == 1)
+        let call = mockChatService._receivedSendFeedbackCalls[0]
+        #expect(call.conversationId == "conversationId")
+        #expect(call.answerId == "latestAnswerId")
+        #expect(call.isPositive == false)
+    }
+
+    @Test(arguments: [
+        Answer.ratedAnswer,
+        .technicalErrorAnswer,
+        .arrange(id: nil)
+    ])
+    func loadHistory_latestAnswerNotEligible_hasNoFeedback(latestAnswer: Answer) {
+        let sut = makeHistoryChatViewModel(
+            chatService: MockChatService(),
+            latestAnswer: latestAnswer
+        )
+
+        #expect(sut.cellModels.last?.type == .answer)
+        #expect(sut.cellModels.allSatisfy { $0.feedbackViewModel == nil })
+    }
+
+    @Test
+    func loadHistory_latestAnswerWithoutStatus_hasFeedback() {
+        let sut = makeHistoryChatViewModel(
+            chatService: MockChatService(),
+            latestAnswer: .arrange(status: nil)
+        )
+
+        #expect(sut.cellModels.last?.feedbackViewModel != nil)
+    }
+
+    @Test
+    func askQuestion_technicalErrorAnswer_hasNoFeedback() {
+        let mockChatService = MockChatService()
+        mockChatService._stubbedAnswerResults = [.success(.technicalErrorAnswer)]
+        let sut = makeAnsweredChatViewModel(chatService: mockChatService)
+
+        #expect(sut.cellModels.last?.type == .answer)
+        #expect(sut.cellModels.allSatisfy { $0.feedbackViewModel == nil })
+    }
+
+    @Test(arguments: [
+        ChatError.authenticationError,
+        .networkUnavailable,
+        .apiUnavailable,
+        .pageNotFound,
+        .validationError
+    ])
+    func sendFeedback_error_callsHandleErrorAndLeavesAnswerUnrated(
+        error: ChatError
+    ) throws {
+        let mockChatService = MockChatService()
+        mockChatService._stubbedSendFeedbackResult = .failure(error)
+        var receivedErrors: [ChatError] = []
+        let sut = makeAnsweredChatViewModel(
+            chatService: mockChatService,
+            handleError: { receivedErrors.append($0) }
+        )
+        let feedbackViewModel = try #require(sut.cellModels.last?.feedbackViewModel)
+
+        feedbackViewModel.rate(isPositive: true)
+
+        #expect(receivedErrors == [error])
+        #expect(feedbackViewModel.state == .unrated)
+    }
+
+    @Test
+    func sendFeedback_success_showsRatingAndDoesNotCallHandleError() throws {
+        var receivedErrors: [ChatError] = []
+        let sut = makeAnsweredChatViewModel(
+            handleError: { receivedErrors.append($0) }
+        )
+        let feedbackViewModel = try #require(sut.cellModels.last?.feedbackViewModel)
+
+        feedbackViewModel.rate(isPositive: true)
+
+        #expect(receivedErrors.isEmpty)
+        #expect(feedbackViewModel.state == .rated(isPositive: true))
+    }
+
+    private func makeHistoryChatViewModel(chatService: MockChatService,
+                                          latestAnswer: Answer) -> ChatViewModel {
+        chatService._stubbedConversationId = "conversationId"
+        chatService._stubbedHistoryResult = .success(
+            History(
+                pendingQuestion: nil,
+                answeredQuestions: [
+                    answeredQuestion(id: "1", message: "First question"),
+                    AnsweredQuestion(
+                        answer: latestAnswer,
+                        conversationId: "conversationId",
+                        createdAt: "\(Date())",
+                        id: "2",
+                        message: "Second question"
+                    )
+                ],
+                createdAt: "\(Date())",
+                id: "4456"
+            )
+        )
+        let sut = ChatViewModel(
+            chatService: chatService,
+            analyticsService: MockAnalyticsService(),
+            configService: MockAppConfigService(),
+            openURLAction: { _ in },
+            handleError: { _ in }
+        )
+        sut.loadHistory()
+        return sut
+    }
+
     private func answeredQuestion(id: String, message: String) -> AnsweredQuestion {
         AnsweredQuestion(
             answer: .answeredAnswer,
@@ -707,17 +849,20 @@ struct ChatViewModelTests {
     }
 
     private func makeAnsweredChatViewModel(
+        chatService mockChatService: MockChatService = MockChatService(),
+        handleError: @escaping (ChatError) -> Void = { _ in },
         scheduleFeedbackConfirmation: @escaping ChatFeedbackViewModel.ConfirmationScheduler = { _ in }
     ) -> ChatViewModel {
-        let mockChatService = MockChatService()
         mockChatService._stubbedQuestionResult = .success(.pendingQuestion)
-        mockChatService._stubbedAnswerResults = [.success(.answeredAnswer)]
+        if mockChatService._stubbedAnswerResults.isEmpty {
+            mockChatService._stubbedAnswerResults = [.success(.answeredAnswer)]
+        }
         let sut = ChatViewModel(
             chatService: mockChatService,
             analyticsService: MockAnalyticsService(),
             configService: MockAppConfigService(),
             openURLAction: { _ in },
-            handleError: { _ in },
+            handleError: handleError,
             scheduleFeedbackConfirmation: scheduleFeedbackConfirmation
         )
         sut.latestQuestion = "This is the question"

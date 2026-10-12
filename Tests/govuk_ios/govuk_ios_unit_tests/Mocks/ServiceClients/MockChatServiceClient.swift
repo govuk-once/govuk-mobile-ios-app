@@ -34,4 +34,20 @@ class MockChatServiceClient: ChatServiceClientInterface {
             completion(result)
         }
     }
+
+    var _receivedSendFeedbackConversationId: String?
+    var _receivedSendFeedbackAnswerId: String?
+    var _receivedSendFeedbackIsPositive: Bool?
+    var _stubbedSendFeedbackResult: ChatFeedbackResult?
+    func sendFeedback(conversationId: String,
+                      answerId: String,
+                      isPositive: Bool,
+                      completion: @escaping (ChatFeedbackResult) -> Void) {
+        _receivedSendFeedbackConversationId = conversationId
+        _receivedSendFeedbackAnswerId = answerId
+        _receivedSendFeedbackIsPositive = isPositive
+        if let result = _stubbedSendFeedbackResult {
+            completion(result)
+        }
+    }
 }

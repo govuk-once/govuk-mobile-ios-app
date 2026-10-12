@@ -7,6 +7,8 @@ struct ChatResponseHandler: ResponseHandler {
             ChatError.authenticationError
         case 404:
             ChatError.pageNotFound
+        case 409:
+            ChatError.feedbackAlreadyGiven
         case 422:
             ChatError.validationError
         default:
