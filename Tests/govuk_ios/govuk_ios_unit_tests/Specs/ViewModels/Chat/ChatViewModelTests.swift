@@ -4,6 +4,7 @@ import GovKit
 
 @testable import govuk_ios
 
+@MainActor
 @Suite
 struct ChatViewModelTests {
 
@@ -680,7 +681,6 @@ struct ChatViewModelTests {
             openURLAction: { _ in },
             handleError: { _ in }
         )
-
         sut.loadHistory()
 
         #expect(sut.cellModels.contains { $0.type == .answer })
@@ -723,7 +723,6 @@ struct ChatViewModelTests {
             latestAnswer: .arrange(id: "latestAnswerId")
         )
         let feedbackViewModel = try #require(sut.cellModels.last?.feedbackViewModel)
-
         feedbackViewModel.rate(isPositive: false)
 
         try #require(mockChatService._receivedSendFeedbackCalls.count == 1)
@@ -786,7 +785,6 @@ struct ChatViewModelTests {
             handleError: { receivedErrors.append($0) }
         )
         let feedbackViewModel = try #require(sut.cellModels.last?.feedbackViewModel)
-
         feedbackViewModel.rate(isPositive: true)
 
         #expect(receivedErrors == [error])
@@ -800,7 +798,6 @@ struct ChatViewModelTests {
             handleError: { receivedErrors.append($0) }
         )
         let feedbackViewModel = try #require(sut.cellModels.last?.feedbackViewModel)
-
         feedbackViewModel.rate(isPositive: true)
 
         #expect(receivedErrors.isEmpty)

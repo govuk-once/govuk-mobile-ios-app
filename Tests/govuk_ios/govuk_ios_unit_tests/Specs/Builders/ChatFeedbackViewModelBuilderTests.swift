@@ -3,6 +3,7 @@ import Testing
 
 @testable import govuk_ios
 
+@MainActor
 @Suite
 struct ChatFeedbackViewModelBuilderTests {
 

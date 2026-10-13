@@ -5,6 +5,7 @@ import GovKit
 
 @testable import govuk_ios
 
+@MainActor
 @Suite
 struct ChatFeedbackViewModelTests {
 
@@ -26,19 +27,6 @@ struct ChatFeedbackViewModelTests {
         #expect(event.params?["section"] as? String == "Chat")
         #expect(event.params?["questionId"] as? String == "questionId")
         #expect(event.params?["conversation_id"] == nil)
-    }
-
-    @Test(arguments: [
-        (true, "Helpful, selected"),
-        (false, "Not helpful, selected")
-    ])
-    func rate_withConsent_announcesSelection(isPositive: Bool, expectedAnnouncement: String) {
-        let mockAccessibilityAnnouncer = MockAccessibilityAnnouncerService()
-        let sut = makeSUT(accessibilityAnnouncer: mockAccessibilityAnnouncer)
-
-        sut.rate(isPositive: isPositive)
-
-        #expect(mockAccessibilityAnnouncer._receivedAnnounceValue == expectedAnnouncement)
     }
 
     @Test
@@ -113,11 +101,9 @@ struct ChatFeedbackViewModelTests {
     ) {
         let mockAnalyticsService = MockAnalyticsService()
         mockAnalyticsService._stubbedPermissionState = permissionState
-        let mockAccessibilityAnnouncer = MockAccessibilityAnnouncerService()
         var didConfirm = false
         let sut = makeSUT(
             analyticsService: mockAnalyticsService,
-            accessibilityAnnouncer: mockAccessibilityAnnouncer,
             sendRating: { $1(false) },
             onConfirmed: { didConfirm = true }
         )
@@ -127,7 +113,6 @@ struct ChatFeedbackViewModelTests {
         #expect(sut.state == .unrated)
         #expect(sut.selection == nil)
         #expect(mockAnalyticsService._trackedEvents.isEmpty)
-        #expect(mockAccessibilityAnnouncer._receivedAnnounceValue == nil)
         #expect(!didConfirm)
     }
 
@@ -212,11 +197,9 @@ struct ChatFeedbackViewModelTests {
     func rate_withoutConsent_tracksEventAndConfirms(isPositive: Bool) {
         let mockAnalyticsService = MockAnalyticsService()
         mockAnalyticsService._stubbedPermissionState = .denied
-        let mockAccessibilityAnnouncer = MockAccessibilityAnnouncerService()
         var didConfirm = false
         let sut = makeSUT(
             analyticsService: mockAnalyticsService,
-            accessibilityAnnouncer: mockAccessibilityAnnouncer,
             onConfirmed: { didConfirm = true }
         )
 
@@ -228,7 +211,6 @@ struct ChatFeedbackViewModelTests {
         #expect(didConfirm)
         #expect(mockAnalyticsService._trackedEvents.count == 1)
         #expect(mockAnalyticsService._trackedEvents.first?.params?["action"] as? String == "icon")
-        #expect(mockAccessibilityAnnouncer._receivedAnnounceValue == nil)
     }
 
     @Test
@@ -330,16 +312,14 @@ struct ChatFeedbackViewModelTests {
 
     private func makeSUT(
         analyticsService: MockAnalyticsService = MockAnalyticsService(),
-        accessibilityAnnouncer: MockAccessibilityAnnouncerService = MockAccessibilityAnnouncerService(),
         scheduleConfirmation: @escaping ChatFeedbackViewModel.ConfirmationScheduler = { _ in },
         notificationCenter: NotificationCenter = MockNotificationCenter(),
-        sendRating: @escaping ChatFeedbackViewModel.RatingSender = { $1(true) },
+        sendRating: @escaping (Bool, @escaping (Bool) -> Void) -> Void = { $1(true) },
         onConfirmed: @escaping () -> Void = { }
     ) -> ChatFeedbackViewModel {
         ChatFeedbackViewModel(
             questionId: "questionId",
             analyticsService: analyticsService,
-            accessibilityAnnouncer: accessibilityAnnouncer,
             scheduleConfirmation: scheduleConfirmation,
             notificationCenter: notificationCenter,
             sendRating: sendRating,

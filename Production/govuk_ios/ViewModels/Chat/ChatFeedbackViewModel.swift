@@ -4,7 +4,6 @@ import GovKit
 
 final class ChatFeedbackViewModel: ObservableObject {
     typealias ConfirmationScheduler = (@escaping () -> Void) -> Void
-    typealias RatingSender = (Bool, @escaping (Bool) -> Void) -> Void
 
     private static let confirmationDelay: TimeInterval = 0.5
     static let defaultConfirmationScheduler: ConfirmationScheduler = { confirm in
@@ -16,21 +15,18 @@ final class ChatFeedbackViewModel: ObservableObject {
 
     private let questionId: String
     private let analyticsService: AnalyticsServiceInterface
-    private let accessibilityAnnouncer: AccessibilityAnnouncerServiceInterface
     private let scheduleConfirmation: ConfirmationScheduler
     private let notificationCenter: NotificationCenter
-    private let sendRating: RatingSender
+    private let sendRating: (Bool, @escaping (Bool) -> Void) -> Void
     private let onConfirmed: () -> Void
     private var surveyDismissedObserverToken: Any?
 
     init(questionId: String,
          analyticsService: AnalyticsServiceInterface,
-         accessibilityAnnouncer: AccessibilityAnnouncerServiceInterface =
-            AccessibilityAnnouncerService(),
          scheduleConfirmation: @escaping ConfirmationScheduler =
             ChatFeedbackViewModel.defaultConfirmationScheduler,
          notificationCenter: NotificationCenter = .default,
-         sendRating: @escaping RatingSender = { _, completion in
+         sendRating: @escaping (Bool, @escaping (Bool) -> Void) -> Void = { _, completion in
             completion(true)
          },
          onConfirmed: @escaping () -> Void = {
@@ -38,7 +34,6 @@ final class ChatFeedbackViewModel: ObservableObject {
          }) {
         self.questionId = questionId
         self.analyticsService = analyticsService
-        self.accessibilityAnnouncer = accessibilityAnnouncer
         self.scheduleConfirmation = scheduleConfirmation
         self.notificationCenter = notificationCenter
         self.sendRating = sendRating
@@ -65,6 +60,7 @@ final class ChatFeedbackViewModel: ObservableObject {
         }
     }
 
+    @MainActor
     func rate(isPositive: Bool) {
         guard state == .unrated else { return }
         state = .submitting
@@ -73,6 +69,7 @@ final class ChatFeedbackViewModel: ObservableObject {
         }
     }
 
+    @MainActor
     private func handleRatingResult(isPositive: Bool,
                                     didSucceed: Bool) {
         guard state == .submitting else { return }
@@ -88,11 +85,6 @@ final class ChatFeedbackViewModel: ObservableObject {
         )
         if isLinkVisible {
             state = .rated(isPositive: isPositive)
-            accessibilityAnnouncer.announce(
-                String(localized: isPositive ?
-                    .Chat.feedbackHelpfulSelectedAccessibilityAnnouncement :
-                    .Chat.feedbackNotHelpfulSelectedAccessibilityAnnouncement)
-            )
         } else {
             state = .confirmed
             onConfirmed()
@@ -100,6 +92,7 @@ final class ChatFeedbackViewModel: ObservableObject {
         }
     }
 
+    @MainActor
     func openSurvey() {
         guard case .rated(let isPositive) = state,
               isLinkVisible
@@ -116,6 +109,7 @@ final class ChatFeedbackViewModel: ObservableObject {
         }
     }
 
+    @MainActor
     private func confirm() {
         guard case .surveyOpened = state else { return }
         state = .confirmed

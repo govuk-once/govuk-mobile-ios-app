@@ -3,6 +3,8 @@ import GovKitUI
 
 struct ChatFeedbackView: View {
     @ObservedObject var viewModel: ChatFeedbackViewModel
+    var accessibilityAnnouncer: AccessibilityAnnouncerServiceInterface =
+        AccessibilityAnnouncerService()
     @AccessibilityFocusState private var isConfirmationFocused: Bool
     private let animationDuration: TimeInterval = 0.3
 
@@ -24,6 +26,9 @@ struct ChatFeedbackView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .onReceive(viewModel.confirmationFocusRequests) {
             focusConfirmation()
+        }
+        .onChange(of: viewModel.selection) { selection in
+            announceSelection(selection)
         }
     }
 
@@ -119,6 +124,15 @@ struct ChatFeedbackView: View {
         Text(isPositive ?
              LocalizedStringResource.Chat.feedbackHelpfulAccessibilityLabel :
                 .Chat.feedbackNotHelpfulAccessibilityLabel)
+    }
+
+    private func announceSelection(_ selection: Bool?) {
+        guard let selection else { return }
+        accessibilityAnnouncer.announce(
+            String(localized: selection ?
+                .Chat.feedbackHelpfulSelectedAccessibilityAnnouncement :
+                .Chat.feedbackNotHelpfulSelectedAccessibilityAnnouncement)
+        )
     }
 
     private func focusConfirmation() {

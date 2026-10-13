@@ -6,6 +6,7 @@ import GovKitUI
 
 @testable import govuk_ios
 
+@MainActor
 final class ChatFeedbackViewSnapshotTests: SnapshotTestCase {
     func test_loadInNavigationController_unrated_light_rendersCorrectly() {
         verify(feedbackView(), mode: .light)
