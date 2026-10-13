@@ -221,7 +221,6 @@ final class RecentActivityListViewController: BaseViewController {
                 equalTo: view.safeAreaLayoutGuide.bottomAnchor
             )
         ])
-        // 2. Set up the height constraint with a lower priority so it won't break if conflicts occur
         toolbarHeightConstraint = editingToolbar.heightAnchor.constraint(
             equalToConstant: tabBarHeight
         )
