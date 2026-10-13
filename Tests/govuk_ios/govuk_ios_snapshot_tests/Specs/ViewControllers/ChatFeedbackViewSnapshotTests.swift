@@ -69,7 +69,10 @@ final class ChatFeedbackViewSnapshotTests: SnapshotTestCase {
         let viewModel = ChatFeedbackViewModel(
             questionId: "questionId",
             analyticsService: mockAnalyticsService,
-            scheduleConfirmation: { $0() }
+            scheduleConfirmation: { $0() },
+            notificationCenter: NotificationCenter(),
+            sendRating: { $1(true) },
+            confirmedAction: { }
         )
         if let isPositive {
             viewModel.rate(isPositive: isPositive)
@@ -77,7 +80,10 @@ final class ChatFeedbackViewSnapshotTests: SnapshotTestCase {
         if isConfirmed {
             viewModel.openSurvey()
         }
-        return ChatFeedbackView(viewModel: viewModel)
+        return ChatFeedbackView(
+            viewModel: viewModel,
+            accessibilityAnnouncer: MockAccessibilityAnnouncerService()
+        )
             .padding()
             .frame(maxHeight: .infinity, alignment: .top)
             .background(Color(UIColor.govUK.fills.surfaceChatBackground))

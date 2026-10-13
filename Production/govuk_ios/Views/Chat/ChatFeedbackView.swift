@@ -3,8 +3,7 @@ import GovKitUI
 
 struct ChatFeedbackView: View {
     @ObservedObject var viewModel: ChatFeedbackViewModel
-    var accessibilityAnnouncer: AccessibilityAnnouncerServiceInterface =
-        AccessibilityAnnouncerService()
+    let accessibilityAnnouncer: AccessibilityAnnouncerServiceInterface
     @AccessibilityFocusState private var isConfirmationFocused: Bool
     private let animationDuration: TimeInterval = 0.3
 

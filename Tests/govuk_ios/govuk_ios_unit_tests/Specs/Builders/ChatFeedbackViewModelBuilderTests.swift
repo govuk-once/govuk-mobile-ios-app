@@ -19,8 +19,8 @@ struct ChatFeedbackViewModelBuilderTests {
             questionId: "questionId",
             conversationId: "conversationId",
             answer: answer,
-            onConfirmed: { },
-            onError: { _ in }
+            confirmedAction: { },
+            errorAction: { _ in }
         )
 
         #expect(result == nil)
@@ -35,8 +35,8 @@ struct ChatFeedbackViewModelBuilderTests {
                 questionId: "questionId",
                 conversationId: "conversationId",
                 answer: .arrange(id: "answerId"),
-                onConfirmed: { },
-                onError: { _ in }
+                confirmedAction: { },
+                errorAction: { _ in }
             )
         )
 
@@ -66,8 +66,8 @@ struct ChatFeedbackViewModelBuilderTests {
                 questionId: "questionId",
                 conversationId: "conversationId",
                 answer: .answeredAnswer,
-                onConfirmed: { },
-                onError: { receivedErrors.append($0) }
+                confirmedAction: { },
+                errorAction: { receivedErrors.append($0) }
             )
         )
 
@@ -86,8 +86,8 @@ struct ChatFeedbackViewModelBuilderTests {
                 questionId: "questionId",
                 conversationId: "conversationId",
                 answer: .answeredAnswer,
-                onConfirmed: { },
-                onError: { receivedErrors.append($0) }
+                confirmedAction: { },
+                errorAction: { receivedErrors.append($0) }
             )
         )
 
@@ -108,8 +108,8 @@ struct ChatFeedbackViewModelBuilderTests {
                 questionId: "questionId",
                 conversationId: "conversationId",
                 answer: .answeredAnswer,
-                onConfirmed: { didConfirm = true },
-                onError: { _ in }
+                confirmedAction: { didConfirm = true },
+                errorAction: { _ in }
             )
         )
 

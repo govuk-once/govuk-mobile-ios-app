@@ -105,7 +105,7 @@ struct ChatFeedbackViewModelTests {
         let sut = makeSUT(
             analyticsService: mockAnalyticsService,
             sendRating: { $1(false) },
-            onConfirmed: { didConfirm = true }
+            confirmedAction: { didConfirm = true }
         )
 
         sut.rate(isPositive: true)
@@ -200,7 +200,7 @@ struct ChatFeedbackViewModelTests {
         var didConfirm = false
         let sut = makeSUT(
             analyticsService: mockAnalyticsService,
-            onConfirmed: { didConfirm = true }
+            confirmedAction: { didConfirm = true }
         )
 
         sut.rate(isPositive: isPositive)
@@ -231,7 +231,7 @@ struct ChatFeedbackViewModelTests {
         var didConfirm = false
         let sut = makeSUT(
             scheduleConfirmation: { scheduledConfirmation = $0 },
-            onConfirmed: { didConfirm = true }
+            confirmedAction: { didConfirm = true }
         )
 
         sut.rate(isPositive: false)
@@ -315,7 +315,7 @@ struct ChatFeedbackViewModelTests {
         scheduleConfirmation: @escaping ChatFeedbackViewModel.ConfirmationScheduler = { _ in },
         notificationCenter: NotificationCenter = MockNotificationCenter(),
         sendRating: @escaping (Bool, @escaping (Bool) -> Void) -> Void = { $1(true) },
-        onConfirmed: @escaping () -> Void = { }
+        confirmedAction: @escaping () -> Void = { }
     ) -> ChatFeedbackViewModel {
         ChatFeedbackViewModel(
             questionId: "questionId",
@@ -323,7 +323,7 @@ struct ChatFeedbackViewModelTests {
             scheduleConfirmation: scheduleConfirmation,
             notificationCenter: notificationCenter,
             sendRating: sendRating,
-            onConfirmed: onConfirmed
+            confirmedAction: confirmedAction
         )
     }
 }

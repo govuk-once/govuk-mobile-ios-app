@@ -119,7 +119,8 @@ actor QualtricsService: QualtricsServiceInterface {
                 autoCloseSurvey: NSNumber(value: autoCloseSurvey)
             )
             let hostController = QualtricsSurveyHostViewController(
-                surveyViewController: surveyController
+                surveyViewController: surveyController,
+                notificationCenter: .default
             )
             viewController.present(hostController, animated: true)
         }

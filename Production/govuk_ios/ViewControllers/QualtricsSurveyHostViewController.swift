@@ -5,7 +5,7 @@ final class QualtricsSurveyHostViewController: UIViewController {
     private let notificationCenter: NotificationCenter
 
     init(surveyViewController: UIViewController,
-         notificationCenter: NotificationCenter = .default) {
+         notificationCenter: NotificationCenter) {
         self.surveyViewController = surveyViewController
         self.notificationCenter = notificationCenter
         super.init(nibName: nil, bundle: nil)

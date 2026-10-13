@@ -18,26 +18,21 @@ final class ChatFeedbackViewModel: ObservableObject {
     private let scheduleConfirmation: ConfirmationScheduler
     private let notificationCenter: NotificationCenter
     private let sendRating: (Bool, @escaping (Bool) -> Void) -> Void
-    private let onConfirmed: () -> Void
+    private let confirmedAction: () -> Void
     private var surveyDismissedObserverToken: Any?
 
     init(questionId: String,
          analyticsService: AnalyticsServiceInterface,
-         scheduleConfirmation: @escaping ConfirmationScheduler =
-            ChatFeedbackViewModel.defaultConfirmationScheduler,
-         notificationCenter: NotificationCenter = .default,
-         sendRating: @escaping (Bool, @escaping (Bool) -> Void) -> Void = { _, completion in
-            completion(true)
-         },
-         onConfirmed: @escaping () -> Void = {
-            /* no-op */
-         }) {
+         scheduleConfirmation: @escaping ConfirmationScheduler,
+         notificationCenter: NotificationCenter,
+         sendRating: @escaping (Bool, @escaping (Bool) -> Void) -> Void,
+         confirmedAction: @escaping () -> Void) {
         self.questionId = questionId
         self.analyticsService = analyticsService
         self.scheduleConfirmation = scheduleConfirmation
         self.notificationCenter = notificationCenter
         self.sendRating = sendRating
-        self.onConfirmed = onConfirmed
+        self.confirmedAction = confirmedAction
         observeSurveyDismissal()
     }
 
@@ -87,7 +82,7 @@ final class ChatFeedbackViewModel: ObservableObject {
             state = .rated(isPositive: isPositive)
         } else {
             state = .confirmed
-            onConfirmed()
+            confirmedAction()
             confirmationFocusRequests.send()
         }
     }
@@ -113,7 +108,7 @@ final class ChatFeedbackViewModel: ObservableObject {
     private func confirm() {
         guard case .surveyOpened = state else { return }
         state = .confirmed
-        onConfirmed()
+        confirmedAction()
         confirmationFocusRequests.send()
     }
 

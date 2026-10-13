@@ -166,10 +166,10 @@ class ChatViewModel: ObservableObject {
             questionId: questionId,
             conversationId: conversationId,
             answer: answer,
-            onConfirmed: { [weak self] in
+            confirmedAction: { [weak self] in
                 self?.scrollToBottom = true
             },
-            onError: { [weak self] error in
+            errorAction: { [weak self] error in
                 self?.processError(error)
             }
         )

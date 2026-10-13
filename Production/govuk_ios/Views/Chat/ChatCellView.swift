@@ -14,7 +14,10 @@ struct ChatCellView: View {
         VStack(alignment: .leading, spacing: 4) {
             bubbleView
             if let feedbackViewModel = viewModel.feedbackViewModel {
-                ChatFeedbackView(viewModel: feedbackViewModel)
+                ChatFeedbackView(
+                    viewModel: feedbackViewModel,
+                    accessibilityAnnouncer: AccessibilityAnnouncerService()
+                )
             }
         }
         .opacity(viewModel.isVisible ? 1 : 0)

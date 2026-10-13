@@ -17,8 +17,8 @@ struct ChatFeedbackViewModelBuilder {
     func makeViewModel(questionId: String,
                        conversationId: String,
                        answer: Answer,
-                       onConfirmed: @escaping () -> Void,
-                       onError: @escaping (ChatError) -> Void) -> ChatFeedbackViewModel? {
+                       confirmedAction: @escaping () -> Void,
+                       errorAction: @escaping (ChatError) -> Void) -> ChatFeedbackViewModel? {
         guard let answerId = answer.id,
               answer.feedback == nil,
               !answer.isTechnicalError
@@ -27,6 +27,7 @@ struct ChatFeedbackViewModelBuilder {
             questionId: questionId,
             analyticsService: analyticsService,
             scheduleConfirmation: scheduleConfirmation,
+            notificationCenter: .default,
             sendRating: { isPositive, completion in
                 chatService.sendFeedback(
                     conversationId: conversationId,
@@ -36,12 +37,12 @@ struct ChatFeedbackViewModelBuilder {
                         let error = result.getError()
                         completion(error == nil)
                         if let error {
-                            onError(error)
+                            errorAction(error)
                         }
                     }
                 )
             },
-            onConfirmed: onConfirmed
+            confirmedAction: confirmedAction
         )
     }
 }

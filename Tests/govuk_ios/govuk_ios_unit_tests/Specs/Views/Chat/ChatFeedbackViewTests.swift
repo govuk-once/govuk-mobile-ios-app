@@ -52,7 +52,11 @@ struct ChatFeedbackViewTests {
         mockAnalyticsService._stubbedPermissionState = permissionState
         return ChatFeedbackViewModel(
             questionId: "questionId",
-            analyticsService: mockAnalyticsService
+            analyticsService: mockAnalyticsService,
+            scheduleConfirmation: { _ in },
+            notificationCenter: NotificationCenter(),
+            sendRating: { $1(true) },
+            confirmedAction: { }
         )
     }
 
