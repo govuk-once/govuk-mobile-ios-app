@@ -275,7 +275,6 @@ class CoordinatorBuilder {
         LocalAuthorityServiceCoordinator(
             navigationController: navigationController,
             viewControllerBuilder: ViewControllerBuilder(),
-            analyticsService: container.analyticsService.resolve(),
             localAuthorityService: container.localAuthorityService.resolve(),
             coordinatorBuilder: self,
             dismissed: dismissAction

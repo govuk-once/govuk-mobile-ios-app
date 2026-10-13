@@ -19,7 +19,6 @@ struct LocalAuthorityServiceCoordinatorTests {
         let subject = LocalAuthorityServiceCoordinator(
             navigationController: navigationController,
             viewControllerBuilder: mockViewControllerBuilder,
-            analyticsService: mockAnalyticsService,
             localAuthorityService: MockLocalAuthorityService(),
             coordinatorBuilder: mockCoordinatorBuilder,
             dismissed: {}
@@ -41,7 +40,6 @@ struct LocalAuthorityServiceCoordinatorTests {
             let sut = LocalAuthorityServiceCoordinator(
                 navigationController: navigationController,
                 viewControllerBuilder: mockViewControllerBuilder,
-                analyticsService: MockAnalyticsService(),
                 localAuthorityService: MockLocalAuthorityService(),
                 coordinatorBuilder: mockCoordinatorBuilder,
                 dismissed: {
@@ -66,7 +64,6 @@ struct LocalAuthorityServiceCoordinatorTests {
         let sut = LocalAuthorityServiceCoordinator(
             navigationController: navigationController,
             viewControllerBuilder: mockViewControllerBuilder,
-            analyticsService: MockAnalyticsService(),
             localAuthorityService: MockLocalAuthorityService(),
             coordinatorBuilder: mockCoordinatorBuilder,
             dismissed: {}
@@ -89,7 +86,6 @@ struct LocalAuthorityServiceCoordinatorTests {
             sut = LocalAuthorityServiceCoordinator(
                 navigationController: mockNavigationController,
                 viewControllerBuilder: mockViewControllerBuilder,
-                analyticsService: MockAnalyticsService(),
                 localAuthorityService: MockLocalAuthorityService(),
                 coordinatorBuilder: mockCoordinatorBuilder,
                 dismissed: {
