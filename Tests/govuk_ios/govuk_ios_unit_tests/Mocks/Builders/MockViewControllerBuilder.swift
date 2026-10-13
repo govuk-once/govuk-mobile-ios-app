@@ -477,6 +477,33 @@ class MockViewControllerBuilder: ViewControllerBuilder {
         return _stubbedDvlaAuthenticationViewController ?? UIViewController()
     }
 
+    var _countryListWasCalled = false
+    var _receivedCountryListTravelService: TravelServiceInterface?
+    var _receivedCountryListAnalyticsService: AnalyticsServiceInterface?
+    var _receivedCountryListNotificationService: NotificationServiceInterface?
+    var _receivedCountryListOpenFooterLinkAction: ((URL) -> Void)?
+    var _receivedCountryListOpenExternalURLAction: ((URL) -> Void)?
+    var _stubbedCountryListViewController: UIViewController?
+    override func countryList(
+        travelService: TravelServiceInterface,
+        analyticsService: AnalyticsServiceInterface,
+        notificationService: NotificationServiceInterface,
+        deviceInfo: DeviceInformationProviderInterface,
+        versionProvider: AppVersionProvider,
+        dismissAction: @escaping (Bool) -> Void,
+        errorCallback: (() -> Void)? = nil,
+        openFooterLinkAction: @escaping (URL) -> Void,
+        openExternalURLAction: @escaping (URL) -> Void
+    ) -> UIViewController {
+        _countryListWasCalled = true
+        _receivedCountryListTravelService = travelService
+        _receivedCountryListAnalyticsService = analyticsService
+        _receivedCountryListNotificationService = notificationService
+        _receivedCountryListOpenFooterLinkAction = openFooterLinkAction
+        _receivedCountryListOpenExternalURLAction = openExternalURLAction
+        return _stubbedCountryListViewController ?? UIViewController()
+    }
+
     var _editCountriesWasCalled = false
     var _receivedEditCountriesTravelService: TravelServiceInterface?
     var _receivedEditCountriesAnalyticsService: AnalyticsServiceInterface?
@@ -486,6 +513,8 @@ class MockViewControllerBuilder: ViewControllerBuilder {
         travelService: TravelServiceInterface,
         analyticsService: AnalyticsServiceInterface,
         notificationService: NotificationServiceInterface,
+        deviceInfo: DeviceInformationProviderInterface,
+        versionProvider: AppVersionProvider,
         openURLAction: @escaping (URL) -> Void
     ) -> UIViewController {
         _editCountriesWasCalled = true
