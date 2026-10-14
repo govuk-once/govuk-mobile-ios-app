@@ -100,6 +100,7 @@ class NotificationsRationaleViewModel: ObservableObject {
             await MainActor.run {
                 switch permissionState {
                 case .authorized:
+                    self.notificationService.acceptConsent()
                     self.subscribeToCountry(notificationsEnabled: true)
                 case .denied:
                     self.displayNotificationSettingsAlert = true
@@ -112,7 +113,9 @@ class NotificationsRationaleViewModel: ObservableObject {
 
     private func requestNotificationPermission() {
         notificationService.requestPermissions { [weak self] granted in
-            self?.subscribeToCountry(notificationsEnabled: granted)
+            Task { @MainActor in
+                self?.subscribeToCountry(notificationsEnabled: granted)
+            }
         }
     }
 
@@ -150,7 +153,6 @@ class NotificationsRationaleViewModel: ObservableObject {
 
     func handleNotificationAlertAction() {
         if urlOpener.openNotificationSettings() {
-            notificationService.toggleHasGivenConsent()
             isPendingPermissionCheck = true
         }
     }
@@ -173,6 +175,7 @@ class NotificationsRationaleViewModel: ObservableObject {
             await MainActor.run {
                 switch permissionState {
                 case .authorized:
+                    self.notificationService.acceptConsent()
                     self.isPendingPermissionCheck = false
                     self.displayNotificationSettingsAlert = false
                     self.subscribeToCountry(notificationsEnabled: true)

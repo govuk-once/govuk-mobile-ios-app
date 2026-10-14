@@ -11,6 +11,11 @@ struct CountryOptionsBottomSheet: View {
     let onClearToggleError: () -> Void
     @Environment(\.dismiss) var dismiss
     @State private var contentHeight: CGFloat = 200
+
+    private var shouldBlockNavigation: Bool {
+        isUnfollowing || isTogglingNotifications
+    }
+
     private var calculatedDetents: Set<PresentationDetent> {
            let headerHeight: CGFloat = 56
            let minimumHeight: CGFloat = 100
@@ -27,7 +32,7 @@ struct CountryOptionsBottomSheet: View {
         VStack(alignment: .leading, spacing: 0) {
             HStack {
                 Button {
-                    if !isUnfollowing || !isTogglingNotifications {
+                    if !shouldBlockNavigation {
                         dismiss()
                     }
                 } label: {
@@ -89,7 +94,7 @@ struct CountryOptionsBottomSheet: View {
                 .onChange(
                     of: notificationsEnabled
                 ) { _ in
-                    if !isUnfollowing || !isTogglingNotifications {
+                    if !shouldBlockNavigation {
                         onNotificationsToggle(notificationsEnabled)
                     }
                 }
@@ -100,7 +105,7 @@ struct CountryOptionsBottomSheet: View {
             .roundedBorder(borderColor: Color(UIColor.govUK.fills.surfaceListAlt))
 
             Button {
-                if !isUnfollowing || !isTogglingNotifications {
+                if !shouldBlockNavigation {
                     onUnfollow()
                 }
             } label: {
