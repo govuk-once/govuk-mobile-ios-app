@@ -3,7 +3,7 @@ import UIKit
 import GovKit
 import GovKitUI
 
-class TravelAlertsPermissionViewModel: ObservableObject {
+class NotificationsRationaleViewModel: ObservableObject {
     enum ViewState {
         case idle
         case loading

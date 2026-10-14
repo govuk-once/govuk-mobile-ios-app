@@ -268,7 +268,7 @@ struct CountryListViewModelTests {
         let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
         viewModel.onGetNotificationAlertTap(country)
 
-        #expect(viewModel.showTravelAlertsPermission == true)
+        #expect(viewModel.showNotificationsRationale == true)
     }
 
     @Test
@@ -555,7 +555,7 @@ struct CountryListViewModelTests {
     }
 
     @Test
-    func createPermissionViewModel_returnsViewModelWithCorrectDetails() {
+    func createNotificationsRationaleViewModel_returnsViewModelWithCorrectDetails() {
         let mockAnalyticsService = MockAnalyticsService()
         let mockNotificationService = MockNotificationService()
         mockNotificationService._stubbedhasGivenConsent = false
@@ -564,8 +564,8 @@ struct CountryListViewModelTests {
         // Trigger the permission flow by selecting a country without consent
         viewModel.onGetNotificationAlertTap(Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: []))
 
-        guard let permissionViewModel = viewModel.createPermissionViewModel() else {
-            Issue.record("Expected createPermissionViewModel() to return a value")
+        guard let permissionViewModel = viewModel.createNotificationsRationaleViewModel() else {
+            Issue.record("Expected createNotificationsRationaleViewModel() to return a value")
             return
         }
 
@@ -576,17 +576,17 @@ struct CountryListViewModelTests {
     }
 
     @Test
-    func createPermissionViewModel_returnsNilWhenNoCountryPending() {
+    func createNotificationsRationaleViewModel_returnsNilWhenNoCountryPending() {
         let mockAnalyticsService = MockAnalyticsService()
         let mockNotificationService = MockNotificationService()
         let viewModel = makeViewModel(travelService: MockTravelService(), analyticsService: mockAnalyticsService, notificationService: mockNotificationService, dismissAction: { _ in })
 
-        let permissionViewModel = viewModel.createPermissionViewModel()
+        let permissionViewModel = viewModel.createNotificationsRationaleViewModel()
         #expect(permissionViewModel == nil)
     }
 
     @Test
-    func createPermissionViewModel_dismissSheetActionClearsPermissionState() {
+    func createNotificationsRationaleViewModel_dismissSheetActionClearsPermissionState() {
         let mockAnalyticsService = MockAnalyticsService()
         let mockNotificationService = MockNotificationService()
         mockNotificationService._stubbedhasGivenConsent = false
@@ -595,20 +595,20 @@ struct CountryListViewModelTests {
         let country = Country(name: "Spain", slug: "spain", rawLastUpdate: "", synonyms: [])
         viewModel.onGetNotificationAlertTap(country)
 
-        #expect(viewModel.showTravelAlertsPermission == true)
+        #expect(viewModel.showNotificationsRationale == true)
 
-        guard let permissionViewModel = viewModel.createPermissionViewModel() else {
-            Issue.record("Expected createPermissionViewModel() to return a value")
+        guard let permissionViewModel = viewModel.createNotificationsRationaleViewModel() else {
+            Issue.record("Expected createNotificationsRationaleViewModel() to return a value")
             return
         }
 
         permissionViewModel.dismissSheetAction()
 
-        #expect(viewModel.showTravelAlertsPermission == false)
+        #expect(viewModel.showNotificationsRationale == false)
     }
 
     @Test
-    func createPermissionViewModel_usesProvidedOpenExternalURLAction() {
+    func createNotificationsRationaleViewModel_usesProvidedOpenExternalURLAction() {
         var capturedURL: URL?
         let testURL = URL(string: "https://www.gov.uk/government/publications/govuk-app-privacy-notice-how-we-use-your-data")!
         let mockAnalyticsService = MockAnalyticsService()
@@ -625,8 +625,8 @@ struct CountryListViewModelTests {
         let country = Country(name: "Italy", slug: "italy", rawLastUpdate: "", synonyms: [])
         viewModel.onGetNotificationAlertTap(country)
 
-        guard let permissionViewModel = viewModel.createPermissionViewModel() else {
-            Issue.record("Expected createPermissionViewModel() to return a value")
+        guard let permissionViewModel = viewModel.createNotificationsRationaleViewModel() else {
+            Issue.record("Expected createNotificationsRationaleViewModel() to return a value")
             return
         }
 
@@ -636,15 +636,15 @@ struct CountryListViewModelTests {
     }
 
     @Test
-    func createPermissionViewModel_includesCorrectButtonTitles() {
+    func createNotificationsRationaleViewModel_includesCorrectButtonTitles() {
         let mockNotificationService = MockNotificationService()
         mockNotificationService._stubbedhasGivenConsent = false
         let viewModel = makeViewModel(travelService: MockTravelService(), analyticsService: MockAnalyticsService(), notificationService: mockNotificationService, dismissAction: { _ in })
 
         let country = Country(name: "Portugal", slug: "portugal", rawLastUpdate: "", synonyms: [])
         viewModel.onGetNotificationAlertTap(country)
-        guard let permissionViewModel = viewModel.createPermissionViewModel() else {
-            Issue.record("Expected createPermissionViewModel() to return a value")
+        guard let permissionViewModel = viewModel.createNotificationsRationaleViewModel() else {
+            Issue.record("Expected createNotificationsRationaleViewModel() to return a value")
             return
         }
 
@@ -653,26 +653,26 @@ struct CountryListViewModelTests {
     }
 
     @Test
-    func createPermissionViewModel_afterDismissSheetAction_returnsNil() {
+    func createNotificationsRationaleViewModel_afterDismissSheetAction_returnsNil() {
         let mockNotificationService = MockNotificationService()
         mockNotificationService._stubbedhasGivenConsent = false
         let viewModel = makeViewModel(travelService: MockTravelService(), analyticsService: MockAnalyticsService(), notificationService: mockNotificationService, dismissAction: { _ in })
 
         let country = Country(name: "Greece", slug: "greece", rawLastUpdate: "", synonyms: [])
         viewModel.onGetNotificationAlertTap(country)
-        guard let permissionViewModel = viewModel.createPermissionViewModel() else {
-            Issue.record("Expected createPermissionViewModel() to return a value")
+        guard let permissionViewModel = viewModel.createNotificationsRationaleViewModel() else {
+            Issue.record("Expected createNotificationsRationaleViewModel() to return a value")
             return
         }
 
         permissionViewModel.dismissSheetAction()
 
-        let secondPermissionViewModel = viewModel.createPermissionViewModel()
+        let secondPermissionViewModel = viewModel.createNotificationsRationaleViewModel()
         #expect(secondPermissionViewModel == nil)
     }
 
     @Test
-    func createPermissionViewModel_hasBodyAndTitleText() {
+    func createNotificationsRationaleViewModel_hasBodyAndTitleText() {
         let mockNotificationService = MockNotificationService()
         mockNotificationService._stubbedhasGivenConsent = false
         let viewModel = makeViewModel(travelService: MockTravelService(), analyticsService: MockAnalyticsService(), notificationService: mockNotificationService, dismissAction: { _ in })
@@ -680,8 +680,8 @@ struct CountryListViewModelTests {
         let country = Country(name: "Poland", slug: "poland", rawLastUpdate: "", synonyms: [])
         viewModel.onGetNotificationAlertTap(country)
 
-        guard let permissionViewModel = viewModel.createPermissionViewModel() else {
-            Issue.record("Expected createPermissionViewModel() to return a value")
+        guard let permissionViewModel = viewModel.createNotificationsRationaleViewModel() else {
+            Issue.record("Expected createNotificationsRationaleViewModel() to return a value")
             return
         }
 
@@ -690,7 +690,7 @@ struct CountryListViewModelTests {
     }
 
     @Test
-    func createPermissionViewModel_hasPrivacyPolicyLink() {
+    func createNotificationsRationaleViewModel_hasPrivacyPolicyLink() {
         let mockNotificationService = MockNotificationService()
         mockNotificationService._stubbedhasGivenConsent = false
         let viewModel = makeViewModel(travelService: MockTravelService(), analyticsService: MockAnalyticsService(), notificationService: mockNotificationService, dismissAction: { _ in })
@@ -698,8 +698,8 @@ struct CountryListViewModelTests {
         let country = Country(name: "Sweden", slug: "sweden", rawLastUpdate: "", synonyms: [])
         viewModel.onGetNotificationAlertTap(country)
 
-        guard let permissionViewModel = viewModel.createPermissionViewModel() else {
-            Issue.record("Expected createPermissionViewModel() to return a value")
+        guard let permissionViewModel = viewModel.createNotificationsRationaleViewModel() else {
+            Issue.record("Expected createNotificationsRationaleViewModel() to return a value")
             return
         }
 
@@ -707,15 +707,15 @@ struct CountryListViewModelTests {
     }
 
     @Test
-    func createPermissionViewModel_doesNotHaveDisplayNotificationSettingsAlert() {
+    func createNotificationsRationaleViewModel_doesNotHaveDisplayNotificationSettingsAlert() {
         let mockNotificationService = MockNotificationService()
         mockNotificationService._stubbedhasGivenConsent = false
         let viewModel = makeViewModel(travelService: MockTravelService(), analyticsService: MockAnalyticsService(), notificationService: mockNotificationService, dismissAction: { _ in })
 
         let country = Country(name: "Norway", slug: "norway", rawLastUpdate: "", synonyms: [])
         viewModel.onGetNotificationAlertTap(country)
-        guard let permissionViewModel = viewModel.createPermissionViewModel() else {
-            Issue.record("Expected createPermissionViewModel() to return a value")
+        guard let permissionViewModel = viewModel.createNotificationsRationaleViewModel() else {
+            Issue.record("Expected createNotificationsRationaleViewModel() to return a value")
             return
         }
 
@@ -723,15 +723,15 @@ struct CountryListViewModelTests {
     }
 
     @Test
-    func createPermissionViewModel_initialViewStateIsIdle() {
+    func createNotificationsRationaleViewModel_initialViewStateIsIdle() {
         let mockNotificationService = MockNotificationService()
         mockNotificationService._stubbedhasGivenConsent = false
         let viewModel = makeViewModel(travelService: MockTravelService(), analyticsService: MockAnalyticsService(), notificationService: mockNotificationService, dismissAction: { _ in })
 
         let country = Country(name: "Finland", slug: "finland", rawLastUpdate: "", synonyms: [])
         viewModel.onGetNotificationAlertTap(country)
-        guard let permissionViewModel = viewModel.createPermissionViewModel() else {
-            Issue.record("Expected createPermissionViewModel() to return a value")
+        guard let permissionViewModel = viewModel.createNotificationsRationaleViewModel() else {
+            Issue.record("Expected createNotificationsRationaleViewModel() to return a value")
             return
         }
 

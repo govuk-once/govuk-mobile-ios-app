@@ -3,11 +3,11 @@ import SwiftUI
 import GovKitUI
 import GovKit
 
-struct TravelAlertsPermissionView: View {
-    @StateObject private var viewModel: TravelAlertsPermissionViewModel
+struct NotificationsRationaleView: View {
+    @StateObject private var viewModel: NotificationsRationaleViewModel
     @Environment(\.verticalSizeClass) var verticalSizeClass
 
-    init(viewModel: TravelAlertsPermissionViewModel) {
+    init(viewModel: NotificationsRationaleViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
 

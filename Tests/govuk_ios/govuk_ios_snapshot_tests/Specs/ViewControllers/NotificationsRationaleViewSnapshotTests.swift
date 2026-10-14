@@ -6,7 +6,7 @@ import GovKit
 @testable import govuk_ios
 
 @MainActor
-final class TravelAlertsPermissionViewSnapshotTests: SnapshotTestCase {
+final class NotificationsRationaleViewSnapshotTests: SnapshotTestCase {
     func test_loadInNavigationController_light_rendersCorrectly() {
         let viewModel = makeViewModel()
         let viewController = makeViewController(viewModel: viewModel)
@@ -90,14 +90,14 @@ final class TravelAlertsPermissionViewSnapshotTests: SnapshotTestCase {
     private func makeViewModel(
         travelService: TravelServiceInterface? = nil,
         showImage: Bool = true
-    ) -> TravelAlertsPermissionViewModel {
+    ) -> NotificationsRationaleViewModel {
         let testCountry = Country(
             name: "France",
             slug: "france",
             rawLastUpdate: "",
             synonyms: []
         )
-        let viewModel = TravelAlertsPermissionViewModel(
+        let viewModel = NotificationsRationaleViewModel(
             travelService: travelService ?? MockTravelService(),
             notificationService: MockNotificationService(),
             analyticsService: MockAnalyticsService(),
@@ -112,8 +112,8 @@ final class TravelAlertsPermissionViewSnapshotTests: SnapshotTestCase {
         return viewModel
     }
 
-    private func makeViewController(viewModel: TravelAlertsPermissionViewModel) -> UIViewController {
-        let view = TravelAlertsPermissionView(viewModel: viewModel)
+    private func makeViewController(viewModel: NotificationsRationaleViewModel) -> UIViewController {
+        let view = NotificationsRationaleView(viewModel: viewModel)
         let viewController = HostingViewController(rootView: view)
         viewController.view.backgroundColor = .govUK.fills.surfaceFullscreen
         return viewController

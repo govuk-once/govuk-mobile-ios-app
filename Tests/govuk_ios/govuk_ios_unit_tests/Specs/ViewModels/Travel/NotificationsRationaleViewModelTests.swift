@@ -5,7 +5,7 @@ import UIKit
 @testable import govuk_ios
 
 @Suite
-struct TravelAlertsPermissionViewModelTests {
+struct NotificationsRationaleViewModelTests {
     let mockTravelService = MockTravelService()
     let mockNotificationService = MockNotificationService()
     let mockAnalyticsService = MockAnalyticsService()
@@ -14,7 +14,7 @@ struct TravelAlertsPermissionViewModelTests {
 
     @Test
     func initialization_setsProperties() {
-        let viewModel = TravelAlertsPermissionViewModel(
+        let viewModel = NotificationsRationaleViewModel(
             travelService: mockTravelService,
             notificationService: mockNotificationService,
             analyticsService: mockAnalyticsService,
@@ -28,7 +28,7 @@ struct TravelAlertsPermissionViewModelTests {
         )
 
         #expect(viewModel.showImage == true)
-        #expect(viewModel.viewState == TravelAlertsPermissionViewModel.ViewState.idle)
+        #expect(viewModel.viewState == NotificationsRationaleViewModel.ViewState.idle)
         #expect(viewModel.displayNotificationSettingsAlert == false)
     }
 
@@ -61,7 +61,7 @@ struct TravelAlertsPermissionViewModelTests {
     @Test
     func openPrivacyPolicy_opensURL() {
         var openedURL: URL?
-        let viewModel = TravelAlertsPermissionViewModel(
+        let viewModel = NotificationsRationaleViewModel(
             travelService: mockTravelService,
             notificationService: mockNotificationService,
             analyticsService: mockAnalyticsService,
@@ -95,7 +95,7 @@ struct TravelAlertsPermissionViewModelTests {
     func dismissSheetAction_canBeInvoked() {
         var dismissCalled = false
 
-        let viewModel = TravelAlertsPermissionViewModel(
+        let viewModel = NotificationsRationaleViewModel(
             travelService: mockTravelService,
             notificationService: mockNotificationService,
             analyticsService: mockAnalyticsService,
@@ -195,7 +195,7 @@ struct TravelAlertsPermissionViewModelTests {
     @Test
     func subscribeToCountry_onSuccess_resetsToIdleAndCallsDismiss() async throws {
         var successCalled = false
-        let viewModel = TravelAlertsPermissionViewModel(
+        let viewModel = NotificationsRationaleViewModel(
             travelService: mockTravelService,
             notificationService: mockNotificationService,
             analyticsService: mockAnalyticsService,
@@ -220,7 +220,7 @@ struct TravelAlertsPermissionViewModelTests {
     @Test
     func subscribeToCountry_onFailure_callsDismissAfterError() async throws {
         var errorCalled = false
-        let viewModel = TravelAlertsPermissionViewModel(
+        let viewModel = NotificationsRationaleViewModel(
             travelService: mockTravelService,
             notificationService: mockNotificationService,
             analyticsService: mockAnalyticsService,
@@ -317,8 +317,8 @@ struct TravelAlertsPermissionViewModelTests {
         #expect(buttonTitle1 == buttonTitle2)
     }
 
-    private func makeViewModel() -> TravelAlertsPermissionViewModel {
-        TravelAlertsPermissionViewModel(
+    private func makeViewModel() -> NotificationsRationaleViewModel {
+        NotificationsRationaleViewModel(
             travelService: mockTravelService,
             notificationService: mockNotificationService,
             analyticsService: mockAnalyticsService,

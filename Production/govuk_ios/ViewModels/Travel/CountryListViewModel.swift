@@ -24,7 +24,7 @@ class CountryListViewModel: ObservableObject {
     }
     @Published private(set) var filteredSections = [GroupedListSection]()
     @Published var selectedCountry: Country?
-    @Published var showTravelAlertsPermission = false
+    @Published var showNotificationsRationale = false
     private var countryForPermissionFlow: Country?
 
     private var allCountries: [Country] = []
@@ -89,7 +89,7 @@ class CountryListViewModel: ObservableObject {
         // Given global notifications are off and user is attempting to optIn, navigate to the consent screen
         if !notificationService.hasGivenConsent && notificationOptIn {
             countryForPermissionFlow = country
-            showTravelAlertsPermission = true
+            showNotificationsRationale = true
         } else {
             subscribeToCountryAlerts(country, notificationOptIn)
         }
@@ -198,9 +198,9 @@ class CountryListViewModel: ObservableObject {
         actions.dismissAction(forceRefresh)
     }
 
-    func createPermissionViewModel() -> TravelAlertsPermissionViewModel? {
+    func createNotificationsRationaleViewModel() -> NotificationsRationaleViewModel? {
         guard let countryToProcess = self.countryForPermissionFlow else { return nil }
-        return TravelAlertsPermissionViewModel(
+        return NotificationsRationaleViewModel(
             travelService: travelService,
             notificationService: notificationService,
             analyticsService: analyticsService,
@@ -208,7 +208,7 @@ class CountryListViewModel: ObservableObject {
             showImage: true,
             country: countryToProcess,
             dismissSheetAction: { [weak self] in
-                self?.showTravelAlertsPermission = false
+                self?.showNotificationsRationale = false
                 self?.countryForPermissionFlow = nil
             },
             openExternalURLAction: self.actions.openExternalURLAction,
@@ -222,7 +222,7 @@ class CountryListViewModel: ObservableObject {
     }
 
     private func returnFromNotificationPermissions(forceRefresh: Bool, didError: Bool = false) {
-        self.showTravelAlertsPermission = false
+        self.showNotificationsRationale = false
         self.selectedCountry = nil
         self.countryForPermissionFlow = nil
         if didError {
