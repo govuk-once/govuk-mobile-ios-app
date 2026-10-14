@@ -256,6 +256,10 @@ class SettingsViewModel: SettingsViewModelInterface {
                     title: String(localized: .Settings.messagesTitle),
                     state: state,
                     action: { [weak self] in
+                        self?.trackNavigationEvent(
+                            String(localized: .Settings.messagesTitle),
+                            external: false
+                        )
                         self?.notificationCentreAction?()
                     })
             ], footer: nil)
