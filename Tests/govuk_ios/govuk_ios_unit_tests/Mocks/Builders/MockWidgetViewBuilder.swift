@@ -28,6 +28,8 @@ class MockWidgetViewBuilder: WidgetViewBuilder {
         analyticsService: AnalyticsServiceInterface,
         travelService: TravelServiceInterface,
         notificationService: NotificationServiceInterface,
+        deviceInfo: DeviceInformationProviderInterface,
+        versionProvider: AppVersionProvider,
         linkAction: @escaping () -> Void,
         dismissAction: @escaping () -> Void,
         editAction: @escaping () -> Void,

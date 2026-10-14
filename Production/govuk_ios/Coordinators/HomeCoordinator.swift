@@ -18,6 +18,7 @@ class HomeCoordinator: TabItemCoordinator {
     private let localAuthorityService: LocalAuthorityServiceInterface
     private let userDefaultsService: UserDefaultsServiceInterface
     private let chatService: ChatServiceInterface
+    private let versionProvider: AppVersionProvider
 
     var isEnabled: Bool {
         true
@@ -37,7 +38,9 @@ class HomeCoordinator: TabItemCoordinator {
          activityService: ActivityServiceInterface,
          localAuthorityService: LocalAuthorityServiceInterface,
          userDefaultsService: UserDefaultsServiceInterface,
-         chatService: ChatServiceInterface) {
+         chatService: ChatServiceInterface,
+         versionProvider: AppVersionProvider
+    ) {
         self.coordinatorBuilder = coordinatorBuilder
         self.viewControllerBuilder = viewControllerBuilder
         self.deeplinkStore = deeplinkStore
@@ -52,6 +55,7 @@ class HomeCoordinator: TabItemCoordinator {
         self.localAuthorityService = localAuthorityService
         self.userDefaultsService = userDefaultsService
         self.chatService = chatService
+        self.versionProvider = versionProvider
         super.init(navigationController: navigationController)
     }
 
@@ -118,7 +122,9 @@ class HomeCoordinator: TabItemCoordinator {
             travelService: travelService,
             analyticsService: analyticsService,
             notificationService: notificationService,
-            openURLAction: { [weak self] url in
+            deviceInfo: deviceInformationProvider,
+            versionProvider: versionProvider,
+            openURLAction: { url in
                 let urlOpener: URLOpener = UIApplication.shared
                 urlOpener.openIfPossible(url)
             }
