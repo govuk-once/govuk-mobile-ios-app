@@ -339,6 +339,7 @@
 		5DFDEBF12CEE396D00F7A365 /* UserProperty+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFDEBF02CEE396D00F7A365 /* UserProperty+Convenience.swift */; };
 		5DFE3C1F2FD319C500DDC5C8 /* DVLAServiceDeeplinkRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFE3C1E2FD319C500DDC5C8 /* DVLAServiceDeeplinkRoute.swift */; };
 		5DFE5F1E2D6DE5900041E3B4 /* UNUserNotificationCenter+Interface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DFE5F1D2D6DE5900041E3B4 /* UNUserNotificationCenter+Interface.swift */; };
+		733498AA307D25BD005F98E2 /* AppEvent+ABTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 733498A9307D257E005F98E2 /* AppEvent+ABTest.swift */; };
 		80054B9B3066C57D00697D5C /* VehicleCheckResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80054B9A3066C57600697D5C /* VehicleCheckResultViewModel.swift */; };
 		80054B9D3066C58700697D5C /* VehicleCheckResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80054B9C3066C58300697D5C /* VehicleCheckResultView.swift */; };
 		80056D5D306AD27600697D5C /* VehicleCheckCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80056D5C306AD27100697D5C /* VehicleCheckCoordinator.swift */; };
@@ -968,6 +969,7 @@
 		5DFDEBF02CEE396D00F7A365 /* UserProperty+Convenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserProperty+Convenience.swift"; sourceTree = "<group>"; };
 		5DFE3C1E2FD319C500DDC5C8 /* DVLAServiceDeeplinkRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DVLAServiceDeeplinkRoute.swift; sourceTree = "<group>"; };
 		5DFE5F1D2D6DE5900041E3B4 /* UNUserNotificationCenter+Interface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UNUserNotificationCenter+Interface.swift"; sourceTree = "<group>"; };
+		733498A9307D257E005F98E2 /* AppEvent+ABTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppEvent+ABTest.swift"; sourceTree = "<group>"; };
 		80054B9A3066C57600697D5C /* VehicleCheckResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleCheckResultViewModel.swift; sourceTree = "<group>"; };
 		80054B9C3066C58300697D5C /* VehicleCheckResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleCheckResultView.swift; sourceTree = "<group>"; };
 		80056D5C306AD27100697D5C /* VehicleCheckCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleCheckCoordinator.swift; sourceTree = "<group>"; };
@@ -2499,6 +2501,7 @@
 		5DE970552C297CF3009D66C4 /* Analytics */ = {
 			isa = PBXGroup;
 			children = (
+				733498A9307D257E005F98E2 /* AppEvent+ABTest.swift */,
 				161FF2C32FE2F9CF003DD09E /* AppEvent+Driving.swift */,
 				163381292E533A8C00AC1CED /* AppEvent+Chat.swift */,
 				5DE970562C297CFE009D66C4 /* AppEvent+Convenience.swift */,
@@ -3557,6 +3560,7 @@
 				81583DB82F8CD54D009E6486 /* PerformanceClient.swift in Sources */,
 				D04DD3362E00471C002B5F19 /* ChatResponseHandler.swift in Sources */,
 				5D49D4EA2DD3D2940071826B /* NotificationsOnboardingView.swift in Sources */,
+				733498AA307D25BD005F98E2 /* AppEvent+ABTest.swift in Sources */,
 				5DBE08072C480CA700B58DBE /* UINavigationController+Convenience.swift in Sources */,
 				945E1F092F7181070064CA22 /* RecentActivityDeepLinkRoute.swift in Sources */,
 				5DA8ADE02DD4968100ECEB6B /* NotificationsOnboardingViewModel.swift in Sources */,
