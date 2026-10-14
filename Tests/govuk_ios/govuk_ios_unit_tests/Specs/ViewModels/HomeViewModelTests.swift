@@ -300,4 +300,45 @@ struct HomeViewModelTests {
         }
         #expect(quarterlySurveyPresent == false)
     }
+
+    @Test
+    func trackABTest_tracksEvent() async  {
+        let analyticsService = MockAnalyticsService()
+        analyticsService._stubbedPermissionState = .denied
+        let coreData = await CoreDataRepository.arrangeAndLoad
+        let mockConfigService = MockAppConfigService()
+        mockConfigService.features.append(.quarterlySurvey)
+        let topicsViewModel = TopicsWidgetViewModel(
+            topicsService: MockTopicsService(),
+            analyticsService: MockAnalyticsService(),
+            userDefaultsService: MockUserDefaultsService(),
+            topicAction: { _ in },
+            dismissEditAction: { }
+        )
+
+        let subject = HomeViewModel(
+            analyticsService: analyticsService,
+            configService: mockConfigService,
+            notificationService: MockNotificationService(),
+            userDefaultsService: MockUserDefaultsService(),
+            topicsWidgetViewModel: topicsViewModel,
+            urlOpener: MockURLOpener(),
+            searchService: MockSearchService(),
+            activityService: MockActivityService(context: coreData.viewContext),
+            localAuthorityService: MockLocalAuthorityService(),
+            chatService: MockChatService(),
+            localAuthorityAction: { },
+            editLocalAuthorityAction: { },
+            feedbackAction: { },
+            notificationsAction: {},
+            recentActivityAction: { } ,
+            openURLAction: {_ in } ,
+            openAction: {_ in },
+        )
+        subject.trackABTest(.homeActivation1026)
+
+        let events = analyticsService._trackedEvents
+        #expect(events.count == 1)
+        #expect(events.first?.name == "ab_test_activation_home_10_26")
+    }
 }
