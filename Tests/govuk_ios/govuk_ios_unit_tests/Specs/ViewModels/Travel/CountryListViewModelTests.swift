@@ -259,7 +259,7 @@ struct CountryListViewModelTests {
     }
 
     @Test
-    func handleCountrySelection_whenNotificationOptInTrueAndNoConsent_showsPermissionScreen() {
+    func handleCountrySelection_whenNotificationOptInTrueAndNoConsent_showsPermissionScreen() async throws {
         let mockNotificationService = MockNotificationService()
         mockNotificationService._stubbedhasGivenConsent = false
 
@@ -268,11 +268,12 @@ struct CountryListViewModelTests {
         let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
         viewModel.onGetNotificationAlertTap(country)
 
+        try await Task.sleep(for: .seconds(1))
         #expect(viewModel.showNotificationsRationale == true)
     }
 
     @Test
-    func handleCountrySelection_whenNotificationOptInFalse_proceedsWithSelection() {
+    func handleCountrySelection_whenNotificationOptInFalse_proceedsWithSelection() async throws {
         let mockTravelService = MockTravelService()
         let mockNotificationService = MockNotificationService()
         mockNotificationService._stubbedhasGivenConsent = false
@@ -282,21 +283,24 @@ struct CountryListViewModelTests {
         let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
         viewModel.onNotNowAlertTap(country)
 
+        try await Task.sleep(for: .seconds(1))
         #expect(mockTravelService._subscribeToGroupsCalled == true)
         #expect(mockTravelService._receivedSubscribeSlug == "france")
     }
 
     @Test
-    func handleCountrySelection_whenHasConsentAndOptIn_proceedsWithSelection() {
+    func handleCountrySelection_whenHasConsentAndOptIn_proceedsWithSelection() async throws {
         let mockTravelService = MockTravelService()
         let mockNotificationService = MockNotificationService()
         mockNotificationService._stubbedhasGivenConsent = true
+        mockNotificationService._stubbededPermissionState = .authorized
 
         let viewModel = makeViewModel(travelService: mockTravelService, analyticsService: MockAnalyticsService(), notificationService: mockNotificationService)
 
         let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
         viewModel.onGetNotificationAlertTap(country)
 
+        try await Task.sleep(for: .seconds(1))
         #expect(mockTravelService._subscribeToGroupsCalled == true)
     }
 
@@ -395,7 +399,7 @@ struct CountryListViewModelTests {
     }
 
     @Test
-    func handleCountrySelection_tracksToggleAnalytics() {
+    func handleCountrySelection_tracksToggleAnalytics() async throws {
         let mockAnalyticsService = MockAnalyticsService()
         let mockNotificationService = MockNotificationService()
         mockNotificationService._stubbedhasGivenConsent = false
@@ -405,6 +409,7 @@ struct CountryListViewModelTests {
         let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
         viewModel.onNotNowAlertTap(country)
 
+        try await Task.sleep(for: .seconds(1))
         let events = mockAnalyticsService._trackedEvents
         #expect(events.count >= 1)
         let toggleEvent = events.first(where: { $0.params?["text"] as? String == "France" })
@@ -414,7 +419,7 @@ struct CountryListViewModelTests {
     }
 
     @Test
-    func searchText_tracksSearchEvent() {
+    func searchText_tracksSearchEvent() async throws {
         let mockAnalyticsService = MockAnalyticsService()
         let viewModel = makeViewModel(travelService: MockTravelService(), analyticsService: mockAnalyticsService, notificationService: MockNotificationService(), dismissAction: { _ in })
 
@@ -422,6 +427,7 @@ struct CountryListViewModelTests {
         let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
         viewModel.onNotNowAlertTap(country)
 
+        try await Task.sleep(for: .seconds(1))
         let events = mockAnalyticsService._trackedEvents
         #expect(events.count >= 1)
         let searchEvent = events.first(where: { $0.name == "Search" })
@@ -555,7 +561,7 @@ struct CountryListViewModelTests {
     }
 
     @Test
-    func createNotificationsRationaleViewModel_returnsViewModelWithCorrectDetails() {
+    func createNotificationsRationaleViewModel_returnsViewModelWithCorrectDetails() async throws {
         let mockAnalyticsService = MockAnalyticsService()
         let mockNotificationService = MockNotificationService()
         mockNotificationService._stubbedhasGivenConsent = false
@@ -564,6 +570,7 @@ struct CountryListViewModelTests {
         // Trigger the permission flow by selecting a country without consent
         viewModel.onGetNotificationAlertTap(Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: []))
 
+        try await Task.sleep(for: .seconds(1))
         guard let permissionViewModel = viewModel.createNotificationsRationaleViewModel() else {
             Issue.record("Expected createNotificationsRationaleViewModel() to return a value")
             return
@@ -586,7 +593,7 @@ struct CountryListViewModelTests {
     }
 
     @Test
-    func createNotificationsRationaleViewModel_dismissSheetActionClearsPermissionState() {
+    func createNotificationsRationaleViewModel_dismissSheetActionClearsPermissionState() async throws {
         let mockAnalyticsService = MockAnalyticsService()
         let mockNotificationService = MockNotificationService()
         mockNotificationService._stubbedhasGivenConsent = false
@@ -595,6 +602,7 @@ struct CountryListViewModelTests {
         let country = Country(name: "Spain", slug: "spain", rawLastUpdate: "", synonyms: [])
         viewModel.onGetNotificationAlertTap(country)
 
+        try await Task.sleep(for: .seconds(1))
         #expect(viewModel.showNotificationsRationale == true)
 
         guard let permissionViewModel = viewModel.createNotificationsRationaleViewModel() else {
@@ -608,7 +616,7 @@ struct CountryListViewModelTests {
     }
 
     @Test
-    func createNotificationsRationaleViewModel_usesProvidedOpenExternalURLAction() {
+    func createNotificationsRationaleViewModel_usesProvidedOpenExternalURLAction() async throws {
         var capturedURL: URL?
         let testURL = URL(string: "https://www.gov.uk/government/publications/govuk-app-privacy-notice-how-we-use-your-data")!
         let mockAnalyticsService = MockAnalyticsService()
@@ -625,6 +633,7 @@ struct CountryListViewModelTests {
         let country = Country(name: "Italy", slug: "italy", rawLastUpdate: "", synonyms: [])
         viewModel.onGetNotificationAlertTap(country)
 
+        try await Task.sleep(for: .seconds(1))
         guard let permissionViewModel = viewModel.createNotificationsRationaleViewModel() else {
             Issue.record("Expected createNotificationsRationaleViewModel() to return a value")
             return
@@ -636,13 +645,14 @@ struct CountryListViewModelTests {
     }
 
     @Test
-    func createNotificationsRationaleViewModel_includesCorrectButtonTitles() {
+    func createNotificationsRationaleViewModel_includesCorrectButtonTitles() async throws {
         let mockNotificationService = MockNotificationService()
         mockNotificationService._stubbedhasGivenConsent = false
         let viewModel = makeViewModel(travelService: MockTravelService(), analyticsService: MockAnalyticsService(), notificationService: mockNotificationService, dismissAction: { _ in })
 
         let country = Country(name: "Portugal", slug: "portugal", rawLastUpdate: "", synonyms: [])
         viewModel.onGetNotificationAlertTap(country)
+        try await Task.sleep(for: .seconds(1))
         guard let permissionViewModel = viewModel.createNotificationsRationaleViewModel() else {
             Issue.record("Expected createNotificationsRationaleViewModel() to return a value")
             return
@@ -653,13 +663,14 @@ struct CountryListViewModelTests {
     }
 
     @Test
-    func createNotificationsRationaleViewModel_afterDismissSheetAction_returnsNil() {
+    func createNotificationsRationaleViewModel_afterDismissSheetAction_returnsNil() async throws {
         let mockNotificationService = MockNotificationService()
         mockNotificationService._stubbedhasGivenConsent = false
         let viewModel = makeViewModel(travelService: MockTravelService(), analyticsService: MockAnalyticsService(), notificationService: mockNotificationService, dismissAction: { _ in })
 
         let country = Country(name: "Greece", slug: "greece", rawLastUpdate: "", synonyms: [])
         viewModel.onGetNotificationAlertTap(country)
+        try await Task.sleep(for: .seconds(1))
         guard let permissionViewModel = viewModel.createNotificationsRationaleViewModel() else {
             Issue.record("Expected createNotificationsRationaleViewModel() to return a value")
             return
@@ -672,7 +683,7 @@ struct CountryListViewModelTests {
     }
 
     @Test
-    func createNotificationsRationaleViewModel_hasBodyAndTitleText() {
+    func createNotificationsRationaleViewModel_hasBodyAndTitleText() async throws {
         let mockNotificationService = MockNotificationService()
         mockNotificationService._stubbedhasGivenConsent = false
         let viewModel = makeViewModel(travelService: MockTravelService(), analyticsService: MockAnalyticsService(), notificationService: mockNotificationService, dismissAction: { _ in })
@@ -680,6 +691,7 @@ struct CountryListViewModelTests {
         let country = Country(name: "Poland", slug: "poland", rawLastUpdate: "", synonyms: [])
         viewModel.onGetNotificationAlertTap(country)
 
+        try await Task.sleep(for: .seconds(1))
         guard let permissionViewModel = viewModel.createNotificationsRationaleViewModel() else {
             Issue.record("Expected createNotificationsRationaleViewModel() to return a value")
             return
@@ -690,7 +702,7 @@ struct CountryListViewModelTests {
     }
 
     @Test
-    func createNotificationsRationaleViewModel_hasPrivacyPolicyLink() {
+    func createNotificationsRationaleViewModel_hasPrivacyPolicyLink() async throws {
         let mockNotificationService = MockNotificationService()
         mockNotificationService._stubbedhasGivenConsent = false
         let viewModel = makeViewModel(travelService: MockTravelService(), analyticsService: MockAnalyticsService(), notificationService: mockNotificationService, dismissAction: { _ in })
@@ -698,6 +710,7 @@ struct CountryListViewModelTests {
         let country = Country(name: "Sweden", slug: "sweden", rawLastUpdate: "", synonyms: [])
         viewModel.onGetNotificationAlertTap(country)
 
+        try await Task.sleep(for: .seconds(1))
         guard let permissionViewModel = viewModel.createNotificationsRationaleViewModel() else {
             Issue.record("Expected createNotificationsRationaleViewModel() to return a value")
             return
@@ -707,13 +720,14 @@ struct CountryListViewModelTests {
     }
 
     @Test
-    func createNotificationsRationaleViewModel_doesNotHaveDisplayNotificationSettingsAlert() {
+    func createNotificationsRationaleViewModel_doesNotHaveDisplayNotificationSettingsAlert() async throws {
         let mockNotificationService = MockNotificationService()
         mockNotificationService._stubbedhasGivenConsent = false
         let viewModel = makeViewModel(travelService: MockTravelService(), analyticsService: MockAnalyticsService(), notificationService: mockNotificationService, dismissAction: { _ in })
 
         let country = Country(name: "Norway", slug: "norway", rawLastUpdate: "", synonyms: [])
         viewModel.onGetNotificationAlertTap(country)
+        try await Task.sleep(for: .seconds(1))
         guard let permissionViewModel = viewModel.createNotificationsRationaleViewModel() else {
             Issue.record("Expected createNotificationsRationaleViewModel() to return a value")
             return
@@ -723,13 +737,14 @@ struct CountryListViewModelTests {
     }
 
     @Test
-    func createNotificationsRationaleViewModel_initialViewStateIsIdle() {
+    func createNotificationsRationaleViewModel_initialViewStateIsIdle() async throws {
         let mockNotificationService = MockNotificationService()
         mockNotificationService._stubbedhasGivenConsent = false
         let viewModel = makeViewModel(travelService: MockTravelService(), analyticsService: MockAnalyticsService(), notificationService: mockNotificationService, dismissAction: { _ in })
 
         let country = Country(name: "Finland", slug: "finland", rawLastUpdate: "", synonyms: [])
         viewModel.onGetNotificationAlertTap(country)
+        try await Task.sleep(for: .seconds(1))
         guard let permissionViewModel = viewModel.createNotificationsRationaleViewModel() else {
             Issue.record("Expected createNotificationsRationaleViewModel() to return a value")
             return
@@ -743,7 +758,7 @@ struct CountryListViewModelTests {
     }
 
     @Test
-    func onNotNowAlertTap_withoutConsent_subscribesToCountry() {
+    func onNotNowAlertTap_withoutConsent_subscribesToCountry() async throws {
         let mockTravelService = MockTravelService()
         let mockNotificationService = MockNotificationService()
         mockNotificationService._stubbedhasGivenConsent = false
@@ -752,6 +767,7 @@ struct CountryListViewModelTests {
         let country = Country(name: "Denmark", slug: "denmark", rawLastUpdate: "", synonyms: [])
         viewModel.onNotNowAlertTap(country)
 
+        try await Task.sleep(for: .seconds(1))
         #expect(mockTravelService._subscribeToGroupsCalled == true)
         #expect(mockTravelService._receivedSubscribeSlug == "denmark")
     }

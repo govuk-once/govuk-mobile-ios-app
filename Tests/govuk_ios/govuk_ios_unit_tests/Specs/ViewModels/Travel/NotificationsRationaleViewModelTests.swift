@@ -14,18 +14,7 @@ struct NotificationsRationaleViewModelTests {
 
     @Test
     func initialization_setsProperties() {
-        let viewModel = NotificationsRationaleViewModel(
-            travelService: mockTravelService,
-            notificationService: mockNotificationService,
-            analyticsService: mockAnalyticsService,
-            urlOpener: mockURLOpener,
-            showImage: true,
-            country: testCountry,
-            dismissSheetAction: { /*EmptyForTests*/ },
-            openExternalURLAction: { _ in },
-            dismissAfterSuccessAction: { /*EmptyForTests*/ },
-            dismissAfterErrorAction: { /*EmptyForTests*/ }
-        )
+        let viewModel = makeViewModel()
 
         #expect(viewModel.showImage == true)
         #expect(viewModel.viewState == NotificationsRationaleViewModel.ViewState.idle)
@@ -62,12 +51,12 @@ struct NotificationsRationaleViewModelTests {
     func openPrivacyPolicy_opensURL() {
         var openedURL: URL?
         let viewModel = NotificationsRationaleViewModel(
-            travelService: mockTravelService,
             notificationService: mockNotificationService,
             analyticsService: mockAnalyticsService,
             urlOpener: mockURLOpener,
             showImage: true,
-            country: testCountry,
+            saveAction: { _, completion in completion(.success(())) },
+            declineBehaviour: .saveDisabled,
             dismissSheetAction: { /*EmptyForTests*/ },
             openExternalURLAction: { openedURL = $0 },
             dismissAfterSuccessAction: { /*EmptyForTests*/ },
@@ -95,31 +84,19 @@ struct NotificationsRationaleViewModelTests {
     func dismissSheetAction_canBeInvoked() {
         var dismissCalled = false
 
-        let viewModel = NotificationsRationaleViewModel(
-            travelService: mockTravelService,
-            notificationService: mockNotificationService,
-            analyticsService: mockAnalyticsService,
-            urlOpener: mockURLOpener,
-            showImage: true,
-            country: testCountry,
-            dismissSheetAction: { dismissCalled = true },
-            openExternalURLAction: { _ in },
-            dismissAfterSuccessAction: { /*EmptyForTests*/ },
-            dismissAfterErrorAction: { /*EmptyForTests*/ }
-        )
+        let viewModel = makeViewModel(dismissSheetAction: { dismissCalled = true })
 
         viewModel.dismissSheetAction()
         #expect(dismissCalled == true)
     }
 
     @Test
-    func handleNotificationAlertAction_togglesConsent() {
+    func handleNotificationAlertAction_opensNotificationSettings_returnsNoError() {
         mockURLOpener.shouldOpenNotificationSettings = true
 
         let viewModel = makeViewModel()
         viewModel.handleNotificationAlertAction()
 
-        #expect(mockNotificationService.hasGivenConsentToggled == true)
     }
 
     @Test
@@ -195,18 +172,7 @@ struct NotificationsRationaleViewModelTests {
     @Test
     func subscribeToCountry_onSuccess_resetsToIdleAndCallsDismiss() async throws {
         var successCalled = false
-        let viewModel = NotificationsRationaleViewModel(
-            travelService: mockTravelService,
-            notificationService: mockNotificationService,
-            analyticsService: mockAnalyticsService,
-            urlOpener: mockURLOpener,
-            showImage: true,
-            country: testCountry,
-            dismissSheetAction: { /*EmptyForTests*/ },
-            openExternalURLAction: { _ in },
-            dismissAfterSuccessAction: { successCalled = true },
-            dismissAfterErrorAction: { /*EmptyForTests*/ }
-        )
+        let viewModel = makeViewModel(dismissAfterSuccessAction: { successCalled = true })
 
         mockTravelService.subscribeToCountryHandler = { _, _, completion in completion(.success(())) }
         viewModel.notNowAction()
@@ -220,18 +186,7 @@ struct NotificationsRationaleViewModelTests {
     @Test
     func subscribeToCountry_onFailure_callsDismissAfterError() async throws {
         var errorCalled = false
-        let viewModel = NotificationsRationaleViewModel(
-            travelService: mockTravelService,
-            notificationService: mockNotificationService,
-            analyticsService: mockAnalyticsService,
-            urlOpener: mockURLOpener,
-            showImage: true,
-            country: testCountry,
-            dismissSheetAction: { /*EmptyForTests*/ },
-            openExternalURLAction: { _ in },
-            dismissAfterSuccessAction: { /*EmptyForTests*/ },
-            dismissAfterErrorAction: { errorCalled = true }
-        )
+        let viewModel = makeViewModel(dismissAfterErrorAction: { errorCalled = true })
 
         mockTravelService.subscribeToCountryHandler = { _, _, completion in completion(.failure(.apiUnavailable)) }
         viewModel.notNowAction()
@@ -276,8 +231,7 @@ struct NotificationsRationaleViewModelTests {
         viewModel.handleNotificationAlertAction()
         NotificationCenter.default.post(name: UIApplication.willEnterForegroundNotification, object: nil)
 
-        // Small delay to let the async task complete
-        try await Task.sleep(nanoseconds: 50_000_000)
+        try await Task.sleep(for: .seconds(1))
 
         #expect(mockTravelService._subscribeToGroupsCalled == false)
         #expect(viewModel.displayNotificationSettingsAlert == false)
@@ -317,18 +271,33 @@ struct NotificationsRationaleViewModelTests {
         #expect(buttonTitle1 == buttonTitle2)
     }
 
-    private func makeViewModel() -> NotificationsRationaleViewModel {
-        NotificationsRationaleViewModel(
-            travelService: mockTravelService,
+    private func makeViewModel(
+        saveAction: NotificationsRationaleSaveAction? = nil,
+        declineBehaviour: NotificationsRationaleDeclineBehaviour = .saveDisabled,
+        dismissSheetAction: @escaping () -> Void = { },
+        openExternalURLAction: @escaping (URL) -> Void = { _ in },
+        dismissAfterSuccessAction: @escaping () -> Void = { },
+        dismissAfterErrorAction: @escaping () -> Void = { }
+    ) -> NotificationsRationaleViewModel {
+        let finalSaveAction = saveAction ?? { enabled, completion in
+            self.mockTravelService.subscribeToCountry(
+                slug: "france",
+                notificationsEnabled: enabled,
+                completion: completion
+            )
+        }
+
+        return NotificationsRationaleViewModel(
             notificationService: mockNotificationService,
             analyticsService: mockAnalyticsService,
             urlOpener: mockURLOpener,
             showImage: true,
-            country: testCountry,
-            dismissSheetAction: { /*EmptyForTests*/ },
-            openExternalURLAction: { _ in },
-            dismissAfterSuccessAction: { /*EmptyForTests*/ },
-            dismissAfterErrorAction: { /*EmptyForTests*/ }
+            saveAction: finalSaveAction,
+            declineBehaviour: declineBehaviour,
+            dismissSheetAction: dismissSheetAction,
+            openExternalURLAction: openExternalURLAction,
+            dismissAfterSuccessAction: dismissAfterSuccessAction,
+            dismissAfterErrorAction: dismissAfterErrorAction
         )
     }
 

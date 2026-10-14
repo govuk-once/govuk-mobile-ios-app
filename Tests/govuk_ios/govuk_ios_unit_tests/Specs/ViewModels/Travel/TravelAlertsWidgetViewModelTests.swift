@@ -485,7 +485,7 @@ struct TravelAlertsWidgetViewModelTests {
     }
 
     @Test
-    func countryListViewModel_createPermissionViewModel_passesOpenExternalURLActionCorrectly() {
+    func countryListViewModel_createPermissionViewModel_passesOpenExternalURLActionCorrectly() async throws {
         let mockTravelService = MockTravelService()
         mockTravelService._stubbedGetCountriesResult = .success([
             Country(name: "France", slug: "france", rawLastUpdate: "2024-08-05", synonyms: [])
@@ -508,14 +508,15 @@ struct TravelAlertsWidgetViewModelTests {
         let france = Country(name: "France", slug: "france", rawLastUpdate: "2024-08-05", synonyms: [])
         countryListVM.onGetNotificationAlertTap(france)
 
-        // Create permission view model which receives the openExternalURLAction
-        guard let permissionVM = countryListVM.createPermissionViewModel() else {
-            Issue.record("Expected permission view model to be created")
+        try await Task.sleep(for: .seconds(1))
+        // Create rationale view model which receives the openExternalURLAction
+        guard let rationaleVM = countryListVM.createNotificationsRationaleViewModel() else {
+            Issue.record("Expected rationale view model to be created")
             return
         }
 
         // action passed to view model
-        permissionVM.openExternalURLAction(testURL)
+        rationaleVM.openExternalURLAction(testURL)
 
         #expect(mockURLOpener._receivedOpenIfPossibleUrl == testURL)
     }

@@ -97,13 +97,20 @@ final class NotificationsRationaleViewSnapshotTests: SnapshotTestCase {
             rawLastUpdate: "",
             synonyms: []
         )
+        let mockTravelService = travelService ?? MockTravelService()
         let viewModel = NotificationsRationaleViewModel(
-            travelService: travelService ?? MockTravelService(),
             notificationService: MockNotificationService(),
             analyticsService: MockAnalyticsService(),
             urlOpener: MockURLOpener(),
             showImage: showImage,
-            country: testCountry,
+            saveAction: { enabled, completion in
+                mockTravelService.subscribeToCountry(
+                    slug: testCountry.slug,
+                    notificationsEnabled: enabled,
+                    completion: completion
+                )
+            },
+            declineBehaviour: .saveDisabled,
             dismissSheetAction: { /*EmptyForTests*/ },
             openExternalURLAction: { _ in /*EmptyForTests*/ },
             dismissAfterSuccessAction: { /*EmptyForTests*/ },
