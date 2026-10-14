@@ -3,7 +3,7 @@ import GovKitUI
 
 struct CountryOptionsBottomSheet: View {
     let country: Country
-    @Binding var notificationsEnabled: Bool
+    let notificationsEnabled: Bool
     let isTogglingNotifications: Bool
     let isUnfollowing: Bool
     let onNotificationsToggle: (Bool) -> Void
@@ -89,15 +89,14 @@ struct CountryOptionsBottomSheet: View {
                 Spacer()
                 Toggle(
                     "",
-                    isOn: $notificationsEnabled
-                )
-                .onChange(
-                    of: notificationsEnabled
-                ) { _ in
-                    if !shouldBlockNavigation {
-                        onNotificationsToggle(notificationsEnabled)
-                    }
-                }
+                    isOn: Binding(
+                        get: { notificationsEnabled },
+                        set: { newValue in
+                            guard !shouldBlockNavigation else { return }
+                            onNotificationsToggle(newValue)
+                        }
+                    )
+                ).disabled(shouldBlockNavigation)
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 16)

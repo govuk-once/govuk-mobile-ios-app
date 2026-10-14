@@ -21,6 +21,16 @@ protocol NotificationServiceInterface {
     func addConsentChangedListener(action: @escaping (Bool) -> Void)
 }
 
+extension NotificationServiceInterface {
+    var needsTravelAlertsPermissionFlow: Bool {
+        get async {
+            let isConsented = hasGivenConsent
+            let isAuthorized = await permissionState == .authorized
+            return !(isConsented && isAuthorized)
+        }
+    }
+}
+
 class NotificationService: NSObject,
                            NotificationServiceInterface,
                            OSNotificationClickListener {

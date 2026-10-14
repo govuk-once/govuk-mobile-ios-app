@@ -74,22 +74,32 @@ class CountryListViewModel: ObservableObject {
     }
 
     func onGetNotificationAlertTap(_ country: Country) {
-        handleCountrySelection(country, notificationOptIn: true)
+        Task {
+            await handleCountrySelection(country, notificationOptIn: true)
+        }
     }
 
     func onNotNowAlertTap(_ country: Country) {
-        handleCountrySelection(country, notificationOptIn: false)
+        Task {
+            await handleCountrySelection(country, notificationOptIn: false)
+        }
     }
 
-    private func handleCountrySelection(_ country: Country, notificationOptIn: Bool) {
+    @MainActor
+    private func handleCountrySelection(_ country: Country, notificationOptIn: Bool) async {
         trackToggleFunction(countryName: country.name)
         if !searchText.isEmpty {
             trackSearchInput(text: searchText)
         }
-        // Given global notifications are off and user is attempting to optIn, navigate to the consent screen
-        if !notificationService.hasGivenConsent && notificationOptIn {
-            countryForPermissionFlow = country
-            showNotificationsRationale = true
+        if notificationOptIn {
+            let needsPermissionFlow = await notificationService.needsTravelAlertsPermissionFlow
+            if needsPermissionFlow {
+                selectedCountry = nil
+                countryForPermissionFlow = country
+                showNotificationsRationale = true
+            } else {
+                subscribeToCountryAlerts(country, notificationOptIn)
+            }
         } else {
             subscribeToCountryAlerts(country, notificationOptIn)
         }
@@ -201,12 +211,18 @@ class CountryListViewModel: ObservableObject {
     func createNotificationsRationaleViewModel() -> NotificationsRationaleViewModel? {
         guard let countryToProcess = self.countryForPermissionFlow else { return nil }
         return NotificationsRationaleViewModel(
-            travelService: travelService,
             notificationService: notificationService,
             analyticsService: analyticsService,
             urlOpener: urlOpener,
             showImage: true,
-            country: countryToProcess,
+            saveAction: { [travelService] enabled, completion in
+                travelService.subscribeToCountry(
+                    slug: countryToProcess.slug,
+                    notificationsEnabled: enabled,
+                    completion: completion
+                )
+            },
+            declineBehaviour: .saveDisabled,
             dismissSheetAction: { [weak self] in
                 self?.showNotificationsRationale = false
                 self?.countryForPermissionFlow = nil
@@ -229,5 +245,10 @@ class CountryListViewModel: ObservableObject {
             self.errorCallback?()
         }
         self.actions.dismissAction(forceRefresh)
+    }
+
+    func resetNotificationsRationaleFlow() {
+        showNotificationsRationale = false
+        countryForPermissionFlow = nil
     }
 }

@@ -66,20 +66,33 @@ struct CountryListView: View {
             .background(Color(.govUK.fills.surfaceModal))
             .alert(
                 String(localized: .Travel.countryListAlertTitle),
-                isPresented: .constant(viewModel.selectedCountry != nil),
+                isPresented: Binding(
+                    get: { viewModel.selectedCountry != nil },
+                    set: { if !$0 { viewModel.selectedCountry = nil } }
+                ),
                 presenting: viewModel.selectedCountry
             ) { country in
                 alertActions(for: country)
             } message: { country in
                 alertMessage(for: country)
             }
-            .sheet(isPresented: $viewModel.showNotificationsRationale) {
-                if let rationaleViewModel = viewModel.createNotificationsRationaleViewModel() {
-                    NavigationStack {
-                        NotificationsRationaleView(viewModel: rationaleViewModel)
-                    }
-                }
+            .sheet(
+                isPresented: $viewModel.showNotificationsRationale,
+                onDismiss: { viewModel.resetNotificationsRationaleFlow() },
+                content: { rationaleSheetContent }
+            )
+    }
+
+    @ViewBuilder
+    private var rationaleSheetContent: some View {
+        if let rationaleViewModel = viewModel.createNotificationsRationaleViewModel() {
+            NavigationStack {
+                NotificationsRationaleView(viewModel: rationaleViewModel)
+                    .interactiveDismissDisabled(
+                        rationaleViewModel.viewState == .loading
+                    )
             }
+        }
     }
 
     @ViewBuilder
