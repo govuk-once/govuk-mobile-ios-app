@@ -856,6 +856,97 @@ struct EditCountriesViewModelTests {
         #expect(sut.isShowingFollowError == false)
     }
 
+    @Test
+    func trackScreen_callsAnalyticsServiceWithCorrectScreen() {
+        let mockAnalyticsService = MockAnalyticsService()
+        let sut = EditCountriesViewModel(
+            travelService: MockTravelService(),
+            analyticsService: mockAnalyticsService,
+            notificationService: MockNotificationService(),
+            urlOpener: MockURLOpener(),
+            feedbackURL: URL(string: "https://example.com/feedback")!,
+            openCountryListFooterAction: {  /*Empty For Tests*/ }
+        )
+        let screen = EditCountriesView(viewModel: sut)
+        sut.trackScreen(screen: screen)
+
+        #expect(mockAnalyticsService._trackScreenReceivedScreens.count == 1)
+    }
+
+    @Test
+    func requestToggle_whenNotificationsDisabled_callsToggleNotifications() async {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedToggleResult = .success(())
+        mockTravelService._autoCallToggleCompletion = false
+        let sut = EditCountriesViewModel(
+            travelService: mockTravelService,
+            analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService(),
+            urlOpener: MockURLOpener(),
+            feedbackURL: URL(string: "https://example.com/feedback")!,
+            openCountryListFooterAction: {  /*Empty For Tests*/ }
+        )
+
+        await sut.requestToggle(slug: "france", enabled: false)
+
+        #expect(mockTravelService._toggleNotificationsCalled == true)
+        #expect(mockTravelService._receivedToggleNotificationSlug == "france")
+        #expect(mockTravelService._recievedToggleNotificationEnabled == false)
+    }
+
+    @Test
+    func requestToggle_whenNotificationsEnabledWithoutPermissionFlowNeeded_callsToggleDirectly() async {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedToggleResult = .success(())
+        mockTravelService._autoCallToggleCompletion = false
+        let mockNotificationService = MockNotificationService()
+        // needsTravelAlertsPermissionFlow is false when hasGivenConsent && permissionState == .authorized
+        mockNotificationService._stubbedhasGivenConsent = true
+        mockNotificationService._stubbededPermissionState = .authorized
+        let sut = EditCountriesViewModel(
+            travelService: mockTravelService,
+            analyticsService: MockAnalyticsService(),
+            notificationService: mockNotificationService,
+            urlOpener: MockURLOpener(),
+            feedbackURL: URL(string: "https://example.com/feedback")!,
+            openCountryListFooterAction: {  /*Empty For Tests*/ }
+        )
+
+        await sut.requestToggle(slug: "spain", enabled: true)
+        await Task.yield()
+
+        #expect(mockTravelService._toggleNotificationsCalled == true)
+    }
+
+
+    @Test
+    func createNotificationsRationaleViewModel_withEditOrigin_isCreatedSuccessfully() async throws {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedToggleResult = .success(())
+        let mockAnalyticsService = MockAnalyticsService()
+        let mockNotificationService = MockNotificationService()
+        mockNotificationService._stubbedhasGivenConsent = false
+        let sut = EditCountriesViewModel(
+            travelService: mockTravelService,
+            analyticsService: mockAnalyticsService,
+            notificationService: mockNotificationService,
+            urlOpener: MockURLOpener(),
+            feedbackURL: URL(string: "https://example.com/feedback")!,
+            openCountryListFooterAction: {  /*Empty For Tests*/ }
+        )
+
+        await sut.requestToggle(slug: "france", enabled: true)
+        try await Task.sleep(for: .seconds(1))
+
+        guard let rationaleViewModel = sut.createNotificationsRationaleViewModel() else {
+            Issue.record("Expected createNotificationsRationaleViewModel() to return a value")
+            return
+        }
+
+        // Show image returning result shows successful view model generation
+        #expect(rationaleViewModel.showImage == true)
+    }
+
     private func waitForViewState(
         of viewModel: EditCountriesViewModel,
         matching predicate: @escaping (EditCountriesViewModel.ViewState) -> Bool,

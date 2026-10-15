@@ -76,13 +76,23 @@ struct CountryListView: View {
             } message: { country in
                 alertMessage(for: country)
             }
-            .sheet(isPresented: $viewModel.showTravelAlertsPermission) {
-                if let permissionViewModel = viewModel.createPermissionViewModel() {
-                    NavigationStack {
-                        TravelAlertsPermissionView(viewModel: permissionViewModel)
-                    }
-                }
+            .sheet(
+                isPresented: $viewModel.showNotificationsRationale,
+                onDismiss: { viewModel.resetNotificationsRationaleFlow() },
+                content: { rationaleSheetContent }
+            )
+    }
+
+    @ViewBuilder
+    private var rationaleSheetContent: some View {
+        if let rationaleViewModel = viewModel.createNotificationsRationaleViewModel() {
+            NavigationStack {
+                NotificationsRationaleView(viewModel: rationaleViewModel)
+                    .interactiveDismissDisabled(
+                        rationaleViewModel.viewState == .loading
+                    )
             }
+        }
     }
 
     @ViewBuilder
