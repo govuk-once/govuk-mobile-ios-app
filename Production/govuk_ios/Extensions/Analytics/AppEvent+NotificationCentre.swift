@@ -3,7 +3,7 @@ import GovKit
 
 extension AppEvent {
     static func notificationCentreUrlLaunched(url: URL) -> AppEvent {
-        .init(name: "NotificationCentreUrlLaunched",
+        .init(name: "MessagesUrlLaunched",
               params: [
                 "url": url.absoluteString
               ]
@@ -11,27 +11,27 @@ extension AppEvent {
     }
 
     static func notificationCentreNotFound() -> AppEvent {
-        .init(name: "NotificationCentreNotFound", params: nil)
+        .init(name: "MessagesNotFound", params: nil)
     }
 
     static func notificationCentreMarkUnread() -> AppEvent {
-        .init(name: "NotificationCentreMarkUnread", params: nil)
+        .init(name: "MessagesMarkUnread", params: nil)
     }
 
     static func notificationCentreDelete() -> AppEvent {
-        .init(name: "NotificationCentreDelete", params: [
+        .init(name: "MessagesDelete", params: [
             "action": "tap"
         ])
     }
 
     static func notificationCentreConfirmDelete() -> AppEvent {
-        .init(name: "NotificationCentreDelete", params: [
+        .init(name: "MessagesDelete", params: [
             "action": "confirm"
         ])
     }
 
     static func notificationCentreCancelDelete() -> AppEvent {
-        .init(name: "NotificationCentreDelete", params: [
+        .init(name: "MessagesDelete", params: [
             "action": "cancel"
         ])
     }
