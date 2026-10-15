@@ -888,6 +888,7 @@ class ViewControllerBuilder {
             notificationService: notificationService,
             urlOpener: UIApplication.shared,
             actions: actions,
+            footerLinkURLString: feedbackURL.absoluteString,
             errorCallback: errorCallback
         )
         let view = CountryListView(viewModel: viewModel)

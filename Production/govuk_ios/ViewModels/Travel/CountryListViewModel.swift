@@ -33,6 +33,7 @@ class CountryListViewModel: ObservableObject {
     private let notificationService: NotificationServiceInterface
     private let urlOpener: URLOpener
     private let actions: Actions
+    private let footerLinkURLString: String?
     let errorCallback: (() -> Void)?
 
     var hasNotificationConsent: Bool {
@@ -45,6 +46,7 @@ class CountryListViewModel: ObservableObject {
         notificationService: NotificationServiceInterface,
         urlOpener: URLOpener,
         actions: Actions,
+        footerLinkURLString: String? = nil,
         errorCallback: (() -> Void)? = nil
     ) {
         self.travelService = travelService
@@ -52,6 +54,7 @@ class CountryListViewModel: ObservableObject {
         self.notificationService = notificationService
         self.urlOpener = urlOpener
         self.actions = actions
+        self.footerLinkURLString = footerLinkURLString
         self.errorCallback = errorCallback
     }
 
@@ -60,7 +63,11 @@ class CountryListViewModel: ObservableObject {
     }
 
     private func trackSearchInput(text: String) {
-        let searchEvent = AppEvent.searchTerm(term: text, type: .typed, section: "country_search")
+        let searchEvent = AppEvent.searchTerm(
+            term: text,
+            type: .typed,
+            section: "country_search"
+        )
         analyticsService.track(event: searchEvent)
     }
 
@@ -201,6 +208,13 @@ class CountryListViewModel: ObservableObject {
     }
 
     func openFooterLink() {
+        let buttonTapEvent = AppEvent.buttonNavigation(
+            text: "HelpAndFeedback",
+            external: true,
+            url: footerLinkURLString,
+            section: "Travel Abroad Notifications")
+        analyticsService.track(event: buttonTapEvent)
+
         actions.openFooterLinkAction()
     }
 

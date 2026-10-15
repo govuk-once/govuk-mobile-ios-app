@@ -63,9 +63,11 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
                     self.openURLAction(self.feedbackURL)
                 },
                 openExternalURLAction: { [weak self] url in
-                    self?.urlOpener.openIfPossible(url)
+                    guard let self = self else { return }
+                    self.urlOpener.openIfPossible(url)
                 }
             ),
+            footerLinkURLString: feedbackURL.absoluteString,
             errorCallback: { [weak self] in
                 self?.isShowingError = true
             }

@@ -98,6 +98,7 @@ class EditCountriesViewModel: ObservableObject {
             notificationService: notificationService,
             urlOpener: urlOpener,
             actions: actions,
+            footerLinkURLString: feedbackURL.absoluteString,
             errorCallback: { [weak self] in
                 self?.isShowingFollowError = true
             }

@@ -15,6 +15,7 @@ struct CountryListViewModelTests {
         dismissAction: @escaping (Bool) -> Void = { _ in },
         openFooterLinkAction: @escaping () -> Void = { },
         openExternalURLAction: @escaping (URL) -> Void = { _ in },
+        footerLinkURLString: String? = nil,
         errorCallback: (() -> Void)? = nil
     ) -> CountryListViewModel {
         let actions = CountryListViewModel.Actions(
@@ -28,6 +29,7 @@ struct CountryListViewModelTests {
             notificationService: notificationService,
             urlOpener: MockURLOpener(),
             actions: actions,
+            footerLinkURLString: footerLinkURLString,
             errorCallback: errorCallback
         )
     }
@@ -783,6 +785,62 @@ struct CountryListViewModelTests {
         viewModel.openFooterLink()
 
         #expect(didCallFooterLinkAction == true)
+    }
+
+    @Test
+    func openFooterLink_tracksButtonNavigationEventWithFooterLinkURL() {
+        let testURLString = "https://www.gov.uk/helpandfeedback"
+        let mockAnalyticsService = MockAnalyticsService()
+
+        let viewModel = CountryListViewModel(
+            travelService: MockTravelService(),
+            analyticsService: mockAnalyticsService,
+            notificationService: MockNotificationService(),
+            urlOpener: MockURLOpener(),
+            actions: CountryListViewModel.Actions(
+                dismissAction: { _ in },
+                openFooterLinkAction: { },
+                openExternalURLAction: { _ in }
+            ),
+            footerLinkURLString: testURLString
+        )
+
+        viewModel.openFooterLink()
+
+        let events = mockAnalyticsService._trackedEvents
+        #expect(!events.isEmpty)
+        let buttonNavEvent = events.first(where: { $0.params?["text"] as? String == "HelpAndFeedback" })
+        #expect(buttonNavEvent != nil)
+        #expect(buttonNavEvent?.params?["url"] as? String == testURLString)
+        #expect(buttonNavEvent?.params?["external"] as? Bool == true)
+        #expect(buttonNavEvent?.params?["section"] as? String == "Travel Abroad Notifications")
+    }
+
+    @Test
+    func openFooterLink_withNilFooterLinkURL_tracksEventWithNilURL() {
+        let mockAnalyticsService = MockAnalyticsService()
+
+        let viewModel = CountryListViewModel(
+            travelService: MockTravelService(),
+            analyticsService: mockAnalyticsService,
+            notificationService: MockNotificationService(),
+            urlOpener: MockURLOpener(),
+            actions: CountryListViewModel.Actions(
+                dismissAction: { _ in },
+                openFooterLinkAction: { },
+                openExternalURLAction: { _ in }
+            ),
+            footerLinkURLString: nil
+        )
+
+        viewModel.openFooterLink()
+
+        let events = mockAnalyticsService._trackedEvents
+        #expect(!events.isEmpty)
+        let buttonNavEvent = events.first(where: { $0.params?["text"] as? String == "HelpAndFeedback" })
+        #expect(buttonNavEvent != nil)
+        #expect(buttonNavEvent?.params?["url"] as? URL == nil)
+        #expect(buttonNavEvent?.params?["section"] as? String == "Travel Abroad Notifications")
     }
 
     @Test
