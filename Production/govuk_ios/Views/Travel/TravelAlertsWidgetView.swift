@@ -105,6 +105,7 @@ private struct TravelAlertsLoadingView: View {
             ProgressView()
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 86)
+                .accessibilityLabel(.Travel.travelAlertsLoading)
         }
         .background(Color(UIColor.govUK.fills.surfaceList))
         .clipShape(RoundedRectangle(cornerRadius: 10))

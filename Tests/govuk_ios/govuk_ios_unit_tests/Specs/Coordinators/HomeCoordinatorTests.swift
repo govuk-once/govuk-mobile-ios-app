@@ -29,12 +29,14 @@ struct HomeCoordinatorTests {
                     configService: MockAppConfigService(),
                     topicsService: MockTopicsService(),
                     notificationService: MockNotificationService(),
+                    travelService: MockTravelService(),
                     deviceInformationProvider: MockDeviceInformationProvider(),
                     searchService: MockSearchService(),
                     activityService: MockActivityService(context: coreData.viewContext),
                     localAuthorityService: MockLocalAuthorityService(),
                     userDefaultsService: MockUserDefaultsService(),
-                    chatService: MockChatService()
+                    chatService: MockChatService(),
+                    versionProvider: MockAppVersionProvider()
                 )
         subject.start()
 
@@ -124,12 +126,14 @@ struct HomeCoordinatorTests {
             configService: MockAppConfigService(),
             topicsService: MockTopicsService(),
             notificationService: MockNotificationService(),
+            travelService: MockTravelService(),
             deviceInformationProvider: MockDeviceInformationProvider(),
             searchService: MockSearchService(),
             activityService: MockActivityService(context: coreData.viewContext),
             localAuthorityService: MockLocalAuthorityService(),
             userDefaultsService: MockUserDefaultsService(),
-            chatService: MockChatService()
+            chatService: MockChatService(),
+            versionProvider: MockAppVersionProvider()
         )
         subject.start()
 
@@ -160,12 +164,14 @@ struct HomeCoordinatorTests {
             configService: MockAppConfigService(),
             topicsService: MockTopicsService(),
             notificationService: MockNotificationService(),
+            travelService: MockTravelService(),
             deviceInformationProvider: MockDeviceInformationProvider(),
             searchService: MockSearchService(),
             activityService: MockActivityService(context: coreData.viewContext),
             localAuthorityService: MockLocalAuthorityService(),
             userDefaultsService: MockUserDefaultsService(),
-            chatService: MockChatService()
+            chatService: MockChatService(),
+            versionProvider: MockAppVersionProvider()
         )
         subject.start()
 
@@ -195,12 +201,14 @@ struct HomeCoordinatorTests {
             configService: MockAppConfigService(),
             topicsService: MockTopicsService(),
             notificationService: MockNotificationService(),
+            travelService: MockTravelService(),
             deviceInformationProvider: MockDeviceInformationProvider(),
             searchService: MockSearchService(),
             activityService: MockActivityService(context: coreData.viewContext),
             localAuthorityService: MockLocalAuthorityService(),
             userDefaultsService: MockUserDefaultsService(),
-            chatService: MockChatService()
+            chatService: MockChatService(),
+            versionProvider: MockAppVersionProvider()
         )
         subject.start()
 
@@ -249,12 +257,14 @@ struct HomeCoordinatorTests {
             configService: MockAppConfigService(),
             topicsService: MockTopicsService(),
             notificationService: MockNotificationService(),
+            travelService: MockTravelService(),
             deviceInformationProvider: MockDeviceInformationProvider(),
             searchService: MockSearchService(),
             activityService: MockActivityService(context: coreData.viewContext),
             localAuthorityService: MockLocalAuthorityService(),
             userDefaultsService: MockUserDefaultsService(),
-            chatService: MockChatService()
+            chatService: MockChatService(),
+            versionProvider: MockAppVersionProvider()
         )
 
         subject.start()
@@ -283,12 +293,14 @@ struct HomeCoordinatorTests {
             configService: MockAppConfigService(),
             topicsService: MockTopicsService(),
             notificationService: MockNotificationService(),
+            travelService: MockTravelService(),
             deviceInformationProvider: MockDeviceInformationProvider(),
             searchService: MockSearchService(),
             activityService: MockActivityService(context: coreData.viewContext),
             localAuthorityService: MockLocalAuthorityService(),
             userDefaultsService: MockUserDefaultsService(),
-            chatService: MockChatService()
+            chatService: MockChatService(),
+            versionProvider: MockAppVersionProvider()
         )
 
         let mockSafariCoordinator = MockBaseCoordinator()
@@ -304,7 +316,7 @@ struct HomeCoordinatorTests {
 
     @Test
     @MainActor
-    func showTravelAlertTopic_startsTopicDetailCoordinator() async {
+    func showEditTravelAlertCountries_startsTopicDetailThenEditCountries() async {
         let coreData = await CoreDataRepository.arrangeAndLoad
         let mockCoodinatorBuilder = MockCoordinatorBuilder.mock
         let mockViewControllerBuilder = MockViewControllerBuilder()
@@ -327,20 +339,23 @@ struct HomeCoordinatorTests {
             configService: MockAppConfigService(),
             topicsService: mockTopicsService,
             notificationService: MockNotificationService(),
+            travelService: MockTravelService(),
             deviceInformationProvider: MockDeviceInformationProvider(),
             searchService: MockSearchService(),
             activityService: MockActivityService(context: coreData.viewContext),
             localAuthorityService: MockLocalAuthorityService(),
             userDefaultsService: MockUserDefaultsService(),
-            chatService: MockChatService()
+            chatService: MockChatService(),
+            versionProvider: MockAppVersionProvider()
         )
 
         let mockTopicDetailCoordinator = MockBaseCoordinator()
         mockCoodinatorBuilder._stubbedTopicCoordinator = mockTopicDetailCoordinator
 
         subject.start()
-        subject.showTravelAlertTopic()
+        subject.showEditTravelAlertCountries()
 
         #expect(mockTopicDetailCoordinator._startCalled)
+        #expect(mockViewControllerBuilder._editCountriesWasCalled == true)
     }
 }

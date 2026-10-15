@@ -10,7 +10,7 @@ struct EditCountriesView: View {
         Group {
             switch viewModel.viewState {
             case .loading:
-                EditCountriesLoadingView()
+                TravelLoadingView()
             case .loaded:
                 scrollView
             case .error:
@@ -83,19 +83,6 @@ struct EditCountriesView: View {
             .padding(.horizontal, 16)
             .padding(.vertical, 16)
         }
-    }
-}
-
-private struct EditCountriesLoadingView: View {
-    var body: some View {
-        VStack(alignment: .center) {
-            Spacer()
-            ProgressView()
-                .controlSize(.large)
-                .accessibilityLabel(.Travel.travelAlertsLoading)
-            Spacer()
-        }
-        .frame(maxWidth: .infinity)
     }
 }
 

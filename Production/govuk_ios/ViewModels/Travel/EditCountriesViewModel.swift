@@ -1,12 +1,21 @@
 import Foundation
+import UIKit
 import GovKit
 import GovKitUI
 
+// swiftlint:disable:next type_body_length
 class EditCountriesViewModel: ObservableObject {
     enum ViewState {
         case loading
         case loaded
         case error
+    }
+
+    enum NotificationsRationaleFlowOutcome {
+        case none
+        case success
+        case error
+        case declined
     }
 
     struct SelectedCountry {
@@ -26,15 +35,20 @@ class EditCountriesViewModel: ObservableObject {
     @Published var displayToggleError: Bool = false
     @Published var displayUnfollowError: Bool = false
     @Published var isShowingFollowError = false
+    @Published var showNotificationsRationale = false
 
     private let travelService: TravelServiceInterface
     private let notificationService: NotificationServiceInterface
     private let urlOpener: URLOpener
     let analyticsService: AnalyticsServiceInterface
-    private let openURLAction: (URL) -> Void
+    private let feedbackURL: URL
+    private let openCountryListFooterAction: () -> Void
     private var allCountries: [Country] = []
     private var follewedCountries: Set<String> = []
     private var notificationStateCache: [String: Bool] = [:]
+    private var rationaleFlowSlug: String?
+    private var rationaleFlowOutcome: NotificationsRationaleFlowOutcome = .none
+    private var rationaleViewModel: NotificationsRationaleViewModel?
 
     let title = String(
         localized: .Travel.editCountriesTitle
@@ -51,32 +65,42 @@ class EditCountriesViewModel: ObservableObject {
         analyticsService: AnalyticsServiceInterface,
         notificationService: NotificationServiceInterface,
         urlOpener: URLOpener,
-        openURLAction: @escaping (URL) -> Void
+        feedbackURL: URL,
+        openCountryListFooterAction: @escaping () -> Void
     ) {
         self.travelService = travelService
         self.analyticsService = analyticsService
         self.notificationService = notificationService
         self.urlOpener = urlOpener
-        self.openURLAction = openURLAction
+        self.feedbackURL = feedbackURL
+        self.openCountryListFooterAction = openCountryListFooterAction
     }
 
     @MainActor
     lazy var countryListViewModel: CountryListViewModel = {
-        CountryListViewModel(
-            travelService: travelService,
-            analyticsService: analyticsService,
-            notificationService: notificationService,
-            urlOpener: urlOpener,
+        let actions = CountryListViewModel.Actions(
             dismissAction: { [weak self] forceRefresh in
                 Task {
                     self?.didDismissList(forceRefresh: forceRefresh)
                 }
             },
+            openFooterLinkAction: { [weak self] in
+                self?.openCountryListFooterAction()
+            },
+            openExternalURLAction: { [weak self] url in
+                self?.urlOpener.openIfPossible(url)
+            }
+        )
+
+        return CountryListViewModel(
+            travelService: travelService,
+            analyticsService: analyticsService,
+            notificationService: notificationService,
+            urlOpener: urlOpener,
+            actions: actions,
+            footerLinkURLString: feedbackURL.absoluteString,
             errorCallback: { [weak self] in
                 self?.isShowingFollowError = true
-            },
-            openURLAction: { [weak self] url in
-                self?.openURLAction(url)
             }
         )
     }()
@@ -96,8 +120,25 @@ class EditCountriesViewModel: ObservableObject {
     }
 
     @MainActor
+    func requestToggle(slug: String, enabled: Bool) async {
+        guard enabled else {
+            await toggleNotifications(slug: slug, enabled: false)
+            return
+        }
+        if await notificationService.needsTravelAlertsPermissionFlow {
+            selectedCountryNotificationEnabled = true
+            rationaleFlowSlug = slug
+            rationaleFlowOutcome = .declined
+            showNotificationsRationale = true
+        } else {
+            await toggleNotifications(slug: slug, enabled: true)
+        }
+    }
+
+    @MainActor
     func toggleNotifications(slug: String, enabled: Bool) async {
         isToggleLoading = true
+        selectedCountryNotificationEnabled = enabled
         notificationStateCache[slug] = enabled
         travelService.toggleNotifications(slug: slug, enabled: enabled) { [weak self] result in
             Task { @MainActor in
@@ -105,6 +146,9 @@ class EditCountriesViewModel: ObservableObject {
                 case .success:
                     self?.isToggleLoading = false
                 case .failure:
+                    let previousValue = !(enabled)
+                    self?.selectedCountryNotificationEnabled = previousValue
+                    self?.notificationStateCache[slug] = previousValue
                     self?.isToggleLoading = false
                     self?.displayToggleError = true
                 }
@@ -230,6 +274,62 @@ class EditCountriesViewModel: ObservableObject {
 
     func clearFollowError() {
         isShowingFollowError = false
+    }
+
+    func createNotificationsRationaleViewModel() -> NotificationsRationaleViewModel? {
+        guard let slug = rationaleFlowSlug else { return nil }
+        return NotificationsRationaleViewModel(
+            notificationService: notificationService,
+            analyticsService: analyticsService,
+            urlOpener: urlOpener,
+            showImage: true,
+            saveAction: { [travelService] enabled, completion in
+                travelService.toggleNotifications(
+                    slug: slug,
+                    enabled: enabled,
+                    completion: completion
+                )
+            },
+            declineBehaviour: .report({ [weak self] in
+                self?.finishRationaleFlow(.declined)
+            }),
+            dismissSheetAction: { [weak self] in
+                self?.finishRationaleFlow(.declined)
+            },
+            openExternalURLAction: { [weak self] url in
+                self?.urlOpener.openIfPossible(url)
+            },
+            dismissAfterSuccessAction: { [weak self] in
+                self?.finishRationaleFlow(.success)
+            },
+            dismissAfterErrorAction: { [weak self] in
+                self?.finishRationaleFlow(.error)
+            },
+            origin: .EDIT
+        )
+    }
+
+    private func finishRationaleFlow(_ outcome: NotificationsRationaleFlowOutcome) {
+        rationaleFlowOutcome = outcome
+        showNotificationsRationale = false
+    }
+
+    @MainActor
+    func rationaleFlowDidDismiss() {
+        guard let slug = rationaleFlowSlug else { return }
+        switch rationaleFlowOutcome {
+        case .success:
+            notificationStateCache[slug] = true
+            selectedCountryNotificationEnabled = true
+        case .error:
+            selectedCountryNotificationEnabled = false
+            displayToggleError = true
+        case .declined, .none:
+            selectedCountryNotificationEnabled = false
+        }
+        rationaleFlowSlug = nil
+        rationaleFlowOutcome = .none
+        rationaleViewModel = nil
     }
 
     private func showCountryDetails(country: Country, subgroup: String) {

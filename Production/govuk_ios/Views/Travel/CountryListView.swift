@@ -8,6 +8,7 @@ struct CountryListView: View {
     @Environment(\.sizeCategory) var sizeCategory
 
     private let horizontalPadding: CGFloat = 16
+    private let footerPadding: CGFloat = 16
     private let searchBarHorizontalPadding: CGFloat = 14
     private let searchBarBottomPadding: CGFloat = 0
     private let defaultPadding: CGFloat = 10
@@ -75,13 +76,23 @@ struct CountryListView: View {
             } message: { country in
                 alertMessage(for: country)
             }
-            .sheet(isPresented: $viewModel.showTravelAlertsPermission) {
-                if let permissionViewModel = viewModel.createPermissionViewModel() {
-                    NavigationStack {
-                        TravelAlertsPermissionView(viewModel: permissionViewModel)
-                    }
-                }
+            .sheet(
+                isPresented: $viewModel.showNotificationsRationale,
+                onDismiss: { viewModel.resetNotificationsRationaleFlow() },
+                content: { rationaleSheetContent }
+            )
+    }
+
+    @ViewBuilder
+    private var rationaleSheetContent: some View {
+        if let rationaleViewModel = viewModel.createNotificationsRationaleViewModel() {
+            NavigationStack {
+                NotificationsRationaleView(viewModel: rationaleViewModel)
+                    .interactiveDismissDisabled(
+                        rationaleViewModel.viewState == .loading
+                    )
             }
+        }
     }
 
     @ViewBuilder
@@ -89,15 +100,16 @@ struct CountryListView: View {
         VStack {
             switch viewModel.viewState {
             case .loading:
-                CountryListLoadingView()
+                TravelLoadingView()
             case .loaded:
                 GeometryReader { geometry in
                     modifiedScrollView(geometry: geometry)
                 }
             case .empty:
-                FollowCountryEmptyView(
+                CountryListEmptyView(
                     searchBarAlignment: searchBarAlignment,
-                    searchBarPadding: searchBarPadding
+                    searchBarPadding: searchBarPadding,
+                    onFooterTap: viewModel.openFooterLink
                 )
             case .error:
                 ErrorView(viewModel: createErrorViewModel())
@@ -130,7 +142,7 @@ struct CountryListView: View {
         ToolbarItem(placement: ToolbarItemPlacement.cancellationAction) {
             Button {
                 viewModel.selectedCountry = nil
-                viewModel.dismissAction(false)
+                viewModel.dismiss(false)
             } label: {
                 Image(systemName: "xmark")
                     .foregroundStyle(Color(uiColor: .govUK.text.primary))
@@ -169,6 +181,10 @@ struct CountryListView: View {
                     sectionBackgroundColor: .govUK.fills.surfaceListAlt
                 )
 
+                CountryListFooterView(action: {
+                    viewModel.openFooterLink()
+                })
+
                 if searchBarAlignment == .bottom {
                     Spacer()
                         .frame(height: searchBarPadding)
@@ -178,22 +194,10 @@ struct CountryListView: View {
     }
 }
 
-struct CountryListLoadingView: View {
-    var body: some View {
-        VStack(alignment: .center) {
-            Spacer()
-            ProgressView()
-                .controlSize(.large)
-                .accessibilityLabel(.Travel.travelAlertsLoading)
-            Spacer()
-        }
-        .frame(maxWidth: .infinity)
-    }
-}
-
-private struct FollowCountryEmptyView: View {
+private struct CountryListEmptyView: View {
     var searchBarAlignment: Alignment
     var searchBarPadding: CGFloat
+    var onFooterTap: () -> Void
 
     var body: some View {
         VStack(spacing: 0) {
@@ -208,8 +212,39 @@ private struct FollowCountryEmptyView: View {
                 .foregroundStyle(Color(GOVUKColors.text.primary))
                 .padding(.top, 6)
 
+            CountryListFooterView(action: {
+                onFooterTap()
+            })
+
             Spacer()
         }.frame(maxWidth: .infinity)
+    }
+}
+
+private struct CountryListFooterView: View {
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            VStack(alignment: .center, spacing: 0) {
+                Text(String(localized: .Travel.countryListFooterMessage))
+                    .font(Font.govUK.caption1)
+                    .foregroundColor(Color(UIColor.govUK.text.secondary))
+                    .multilineTextAlignment(.center)
+                Text(String(localized: .Travel.countryListFooterLink))
+                    .font(Font.govUK.caption1)
+                    .foregroundStyle(Color(UIColor.govUK.text.link))
+                    .underline()
+                    .multilineTextAlignment(.center)
+            }
+            .frame(maxWidth: .infinity)
+            .fixedSize(horizontal: false, vertical: true)
+            .padding(.vertical, 16)
+            .padding(.horizontal, 16)
+        }
+        .accessibilityElement(children: .combine)
+        .accessibilityRemoveTraits(.isButton)
+        .accessibilityAddTraits(.isLink)
     }
 }
 

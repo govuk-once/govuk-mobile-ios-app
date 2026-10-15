@@ -6,7 +6,7 @@ import GovKit
 @testable import govuk_ios
 
 @MainActor
-final class TravelAlertsPermissionViewSnapshotTests: SnapshotTestCase {
+final class NotificationsRationaleViewSnapshotTests: SnapshotTestCase {
     func test_loadInNavigationController_light_rendersCorrectly() {
         let viewModel = makeViewModel()
         let viewController = makeViewController(viewModel: viewModel)
@@ -90,30 +90,37 @@ final class TravelAlertsPermissionViewSnapshotTests: SnapshotTestCase {
     private func makeViewModel(
         travelService: TravelServiceInterface? = nil,
         showImage: Bool = true
-    ) -> TravelAlertsPermissionViewModel {
+    ) -> NotificationsRationaleViewModel {
         let testCountry = Country(
             name: "France",
             slug: "france",
             rawLastUpdate: "",
             synonyms: []
         )
-        let viewModel = TravelAlertsPermissionViewModel(
-            travelService: travelService ?? MockTravelService(),
+        let mockTravelService = travelService ?? MockTravelService()
+        let viewModel = NotificationsRationaleViewModel(
             notificationService: MockNotificationService(),
             analyticsService: MockAnalyticsService(),
             urlOpener: MockURLOpener(),
             showImage: showImage,
-            country: testCountry,
+            saveAction: { enabled, completion in
+                mockTravelService.subscribeToCountry(
+                    slug: testCountry.slug,
+                    notificationsEnabled: enabled,
+                    completion: completion
+                )
+            },
+            declineBehaviour: .saveDisabled,
             dismissSheetAction: { /*EmptyForTests*/ },
-            openURLAction: { _ in /*EmptyForTests*/ },
+            openExternalURLAction: { _ in /*EmptyForTests*/ },
             dismissAfterSuccessAction: { /*EmptyForTests*/ },
             dismissAfterErrorAction: { /*EmptyForTests*/ }
         )
         return viewModel
     }
 
-    private func makeViewController(viewModel: TravelAlertsPermissionViewModel) -> UIViewController {
-        let view = TravelAlertsPermissionView(viewModel: viewModel)
+    private func makeViewController(viewModel: NotificationsRationaleViewModel) -> UIViewController {
+        let view = NotificationsRationaleView(viewModel: viewModel)
         let viewController = HostingViewController(rootView: view)
         viewController.view.backgroundColor = .govUK.fills.surfaceFullscreen
         return viewController

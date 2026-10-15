@@ -10,6 +10,7 @@ class HomeCoordinator: TabItemCoordinator {
     private let configService: AppConfigServiceInterface
     private let topicsService: TopicsServiceInterface
     private let notificationService: NotificationServiceInterface
+    private let travelService: TravelServiceInterface
 
     private let deviceInformationProvider: DeviceInformationProviderInterface
     private let searchService: SearchServiceInterface
@@ -17,6 +18,7 @@ class HomeCoordinator: TabItemCoordinator {
     private let localAuthorityService: LocalAuthorityServiceInterface
     private let userDefaultsService: UserDefaultsServiceInterface
     private let chatService: ChatServiceInterface
+    private let versionProvider: AppVersionProvider
 
     var isEnabled: Bool {
         true
@@ -30,12 +32,15 @@ class HomeCoordinator: TabItemCoordinator {
          configService: AppConfigServiceInterface,
          topicsService: TopicsServiceInterface,
          notificationService: NotificationServiceInterface,
+         travelService: TravelServiceInterface,
          deviceInformationProvider: DeviceInformationProviderInterface,
          searchService: SearchServiceInterface,
          activityService: ActivityServiceInterface,
          localAuthorityService: LocalAuthorityServiceInterface,
          userDefaultsService: UserDefaultsServiceInterface,
-         chatService: ChatServiceInterface) {
+         chatService: ChatServiceInterface,
+         versionProvider: AppVersionProvider
+    ) {
         self.coordinatorBuilder = coordinatorBuilder
         self.viewControllerBuilder = viewControllerBuilder
         self.deeplinkStore = deeplinkStore
@@ -43,12 +48,14 @@ class HomeCoordinator: TabItemCoordinator {
         self.configService = configService
         self.topicsService = topicsService
         self.notificationService = notificationService
+        self.travelService = travelService
         self.deviceInformationProvider = deviceInformationProvider
         self.searchService = searchService
         self.activityService = activityService
         self.localAuthorityService = localAuthorityService
         self.userDefaultsService = userDefaultsService
         self.chatService = chatService
+        self.versionProvider = versionProvider
         super.init(navigationController: navigationController)
     }
 
@@ -102,13 +109,27 @@ class HomeCoordinator: TabItemCoordinator {
         startRecentActivityCoordinator()
     }
 
-    func showTravelAlertTopic() {
+    func showEditTravelAlertCountries() {
         guard let travelTopic = topicsService.fetchTravelTopic() else { return }
-        let coordinator = coordinatorBuilder.topicDetail(
+        let topicCoordinator = coordinatorBuilder.topicDetail(
             travelTopic,
             navigationController: root
         )
-        start(coordinator)
+        start(topicCoordinator)
+
+        root.navigationBar.prefersLargeTitles = true
+        let viewController = viewControllerBuilder.editCountries(
+            travelService: travelService,
+            analyticsService: analyticsService,
+            notificationService: notificationService,
+            deviceInfo: deviceInformationProvider,
+            versionProvider: versionProvider,
+            openURLAction: { url in
+                let urlOpener: URLOpener = UIApplication.shared
+                urlOpener.openIfPossible(url)
+            }
+        )
+        root.pushViewController(viewController, animated: true)
     }
 
     private func presentWebView(url: URL) {

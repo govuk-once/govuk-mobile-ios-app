@@ -10,6 +10,12 @@ class CountryListViewModel: ObservableObject {
         case error
     }
 
+    struct Actions {
+        let dismissAction: (Bool) -> Void
+        let openFooterLinkAction: () -> Void
+        let openExternalURLAction: (URL) -> Void
+    }
+
     @Published private(set) var viewState: ViewState = .loading
     @Published var searchText = "" {
         didSet {
@@ -18,7 +24,7 @@ class CountryListViewModel: ObservableObject {
     }
     @Published private(set) var filteredSections = [GroupedListSection]()
     @Published var selectedCountry: Country?
-    @Published var showTravelAlertsPermission = false
+    @Published var showNotificationsRationale = false
     private var countryForPermissionFlow: Country?
 
     private var allCountries: [Country] = []
@@ -26,9 +32,9 @@ class CountryListViewModel: ObservableObject {
     let analyticsService: AnalyticsServiceInterface
     private let notificationService: NotificationServiceInterface
     private let urlOpener: URLOpener
-    let dismissAction: (Bool) -> Void
-    let errorCallback: () -> Void
-    private let openURLAction: (URL) -> Void
+    private let actions: Actions
+    private let footerLinkURLString: String?
+    let errorCallback: (() -> Void)?
 
     var hasNotificationConsent: Bool {
         notificationService.hasGivenConsent
@@ -39,17 +45,17 @@ class CountryListViewModel: ObservableObject {
         analyticsService: AnalyticsServiceInterface,
         notificationService: NotificationServiceInterface,
         urlOpener: URLOpener,
-        dismissAction: @escaping (Bool) -> Void,
-        errorCallback: @escaping () -> Void = {},
-        openURLAction: @escaping (URL) -> Void
+        actions: Actions,
+        footerLinkURLString: String? = nil,
+        errorCallback: (() -> Void)? = nil
     ) {
         self.travelService = travelService
         self.analyticsService = analyticsService
         self.notificationService = notificationService
         self.urlOpener = urlOpener
-        self.dismissAction = dismissAction
+        self.actions = actions
+        self.footerLinkURLString = footerLinkURLString
         self.errorCallback = errorCallback
-        self.openURLAction = openURLAction
     }
 
     func trackScreen(screen: TrackableScreen) {
@@ -57,7 +63,11 @@ class CountryListViewModel: ObservableObject {
     }
 
     private func trackSearchInput(text: String) {
-        let searchEvent = AppEvent.searchTerm(term: text, type: .typed, section: "country_search")
+        let searchEvent = AppEvent.searchTerm(
+            term: text,
+            type: .typed,
+            section: "country_search"
+        )
         analyticsService.track(event: searchEvent)
     }
 
@@ -71,22 +81,32 @@ class CountryListViewModel: ObservableObject {
     }
 
     func onGetNotificationAlertTap(_ country: Country) {
-        handleCountrySelection(country, notificationOptIn: true)
+        Task {
+            await handleCountrySelection(country, notificationOptIn: true)
+        }
     }
 
     func onNotNowAlertTap(_ country: Country) {
-        handleCountrySelection(country, notificationOptIn: false)
+        Task {
+            await handleCountrySelection(country, notificationOptIn: false)
+        }
     }
 
-    private func handleCountrySelection(_ country: Country, notificationOptIn: Bool) {
+    @MainActor
+    private func handleCountrySelection(_ country: Country, notificationOptIn: Bool) async {
         trackToggleFunction(countryName: country.name)
         if !searchText.isEmpty {
             trackSearchInput(text: searchText)
         }
-        // Given global notifications are off and user is attempting to optIn, navigate to the consent screen
-        if !notificationService.hasGivenConsent && notificationOptIn {
-            countryForPermissionFlow = country
-            showTravelAlertsPermission = true
+        if notificationOptIn {
+            let needsPermissionFlow = await notificationService.needsTravelAlertsPermissionFlow
+            if needsPermissionFlow {
+                selectedCountry = nil
+                countryForPermissionFlow = country
+                showNotificationsRationale = true
+            } else {
+                subscribeToCountryAlerts(country, notificationOptIn)
+            }
         } else {
             subscribeToCountryAlerts(country, notificationOptIn)
         }
@@ -105,10 +125,10 @@ class CountryListViewModel: ObservableObject {
                 Task { @MainActor in
                     switch result {
                     case .success:
-                        self?.dismissAction(true)
+                        self?.actions.dismissAction(true)
                     case .failure:
-                        self?.dismissAction(false)
-                        self?.errorCallback()
+                        self?.actions.dismissAction(false)
+                        self?.errorCallback?()
                     }
                 }
             }
@@ -187,37 +207,63 @@ class CountryListViewModel: ObservableObject {
         viewState = filteredSections.isEmpty ? .empty : .loaded
     }
 
-    func createPermissionViewModel() -> TravelAlertsPermissionViewModel? {
+    func openFooterLink() {
+        let buttonTapEvent = AppEvent.buttonNavigation(
+            text: "HelpAndFeedback",
+            external: true,
+            url: footerLinkURLString,
+            section: "Travel Abroad Notifications")
+        analyticsService.track(event: buttonTapEvent)
+
+        actions.openFooterLinkAction()
+    }
+
+    func dismiss(_ forceRefresh: Bool) {
+        actions.dismissAction(forceRefresh)
+    }
+
+    func createNotificationsRationaleViewModel() -> NotificationsRationaleViewModel? {
         guard let countryToProcess = self.countryForPermissionFlow else { return nil }
-        let openURL = self.openURLAction
-        return TravelAlertsPermissionViewModel(
-            travelService: travelService,
+        return NotificationsRationaleViewModel(
             notificationService: notificationService,
             analyticsService: analyticsService,
             urlOpener: urlOpener,
             showImage: true,
-            country: countryToProcess,
+            saveAction: { [travelService] enabled, completion in
+                travelService.subscribeToCountry(
+                    slug: countryToProcess.slug,
+                    notificationsEnabled: enabled,
+                    completion: completion
+                )
+            },
+            declineBehaviour: .saveDisabled,
             dismissSheetAction: { [weak self] in
-                self?.showTravelAlertsPermission = false
+                self?.showNotificationsRationale = false
                 self?.countryForPermissionFlow = nil
             },
-            openURLAction: openURL,
+            openExternalURLAction: self.actions.openExternalURLAction,
             dismissAfterSuccessAction: { [weak self] in
                 self?.returnFromNotificationPermissions(forceRefresh: true)
             },
             dismissAfterErrorAction: { [weak self] in
                 self?.returnFromNotificationPermissions(forceRefresh: false, didError: true)
-            }
+            },
+            origin: .FOLLOW
         )
     }
 
     private func returnFromNotificationPermissions(forceRefresh: Bool, didError: Bool = false) {
-        self.showTravelAlertsPermission = false
+        self.showNotificationsRationale = false
         self.selectedCountry = nil
         self.countryForPermissionFlow = nil
         if didError {
-            self.errorCallback()
+            self.errorCallback?()
         }
-        self.dismissAction(forceRefresh)
+        self.actions.dismissAction(forceRefresh)
+    }
+
+    func resetNotificationsRationaleFlow() {
+        showNotificationsRationale = false
+        countryForPermissionFlow = nil
     }
 }

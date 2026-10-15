@@ -3,11 +3,11 @@ import SwiftUI
 import GovKitUI
 import GovKit
 
-struct TravelAlertsPermissionView: View {
-    @StateObject private var viewModel: TravelAlertsPermissionViewModel
+struct NotificationsRationaleView: View {
+    @StateObject private var viewModel: NotificationsRationaleViewModel
     @Environment(\.verticalSizeClass) var verticalSizeClass
 
-    init(viewModel: TravelAlertsPermissionViewModel) {
+    init(viewModel: NotificationsRationaleViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
 
@@ -21,12 +21,15 @@ struct TravelAlertsPermissionView: View {
                     secondaryButtonViewModel: viewModel.secondaryButtonViewModel
                 )
             case .loading:
-                TravelAlertPermissionLoadingView()
+                TravelLoadingView()
             }
         }
         .navigationTitle("")
         .toolbar {
             backButton
+        }
+        .onAppear {
+            viewModel.viewDidAppear()
         }
         .toolbarBackground(Color(.govUK.fills.surfaceModal), for: .navigationBar)
         .background(Color(uiColor: UIColor.govUK.fills.surfaceFullscreen))
@@ -36,10 +39,10 @@ struct TravelAlertsPermissionView: View {
                 title: Text(viewModel.notificationSettingsAlertTitle),
                 message: Text(viewModel.notificationSettingsAlertBody),
                 primaryButton: .default(Text(viewModel.notificationAlertButtonTitle)) {
-                    viewModel.handleNotificationAlertAction()
+                    viewModel.onSettingsAlertContinueAction()
                 },
-                secondaryButton: .cancel(Text(viewModel.secondaryButtonTitle)) {
-                    viewModel.notNowAction()
+                secondaryButton: .cancel(Text(viewModel.notificationAlertSecondaryButtonTitle)) {
+                    viewModel.onSettingsAlertCancelAction()
                 }
             )
         }
@@ -106,18 +109,6 @@ struct TravelAlertsPermissionView: View {
                 Image(systemName: "chevron.left")
                     .foregroundStyle(Color(uiColor: .govUK.text.primary))
             }
-        }
-    }
-}
-
-struct TravelAlertPermissionLoadingView: View {
-    var body: some View {
-        VStack(alignment: .center) {
-            Spacer()
-            ProgressView()
-                .controlSize(.large)
-                .accessibilityLabel(.Travel.travelAlertsLoading)
-            Spacer()
         }
     }
 }

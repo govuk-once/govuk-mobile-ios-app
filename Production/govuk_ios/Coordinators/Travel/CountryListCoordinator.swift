@@ -10,6 +10,8 @@ final class CountryListCoordinator: BaseCoordinator {
     private let notificationService: NotificationServiceInterface
     private let userService: UserServiceInterface
     private let urlOpener: URLOpener
+    private let deviceInformationProvider: DeviceInformationProviderInterface
+    private let versionProvider: AppVersionProvider
     private let completion: (Bool) -> Void
 
     init(navigationController: UINavigationController,
@@ -20,6 +22,8 @@ final class CountryListCoordinator: BaseCoordinator {
          notificationService: NotificationServiceInterface,
          userService: UserServiceInterface,
          urlOpener: URLOpener,
+         deviceInformationProvider: DeviceInformationProviderInterface,
+         versionProvider: AppVersionProvider,
          completion: @escaping (Bool) -> Void) {
         self.coordinatorBuilder = coordinatorBuilder
         self.viewControllerBuilder = viewControllerBuilder
@@ -28,6 +32,8 @@ final class CountryListCoordinator: BaseCoordinator {
         self.notificationService = notificationService
         self.userService = userService
         self.urlOpener = urlOpener
+        self.deviceInformationProvider = deviceInformationProvider
+        self.versionProvider = versionProvider
         self.completion = completion
         super.init(navigationController: navigationController)
     }
@@ -41,12 +47,26 @@ final class CountryListCoordinator: BaseCoordinator {
             travelService: travelService,
             analyticsService: analyticsService,
             notificationService: notificationService,
+            deviceInfo: deviceInformationProvider,
+            versionProvider: versionProvider,
             dismissAction: { _ in self.dismissModal() },
-            openURLAction: { [weak self] url in
+            openFooterLinkAction: { [weak self] url in
+                self?.presentWebView(url: url)
+            },
+            openExternalURLAction: { [weak self] url in
                 self?.urlOpener.openIfPossible(url)
             }
         )
         set(viewController)
+    }
+
+    private func presentWebView(url: URL) {
+        let coordinator = coordinatorBuilder.safari(
+            navigationController: root,
+            url: url,
+            fullScreen: false
+        )
+        start(coordinator)
     }
 
     private func dismissModal() {
