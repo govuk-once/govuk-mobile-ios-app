@@ -5,20 +5,18 @@ protocol VoiceOverFocusServiceInterface {
 }
 
 struct VoiceOverFocusService: VoiceOverFocusServiceInterface {
+    static let defaultDelay: TimeInterval = 2
+
     private let maxSearchDepth = 40
     private let delay: TimeInterval
     private let rootElements: () -> [NSObject]
     private let currentFocus: () -> Any?
     private let postNotification: (UIAccessibility.Notification, Any?) -> Void
 
-    init(delay: TimeInterval = 2,
-         rootElements: @escaping () -> [NSObject] = VoiceOverFocusService.keyWindows,
-         currentFocus: @escaping () -> Any? = {
-            UIAccessibility.focusedElement(using: .notificationVoiceOver)
-         },
-         postNotification: @escaping (UIAccessibility.Notification, Any?) -> Void = {
-            UIAccessibility.post(notification: $0, argument: $1)
-         }) {
+    init(delay: TimeInterval,
+         rootElements: @escaping () -> [NSObject],
+         currentFocus: @escaping () -> Any?,
+         postNotification: @escaping (UIAccessibility.Notification, Any?) -> Void) {
         self.delay = delay
         self.rootElements = rootElements
         self.currentFocus = currentFocus
@@ -72,5 +70,13 @@ struct VoiceOverFocusService: VoiceOverFocusServiceInterface {
             .compactMap { $0 as? UIWindowScene }
             .flatMap(\.windows)
             .filter(\.isKeyWindow)
+    }
+
+    static func voiceOverFocusedElement() -> Any? {
+        UIAccessibility.focusedElement(using: .notificationVoiceOver)
+    }
+
+    static func post(notification: UIAccessibility.Notification, argument: Any?) {
+        UIAccessibility.post(notification: notification, argument: argument)
     }
 }

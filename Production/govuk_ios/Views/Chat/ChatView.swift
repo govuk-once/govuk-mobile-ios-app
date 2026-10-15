@@ -18,7 +18,7 @@ struct ChatView: View {
     private let transitionDuration = 0.3
 
     init(viewModel: ChatViewModel,
-         voiceOverFocusService: VoiceOverFocusServiceInterface = VoiceOverFocusService()) {
+         voiceOverFocusService: VoiceOverFocusServiceInterface) {
         _viewModel = StateObject(wrappedValue: viewModel)
         self.voiceOverFocusService = voiceOverFocusService
     }

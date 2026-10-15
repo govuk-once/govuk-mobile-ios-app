@@ -366,6 +366,7 @@
 				govuk_ios/shared/Mocks/Services/MockTermsAndConditionsService.swift,
 				govuk_ios/shared/Mocks/Services/MockTopicsService.swift,
 				govuk_ios/shared/Mocks/Services/MockTravelService.swift,
+				govuk_ios/shared/Mocks/Services/MockVoiceOverFocusService.swift,
 				govuk_ios/shared/Mocks/Services/RecentActivity/MockActivityService.swift,
 				govuk_ios/shared/Mocks/ViewModels/MockDrivingLicenceViewModel.swift,
 				govuk_ios/shared/Mocks/ViewModels/MockVehiclesViewModel.swift,

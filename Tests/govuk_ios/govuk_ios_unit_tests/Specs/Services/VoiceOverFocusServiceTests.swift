@@ -141,7 +141,12 @@ struct VoiceOverFocusServiceTests {
 
     @Test
     func focusHeader_defaultDependencies_noHeaderOnScreen_completes() async {
-        let sut = VoiceOverFocusService(delay: 0)
+        let sut = VoiceOverFocusService(
+            delay: 0,
+            rootElements: VoiceOverFocusService.keyWindows,
+            currentFocus: VoiceOverFocusService.voiceOverFocusedElement,
+            postNotification: VoiceOverFocusService.post
+        )
 
         await sut.focusHeader(labelled: "No such header")
 
