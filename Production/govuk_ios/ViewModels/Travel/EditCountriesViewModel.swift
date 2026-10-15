@@ -303,7 +303,8 @@ class EditCountriesViewModel: ObservableObject {
             },
             dismissAfterErrorAction: { [weak self] in
                 self?.finishRationaleFlow(.error)
-            }
+            },
+            origin: .EDIT
         )
     }
 

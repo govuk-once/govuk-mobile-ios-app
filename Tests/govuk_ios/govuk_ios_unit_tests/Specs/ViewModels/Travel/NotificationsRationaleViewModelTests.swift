@@ -95,7 +95,7 @@ struct NotificationsRationaleViewModelTests {
         mockURLOpener.shouldOpenNotificationSettings = true
 
         let viewModel = makeViewModel()
-        viewModel.handleNotificationAlertAction()
+        viewModel.onSettingsAlertContinueAction()
 
     }
 
@@ -201,7 +201,7 @@ struct NotificationsRationaleViewModelTests {
         mockURLOpener.shouldOpenNotificationSettings = false
         let viewModel = makeViewModel()
 
-        viewModel.handleNotificationAlertAction()
+        viewModel.onSettingsAlertContinueAction()
 
         #expect(mockNotificationService.hasGivenConsentToggled == false)
     }
@@ -213,7 +213,7 @@ struct NotificationsRationaleViewModelTests {
         mockTravelService._autoCallSubscribeCompletion = false
         let viewModel = makeViewModel()
 
-        viewModel.handleNotificationAlertAction()
+        viewModel.onSettingsAlertContinueAction()
         NotificationCenter.default.post(name: UIApplication.willEnterForegroundNotification, object: nil)
 
         try await waitForTrue { viewModel.viewState == .loading }
@@ -228,7 +228,7 @@ struct NotificationsRationaleViewModelTests {
         mockNotificationService._stubbededPermissionState = .denied
         let viewModel = makeViewModel()
 
-        viewModel.handleNotificationAlertAction()
+        viewModel.onSettingsAlertContinueAction()
         NotificationCenter.default.post(name: UIApplication.willEnterForegroundNotification, object: nil)
 
         try await Task.sleep(for: .seconds(1))
@@ -271,13 +271,91 @@ struct NotificationsRationaleViewModelTests {
         #expect(buttonTitle1 == buttonTitle2)
     }
 
+    @Test
+    func viewDidAppear_tracksAnalyticsEvent() {
+        let viewModel = makeViewModel()
+        viewModel.viewDidAppear()
+
+        #expect(mockAnalyticsService._trackedEvents.count == 1)
+        #expect(mockAnalyticsService._trackedEvents[0].name == "notifications_rationale_view")
+        #expect(mockAnalyticsService._trackedEvents[0].params?["origin"] as? String == "FOLLOW")
+    }
+
+    @Test
+    func viewDidAppear_withEditOrigin_tracksAnalyticsEventWithEditOrigin() {
+        let viewModel = makeViewModel(origin: .EDIT)
+        viewModel.viewDidAppear()
+
+        #expect(mockAnalyticsService._trackedEvents.count == 1)
+        #expect(mockAnalyticsService._trackedEvents[0].name == "notifications_rationale_view")
+        #expect(mockAnalyticsService._trackedEvents[0].params?["origin"] as? String == "EDIT")
+    }
+
+    @Test
+    func allowNotificationsAction_tracksAnalyticsEvent() async throws {
+        mockNotificationService._stubbededPermissionState = .authorized
+        mockTravelService._autoCallSubscribeCompletion = false
+        let viewModel = makeViewModel()
+
+        viewModel.allowNotificationsAction()
+
+        try await waitForTrue { mockAnalyticsService._trackedEvents.count >= 1 }
+
+        #expect(mockAnalyticsService._trackedEvents.count >= 1)
+        #expect(mockAnalyticsService._trackedEvents[0].name == "notifications_rationale_agree")
+        #expect(mockAnalyticsService._trackedEvents[0].params?["origin"] as? String == "FOLLOW")
+    }
+
+    @Test
+    func notNowAction_tracksAnalyticsEvent() {
+        let viewModel = makeViewModel()
+        viewModel.notNowAction()
+
+        #expect(mockAnalyticsService._trackedEvents.count == 1)
+        #expect(mockAnalyticsService._trackedEvents[0].name == "notifications_rationale_not_now")
+        #expect(mockAnalyticsService._trackedEvents[0].params?["origin"] as? String == "FOLLOW")
+    }
+
+    @Test
+    func onSettingsAlertContinueAction_tracksAnalyticsEvent() {
+        mockURLOpener.shouldOpenNotificationSettings = true
+        let viewModel = makeViewModel()
+
+        viewModel.onSettingsAlertContinueAction()
+
+        #expect(mockAnalyticsService._trackedEvents.count == 1)
+        #expect(mockAnalyticsService._trackedEvents[0].name == "notifications_rationale_settings_continue")
+        #expect(mockAnalyticsService._trackedEvents[0].params?["origin"] as? String == "FOLLOW")
+    }
+
+    @Test
+    func onSettingsAlertCancelAction_tracksAnalyticsEvent() {
+        let viewModel = makeViewModel()
+        viewModel.onSettingsAlertCancelAction()
+
+        #expect(mockAnalyticsService._trackedEvents.count == 1)
+        #expect(mockAnalyticsService._trackedEvents[0].name == "notifications_rationale_settings_cancel")
+        #expect(mockAnalyticsService._trackedEvents[0].params?["origin"] as? String == "FOLLOW")
+    }
+
+    @Test
+    func analyticsEvents_withEditOrigin_includeOriginInParams() {
+        let viewModel = makeViewModel(origin: .EDIT)
+
+        viewModel.notNowAction()
+
+        #expect(mockAnalyticsService._trackedEvents.count == 1)
+        #expect(mockAnalyticsService._trackedEvents[0].params?["origin"] as? String == "EDIT")
+    }
+
     private func makeViewModel(
         saveAction: NotificationsRationaleSaveAction? = nil,
         declineBehaviour: NotificationsRationaleDeclineBehaviour = .saveDisabled,
         dismissSheetAction: @escaping () -> Void = { },
         openExternalURLAction: @escaping (URL) -> Void = { _ in },
         dismissAfterSuccessAction: @escaping () -> Void = { },
-        dismissAfterErrorAction: @escaping () -> Void = { }
+        dismissAfterErrorAction: @escaping () -> Void = { },
+        origin: NotificationsRationaleOrigin = .FOLLOW
     ) -> NotificationsRationaleViewModel {
         let finalSaveAction = saveAction ?? { enabled, completion in
             self.mockTravelService.subscribeToCountry(
@@ -297,7 +375,8 @@ struct NotificationsRationaleViewModelTests {
             dismissSheetAction: dismissSheetAction,
             openExternalURLAction: openExternalURLAction,
             dismissAfterSuccessAction: dismissAfterSuccessAction,
-            dismissAfterErrorAction: dismissAfterErrorAction
+            dismissAfterErrorAction: dismissAfterErrorAction,
+            origin: origin
         )
     }
 

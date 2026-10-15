@@ -28,6 +28,9 @@ struct NotificationsRationaleView: View {
         .toolbar {
             backButton
         }
+        .onAppear {
+            viewModel.viewDidAppear()
+        }
         .toolbarBackground(Color(.govUK.fills.surfaceModal), for: .navigationBar)
         .background(Color(uiColor: UIColor.govUK.fills.surfaceFullscreen))
         .accessibilityElement(children: .contain)
@@ -36,10 +39,10 @@ struct NotificationsRationaleView: View {
                 title: Text(viewModel.notificationSettingsAlertTitle),
                 message: Text(viewModel.notificationSettingsAlertBody),
                 primaryButton: .default(Text(viewModel.notificationAlertButtonTitle)) {
-                    viewModel.handleNotificationAlertAction()
+                    viewModel.onSettingsAlertContinueAction()
                 },
-                secondaryButton: .cancel(Text(viewModel.secondaryButtonTitle)) {
-                    viewModel.notNowAction()
+                secondaryButton: .cancel(Text(viewModel.notificationAlertSecondaryButtonTitle)) {
+                    viewModel.onSettingsAlertCancelAction()
                 }
             )
         }

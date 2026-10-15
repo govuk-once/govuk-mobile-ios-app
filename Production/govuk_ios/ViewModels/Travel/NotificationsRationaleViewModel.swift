@@ -13,6 +13,11 @@ enum NotificationsRationaleDeclineBehaviour {
     case report(() -> Void)
 }
 
+enum NotificationsRationaleOrigin: String {
+    case FOLLOW
+    case EDIT
+}
+
 class NotificationsRationaleViewModel: ObservableObject {
     enum ViewState {
         case idle
@@ -54,9 +59,14 @@ class NotificationsRationaleViewModel: ObservableObject {
         String(localized: .Settings.notificationAlertPrimaryButtonTitle)
     }
 
+    var notificationAlertSecondaryButtonTitle: String {
+        String(localized: .Travel.countryListAlertCancel)
+    }
+
     private var dismissAfterSuccessAction: (() -> Void)?
     private var dismissAfterErrorAction: (() -> Void)?
     private var isPendingPermissionCheck: Bool = false
+    private let origin: NotificationsRationaleOrigin
 
     init(
         notificationService: NotificationServiceInterface,
@@ -69,7 +79,8 @@ class NotificationsRationaleViewModel: ObservableObject {
         dismissSheetAction: @escaping () -> Void,
         openExternalURLAction: @escaping (URL) -> Void,
         dismissAfterSuccessAction: @escaping () -> Void,
-        dismissAfterErrorAction: @escaping () -> Void
+        dismissAfterErrorAction: @escaping () -> Void,
+        origin: NotificationsRationaleOrigin = .FOLLOW
     ) {
         self.notificationService = notificationService
         self.analyticsService = analyticsService
@@ -82,6 +93,7 @@ class NotificationsRationaleViewModel: ObservableObject {
         self.openExternalURLAction = openExternalURLAction
         self.dismissAfterSuccessAction = dismissAfterSuccessAction
         self.dismissAfterErrorAction = dismissAfterErrorAction
+        self.origin = origin
         observeAppMoveToForeground()
     }
 
@@ -105,7 +117,23 @@ class NotificationsRationaleViewModel: ObservableObject {
         )
     }
 
+    func viewDidAppear() {
+        analyticsService.track(
+            event: AppEvent(
+                name: "notifications_rationale_view",
+                params: ["origin": origin.rawValue]
+            )
+        )
+    }
+
+
     func allowNotificationsAction() {
+        analyticsService.track(
+            event: AppEvent(
+                name: "notifications_rationale_agree",
+                params: ["origin": origin.rawValue]
+            )
+        )
         Task {
             let permissionState = await notificationService.permissionState
             await MainActor.run {
@@ -131,6 +159,12 @@ class NotificationsRationaleViewModel: ObservableObject {
     }
 
     func notNowAction() {
+        analyticsService.track(
+            event: AppEvent(
+                name: "notifications_rationale_not_now",
+                params: ["origin": origin.rawValue]
+            )
+        )
         decline()
     }
 
@@ -165,10 +199,26 @@ class NotificationsRationaleViewModel: ObservableObject {
         }
     }
 
-    func handleNotificationAlertAction() {
+    func onSettingsAlertContinueAction() {
+        analyticsService.track(
+            event: AppEvent(
+                name: "notifications_rationale_settings_continue",
+                params: ["origin": origin.rawValue]
+            )
+        )
         if urlOpener.openNotificationSettings() {
             isPendingPermissionCheck = true
         }
+    }
+
+    func onSettingsAlertCancelAction() {
+        analyticsService.track(
+            event: AppEvent(
+                name: "notifications_rationale_settings_cancel",
+                params: ["origin": origin.rawValue]
+            )
+        )
+        decline()
     }
 
     private func observeAppMoveToForeground() {

@@ -233,7 +233,8 @@ class CountryListViewModel: ObservableObject {
             },
             dismissAfterErrorAction: { [weak self] in
                 self?.returnFromNotificationPermissions(forceRefresh: false, didError: true)
-            }
+            },
+            origin: .FOLLOW
         )
     }
 
