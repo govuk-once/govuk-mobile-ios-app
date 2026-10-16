@@ -25,9 +25,7 @@ struct TermsAndConditionsServiceClientTests {
 
     @Test
     func termsAndConditions_validJson_returnsCorrectConfig() async throws {
-        let mockJsonData = getJsonData(
-            filename: "MockTermsAndConditionsResponse", bundle: .main
-        )
+        let mockJsonData = Data.loadFixture("MockTermsAndConditionsResponse")
         mockServiceClient._stubbedSendResponse = .success(mockJsonData)
         let result = await sut.termsAndConditions(path: "/api/content/guidance/govuk-app-terms-and-conditions")
         let unwrappedResult = try result.get()
@@ -45,25 +43,10 @@ struct TermsAndConditionsServiceClientTests {
 
     @Test
     func fetchAppConfig_invalidJSON_returnsError() async {
-        let mockJsonData = getJsonData(filename: "MockTermsAndConditionsResponseInvalid", bundle: .main)
+        let mockJsonData = Data.loadFixture("MockTermsAndConditionsResponseInvalid")
         mockServiceClient._stubbedSendResponse = .success(mockJsonData)
         let result = await sut.termsAndConditions(path: "/api/content/guidance/govuk-app-terms-and-conditions")
         let unwrappedResult = result.getError()
         #expect(unwrappedResult == .parsingError)
-    }
-
-    private func getJsonData(filename: String, bundle: Bundle) -> Data {
-        let resourceURL = bundle.url(
-            forResource: filename,
-            withExtension: "json"
-        )
-        guard let resourceURL = resourceURL else {
-            return Data()
-        }
-        do {
-            return try Data(contentsOf: resourceURL)
-        } catch {
-            return Data()
-        }
     }
 }

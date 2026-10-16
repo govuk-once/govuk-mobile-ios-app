@@ -186,6 +186,7 @@ extension NotificationCentreDetailContainerView: TrackableScreen {
     var trackingClass: String { "MessagesDetailScreen" }
 }
 
+#if DEBUG
 #Preview("Loading") {
     NotificationCentreDetailLoadingView()
 }
@@ -199,9 +200,16 @@ extension NotificationCentreDetailContainerView: TrackableScreen {
             date: "27 August 2026",
             id: "1"
         ),
-        onLinkTapped: { _ in /* no-op */ },
-        onConfirmDelete: { /* no-op */ },
-        onCancelDelete: { /* no-op */ },
+        onLinkTapped: { _ in
+            /* no-op */
+        },
+        onConfirmDelete: {
+            /* no-op */
+        },
+        onCancelDelete: {
+            /* no-op */
+        },
         showDeleteConfirmation: false
     )
 }
+#endif // DEBUG
