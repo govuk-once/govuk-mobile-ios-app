@@ -155,6 +155,61 @@
         }
       }
     },
+    "feedbackConfirmationTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thanks for your feedback"
+          }
+        }
+      }
+    },
+    "feedbackGroupAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Was this answer helpful? Thumbs up or thumbs down"
+          }
+        }
+      }
+    },
+    "feedbackHelpfulAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Helpful"
+          }
+        }
+      }
+    },
+    "feedbackHelpfulSelectedAccessibilityAnnouncement" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Helpful, selected"
+          }
+        }
+      }
+    },
+    "feedbackLinkAccessibilityHint" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Optional"
+          }
+        }
+      }
+    },
     "feedbackMenuAccessibilityTitle" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -173,6 +228,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Give feedback"
+          }
+        }
+      }
+    },
+    "feedbackNegativeLinkTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Say what went wrong"
+          }
+        }
+      }
+    },
+    "feedbackNotHelpfulAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not helpful"
+          }
+        }
+      }
+    },
+    "feedbackNotHelpfulSelectedAccessibilityAnnouncement" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not helpful, selected"
+          }
+        }
+      }
+    },
+    "feedbackPositiveLinkTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Say what went well"
           }
         }
       }

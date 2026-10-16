@@ -3,14 +3,14 @@ import GovKit
 import GovKitUI
 import Combine
 
-// swiftlint:disable:next type_body_length
 class ChatViewModel: ObservableObject {
-    private let chatService: ChatServiceInterface
-    private let analyticsService: AnalyticsServiceInterface
+    let chatService: ChatServiceInterface
+    let analyticsService: AnalyticsServiceInterface
     private let configService: AppConfigServiceInterface
     let maxCharacters = 300
-    private let openURLAction: (URL) -> Void
+    let openURLAction: (URL) -> Void
     private let handleError: (ChatError) -> Void
+    private let feedbackViewModelBuilder: ChatFeedbackViewModelBuilder
     private var shouldLoadHistory: Bool = true
     private var disclosureListeners = Set<AnyCancellable>()
     // Default values will be overridden
@@ -52,12 +52,19 @@ class ChatViewModel: ObservableObject {
          analyticsService: AnalyticsServiceInterface,
          configService: AppConfigServiceInterface,
          openURLAction: @escaping (URL) -> Void,
-         handleError: @escaping (ChatError) -> Void) {
+         handleError: @escaping (ChatError) -> Void,
+         scheduleFeedbackConfirmation: @escaping ChatFeedbackViewModel.ConfirmationScheduler =
+            ChatFeedbackViewModel.defaultConfirmationScheduler) {
         self.chatService = chatService
         self.analyticsService = analyticsService
         self.configService = configService
         self.openURLAction = openURLAction
         self.handleError = handleError
+        self.feedbackViewModelBuilder = ChatFeedbackViewModelBuilder(
+            chatService: chatService,
+            analyticsService: analyticsService,
+            scheduleConfirmation: scheduleFeedbackConfirmation
+        )
         self.chatExampleQuestionsViewModel = .init(
             analyticsService: analyticsService,
             configService: configService
@@ -76,6 +83,7 @@ class ChatViewModel: ObservableObject {
             return
         }
         trackAskQuestionSubmission(type: questionRequest.type.rawValue)
+        clearFeedback()
         errorText = nil
         warningText = nil
         let currentQuestionModel = ChatCellViewModel(
@@ -132,6 +140,11 @@ class ChatViewModel: ObservableObject {
                     openURLAction: openURLAction,
                     analyticsService: analyticsService
                 )
+                cellModel.feedbackViewModel = makeFeedbackViewModel(
+                    questionId: question.id,
+                    conversationId: question.conversationId,
+                    answer: answer
+                )
                 scrollToTop = true
                 addCellModels([cellModel])
                 announceAnswerReceived()
@@ -142,6 +155,97 @@ class ChatViewModel: ObservableObject {
         }
     }
 
+    private func clearFeedback() {
+        cellModels.forEach { $0.feedbackViewModel = nil }
+    }
+
+    private func makeFeedbackViewModel(questionId: String,
+                                       conversationId: String,
+                                       answer: Answer) -> ChatFeedbackViewModel? {
+        feedbackViewModelBuilder.makeViewModel(
+            questionId: questionId,
+            conversationId: conversationId,
+            answer: answer,
+            confirmedAction: { [weak self] in
+                self?.scrollToBottom = true
+            },
+            errorAction: { [weak self] error in
+                self?.processError(error)
+            }
+        )
+    }
+
+    private func processError(_ error: ChatError) {
+        shouldLoadHistory = error != .authenticationError
+        handleError(error)
+    }
+
+    private func containsPII(_ input: String) -> Bool {
+        RegexValidator.pii.validate(input: input)
+    }
+
+    @objc
+    func newChat() {
+        cellModels.removeAll()
+        chatService.clearHistory()
+        appendIntroMessage(animate: true)
+        scrollToTop = true
+        showExampleQuestions = exampleQuestionsPresent
+    }
+
+    func updateCharacterCount() {
+        if latestQuestion.count > maxCharacters {
+            errorText = LocalizedStringKey(
+                "tooManyCharactersTitle.\(absoluteRemainingCharacters)"
+            )
+            warningText = nil
+        } else if latestQuestion.count >= (maxCharacters - 50) {
+            warningText = LocalizedStringKey(
+                "remainingCharactersTitle.\(absoluteRemainingCharacters)"
+            )
+            errorText = nil
+        } else {
+            errorText = nil
+            warningText = nil
+        }
+    }
+
+    private var exampleQuestionsPresent: Bool {
+        guard let questions = configService.chatExampleQuestions else {
+            return false
+        }
+        return !questions.isEmpty
+    }
+
+    private func setPersonalDataValidationAlertDetails() {
+        validationAlertDetails = AlertDetails(
+            title: String.chat.localized("personalDataValidationTitle"),
+            message: String.chat.localized("personalDataValidationErrorText"),
+            primaryButtonTitle: String.common.localized("ok")
+        )
+    }
+
+    private func announceAnswerReceived() {
+        DispatchQueue.main.async {
+            UIAccessibility.post(
+                notification: .announcement,
+                argument: String.chat.localized("answerReceivedAccessibilityTitle")
+            )
+        }
+    }
+
+    private func announceGeneratingAnswer() {
+        DispatchQueue.main.async {
+            UIAccessibility.post(
+                notification: .announcement,
+                argument: String(localized: .Chat.generatingAnswerAccessibilityTitle)
+            )
+        }
+    }
+}
+
+// MARK: History
+extension ChatViewModel {
     func loadHistory() {
         guard shouldLoadHistory else { return }
         guard let conversationId = chatService.currentConversationId else {
@@ -179,11 +283,56 @@ class ChatViewModel: ObservableObject {
         }
     }
 
-    private func processError(_ error: ChatError) {
-        shouldLoadHistory = error != .authenticationError
-        handleError(error)
+    private func handleHistoryResponse(_ history: History) {
+        cellModels.removeAll()
+        appendIntroMessage(animate: false)
+        let answers = history.answeredQuestions
+        answers.forEach { answeredQuestion in
+            let question = ChatCellViewModel(answeredQuestion: answeredQuestion,
+                                             analyticsService: analyticsService)
+            question.isVisible = true
+            cellModels.append(question)
+            let answer = ChatCellViewModel(
+                answer: answeredQuestion.answer,
+                openURLAction: openURLAction,
+                analyticsService: analyticsService
+            )
+            answer.isVisible = true
+            cellModels.append(answer)
+        }
+        if history.pendingQuestion == nil,
+           let latestAnsweredQuestion = answers.last {
+            cellModels.last?.feedbackViewModel = makeFeedbackViewModel(
+                questionId: latestAnsweredQuestion.id,
+                conversationId: latestAnsweredQuestion.conversationId,
+                answer: latestAnsweredQuestion.answer
+            )
+        }
+        if let pendingQuestion = history.pendingQuestion {
+            cellModels.append(ChatCellViewModel(
+                question: pendingQuestion,
+                analyticsService: analyticsService)
+            )
+            pollForAnswer(pendingQuestion)
+        }
+        showExampleQuestions = shouldShowExampleQuestions(
+            pendingQuestion: history.pendingQuestion,
+            answers: answers
+        )
     }
 
+    func shouldShowExampleQuestions(
+        pendingQuestion: PendingQuestion?,
+        answers: [AnsweredQuestion]
+    ) -> Bool {
+        guard pendingQuestion == nil else { return false }
+        guard answers.isEmpty else { return false }
+        return exampleQuestionsPresent
+    }
+}
+
+// MARK: Cell models
+extension ChatViewModel {
     private func appendIntroMessage(animate: Bool) {
         let introMessage = Intro(
             message: String.chat.localized("introMessage")
@@ -227,173 +376,5 @@ class ChatViewModel: ObservableObject {
     private func removeCellModel(_ model: ChatCellViewModel) {
         model.isVisible = false
         cellModels.removeAll(where: { $0.id == model.id })
-    }
-
-    private func handleHistoryResponse(_ history: History) {
-        cellModels.removeAll()
-        appendIntroMessage(animate: false)
-        let answers = history.answeredQuestions
-        answers.forEach { answeredQuestion in
-            let question = ChatCellViewModel(answeredQuestion: answeredQuestion,
-                                             analyticsService: analyticsService)
-            question.isVisible = true
-            cellModels.append(question)
-            let answer = ChatCellViewModel(
-                answer: answeredQuestion.answer,
-                openURLAction: openURLAction,
-                analyticsService: analyticsService
-            )
-            answer.isVisible = true
-            cellModels.append(answer)
-        }
-        if let pendingQuestion = history.pendingQuestion {
-            cellModels.append(ChatCellViewModel(
-                question: pendingQuestion,
-                analyticsService: analyticsService)
-            )
-            pollForAnswer(pendingQuestion)
-        }
-        showExampleQuestions = shouldShowExampleQuestions(
-            pendingQuestion: history.pendingQuestion,
-            answers: answers
-        )
-    }
-
-    func shouldShowExampleQuestions(
-        pendingQuestion: PendingQuestion?,
-        answers: [AnsweredQuestion]
-    ) -> Bool {
-        guard pendingQuestion == nil else { return false }
-        guard answers.isEmpty else { return false }
-        return exampleQuestionsPresent
-    }
-
-    private func containsPII(_ input: String) -> Bool {
-        RegexValidator.pii.validate(input: input)
-    }
-
-    @objc
-    func newChat() {
-        cellModels.removeAll()
-        chatService.clearHistory()
-        appendIntroMessage(animate: true)
-        scrollToTop = true
-        showExampleQuestions = exampleQuestionsPresent
-    }
-
-    func openAboutURL() {
-        trackMenuTap(String.chat.localized("aboutMenuTitle"))
-        openURLAction(chatService.about)
-    }
-
-    func openPrivacyURL() {
-        trackMenuTap(String.chat.localized("privacyMenuTitle"))
-        openURLAction(chatService.privacyPolicy)
-    }
-
-    func openFeedbackURL() {
-        trackMenuTap(String.chat.localized("feedbackMenuTitle"))
-        openURLAction(chatService.feedback)
-    }
-
-    func trackScreen(screen: TrackableScreen) {
-        analyticsService.track(screen: screen)
-    }
-
-    func trackMenuClearChatTap() {
-        let event = AppEvent.chatActionButtonFunction(
-            text: String.chat.localized("clearMenuTitle"),
-            action: "Clear Chat Tapped"
-        )
-        analyticsService.track(event: event)
-    }
-
-    func trackMenuClearChatConfirmTap() {
-        let event = AppEvent.chatActionButtonFunction(
-            text: String.chat.localized("clearAlertConfirmTitle"),
-            action: "Clear Chat Yes Tapped"
-        )
-        analyticsService.track(event: event)
-    }
-
-    func trackMenuClearChatDenyTap() {
-        let event = AppEvent.chatActionButtonFunction(
-            text: String.chat.localized("clearAlertDenyTitle"),
-            action: "Clear Chat No Tapped"
-        )
-        analyticsService.track(event: event)
-    }
-
-    func updateCharacterCount() {
-        if latestQuestion.count > maxCharacters {
-            errorText = LocalizedStringKey(
-                "tooManyCharactersTitle.\(absoluteRemainingCharacters)"
-            )
-            warningText = nil
-        } else if latestQuestion.count >= (maxCharacters - 50) {
-            warningText = LocalizedStringKey(
-                "remainingCharactersTitle.\(absoluteRemainingCharacters)"
-            )
-            errorText = nil
-        } else {
-            errorText = nil
-            warningText = nil
-        }
-    }
-
-    private var exampleQuestionsPresent: Bool {
-        guard let questions = configService.chatExampleQuestions else {
-            return false
-        }
-        return !questions.isEmpty
-    }
-
-    private func trackMenuTap(_ itemTitle: String) {
-        let event = AppEvent.buttonNavigation(
-            text: itemTitle,
-            external: true
-        )
-        analyticsService.track(event: event)
-    }
-
-    private func trackAskQuestionSubmission(type: String) {
-        let event = AppEvent.chatAskQuestion(type: type)
-        analyticsService.track(event: event)
-    }
-
-    private func trackAnswerResponse() {
-        let event = AppEvent.function(
-            text: "Chat Question Answer Returned",
-            type: "ChatQuestionAnswerReturned",
-            section: "Chat",
-            action: "Chat Question Answer Returned"
-        )
-        analyticsService.track(event: event)
-    }
-
-    private func setPersonalDataValidationAlertDetails() {
-        validationAlertDetails = AlertDetails(
-            title: String.chat.localized("personalDataValidationTitle"),
-            message: String.chat.localized("personalDataValidationErrorText"),
-            primaryButtonTitle: String.common.localized("ok")
-        )
-    }
-
-    private func announceAnswerReceived() {
-        DispatchQueue.main.async {
-            UIAccessibility.post(
-                notification: .announcement,
-                argument: String.chat.localized("answerReceivedAccessibilityTitle")
-            )
-        }
-    }
-
-    private func announceGeneratingAnswer() {
-        DispatchQueue.main.async {
-            UIAccessibility.post(
-                notification: .announcement,
-                argument: String(localized: .Chat.generatingAnswerAccessibilityTitle)
-            )
-        }
     }
 }

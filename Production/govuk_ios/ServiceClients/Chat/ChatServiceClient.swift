@@ -4,6 +4,7 @@ import GovKit
 typealias ChatQuestionResult = (Result<PendingQuestion, ChatError>)
 typealias ChatAnswerResult = (Result<Answer, ChatError>)
 typealias ChatHistoryResult = (Result<History, ChatError>)
+typealias ChatFeedbackResult = (Result<Void, ChatError>)
 
 protocol ChatServiceClientInterface {
     func askQuestion(_ question: String,
@@ -14,6 +15,10 @@ protocol ChatServiceClientInterface {
                      completion: @escaping (ChatAnswerResult) -> Void)
     func fetchHistory(conversationId: String,
                       completion: @escaping (ChatHistoryResult) -> Void)
+    func sendFeedback(conversationId: String,
+                      answerId: String,
+                      isPositive: Bool,
+                      completion: @escaping (ChatFeedbackResult) -> Void)
 }
 
 enum ChatError: LocalizedError {
@@ -23,6 +28,7 @@ enum ChatError: LocalizedError {
     case decodingError
     case validationError
     case authenticationError
+    case feedbackAlreadyGiven
 }
 
 struct ChatServiceClient: ChatServiceClientInterface {
@@ -75,21 +81,25 @@ struct ChatServiceClient: ChatServiceClientInterface {
         )
     }
 
-    private func mapResult<T: Decodable>(_ result: NetworkResult<Data>) -> Result<T, ChatError> {
-        return result.mapError { error in
-            let nsError = (error as NSError)
-            if nsError.code == NSURLErrorNotConnectedToInternet {
-                return ChatError.networkUnavailable
-            } else {
-                if let error = error as? ChatError {
-                    return error
-                }
-                if error is TokenRefreshError {
-                    return ChatError.authenticationError
-                }
-                return ChatError.apiUnavailable
+    func sendFeedback(conversationId: String,
+                      answerId: String,
+                      isPositive: Bool,
+                      completion: @escaping (ChatFeedbackResult) -> Void) {
+        let request = GOVRequest.sendChatFeedback(
+            conversationId: conversationId,
+            answerId: answerId,
+            isPositive: isPositive
+        )
+        serviceClient.send(
+            request: request,
+            completion: {
+                completion($0.map { _ in () }.mapError(mapError))
             }
-        }.flatMap {
+        )
+    }
+
+    private func mapResult<T: Decodable>(_ result: NetworkResult<Data>) -> Result<T, ChatError> {
+        return result.mapError(mapError).flatMap {
             let decoder = JSONDecoder()
             do {
             let response = try decoder.decode(T.self, from: $0)
@@ -97,6 +107,21 @@ struct ChatServiceClient: ChatServiceClientInterface {
             } catch {
                 return .failure(ChatError.decodingError)
             }
+        }
+    }
+
+    private func mapError(_ error: Error) -> ChatError {
+        let nsError = (error as NSError)
+        if nsError.code == NSURLErrorNotConnectedToInternet {
+            return ChatError.networkUnavailable
+        } else {
+            if let error = error as? ChatError {
+                return error
+            }
+            if error is TokenRefreshError {
+                return ChatError.authenticationError
+            }
+            return ChatError.apiUnavailable
         }
     }
 }
