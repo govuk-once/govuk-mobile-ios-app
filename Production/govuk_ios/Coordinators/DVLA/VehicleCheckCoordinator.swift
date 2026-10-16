@@ -22,8 +22,9 @@ final class VehicleCheckCoordinator: BaseCoordinator {
 
     override func start(url: URL?) {
         // reg number input view not implemented yet
+        setVehicleRegistrationInputView()
         // show result screen for mock vehicle
-        setVehicleCheckResult(for: mockVehicle)
+//        setVehicleCheckResult(for: mockVehicle)
     }
 
     private func setVehicleCheckResult(for vehicle: VehicleEnquiryResponse.Vehicle) {
@@ -66,6 +67,46 @@ final class VehicleCheckCoordinator: BaseCoordinator {
             section: "Driving"
         )
         analyticsService.track(event: event)
+    }
+}
+
+// KK: breadcrumb
+import SwiftUI
+extension VehicleCheckCoordinator {
+    private func setVehicleRegistrationInputView() {
+//        let viewController = ViewControllerBuilder.vehicleRegistrationInputView(
+//           ... blah blah blah...
+//           we would construct our SwiftUI view and its `HostingViewController` in this method
+//        )
+        let view = PlaceholderView(onSubmit: { enteredText, searchResults in
+            print("Searched for: \(enteredText)")
+            print("Got results:", searchResults)
+
+//            // 1. Create the search results hosting controller
+//            let resultsView = SearchResultsView(searchQuery: enteredText)
+//            let resultsHostingController = UIHostingController(rootView: resultsView)
+//
+//            // 2. Unhide the navigation bar since we are entering a standard screen stack
+//            navController.setNavigationBarHidden(false, animated: true)
+//
+//            // 3. Push the search results onto the stack
+//            navController.pushViewController(resultsHostingController, animated: true)
+        },
+                                   onCancel: { [weak self] in self?.dismiss(animated: true) }
+        )
+
+        let viewController = HostingViewController(
+            rootView: view
+        )
+        viewController.modalPresentationStyle = .overCurrentContext
+        viewController.view.backgroundColor = .clear
+        viewController.shouldAutoFocusVoiceover = false
+
+//        root.modalPresentationStyle = .overCurrentContext
+        root.modalTransitionStyle = .crossDissolve
+//        root.view.backgroundColor = .clear
+//        root.isNavigationBarHidden = false
+        set(viewController)
     }
 }
 
