@@ -944,5 +944,25 @@ class ViewControllerBuilder {
         viewController.shouldAutoFocusVoiceover = false
         return viewController
     }
+
+    // KK: breadcrumb
+    @MainActor
+    static func vehicleRegistrationInputView(
+//        vehicle: VehicleEnquiryResponse.Vehicle,
+        analyticsService: AnalyticsServiceInterface,
+        configService: AppConfigServiceInterface,
+//        actions: VehicleCheckResultActions
+    ) -> UIViewController {
+        let view = PlaceholderView(onSubmit: { str, results in print(str, results) },
+                                   onCancel: { print("cancelled") })
+        let viewController = HostingViewController(
+            rootView: view
+        )
+        viewController.modalPresentationStyle = .overCurrentContext
+//        viewController.modalTransitionStyle = .crossDissolve
+//        viewController.view.backgroundColor = .clear
+        viewController.shouldAutoFocusVoiceover = false
+        return viewController
+    }
 }
 // swiftlint:enable file_length

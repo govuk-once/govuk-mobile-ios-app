@@ -74,7 +74,31 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator,
         start(coordinator)
     }
 
+    // KK: breadcrumb
     private func startVehicleCheck() {
+/*
+        let viewController = viewControllerBuilder.vehicleRegistrationInputView(
+//            vehicle: vehicle,
+            analyticsService: analyticsService,
+            configService: configService,
+//            actions: actions
+        )
+
+        return
+        // ---
+*/
+        let navigationController = UINavigationController()
+//        navigationController.modalPresentationStyle = .pageSheet
+        navigationController.modalPresentationStyle = .overCurrentContext
+
+        // display our modal sheet here
+        let coordinator = coordinatorBuilder.vehicleCheck(
+            navigationController: navigationController
+        )
+        present(coordinator)
+    }
+
+    private func old_startVehicleCheck() {
         let navigationController = UINavigationController()
         navigationController.modalPresentationStyle = .pageSheet
         let coordinator = coordinatorBuilder.vehicleCheck(
