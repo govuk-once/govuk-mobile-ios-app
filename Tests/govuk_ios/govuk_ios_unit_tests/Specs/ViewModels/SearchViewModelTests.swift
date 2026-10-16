@@ -205,6 +205,24 @@ struct SearchViewModelTests{
     }
 
     @Test
+    func trackABTest_tracksEvent() async  {
+        let coreData = await CoreDataRepository.arrangeAndLoad
+        let mockAnalyticsService = MockAnalyticsService()
+        let subject = SearchViewModel(
+            analyticsService: mockAnalyticsService,
+            searchService: MockSearchService(),
+            activityService: MockActivityService(context: coreData.viewContext),
+            urlOpener: MockURLOpener(),
+            openAction: { _ in }
+        )
+        subject.trackABTest(.searchConversion1026)
+
+        let events = mockAnalyticsService._trackedEvents
+        #expect(events.count == 1)
+        #expect(events.first?.name == "ab_test_conversion_search_invoked_10_26")
+    }
+
+    @Test
     func search_noResults_setsError() async  {
         let coreData = await CoreDataRepository.arrangeAndLoad
         let mockAnalyticsService = MockAnalyticsService()
