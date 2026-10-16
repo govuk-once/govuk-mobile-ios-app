@@ -104,7 +104,7 @@ struct PlaceholderView: View {
 typealias PlaceholderVehicleSearchResult = String
 
 struct PlaceholderView: View {
-    @State private var inputText: String = ""
+    @State private var inputText: String = "AA"
 
     var bottomSpacing: CGFloat = 16 // Desired distance above the keyboard
     var onSubmit: (String, [PlaceholderVehicleSearchResult]) -> Void
