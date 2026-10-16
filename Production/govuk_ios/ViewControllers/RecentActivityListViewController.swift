@@ -123,6 +123,17 @@ final class RecentActivityListViewController: BaseViewController {
         }
     }
 
+    private var isLandscapeDuoFoldedOpen: Bool {
+          // 1. Ensure we are executing code on a phone interface, not an iPad
+          guard UIDevice.current.userInterfaceIdiom == .phone else { return false }
+          // 2. Fetch the true orientation state straight from the primary active window scene
+          guard let windowScene = UIApplication.shared.connectedScenes
+              .first(where: { $0.activationState == .foregroundActive }) as?
+                  UIWindowScene else { return false }
+          // 3. If it is landscape, trip the flag so your untouched switcher runs the PR code
+          return windowScene.interfaceOrientation.isLandscape
+      }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(false, animated: animated)
@@ -139,11 +150,6 @@ final class RecentActivityListViewController: BaseViewController {
         if #unavailable(iOS 17.0) {
             handleGeometryOrSizeClassChange()
         }
-    }
-
-    private func handleGeometryOrSizeClassChange() {
-        toolbarHeightConstraint?.constant = tabBarHeight
-        informationView.invalidateIntrinsicContentSize()
     }
 
     private func configureUI() {
@@ -167,14 +173,19 @@ final class RecentActivityListViewController: BaseViewController {
             configureTableConstraints()
             configureToolbarConstraints()
         }
-
-        private func configureTitleConstraints() {
-            NSLayoutConstraint.activate([
-                titleView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-                titleView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                titleView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-            ])
-        }
+    private func configureTitleConstraints() {
+        NSLayoutConstraint.activate([
+            titleView.topAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.topAnchor
+            ),
+            titleView.leadingAnchor.constraint(
+                equalTo: view.leadingAnchor
+            ),
+            titleView.trailingAnchor.constraint(
+                equalTo: view.trailingAnchor
+            )
+        ])
+    }
 
         private func configureTableConstraints() {
             NSLayoutConstraint.activate([
@@ -209,49 +220,50 @@ final class RecentActivityListViewController: BaseViewController {
                 informationView.bottomAnchor.constraint(equalTo: informationScrollView.bottomAnchor)
             ])
         }
-
-        private func configureToolbarConstraints() {
-            toolbarHeightConstraint = editingToolbar.heightAnchor.constraint(
-                equalToConstant: tabBarHeight
-            )
-            toolbarHeightConstraint?.isActive = true
-            NSLayoutConstraint.activate([
-                editingToolbar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                editingToolbar.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-                editingToolbar.leadingAnchor.constraint(equalTo: view.leadingAnchor)
-            ])
-        }
+    private var standardBottom: NSLayoutConstraint?
+    private var duoBottom: NSLayoutConstraint?
+    private func configureToolbarConstraints() {
+        editingToolbar.translatesAutoresizingMaskIntoConstraints = false
+        toolbarHeightConstraint = editingToolbar.heightAnchor.constraint(
+            equalToConstant: tabBarHeight
+        )
+        toolbarHeightConstraint?.isActive = true
+    }
+    private func handleGeometryOrSizeClassChange() {
+        toolbarHeightConstraint?.constant = tabBarHeight
+        informationView.invalidateIntrinsicContentSize()
+        view.layoutIfNeeded()
+    }
 
         private func setEditButtonAccessibilityLabel() {
             editButtonItem.accessibilityLabel = String.recentActivity.localized(
                 "editButtonAccessibilityTitle"
             )
         }
-
-        override public func setEditing(_ editing: Bool, animated: Bool) {
-            trackEditingEvent()
-            super.setEditing(editing, animated: animated)
-            tableView.setEditing(editing, animated: animated)
-            configureToolbarItems(animated: false)
-            if let bar = self.tabBarController?.tabBar {
-                bar.isHidden = editing
-            }
-            editingToolbar.isHidden = !editing
-            if !editing {
-                editButtonItem.accessibilityLabel = String.recentActivity.localized(
-                    "editButtonAccessibilityTitle"
-                )
-                viewModel.endEditing()
-            } else {
-                editButtonItem.title = String.common.localized(
-                    "cancel"
-                )
-                editButtonItem.accessibilityLabel = String.recentActivity.localized(
-                    "doneButtonAccessibilityTitle"
-                )
-            }
+    override public func setEditing(_ editing: Bool, animated: Bool) {
+        trackEditingEvent()
+        super.setEditing(editing, animated: animated)
+        tableView.setEditing(editing, animated: animated)
+        configureToolbarItems(animated: animated)
+        if let bar = self.tabBarController?.tabBar {
+            bar.isHidden = editing
         }
-
+        editingToolbar.isHidden = !editing
+        navigationController?.setToolbarHidden(!editing, animated: animated)
+        if !editing {
+            editButtonItem.accessibilityLabel = String.recentActivity.localized(
+                "editButtonAccessibilityTitle"
+            )
+            viewModel.endEditing()
+        } else {
+            editButtonItem.title = String.common.localized(
+                "cancel"
+            )
+            editButtonItem.accessibilityLabel = String.recentActivity.localized(
+                "doneButtonAccessibilityTitle"
+            )
+        }
+    }
         override public func viewDidLayoutSubviews() {
             super.viewDidLayoutSubviews()
             guard let items = editingToolbar.items else { return }
@@ -329,17 +341,18 @@ final class RecentActivityListViewController: BaseViewController {
             let formattedDateString = lastVisitedFormatter.string(from: activity.date)
             return "\(copy) \(formattedDateString)"
         }
-
-        private func configureToolbarItems(animated: Bool = true) {
-            removeBarButtonItem.isEnabled = tableView.indexPathForSelectedRow?.isEmpty == false
-            let items = [
-                viewModel.isEveryItemSelected() ? deselectAllBarButtonItem : selectAllBarButtonItem,
-                .flexibleSpace(),
-                removeBarButtonItem
-            ]
-            editingToolbar.setItems(items, animated: animated)
-        }
+    private func configureToolbarItems(animated: Bool = true) {
+        removeBarButtonItem.isEnabled = tableView.indexPathsForSelectedRows?.isEmpty == false
+        let items = [
+            viewModel.isEveryItemSelected() ? deselectAllBarButtonItem : selectAllBarButtonItem,
+            .flexibleSpace(),
+            removeBarButtonItem
+        ]
+        editingToolbar.setItems(items, animated: animated)
+        setToolbarItems(items, animated: animated)
+        navigationController?.setToolbarHidden(!isEditing, animated: animated)
     }
+}
 
     // MARK: - UITableViewDelegate
     extension RecentActivityListViewController: UITableViewDelegate {
