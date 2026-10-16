@@ -102,10 +102,7 @@ extension VehicleCheckCoordinator {
         viewController.view.backgroundColor = .clear
         viewController.shouldAutoFocusVoiceover = false
 
-//        root.modalPresentationStyle = .overCurrentContext
         root.modalTransitionStyle = .crossDissolve
-//        root.view.backgroundColor = .clear
-//        root.isNavigationBarHidden = false
         set(viewController)
     }
 }
