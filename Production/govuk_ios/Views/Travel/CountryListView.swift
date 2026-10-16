@@ -132,7 +132,7 @@ struct CountryListView: View {
         .keyboardShortcut(.defaultAction)
 
         Button(String(localized: .Travel.countryListAlertNotNow)) {
-            viewModel.onNotNowAlertTap(country)
+            viewModel.onNotNowAlertTap(country, text: notNowText)
         }
 
         Button(String(localized: .Travel.countryListAlertCancel), role: .cancel) {
