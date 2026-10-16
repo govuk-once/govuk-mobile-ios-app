@@ -27,7 +27,8 @@ struct ChatViewControllerTests {
         )
 
         let view = ChatView(
-            viewModel: viewModel
+            viewModel: viewModel,
+            voiceOverFocusService: MockVoiceOverFocusService()
         )
 
         let vc = HostingViewController(

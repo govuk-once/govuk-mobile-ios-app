@@ -322,8 +322,9 @@ struct ViewControllerBuilderTests {
             handleError: { _ in }
         )
 
-        let rootView = (result as? HostingViewController<ChatView>)?.rootView
-        #expect(rootView != nil)
+        let hostingViewController = result as? HostingViewController<ChatView>
+        #expect(hostingViewController?.rootView != nil)
+        #expect(hostingViewController?.shouldAutoFocusVoiceover == false)
     }
 
     @Test
