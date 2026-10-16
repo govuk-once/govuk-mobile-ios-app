@@ -8,6 +8,32 @@ final class VehicleCheckCoordinator: BaseCoordinator {
     private let configService: AppConfigServiceInterface
     private let urlOpener: URLOpener
 
+    private enum State {
+        case inputRegistration
+        case loading
+        case result(String, [PlaceholderVehicleSearchResult]) // (VehicleEnquiryResponse.Vehicle)
+    }
+
+    private var currentState: State = .inputRegistration {
+        didSet {
+            render(state: currentState)
+        }
+    }
+
+    private func render(state: State) {
+        switch state {
+        case .inputRegistration:
+            setVehicleRegistrationInputView()
+        case .loading:
+            // do we need this, as our inputview will have the spinner?
+            // setLoadingView())
+            break
+        case .result(let searchTerm, let searchResults):
+            setShowSearchResults(searchTerm: searchTerm, results: searchResults)
+//          setVehicleCheckResult(for: vehicle)
+        }
+    }
+
     init(navigationController: UINavigationController,
          viewControllerBuilder: ViewControllerBuilder,
          analyticsService: AnalyticsServiceInterface,
@@ -21,8 +47,10 @@ final class VehicleCheckCoordinator: BaseCoordinator {
     }
 
     override func start(url: URL?) {
+        currentState = .inputRegistration
+
         // reg number input view not implemented yet
-        setVehicleRegistrationInputView()
+//        setVehicleRegistrationInputView()
         // show result screen for mock vehicle
 //        setVehicleCheckResult(for: mockVehicle)
     }
@@ -78,21 +106,13 @@ extension VehicleCheckCoordinator {
 //           ... blah blah blah...
 //           we would construct our SwiftUI view and its `HostingViewController` in this method
 //        )
-        let view = PlaceholderView(onSubmit: { enteredText, searchResults in
-            print("Searched for: \(enteredText)")
-            print("Got results:", searchResults)
 
-//            // 1. Create the search results hosting controller
-//            let resultsView = SearchResultsView(searchQuery: enteredText)
-//            let resultsHostingController = UIHostingController(rootView: resultsView)
-//
-//            // 2. Unhide the navigation bar since we are entering a standard screen stack
-//            navController.setNavigationBarHidden(false, animated: true)
-//
-//            // 3. Push the search results onto the stack
-//            navController.pushViewController(resultsHostingController, animated: true)
-        },
-                                   onCancel: { [weak self] in self?.dismiss(animated: true) }
+        let view = PlaceholderView(
+            onSubmit: { [weak self] searchTerm, results in
+                guard let self else { return }
+                self.currentState = .result(searchTerm, results)
+            },
+            onCancel: { [weak self] in self?.dismiss(animated: true) }
         )
 
         let viewController = HostingViewController(
@@ -104,6 +124,12 @@ extension VehicleCheckCoordinator {
 
         root.modalTransitionStyle = .crossDissolve
         set(viewController)
+    }
+
+    private func setShowSearchResults(searchTerm: String,
+                                      results: [PlaceholderVehicleSearchResult]) {
+        print("Searched for: \(searchTerm)")
+        print("Got placeholder results:", results)
     }
 }
 
