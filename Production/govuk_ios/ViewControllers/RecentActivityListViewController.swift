@@ -173,18 +173,25 @@ final class RecentActivityListViewController: BaseViewController {
         }
 
     private func configureTitleConstraints() {
-        NSLayoutConstraint.activate([
-            titleView.topAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.topAnchor
-            ),
-            // 💡 FIX: Pin to safe area guides to respect camera notches and bezel curves
-            titleView.leadingAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.leadingAnchor
-            ),
-            titleView.trailingAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.trailingAnchor
-            )
-        ])
+        if isLandscapeDuoFoldedOpen {
+            NSLayoutConstraint.activate([
+                titleView.topAnchor.constraint(
+                    equalTo: view.safeAreaLayoutGuide.topAnchor
+                ),
+                titleView.leadingAnchor.constraint(
+                    equalTo: view.safeAreaLayoutGuide.leadingAnchor
+                ),
+                titleView.trailingAnchor.constraint(
+                    equalTo: view.safeAreaLayoutGuide.trailingAnchor
+                )
+            ])
+        } else {
+            NSLayoutConstraint.activate([
+                titleView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+                titleView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                titleView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            ])
+        }
     }
 
         private func configureTableConstraints() {
@@ -223,49 +230,38 @@ final class RecentActivityListViewController: BaseViewController {
     private var standardBottom: NSLayoutConstraint?
     private var duoBottom: NSLayoutConstraint?
     private func configureToolbarConstraints() {
-        editingToolbar.translatesAutoresizingMaskIntoConstraints = false
-        toolbarHeightConstraint = editingToolbar.heightAnchor.constraint(
-            equalToConstant: tabBarHeight
-        )
-        toolbarHeightConstraint?.isActive = true
-
-        NSLayoutConstraint.activate([
-            editingToolbar.leadingAnchor.constraint(
-                equalTo: view.leadingAnchor
-            ),
-            editingToolbar.trailingAnchor.constraint(
-                equalTo: view.trailingAnchor
+        if isLandscapeDuoFoldedOpen {
+            toolbarHeightConstraint = editingToolbar.heightAnchor.constraint(
+                equalToConstant: tabBarHeight
             )
-        ])
-        standardBottom = editingToolbar.bottomAnchor.constraint(
-            equalTo: view.bottomAnchor
-        )
-        duoBottom = editingToolbar.bottomAnchor.constraint(
-            equalTo: view.safeAreaLayoutGuide.bottomAnchor
-        )
-        if isLandscapeDuoFoldedOpen {
-            duoBottom?.isActive = true
-            standardBottom?.isActive = false
+            toolbarHeightConstraint?.isActive = true
+            // Re-route the bottom constraint only for the folding screen layout
+            view.constraints.first {
+                $0.firstItem === editingToolbar && $0.firstAttribute == .bottom
+            }?.isActive = false
+
+            editingToolbar.bottomAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.bottomAnchor
+            ).isActive = true
         } else {
-            standardBottom?.isActive = true
-            duoBottom?.isActive = false
+            toolbarHeightConstraint = editingToolbar.heightAnchor.constraint(
+                       equalToConstant: tabBarHeight
+                   )
+                   toolbarHeightConstraint?.isActive = true
+                   NSLayoutConstraint.activate([
+                       editingToolbar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                       editingToolbar.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+                       editingToolbar.leadingAnchor.constraint(equalTo: view.leadingAnchor)
+                   ])
         }
     }
+
     private func handleGeometryOrSizeClassChange() {
-        toolbarHeightConstraint?.constant = tabBarHeight
-
-        if isLandscapeDuoFoldedOpen {
-            standardBottom?.isActive = false
-            duoBottom?.isActive = true
-        } else {
-            duoBottom?.isActive = false
-            standardBottom?.isActive = true
+            toolbarHeightConstraint?.constant = tabBarHeight
+            informationView.invalidateIntrinsicContentSize()
         }
 
-        informationView.invalidateIntrinsicContentSize()
-        view.layoutIfNeeded()
-    }
-        private func setEditButtonAccessibilityLabel() {
+    private func setEditButtonAccessibilityLabel() {
             editButtonItem.accessibilityLabel = String.recentActivity.localized(
                 "editButtonAccessibilityTitle"
             )
