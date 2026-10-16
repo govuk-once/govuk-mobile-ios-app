@@ -170,7 +170,7 @@ final class RecentActivityListViewController: BaseViewController {
 
         private func configureTitleConstraints() {
             NSLayoutConstraint.activate([
-                titleView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+                titleView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
                 titleView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                 titleView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
             ])
@@ -209,18 +209,23 @@ final class RecentActivityListViewController: BaseViewController {
                 informationView.bottomAnchor.constraint(equalTo: informationScrollView.bottomAnchor)
             ])
         }
-
-        private func configureToolbarConstraints() {
-            toolbarHeightConstraint = editingToolbar.heightAnchor.constraint(
-                equalToConstant: tabBarHeight
+    private func configureToolbarConstraints() {
+        NSLayoutConstraint.activate([
+            editingToolbar.leadingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.leadingAnchor
+            ),
+            editingToolbar.trailingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.trailingAnchor
+            ),
+            editingToolbar.bottomAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.bottomAnchor
             )
-            toolbarHeightConstraint?.isActive = true
-            NSLayoutConstraint.activate([
-                editingToolbar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                editingToolbar.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-                editingToolbar.leadingAnchor.constraint(equalTo: view.leadingAnchor)
-            ])
-        }
+        ])
+        toolbarHeightConstraint = editingToolbar.heightAnchor.constraint(
+            equalToConstant: tabBarHeight
+        )
+        toolbarHeightConstraint?.priority = .defaultHigh
+    }
 
         private func setEditButtonAccessibilityLabel() {
             editButtonItem.accessibilityLabel = String.recentActivity.localized(
