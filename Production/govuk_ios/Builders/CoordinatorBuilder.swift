@@ -614,25 +614,6 @@ class CoordinatorBuilder {
         )
     }
 
-    func countryList(
-        navigationController: UINavigationController,
-        completion: @escaping (Bool) -> Void
-    ) -> BaseCoordinator {
-        CountryListCoordinator(
-            navigationController: navigationController,
-            coordinatorBuilder: self,
-            viewControllerBuilder: ViewControllerBuilder(),
-            analyticsService: container.analyticsService.resolve(),
-            travelService: container.travelService.resolve(),
-            notificationService: container.notificationService.resolve(),
-            userService: container.userService.resolve(),
-            urlOpener: UIApplication.shared,
-            deviceInformationProvider: DeviceInformationProvider(),
-            versionProvider: Bundle.main,
-            completion: completion
-        )
-    }
-
     func vehicleCheck(
         navigationController: UINavigationController
     ) -> BaseCoordinator {

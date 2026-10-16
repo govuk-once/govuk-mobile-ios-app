@@ -53,9 +53,6 @@ final class TravelAlertsWidgetCoordinator: BaseCoordinator,
             notificationService: notificationService,
             deviceInfo: deviceInformationProvider,
             versionProvider: versionProvider,
-            linkAction: { [weak self] in
-                self?.startCountrySelection()
-            },
             dismissAction: { [weak self] in
                 self?.root.viewWillReAppear()
             },
@@ -66,18 +63,6 @@ final class TravelAlertsWidgetCoordinator: BaseCoordinator,
                 self?.presentWebView(url: url)
             }
         )
-    }
-
-    private func startCountrySelection() {
-        let navigationController = BaseNavigationController()
-        navigationController.modalPresentationStyle = .fullScreen
-        let coordinator = coordinatorBuilder.countryList(
-            navigationController: navigationController,
-            completion: { _ in
-                print("select countries dismissed")
-            }
-        )
-        present(coordinator)
     }
 
     func startEditCountries() {

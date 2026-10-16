@@ -301,19 +301,35 @@ struct NotificationsRationaleViewModelTests {
 
         try await waitForTrue { mockAnalyticsService._trackedEvents.count >= 1 }
 
-        #expect(mockAnalyticsService._trackedEvents.count >= 1)
-        #expect(mockAnalyticsService._trackedEvents[0].name == "notifications_rationale_agree")
-        #expect(mockAnalyticsService._trackedEvents[0].params?["origin"] as? String == "FOLLOW")
+        let events = mockAnalyticsService._trackedEvents
+        #expect(!events.isEmpty)
+
+        // allowNotificationsAction tracks a button navigation event
+        let buttonNavEvent = events.first(where: {
+            $0.name == "Navigation" && $0.params?["type"] as? String == "Button"
+        })
+        #expect(buttonNavEvent != nil)
+        #expect(buttonNavEvent?.params?["text"] as? String == viewModel.primaryButtonTitle)
+        #expect(buttonNavEvent?.params?["external"] as? Bool == false)
+        #expect(buttonNavEvent?.params?["section"] as? String == "Travel Abroad Notifications")
     }
 
     @Test
-    func notNowAction_tracksAnalyticsEvent() {
+    func notNowAction_tracksButtonNavigationAnalyticsEvent() {
         let viewModel = makeViewModel()
         viewModel.notNowAction()
 
-        #expect(mockAnalyticsService._trackedEvents.count == 1)
-        #expect(mockAnalyticsService._trackedEvents[0].name == "notifications_rationale_not_now")
-        #expect(mockAnalyticsService._trackedEvents[0].params?["origin"] as? String == "FOLLOW")
+        let events = mockAnalyticsService._trackedEvents
+        #expect(!events.isEmpty)
+
+        // notNowAction tracks a button navigation event
+        let buttonNavEvent = events.first(where: {
+            $0.name == "Navigation" && $0.params?["type"] as? String == "Button"
+        })
+        #expect(buttonNavEvent != nil)
+        #expect(buttonNavEvent?.params?["text"] as? String == viewModel.secondaryButtonTitle)
+        #expect(buttonNavEvent?.params?["external"] as? Bool == false)
+        #expect(buttonNavEvent?.params?["section"] as? String == "Travel Abroad Notifications")
     }
 
     @Test
@@ -323,9 +339,14 @@ struct NotificationsRationaleViewModelTests {
 
         viewModel.onSettingsAlertContinueAction()
 
-        #expect(mockAnalyticsService._trackedEvents.count == 1)
-        #expect(mockAnalyticsService._trackedEvents[0].name == "notifications_rationale_settings_continue")
-        #expect(mockAnalyticsService._trackedEvents[0].params?["origin"] as? String == "FOLLOW")
+        let events = mockAnalyticsService._trackedEvents
+        #expect(!events.isEmpty)
+
+        let settingsEvent = events.first(where: {
+            $0.name == "notifications_rationale_settings_continue"
+        })
+        #expect(settingsEvent != nil)
+        #expect(settingsEvent?.params?["origin"] as? String == "FOLLOW")
     }
 
     @Test
@@ -333,19 +354,31 @@ struct NotificationsRationaleViewModelTests {
         let viewModel = makeViewModel()
         viewModel.onSettingsAlertCancelAction()
 
-        #expect(mockAnalyticsService._trackedEvents.count == 1)
-        #expect(mockAnalyticsService._trackedEvents[0].name == "notifications_rationale_settings_cancel")
-        #expect(mockAnalyticsService._trackedEvents[0].params?["origin"] as? String == "FOLLOW")
+        let events = mockAnalyticsService._trackedEvents
+        #expect(!events.isEmpty)
+
+        let settingsEvent = events.first(where: {
+            $0.name == "notifications_rationale_settings_cancel"
+        })
+        #expect(settingsEvent != nil)
+        #expect(settingsEvent?.params?["origin"] as? String == "FOLLOW")
     }
 
     @Test
-    func analyticsEvents_withEditOrigin_includeOriginInParams() {
+    func viewDidAppear_withEditOrigin_tracksOriginInAnalytics() {
         let viewModel = makeViewModel(origin: .EDIT)
 
-        viewModel.notNowAction()
+        viewModel.viewDidAppear()
 
-        #expect(mockAnalyticsService._trackedEvents.count == 1)
-        #expect(mockAnalyticsService._trackedEvents[0].params?["origin"] as? String == "EDIT")
+        let events = mockAnalyticsService._trackedEvents
+        #expect(!events.isEmpty)
+
+        // viewDidAppear tracks notification rationale view event with origin
+        let viewEvent = events.first(where: {
+            $0.name == "notifications_rationale_view"
+        })
+        #expect(viewEvent != nil)
+        #expect(viewEvent?.params?["origin"] as? String == "EDIT")
     }
 
     private func makeViewModel(

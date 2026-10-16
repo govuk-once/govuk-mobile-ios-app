@@ -486,26 +486,6 @@ struct ViewControllerBuilderTests {
     }
 
     @Test
-    func countryList_returnsExpectedResult() {
-        let subject = ViewControllerBuilder()
-        let result = subject.countryList(
-            travelService: MockTravelService(),
-            analyticsService: MockAnalyticsService(),
-            notificationService: MockNotificationService(),
-            deviceInfo: MockDeviceInformationProvider(),
-            versionProvider: MockAppVersionProvider(),
-            dismissAction: { _ in
-                /* No-op */
-            },
-            openFooterLinkAction: { _ in /* No-op */},
-            openExternalURLAction: { _ in /* No-op */}
-        )
-
-        let rootView = (result as? HostingViewController<CountryListView>)?.rootView
-        #expect(rootView != nil)
-    }
-
-    @Test
     func editCountries_returnsExpectedResult() {
         let subject = ViewControllerBuilder()
         let result = subject.editCountries(
