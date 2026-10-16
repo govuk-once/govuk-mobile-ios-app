@@ -152,13 +152,14 @@ struct TravelAlertsWidgetViewModelTests {
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 
-        sut.openCountryList()
+        sut.onFollowCountryTap(text: "Follow countries for updates")
 
         let widgetEvent = mockAnalyticsService._trackedEvents.first
 
-        #expect(widgetEvent?.params?["text"] as? String == "Add your countries")
+        #expect(widgetEvent?.params?["text"] as? String == "Follow countries for updates")
         #expect(widgetEvent?.params?["section"] as? String == "Travel Abroad Notifications")
         #expect(widgetEvent?.params?["type"] as? String == "Widget")
+        #expect(widgetEvent?.params?["external"] as? Bool == false)
         #expect(widgetEvent?.name == "Navigation")
 
         #expect(sut.isShowingList == true)
@@ -179,7 +180,7 @@ struct TravelAlertsWidgetViewModelTests {
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 
-        sut.openCountryList()
+        sut.onFollowCountryTap(text: "Follow countries for updates")
         sut.didDismissList()
 
         #expect(sut.isShowingList == false)
@@ -333,7 +334,7 @@ struct TravelAlertsWidgetViewModelTests {
         )
 
         #expect(sut.isShowingList == false)
-        sut.openCountryList()
+        sut.onFollowCountryTap(text: "Follow countries for updates")
         #expect(sut.isShowingList == true)
     }
 
@@ -479,7 +480,7 @@ struct TravelAlertsWidgetViewModelTests {
         )
 
         let countryListVM = sut.countryListViewModel
-        countryListVM.openFooterLink()
+        countryListVM.openFooterLink(text: "Follow countries for updates")
 
         #expect(openedURL == feedbackURL)
     }
@@ -506,7 +507,10 @@ struct TravelAlertsWidgetViewModelTests {
 
         let countryListVM = sut.countryListViewModel
         let france = Country(name: "France", slug: "france", rawLastUpdate: "2024-08-05", synonyms: [])
-        countryListVM.onGetNotificationAlertTap(france)
+        countryListVM.onGetNotificationAlertTap(
+            france,
+            text: "Get Notifications"
+        )
 
         try await Task.sleep(for: .seconds(1))
         // Create rationale view model which receives the openExternalURLAction
