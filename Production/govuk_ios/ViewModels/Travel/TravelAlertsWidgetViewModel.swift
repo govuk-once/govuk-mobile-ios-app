@@ -11,6 +11,11 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
         case error
     }
 
+    enum TravelAlertWidget {
+        static let section = "Travel Abroad Notifications"
+        static let travelAdviceBaseUrl = "https://www.gov.uk/foreign-travel-advice/"
+    }
+
     // Drives .sheet(isPresented:) in the widget view
     @Published var isShowingList = false
     @Published private(set) var viewState: ViewState = .loading
@@ -110,7 +115,7 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
         let rows = groups.compactMap { group -> LinkRow? in
             guard let country = countryMap[group.group.lowercased()] else { return nil }
 
-            let url = URL(string: "govuk://app.gov.uk/web?url=https://www.gov.uk/foreign-travel-advice/\(country.slug.lowercased())")
+            let url = URL(string: "govuk://app.gov.uk/web?url=https://\(TravelAlertWidget.travelAdviceBaseUrl)\(country.slug.lowercased())")
 
             return LinkRow(
                 id: group.group,
@@ -140,11 +145,11 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
         }
     }
 
-    func openCountryList() {
+    func onFollowCountryTap(text: String) {
         let event = AppEvent.widgetNavigation(
-            text: "Add your countries",
+            text: text,
             external: false,
-            params: ["section": "Travel Abroad Notifications"]
+            params: ["section": TravelAlertWidget.section]
         )
         analyticsService.track(event: event)
         isShowingList = true
