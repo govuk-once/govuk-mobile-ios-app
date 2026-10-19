@@ -20,11 +20,13 @@ final class VehicleCheckCoordinator: BaseCoordinator {
          viewControllerBuilder: ViewControllerBuilder,
          analyticsService: AnalyticsServiceInterface,
          configService: AppConfigServiceInterface,
-         urlOpener: URLOpener) {
+         urlOpener: URLOpener,
+         closeBehaviour: CloseBehaviour = .dismissTopmost) {
         self.viewControllerBuilder = viewControllerBuilder
         self.analyticsService = analyticsService
         self.configService = configService
         self.urlOpener = urlOpener
+        self.closeBehaviour = closeBehaviour
         super.init(navigationController: navigationController)
     }
 
@@ -33,7 +35,7 @@ final class VehicleCheckCoordinator: BaseCoordinator {
         case dismissTopmost
     }
 
-    var closeBehaviour: CloseBehaviour = .dismissTopmost // .dismissAll
+    private let closeBehaviour: CloseBehaviour
 
     enum FlowState: Equatable {
         case initialInput
