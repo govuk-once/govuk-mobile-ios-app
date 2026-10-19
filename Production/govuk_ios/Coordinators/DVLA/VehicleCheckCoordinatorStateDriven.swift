@@ -28,6 +28,13 @@ final class VehicleCheckCoordinator: BaseCoordinator {
         super.init(navigationController: navigationController)
     }
 
+    enum CloseBehaviour {
+        case dismissAll
+        case dismissTopmost
+    }
+
+    var closeBehaviour: CloseBehaviour = .dismissTopmost // .dismissAll
+
     enum FlowState: Equatable {
         case initialInput
         case results(data: PlaceHolderResults)
@@ -94,7 +101,7 @@ final class VehicleCheckCoordinator: BaseCoordinator {
 
     private func showResultsView(data: PlaceHolderResults) {
         let resultsView = PlaceholderSearchResultsView(data: data) { [weak self] in
-            self?.dismissFlow()
+            self?.handleClose()
         } searchAction: { [weak self] in
             self?.state = .nestedInput
         }
@@ -116,6 +123,24 @@ final class VehicleCheckCoordinator: BaseCoordinator {
                 self?.presentedSheet = newSheet
             }
         }
+    }
+
+    private func handleClose() {
+        switch closeBehaviour {
+        case .dismissAll:
+            dismissFlow()
+        case .dismissTopmost:
+            dismissTopmostSheet()
+        }
+    }
+
+    private func dismissTopmostSheet() {
+        guard let topVC = topmostPresentedVC(),
+              topVC !== presentedSheet else {
+            dismissFlow()
+            return
+        }
+        topVC.dismiss(animated: true)
     }
 
     private func dismissFlow() {
