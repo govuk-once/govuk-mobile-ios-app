@@ -114,10 +114,11 @@ final class VehicleCheckCoordinator: BaseCoordinator {
         let newSheet = UINavigationController(rootViewController: hostingController)
         newSheet.presentationController?.delegate = self
 
-        if bottomSheet != nil {
-            presentAsStackedSheet(newSheet)
-        } else {
+        let isFirstPresentation = bottomSheet == nil
+        if isFirstPresentation {
             presentAsFirstSheet(newSheet)
+        } else {
+            presentAsStackedSheet(newSheet)
         }
     }
 
