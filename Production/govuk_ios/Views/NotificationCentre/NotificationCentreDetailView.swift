@@ -183,6 +183,7 @@ public struct NotificationCentreDetailLoadingView: View {
 extension NotificationCentreDetailContainerView: TrackableScreen {
     var trackingTitle: String? { trackingName }
     var trackingName: String { "Messages Detail" }
+    var trackingClass: String { "MessagesDetailScreen" }
 }
 
 #Preview("Loading") {

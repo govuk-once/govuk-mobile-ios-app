@@ -3,18 +3,6 @@ import UIKit
 import GovKit
 
 extension UIBarButtonItem {
-    static func cancel(target: Any,
-                       action: Selector,
-                       tintColour: UIColor = .govUK.text.link) -> UIBarButtonItem {
-        let barButton = UIBarButtonItem(
-            barButtonSystemItem: .cancel,
-            target: target,
-            action: action
-        )
-        barButton.tintColor = tintColour
-        return barButton
-    }
-
     static func selectAll(action: @escaping (UIAction) -> Void) -> UIBarButtonItem {
         CenterAlignedBarButtonItem(
             title: String.recentActivity.localized("selectAllButtonTitle"),

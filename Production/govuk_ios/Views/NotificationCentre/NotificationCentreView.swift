@@ -209,6 +209,7 @@ private struct NotificationCentreRow: View {
 extension NotificationCentreContainerView: TrackableScreen {
     var trackingTitle: String? { trackingName }
     var trackingName: String { "Messages" }
+    var trackingClass: String { "MessagesScreen" }
 }
 #Preview("Loading") {
     NotificationCentreLoadingView()
