@@ -249,7 +249,7 @@ private struct CountryListFooterView: View {
                     .multilineTextAlignment(.center)
                 Text(linkText)
                     .font(Font.govUK.caption1)
-                    .foregroundStyle(Color(UIColor.govUK.text.link))
+                    .foregroundStyle(Color(UIColor.govUK.text.linkSecondary))
                     .underline()
                     .multilineTextAlignment(.center)
             }
