@@ -10,6 +10,11 @@ class CountryListViewModel: ObservableObject {
         case error
     }
 
+    private enum CountryListAnalyticsKeys {
+        static let section = "Travel Abroad Notifications"
+        static let searchSection = "country_search"
+    }
+
     struct Actions {
         let dismissAction: (Bool) -> Void
         let openFooterLinkAction: () -> Void
@@ -58,35 +63,54 @@ class CountryListViewModel: ObservableObject {
         self.errorCallback = errorCallback
     }
 
-    func trackScreen(screen: TrackableScreen) {
-        analyticsService.track(screen: screen)
+    @MainActor
+    func viewDidAppear() async {
+        await fetchCountryList()
     }
 
-    private func trackSearchInput(text: String) {
-        let searchEvent = AppEvent.searchTerm(
-            term: text,
-            type: .typed,
-            section: "country_search"
+    @MainActor
+    func retryFetchCountryList() async {
+        await fetchCountryList()
+    }
+
+    @MainActor
+    private func fetchCountryList() async {
+        viewState = .loading
+
+        travelService.getCountries(forceRefresh: false) { [weak self] result in
+            Task { @MainActor in
+                switch result {
+                case .success(let countries):
+                    self?.allCountries = countries
+                    self?.updateFilteredSections()
+                case .failure:
+                    self?.viewState = .error
+                }
+            }
+        }
+    }
+
+    func onGetNotificationAlertTap(_ country: Country, text: String) {
+        analyticsService.track(
+            event: AppEvent.widgetNavigation(
+                text: text,
+                external: false,
+                params: ["section": CountryListAnalyticsKeys.section]
+            )
         )
-        analyticsService.track(event: searchEvent)
-    }
-
-    private func trackToggleFunction(countryName: String) {
-        let toggleEvent = AppEvent.toggleAction(
-            text: countryName,
-            section: "Travel Abroad Notifications",
-            action: "Add"
-        )
-        analyticsService.track(event: toggleEvent)
-    }
-
-    func onGetNotificationAlertTap(_ country: Country) {
         Task {
             await handleCountrySelection(country, notificationOptIn: true)
         }
     }
 
-    func onNotNowAlertTap(_ country: Country) {
+    func onNotNowAlertTap(_ country: Country, text: String) {
+        analyticsService.track(
+            event: AppEvent.widgetNavigation(
+                text: text,
+                external: false,
+                params: ["section": CountryListAnalyticsKeys.section]
+            )
+        )
         Task {
             await handleCountrySelection(country, notificationOptIn: false)
         }
@@ -135,33 +159,6 @@ class CountryListViewModel: ObservableObject {
         )
     }
 
-    @MainActor
-    func viewDidAppear() async {
-        await fetchCountryList()
-    }
-
-    @MainActor
-    func retryFetchCountryList() async {
-        await fetchCountryList()
-    }
-
-    @MainActor
-    private func fetchCountryList() async {
-        viewState = .loading
-
-        travelService.getCountries(forceRefresh: false) { [weak self] result in
-            Task { @MainActor in
-                switch result {
-                case .success(let countries):
-                    self?.allCountries = countries
-                    self?.updateFilteredSections()
-                case .failure:
-                    self?.viewState = .error
-                }
-            }
-        }
-    }
-
     private func buildSections(from countries: [Country]) -> [GroupedListSection] {
         let sortedCountries = countries.sorted {
             $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending
@@ -207,12 +204,13 @@ class CountryListViewModel: ObservableObject {
         viewState = filteredSections.isEmpty ? .empty : .loaded
     }
 
-    func openFooterLink() {
+    func openFooterLink(text: String) {
         let buttonTapEvent = AppEvent.buttonNavigation(
-            text: "HelpAndFeedback",
+            text: text,
             external: true,
             url: footerLinkURLString,
-            section: "Travel Abroad Notifications")
+            section: CountryListAnalyticsKeys.section
+        )
         analyticsService.track(event: buttonTapEvent)
 
         actions.openFooterLinkAction()
@@ -221,7 +219,35 @@ class CountryListViewModel: ObservableObject {
     func dismiss(_ forceRefresh: Bool) {
         actions.dismissAction(forceRefresh)
     }
+}
 
+// MARK: - Analytics
+extension CountryListViewModel {
+    func trackScreen(screen: TrackableScreen) {
+        analyticsService.track(screen: screen)
+    }
+
+    private func trackSearchInput(text: String) {
+        let searchEvent = AppEvent.searchTerm(
+            term: text,
+            type: .typed,
+            section: CountryListAnalyticsKeys.searchSection
+        )
+        analyticsService.track(event: searchEvent)
+    }
+
+    private func trackToggleFunction(countryName: String) {
+        let toggleEvent = AppEvent.toggleAction(
+            text: countryName,
+            section: CountryListAnalyticsKeys.section,
+            action: "Add"
+        )
+        analyticsService.track(event: toggleEvent)
+    }
+}
+
+// MARK: - Notifications Rationale Flow
+extension CountryListViewModel {
     func createNotificationsRationaleViewModel() -> NotificationsRationaleViewModel? {
         guard let countryToProcess = self.countryForPermissionFlow else { return nil }
         return NotificationsRationaleViewModel(

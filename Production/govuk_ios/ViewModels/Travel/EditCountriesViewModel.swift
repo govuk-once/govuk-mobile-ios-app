@@ -23,6 +23,11 @@ class EditCountriesViewModel: ObservableObject {
         let subgroup: String
     }
 
+    enum EditCountriesAnalyticsKeys {
+        static let section = "Travel Abroad Notifications"
+        static let unfollowAction = "Remove"
+    }
+
     @Published private(set) var viewState: ViewState = .loading
     @Published private(set) var countriesSection = [GroupedListSection]()
     @Published private(set) var footerSection = [GroupedListSection]()
@@ -44,7 +49,7 @@ class EditCountriesViewModel: ObservableObject {
     private let feedbackURL: URL
     private let openCountryListFooterAction: () -> Void
     private var allCountries: [Country] = []
-    private var follewedCountries: Set<String> = []
+    private var followedCountries: Set<String> = []
     private var notificationStateCache: [String: Bool] = [:]
     private var rationaleFlowSlug: String?
     private var rationaleFlowOutcome: NotificationsRationaleFlowOutcome = .none
@@ -158,6 +163,16 @@ class EditCountriesViewModel: ObservableObject {
 
     @MainActor
     func unfollowCountry(slug: String, enabled: Bool) async {
+        if let countryName = allCountries.first(where: { $0.slug == slug })?.name {
+            analyticsService.track(
+                event: AppEvent.toggleAction(
+                    text: countryName,
+                    section: EditCountriesAnalyticsKeys.section,
+                    action: EditCountriesAnalyticsKeys.unfollowAction
+                )
+            )
+        }
+
         isUnfollowing = true
         travelService.unfollowCountry(
             slug: slug,
@@ -211,7 +226,7 @@ class EditCountriesViewModel: ObservableObject {
 
         let rows = groups.compactMap { group -> SelectableRow? in
             guard let country = countryMap[group.group.lowercased()] else { return nil }
-            self.follewedCountries.insert(group.group)
+            self.followedCountries.insert(group.group)
 
             return SelectableRow(
                 id: group.group,

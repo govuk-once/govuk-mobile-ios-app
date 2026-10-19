@@ -24,6 +24,10 @@ class NotificationsRationaleViewModel: ObservableObject {
         case loading
     }
 
+    private enum NotificationRationaleAnalyticsKeys {
+        static let section = "Travel Abroad Notifications"
+    }
+
     @Published private(set) var viewState: ViewState = .idle
     @Published var displayNotificationSettingsAlert: Bool = false
 
@@ -121,9 +125,8 @@ class NotificationsRationaleViewModel: ObservableObject {
 
     func viewDidAppear() {
         analyticsService.track(
-            event: AppEvent(
-                name: "notifications_rationale_view",
-                params: ["origin": origin.rawValue]
+            event: AppEvent.notificationRationaleView(
+                origin: origin.rawValue
             )
         )
     }
@@ -131,9 +134,10 @@ class NotificationsRationaleViewModel: ObservableObject {
 
     func allowNotificationsAction() {
         analyticsService.track(
-            event: AppEvent(
-                name: "notifications_rationale_agree",
-                params: ["origin": origin.rawValue]
+            event: AppEvent.buttonNavigation(
+                text: primaryButtonTitle,
+                external: false,
+                section: NotificationRationaleAnalyticsKeys.section
             )
         )
         Task {
@@ -163,9 +167,10 @@ class NotificationsRationaleViewModel: ObservableObject {
 
     func notNowAction() {
         analyticsService.track(
-            event: AppEvent(
-                name: "notifications_rationale_not_now",
-                params: ["origin": origin.rawValue]
+            event: AppEvent.buttonNavigation(
+                text: secondaryButtonTitle,
+                external: false,
+                section: NotificationRationaleAnalyticsKeys.section
             )
         )
         decline()
@@ -197,6 +202,13 @@ class NotificationsRationaleViewModel: ObservableObject {
     }
 
     func openPrivacyPolicy() {
+        analyticsService.track(
+            event: AppEvent.buttonNavigation(
+                text: privacyPolicyLinkTitle,
+                external: true,
+                section: NotificationRationaleAnalyticsKeys.section
+            )
+        )
         let privacyPolicyURL = URL(string: Constants.API.privacyPolicyUrl.absoluteString)
         if let url = privacyPolicyURL {
             openExternalURLAction(url)
@@ -205,9 +217,8 @@ class NotificationsRationaleViewModel: ObservableObject {
 
     func onSettingsAlertContinueAction() {
         analyticsService.track(
-            event: AppEvent(
-                name: "notifications_rationale_settings_continue",
-                params: ["origin": origin.rawValue]
+            event: AppEvent.notificationRationaleSettingsContinue(
+                origin: origin.rawValue
             )
         )
         if urlOpener.openNotificationSettings() {
@@ -217,9 +228,8 @@ class NotificationsRationaleViewModel: ObservableObject {
 
     func onSettingsAlertCancelAction() {
         analyticsService.track(
-            event: AppEvent(
-                name: "notifications_rationale_settings_cancel",
-                params: ["origin": origin.rawValue]
+            event: AppEvent.notificationRationaleSettingsCancel(
+                origin: origin.rawValue
             )
         )
         decline()

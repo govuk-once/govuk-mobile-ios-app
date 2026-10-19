@@ -145,6 +145,8 @@ extension Constants.API {
             """
         return components.url!
     }()
+
+    public static let defaultTravelAdviceBaseUrlString: String = "https://www.gov.uk/foreign-travel-advice/"
 }
 
 extension Constants {
