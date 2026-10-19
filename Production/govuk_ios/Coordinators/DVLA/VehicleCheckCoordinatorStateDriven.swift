@@ -60,19 +60,24 @@ final class VehicleCheckCoordinator: BaseCoordinator {
             self?.state = .results(data: placeholderResults)
         } onCancel: { [weak self] in
             if isNested {
-                self?.rootNavCon.dismiss(animated: true)
+                self?.rootNavCon.presentedViewController?.dismiss(animated: true)
             } else {
                 self?.dismissFlow()
             }
         }
 
         let hostingController = UIHostingController(rootView: inputView)
-        let navController = UINavigationController(rootViewController: hostingController)
 
-        let presentedViewController = rootNavCon.presentedViewController
-        let navCon = rootNavCon
-        let target = isNested ? (presentedViewController ?? navCon) : navCon
-        target.present(navController, animated: true)
+        if isNested {
+            let navController = UINavigationController(rootViewController: hostingController)
+            let target = rootNavCon.presentedViewController ?? rootNavCon
+            target.present(navController, animated: true)
+        } else {
+            hostingController.view.backgroundColor = .clear
+            rootNavCon.view.backgroundColor = .clear
+            rootNavCon.modalTransitionStyle = .crossDissolve
+            set(hostingController)
+        }
     }
 
     private func showResultsView(data: PlaceHolderResults) {
