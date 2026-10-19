@@ -14,6 +14,8 @@ final class VehicleCheckCoordinator: BaseCoordinator {
     private let configService: AppConfigServiceInterface
     private let urlOpener: URLOpener
 
+    private weak var presentedSheet: UINavigationController?
+
     init(navigationController: UINavigationController,
          viewControllerBuilder: ViewControllerBuilder,
          analyticsService: AnalyticsServiceInterface,
@@ -25,7 +27,6 @@ final class VehicleCheckCoordinator: BaseCoordinator {
         self.urlOpener = urlOpener
         super.init(navigationController: navigationController)
     }
-
 
     enum FlowState: Equatable {
         case initialInput
@@ -54,27 +55,38 @@ final class VehicleCheckCoordinator: BaseCoordinator {
 
     // MARK: - UI Presentation Logic
 
+    private func topmostPresentedVC() -> UIViewController? {
+        var viewController: UIViewController? = presentedSheet
+        while let next = viewController?.presentedViewController {
+            viewController = next
+        }
+        return viewController
+    }
+
     private func showInputView(isNested: Bool) {
         let inputView = PlaceholderView { [weak self] searchTerm, results in
             let placeholderResults = PlaceHolderResults(searchTerm: searchTerm, results: results)
             self?.state = .results(data: placeholderResults)
         } onCancel: { [weak self] in
             if isNested {
-                self?.rootNavCon.presentedViewController?.dismiss(animated: true)
+                self?.topmostPresentedVC()?.dismiss(animated: true)
             } else {
                 self?.dismissFlow()
             }
         }
 
         let hostingController = UIHostingController(rootView: inputView)
+        hostingController.view.backgroundColor = .clear
 
         if isNested {
             let navController = UINavigationController(rootViewController: hostingController)
-            let target = rootNavCon.presentedViewController ?? rootNavCon
-            target.present(navController, animated: true)
+            navController.modalPresentationStyle = .overCurrentContext
+            navController.modalTransitionStyle = .crossDissolve
+            navController.view.backgroundColor = .clear
+            topmostPresentedVC()?.present(navController, animated: true)
         } else {
-            hostingController.view.backgroundColor = .clear
             rootNavCon.view.backgroundColor = .clear
+            rootNavCon.setNavigationBarHidden(true, animated: false)
             rootNavCon.modalTransitionStyle = .crossDissolve
             set(hostingController)
         }
@@ -88,17 +100,34 @@ final class VehicleCheckCoordinator: BaseCoordinator {
         }
 
         let hostingController = UIHostingController(rootView: resultsView)
-        let presentedNavigationCon = rootNavCon.presentedViewController
-        as? UINavigationController
-        let target =  presentedNavigationCon ?? rootNavCon
+        let newSheet = UINavigationController(rootViewController: hostingController)
 
-        let sheetNavController = UINavigationController(rootViewController: hostingController)
-        target.present(sheetNavController, animated: true)
+        if presentedSheet != nil {
+            guard let topVC = topmostPresentedVC() else { return }
+            let hostSheet = topVC.presentingViewController ?? topVC
+            topVC.dismiss(animated: false) {
+                hostSheet.present(newSheet, animated: true)
+            }
+        } else {
+            newSheet.presentationController?.delegate = self
+            guard let presenter = rootNavCon.presentingViewController else { return }
+            rootNavCon.dismiss(animated: false) { [weak self] in
+                presenter.present(newSheet, animated: true)
+                self?.presentedSheet = newSheet
+            }
+        }
     }
 
     private func dismissFlow() {
-        rootNavCon.dismiss(animated: true) { [weak self] in
-            self?.finish()
+        if let sheet = presentedSheet {
+            sheet.dismiss(animated: true) { [weak self] in
+                self?.presentedSheet = nil
+                self?.finish()
+            }
+        } else {
+            rootNavCon.dismiss(animated: true) { [weak self] in
+                self?.finish()
+            }
         }
     }
 }
