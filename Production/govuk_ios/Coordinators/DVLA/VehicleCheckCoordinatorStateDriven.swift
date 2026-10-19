@@ -112,7 +112,8 @@ final class VehicleCheckCoordinator: BaseCoordinator {
         if presentedSheet != nil {
             guard let topVC = topmostPresentedVC() else { return }
             let hostSheet = topVC.presentingViewController ?? topVC
-            topVC.dismiss(animated: false) {
+            topVC.dismiss(animated: false) { [weak self] in
+                guard self != nil else { return }
                 hostSheet.present(newSheet, animated: true)
             }
         } else {
