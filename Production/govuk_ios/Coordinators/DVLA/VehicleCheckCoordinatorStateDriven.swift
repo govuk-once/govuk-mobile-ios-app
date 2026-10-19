@@ -14,7 +14,7 @@ final class VehicleCheckCoordinator: BaseCoordinator {
     private let configService: AppConfigServiceInterface
     private let urlOpener: URLOpener
 
-    private weak var presentedSheet: UINavigationController?
+    private weak var bottomSheet: UINavigationController?
 
     init(navigationController: UINavigationController,
          viewControllerBuilder: ViewControllerBuilder,
@@ -65,7 +65,7 @@ final class VehicleCheckCoordinator: BaseCoordinator {
     // MARK: - UI Presentation Logic
 
     private func topmostPresentedVC() -> UIViewController? {
-        var viewController: UIViewController? = presentedSheet
+        var viewController: UIViewController? = bottomSheet
         while let next = viewController?.presentedViewController {
             viewController = next
         }
@@ -111,7 +111,7 @@ final class VehicleCheckCoordinator: BaseCoordinator {
         let hostingController = UIHostingController(rootView: resultsView)
         let newSheet = UINavigationController(rootViewController: hostingController)
 
-        if presentedSheet != nil {
+        if bottomSheet != nil {
             guard let topVC = topmostPresentedVC() else { return }
             let hostSheet = topVC.presentingViewController ?? topVC
             newSheet.presentationController?.delegate = self
@@ -129,7 +129,7 @@ final class VehicleCheckCoordinator: BaseCoordinator {
             }
             rootNavCon.dismiss(animated: false) { [weak self] in
                 presenter.present(newSheet, animated: true)
-                self?.presentedSheet = newSheet
+                self?.bottomSheet = newSheet
             }
         }
     }
@@ -145,7 +145,7 @@ final class VehicleCheckCoordinator: BaseCoordinator {
 
     private func dismissTopmostSheet() {
         guard let topVC = topmostPresentedVC(),
-              topVC !== presentedSheet else {
+              topVC !== bottomSheet else {
             dismissFlow()
             return
         }
@@ -155,19 +155,19 @@ final class VehicleCheckCoordinator: BaseCoordinator {
     override func presentationControllerDidDismiss(
         _ presentationController: UIPresentationController
     ) {
-        if presentedSheet == nil {
+        if bottomSheet == nil {
             finish()
-        } else if presentationController.presentedViewController === presentedSheet {
-            presentedSheet = nil
+        } else if presentationController.presentedViewController === bottomSheet {
+            bottomSheet = nil
             finish()
         }
     }
 
     private func dismissFlow() {
-        if let sheet = presentedSheet,
+        if let sheet = bottomSheet,
            let presenter = sheet.presentingViewController {
             presenter.dismiss(animated: true) { [weak self] in
-                self?.presentedSheet = nil
+                self?.bottomSheet = nil
                 self?.finish()
             }
         } else {
