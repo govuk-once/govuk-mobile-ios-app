@@ -71,6 +71,7 @@ class NotificationsRationaleViewModel: ObservableObject {
     private var dismissAfterErrorAction: (() -> Void)?
     private var isPendingPermissionCheck: Bool = false
     private var hasAgreedPendingPermission: Bool = false
+    private var hasTrackedView = false
     private let origin: NotificationsRationaleOrigin
 
     init(
@@ -124,6 +125,8 @@ class NotificationsRationaleViewModel: ObservableObject {
     }
 
     func viewDidAppear() {
+        guard !hasTrackedView else { return }
+        hasTrackedView = true
         analyticsService.track(
             event: AppEvent.notificationRationaleView(
                 origin: origin.rawValue
@@ -205,7 +208,7 @@ class NotificationsRationaleViewModel: ObservableObject {
         analyticsService.track(
             event: AppEvent.buttonNavigation(
                 text: privacyPolicyLinkTitle,
-                external: true,
+                external: false,
                 section: NotificationRationaleAnalyticsKeys.section
             )
         )

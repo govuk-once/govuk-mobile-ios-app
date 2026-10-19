@@ -401,22 +401,20 @@ struct CountryListViewModelTests {
     }
 
     @Test
-    func handleCountrySelection_tracksToggleAnalytics() async throws {
+    func onCountryTap_tracksToggleAnalytics() async {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedGetCountriesResult = .success([
+            Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
+        ])
         let mockAnalyticsService = MockAnalyticsService()
-        let mockNotificationService = MockNotificationService()
-        mockNotificationService._stubbedhasGivenConsent = false
+        let viewModel = makeViewModel(travelService: mockTravelService, analyticsService: mockAnalyticsService)
 
-        let viewModel = makeViewModel(travelService: MockTravelService(), analyticsService: mockAnalyticsService, notificationService: mockNotificationService, dismissAction: { _ in })
+        await viewModel.viewDidAppear()
+        await Task.yield()
 
-        let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
-        viewModel.onNotNowAlertTap(country, text: "France")
+        (viewModel.filteredSections.first?.rows.first as? SelectableRow)?.action()
 
-        try await Task.sleep(for: .seconds(1))
-        let events = mockAnalyticsService._trackedEvents
-        #expect(events.count >= 2)
-
-        // Find the toggle event by text and action, filtering out the navigation event
-        let toggleEvent = events.first(where: {
+        let toggleEvent = mockAnalyticsService._trackedEvents.first(where: {
             $0.params?["text"] as? String == "France" && $0.params?["action"] as? String == "Add"
         })
         #expect(toggleEvent != nil)
@@ -425,18 +423,21 @@ struct CountryListViewModelTests {
     }
 
     @Test
-    func searchText_tracksSearchEvent() async throws {
+    func onCountryTap_withSearchText_tracksSearchEvent() async {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedGetCountriesResult = .success([
+            Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
+        ])
         let mockAnalyticsService = MockAnalyticsService()
-        let viewModel = makeViewModel(travelService: MockTravelService(), analyticsService: mockAnalyticsService, notificationService: MockNotificationService(), dismissAction: { _ in })
+        let viewModel = makeViewModel(travelService: mockTravelService, analyticsService: mockAnalyticsService)
+
+        await viewModel.viewDidAppear()
+        await Task.yield()
 
         viewModel.searchText = "France"
-        let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
-        viewModel.onNotNowAlertTap(country, text: "France")
+        (viewModel.filteredSections.first?.rows.first as? SelectableRow)?.action()
 
-        try await Task.sleep(for: .seconds(1))
-        let events = mockAnalyticsService._trackedEvents
-        #expect(events.count >= 1)
-        let searchEvent = events.first(where: { $0.name == "Search" })
+        let searchEvent = mockAnalyticsService._trackedEvents.first(where: { $0.name == "Search" })
         #expect(searchEvent != nil)
         #expect(searchEvent?.params?["text"] as? String == "France")
         #expect(searchEvent?.params?["section"] as? String == "country_search")
@@ -857,75 +858,49 @@ struct CountryListViewModelTests {
     }
 
     @Test
-    func handleCountrySelection_withNotificationOptInTrue_tracksToggleAndSearchAnalytics() async throws {
-        let mockAnalyticsService = MockAnalyticsService()
-        let mockNotificationService = MockNotificationService()
-        mockNotificationService._stubbedhasGivenConsent = false
+    func onCountryTap_withSearchText_tracksToggleAndSearchAnalytics() async {
         let mockTravelService = MockTravelService()
+        mockTravelService._stubbedGetCountriesResult = .success([
+            Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
+        ])
+        let mockAnalyticsService = MockAnalyticsService()
+        let viewModel = makeViewModel(travelService: mockTravelService, analyticsService: mockAnalyticsService)
 
-        let viewModel = makeViewModel(
-            travelService: mockTravelService,
-            analyticsService: mockAnalyticsService,
-            notificationService: mockNotificationService
-        )
+        await viewModel.viewDidAppear()
+        await Task.yield()
 
-        // Set search text before selection
         viewModel.searchText = "France"
+        (viewModel.filteredSections.first?.rows.first as? SelectableRow)?.action()
 
-        let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
-        viewModel.onGetNotificationAlertTap(country, text: "France")
-
-        try await Task.sleep(for: .seconds(1))
-
-        // Should have tracked toggle and search events
-        let events = mockAnalyticsService._trackedEvents
-        #expect(events.count >= 2)
-
-        // Verify toggle event
-        let toggleEvent = events.first(where: { $0.params?["text"] as? String == "France" })
+        let toggleEvent = mockAnalyticsService._trackedEvents.first(where: { $0.name == "Function" })
+        let searchEvent = mockAnalyticsService._trackedEvents.first(where: { $0.name == "Search" })
         #expect(toggleEvent != nil)
         #expect(toggleEvent?.params?["section"] as? String == "Travel Abroad Notifications")
-
-        // Verify search event
-        let searchEvent = events.first(where: { $0.name == "Search" })
         #expect(searchEvent != nil)
         #expect(searchEvent?.params?["text"] as? String == "France")
     }
 
     @Test
-    func handleCountrySelection_withoutSearchText_tracksOnlyToggleAnalytics() async throws {
-        let mockAnalyticsService = MockAnalyticsService()
-        let mockNotificationService = MockNotificationService()
-        mockNotificationService._stubbedhasGivenConsent = false
+    func onCountryTap_withoutSearchText_tracksOnlyToggleAnalytics() async {
         let mockTravelService = MockTravelService()
+        mockTravelService._stubbedGetCountriesResult = .success([
+            Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
+        ])
+        let mockAnalyticsService = MockAnalyticsService()
+        let viewModel = makeViewModel(travelService: mockTravelService, analyticsService: mockAnalyticsService)
 
-        let viewModel = makeViewModel(
-            travelService: mockTravelService,
-            analyticsService: mockAnalyticsService,
-            notificationService: mockNotificationService
-        )
+        await viewModel.viewDidAppear()
+        await Task.yield()
 
-        // No search text set
         #expect(viewModel.searchText.isEmpty)
+        (viewModel.filteredSections.first?.rows.first as? SelectableRow)?.action()
 
-        let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
-        viewModel.onNotNowAlertTap(country, text: "France")
-
-        try await Task.sleep(for: .seconds(1))
-
-        // Should have navigation and toggle events
-        let events = mockAnalyticsService._trackedEvents
-
-        // Find the toggle event by text and action, filtering out the navigation event
-        let toggleEvent = events.first(where: {
+        let toggleEvent = mockAnalyticsService._trackedEvents.first(where: {
             $0.params?["text"] as? String == "France" && $0.params?["action"] as? String == "Add"
         })
         #expect(toggleEvent != nil)
         #expect(toggleEvent?.params?["section"] as? String == "Travel Abroad Notifications")
-        #expect(toggleEvent?.params?["action"] as? String == "Add")
-
-        // No search event tracked when search text is empty
-        let searchEvent = events.first(where: { $0.name == "Search" })
+        let searchEvent = mockAnalyticsService._trackedEvents.first(where: { $0.name == "Search" })
         #expect(searchEvent == nil)
     }
 
@@ -1076,5 +1051,120 @@ struct CountryListViewModelTests {
         permissionViewModel.dismissSheetAction()
 
         #expect(viewModel.showNotificationsRationale == false)
+    }
+
+    // MARK: - T3: onCountryTap event ordering
+
+    @Test
+    func onCountryTap_tracksToggleThenSearch_inOrder() async {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedGetCountriesResult = .success([
+            Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
+        ])
+        let mockAnalyticsService = MockAnalyticsService()
+        let viewModel = makeViewModel(travelService: mockTravelService, analyticsService: mockAnalyticsService)
+
+        await viewModel.viewDidAppear()
+        await Task.yield()
+
+        viewModel.searchText = "Fra"
+        (viewModel.filteredSections.first?.rows.first as? SelectableRow)?.action()
+
+        let events = mockAnalyticsService._trackedEvents
+        let functionIndex = events.firstIndex(where: { $0.name == "Function" })
+        let searchIndex = events.firstIndex(where: { $0.name == "Search" })
+        #expect(functionIndex != nil)
+        #expect(searchIndex != nil)
+        #expect(functionIndex! < searchIndex!)
+        #expect(events[searchIndex!].params?["text"] as? String == "Fra")
+        #expect(events[searchIndex!].params?["section"] as? String == "country_search")
+    }
+
+    @Test
+    func onNotNowAlertTap_doesNotTrackToggleOrSearch() async {
+        let mockAnalyticsService = MockAnalyticsService()
+        let viewModel = makeViewModel(analyticsService: mockAnalyticsService)
+
+        let country = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
+        viewModel.onNotNowAlertTap(country, text: "Not now")
+
+        await Task.yield()
+
+        let navEvents = mockAnalyticsService._trackedEvents.filter { $0.name == "Navigation" }
+        let toggleEvents = mockAnalyticsService._trackedEvents.filter { $0.name == "Function" }
+        let searchEvents = mockAnalyticsService._trackedEvents.filter { $0.name == "Search" }
+        #expect(navEvents.count == 1)
+        #expect(toggleEvents.isEmpty)
+        #expect(searchEvents.isEmpty)
+    }
+
+    @Test
+    func onCountryTap_thenCancel_stillTracksToggle() async {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedGetCountriesResult = .success([
+            Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
+        ])
+        let mockAnalyticsService = MockAnalyticsService()
+        let viewModel = makeViewModel(travelService: mockTravelService, analyticsService: mockAnalyticsService)
+
+        await viewModel.viewDidAppear()
+        await Task.yield()
+
+        (viewModel.filteredSections.first?.rows.first as? SelectableRow)?.action()
+        viewModel.selectedCountry = nil
+
+        let toggleEvent = mockAnalyticsService._trackedEvents.first(where: { $0.name == "Function" })
+        #expect(toggleEvent != nil)
+        #expect(toggleEvent?.params?["text"] as? String == "France")
+    }
+
+    // MARK: - T4: Search submit
+
+    @Test
+    func onSearchSubmitted_withText_tracksTypedSearchEvent() {
+        let mockAnalyticsService = MockAnalyticsService()
+        let viewModel = makeViewModel(analyticsService: mockAnalyticsService)
+
+        viewModel.searchText = "Spain"
+        viewModel.onSearchSubmitted()
+
+        let searchEvent = mockAnalyticsService._trackedEvents.first(where: { $0.name == "Search" })
+        #expect(searchEvent != nil)
+        #expect(searchEvent?.params?["type"] as? String == "typed")
+        #expect(searchEvent?.params?["section"] as? String == "country_search")
+        #expect(searchEvent?.params?["text"] as? String == "Spain")
+    }
+
+    @Test
+    func onSearchSubmitted_withEmptyText_tracksNothing() {
+        let mockAnalyticsService = MockAnalyticsService()
+        let viewModel = makeViewModel(analyticsService: mockAnalyticsService)
+
+        viewModel.searchText = ""
+        viewModel.onSearchSubmitted()
+
+        #expect(mockAnalyticsService._trackedEvents.isEmpty)
+    }
+
+    // MARK: - T5: PII redaction
+
+    @Test
+    func searchTracking_redactsPII() async {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedGetCountriesResult = .success([
+            Country(name: "SW1A 1AA", slug: "sw1a1aa", rawLastUpdate: "", synonyms: [])
+        ])
+        let mockAnalyticsService = MockAnalyticsService()
+        let viewModel = makeViewModel(travelService: mockTravelService, analyticsService: mockAnalyticsService)
+
+        await viewModel.viewDidAppear()
+        await Task.yield()
+
+        viewModel.searchText = "SW1A 1AA"
+        viewModel.onSearchSubmitted()
+
+        let searchEvent = mockAnalyticsService._trackedEvents.first(where: { $0.name == "Search" })
+        #expect(searchEvent != nil)
+        #expect(searchEvent?.params?["text"] as? String == "[postcode]")
     }
 }

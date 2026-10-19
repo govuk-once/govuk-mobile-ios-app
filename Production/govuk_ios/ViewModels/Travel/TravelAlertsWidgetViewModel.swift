@@ -68,7 +68,7 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
                     self.urlOpener.openIfPossible(url)
                 }
             ),
-            footerLinkURLString: feedbackURL.absoluteString,
+            footerLinkURLString: Constants.API.helpAndFeedbackUrl.absoluteString,
             errorCallback: { [weak self] in
                 self?.isShowingError = true
             }
@@ -111,7 +111,8 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
         let rows = groups.compactMap { group -> LinkRow? in
             guard let country = countryMap[group.group.lowercased()] else { return nil }
 
-            let url = URL(string: "govuk://app.gov.uk/web?url=https://\(Constants.API.defaultTravelAdviceBaseUrlString)\(country.slug.lowercased())")
+            let travelAdviceURLString = "\(Constants.API.defaultTravelAdviceBaseUrlString)\(country.slug.lowercased())"
+            let url = URL(string: "govuk://app.gov.uk/web?url=\(travelAdviceURLString)")
 
             return LinkRow(
                 id: group.group,
@@ -121,8 +122,18 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
                 )),
                 showLinkImage: false,
                 action: { [weak self] in
-                    guard let url else { return }
-                    self?.openURLAction(url)
+                    guard let self, let url else { return }
+                    self.analyticsService.track(
+                        event: AppEvent.widgetNavigation(
+                            text: country.name,
+                            external: true,
+                            params: [
+                                "section": TravelAlertWidgetAnalyticsKeys.section,
+                                "url": travelAdviceURLString
+                            ]
+                        )
+                    )
+                    self.openURLAction(url)
                 }
             )
         }

@@ -46,7 +46,6 @@ class EditCountriesViewModel: ObservableObject {
     private let notificationService: NotificationServiceInterface
     private let urlOpener: URLOpener
     let analyticsService: AnalyticsServiceInterface
-    private let feedbackURL: URL
     private let openCountryListFooterAction: () -> Void
     private var allCountries: [Country] = []
     private var followedCountries: Set<String> = []
@@ -70,14 +69,12 @@ class EditCountriesViewModel: ObservableObject {
         analyticsService: AnalyticsServiceInterface,
         notificationService: NotificationServiceInterface,
         urlOpener: URLOpener,
-        feedbackURL: URL,
         openCountryListFooterAction: @escaping () -> Void
     ) {
         self.travelService = travelService
         self.analyticsService = analyticsService
         self.notificationService = notificationService
         self.urlOpener = urlOpener
-        self.feedbackURL = feedbackURL
         self.openCountryListFooterAction = openCountryListFooterAction
     }
 
@@ -103,7 +100,7 @@ class EditCountriesViewModel: ObservableObject {
             notificationService: notificationService,
             urlOpener: urlOpener,
             actions: actions,
-            footerLinkURLString: feedbackURL.absoluteString,
+            footerLinkURLString: Constants.API.helpAndFeedbackUrl.absoluteString,
             errorCallback: { [weak self] in
                 self?.isShowingFollowError = true
             }

@@ -128,13 +128,11 @@ final class EditCountriesViewSnapshotTests: SnapshotTestCase {
         let mockTravelService = travelService ?? defaultTravelService
         let analyticsService = MockAnalyticsService()
         let notificationService = MockNotificationService()
-        let feedbackURL = URL(string: "https://example.com/feedback")!
         return EditCountriesViewModel(
             travelService: mockTravelService,
             analyticsService: analyticsService,
             notificationService: notificationService,
             urlOpener: MockURLOpener(),
-            feedbackURL: feedbackURL,
             openCountryListFooterAction: { /*NO-OP*/ }
         )
     }
