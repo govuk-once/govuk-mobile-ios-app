@@ -94,6 +94,8 @@ final class VehicleCheckCoordinator: BaseCoordinator {
             navController.view.backgroundColor = .clear
             topmostPresentedVC()?.present(navController, animated: true)
         } else {
+            // rootNavCon is .overCurrentContext — make it fully transparent so
+            // the PlaceholderView's semi-transparent backdrop shows through
             rootNavCon.view.backgroundColor = .clear
             rootNavCon.setNavigationBarHidden(true, animated: false)
             rootNavCon.modalTransitionStyle = .crossDissolve
