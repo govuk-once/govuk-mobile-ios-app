@@ -490,7 +490,6 @@ struct CountryListViewModelTests {
             notificationService: mockNotificationService,
             feedbackURL: URL(string: "https://example.com/feedback")!,
             urlOpener: MockURLOpener(),
-            linkAction: { /*Empty For Tests*/ },
             dismissAction: { dismissActionCalled = true },
             editAction: { /*Empty For Tests*/ },
             openURLAction: { _ in /*Empty For Tests*/ }

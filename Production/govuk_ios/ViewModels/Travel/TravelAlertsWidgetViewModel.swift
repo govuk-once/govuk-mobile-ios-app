@@ -21,7 +21,6 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
     private let notificationService: NotificationServiceInterface
     private let feedbackURL: URL
     private let urlOpener: URLOpener
-    private let linkAction: () -> Void
     private let dismissAction: () -> Void
     private let editAction: () -> Void
     private let openURLAction: (URL) -> Void
@@ -32,7 +31,6 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
         notificationService: NotificationServiceInterface,
         feedbackURL: URL,
         urlOpener: URLOpener,
-        linkAction: @escaping () -> Void,
         dismissAction: @escaping () -> Void,
         editAction: @escaping () -> Void,
         openURLAction: @escaping (URL) -> Void
@@ -42,7 +40,6 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
         self.notificationService = notificationService
         self.feedbackURL = feedbackURL
         self.urlOpener = urlOpener
-        self.linkAction = linkAction
         self.dismissAction = dismissAction
         self.openURLAction = openURLAction
         self.editAction = editAction

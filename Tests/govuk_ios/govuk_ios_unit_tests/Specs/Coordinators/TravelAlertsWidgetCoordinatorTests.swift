@@ -93,40 +93,6 @@ struct TravelAlertsWidgetCoordinatorTests {
     }
 
     @Test
-    func makeWidget_linkActionClosure_triggersCountrySelection() {
-        let travelTopic = Topic.arrange(
-            context: coreDataRepository.viewContext,
-            ref: "travel-abroad"
-        )
-        mockConfigService.features = [.travelAlerts]
-        let mockCoordinatorBuilder = CoordinatorBuilder.mock
-
-        let sut = TravelAlertsWidgetCoordinator(
-            navigationController: UINavigationController(),
-            analyticsService: mockAnalyticsService,
-            travelService: mockTravelService,
-            configService: mockConfigService,
-            notificationService: mockNotificationService,
-            deviceInformationProvider: MockDeviceInformationProvider(),
-            versionProvider: MockAppVersionProvider(),
-            coordinatorBuilder: mockCoordinatorBuilder,
-            widgetViewBuilder: mockWidgetViewBuilder,
-            viewControllerBuilder: mockViewControllerBuilder,
-        )
-
-        _ = sut.makeWidget(for: travelTopic)
-
-        guard let linkAction = mockWidgetViewBuilder._receivedTravelAlertLinkAction else {
-            Issue.record("Expected linkAction closure to be captured")
-            return
-        }
-
-        linkAction()
-
-        #expect(mockCoordinatorBuilder._countryListCoordinatorWasCalled == true)
-    }
-
-    @Test
     func makeWidget_dismissActionClosure_triggersViewReappear() {
         let travelTopic = Topic.arrange(
             context: coreDataRepository.viewContext,

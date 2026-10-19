@@ -860,41 +860,6 @@ class ViewControllerBuilder {
     }
 
     // swiftlint:disable:next function_parameter_count
-    func countryList(
-        travelService: TravelServiceInterface,
-        analyticsService: AnalyticsServiceInterface,
-        notificationService: NotificationServiceInterface,
-        deviceInfo: DeviceInformationProviderInterface,
-        versionProvider: AppVersionProvider,
-        dismissAction: @escaping (Bool) -> Void,
-        errorCallback: (() -> Void)? = nil,
-        openFooterLinkAction: @escaping (URL) -> Void,
-        openExternalURLAction: @escaping (URL) -> Void
-    ) -> UIViewController {
-        let feedbackURL = deviceInfo.helpAndFeedbackURL(versionProvider: versionProvider)
-
-        let actions = CountryListViewModel.Actions(
-            dismissAction: dismissAction,
-            openFooterLinkAction: {
-                openFooterLinkAction(feedbackURL)
-            },
-            openExternalURLAction: openExternalURLAction
-        )
-        let viewModel = CountryListViewModel(
-            travelService: travelService,
-            analyticsService: analyticsService,
-            notificationService: notificationService,
-            urlOpener: UIApplication.shared,
-            actions: actions,
-            footerLinkURLString: feedbackURL.absoluteString,
-            errorCallback: errorCallback
-        )
-        let view = CountryListView(viewModel: viewModel)
-        let viewController = HostingViewController(rootView: view)
-        return viewController
-    }
-
-    // swiftlint:disable:next function_parameter_count
     func editCountries(
         travelService: TravelServiceInterface,
         analyticsService: AnalyticsServiceInterface,
