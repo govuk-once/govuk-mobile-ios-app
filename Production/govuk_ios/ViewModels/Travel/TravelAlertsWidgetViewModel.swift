@@ -11,9 +11,8 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
         case error
     }
 
-    enum TravelAlertWidget {
+    enum TravelAlertWidgetAnalyticsKeys {
         static let section = "Travel Abroad Notifications"
-        static let travelAdviceBaseUrl = "https://www.gov.uk/foreign-travel-advice/"
     }
 
     // Drives .sheet(isPresented:) in the widget view
@@ -112,7 +111,7 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
         let rows = groups.compactMap { group -> LinkRow? in
             guard let country = countryMap[group.group.lowercased()] else { return nil }
 
-            let url = URL(string: "govuk://app.gov.uk/web?url=https://\(TravelAlertWidget.travelAdviceBaseUrl)\(country.slug.lowercased())")
+            let url = URL(string: "govuk://app.gov.uk/web?url=https://\(Constants.API.defaultTravelAdviceBaseUrlString)\(country.slug.lowercased())")
 
             return LinkRow(
                 id: group.group,
@@ -146,7 +145,7 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
         let event = AppEvent.widgetNavigation(
             text: text,
             external: false,
-            params: ["section": TravelAlertWidget.section]
+            params: ["section": TravelAlertWidgetAnalyticsKeys.section]
         )
         analyticsService.track(event: event)
         isShowingList = true

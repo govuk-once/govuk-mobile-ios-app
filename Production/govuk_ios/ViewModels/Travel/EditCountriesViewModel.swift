@@ -23,7 +23,7 @@ class EditCountriesViewModel: ObservableObject {
         let subgroup: String
     }
 
-    enum EditCountriesConstants {
+    enum EditCountriesAnalyticsKeys {
         static let section = "Travel Abroad Notifications"
         static let unfollowAction = "Remove"
     }
@@ -167,8 +167,8 @@ class EditCountriesViewModel: ObservableObject {
             analyticsService.track(
                 event: AppEvent.toggleAction(
                     text: countryName,
-                    section: EditCountriesConstants.section,
-                    action: EditCountriesConstants.unfollowAction
+                    section: EditCountriesAnalyticsKeys.section,
+                    action: EditCountriesAnalyticsKeys.unfollowAction
                 )
             )
         }

@@ -10,7 +10,7 @@ class CountryListViewModel: ObservableObject {
         case error
     }
 
-    private enum CountryList {
+    private enum CountryListAnalyticsKeys {
         static let section = "Travel Abroad Notifications"
         static let searchSection = "country_search"
     }
@@ -95,7 +95,7 @@ class CountryListViewModel: ObservableObject {
             event: AppEvent.widgetNavigation(
                 text: text,
                 external: false,
-                params: ["section": CountryList.section]
+                params: ["section": CountryListAnalyticsKeys.section]
             )
         )
         Task {
@@ -108,7 +108,7 @@ class CountryListViewModel: ObservableObject {
             event: AppEvent.widgetNavigation(
                 text: text,
                 external: false,
-                params: ["section": CountryList.section]
+                params: ["section": CountryListAnalyticsKeys.section]
             )
         )
         Task {
@@ -209,7 +209,7 @@ class CountryListViewModel: ObservableObject {
             text: text,
             external: true,
             url: footerLinkURLString,
-            section: CountryList.section
+            section: CountryListAnalyticsKeys.section
         )
         analyticsService.track(event: buttonTapEvent)
 
@@ -231,7 +231,7 @@ extension CountryListViewModel {
         let searchEvent = AppEvent.searchTerm(
             term: text,
             type: .typed,
-            section: CountryList.searchSection
+            section: CountryListAnalyticsKeys.searchSection
         )
         analyticsService.track(event: searchEvent)
     }
@@ -239,7 +239,7 @@ extension CountryListViewModel {
     private func trackToggleFunction(countryName: String) {
         let toggleEvent = AppEvent.toggleAction(
             text: countryName,
-            section: CountryList.section,
+            section: CountryListAnalyticsKeys.section,
             action: "Add"
         )
         analyticsService.track(event: toggleEvent)

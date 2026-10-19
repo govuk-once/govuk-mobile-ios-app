@@ -24,7 +24,7 @@ class NotificationsRationaleViewModel: ObservableObject {
         case loading
     }
 
-    private enum NotificationRationale {
+    private enum NotificationRationaleAnalyticsKeys {
         static let section = "Travel Abroad Notifications"
     }
 
@@ -135,7 +135,7 @@ class NotificationsRationaleViewModel: ObservableObject {
             event: AppEvent.buttonNavigation(
                 text: primaryButtonTitle,
                 external: false,
-                section: NotificationRationale.section
+                section: NotificationRationaleAnalyticsKeys.section
             )
         )
         Task {
@@ -167,7 +167,7 @@ class NotificationsRationaleViewModel: ObservableObject {
             event: AppEvent.buttonNavigation(
                 text: secondaryButtonTitle,
                 external: false,
-                section: NotificationRationale.section
+                section: NotificationRationaleAnalyticsKeys.section
             )
         )
         decline()
@@ -202,7 +202,7 @@ class NotificationsRationaleViewModel: ObservableObject {
             event: AppEvent.buttonNavigation(
                 text: privacyPolicyLinkTitle,
                 external: true,
-                section: NotificationRationale.section
+                section: NotificationRationaleAnalyticsKeys.section
             )
         )
         let privacyPolicyURL = URL(string: Constants.API.privacyPolicyUrl.absoluteString)
