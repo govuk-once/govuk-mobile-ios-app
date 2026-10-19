@@ -12,9 +12,6 @@ class LocalAuthorityPostcodeEntryViewModel: ObservableObject {
     let dismissAction: () -> Void
     private let localAuthoritySelected: (Authority) -> Void
     let resolveAmbiguityAction: (AmbiguousAuthorities, String) -> Void
-    let cancelButtonTitle: String = String.common.localized(
-        "cancel"
-    )
     let postcodeEntryViewDescription: String = String.localAuthority.localized(
         "localAuthrorityExplainerViewDescription"
     )

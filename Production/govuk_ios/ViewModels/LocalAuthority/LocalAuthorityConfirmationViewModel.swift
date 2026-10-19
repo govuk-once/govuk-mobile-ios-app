@@ -8,9 +8,6 @@ class LocalAuthorityConfirmationViewModel {
     private let primaryButtonTitle = String.localAuthority.localized(
         "localAuthorityConfirmationPrimaryButton"
     )
-     let cancelButtonTitle = String.localAuthority.localized(
-        "localAuthorityCancelButton"
-    )
     let localAuthorityItem: Authority
     let dismiss: () -> Void
     let unitarySuccessTitle: String = String.localAuthority.localized(
