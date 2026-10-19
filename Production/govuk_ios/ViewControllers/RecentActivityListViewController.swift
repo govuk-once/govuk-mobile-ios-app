@@ -15,10 +15,6 @@ final class RecentActivityListViewController: BaseViewController {
         localView.contentInset.top = 16
         return localView
     }()
-    
-    private var standardBottom: NSLayoutConstraint?
-    private var duoBottom: NSLayoutConstraint?
-
     private let lastVisitedFormatter = DateFormatter.recentActivityLastVisited
     private lazy var dataSource: DataSource = {
         let localDataSource = DataSource(
@@ -28,35 +24,30 @@ final class RecentActivityListViewController: BaseViewController {
         localDataSource.defaultRowAnimation = .fade
         return localDataSource
     }()
-
     private lazy var titleView: UIView = {
         let localView = GovUKHeaderView()
         localView.configure(titleText: viewModel.pageTitle)
         localView.translatesAutoresizingMaskIntoConstraints = false
         return localView
     }()
-
     private lazy var removeBarButtonItem: UIBarButtonItem = .remove(
         action: { [unowned self] action in
             self.removeButtonPressed()
             self.trackActionPress(title: action.title, action: "Remove")
         }
     )
-
     private lazy var selectAllBarButtonItem: UIBarButtonItem = .selectAll(
         action: { [unowned self] action in
             self.selectAllButtonPressed()
             self.trackActionPress(title: action.title, action: "Select all")
         }
     )
-
     private lazy var deselectAllBarButtonItem: UIBarButtonItem = .deselectAll(
         action: { [unowned self] action in
             self.deselectAllButtonPressed()
             self.trackActionPress(title: action.title, action: "Deselect all")
         }
     )
-
     private lazy var informationScrollView: UIScrollView = {
         let localView = UIScrollView()
         localView.translatesAutoresizingMaskIntoConstraints = false
@@ -65,7 +56,6 @@ final class RecentActivityListViewController: BaseViewController {
         localView.isHidden = true
         return localView
     }()
-
     private lazy var informationView: UIView = {
         let localController = HostingViewController(
             rootView: NonTappableCardView(
@@ -76,9 +66,7 @@ final class RecentActivityListViewController: BaseViewController {
         localController.view.backgroundColor = .clear
         return localController.view
     }()
-
     var trackingName: String { "Pages you've visited" }
-
     private let viewModel: RecentActivityListViewModel
     private var tabBarHeight: CGFloat {
         guard let bar = tabBarController?.tabBar, bar.bounds.height > 0 else { return 83.0 }
@@ -183,6 +171,7 @@ final class RecentActivityListViewController: BaseViewController {
             ])
         }
     }
+
     private func configureTableConstraints() {
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: titleView.bottomAnchor),
@@ -254,28 +243,23 @@ final class RecentActivityListViewController: BaseViewController {
             )
         }
     }
-    
     private func trackEditingEvent() {
         trackActionPress(
             title: editButtonItem.title,
             action: isEditing ? "Done" : "Edit"
         )
     }
-    
     @objc private func selectAllButtonPressed() {
         tableView.selectAllRows(animated: true)
     }
-    
     @objc private func deselectAllButtonPressed() {
         tableView.deselectAllRows(animated: true)
     }
-    
     @objc private func removeButtonPressed() {
         viewModel.confirmDeletionOfEditingItems()
         reloadSnapshot()
         setEditing(false, animated: true)
     }
-    
     private func trackActionPress(title: String?, action: String) {
         guard let localTitle = title, !localTitle.isEmpty else { return }
         let event = AppEvent.recentActivityButtonFunction(
@@ -284,7 +268,6 @@ final class RecentActivityListViewController: BaseViewController {
         )
         analyticsService.track(event: event)
     }
-    
     private func reloadSnapshot() {
         var snapshot = Snapshot()
         snapshot.deleteAllItems()
@@ -320,13 +303,13 @@ final class RecentActivityListViewController: BaseViewController {
             return cell
         }
     }
-    
+
     private func lastVisitedString(activity: ActivityItem) -> String {
         let copy = String.recentActivity.localized("recentActivityFormattedDateStringComponent")
         let formattedDateString = lastVisitedFormatter.string(from: activity.date)
         return "\(copy) \(formattedDateString)"
     }
-    
+
     private func configureToolbarItems(animated: Bool = true) {
         removeBarButtonItem.isEnabled = tableView.indexPathsForSelectedRows?.isEmpty == false
         let items = [
@@ -358,7 +341,7 @@ extension RecentActivityListViewController: UITableViewDelegate {
         }
         configureToolbarItems()
     }
-    
+
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         removeBarButtonItem.isEnabled = tableView.indexPathForSelectedRow?.isEmpty == false
         guard let itemId = dataSource.itemIdentifier(for: indexPath),
