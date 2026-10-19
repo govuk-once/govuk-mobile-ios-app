@@ -114,6 +114,7 @@ final class VehicleCheckCoordinator: BaseCoordinator {
         if presentedSheet != nil {
             guard let topVC = topmostPresentedVC() else { return }
             let hostSheet = topVC.presentingViewController ?? topVC
+            newSheet.presentationController?.delegate = self
             topVC.dismiss(animated: false) { [weak self] in
                 guard self != nil else { return }
                 hostSheet.present(newSheet, animated: true)
@@ -121,7 +122,9 @@ final class VehicleCheckCoordinator: BaseCoordinator {
         } else {
             newSheet.presentationController?.delegate = self
             guard let presenter = rootNavCon.presentingViewController else {
-                assertionFailure("rootNavCon has no presentingViewController — cannot present results")
+                assertionFailure(
+                    "rootNavCon has no presentingViewController — cannot present results"
+                )
                 return
             }
             rootNavCon.dismiss(animated: false) { [weak self] in
@@ -147,6 +150,17 @@ final class VehicleCheckCoordinator: BaseCoordinator {
             return
         }
         topVC.dismiss(animated: true)
+    }
+
+    override func presentationControllerDidDismiss(
+        _ presentationController: UIPresentationController
+    ) {
+        if presentedSheet == nil {
+            finish()
+        } else if presentationController.presentedViewController === presentedSheet {
+            presentedSheet = nil
+            finish()
+        }
     }
 
     private func dismissFlow() {
