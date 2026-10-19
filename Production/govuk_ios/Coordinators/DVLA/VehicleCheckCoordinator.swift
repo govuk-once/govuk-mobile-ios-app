@@ -2,7 +2,7 @@ import Foundation
 import UIKit
 import GovKit
 
-final class VehicleCheckCoordinator: BaseCoordinator {
+final class VehicleCheckCoordinatorOLD: BaseCoordinator {
     private let viewControllerBuilder: ViewControllerBuilder
     private let analyticsService: AnalyticsServiceInterface
     private let configService: AppConfigServiceInterface
@@ -102,7 +102,7 @@ final class VehicleCheckCoordinator: BaseCoordinator {
 
 // KK: breadcrumb
 import SwiftUI
-extension VehicleCheckCoordinator {
+extension VehicleCheckCoordinatorOLD {
     private func setVehicleRegistrationInputView() {
         let viewController = createInputViewController()
         root.modalTransitionStyle = .crossDissolve
@@ -211,7 +211,7 @@ extension VehicleCheckCoordinator {
 
 // MARK: Temporary - for development
 
-extension VehicleCheckCoordinator {
+extension VehicleCheckCoordinatorOLD {
     private var mockVehicle: VehicleEnquiryResponse.Vehicle {
         .init(
             vehicleId: 100830769,

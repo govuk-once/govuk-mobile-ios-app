@@ -69,6 +69,19 @@ struct PlaceholderSearchResultsView: View {
     }
 }
 
+extension PlaceholderSearchResultsView {
+    init(
+            data: PlaceHolderResults,
+            closeAction: (() -> Void)?,
+            searchAction: (() -> Void)?
+        ) {
+        self.searchQuery = data.searchTerm
+        self.results = data.results
+        self.closeAction = closeAction
+        self.searchAction = searchAction
+    }
+}
+
 #Preview {
     NavigationStack {
         PlaceholderSearchResultsView(

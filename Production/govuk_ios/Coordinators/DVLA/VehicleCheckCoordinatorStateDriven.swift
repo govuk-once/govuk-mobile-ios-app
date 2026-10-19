@@ -1,11 +1,31 @@
 import UIKit
 import SwiftUI
+import GovKit
 
-final class VehicleCheckCoordinatorStateDriven: BaseCoordinator {
-    struct PlaceHolderResults: Equatable {
-        let searchTerm: String
-        let results: [String]
+struct PlaceHolderResults: Equatable {
+    let searchTerm: String
+    let results: [String]
+}
+
+// final class VehicleCheckCoordinatorStateDriven: BaseCoordinator {
+final class VehicleCheckCoordinator: BaseCoordinator {
+    private let viewControllerBuilder: ViewControllerBuilder
+    private let analyticsService: AnalyticsServiceInterface
+    private let configService: AppConfigServiceInterface
+    private let urlOpener: URLOpener
+
+    init(navigationController: UINavigationController,
+         viewControllerBuilder: ViewControllerBuilder,
+         analyticsService: AnalyticsServiceInterface,
+         configService: AppConfigServiceInterface,
+         urlOpener: URLOpener) {
+        self.viewControllerBuilder = viewControllerBuilder
+        self.analyticsService = analyticsService
+        self.configService = configService
+        self.urlOpener = urlOpener
+        super.init(navigationController: navigationController)
     }
+
 
     enum FlowState: Equatable {
         case initialInput
@@ -40,7 +60,7 @@ final class VehicleCheckCoordinatorStateDriven: BaseCoordinator {
             self?.state = .results(data: placeholderResults)
         } onCancel: { [weak self] in
             if isNested {
-                self?.navigationController.dismiss(animated: true)
+                self?.rootNavCon.dismiss(animated: true)
             } else {
                 self?.dismissFlow()
             }
@@ -49,28 +69,31 @@ final class VehicleCheckCoordinatorStateDriven: BaseCoordinator {
         let hostingController = UIHostingController(rootView: inputView)
         let navController = UINavigationController(rootViewController: hostingController)
 
-        let target = isNested ? (navigationController.presentedViewController ?? navigationController) : navigationController
+        let presentedViewController = rootNavCon.presentedViewController
+        let navCon = rootNavCon
+        let target = isNested ? (presentedViewController ?? navCon) : navCon
         target.present(navController, animated: true)
     }
 
     private func showResultsView(data: PlaceHolderResults) {
-        let resultsView = ResultsView(data: data) { [weak self] in
+        let resultsView = PlaceholderSearchResultsView(data: data) { [weak self] in
             self?.dismissFlow()
-        } onSearch: { [weak self] in
+        } searchAction: { [weak self] in
             self?.state = .nestedInput
         }
 
         let hostingController = UIHostingController(rootView: resultsView)
-        let target = navigationController.presentedViewController as? UINavigationController ?? navigationController
+        let presentedNavigationCon = rootNavCon.presentedViewController
+        as? UINavigationController
+        let target =  presentedNavigationCon ?? rootNavCon
 
         let sheetNavController = UINavigationController(rootViewController: hostingController)
         target.present(sheetNavController, animated: true)
     }
 
     private func dismissFlow() {
-        dismiss(animated: true) { [weak self] in
+        rootNavCon.dismiss(animated: true) { [weak self] in
             self?.finish()
         }
     }
 }
-

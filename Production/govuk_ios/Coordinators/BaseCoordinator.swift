@@ -16,7 +16,7 @@ class BaseCoordinator: NSObject,
     }
 
     // just for clarity...
-    private var navigationController: UINavigationController {
+    var rootNavCon: UINavigationController {
         return root
     }
 
