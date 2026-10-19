@@ -119,8 +119,9 @@ final class VehicleCheckCoordinator: BaseCoordinator {
     }
 
     private func dismissFlow() {
-        if let sheet = presentedSheet {
-            sheet.dismiss(animated: true) { [weak self] in
+        if let sheet = presentedSheet,
+           let presenter = sheet.presentingViewController {
+            presenter.dismiss(animated: true) { [weak self] in
                 self?.presentedSheet = nil
                 self?.finish()
             }
