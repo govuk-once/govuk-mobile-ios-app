@@ -3,6 +3,8 @@ import SwiftUI
 struct PlaceholderSearchResultsView: View {
     let searchQuery: String
     let results: [String] // Accepts the array from the closure
+    var closeAction: (() -> Void)?
+    var searchAction: (() -> Void)?
 
     var body: some View {
         List {
@@ -54,12 +56,16 @@ struct PlaceholderSearchResultsView: View {
 
     @MainActor
     private func onSearchTapped() {
-        // do something
+        if let searchAction = searchAction {
+            searchAction()
+        }
     }
 
     @MainActor
     private func onClose() {
-        // do something
+        if let closeAction = closeAction {
+            closeAction()
+        }
     }
 }
 
