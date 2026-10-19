@@ -112,27 +112,36 @@ final class VehicleCheckCoordinator: BaseCoordinator {
 
         let hostingController = UIHostingController(rootView: resultsView)
         let newSheet = UINavigationController(rootViewController: hostingController)
+        newSheet.presentationController?.delegate = self
 
         if bottomSheet != nil {
-            guard let topVC = topmostPresentedVC() else { return }
-            let hostSheet = topVC.presentingViewController ?? topVC
-            newSheet.presentationController?.delegate = self
-            topVC.dismiss(animated: false) { [weak self] in
-                guard self != nil else { return }
-                hostSheet.present(newSheet, animated: true)
-            }
+            presentAsStackedSheet(newSheet)
         } else {
-            newSheet.presentationController?.delegate = self
-            guard let presenter = rootNavCon.presentingViewController else {
-                assertionFailure(
-                    "rootNavCon has no presentingViewController — cannot present results"
-                )
-                return
-            }
-            rootNavCon.dismiss(animated: false) { [weak self] in
-                presenter.present(newSheet, animated: true)
-                self?.bottomSheet = newSheet
-            }
+            presentAsFirstSheet(newSheet)
+        }
+    }
+
+    private func presentAsFirstSheet(_ sheet: UINavigationController) {
+        // .overCurrentContext breaks presentedViewController tracking —
+        // dismiss rootNavCon and present from its parent instead
+        guard let presenter = rootNavCon.presentingViewController else {
+            assertionFailure(
+                "rootNavCon has no presentingViewController — cannot present results"
+            )
+            return
+        }
+        rootNavCon.dismiss(animated: false) { [weak self] in
+            presenter.present(sheet, animated: true)
+            self?.bottomSheet = sheet
+        }
+    }
+
+    private func presentAsStackedSheet(_ sheet: UINavigationController) {
+        guard let topVC = topmostPresentedVC() else { return }
+        let presentingSheet = topVC.presentingViewController ?? topVC
+        topVC.dismiss(animated: false) { [weak self] in
+            guard self != nil else { return }
+            presentingSheet.present(sheet, animated: true)
         }
     }
 
