@@ -66,6 +66,7 @@ class NotificationsRationaleViewModel: ObservableObject {
     private var dismissAfterSuccessAction: (() -> Void)?
     private var dismissAfterErrorAction: (() -> Void)?
     private var isPendingPermissionCheck: Bool = false
+    private var hasAgreedPendingPermission: Bool = false
     private let origin: NotificationsRationaleOrigin
 
     init(
@@ -95,6 +96,7 @@ class NotificationsRationaleViewModel: ObservableObject {
         self.dismissAfterErrorAction = dismissAfterErrorAction
         self.origin = origin
         observeAppMoveToForeground()
+        observeAppMoveToBackground()
     }
 
     var primaryButtonViewModel: GOVUKButton.ButtonViewModel {
@@ -142,6 +144,7 @@ class NotificationsRationaleViewModel: ObservableObject {
                     self.notificationService.acceptConsent()
                     self.save(notificationsEnabled: true)
                 case .denied:
+                    self.hasAgreedPendingPermission = true
                     self.displayNotificationSettingsAlert = true
                 case .notDetermined:
                     self.requestNotificationPermission()
@@ -169,6 +172,7 @@ class NotificationsRationaleViewModel: ObservableObject {
     }
 
     private func decline() {
+        hasAgreedPendingPermission = false
         switch declineBehaviour {
         case .saveDisabled:
             save(notificationsEnabled: false)
@@ -230,6 +234,25 @@ class NotificationsRationaleViewModel: ObservableObject {
         )
     }
 
+    private func observeAppMoveToBackground() {
+        notificationCenter.addObserver(
+            self,
+            selector: #selector(acceptConsentOnLeavingApp),
+            name: UIApplication.didEnterBackgroundNotification,
+            object: nil
+        )
+    }
+
+    // The user has agreed but permission is denied, so they must leave the app to
+    // enable it. Record consent before the app's foreground consent check runs on
+    // return, otherwise it treats the user as not having consented.
+    @objc
+    private func acceptConsentOnLeavingApp() {
+        guard hasAgreedPendingPermission else { return }
+        notificationService.acceptConsent()
+        isPendingPermissionCheck = true
+    }
+
     @objc
     private func retryPermissionCheckAfterSettings() {
         guard isPendingPermissionCheck else { return }
@@ -241,10 +264,12 @@ class NotificationsRationaleViewModel: ObservableObject {
                 case .authorized:
                     self.notificationService.acceptConsent()
                     self.isPendingPermissionCheck = false
+                    self.hasAgreedPendingPermission = false
                     self.displayNotificationSettingsAlert = false
                     self.save(notificationsEnabled: true)
                 case .denied, .notDetermined:
                     self.isPendingPermissionCheck = false
+                    self.hasAgreedPendingPermission = false
                     self.displayNotificationSettingsAlert = false
                 }
             }

@@ -348,6 +348,67 @@ struct NotificationsRationaleViewModelTests {
         #expect(mockAnalyticsService._trackedEvents[0].params?["origin"] as? String == "EDIT")
     }
 
+    @Test
+    func enterBackground_afterAgreeingWithPermissionDenied_acceptsConsent() async throws {
+        let notificationCenter = NotificationCenter()
+        mockNotificationService._stubbededPermissionState = .denied
+        let viewModel = makeViewModel(notificationCenter: notificationCenter)
+
+        viewModel.allowNotificationsAction()
+        try await waitForTrue { viewModel.displayNotificationSettingsAlert }
+        withExtendedLifetime(viewModel) {
+            notificationCenter.post(name: UIApplication.didEnterBackgroundNotification, object: nil)
+        }
+
+        #expect(mockNotificationService._acceptConsentCalled == true)
+    }
+
+    @Test
+    func enterBackground_afterAgreeingThenCancelling_doesNotAcceptConsent() async throws {
+        let notificationCenter = NotificationCenter()
+        mockNotificationService._stubbededPermissionState = .denied
+        let viewModel = makeViewModel(notificationCenter: notificationCenter)
+
+        viewModel.allowNotificationsAction()
+        try await waitForTrue { viewModel.displayNotificationSettingsAlert }
+        viewModel.onSettingsAlertCancelAction()
+        withExtendedLifetime(viewModel) {
+            notificationCenter.post(name: UIApplication.didEnterBackgroundNotification, object: nil)
+        }
+
+        #expect(mockNotificationService._acceptConsentCalled == false)
+    }
+
+    @Test
+    func enterBackground_withoutAgreeing_doesNotAcceptConsent() {
+        let notificationCenter = NotificationCenter()
+        let viewModel = makeViewModel(notificationCenter: notificationCenter)
+
+        withExtendedLifetime(viewModel) {
+            notificationCenter.post(name: UIApplication.didEnterBackgroundNotification, object: nil)
+        }
+
+        #expect(mockNotificationService._acceptConsentCalled == false)
+    }
+
+    @Test
+    func enterForeground_afterLeavingApp_whenAuthorized_subscribesToCountry() async throws {
+        let notificationCenter = NotificationCenter()
+        mockNotificationService._stubbededPermissionState = .denied
+        mockTravelService._autoCallSubscribeCompletion = false
+        let viewModel = makeViewModel(notificationCenter: notificationCenter)
+
+        viewModel.allowNotificationsAction()
+        try await waitForTrue { viewModel.displayNotificationSettingsAlert }
+        notificationCenter.post(name: UIApplication.didEnterBackgroundNotification, object: nil)
+        mockNotificationService._stubbededPermissionState = .authorized
+        notificationCenter.post(name: UIApplication.willEnterForegroundNotification, object: nil)
+
+        try await waitForTrue { viewModel.viewState == .loading }
+
+        #expect(mockTravelService._subscribeToGroupsCalled == true)
+    }
+
     private func makeViewModel(
         saveAction: NotificationsRationaleSaveAction? = nil,
         declineBehaviour: NotificationsRationaleDeclineBehaviour = .saveDisabled,
@@ -355,7 +416,8 @@ struct NotificationsRationaleViewModelTests {
         openExternalURLAction: @escaping (URL) -> Void = { _ in },
         dismissAfterSuccessAction: @escaping () -> Void = { },
         dismissAfterErrorAction: @escaping () -> Void = { },
-        origin: NotificationsRationaleOrigin = .FOLLOW
+        origin: NotificationsRationaleOrigin = .FOLLOW,
+        notificationCenter: NotificationCenter = .default
     ) -> NotificationsRationaleViewModel {
         let finalSaveAction = saveAction ?? { enabled, completion in
             self.mockTravelService.subscribeToCountry(
@@ -369,6 +431,7 @@ struct NotificationsRationaleViewModelTests {
             notificationService: mockNotificationService,
             analyticsService: mockAnalyticsService,
             urlOpener: mockURLOpener,
+            notificationCenter: notificationCenter,
             showImage: true,
             saveAction: finalSaveAction,
             declineBehaviour: declineBehaviour,
