@@ -118,7 +118,10 @@ final class VehicleCheckCoordinator: BaseCoordinator {
             }
         } else {
             newSheet.presentationController?.delegate = self
-            guard let presenter = rootNavCon.presentingViewController else { return }
+            guard let presenter = rootNavCon.presentingViewController else {
+                assertionFailure("rootNavCon has no presentingViewController — cannot present results")
+                return
+            }
             rootNavCon.dismiss(animated: false) { [weak self] in
                 presenter.present(newSheet, animated: true)
                 self?.presentedSheet = newSheet
