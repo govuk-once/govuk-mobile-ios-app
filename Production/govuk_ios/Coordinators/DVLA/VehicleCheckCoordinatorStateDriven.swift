@@ -65,11 +65,11 @@ final class VehicleCheckCoordinator: BaseCoordinator {
     // MARK: - UI Presentation Logic
 
     private func topmostPresentedVC() -> UIViewController? {
-        var viewController: UIViewController? = bottomSheet
-        while let next = viewController?.presentedViewController {
-            viewController = next
+        var current: UIViewController? = bottomSheet
+        while let next = current?.presentedViewController {
+            current = next
         }
-        return viewController
+        return current
     }
 
     private func showInputView(isNested: Bool) {
