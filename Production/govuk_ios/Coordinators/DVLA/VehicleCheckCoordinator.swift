@@ -8,6 +8,8 @@ final class VehicleCheckCoordinator: BaseCoordinator {
     private let configService: AppConfigServiceInterface
     private let urlOpener: URLOpener
 
+    private weak var frontMostViewController: UIViewController?
+
     private enum State {
         case inputRegistration
         case loading
@@ -105,7 +107,11 @@ extension VehicleCheckCoordinator {
         let viewController = createInputViewController()
         root.modalTransitionStyle = .crossDissolve
 
+        if let frontMostViewController = frontMostViewController {
+            frontMostViewController.topController.present(viewController, animated: true)
+        } else {
             set(viewController)
+        }
     }
 
     private func createInputViewController() -> UIViewController {
@@ -142,6 +148,10 @@ extension VehicleCheckCoordinator {
             results: results,
             closeAction: { [weak self] in
                 guard let self else { return }
+                // KKTODO: do we need frontMostViewController?
+                //          do we have it referenced somewhere in
+                //          this coordinator or BaseCoordinator??
+                self.frontMostViewController?.dismiss(animated: true)
 
                 // following failed to dismiss the search results:
 //                self.root.popViewController(animated: true)
@@ -192,6 +202,8 @@ extension VehicleCheckCoordinator {
         // 5. Use the native UIKit completion handler (No Task.sleep needed!)
         root.dismiss(animated: false) { [weak self] in
             guard let self else { return }
+            // This block runs natively the exact moment the dismissal finishes.
+            self.frontMostViewController = presentingViewController
             presentingViewController.present(navController, animated: true)
         }
     }
