@@ -522,7 +522,6 @@ class ViewControllerBuilder {
         let viewController = HostingViewController(
             rootView: containerView
         )
-        viewController.navigationItem.rightBarButtonItem = viewModel.rightBarButtonItem
         viewController.isModalInPresentation = true
         return viewController
     }
@@ -546,7 +545,6 @@ class ViewControllerBuilder {
             rootView: containerView,
             navigationBarTintColor: .govUK.text.linkSecondary
         )
-        viewController.navigationItem.rightBarButtonItem = viewModel.rightBarButtonItem
         viewController.isModalInPresentation = true
         return viewController
     }
@@ -861,40 +859,25 @@ class ViewControllerBuilder {
         return viewController
     }
 
-    func countryList(
-        travelService: TravelServiceInterface,
-        analyticsService: AnalyticsServiceInterface,
-        notificationService: NotificationServiceInterface,
-        dismissAction: @escaping (Bool) -> Void,
-        openURLAction: @escaping (URL) -> Void
-    ) -> UIViewController {
-        let viewModel = CountryListViewModel(
-            travelService: travelService,
-            analyticsService: analyticsService,
-            notificationService: notificationService,
-            urlOpener: UIApplication.shared,
-            dismissAction: dismissAction,
-            openURLAction: openURLAction
-        )
-        let view = CountryListView(viewModel: viewModel)
-        let viewController = HostingViewController(
-            rootView: view
-        )
-        return viewController
-    }
-
+    // swiftlint:disable:next function_parameter_count
     func editCountries(
         travelService: TravelServiceInterface,
         analyticsService: AnalyticsServiceInterface,
         notificationService: NotificationServiceInterface,
+        deviceInfo: DeviceInformationProviderInterface,
+        versionProvider: AppVersionProvider,
         openURLAction: @escaping (URL) -> Void
     ) -> UIViewController {
+        let feedbackURL = deviceInfo.helpAndFeedbackURL(versionProvider: versionProvider)
+
         let viewModel = EditCountriesViewModel(
             travelService: travelService,
             analyticsService: analyticsService,
             notificationService: notificationService,
             urlOpener: UIApplication.shared,
-            openURLAction: openURLAction
+            openCountryListFooterAction: {
+                openURLAction(feedbackURL)
+            }
         )
         let view = EditCountriesView(viewModel: viewModel)
         let viewController = HostingViewController(
@@ -902,6 +885,26 @@ class ViewControllerBuilder {
             )
         viewController.title = viewModel.title
         viewController.navigationItem.largeTitleDisplayMode = .always
+        return viewController
+    }
+
+    func vehicleCheckResult(
+        vehicle: VehicleEnquiryResponse.Vehicle,
+        analyticsService: AnalyticsServiceInterface,
+        configService: AppConfigServiceInterface,
+        actions: VehicleCheckResultActions
+    ) -> UIViewController {
+        let viewModel = VehicleCheckResultViewModel(
+            vehicle: vehicle,
+            analyticsService: analyticsService,
+            configService: configService,
+            actions: actions
+        )
+        let view = VehicleCheckResultView(viewModel: viewModel)
+        let viewController = HostingViewController(
+            rootView: view
+        )
+        viewController.shouldAutoFocusVoiceover = false
         return viewController
     }
 }

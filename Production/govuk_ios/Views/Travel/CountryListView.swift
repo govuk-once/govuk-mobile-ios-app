@@ -8,11 +8,13 @@ struct CountryListView: View {
     @Environment(\.sizeCategory) var sizeCategory
 
     private let horizontalPadding: CGFloat = 16
+    private let footerPadding: CGFloat = 16
     private let searchBarHorizontalPadding: CGFloat = 14
     private let searchBarBottomPadding: CGFloat = 0
     private let defaultPadding: CGFloat = 10
     private let contentMarginsPadding: CGFloat = 10
     private let loadedSearchBarBasePadding: CGFloat = 60
+    private let footerLinkText = String(localized: .Travel.countryListFooterLink)
 
     init(viewModel: CountryListViewModel) {
         _viewModel = StateObject(wrappedValue: viewModel)
@@ -48,10 +50,13 @@ struct CountryListView: View {
             .overlay(alignment: searchBarAlignment) {
                 switch viewModel.viewState {
                 case .loaded, .empty:
-                    SearchBarView(text: $viewModel.searchText)
-                        .padding(.horizontal, searchBarHorizontalPadding)
-                        .padding(.bottom, searchBarBottomPadding)
-                        .background(.clear)
+                    SearchBarView(
+                        text: $viewModel.searchText,
+                        onSearchSubmitted: viewModel.onSearchSubmitted
+                    )
+                    .padding(.horizontal, searchBarHorizontalPadding)
+                    .padding(.bottom, searchBarBottomPadding)
+                    .background(.clear)
                 default:
                     EmptyView()
                 }
@@ -75,13 +80,23 @@ struct CountryListView: View {
             } message: { country in
                 alertMessage(for: country)
             }
-            .sheet(isPresented: $viewModel.showTravelAlertsPermission) {
-                if let permissionViewModel = viewModel.createPermissionViewModel() {
-                    NavigationStack {
-                        TravelAlertsPermissionView(viewModel: permissionViewModel)
-                    }
-                }
+            .sheet(
+                isPresented: $viewModel.showNotificationsRationale,
+                onDismiss: { viewModel.resetNotificationsRationaleFlow() },
+                content: { rationaleSheetContent }
+            )
+    }
+
+    @ViewBuilder
+    private var rationaleSheetContent: some View {
+        if let rationaleViewModel = viewModel.createNotificationsRationaleViewModel() {
+            NavigationStack {
+                NotificationsRationaleView(viewModel: rationaleViewModel)
+                    .interactiveDismissDisabled(
+                        rationaleViewModel.viewState == .loading
+                    )
             }
+        }
     }
 
     @ViewBuilder
@@ -95,9 +110,13 @@ struct CountryListView: View {
                     modifiedScrollView(geometry: geometry)
                 }
             case .empty:
-                FollowCountryEmptyView(
+                CountryListEmptyView(
+                    footerLinkText: footerLinkText,
                     searchBarAlignment: searchBarAlignment,
-                    searchBarPadding: searchBarPadding
+                    searchBarPadding: searchBarPadding,
+                    onFooterTap: {
+                        viewModel.openFooterLink(text: footerLinkText)
+                    }
                 )
             case .error:
                 ErrorView(viewModel: createErrorViewModel())
@@ -108,12 +127,17 @@ struct CountryListView: View {
 
     @ViewBuilder
     private func alertActions(for country: Country) -> some View {
-        Button(String(localized: .Travel.countryListAlertContinue)) {
-            viewModel.onGetNotificationAlertTap(country)
+        let continueText = String(localized: .Travel.countryListAlertContinue)
+        let notNowText = String(localized: .Travel.countryListAlertNotNow)
+        Button(continueText) {
+            viewModel.onGetNotificationAlertTap(country, text: continueText)
         }
+        .keyboardShortcut(.defaultAction)
+
         Button(String(localized: .Travel.countryListAlertNotNow)) {
-            viewModel.onNotNowAlertTap(country)
+            viewModel.onNotNowAlertTap(country, text: notNowText)
         }
+
         Button(String(localized: .Travel.countryListAlertCancel), role: .cancel) {
             viewModel.selectedCountry = nil
         }
@@ -130,7 +154,7 @@ struct CountryListView: View {
         ToolbarItem(placement: ToolbarItemPlacement.cancellationAction) {
             Button {
                 viewModel.selectedCountry = nil
-                viewModel.dismissAction(false)
+                viewModel.dismiss(false)
             } label: {
                 Image(systemName: "xmark")
                     .foregroundStyle(Color(uiColor: .govUK.text.primary))
@@ -169,6 +193,13 @@ struct CountryListView: View {
                     sectionBackgroundColor: .govUK.fills.surfaceListAlt
                 )
 
+                CountryListFooterView(
+                    linkText: footerLinkText,
+                    action: {
+                        viewModel.openFooterLink(text: footerLinkText)
+                    },
+                )
+
                 if searchBarAlignment == .bottom {
                     Spacer()
                         .frame(height: searchBarPadding)
@@ -178,9 +209,11 @@ struct CountryListView: View {
     }
 }
 
-private struct FollowCountryEmptyView: View {
+private struct CountryListEmptyView: View {
+    let footerLinkText: String
     var searchBarAlignment: Alignment
     var searchBarPadding: CGFloat
+    var onFooterTap: () -> Void
 
     var body: some View {
         VStack(spacing: 0) {
@@ -195,8 +228,42 @@ private struct FollowCountryEmptyView: View {
                 .foregroundStyle(Color(GOVUKColors.text.primary))
                 .padding(.top, 6)
 
+            CountryListFooterView(
+                linkText: footerLinkText,
+                action: {
+                onFooterTap()
+            })
+
             Spacer()
         }.frame(maxWidth: .infinity)
+    }
+}
+
+private struct CountryListFooterView: View {
+    let linkText: String
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            VStack(alignment: .center, spacing: 0) {
+                Text(String(localized: .Travel.countryListFooterMessage))
+                    .font(Font.govUK.caption1)
+                    .foregroundColor(Color(UIColor.govUK.text.secondary))
+                    .multilineTextAlignment(.center)
+                Text(linkText)
+                    .font(Font.govUK.caption1)
+                    .foregroundStyle(Color(UIColor.govUK.text.linkSecondary))
+                    .underline()
+                    .multilineTextAlignment(.center)
+            }
+            .frame(maxWidth: .infinity)
+            .fixedSize(horizontal: false, vertical: true)
+            .padding(.vertical, 16)
+            .padding(.horizontal, 16)
+        }
+        .accessibilityElement(children: .combine)
+        .accessibilityRemoveTraits(.isButton)
+        .accessibilityAddTraits(.isLink)
     }
 }
 

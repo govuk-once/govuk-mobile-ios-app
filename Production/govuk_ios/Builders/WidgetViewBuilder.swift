@@ -26,17 +26,19 @@ class WidgetViewBuilder {
         analyticsService: AnalyticsServiceInterface,
         travelService: TravelServiceInterface,
         notificationService: NotificationServiceInterface,
-        linkAction: @escaping () -> Void,
+        deviceInfo: DeviceInformationProviderInterface,
+        versionProvider: AppVersionProvider,
         dismissAction: @escaping () -> Void,
         editAction: @escaping () -> Void,
         openURLAction: @escaping (URL) -> Void
     ) -> AnyView? {
+        let feedbackURL = deviceInfo.helpAndFeedbackURL(versionProvider: versionProvider)
         let viewModel = TravelAlertsWidgetViewModel(
             travelService: travelService,
             analyticsService: analyticsService,
             notificationService: notificationService,
+            feedbackURL: feedbackURL,
             urlOpener: UIApplication.shared,
-            linkAction: linkAction,
             dismissAction: dismissAction,
             editAction: editAction,
             openURLAction: openURLAction

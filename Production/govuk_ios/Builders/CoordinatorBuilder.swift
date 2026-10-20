@@ -84,7 +84,8 @@ class CoordinatorBuilder {
             activityService: container.activityService.resolve(),
             localAuthorityService: container.localAuthorityService.resolve(),
             userDefaultsService: container.userDefaultsService.resolve(),
-            chatService: container.chatService.resolve()
+            chatService: container.chatService.resolve(),
+            versionProvider: Bundle.main
         )
     }
 
@@ -260,10 +261,11 @@ class CoordinatorBuilder {
                 travelService: container.travelService.resolve(),
                 configService: container.appConfigService.resolve(),
                 notificationService: container.notificationService.resolve(),
+                deviceInformationProvider: DeviceInformationProvider(),
+                versionProvider: Bundle.main,
                 coordinatorBuilder: self,
                 widgetViewBuilder: WidgetViewBuilder(),
-                viewControllerBuilder: ViewControllerBuilder(),
-                urlOpener: UIApplication.shared
+                viewControllerBuilder: ViewControllerBuilder()
             )
         } else {
             return nil
@@ -612,20 +614,15 @@ class CoordinatorBuilder {
         )
     }
 
-    func countryList(
-        navigationController: UINavigationController,
-        completion: @escaping (Bool) -> Void
+    func vehicleCheck(
+        navigationController: UINavigationController
     ) -> BaseCoordinator {
-        CountryListCoordinator(
+        VehicleCheckCoordinator(
             navigationController: navigationController,
-            coordinatorBuilder: self,
             viewControllerBuilder: ViewControllerBuilder(),
             analyticsService: container.analyticsService.resolve(),
-            travelService: container.travelService.resolve(),
-            notificationService: container.notificationService.resolve(),
-            userService: container.userService.resolve(),
-            urlOpener: UIApplication.shared,
-            completion: completion
+            configService: container.appConfigService.resolve(),
+            urlOpener: UIApplication.shared
         )
     }
 }

@@ -12,7 +12,7 @@ final class CountryOptionsBottomSheetSnapshotTests: SnapshotTestCase {
     func test_notificationsDisabled_light_rendersCorrectly() {
         let view = CountryOptionsBottomSheet(
             country: Self.testCountry,
-            notificationsEnabled: .constant(false),
+            notificationsEnabled: false,
             isTogglingNotifications: false,
             isUnfollowing: false,
             onNotificationsToggle: { _ in },
@@ -31,7 +31,7 @@ final class CountryOptionsBottomSheetSnapshotTests: SnapshotTestCase {
     func test_notificationsDisabled_dark_rendersCorrectly() {
         let view = CountryOptionsBottomSheet(
             country: Self.testCountry,
-            notificationsEnabled: .constant(false),
+            notificationsEnabled: false,
             isTogglingNotifications: false,
             isUnfollowing: false,
             onNotificationsToggle: { _ in },
@@ -50,7 +50,7 @@ final class CountryOptionsBottomSheetSnapshotTests: SnapshotTestCase {
     func test_notificationsEnabled_light_rendersCorrectly() {
         let view = CountryOptionsBottomSheet(
             country: Self.testCountry,
-            notificationsEnabled: .constant(true),
+            notificationsEnabled: true,
             isTogglingNotifications: false,
             isUnfollowing: false,
             onNotificationsToggle: { _ in },
@@ -69,7 +69,7 @@ final class CountryOptionsBottomSheetSnapshotTests: SnapshotTestCase {
     func test_notificationsEnabled_dark_rendersCorrectly() {
         let view = CountryOptionsBottomSheet(
             country: Self.testCountry,
-            notificationsEnabled: .constant(true),
+            notificationsEnabled: true,
             isTogglingNotifications: false,
             isUnfollowing: false,
             onNotificationsToggle: { _ in },
@@ -88,7 +88,7 @@ final class CountryOptionsBottomSheetSnapshotTests: SnapshotTestCase {
     func test_unfollowing_light_rendersCorrectly() {
         let view = CountryOptionsBottomSheet(
             country: Self.testCountry,
-            notificationsEnabled: .constant(true),
+            notificationsEnabled: true,
             isTogglingNotifications: false,
             isUnfollowing: true,
             onNotificationsToggle: { _ in },
@@ -107,7 +107,7 @@ final class CountryOptionsBottomSheetSnapshotTests: SnapshotTestCase {
     func test_unfollowing_dark_rendersCorrectly() {
         let view = CountryOptionsBottomSheet(
             country: Self.testCountry,
-            notificationsEnabled: .constant(true),
+            notificationsEnabled: true,
             isTogglingNotifications: false,
             isUnfollowing: true,
             onNotificationsToggle: { _ in },
@@ -132,7 +132,7 @@ final class CountryOptionsBottomSheetSnapshotTests: SnapshotTestCase {
         )
         let view = CountryOptionsBottomSheet(
             country: longNameCountry,
-            notificationsEnabled: .constant(false),
+            notificationsEnabled: false,
             isTogglingNotifications: false,
             isUnfollowing: false,
             onNotificationsToggle: { _ in },
@@ -157,7 +157,7 @@ final class CountryOptionsBottomSheetSnapshotTests: SnapshotTestCase {
         )
         let view = CountryOptionsBottomSheet(
             country: longNameCountry,
-            notificationsEnabled: .constant(false),
+            notificationsEnabled: false,
             isTogglingNotifications: false,
             isUnfollowing: false,
             onNotificationsToggle: { _ in },

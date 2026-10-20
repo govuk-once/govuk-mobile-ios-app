@@ -19,9 +19,12 @@ struct TravelAlertsWidgetView: View {
                         }
                     )
                 case .empty:
+                    let title = String(localized: .Travel.followCountryWidgetTitle)
                     TravelAlertsEmptyView(
+                        title: title,
+                        description: String(localized: .Travel.followCountryWidgetDescription),
                         onTapAction: {
-                            viewModel.openCountryList()
+                            viewModel.onFollowCountryTap(text: title)
                         }
                     )
                 case .error:
@@ -61,13 +64,15 @@ struct TravelAlertsWidgetView: View {
 }
 
 private struct TravelAlertsEmptyView: View {
+    let title: String
+    let description: String
     let onTapAction: () -> Void
 
     var body: some View {
         IconActionCardView(
             viewModel: IconActionCardViewModel(
                 iconName: "plus.circle",
-                title: String(localized: .Travel.followCountryWidgetTitle),
+                title: title,
                 description: String(localized: .Travel.followCountryWidgetDescription),
                 action: onTapAction,
                 contentPadding: 24,
@@ -105,6 +110,7 @@ private struct TravelAlertsLoadingView: View {
             ProgressView()
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 86)
+                .accessibilityLabel(.Travel.travelAlertsLoading)
         }
         .background(Color(UIColor.govUK.fills.surfaceList))
         .clipShape(RoundedRectangle(cornerRadius: 10))

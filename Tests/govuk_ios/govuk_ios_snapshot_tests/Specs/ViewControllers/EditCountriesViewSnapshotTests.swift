@@ -133,7 +133,7 @@ final class EditCountriesViewSnapshotTests: SnapshotTestCase {
             analyticsService: analyticsService,
             notificationService: notificationService,
             urlOpener: MockURLOpener(),
-            openURLAction: { _ in /*NO-OP*/ }
+            openCountryListFooterAction: { /*NO-OP*/ }
         )
     }
 

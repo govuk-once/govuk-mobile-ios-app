@@ -11,6 +11,10 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
         case error
     }
 
+    enum TravelAlertWidgetAnalyticsKeys {
+        static let section = "Travel Abroad Notifications"
+    }
+
     // Drives .sheet(isPresented:) in the widget view
     @Published var isShowingList = false
     @Published private(set) var viewState: ViewState = .loading
@@ -19,8 +23,8 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
     private let travelService: TravelServiceInterface
     private let analyticsService: AnalyticsServiceInterface
     private let notificationService: NotificationServiceInterface
+    private let feedbackURL: URL
     private let urlOpener: URLOpener
-    private let linkAction: () -> Void
     private let dismissAction: () -> Void
     private let editAction: () -> Void
     private let openURLAction: (URL) -> Void
@@ -29,8 +33,8 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
         travelService: TravelServiceInterface,
         analyticsService: AnalyticsServiceInterface,
         notificationService: NotificationServiceInterface,
+        feedbackURL: URL,
         urlOpener: URLOpener,
-        linkAction: @escaping () -> Void,
         dismissAction: @escaping () -> Void,
         editAction: @escaping () -> Void,
         openURLAction: @escaping (URL) -> Void
@@ -38,27 +42,35 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
         self.travelService = travelService
         self.analyticsService = analyticsService
         self.notificationService = notificationService
+        self.feedbackURL = feedbackURL
         self.urlOpener = urlOpener
-        self.linkAction = linkAction
         self.dismissAction = dismissAction
         self.openURLAction = openURLAction
         self.editAction = editAction
     }
 
     lazy var countryListViewModel: CountryListViewModel = {
-        CountryListViewModel(
+        return CountryListViewModel(
             travelService: travelService,
             analyticsService: analyticsService,
             notificationService: notificationService,
             urlOpener: urlOpener,
-            dismissAction: { [weak self] forceRefresh in
-                self?.didDismissList(forceRefresh: forceRefresh)
-            },
+            actions: CountryListViewModel.Actions(
+                dismissAction: { [weak self] forceRefresh in
+                    self?.didDismissList(forceRefresh: forceRefresh)
+                },
+                openFooterLinkAction: { [weak self] in
+                    guard let self = self else { return }
+                    self.openURLAction(self.feedbackURL)
+                },
+                openExternalURLAction: { [weak self] url in
+                    guard let self = self else { return }
+                    self.urlOpener.openIfPossible(url)
+                }
+            ),
+            footerLinkURLString: Constants.API.helpAndFeedbackUrl.absoluteString,
             errorCallback: { [weak self] in
                 self?.isShowingError = true
-            },
-            openURLAction: { [weak self] url in
-                self?.openURLAction(url)
             }
         )
     }()
@@ -99,7 +111,8 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
         let rows = groups.compactMap { group -> LinkRow? in
             guard let country = countryMap[group.group.lowercased()] else { return nil }
 
-            let url = URL(string: "govuk://app.gov.uk/web?url=https://www.gov.uk/foreign-travel-advice/\(country.slug.lowercased())")
+            let travelAdviceURLString = "\(Constants.API.defaultTravelAdviceBaseUrlString)\(country.slug.lowercased())"
+            let url = URL(string: "govuk://app.gov.uk/web?url=\(travelAdviceURLString)")
 
             return LinkRow(
                 id: group.group,
@@ -109,8 +122,18 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
                 )),
                 showLinkImage: false,
                 action: { [weak self] in
-                    guard let url else { return }
-                    self?.openURLAction(url)
+                    guard let self, let url else { return }
+                    self.analyticsService.track(
+                        event: AppEvent.widgetNavigation(
+                            text: country.name,
+                            external: true,
+                            params: [
+                                "section": TravelAlertWidgetAnalyticsKeys.section,
+                                "url": travelAdviceURLString
+                            ]
+                        )
+                    )
+                    self.openURLAction(url)
                 }
             )
         }
@@ -129,11 +152,11 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
         }
     }
 
-    func openCountryList() {
+    func onFollowCountryTap(text: String) {
         let event = AppEvent.widgetNavigation(
-            text: "Add your countries",
+            text: text,
             external: false,
-            params: ["section": "Travel Abroad Notifications"]
+            params: ["section": TravelAlertWidgetAnalyticsKeys.section]
         )
         analyticsService.track(event: event)
         isShowingList = true

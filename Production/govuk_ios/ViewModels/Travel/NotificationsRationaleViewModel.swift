@@ -3,22 +3,42 @@ import UIKit
 import GovKit
 import GovKitUI
 
-class TravelAlertsPermissionViewModel: ObservableObject {
+typealias NotificationsRationaleSaveAction = (
+    _ notificationsEnabled: Bool,
+    _ completion: @escaping (Result<Void, TravelError>) -> Void
+) -> Void
+
+enum NotificationsRationaleDeclineBehaviour {
+    case saveDisabled
+    case report(() -> Void)
+}
+
+enum NotificationsRationaleOrigin: String {
+    case FOLLOW
+    case EDIT
+}
+
+class NotificationsRationaleViewModel: ObservableObject {
     enum ViewState {
         case idle
         case loading
     }
 
+    private enum NotificationRationaleAnalyticsKeys {
+        static let section = "Travel Abroad Notifications"
+    }
+
     @Published private(set) var viewState: ViewState = .idle
     @Published var displayNotificationSettingsAlert: Bool = false
 
-    private let travelService: TravelServiceInterface
     private let notificationService: NotificationServiceInterface
     private let urlOpener: URLOpener
     private let notificationCenter: NotificationCenter
+    private let saveAction: NotificationsRationaleSaveAction
+    private let declineBehaviour: NotificationsRationaleDeclineBehaviour
     let analyticsService: AnalyticsServiceInterface
     let dismissSheetAction: () -> Void
-    let openURLAction: (URL) -> Void
+    let openExternalURLAction: (URL) -> Void
     let showImage: Bool
 
     let title: String = String(localized: .Travel.travelAlertPermissionTitle)
@@ -43,35 +63,45 @@ class TravelAlertsPermissionViewModel: ObservableObject {
         String(localized: .Settings.notificationAlertPrimaryButtonTitle)
     }
 
-    private var countryToProcess: Country?
+    var notificationAlertSecondaryButtonTitle: String {
+        String(localized: .Travel.countryListAlertCancel)
+    }
+
     private var dismissAfterSuccessAction: (() -> Void)?
     private var dismissAfterErrorAction: (() -> Void)?
     private var isPendingPermissionCheck: Bool = false
+    private var hasAgreedPendingPermission: Bool = false
+    private var hasTrackedView = false
+    private let origin: NotificationsRationaleOrigin
 
     init(
-        travelService: TravelServiceInterface,
         notificationService: NotificationServiceInterface,
         analyticsService: AnalyticsServiceInterface,
         urlOpener: URLOpener,
+        notificationCenter: NotificationCenter = .default,
         showImage: Bool = true,
-        country: Country,
+        saveAction: @escaping NotificationsRationaleSaveAction,
+        declineBehaviour: NotificationsRationaleDeclineBehaviour,
         dismissSheetAction: @escaping () -> Void,
-        openURLAction: @escaping (URL) -> Void,
+        openExternalURLAction: @escaping (URL) -> Void,
         dismissAfterSuccessAction: @escaping () -> Void,
-        dismissAfterErrorAction: @escaping () -> Void
+        dismissAfterErrorAction: @escaping () -> Void,
+        origin: NotificationsRationaleOrigin = .FOLLOW
     ) {
-        self.travelService = travelService
         self.notificationService = notificationService
         self.analyticsService = analyticsService
         self.urlOpener = urlOpener
-        self.notificationCenter = NotificationCenter.default
+        self.notificationCenter = notificationCenter
         self.showImage = showImage
-        self.countryToProcess = country
+        self.saveAction = saveAction
+        self.declineBehaviour = declineBehaviour
         self.dismissSheetAction = dismissSheetAction
-        self.openURLAction = openURLAction
+        self.openExternalURLAction = openExternalURLAction
         self.dismissAfterSuccessAction = dismissAfterSuccessAction
         self.dismissAfterErrorAction = dismissAfterErrorAction
+        self.origin = origin
         observeAppMoveToForeground()
+        observeAppMoveToBackground()
     }
 
     var primaryButtonViewModel: GOVUKButton.ButtonViewModel {
@@ -94,14 +124,34 @@ class TravelAlertsPermissionViewModel: ObservableObject {
         )
     }
 
+    func viewDidAppear() {
+        guard !hasTrackedView else { return }
+        hasTrackedView = true
+        analyticsService.track(
+            event: AppEvent.notificationRationaleView(
+                origin: origin.rawValue
+            )
+        )
+    }
+
+
     func allowNotificationsAction() {
+        analyticsService.track(
+            event: AppEvent.buttonNavigation(
+                text: primaryButtonTitle,
+                external: false,
+                section: NotificationRationaleAnalyticsKeys.section
+            )
+        )
         Task {
             let permissionState = await notificationService.permissionState
             await MainActor.run {
                 switch permissionState {
                 case .authorized:
+                    self.notificationService.acceptConsent()
                     self.subscribeToCountry(notificationsEnabled: true)
                 case .denied:
+                    self.hasAgreedPendingPermission = true
                     self.displayNotificationSettingsAlert = true
                 case .notDetermined:
                     self.requestNotificationPermission()
@@ -112,47 +162,84 @@ class TravelAlertsPermissionViewModel: ObservableObject {
 
     private func requestNotificationPermission() {
         notificationService.requestPermissions { [weak self] granted in
-            self?.subscribeToCountry(notificationsEnabled: granted)
+            Task { @MainActor in
+                if granted {
+                    self?.subscribeToCountry(notificationsEnabled: true)
+                } else {
+                    self?.declineNotifications()
+                }
+            }
         }
     }
 
     func notNowAction() {
-        subscribeToCountry(notificationsEnabled: false)
+        analyticsService.track(
+            event: AppEvent.buttonNavigation(
+                text: secondaryButtonTitle,
+                external: false,
+                section: NotificationRationaleAnalyticsKeys.section
+            )
+        )
+        declineNotifications()
+    }
+
+    private func declineNotifications() {
+        hasAgreedPendingPermission = false
+        switch declineBehaviour {
+        case .saveDisabled:
+            subscribeToCountry(notificationsEnabled: false)
+        case .report(let onDeclined):
+            onDeclined()
+        }
     }
 
     private func subscribeToCountry(notificationsEnabled: Bool) {
-        guard let country = countryToProcess else { return }
         viewState = .loading
-
-        travelService.subscribeToCountry(
-            slug: country.slug,
-            notificationsEnabled: notificationsEnabled,
-            completion: { [weak self] result in
-                Task { @MainActor in
-                    switch result {
-                    case .success:
-                        self?.viewState = .idle
-                        self?.dismissAfterSuccessAction?()
-                    case .failure:
-                        self?.dismissAfterErrorAction?()
-                    }
+        saveAction(notificationsEnabled) { [weak self] result in
+            Task { @MainActor in
+                switch result {
+                case .success:
+                    self?.viewState = .idle
+                    self?.dismissAfterSuccessAction?()
+                case .failure:
+                    self?.dismissAfterErrorAction?()
                 }
             }
-        )
+        }
     }
 
     func openPrivacyPolicy() {
+        analyticsService.track(
+            event: AppEvent.buttonNavigation(
+                text: privacyPolicyLinkTitle,
+                external: false,
+                section: NotificationRationaleAnalyticsKeys.section
+            )
+        )
         let privacyPolicyURL = URL(string: Constants.API.privacyPolicyUrl.absoluteString)
         if let url = privacyPolicyURL {
-            openURLAction(url)
+            openExternalURLAction(url)
         }
     }
 
-    func handleNotificationAlertAction() {
+    func onSettingsAlertContinueAction() {
+        analyticsService.track(
+            event: AppEvent.notificationRationaleSettingsContinue(
+                origin: origin.rawValue
+            )
+        )
         if urlOpener.openNotificationSettings() {
-            notificationService.toggleHasGivenConsent()
             isPendingPermissionCheck = true
         }
+    }
+
+    func onSettingsAlertCancelAction() {
+        analyticsService.track(
+            event: AppEvent.notificationRationaleSettingsCancel(
+                origin: origin.rawValue
+            )
+        )
+        declineNotifications()
     }
 
     private func observeAppMoveToForeground() {
@@ -164,6 +251,25 @@ class TravelAlertsPermissionViewModel: ObservableObject {
         )
     }
 
+    private func observeAppMoveToBackground() {
+        notificationCenter.addObserver(
+            self,
+            selector: #selector(acceptConsentOnLeavingApp),
+            name: UIApplication.didEnterBackgroundNotification,
+            object: nil
+        )
+    }
+
+    // The user has agreed but permission is denied, so they must leave the app to
+    // enable it. Record consent before the app's foreground consent check runs on
+    // return, otherwise it treats the user as not having consented.
+    @objc
+    private func acceptConsentOnLeavingApp() {
+        guard hasAgreedPendingPermission else { return }
+        notificationService.acceptConsent()
+        isPendingPermissionCheck = true
+    }
+
     @objc
     private func retryPermissionCheckAfterSettings() {
         guard isPendingPermissionCheck else { return }
@@ -173,11 +279,14 @@ class TravelAlertsPermissionViewModel: ObservableObject {
             await MainActor.run {
                 switch permissionState {
                 case .authorized:
+                    self.notificationService.acceptConsent()
                     self.isPendingPermissionCheck = false
+                    self.hasAgreedPendingPermission = false
                     self.displayNotificationSettingsAlert = false
                     self.subscribeToCountry(notificationsEnabled: true)
                 case .denied, .notDetermined:
                     self.isPendingPermissionCheck = false
+                    self.hasAgreedPendingPermission = false
                     self.displayNotificationSettingsAlert = false
                 }
             }
