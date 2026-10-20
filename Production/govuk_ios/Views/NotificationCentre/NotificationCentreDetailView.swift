@@ -27,7 +27,8 @@ struct NotificationCentreDetailContainerView: View {
                             onCancelDelete: {
                                 viewModel.onCancelDelete()
                             },
-                            showDeleteConfirmation: showConfirmation)
+                            showDeleteConfirmation: showConfirmation
+                        )
                     case .error:
                         NotificationCentreErrorView()
                     case .noInternet:
@@ -129,6 +130,7 @@ public struct NotificationCentreDetailLoadedView: View {
                     .font(Font.govUK.title1Bold)
                     .padding(.bottom, 16)
                     .foregroundStyle(Color(UIColor.govUK.text.primary))
+                    .accessibilityAddTraits(.isHeader)
 
 
                 Markdown(
