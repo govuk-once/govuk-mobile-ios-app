@@ -158,13 +158,18 @@ final class VehicleCheckCoordinator: BaseCoordinator {
         }
     }
 
+    /// Peels off the topmost stacked sheet, or dismisses the entire flow if only one remains.
     private func dismissTopmostSheet() {
-        guard let topVC = topmostPresentedVC(),
-              topVC !== bottomSheet else {
+        guard let topVC = topmostPresentedVC() else {
             dismissFlow()
             return
         }
-        topVC.dismiss(animated: true)
+        let isOnlySheet = topVC === bottomSheet
+        if isOnlySheet {
+            dismissFlow()
+        } else {
+            topVC.dismiss(animated: true)
+        }
     }
 
     override func presentationControllerDidDismiss(
