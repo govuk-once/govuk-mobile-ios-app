@@ -4,6 +4,7 @@ import Combine
 import XCTest
 
 @testable import govuk_ios
+@testable import GovKit
 
 @Suite
 @MainActor
@@ -465,6 +466,106 @@ struct TravelAlertsWidgetViewModelTests {
         countryListVM.openFooterLink(text: "Follow countries for updates")
 
         #expect(openedURL == feedbackURL)
+    }
+
+    @Test
+    func rowAction_tracksWidgetNavigationEvent() async throws {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedGetGroupsResult = .success([
+            TravelGroup(namespace: "travel-advice", group: "france", subgroup: "travel-subgroup")
+        ])
+        mockTravelService._stubbedGetCountriesResult = .success([
+            Country(name: "France", slug: "france", rawLastUpdate: "2024-08-05", synonyms: [])
+        ])
+        let mockAnalyticsService = MockAnalyticsService()
+        let sut = TravelAlertsWidgetViewModel(
+            travelService: mockTravelService,
+            analyticsService: mockAnalyticsService,
+            notificationService: MockNotificationService(),
+            feedbackURL: URL(string: "https://example.com/feedback")!,
+            urlOpener: MockURLOpener(),
+            dismissAction: { /*Empty For Tests*/ },
+            editAction: { /*Empty For Tests*/ },
+            openURLAction: { _ in /*Empty For Tests*/ }
+        )
+
+        await sut.viewDidAppear()
+        try await waitForViewState(of: sut) { state in
+            if case .loaded = state { return true }
+            return false
+        }
+
+        guard case let .loaded(groupedList) = sut.viewState,
+              let row = groupedList.first?.rows.first as? LinkRow else {
+            Issue.record("no row"); return
+        }
+        row.action()
+
+        let navEvent = mockAnalyticsService._trackedEvents.first(where: {
+            $0.name == "Navigation" && $0.params?["type"] as? String == "Widget"
+        })
+        #expect(navEvent != nil)
+        #expect(navEvent?.params?["text"] as? String == "France")
+        #expect(navEvent?.params?["external"] as? Bool == true)
+        #expect(navEvent?.params?["url"] as? String == "https://www.gov.uk/foreign-travel-advice/france")
+        #expect(navEvent?.params?["section"] as? String == "Travel Abroad Notifications")
+    }
+
+    @Test
+    func rowAction_opensDeepLinkURL() async throws {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedGetGroupsResult = .success([
+            TravelGroup(namespace: "travel-advice", group: "france", subgroup: "travel-subgroup")
+        ])
+        mockTravelService._stubbedGetCountriesResult = .success([
+            Country(name: "France", slug: "france", rawLastUpdate: "2024-08-05", synonyms: [])
+        ])
+        var openedURL: URL?
+        let sut = TravelAlertsWidgetViewModel(
+            travelService: mockTravelService,
+            analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService(),
+            feedbackURL: URL(string: "https://example.com/feedback")!,
+            urlOpener: MockURLOpener(),
+            dismissAction: { /*Empty For Tests*/ },
+            editAction: { /*Empty For Tests*/ },
+            openURLAction: { url in openedURL = url }
+        )
+
+        await sut.viewDidAppear()
+        try await waitForViewState(of: sut) { state in
+            if case .loaded = state { return true }
+            return false
+        }
+
+        guard case let .loaded(groupedList) = sut.viewState,
+              let row = groupedList.first?.rows.first as? LinkRow else {
+            Issue.record("no row"); return
+        }
+        row.action()
+
+        #expect(openedURL == URL(string: "govuk://app.gov.uk/web?url=https://www.gov.uk/foreign-travel-advice/france"))
+    }
+
+    @Test
+    func countryListViewModel_openFooterLink_tracksStaticHelpAndFeedbackURL() {
+        let mockAnalyticsService = MockAnalyticsService()
+        let feedbackURL = URL(string: "https://example.com/feedback?app_version=1.0")!
+        let sut = TravelAlertsWidgetViewModel(
+            travelService: MockTravelService(),
+            analyticsService: mockAnalyticsService,
+            notificationService: MockNotificationService(),
+            feedbackURL: feedbackURL,
+            urlOpener: MockURLOpener(),
+            dismissAction: { /*Empty For Tests*/ },
+            editAction: { /*Empty For Tests*/ },
+            openURLAction: { _ in /*Empty For Tests*/ }
+        )
+
+        sut.countryListViewModel.openFooterLink(text: "Tell us the country you're looking for")
+
+        let event = mockAnalyticsService._trackedEvents.first(where: { $0.name == "Navigation" })
+        #expect(event?.params?["url"] as? String == "https://www.gov.uk/contact/govuk-app")
     }
 
     @Test

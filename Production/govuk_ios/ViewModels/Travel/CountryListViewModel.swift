@@ -116,12 +116,21 @@ class CountryListViewModel: ObservableObject {
         }
     }
 
-    @MainActor
-    private func handleCountrySelection(_ country: Country, notificationOptIn: Bool) async {
+    func onSearchSubmitted() {
+        guard !searchText.isEmpty else { return }
+        trackSearchInput(text: searchText)
+    }
+
+    func onCountryTap(_ country: Country) {
         trackToggleFunction(countryName: country.name)
         if !searchText.isEmpty {
             trackSearchInput(text: searchText)
         }
+        selectedCountry = country
+    }
+
+    @MainActor
+    private func handleCountrySelection(_ country: Country, notificationOptIn: Bool) async {
         if notificationOptIn {
             let needsPermissionFlow = await notificationService.needsTravelAlertsPermissionFlow
             if needsPermissionFlow {
@@ -169,7 +178,7 @@ class CountryListViewModel: ObservableObject {
                 id: country.slug,
                 title: country.name,
                 action: { [weak self] in
-                    self?.selectedCountry = country
+                    self?.onCountryTap(country)
                 }
             )
         }
@@ -229,7 +238,7 @@ extension CountryListViewModel {
 
     private func trackSearchInput(text: String) {
         let searchEvent = AppEvent.searchTerm(
-            term: text,
+            term: Redactor.pii.redact(text),
             type: .typed,
             section: CountryListAnalyticsKeys.searchSection
         )

@@ -424,6 +424,36 @@ struct NotificationsRationaleViewModelTests {
         #expect(mockNotificationService._acceptConsentCalled == false)
     }
 
+    // MARK: - T6: Fire view event once
+
+    @Test
+    func viewDidAppear_calledTwice_tracksOnce() {
+        let viewModel = makeViewModel()
+        viewModel.viewDidAppear()
+        viewModel.viewDidAppear()
+
+        let viewEvents = mockAnalyticsService._trackedEvents.filter {
+            $0.name == "notifications_rationale_view"
+        }
+        #expect(viewEvents.count == 1)
+    }
+
+    // MARK: - T8: Privacy notice external=false
+
+    @Test
+    func openPrivacyPolicy_tracksButtonNavigation() {
+        let viewModel = makeViewModel()
+        viewModel.openPrivacyPolicy()
+
+        let navEvent = mockAnalyticsService._trackedEvents.first(where: {
+            $0.name == "Navigation" && $0.params?["type"] as? String == "Button"
+        })
+        #expect(navEvent != nil)
+        #expect(navEvent?.params?["external"] as? Bool == false)
+        #expect(navEvent?.params?["text"] as? String == viewModel.privacyPolicyLinkTitle)
+        #expect(navEvent?.params?["section"] as? String == "Travel Abroad Notifications")
+    }
+
     @Test
     func enterForeground_afterLeavingApp_whenAuthorized_subscribesToCountry() async throws {
         let notificationCenter = NotificationCenter()

@@ -16,7 +16,6 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            feedbackURL: URL(string: "https://example.com/feedback")!,
             openCountryListFooterAction: {  /*Empty For Tests*/ }
         )
 
@@ -28,6 +27,25 @@ struct EditCountriesViewModelTests {
         #expect(sut.isShowingList == false)
         #expect(sut.countriesSection.isEmpty)
         #expect(sut.footerSection.isEmpty)
+    }
+
+    @Test
+    func countryListViewModel_openFooterLink_tracksStaticHelpAndFeedbackURL() {
+        let mockAnalyticsService = MockAnalyticsService()
+        var footerActionCalled = false
+        let sut = EditCountriesViewModel(
+            travelService: MockTravelService(),
+            analyticsService: mockAnalyticsService,
+            notificationService: MockNotificationService(),
+            urlOpener: MockURLOpener(),
+            openCountryListFooterAction: { footerActionCalled = true }
+        )
+
+        sut.countryListViewModel.openFooterLink(text: "Tell us the country you're looking for")
+
+        let event = mockAnalyticsService._trackedEvents.first(where: { $0.name == "Navigation" })
+        #expect(event?.params?["url"] as? String == "https://www.gov.uk/contact/govuk-app")
+        #expect(footerActionCalled)
     }
 
     @Test
@@ -45,7 +63,6 @@ struct EditCountriesViewModelTests {
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            feedbackURL: URL(string: "https://example.com/feedback")!,
             openCountryListFooterAction: {  /*Empty For Tests*/ }
         )
 
@@ -70,7 +87,6 @@ struct EditCountriesViewModelTests {
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            feedbackURL: URL(string: "https://example.com/feedback")!,
             openCountryListFooterAction: {  /*Empty For Tests*/ }
         )
 
@@ -97,7 +113,6 @@ struct EditCountriesViewModelTests {
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            feedbackURL: URL(string: "https://example.com/feedback")!,
             openCountryListFooterAction: {  /*Empty For Tests*/ }
         )
 
@@ -125,7 +140,6 @@ struct EditCountriesViewModelTests {
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            feedbackURL: URL(string: "https://example.com/feedback")!,
             openCountryListFooterAction: {  /*Empty For Tests*/ }
         )
 
@@ -149,7 +163,6 @@ struct EditCountriesViewModelTests {
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            feedbackURL: URL(string: "https://example.com/feedback")!,
             openCountryListFooterAction: {  /*Empty For Tests*/ }
         )
 
@@ -181,7 +194,6 @@ struct EditCountriesViewModelTests {
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            feedbackURL: URL(string: "https://example.com/feedback")!,
             openCountryListFooterAction: {  /*Empty For Tests*/ }
         )
 
@@ -207,7 +219,6 @@ struct EditCountriesViewModelTests {
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            feedbackURL: URL(string: "https://example.com/feedback")!,
             openCountryListFooterAction: {  /*Empty For Tests*/ }
         )
 
@@ -238,7 +249,6 @@ struct EditCountriesViewModelTests {
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            feedbackURL: URL(string: "https://example.com/feedback")!,
             openCountryListFooterAction: {  /*Empty For Tests*/ }
         )
 
@@ -269,7 +279,6 @@ struct EditCountriesViewModelTests {
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            feedbackURL: URL(string: "https://example.com/feedback")!,
             openCountryListFooterAction: {  /*Empty For Tests*/ }
         )
 
@@ -298,7 +307,6 @@ struct EditCountriesViewModelTests {
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            feedbackURL: URL(string: "https://example.com/feedback")!,
             openCountryListFooterAction: {  /*Empty For Tests*/ }
         )
 
@@ -318,7 +326,6 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            feedbackURL: URL(string: "https://example.com/feedback")!,
             openCountryListFooterAction: {  /*Empty For Tests*/ }
         )
 
@@ -334,7 +341,6 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            feedbackURL: URL(string: "https://example.com/feedback")!,
             openCountryListFooterAction: {  /*Empty For Tests*/ }
         )
 
@@ -352,7 +358,6 @@ struct EditCountriesViewModelTests {
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            feedbackURL: URL(string: "https://example.com/feedback")!,
             openCountryListFooterAction: {  /*Empty For Tests*/ }
         )
         let screen = EditCountriesView(viewModel: sut)
@@ -372,7 +377,6 @@ struct EditCountriesViewModelTests {
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            feedbackURL: URL(string: "https://example.com/feedback")!,
             openCountryListFooterAction: {  /*Empty For Tests*/ }
         )
 
@@ -394,7 +398,6 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            feedbackURL: URL(string: "https://example.com/feedback")!,
             openCountryListFooterAction: {  /*Empty For Tests*/ }
         )
 
@@ -421,7 +424,6 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            feedbackURL: URL(string: "https://example.com/feedback")!,
             openCountryListFooterAction: {  /*Empty For Tests*/ }
         )
 
@@ -446,7 +448,6 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            feedbackURL: URL(string: "https://example.com/feedback")!,
             openCountryListFooterAction: {  /*Empty For Tests*/ }
         )
 
@@ -482,7 +483,6 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            feedbackURL: URL(string: "https://example.com/feedback")!,
             openCountryListFooterAction: {  /*Empty For Tests*/ }
         )
 
@@ -510,7 +510,6 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            feedbackURL: URL(string: "https://example.com/feedback")!,
             openCountryListFooterAction: {  /*Empty For Tests*/ }
         )
 
@@ -543,7 +542,6 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            feedbackURL: URL(string: "https://example.com/feedback")!,
             openCountryListFooterAction: {  /*Empty For Tests*/ }
         )
 
@@ -567,7 +565,6 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            feedbackURL: URL(string: "https://example.com/feedback")!,
             openCountryListFooterAction: {  /*Empty For Tests*/ }
         )
 
@@ -585,7 +582,6 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            feedbackURL: URL(string: "https://example.com/feedback")!,
             openCountryListFooterAction: {  /*Empty For Tests*/ }
         )
 
@@ -615,7 +611,6 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            feedbackURL: URL(string: "https://example.com/feedback")!,
             openCountryListFooterAction: {  /*Empty For Tests*/ }
         )
 
@@ -641,7 +636,6 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            feedbackURL: URL(string: "https://example.com/feedback")!,
             openCountryListFooterAction: {  /*Empty For Tests*/ }
         )
 
@@ -667,7 +661,6 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            feedbackURL: URL(string: "https://example.com/feedback")!,
             openCountryListFooterAction: {  /*Empty For Tests*/ }
         )
 
@@ -701,7 +694,6 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            feedbackURL: URL(string: "https://example.com/feedback")!,
             openCountryListFooterAction: {  /*Empty For Tests*/ }
         )
 
@@ -724,7 +716,6 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            feedbackURL: URL(string: "https://example.com/feedback")!,
             openCountryListFooterAction: {  /*Empty For Tests*/ }
         )
 
@@ -755,7 +746,6 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            feedbackURL: URL(string: "https://example.com/feedback")!,
             openCountryListFooterAction: {  /*Empty For Tests*/ }
         )
 
@@ -778,7 +768,6 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            feedbackURL: URL(string: "https://example.com/feedback")!,
             openCountryListFooterAction: {  /*Empty For Tests*/ }
         )
 
@@ -805,7 +794,6 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            feedbackURL: URL(string: "https://example.com/feedback")!,
             openCountryListFooterAction: {  /*Empty For Tests*/ }
         )
 
@@ -827,7 +815,6 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            feedbackURL: URL(string: "https://example.com/feedback")!,
             openCountryListFooterAction: {  /*Empty For Tests*/ }
         )
 
@@ -845,7 +832,6 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            feedbackURL: URL(string: "https://example.com/feedback")!,
             openCountryListFooterAction: {  /*Empty For Tests*/ }
         )
 
@@ -864,7 +850,6 @@ struct EditCountriesViewModelTests {
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            feedbackURL: URL(string: "https://example.com/feedback")!,
             openCountryListFooterAction: {  /*Empty For Tests*/ }
         )
         let screen = EditCountriesView(viewModel: sut)
@@ -883,7 +868,6 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            feedbackURL: URL(string: "https://example.com/feedback")!,
             openCountryListFooterAction: {  /*Empty For Tests*/ }
         )
 
@@ -908,7 +892,6 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: mockNotificationService,
             urlOpener: MockURLOpener(),
-            feedbackURL: URL(string: "https://example.com/feedback")!,
             openCountryListFooterAction: {  /*Empty For Tests*/ }
         )
 
@@ -931,7 +914,6 @@ struct EditCountriesViewModelTests {
             analyticsService: mockAnalyticsService,
             notificationService: mockNotificationService,
             urlOpener: MockURLOpener(),
-            feedbackURL: URL(string: "https://example.com/feedback")!,
             openCountryListFooterAction: {  /*Empty For Tests*/ }
         )
 

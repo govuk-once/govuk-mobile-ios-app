@@ -50,10 +50,13 @@ struct CountryListView: View {
             .overlay(alignment: searchBarAlignment) {
                 switch viewModel.viewState {
                 case .loaded, .empty:
-                    SearchBarView(text: $viewModel.searchText)
-                        .padding(.horizontal, searchBarHorizontalPadding)
-                        .padding(.bottom, searchBarBottomPadding)
-                        .background(.clear)
+                    SearchBarView(
+                        text: $viewModel.searchText,
+                        onSearchSubmitted: viewModel.onSearchSubmitted
+                    )
+                    .padding(.horizontal, searchBarHorizontalPadding)
+                    .padding(.bottom, searchBarBottomPadding)
+                    .background(.clear)
                 default:
                     EmptyView()
                 }

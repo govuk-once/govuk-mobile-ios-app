@@ -875,7 +875,6 @@ class ViewControllerBuilder {
             analyticsService: analyticsService,
             notificationService: notificationService,
             urlOpener: UIApplication.shared,
-            feedbackURL: feedbackURL,
             openCountryListFooterAction: {
                 openURLAction(feedbackURL)
             }
