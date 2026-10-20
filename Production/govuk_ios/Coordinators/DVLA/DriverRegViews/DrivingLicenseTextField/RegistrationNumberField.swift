@@ -1,7 +1,7 @@
 import SwiftUI
 
-/// A number plate text input with built-in sanitisation and a clear button.
-struct DrivingLicenseField: View {
+/// A registration number (number plate) text input with built-in sanitisation and a clear button.
+struct RegistrationNumberField: View {
     @Binding var text: String
     var maxCharacters: Int = 7
 
@@ -61,7 +61,7 @@ extension View {
     struct PreviewWrapper: View {
         @State private var text = "AB12 CDE"
         var body: some View {
-            DrivingLicenseField(text: $text)
+            RegistrationNumberField(text: $text)
                 .padding()
         }
     }

@@ -15,7 +15,7 @@ struct PlateFormContent: View {
                 .padding(.top, 16)
                 .padding(.bottom, 12)
 
-            DrivingLicenseField(
+            RegistrationNumberField(
                 text: $viewModel.numberPlate,
                 maxCharacters: viewModel.maxCharacters
             )
