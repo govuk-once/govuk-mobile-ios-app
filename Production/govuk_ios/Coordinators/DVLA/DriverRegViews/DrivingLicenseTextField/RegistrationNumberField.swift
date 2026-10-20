@@ -10,7 +10,7 @@ struct RegistrationNumberField: View {
             TextField("", text: $text)
                 .multilineTextAlignment(.center)
                 .font(.system(size: 32, weight: .bold, design: .monospaced))
-                .plateKeyboard()
+                .registrationNumberKeyboard()
                 .onChange(of: text) { newValue in
                     let sanitized = PlateFormatter.sanitize(
                         newValue,
@@ -41,8 +41,8 @@ struct RegistrationNumberField: View {
     }
 }
 
-/// Configures the keyboard for plate entry: uppercase, ASCII-only, no autocorrect.
-private struct PlateKeyboardModifier: ViewModifier {
+/// Configures the keyboard for registration number entry: uppercase, ASCII-only, no autocorrect.
+private struct RegistrationNumberModifier: ViewModifier {
     func body(content: Content) -> some View {
         content
             .textInputAutocapitalization(.characters)
@@ -52,8 +52,8 @@ private struct PlateKeyboardModifier: ViewModifier {
 }
 
 extension View {
-    func plateKeyboard() -> some View {
-        modifier(PlateKeyboardModifier())
+    func registrationNumberKeyboard() -> some View {
+        modifier(RegistrationNumberModifier())
     }
 }
 
