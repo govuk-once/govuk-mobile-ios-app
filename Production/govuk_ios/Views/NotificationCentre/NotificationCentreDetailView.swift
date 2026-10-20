@@ -36,12 +36,15 @@ struct NotificationCentreDetailContainerView: View {
                     }
                 }
                 .frame(minWidth: geometry.size.width, minHeight: geometry.size.height)
+                .accessibilitySortPriority(1)
             }
-            .safeAreaInset(edge: .bottom) {
+            .overlay(alignment: .bottomLeading) {
                 if #available(iOS 26.0, *), case .loaded = viewModel.state {
                     FloatingIconButtons(
-                        unreadAction: viewModel.onMarkUnread, deleteAction: viewModel.onDelete
+                        unreadAction: viewModel.onMarkUnread,
+                        deleteAction: viewModel.onDelete
                     )
+                    .accessibilitySortPriority(-1)
                 }
             }
         }
