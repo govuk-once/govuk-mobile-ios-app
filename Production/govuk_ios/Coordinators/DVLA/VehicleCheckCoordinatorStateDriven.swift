@@ -187,14 +187,18 @@ final class VehicleCheckCoordinator: BaseCoordinator {
         // underlying sheets remain interactive
     }
 
+    /// Tears down the entire flow — all sheets and the initial overlay.
     private func dismissFlow() {
         if let sheet = bottomSheet,
            let presenter = sheet.presentingViewController {
+            // Sheets are on screen: dismiss the bottom sheet from its
+            // presenter, which tears down the entire stacked chain
             presenter.dismiss(animated: true) { [weak self] in
                 self?.bottomSheet = nil
                 self?.finish()
             }
         } else {
+            // Only the initial input overlay is on screen
             rootNavCon.dismiss(animated: true) { [weak self] in
                 self?.finish()
             }
