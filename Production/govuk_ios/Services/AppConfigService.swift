@@ -147,13 +147,9 @@ public final class AppConfigService: AppConfigServiceInterface {
 
     private var developmentOverrides: [Feature: Bool] {
     #if STAGING
-        [
-            .travelAlerts: true // featureFlags[Feature.travelAlerts.rawValue] ?? false
-        ]
+        [:]
     #else
-        [
-            .travelAlerts: false
-        ]
+        [:]
     #endif
     }
 }
