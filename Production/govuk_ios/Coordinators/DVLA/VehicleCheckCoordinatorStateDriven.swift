@@ -68,7 +68,7 @@ final class VehicleCheckCoordinator: BaseCoordinator {
         PlaceholderView { [weak self] searchTerm, results in
             let placeholderResults = PlaceHolderResults(searchTerm: searchTerm, results: results)
             self?.state = .results(data: placeholderResults)
-        } onCancel: onCancel
+        } onCancel: { onCancel() }
     }
 
     // MARK: - UI Presentation Logic
