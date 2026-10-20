@@ -1,12 +1,12 @@
 import SwiftUI
 import Combine
 
-enum PlateSubmitError: String, Error, CaseIterable, Hashable {
+enum RegistrationNumberQueryError: String, Error, CaseIterable, Hashable {
     case serviceUnavailable = "Search not working - try again later"
     case notFound = "Number plate not found"
 }
 
-typealias PlateSubmitAction = (String) async -> Result<VehicleEnquiryResponse.Vehicle, PlateSubmitError>
+typealias PlateSubmitAction = (String) async -> Result<VehicleEnquiryResponse.Vehicle, RegistrationNumberQueryError>
 
 /// Owns plate input state, validation, and submission. Inject into any view that hosts a ``DrivingLicenseField``.
 @MainActor
@@ -30,7 +30,7 @@ final class PlateFormViewModel: ObservableObject {
     }
     @Published private(set) var isLoading = false
     @Published private(set) var isSubmitted = false
-    @Published private(set) var error: PlateSubmitError?
+    @Published private(set) var error: RegistrationNumberQueryError?
     private(set) var fetchedVehicle: VehicleEnquiryResponse.Vehicle?
 
     var clearsErrorOnAnyEdit = true
