@@ -63,7 +63,7 @@ final class VehicleCheckCoordinator: BaseCoordinator {
     // MARK: - View Construction
 
     private func makeInputView(onCancel: @escaping () -> Void) -> RegistrationNumberFormModal {
-        let submitAction: PlateSubmitAction = { [weak self] plate in
+        let submitAction: RegistrationNumberSubmitAction = { [weak self] plate in
             guard let self else { return .failure(.serviceUnavailable) }
             
             let result = await self.dvlaService.fetchVehicle(registration: plate)

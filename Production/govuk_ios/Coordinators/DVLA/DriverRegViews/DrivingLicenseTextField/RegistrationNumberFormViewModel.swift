@@ -6,7 +6,7 @@ enum RegistrationNumberQueryError: String, Error, CaseIterable, Hashable {
     case notFound = "Number plate not found"
 }
 
-typealias PlateSubmitAction = (String) async -> Result<VehicleEnquiryResponse.Vehicle, RegistrationNumberQueryError>
+typealias RegistrationNumberSubmitAction = (String) async -> Result<VehicleEnquiryResponse.Vehicle, RegistrationNumberQueryError>
 
 /// Owns registration number input state, validation, and submission.
 @MainActor
@@ -36,10 +36,10 @@ final class RegistrationNumberFormViewModel: ObservableObject {
     var clearsErrorOnAnyEdit = true
 
     let maxCharacters: Int
-    private let submitAction: PlateSubmitAction
+    private let submitAction: RegistrationNumberSubmitAction
 
     init(maxCharacters: Int = 7,
-         submitAction: @escaping PlateSubmitAction) {
+         submitAction: @escaping RegistrationNumberSubmitAction) {
         self.maxCharacters = maxCharacters
         self.submitAction = submitAction
     }
