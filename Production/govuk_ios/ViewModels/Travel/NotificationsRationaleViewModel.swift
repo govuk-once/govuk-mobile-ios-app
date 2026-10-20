@@ -149,7 +149,7 @@ class NotificationsRationaleViewModel: ObservableObject {
                 switch permissionState {
                 case .authorized:
                     self.notificationService.acceptConsent()
-                    self.save(notificationsEnabled: true)
+                    self.subscribeToCountry(notificationsEnabled: true)
                 case .denied:
                     self.hasAgreedPendingPermission = true
                     self.displayNotificationSettingsAlert = true
@@ -163,7 +163,11 @@ class NotificationsRationaleViewModel: ObservableObject {
     private func requestNotificationPermission() {
         notificationService.requestPermissions { [weak self] granted in
             Task { @MainActor in
-                self?.save(notificationsEnabled: granted)
+                if granted {
+                    self?.subscribeToCountry(notificationsEnabled: true)
+                } else {
+                    self?.declineNotifications()
+                }
             }
         }
     }
@@ -176,20 +180,20 @@ class NotificationsRationaleViewModel: ObservableObject {
                 section: NotificationRationaleAnalyticsKeys.section
             )
         )
-        decline()
+        declineNotifications()
     }
 
-    private func decline() {
+    private func declineNotifications() {
         hasAgreedPendingPermission = false
         switch declineBehaviour {
         case .saveDisabled:
-            save(notificationsEnabled: false)
+            subscribeToCountry(notificationsEnabled: false)
         case .report(let onDeclined):
             onDeclined()
         }
     }
 
-    private func save(notificationsEnabled: Bool) {
+    private func subscribeToCountry(notificationsEnabled: Bool) {
         viewState = .loading
         saveAction(notificationsEnabled) { [weak self] result in
             Task { @MainActor in
@@ -235,7 +239,7 @@ class NotificationsRationaleViewModel: ObservableObject {
                 origin: origin.rawValue
             )
         )
-        decline()
+        declineNotifications()
     }
 
     private func observeAppMoveToForeground() {
@@ -279,7 +283,7 @@ class NotificationsRationaleViewModel: ObservableObject {
                     self.isPendingPermissionCheck = false
                     self.hasAgreedPendingPermission = false
                     self.displayNotificationSettingsAlert = false
-                    self.save(notificationsEnabled: true)
+                    self.subscribeToCountry(notificationsEnabled: true)
                 case .denied, .notDetermined:
                     self.isPendingPermissionCheck = false
                     self.hasAgreedPendingPermission = false
