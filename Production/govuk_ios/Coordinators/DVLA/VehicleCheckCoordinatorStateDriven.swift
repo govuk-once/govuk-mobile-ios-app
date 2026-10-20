@@ -2,11 +2,6 @@ import UIKit
 import SwiftUI
 import GovKit
 
-struct PlaceHolderResults: Equatable {
-    let searchTerm: String
-    let results: [String]
-}
-
 // final class VehicleCheckCoordinatorStateDriven: BaseCoordinator {
 final class VehicleCheckCoordinator: BaseCoordinator {
     private let viewControllerBuilder: ViewControllerBuilder

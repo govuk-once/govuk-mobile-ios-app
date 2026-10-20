@@ -1,5 +1,10 @@
 import SwiftUI
 
+struct PlaceHolderResults: Equatable {
+    let searchTerm: String
+    let results: [String]
+}
+
 struct PlaceholderSearchResultsView: View {
     let searchQuery: String
     let results: [String] // Accepts the array from the closure
