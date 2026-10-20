@@ -156,6 +156,29 @@ struct NotificationsRationaleViewModelTests {
     }
 
     @Test
+    func allowNotificationsAction_whenNotDetermined_andPermissionDenied_callsOnDeclared() async throws {
+        // Given permission state not determined
+        mockNotificationService._stubbededPermissionState = .notDetermined
+        mockTravelService._autoCallSubscribeCompletion = false
+        var declinedCallbackCalled = false
+
+        let viewModel = makeViewModel(
+            declineBehaviour: .report({ declinedCallbackCalled = true })
+        )
+
+        viewModel.allowNotificationsAction()
+        try await waitForTrue { mockNotificationService._receivedRequestPermissionsCompletion != nil }
+
+        // Simulate OS "Don't Allow"
+        mockNotificationService._receivedRequestPermissionsCompletion?(false)
+
+        try await waitForTrue { declinedCallbackCalled || mockTravelService._subscribeToGroupsCalled }
+
+        #expect(declinedCallbackCalled == true)
+        #expect(mockTravelService._subscribeToGroupsCalled == false)
+    }
+
+    @Test
     func notNowAction_setsLoadingStateDuringSubscription() {
         mockTravelService._autoCallSubscribeCompletion = false
         let viewModel = makeViewModel()
