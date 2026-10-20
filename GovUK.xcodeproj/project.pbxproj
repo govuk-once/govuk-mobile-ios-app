@@ -94,26 +94,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		5D9CDF202CD928FB0045DFC3 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				govuk_ios/govuk_ios_unit_tests/Resources/MockAppConfigResponse.json,
-				govuk_ios/govuk_ios_unit_tests/Resources/MockAppConfigResponseInvalid.json,
-				govuk_ios/govuk_ios_unit_tests/Resources/MockCancelShareCodeResponse.json,
-				govuk_ios/govuk_ios_unit_tests/Resources/MockCreateShareCodeResponse.json,
-				govuk_ios/govuk_ios_unit_tests/Resources/MockCustomerVehicleDetailsResponse.json,
-				govuk_ios/govuk_ios_unit_tests/Resources/MockCustomerVehiclesResponse.json,
-				govuk_ios/govuk_ios_unit_tests/Resources/MockDrivingLicenceResponse.json,
-				govuk_ios/govuk_ios_unit_tests/Resources/MockListShareCodesResponse.json,
-				govuk_ios/govuk_ios_unit_tests/Resources/MockTermsAndConditionsResponse.json,
-				govuk_ios/govuk_ios_unit_tests/Resources/MockTermsAndConditionsResponseInvalid.json,
-				govuk_ios/govuk_ios_unit_tests/Resources/MockTopicDetailsResponses/FiveStepByStep.json,
-				govuk_ios/govuk_ios_unit_tests/Resources/MockTopicDetailsResponses/NoUnpopularContent.json,
-				govuk_ios/govuk_ios_unit_tests/Resources/MockTopicDetailsResponses/UnpopularContent.json,
-				govuk_ios/govuk_ios_unit_tests/Resources/MockVehicleResponse.json,
-			);
-			target = 5DAD71732BD250DB0075F648 /* govuk_ios */;
-		};
 		5D9CDF212CD928FB0045DFC3 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -205,20 +185,6 @@
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/UnlinkAccountErrorViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/WelcomeOnboardingViewControllerSnapshotTests.swift,
 				govuk_ios/govuk_ios_snapshot_tests/Specs/ViewControllers/YourAccountsViewControllerSnapshotTests.swift,
-				govuk_ios/govuk_ios_unit_tests/Resources/MockAppConfigResponse.json,
-				govuk_ios/govuk_ios_unit_tests/Resources/MockAppConfigResponseInvalid.json,
-				govuk_ios/govuk_ios_unit_tests/Resources/MockCancelShareCodeResponse.json,
-				govuk_ios/govuk_ios_unit_tests/Resources/MockCreateShareCodeResponse.json,
-				govuk_ios/govuk_ios_unit_tests/Resources/MockCustomerVehicleDetailsResponse.json,
-				govuk_ios/govuk_ios_unit_tests/Resources/MockCustomerVehiclesResponse.json,
-				govuk_ios/govuk_ios_unit_tests/Resources/MockDrivingLicenceResponse.json,
-				govuk_ios/govuk_ios_unit_tests/Resources/MockListShareCodesResponse.json,
-				govuk_ios/govuk_ios_unit_tests/Resources/MockTermsAndConditionsResponse.json,
-				govuk_ios/govuk_ios_unit_tests/Resources/MockTermsAndConditionsResponseInvalid.json,
-				govuk_ios/govuk_ios_unit_tests/Resources/MockTopicDetailsResponses/FiveStepByStep.json,
-				govuk_ios/govuk_ios_unit_tests/Resources/MockTopicDetailsResponses/NoUnpopularContent.json,
-				govuk_ios/govuk_ios_unit_tests/Resources/MockTopicDetailsResponses/UnpopularContent.json,
-				govuk_ios/govuk_ios_unit_tests/Resources/MockVehicleResponse.json,
 				GovUK.xctestplan,
 			);
 			target = 5DAD71892BD250DF0075F648 /* govuk_ios_unit_tests */;
@@ -318,57 +284,13 @@
 				govuk_ios/govuk_ios_unit_tests/Mocks/Repositories/MockLocalAuthorityRepository.swift,
 				govuk_ios/govuk_ios_unit_tests/Mocks/Repositories/MockTopicsRepository.swift,
 				govuk_ios/govuk_ios_unit_tests/Mocks/Services/MockAppEnvironmentService.swift,
-				govuk_ios/govuk_ios_unit_tests/Mocks/Services/MockAuthenticationService.swift,
-				govuk_ios/govuk_ios_unit_tests/Mocks/Services/MockLocalAuthenticationService.swift,
-				govuk_ios/govuk_ios_unit_tests/Mocks/Services/MockNotificationCentreService.swift,
-				govuk_ios/govuk_ios_unit_tests/Mocks/Services/MockUserDefaultsService.swift,
-				govuk_ios/govuk_ios_unit_tests/Mocks/Services/MockUserService.swift,
 				govuk_ios/govuk_ios_unit_tests/Specs/Views/CentreAlignedBarButtonItemTests.swift,
-				"govuk_ios/shared/Arrangers/Foundation/Date+Arrangers.swift",
-				"govuk_ios/shared/Arrangers/Foundation/URL+Arrangers.swift",
-				"govuk_ios/shared/Arrangers/Model/Chat+Arrangers.swift",
-				"govuk_ios/shared/Arrangers/Model/CustomerVehicleDetails+Arrangers.swift",
-				"govuk_ios/shared/Arrangers/Model/CustomerVehicles+Arrangers.swift",
-				"govuk_ios/shared/Arrangers/Model/DrivingLicence+Arrangers.swift",
-				"govuk_ios/shared/Arrangers/Model/DvlaURLs+Arrangers.swift",
-				"govuk_ios/shared/Arrangers/Model/Notification+Arrangers.swift",
-				"govuk_ios/shared/Arrangers/Model/RecentActivity/ActivityItem+Arrangers.swift",
-				"govuk_ios/shared/Arrangers/Model/SearchItem+Arrangers.swift",
-				"govuk_ios/shared/Arrangers/Model/ShareCode+Arrangers.swift",
-				"govuk_ios/shared/Arrangers/Model/TermsAndConditionsResponse+Arrangers.swift",
-				"govuk_ios/shared/Arrangers/Model/Topic+Arrangers.swift",
-				"govuk_ios/shared/Arrangers/Model/TopicDetailResponse+Arrangers.swift",
-				"govuk_ios/shared/Arrangers/Model/VehicleEnquiryResponse+Arrangers.swift",
 				"govuk_ios/shared/Arrangers/Repositories/CoreDataRepository+Arrangers.swift",
-				"govuk_ios/shared/Extensions/Bundle+Tests.swift",
-				"govuk_ios/shared/Extensions/Data+Load.swift",
-				govuk_ios/shared/Mocks/Builders/MockLicenceStatusViewModelBuilder.swift,
-				govuk_ios/shared/Mocks/MockAccessibilityManager.swift,
-				govuk_ios/shared/Mocks/MockAppVersionProvider.swift,
 				govuk_ios/shared/Mocks/MockDeviceInformationProvider.swift,
-				govuk_ios/shared/Mocks/MockDisplayableTopic.swift,
 				govuk_ios/shared/Mocks/MockNotificationCenter.swift,
 				govuk_ios/shared/Mocks/MockPasteboard.swift,
 				govuk_ios/shared/Mocks/MockTimer.swift,
 				govuk_ios/shared/Mocks/MockURLOpener.swift,
-				govuk_ios/shared/Mocks/MockVehicleSpecFormatter.swift,
-				govuk_ios/shared/Mocks/Services/MockAccessibilityAnnouncerService.swift,
-				govuk_ios/shared/Mocks/Services/MockAnalyticsService.swift,
-				govuk_ios/shared/Mocks/Services/MockAppConfigService.swift,
-				govuk_ios/shared/Mocks/Services/MockAppLaunchService.swift,
-				govuk_ios/shared/Mocks/Services/MockChatService.swift,
-				govuk_ios/shared/Mocks/Services/MockDVLAService.swift,
-				govuk_ios/shared/Mocks/Services/MockInactivityService.swift,
-				govuk_ios/shared/Mocks/Services/MockLocalAuthorityService.swift,
-				govuk_ios/shared/Mocks/Services/MockNotificationService.swift,
-				govuk_ios/shared/Mocks/Services/MockReturningUserService.swift,
-				govuk_ios/shared/Mocks/Services/MockSearchService.swift,
-				govuk_ios/shared/Mocks/Services/MockTermsAndConditionsService.swift,
-				govuk_ios/shared/Mocks/Services/MockTopicsService.swift,
-				govuk_ios/shared/Mocks/Services/MockTravelService.swift,
-				govuk_ios/shared/Mocks/Services/RecentActivity/MockActivityService.swift,
-				govuk_ios/shared/Mocks/ViewModels/MockDrivingLicenceViewModel.swift,
-				govuk_ios/shared/Mocks/ViewModels/MockVehiclesViewModel.swift,
 				govuk_ios/shared/SupportingFiles/TestAppDelegate.swift,
 				govuk_ios/shared/SupportingFiles/TestSceneDelegate.swift,
 			);
@@ -402,11 +324,52 @@
 			);
 			target = 5D4B9D332C074207005F126A /* govuk_ios_snapshot_tests */;
 		};
+		FBCE94E63073DBEE00CC5E8B /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Resources/MockAppConfigResponse.json,
+				Resources/MockAppConfigResponseInvalid.json,
+				Resources/MockCancelShareCodeResponse.json,
+				Resources/MockCreateShareCodeResponse.json,
+				Resources/MockCustomerVehicleDetailsResponse.json,
+				Resources/MockCustomerVehiclesResponse.json,
+				Resources/MockDrivingLicenceResponse.json,
+				Resources/MockListShareCodesResponse.json,
+				Resources/MockTermsAndConditionsResponse.json,
+				Resources/MockTermsAndConditionsResponseInvalid.json,
+				Resources/MockTopicDetailsResponses/FiveStepByStep.json,
+				Resources/MockTopicDetailsResponses/NoUnpopularContent.json,
+				Resources/MockTopicDetailsResponses/UnpopularContent.json,
+				Resources/MockVehicleResponse.json,
+			);
+			target = 5DAD71732BD250DB0075F648 /* govuk_ios */;
+		};
+		FBCE94E83073DCC900CC5E8B /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Resources/MockAppConfigResponse.json,
+				Resources/MockAppConfigResponseInvalid.json,
+				Resources/MockCancelShareCodeResponse.json,
+				Resources/MockCreateShareCodeResponse.json,
+				Resources/MockCustomerVehicleDetailsResponse.json,
+				Resources/MockCustomerVehiclesResponse.json,
+				Resources/MockDrivingLicenceResponse.json,
+				Resources/MockListShareCodesResponse.json,
+				Resources/MockTermsAndConditionsResponse.json,
+				Resources/MockTermsAndConditionsResponseInvalid.json,
+				Resources/MockTopicDetailsResponses/FiveStepByStep.json,
+				Resources/MockTopicDetailsResponses/NoUnpopularContent.json,
+				Resources/MockTopicDetailsResponses/UnpopularContent.json,
+				Resources/MockVehicleResponse.json,
+			);
+			target = 5DAD71892BD250DF0075F648 /* govuk_ios_unit_tests */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		5D9CDE3A2CD928FB0045DFC3 /* Tests */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (5D9CDF202CD928FB0045DFC3 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 5D9CDF212CD928FB0045DFC3 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 5D9CDF222CD928FB0045DFC3 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (govuk_ios/govuk_ios_snapshot_tests/ReferenceImages_64, ); path = Tests; sourceTree = "<group>"; };
+		5D9CDE3A2CD928FB0045DFC3 /* Tests */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (5D9CDF212CD928FB0045DFC3 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 5D9CDF222CD928FB0045DFC3 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (govuk_ios/govuk_ios_snapshot_tests/ReferenceImages_64, ); path = Tests; sourceTree = "<group>"; };
 		DE6748AC307D659600169492 /* Production */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (DE674AE1307D659700169492 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, DE674AE2307D659700169492 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, DE674AE3307D659700169492 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Production; sourceTree = "<group>"; };
+		FB984C7A3062C2E300158FC7 /* Development */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (FBCE94E63073DBEE00CC5E8B /* PBXFileSystemSynchronizedBuildFileExceptionSet */, FBCE94E83073DCC900CC5E8B /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = Development; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -482,6 +445,7 @@
 		5DAD716B2BD250DA0075F648 = {
 			isa = PBXGroup;
 			children = (
+				FB984C7A3062C2E300158FC7 /* Development */,
 				D05284812FDB0216005C99DC /* container */,
 				DE6748AC307D659600169492 /* Production */,
 				5D9CDE3A2CD928FB0045DFC3 /* Tests */,
@@ -547,6 +511,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				DE6748AC307D659600169492 /* Production */,
+				FB984C7A3062C2E300158FC7 /* Development */,
 			);
 			name = govuk_ios;
 			packageProductDependencies = (
@@ -1034,6 +999,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Production/govuk_ios/SupportingFiles/$(CODE_SIGN_ENTITLEMENTS_APP)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = Development;
 				DEVELOPMENT_TEAM = N8W395F695;
 				DVLA_AUTHENTICATION_URL = "https://customer-account-external-ui-ext.dvla.gov.uk/govuk-app";
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
@@ -1080,6 +1046,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = Development;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = N8W395F695;
 				DVLA_AUTHENTICATION_URL = "https://customer-account-external-ui-ext.dvla.gov.uk/govuk-app";
