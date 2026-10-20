@@ -3,7 +3,7 @@ import SwiftUI
 struct PlateFormModal: View {
     let viewModel: PlateFormViewModel
     let onCancel: () -> Void
-    let onSubmit: (String) -> Void
+    let onSubmit: (VehicleEnquiryResponse.Vehicle) -> Void
 
     var body: some View {
         ZStack {

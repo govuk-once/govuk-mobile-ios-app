@@ -1,10 +1,12 @@
 import SwiftUI
 import Combine
 
-enum PlateSubmitError: String, CaseIterable, Hashable {
+enum PlateSubmitError: String, Error, CaseIterable, Hashable {
     case serviceUnavailable = "Search not working - try again later"
     case notFound = "Number plate not found"
 }
+
+typealias PlateSubmitAction = (String) async -> Result<VehicleEnquiryResponse.Vehicle, PlateSubmitError>
 
 /// Owns plate input state, validation, and submission. Inject into any view that hosts a ``DrivingLicenseField``.
 @MainActor
@@ -29,14 +31,17 @@ final class PlateFormViewModel: ObservableObject {
     @Published private(set) var isLoading = false
     @Published private(set) var isSubmitted = false
     @Published private(set) var error: PlateSubmitError?
+    private(set) var fetchedVehicle: VehicleEnquiryResponse.Vehicle?
 
-    var simulatedError: PlateSubmitError?
     var clearsErrorOnAnyEdit = true
 
     let maxCharacters: Int
+    private let submitAction: PlateSubmitAction
 
-    init(maxCharacters: Int = 7) {
+    init(maxCharacters: Int = 7,
+         submitAction: @escaping PlateSubmitAction) {
         self.maxCharacters = maxCharacters
+        self.submitAction = submitAction
     }
 
     var isValidPlate: Bool {
@@ -53,17 +58,19 @@ final class PlateFormViewModel: ObservableObject {
         let trimmed = numberPlate.trimmingCharacters(in: .whitespaces)
         isLoading = true
         error = nil
+        fetchedVehicle = nil
         defer { isLoading = false }
 
-        try? await Task.sleep(for: .seconds(2))
+        let result = await submitAction(trimmed)
 
-        if let simulatedError {
-            error = simulatedError
+        switch result {
+        case .success(let vehicle):
+            fetchedVehicle = vehicle
+            isSubmitted = true
+            return true
+        case .failure(let submitError):
+            error = submitError
             return false
         }
-
-        print("Submitted plate: \(trimmed)")
-        isSubmitted = true
-        return true
     }
 }

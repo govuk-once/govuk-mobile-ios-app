@@ -5,7 +5,7 @@ struct PlateFormContent: View {
     @ObservedObject var viewModel: PlateFormViewModel
     @FocusState private var isFieldFocused: Bool
     let onCancel: () -> Void
-    let onSubmit: (String) -> Void
+    let onSubmit: (VehicleEnquiryResponse.Vehicle) -> Void
 
     var body: some View {
         VStack(spacing: 0) {
@@ -33,9 +33,9 @@ struct PlateFormContent: View {
                 if viewModel.isValidPlate {
                     Button {
                         Task {
-                            let plate = viewModel.numberPlate.trimmingCharacters(in: .whitespaces)
-                            if await viewModel.submit() {
-                                onSubmit(plate)
+                            if await viewModel.submit(),
+                               let vehicle = viewModel.fetchedVehicle {
+                                onSubmit(vehicle)
                             }
                         }
                     } label: {

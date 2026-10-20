@@ -8,6 +8,7 @@ final class VehicleCheckCoordinator: BaseCoordinator {
     private let analyticsService: AnalyticsServiceInterface
     private let configService: AppConfigServiceInterface
     private let urlOpener: URLOpener
+    private let dvlaService: DVLAServiceInterface
 
     private weak var bottomSheet: UINavigationController?
 
@@ -16,11 +17,13 @@ final class VehicleCheckCoordinator: BaseCoordinator {
          analyticsService: AnalyticsServiceInterface,
          configService: AppConfigServiceInterface,
          urlOpener: URLOpener,
+         dvlaService: DVLAServiceInterface,
          closeBehaviour: CloseBehaviour = .dismissTopmost) {
         self.viewControllerBuilder = viewControllerBuilder
         self.analyticsService = analyticsService
         self.configService = configService
         self.urlOpener = urlOpener
+        self.dvlaService = dvlaService
         self.closeBehaviour = closeBehaviour
         super.init(navigationController: navigationController)
     }
@@ -60,11 +63,30 @@ final class VehicleCheckCoordinator: BaseCoordinator {
     // MARK: - View Construction
 
     private func makeInputView(onCancel: @escaping () -> Void) -> PlateFormModal {
-        PlateFormModal(
-            viewModel: PlateFormViewModel(),
+        let submitAction: PlateSubmitAction = { [weak self] plate in
+            guard let self else { return .failure(.serviceUnavailable) }
+            
+            let result = await self.dvlaService.fetchVehicle(registration: plate)
+            switch result {
+            case .success(let response):
+                return .success(response.vehicle)
+            case .failure(let error):
+                switch error {
+                case .notFound:
+                    return .failure(.notFound)
+                default:
+                    return .failure(.serviceUnavailable)
+                }
+            }
+        }
+
+        let viewModel = PlateFormViewModel(submitAction: submitAction)
+
+        return PlateFormModal(
+            viewModel: viewModel,
             onCancel: onCancel
-        ) { [weak self] plate in
-            self?.state = .results(vehicle: Self.mockVehicle(plate: plate))
+        ) { [weak self] vehicle in
+            self?.state = .results(vehicle: vehicle)
         }
     }
 
@@ -215,27 +237,5 @@ final class VehicleCheckCoordinator: BaseCoordinator {
                 self?.finish()
             }
         }
-    }
-}
-
-// MARK: - Temporary mock data
-
-extension VehicleCheckCoordinator {
-    static func mockVehicle(plate: String) -> VehicleEnquiryResponse.Vehicle {
-        .init(
-            vehicleId: 100830769,
-            registrationNumber: plate,
-            taxStatus: .taxed,
-            taxedUntil: Date(timeIntervalSince1970: 1793491200),
-            motStatus: .valid,
-            motExpiryDate: Date(timeIntervalSince1970: 1793491200),
-            make: "FORD",
-            dateOfFirstRegistration: Date(timeIntervalSince1970: 1083369600),
-            engineCapacity: 1242,
-            exhaustEmissionsCo2: 147,
-            fuelType: .petrol,
-            colour: "BLACK",
-            secondaryColour: nil
-        )
     }
 }
