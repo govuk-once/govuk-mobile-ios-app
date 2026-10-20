@@ -12,7 +12,7 @@ struct RegistrationNumberField: View {
                 .font(.system(size: 32, weight: .bold, design: .monospaced))
                 .registrationNumberKeyboard()
                 .onChange(of: text) { newValue in
-                    let sanitized = PlateFormatter.sanitize(
+                    let sanitized = RegistrationNumberFormatter.sanitize(
                         newValue,
                         maxAlphanumerics: maxCharacters
                     )

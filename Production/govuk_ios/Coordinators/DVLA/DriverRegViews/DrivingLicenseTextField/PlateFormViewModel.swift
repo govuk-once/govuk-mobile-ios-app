@@ -17,8 +17,8 @@ final class PlateFormViewModel: ObservableObject {
         // (e.g. typing an 8th char briefly sets "AB12 CDEX" before sanitizing back to "AB12 CDE").
         didSet {
             guard error != nil else { return }
-            let oldClean = PlateFormatter.sanitize(oldValue, maxAlphanumerics: maxCharacters)
-            let newClean = PlateFormatter.sanitize(numberPlate, maxAlphanumerics: maxCharacters)
+            let oldClean = RegistrationNumberFormatter.sanitize(oldValue, maxAlphanumerics: maxCharacters)
+            let newClean = RegistrationNumberFormatter.sanitize(numberPlate, maxAlphanumerics: maxCharacters)
             guard newClean != oldClean else { return }
 
             if clearsErrorOnAnyEdit {

@@ -1,7 +1,7 @@
 import Foundation
 
-/// Pure formatting logic for UK number plates: uppercase A-Z/0-9, single spaces, period interception.
-enum PlateFormatter {
+/// Pure formatting logic for UK registration number plates: uppercase A-Z/0-9, single spaces, period interception.
+enum RegistrationNumberFormatter {
     private static let allowedCharacters = CharacterSet(
         charactersIn:
             "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
