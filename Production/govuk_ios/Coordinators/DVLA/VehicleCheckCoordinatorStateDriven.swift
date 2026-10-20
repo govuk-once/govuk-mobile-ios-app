@@ -37,9 +37,9 @@ final class VehicleCheckCoordinator: BaseCoordinator {
 
     private let closeBehaviour: CloseBehaviour
 
-    enum FlowState: Equatable {
+    enum FlowState {
         case initialInput
-        case results(data: PlaceHolderResults)
+        case results(vehicle: VehicleEnquiryResponse.Vehicle)
         case nestedInput
     }
 
@@ -55,8 +55,8 @@ final class VehicleCheckCoordinator: BaseCoordinator {
         switch newState {
         case .initialInput:
             showInitialInput()
-        case .results(let data):
-            showResultsView(data: data)
+        case .results(let vehicle):
+            showResultsView(vehicle: vehicle)
         case .nestedInput:
             showNestedInput()
         }
@@ -69,12 +69,7 @@ final class VehicleCheckCoordinator: BaseCoordinator {
             viewModel: PlateFormViewModel(),
             onCancel: onCancel
         ) { [weak self] plate in
-            let results = PlaceHolderResults(searchTerm: plate, results: [
-                "Result 1 for \(plate)",
-                "Result 2 for \(plate)",
-                "Result 3 for \(plate)"
-            ])
-            self?.state = .results(data: results)
+            self?.state = .results(vehicle: Self.mockVehicle(plate: plate))
         }
     }
 
@@ -113,12 +108,25 @@ final class VehicleCheckCoordinator: BaseCoordinator {
         topmostPresentedVC()?.present(navController, animated: true)
     }
 
-    private func showResultsView(data: PlaceHolderResults) {
-        let resultsView = PlaceholderSearchResultsView(data: data) { [weak self] in
-            self?.handleClose()
-        } searchAction: { [weak self] in
-            self?.state = .nestedInput
-        }
+    private func showResultsView(vehicle: VehicleEnquiryResponse.Vehicle) {
+        let actions = VehicleCheckResultActions(
+            openURLAction: { [weak self] url in
+                self?.urlOpener.openIfPossible(url)
+            },
+            searchAction: { [weak self] in
+                self?.state = .nestedInput
+            },
+            dismissAction: { [weak self] in
+                self?.handleClose()
+            }
+        )
+        let viewModel = VehicleCheckResultViewModel(
+            vehicle: vehicle,
+            analyticsService: analyticsService,
+            configService: configService,
+            actions: actions
+        )
+        let resultsView = VehicleCheckResultView(viewModel: viewModel)
 
         let hostingController = UIHostingController(rootView: resultsView)
         let newSheet = UINavigationController(rootViewController: hostingController)
@@ -212,5 +220,27 @@ final class VehicleCheckCoordinator: BaseCoordinator {
                 self?.finish()
             }
         }
+    }
+}
+
+// MARK: - Temporary mock data
+
+extension VehicleCheckCoordinator {
+    static func mockVehicle(plate: String) -> VehicleEnquiryResponse.Vehicle {
+        .init(
+            vehicleId: 100830769,
+            registrationNumber: plate,
+            taxStatus: .taxed,
+            taxedUntil: Date(timeIntervalSince1970: 1793491200),
+            motStatus: .valid,
+            motExpiryDate: Date(timeIntervalSince1970: 1793491200),
+            make: "FORD",
+            dateOfFirstRegistration: Date(timeIntervalSince1970: 1083369600),
+            engineCapacity: 1242,
+            exhaustEmissionsCo2: 147,
+            fuelType: .petrol,
+            colour: "BLACK",
+            secondaryColour: nil
+        )
     }
 }
