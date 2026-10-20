@@ -175,12 +175,16 @@ final class VehicleCheckCoordinator: BaseCoordinator {
     override func presentationControllerDidDismiss(
         _ presentationController: UIPresentationController
     ) {
-        if bottomSheet == nil {
-            finish()
-        } else if presentationController.presentedViewController === bottomSheet {
+        let dismissedVC = presentationController.presentedViewController
+        let isInitialInputDismissed = bottomSheet == nil
+        let isBottomSheetDismissed = dismissedVC === bottomSheet
+
+        if isInitialInputDismissed || isBottomSheetDismissed {
             bottomSheet = nil
             finish()
         }
+        // Stacked sheet swiped away: coordinator stays alive,
+        // underlying sheets remain interactive
     }
 
     private func dismissFlow() {
