@@ -1,7 +1,7 @@
 /*
 import SwiftUI
 
-/// Demo harness showing ``PlateFormContent`` in two presentation styles: sheet and custom overlay.
+/// Demo harness showing ``RegistrationNumberFormContent`` in two presentation styles: sheet and custom overlay.
 struct DrivingLicenseFieldDemo: View {
     @StateObject private var viewModel: PlateFormViewModel
 
@@ -46,7 +46,7 @@ struct DrivingLicenseFieldDemo: View {
             }
         }
         .sheet(isPresented: isShowingSheet) {
-            PlateFormContent(
+            RegistrationNumberFormContent(
                 viewModel: viewModel,
                 onCancel: { presentation = .none },
                 onSubmit: { plate in presentation = .result(plate) }
@@ -100,7 +100,7 @@ struct DrivingLicenseFieldDemo: View {
                 .ignoresSafeArea()
                 .onTapGesture { presentation = .none }
 
-            PlateFormContent(
+            RegistrationNumberFormContent(
                 viewModel: viewModel,
                 onCancel: { presentation = .none },
                 onSubmit: { plate in presentation = .result(plate) }

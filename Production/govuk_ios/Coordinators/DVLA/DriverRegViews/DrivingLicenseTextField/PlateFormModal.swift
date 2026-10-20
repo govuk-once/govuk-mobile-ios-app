@@ -13,7 +13,7 @@ struct PlateFormModal: View {
 
             VStack {
                 Spacer()
-                PlateFormContent(
+                RegistrationNumberFormContent(
                     viewModel: viewModel,
                     onCancel: onCancel,
                     onSubmit: onSubmit

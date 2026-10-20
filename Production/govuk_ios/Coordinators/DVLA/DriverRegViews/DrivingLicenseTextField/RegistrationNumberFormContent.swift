@@ -1,7 +1,7 @@
 import SwiftUI
 
-/// The plate entry form: label, input field, and cancel/submit buttons. Presentation-agnostic.
-struct PlateFormContent: View {
+/// The registration number entry form: label, input field, and cancel/submit buttons. Presentation-agnostic.
+struct RegistrationNumberFormContent: View {
     @ObservedObject var viewModel: PlateFormViewModel
     @FocusState private var isFieldFocused: Bool
     let onCancel: () -> Void
