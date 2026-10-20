@@ -64,11 +64,18 @@ final class VehicleCheckCoordinator: BaseCoordinator {
 
     // MARK: - View Construction
 
-    private func makeInputView(onCancel: @escaping () -> Void) -> PlaceholderView {
-        PlaceholderView { [weak self] searchTerm, results in
-            let placeholderResults = PlaceHolderResults(searchTerm: searchTerm, results: results)
-            self?.state = .results(data: placeholderResults)
-        } onCancel: { onCancel() }
+    private func makeInputView(onCancel: @escaping () -> Void) -> PlateFormModal {
+        PlateFormModal(
+            viewModel: PlateFormViewModel(),
+            onCancel: onCancel
+        ) { [weak self] plate in
+            let results = PlaceHolderResults(searchTerm: plate, results: [
+                "Result 1 for \(plate)",
+                "Result 2 for \(plate)",
+                "Result 3 for \(plate)"
+            ])
+            self?.state = .results(data: results)
+        }
     }
 
     // MARK: - UI Presentation Logic
@@ -85,8 +92,8 @@ final class VehicleCheckCoordinator: BaseCoordinator {
         let inputView = makeInputView { [weak self] in self?.dismissFlow() }
         let hostingController = UIHostingController(rootView: inputView)
         hostingController.view.backgroundColor = .clear
-        // root (NavCon) is .overCurrentContext — make it fully transparent so
-        // the PlaceholderView's semi-transparent backdrop shows through
+        // root is .overCurrentContext — make it fully transparent so
+        // the backdrop shows through to the content behind
         root.view.backgroundColor = .clear
         root.setNavigationBarHidden(true, animated: false)
         root.modalTransitionStyle = .crossDissolve
