@@ -149,6 +149,8 @@ final class VehicleCheckCoordinator: BaseCoordinator {
         }
     }
 
+    // MARK: - Dismissal
+
     private func handleClose() {
         switch closeBehaviour {
         case .dismissAll:
