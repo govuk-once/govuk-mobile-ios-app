@@ -141,9 +141,9 @@ final class VehicleCheckCoordinator: BaseCoordinator {
     }
 
     private func presentAsStackedSheet(_ sheet: UINavigationController) {
-        guard let topVC = topmostPresentedVC() else { return }
-        let presentingSheet = topVC.presentingViewController ?? topVC
-        topVC.dismiss(animated: false) { [weak self] in
+        guard let vcToDismiss = topmostPresentedVC() else { return }
+        let presentingSheet = vcToDismiss.presentingViewController ?? vcToDismiss
+        vcToDismiss.dismiss(animated: false) { [weak self] in
             guard self != nil else { return }
             presentingSheet.present(sheet, animated: true)
         }
