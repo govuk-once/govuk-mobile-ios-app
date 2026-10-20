@@ -73,6 +73,7 @@ private struct FloatingIconButtons: View {
                 }
                 .glassEffect(.regular.interactive(), in: Circle())
                 .accessibilityLabel(.NotificationCentre.notificationCentreDetailDeleteA11YLabel)
+                .focusable(true)
 
                 Button {
                     unreadAction()
@@ -83,6 +84,7 @@ private struct FloatingIconButtons: View {
                 }
                 .glassEffect(.regular.interactive(), in: Circle())
                 .accessibilityLabel(.NotificationCentre.notificationCentreDetailUnreadA11YLabel)
+                .focusable(true)
 
                 Spacer()
             }
