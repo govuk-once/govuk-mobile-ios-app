@@ -54,12 +54,21 @@ final class VehicleCheckCoordinator: BaseCoordinator {
     private func handleStateTransition(to newState: FlowState) {
         switch newState {
         case .initialInput:
-            showInputView(isNested: false)
+            showInitialInput()
         case .results(let data):
             showResultsView(data: data)
         case .nestedInput:
-            showInputView(isNested: true)
+            showNestedInput()
         }
+    }
+
+    // MARK: - View Construction
+
+    private func makeInputView(onCancel: @escaping () -> Void) -> PlaceholderView {
+        PlaceholderView { [weak self] searchTerm, results in
+            let placeholderResults = PlaceHolderResults(searchTerm: searchTerm, results: results)
+            self?.state = .results(data: placeholderResults)
+        } onCancel: onCancel
     }
 
     // MARK: - UI Presentation Logic
@@ -72,35 +81,29 @@ final class VehicleCheckCoordinator: BaseCoordinator {
         return current
     }
 
-    private func showInputView(isNested: Bool) {
-        let inputView = PlaceholderView { [weak self] searchTerm, results in
-            let placeholderResults = PlaceHolderResults(searchTerm: searchTerm, results: results)
-            self?.state = .results(data: placeholderResults)
-        } onCancel: { [weak self] in
-            if isNested {
-                self?.topmostPresentedVC()?.dismiss(animated: true)
-            } else {
-                self?.dismissFlow()
-            }
-        }
-
+    private func showInitialInput() {
+        let inputView = makeInputView { [weak self] in self?.dismissFlow() }
         let hostingController = UIHostingController(rootView: inputView)
         hostingController.view.backgroundColor = .clear
+        // rootNavCon is .overCurrentContext — make it fully transparent so
+        // the PlaceholderView's semi-transparent backdrop shows through
+        rootNavCon.view.backgroundColor = .clear
+        rootNavCon.setNavigationBarHidden(true, animated: false)
+        rootNavCon.modalTransitionStyle = .crossDissolve
+        set(hostingController)
+    }
 
-        if isNested {
-            let navController = UINavigationController(rootViewController: hostingController)
-            navController.modalPresentationStyle = .overCurrentContext
-            navController.modalTransitionStyle = .crossDissolve
-            navController.view.backgroundColor = .clear
-            topmostPresentedVC()?.present(navController, animated: true)
-        } else {
-            // rootNavCon is .overCurrentContext — make it fully transparent so
-            // the PlaceholderView's semi-transparent backdrop shows through
-            rootNavCon.view.backgroundColor = .clear
-            rootNavCon.setNavigationBarHidden(true, animated: false)
-            rootNavCon.modalTransitionStyle = .crossDissolve
-            set(hostingController)
+    private func showNestedInput() {
+        let inputView = makeInputView { [weak self] in
+            self?.topmostPresentedVC()?.dismiss(animated: true)
         }
+        let hostingController = UIHostingController(rootView: inputView)
+        hostingController.view.backgroundColor = .clear
+        let navController = UINavigationController(rootViewController: hostingController)
+        navController.modalPresentationStyle = .overCurrentContext
+        navController.modalTransitionStyle = .crossDissolve
+        navController.view.backgroundColor = .clear
+        topmostPresentedVC()?.present(navController, animated: true)
     }
 
     private func showResultsView(data: PlaceHolderResults) {
