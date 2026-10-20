@@ -62,7 +62,7 @@ final class VehicleCheckCoordinator: BaseCoordinator {
 
     // MARK: - View Construction
 
-    private func makeInputView(onCancel: @escaping () -> Void) -> PlateFormModal {
+    private func makeInputView(onCancel: @escaping () -> Void) -> RegistrationNumberFormModal {
         let submitAction: PlateSubmitAction = { [weak self] plate in
             guard let self else { return .failure(.serviceUnavailable) }
             
@@ -82,7 +82,7 @@ final class VehicleCheckCoordinator: BaseCoordinator {
 
         let viewModel = PlateFormViewModel(submitAction: submitAction)
 
-        return PlateFormModal(
+        return RegistrationNumberFormModal(
             viewModel: viewModel,
             onCancel: onCancel
         ) { [weak self] vehicle in

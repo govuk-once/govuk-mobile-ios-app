@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct PlateFormModal: View {
+struct RegistrationNumberFormModal: View {
     let viewModel: PlateFormViewModel
     let onCancel: () -> Void
     let onSubmit: (VehicleEnquiryResponse.Vehicle) -> Void
