@@ -15,11 +15,6 @@ class BaseCoordinator: NSObject,
         navigationController.presentationController?.delegate = self
     }
 
-    // just for clarity...
-    var rootNavCon: UINavigationController {
-        return root
-    }
-
     final func start() {
         start(url: nil)
     }

@@ -85,11 +85,11 @@ final class VehicleCheckCoordinator: BaseCoordinator {
         let inputView = makeInputView { [weak self] in self?.dismissFlow() }
         let hostingController = UIHostingController(rootView: inputView)
         hostingController.view.backgroundColor = .clear
-        // rootNavCon is .overCurrentContext — make it fully transparent so
+        // root (NavCon) is .overCurrentContext — make it fully transparent so
         // the PlaceholderView's semi-transparent backdrop shows through
-        rootNavCon.view.backgroundColor = .clear
-        rootNavCon.setNavigationBarHidden(true, animated: false)
-        rootNavCon.modalTransitionStyle = .crossDissolve
+        root.view.backgroundColor = .clear
+        root.setNavigationBarHidden(true, animated: false)
+        root.modalTransitionStyle = .crossDissolve
         set(hostingController)
     }
 
@@ -127,14 +127,14 @@ final class VehicleCheckCoordinator: BaseCoordinator {
 
     private func presentAsFirstSheet(_ sheet: UINavigationController) {
         // .overCurrentContext breaks presentedViewController tracking —
-        // dismiss rootNavCon and present from its parent instead
-        guard let presenter = rootNavCon.presentingViewController else {
+        // dismiss root (NavCon) and present from its parent instead
+        guard let presenter = root.presentingViewController else {
             assertionFailure(
-                "rootNavCon has no presentingViewController — cannot present results"
+                "root has no presentingViewController — cannot present results"
             )
             return
         }
-        rootNavCon.dismiss(animated: false) { [weak self] in
+        root.dismiss(animated: false) { [weak self] in
             presenter.present(sheet, animated: true)
             self?.bottomSheet = sheet
         }
@@ -201,7 +201,7 @@ final class VehicleCheckCoordinator: BaseCoordinator {
             }
         } else {
             // Only the initial input overlay is on screen
-            rootNavCon.dismiss(animated: true) { [weak self] in
+            root.dismiss(animated: true) { [weak self] in
                 self?.finish()
             }
         }
