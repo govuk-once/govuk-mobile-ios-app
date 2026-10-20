@@ -80,7 +80,7 @@ final class VehicleCheckCoordinator: BaseCoordinator {
             }
         }
 
-        let viewModel = PlateFormViewModel(submitAction: submitAction)
+        let viewModel = RegistrationNumberFormViewModel(submitAction: submitAction)
 
         return RegistrationNumberFormModal(
             viewModel: viewModel,

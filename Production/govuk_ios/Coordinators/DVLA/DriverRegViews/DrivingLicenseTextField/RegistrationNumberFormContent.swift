@@ -2,7 +2,7 @@ import SwiftUI
 
 /// The registration number entry form: label, input field, and cancel/submit buttons. Presentation-agnostic.
 struct RegistrationNumberFormContent: View {
-    @ObservedObject var viewModel: PlateFormViewModel
+    @ObservedObject var viewModel: RegistrationNumberFormViewModel
     @FocusState private var isFieldFocused: Bool
     let onCancel: () -> Void
     let onSubmit: (VehicleEnquiryResponse.Vehicle) -> Void

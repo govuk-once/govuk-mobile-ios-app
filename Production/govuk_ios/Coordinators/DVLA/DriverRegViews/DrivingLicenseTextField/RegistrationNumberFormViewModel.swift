@@ -8,9 +8,9 @@ enum RegistrationNumberQueryError: String, Error, CaseIterable, Hashable {
 
 typealias PlateSubmitAction = (String) async -> Result<VehicleEnquiryResponse.Vehicle, RegistrationNumberQueryError>
 
-/// Owns plate input state, validation, and submission. Inject into any view that hosts a ``DrivingLicenseField``.
+/// Owns registration number input state, validation, and submission.
 @MainActor
-final class PlateFormViewModel: ObservableObject {
+final class RegistrationNumberFormViewModel: ObservableObject {
     @Published var numberPlate: String = "" {
         // Clears the error when the user edits the plate, so they can retry after a failed submission.
         // Compares sanitized forms to ignore the intermediate value from the sanitizer bounce-back

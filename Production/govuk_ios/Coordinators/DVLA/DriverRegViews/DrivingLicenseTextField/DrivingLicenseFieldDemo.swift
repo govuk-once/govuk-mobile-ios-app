@@ -3,7 +3,7 @@ import SwiftUI
 
 /// Demo harness showing ``RegistrationNumberFormContent`` in two presentation styles: sheet and custom overlay.
 struct DrivingLicenseFieldDemo: View {
-    @StateObject private var viewModel: PlateFormViewModel
+    @StateObject private var viewModel: RegistrationNumberFormViewModel
 
     /// Mutually exclusive screen state. Computed bindings below bridge each case to SwiftUI's `.sheet(isPresented:)` API.
     enum Presentation {
@@ -16,8 +16,8 @@ struct DrivingLicenseFieldDemo: View {
     @State private var presentation: Presentation = .none
 
     @MainActor
-    init(viewModel: PlateFormViewModel? = nil) {
-        _viewModel = StateObject(wrappedValue: viewModel ?? PlateFormViewModel())
+    init(viewModel: RegistrationNumberFormViewModel? = nil) {
+        _viewModel = StateObject(wrappedValue: viewModel ?? RegistrationNumberFormViewModel())
     }
 
     var body: some View {
@@ -115,7 +115,7 @@ struct DrivingLicenseFieldDemo: View {
 }
 
 private struct DebugControls: View {
-    @ObservedObject var viewModel: PlateFormViewModel
+    @ObservedObject var viewModel: RegistrationNumberFormViewModel
     @State private var shouldFail = false
 
     var body: some View {
