@@ -2,7 +2,9 @@ import UIKit
 import SwiftUI
 import GovKit
 
-// final class VehicleCheckCoordinatorStateDriven: BaseCoordinator {
+/// Coordinates the vehicle check flow, managing transitions between registration number plate input screens and DVLA enquiry results.
+///
+/// Presents input views as transparent modal overlays and results as sheet presentations, supporting sheet stacking and customizable dismissal behaviors.
 final class VehicleCheckCoordinator: BaseCoordinator {
     private let viewControllerBuilder: ViewControllerBuilder
     private let analyticsService: AnalyticsServiceInterface
