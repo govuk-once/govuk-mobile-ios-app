@@ -1,8 +1,9 @@
 import SwiftUI
+import GovKitUI
 
 // MARK: - Style Configuration Struct
 struct StateLabelStyleConfiguration {
-    var font: Font = .body
+    var font: Font = Font.govUK.body
     var horizontalPadding: CGFloat = 12
     var verticalPadding: CGFloat = 8
     var cornerRadius: CGFloat = 6
