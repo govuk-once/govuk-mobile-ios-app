@@ -6,6 +6,7 @@ import Testing
 
 @Suite
 struct HomeViewModelTests {
+    @MainActor
     @Test
     func widgets_returnsArrayOfWidgets() async {
         let coreData = await CoreDataRepository.arrangeAndLoad
@@ -77,6 +78,7 @@ struct HomeViewModelTests {
         #expect(widgets.count == 7)
     }
 
+    @MainActor
     @Test
     func widgets_featureDisabled_doesntReturnWidget() async {
         let coreData = await CoreDataRepository.arrangeAndLoad
@@ -114,6 +116,7 @@ struct HomeViewModelTests {
         #expect(widgets.count == 0)
     }
 
+    @MainActor
     @Test
     func emergencyBanners_have_correct_sort_priority() async throws {
         let coreData = await CoreDataRepository.arrangeAndLoad
@@ -175,6 +178,7 @@ struct HomeViewModelTests {
         #expect(bannerTwo.viewModel.sortPriority == 10)
     }
     
+    @MainActor
     @Test
     func edit_Topics() async {
         let coreData = await CoreDataRepository.arrangeAndLoad
@@ -301,6 +305,7 @@ struct HomeViewModelTests {
         #expect(quarterlySurveyPresent == false)
     }
 
+    @MainActor
     @Test
     func trackABTest_tracksEvent() async  {
         let analyticsService = MockAnalyticsService()
