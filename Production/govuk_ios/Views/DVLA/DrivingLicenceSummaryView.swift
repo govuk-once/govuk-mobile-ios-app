@@ -39,9 +39,7 @@ struct DrivingLicenceSummaryView: View {
             }
             .background(Color(UIColor.govUK.fills.surfaceList))
             .clipShape(RoundedRectangle(cornerRadius: 10))
-            Text(.DVLA.notValidFormOfIdNotice)
-                .foregroundStyle(Color(uiColor: .govUK.text.primary))
-                .font(.govUK.footnote)
+            footerView
         }
     }
 
@@ -111,5 +109,12 @@ struct DrivingLicenceSummaryView: View {
             .padding(.horizontal, Self.standardPadding)
             .padding(.bottom, Self.standardPadding)
         }
+    }
+
+    private var footerView: some View {
+        Text(.DVLA.notValidFormOfIdNotice)
+            .multilineTextAlignment(.center)
+            .foregroundStyle(Color(uiColor: .govUK.text.primary))
+            .font(.govUK.footnote)
     }
 }
