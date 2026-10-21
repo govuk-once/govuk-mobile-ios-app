@@ -23,7 +23,7 @@ struct LoadingButtonStyle: ButtonStyle {
         .padding()
         .background(Color(uiColor: .primaryBlue))
         .foregroundColor(.white)
-        .cornerRadius(10)
+        .cornerRadius(15)
         .scaleEffect(configuration.isPressed && !isLoading ? 0.98 : 1.0)
         .animation(.easeInOut(duration: 0.2), value: isLoading)
     }
