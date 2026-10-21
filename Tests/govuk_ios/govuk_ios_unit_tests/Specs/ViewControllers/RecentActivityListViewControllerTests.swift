@@ -6,15 +6,6 @@ import GovKit
 
 @testable import govuk_ios
 
-@MainActor
-private final class TestableRecentActivityListViewController: RecentActivityListViewController {
-    var stubbedIsLandscapeDuoFoldedOpen: Bool = false
-    
-    override var isLandscapeDuoFoldedOpen: Bool {
-        return stubbedIsLandscapeDuoFoldedOpen
-    }
-}
-
 @Suite
 @MainActor
 struct RecentActivityListViewControllerTests {
@@ -141,6 +132,15 @@ struct RecentActivityListViewControllerTests {
         #expect(leadingSafeAreaConstraint != nil)
         #expect(trailingSafeAreaConstraint != nil)
         #expect(leadingSafeAreaConstraint?.isActive == true)
+    }
+}
+
+@MainActor
+private final class TestableRecentActivityListViewController: RecentActivityListViewController {
+    var stubbedIsLandscapeDuoFoldedOpen: Bool = false
+    
+    override var isLandscapeDuoFoldedOpen: Bool {
+        return stubbedIsLandscapeDuoFoldedOpen
     }
 }
 

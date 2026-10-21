@@ -9,7 +9,7 @@ private typealias Snapshot =
 NSDiffableDataSourceSnapshot<RecentActivitySection, NSManagedObjectID>
 
 // swiftlint:disable:next type_body_length
-final class RecentActivityListViewController: BaseViewController {
+class RecentActivityListViewController: BaseViewController {
     private lazy var tableView: UITableView = {
         let localView = UITableView.groupedList
         localView.contentInset.top = 16
