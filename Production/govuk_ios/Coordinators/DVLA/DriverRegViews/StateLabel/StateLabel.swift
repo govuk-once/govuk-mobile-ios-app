@@ -5,7 +5,7 @@ struct StateLabelStyleConfiguration {
     var font: Font = .body
     var horizontalPadding: CGFloat = 12
     var verticalPadding: CGFloat = 8
-    var cornerRadius: CGFloat = 8
+    var cornerRadius: CGFloat = 6
 
     // Color definitions
     var errorBackgroundColor: Color = Color(
