@@ -4,6 +4,7 @@ import SwiftUI
 /// when `isLoading` is true, providing smooth state transitions.
 struct LoadingButtonStyle: ButtonStyle {
     let isLoading: Bool
+    var loadingLabel: String
 
     func makeBody(configuration: Configuration) -> some View {
         ZStack {
@@ -11,6 +12,7 @@ struct LoadingButtonStyle: ButtonStyle {
                 ProgressView()
                     .progressViewStyle(.circular)
                     .tint(.white)
+                    .accessibilityLabel(loadingLabel)
             } else {
                 configuration.label
                     .opacity(configuration.isPressed ? 0.7 : 1.0)

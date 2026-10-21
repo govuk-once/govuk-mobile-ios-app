@@ -43,7 +43,10 @@ struct RegistrationNumberFormContent: View {
                             .fontWeight(.bold)
                             .frame(maxWidth: .infinity)
                     }
-                    .buttonStyle(LoadingButtonStyle(isLoading: viewModel.isLoading))
+                    .buttonStyle(LoadingButtonStyle(
+                        isLoading: viewModel.isLoading,
+                        loadingLabel: viewModel.loadingLabel)
+                    )
                     .disabled(viewModel.isLoading)
                     .transition(.opacity.combined(with: .move(edge: .trailing)))
                 }

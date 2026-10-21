@@ -30,6 +30,7 @@ final class RegistrationNumberFormViewModel: ObservableObject {
     }
     @Published private(set) var isLoading = false
     @Published private(set) var isSubmitted = false
+    let loadingLabel = "Getting vehicle details"
     @Published private(set) var error: RegistrationNumberQueryError?
     private(set) var fetchedVehicle: VehicleEnquiryResponse.Vehicle?
 
