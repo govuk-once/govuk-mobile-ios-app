@@ -62,11 +62,17 @@ struct RegistrationNumberFormContent: View {
         if let error = viewModel.error {
             return .error(error.rawValue)
         } else if viewModel.numberPlate.isEmpty {
-            return .normal("Enter number plate")
+            return .normal(
+                String(localized: .DVLA.enterNumberPlateLabel)
+            )
         } else if viewModel.isValidPlate {
-            return .normal("Enter number plate")
+            return .normal(
+                String(localized: .DVLA.enterNumberPlateLabel)
+            )
         } else {
-            return .error("Plate must be 2–7 characters")
+            return .error(
+                String(localized: .DVLA.plateMustBe2To7Characters)
+            )
         }
     }
 }

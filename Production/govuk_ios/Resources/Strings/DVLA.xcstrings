@@ -486,6 +486,17 @@
         }
       }
     },
+    "enterNumberPlateLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter number plate"
+          }
+        }
+      }
+    },
     "expired" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1043,6 +1054,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Petrol and gas"
+          }
+        }
+      }
+    },
+    "plateMustBe2To7Characters" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plate must be 2–7 characters"
           }
         }
       }
