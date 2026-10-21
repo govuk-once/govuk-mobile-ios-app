@@ -1,4 +1,5 @@
 import SwiftUI
+import GovKitUI
 
 /// A custom button style that displays a loading spinner instead of the label
 /// when `isLoading` is true, providing smooth state transitions.
@@ -20,7 +21,7 @@ struct LoadingButtonStyle: ButtonStyle {
         }
         .frame(maxWidth: .infinity)
         .padding()
-        .background(isLoading ? Color.blue.opacity(0.6) : Color.blue)
+        .background(Color(uiColor: .primaryBlue))
         .foregroundColor(.white)
         .cornerRadius(10)
         .scaleEffect(configuration.isPressed && !isLoading ? 0.98 : 1.0)
