@@ -103,7 +103,7 @@ final class RecentActivityListViewController: BaseViewController {
             }
         }
     }
-    private var isLandscapeDuoFoldedOpen: Bool {
+    internal var isLandscapeDuoFoldedOpen: Bool {
         guard let windowScene = view.window?.windowScene else { return false }
         let isLandscape = windowScene.interfaceOrientation.isLandscape
         let isDuoUnfolded = traitCollection.horizontalSizeClass == .regular
