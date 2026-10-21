@@ -26,9 +26,7 @@ struct RegistrationNumberFormContent: View {
                 Button("Cancel") {
                     onCancel()
                 }
-                .frame(maxWidth: .infinity)
-                .frame(height: 44)
-                .cornerRadius(12)
+                .buttonStyle(RegistrationCancelButtonStyle())
 
                 if viewModel.isValidPlate {
                     Button {
@@ -40,8 +38,6 @@ struct RegistrationNumberFormContent: View {
                         }
                     } label: {
                         Text("Submit")
-                            .fontWeight(.bold)
-                            .frame(maxWidth: .infinity)
                     }
                     .buttonStyle(LoadingButtonStyle(
                         isLoading: viewModel.isLoading,
