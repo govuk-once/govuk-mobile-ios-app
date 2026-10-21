@@ -24,6 +24,16 @@ extension GOVUKColors.Fills {
                 return UIColor.yellowTint80
             }
         }
+
+    public static let registrationFormBackgroundColor: UIColor = UIColor { traitCollection in
+            switch traitCollection.userInterfaceStyle {
+            case .dark:
+                return #colorLiteral(red: 0.05878055841, green: 0.2196403742, blue: 0.360727191, alpha: 1)
+            default:
+                return GOVUKColors.fills.surfaceCardDefault
+            }
+        }
+
 }
 
 extension GOVUKColors.Text {

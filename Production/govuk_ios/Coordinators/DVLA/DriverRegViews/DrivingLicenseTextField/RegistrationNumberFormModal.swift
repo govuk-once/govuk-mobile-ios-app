@@ -18,11 +18,11 @@ struct RegistrationNumberFormModal: View {
                     onCancel: onCancel,
                     onSubmit: onSubmit
                 )
-                .background(Color(.systemBackground))
-                .cornerRadius(16)
+                .background(Color(uiColor: .govUK.fills.registrationFormBackgroundColor))
+                .cornerRadius(33)
                 .shadow(color: .black.opacity(0.15), radius: 15, x: 0, y: 5)
-                .padding(.horizontal, 16)
-                .padding(.bottom, 16)
+                .padding(.horizontal, 8)
+                .padding(.bottom, 8)
             }
         }
     }
