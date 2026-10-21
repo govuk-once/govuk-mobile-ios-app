@@ -1,7 +1,5 @@
 import SwiftUI
 
-let yellowTint80: UIColor = #colorLiteral(red: 1, green: 0.9725490196, blue: 0.8, alpha: 1)
-
 // MARK: - Style Configuration Struct
 struct StateLabelStyleConfiguration {
     var font: Font = .body
@@ -10,10 +8,18 @@ struct StateLabelStyleConfiguration {
     var cornerRadius: CGFloat = 8
 
     // Color definitions
-    var errorBackgroundColor: Color = .black
-    var normalBackgroundColor: Color = Color(.systemGray6)
-    var errorForegroundColor: Color = .yellow
-    var normalForegroundColor: Color = .primary
+    var errorBackgroundColor: Color = Color(
+        UIColor.yellowTint80
+    )
+    var normalBackgroundColor: Color = Color(
+        .govUK.fills.surfaceCardDefault
+    )
+    var errorForegroundColor: Color = Color(
+        UIColor.govUK.text.primary
+    )
+    var normalForegroundColor: Color = Color(
+        UIColor.govUK.text.primary
+    )
 
     // Helper functions for state-based resolution
     func backgroundColor(isError: Bool) -> Color {
