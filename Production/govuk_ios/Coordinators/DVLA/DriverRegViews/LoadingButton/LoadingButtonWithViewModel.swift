@@ -27,3 +27,20 @@ struct LoadingButtonStyle: ButtonStyle {
         .animation(.easeInOut(duration: 0.2), value: isLoading)
     }
 }
+
+#Preview("LoadingButton") {
+    VStack {
+        Button("Do it") {}
+        .buttonStyle(
+            LoadingButtonStyle(isLoading: false,
+                               loadingLabel: "")
+        )
+
+        Button("Wait for it") {}
+        .buttonStyle(
+            LoadingButtonStyle(isLoading: true,
+                               loadingLabel: "Wait for it")
+        )
+    }
+    .padding(.horizontal)
+}
