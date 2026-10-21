@@ -10,13 +10,13 @@ struct StateLabelStyleConfiguration {
 
     // Color definitions
     var errorBackgroundColor: Color = Color(
-        UIColor.yellowTint80
+        .govUK.fills.stateLabelErrorBackgroundColor
     )
     var normalBackgroundColor: Color = Color(
         .govUK.fills.surfaceCardDefault
     )
     var errorForegroundColor: Color = Color(
-        UIColor.govUK.text.primary
+        .govUK.text.stateLabelErrorForegroundColor
     )
     var normalForegroundColor: Color = Color(
         UIColor.govUK.text.primary

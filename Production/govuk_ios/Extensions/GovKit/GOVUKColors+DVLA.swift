@@ -15,4 +15,24 @@ extension GOVUKColors.Fills {
                 return #colorLiteral(red: 0.9414063096, green: 0.94140625, blue: 0.9414063096, alpha: 1)
             }
         }
+
+    public static let stateLabelErrorBackgroundColor: UIColor = UIColor { traitCollection in
+            switch traitCollection.userInterfaceStyle {
+            case .dark:
+                return #colorLiteral(red: 0.03922517225, green: 0.1529186666, blue: 0.2510053813, alpha: 1)
+            default:
+                return UIColor.yellowTint80
+            }
+        }
+}
+
+extension GOVUKColors.Text {
+    public static let stateLabelErrorForegroundColor: UIColor = UIColor { traitCollection in
+        switch traitCollection.userInterfaceStyle {
+        case .dark:
+            return #colorLiteral(red: 0.9983258843, green: 0.8655689955, blue: 0.0169921387, alpha: 1)
+        default:
+            return UIColor.govUK.text.primary
+        }
+    }
 }
