@@ -7,34 +7,41 @@ struct DrivingLicenceSummaryView: View {
     private static let iconSize: CGFloat = 36.0
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            headerView
-            Text(viewModel.licenceNumber)
-                .font(.govUK.title1Bold)
-                .multilineTextAlignment(.leading)
-                .padding(.vertical, Self.standardPadding)
-                .padding(.horizontal, Self.standardPadding)
-                .accessibilityLabel(
-                    Text(viewModel.licenceNumberAccessibilityLabelPrefix) +
-                    Text(viewModel.licenceNumber.lowercased())
-                        .speechSpellsOutCharacters()
-                )
-                .background(Color(uiColor: .govUK.fills.surfaceList))
-                .roundedBorder(borderColor: .clear)
-                .contextMenu {
-                    Button {
-                        viewModel.copyToClipboardAction(viewModel.licenceNumber)
-                    } label: {
-                        Text(viewModel.copyToClipboardButtonTitle)
-                        Image(systemName: "doc.on.doc.fill")
+        VStack(spacing: 12) {
+            VStack(alignment: .leading, spacing: 0) {
+                headerView
+                Text(viewModel.licenceNumber)
+                    .font(.govUK.title1Bold)
+                    .multilineTextAlignment(.leading)
+                    .padding(.vertical, Self.standardPadding)
+                    .padding(.horizontal, Self.standardPadding)
+                    .accessibilityLabel(
+                        Text(viewModel.licenceNumberAccessibilityLabelPrefix) +
+                        Text(viewModel.licenceNumber.lowercased())
+                            .speechSpellsOutCharacters()
+                    )
+                    .background(Color(uiColor: .govUK.fills.surfaceList))
+                    .roundedBorder(borderColor: .clear)
+                    .contextMenu {
+                        Button {
+                            viewModel.copyToClipboardAction(viewModel.licenceNumber)
+                        } label: {
+                            Text(viewModel.copyToClipboardButtonTitle)
+                            Image(systemName: "doc.on.doc.fill")
+                        }
                     }
-                }
-            addressView
-            Divider()
-                .overlay(Color(uiColor: .govUK.strokes.listDivider))
-                .padding(.horizontal, Self.standardPadding)
-                .padding(.top, 8)
-            ValidityStatusView(viewModel: viewModel.licenceStatusViewModel)
+                addressView
+                Divider()
+                    .overlay(Color(uiColor: .govUK.strokes.listDivider))
+                    .padding(.horizontal, Self.standardPadding)
+                    .padding(.top, 8)
+                ValidityStatusView(viewModel: viewModel.licenceStatusViewModel)
+            }
+            .background(Color(UIColor.govUK.fills.surfaceList))
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+            Text(.DVLA.notValidFormOfIdNotice)
+                .foregroundStyle(Color(uiColor: .govUK.text.primary))
+                .font(.govUK.footnote)
         }
     }
 
