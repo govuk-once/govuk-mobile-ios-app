@@ -27,7 +27,8 @@ struct NotificationCentreDetailContainerView: View {
                             onCancelDelete: {
                                 viewModel.onCancelDelete()
                             },
-                            showDeleteConfirmation: showConfirmation)
+                            showDeleteConfirmation: showConfirmation
+                        )
                     case .error:
                         NotificationCentreErrorView()
                     case .noInternet:
@@ -35,12 +36,15 @@ struct NotificationCentreDetailContainerView: View {
                     }
                 }
                 .frame(minWidth: geometry.size.width, minHeight: geometry.size.height)
+                .accessibilitySortPriority(1)
             }
-            .safeAreaInset(edge: .bottom) {
+            .overlay(alignment: .bottomLeading) {
                 if #available(iOS 26.0, *), case .loaded = viewModel.state {
                     FloatingIconButtons(
-                        unreadAction: viewModel.onMarkUnread, deleteAction: viewModel.onDelete
+                        unreadAction: viewModel.onMarkUnread,
+                        deleteAction: viewModel.onDelete
                     )
+                    .accessibilitySortPriority(-1)
                 }
             }
         }
@@ -69,6 +73,7 @@ private struct FloatingIconButtons: View {
                 }
                 .glassEffect(.regular.interactive(), in: Circle())
                 .accessibilityLabel(.NotificationCentre.notificationCentreDetailDeleteA11YLabel)
+                .focusable(true)
 
                 Button {
                     unreadAction()
@@ -79,6 +84,7 @@ private struct FloatingIconButtons: View {
                 }
                 .glassEffect(.regular.interactive(), in: Circle())
                 .accessibilityLabel(.NotificationCentre.notificationCentreDetailUnreadA11YLabel)
+                .focusable(true)
 
                 Spacer()
             }
@@ -129,6 +135,7 @@ public struct NotificationCentreDetailLoadedView: View {
                     .font(Font.govUK.title1Bold)
                     .padding(.bottom, 16)
                     .foregroundStyle(Color(UIColor.govUK.text.primary))
+                    .accessibilityAddTraits(.isHeader)
 
 
                 Markdown(
