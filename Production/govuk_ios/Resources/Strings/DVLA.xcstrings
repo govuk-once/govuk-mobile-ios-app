@@ -122,6 +122,17 @@
         }
       }
     },
+    "clearTextAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clear text"
+          }
+        }
+      }
+    },
     "co2Emissions" : {
       "extractionState" : "manual",
       "localizations" : {

@@ -36,7 +36,7 @@ struct RegistrationNumberField: View {
                 .font(.system(size: 22))
                 .foregroundColor(.secondary)
         }
-        .accessibilityLabel("Clear text")
+        .accessibilityLabel(.DVLA.clearTextAccessibilityLabel)
         .transition(.opacity.combined(with: .scale))
     }
 }
