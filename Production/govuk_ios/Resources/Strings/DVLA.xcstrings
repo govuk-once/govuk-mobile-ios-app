@@ -629,6 +629,17 @@
         }
       }
     },
+    "gettingVehicleDetails" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Getting vehicle details"
+          }
+        }
+      }
+    },
     "hybrid" : {
       "extractionState" : "manual",
       "localizations" : {
