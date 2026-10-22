@@ -1003,6 +1003,17 @@
         }
       }
     },
+    "notValidFormOfIdNotice" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This is not a valid form of identification"
+          }
+        }
+      }
+    },
     "offTheRoadSorn" : {
       "extractionState" : "manual",
       "localizations" : {
