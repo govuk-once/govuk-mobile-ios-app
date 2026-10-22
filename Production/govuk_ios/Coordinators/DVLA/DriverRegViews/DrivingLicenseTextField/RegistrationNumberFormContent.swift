@@ -23,27 +23,8 @@ struct RegistrationNumberFormContent: View {
             .padding(.bottom, 12)
             .padding(.trailing, 8)
 
-            HStack(spacing: 8) {
-                Button("Cancel") {
-                    onCancel()
-                }
-                .buttonStyle(RegistrationCancelButtonStyle())
-
-                if viewModel.isValidPlate {
-                    Button {
-                        handleSubmission()
-                    } label: {
-                        Text("Submit")
-                    }
-                    .buttonStyle(LoadingButtonStyle(
-                        isLoading: viewModel.isLoading,
-                        loadingLabel: viewModel.loadingLabel)
-                    )
-                    .disabled(viewModel.isLoading)
-                    .transition(.opacity.combined(with: .move(edge: .trailing)))
-                }
-            }
-            .padding(.bottom, 16)
+            actionButtons
+                .padding(.bottom, 16)
         }
         .animation(.spring(response: 0.3, dampingFraction: 0.8), value: viewModel.isValidPlate)
         .padding(.horizontal, 16)
@@ -52,6 +33,30 @@ struct RegistrationNumberFormContent: View {
 }
 
 extension RegistrationNumberFormContent {
+
+    @ViewBuilder
+    private var actionButtons: some View {
+        HStack(spacing: 8) {
+            Button("Cancel") {
+                onCancel()
+            }
+            .buttonStyle(RegistrationCancelButtonStyle())
+
+            if viewModel.isValidPlate {
+                Button(action: handleSubmission) {
+                    Text("Submit")
+                }
+                .buttonStyle(LoadingButtonStyle(
+                    isLoading: viewModel.isLoading,
+                    loadingLabel: viewModel.loadingLabel
+                ))
+                .disabled(viewModel.isLoading)
+                .transition(.opacity.combined(with:
+                        .move(edge: .trailing))
+                )
+            }
+        }
+    }
 
     private var labelContent: StateLabelContent {
         if let error = viewModel.error {
