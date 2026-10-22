@@ -21,7 +21,7 @@ struct PlaceholderView: View {
     @State private var keyboardHeight: CGFloat = 0
 
     var bottomSpacing: CGFloat = 0 // 16 // Desired distance above the keyboard
-    var onSubmit: (String) -> Void
+    var submitAction: (String) -> Void
     var cancelAction: () -> Void
 
     @FocusState private var isTextFieldFocused: Bool
@@ -47,13 +47,13 @@ struct PlaceholderView: View {
                         .textFieldStyle(.roundedBorder)
                         .focused($isTextFieldFocused)
                         .submitLabel(.search)
-                        .onSubmit {
-                            if !inputText.isEmpty { onSubmit(inputText) }
+                        .submitAction {
+                            if !inputText.isEmpty { submitAction(inputText) }
                         }
 
                     HStack(spacing: 12) {
                         Button("Cancel") { cancelAction() }.buttonStyle(.bordered)
-                        Button("Submit") { onSubmit(inputText) }.buttonStyle(.borderedProminent)
+                        Button("Submit") { submitAction(inputText) }.buttonStyle(.borderedProminent)
                             .disabled(inputText.isEmpty)
                     }
                 }

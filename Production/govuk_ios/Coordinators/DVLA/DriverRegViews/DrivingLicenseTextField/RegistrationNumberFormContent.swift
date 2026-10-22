@@ -5,7 +5,7 @@ struct RegistrationNumberFormContent: View {
     @ObservedObject var viewModel: RegistrationNumberFormViewModel
     @FocusState private var isFieldFocused: Bool
     let cancelAction: () -> Void
-    let onSubmit: (VehicleEnquiryResponse.Vehicle) -> Void
+    let submitAction: (VehicleEnquiryResponse.Vehicle) -> Void
 
     var body: some View {
         VStack(spacing: 0) {
@@ -81,7 +81,7 @@ extension RegistrationNumberFormContent {
         Task {
             if await viewModel.submit(),
                 let vehicle = viewModel.fetchedVehicle {
-                onSubmit(vehicle)
+                submitAction(vehicle)
             }
         }
     }
