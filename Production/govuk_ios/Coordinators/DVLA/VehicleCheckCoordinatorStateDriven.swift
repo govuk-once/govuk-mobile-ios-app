@@ -86,10 +86,11 @@ final class VehicleCheckCoordinator: BaseCoordinator {
 
         return RegistrationNumberFormModal(
             viewModel: viewModel,
-            cancelAction: onCancel
-        ) { [weak self] vehicle in
-            self?.state = .results(vehicle: vehicle)
-        }
+            cancelAction: onCancel,
+            submitAction: { [weak self] vehicle in
+                self?.state = .results(vehicle: vehicle)
+            }
+        )
     }
 
     // MARK: - UI Presentation Logic
