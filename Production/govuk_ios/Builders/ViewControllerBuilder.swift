@@ -445,10 +445,17 @@ class ViewControllerBuilder {
 
         let viewController = HostingViewController(
             rootView: ChatView(
-                viewModel: viewModel
+                viewModel: viewModel,
+                voiceOverFocusService: VoiceOverFocusService(
+                    delay: VoiceOverFocusService.defaultDelay,
+                    rootElements: VoiceOverFocusService.keyWindows,
+                    currentFocus: VoiceOverFocusService.voiceOverFocusedElement,
+                    postNotification: VoiceOverFocusService.post
+                )
             ),
             navigationBarHidden: true
         )
+        viewController.shouldAutoFocusVoiceover = false
         return viewController
     }
 

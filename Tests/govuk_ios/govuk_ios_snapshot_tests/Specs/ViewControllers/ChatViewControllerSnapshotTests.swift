@@ -77,7 +77,10 @@ final class ChatViewControllerSnapshotTests: SnapshotTestCase {
         gettingAnswerModel.isVisible = true
         viewModel.cellModels = [loadingModel, gettingAnswerModel]
 
-        let view = ChatView(viewModel: viewModel)
+        let view = ChatView(
+            viewModel: viewModel,
+            voiceOverFocusService: MockVoiceOverFocusService()
+        )
             .environment(\.isTesting, true)
 
         VerifySnapshotInNavigationController(
@@ -108,7 +111,10 @@ final class ChatViewControllerSnapshotTests: SnapshotTestCase {
         gettingAnswerModel.isVisible = true
         viewModel.cellModels = [loadingModel, gettingAnswerModel]
 
-        let view = ChatView(viewModel: viewModel)
+        let view = ChatView(
+            viewModel: viewModel,
+            voiceOverFocusService: MockVoiceOverFocusService()
+        )
             .environment(\.isTesting, true)
 
         VerifySnapshotInNavigationController(
@@ -210,7 +216,10 @@ final class ChatViewControllerSnapshotTests: SnapshotTestCase {
             }
         }
 
-        let view = ChatView(viewModel: viewModel)
+        let view = ChatView(
+            viewModel: viewModel,
+            voiceOverFocusService: MockVoiceOverFocusService()
+        )
             .environment(\.isTesting, true)
         return view
     }
@@ -261,7 +270,10 @@ final class ChatViewControllerSnapshotTests: SnapshotTestCase {
         cellModel.isVisible = true
         viewModel.cellModels = [cellModel]
 
-        return ChatView(viewModel: viewModel)
+        return ChatView(
+            viewModel: viewModel,
+            voiceOverFocusService: MockVoiceOverFocusService()
+        )
             .environment(\.isTesting, true)
     }
 
@@ -285,7 +297,10 @@ final class ChatViewControllerSnapshotTests: SnapshotTestCase {
         // snapshot is taken so setting manually
         viewModel.cellModels.first?.isVisible = true
 
-        let view = ChatView(viewModel: viewModel)
+        let view = ChatView(
+            viewModel: viewModel,
+            voiceOverFocusService: MockVoiceOverFocusService()
+        )
             .environment(\.isTesting, true)
         return view
     }
