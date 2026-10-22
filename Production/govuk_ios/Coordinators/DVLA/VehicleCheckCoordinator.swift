@@ -226,24 +226,6 @@ final class VehicleCheckCoordinator: BaseCoordinator {
         // underlying sheets remain interactive
     }
 
-    /*
-     override func presentationControllerDidDismiss(
-     _ presentationController: UIPresentationController
-     ) {
-     super.presentationControllerDidDismiss(presentationController)
-     trackHandleCloseEvent()
-     }
-
-     private func trackHandleCloseEvent() {
-     let event = AppEvent.buttonNavigation(
-     text: "Handle close",
-     external: false,
-     section: "Driving"
-     )
-     analyticsService.track(event: event)
-     }
-     }
-     */
     /// Tears down the entire flow — all sheets and the initial overlay.
     private func dismissFlow() {
         if let sheet = bottomSheet,
@@ -284,52 +266,3 @@ extension VehicleCheckCoordinator {
         )
     }
 }
-
-
-/*
-// MARK: - Older code
-extension VehicleCheckCoordinator {
-    private func setVehicleCheckResult(for vehicle: VehicleEnquiryResponse.Vehicle) {
-        let actions = VehicleCheckResultActions(
-            openURLAction: { [weak self] url in
-                self?.urlOpener.openIfPossible(url)
-            },
-            searchAction: {
-                print("search tapped - not implemented yet")
-            },
-            dismissAction: {  [weak self] in
-                self?.root.dismiss(animated: true)
-            }
-        )
-        let viewController = viewControllerBuilder.vehicleCheckResult(
-            vehicle: vehicle,
-            analyticsService: analyticsService,
-            configService: configService,
-            actions: actions
-        )
-        viewController.view.backgroundColor = .govUK.fills.surfaceModal
-        if let sheet = root.sheetPresentationController {
-            sheet.prefersGrabberVisible = true
-            sheet.detents = [.large()]
-        }
-        set(viewController)
-    }
-
-    override func presentationControllerDidDismiss(
-        _ presentationController: UIPresentationController
-    ) {
-        super.presentationControllerDidDismiss(presentationController)
-        trackHandleCloseEvent()
-    }
-
-    private func trackHandleCloseEvent() {
-        let event = AppEvent.buttonNavigation(
-            text: "Handle close",
-            external: false,
-            section: "Driving"
-        )
-        analyticsService.track(event: event)
-    }
-
-}
-*/
