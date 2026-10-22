@@ -4,24 +4,52 @@ import SwiftUI
 import UIKit
 
 /// Coordinates the vehicle check flow, managing transitions between registration number plate input screens and DVLA enquiry results.
-///
-/// Presents input views as transparent modal overlays and results as sheet presentations, supporting sheet stacking and customizable dismissal behaviors.
+@MainActor
 final class VehicleCheckCoordinator: BaseCoordinator {
     private let viewControllerBuilder: ViewControllerBuilder
     private let analyticsService: AnalyticsServiceInterface
     private let configService: AppConfigServiceInterface
     private let urlOpener: URLOpener
     private let dvlaService: DVLAServiceInterface
+    private let closeBehaviour: CloseBehaviour
 
-    private weak var bottomSheet: UINavigationController?
+    private weak var primarySheet: UINavigationController?
 
-    init(navigationController: UINavigationController,
-         viewControllerBuilder: ViewControllerBuilder,
-         analyticsService: AnalyticsServiceInterface,
-         configService: AppConfigServiceInterface,
-         urlOpener: URLOpener,
-         dvlaService: DVLAServiceInterface,
-         closeBehaviour: CloseBehaviour = .dismissTopmost) {
+    enum CloseBehaviour {
+        case dismissAll
+        case dismissTopmost
+    }
+
+    enum FlowState: Equatable {
+        case initialInput
+        case results(vehicle: VehicleEnquiryResponse.Vehicle)
+        case nestedInput
+
+        static func == (lhs: FlowState, rhs: FlowState) -> Bool {
+            switch (lhs, rhs) {
+            case (.initialInput, .initialInput),
+                 (.nestedInput, .nestedInput):
+                return true
+
+            case (.results(let lhsVehicle), .results(let rhsVehicle)):
+                return lhsVehicle.vehicleId == rhsVehicle.vehicleId
+
+            default:
+                return false
+            }
+        }
+    }
+    private(set) var state: FlowState = .initialInput
+
+    init(
+        navigationController: UINavigationController,
+        viewControllerBuilder: ViewControllerBuilder,
+        analyticsService: AnalyticsServiceInterface,
+        configService: AppConfigServiceInterface,
+        urlOpener: URLOpener,
+        dvlaService: DVLAServiceInterface,
+        closeBehaviour: CloseBehaviour = .dismissAll // .dismissTopmost
+    ) {
         self.viewControllerBuilder = viewControllerBuilder
         self.analyticsService = analyticsService
         self.configService = configService
@@ -31,28 +59,15 @@ final class VehicleCheckCoordinator: BaseCoordinator {
         super.init(navigationController: navigationController)
     }
 
-    enum CloseBehaviour {
-        case dismissAll
-        case dismissTopmost
-    }
-
-    private let closeBehaviour: CloseBehaviour
-
-    enum FlowState {
-        case initialInput
-        case results(vehicle: VehicleEnquiryResponse.Vehicle)
-        case nestedInput
-    }
-
-    private var state: FlowState = .initialInput {
-        didSet { handleStateTransition(to: state) }
-    }
-
     override func start(url: URL?) {
-        state = .initialInput
+        transition(to: .initialInput)
     }
 
-    private func handleStateTransition(to newState: FlowState) {
+    // MARK: - State Machine
+
+    private func transition(to newState: FlowState) {
+        state = newState
+
         switch newState {
         case .initialInput:
             showInitialInput()
@@ -89,16 +104,16 @@ final class VehicleCheckCoordinator: BaseCoordinator {
             viewModel: viewModel,
             cancelAction: onCancel,
             submitAction: { [weak self] vehicle in
-                self?.state = .results(vehicle: vehicle)
+                self?.transition(to: .results(vehicle: vehicle))
             }
         )
     }
 
-    // MARK: - UI Presentation Logic
+    // MARK: - Navigation & Presentation Logic
 
-    private func topmostPresentedVC() -> UIViewController? {
-        var current: UIViewController? = bottomSheet
-        while let next = current?.presentedViewController {
+    private var topmostViewController: UIViewController {
+        var current: UIViewController = primarySheet ?? root
+        while let next = current.presentedViewController, !next.isBeingDismissed {
             current = next
         }
         return current
@@ -108,8 +123,7 @@ final class VehicleCheckCoordinator: BaseCoordinator {
         let inputView = makeInputView { [weak self] in self?.dismissFlow() }
         let hostingController = UIHostingController(rootView: inputView)
         hostingController.view.backgroundColor = .clear
-        // root is .overCurrentContext — make it fully transparent so
-        // the backdrop shows through to the content behind
+
         root.view.backgroundColor = .clear
         root.setNavigationBarHidden(true, animated: false)
         root.modalTransitionStyle = .crossDissolve
@@ -118,24 +132,162 @@ final class VehicleCheckCoordinator: BaseCoordinator {
 
     private func showNestedInput() {
         let inputView = makeInputView { [weak self] in
-            self?.topmostPresentedVC()?.dismiss(animated: true)
+            self?.topmostViewController.dismiss(animated: true)
         }
         let hostingController = UIHostingController(rootView: inputView)
         hostingController.view.backgroundColor = .clear
+
         let navController = UINavigationController(rootViewController: hostingController)
         navController.modalPresentationStyle = .overCurrentContext
         navController.modalTransitionStyle = .crossDissolve
         navController.view.backgroundColor = .clear
-        topmostPresentedVC()?.present(navController, animated: true)
+
+        topmostViewController.present(navController, animated: true)
     }
 
+//    private func showResultsView(vehicle: VehicleEnquiryResponse.Vehicle) {
+//        let actions = VehicleCheckResultActions(
+//            openURLAction: { [weak self] url in
+//                self?.urlOpener.openIfPossible(url)
+//            },
+//            searchAction: { [weak self] in
+//                self?.transition(to: .nestedInput)
+//            },
+//            dismissAction: { [weak self] in
+//                guard let self else {
+//                    fatalError("what what?")
+//                }
+//                self.handleClose()
+//            }
+//        )
+//        let viewModel = VehicleCheckResultViewModel(
+//            vehicle: vehicle,
+//            analyticsService: analyticsService,
+//            configService: configService,
+//            actions: actions
+//        )
+//        let resultsView = VehicleCheckResultView(viewModel: viewModel)
+//        let hostingController = UIHostingController(rootView: resultsView)
+//        let newSheet = UINavigationController(rootViewController: hostingController)
+//        newSheet.presentationController?.delegate = self
+//
+//        if bottomSheet == nil {
+//            presentAsFirstSheet(newSheet)
+//        } else {
+//            presentAsStackedSheet(newSheet)
+//        }
+//    }
+
+//    private func presentAsFirstSheet(_ sheet: UINavigationController) {
+//        guard let presenter = root.presentingViewController else {
+//            assertionFailure("root has no presentingViewController — cannot present results")
+//            return
+//        }
+//
+//        // Retain root presentation context while presenting sheet over top
+//        bottomSheet = sheet
+//        presenter.present(sheet, animated: true) { [weak self] in
+//            self?.root.dismiss(animated: false)
+//        }
+//    }
+
+//    private func presentAsStackedSheet(_ sheet: UINavigationController) {
+//        let topVC = topmostViewController
+//        let presentingContext = topVC.presentingViewController ?? topVC
+//
+//        topVC.dismiss(animated: false) { [weak self] in
+//            presentingContext.present(sheet, animated: true)
+//            self?.bottomSheet = sheet
+//        }
+//    }
+
+
+    // MARK: - Dismissal Logic
+
+    private func handleClose() {
+        switch closeBehaviour {
+        case .dismissAll:
+            dismissFlow()
+        case .dismissTopmost:
+            dismissTopmostSheet()
+        }
+    }
+
+//    private func dismissTopmostSheet() {
+//        let topVC = topmostViewController
+//
+//        // Resolve target sheet against navigation hierarchy container
+//        let targetNav = (topVC as? UINavigationController) ?? topVC.navigationController
+//
+//        if targetNav === bottomSheet || topVC === bottomSheet {
+//            dismissFlow()
+//        } else {
+//            topVC.dismiss(animated: true)
+//        }
+//    }
+
+//    private func dismissFlow() {
+//        if let sheet = bottomSheet, let presenter = sheet.presentingViewController {
+//            presenter.dismiss(animated: true) { [weak self] in
+//                self?.cleanupAndFinish()
+//            }
+//        } else {
+//            root.dismiss(animated: true) { [weak self] in
+//                self?.cleanupAndFinish()
+//            }
+//        }
+//    }
+
+//    private func cleanupAndFinish() {
+//        bottomSheet = nil
+//        finish()
+//    }
+
+    // MARK: - UIPresentationControllerDelegate
+
+//    override func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+//        super.presentationControllerDidDismiss(presentationController)
+//        let dismissedVC = presentationController.presentedViewController
+//
+//        if bottomSheet == nil || dismissedVC === bottomSheet {
+//            cleanupAndFinish()
+//        }
+//    }
+
+
+    override func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+        let dismissedVC = presentationController.presentedViewController
+
+        // Check if the dismissed view controller is the primary bottom sheet
+        if dismissedVC === primarySheet {
+            super.presentationControllerDidDismiss(presentationController)
+            cleanupAndFinish()
+        } else {
+            // A nested stacked sheet was swiped away — keep the coordinator alive
+            // and sync state back to the active underlying sheet.
+            state = .initialInput // or update to reflect the underlying active result
+        }
+    }
+
+//    override func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+//        super.presentationControllerDidDismiss(presentationController)
+//        let dismissedVC = presentationController.presentedViewController
+//
+//        if dismissedVC === primarySheet {
+//            cleanupAndFinish()
+//        }
+//    }
+
+}
+
+extension VehicleCheckCoordinator {
     private func showResultsView(vehicle: VehicleEnquiryResponse.Vehicle) {
         let actions = VehicleCheckResultActions(
             openURLAction: { [weak self] url in
                 self?.urlOpener.openIfPossible(url)
             },
             searchAction: { [weak self] in
-                self?.state = .nestedInput
+                self?.transition(to: .nestedInput)
             },
             dismissAction: { [weak self] in
                 self?.handleClose()
@@ -148,13 +300,11 @@ final class VehicleCheckCoordinator: BaseCoordinator {
             actions: actions
         )
         let resultsView = VehicleCheckResultView(viewModel: viewModel)
-
         let hostingController = UIHostingController(rootView: resultsView)
         let newSheet = UINavigationController(rootViewController: hostingController)
         newSheet.presentationController?.delegate = self
 
-        let isFirstPresentation = bottomSheet == nil
-        if isFirstPresentation {
+        if primarySheet == nil {
             presentAsFirstSheet(newSheet)
         } else {
             presentAsStackedSheet(newSheet)
@@ -162,107 +312,53 @@ final class VehicleCheckCoordinator: BaseCoordinator {
     }
 
     private func presentAsFirstSheet(_ sheet: UINavigationController) {
-        // .overCurrentContext breaks presentedViewController tracking —
-        // dismiss root (NavCon) and present from its parent instead
         guard let presenter = root.presentingViewController else {
-            assertionFailure(
-                "root has no presentingViewController — cannot present results"
-            )
+            assertionFailure("root has no presentingViewController — cannot present results")
             return
         }
-        root.dismiss(animated: false) { [weak self] in
-            presenter.present(sheet, animated: true)
-            self?.bottomSheet = sheet
+
+        primarySheet = sheet
+        presenter.present(sheet, animated: true) { [weak self] in
+            self?.root.dismiss(animated: false)
         }
     }
 
     private func presentAsStackedSheet(_ sheet: UINavigationController) {
-        guard let vcToDismiss = topmostPresentedVC() else { return }
-        let presentingSheet = vcToDismiss.presentingViewController ?? vcToDismiss
-        vcToDismiss.dismiss(animated: false) { [weak self] in
-            guard self != nil else { return }
-            presentingSheet.present(sheet, animated: true)
+        let topVC = topmostViewController
+        let presentingContext = topVC.presentingViewController ?? topVC
+
+        topVC.dismiss(animated: false) {
+            presentingContext.present(sheet, animated: true)
         }
     }
 
-    // MARK: - Dismissal
-
-    private func handleClose() {
-        switch closeBehaviour {
-        case .dismissAll:
-            dismissFlow()
-        case .dismissTopmost:
-            dismissTopmostSheet()
-        }
-    }
-
-    /// Peels off the topmost stacked sheet, or dismisses the entire flow if only one remains.
     private func dismissTopmostSheet() {
-        guard let topVC = topmostPresentedVC() else {
-            dismissFlow()
-            return
-        }
-        let isOnlySheet = topVC === bottomSheet
-        if isOnlySheet {
+        let topVC = topmostViewController
+        let targetNav = (topVC as? UINavigationController) ?? topVC.navigationController
+
+        // Only tear down the whole flow if the sheet being closed is the primary sheet
+        if targetNav === primarySheet || topVC === primarySheet {
             dismissFlow()
         } else {
             topVC.dismiss(animated: true)
         }
     }
 
-    override func presentationControllerDidDismiss(
-        _ presentationController: UIPresentationController
-    ) {
-        super.presentationControllerDidDismiss(presentationController)
-        let dismissedVC = presentationController.presentedViewController
-        let isInitialInputDismissed = bottomSheet == nil
-        let isBottomSheetDismissed = dismissedVC === bottomSheet
-
-        if isInitialInputDismissed || isBottomSheetDismissed {
-            bottomSheet = nil
-            finish()
-        }
-        // Stacked sheet swiped away: coordinator stays alive,
-        // underlying sheets remain interactive
-    }
-
-    /// Tears down the entire flow — all sheets and the initial overlay.
     private func dismissFlow() {
-        if let sheet = bottomSheet,
-           let presenter = sheet.presentingViewController {
-            // Sheets are on screen: dismiss the bottom sheet from its
-            // presenter, which tears down the entire stacked chain
+        if let sheet = primarySheet, let presenter = sheet.presentingViewController {
             presenter.dismiss(animated: true) { [weak self] in
-                self?.bottomSheet = nil
-                self?.finish()
+                self?.cleanupAndFinish()
             }
         } else {
-            // Only the initial input overlay is on screen
             root.dismiss(animated: true) { [weak self] in
-                self?.finish()
+                self?.cleanupAndFinish()
             }
         }
     }
-}
 
-// MARK: Temporary - for development
-
-extension VehicleCheckCoordinator {
-    static var mockVehicle: VehicleEnquiryResponse.Vehicle {
-        .init(
-            vehicleId: 100830769,
-            registrationNumber: "DF04 FSY",
-            taxStatus: .taxed,
-            taxedUntil: Date(timeIntervalSince1970: 1793491200),
-            motStatus: .valid,
-            motExpiryDate: Date(timeIntervalSince1970: 1793491200),
-            make: "FORD",
-            dateOfFirstRegistration: Date(timeIntervalSince1970: 1083369600),
-            engineCapacity: 1242,
-            exhaustEmissionsCo2: 147,
-            fuelType: .petrol,
-            colour: "BLACK",
-            secondaryColour: nil
-        )
+    private func cleanupAndFinish() {
+        primarySheet = nil
+        finish()
     }
+
 }
