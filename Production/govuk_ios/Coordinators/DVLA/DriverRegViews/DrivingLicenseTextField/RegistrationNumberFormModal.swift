@@ -15,7 +15,7 @@ struct RegistrationNumberFormModal: View {
                 Spacer()
                 RegistrationNumberFormContent(
                     viewModel: viewModel,
-                    onCancel: onCancel,
+                    cancelAction: onCancel,
                     onSubmit: onSubmit
                 )
                 .background(Color(uiColor: .govUK.fills.registrationFormBackgroundColor))

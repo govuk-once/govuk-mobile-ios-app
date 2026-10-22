@@ -4,7 +4,7 @@ import SwiftUI
 struct RegistrationNumberFormContent: View {
     @ObservedObject var viewModel: RegistrationNumberFormViewModel
     @FocusState private var isFieldFocused: Bool
-    let onCancel: () -> Void
+    let cancelAction: () -> Void
     let onSubmit: (VehicleEnquiryResponse.Vehicle) -> Void
 
     var body: some View {
@@ -39,7 +39,7 @@ extension RegistrationNumberFormContent {
     private var actionButtons: some View {
         HStack(spacing: 8) {
             Button("Cancel") {
-                onCancel()
+                cancelAction()
             }
             .buttonStyle(RegistrationCancelButtonStyle())
 

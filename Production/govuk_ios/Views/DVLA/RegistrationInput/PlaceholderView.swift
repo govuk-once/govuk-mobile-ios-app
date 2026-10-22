@@ -22,7 +22,7 @@ struct PlaceholderView: View {
 
     var bottomSpacing: CGFloat = 0 // 16 // Desired distance above the keyboard
     var onSubmit: (String) -> Void
-    var onCancel: () -> Void
+    var cancelAction: () -> Void
 
     @FocusState private var isTextFieldFocused: Bool
 
@@ -32,7 +32,7 @@ struct PlaceholderView: View {
             Color.black.opacity(0.4)
                 .ignoresSafeArea()
                 .onTapGesture {
-                    onCancel()
+                    cancelAction()
                 }
 
             // Card aligned to the bottom, padded by keyboard height + desired spacing
@@ -52,7 +52,7 @@ struct PlaceholderView: View {
                         }
 
                     HStack(spacing: 12) {
-                        Button("Cancel") { onCancel() }.buttonStyle(.bordered)
+                        Button("Cancel") { cancelAction() }.buttonStyle(.bordered)
                         Button("Submit") { onSubmit(inputText) }.buttonStyle(.borderedProminent)
                             .disabled(inputText.isEmpty)
                     }
