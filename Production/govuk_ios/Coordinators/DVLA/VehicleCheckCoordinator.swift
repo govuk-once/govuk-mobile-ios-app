@@ -175,101 +175,6 @@ final class VehicleCheckCoordinator: BaseCoordinator {
         }
     }
 
-//    private func presentAsFirstSheet(_ sheet: UINavigationController) {
-//        guard let presenter = root.presentingViewController else {
-//            assertionFailure("root has no presentingViewController — cannot present results")
-//            return
-//        }
-//
-//        // Retain root presentation context while presenting sheet over top
-//        bottomSheet = sheet
-//        presenter.present(sheet, animated: true) { [weak self] in
-//            self?.root.dismiss(animated: false)
-//        }
-//    }
-
-//    private func presentAsStackedSheet(_ sheet: UINavigationController) {
-//        let topVC = topmostViewController
-//        let presentingContext = topVC.presentingViewController ?? topVC
-//
-//        topVC.dismiss(animated: false) { [weak self] in
-//            presentingContext.present(sheet, animated: true)
-//            self?.bottomSheet = sheet
-//        }
-//    }
-
-
-    // MARK: - Dismissal Logic
-
-    private func handleClose() {
-        switch closeBehaviour {
-        case .dismissAll:
-            dismissFlow()
-        case .dismissTopmost:
-            dismissTopmostSheet()
-        }
-    }
-
-//    private func dismissTopmostSheet() {
-//        let topVC = topmostViewController
-//
-//        // Resolve target sheet against navigation hierarchy container
-//        let targetNav = (topVC as? UINavigationController) ?? topVC.navigationController
-//
-//        if targetNav === bottomSheet || topVC === bottomSheet {
-//            dismissFlow()
-//        } else {
-//            topVC.dismiss(animated: true)
-//        }
-//    }
-
-//    private func dismissFlow() {
-//        if let sheet = bottomSheet, let presenter = sheet.presentingViewController {
-//            presenter.dismiss(animated: true) { [weak self] in
-//                self?.cleanupAndFinish()
-//            }
-//        } else {
-//            root.dismiss(animated: true) { [weak self] in
-//                self?.cleanupAndFinish()
-//            }
-//        }
-//    }
-
-//    private func cleanupAndFinish() {
-//        bottomSheet = nil
-//        finish()
-//    }
-
-    // MARK: - UIPresentationControllerDelegate
-
-    override func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
-        let dismissedVC = presentationController.presentedViewController
-
-        // Check if the dismissed view controller is the primary bottom sheet
-        if dismissedVC === primarySheet {
-            super.presentationControllerDidDismiss(presentationController)
-            cleanupAndFinish()
-        } else {
-            // A nested stacked sheet was swiped away — keep the coordinator alive
-            // and sync state back to the active underlying sheet.
-            state = .initialInput // or update to reflect the underlying active result
-        }
-    }
-
-//    override func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
-//        super.presentationControllerDidDismiss(presentationController)
-//        let dismissedVC = presentationController.presentedViewController
-//
-//        if dismissedVC === primarySheet {
-//            cleanupAndFinish()
-//        }
-//    }
-
-}
-
-extension VehicleCheckCoordinator {
-
-
     private func presentAsFirstSheet(_ sheet: UINavigationController) {
         guard let presenter = root.presentingViewController else {
             assertionFailure("root has no presentingViewController — cannot present results")
@@ -291,8 +196,21 @@ extension VehicleCheckCoordinator {
         }
     }
 
+
+    // MARK: - Dismissal Logic
+
+    private func handleClose() {
+        switch closeBehaviour {
+        case .dismissAll:
+            dismissFlow()
+        case .dismissTopmost:
+            dismissTopmostSheet()
+        }
+    }
+
     private func dismissTopmostSheet() {
         let topVC = topmostViewController
+        // Resolve target sheet against navigation hierarchy container
         let targetNav = (topVC as? UINavigationController) ?? topVC.navigationController
 
         // Only tear down the whole flow if the sheet being closed is the primary sheet
@@ -304,7 +222,8 @@ extension VehicleCheckCoordinator {
     }
 
     private func dismissFlow() {
-        if let sheet = primarySheet, let presenter = sheet.presentingViewController {
+        if let sheet = primarySheet,
+           let presenter = sheet.presentingViewController {
             presenter.dismiss(animated: true) { [weak self] in
                 self?.cleanupAndFinish()
             }
@@ -320,4 +239,18 @@ extension VehicleCheckCoordinator {
         finish()
     }
 
+    // MARK: - UIPresentationControllerDelegate
+
+    override func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+        let dismissedVC = presentationController.presentedViewController
+
+        if dismissedVC === primarySheet {
+            super.presentationControllerDidDismiss(presentationController)
+            cleanupAndFinish()
+        } else {
+            // A nested stacked sheet was swiped away - keep the coordinator alive
+            // and sync state back to the active underlying sheet.
+            state = .initialInput // or update to reflect the underlying active result
+        }
+    }
 }
