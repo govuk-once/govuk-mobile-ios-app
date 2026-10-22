@@ -244,7 +244,9 @@ final class VehicleCheckCoordinator: BaseCoordinator {
 
     // MARK: - UIPresentationControllerDelegate
 
-    override func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+    override func presentationControllerDidDismiss(_
+                presentationController: UIPresentationController
+    ) {
         let dismissedVC = presentationController.presentedViewController
 
         if dismissedVC === primarySheet {

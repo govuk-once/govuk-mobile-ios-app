@@ -34,7 +34,6 @@ struct RegistrationNumberFormContent: View {
 }
 
 extension RegistrationNumberFormContent {
-
     @ViewBuilder
     private var actionButtons: some View {
         HStack(spacing: 8) {

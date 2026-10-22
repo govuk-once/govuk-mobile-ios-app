@@ -33,7 +33,6 @@ extension GOVUKColors.Fills {
                 return GOVUKColors.fills.surfaceCardDefault
             }
         }
-
 }
 
 extension GOVUKColors.Text {

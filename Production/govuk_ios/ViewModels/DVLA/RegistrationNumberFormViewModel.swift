@@ -6,7 +6,11 @@ enum RegistrationNumberQueryError: String, Error, CaseIterable, Hashable {
     case notFound = "Number plate not found"
 }
 
-typealias RegistrationNumberSubmitAction = (String) async -> Result<VehicleEnquiryResponse.Vehicle, RegistrationNumberQueryError>
+typealias RegistrationNumberSubmitAction =
+(String) async -> Result<
+    VehicleEnquiryResponse.Vehicle,
+        RegistrationNumberQueryError
+>
 
 /// Owns registration number input state, validation, and submission.
 @MainActor
@@ -17,8 +21,13 @@ final class RegistrationNumberFormViewModel: ObservableObject {
         // (e.g. typing an 8th char briefly sets "AB12 CDEX" before sanitizing back to "AB12 CDE").
         didSet {
             guard error != nil else { return }
-            let oldClean = RegistrationNumberFormatter.sanitize(oldValue, maxAlphanumerics: maxCharacters)
-            let newClean = RegistrationNumberFormatter.sanitize(numberPlate, maxAlphanumerics: maxCharacters)
+            let oldClean = RegistrationNumberFormatter.sanitize(
+                oldValue,
+                maxAlphanumerics: maxCharacters
+            )
+            let newClean = RegistrationNumberFormatter.sanitize(
+                numberPlate,
+                maxAlphanumerics: maxCharacters)
             guard newClean != oldClean else { return }
 
             if clearsErrorOnAnyEdit {
