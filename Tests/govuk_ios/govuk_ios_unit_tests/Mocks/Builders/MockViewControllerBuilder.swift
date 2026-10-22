@@ -496,4 +496,39 @@ class MockViewControllerBuilder: ViewControllerBuilder {
         _receivedEditCountriesNotificationService = notificationService
         return _stubbedEditCountriesViewController ?? UIViewController()
     }
+    
+    var _stubbedVehicleRegistrationInputViewController: UIViewController?
+    var _receivedVehicleRegistrationInputDvlaService: DVLAServiceInterface?
+    var _receivedVehicleRegistrationInputCancelAction: (() -> Void)?
+    var _receivedVehicleRegistrationInputCompletionAction: ((VehicleEnquiryResponse.Vehicle) -> Void)?
+
+    override func vehicleRegistrationInput(
+        dvlaService: DVLAServiceInterface,
+        cancelAction: @escaping () -> Void,
+        completionAction: @escaping (VehicleEnquiryResponse.Vehicle) -> Void
+    ) -> UIViewController {
+        _receivedVehicleRegistrationInputDvlaService = dvlaService
+        _receivedVehicleRegistrationInputCancelAction = cancelAction
+        _receivedVehicleRegistrationInputCompletionAction = completionAction
+        return _stubbedVehicleRegistrationInputViewController ?? UIViewController()
+    }
+
+    var _stubbedVehicleCheckResultViewController: UIViewController?
+    var _receivedVehicleCheckResultVehicle: VehicleEnquiryResponse.Vehicle?
+    var _receivedVehicleCheckResultAnalyticsService: AnalyticsServiceInterface?
+    var _receivedVehicleCheckResultConfigService: AppConfigServiceInterface?
+    var _receivedVehicleCheckResultActions: VehicleCheckResultActions?
+
+    override func vehicleCheckResult(
+        vehicle: VehicleEnquiryResponse.Vehicle,
+        analyticsService: AnalyticsServiceInterface,
+        configService: AppConfigServiceInterface,
+        actions: VehicleCheckResultActions
+    ) -> UIViewController {
+        _receivedVehicleCheckResultVehicle = vehicle
+        _receivedVehicleCheckResultAnalyticsService = analyticsService
+        _receivedVehicleCheckResultConfigService = configService
+        _receivedVehicleCheckResultActions = actions
+        return _stubbedVehicleCheckResultViewController ?? UIViewController()
+    }
 }
