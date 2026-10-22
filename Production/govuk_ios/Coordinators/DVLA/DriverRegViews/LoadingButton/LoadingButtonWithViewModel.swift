@@ -19,7 +19,7 @@ struct LoadingButtonStyle: ButtonStyle {
                     .opacity(configuration.isPressed ? 0.7 : 1.0)
             }
         }
-        .frame(maxWidth: .infinity)
+        .frame(maxWidth: .infinity, idealHeight: 44)
         .padding()
         .background(Color(uiColor: .primaryBlue))
         .foregroundColor(.white)

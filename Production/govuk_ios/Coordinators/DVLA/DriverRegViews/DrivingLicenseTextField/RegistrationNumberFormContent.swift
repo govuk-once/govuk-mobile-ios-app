@@ -21,6 +21,7 @@ struct RegistrationNumberFormContent: View {
             )
             .focused($isFieldFocused)
             .padding(.bottom, 12)
+            .padding(.trailing, 8)
 
             HStack(spacing: 8) {
                 Button("Cancel") {
