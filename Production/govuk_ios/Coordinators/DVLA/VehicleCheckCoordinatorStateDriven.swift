@@ -86,7 +86,7 @@ final class VehicleCheckCoordinator: BaseCoordinator {
 
         return RegistrationNumberFormModal(
             viewModel: viewModel,
-            onCancel: onCancel
+            cancelAction: onCancel
         ) { [weak self] vehicle in
             self?.state = .results(vehicle: vehicle)
         }
