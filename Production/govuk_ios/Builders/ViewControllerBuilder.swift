@@ -914,5 +914,37 @@ class ViewControllerBuilder {
         viewController.shouldAutoFocusVoiceover = false
         return viewController
     }
+
+    func vehicleRegistrationInput(
+        dvlaService: DVLAServiceInterface,
+        cancelAction: @escaping () -> Void,
+        completionAction: @escaping (VehicleEnquiryResponse.Vehicle) -> Void
+    ) -> UIViewController {
+        let submitAction: RegistrationNumberSubmitAction = { plate in
+            let result = await dvlaService.fetchVehicle(registration: plate)
+            switch result {
+            case .success(let response):
+                return .success(response.vehicle)
+            case .failure(let error):
+                switch error {
+                case .notFound:
+                    return .failure(.notFound)
+                default:
+                    return .failure(.serviceUnavailable)
+                }
+            }
+        }
+
+        let viewModel = RegistrationNumberFormViewModel(submitAction: submitAction)
+        let view = RegistrationNumberFormModal(
+            viewModel: viewModel,
+            cancelAction: cancelAction,
+            submitAction: completionAction
+        )
+
+        let hostingController = UIHostingController(rootView: view)
+        hostingController.view.backgroundColor = .clear
+        return hostingController
+    }
 }
 // swiftlint:enable file_length

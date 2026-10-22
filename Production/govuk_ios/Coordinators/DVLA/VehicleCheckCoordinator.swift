@@ -81,37 +81,6 @@ final class VehicleCheckCoordinator: BaseCoordinator {
         }
     }
 
-    // MARK: - View Construction
-
-    private func makeInputView(onCancel: @escaping () -> Void) -> RegistrationNumberFormModal {
-        let submitAction: RegistrationNumberSubmitAction = { [weak self] plate in
-            guard let self else { return .failure(.serviceUnavailable) }
-
-            let result = await self.dvlaService.fetchVehicle(registration: plate)
-            switch result {
-            case .success(let response):
-                return .success(response.vehicle)
-            case .failure(let error):
-                switch error {
-                case .notFound:
-                    return .failure(.notFound)
-                default:
-                    return .failure(.serviceUnavailable)
-                }
-            }
-        }
-
-        let viewModel = RegistrationNumberFormViewModel(submitAction: submitAction)
-
-        return RegistrationNumberFormModal(
-            viewModel: viewModel,
-            cancelAction: onCancel,
-            submitAction: { [weak self] vehicle in
-                self?.transition(to: .results(vehicle: vehicle))
-            }
-        )
-    }
-
     // MARK: - Navigation & Presentation Logic
 
     private var topmostViewController: UIViewController {
@@ -123,24 +92,31 @@ final class VehicleCheckCoordinator: BaseCoordinator {
     }
 
     private func showInitialInput() {
-        let inputView = makeInputView { [weak self] in self?.dismissFlow() }
-        let hostingController = UIHostingController(rootView: inputView)
-        hostingController.view.backgroundColor = .clear
-
+        let viewController = viewControllerBuilder.vehicleRegistrationInput(
+            dvlaService: dvlaService,
+            cancelAction: { [weak self] in self?.dismissFlow() },
+            completionAction: { [weak self] vehicle in
+                self?.transition(to: .results(vehicle: vehicle))
+            }
+        )
         root.view.backgroundColor = .clear
         root.setNavigationBarHidden(true, animated: false)
         root.modalTransitionStyle = .crossDissolve
-        set(hostingController)
+        set(viewController)
     }
 
     private func showNestedInput() {
-        let inputView = makeInputView { [weak self] in
-            self?.topmostViewController.dismiss(animated: true)
-        }
-        let hostingController = UIHostingController(rootView: inputView)
-        hostingController.view.backgroundColor = .clear
+        let viewController = viewControllerBuilder.vehicleRegistrationInput(
+            dvlaService: dvlaService,
+            cancelAction: { [weak self] in
+                self?.topmostViewController.dismiss(animated: true)
+            },
+            completionAction: { [weak self] vehicle in
+                self?.transition(to: .results(vehicle: vehicle))
+            }
+        )
 
-        let navController = UINavigationController(rootViewController: hostingController)
+        let navController = UINavigationController(rootViewController: viewController)
         navController.modalPresentationStyle = .overCurrentContext
         navController.modalTransitionStyle = .crossDissolve
         navController.view.backgroundColor = .clear
@@ -160,14 +136,14 @@ final class VehicleCheckCoordinator: BaseCoordinator {
                 self?.handleClose()
             }
         )
-        let viewModel = VehicleCheckResultViewModel(
+
+        let hostingController = viewControllerBuilder.vehicleCheckResult(
             vehicle: vehicle,
             analyticsService: analyticsService,
             configService: configService,
             actions: actions
         )
-        let resultsView = VehicleCheckResultView(viewModel: viewModel)
-        let hostingController = UIHostingController(rootView: resultsView)
+
         let newSheet = UINavigationController(rootViewController: hostingController)
         newSheet.presentationController?.delegate = self
 
@@ -198,7 +174,6 @@ final class VehicleCheckCoordinator: BaseCoordinator {
             presentingContext.present(sheet, animated: true)
         }
     }
-
 
     // MARK: - Dismissal Logic
 
