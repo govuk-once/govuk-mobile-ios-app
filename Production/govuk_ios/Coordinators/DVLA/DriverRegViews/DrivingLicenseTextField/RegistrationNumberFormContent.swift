@@ -26,7 +26,8 @@ struct RegistrationNumberFormContent: View {
             actionButtons
                 .padding(.bottom, 16)
         }
-        .animation(.spring(response: 0.3, dampingFraction: 0.8), value: viewModel.isValidPlate)
+        .animation(.spring(response: 0.3, dampingFraction: 0.8),
+                   value: viewModel.isValidPlate)
         .padding(.horizontal, 16)
         .onAppear { isFieldFocused = true }
     }
@@ -63,11 +64,17 @@ extension RegistrationNumberFormContent {
             return .error(error.rawValue)
         }
 
-        if viewModel.numberPlate.isEmpty || viewModel.isValidPlate {
-            return .normal(String(localized: .DVLA.enterNumberPlateLabel))
+        if viewModel.numberPlate.isEmpty
+            || viewModel.isValidPlate {
+            return .normal(String(
+                    localized: .DVLA.enterNumberPlateLabel
+                )
+            )
         }
 
-        return .error(String(localized: .DVLA.plateMustBe2To7Characters))
+        return .error(String(
+            localized: .DVLA.plateMustBe2To7Characters)
+        )
     }
 
     private func handleSubmission() {
