@@ -9,7 +9,6 @@ enum RegistrationNumberFormatter {
 
     static func sanitize(_ value: String, maxAlphanumerics: Int = 7) -> String {
         let sanitizedInput = value.replacingOccurrences(of: ".", with: " ")
-
         var result = ""
         var alphanumericCount = 0
         var lastCharWasSpace = false

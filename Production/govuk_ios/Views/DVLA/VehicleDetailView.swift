@@ -46,7 +46,6 @@ struct VehicleDetailView: View {
     private func makeVehicleDetailsView(
         _ viewVehicleDetails: ViewVehicleDetails
     ) -> some View {
-        // KKTODO: Extract into its own View Type and compare/refactor VehicleCheckResultView
         ScrollView {
             VStack(spacing: 0) {
                 Text(viewVehicleDetails.make)
