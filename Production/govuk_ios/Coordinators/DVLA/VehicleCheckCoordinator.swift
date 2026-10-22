@@ -145,38 +145,35 @@ final class VehicleCheckCoordinator: BaseCoordinator {
         topmostViewController.present(navController, animated: true)
     }
 
-//    private func showResultsView(vehicle: VehicleEnquiryResponse.Vehicle) {
-//        let actions = VehicleCheckResultActions(
-//            openURLAction: { [weak self] url in
-//                self?.urlOpener.openIfPossible(url)
-//            },
-//            searchAction: { [weak self] in
-//                self?.transition(to: .nestedInput)
-//            },
-//            dismissAction: { [weak self] in
-//                guard let self else {
-//                    fatalError("what what?")
-//                }
-//                self.handleClose()
-//            }
-//        )
-//        let viewModel = VehicleCheckResultViewModel(
-//            vehicle: vehicle,
-//            analyticsService: analyticsService,
-//            configService: configService,
-//            actions: actions
-//        )
-//        let resultsView = VehicleCheckResultView(viewModel: viewModel)
-//        let hostingController = UIHostingController(rootView: resultsView)
-//        let newSheet = UINavigationController(rootViewController: hostingController)
-//        newSheet.presentationController?.delegate = self
-//
-//        if bottomSheet == nil {
-//            presentAsFirstSheet(newSheet)
-//        } else {
-//            presentAsStackedSheet(newSheet)
-//        }
-//    }
+    private func showResultsView(vehicle: VehicleEnquiryResponse.Vehicle) {
+        let actions = VehicleCheckResultActions(
+            openURLAction: { [weak self] url in
+                self?.urlOpener.openIfPossible(url)
+            },
+            searchAction: { [weak self] in
+                self?.transition(to: .nestedInput)
+            },
+            dismissAction: { [weak self] in
+                self?.handleClose()
+            }
+        )
+        let viewModel = VehicleCheckResultViewModel(
+            vehicle: vehicle,
+            analyticsService: analyticsService,
+            configService: configService,
+            actions: actions
+        )
+        let resultsView = VehicleCheckResultView(viewModel: viewModel)
+        let hostingController = UIHostingController(rootView: resultsView)
+        let newSheet = UINavigationController(rootViewController: hostingController)
+        newSheet.presentationController?.delegate = self
+
+        if primarySheet == nil {
+            presentAsFirstSheet(newSheet)
+        } else {
+            presentAsStackedSheet(newSheet)
+        }
+    }
 
 //    private func presentAsFirstSheet(_ sheet: UINavigationController) {
 //        guard let presenter = root.presentingViewController else {
@@ -245,16 +242,6 @@ final class VehicleCheckCoordinator: BaseCoordinator {
 
     // MARK: - UIPresentationControllerDelegate
 
-//    override func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
-//        super.presentationControllerDidDismiss(presentationController)
-//        let dismissedVC = presentationController.presentedViewController
-//
-//        if bottomSheet == nil || dismissedVC === bottomSheet {
-//            cleanupAndFinish()
-//        }
-//    }
-
-
     override func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
         let dismissedVC = presentationController.presentedViewController
 
@@ -281,35 +268,7 @@ final class VehicleCheckCoordinator: BaseCoordinator {
 }
 
 extension VehicleCheckCoordinator {
-    private func showResultsView(vehicle: VehicleEnquiryResponse.Vehicle) {
-        let actions = VehicleCheckResultActions(
-            openURLAction: { [weak self] url in
-                self?.urlOpener.openIfPossible(url)
-            },
-            searchAction: { [weak self] in
-                self?.transition(to: .nestedInput)
-            },
-            dismissAction: { [weak self] in
-                self?.handleClose()
-            }
-        )
-        let viewModel = VehicleCheckResultViewModel(
-            vehicle: vehicle,
-            analyticsService: analyticsService,
-            configService: configService,
-            actions: actions
-        )
-        let resultsView = VehicleCheckResultView(viewModel: viewModel)
-        let hostingController = UIHostingController(rootView: resultsView)
-        let newSheet = UINavigationController(rootViewController: hostingController)
-        newSheet.presentationController?.delegate = self
 
-        if primarySheet == nil {
-            presentAsFirstSheet(newSheet)
-        } else {
-            presentAsStackedSheet(newSheet)
-        }
-    }
 
     private func presentAsFirstSheet(_ sheet: UINavigationController) {
         guard let presenter = root.presentingViewController else {
