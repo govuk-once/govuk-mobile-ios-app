@@ -3,7 +3,10 @@ import GovKit
 import SwiftUI
 import UIKit
 
-/// Coordinates the vehicle check flow, managing transitions between registration number plate input screens and DVLA enquiry results.
+/// Manages the vehicle check flow, coordinating registration plate input, DVLA lookups, and stacked result sheets.
+///
+/// Coordinates transitions between registration plate entry forms and search results.
+/// Supports nested searches and managing UIKit modal sheet dismissal lifecycles.
 @MainActor
 final class VehicleCheckCoordinator: BaseCoordinator {
     private let viewControllerBuilder: ViewControllerBuilder
