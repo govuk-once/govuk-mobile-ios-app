@@ -249,7 +249,7 @@ class RecentActivityListViewController: BaseViewController {
             action: isEditing ? "Done" : "Edit"
         )
     }
-    @objc private func selectAllButtonPressed() {
+    @objc func selectAllButtonPressed() {
         tableView.selectAllRows(animated: true)
     }
     @objc private func deselectAllButtonPressed() {
