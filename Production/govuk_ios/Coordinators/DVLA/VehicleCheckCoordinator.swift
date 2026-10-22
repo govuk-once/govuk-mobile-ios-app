@@ -51,7 +51,7 @@ final class VehicleCheckCoordinator: BaseCoordinator {
         configService: AppConfigServiceInterface,
         urlOpener: URLOpener,
         dvlaService: DVLAServiceInterface,
-        closeBehaviour: CloseBehaviour = .dismissAll // .dismissTopmost
+        closeBehaviour: CloseBehaviour = .dismissAll
     ) {
         self.viewControllerBuilder = viewControllerBuilder
         self.analyticsService = analyticsService
