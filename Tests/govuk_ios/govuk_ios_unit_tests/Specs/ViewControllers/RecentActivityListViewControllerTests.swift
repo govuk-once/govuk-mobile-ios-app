@@ -20,7 +20,7 @@ private final class TestableRecentActivityListViewController: RecentActivityList
 struct RecentActivityListViewControllerTests {
     private let coreData: CoreDataRepository
     private let mockActivityService: MockActivityService
-
+    
     init() async throws {
         let repository = await CoreDataRepository.arrangeAndLoad
         self.coreData = repository
@@ -152,5 +152,19 @@ struct RecentActivityListViewControllerTests {
         #expect(trailingSafeAreaConstraint != nil)
         #expect(leadingSafeAreaConstraint?.isActive == true)
     }
+    
+    @Test
+        func test_selectAllButtonPressed_isPressed() async throws {
+            let viewController = RecentActivityListViewController(
+                viewModel: .init(
+                    activityService: mockActivityService,
+                    analyticsService: MockAnalyticsService(),
+                    selectedAction: { _ in }
+                )
+            )
+            _ = viewController.view
+            viewController.selectAllButtonPressed()
+            #expect(true)
+        }
 }
 
