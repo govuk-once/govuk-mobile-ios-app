@@ -56,18 +56,14 @@ extension RegistrationNumberFormContent {
     private var labelContent: StateLabelContent {
         if let error = viewModel.error {
             return .error(error.rawValue)
-        } else if viewModel.numberPlate.isEmpty {
-            return .normal(
-                String(localized: .DVLA.enterNumberPlateLabel)
-            )
-        } else if viewModel.isValidPlate {
-            return .normal(
-                String(localized: .DVLA.enterNumberPlateLabel)
-            )
-        } else {
-            return .error(
-                String(localized: .DVLA.plateMustBe2To7Characters)
-            )
+        }
+
+        if viewModel.numberPlate.isEmpty || viewModel.isValidPlate {
+            return .normal(String(localized: .DVLA.enterNumberPlateLabel))
+        }
+
+        return .error(String(localized: .DVLA.plateMustBe2To7Characters))
+    }
 
     private func handleSubmission() {
         Task {
