@@ -14,14 +14,26 @@ extension Answer {
                 sources: nil)
     }
 
+    static var ratedAnswer: Answer {
+        arrange(feedback: .arrange())
+    }
+
+    static var technicalErrorAnswer: Answer {
+        arrange(status: "error_timeout")
+    }
+
     static func arrange(createdAt: String? = "2025-06-06T10:28:37+01:00",
                         id: String? = "166ddfa3-6698-43a5-ac7b-de1448dbc685",
                         message: String? = "expectedMessage",
-                        sources: [Source]? = []) -> Answer {
+                        sources: [Source]? = [],
+                        status: String? = "answered",
+                        feedback: AnswerFeedback? = nil) -> Answer {
         .init(createdAt: createdAt,
               id: id,
               message: message,
-              sources: sources)
+              sources: sources,
+              status: status,
+              feedback: feedback)
     }
 }
 

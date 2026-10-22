@@ -62,6 +62,16 @@ final class MockChatService: ChatServiceInterface {
         completion(result)
     }
 
+    var _receivedSendFeedbackCalls: [(conversationId: String, answerId: String, isPositive: Bool)] = []
+    var _stubbedSendFeedbackResult: ChatFeedbackResult = .success(())
+    func sendFeedback(conversationId: String,
+                      answerId: String,
+                      isPositive: Bool,
+                      completion: @escaping (ChatFeedbackResult) -> Void) {
+        _receivedSendFeedbackCalls.append((conversationId, answerId, isPositive))
+        completion(_stubbedSendFeedbackResult)
+    }
+
     var _clearHistoryCalled = false
     func clearHistory() {
         _clearHistoryCalled = true
