@@ -31,12 +31,7 @@ struct RegistrationNumberFormContent: View {
 
                 if viewModel.isValidPlate {
                     Button {
-                        Task {
-                            if await viewModel.submit(),
-                               let vehicle = viewModel.fetchedVehicle {
-                                onSubmit(vehicle)
-                            }
-                        }
+                        handleSubmission()
                     } label: {
                         Text("Submit")
                     }
@@ -54,6 +49,9 @@ struct RegistrationNumberFormContent: View {
         .padding(.horizontal, 16)
         .onAppear { isFieldFocused = true }
     }
+}
+
+extension RegistrationNumberFormContent {
 
     private var labelContent: StateLabelContent {
         if let error = viewModel.error {
@@ -70,6 +68,13 @@ struct RegistrationNumberFormContent: View {
             return .error(
                 String(localized: .DVLA.plateMustBe2To7Characters)
             )
+
+    private func handleSubmission() {
+        Task {
+            if await viewModel.submit(),
+                let vehicle = viewModel.fetchedVehicle {
+                onSubmit(vehicle)
+            }
         }
     }
 }
