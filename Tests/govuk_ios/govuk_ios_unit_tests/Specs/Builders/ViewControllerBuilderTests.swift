@@ -506,6 +506,7 @@ struct ViewControllerBuilderTests {
     func vehicleRegistrationInput_returnsExpectedResult() {
         let subject = ViewControllerBuilder()
         let result = subject.vehicleRegistrationInput(
+            analyticsService: MockAnalyticsService(),
             dvlaService: MockDVLAService(),
             cancelAction: {},
             completionAction: { _ in }
@@ -522,7 +523,9 @@ struct ViewControllerBuilderTests {
         let mockService = MockDVLAService()
         mockService._stubbedFetchVehicleResult = .success(.init(vehicle: expectedVehicle))
 
-        let action = ViewControllerBuilder.makeRegistrationSubmitAction(dvlaService: mockService)
+        let action = ViewControllerBuilder.makeRegistrationSubmitAction(
+            dvlaService: mockService,
+            analyticsService: MockAnalyticsService())
         let result = await action("AB12 CDE")
 
         switch result {
@@ -538,7 +541,10 @@ struct ViewControllerBuilderTests {
         let mockService = MockDVLAService()
         mockService._stubbedFetchVehicleResult = .failure(.notFound)
 
-        let action = ViewControllerBuilder.makeRegistrationSubmitAction(dvlaService: mockService)
+        let action = ViewControllerBuilder.makeRegistrationSubmitAction(
+            dvlaService: mockService,
+            analyticsService: MockAnalyticsService(),
+        )
         let result = await action("AB12 CDE")
 
         switch result {
@@ -554,7 +560,10 @@ struct ViewControllerBuilderTests {
         let mockService = MockDVLAService()
         mockService._stubbedFetchVehicleResult = .failure(.notFound)
 
-        let action = ViewControllerBuilder.makeRegistrationSubmitAction(dvlaService: mockService)
+        let action = ViewControllerBuilder.makeRegistrationSubmitAction(
+            dvlaService: mockService,
+            analyticsService: MockAnalyticsService()
+        )
         let result = await action("AB12 CDE")
 
         switch result {

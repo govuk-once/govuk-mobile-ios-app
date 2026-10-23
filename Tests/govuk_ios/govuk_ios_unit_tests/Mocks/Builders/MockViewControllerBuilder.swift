@@ -503,6 +503,7 @@ class MockViewControllerBuilder: ViewControllerBuilder {
     var _receivedVehicleRegistrationInputCompletionAction: ((VehicleEnquiryResponse.Vehicle) -> Void)?
 
     override func vehicleRegistrationInput(
+        analyticsService: AnalyticsServiceInterface,
         dvlaService: DVLAServiceInterface,
         cancelAction: @escaping () -> Void,
         completionAction: @escaping (VehicleEnquiryResponse.Vehicle) -> Void

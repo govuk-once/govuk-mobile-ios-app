@@ -916,11 +916,13 @@ class ViewControllerBuilder {
     }
 
     func vehicleRegistrationInput(
+        analyticsService: AnalyticsServiceInterface,
         dvlaService: DVLAServiceInterface,
         cancelAction: @escaping () -> Void,
         completionAction: @escaping (VehicleEnquiryResponse.Vehicle) -> Void
     ) -> UIViewController {
-        let submitAction = Self.makeRegistrationSubmitAction(dvlaService: dvlaService)
+        let submitAction = Self.makeRegistrationSubmitAction(dvlaService: dvlaService,
+                                                             analyticsService: analyticsService)
 
         let viewModel = RegistrationNumberFormViewModel(submitAction: submitAction)
         let view = RegistrationNumberFormModal(
@@ -935,9 +937,13 @@ class ViewControllerBuilder {
     }
 
     static func makeRegistrationSubmitAction(
-        dvlaService: DVLAServiceInterface
+        dvlaService: DVLAServiceInterface,
+        analyticsService: AnalyticsServiceInterface
     ) -> RegistrationNumberSubmitAction {
         return { plate in
+            VehicleCheckAnalytics.trackSubmitButtonTapEvent(
+                analyticsService: analyticsService
+            )
             let result = await dvlaService.fetchVehicle(registration: plate)
             switch result {
             case .success(let response):

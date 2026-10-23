@@ -93,8 +93,15 @@ final class VehicleCheckCoordinator: BaseCoordinator {
 
     private func showInitialInput() {
         let viewController = viewControllerBuilder.vehicleRegistrationInput(
+            analyticsService: analyticsService,
             dvlaService: dvlaService,
-            cancelAction: { [weak self] in self?.dismissFlow() },
+            cancelAction: { [weak self] in
+                guard let self else { return }
+                VehicleCheckAnalytics.trackCancelButtonTapEvent(
+                    analyticsService: self.analyticsService
+                )
+                self.dismissFlow()
+            },
             completionAction: { [weak self] vehicle in
                 self?.transition(to: .results(vehicle: vehicle))
             }
@@ -107,9 +114,14 @@ final class VehicleCheckCoordinator: BaseCoordinator {
 
     private func showNestedInput() {
         let viewController = viewControllerBuilder.vehicleRegistrationInput(
+            analyticsService: analyticsService,
             dvlaService: dvlaService,
             cancelAction: { [weak self] in
-                self?.topmostViewController.dismiss(animated: true)
+                guard let self else { return }
+                VehicleCheckAnalytics.trackCancelButtonTapEvent(
+                    analyticsService: self.analyticsService
+                )
+                self.topmostViewController.dismiss(animated: true)
             },
             completionAction: { [weak self] vehicle in
                 self?.transition(to: .results(vehicle: vehicle))
