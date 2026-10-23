@@ -501,4 +501,67 @@ struct ViewControllerBuilderTests {
         let rootView = (result as? HostingViewController<EditCountriesView>)?.rootView
         #expect(rootView != nil)
     }
+
+    @Test
+    func vehicleRegistrationInput_returnsExpectedResult() {
+        let subject = ViewControllerBuilder()
+        let result = subject.vehicleRegistrationInput(
+            dvlaService: MockDVLAService(),
+            cancelAction: {},
+            completionAction: { _ in }
+        )
+
+        let hostingController = result as? UIHostingController<RegistrationNumberFormModal>
+        #expect(hostingController != nil)
+        #expect(hostingController?.view.backgroundColor == .clear)
+    }
+
+    @Test
+    func makeRegistrationSubmitAction_handlesSuccess() async {
+        let expectedVehicle = VehicleEnquiryResponse.Vehicle.arrange
+        let mockService = MockDVLAService()
+        mockService._stubbedFetchVehicleResult = .success(.init(vehicle: expectedVehicle))
+
+        let action = ViewControllerBuilder.makeRegistrationSubmitAction(dvlaService: mockService)
+        let result = await action("AB12 CDE")
+
+        switch result {
+        case .success(let vehicle):
+            #expect(vehicle.vehicleId == expectedVehicle.vehicleId)
+        default:
+            Issue.record("Expected success result with vehicle, but got \(result)")
+        }
+    }
+
+    @Test
+    func makeRegistrationSubmitAction_handlesNotFoundError() async {
+        let mockService = MockDVLAService()
+        mockService._stubbedFetchVehicleResult = .failure(.notFound)
+
+        let action = ViewControllerBuilder.makeRegistrationSubmitAction(dvlaService: mockService)
+        let result = await action("AB12 CDE")
+
+        switch result {
+        case .failure(let error):
+            #expect(error == .notFound)
+        default:
+            Issue.record("Expected notFound failure, but got \(result)")
+        }
+    }
+
+    @Test
+    func makeRegistrationSubmitAction_handlesGenericError() async {
+        let mockService = MockDVLAService()
+        mockService._stubbedFetchVehicleResult = .failure(.notFound)
+
+        let action = ViewControllerBuilder.makeRegistrationSubmitAction(dvlaService: mockService)
+        let result = await action("AB12 CDE")
+
+        switch result {
+        case .failure(let error):
+            #expect(error == .notFound)
+        default:
+            Issue.record("Expected serviceUnavailable failure, but got \(result)")
+        }
+    }
 }

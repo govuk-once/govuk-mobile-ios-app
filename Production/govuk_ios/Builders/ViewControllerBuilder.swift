@@ -920,7 +920,24 @@ class ViewControllerBuilder {
         cancelAction: @escaping () -> Void,
         completionAction: @escaping (VehicleEnquiryResponse.Vehicle) -> Void
     ) -> UIViewController {
-        let submitAction: RegistrationNumberSubmitAction = { plate in
+        let submitAction = Self.makeRegistrationSubmitAction(dvlaService: dvlaService)
+
+        let viewModel = RegistrationNumberFormViewModel(submitAction: submitAction)
+        let view = RegistrationNumberFormModal(
+            viewModel: viewModel,
+            cancelAction: cancelAction,
+            submitAction: completionAction
+        )
+
+        let hostingController = UIHostingController(rootView: view)
+        hostingController.view.backgroundColor = .clear
+        return hostingController
+    }
+
+    static func makeRegistrationSubmitAction(
+        dvlaService: DVLAServiceInterface
+    ) -> RegistrationNumberSubmitAction {
+        return { plate in
             let result = await dvlaService.fetchVehicle(registration: plate)
             switch result {
             case .success(let response):
@@ -934,17 +951,6 @@ class ViewControllerBuilder {
                 }
             }
         }
-
-        let viewModel = RegistrationNumberFormViewModel(submitAction: submitAction)
-        let view = RegistrationNumberFormModal(
-            viewModel: viewModel,
-            cancelAction: cancelAction,
-            submitAction: completionAction
-        )
-
-        let hostingController = UIHostingController(rootView: view)
-        hostingController.view.backgroundColor = .clear
-        return hostingController
     }
 }
 // swiftlint:enable file_length

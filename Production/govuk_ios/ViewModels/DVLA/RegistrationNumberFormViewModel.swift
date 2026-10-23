@@ -46,7 +46,7 @@ final class RegistrationNumberFormViewModel: ObservableObject {
     var clearsErrorOnAnyEdit = true
 
     let maxCharacters: Int
-    private let submitAction: RegistrationNumberSubmitAction
+    let submitAction: RegistrationNumberSubmitAction
 
     init(maxCharacters: Int = 7,
          submitAction: @escaping RegistrationNumberSubmitAction) {
