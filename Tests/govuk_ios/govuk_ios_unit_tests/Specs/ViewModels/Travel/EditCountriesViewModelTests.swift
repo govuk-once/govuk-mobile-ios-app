@@ -122,12 +122,10 @@ struct EditCountriesViewModelTests {
         )
 
         await sut.viewDidAppear()
-        try await waitForViewState(of: sut) { state in
-            if case .loaded = state { return true }
-            return false
-        }
+        await Task.yield()
 
         #expect(mockTravelService._getCountriesCalled)
+        #expect(sut.countriesSection.isEmpty)
     }
 
     @Test
