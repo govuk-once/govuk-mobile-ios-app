@@ -7,9 +7,9 @@ enum VehicleCheckAnalytics {
         let event = AppEvent(
             name: "Navigation",
             params: [
-                "type": "Button",
-                "text": "Search",
-                "action": "Open search number plate",
+                "type": "Widget",
+                "text": "Submit",
+                "action": "Search number plate",
                 "external": false,
                 "section": "Driving"
             ]
@@ -22,7 +22,7 @@ enum VehicleCheckAnalytics {
             name: "Navigation",
             params: [
                 "type": "Widget",
-                "text": "Search",
+                "text": "Cancel",
                 "action": "Cancel search number plate",
                 "external": false,
                 "section": "Driving"

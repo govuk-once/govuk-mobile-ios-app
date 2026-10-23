@@ -16,9 +16,9 @@ struct VehicleCheckAnalyticsTests {
 
         let event = try #require(mockAnalyticsService._trackedEvents.first)
         #expect(event.name == "Navigation")
-        #expect(event.params?["type"] as? String == "Button")
-        #expect(event.params?["text"] as? String == "Search")
-        #expect(event.params?["action"] as? String == "Open search number plate")
+        #expect(event.params?["type"] as? String == "Widget")
+        #expect(event.params?["text"] as? String == "Submit")
+        #expect(event.params?["action"] as? String == "Search number plate")
         #expect(event.params?["external"] as? Bool == false)
         #expect(event.params?["section"] as? String == "Driving")
     }
@@ -34,7 +34,7 @@ struct VehicleCheckAnalyticsTests {
         let event = try #require(mockAnalyticsService._trackedEvents.first)
         #expect(event.name == "Navigation")
         #expect(event.params?["type"] as? String == "Widget")
-        #expect(event.params?["text"] as? String == "Search")
+        #expect(event.params?["text"] as? String == "Cancel")
         #expect(event.params?["action"] as? String == "Cancel search number plate")
         #expect(event.params?["external"] as? Bool == false)
         #expect(event.params?["section"] as? String == "Driving")
