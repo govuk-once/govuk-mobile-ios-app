@@ -488,7 +488,8 @@ class MockViewControllerBuilder: ViewControllerBuilder {
         notificationService: NotificationServiceInterface,
         deviceInfo: DeviceInformationProviderInterface,
         versionProvider: AppVersionProvider,
-        openURLAction: @escaping (URL) -> Void
+        openURLAction: @escaping (URL) -> Void,
+        navigateBackAction: @escaping () -> Void
     ) -> UIViewController {
         _editCountriesWasCalled = true
         _receivedEditCountriesTravelService = travelService
