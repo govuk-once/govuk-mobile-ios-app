@@ -914,5 +914,49 @@ class ViewControllerBuilder {
         viewController.shouldAutoFocusVoiceover = false
         return viewController
     }
+
+    func vehicleRegistrationInput(
+        analyticsService: AnalyticsServiceInterface,
+        dvlaService: DVLAServiceInterface,
+        cancelAction: @escaping () -> Void,
+        completionAction: @escaping (VehicleEnquiryResponse.Vehicle) -> Void
+    ) -> UIViewController {
+        let submitAction = Self.makeRegistrationSubmitAction(dvlaService: dvlaService,
+                                                             analyticsService: analyticsService)
+
+        let viewModel = RegistrationNumberFormViewModel(submitAction: submitAction)
+        let view = RegistrationNumberFormModal(
+            viewModel: viewModel,
+            cancelAction: cancelAction,
+            submitAction: completionAction
+        )
+
+        let hostingController = UIHostingController(rootView: view)
+        hostingController.view.backgroundColor = .clear
+        return hostingController
+    }
+
+    static func makeRegistrationSubmitAction(
+        dvlaService: DVLAServiceInterface,
+        analyticsService: AnalyticsServiceInterface
+    ) -> RegistrationNumberSubmitAction {
+        return { plate in
+            VehicleCheckAnalytics.trackSubmitButtonTapEvent(
+                analyticsService: analyticsService
+            )
+            let result = await dvlaService.fetchVehicle(registration: plate)
+            switch result {
+            case .success(let response):
+                return .success(response.vehicle)
+            case .failure(let error):
+                switch error {
+                case .notFound:
+                    return .failure(.notFound)
+                default:
+                    return .failure(.serviceUnavailable)
+                }
+            }
+        }
+    }
 }
 // swiftlint:enable file_length

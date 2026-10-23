@@ -122,6 +122,17 @@
         }
       }
     },
+    "clearTextAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clear text"
+          }
+        }
+      }
+    },
     "co2Emissions" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -475,6 +486,17 @@
         }
       }
     },
+    "enterNumberPlateLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter number plate"
+          }
+        }
+      }
+    },
     "expired" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -603,6 +625,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Please try again later"
+          }
+        }
+      }
+    },
+    "gettingVehicleDetails" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Getting vehicle details"
           }
         }
       }
@@ -1032,6 +1065,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Petrol and gas"
+          }
+        }
+      }
+    },
+    "plateMustBe2To7Characters" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plate must be 2–7 characters"
           }
         }
       }
