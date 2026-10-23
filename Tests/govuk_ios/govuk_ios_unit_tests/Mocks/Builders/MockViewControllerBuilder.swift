@@ -481,6 +481,7 @@ class MockViewControllerBuilder: ViewControllerBuilder {
     var _receivedEditCountriesTravelService: TravelServiceInterface?
     var _receivedEditCountriesAnalyticsService: AnalyticsServiceInterface?
     var _receivedEditCountriesNotificationService: NotificationServiceInterface?
+    var _receivedEditCountriesNavigateBackAction: (() -> Void)?
     var _stubbedEditCountriesViewController: UIViewController?
     override func editCountries(
         travelService: TravelServiceInterface,
@@ -488,12 +489,14 @@ class MockViewControllerBuilder: ViewControllerBuilder {
         notificationService: NotificationServiceInterface,
         deviceInfo: DeviceInformationProviderInterface,
         versionProvider: AppVersionProvider,
-        openURLAction: @escaping (URL) -> Void
+        openURLAction: @escaping (URL) -> Void,
+        navigateBackAction: @escaping () -> Void
     ) -> UIViewController {
         _editCountriesWasCalled = true
         _receivedEditCountriesTravelService = travelService
         _receivedEditCountriesAnalyticsService = analyticsService
         _receivedEditCountriesNotificationService = notificationService
+        _receivedEditCountriesNavigateBackAction = navigateBackAction
         return _stubbedEditCountriesViewController ?? UIViewController()
     }
 }

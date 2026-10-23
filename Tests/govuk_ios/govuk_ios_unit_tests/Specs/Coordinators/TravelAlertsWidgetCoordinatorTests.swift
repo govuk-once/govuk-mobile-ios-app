@@ -266,4 +266,37 @@ struct TravelAlertsWidgetCoordinatorTests {
         #expect(mockCoordinatorBuilder._receivedSafariCoordinatorFullScreen == false)
     }
 
+    @Test
+    func editCountries_callsNavigateBackAction_popsViewController() {
+        let travelTopic = Topic.arrange(
+            context: coreDataRepository.viewContext,
+            ref: "travel-abroad"
+        )
+        mockConfigService.features = [.travelAlerts]
+        let mockNavigationController = MockNavigationController()
+        let mockViewControllerBuilder = MockViewControllerBuilder()
+        let homeViewController = UIViewController()
+        mockNavigationController.setViewControllers([homeViewController], animated: false)
+
+        let sut = TravelAlertsWidgetCoordinator(
+            navigationController: mockNavigationController,
+            analyticsService: mockAnalyticsService,
+            travelService: mockTravelService,
+            configService: mockConfigService,
+            notificationService: mockNotificationService,
+            deviceInformationProvider: MockDeviceInformationProvider(),
+            versionProvider: MockAppVersionProvider(),
+            coordinatorBuilder: CoordinatorBuilder.mock,
+            widgetViewBuilder: mockWidgetViewBuilder,
+            viewControllerBuilder: mockViewControllerBuilder,
+        )
+
+        sut.startEditCountries()
+        #expect(mockNavigationController._pushedViewController != nil)
+
+        mockViewControllerBuilder._receivedEditCountriesNavigateBackAction?()
+
+        #expect(mockNavigationController._popCalled == true)
+    }
+
 }

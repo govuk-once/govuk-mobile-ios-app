@@ -873,7 +873,8 @@ class ViewControllerBuilder {
         notificationService: NotificationServiceInterface,
         deviceInfo: DeviceInformationProviderInterface,
         versionProvider: AppVersionProvider,
-        openURLAction: @escaping (URL) -> Void
+        openURLAction: @escaping (URL) -> Void,
+        navigateBackAction: @escaping () -> Void
     ) -> UIViewController {
         let feedbackURL = deviceInfo.helpAndFeedbackURL(versionProvider: versionProvider)
 
@@ -884,7 +885,8 @@ class ViewControllerBuilder {
             urlOpener: UIApplication.shared,
             openCountryListFooterAction: {
                 openURLAction(feedbackURL)
-            }
+            },
+            navigateBackAction: navigateBackAction
         )
         let view = EditCountriesView(viewModel: viewModel)
         let viewController = HostingViewController(
