@@ -50,7 +50,7 @@ extension RegistrationNumberFormContent {
                     isLoading: viewModel.isLoading,
                     loadingLabel: viewModel.loadingLabel
                 ))
-                .disabled(viewModel.isLoading)
+                .disabled(!viewModel.isValidPlate || viewModel.isLoading)
                 .transition(.opacity.combined(with:
                         .move(edge: .trailing))
                 )
@@ -63,7 +63,9 @@ extension RegistrationNumberFormContent {
             return .error(error.rawValue)
         }
 
-        if viewModel.numberPlate.isEmpty
+        // suppress the format error while the user is actively typing
+        if isFieldFocused
+            || viewModel.numberPlate.isEmpty
             || viewModel.isValidPlate {
             return .normal(String(
                     localized: .DVLA.enterNumberPlateLabel
@@ -71,9 +73,7 @@ extension RegistrationNumberFormContent {
             )
         }
 
-        return .error(String(
-            localized: .DVLA.plateMustBe2To7Characters)
-        )
+        return .error(String(localized: .DVLA.plateMustBe2To7Characters))
     }
 
     private func handleSubmission() {
