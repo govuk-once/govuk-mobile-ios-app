@@ -921,11 +921,10 @@ class ViewControllerBuilder {
         cancelAction: @escaping () -> Void,
         completionAction: @escaping (VehicleEnquiryResponse.Vehicle) -> Void
     ) -> UIViewController {
-        let submitAction = Self.makeRegistrationSubmitAction(dvlaService: dvlaService,
-                                                             analyticsService: analyticsService)
-
         let viewModel = RegistrationNumberFormViewModel(
-            lookupService: submitAction,
+            lookupService: dvlaService.makeVehicleLookup(
+                analyticsService: analyticsService
+            ),
             onSuccess: completionAction,
             onCancel: cancelAction
         )
@@ -936,29 +935,6 @@ class ViewControllerBuilder {
         let hostingController = UIHostingController(rootView: view)
         hostingController.view.backgroundColor = .clear
         return hostingController
-    }
-
-    static func makeRegistrationSubmitAction(
-        dvlaService: DVLAServiceInterface,
-        analyticsService: AnalyticsServiceInterface
-    ) -> VehicleLookup {
-        return { plate in
-            VehicleCheckAnalytics.trackSubmitButtonTapEvent(
-                analyticsService: analyticsService
-            )
-            let result = await dvlaService.fetchVehicle(registration: plate)
-            switch result {
-            case .success(let response):
-                return .success(response.vehicle)
-            case .failure(let error):
-                switch error {
-                case .notFound:
-                    return .failure(.notFound)
-                default:
-                    return .failure(.serviceUnavailable)
-                }
-            }
-        }
     }
 }
 // swiftlint:enable file_length
