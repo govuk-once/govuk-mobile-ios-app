@@ -10,7 +10,6 @@ struct RegistrationNumberField: View {
             TextField("", text: $text)
                 .multilineTextAlignment(.center)
                 .font(.govUK.vehicleRegistrationInputFieldText)
-                .font(.system(size: 32, weight: .bold, design: .monospaced))
                 .registrationNumberKeyboard()
                 .onChange(of: text) { newValue in
                     let sanitized = RegistrationNumberFormatter.sanitize(
