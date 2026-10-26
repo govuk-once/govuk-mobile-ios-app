@@ -15,6 +15,8 @@ typealias RegistrationNumberSubmitAction =
 /// Owns registration number input state, validation, and submission.
 @MainActor
 final class RegistrationNumberFormViewModel: ObservableObject {
+    private var submitTask: Task<Void, Never>?
+
     @Published var numberPlate: String = "" {
         // Clears the error when the user edits the plate, so they can retry after a failed submission.
         // Compares sanitized forms to ignore the intermediate value from the sanitizer bounce-back
@@ -46,12 +48,19 @@ final class RegistrationNumberFormViewModel: ObservableObject {
     var clearsErrorOnAnyEdit = true
 
     let maxCharacters: Int
-    let submitAction: RegistrationNumberSubmitAction
+
+    private let lookupService: RegistrationNumberSubmitAction
+    private let onSuccess: (VehicleEnquiryResponse.Vehicle) -> Void
+    private let onCancel: () -> Void
 
     init(maxCharacters: Int = 7,
-         submitAction: @escaping RegistrationNumberSubmitAction) {
+         lookupService: @escaping RegistrationNumberSubmitAction,
+         onSuccess: @escaping (VehicleEnquiryResponse.Vehicle) -> Void,
+         onCancel: @escaping () -> Void) {
         self.maxCharacters = maxCharacters
-        self.submitAction = submitAction
+        self.lookupService = lookupService
+        self.onSuccess = onSuccess
+        self.onCancel = onCancel
     }
 
     var isValidPlate: Bool {
@@ -63,24 +72,35 @@ final class RegistrationNumberFormViewModel: ObservableObject {
         value.filter { $0.isLetter || $0.isNumber }.count
     }
 
-    @discardableResult
-    func submit() async -> Bool {
+    func submit() {
+        submitTask?.cancel()
+        submitTask = Task {
+            await performSubmit()
+        }
+    }
+
+    func cancel() {
+        onCancel()
+    }
+
+    func performSubmit() async {
+        guard isValidPlate, !isLoading else { return }
+
         let trimmed = numberPlate.trimmingCharacters(in: .whitespaces)
         isLoading = true
         error = nil
         fetchedVehicle = nil
         defer { isLoading = false }
 
-        let result = await submitAction(trimmed)
+        let result = await lookupService(trimmed)
 
         switch result {
         case .success(let vehicle):
             fetchedVehicle = vehicle
             isSubmitted = true
-            return true
+            onSuccess(vehicle)
         case .failure(let submitError):
             error = submitError
-            return false
         }
     }
 }

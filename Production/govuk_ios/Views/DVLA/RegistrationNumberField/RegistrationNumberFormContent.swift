@@ -4,8 +4,6 @@ import SwiftUI
 struct RegistrationNumberFormContent: View {
     @ObservedObject var viewModel: RegistrationNumberFormViewModel
     @FocusState private var isFieldFocused: Bool
-    let cancelAction: () -> Void
-    let submitAction: (VehicleEnquiryResponse.Vehicle) -> Void
 
     var body: some View {
         VStack(spacing: 0) {
@@ -37,13 +35,11 @@ extension RegistrationNumberFormContent {
     @ViewBuilder
     private var actionButtons: some View {
         HStack(spacing: 8) {
-            Button("Cancel") {
-                cancelAction()
-            }
-            .buttonStyle(RegistrationCancelButtonStyle())
+            Button("Cancel", action: viewModel.cancel)
+                .buttonStyle(RegistrationCancelButtonStyle())
 
             if viewModel.isValidPlate {
-                Button(action: handleSubmission) {
+                Button(action: viewModel.submit) {
                     Text("Submit")
                 }
                 .buttonStyle(LoadingButtonStyle(
@@ -74,14 +70,5 @@ extension RegistrationNumberFormContent {
         }
 
         return .error(String(localized: .DVLA.plateMustBe2To7Characters))
-    }
-
-    private func handleSubmission() {
-        Task {
-            if await viewModel.submit(),
-                let vehicle = viewModel.fetchedVehicle {
-                submitAction(vehicle)
-            }
-        }
     }
 }

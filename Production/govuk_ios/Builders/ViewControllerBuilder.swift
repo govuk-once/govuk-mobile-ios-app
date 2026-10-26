@@ -924,11 +924,13 @@ class ViewControllerBuilder {
         let submitAction = Self.makeRegistrationSubmitAction(dvlaService: dvlaService,
                                                              analyticsService: analyticsService)
 
-        let viewModel = RegistrationNumberFormViewModel(submitAction: submitAction)
+        let viewModel = RegistrationNumberFormViewModel(
+            lookupService: submitAction,
+            onSuccess: completionAction,
+            onCancel: cancelAction
+        )
         let view = RegistrationNumberFormModal(
-            viewModel: viewModel,
-            cancelAction: cancelAction,
-            submitAction: completionAction
+            viewModel: viewModel
         )
 
         let hostingController = UIHostingController(rootView: view)

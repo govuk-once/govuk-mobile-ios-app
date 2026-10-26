@@ -2,21 +2,17 @@ import SwiftUI
 
 struct RegistrationNumberFormModal: View {
     let viewModel: RegistrationNumberFormViewModel
-    let cancelAction: () -> Void
-    let submitAction: (VehicleEnquiryResponse.Vehicle) -> Void
 
     var body: some View {
         ZStack {
             Color.black.opacity(0.4)
                 .ignoresSafeArea()
-                .onTapGesture { cancelAction() }
+                .onTapGesture { viewModel.cancel() }
 
             VStack {
                 Spacer()
                 RegistrationNumberFormContent(
-                    viewModel: viewModel,
-                    cancelAction: cancelAction,
-                    submitAction: submitAction
+                    viewModel: viewModel
                 )
                 .background(Color(uiColor: .govUK.fills.registrationFormBackgroundColor))
                 .cornerRadius(33)
