@@ -1102,6 +1102,28 @@
         }
       }
     },
+    "registrationLookupNotFound" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Number plate not found"
+          }
+        }
+      }
+    },
+    "registrationLookupServiceUnavailable" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search not working - try again later"
+          }
+        }
+      }
+    },
     "registrationNumberAccessibilityLabelPrefix" : {
       "extractionState" : "manual",
       "localizations" : {

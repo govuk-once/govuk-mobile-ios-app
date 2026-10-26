@@ -43,6 +43,17 @@ final class RegistrationNumberFormViewModel: ObservableObject {
     @Published private(set) var isSubmitted = false
     let loadingLabel = String(localized: .DVLA.gettingVehicleDetails)
     @Published private(set) var error: RegistrationNumberQueryError?
+
+    var errorMessage: String? {
+        guard let error else { return nil }
+        switch error {
+        case .serviceUnavailable:
+            return String(localized: .DVLA.registrationLookupServiceUnavailable)
+        case .notFound:
+            return String(localized: .DVLA.registrationLookupNotFound)
+        }
+    }
+
     private(set) var fetchedVehicle: VehicleEnquiryResponse.Vehicle?
 
     var clearsErrorOnAnyEdit = true

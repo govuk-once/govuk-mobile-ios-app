@@ -56,7 +56,8 @@ extension RegistrationNumberFormContent {
 
     private var labelContent: StateLabelContent {
         if let error = viewModel.error {
-            return .error(error.rawValue)
+            return .error(viewModel.errorMessage
+                          ?? "\(error)")
         }
 
         // suppress the format error while the user is actively typing
