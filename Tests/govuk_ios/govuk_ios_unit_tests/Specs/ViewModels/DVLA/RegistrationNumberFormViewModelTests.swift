@@ -26,44 +26,85 @@ struct RegistrationNumberFormViewModelTests {
         }
     }
 
+    // MARK: - Submission Tests
+
     @Test
-    func submitAction_handlesSuccess() async {
+    func performSubmit_handlesSuccess() async {
         let expectedVehicle = VehicleEnquiryResponse.Vehicle.arrange
         let mockService = MockDVLAService()
         mockService._stubbedFetchVehicleResult = .success(.init(vehicle: expectedVehicle))
 
-        let viewModel = RegistrationNumberFormViewModel(
-            submitAction: makeSubmitAction(dvlaService: mockService)
+        var receivedVehicle: VehicleEnquiryResponse.Vehicle?
+        let viewModel = makeViewModel(
+            initialPlate: "AB12 CDE",
+            lookupService: makeSubmitAction(dvlaService: mockService),
+            onSuccess: { vehicle in
+                receivedVehicle = vehicle
+            }
         )
 
-        let submitResult = await viewModel.submitAction("AB12 CDE")
+        await viewModel.performSubmit()
 
-        switch submitResult {
-        case .success(let vehicle):
-            #expect(vehicle.vehicleId == expectedVehicle.vehicleId)
-        default:
-            Issue.record("Expected success result with vehicle, but got \(String(describing: submitResult))")
-        }
+        #expect(viewModel.isLoading == false)
+        #expect(viewModel.isSubmitted == true)
+        #expect(viewModel.error == nil)
+        #expect(viewModel.fetchedVehicle?.vehicleId == expectedVehicle.vehicleId)
+        #expect(receivedVehicle?.vehicleId == expectedVehicle.vehicleId)
     }
 
     @Test
-    func submitAction_handlesNotFoundError() async {
+    func performSubmit_handlesNotFoundError() async {
         let mockService = MockDVLAService()
         mockService._stubbedFetchVehicleResult = .failure(.notFound)
 
-        let viewModel = RegistrationNumberFormViewModel(
-            submitAction: makeSubmitAction(dvlaService: mockService)
+        var successCallbackCalled = false
+        let viewModel = makeViewModel(
+            initialPlate: "AB12 CDE",
+            lookupService: makeSubmitAction(dvlaService: mockService),
+            onSuccess: { _ in
+                successCallbackCalled = true
+            }
         )
 
-        let submitResult = await viewModel.submitAction("AB12 CDE")
+        await viewModel.performSubmit()
 
-        switch submitResult {
-        case .failure(let error):
-            #expect(error == .notFound)
-        default:
-            Issue.record("Expected notFound failure result, but got \(String(describing: submitResult))")
-        }
+        #expect(viewModel.isLoading == false)
+        #expect(viewModel.isSubmitted == false)
+        #expect(viewModel.fetchedVehicle == nil)
+        #expect(viewModel.error == .notFound)
+        #expect(successCallbackCalled == false)
     }
+
+    @Test
+    func performSubmit_whenPlateIsInvalid_doesNotTriggerLookup() async {
+        let mockService = MockDVLAService()
+        let viewModel = makeViewModel(
+            initialPlate: "A",
+            lookupService: makeSubmitAction(dvlaService: mockService)
+        )
+
+        await viewModel.performSubmit()
+
+        #expect(viewModel.isLoading == false)
+        #expect(viewModel.isSubmitted == false)
+        #expect(viewModel.fetchedVehicle == nil)
+    }
+
+    @Test
+    func cancel_triggersOnCancelCallback() {
+        var cancelCalled = false
+        let viewModel = makeViewModel(
+            onCancel: {
+                cancelCalled = true
+            }
+        )
+
+        viewModel.cancel()
+
+        #expect(cancelCalled == true)
+    }
+
+    // MARK: - Error & Sanitization Tests
 
     @Test func test_numberPlate_sanitizerBounceBack_retainsError() async {
         let viewModel = await makeViewModelWithError(
@@ -122,13 +163,17 @@ extension RegistrationNumberFormViewModelTests {
     private func makeViewModel(
         initialPlate: String = "AB12",
         clearsErrorOnAnyEdit: Bool = true,
-        submitAction: RegistrationNumberSubmitAction? = nil
+        lookupService: RegistrationNumberSubmitAction? = nil,
+        onSuccess: @escaping (VehicleEnquiryResponse.Vehicle) -> Void = { _ in },
+        onCancel: @escaping () -> Void = {}
     ) -> RegistrationNumberFormViewModel {
-        let defaultSubmitAction: RegistrationNumberSubmitAction = { _ in
+        let defaultLookupService: RegistrationNumberSubmitAction = { _ in
             .success(VehicleEnquiryResponse.Vehicle.arrange)
         }
         let viewModel = RegistrationNumberFormViewModel(
-            submitAction: submitAction ?? defaultSubmitAction
+            lookupService: lookupService ?? defaultLookupService,
+            onSuccess: onSuccess,
+            onCancel: onCancel
         )
         viewModel.numberPlate = initialPlate
         viewModel.clearsErrorOnAnyEdit = clearsErrorOnAnyEdit
@@ -139,15 +184,15 @@ extension RegistrationNumberFormViewModelTests {
         initialPlate: String = "AB12",
         clearsErrorOnAnyEdit: Bool = true
     ) async -> RegistrationNumberFormViewModel {
-        let failingSubmitAction: RegistrationNumberSubmitAction = { _ in
-                .failure(.serviceUnavailable)
+        let failingLookupService: RegistrationNumberSubmitAction = { _ in
+            .failure(.serviceUnavailable)
         }
         let viewModel = makeViewModel(
             initialPlate: initialPlate,
             clearsErrorOnAnyEdit: clearsErrorOnAnyEdit,
-            submitAction: failingSubmitAction
+            lookupService: failingLookupService
         )
-        await viewModel.submit()
+        await viewModel.performSubmit()
         return viewModel
     }
 }
