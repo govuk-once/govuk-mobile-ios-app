@@ -941,7 +941,7 @@ class ViewControllerBuilder {
     static func makeRegistrationSubmitAction(
         dvlaService: DVLAServiceInterface,
         analyticsService: AnalyticsServiceInterface
-    ) -> RegistrationNumberSubmitAction {
+    ) -> VehicleLookup {
         return { plate in
             VehicleCheckAnalytics.trackSubmitButtonTapEvent(
                 analyticsService: analyticsService

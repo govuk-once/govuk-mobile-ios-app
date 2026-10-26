@@ -6,7 +6,7 @@ enum RegistrationNumberQueryError: String, Error, CaseIterable, Hashable {
     case notFound = "Number plate not found"
 }
 
-typealias RegistrationNumberSubmitAction =
+typealias VehicleLookup =
 (String) async -> Result<
     VehicleEnquiryResponse.Vehicle,
         RegistrationNumberQueryError
@@ -49,12 +49,12 @@ final class RegistrationNumberFormViewModel: ObservableObject {
 
     let maxCharacters: Int
 
-    private let lookupService: RegistrationNumberSubmitAction
+    private let lookupService: VehicleLookup
     private let onSuccess: (VehicleEnquiryResponse.Vehicle) -> Void
     private let onCancel: () -> Void
 
     init(maxCharacters: Int = 7,
-         lookupService: @escaping RegistrationNumberSubmitAction,
+         lookupService: @escaping VehicleLookup,
          onSuccess: @escaping (VehicleEnquiryResponse.Vehicle) -> Void,
          onCancel: @escaping () -> Void) {
         self.maxCharacters = maxCharacters

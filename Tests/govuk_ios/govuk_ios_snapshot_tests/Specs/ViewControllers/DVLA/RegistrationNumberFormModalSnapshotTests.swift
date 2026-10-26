@@ -67,15 +67,16 @@ final class RegistrationNumberFormModalSnapshotTests: SnapshotTestCase {
     ) -> RegistrationNumberFormModal {
         RegistrationNumberFormModal(
             viewModel: viewModel ?? makeViewModel(),
-            cancelAction: {},
-            submitAction: { _ in }
         )
     }
 
     private func makeViewModel() -> RegistrationNumberFormViewModel {
-        let stubbedSubmitAction: RegistrationNumberSubmitAction = { _ in
+        let stubbedSubmitAction: VehicleLookup = { _ in
             .success(VehicleEnquiryResponse.Vehicle.arrange)
         }
-        return RegistrationNumberFormViewModel(submitAction: stubbedSubmitAction)
+        return RegistrationNumberFormViewModel(
+            lookupService: stubbedSubmitAction,
+            onSuccess: { _ in },
+            onCancel: {})
     }
 }

@@ -9,7 +9,7 @@ struct RegistrationNumberFormViewModelTests {
     // Helper to mirror the submitAction closure from ViewControllerBuilder
     private func makeSubmitAction(
         dvlaService: DVLAServiceInterface
-    ) -> RegistrationNumberSubmitAction {
+    ) -> VehicleLookup {
         return { plate in
             let result = await dvlaService.fetchVehicle(registration: plate)
             switch result {
@@ -163,11 +163,11 @@ extension RegistrationNumberFormViewModelTests {
     private func makeViewModel(
         initialPlate: String = "AB12",
         clearsErrorOnAnyEdit: Bool = true,
-        lookupService: RegistrationNumberSubmitAction? = nil,
+        lookupService: VehicleLookup? = nil,
         onSuccess: @escaping (VehicleEnquiryResponse.Vehicle) -> Void = { _ in },
         onCancel: @escaping () -> Void = {}
     ) -> RegistrationNumberFormViewModel {
-        let defaultLookupService: RegistrationNumberSubmitAction = { _ in
+        let defaultLookupService: VehicleLookup = { _ in
             .success(VehicleEnquiryResponse.Vehicle.arrange)
         }
         let viewModel = RegistrationNumberFormViewModel(
@@ -184,7 +184,7 @@ extension RegistrationNumberFormViewModelTests {
         initialPlate: String = "AB12",
         clearsErrorOnAnyEdit: Bool = true
     ) async -> RegistrationNumberFormViewModel {
-        let failingLookupService: RegistrationNumberSubmitAction = { _ in
+        let failingLookupService: VehicleLookup = { _ in
             .failure(.serviceUnavailable)
         }
         let viewModel = makeViewModel(
