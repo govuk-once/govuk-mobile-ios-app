@@ -1,9 +1,9 @@
 import SwiftUI
 import Combine
 
-enum RegistrationNumberQueryError: String, Error, CaseIterable, Hashable {
-    case serviceUnavailable = "Search not working - try again later"
-    case notFound = "Number plate not found"
+enum RegistrationNumberQueryError: Error, CaseIterable, Hashable {
+    case serviceUnavailable
+    case notFound
 }
 
 typealias VehicleLookup =
