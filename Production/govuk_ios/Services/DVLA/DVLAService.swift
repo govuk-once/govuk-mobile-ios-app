@@ -1,4 +1,5 @@
 import Foundation
+import GovKit
 
 protocol DVLAServiceInterface {
     func fetchDrivingLicence() async -> DrivingLicenceResult
@@ -43,5 +44,31 @@ class DVLAService: DVLAServiceInterface {
 
     func cancelShareCode(id: String) async -> ShareCodeResult {
         await serviceClient.cancelShareCode(id: id)
+    }
+}
+
+extension DVLAServiceInterface {
+    func makeVehicleLookup(
+        analyticsService: AnalyticsServiceInterface
+    ) -> VehicleLookup {
+        return { plate in
+            VehicleCheckAnalytics.trackSubmitButtonTapEvent(
+                analyticsService: analyticsService
+            )
+
+            let result = await self.fetchVehicle(registration: plate)
+
+            switch result {
+            case .success(let response):
+                return .success(response.vehicle)
+            case .failure(let error):
+                switch error {
+                case .notFound:
+                    return .failure(.notFound)
+                default:
+                    return .failure(.serviceUnavailable)
+                }
+            }
+        }
     }
 }
