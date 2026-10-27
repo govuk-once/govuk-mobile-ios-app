@@ -46,7 +46,7 @@ struct DrivingLicenceViewModelTests {
         await sut.viewDidAppear()
         var licenceSummaryViewModel: DrivingLicenceSummaryViewModel?
         if case .loaded(let loadedState) = sut.viewState {
-            licenceSummaryViewModel = loadedState.licence
+            licenceSummaryViewModel = loadedState.licenceSummary
         }
         let unwrappedLicenceSummaryViewModel = try #require(licenceSummaryViewModel)
         #expect(unwrappedLicenceSummaryViewModel.licenceNumber == "ABC123DE")
@@ -215,7 +215,7 @@ struct DrivingLicenceViewModelTests {
         await sut.viewDidAppear()
         var licenceSummaryViewModel: DrivingLicenceSummaryViewModel?
         if case .loaded(let loadedState) = sut.viewState {
-            licenceSummaryViewModel = loadedState.licence
+            licenceSummaryViewModel = loadedState.licenceSummary
         }
         let unwrappedLicenceSummaryViewModel = try #require(licenceSummaryViewModel)
         unwrappedLicenceSummaryViewModel.licenceStatusViewModel.buttonAction?()
