@@ -684,6 +684,39 @@
         }
       }
     },
+    "licenceCategoriesButtonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Categories"
+          }
+        }
+      }
+    },
+    "licenceCategoriesSubtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vehicles you’re permitted to drive."
+          }
+        }
+      }
+    },
+    "licenceCategoriesTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can drive"
+          }
+        }
+      }
+    },
     "licenceFullNameAccessibilityLabel" : {
       "extractionState" : "manual",
       "localizations" : {

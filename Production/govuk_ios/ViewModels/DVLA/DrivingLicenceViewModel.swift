@@ -4,12 +4,15 @@ import SwiftUI
 class DrivingLicenceViewModel: ObservableObject {
     enum ViewState {
         case loading
-        case loaded(
-            licence: DrivingLicenceSummaryViewModel,
-            drivingRecord: DrivingRecordViewModel
-        )
+        case loaded(LoadedState)
         case notice(DrivingLicenceNoticeViewModel)
         case error(InlineActionErrorViewModel)
+    }
+
+    struct LoadedState {
+        let licenceSummary: DrivingLicenceSummaryViewModel
+        let drivingRecord: DrivingRecordViewModel
+        let categories: LicenceCategoriesSectionViewModel
     }
 
     @Published private(set) var viewState: ViewState
@@ -19,16 +22,19 @@ class DrivingLicenceViewModel: ObservableObject {
     private let dvlaService: DVLAServiceInterface
     private let configService: AppConfigServiceInterface
     private let openURLAction: (URL) -> Void
+    private let categoriesAction: () -> Void
 
     init(viewState: ViewState = .loading,
          analyticsService: AnalyticsServiceInterface,
          dvlaService: DVLAServiceInterface,
          configService: AppConfigServiceInterface,
+         categoriesAction: @escaping () -> Void,
          openURLAction: @escaping (URL) -> Void) {
         self.viewState = viewState
         self.analyticsService = analyticsService
         self.dvlaService = dvlaService
         self.configService = configService
+        self.categoriesAction = categoriesAction
         self.openURLAction = openURLAction
     }
 
@@ -62,15 +68,7 @@ class DrivingLicenceViewModel: ObservableObject {
     private func handleSuccessfulFetch(of drivingLicence: DrivingLicence) {
         switch drivingLicence.licenceStatus {
         case .valid, .expired:
-            let licenceSummaryViewModel = makeLicenceSummaryViewModel(for: drivingLicence)
-            let drivingRecordViewModel = DrivingRecordViewModel(
-                dvlaURLs: configService.dvlaUrls,
-                openURLAction: handleOpenURL(url:buttonTitle:)
-            )
-            viewState = .loaded(
-                licence: licenceSummaryViewModel,
-                drivingRecord: drivingRecordViewModel
-            )
+            viewState = .loaded(makeLoadedState(for: drivingLicence))
         case .disqualified,
                 .revoked, .revokedForMedicalReasons,
                 .surrendered, .surrenderedVoluntarily, .surrenderedForMedicalReasons,
@@ -98,6 +96,11 @@ class DrivingLicenceViewModel: ObservableObject {
         openURLAction(url)
     }
 
+    private func handleCategoriesAction(buttonTitle: String) {
+        trackCategoriesNavigation(buttonTitle: buttonTitle)
+        categoriesAction()
+    }
+
     private func trackOpenURLAction(url: URL, buttonTitle: String) {
         let event = AppEvent.buttonNavigation(
             text: buttonTitle,
@@ -115,6 +118,31 @@ class DrivingLicenceViewModel: ObservableObject {
             action: "Copy"
         )
         analyticsService.track(event: event)
+    }
+
+    private func trackCategoriesNavigation(buttonTitle: String) {
+        let event = AppEvent.buttonNavigation(
+            text: buttonTitle,
+            external: false,
+            section: "Driving"
+        )
+        analyticsService.track(event: event)
+    }
+
+    private func makeLoadedState(for drivingLicence: DrivingLicence) -> LoadedState {
+        let licenceSummaryViewModel = makeLicenceSummaryViewModel(for: drivingLicence)
+        let drivingRecordViewModel = DrivingRecordViewModel(
+            dvlaURLs: configService.dvlaUrls,
+            openURLAction: handleOpenURL(url:buttonTitle:)
+        )
+        let licenceCategoriesSectionViewModel = LicenceCategoriesSectionViewModel(
+            action: handleCategoriesAction(buttonTitle:)
+        )
+        return LoadedState(
+            licenceSummary: licenceSummaryViewModel,
+            drivingRecord: drivingRecordViewModel,
+            categories: licenceCategoriesSectionViewModel
+        )
     }
 
     private func makeLicenceSummaryViewModel(
