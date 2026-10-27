@@ -17,8 +17,6 @@ struct DrivingLicenceView: View {
             case .loaded(let licenceSummaryViewModel, let drivingRecordViewModel):
                 VStack(spacing: 24) {
                     DrivingLicenceSummaryView(viewModel: licenceSummaryViewModel)
-                        .background(Color(UIColor.govUK.fills.surfaceList))
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
                     DrivingRecordView(viewModel: drivingRecordViewModel)
                 }
                 .padding(.horizontal, 16)
