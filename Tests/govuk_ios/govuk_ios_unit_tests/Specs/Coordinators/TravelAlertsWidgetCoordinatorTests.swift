@@ -299,4 +299,35 @@ struct TravelAlertsWidgetCoordinatorTests {
         #expect(mockNavigationController._popCalled == true)
     }
 
+    @Test
+    func editCountries_capturesOpenURLAction_andCallsPresentWebView() {
+        let mockNavigationController = MockNavigationController()
+        let mockViewControllerBuilder = MockViewControllerBuilder()
+        let mockCoordinatorBuilder = CoordinatorBuilder.mock
+        let homeViewController = UIViewController()
+        mockNavigationController.setViewControllers([homeViewController], animated: false)
+        let testURL = URL(string: "https://www.test.co.uk")!
+
+        let sut = TravelAlertsWidgetCoordinator(
+            navigationController: mockNavigationController,
+            analyticsService: mockAnalyticsService,
+            travelService: mockTravelService,
+            configService: mockConfigService,
+            notificationService: mockNotificationService,
+            deviceInformationProvider: MockDeviceInformationProvider(),
+            versionProvider: MockAppVersionProvider(),
+            coordinatorBuilder: mockCoordinatorBuilder,
+            widgetViewBuilder: mockWidgetViewBuilder,
+            viewControllerBuilder: mockViewControllerBuilder,
+        )
+
+        sut.startEditCountries()
+
+        #expect(mockViewControllerBuilder._receivedEditCountriesOpenURLAction != nil)
+
+        mockViewControllerBuilder._receivedEditCountriesOpenURLAction?(testURL)
+
+        #expect(mockCoordinatorBuilder._receivedSafariCoordinatorURL == testURL)
+    }
+
 }

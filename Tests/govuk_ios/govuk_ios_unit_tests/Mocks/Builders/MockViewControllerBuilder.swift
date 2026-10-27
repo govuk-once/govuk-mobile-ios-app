@@ -481,6 +481,7 @@ class MockViewControllerBuilder: ViewControllerBuilder {
     var _receivedEditCountriesTravelService: TravelServiceInterface?
     var _receivedEditCountriesAnalyticsService: AnalyticsServiceInterface?
     var _receivedEditCountriesNotificationService: NotificationServiceInterface?
+    var _receivedEditCountriesOpenURLAction: ((URL) -> Void)?
     var _receivedEditCountriesNavigateBackAction: (() -> Void)?
     var _stubbedEditCountriesViewController: UIViewController?
     override func editCountries(
@@ -496,6 +497,7 @@ class MockViewControllerBuilder: ViewControllerBuilder {
         _receivedEditCountriesTravelService = travelService
         _receivedEditCountriesAnalyticsService = analyticsService
         _receivedEditCountriesNotificationService = notificationService
+        _receivedEditCountriesOpenURLAction = openURLAction
         _receivedEditCountriesNavigateBackAction = navigateBackAction
         return _stubbedEditCountriesViewController ?? UIViewController()
     }
