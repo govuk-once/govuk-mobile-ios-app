@@ -47,6 +47,7 @@ class EditCountriesViewModel: ObservableObject {
     private let urlOpener: URLOpener
     let analyticsService: AnalyticsServiceInterface
     private let openCountryListFooterAction: () -> Void
+    private let navigateBackAction: () -> Void
     private var allCountries: [Country] = []
     private var followedCountries: Set<String> = []
     private var notificationStateCache: [String: Bool] = [:]
@@ -69,13 +70,15 @@ class EditCountriesViewModel: ObservableObject {
         analyticsService: AnalyticsServiceInterface,
         notificationService: NotificationServiceInterface,
         urlOpener: URLOpener,
-        openCountryListFooterAction: @escaping () -> Void
+        openCountryListFooterAction: @escaping () -> Void,
+        navigateBackAction: @escaping () -> Void
     ) {
         self.travelService = travelService
         self.analyticsService = analyticsService
         self.notificationService = notificationService
         self.urlOpener = urlOpener
         self.openCountryListFooterAction = openCountryListFooterAction
+        self.navigateBackAction = navigateBackAction
     }
 
     @MainActor
@@ -242,6 +245,9 @@ class EditCountriesViewModel: ObservableObject {
                 rows: rows,
                 footer: nil
             )]
+        } else {
+            self.navigateBackAction()
+            return
         }
 
         self.viewState = .loaded

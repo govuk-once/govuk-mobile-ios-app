@@ -495,7 +495,8 @@ struct ViewControllerBuilderTests {
             notificationService: MockNotificationService(),
             deviceInfo: MockDeviceInformationProvider(),
             versionProvider: MockAppVersionProvider(),
-            openURLAction: { _ in /* No-op */ }
+            openURLAction: { _ in /* No-op */ },
+            navigateBackAction: { /* No-op */ }
         )
 
         let rootView = (result as? HostingViewController<EditCountriesView>)?.rootView
