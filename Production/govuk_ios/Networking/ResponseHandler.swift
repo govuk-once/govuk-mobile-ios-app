@@ -19,8 +19,7 @@ extension ResponseHandler {
             return nil
         }
 
-        let statusCode = httpURLResponse.statusCode
-        if (200..<300).contains(statusCode) {
+        if httpURLResponse.isSuccessful {
             return nil
         }
 
@@ -28,7 +27,7 @@ extension ResponseHandler {
            let parsedError = parseError(from: data) {
             return parsedError
         }
-        return handleStatusCode(statusCode)
+        return handleStatusCode(httpURLResponse.statusCode)
     }
 
     func parseError(from _: Data) -> Error? {
