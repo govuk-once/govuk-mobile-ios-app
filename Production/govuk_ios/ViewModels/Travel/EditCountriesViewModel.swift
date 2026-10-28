@@ -231,7 +231,7 @@ class EditCountriesViewModel: ObservableObject {
             return SelectableRow(
                 id: group.group,
                 title: country.name,
-                imageName: "ellipsis",
+                trailingIconName: "ellipsis",
                 action: {
                     self.showCountryDetails(country: country, subgroup: group.subgroup)
                 }
@@ -257,7 +257,7 @@ class EditCountriesViewModel: ObservableObject {
         let footerRow = [SelectableRow(
             id: "follow",
             title: self.followAnotherTitle,
-            imageName: "plus.circle",
+            trailingIconName: "plus.circle",
             action: { [weak self] in
                 self?.openCountryList()
             }
