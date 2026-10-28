@@ -502,4 +502,19 @@ struct ViewControllerBuilderTests {
         let rootView = (result as? HostingViewController<EditCountriesView>)?.rootView
         #expect(rootView != nil)
     }
+
+    @Test
+    func vehicleRegistrationInput_returnsExpectedResult() {
+        let subject = ViewControllerBuilder()
+        let result = subject.vehicleRegistrationInput(
+            analyticsService: MockAnalyticsService(),
+            dvlaService: MockDVLAService(),
+            cancelAction: {},
+            completionAction: { _ in }
+        )
+
+        let hostingController = result as? UIHostingController<RegistrationNumberFormModal>
+        #expect(hostingController != nil)
+        #expect(hostingController?.view.backgroundColor == .clear)
+    }
 }

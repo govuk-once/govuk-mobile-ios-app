@@ -916,5 +916,27 @@ class ViewControllerBuilder {
         viewController.shouldAutoFocusVoiceover = false
         return viewController
     }
+
+    func vehicleRegistrationInput(
+        analyticsService: AnalyticsServiceInterface,
+        dvlaService: DVLAServiceInterface,
+        cancelAction: @escaping () -> Void,
+        completionAction: @escaping (VehicleEnquiryResponse.Vehicle) -> Void
+    ) -> UIViewController {
+        let viewModel = RegistrationNumberFormViewModel(
+            lookupService: dvlaService.makeVehicleLookup(
+                analyticsService: analyticsService
+            ),
+            onSuccess: completionAction,
+            onCancel: cancelAction
+        )
+        let view = RegistrationNumberFormModal(
+            viewModel: viewModel
+        )
+
+        let hostingController = UIHostingController(rootView: view)
+        hostingController.view.backgroundColor = .clear
+        return hostingController
+    }
 }
 // swiftlint:enable file_length
