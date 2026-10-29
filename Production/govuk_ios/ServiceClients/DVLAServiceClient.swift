@@ -1,11 +1,11 @@
 import Foundation
 
-typealias DrivingLicenceResult = Result<DrivingLicence, DVLAError>
-typealias CustomerVehiclesResult = Result<CustomerVehicles, DVLAError>
-typealias CustomerVehicleDetailsResult = Result<CustomerVehicleDetails, DVLAError>
-typealias VehicleResult = Result<VehicleEnquiryResponse, DVLAError>
-typealias ShareCodesResult = Result<ShareCodeListResponse, DVLAError>
-typealias ShareCodeResult = Result<ShareCodeResponse, DVLAError>
+typealias DrivingLicenceResult = Result<DrivingLicence, DVLADomainError>
+typealias CustomerVehiclesResult = Result<CustomerVehicles, DVLADomainError>
+typealias CustomerVehicleDetailsResult = Result<CustomerVehicleDetails, DVLADomainError>
+typealias VehicleResult = Result<VehicleEnquiryResponse, DVLADomainError>
+typealias ShareCodesResult = Result<ShareCodeListResponse, DVLADomainError>
+typealias ShareCodeResult = Result<ShareCodeResponse, DVLADomainError>
 
 protocol DVLAServiceClientInterface {
     func fetchDrivingLicence() async -> DrivingLicenceResult
@@ -20,49 +20,56 @@ protocol DVLAServiceClientInterface {
 class DVLAServiceClient: DVLAServiceClientInterface {
     private let apiServiceClient: APIServiceClientInterface
 
+    private let licenceMapping = LicenceErrorMapping()
+    private let vehicleEnquiryMapping = VehicleEnquiryErrorMapping()
+
     init(apiServiceClient: APIServiceClientInterface) {
         self.apiServiceClient = apiServiceClient
     }
 
     func fetchDrivingLicence() async -> DrivingLicenceResult {
-        let result: Result<DrivingLicenceResponse, DVLAError> =
-            await performRequest(.drivingLicence)
+        let result: Result<DrivingLicenceResponse, DVLADomainError> =
+            await performRequest(.drivingLicence, errorMapping: licenceMapping)
         return result.map { $0.customerDrivingLicence }
     }
 
     func fetchCustomerVehicles() async -> CustomerVehiclesResult {
-        await performRequest(.customerVehicles)
+        await performRequest(.customerVehicles, errorMapping: licenceMapping)
     }
 
     func fetchCustomerVehicleDetails(_ vehicleID: Int) async -> CustomerVehicleDetailsResult {
-        await performRequest(.customerVehicleDetails(vehicleID))
+        await performRequest(.customerVehicleDetails(vehicleID), errorMapping: licenceMapping)
     }
 
     func fetchVehicle(registration: String) async -> VehicleResult {
-        await performRequest(.vehicle(registration: registration))
+        await performRequest(
+            .vehicle(registration: registration),
+            errorMapping: vehicleEnquiryMapping
+        )
     }
 
     func fetchShareCodes() async -> ShareCodesResult {
-        await performRequest(.listShareCodes)
+        await performRequest(.listShareCodes, errorMapping: licenceMapping)
     }
 
     func createShareCode() async -> ShareCodeResult {
-        await performRequest(.createShareCode)
+        await performRequest(.createShareCode, errorMapping: licenceMapping)
     }
 
     func cancelShareCode(id: String) async -> ShareCodeResult {
-        await performRequest(.cancelShareCode(id: id))
+        await performRequest(.cancelShareCode(id: id), errorMapping: licenceMapping)
     }
 
     private func performRequest<T: Decodable>(
-        _ request: GOVRequest
-    ) async -> Result<T, DVLAError> {
+        _ request: GOVRequest,
+        errorMapping: DomainErrorMapping
+    ) async -> Result<T, DVLADomainError> {
         await withCheckedContinuation { continuation in
             apiServiceClient.send(
                 request: request,
                 completion: {
                     continuation.resume(
-                        returning: self.mapResult($0)
+                        returning: self.mapResult($0, errorMapping: errorMapping)
                     )
                 }
             )
@@ -70,22 +77,34 @@ class DVLAServiceClient: DVLAServiceClientInterface {
     }
 
     private func mapResult<T: Decodable>(
-        _ result: NetworkResult<Data>
-    ) -> Result<T, DVLAError> {
+        _ result: NetworkResult<Data>,
+        errorMapping: DomainErrorMapping
+    ) -> Result<T, DVLADomainError> {
         return result.mapError { error in
-            let nsError = (error as NSError)
-            if nsError.code == NSURLErrorNotConnectedToInternet {
-                return DVLAError.networkUnavailable
-            } else {
-                return (error as? DVLAError) ?? DVLAError.apiUnavailable
+            if let urlError = error as? URLError {
+                if urlError.code == .notConnectedToInternet {
+                    return DVLADomainError.networkUnavailable
+                }
+                return DVLADomainError.serviceUnavailable(statusCode: nil)
             }
+
+            if let responseError = error as? DVLAResponseError {
+                switch responseError {
+                case .apiError(let detail):
+                    return errorMapping.mapAPIError(detail)
+                case .httpError(let statusCode):
+                    return errorMapping.mapHTTPError(statusCode: statusCode)
+                }
+            }
+
+            return DVLADomainError.serviceUnavailable(statusCode: nil)
         }.flatMap {
             do {
                 let response = try decoder.decode(T.self, from: $0)
                 return .success(response)
             } catch {
                 assertionFailure("DVLA decoding failed: \(error)")
-                return .failure(DVLAError.decodingError)
+                return .failure(DVLADomainError.decodingError)
             }
         }
     }
