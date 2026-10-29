@@ -47,7 +47,9 @@ struct LicenceErrorMapping: DomainErrorMapping {
     }
 
     func mapHTTPError(statusCode: Int) -> DVLADomainError {
-        assert(statusCode.isHTTPError, "mapHTTPError should only receive HTTP error status codes (4xx/5xx)")
+        assert(
+            statusCode.isHTTPError,
+            "mapHTTPError should only receive HTTP error status codes (4xx/5xx)")
         return .serviceUnavailable(statusCode: statusCode)
     }
 }
@@ -58,7 +60,8 @@ struct VehicleEnquiryErrorMapping: DomainErrorMapping {
     }
 
     func mapHTTPError(statusCode: Int) -> DVLADomainError {
-        assert(statusCode.isHTTPError, "mapHTTPError should only receive HTTP error status codes (4xx/5xx)")
+        assert(statusCode.isHTTPError,
+               "mapHTTPError should only receive HTTP error status codes (4xx/5xx)")
         switch statusCode {
         case 404:
             return .notFound()
