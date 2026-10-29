@@ -34,7 +34,7 @@ struct RegistrationNumberFormViewModelTests {
 
         let viewModel = makeViewModel(
             initialPlate: "AB12 CDE",
-            lookupService: { _ in .failure(.notFound) },
+            lookupService: { _ in .failure(.notFound()) },
             onSuccess: { _ in
                 successCallbackCalled = true
             }
@@ -44,7 +44,7 @@ struct RegistrationNumberFormViewModelTests {
         #expect(viewModel.isLoading == false)
         #expect(viewModel.isSubmitted == false)
         #expect(viewModel.fetchedVehicle == nil)
-        #expect(viewModel.error == .notFound)
+        #expect(viewModel.error == .notFound())
         #expect(successCallbackCalled == false)
     }
 
@@ -56,7 +56,7 @@ struct RegistrationNumberFormViewModelTests {
             initialPlate: "A",
             lookupService: { _ in
                 lookupCalled = true
-                return .failure(.notFound)
+                return .failure(.notFound())
             }
         )
 
@@ -96,7 +96,7 @@ extension RegistrationNumberFormViewModelTests {
         clearsErrorOnAnyEdit: Bool = true
     ) async -> RegistrationNumberFormViewModel {
         let failingLookupService: VehicleLookup = { _ in
-            .failure(.serviceUnavailable)
+            .failure(.serviceUnavailable(statusCode: nil))
         }
         let viewModel = makeViewModel(
             initialPlate: initialPlate,
