@@ -39,10 +39,10 @@ struct DVLAServiceClientTests {
 
     @Test
     func fetchDrivingLicence_apiUnavailable_returnsExpectedError() async {
-        mockAPI._stubbedSendResponse = .failure(DVLAError.apiUnavailable)
+        mockAPI._stubbedSendResponse = .failure(DVLAResponseError.httpError(statusCode: 500))
         let result = await sut.fetchDrivingLicence()
         let error = result.getError()
-        #expect(error == .apiUnavailable)
+        #expect(error == .serviceUnavailable(statusCode: 500))
     }
 
     @Test
@@ -71,10 +71,10 @@ struct DVLAServiceClientTests {
 
     @Test
     func fetchCustomerVehicles_apiUnavailable_returnsExpectedError() async {
-        mockAPI._stubbedSendResponse = .failure(DVLAError.apiUnavailable)
+        mockAPI._stubbedSendResponse = .failure(DVLAResponseError.httpError(statusCode: 500))
         let result = await sut.fetchCustomerVehicles()
         let error = result.getError()
-        #expect(error == .apiUnavailable)
+        #expect(error == .serviceUnavailable(statusCode: 500))
     }
 
     @Test
@@ -94,10 +94,10 @@ struct DVLAServiceClientTests {
 
     @Test
     func fetchCustomerVehicleDetails_apiUnavailable_returnsExpectedError() async {
-        mockAPI._stubbedSendResponse = .failure(DVLAError.apiUnavailable)
+        mockAPI._stubbedSendResponse = .failure(DVLAResponseError.httpError(statusCode: 500))
         let result = await sut.fetchCustomerVehicleDetails(1)
         let error = result.getError()
-        #expect(error == .apiUnavailable)
+        #expect(error == .serviceUnavailable(statusCode: 500))
     }
 
     @Test
@@ -136,10 +136,10 @@ struct DVLAServiceClientTests {
 
     @Test
     func fetchVehicle_apiUnavailable_returnsExpectedError() async {
-        mockAPI._stubbedSendResponse = .failure(DVLAError.apiUnavailable)
+        mockAPI._stubbedSendResponse = .failure(DVLAResponseError.httpError(statusCode: 500))
         let result = await sut.fetchVehicle(registration: "AA19AMP")
         let error = result.getError()
-        #expect(error == .apiUnavailable)
+        #expect(error == .serviceUnavailable(statusCode: 500))
     }
 
     @Test
@@ -167,10 +167,10 @@ struct DVLAServiceClientTests {
 
     @Test
     func fetchShareCodes_apiUnavailable_returnsExpectedError() async {
-        mockAPI._stubbedSendResponse = .failure(DVLAError.apiUnavailable)
+        mockAPI._stubbedSendResponse = .failure(DVLAResponseError.httpError(statusCode: 500))
         let result = await sut.fetchShareCodes()
         let error = result.getError()
-        #expect(error == .apiUnavailable)
+        #expect(error == .serviceUnavailable(statusCode: 500))
     }
 
     @Test
@@ -199,10 +199,10 @@ struct DVLAServiceClientTests {
 
     @Test
     func createShareCode_apiUnavailable_returnsExpectedError() async {
-        mockAPI._stubbedSendResponse = .failure(DVLAError.apiUnavailable)
+        mockAPI._stubbedSendResponse = .failure(DVLAResponseError.httpError(statusCode: 500))
         let result = await sut.createShareCode()
         let error = result.getError()
-        #expect(error == .apiUnavailable)
+        #expect(error == .serviceUnavailable(statusCode: 500))
     }
 
     @Test
@@ -228,10 +228,10 @@ struct DVLAServiceClientTests {
 
     @Test
     func cancelShareCode_apiUnavailable_returnsExpectedError() async {
-        mockAPI._stubbedSendResponse = .failure(DVLAError.apiUnavailable)
+        mockAPI._stubbedSendResponse = .failure(DVLAResponseError.httpError(statusCode: 500))
         let result = await sut.cancelShareCode(id: "test-share-code-id")
         let error = result.getError()
-        #expect(error == .apiUnavailable)
+        #expect(error == .serviceUnavailable(statusCode: 500))
     }
 
     // MARK: - Static fixtures

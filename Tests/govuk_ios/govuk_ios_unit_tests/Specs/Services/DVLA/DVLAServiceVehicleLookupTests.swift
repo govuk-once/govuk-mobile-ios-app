@@ -26,14 +26,14 @@ struct DVLAServiceVehicleLookupTests {
 
     @Test
     func vehicleLookup_notFoundError_mapsToNotFoundError() async {
-        mockService._stubbedFetchVehicleResult = .failure(.notFound)
+        mockService._stubbedFetchVehicleResult = .failure(.notFound())
 
         let lookup = mockService.makeVehicleLookup(analyticsService: mockAnalytics)
         let result = await lookup("CA72 BNA")
 
         switch result {
         case .failure(let error):
-            #expect(error == .notFound)
+            #expect(error == .notFound())
         case .success:
             Issue.record("Expected .notFound failure, but received success")
         }
