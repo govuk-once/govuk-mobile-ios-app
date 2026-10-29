@@ -9,25 +9,20 @@ struct DVLAErrorPayload: Codable {
 }
 
 struct DVLAResponseHandler: ResponseHandler {
-    func parseError(from data: Data) -> Error? {
+    func parseError(from data: Data, statusCode: Int) -> Error? {
         guard let errorPayload = try? JSONDecoder().decode(DVLAErrorPayload.self, from: data) else {
             return nil
         }
-        switch errorPayload.error.code {
-        case "GUK-404-04":
-            return DVLAError.notFound
-        case "GUK-404-05":
-            return DVLAError.notAvailable
-        default:
-            assertionFailure(
-                "Unhandled DVLA error code: \(errorPayload.error.code) "
-                + "message: \(errorPayload.error.message)"
+        return DVLAResponseError.apiError(
+            DVLAAPIErrorDetail(
+                code: errorPayload.error.code,
+                message: errorPayload.error.message,
+                statusCode: statusCode
             )
-            return nil
-        }
+        )
     }
 
-    func handleStatusCode(_: Int) -> Error {
-        DVLAError.apiUnavailable
+    func handleStatusCode(_ statusCode: Int) -> Error {
+        DVLAResponseError.httpError(statusCode: statusCode)
     }
 }
