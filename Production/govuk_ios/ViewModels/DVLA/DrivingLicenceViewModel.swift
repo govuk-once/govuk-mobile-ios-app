@@ -83,12 +83,12 @@ class DrivingLicenceViewModel: ObservableObject {
         hasLoadedLicence = true
     }
 
-    private func handleFailedFetch(with error: DVLAError) {
+    private func handleFailedFetch(with error: DVLADomainError) {
         switch error {
         case .notFound, .notAvailable:
             hasLoadedLicence = true
             viewState = .notice(licenceNotAvailableNoticeViewModel)
-        default:
+        case .networkUnavailable, .serviceUnavailable, .unrecognisedAPIError, .decodingError:
             viewState = .error(drivingLicenceErrorViewModel)
         }
     }
