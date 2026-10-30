@@ -1,15 +1,10 @@
 import SwiftUI
 import Combine
 
-enum RegistrationNumberQueryError: Error, CaseIterable, Hashable {
-    case serviceUnavailable
-    case notFound
-}
-
 typealias VehicleLookup =
 (String) async -> Result<
     VehicleEnquiryResponse.Vehicle,
-        RegistrationNumberQueryError
+        DVLADomainError
 >
 
 /// Owns registration number input state, validation, and submission.
@@ -42,15 +37,16 @@ final class RegistrationNumberFormViewModel: ObservableObject {
     @Published private(set) var isLoading = false
     @Published private(set) var isSubmitted = false
     let loadingLabel = String(localized: .DVLA.gettingVehicleDetails)
-    @Published private(set) var error: RegistrationNumberQueryError?
+    @Published private(set) var error: DVLADomainError?
 
     var errorMessage: String? {
         guard let error else { return nil }
         switch error {
-        case .serviceUnavailable:
-            return String(localized: .DVLA.registrationLookupServiceUnavailable)
         case .notFound:
             return String(localized: .DVLA.registrationLookupNotFound)
+        case .networkUnavailable, .notAvailable, .serviceUnavailable,
+             .unrecognisedAPIError, .decodingError:
+            return String(localized: .DVLA.registrationLookupServiceUnavailable)
         }
     }
 

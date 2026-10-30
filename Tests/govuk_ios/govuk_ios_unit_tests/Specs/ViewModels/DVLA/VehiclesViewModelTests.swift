@@ -88,7 +88,7 @@ struct VehiclesViewModelTests {
 
     @Test
     func viewDidAppear_fetchVehiclesFailure_createsErrorViewModel() async throws {
-        mockDvlaService._stubbedCustomerVehiclesResult = .failure(.apiUnavailable)
+        mockDvlaService._stubbedCustomerVehiclesResult = .failure(.serviceUnavailable(statusCode: nil))
         let mockAccountURLString = "https://dvla.gov.uk/account"
         mockConfigService._dvlaUrls = .arrange(account: mockAccountURLString)
         let sut = VehiclesViewModel(

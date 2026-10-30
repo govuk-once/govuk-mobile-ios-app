@@ -213,7 +213,7 @@ struct VehicleDetailViewModelTests {
         let mockDVLAService = MockDVLAService()
         let mockConfigService = MockAppConfigService()
         let mockAnalyticsService = MockAnalyticsService()
-        mockDVLAService._stubbedCustomerVehiclesResult = .failure(.apiUnavailable)
+        mockDVLAService._stubbedCustomerVehiclesResult = .failure(.serviceUnavailable(statusCode: nil))
         let mockAccountURLString = "https://dvla.gov.uk/account"
         mockConfigService._dvlaUrls = .arrange(account: mockAccountURLString)
         let sut = VehiclesViewModel(
