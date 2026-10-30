@@ -24,6 +24,7 @@ struct DrivingLicenceViewModelTests {
             analyticsService: mockAnalyticsService,
             dvlaService: mockDvlaService,
             configService: mockConfigService,
+            categoriesAction: {},
             openURLAction: { _ in }
         )
         await sut.viewDidAppear()
@@ -39,12 +40,13 @@ struct DrivingLicenceViewModelTests {
             analyticsService: mockAnalyticsService,
             dvlaService: mockDvlaService,
             configService: mockConfigService,
+            categoriesAction: {},
             openURLAction: { _ in }
         )
         await sut.viewDidAppear()
         var licenceSummaryViewModel: DrivingLicenceSummaryViewModel?
-        if case .loaded(let licenceSummary, _) = sut.viewState {
-            licenceSummaryViewModel = licenceSummary
+        if case .loaded(let loadedState) = sut.viewState {
+            licenceSummaryViewModel = loadedState.licenceSummary
         }
         let unwrappedLicenceSummaryViewModel = try #require(licenceSummaryViewModel)
         #expect(unwrappedLicenceSummaryViewModel.licenceNumber == "ABC123DE")
@@ -57,16 +59,37 @@ struct DrivingLicenceViewModelTests {
             analyticsService: mockAnalyticsService,
             dvlaService: mockDvlaService,
             configService: mockConfigService,
+            categoriesAction: {},
             openURLAction: { _ in }
         )
         await sut.viewDidAppear()
         var drivingRecordViewModel: DrivingRecordViewModel?
-        if case .loaded(_, let drivingRecord) = sut.viewState {
-            drivingRecordViewModel = drivingRecord
+        if case .loaded(let loadedState) = sut.viewState {
+            drivingRecordViewModel = loadedState.drivingRecord
         }
         let unwrappedDrivingRecordViewModel = try #require(drivingRecordViewModel)
         let drivingRecordRow = try #require(unwrappedDrivingRecordViewModel.listContent.first?.rows.first)
         #expect(drivingRecordRow.title == String(localized: .DVLA.drivingRecordButtonTitle))
+    }
+
+    @Test
+    func viewDidAppear_fetchLicenceSuccess_createsCategoriesViewModel() async throws {
+        mockDvlaService._stubbedFetchDrivingLicenceResult = .success(.arrange)
+        let sut = DrivingLicenceViewModel(
+            analyticsService: mockAnalyticsService,
+            dvlaService: mockDvlaService,
+            configService: mockConfigService,
+            categoriesAction: {},
+            openURLAction: { _ in }
+        )
+        await sut.viewDidAppear()
+        var categoriesViewModel: LicenceCategoriesSectionViewModel?
+        if case .loaded(let loadedState) = sut.viewState {
+            categoriesViewModel = loadedState.categories
+        }
+        let unwrappedCategoriesViewModel = try #require(categoriesViewModel)
+        let categoriesRow = try #require(unwrappedCategoriesViewModel.listContent.first?.rows.first)
+        #expect(categoriesRow.title == String(localized: .DVLA.licenceCategoriesButtonTitle))
     }
 
     @Test
@@ -78,6 +101,7 @@ struct DrivingLicenceViewModelTests {
             analyticsService: mockAnalyticsService,
             dvlaService: mockDvlaService,
             configService: mockConfigService,
+            categoriesAction: {},
             openURLAction: { _ in }
         )
         await sut.viewDidAppear()
@@ -99,6 +123,7 @@ struct DrivingLicenceViewModelTests {
             analyticsService: mockAnalyticsService,
             dvlaService: mockDvlaService,
             configService: mockConfigService,
+            categoriesAction: {},
             openURLAction: { _ in }
         )
         await sut.viewDidAppear()
@@ -120,6 +145,7 @@ struct DrivingLicenceViewModelTests {
             analyticsService: mockAnalyticsService,
             dvlaService: mockDvlaService,
             configService: mockConfigService,
+            categoriesAction: {},
             openURLAction: { _ in }
         )
         await sut.viewDidAppear()
@@ -152,6 +178,7 @@ struct DrivingLicenceViewModelTests {
             analyticsService: mockAnalyticsService,
             dvlaService: mockDvlaService,
             configService: mockConfigService,
+            categoriesAction: {},
             openURLAction: { _ in }
         )
         await sut.viewDidAppear()
@@ -182,12 +209,13 @@ struct DrivingLicenceViewModelTests {
             analyticsService: mockAnalyticsService,
             dvlaService: mockDvlaService,
             configService: mockConfigService,
+            categoriesAction: {},
             openURLAction: { _ in }
         )
         await sut.viewDidAppear()
         var licenceSummaryViewModel: DrivingLicenceSummaryViewModel?
-        if case .loaded(let licenceSummary, _) = sut.viewState {
-            licenceSummaryViewModel = licenceSummary
+        if case .loaded(let loadedState) = sut.viewState {
+            licenceSummaryViewModel = loadedState.licenceSummary
         }
         let unwrappedLicenceSummaryViewModel = try #require(licenceSummaryViewModel)
         unwrappedLicenceSummaryViewModel.licenceStatusViewModel.buttonAction?()
@@ -195,6 +223,32 @@ struct DrivingLicenceViewModelTests {
         #expect(trackedEvent.name == "Navigation")
         #expect(trackedEvent.params?["text"] as? String == String(localized: .DVLA.renewLicenceButtonTitle))
         #expect(trackedEvent.params?["url"] as? String == "https://renewLicence.com")
+        #expect(trackedEvent.params?["section"] as? String == "Driving")
+        #expect(trackedEvent.params?["type"] as? String == "Button")
+    }
+
+    @Test
+    func licenceCategoriesSectionViewModelAction_tracksNavigationEvent() async throws {
+        mockDvlaService._stubbedFetchDrivingLicenceResult = .success(.arrange)
+        let sut = DrivingLicenceViewModel(
+            analyticsService: mockAnalyticsService,
+            dvlaService: mockDvlaService,
+            configService: mockConfigService,
+            categoriesAction: {},
+            openURLAction: { _ in }
+        )
+        await sut.viewDidAppear()
+        var categoriesViewModel: LicenceCategoriesSectionViewModel?
+        if case .loaded(let loadedState) = sut.viewState {
+            categoriesViewModel = loadedState.categories
+        }
+        let unwrappedCategoriesViewModel = try #require(categoriesViewModel)
+        let categoriesRow = try #require(unwrappedCategoriesViewModel.listContent.first?.rows.first as? NavigationRow)
+        categoriesRow.action()
+
+        let trackedEvent = try #require(mockAnalyticsService._trackedEvents.first)
+        #expect(trackedEvent.name == "Navigation")
+        #expect(trackedEvent.params?["text"] as? String == String(localized: .DVLA.licenceCategoriesButtonTitle))
         #expect(trackedEvent.params?["section"] as? String == "Driving")
         #expect(trackedEvent.params?["type"] as? String == "Button")
     }

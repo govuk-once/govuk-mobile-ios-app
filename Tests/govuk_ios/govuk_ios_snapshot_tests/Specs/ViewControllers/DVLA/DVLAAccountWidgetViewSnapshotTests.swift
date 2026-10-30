@@ -137,18 +137,23 @@ import GovKit
         )
         let mockLicenceViewModel = MockDrivingLicenceViewModel(
             viewState: .loaded(
-                licence: DrivingLicenceSummaryViewModel(
-                    drivingLicence: .arrange,
-                    statusBuilder: MockLicenceStatusViewModelBuilder(),
-                    openURLAction: { _, _ in },
-                    menuSelectionAction: { _ in },
-                    copyToClipboardAction: { _ in },
-                    analyticsService: MockAnalyticsService(),
-                    configService: MockAppConfigService()
-                ),
-                drivingRecord: DrivingRecordViewModel(
-                    dvlaURLs: nil,
-                    openURLAction: { _, _ in }
+                .init(
+                    licenceSummary: DrivingLicenceSummaryViewModel(
+                        drivingLicence: .arrange,
+                        statusBuilder: MockLicenceStatusViewModelBuilder(),
+                        openURLAction: { _, _ in },
+                        menuSelectionAction: { _ in },
+                        copyToClipboardAction: { _ in },
+                        analyticsService: MockAnalyticsService(),
+                        configService: MockAppConfigService()
+                    ),
+                    drivingRecord: DrivingRecordViewModel(
+                        dvlaURLs: nil,
+                        openURLAction: { _, _ in }
+                    ),
+                    categories: LicenceCategoriesSectionViewModel(
+                        action: { _ in }
+                    )
                 )
             )
         )
@@ -171,7 +176,8 @@ extension DVLAAccountWidgetActions {
             linkAction: {},
             vehicleDetailAction: { _ in },
             openURLAction: { _ in },
-            vehicleCheckAction: {}
+            vehicleCheckAction: {},
+            categoriesAction: {}
         )
     }
 }

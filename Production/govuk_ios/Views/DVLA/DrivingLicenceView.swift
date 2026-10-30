@@ -14,10 +14,11 @@ struct DrivingLicenceView: View {
             switch viewModel.viewState {
             case .loading:
                 loadingView
-            case .loaded(let licenceSummaryViewModel, let drivingRecordViewModel):
+            case .loaded(let loadedState):
                 VStack(spacing: 24) {
-                    DrivingLicenceSummaryView(viewModel: licenceSummaryViewModel)
-                    DrivingRecordView(viewModel: drivingRecordViewModel)
+                    DrivingLicenceSummaryView(viewModel: loadedState.licenceSummary)
+                    DrivingRecordView(viewModel: loadedState.drivingRecord)
+                    LicenceCategoriesSectionView(viewModel: loadedState.categories)
                 }
                 .padding(.horizontal, 16)
             case .notice(let noticeViewModel):
