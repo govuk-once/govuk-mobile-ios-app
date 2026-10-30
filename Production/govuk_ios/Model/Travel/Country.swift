@@ -29,6 +29,6 @@ struct Country: Codable, Equatable {
         guard let date = date else {
             return rawLastUpdate
         }
-        return date.formatToRelativeDate()
+        return date.formatToRelativeDate(lowercase: true)
     }
 }

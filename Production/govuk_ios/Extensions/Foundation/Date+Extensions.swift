@@ -26,7 +26,7 @@ extension Date {
 
      Else -> 7 December
      */
-    public func formatToRelativeDate(now: Date = Date()) -> String {
+    public func formatToRelativeDate(now: Date = Date(), lowercase: Bool = false) -> String {
         let london = TimeZone(identifier: "Europe/London")!
         var calendar = Calendar.current
         calendar.timeZone = london
@@ -36,12 +36,16 @@ extension Date {
         formatter.amSymbol = "am"
         formatter.pmSymbol = "pm"
 
+        func maybeLowercase(input: String) -> String {
+            if lowercase { return input.lowercased() } else { return input }
+        }
+
         if calendar.isDate(self, inSameDayAs: now) {
-            formatter.dateFormat = "'Today,' h:mma"
+            formatter.dateFormat = maybeLowercase(input: "'Today,' h:mma")
         } else if calendar.isDate(self,
                                   inSameDayAs: calendar.date(byAdding: .day, value: -1, to: now)!) {
             // Bit unnecessary, but lets us keep it consistent and have a single return
-            formatter.dateFormat = "'Yesterday'"
+            formatter.dateFormat = maybeLowercase(input: "'Yesterday'")
         } else if let daysAgo = calendar.dateComponents([.day], from: self, to: now).day,
                     daysAgo < 7 {
             formatter.dateFormat = "EEEE"
