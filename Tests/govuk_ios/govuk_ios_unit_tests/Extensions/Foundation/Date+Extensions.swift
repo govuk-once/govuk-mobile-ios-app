@@ -66,7 +66,32 @@ struct Date_ExtensionsTest {
         let date = makeDate(year: 2025, month: 12, day: 25)
         #expect(date.formatToRelativeDate(now: referenceDate) == "25 December")
     }
+    
+    // NOT-599
 
+    @Test
+    func messageList_today_lowercase_showsTodayWithTime() {
+        #expect(referenceDate.formatToRelativeDate(now: referenceDate, lowercase: true) == "today, 10:45am")
+    }
+    
+    @Test
+    func messageList_yesterday_lowercase_showsYesterday() {
+        let date = makeDate(year: 2026, month: 7, day: 6)
+        #expect(date.formatToRelativeDate(now: referenceDate, lowercase: true) == "yesterday")
+    }
+
+    @Test
+    func messageList_2DaysAgo_lowercase_showsWeekday() {
+        let date = makeDate(year: 2026, month: 7, day: 5)
+        #expect(date.formatToRelativeDate(now: referenceDate, lowercase: true) == "Sunday")
+    }
+    
+    @Test
+    func messageList_7DaysAgo_lowercase_showsFullDate() {
+        let date = makeDate(year: 2026, month: 6, day: 29)
+        #expect(date.formatToRelativeDate(now: referenceDate, lowercase: true) == "29 June")
+    }
+    
     // MARK: - formatMessageDetailDate
 
     @Test
