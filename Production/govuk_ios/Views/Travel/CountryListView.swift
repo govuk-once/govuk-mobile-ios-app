@@ -277,7 +277,7 @@ extension CountryListView {
     private func createErrorViewModel() -> ErrorViewModel {
         ErrorViewModel(
             analyticsService: viewModel.analyticsService,
-            title: String(localized: .Travel.countryListScreenErrorTitle),
+            title: String(localized: .Travel.editCountriesErrorTitle),
             subtitle: String(localized: .Travel.countryListScreenErrorBody),
             systemImageName: "exclamationmark.circle",
             primaryButtonTitle: String(localized: .Travel.countryListScreenErrorButtonTitle),

@@ -144,17 +144,6 @@
         }
       }
     },
-    "countryListScreenErrorTitle" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Error"
-          }
-        }
-      }
-    },
     "countryListTitle" : {
       "extractionState" : "manual",
       "localizations" : {
