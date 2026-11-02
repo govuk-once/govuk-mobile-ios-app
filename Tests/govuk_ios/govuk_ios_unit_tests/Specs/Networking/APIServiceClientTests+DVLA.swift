@@ -35,8 +35,13 @@ struct APIServiceClientTests_DVLA {
                 completion: { continuation.resume(returning: $0) }
             )
         }
-        let error = try #require(result.getError() as? DVLAError)
-        #expect(error == .notFound)
+        let error = try #require(result.getError() as? DVLAResponseError)
+        guard case .apiError(let detail) = error else {
+            Issue.record("Expected .apiError, got \(error)")
+            return
+        }
+        #expect(detail.code == "GUK-404-04")
+        #expect(detail.statusCode == 404)
     }
 
     @Test
@@ -69,12 +74,17 @@ struct APIServiceClientTests_DVLA {
                 completion: { continuation.resume(returning: $0) }
             )
         }
-        let error = try #require(result.getError() as? DVLAError)
-        #expect(error == .notAvailable)
+        let error = try #require(result.getError() as? DVLAResponseError)
+        guard case .apiError(let detail) = error else {
+            Issue.record("Expected .apiError, got \(error)")
+            return
+        }
+        #expect(detail.code == "GUK-404-05")
+        #expect(detail.statusCode == 404)
     }
 
     @Test
-    func send_invalidErrorResponse_returnsApiUnavailable() async throws {
+    func send_invalidErrorResponse_returnsHttpError() async throws {
         let jsonString = """
         {
             "errorMessage": "Test error with invalid response format"
@@ -100,12 +110,12 @@ struct APIServiceClientTests_DVLA {
                 completion: { continuation.resume(returning: $0) }
             )
         }
-        let error = try #require(result.getError() as? DVLAError)
-        #expect(error == .apiUnavailable)
+        let error = try #require(result.getError() as? DVLAResponseError)
+        #expect(error == .httpError(statusCode: 404))
     }
 
     @Test
-    func send_errorResponseGeneric404_returnsApiUnavailable() async throws {
+    func send_errorResponseGeneric404_returnsHttpError() async throws {
         let subject = APIServiceClient(
             baseUrl: URL(string: "https://www.dvla.gov.uk")!,
             session: URLSession.mock,
@@ -124,7 +134,7 @@ struct APIServiceClientTests_DVLA {
                 completion: { continuation.resume(returning: $0) }
             )
         }
-        let error = try #require(result.getError() as? DVLAError)
-        #expect(error == .apiUnavailable)
+        let error = try #require(result.getError() as? DVLAResponseError)
+        #expect(error == .httpError(statusCode: 404))
     }
 }
