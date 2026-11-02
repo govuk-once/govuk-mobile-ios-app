@@ -20,7 +20,7 @@ protocol DVLAServiceClientInterface {
 class DVLAServiceClient: DVLAServiceClientInterface {
     private let apiServiceClient: APIServiceClientInterface
 
-    private let licenceMapping = LicenceErrorMapping()
+    private let dvlaErrorMapping = DVLAAPIErrorMapping()
     private let vehicleEnquiryMapping = VehicleEnquiryErrorMapping()
 
     init(apiServiceClient: APIServiceClientInterface) {
@@ -29,16 +29,16 @@ class DVLAServiceClient: DVLAServiceClientInterface {
 
     func fetchDrivingLicence() async -> DrivingLicenceResult {
         let result: Result<DrivingLicenceResponse, DVLADomainError> =
-            await performRequest(.drivingLicence, errorMapping: licenceMapping)
+            await performRequest(.drivingLicence, errorMapping: dvlaErrorMapping)
         return result.map { $0.customerDrivingLicence }
     }
 
     func fetchCustomerVehicles() async -> CustomerVehiclesResult {
-        await performRequest(.customerVehicles, errorMapping: licenceMapping)
+        await performRequest(.customerVehicles, errorMapping: dvlaErrorMapping)
     }
 
     func fetchCustomerVehicleDetails(_ vehicleID: Int) async -> CustomerVehicleDetailsResult {
-        await performRequest(.customerVehicleDetails(vehicleID), errorMapping: licenceMapping)
+        await performRequest(.customerVehicleDetails(vehicleID), errorMapping: dvlaErrorMapping)
     }
 
     func fetchVehicle(registration: String) async -> VehicleResult {
@@ -49,15 +49,15 @@ class DVLAServiceClient: DVLAServiceClientInterface {
     }
 
     func fetchShareCodes() async -> ShareCodesResult {
-        await performRequest(.listShareCodes, errorMapping: licenceMapping)
+        await performRequest(.listShareCodes, errorMapping: dvlaErrorMapping)
     }
 
     func createShareCode() async -> ShareCodeResult {
-        await performRequest(.createShareCode, errorMapping: licenceMapping)
+        await performRequest(.createShareCode, errorMapping: dvlaErrorMapping)
     }
 
     func cancelShareCode(id: String) async -> ShareCodeResult {
-        await performRequest(.cancelShareCode(id: id), errorMapping: licenceMapping)
+        await performRequest(.cancelShareCode(id: id), errorMapping: dvlaErrorMapping)
     }
 
     private func performRequest<T: Decodable>(

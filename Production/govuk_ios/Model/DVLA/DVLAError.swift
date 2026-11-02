@@ -34,7 +34,7 @@ protocol DomainErrorMapping {
     func mapHTTPError(statusCode: Int) -> DVLADomainError
 }
 
-struct LicenceErrorMapping: DomainErrorMapping {
+struct DVLAAPIErrorMapping: DomainErrorMapping {
     func mapAPIError(_ detail: DVLAAPIErrorDetail) -> DVLADomainError {
         switch detail.code {
         case "GUK-404-04":

@@ -3,7 +3,7 @@ import Testing
 
 @Suite
 struct LicenceErrorMappingTests {
-    let sut = LicenceErrorMapping()
+    let sut = DVLAAPIErrorMapping()
 
     @Test
     func mapAPIError_notFoundCode_mapsToNotFoundWithMessage() {
