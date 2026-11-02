@@ -32,7 +32,7 @@ jobs:
   deploy:
     name: Deploy
     needs: sonar-scan
-    runs-on: xcode-27
+    runs-on: macos-15
     environment: ${{ inputs.environment == '' && 'Staging' || inputs.environment }}
 
     steps:
