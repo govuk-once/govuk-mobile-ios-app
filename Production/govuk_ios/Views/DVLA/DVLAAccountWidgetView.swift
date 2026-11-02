@@ -132,6 +132,9 @@ struct DVLAAccountWidgetView: View {
                 },
                 vehicleCheckAction: {
                     /* no-op */
+                },
+                categoriesAction: {
+                    /* no-op */
                 }
             )
         )

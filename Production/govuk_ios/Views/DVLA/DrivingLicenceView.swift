@@ -84,6 +84,9 @@ struct DrivingLicenceView: View {
             analyticsService: MockAnalyticsService(),
             dvlaService: dvlaService,
             configService: MockAppConfigService(),
+            categoriesAction: {
+                /* no-op */
+            },
             openURLAction: { _ in
                 /* no-op */
             }
@@ -120,6 +123,9 @@ struct DrivingLicenceView: View {
             analyticsService: MockAnalyticsService(),
             dvlaService: dvlaService,
             configService: MockAppConfigService(),
+            categoriesAction: {
+                /* no-op */
+            },
             openURLAction: { _ in
                 /* no-op */
             }
@@ -148,6 +154,9 @@ struct DrivingLicenceView: View {
             analyticsService: MockAnalyticsService(),
             dvlaService: dvlaService,
             configService: MockAppConfigService(),
+            categoriesAction: {
+                /* no-op */
+            },
             openURLAction: { _ in
                 /* no-op */
             }
@@ -174,6 +183,9 @@ struct DrivingLicenceView: View {
             analyticsService: MockAnalyticsService(),
             dvlaService: dvlaService,
             configService: MockAppConfigService(),
+            categoriesAction: {
+                /* no-op */
+            },
             openURLAction: { _ in
                 /* no-op */
             }
