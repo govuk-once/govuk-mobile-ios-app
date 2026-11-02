@@ -19,6 +19,7 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
     @Published var isShowingList = false
     @Published private(set) var viewState: ViewState = .loading
     @Published var isShowingError = false
+    @Published private(set) var errorViewModel: AppErrorViewModel?
 
     private let travelService: TravelServiceInterface
     private let analyticsService: AnalyticsServiceInterface
@@ -98,6 +99,7 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
                     }
                 case .failure:
                     self?.viewState = .error
+                    self?.errorViewModel = AppErrorViewModel.travelAlertErrorWithoutAction()
                 }
             }
         }
