@@ -55,6 +55,9 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator,
             },
             vehicleCheckAction: { [weak self] in
                 self?.startVehicleCheck()
+            },
+            categoriesAction: {
+                print("categories button tapped")
             }
         )
         return widgetViewBuilder.dvlaAccountWidget(

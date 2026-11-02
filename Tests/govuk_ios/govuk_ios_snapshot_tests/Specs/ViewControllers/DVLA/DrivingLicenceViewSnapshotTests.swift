@@ -38,21 +38,7 @@ import GovKit
 
     func test_drivingLicenceSummaryView_light_rendersCorrectly() {
         let viewModel = MockDrivingLicenceViewModel(
-            viewState: .loaded(
-                licence: DrivingLicenceSummaryViewModel(
-                    drivingLicence: .arrange,
-                    statusBuilder: MockLicenceStatusViewModelBuilder(),
-                    openURLAction: { _, _ in },
-                    menuSelectionAction: { _ in },
-                    copyToClipboardAction: { _ in },
-                    analyticsService: MockAnalyticsService(),
-                    configService: MockAppConfigService()
-                ),
-                drivingRecord: DrivingRecordViewModel(
-                    dvlaURLs: nil,
-                    openURLAction: { _, _ in }
-                )
-            )
+            viewState: .loaded(.arrange)
         )
         let view = DrivingLicenceView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
@@ -67,21 +53,7 @@ import GovKit
 
     func test_drivingLicenceSummaryView_dark_rendersCorrectly() {
         let viewModel = MockDrivingLicenceViewModel(
-            viewState: .loaded(
-                licence: DrivingLicenceSummaryViewModel(
-                    drivingLicence: .arrange,
-                    statusBuilder: MockLicenceStatusViewModelBuilder(),
-                    openURLAction: { _, _ in },
-                    menuSelectionAction: { _ in },
-                    copyToClipboardAction: { _ in },
-                    analyticsService: MockAnalyticsService(),
-                    configService: MockAppConfigService()
-                ),
-                drivingRecord: DrivingRecordViewModel(
-                    dvlaURLs: nil,
-                    openURLAction: { _, _ in }
-                )
-            )
+            viewState: .loaded(.arrange)
         )
         let view = DrivingLicenceView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
@@ -175,6 +147,29 @@ import GovKit
         VerifySnapshotInNavigationController(
             viewController: hostingViewController,
             mode: .dark
+        )
+    }
+}
+
+extension DrivingLicenceViewModel.LoadedState {
+    static var arrange: DrivingLicenceViewModel.LoadedState {
+        .init(
+            licenceSummary: DrivingLicenceSummaryViewModel(
+                drivingLicence: .arrange,
+                statusBuilder: MockLicenceStatusViewModelBuilder(),
+                openURLAction: { _, _ in },
+                menuSelectionAction: { _ in },
+                copyToClipboardAction: { _ in },
+                analyticsService: MockAnalyticsService(),
+                configService: MockAppConfigService()
+            ),
+            drivingRecord: DrivingRecordViewModel(
+                dvlaURLs: nil,
+                openURLAction: { _, _ in }
+            ),
+            categories: LicenceCategoriesSectionViewModel(
+                action: { _ in }
+            )
         )
     }
 }

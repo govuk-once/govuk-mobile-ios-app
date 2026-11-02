@@ -130,7 +130,8 @@ struct DVLAAccountWidgetViewModelTests {
                 },
                 vehicleDetailAction: { _ in },
                 openURLAction: { _ in },
-                vehicleCheckAction: {}
+                vehicleCheckAction: {},
+                categoriesAction: {},
             )
         )
         await sut.viewDidAppear()
@@ -225,7 +226,8 @@ extension DVLAAccountWidgetActions {
             linkAction: {},
             vehicleDetailAction: { _ in },
             openURLAction: { _ in },
-            vehicleCheckAction: {}
+            vehicleCheckAction: {},
+            categoriesAction: {}
         )
     }
 }
