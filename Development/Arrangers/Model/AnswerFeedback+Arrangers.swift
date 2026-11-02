@@ -1,7 +1,5 @@
 import Foundation
 
-@testable import govuk_ios
-
 extension AnswerFeedback {
     static var arrange: AnswerFeedback {
         arrange()
