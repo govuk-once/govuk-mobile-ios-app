@@ -62,12 +62,7 @@ extension DVLAServiceInterface {
             case .success(let response):
                 return .success(response.vehicle)
             case .failure(let error):
-                switch error {
-                case .notFound:
-                    return .failure(.notFound)
-                default:
-                    return .failure(.serviceUnavailable)
-                }
+                return .failure(error)
             }
         }
     }
