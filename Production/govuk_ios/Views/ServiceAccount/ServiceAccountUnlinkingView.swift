@@ -56,18 +56,10 @@ struct ServiceAccountUnlinkingView: View {
     }
 
     private var cancelButton: some ToolbarContent {
-        ToolbarItem(placement: ToolbarItemPlacement.confirmationAction) {
-            Button(
-                action: {
-                    viewModel.dismiss()
-                }, label: {
-                    Text(String.common.localized("cancel"))
-                        .foregroundColor(
-                            Color(UIColor.govUK.text.linkSecondary)
-                        )
-                        .font(Font.govUK.subheadlineSemibold)
-                }
-            )
+        ToolbarItem(placement: .topBarTrailing) {
+            CancelButton {
+                viewModel.dismiss()
+            }
         }
     }
 }

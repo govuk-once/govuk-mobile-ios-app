@@ -4,6 +4,7 @@ import Combine
 import XCTest
 
 @testable import govuk_ios
+@testable import GovKit
 
 @Suite
 @MainActor
@@ -17,7 +18,6 @@ struct TravelAlertsWidgetViewModelTests {
             notificationService: MockNotificationService(),
             feedbackURL: URL(string: "https://example.com/feedback")!,
             urlOpener: MockURLOpener(),
-            linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
             openURLAction: { _ in /*Empty For Tests*/ }
@@ -39,7 +39,6 @@ struct TravelAlertsWidgetViewModelTests {
             notificationService: MockNotificationService(),
             feedbackURL: URL(string: "https://example.com/feedback")!,
             urlOpener: MockURLOpener(),
-            linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
             openURLAction: { _ in /*Empty For Tests*/ }
@@ -64,7 +63,6 @@ struct TravelAlertsWidgetViewModelTests {
             notificationService: MockNotificationService(),
             feedbackURL: URL(string: "https://example.com/feedback")!,
             urlOpener: MockURLOpener(),
-            linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
             openURLAction: { _ in /*Empty For Tests*/ }
@@ -95,7 +93,6 @@ struct TravelAlertsWidgetViewModelTests {
             notificationService: MockNotificationService(),
             feedbackURL: URL(string: "https://example.com/feedback")!,
             urlOpener: MockURLOpener(),
-            linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
             openURLAction: { _ in /*Empty For Tests*/ }
@@ -122,7 +119,6 @@ struct TravelAlertsWidgetViewModelTests {
             notificationService: MockNotificationService(),
             feedbackURL: URL(string: "https://example.com/feedback")!,
             urlOpener: MockURLOpener(),
-            linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
             openURLAction: { _ in /*Empty For Tests*/ }
@@ -146,19 +142,19 @@ struct TravelAlertsWidgetViewModelTests {
             notificationService: MockNotificationService(),
             feedbackURL: URL(string: "https://example.com/feedback")!,
             urlOpener: MockURLOpener(),
-            linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 
-        sut.openCountryList()
+        sut.onFollowCountryTap(text: "Follow countries for updates")
 
         let widgetEvent = mockAnalyticsService._trackedEvents.first
 
-        #expect(widgetEvent?.params?["text"] as? String == "Add your countries")
+        #expect(widgetEvent?.params?["text"] as? String == "Follow countries for updates")
         #expect(widgetEvent?.params?["section"] as? String == "Travel Abroad Notifications")
         #expect(widgetEvent?.params?["type"] as? String == "Widget")
+        #expect(widgetEvent?.params?["external"] as? Bool == false)
         #expect(widgetEvent?.name == "Navigation")
 
         #expect(sut.isShowingList == true)
@@ -173,13 +169,12 @@ struct TravelAlertsWidgetViewModelTests {
             notificationService: MockNotificationService(),
             feedbackURL: URL(string: "https://example.com/feedback")!,
             urlOpener: MockURLOpener(),
-            linkAction: { /*Empty For Tests*/ },
             dismissAction: { dismissCalled = true },
             editAction: { /*Empty For Tests*/ },
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 
-        sut.openCountryList()
+        sut.onFollowCountryTap(text: "Follow countries for updates")
         sut.didDismissList()
 
         #expect(sut.isShowingList == false)
@@ -196,7 +191,6 @@ struct TravelAlertsWidgetViewModelTests {
             notificationService: MockNotificationService(),
             feedbackURL: URL(string: "https://example.com/feedback")!,
             urlOpener: MockURLOpener(),
-            linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
             openURLAction: { url in openedURL = url }
@@ -218,7 +212,6 @@ struct TravelAlertsWidgetViewModelTests {
             notificationService: MockNotificationService(),
             feedbackURL: URL(string: "https://example.com/feedback")!,
             urlOpener: MockURLOpener(),
-            linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
             openURLAction: { _ in /*Empty For Tests*/ }
@@ -248,7 +241,6 @@ struct TravelAlertsWidgetViewModelTests {
             notificationService: MockNotificationService(),
             feedbackURL: URL(string: "https://example.com/feedback")!,
             urlOpener: MockURLOpener(),
-            linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
             openURLAction: { _ in /*Empty For Tests*/ }
@@ -283,7 +275,6 @@ struct TravelAlertsWidgetViewModelTests {
             notificationService: MockNotificationService(),
             feedbackURL: URL(string: "https://example.com/feedback")!,
             urlOpener: MockURLOpener(),
-            linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
             openURLAction: { _ in /*Empty For Tests*/ }
@@ -307,7 +298,6 @@ struct TravelAlertsWidgetViewModelTests {
             notificationService: MockNotificationService(),
             feedbackURL: URL(string: "https://example.com/feedback")!,
             urlOpener: MockURLOpener(),
-            linkAction: { /*Empty For Tests*/ },
             dismissAction: { dismissActionCalled = true },
             editAction: { /*Empty For Tests*/ },
             openURLAction: { _ in /*Empty For Tests*/ }
@@ -326,14 +316,13 @@ struct TravelAlertsWidgetViewModelTests {
             notificationService: MockNotificationService(),
             feedbackURL: URL(string: "https://example.com/feedback")!,
             urlOpener: MockURLOpener(),
-            linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
             openURLAction: { _ in /*Empty For Tests*/ }
         )
 
         #expect(sut.isShowingList == false)
-        sut.openCountryList()
+        sut.onFollowCountryTap(text: "Follow countries for updates")
         #expect(sut.isShowingList == true)
     }
 
@@ -345,7 +334,6 @@ struct TravelAlertsWidgetViewModelTests {
             notificationService: MockNotificationService(),
             feedbackURL: URL(string: "https://example.com/feedback")!,
             urlOpener: MockURLOpener(),
-            linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
             openURLAction: { _ in /*Empty For Tests*/ }
@@ -367,7 +355,6 @@ struct TravelAlertsWidgetViewModelTests {
             notificationService: MockNotificationService(),
             feedbackURL: URL(string: "https://example.com/feedback")!,
             urlOpener: MockURLOpener(),
-            linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { editActionCalled = true },
             openURLAction: { _ in /*Empty For Tests*/ }
@@ -393,7 +380,6 @@ struct TravelAlertsWidgetViewModelTests {
             notificationService: MockNotificationService(),
             feedbackURL: URL(string: "https://example.com/feedback")!,
             urlOpener: MockURLOpener(),
-            linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
             openURLAction: { _ in /*Empty For Tests*/ }
@@ -419,7 +405,6 @@ struct TravelAlertsWidgetViewModelTests {
             notificationService: MockNotificationService(),
             feedbackURL: URL(string: "https://example.com/feedback")!,
             urlOpener: MockURLOpener(),
-            linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
             openURLAction: { _ in /*Empty For Tests*/ }
@@ -445,7 +430,6 @@ struct TravelAlertsWidgetViewModelTests {
             notificationService: MockNotificationService(),
             feedbackURL: URL(string: "https://example.com/feedback")!,
             urlOpener: MockURLOpener(),
-            linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
             openURLAction: { _ in /*Empty For Tests*/ }
@@ -472,20 +456,120 @@ struct TravelAlertsWidgetViewModelTests {
             notificationService: MockNotificationService(),
             feedbackURL: feedbackURL,
             urlOpener: MockURLOpener(),
-            linkAction: { /*Empty For Tests*/ },
+
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
             openURLAction: { url in openedURL = url }
         )
 
         let countryListVM = sut.countryListViewModel
-        countryListVM.openFooterLink()
+        countryListVM.openFooterLink(text: "Follow countries for updates")
 
         #expect(openedURL == feedbackURL)
     }
 
     @Test
-    func countryListViewModel_createPermissionViewModel_passesOpenExternalURLActionCorrectly() {
+    func rowAction_tracksWidgetNavigationEvent() async throws {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedGetGroupsResult = .success([
+            TravelGroup(namespace: "travel-advice", group: "france", subgroup: "travel-subgroup")
+        ])
+        mockTravelService._stubbedGetCountriesResult = .success([
+            Country(name: "France", slug: "france", rawLastUpdate: "2024-08-05", synonyms: [])
+        ])
+        let mockAnalyticsService = MockAnalyticsService()
+        let sut = TravelAlertsWidgetViewModel(
+            travelService: mockTravelService,
+            analyticsService: mockAnalyticsService,
+            notificationService: MockNotificationService(),
+            feedbackURL: URL(string: "https://example.com/feedback")!,
+            urlOpener: MockURLOpener(),
+            dismissAction: { /*Empty For Tests*/ },
+            editAction: { /*Empty For Tests*/ },
+            openURLAction: { _ in /*Empty For Tests*/ }
+        )
+
+        await sut.viewDidAppear()
+        try await waitForViewState(of: sut) { state in
+            if case .loaded = state { return true }
+            return false
+        }
+
+        guard case let .loaded(groupedList) = sut.viewState,
+              let row = groupedList.first?.rows.first as? LinkRow else {
+            Issue.record("no row"); return
+        }
+        row.action()
+
+        let navEvent = mockAnalyticsService._trackedEvents.first(where: {
+            $0.name == "Navigation" && $0.params?["type"] as? String == "Widget"
+        })
+        #expect(navEvent != nil)
+        #expect(navEvent?.params?["text"] as? String == "France")
+        #expect(navEvent?.params?["external"] as? Bool == true)
+        #expect(navEvent?.params?["url"] as? String == "https://www.gov.uk/foreign-travel-advice/france")
+        #expect(navEvent?.params?["section"] as? String == "Travel Abroad Notifications")
+    }
+
+    @Test
+    func rowAction_opensDeepLinkURL() async throws {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedGetGroupsResult = .success([
+            TravelGroup(namespace: "travel-advice", group: "france", subgroup: "travel-subgroup")
+        ])
+        mockTravelService._stubbedGetCountriesResult = .success([
+            Country(name: "France", slug: "france", rawLastUpdate: "2024-08-05", synonyms: [])
+        ])
+        var openedURL: URL?
+        let sut = TravelAlertsWidgetViewModel(
+            travelService: mockTravelService,
+            analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService(),
+            feedbackURL: URL(string: "https://example.com/feedback")!,
+            urlOpener: MockURLOpener(),
+            dismissAction: { /*Empty For Tests*/ },
+            editAction: { /*Empty For Tests*/ },
+            openURLAction: { url in openedURL = url }
+        )
+
+        await sut.viewDidAppear()
+        try await waitForViewState(of: sut) { state in
+            if case .loaded = state { return true }
+            return false
+        }
+
+        guard case let .loaded(groupedList) = sut.viewState,
+              let row = groupedList.first?.rows.first as? LinkRow else {
+            Issue.record("no row"); return
+        }
+        row.action()
+
+        #expect(openedURL == URL(string: "govuk://app.gov.uk/web?url=https://www.gov.uk/foreign-travel-advice/france"))
+    }
+
+    @Test
+    func countryListViewModel_openFooterLink_tracksStaticHelpAndFeedbackURL() {
+        let mockAnalyticsService = MockAnalyticsService()
+        let feedbackURL = URL(string: "https://example.com/feedback?app_version=1.0")!
+        let sut = TravelAlertsWidgetViewModel(
+            travelService: MockTravelService(),
+            analyticsService: mockAnalyticsService,
+            notificationService: MockNotificationService(),
+            feedbackURL: feedbackURL,
+            urlOpener: MockURLOpener(),
+            dismissAction: { /*Empty For Tests*/ },
+            editAction: { /*Empty For Tests*/ },
+            openURLAction: { _ in /*Empty For Tests*/ }
+        )
+
+        sut.countryListViewModel.openFooterLink(text: "Tell us the country you're looking for")
+
+        let event = mockAnalyticsService._trackedEvents.first(where: { $0.name == "Navigation" })
+        #expect(event?.params?["url"] as? String == "https://www.gov.uk/contact/govuk-app")
+    }
+
+    @Test
+    func countryListViewModel_createPermissionViewModel_passesOpenExternalURLActionCorrectly() async throws {
         let mockTravelService = MockTravelService()
         mockTravelService._stubbedGetCountriesResult = .success([
             Country(name: "France", slug: "france", rawLastUpdate: "2024-08-05", synonyms: [])
@@ -498,7 +582,6 @@ struct TravelAlertsWidgetViewModelTests {
             notificationService: MockNotificationService(),
             feedbackURL: URL(string: "https://example.com/feedback")!,
             urlOpener: mockURLOpener,
-            linkAction: { /*Empty For Tests*/ },
             dismissAction: { /*Empty For Tests*/ },
             editAction: { /*Empty For Tests*/ },
             openURLAction: { _ in /*Empty For Tests*/ }
@@ -506,16 +589,20 @@ struct TravelAlertsWidgetViewModelTests {
 
         let countryListVM = sut.countryListViewModel
         let france = Country(name: "France", slug: "france", rawLastUpdate: "2024-08-05", synonyms: [])
-        countryListVM.onGetNotificationAlertTap(france)
+        countryListVM.onGetNotificationAlertTap(
+            france,
+            text: "Get Notifications"
+        )
 
-        // Create permission view model which receives the openExternalURLAction
-        guard let permissionVM = countryListVM.createPermissionViewModel() else {
-            Issue.record("Expected permission view model to be created")
+        try await Task.sleep(for: .seconds(1))
+        // Create rationale view model which receives the openExternalURLAction
+        guard let rationaleVM = countryListVM.createNotificationsRationaleViewModel() else {
+            Issue.record("Expected rationale view model to be created")
             return
         }
 
         // action passed to view model
-        permissionVM.openExternalURLAction(testURL)
+        rationaleVM.openExternalURLAction(testURL)
 
         #expect(mockURLOpener._receivedOpenIfPossibleUrl == testURL)
     }
@@ -529,7 +616,6 @@ struct TravelAlertsWidgetViewModelTests {
             notificationService: MockNotificationService(),
             feedbackURL: URL(string: "https://example.com/feedback")!,
             urlOpener: MockURLOpener(),
-            linkAction: { /*Empty For Tests*/ },
             dismissAction: { dismissCalled = true },
             editAction: { /*Empty For Tests*/ },
             openURLAction: { _ in /*Empty For Tests*/ }

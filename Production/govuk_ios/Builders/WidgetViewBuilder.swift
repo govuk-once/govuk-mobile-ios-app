@@ -28,7 +28,6 @@ class WidgetViewBuilder {
         notificationService: NotificationServiceInterface,
         deviceInfo: DeviceInformationProviderInterface,
         versionProvider: AppVersionProvider,
-        linkAction: @escaping () -> Void,
         dismissAction: @escaping () -> Void,
         editAction: @escaping () -> Void,
         openURLAction: @escaping (URL) -> Void
@@ -40,7 +39,6 @@ class WidgetViewBuilder {
             notificationService: notificationService,
             feedbackURL: feedbackURL,
             urlOpener: UIApplication.shared,
-            linkAction: linkAction,
             dismissAction: dismissAction,
             editAction: editAction,
             openURLAction: openURLAction

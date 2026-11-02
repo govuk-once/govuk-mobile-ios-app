@@ -445,10 +445,17 @@ class ViewControllerBuilder {
 
         let viewController = HostingViewController(
             rootView: ChatView(
-                viewModel: viewModel
+                viewModel: viewModel,
+                voiceOverFocusService: VoiceOverFocusService(
+                    delay: VoiceOverFocusService.defaultDelay,
+                    rootElements: VoiceOverFocusService.keyWindows,
+                    currentFocus: VoiceOverFocusService.voiceOverFocusedElement,
+                    postNotification: VoiceOverFocusService.post
+                )
             ),
             navigationBarHidden: true
         )
+        viewController.shouldAutoFocusVoiceover = false
         return viewController
     }
 
@@ -522,7 +529,6 @@ class ViewControllerBuilder {
         let viewController = HostingViewController(
             rootView: containerView
         )
-        viewController.navigationItem.rightBarButtonItem = viewModel.rightBarButtonItem
         viewController.isModalInPresentation = true
         return viewController
     }
@@ -546,7 +552,6 @@ class ViewControllerBuilder {
             rootView: containerView,
             navigationBarTintColor: .govUK.text.linkSecondary
         )
-        viewController.navigationItem.rightBarButtonItem = viewModel.rightBarButtonItem
         viewController.isModalInPresentation = true
         return viewController
     }
@@ -862,47 +867,14 @@ class ViewControllerBuilder {
     }
 
     // swiftlint:disable:next function_parameter_count
-    func countryList(
-        travelService: TravelServiceInterface,
-        analyticsService: AnalyticsServiceInterface,
-        notificationService: NotificationServiceInterface,
-        deviceInfo: DeviceInformationProviderInterface,
-        versionProvider: AppVersionProvider,
-        dismissAction: @escaping (Bool) -> Void,
-        errorCallback: (() -> Void)? = nil,
-        openFooterLinkAction: @escaping (URL) -> Void,
-        openExternalURLAction: @escaping (URL) -> Void
-    ) -> UIViewController {
-        let feedbackURL = deviceInfo.helpAndFeedbackURL(versionProvider: versionProvider)
-
-        let actions = CountryListViewModel.Actions(
-            dismissAction: dismissAction,
-            openFooterLinkAction: {
-                openFooterLinkAction(feedbackURL)
-            },
-            openExternalURLAction: openExternalURLAction
-        )
-        let viewModel = CountryListViewModel(
-            travelService: travelService,
-            analyticsService: analyticsService,
-            notificationService: notificationService,
-            urlOpener: UIApplication.shared,
-            actions: actions,
-            errorCallback: errorCallback
-        )
-        let view = CountryListView(viewModel: viewModel)
-        let viewController = HostingViewController(rootView: view)
-        return viewController
-    }
-
-    // swiftlint:disable:next function_parameter_count
     func editCountries(
         travelService: TravelServiceInterface,
         analyticsService: AnalyticsServiceInterface,
         notificationService: NotificationServiceInterface,
         deviceInfo: DeviceInformationProviderInterface,
         versionProvider: AppVersionProvider,
-        openURLAction: @escaping (URL) -> Void
+        openURLAction: @escaping (URL) -> Void,
+        navigateBackAction: @escaping () -> Void
     ) -> UIViewController {
         let feedbackURL = deviceInfo.helpAndFeedbackURL(versionProvider: versionProvider)
 
@@ -911,10 +883,10 @@ class ViewControllerBuilder {
             analyticsService: analyticsService,
             notificationService: notificationService,
             urlOpener: UIApplication.shared,
-            feedbackURL: feedbackURL,
             openCountryListFooterAction: {
                 openURLAction(feedbackURL)
-            }
+            },
+            navigateBackAction: navigateBackAction
         )
         let view = EditCountriesView(viewModel: viewModel)
         let viewController = HostingViewController(
@@ -943,6 +915,28 @@ class ViewControllerBuilder {
         )
         viewController.shouldAutoFocusVoiceover = false
         return viewController
+    }
+
+    func vehicleRegistrationInput(
+        analyticsService: AnalyticsServiceInterface,
+        dvlaService: DVLAServiceInterface,
+        cancelAction: @escaping () -> Void,
+        completionAction: @escaping (VehicleEnquiryResponse.Vehicle) -> Void
+    ) -> UIViewController {
+        let viewModel = RegistrationNumberFormViewModel(
+            lookupService: dvlaService.makeVehicleLookup(
+                analyticsService: analyticsService
+            ),
+            onSuccess: completionAction,
+            onCancel: cancelAction
+        )
+        let view = RegistrationNumberFormModal(
+            viewModel: viewModel
+        )
+
+        let hostingController = UIHostingController(rootView: view)
+        hostingController.view.backgroundColor = .clear
+        return hostingController
     }
 }
 // swiftlint:enable file_length

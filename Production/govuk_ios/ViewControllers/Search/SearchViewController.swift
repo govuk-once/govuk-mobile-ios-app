@@ -279,6 +279,7 @@ class SearchViewController: BaseViewController,
 extension SearchViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         searchHistoryViewController.announce()
+        viewModel.trackABTest(.searchConversion1026)
     }
 
     func textFieldShouldClear(_ textField: UITextField) -> Bool {

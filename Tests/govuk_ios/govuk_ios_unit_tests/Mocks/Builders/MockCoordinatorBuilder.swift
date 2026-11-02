@@ -387,11 +387,4 @@ class MockCoordinatorBuilder: CoordinatorBuilder {
     override func notificationCentre(navigationController: UINavigationController) -> NotificationCentreCoordinator {
         _stubbedNotificationCentreCoordinator
     }
-
-    var _countryListCoordinatorWasCalled = false
-    override func countryList(navigationController: UINavigationController,
-                             completion: @escaping (Bool) -> Void) -> BaseCoordinator {
-        _countryListCoordinatorWasCalled = true
-        return MockBaseCoordinator()
-    }
 }

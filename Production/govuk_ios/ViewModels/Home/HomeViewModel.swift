@@ -191,6 +191,11 @@ class HomeViewModel: ObservableObject {
         bannerBuilder.trackBannersEcommerceEvent()
     }
 
+    func trackABTest(_ event: ABTestAppEvent) {
+        let event = AppEvent.abTest(event)
+        analyticsService.track(event: event)
+    }
+
     func editTopics() {
         topicsWidgetViewModel.isEditingTopics = true
     }

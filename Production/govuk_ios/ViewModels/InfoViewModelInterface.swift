@@ -16,6 +16,8 @@ protocol InfoViewModelInterface: ObservableObject {
     var trackingTitle: String { get }
 
     var navBarHidden: Bool { get }
+    /// When set, a cancel button is shown in the navigation bar.
+    var cancelAction: (() -> Void)? { get }
 
     var contentAlignment: Alignment { get }
 
@@ -48,6 +50,7 @@ protocol ProgressIndicating {
 extension InfoViewModelInterface {
     var visualAssetContent: VisualAssetContent { .none }
     var navBarHidden: Bool { true }
+    var cancelAction: (() -> Void)? { nil }
 
     var contentAlignment: Alignment { .center }
 

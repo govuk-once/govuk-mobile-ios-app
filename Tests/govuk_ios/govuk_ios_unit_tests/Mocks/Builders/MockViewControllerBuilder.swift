@@ -477,37 +477,12 @@ class MockViewControllerBuilder: ViewControllerBuilder {
         return _stubbedDvlaAuthenticationViewController ?? UIViewController()
     }
 
-    var _countryListWasCalled = false
-    var _receivedCountryListTravelService: TravelServiceInterface?
-    var _receivedCountryListAnalyticsService: AnalyticsServiceInterface?
-    var _receivedCountryListNotificationService: NotificationServiceInterface?
-    var _receivedCountryListOpenFooterLinkAction: ((URL) -> Void)?
-    var _receivedCountryListOpenExternalURLAction: ((URL) -> Void)?
-    var _stubbedCountryListViewController: UIViewController?
-    override func countryList(
-        travelService: TravelServiceInterface,
-        analyticsService: AnalyticsServiceInterface,
-        notificationService: NotificationServiceInterface,
-        deviceInfo: DeviceInformationProviderInterface,
-        versionProvider: AppVersionProvider,
-        dismissAction: @escaping (Bool) -> Void,
-        errorCallback: (() -> Void)? = nil,
-        openFooterLinkAction: @escaping (URL) -> Void,
-        openExternalURLAction: @escaping (URL) -> Void
-    ) -> UIViewController {
-        _countryListWasCalled = true
-        _receivedCountryListTravelService = travelService
-        _receivedCountryListAnalyticsService = analyticsService
-        _receivedCountryListNotificationService = notificationService
-        _receivedCountryListOpenFooterLinkAction = openFooterLinkAction
-        _receivedCountryListOpenExternalURLAction = openExternalURLAction
-        return _stubbedCountryListViewController ?? UIViewController()
-    }
-
     var _editCountriesWasCalled = false
     var _receivedEditCountriesTravelService: TravelServiceInterface?
     var _receivedEditCountriesAnalyticsService: AnalyticsServiceInterface?
     var _receivedEditCountriesNotificationService: NotificationServiceInterface?
+    var _receivedEditCountriesOpenURLAction: ((URL) -> Void)?
+    var _receivedEditCountriesNavigateBackAction: (() -> Void)?
     var _stubbedEditCountriesViewController: UIViewController?
     override func editCountries(
         travelService: TravelServiceInterface,
@@ -515,12 +490,51 @@ class MockViewControllerBuilder: ViewControllerBuilder {
         notificationService: NotificationServiceInterface,
         deviceInfo: DeviceInformationProviderInterface,
         versionProvider: AppVersionProvider,
-        openURLAction: @escaping (URL) -> Void
+        openURLAction: @escaping (URL) -> Void,
+        navigateBackAction: @escaping () -> Void
     ) -> UIViewController {
         _editCountriesWasCalled = true
         _receivedEditCountriesTravelService = travelService
         _receivedEditCountriesAnalyticsService = analyticsService
         _receivedEditCountriesNotificationService = notificationService
+        _receivedEditCountriesOpenURLAction = openURLAction
+        _receivedEditCountriesNavigateBackAction = navigateBackAction
         return _stubbedEditCountriesViewController ?? UIViewController()
+    }
+    
+    var _stubbedVehicleRegistrationInputViewController: UIViewController?
+    var _receivedVehicleRegistrationInputDvlaService: DVLAServiceInterface?
+    var _receivedVehicleRegistrationInputCancelAction: (() -> Void)?
+    var _receivedVehicleRegistrationInputCompletionAction: ((VehicleEnquiryResponse.Vehicle) -> Void)?
+
+    override func vehicleRegistrationInput(
+        analyticsService: AnalyticsServiceInterface,
+        dvlaService: DVLAServiceInterface,
+        cancelAction: @escaping () -> Void,
+        completionAction: @escaping (VehicleEnquiryResponse.Vehicle) -> Void
+    ) -> UIViewController {
+        _receivedVehicleRegistrationInputDvlaService = dvlaService
+        _receivedVehicleRegistrationInputCancelAction = cancelAction
+        _receivedVehicleRegistrationInputCompletionAction = completionAction
+        return _stubbedVehicleRegistrationInputViewController ?? UIViewController()
+    }
+
+    var _stubbedVehicleCheckResultViewController: UIViewController?
+    var _receivedVehicleCheckResultVehicle: VehicleEnquiryResponse.Vehicle?
+    var _receivedVehicleCheckResultAnalyticsService: AnalyticsServiceInterface?
+    var _receivedVehicleCheckResultConfigService: AppConfigServiceInterface?
+    var _receivedVehicleCheckResultActions: VehicleCheckResultActions?
+
+    override func vehicleCheckResult(
+        vehicle: VehicleEnquiryResponse.Vehicle,
+        analyticsService: AnalyticsServiceInterface,
+        configService: AppConfigServiceInterface,
+        actions: VehicleCheckResultActions
+    ) -> UIViewController {
+        _receivedVehicleCheckResultVehicle = vehicle
+        _receivedVehicleCheckResultAnalyticsService = analyticsService
+        _receivedVehicleCheckResultConfigService = configService
+        _receivedVehicleCheckResultActions = actions
+        return _stubbedVehicleCheckResultViewController ?? UIViewController()
     }
 }

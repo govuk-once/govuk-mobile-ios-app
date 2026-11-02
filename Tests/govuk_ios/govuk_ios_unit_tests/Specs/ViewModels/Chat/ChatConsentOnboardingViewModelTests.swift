@@ -5,14 +5,17 @@ import UIKit
 
 struct ChatConsentOnboardingViewModelTests {
     @Test
-    func rightBarButtonItem_returnsBarButton() {
-        let sut = ChatInfoOnboardingViewModel(
-            analyticsService: MockAnalyticsService(),
-            completionAction: { },
-            cancelOnboardingAction: { }
-        )
+    func cancelAction_callsCancelOnboardingAction() async {
+        await confirmation { confirmation in
+            let sut = ChatConsentOnboardingViewModel(
+                analyticsService: MockAnalyticsService(),
+                chatService: MockChatService(),
+                cancelOnboardingAction: { confirmation() },
+                completionAction: { }
+            )
 
-        #expect((sut.rightBarButtonItem as Any) is UIBarButtonItem)
+            sut.cancelAction?()
+        }
     }
 
     @Test

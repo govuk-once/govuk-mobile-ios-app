@@ -76,6 +76,11 @@ class SearchViewModel {
         results = []
     }
 
+    func trackABTest(_ event: ABTestAppEvent) {
+        let event = AppEvent.abTest(event)
+        analyticsService.track(event: event)
+    }
+
     private func trackSearchItemSelected(_ item: SearchItem) {
         let event = AppEvent.searchResultNavigation(item: item)
         analyticsService.track(event: event)

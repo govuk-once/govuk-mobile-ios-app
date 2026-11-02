@@ -5,9 +5,14 @@ import UIKit
 struct SearchBarView: UIViewRepresentable {
     @Binding var text: String
     var onSearchTextChanged: ((String) -> Void)?
+    var onSearchSubmitted: (() -> Void)?
 
     func makeCoordinator() -> Coordinator {
-        Coordinator(text: $text, onSearchTextChanged: onSearchTextChanged)
+        Coordinator(
+            text: $text,
+            onSearchTextChanged: onSearchTextChanged,
+            onSearchSubmitted: onSearchSubmitted
+        )
     }
 
     func makeUIView(context: Context) -> UISearchBar {
@@ -72,12 +77,16 @@ struct SearchBarView: UIViewRepresentable {
     final class Coordinator: NSObject, UISearchBarDelegate {
         @Binding var text: String
         var onSearchTextChanged: ((String) -> Void)?
+        var onSearchSubmitted: (() -> Void)?
         private var debounceTimer: Timer?
         private let debounceDelay: TimeInterval = 0.300
 
-        init(text: Binding<String>, onSearchTextChanged: ((String) -> Void)?) {
+        init(text: Binding<String>,
+             onSearchTextChanged: ((String) -> Void)?,
+             onSearchSubmitted: (() -> Void)?) {
             _text = text
             self.onSearchTextChanged = onSearchTextChanged
+            self.onSearchSubmitted = onSearchSubmitted
         }
 
         func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
@@ -109,6 +118,7 @@ struct SearchBarView: UIViewRepresentable {
         }
 
         func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+            onSearchSubmitted?()
             searchBar.resignFirstResponder()
         }
 

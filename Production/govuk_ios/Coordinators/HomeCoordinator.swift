@@ -127,6 +127,9 @@ class HomeCoordinator: TabItemCoordinator {
             openURLAction: { url in
                 let urlOpener: URLOpener = UIApplication.shared
                 urlOpener.openIfPossible(url)
+            },
+            navigateBackAction: { [weak self] in
+                self?.root.popViewController(animated: true)
             }
         )
         root.pushViewController(viewController, animated: true)

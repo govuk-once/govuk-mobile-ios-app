@@ -76,7 +76,8 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator,
 
     private func startVehicleCheck() {
         let navigationController = UINavigationController()
-        navigationController.modalPresentationStyle = .pageSheet
+        navigationController.modalPresentationStyle = .overCurrentContext
+
         let coordinator = coordinatorBuilder.vehicleCheck(
             navigationController: navigationController
         )

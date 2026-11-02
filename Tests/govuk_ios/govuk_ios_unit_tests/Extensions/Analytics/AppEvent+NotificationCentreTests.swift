@@ -13,7 +13,7 @@ struct AppEvent_NotificationCentreTests {
 
         let result = AppEvent.notificationCentreUrlLaunched(url: urlForTest)
 
-        #expect(result.name == "NotificationCentreUrlLaunched")
+        #expect(result.name == "MessagesUrlLaunched")
         #expect(result.params?.count == 1)
         #expect(result.params?["url"] as? String == urlForTest.absoluteString)
     }
@@ -22,7 +22,7 @@ struct AppEvent_NotificationCentreTests {
     func notFound_correctParams() {
         let result = AppEvent.notificationCentreNotFound()
 
-        #expect(result.name == "NotificationCentreNotFound")
+        #expect(result.name == "MessagesNotFound")
         #expect(result.params == nil)
     }
 
@@ -30,7 +30,7 @@ struct AppEvent_NotificationCentreTests {
     func markUnread_correctParams() {
         let result = AppEvent.notificationCentreMarkUnread()
 
-        #expect(result.name == "NotificationCentreMarkUnread")
+        #expect(result.name == "MessagesMarkUnread")
         #expect(result.params == nil)
     }
 
@@ -38,7 +38,7 @@ struct AppEvent_NotificationCentreTests {
     func deleteNotification_correctParams() {
         let result = AppEvent.notificationCentreDelete()
 
-        #expect(result.name == "NotificationCentreDelete")
+        #expect(result.name == "MessagesDelete")
         #expect(result.params?.count == 1)
         #expect(result.params?["action"] as? String == "tap")
     }
@@ -47,7 +47,7 @@ struct AppEvent_NotificationCentreTests {
     func confirmDeleteNotification_correctParams() {
         let result = AppEvent.notificationCentreConfirmDelete()
 
-        #expect(result.name == "NotificationCentreDelete")
+        #expect(result.name == "MessagesDelete")
         #expect(result.params?.count == 1)
         #expect(result.params?["action"] as? String == "confirm")
     }
@@ -56,7 +56,7 @@ struct AppEvent_NotificationCentreTests {
     func cancelDeleteNotification_correctParams() {
         let result = AppEvent.notificationCentreCancelDelete()
 
-        #expect(result.name == "NotificationCentreDelete")
+        #expect(result.name == "MessagesDelete")
         #expect(result.params?.count == 1)
         #expect(result.params?["action"] as? String == "cancel")
     }
