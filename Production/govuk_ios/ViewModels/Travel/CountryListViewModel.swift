@@ -30,6 +30,7 @@ class CountryListViewModel: ObservableObject {
     @Published private(set) var filteredSections = [GroupedListSection]()
     @Published var selectedCountry: Country?
     @Published var showNotificationsRationale = false
+    @Published private(set) var errorViewModel: AppErrorViewModel?
     private var countryForPermissionFlow: Country?
 
     private var allCountries: [Country] = []
@@ -77,17 +78,40 @@ class CountryListViewModel: ObservableObject {
     private func fetchCountryList() async {
         viewState = .loading
 
-        travelService.getCountries(forceRefresh: false) { [weak self] result in
-            Task { @MainActor in
-                switch result {
-                case .success(let countries):
-                    self?.allCountries = countries
-                    self?.updateFilteredSections()
-                case .failure:
-                    self?.viewState = .error
-                }
+        let result = await withCheckedContinuation { continuation in
+            travelService.getCountries(forceRefresh: false) { result in
+                continuation.resume(returning: result)
             }
         }
+
+        processCountriesResult(result)
+    }
+
+    @MainActor
+    private func processCountriesResult(_ result: Result<[Country], TravelError>) {
+        switch result {
+        case .success(let countries):
+            allCountries = countries
+            updateFilteredSections()
+        case .failure(let error):
+            handleCountryFetchError(error)
+        }
+    }
+
+    @MainActor
+    private func handleCountryFetchError(_ error: TravelError) {
+        let retryAction: () -> Void = { [weak self] in
+            Task { await self?.retryFetchCountryList() }
+        }
+
+        self.errorViewModel = switch error {
+        case .networkUnavailable:
+            AppErrorViewModel.networkUnavailable(action: retryAction)
+        default:
+            AppErrorViewModel.travelCountryListError(retryAction: retryAction)
+        }
+
+        viewState = .error
     }
 
     func onGetNotificationAlertTap(_ country: Country, text: String) {
@@ -156,16 +180,21 @@ class CountryListViewModel: ObservableObject {
             notificationsEnabled: notificationsEnabled,
             completion: { [weak self] result in
                 Task { @MainActor in
-                    switch result {
-                    case .success:
-                        self?.actions.dismissAction(true)
-                    case .failure:
-                        self?.actions.dismissAction(false)
-                        self?.errorCallback?()
-                    }
+                    self?.processSubscriptionResult(result)
                 }
             }
         )
+    }
+
+    @MainActor
+    private func processSubscriptionResult(_ result: Result<Void, TravelError>) {
+        switch result {
+        case .success:
+            actions.dismissAction(true)
+        case .failure:
+            actions.dismissAction(false)
+            errorCallback?()
+        }
     }
 
     private func buildSections(from countries: [Country]) -> [GroupedListSection] {

@@ -1,7 +1,6 @@
 import SwiftUI
 import GovKitUI
 import GovKit
-import UIKit
 
 struct CountryListView: View {
     @StateObject var viewModel: CountryListViewModel
@@ -119,7 +118,15 @@ struct CountryListView: View {
                     }
                 )
             case .error:
-                ErrorView(viewModel: createErrorViewModel())
+                if let errorViewModel = viewModel.errorViewModel {
+                    ScrollView {
+                        VStack {
+                            AppErrorView(viewModel: errorViewModel)
+                                .padding(.top, 8)
+                            Spacer()
+                        }
+                    }
+                }
             }
         }
         .padding(.horizontal, viewModel.viewState == .error ? 0 : horizontalPadding)
@@ -271,23 +278,4 @@ extension CountryListView: TrackableScreen {
     var trackingClass: String { "CountryListScreen" }
     var trackingTitle: String? { "Follow a country" }
     var trackingName: String { "Follow a country" }
-}
-
-extension CountryListView {
-    private func createErrorViewModel() -> ErrorViewModel {
-        ErrorViewModel(
-            analyticsService: viewModel.analyticsService,
-            title: String(localized: .Travel.editCountriesErrorTitle),
-            subtitle: String(localized: .Travel.countryListScreenErrorBody),
-            systemImageName: "exclamationmark.circle",
-            primaryButtonTitle: String(localized: .Travel.countryListScreenErrorButtonTitle),
-            primaryAction: { [weak viewModel] in
-                Task {
-                    await viewModel?.retryFetchCountryList()
-                }
-            },
-            contentAlignment: .center,
-            trackingName: "CountryListErrorScreen"
-        )
-    }
 }
