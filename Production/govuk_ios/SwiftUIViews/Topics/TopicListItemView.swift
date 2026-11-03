@@ -31,6 +31,7 @@ struct TopicListItemView: View {
     }
 }
 
+#if DEBUG
 #Preview {
     let model1 = TopicListItemViewModel(title: "Benefits",
                                tapAction: { print("tap 1") },
@@ -47,3 +48,4 @@ struct TopicListItemView: View {
         }
     }
 }
+#endif // DEBUG

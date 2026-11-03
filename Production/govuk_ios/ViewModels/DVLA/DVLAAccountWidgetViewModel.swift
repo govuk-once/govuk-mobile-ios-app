@@ -7,6 +7,7 @@ struct DVLAAccountWidgetActions {
     let vehicleDetailAction: (Int) -> Void
     let openURLAction: (URL) -> Void
     let vehicleCheckAction: () -> Void
+    let categoriesAction: () -> Void
 }
 
 class DVLAAccountWidgetViewModel: ObservableObject {
@@ -89,6 +90,7 @@ class DVLAAccountWidgetViewModel: ObservableObject {
                 analyticsService: analyticsService,
                 dvlaService: dvlaService,
                 configService: configService,
+                categoriesAction: actions.categoriesAction,
                 openURLAction: actions.openURLAction
             )
             let accountSummaryViewModel = DVLAAccountSummaryViewModel(
