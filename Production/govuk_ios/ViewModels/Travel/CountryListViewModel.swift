@@ -108,7 +108,7 @@ class CountryListViewModel: ObservableObject {
         case .networkUnavailable:
             AppErrorViewModel.networkUnavailable(action: retryAction)
         default:
-            AppErrorViewModel.travelCountryListError(retryAction: retryAction)
+            AppErrorViewModel.travelGenericError(retryAction: retryAction)
         }
 
         viewState = .error

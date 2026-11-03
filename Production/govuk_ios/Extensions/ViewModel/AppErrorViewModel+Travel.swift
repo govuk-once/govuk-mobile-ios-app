@@ -12,7 +12,7 @@ extension AppErrorViewModel {
         )
     }
 
-    static func travelCountryListError(retryAction: @escaping () -> Void) -> AppErrorViewModel {
+    static func travelGenericError(retryAction: @escaping () -> Void) -> AppErrorViewModel {
         AppErrorViewModel(
             title: String.common.localized("genericErrorTitle"),
             body: String.common.localized("genericErrorBody"),
