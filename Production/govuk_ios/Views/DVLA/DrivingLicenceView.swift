@@ -177,7 +177,7 @@ struct DrivingLicenceView: View {
 #Preview("Error") {
     @Previewable @StateObject var viewModel: DrivingLicenceViewModel = {
         let dvlaService = MockDVLAService()
-        dvlaService._stubbedFetchDrivingLicenceResult = .failure(.apiUnavailable)
+        dvlaService._stubbedFetchDrivingLicenceResult = .failure(.notAvailable(message: "API down"))
 
         return DrivingLicenceViewModel(
             analyticsService: MockAnalyticsService(),

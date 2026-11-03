@@ -220,7 +220,7 @@ struct VehiclesView: View {
 #Preview("Error") {
     @Previewable @StateObject var viewModel: VehiclesViewModel = {
         let dvlaService = MockDVLAService()
-        dvlaService._stubbedCustomerVehiclesResult = .failure(.apiUnavailable)
+        dvlaService._stubbedCustomerVehiclesResult = .failure(.notAvailable(message: "API down"))
 
         return VehiclesViewModel(
             analyticsService: MockAnalyticsService(),
