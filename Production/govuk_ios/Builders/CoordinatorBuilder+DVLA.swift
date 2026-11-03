@@ -34,19 +34,4 @@ extension CoordinatorBuilder {
             vehicleId: vehicleId
         )
     }
-
-    func categoriesList(
-        navigationController: UINavigationController
-    ) -> BaseCoordinator {
-        CategoriesListCoordinator(
-            navigationController: navigationController,
-            viewControllerBuilder: ViewControllerBuilder(),
-            analyticsService: container.analyticsService.resolve(),
-            dvlaService: container.dvlaService.resolve(),
-            configService: container.appConfigService.resolve(),
-            userService: container.userService.resolve(),
-            urlOpener: UIApplication.shared,
-            notificationCenter: .default,
-        )
-    }
 }
