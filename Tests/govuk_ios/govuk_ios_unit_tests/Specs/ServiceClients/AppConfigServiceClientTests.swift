@@ -26,7 +26,7 @@ struct AppConfigServiceClientTests {
 
     @Test
     func fetchAppConfig_validJson_returnsCorrectConfig() async throws {
-        let mockJsonData = getJsonData(filename: "MockAppConfigResponse", bundle: .main)
+        let mockJsonData: Data = .loadFixture("MockAppConfigResponse")
         let result = await withCheckedContinuation { continuation in
             sut.fetchAppConfig(
                 completion: { result in
@@ -74,7 +74,7 @@ struct AppConfigServiceClientTests {
 
     @Test
     func fetchAppConfig_invalidJSON_returnsError() async {
-        let mockJsonData = getJsonData(filename: "MockAppConfigResponseInvalid", bundle: .main)
+        let mockJsonData: Data = .loadFixture("MockAppConfigResponseInvalid")
         let result = await withCheckedContinuation { continuation in
             sut.fetchAppConfig(
                 completion: { result in
@@ -100,20 +100,4 @@ struct AppConfigServiceClientTests {
         let unwrappedResult = result.getError()
         #expect(unwrappedResult == AppConfigError.invalidSignature)
     }
-
-    private func getJsonData(filename: String, bundle: Bundle) -> Data {
-        let resourceURL = bundle.url(
-            forResource: filename,
-            withExtension: "json"
-        )
-        guard let resourceURL = resourceURL else {
-            return Data()
-        }
-        do {
-            return try Data(contentsOf: resourceURL)
-        } catch {
-            return Data()
-        }
-    }
 }
-

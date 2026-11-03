@@ -1,8 +1,8 @@
 import Foundation
 
 extension Bundle {
+    class TestClass { }
     static var current: Bundle {
-        class TestClass { }
         return Bundle(for: TestClass.self)
     }
 }

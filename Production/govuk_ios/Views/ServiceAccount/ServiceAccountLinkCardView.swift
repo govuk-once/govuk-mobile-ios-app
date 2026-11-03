@@ -64,6 +64,7 @@ struct ServiceAccountLinkCardView: View {
     }
 }
 
+#if DEBUG
 #Preview {
     let modelOne = ServiceAccountLinkCardViewModel(
         title: "Card title",
@@ -84,3 +85,4 @@ struct ServiceAccountLinkCardView: View {
         .padding(.horizontal)
     }
 }
+#endif // DEBUG
