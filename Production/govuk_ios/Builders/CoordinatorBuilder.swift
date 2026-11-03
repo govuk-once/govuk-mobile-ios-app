@@ -7,7 +7,7 @@ import FactoryKit
 @MainActor
 // swiftlint:disable:next type_body_length
 class CoordinatorBuilder {
-    private let container: Container
+    let container: Container
 
     init(container: Container) {
         self.container = container
@@ -584,22 +584,6 @@ class CoordinatorBuilder {
         )
     }
 
-    func vehicleDetail(
-        navigationController: UINavigationController,
-        vehicleId: Int
-    ) -> BaseCoordinator {
-        VehicleDetailCoordinator(
-            navigationController: navigationController,
-            viewControllerBuilder: ViewControllerBuilder(),
-            analyticsService: container.analyticsService.resolve(),
-            dvlaService: container.dvlaService.resolve(),
-            configService: container.appConfigService.resolve(),
-            userService: container.userService.resolve(),
-            urlOpener: UIApplication.shared,
-            notificationCenter: .default,
-            vehicleId: vehicleId
-        )
-    }
 
     func notificationCentre(
         navigationController: UINavigationController
@@ -611,19 +595,6 @@ class CoordinatorBuilder {
             analyticsService: container.analyticsService.resolve(),
             coordinatorBuilder: self,
             urlOpener: UIApplication.shared
-        )
-    }
-
-    func vehicleCheck(
-        navigationController: UINavigationController
-    ) -> BaseCoordinator {
-        VehicleCheckCoordinator(
-            navigationController: navigationController,
-            viewControllerBuilder: ViewControllerBuilder(),
-            analyticsService: container.analyticsService.resolve(),
-            configService: container.appConfigService.resolve(),
-            urlOpener: UIApplication.shared,
-            dvlaService: container.dvlaService.resolve()
         )
     }
 }
