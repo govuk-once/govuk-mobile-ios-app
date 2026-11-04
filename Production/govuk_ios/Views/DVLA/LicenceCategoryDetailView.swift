@@ -13,6 +13,7 @@ struct LicenceCategoryDetailView: View {
             VStack(alignment: .leading, spacing: 0) {
                 Text(viewModel.categoryGroupTitle)
                     .font(.govUK.title1Bold)
+                    .accessibilityAddTraits(.isHeader)
                 Text(.DVLA.categoryTitle)
                     .padding(.top, 36)
                 HStack {
@@ -23,6 +24,7 @@ struct LicenceCategoryDetailView: View {
                             .tint(Color(uiColor: .govUK.text.primary))
                             .font(.system(size: 32))
                             .padding(16)
+                            .accessibilityHidden(true)
                         Spacer()
                         Divider()
                             .foregroundStyle(Color(uiColor: .govUK.strokes.listDivider))
@@ -30,6 +32,7 @@ struct LicenceCategoryDetailView: View {
                     }
                     Spacer()
                     Text(viewModel.categoryCode)
+                        .accessibilityLabel(viewModel.categoryCode.lowercased())
                         .font(.govUK.largeTitleBold)
                         .padding(.horizontal, 16)
                         .padding(.vertical, 30)
@@ -76,11 +79,13 @@ struct LicenceCategoryDetailView: View {
                 .accessibilityAddTraits(.isHeader)
                 .padding(.top, 48)
                 .padding(.bottom, 16)
-            ForEach(viewModel.restrictionRows) { row in
-                restrictionRow(
-                    label: row.code,
-                    value: row.description
-                )
+            VStack(alignment: .leading, spacing: 16) {
+                ForEach(viewModel.restrictionRows) { row in
+                    restrictionRow(
+                        label: row.code,
+                        value: row.description
+                    )
+                }
             }
         }
     }
@@ -93,16 +98,17 @@ struct LicenceCategoryDetailView: View {
             Text(value)
                 .font(.govUK.bodySemibold)
         }
+        .accessibilityElement(children: .combine)
         .padding(.vertical, 16)
     }
 
-    private func restrictionRow(label: String, value: String) -> some View {
-        HStack(alignment: .top) {
-            Text(label)
-                .font(.govUK.bodySemibold)
-            Text(value)
-                .font(.govUK.body)
-        }
+    private func restrictionRow(label: String, value: String) -> Text {
+        let code = Text(label)
+            .font(.govUK.bodySemibold)
+        let description = Text(value)
+            .font(.govUK.body)
+        return Text("\(code) \(description)")
+            .accessibilityLabel("\(code), \(description)")
     }
 }
 

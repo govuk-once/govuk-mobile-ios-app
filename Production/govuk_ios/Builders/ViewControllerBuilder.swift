@@ -939,7 +939,7 @@ class ViewControllerBuilder {
         return hostingController
     }
 
-    func licenceCategoryDetailsView(
+    func licenceCategoryDetailView(
         entitlement: Entitlement,
         analyticsService: AnalyticsServiceInterface,
         dismissAction: @escaping () -> Void

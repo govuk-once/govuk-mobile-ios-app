@@ -22,7 +22,7 @@ final class LicenceCategoriesCoordinator: BaseCoordinator {
         // the category list should be pushed here - when it is built
         // for now just show an entitlement at random
         guard let entitlement = entitlements.randomElement() else { return }
-        let viewController = viewControllerBuilder.licenceCategoryDetailsView(
+        let viewController = viewControllerBuilder.licenceCategoryDetailView(
             entitlement: entitlement,
             analyticsService: analyticsService,
             dismissAction: { [weak self] in

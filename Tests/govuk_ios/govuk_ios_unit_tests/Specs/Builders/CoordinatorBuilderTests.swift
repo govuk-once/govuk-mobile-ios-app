@@ -548,4 +548,15 @@ struct CoordinatorBuilderTests {
         #expect(coordinator is NotificationCentreCoordinator)
     }
 
+    @Test
+    func licenceCategories_returnsExpectedResult() {
+        let container = Container()
+        container.analyticsService.register(factory: { MockAnalyticsService() })
+        let subject = CoordinatorBuilder(container: container)
+        let coordinator = subject.licenceCategories(
+            navigationController: UINavigationController(),
+            entitlements: [.arrange]
+        )
+        #expect(coordinator is LicenceCategoriesCoordinator)
+    }
 }
