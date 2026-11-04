@@ -107,8 +107,8 @@ struct LicenceCategoryDetailView: View {
             .font(.govUK.bodySemibold)
         let description = Text(value)
             .font(.govUK.body)
-        return Text("\(code) \(description)")
-            .accessibilityLabel("\(code), \(description)")
+        return Text("\(code)  \(description)")
+            .accessibilityLabel("\(label), \(value)")
     }
 }
 
