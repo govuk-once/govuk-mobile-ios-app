@@ -13,6 +13,7 @@ protocol TokenProviding {
 protocol AuthenticationServiceInterface: AnyObject, TokenProviding {
     var accessToken: String? { get }
     var userEmail: String? { get async }
+    var userSub: String? { get async }
     var isSignedIn: Bool { get }
     var secureStoreRefreshTokenPresent: Bool { get }
     var shouldAttemptTokenRefresh: Bool { get }
@@ -58,6 +59,17 @@ class AuthenticationService: AuthenticationServiceInterface {
                 return nil
             }
             return payload.email
+        }
+    }
+
+    var userSub: String? {
+        get async {
+            guard let idToken,
+                  let payload: IdTokenPayload = try? await JWTExtractor().extract(jwt: idToken)
+            else {
+                return nil
+            }
+            return payload.sub
         }
     }
 
@@ -231,6 +243,13 @@ class AuthenticationService: AuthenticationServiceInterface {
         self.refreshToken = refreshToken
         self.idToken = idToken
         self.accessToken = accessToken
+        if let idToken {
+            Task {
+                if let payload: IdTokenPayload = try? await JWTExtractor().extract(jwt: idToken) {
+                    print("[OneLogin] sub: \(payload.sub)")
+                }
+            }
+        }
     }
 
     private func saveTokenIssueDate(jwt: String?) async {

@@ -305,7 +305,8 @@ extension Container {
     var mailboxTokenProvider: Factory<MailboxTokenProvider> {
         Factory(self) {
             MailboxTokenProvider(
-                tokenAPIClient: self.mailboxTokenAPIClient.resolve()
+                tokenAPIClient: self.mailboxTokenAPIClient.resolve(),
+                authService: self.authenticationService.resolve()
             )
         }.scope(.singleton)
     }

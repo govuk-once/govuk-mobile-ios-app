@@ -64,7 +64,8 @@ class SceneDelegate: UIResponder,
 
         Task {
             let tokenProvider = Container.shared.mailboxTokenProvider.resolve()
-            _ = await tokenProvider.fetchInitialToken()
+            let ok = await tokenProvider.fetchInitialToken()
+            print("[Mailbox] SceneDelegate fetchInitialToken result: \(ok)")
         }
     }
 

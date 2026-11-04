@@ -2,20 +2,22 @@ import Foundation
 
 class MailboxTokenProvider: TokenProviding {
     private let tokenAPIClient: APIServiceClientInterface
-    private let authSystemSub: String
+    private let authService: AuthenticationServiceInterface
     private var cachedToken: String?
 
     init(tokenAPIClient: APIServiceClientInterface,
-         authSystemSub: String = "ios-demo-citizen") {
+         authService: AuthenticationServiceInterface) {
         self.tokenAPIClient = tokenAPIClient
-        self.authSystemSub = authSystemSub
+        self.authService = authService
     }
 
     var accessToken: String? { cachedToken }
 
     func tokenRefreshRequest() async -> TokenRefreshResult {
-        await withCheckedContinuation { continuation in
-            let request = GOVRequest.mailboxToken(authSystemSub: authSystemSub)
+        let sub = await authService.userSub ?? "ios-demo-citizen"
+        print("[Mailbox] tokenRefreshRequest using sub: \(sub)")
+        return await withCheckedContinuation { continuation in
+            let request = GOVRequest.mailboxToken(authSystemSub: sub)
             tokenAPIClient.send(request: request) { [weak self] result in
                 switch result {
                 case .success(let data):
@@ -32,9 +34,11 @@ class MailboxTokenProvider: TokenProviding {
                             )
                         ))
                     } catch {
+                        print("[Mailbox] Token issuer decode error. Raw: \(String(data: data, encoding: .utf8) ?? "nil")")
                         continuation.resume(returning: .failure(.genericError))
                     }
-                case .failure:
+                case .failure(let error):
+                    print("[Mailbox] Token issuer network error: \(error)")
                     continuation.resume(returning: .failure(.genericError))
                 }
             }
@@ -44,8 +48,12 @@ class MailboxTokenProvider: TokenProviding {
     func fetchInitialToken() async -> Bool {
         let result = await tokenRefreshRequest()
         switch result {
-        case .success: return true
-        case .failure: return false
+        case .success:
+            print("[Mailbox] Initial token fetch succeeded")
+            return true
+        case .failure:
+            print("[Mailbox] Initial token fetch FAILED")
+            return false
         }
     }
 }

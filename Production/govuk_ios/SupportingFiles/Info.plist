@@ -76,5 +76,10 @@
 		<key>UIColorName</key>
 		<string>splashScreenBlue</string>
 	</dict>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 </dict>
 </plist>

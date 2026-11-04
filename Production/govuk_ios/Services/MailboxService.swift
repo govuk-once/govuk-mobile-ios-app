@@ -55,10 +55,12 @@ final class MailboxService: MailboxServiceInterface {
     func fetchMessages(
         completion: @escaping (Result<[MailboxMessage], Error>) -> Void
     ) {
+        print("[Mailbox] fetchMessages called")
         Task {
             let result = await serviceClient.fetchMessages()
             switch result {
             case .success(let response):
+                print("[Mailbox] fetchMessages succeeded, count: \(response.messages.count)")
                 var messages = response.messages
                 self.applyLocalUnopenedState(&messages)
                 self.updateCachedMessages(messages)
@@ -66,6 +68,7 @@ final class MailboxService: MailboxServiceInterface {
 
                 await self.enrichWithBodies()
             case .failure(let error):
+                print("[Mailbox] fetchMessages FAILED: \(error)")
                 completion(.failure(error))
             }
         }

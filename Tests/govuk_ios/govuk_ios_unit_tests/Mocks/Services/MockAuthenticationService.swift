@@ -15,6 +15,11 @@ class MockAuthenticationService: AuthenticationServiceInterface {
         _stubbedUserEmail
     }
 
+    var _stubbedUserSub: String?
+    var userSub: String? {
+        _stubbedUserSub
+    }
+
     var _stubbedIsSignedIn: Bool = false
     var isSignedIn: Bool {
         _stubbedIsSignedIn

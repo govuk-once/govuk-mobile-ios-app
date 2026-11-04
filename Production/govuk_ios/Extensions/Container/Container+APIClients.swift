@@ -153,14 +153,43 @@ extension Container {
                 baseUrl: self.appEnvironmentService().mailboxBaseURL,
                 session: self.urlSession(),
                 requestBuilder: RequestBuilder(),
-                tokenProvider: self.authenticationService()
+                tokenProvider: self.mailboxTokenProvider()
             )
         }
     }
 
     var urlSession: Factory<URLSession> {
         Factory(self) {
-            URLSession(configuration: .default)
+            URLSession(configuration: .default,
+                       delegate: DisabledSSLSessionDelegate(),
+                       delegateQueue: nil)
         }
+    }
+}
+
+private class DisabledSSLSessionDelegate: NSObject, URLSessionDelegate {
+    func urlSession(_ session: URLSession,
+                    didReceive challenge: URLAuthenticationChallenge,
+                    completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+        guard challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust,
+              let trust = challenge.protectionSpace.serverTrust
+        else {
+            completionHandler(.performDefaultHandling, nil)
+            return
+        }
+        // On macOS/Simulator, URLCredential(trust:) still evaluates SecTrust — add the chain's
+        // root cert as a trusted anchor so evaluation succeeds with Zscaler-intercepted certs.
+        let certCount = SecTrustGetCertificateCount(trust)
+        var anchors: [SecCertificate] = []
+        for i in 0..<certCount {
+            if let cert = SecTrustGetCertificateAtIndex(trust, i) {
+                anchors.append(cert)
+            }
+        }
+        SecTrustSetAnchorCertificates(trust, anchors as CFArray)
+        SecTrustSetAnchorCertificatesOnly(trust, false)
+        var error: CFError?
+        SecTrustEvaluateWithError(trust, &error)
+        completionHandler(.useCredential, URLCredential(trust: trust))
     }
 }

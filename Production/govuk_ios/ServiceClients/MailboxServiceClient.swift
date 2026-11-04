@@ -85,6 +85,7 @@ class MailboxServiceClient: MailboxServiceClientInterface {
                 let decoded = try JSONDecoder().decode(T.self, from: data)
                 return .success(decoded)
             } catch {
+                print("[Mailbox] Decoding error. Raw response: \(String(data: data, encoding: .utf8) ?? "nil")")
                 return .failure(.decodingError)
             }
         }

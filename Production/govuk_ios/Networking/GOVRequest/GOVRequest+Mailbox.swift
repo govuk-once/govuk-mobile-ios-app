@@ -77,7 +77,7 @@ extension GOVRequest {
 
     static func mailboxToken(authSystemSub: String) -> GOVRequest {
         GOVRequest(
-            urlPath: "/v1/token",
+            urlPath: "/token",
             method: .post,
             body: MailboxTokenRequestBody(authSystemSub: authSystemSub),
             queryParameters: nil,
