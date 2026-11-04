@@ -4,7 +4,15 @@ import Foundation
 import FactoryKit
 
 @MainActor
-extension CoordinatorBuilder {
+protocol DVLACoordinatorBuilding {
+    func vehicleCheck(navigationController: UINavigationController) -> BaseCoordinator
+    func vehicleDetail(navigationController: UINavigationController,
+                       vehicleId: Int) -> BaseCoordinator
+    func categoriesList(navigationController: UINavigationController) -> BaseCoordinator
+}
+
+@MainActor
+extension CoordinatorBuilder: DVLACoordinatorBuilding {
     func vehicleCheck(
         navigationController: UINavigationController
     ) -> BaseCoordinator {
@@ -32,6 +40,21 @@ extension CoordinatorBuilder {
             urlOpener: UIApplication.shared,
             notificationCenter: .default,
             vehicleId: vehicleId
+        )
+    }
+
+    func categoriesList(
+        navigationController: UINavigationController
+    ) -> BaseCoordinator {
+        CategoriesListCoordinator(
+            navigationController: navigationController,
+            viewControllerBuilder: ViewControllerBuilder(),
+            analyticsService: container.analyticsService.resolve(),
+            dvlaService: container.dvlaService.resolve(),
+            configService: container.appConfigService.resolve(),
+            userService: container.userService.resolve(),
+            urlOpener: UIApplication.shared,
+            notificationCenter: .default,
         )
     }
 }
