@@ -8,8 +8,13 @@ import SafariServices
 import MarkdownUI
 
 @MainActor
+protocol ErrorViewControllerBuilding {
+    func error(viewModel: ErrorViewModel) -> UIViewController
+}
+
+@MainActor
 // swiftlint:disable:next type_body_length
-class ViewControllerBuilder {
+class ViewControllerBuilder: ErrorViewControllerBuilding {
     func launch(analyticsService: AnalyticsServiceInterface,
                 completion: @escaping () -> Void) -> UIViewController {
         let viewModel = LaunchViewModel(
