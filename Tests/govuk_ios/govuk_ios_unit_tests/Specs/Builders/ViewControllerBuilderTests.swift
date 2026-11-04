@@ -517,17 +517,4 @@ struct ViewControllerBuilderTests {
         #expect(hostingController != nil)
         #expect(hostingController?.view.backgroundColor == .clear)
     }
-
-    @Test
-    func licenceCategoryDetail_returnsExpectedResult() throws {
-        let sut = ViewControllerBuilder()
-        let result = sut.licenceCategoryDetailView(
-            entitlement: .arrange,
-            analyticsService: MockAnalyticsService(),
-            dismissAction: {}
-        )
-
-        let rootView = (result as? HostingViewController<LicenceCategoryDetailView>)?.rootView
-        #expect(rootView != nil)
-    }
 }

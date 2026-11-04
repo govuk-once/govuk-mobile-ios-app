@@ -7,10 +7,10 @@ final class DVLAAuthenticationCoordinator: BaseCoordinator {
     private let authenticationService: AuthenticationServiceInterface
     private let analyticsService: AnalyticsServiceInterface
     private let appEnvironmentService: AppEnvironmentServiceInterface
-    private let viewControllerBuilder: ViewControllerBuilder
+    private let viewControllerBuilder: DVLAViewControllerBuilding & ErrorViewControllerBuilding
 
     init(navigationController: UINavigationController,
-         viewControllerBuilder: ViewControllerBuilder,
+         viewControllerBuilder: DVLAViewControllerBuilding & ErrorViewControllerBuilding,
          urlOpener: URLOpener,
          authenticationService: AuthenticationServiceInterface,
          analyticsService: AnalyticsServiceInterface,

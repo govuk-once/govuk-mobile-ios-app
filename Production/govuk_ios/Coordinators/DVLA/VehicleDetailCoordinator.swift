@@ -3,7 +3,7 @@ import UIKit
 import GovKit
 
 final class VehicleDetailCoordinator: BaseCoordinator {
-    private let viewControllerBuilder: ViewControllerBuilder
+    private let viewControllerBuilder: DVLAViewControllerBuilding
     private let analyticsService: AnalyticsServiceInterface
     private let dvlaService: DVLAServiceInterface
     private let configService: AppConfigServiceInterface
@@ -15,7 +15,7 @@ final class VehicleDetailCoordinator: BaseCoordinator {
     private var linkedAccountsObserverToken: Any?
 
     init(navigationController: UINavigationController,
-         viewControllerBuilder: ViewControllerBuilder,
+         viewControllerBuilder: DVLAViewControllerBuilding,
          analyticsService: AnalyticsServiceInterface,
          dvlaService: DVLAServiceInterface,
          configService: AppConfigServiceInterface,

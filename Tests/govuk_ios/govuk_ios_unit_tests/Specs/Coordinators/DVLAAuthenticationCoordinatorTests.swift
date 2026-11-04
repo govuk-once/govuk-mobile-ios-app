@@ -10,7 +10,7 @@ class DVLAAuthenticationCoordinatorTests {
 
     @Test
     func start_pushesDvlaAuthenticationView() {
-        let mockViewControllerBuilder = MockViewControllerBuilder()
+        let mockViewControllerBuilder = MockDVLAViewControllerBuilder()
         let stubbedDvlaAuthenticationViewController = UIViewController()
         mockViewControllerBuilder._stubbedDvlaAuthenticationViewController = stubbedDvlaAuthenticationViewController
         let navigationController = UINavigationController()
@@ -29,7 +29,7 @@ class DVLAAuthenticationCoordinatorTests {
 
     @Test
     func dvlaAuthenticationCompletionAction_opensUrl() {
-        let mockViewControllerBuilder = MockViewControllerBuilder()
+        let mockViewControllerBuilder = MockDVLAViewControllerBuilder()
         let mockURLOpener = MockURLOpener()
         let mockURL = URL(string: "https://dvla.gov.uk/auth")!
 
@@ -48,7 +48,7 @@ class DVLAAuthenticationCoordinatorTests {
 
     @Test
     func dvlaAuthenticationErrorAction_presentsError() {
-        let mockViewControllerBuilder = MockViewControllerBuilder()
+        let mockViewControllerBuilder = MockDVLAViewControllerBuilder()
         let stubbedErrorViewController = UIViewController()
         mockViewControllerBuilder._stubbedErrorController = stubbedErrorViewController
         let mockNavigationController = MockNavigationController()
