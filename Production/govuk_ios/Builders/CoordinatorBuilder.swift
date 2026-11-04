@@ -5,8 +5,24 @@ import Foundation
 import FactoryKit
 
 @MainActor
+protocol ServiceAccountCoordinatorBuilding {
+    func serviceAccountLink(
+        navigationController: UINavigationController,
+        accountType: ServiceAccountType,
+        completion: @escaping (Bool) -> Void
+    ) -> BaseCoordinator
+
+    func serviceAccountUnlink(
+        navigationController: UINavigationController,
+        accountType: ServiceAccountType,
+        completion: @escaping () -> Void
+    ) -> BaseCoordinator
+}
+
+
+@MainActor
 // swiftlint:disable:next type_body_length
-class CoordinatorBuilder {
+class CoordinatorBuilder: ServiceAccountCoordinatorBuilding {
     let container: Container
 
     init(container: Container) {
