@@ -3,8 +3,41 @@ import GovKit
 import SwiftUI
 import UIKit
 
+@MainActor
+protocol DVLAViewControllerBuilding: AnyObject {
+    func vehicleDetail(
+        analyticsService: AnalyticsServiceInterface,
+        dvlaService: DVLAServiceInterface,
+        configService: AppConfigServiceInterface,
+        openURLAction: @escaping (URL) -> Void,
+        vehicleId: Int
+    ) -> UIViewController
+
+    func dvlaAuthentication(
+        authenticationService: AuthenticationServiceInterface,
+        appEnvironmentService: AppEnvironmentServiceInterface,
+        completionAction: @escaping (URL) -> Void,
+        errorAction: @escaping () -> Void
+    ) -> UIViewController
+
+    func vehicleCheckResult(
+        vehicle: VehicleEnquiryResponse.Vehicle,
+        analyticsService: AnalyticsServiceInterface,
+        configService: AppConfigServiceInterface,
+        actions: VehicleCheckResultActions
+    ) -> UIViewController
+
+    func vehicleRegistrationInput(
+        analyticsService: AnalyticsServiceInterface,
+        dvlaService: DVLAServiceInterface,
+        cancelAction: @escaping () -> Void,
+        completionAction: @escaping (VehicleEnquiryResponse.Vehicle) -> Void
+    ) -> UIViewController
+}
+
 /// factory methods related to DVLA functionality
-extension ViewControllerBuilder {
+@MainActor
+extension ViewControllerBuilder: DVLAViewControllerBuilding {
     func vehicleDetail(
         analyticsService: AnalyticsServiceInterface,
         dvlaService: DVLAServiceInterface,
