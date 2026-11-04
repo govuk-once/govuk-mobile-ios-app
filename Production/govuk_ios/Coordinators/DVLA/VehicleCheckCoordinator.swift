@@ -9,7 +9,7 @@ import UIKit
 /// Supports nested searches and managing UIKit modal sheet dismissal lifecycles.
 @MainActor
 final class VehicleCheckCoordinator: BaseCoordinator {
-    private let viewControllerBuilder: ViewControllerBuilder
+    private let viewControllerBuilder: DVLAViewControllerBuilding
     private let analyticsService: AnalyticsServiceInterface
     private let configService: AppConfigServiceInterface
     private let urlOpener: URLOpener
@@ -46,7 +46,7 @@ final class VehicleCheckCoordinator: BaseCoordinator {
 
     init(
         navigationController: UINavigationController,
-        viewControllerBuilder: ViewControllerBuilder,
+        viewControllerBuilder: DVLAViewControllerBuilding,
         analyticsService: AnalyticsServiceInterface,
         configService: AppConfigServiceInterface,
         urlOpener: URLOpener,

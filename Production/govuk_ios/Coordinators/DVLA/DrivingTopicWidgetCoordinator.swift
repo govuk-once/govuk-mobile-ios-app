@@ -13,7 +13,7 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator,
     private let widgetViewBuilder: WidgetViewBuilder
     private let analyticsService: AnalyticsServiceInterface
     private let configService: AppConfigServiceInterface
-    private let coordinatorBuilder: CoordinatorBuilder
+    private let coordinatorBuilder: DVLACoordinatorBuilding & ServiceAccountCoordinatorBuilding
     private let urlOpener: URLOpener
 
     init(navigationController: UINavigationController,
@@ -21,7 +21,7 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator,
          configService: AppConfigServiceInterface,
          userService: UserServiceInterface,
          dvlaService: DVLAServiceInterface,
-         coordinatorBuilder: CoordinatorBuilder,
+         coordinatorBuilder: DVLACoordinatorBuilding & ServiceAccountCoordinatorBuilding,
          widgetViewBuilder: WidgetViewBuilder,
          urlOpener: URLOpener) {
         self.dvlaService = dvlaService

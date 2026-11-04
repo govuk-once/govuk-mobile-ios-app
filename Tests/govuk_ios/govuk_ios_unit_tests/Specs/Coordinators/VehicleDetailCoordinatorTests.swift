@@ -9,7 +9,7 @@ import GovKit
 struct VehicleDetailCoordinatorTests {
     @Test
     func start_setsVehicleDetailViewController() {
-        let mockViewControllerBuilder = MockViewControllerBuilder()
+        let mockViewControllerBuilder = MockDVLAViewControllerBuilder()
         let stubbedVehicleDetailController = UIViewController()
         mockViewControllerBuilder._stubbedVehicleDetailController = stubbedVehicleDetailController
         let root = UINavigationController()
@@ -34,7 +34,7 @@ struct VehicleDetailCoordinatorTests {
         let mockURL = URL(string: "https://gov.uk")!
         let mockURLOpener = MockURLOpener()
         let stubbedVehicleDetailController = UIViewController()
-        let mockViewControllerBuilder = MockViewControllerBuilder()
+        let mockViewControllerBuilder = MockDVLAViewControllerBuilder()
         mockViewControllerBuilder._stubbedVehicleDetailController = stubbedVehicleDetailController
         let sut = VehicleDetailCoordinator(
             navigationController: UINavigationController(),
