@@ -938,5 +938,20 @@ class ViewControllerBuilder {
         hostingController.view.backgroundColor = .clear
         return hostingController
     }
+
+    func licenceCategoryDetailsView(
+        entitlement: Entitlement,
+        analyticsService: AnalyticsServiceInterface,
+        dismissAction: @escaping () -> Void
+    ) -> UIViewController {
+        let viewModel = LicenceCategoryDetailViewModel(
+            entitlement: entitlement,
+            analyticsService: analyticsService,
+            dismissAction: dismissAction
+        )
+        let view = LicenceCategoryDetailView(viewModel: viewModel)
+        let viewController = HostingViewController(rootView: view)
+        return viewController
+    }
 }
 // swiftlint:enable file_length

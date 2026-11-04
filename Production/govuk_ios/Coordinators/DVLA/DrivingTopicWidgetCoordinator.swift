@@ -56,8 +56,8 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator,
             vehicleCheckAction: { [weak self] in
                 self?.startVehicleCheck()
             },
-            categoriesAction: {
-                print("categories button tapped")
+            categoriesAction: { [weak self] entitlements in
+                self?.startLicenceCategories(entitlements: entitlements)
             }
         )
         return widgetViewBuilder.dvlaAccountWidget(
@@ -96,6 +96,15 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator,
             completion: { _ in
                 print("service account linking dismissed")
             }
+        )
+        present(coordinator)
+    }
+
+    private func startLicenceCategories(entitlements: [Entitlement]) {
+        let navigationController = UINavigationController()
+        let coordinator = coordinatorBuilder.licenceCategories(
+            navigationController: navigationController,
+            entitlements: entitlements
         )
         present(coordinator)
     }

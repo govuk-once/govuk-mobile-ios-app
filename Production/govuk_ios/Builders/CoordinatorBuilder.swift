@@ -626,4 +626,16 @@ class CoordinatorBuilder {
             dvlaService: container.dvlaService.resolve()
         )
     }
+
+    func licenceCategories(
+        navigationController: UINavigationController,
+        entitlements: [Entitlement]
+    ) -> BaseCoordinator {
+        LicenceCategoriesCoordinator(
+            navigationController: navigationController,
+            viewControllerBuilder: ViewControllerBuilder(),
+            analyticsService: container.analyticsService.resolve(),
+            entitlements: entitlements
+        )
+    }
 }
