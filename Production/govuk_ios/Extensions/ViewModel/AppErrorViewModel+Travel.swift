@@ -15,8 +15,8 @@ extension AppErrorViewModel {
     static func travelGenericError(retryAction: @escaping () -> Void) -> AppErrorViewModel {
         AppErrorViewModel(
             title: String.common.localized("genericErrorTitle"),
-            body: String.common.localized("genericErrorBody"),
-            buttonTitle: String(localized: .Travel.countryListScreenErrorButtonTitle),
+            body: String.travel.localized("travelGenericErrorMessage"),
+            buttonTitle: String.travel.localized("travelGenericErrorButtonTitle"),
             buttonAccessibilityLabel: nil,
             isWebLink: false,
             action: retryAction

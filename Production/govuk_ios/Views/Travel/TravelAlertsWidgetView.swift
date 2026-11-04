@@ -31,6 +31,7 @@ struct TravelAlertsWidgetView: View {
                     if let errorViewModel = viewModel.errorViewModel {
                         ZStack {
                             AppErrorView(viewModel: errorViewModel)
+                                .frame(maxWidth: .infinity)
                                 .padding(.horizontal, 32)
                                 .padding(.vertical, 16)
                         }
