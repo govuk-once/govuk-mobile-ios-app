@@ -26,6 +26,15 @@ final class MockDVLACoordinatorBuilder: DVLACoordinatorBuilding, ServiceAccountC
         MockBaseCoordinator()
     }
 
+    // KK Stuff
+    func categoriesListWithData(navigationController: UINavigationController) -> BaseCoordinator {
+        MockBaseCoordinator()
+    }
+
+    func categoriesList(navigationController: UINavigationController) -> govuk_ios.BaseCoordinator {
+        MockBaseCoordinator()
+    }
+
     var _stubbedServiceAccountLinkCoordinator: MockBaseCoordinator?
     var _receivedServiceAccountLinkCompletion: ((Bool) -> Void)?
     func serviceAccountLink(navigationController: UINavigationController,

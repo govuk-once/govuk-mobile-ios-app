@@ -57,6 +57,10 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator,
                 self?.startVehicleCheck()
             },
             categoriesAction: { [weak self] entitlements in
+                // KK Stuff
+                print("categories button tapped")
+//              self?.startShowCategories()
+
                 self?.startLicenceCategories(entitlements: entitlements)
             }
         )
@@ -108,4 +112,29 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator,
         )
         present(coordinator)
     }
+}
+
+// KK Stuff
+extension DrivingTopicWidgetCoordinator {
+    private func startShowCategories() {
+        let coordinator = coordinatorBuilder.categoriesList(
+            navigationController: root
+            /* vehicleId: vehicleId */
+        )
+        start(coordinator)
+    }
+
+    private func startShowCategoriesWithData() {
+        let coordinator = coordinatorBuilder.categoriesListWithData(
+            navigationController: root
+            /* vehicleId: vehicleId */
+        )
+        start(coordinator)
+    }
+}
+
+struct EntitlementInfo {
+    let displayName: String
+    let entitlements: [String: (String, String)]    // "BE" -> ("image name", "group")
+    let byGroup: [String: (String, String)]
 }
