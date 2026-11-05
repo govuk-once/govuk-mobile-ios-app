@@ -182,7 +182,7 @@ final class RecentActivityListViewControllerSnapshotTests: SnapshotTestCase {
             date: .arrange("21/11/2024"),
             context: coreData.viewContext
         )
-
+        
         _ = ActivityItem.arrange(
             title: "Test 2",
             date: .arrange("10/01/2023"),
@@ -197,7 +197,7 @@ final class RecentActivityListViewControllerSnapshotTests: SnapshotTestCase {
         )
         try? resultsController.performFetch()
         mockActivityService._stubbedFetchResultsController = resultsController
-
+        
         let viewController = RecentActivityListViewController(
             viewModel: .init(
                 activityService: mockActivityService,
@@ -208,12 +208,12 @@ final class RecentActivityListViewControllerSnapshotTests: SnapshotTestCase {
         let navigationController = UINavigationController(rootViewController: viewController)
         navigationController.navigationBar.prefersLargeTitles = true
         navigationController.overrideUserInterfaceStyle = .light
-
+        
         viewController.setEditing(true, animated: false)
-
+        
         let tableview = viewController.view.subviews.compactMap { $0 as? UITableView }.first!
         tableview.selectAllRows(animated: false)
-
+        
         VerifySnapshotInWindow(
             navigationController
         )

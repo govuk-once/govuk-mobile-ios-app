@@ -85,6 +85,10 @@ class Topic: NSManagedObject,
         self.ref == "driving-transport"
     }
 
+    var isBenefits: Bool {
+        self.ref == "benefits"
+    }
+
     func update(item: TopicResponseItem) {
         self.ref = item.ref
         self.title = item.title

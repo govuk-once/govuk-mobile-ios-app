@@ -238,12 +238,12 @@ class CoordinatorBuilder {
             topic: topic
         )
     }
-
     func topicWidgetProvider(
         topic: Topic,
         navigationController: UINavigationController
     ) -> TopicWidgetProvider? {
-        if topic.isDrivingTopic {
+        switch true {
+        case topic.isDrivingTopic:
             return DrivingTopicWidgetCoordinator(
                 navigationController: navigationController,
                 analyticsService: container.analyticsService.resolve(),
@@ -254,7 +254,7 @@ class CoordinatorBuilder {
                 widgetViewBuilder: WidgetViewBuilder(),
                 urlOpener: UIApplication.shared
             )
-        } else if topic.isTravelTopic {
+        case topic.isTravelTopic:
             return TravelAlertsWidgetCoordinator(
                 navigationController: navigationController,
                 analyticsService: container.analyticsService.resolve(),
@@ -267,10 +267,11 @@ class CoordinatorBuilder {
                 widgetViewBuilder: WidgetViewBuilder(),
                 viewControllerBuilder: ViewControllerBuilder()
             )
-        } else {
+        default:
             return nil
         }
     }
+
 
     func localAuthority(navigationController: UINavigationController,
                         dismissAction: @escaping () -> Void) -> BaseCoordinator {

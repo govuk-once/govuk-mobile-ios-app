@@ -11,6 +11,7 @@ enum Feature: String {
     case chat
     case profile = "profile_v2"
     case dvla
+    case benefits
     case messages
     case travelAlerts = "travelalerts"
     case quarterlySurvey = "quarterlySurvey_v2"
