@@ -117,19 +117,19 @@ struct CountryListView: View {
                         viewModel.openFooterLink(text: footerLinkText)
                     }
                 )
-            case .error:
-                if let errorViewModel = viewModel.errorViewModel {
-                    ScrollView {
-                        VStack {
-                            AppErrorView(viewModel: errorViewModel)
-                                .padding(.top, 8)
-                            Spacer()
-                        }
+            case .error(let errorViewModel):
+                ScrollView {
+                    VStack {
+                        AppErrorView(viewModel: errorViewModel)
+                            .padding(.top, 8)
+                        Spacer()
                     }
                 }
             }
         }
-        .padding(.horizontal, viewModel.viewState == .error ? 0 : horizontalPadding)
+        .padding(.horizontal, {
+            if case .error = viewModel.viewState { 0 } else { horizontalPadding }
+        }())
     }
 
     @ViewBuilder

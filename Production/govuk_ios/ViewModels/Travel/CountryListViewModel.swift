@@ -7,7 +7,7 @@ class CountryListViewModel: ObservableObject {
         case loading
         case loaded
         case empty
-        case error
+        case error(AppErrorViewModel)
     }
 
     private enum CountryListAnalyticsKeys {
@@ -30,7 +30,6 @@ class CountryListViewModel: ObservableObject {
     @Published private(set) var filteredSections = [GroupedListSection]()
     @Published var selectedCountry: Country?
     @Published var showNotificationsRationale = false
-    @Published private(set) var errorViewModel: AppErrorViewModel?
     private var countryForPermissionFlow: Country?
 
     private var allCountries: [Country] = []
@@ -104,14 +103,14 @@ class CountryListViewModel: ObservableObject {
             Task { await self?.retryFetchCountryList() }
         }
 
-        self.errorViewModel = switch error {
+        let errorViewModel = switch error {
         case .networkUnavailable:
             AppErrorViewModel.networkUnavailable(action: retryAction)
         default:
             AppErrorViewModel.travelGenericError(retryAction: retryAction)
         }
 
-        viewState = .error
+        viewState = .error(errorViewModel)
     }
 
     func onGetNotificationAlertTap(_ country: Country, text: String) {
