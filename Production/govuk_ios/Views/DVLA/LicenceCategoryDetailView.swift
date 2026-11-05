@@ -21,8 +21,10 @@ struct LicenceCategoryDetailView: View {
                         Spacer()
                         Image(icon)
                             .renderingMode(.template)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 40)
                             .tint(Color(uiColor: .govUK.text.primary))
-                            .font(.system(size: 32))
                             .padding(16)
                             .accessibilityHidden(true)
                         Spacer()
@@ -35,7 +37,7 @@ struct LicenceCategoryDetailView: View {
                         .accessibilityLabel(viewModel.categoryCode.lowercased())
                         .font(.govUK.largeTitleBold)
                         .padding(.horizontal, 16)
-                        .padding(.vertical, 30)
+                        .padding(.vertical, 34)
                     Spacer()
                 }
                 Divider()
@@ -52,6 +54,7 @@ struct LicenceCategoryDetailView: View {
                     .padding(.bottom, 16)
                 Text(viewModel.categoryDescription)
                     .font(.govUK.body)
+                    .padding(.bottom, 16)
             }
             .padding(.horizontal, 16)
         }
