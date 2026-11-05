@@ -27,6 +27,15 @@ class BaseCoordinator: NSObject,
         start(coordinator, url: nil)
     }
 
+    /// Starts a child coordinator and retains it in the coordinator hierarchy.
+    ///
+    /// Use this method when the child coordinator should operate within the existing navigation stack
+    /// without presenting a new modal context. The child coordinator takes over navigation delegate
+    /// responsibilities, establishes a parent-child relationship for lifecycle tracking, and initiates its flow.
+    ///
+    /// - Parameters:
+    ///   - coordinator: The child coordinator to attach and launch.
+    ///   - url: An optional deep link or universal link URL to route to a specific des
     func start(_ coordinator: BaseCoordinator,
                url: URL?) {
         childCoordinators.append(coordinator)
@@ -35,6 +44,16 @@ class BaseCoordinator: NSObject,
         coordinator.start(url: url)
     }
 
+    /// Starts a child coordinator and presents its navigation stack modally.
+    ///
+    /// Use this method for isolated, self-contained flows (such as sheets, onboarding, or forms)
+    /// where the child coordinator manages its own distinct `UINavigationController`.
+    /// This attaches the coordinator as a child, initiates its flow, and modally presents
+    /// `coordinator.root` on top of this coordinator's `root`.
+    ///
+    /// - Parameters:
+    ///   - coordinator: The child coordinator managing the modally presented navigation flow.
+    ///   - animated: Pass `true` to animate the presentation transition; otherwise, `false`. Defaults to `true`.
     func present(_ coordinator: BaseCoordinator,
                  animated: Bool = true) {
         start(coordinator)
