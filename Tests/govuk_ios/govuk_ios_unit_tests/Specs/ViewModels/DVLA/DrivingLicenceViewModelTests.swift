@@ -24,7 +24,7 @@ struct DrivingLicenceViewModelTests {
             analyticsService: mockAnalyticsService,
             dvlaService: mockDvlaService,
             configService: mockConfigService,
-            categoriesAction: {},
+            categoriesAction: { _ in },
             openURLAction: { _ in }
         )
         await sut.viewDidAppear()
@@ -40,7 +40,7 @@ struct DrivingLicenceViewModelTests {
             analyticsService: mockAnalyticsService,
             dvlaService: mockDvlaService,
             configService: mockConfigService,
-            categoriesAction: {},
+            categoriesAction: { _ in },
             openURLAction: { _ in }
         )
         await sut.viewDidAppear()
@@ -59,7 +59,7 @@ struct DrivingLicenceViewModelTests {
             analyticsService: mockAnalyticsService,
             dvlaService: mockDvlaService,
             configService: mockConfigService,
-            categoriesAction: {},
+            categoriesAction: { _ in },
             openURLAction: { _ in }
         )
         await sut.viewDidAppear()
@@ -79,7 +79,7 @@ struct DrivingLicenceViewModelTests {
             analyticsService: mockAnalyticsService,
             dvlaService: mockDvlaService,
             configService: mockConfigService,
-            categoriesAction: {},
+            categoriesAction: { _ in },
             openURLAction: { _ in }
         )
         await sut.viewDidAppear()
@@ -101,7 +101,7 @@ struct DrivingLicenceViewModelTests {
             analyticsService: mockAnalyticsService,
             dvlaService: mockDvlaService,
             configService: mockConfigService,
-            categoriesAction: {},
+            categoriesAction: { _ in },
             openURLAction: { _ in }
         )
         await sut.viewDidAppear()
@@ -123,7 +123,7 @@ struct DrivingLicenceViewModelTests {
             analyticsService: mockAnalyticsService,
             dvlaService: mockDvlaService,
             configService: mockConfigService,
-            categoriesAction: {},
+            categoriesAction: { _ in },
             openURLAction: { _ in }
         )
         await sut.viewDidAppear()
@@ -145,7 +145,7 @@ struct DrivingLicenceViewModelTests {
             analyticsService: mockAnalyticsService,
             dvlaService: mockDvlaService,
             configService: mockConfigService,
-            categoriesAction: {},
+            categoriesAction: { _ in },
             openURLAction: { _ in }
         )
         await sut.viewDidAppear()
@@ -178,7 +178,7 @@ struct DrivingLicenceViewModelTests {
             analyticsService: mockAnalyticsService,
             dvlaService: mockDvlaService,
             configService: mockConfigService,
-            categoriesAction: {},
+            categoriesAction: { _ in },
             openURLAction: { _ in }
         )
         await sut.viewDidAppear()
@@ -209,7 +209,7 @@ struct DrivingLicenceViewModelTests {
             analyticsService: mockAnalyticsService,
             dvlaService: mockDvlaService,
             configService: mockConfigService,
-            categoriesAction: {},
+            categoriesAction: { _ in },
             openURLAction: { _ in }
         )
         await sut.viewDidAppear()
@@ -234,7 +234,7 @@ struct DrivingLicenceViewModelTests {
             analyticsService: mockAnalyticsService,
             dvlaService: mockDvlaService,
             configService: mockConfigService,
-            categoriesAction: {},
+            categoriesAction: { _ in },
             openURLAction: { _ in }
         )
         await sut.viewDidAppear()

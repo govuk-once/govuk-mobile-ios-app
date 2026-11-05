@@ -118,7 +118,7 @@ struct DrivingTopicWidgetCoordinatorTests {
             ref: "driving-transport"
         )
         mockConfigService.features = [.dvla]
-        let mockCoordinatorBuilder = CoordinatorBuilder.mock
+        let mockCoordinatorBuilder = MockDVLACoordinatorBuilder()
         let mockVehicleDetailCoordinator = MockBaseCoordinator()
         mockCoordinatorBuilder._stubbedVehicleDetailCoordinator = mockVehicleDetailCoordinator
 

@@ -78,6 +78,127 @@
         }
       }
     },
+    "categoryDescriptionTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can drive"
+          }
+        }
+      }
+    },
+    "categoryGroupBuses" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buses"
+          }
+        }
+      }
+    },
+    "categoryGroupCars" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cars"
+          }
+        }
+      }
+    },
+    "categoryGroupLargeVehicles" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Large vehicles"
+          }
+        }
+      }
+    },
+    "categoryGroupLightVehicles" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Light vehicles and quad bikes"
+          }
+        }
+      }
+    },
+    "categoryGroupMediumSizedVehicles" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Medium-sized vehicles"
+          }
+        }
+      }
+    },
+    "categoryGroupMinibuses" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Minibuses"
+          }
+        }
+      }
+    },
+    "categoryGroupMopeds" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mopeds"
+          }
+        }
+      }
+    },
+    "categoryGroupMotorcycles" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Motorcycles"
+          }
+        }
+      }
+    },
+    "categoryGroupOtherVehicles" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Other vehicles"
+          }
+        }
+      }
+    },
+    "categoryTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Category"
+          }
+        }
+      }
+    },
     "changeAddressAccessibilityLabel" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -515,6 +636,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Expired %1$(date)@"
+          }
+        }
+      }
+    },
+    "expiresIn" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Expires in %1$(days)lld days"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Expires in %1$(days)lld day"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "expiresToday" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Expires today"
           }
         }
       }
@@ -1223,6 +1378,17 @@
         }
       }
     },
+    "restrictionsTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restrictions"
+          }
+        }
+      }
+    },
     "specification" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1296,6 +1462,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Valid"
+          }
+        }
+      }
+    },
+    "validFrom" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Valid from"
+          }
+        }
+      }
+    },
+    "validTo" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Valid to"
           }
         }
       }

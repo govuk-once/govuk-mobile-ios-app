@@ -8,8 +8,13 @@ import SafariServices
 import MarkdownUI
 
 @MainActor
+protocol ErrorViewControllerBuilding {
+    func error(viewModel: ErrorViewModel) -> UIViewController
+}
+
+@MainActor
 // swiftlint:disable:next type_body_length
-class ViewControllerBuilder {
+class ViewControllerBuilder: ErrorViewControllerBuilding {
     func launch(analyticsService: AnalyticsServiceInterface,
                 completion: @escaping () -> Void) -> UIViewController {
         let viewModel = LaunchViewModel(
@@ -761,27 +766,6 @@ class ViewControllerBuilder {
         return viewController
     }
 
-    func vehicleDetail(
-        analyticsService: AnalyticsServiceInterface,
-        dvlaService: DVLAServiceInterface,
-        configService: AppConfigServiceInterface,
-        openURLAction: @escaping (URL) -> Void,
-        vehicleId: Int
-    ) -> UIViewController {
-        let viewModel = VehicleDetailViewModel(
-            vehicleId: vehicleId,
-            analyticsService: analyticsService,
-            dvlaService: dvlaService,
-            configService: configService,
-            openURLAction: openURLAction
-        )
-        let view = VehicleDetailView(viewModel: viewModel)
-        let viewController = HostingViewController(
-            rootView: view
-        )
-        viewController.hidesBottomBarWhenPushed = true
-        return viewController
-    }
 
     func notificationCentre(
         showNotificationAction: @escaping (String) -> Void,
@@ -849,22 +833,6 @@ class ViewControllerBuilder {
         return viewController
     }
 
-    func dvlaAuthentication(
-        authenticationService: AuthenticationServiceInterface,
-        appEnvironmentService: AppEnvironmentServiceInterface,
-        completionAction: @escaping (URL) -> Void,
-        errorAction: @escaping () -> Void
-    ) -> UIViewController {
-        let viewModel = DVLAAuthenticationViewModel(
-            authenticationService: authenticationService,
-            appEnvironmentService: appEnvironmentService,
-            completionAction: completionAction,
-            errorAction: errorAction
-        )
-        let view = DVLAAuthenticationView(viewModel: viewModel)
-        let viewController = HostingViewController(rootView: view)
-        return viewController
-    }
 
     // swiftlint:disable:next function_parameter_count
     func editCountries(
@@ -895,48 +863,6 @@ class ViewControllerBuilder {
         viewController.title = viewModel.title
         viewController.navigationItem.largeTitleDisplayMode = .always
         return viewController
-    }
-
-    func vehicleCheckResult(
-        vehicle: VehicleEnquiryResponse.Vehicle,
-        analyticsService: AnalyticsServiceInterface,
-        configService: AppConfigServiceInterface,
-        actions: VehicleCheckResultActions
-    ) -> UIViewController {
-        let viewModel = VehicleCheckResultViewModel(
-            vehicle: vehicle,
-            analyticsService: analyticsService,
-            configService: configService,
-            actions: actions
-        )
-        let view = VehicleCheckResultView(viewModel: viewModel)
-        let viewController = HostingViewController(
-            rootView: view
-        )
-        viewController.shouldAutoFocusVoiceover = false
-        return viewController
-    }
-
-    func vehicleRegistrationInput(
-        analyticsService: AnalyticsServiceInterface,
-        dvlaService: DVLAServiceInterface,
-        cancelAction: @escaping () -> Void,
-        completionAction: @escaping (VehicleEnquiryResponse.Vehicle) -> Void
-    ) -> UIViewController {
-        let viewModel = RegistrationNumberFormViewModel(
-            lookupService: dvlaService.makeVehicleLookup(
-                analyticsService: analyticsService
-            ),
-            onSuccess: completionAction,
-            onCancel: cancelAction
-        )
-        let view = RegistrationNumberFormModal(
-            viewModel: viewModel
-        )
-
-        let hostingController = UIHostingController(rootView: view)
-        hostingController.view.backgroundColor = .clear
-        return hostingController
     }
 }
 // swiftlint:enable file_length

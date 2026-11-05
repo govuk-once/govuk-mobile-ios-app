@@ -12,7 +12,7 @@ class MockDrivingLicenceViewModel: DrivingLicenceViewModel {
             analyticsService: MockAnalyticsService(),
             dvlaService: MockDVLAService(),
             configService: MockAppConfigService(),
-            categoriesAction: {},
+            categoriesAction: { _ in },
             openURLAction: { _ in }
         )
     }
