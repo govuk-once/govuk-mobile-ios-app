@@ -177,7 +177,7 @@ extension DVLAAccountWidgetActions {
             vehicleDetailAction: { _ in },
             openURLAction: { _ in },
             vehicleCheckAction: {},
-            categoriesAction: {}
+            categoriesAction: { _ in }
         )
     }
 }

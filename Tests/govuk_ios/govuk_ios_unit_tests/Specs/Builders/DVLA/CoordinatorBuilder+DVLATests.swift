@@ -38,16 +38,14 @@ struct CoordinatorBuilderDVLATests {
     }
 
     @Test
-    func categoriesList_returnsExpectedResult() {
+    func licenceCategories_returnsExpectedResult() {
         let container = Container()
         container.analyticsService.register(factory: { MockAnalyticsService() })
-        container.dvlaService.register(factory: { MockDVLAService() })
-        container.userService.register(factory: { MockUserService() })
         let subject = CoordinatorBuilder(container: container)
-        let coordinator = subject.categoriesList(
-            navigationController: UINavigationController()
+        let coordinator = subject.licenceCategories(
+            navigationController: UINavigationController(),
+            entitlements: [.arrange]
         )
-
-        #expect(coordinator is CategoriesListCoordinator)
+        #expect(coordinator is LicenceCategoriesCoordinator)
     }
 }

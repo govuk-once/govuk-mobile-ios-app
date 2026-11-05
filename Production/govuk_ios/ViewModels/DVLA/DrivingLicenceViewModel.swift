@@ -22,13 +22,13 @@ class DrivingLicenceViewModel: ObservableObject {
     private let dvlaService: DVLAServiceInterface
     private let configService: AppConfigServiceInterface
     private let openURLAction: (URL) -> Void
-    private let categoriesAction: () -> Void
+    private let categoriesAction: ([Entitlement]) -> Void
 
     init(viewState: ViewState = .loading,
          analyticsService: AnalyticsServiceInterface,
          dvlaService: DVLAServiceInterface,
          configService: AppConfigServiceInterface,
-         categoriesAction: @escaping () -> Void,
+         categoriesAction: @escaping ([Entitlement]) -> Void,
          openURLAction: @escaping (URL) -> Void) {
         self.viewState = viewState
         self.analyticsService = analyticsService
@@ -96,9 +96,12 @@ class DrivingLicenceViewModel: ObservableObject {
         openURLAction(url)
     }
 
-    private func handleCategoriesAction(buttonTitle: String) {
+    private func handleCategoriesAction(
+        buttonTitle: String,
+        entitlements: [Entitlement]
+    ) {
         trackCategoriesNavigation(buttonTitle: buttonTitle)
-        categoriesAction()
+        categoriesAction(entitlements)
     }
 
     private func trackOpenURLAction(url: URL, buttonTitle: String) {
@@ -136,7 +139,12 @@ class DrivingLicenceViewModel: ObservableObject {
             openURLAction: handleOpenURL(url:buttonTitle:)
         )
         let licenceCategoriesSectionViewModel = LicenceCategoriesSectionViewModel(
-            action: handleCategoriesAction(buttonTitle:)
+            action: { [weak self] buttonTitle in
+                self?.handleCategoriesAction(
+                    buttonTitle: buttonTitle,
+                    entitlements: drivingLicence.entitlements
+                )
+            }
         )
         return LoadedState(
             licenceSummary: licenceSummaryViewModel,

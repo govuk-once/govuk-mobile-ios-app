@@ -8,7 +8,10 @@ protocol DVLACoordinatorBuilding {
     func vehicleCheck(navigationController: UINavigationController) -> BaseCoordinator
     func vehicleDetail(navigationController: UINavigationController,
                        vehicleId: Int) -> BaseCoordinator
-    func categoriesList(navigationController: UINavigationController) -> BaseCoordinator
+    func licenceCategories(
+        navigationController: UINavigationController,
+        entitlements: [Entitlement]
+    ) -> BaseCoordinator
 }
 
 @MainActor
@@ -43,18 +46,15 @@ extension CoordinatorBuilder: DVLACoordinatorBuilding {
         )
     }
 
-    func categoriesList(
-        navigationController: UINavigationController
+    func licenceCategories(
+        navigationController: UINavigationController,
+        entitlements: [Entitlement]
     ) -> BaseCoordinator {
-        CategoriesListCoordinator(
+        LicenceCategoriesCoordinator(
             navigationController: navigationController,
             viewControllerBuilder: ViewControllerBuilder(),
             analyticsService: container.analyticsService.resolve(),
-            dvlaService: container.dvlaService.resolve(),
-            configService: container.appConfigService.resolve(),
-            userService: container.userService.resolve(),
-            urlOpener: UIApplication.shared,
-            notificationCenter: .default,
+            entitlements: entitlements
         )
     }
 }

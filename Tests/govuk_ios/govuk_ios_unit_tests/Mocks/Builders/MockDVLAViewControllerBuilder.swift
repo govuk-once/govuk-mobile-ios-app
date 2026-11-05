@@ -77,4 +77,12 @@ final class MockDVLAViewControllerBuilder: DVLAViewControllerBuilding, ErrorView
         _receivedErrorViewModel = viewModel
         return _stubbedErrorController ?? UIViewController()
     }
+
+    func licenceCategoryDetail(
+        entitlement: Entitlement,
+        analyticsService: AnalyticsServiceInterface,
+        dismissAction: @escaping () -> Void
+    ) -> UIViewController {
+        UIViewController()
+    }
 }

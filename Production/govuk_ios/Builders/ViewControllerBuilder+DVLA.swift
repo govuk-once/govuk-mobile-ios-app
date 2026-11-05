@@ -33,6 +33,12 @@ protocol DVLAViewControllerBuilding: AnyObject {
         cancelAction: @escaping () -> Void,
         completionAction: @escaping (VehicleEnquiryResponse.Vehicle) -> Void
     ) -> UIViewController
+
+    func licenceCategoryDetail(
+        entitlement: Entitlement,
+        analyticsService: AnalyticsServiceInterface,
+        dismissAction: @escaping () -> Void
+    ) -> UIViewController
 }
 
 /// factory methods related to DVLA functionality
@@ -117,5 +123,20 @@ extension ViewControllerBuilder: DVLAViewControllerBuilding {
         let hostingController = UIHostingController(rootView: view)
         hostingController.view.backgroundColor = .clear
         return hostingController
+    }
+
+    func licenceCategoryDetail(
+        entitlement: Entitlement,
+        analyticsService: AnalyticsServiceInterface,
+        dismissAction: @escaping () -> Void
+    ) -> UIViewController {
+        let viewModel = LicenceCategoryDetailViewModel(
+            entitlement: entitlement,
+            analyticsService: analyticsService,
+            dismissAction: dismissAction
+        )
+        let view = LicenceCategoryDetailView(viewModel: viewModel)
+        let viewController = HostingViewController(rootView: view)
+        return viewController
     }
 }

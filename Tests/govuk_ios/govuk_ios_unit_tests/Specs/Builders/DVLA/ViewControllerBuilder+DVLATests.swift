@@ -40,4 +40,17 @@ struct ViewControllerBuilderDVLATests {
         let rootView = (result as? HostingViewController<VehicleCheckResultView>)?.rootView
         #expect(rootView != nil)
     }
+
+    @Test
+    func licenceCategoryDetail_returnsExpectedResult() throws {
+        let sut = ViewControllerBuilder()
+        let result = sut.licenceCategoryDetail(
+            entitlement: .arrange,
+            analyticsService: MockAnalyticsService(),
+            dismissAction: {}
+        )
+
+        let rootView = (result as? HostingViewController<LicenceCategoryDetailView>)?.rootView
+        #expect(rootView != nil)
+    }
 }
