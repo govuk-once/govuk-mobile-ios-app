@@ -46,4 +46,17 @@ class WidgetViewBuilder {
         let widget = TravelAlertsWidgetView(viewModel: viewModel)
         return AnyView(widget)
     }
+
+    @MainActor
+    func benefitsWidget(
+        analyticsService: AnalyticsServiceInterface,
+        configService: AppConfigServiceInterface
+    ) -> AnyView? {
+        let viewModel = BenefitsWidgetViewModel(
+            analyticsService: analyticsService,
+            configService: configService
+        )
+        let widget = BenefitsWidgetView(viewModel: viewModel)
+        return AnyView(widget)
+    }
 }

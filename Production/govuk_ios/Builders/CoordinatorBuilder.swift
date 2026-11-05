@@ -64,7 +64,6 @@ class CoordinatorBuilder {
 
     var home: TabItemCoordinator {
         let navigationController = UINavigationController.home
-
         return HomeCoordinator(
             navigationController: navigationController,
             coordinatorBuilder: self,
@@ -91,7 +90,6 @@ class CoordinatorBuilder {
 
     var settings: TabItemCoordinator {
         let navigationController = UINavigationController.settings
-
         return SettingsCoordinator(
             navigationController: navigationController,
             viewControllerBuilder: ViewControllerBuilder(),
@@ -113,7 +111,6 @@ class CoordinatorBuilder {
 
     func chat(cancelOnboardingAction: @escaping () -> Void) -> TabItemCoordinator {
         let navigationController = UINavigationController.chat
-
         return ChatCoordinator(
             navigationController: navigationController,
             coordinatorBuilder: self,
@@ -243,7 +240,8 @@ class CoordinatorBuilder {
         topic: Topic,
         navigationController: UINavigationController
     ) -> TopicWidgetProvider? {
-        if topic.isDrivingTopic {
+        switch true {
+        case topic.isDrivingTopic:
             return DrivingTopicWidgetCoordinator(
                 navigationController: navigationController,
                 analyticsService: container.analyticsService.resolve(),
@@ -254,7 +252,7 @@ class CoordinatorBuilder {
                 widgetViewBuilder: WidgetViewBuilder(),
                 urlOpener: UIApplication.shared
             )
-        } else if topic.isTravelTopic {
+        case topic.isTravelTopic:
             return TravelAlertsWidgetCoordinator(
                 navigationController: navigationController,
                 analyticsService: container.analyticsService.resolve(),
@@ -267,363 +265,375 @@ class CoordinatorBuilder {
                 widgetViewBuilder: WidgetViewBuilder(),
                 viewControllerBuilder: ViewControllerBuilder()
             )
-        } else {
+        case topic.isBenefitsTopic:
+            return BenefitsWidgetCoordinator(
+                navigationController: navigationController,
+                analyticsService: container.analyticsService.resolve(),
+                configService: container.appConfigService.resolve(),
+                coordinatorBuilder: self,
+                widgetViewBuilder: WidgetViewBuilder()
+            )
+        default:
             return nil
         }
     }
 
-    func localAuthority(navigationController: UINavigationController,
-                        dismissAction: @escaping () -> Void) -> BaseCoordinator {
-        LocalAuthorityServiceCoordinator(
-            navigationController: navigationController,
-            viewControllerBuilder: ViewControllerBuilder(),
-            analyticsService: container.analyticsService.resolve(),
-            localAuthorityService: container.localAuthorityService.resolve(),
-            coordinatorBuilder: self,
-            dismissed: dismissAction
-        )
-    }
-
-    func editLocalAuthority(navigationController: UINavigationController,
+        func localAuthority(navigationController: UINavigationController,
                             dismissAction: @escaping () -> Void) -> BaseCoordinator {
-        EditLocalAuthorityCoordinator(
-            navigationController: navigationController,
-            viewControllerBuilder: ViewControllerBuilder(),
-            analyticsService: container.analyticsService.resolve(),
-            localAuthorityService: container.localAuthorityService.resolve(),
-            coordinatorBuilder: self,
-            dismissed: dismissAction
-        )
-    }
+            LocalAuthorityServiceCoordinator(
+                navigationController: navigationController,
+                viewControllerBuilder: ViewControllerBuilder(),
+                analyticsService: container.analyticsService.resolve(),
+                localAuthorityService: container.localAuthorityService.resolve(),
+                coordinatorBuilder: self,
+                dismissed: dismissAction
+            )
+        }
 
-    func topicOnboarding(navigationController: UINavigationController,
-                         didDismissAction: @escaping () -> Void) -> BaseCoordinator {
-        TopicOnboardingCoordinator(
-            navigationController: navigationController,
-            viewControllerBuilder: ViewControllerBuilder(),
-            analyticsService: container.analyticsService.resolve(),
-            topicsService: container.topicsService.resolve(),
-            configService: container.appConfigService.resolve(),
-            dismissAction: didDismissAction
-        )
-    }
+        func editLocalAuthority(navigationController: UINavigationController,
+                                dismissAction: @escaping () -> Void) -> BaseCoordinator {
+            EditLocalAuthorityCoordinator(
+                navigationController: navigationController,
+                viewControllerBuilder: ViewControllerBuilder(),
+                analyticsService: container.analyticsService.resolve(),
+                localAuthorityService: container.localAuthorityService.resolve(),
+                coordinatorBuilder: self,
+                dismissed: dismissAction
+            )
+        }
 
-    func notificationOnboarding(navigationController: UINavigationController,
+        func topicOnboarding(navigationController: UINavigationController,
+                             didDismissAction: @escaping () -> Void) -> BaseCoordinator {
+            TopicOnboardingCoordinator(
+                navigationController: navigationController,
+                viewControllerBuilder: ViewControllerBuilder(),
+                analyticsService: container.analyticsService.resolve(),
+                topicsService: container.topicsService.resolve(),
+                configService: container.appConfigService.resolve(),
+                dismissAction: didDismissAction
+            )
+        }
+
+        func notificationOnboarding(navigationController: UINavigationController,
+                                    completion: @escaping () -> Void) -> BaseCoordinator {
+            NotificationOnboardingCoordinator(
+                navigationController: navigationController,
+                notificationService: container.notificationService.resolve(),
+                notificationOnboardingService: container.notificationsOnboardingService.resolve(),
+                analyticsService: container.analyticsService.resolve(),
+                userService: container.userService.resolve(),
+                viewControllerBuilder: ViewControllerBuilder(),
+                coordinatorBuilder: self,
+                completion: completion
+            )
+        }
+
+        func notificationConsent(navigationController: UINavigationController,
+                                 consentResult: NotificationConsentResult,
+                                 completion: @escaping () -> Void) -> BaseCoordinator {
+            NotificationConsentCoordinator(
+                navigationController: navigationController,
+                notificationService: container.notificationService.resolve(),
+                analyticsService: container.analyticsService.resolve(),
+                consentResult: consentResult,
+                coordinatorBuilder: self,
+                viewControllerBuilder: ViewControllerBuilder(),
+                urlOpener: UIApplication.shared,
+                completion: completion
+            )
+        }
+
+        func notificationSettings(navigationController: UINavigationController,
+                                  completionAction: @escaping () -> Void,
+                                  dismissAction: @escaping () -> Void) -> BaseCoordinator {
+            NotificationSettingsCoordinator(
+                navigationController: navigationController,
+                viewControllerBuilder: ViewControllerBuilder(),
+                analyticsService: container.analyticsService.resolve(),
+                notificationService: container.notificationService.resolve(),
+                coordinatorBuilder: self,
+                completeAction: completionAction,
+                dismissAction: dismissAction
+            )
+        }
+
+        func yourAccountsSettings(navigationController: UINavigationController) -> BaseCoordinator {
+            YourAccountsSettingsCoordinator(
+                navigationController: navigationController,
+                viewControllerBuilder: ViewControllerBuilder(),
+                userService: container.userService.resolve(),
+                coordinatorBuilder: self,
+                analyticsService: container.analyticsService.resolve()
+            )
+        }
+
+        func welcomeOnboarding(navigationController: UINavigationController,
+                               completionAction: @escaping () -> Void) -> BaseCoordinator {
+            WelcomeOnboardingCoordinator(
+                navigationController: navigationController,
+                authenticationService: container.authenticationService.resolve(),
+                appConfigService: container.appConfigService.resolve(),
+                userService: container.userService.resolve(),
+                notificationService: container.notificationService.resolve(),
+                termsAndConditionsService: container.termsAndConditionsService.resolve(),
+                coordinatorBuilder: self,
+                viewControllerBuilder: ViewControllerBuilder(),
+                analyticsService: container.analyticsService.resolve(),
+                deviceInformationProvider: DeviceInformationProvider(),
+                versionProvider: Bundle.main,
+                completionAction: completionAction
+            )
+        }
+
+        func authentication(
+            navigationController: UINavigationController,
+            completionAction: @escaping () -> Void,
+            errorAction: @escaping (AuthenticationError) -> Void)
+        -> BaseCoordinator {
+            AuthenticationCoordinator(
+                navigationController: navigationController,
+                coordinatorBuilder: self,
+                authenticationService: container.authenticationService.resolve(),
+                localAuthenticationService: container.localAuthenticationService.resolve(),
+                analyticsService: container.analyticsService.resolve(),
+                topicsService: container.topicsService.resolve(),
+                chatService: container.chatService.resolve(),
+                termsAndConditionsService: container.termsAndConditionsService.resolve(),
+                completionAction: completionAction,
+                errorAction: errorAction
+            )
+        }
+
+        func reauthentication(navigationController: UINavigationController,
+                              completionAction: @escaping () -> Void) -> BaseCoordinator {
+            ReAuthenticationCoordinator(
+                navigationController: navigationController,
+                coordinatorBuilder: self,
+                authenticationService: container.authenticationService.resolve(),
+                localAuthenticationService: container.localAuthenticationService.resolve(),
+                analyticsService: container.analyticsService.resolve(),
+                completionAction: completionAction
+            )
+        }
+
+        func localAuthenticationOnboarding(
+            navigationController: UINavigationController,
+            completionAction: @escaping () -> Void)
+        -> BaseCoordinator {
+            LocalAuthenticationOnboardingCoordinator(
+                navigationController: navigationController,
+                userDefaultsService: container.userDefaultsService.resolve(),
+                localAuthenticationService: container.localAuthenticationService.resolve(),
+                authenticationService: container.authenticationService.resolve(),
+                completionAction: completionAction
+            )
+        }
+
+        func signOutConfirmation() -> BaseCoordinator {
+            SignOutConfirmationCoordinator(
+                navigationController: UINavigationController(),
+                viewControllerBuilder: ViewControllerBuilder(),
+                authenticationService: container.authenticationService.resolve(),
+                analyticsService: container.analyticsService.resolve()
+            )
+        }
+
+        func signInSuccess(navigationController: UINavigationController,
+                           completion: @escaping () -> Void) -> BaseCoordinator {
+            SignInSuccessCoordinator(
+                navigationController: navigationController,
+                analyticsService: container.analyticsService.resolve(),
+                authenticationService: container.authenticationService.resolve(),
+                completion: completion
+            )
+        }
+
+        func termsAndConditions(navigationController: UINavigationController,
                                 completion: @escaping () -> Void) -> BaseCoordinator {
-        NotificationOnboardingCoordinator(
-            navigationController: navigationController,
-            notificationService: container.notificationService.resolve(),
-            notificationOnboardingService: container.notificationsOnboardingService.resolve(),
-            analyticsService: container.analyticsService.resolve(),
-            userService: container.userService.resolve(),
-            viewControllerBuilder: ViewControllerBuilder(),
-            coordinatorBuilder: self,
-            completion: completion
-        )
-    }
+            TermsAndConditionsCoordinator(
+                navigationController: navigationController,
+                viewControllerBuilder: ViewControllerBuilder(),
+                coordinatorBuilder: self,
+                authenticationService: container.authenticationService.resolve(),
+                termsAndConditionsService: container.termsAndConditionsService.resolve(),
+                completion: completion)
+        }
 
-    func notificationConsent(navigationController: UINavigationController,
-                             consentResult: NotificationConsentResult,
-                             completion: @escaping () -> Void) -> BaseCoordinator {
-        NotificationConsentCoordinator(
-            navigationController: navigationController,
-            notificationService: container.notificationService.resolve(),
-            analyticsService: container.analyticsService.resolve(),
-            consentResult: consentResult,
-            coordinatorBuilder: self,
-            viewControllerBuilder: ViewControllerBuilder(),
-            urlOpener: UIApplication.shared,
-            completion: completion
-        )
-    }
+        func safari(navigationController: UINavigationController,
+                    url: URL,
+                    fullScreen: Bool) -> BaseCoordinator {
+            SafariCoordinator(
+                navigationController: navigationController,
+                viewControllerBuilder: ViewControllerBuilder(),
+                configService: container.appConfigService.resolve(),
+                urlOpener: UIApplication.shared,
+                url: url,
+                fullScreen: fullScreen
+            )
+        }
 
-    func notificationSettings(navigationController: UINavigationController,
-                              completionAction: @escaping () -> Void,
-                              dismissAction: @escaping () -> Void) -> BaseCoordinator {
-        NotificationSettingsCoordinator(
-            navigationController: navigationController,
-            viewControllerBuilder: ViewControllerBuilder(),
-            analyticsService: container.analyticsService.resolve(),
-            notificationService: container.notificationService.resolve(),
-            coordinatorBuilder: self,
-            completeAction: completionAction,
-            dismissAction: dismissAction
-        )
-    }
+        func localAuthenticationSettings(
+            navigationController: UINavigationController
+        ) -> BaseCoordinator {
+            LocalAuthenticationSettingsCoordinator(
+                navigationController: navigationController,
+                authenticationService: container.authenticationService.resolve(),
+                localAuthenticationService: container.localAuthenticationService.resolve(),
+                analyticsService: container.analyticsService.resolve(),
+                viewControllerBuilder: ViewControllerBuilder(),
+                urlOpener: UIApplication.shared
+            )
+        }
 
-    func yourAccountsSettings(navigationController: UINavigationController) -> BaseCoordinator {
-        YourAccountsSettingsCoordinator(
-            navigationController: navigationController,
-            viewControllerBuilder: ViewControllerBuilder(),
-            userService: container.userService.resolve(),
-            coordinatorBuilder: self,
-            analyticsService: container.analyticsService.resolve()
-        )
-    }
+        func chatInfoOnboarding(
+            cancelOnboardingAction: @escaping () -> Void,
+            setChatViewControllerAction: @escaping (Bool) -> Void
+        ) -> BaseCoordinator {
+            ChatInfoOnboardingCoordinator(
+                navigationController: UINavigationController(),
+                coordinatorBuilder: self,
+                viewControllerBuilder: ViewControllerBuilder(),
+                analyticsService: container.analyticsService.resolve(),
+                cancelOnboardingAction: cancelOnboardingAction,
+                setChatViewControllerAction: setChatViewControllerAction
+            )
+        }
 
-    func welcomeOnboarding(navigationController: UINavigationController,
-                           completionAction: @escaping () -> Void) -> BaseCoordinator {
-        WelcomeOnboardingCoordinator(
-            navigationController: navigationController,
-            authenticationService: container.authenticationService.resolve(),
-            appConfigService: container.appConfigService.resolve(),
-            userService: container.userService.resolve(),
-            notificationService: container.notificationService.resolve(),
-            termsAndConditionsService: container.termsAndConditionsService.resolve(),
-            coordinatorBuilder: self,
-            viewControllerBuilder: ViewControllerBuilder(),
-            analyticsService: container.analyticsService.resolve(),
-            deviceInformationProvider: DeviceInformationProvider(),
-            versionProvider: Bundle.main,
-            completionAction: completionAction
-        )
-    }
+        func chatConsentOnboarding(
+            navigationController: UINavigationController,
+            cancelOnboardingAction: @escaping () -> Void,
+            completionAction: @escaping () -> Void
+        ) -> BaseCoordinator {
+            ChatConsentOnboardingCoordinator(
+                navigationController: navigationController,
+                viewControllerBuilder: ViewControllerBuilder(),
+                coordinatorBuilder: self,
+                analyticsService: container.analyticsService.resolve(),
+                chatService: container.chatService.resolve(),
+                cancelOnboardingAction: cancelOnboardingAction,
+                completionAction: completionAction
+            )
+        }
 
-    func authentication(navigationController: UINavigationController,
-                        completionAction: @escaping () -> Void,
-                        errorAction: @escaping (AuthenticationError) -> Void) -> BaseCoordinator {
-        AuthenticationCoordinator(
-            navigationController: navigationController,
-            coordinatorBuilder: self,
-            authenticationService: container.authenticationService.resolve(),
-            localAuthenticationService: container.localAuthenticationService.resolve(),
-            analyticsService: container.analyticsService.resolve(),
-            topicsService: container.topicsService.resolve(),
-            chatService: container.chatService.resolve(),
-            termsAndConditionsService: container.termsAndConditionsService.resolve(),
-            completionAction: completionAction,
-            errorAction: errorAction
-        )
-    }
+        func sarSettings(
+            navigationController: UINavigationController
+        ) -> BaseCoordinator {
+            SARSettingsCoordinator(
+                navigationController: navigationController,
+                analyticsService: container.analyticsService.resolve(),
+                viewControllerBuilder: ViewControllerBuilder(),
+                userService: container.userService.resolve()
+            )
+        }
 
-    func reauthentication(navigationController: UINavigationController,
-                          completionAction: @escaping () -> Void) -> BaseCoordinator {
-        ReAuthenticationCoordinator(
-            navigationController: navigationController,
-            coordinatorBuilder: self,
-            authenticationService: container.authenticationService.resolve(),
-            localAuthenticationService: container.localAuthenticationService.resolve(),
-            analyticsService: container.analyticsService.resolve(),
-            completionAction: completionAction
-        )
-    }
+        func privacy(
+            navigationController: UINavigationController
+        ) -> BaseCoordinator & PrivacyProviding {
+            PrivacyCoordinator(
+                navigationController: navigationController
+            )
+        }
 
-    func localAuthenticationOnboarding(navigationController: UINavigationController,
-                                       completionAction: @escaping () -> Void) -> BaseCoordinator {
-        LocalAuthenticationOnboardingCoordinator(
-            navigationController: navigationController,
-            userDefaultsService: container.userDefaultsService.resolve(),
-            localAuthenticationService: container.localAuthenticationService.resolve(),
-            authenticationService: container.authenticationService.resolve(),
-            completionAction: completionAction
-        )
-    }
+        func serviceAccountLink(
+            navigationController: UINavigationController,
+            accountType: ServiceAccountType,
+            completion: @escaping (Bool) -> Void
+        ) -> BaseCoordinator {
+            ServiceAccountLinkCoordinator(
+                navigationController: navigationController,
+                coordinatorBuilder: self,
+                viewControllerBuilder: ViewControllerBuilder(),
+                analyticsService: container.analyticsService.resolve(),
+                userService: container.userService.resolve(),
+                accountType: accountType,
+                completion: completion
+            )
+        }
 
-    func signOutConfirmation() -> BaseCoordinator {
-        SignOutConfirmationCoordinator(
-            navigationController: UINavigationController(),
-            viewControllerBuilder: ViewControllerBuilder(),
-            authenticationService: container.authenticationService.resolve(),
-            analyticsService: container.analyticsService.resolve()
-        )
-    }
+        func serviceAccountUnlink(
+            navigationController: UINavigationController,
+            accountType: ServiceAccountType,
+            completion: @escaping () -> Void
+        ) -> BaseCoordinator {
+            ServiceAccountUnlinkCoordinator(
+                navigationController: navigationController,
+                coordinatorBuilder: self,
+                viewControllerBuilder: ViewControllerBuilder(),
+                userService: container.userService.resolve(),
+                accountType: accountType,
+                completion: completion
+            )
+        }
 
-    func signInSuccess(navigationController: UINavigationController,
-                       completion: @escaping () -> Void) -> BaseCoordinator {
-        SignInSuccessCoordinator(
-            navigationController: navigationController,
-            analyticsService: container.analyticsService.resolve(),
-            authenticationService: container.authenticationService.resolve(),
-            completion: completion
-        )
-    }
+        func dvlaAuthentication(
+            navigationController: UINavigationController,
+        ) -> BaseCoordinator {
+            DVLAAuthenticationCoordinator(
+                navigationController: navigationController,
+                viewControllerBuilder: ViewControllerBuilder(),
+                urlOpener: UIApplication.shared,
+                authenticationService: container.authenticationService.resolve(),
+                analyticsService: container.analyticsService.resolve(),
+                appEnvironmentService: container.appEnvironmentService.resolve()
+            )
+        }
 
-    func termsAndConditions(navigationController: UINavigationController,
-                            completion: @escaping () -> Void) -> BaseCoordinator {
-        TermsAndConditionsCoordinator(
-            navigationController: navigationController,
-            viewControllerBuilder: ViewControllerBuilder(),
-            coordinatorBuilder: self,
-            authenticationService: container.authenticationService.resolve(),
-            termsAndConditionsService: container.termsAndConditionsService.resolve(),
-            completion: completion)
-    }
+        func serviceAccountRedirect(
+            navigationController: UINavigationController,
+            accountType: ServiceAccountType,
+            token: String,
+        ) -> BaseCoordinator {
+            ServiceAccountRedirectCoordinator(
+                navigationController: navigationController,
+                viewControllerBuilder: ViewControllerBuilder(),
+                analyticsService: container.analyticsService.resolve(),
+                userService: container.userService.resolve(),
+                accountType: accountType,
+                token: token,
+                notificationCenter: .default,
+            )
+        }
 
-    func safari(navigationController: UINavigationController,
-                url: URL,
-                fullScreen: Bool) -> BaseCoordinator {
-        SafariCoordinator(
-            navigationController: navigationController,
-            viewControllerBuilder: ViewControllerBuilder(),
-            configService: container.appConfigService.resolve(),
-            urlOpener: UIApplication.shared,
-            url: url,
-            fullScreen: fullScreen
-        )
-    }
+        func vehicleDetail(
+            navigationController: UINavigationController,
+            vehicleId: Int
+        ) -> BaseCoordinator {
+            VehicleDetailCoordinator(
+                navigationController: navigationController,
+                viewControllerBuilder: ViewControllerBuilder(),
+                analyticsService: container.analyticsService.resolve(),
+                dvlaService: container.dvlaService.resolve(),
+                configService: container.appConfigService.resolve(),
+                userService: container.userService.resolve(),
+                urlOpener: UIApplication.shared,
+                notificationCenter: .default,
+                vehicleId: vehicleId
+            )
+        }
 
-    func localAuthenticationSettings(
-        navigationController: UINavigationController
-    ) -> BaseCoordinator {
-        LocalAuthenticationSettingsCoordinator(
-            navigationController: navigationController,
-            authenticationService: container.authenticationService.resolve(),
-            localAuthenticationService: container.localAuthenticationService.resolve(),
-            analyticsService: container.analyticsService.resolve(),
-            viewControllerBuilder: ViewControllerBuilder(),
-            urlOpener: UIApplication.shared
-        )
-    }
+        func notificationCentre(
+            navigationController: UINavigationController
+        ) -> BaseCoordinator {
+            NotificationCentreCoordinator(
+                navigationController: navigationController,
+                viewControllerBuilder: ViewControllerBuilder(),
+                notificationCentreService: container.notificationCentreService.resolve(),
+                analyticsService: container.analyticsService.resolve(),
+                coordinatorBuilder: self,
+                urlOpener: UIApplication.shared
+            )
+        }
 
-    func chatInfoOnboarding(
-        cancelOnboardingAction: @escaping () -> Void,
-        setChatViewControllerAction: @escaping (Bool) -> Void
-    ) -> BaseCoordinator {
-        ChatInfoOnboardingCoordinator(
-            navigationController: UINavigationController(),
-            coordinatorBuilder: self,
-            viewControllerBuilder: ViewControllerBuilder(),
-            analyticsService: container.analyticsService.resolve(),
-            cancelOnboardingAction: cancelOnboardingAction,
-            setChatViewControllerAction: setChatViewControllerAction
-        )
+        func vehicleCheck(
+            navigationController: UINavigationController
+        ) -> BaseCoordinator {
+            VehicleCheckCoordinator(
+                navigationController: navigationController,
+                viewControllerBuilder: ViewControllerBuilder(),
+                analyticsService: container.analyticsService.resolve(),
+                configService: container.appConfigService.resolve(),
+                urlOpener: UIApplication.shared,
+                dvlaService: container.dvlaService.resolve()
+            )
+        }
     }
-
-    func chatConsentOnboarding(
-        navigationController: UINavigationController,
-        cancelOnboardingAction: @escaping () -> Void,
-        completionAction: @escaping () -> Void
-    ) -> BaseCoordinator {
-        ChatConsentOnboardingCoordinator(
-            navigationController: navigationController,
-            viewControllerBuilder: ViewControllerBuilder(),
-            coordinatorBuilder: self,
-            analyticsService: container.analyticsService.resolve(),
-            chatService: container.chatService.resolve(),
-            cancelOnboardingAction: cancelOnboardingAction,
-            completionAction: completionAction
-        )
-    }
-
-    func sarSettings(
-        navigationController: UINavigationController
-    ) -> BaseCoordinator {
-        SARSettingsCoordinator(
-            navigationController: navigationController,
-            analyticsService: container.analyticsService.resolve(),
-            viewControllerBuilder: ViewControllerBuilder(),
-            userService: container.userService.resolve()
-        )
-    }
-
-    func privacy(
-        navigationController: UINavigationController
-    ) -> BaseCoordinator & PrivacyProviding {
-        PrivacyCoordinator(
-            navigationController: navigationController
-        )
-    }
-
-    func serviceAccountLink(
-        navigationController: UINavigationController,
-        accountType: ServiceAccountType,
-        completion: @escaping (Bool) -> Void
-    ) -> BaseCoordinator {
-        ServiceAccountLinkCoordinator(
-            navigationController: navigationController,
-            coordinatorBuilder: self,
-            viewControllerBuilder: ViewControllerBuilder(),
-            analyticsService: container.analyticsService.resolve(),
-            userService: container.userService.resolve(),
-            accountType: accountType,
-            completion: completion
-        )
-    }
-
-    func serviceAccountUnlink(
-        navigationController: UINavigationController,
-        accountType: ServiceAccountType,
-        completion: @escaping () -> Void
-    ) -> BaseCoordinator {
-        ServiceAccountUnlinkCoordinator(
-            navigationController: navigationController,
-            coordinatorBuilder: self,
-            viewControllerBuilder: ViewControllerBuilder(),
-            userService: container.userService.resolve(),
-            accountType: accountType,
-            completion: completion
-        )
-    }
-
-    func dvlaAuthentication(
-        navigationController: UINavigationController,
-    ) -> BaseCoordinator {
-        DVLAAuthenticationCoordinator(
-            navigationController: navigationController,
-            viewControllerBuilder: ViewControllerBuilder(),
-            urlOpener: UIApplication.shared,
-            authenticationService: container.authenticationService.resolve(),
-            analyticsService: container.analyticsService.resolve(),
-            appEnvironmentService: container.appEnvironmentService.resolve()
-        )
-    }
-
-    func serviceAccountRedirect(
-        navigationController: UINavigationController,
-        accountType: ServiceAccountType,
-        token: String,
-    ) -> BaseCoordinator {
-        ServiceAccountRedirectCoordinator(
-            navigationController: navigationController,
-            viewControllerBuilder: ViewControllerBuilder(),
-            analyticsService: container.analyticsService.resolve(),
-            userService: container.userService.resolve(),
-            accountType: accountType,
-            token: token,
-            notificationCenter: .default,
-        )
-    }
-
-    func vehicleDetail(
-        navigationController: UINavigationController,
-        vehicleId: Int
-    ) -> BaseCoordinator {
-        VehicleDetailCoordinator(
-            navigationController: navigationController,
-            viewControllerBuilder: ViewControllerBuilder(),
-            analyticsService: container.analyticsService.resolve(),
-            dvlaService: container.dvlaService.resolve(),
-            configService: container.appConfigService.resolve(),
-            userService: container.userService.resolve(),
-            urlOpener: UIApplication.shared,
-            notificationCenter: .default,
-            vehicleId: vehicleId
-        )
-    }
-
-    func notificationCentre(
-        navigationController: UINavigationController
-    ) -> BaseCoordinator {
-        NotificationCentreCoordinator(
-            navigationController: navigationController,
-            viewControllerBuilder: ViewControllerBuilder(),
-            notificationCentreService: container.notificationCentreService.resolve(),
-            analyticsService: container.analyticsService.resolve(),
-            coordinatorBuilder: self,
-            urlOpener: UIApplication.shared
-        )
-    }
-
-    func vehicleCheck(
-        navigationController: UINavigationController
-    ) -> BaseCoordinator {
-        VehicleCheckCoordinator(
-            navigationController: navigationController,
-            viewControllerBuilder: ViewControllerBuilder(),
-            analyticsService: container.analyticsService.resolve(),
-            configService: container.appConfigService.resolve(),
-            urlOpener: UIApplication.shared,
-            dvlaService: container.dvlaService.resolve()
-        )
-    }
-}
