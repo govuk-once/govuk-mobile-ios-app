@@ -1,11 +1,8 @@
 import SwiftUI
 
 struct BenefitsWidgetView: View {
-    let viewModel: BenefitsWidgetViewModel
+    @StateObject var viewModel: BenefitsWidgetViewModel
 
-    init(viewModel: BenefitsWidgetViewModel) {
-        self.viewModel = viewModel
-    }
     var body: some View {
         VStack {
             accountView
@@ -13,15 +10,26 @@ struct BenefitsWidgetView: View {
             viewModel.fetchedBenefitsData()
         }
     }
-
     @ViewBuilder
     private var accountView: some View {
         switch viewModel.state {
         case .loading:
-            ProgressView()
+            loadingView
         case .unlinked(let linkCardViewModel):
             makeLinkCardView(for: linkCardViewModel)
         }
+    }
+
+    private var loadingView: some View {
+        ZStack {
+            ProgressView()
+                .accessibilityLabel(String.topics.localized("loading"))
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 40)
+        }
+        .background(Color(UIColor.govUK.fills.surfaceList))
+        .clipShape(RoundedRectangle(cornerRadius: 10))
+        .padding(.horizontal, 16)
     }
 
     private func makeLinkCardView(for viewModel: ServiceAccountLinkCardViewModel) -> some View {

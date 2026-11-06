@@ -2,7 +2,6 @@ import Foundation
 import SwiftUI
 import GovKit
 
-@MainActor
 final class BenefitsWidgetViewModel: ObservableObject {
     @Published var state: State = .loading
     private let configService: AppConfigServiceInterface
@@ -19,9 +18,12 @@ final class BenefitsWidgetViewModel: ObservableObject {
     }
 
     func fetchedBenefitsData() {
-        self.state = .unlinked(
-            linkCard: linkCardViewModel
-        )
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.state = .unlinked(
+                linkCard: self.linkCardViewModel
+            )
+        }
     }
 
     private func trackLinkAccountNavigationEvent(title: String) {
