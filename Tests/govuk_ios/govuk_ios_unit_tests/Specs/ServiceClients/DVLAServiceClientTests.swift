@@ -35,6 +35,14 @@ struct DVLAServiceClientTests {
         #expect(drivingLicence.driverFirstNames == "KENNETH")
         #expect(drivingLicence.driverLastName == "DECERQUEIRA")
         #expect(drivingLicence.tokenValidToDate == expectedValidToDate)
+        #expect(drivingLicence.entitlements.count == 4)
+        let entitlement = try #require(drivingLicence.entitlements.first)
+        #expect(entitlement.categoryCode == "B")
+        #expect(entitlement.categoryLegalLiteral == "Vehicles up to 3,500 kg Maximum Authorised Mass (MAM) with up to 8 passenger seats and driver (with a trailer up to 750 kg). Can also tow heavier trailers if the total weight of vehicle and trailer isn't more than 3,500 kg. Provisional category B licences have no entitlement to tow a trailer. Physically disabled drivers with provisional category B entitlement will also have provisional entitlement to ride category A1 or A motor tricycles. Able-bodied drivers can no longer ride motor tricycles with a provisional category B licence")
+        #expect(entitlement.categoryType == .full)
+        #expect(entitlement.fromDate == .arrange("17/01/1990"))
+        #expect(entitlement.expiryDate == .arrange("19/06/2028"))
+        #expect(entitlement.restrictions.count == 0)
     }
 
     @Test

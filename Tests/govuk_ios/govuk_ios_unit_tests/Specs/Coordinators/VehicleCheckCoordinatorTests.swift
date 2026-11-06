@@ -10,7 +10,7 @@ import UIKit
 @MainActor
 struct VehicleCheckCoordinatorTests {
 
-    let mockViewControllerBuilder = MockViewControllerBuilder()
+    let mockViewControllerBuilder = MockDVLAViewControllerBuilder()
     let mockAnalyticsService = MockAnalyticsService()
     let mockConfigService = MockAppConfigService()
     let mockUrlOpener = MockURLOpener()

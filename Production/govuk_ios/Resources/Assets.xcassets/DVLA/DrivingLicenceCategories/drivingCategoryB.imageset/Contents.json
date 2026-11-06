@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "DVLA_Category_B.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

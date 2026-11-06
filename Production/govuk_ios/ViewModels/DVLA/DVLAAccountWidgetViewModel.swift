@@ -7,7 +7,7 @@ struct DVLAAccountWidgetActions {
     let vehicleDetailAction: (Int) -> Void
     let openURLAction: (URL) -> Void
     let vehicleCheckAction: () -> Void
-    let categoriesAction: () -> Void
+    let categoriesAction: ([Entitlement]) -> Void
 }
 
 class DVLAAccountWidgetViewModel: ObservableObject {

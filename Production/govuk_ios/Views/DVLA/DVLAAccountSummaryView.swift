@@ -84,7 +84,7 @@ struct DVLAAccountSummaryView: View {
             analyticsService: analyticsService,
             dvlaService: dvlaService,
             configService: configService,
-            categoriesAction: {
+            categoriesAction: { _ in
                 /* no-op */
             },
             openURLAction: { _ in
@@ -152,7 +152,7 @@ struct DVLAAccountSummaryView: View {
             analyticsService: analyticsService,
             dvlaService: dvlaService,
             configService: configService,
-            categoriesAction: {
+            categoriesAction: { _ in
                 /* no-op */
             },
             openURLAction: { _ in
