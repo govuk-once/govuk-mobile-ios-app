@@ -8,7 +8,7 @@ extension Container {
         Factory(self) {
             APIServiceClient(
                 baseUrl: Constants.API.govukBaseUrl,
-                session: URLSession(configuration: .default),
+                session: self.urlSession(),
                 requestBuilder: RequestBuilder()
             )
         }
@@ -18,7 +18,7 @@ extension Container {
         Factory(self) {
             APIServiceClient(
                 baseUrl: self.appEnvironmentService().baseURL,
-                session: URLSession(configuration: .default),
+                session: self.urlSession(),
                 requestBuilder: RequestBuilder()
             )
         }
@@ -160,7 +160,12 @@ extension Container {
 
     var urlSession: Factory<URLSession> {
         Factory(self) {
-            URLSession(configuration: .default)
+            let delegate = ZscalerTrustDelegate()
+            return URLSession(
+                configuration: .default,
+                delegate: delegate,
+                delegateQueue: nil
+            )
         }
     }
 }
