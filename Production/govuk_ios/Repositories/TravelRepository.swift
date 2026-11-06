@@ -12,7 +12,7 @@ protocol TravelRepositoryInterface {
 
 final class TravelRepository: TravelRepositoryInterface {
     class DateProvider {
-        open var currentDate: Date {
+        var currentDate: Date {
             Date()
         }
     }
