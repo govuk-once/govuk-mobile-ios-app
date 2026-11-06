@@ -195,7 +195,6 @@ class SettingsViewModel: SettingsViewModelInterface {
         return [
             accountSection,
             appConfigService.isFeatureEnabled(key: .dvla) ? linkedAccountsSection : nil,
-            appConfigService.isFeatureEnabled(key: .messages) ? messagesSection : nil,
             appOptionsSection,
             aboutSection,
             policiesSection,
@@ -238,7 +237,8 @@ class SettingsViewModel: SettingsViewModelInterface {
         )
     }
 
-    private var messagesSection: GroupedListSection? {
+    private var messagesRow: GroupedListRow? {
+        guard appConfigService.isFeatureEnabled(key: .messages) else { return nil }
         var state: CountRow.State
 
         switch messagesState {
@@ -249,16 +249,13 @@ class SettingsViewModel: SettingsViewModelInterface {
         case .error:
             return nil
         }
-        return GroupedListSection(
-            heading: nil, rows: [
-                CountRow(
-                    id: "settings.messages.row",
-                    title: String(localized: .Settings.messagesTitle),
-                    state: state,
-                    action: { [weak self] in
-                        self?.notificationCentreAction?()
-                    })
-            ], footer: nil)
+        return CountRow(
+            id: "settings.messages.row",
+            title: String(localized: .Settings.messagesTitle),
+            state: state,
+            action: { [weak self] in
+                self?.notificationCentreAction?()
+            })
     }
 
     // MARK: - Sign out
@@ -316,6 +313,9 @@ class SettingsViewModel: SettingsViewModelInterface {
                 }
             )
             appOptionRows.append(notificationRow)
+        }
+        if let messagesRow = messagesRow {
+            appOptionRows.append(messagesRow)
         }
         if localAuthenticationService.biometricsPossible {
             let biometricsTitle = switch localAuthenticationService.deviceCapableAuthType {
