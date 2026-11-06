@@ -6,6 +6,7 @@ class MockTravelService: TravelServiceInterface {
     var _getGroupsCompletion: (() -> Void)?
 
     var _getCountriesCalled = false
+    var _getCountriesCalledWithForceRefresh = false
     var _receivedGetCountriesCompletion: CountriesListResultCompletion?
     var _getCountriesCompletion: (() -> Void)?
 
@@ -32,6 +33,9 @@ class MockTravelService: TravelServiceInterface {
         @escaping CountriesListResultCompletion
     ) {
         _getCountriesCalled = true
+        if forceRefresh {
+            _getCountriesCalledWithForceRefresh = true
+        }
         _receivedGetCountriesCompletion = completion
 
         if let result = _stubbedGetCountriesResult {
