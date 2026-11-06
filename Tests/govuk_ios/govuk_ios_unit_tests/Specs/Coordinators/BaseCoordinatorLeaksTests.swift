@@ -5,19 +5,18 @@ import Testing
 @testable import govuk_ios
 
 @MainActor
-@Suite("Coordinator Memory Leak Verifications")
+@Suite("Coordinator Memory Cleanup Verifications")
 struct CoordinatorLeakTests {
 
     final class TestCoordinator: BaseCoordinator {
         override func start(url: URL? = nil) {}
     }
 
-    @Test("Demonstrate Parent-Child strong reference retain cycle")
+    @Test("Verify Parent and Child deallocate cleanly without retain cycles")
     func testParentChildRetainCycle() {
         weak var weakParent: TestCoordinator?
         weak var weakChild: TestCoordinator?
 
-        // Execute inside an isolated scope so strong local pointers go out of scope
         do {
             let parent = TestCoordinator(navigationController: UINavigationController())
             let child = TestCoordinator(navigationController: UINavigationController())
@@ -28,12 +27,18 @@ struct CoordinatorLeakTests {
             parent.start(child)
         }
 
-        // Both objects retain each other indefinitely.
-        #expect(weakParent != nil, "Expected memory leak: parent is retained by child")
-        #expect(weakChild != nil, "Expected memory leak: child is retained by parent")
+        // Fails if parentCoordinator is strong: parent and child retain each other indefinitely.
+        #expect(
+            weakParent == nil,
+            "Memory leak detected: Parent coordinator was retained by child (strong retain cycle)"
+        )
+        #expect(
+            weakChild == nil,
+            "Memory leak detected: Child coordinator was retained in memory"
+        )
     }
 
-    @Test("Demonstrate delegate hijacking prevents deallocation")
+    @Test("Verify delegate restoration allows parent to finish and deallocate after pop")
     func testDelegateHijackingLeak() {
         let nav = UINavigationController()
         let grandParent = TestCoordinator(navigationController: nav)
@@ -51,22 +56,27 @@ struct CoordinatorLeakTests {
             // Child overrides nav.delegate
             let child = TestCoordinator(navigationController: nav)
             parent.start(child)
-            child.finish() // child is pruned, but nav.delegate was left unrestored
+            child.finish() // In buggy code: nav.delegate is left unrestored
         }
 
-        // Clear view controllers to trigger navigationController(_:didShow:animated:)
+        // Pop all view controllers to trigger navigationController(_:didShow:animated:)
         nav.setViewControllers([], animated: false)
 
-        // Force call delegate manually to emulate the transition end callback
+        // Simulate transition completion callback
         if let currentDelegate = nav.delegate {
             let dummyVC = UIViewController()
             currentDelegate.navigationController?(nav, didShow: dummyVC, animated: false)
         }
 
-        // Grandparent fails to prune parent because parent never received didShow
+        // Fails if root.delegate was not restored to parent: parent never gets `didShow`,
+        // never calls finish(), and remains trapped in grandParent's childCoordinators.
         #expect(
-            grandParent.childCoordinators.contains(where: { $0 === weakParent }),
-            "Expected leak: Grandparent failed to prune parent due to overwritten delegate"
+            !grandParent.childCoordinators.contains(where: { $0 === weakParent }),
+            "Memory leak detected: Grandparent failed to prune parent because nav.delegate was hijacked"
+        )
+        #expect(
+            weakParent == nil,
+            "Memory leak detected: Parent coordinator failed to deallocate after being popped"
         )
     }
 }
