@@ -26,6 +26,13 @@ final class MockDVLACoordinatorBuilder: DVLACoordinatorBuilding, ServiceAccountC
         MockBaseCoordinator()
     }
 
+    func licenceCategoriesCoordinator(
+        entitlements: [Entitlement]
+    ) -> BaseCoordinator
+    {
+        MockBaseCoordinator()
+    }
+
     // KK Stuff
     func categoriesListWithData(navigationController: UINavigationController) -> BaseCoordinator {
         MockBaseCoordinator()
