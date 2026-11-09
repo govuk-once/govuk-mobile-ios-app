@@ -375,14 +375,6 @@ class MockCoordinatorBuilder: CoordinatorBuilder {
         return _stubbedServiceAccountRedirectCoordinator ?? MockBaseCoordinator()
     }
 
-    var _stubbedVehicleDetailCoordinator: MockBaseCoordinator?
-    override func vehicleDetail(
-        navigationController: UINavigationController,
-        vehicleId: Int
-    ) -> BaseCoordinator {
-        _stubbedVehicleDetailCoordinator ?? MockBaseCoordinator()
-    }
-
     var _stubbedNotificationCentreCoordinator: MockNotificationCentreCoordinator!
     override func notificationCentre(navigationController: UINavigationController) -> NotificationCentreCoordinator {
         _stubbedNotificationCentreCoordinator

@@ -433,19 +433,6 @@ class MockViewControllerBuilder: ViewControllerBuilder {
         return _stubbedServiceAccountConsentController ?? UIViewController()
     }
 
-    var _stubbedVehicleDetailController: UIViewController?
-    var _receivedVehicleDetailOpenURLAction: ((URL) -> Void)?
-    override func vehicleDetail(
-        analyticsService: AnalyticsServiceInterface,
-        dvlaService: DVLAServiceInterface,
-        configService configServive: AppConfigServiceInterface,
-        openURLAction: @escaping (URL) -> Void,
-        vehicleId: Int
-    ) -> UIViewController {
-        _receivedVehicleDetailOpenURLAction = openURLAction
-        return _stubbedVehicleDetailController ?? UIViewController()
-    }
-
     var _stubbedNotificationCentreViewController: UIViewController!
     var _receivedShowNotificationCentreDetailAction: ((String) -> Void)?
     override func notificationCentre(showNotificationAction: @escaping (String) -> Void, notificationService: any NotificationCentreServiceInterface, analyticsService: any AnalyticsServiceInterface) -> UIViewController {
@@ -461,20 +448,6 @@ class MockViewControllerBuilder: ViewControllerBuilder {
                                            actions: NotificationCentreDetailViewModel.Actions) -> UIViewController {
         _capturedNotificationCentreDetailActions = actions
         return _stubbedNotificationCentreDetailViewController
-    }
-
-    var _stubbedDvlaAuthenticationViewController: UIViewController?
-    var _receivedDvlaAuthenticationCompletionAction: ((URL) -> Void)?
-    var _receivedDvlaAuthenticationErrorAction: (() -> Void)?
-    override func dvlaAuthentication(
-        authenticationService: AuthenticationServiceInterface,
-        appEnvironmentService: AppEnvironmentServiceInterface,
-        completionAction: @escaping (URL) -> Void,
-        errorAction: @escaping () -> Void
-    ) -> UIViewController {
-        _receivedDvlaAuthenticationCompletionAction = completionAction
-        _receivedDvlaAuthenticationErrorAction = errorAction
-        return _stubbedDvlaAuthenticationViewController ?? UIViewController()
     }
 
     var _editCountriesWasCalled = false
@@ -502,39 +475,4 @@ class MockViewControllerBuilder: ViewControllerBuilder {
         return _stubbedEditCountriesViewController ?? UIViewController()
     }
     
-    var _stubbedVehicleRegistrationInputViewController: UIViewController?
-    var _receivedVehicleRegistrationInputDvlaService: DVLAServiceInterface?
-    var _receivedVehicleRegistrationInputCancelAction: (() -> Void)?
-    var _receivedVehicleRegistrationInputCompletionAction: ((VehicleEnquiryResponse.Vehicle) -> Void)?
-
-    override func vehicleRegistrationInput(
-        analyticsService: AnalyticsServiceInterface,
-        dvlaService: DVLAServiceInterface,
-        cancelAction: @escaping () -> Void,
-        completionAction: @escaping (VehicleEnquiryResponse.Vehicle) -> Void
-    ) -> UIViewController {
-        _receivedVehicleRegistrationInputDvlaService = dvlaService
-        _receivedVehicleRegistrationInputCancelAction = cancelAction
-        _receivedVehicleRegistrationInputCompletionAction = completionAction
-        return _stubbedVehicleRegistrationInputViewController ?? UIViewController()
-    }
-
-    var _stubbedVehicleCheckResultViewController: UIViewController?
-    var _receivedVehicleCheckResultVehicle: VehicleEnquiryResponse.Vehicle?
-    var _receivedVehicleCheckResultAnalyticsService: AnalyticsServiceInterface?
-    var _receivedVehicleCheckResultConfigService: AppConfigServiceInterface?
-    var _receivedVehicleCheckResultActions: VehicleCheckResultActions?
-
-    override func vehicleCheckResult(
-        vehicle: VehicleEnquiryResponse.Vehicle,
-        analyticsService: AnalyticsServiceInterface,
-        configService: AppConfigServiceInterface,
-        actions: VehicleCheckResultActions
-    ) -> UIViewController {
-        _receivedVehicleCheckResultVehicle = vehicle
-        _receivedVehicleCheckResultAnalyticsService = analyticsService
-        _receivedVehicleCheckResultConfigService = configService
-        _receivedVehicleCheckResultActions = actions
-        return _stubbedVehicleCheckResultViewController ?? UIViewController()
-    }
 }

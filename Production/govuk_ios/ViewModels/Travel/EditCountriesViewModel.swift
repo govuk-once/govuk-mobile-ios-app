@@ -31,6 +31,7 @@ class EditCountriesViewModel: ObservableObject {
     @Published private(set) var viewState: ViewState = .loading
     @Published private(set) var countriesSection = [GroupedListSection]()
     @Published private(set) var footerSection = [GroupedListSection]()
+    @Published private(set) var errorViewModel: AppErrorViewModel?
     @Published var isShowingList = false
     @Published var isShowingCountryDetails = false
     @Published var selectedCountry: SelectedCountry?
@@ -211,11 +212,27 @@ class EditCountriesViewModel: ObservableObject {
                             self?.buildFooterRow()
                         }
                     }
-                case .failure:
-                    self?.viewState = .error
+                case .failure(let error):
+                    self?.handleCountryFetchError(error)
                 }
             }
         }
+    }
+
+    @MainActor
+    private func handleCountryFetchError(_ error: TravelError) {
+        let retryAction: () -> Void = { [weak self] in
+            Task { await self?.retryFetchCountryList() }
+        }
+
+        errorViewModel = switch error {
+        case .networkUnavailable:
+            AppErrorViewModel.networkUnavailable(action: retryAction)
+        default:
+            AppErrorViewModel.travelGenericError(retryAction: retryAction)
+        }
+
+        viewState = .error
     }
 
     private func buildRows(from groups: [TravelGroup], countries: [Country]) {

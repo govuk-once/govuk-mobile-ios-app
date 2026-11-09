@@ -13,6 +13,7 @@ struct DrivingLicence: Codable {
     let driverFullAddress: String?
     let tokenValidToDate: Date?
     let licenceStatus: DrivingLicenceStatus
+    let entitlements: [Entitlement]
 
     enum CodingKeys: String, CodingKey {
         case licenceType = "licenceType"
@@ -23,7 +24,27 @@ struct DrivingLicence: Codable {
         case driverFullAddress = "driverFullAddress"
         case tokenValidToDate = "tokenValidToDate"
         case licenceStatus = "licenceStatus"
+        case entitlements = "entitlements"
     }
+}
+
+enum CategoryType: String, Codable {
+    case full = "Full"
+    case provisional = "Provisional"
+}
+
+struct EntitlementRestriction: Codable {
+    let restrictionCode: String
+    let restrictionLiteral: String
+}
+
+struct Entitlement: Codable {
+    let categoryCode: String
+    let categoryLegalLiteral: String
+    let categoryType: CategoryType
+    let fromDate: Date
+    let expiryDate: Date
+    let restrictions: [EntitlementRestriction]
 }
 
 enum DrivingLicenceStatus: String, Codable {

@@ -120,6 +120,13 @@ extension String {
             bundle: .main
         )
     }
+
+    static var travel: LocalStringBuilder {
+        .init(
+            tableName: "Travel",
+            bundle: .main
+        )
+    }
 }
 
 extension String {

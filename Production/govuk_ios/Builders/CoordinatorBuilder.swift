@@ -5,9 +5,25 @@ import Foundation
 import FactoryKit
 
 @MainActor
+protocol ServiceAccountCoordinatorBuilding {
+    func serviceAccountLink(
+        navigationController: UINavigationController,
+        accountType: ServiceAccountType,
+        completion: @escaping (Bool) -> Void
+    ) -> BaseCoordinator
+
+    func serviceAccountUnlink(
+        navigationController: UINavigationController,
+        accountType: ServiceAccountType,
+        completion: @escaping () -> Void
+    ) -> BaseCoordinator
+}
+
+
+@MainActor
 // swiftlint:disable:next type_body_length
-class CoordinatorBuilder {
-    private let container: Container
+class CoordinatorBuilder: ServiceAccountCoordinatorBuilding {
+    let container: Container
 
     init(container: Container) {
         self.container = container
@@ -637,3 +653,17 @@ class CoordinatorBuilder {
             )
         }
     }
+
+    func notificationCentre(
+        navigationController: UINavigationController
+    ) -> BaseCoordinator {
+        NotificationCentreCoordinator(
+            navigationController: navigationController,
+            viewControllerBuilder: ViewControllerBuilder(),
+            notificationCentreService: container.notificationCentreService.resolve(),
+            analyticsService: container.analyticsService.resolve(),
+            coordinatorBuilder: self,
+            urlOpener: UIApplication.shared
+        )
+    }
+}

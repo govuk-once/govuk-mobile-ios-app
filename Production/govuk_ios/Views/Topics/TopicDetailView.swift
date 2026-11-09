@@ -41,6 +41,7 @@ struct TopicDetailView<T: TopicDetailViewModelInterface>: View {
         ZStack {
             AppErrorView(viewModel: errorViewModel)
                 .padding(.vertical, 20)
+                .padding(.horizontal, 20)
         }
         .frame(maxWidth: .infinity)
         .background(Color(UIColor.govUK.fills.surfaceList))
