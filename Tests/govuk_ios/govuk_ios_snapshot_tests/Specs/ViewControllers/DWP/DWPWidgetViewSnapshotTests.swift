@@ -5,7 +5,7 @@ import GovKit
 
 @testable import govuk_ios
 
-@MainActor class DWPAccountWidgetSnapshotTests: SnapshotTestCase {
+@MainActor class DWPWidgetViewSnapshotTests: SnapshotTestCase {
     func test_linkAccountCard_light_rendersCorrectly() {
         let viewModel = DWPWidgetViewModel(
             analyticsService: MockAnalyticsService()
