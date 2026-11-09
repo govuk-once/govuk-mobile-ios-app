@@ -29,10 +29,11 @@ final class BenefitsWidgetCoordinator: BaseCoordinator,
         for topic: DisplayableTopic
     ) -> AnyView? {
         guard topic.ref == "benefits",
-              configService.isFeatureEnabled(key: .dwp) else {
+              configService.isFeatureEnabled(key: .dwp)
+        else {
             return nil
         }
-        return widgetViewBuilder.benefitsWidget(
+        return widgetViewBuilder.getDWPWidget(
             analyticsService: analyticsService,
             configService: configService
         )

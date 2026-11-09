@@ -48,15 +48,14 @@ class WidgetViewBuilder {
     }
 
     @MainActor
-    func benefitsWidget(
+    func getDWPWidget(
         analyticsService: AnalyticsServiceInterface,
         configService: AppConfigServiceInterface
     ) -> AnyView? {
-        let viewModel = BenefitsWidgetViewModel(
-            analyticsService: analyticsService,
-            configService: configService
+        let viewModel = DWPWidgetViewModel(
+            analyticsService: analyticsService
         )
-        let widget = BenefitsWidgetView(viewModel: viewModel)
+        let widget = DWPWidgetView(viewModel: viewModel)
         return AnyView(widget)
     }
 }

@@ -163,6 +163,16 @@ struct AppConfigServiceTests {
     }
     
     @Test
+    func isFeatureEnabled_whenFeatureFlagIsDWP_returnsTrue() async {
+        let result = Config.arrange(releaseFlags: ["dwp": true]).toResult()
+        mockAppConfigServiceClient._fetchAppConfigReturn = result
+        _ = await sut.fetchAppConfig()
+
+        #expect(sut.isFeatureEnabled(key: .dwp) == true)
+    }
+
+    
+    @Test
     func isFeatureEnabled_whenFeatureFlagIsMessages_returnsTrue() {
         let result = Config.arrange(releaseFlags: ["messages": true]).toResult()
         mockAppConfigServiceClient._fetchAppConfigReturn = result

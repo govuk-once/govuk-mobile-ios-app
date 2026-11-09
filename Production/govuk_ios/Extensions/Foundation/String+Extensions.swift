@@ -106,6 +106,14 @@ extension String {
         )
     }
 
+    static var dwp: LocalStringBuilder {
+        .init(
+            tableName: "DWP",
+            bundle: .main
+        )
+    }
+
+
     static var notificationCentre: LocalStringBuilder {
         .init(
             tableName: "NotificationCentre",

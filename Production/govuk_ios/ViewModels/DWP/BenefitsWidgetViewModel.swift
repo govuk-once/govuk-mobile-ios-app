@@ -2,14 +2,11 @@ import Foundation
 import SwiftUI
 import GovKit
 
-final class BenefitsWidgetViewModel: ObservableObject {
+final class DWPWidgetViewModel: ObservableObject {
     @Published var state: State = .loading
-    private let configService: AppConfigServiceInterface
     private let analyticsService: AnalyticsServiceInterface
-    init(analyticsService: AnalyticsServiceInterface,
-         configService: AppConfigServiceInterface) {
+    init(analyticsService: AnalyticsServiceInterface) {
         self.analyticsService = analyticsService
-        self.configService = configService
     }
 
     enum State {
@@ -17,7 +14,7 @@ final class BenefitsWidgetViewModel: ObservableObject {
         case unlinked(linkCard: ServiceAccountLinkCardViewModel)
     }
 
-    func fetchedBenefitsData() {
+    func fetchDWPData() {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             self.state = .unlinked(
@@ -26,23 +23,12 @@ final class BenefitsWidgetViewModel: ObservableObject {
         }
     }
 
-    private func trackLinkAccountNavigationEvent(title: String) {
-        let event = AppEvent.linkServiceAccountNavigation(
-            title: title
-        )
-        analyticsService.track(event: event)
-    }
-
     private var linkCardViewModel: ServiceAccountLinkCardViewModel {
-        let linkCardTitle = String.dvla.localized("dvlaAccountLinkCardTitle")
+        let linkCardTitle = String.dwp.localized("dwpAccountLinkCardTitle")
         return ServiceAccountLinkCardViewModel(
             title: linkCardTitle,
-            subtitle: String.dvla.localized("dvlaAccountLinkCardSubtitle"),
-            action: { [weak self] in
-                self?.trackLinkAccountNavigationEvent(
-                    title: linkCardTitle
-                )
-            }
+            subtitle: String.dwp.localized("dwpAccountLinkCardSubtitle"),
+            action: { }
         )
     }
 }

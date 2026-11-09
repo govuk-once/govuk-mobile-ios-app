@@ -1,0 +1,28 @@
+{
+  "sourceLanguage" : "en-GB",
+  "strings" : {
+    "dwpAccountLinkCardSubtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "View benefits and state pension payment date, amount and history."
+          }
+        }
+      }
+    },
+    "dwpAccountLinkCardTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add your benefits account"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.3"
+}

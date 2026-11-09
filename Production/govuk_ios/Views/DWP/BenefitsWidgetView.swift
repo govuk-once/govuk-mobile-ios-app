@@ -1,13 +1,13 @@
 import SwiftUI
 
-struct BenefitsWidgetView: View {
-    @StateObject var viewModel: BenefitsWidgetViewModel
+struct DWPWidgetView: View {
+    @StateObject var viewModel: DWPWidgetViewModel
 
     var body: some View {
         VStack {
             accountView
         }.onAppear {
-            viewModel.fetchedBenefitsData()
+            viewModel.fetchDWPData()
         }
     }
     @ViewBuilder
