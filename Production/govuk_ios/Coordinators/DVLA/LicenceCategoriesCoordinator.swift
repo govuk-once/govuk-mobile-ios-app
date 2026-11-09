@@ -2,7 +2,7 @@ import Foundation
 import UIKit
 import GovKit
 
-final class LicenceCategoriesCoordinator: SheetNavigationCoordinator {
+final class LicenceCategoriesCoordinator: BaseCoordinator {
     private let viewControllerBuilder: DVLAViewControllerBuilding
     private let analyticsService: AnalyticsServiceInterface
     private let entitlements: [Entitlement]
@@ -13,7 +13,7 @@ final class LicenceCategoriesCoordinator: SheetNavigationCoordinator {
         self.viewControllerBuilder = viewControllerBuilder
         self.analyticsService = analyticsService
         self.entitlements = entitlements
-        super.init()
+        super.init(navigationController: UINavigationController())
     }
 
     override func start(url: URL?) {
