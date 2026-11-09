@@ -2,26 +2,31 @@ import Foundation
 import UIKit
 import GovKit
 
-final class LicenceCategoriesCoordinator: BaseCoordinator {
-    private let viewControllerBuilder: ViewControllerBuilder
+final class LicenceCategoriesCoordinator: SheetNavigationCoordinator {
+    private let viewControllerBuilder: DVLAViewControllerBuilding
     private let analyticsService: AnalyticsServiceInterface
 
-    private let entitlements: [Entitlement]
-
-    init(navigationController: UINavigationController,
-         viewControllerBuilder: ViewControllerBuilder,
+    init(viewControllerBuilder: DVLAViewControllerBuilding,
          analyticsService: AnalyticsServiceInterface,
          entitlements: [Entitlement]) {
         self.viewControllerBuilder = viewControllerBuilder
         self.analyticsService = analyticsService
-        self.entitlements = entitlements
-        super.init(navigationController: navigationController)
+        super.init { coordinator in
+            let typedCoordinator = coordinator as? LicenceCategoriesCoordinator
+            let viewModel = LicenceCategoryListViewModel(
+                entitlements: entitlements,
+                didSelectAction: { [weak typedCoordinator] entitlement in
+                    typedCoordinator?.showDetail(entitlement: entitlement)
+                },
+                dismissAction: { [weak typedCoordinator] in
+                    typedCoordinator?.dismiss(animated: true)
+                }
+            )
+            return LicenceCategoriesListView(viewModel: viewModel)
+        }
     }
 
-    override func start(url: URL?) {
-        // the category list should be pushed here - when it is built
-        // for now just show an entitlement at random
-        guard let entitlement = entitlements.randomElement() else { return }
+    private func showDetail(entitlement: Entitlement) {
         let viewController = viewControllerBuilder.licenceCategoryDetail(
             entitlement: entitlement,
             analyticsService: analyticsService,

@@ -101,9 +101,9 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator,
     }
 
     private func startLicenceCategories(entitlements: [Entitlement]) {
-        let navigationController = UINavigationController()
-        let coordinator = coordinatorBuilder.licenceCategories(
-            navigationController: navigationController,
+        let coordinator = LicenceCategoriesCoordinator(
+            viewControllerBuilder: ViewControllerBuilder(),
+            analyticsService: analyticsService,
             entitlements: entitlements
         )
         present(coordinator)

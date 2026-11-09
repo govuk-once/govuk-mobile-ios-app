@@ -3,7 +3,7 @@ import SwiftUI
 
 /// A coordinator that manages a self-contained navigation stack presented modally as a sheet,
 /// providing seamless integration for hosting and pushing SwiftUI views.
-final class SheetNavigationCoordinator: BaseCoordinator {
+class SheetNavigationCoordinator: BaseCoordinator {
     /// Creates a new sheet navigation coordinator with a root view builder.
     ///
     /// - Parameter content: A closure that builds the root SwiftUI view, receiving a reference

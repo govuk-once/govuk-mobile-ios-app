@@ -125,6 +125,20 @@ extension ViewControllerBuilder: DVLAViewControllerBuilding {
         return hostingController
     }
 
+    func licenceCategoryList(
+        entitlements: [Entitlement],
+        analyticsService: AnalyticsServiceInterface,
+        selectAction: @escaping (Entitlement) -> Void,
+        dismissAction: @escaping () -> Void
+    ) -> UIViewController {
+        let viewModel = LicenceCategoryListViewModel(entitlements: entitlements,
+            didSelectAction: selectAction,
+            dismissAction: dismissAction)
+        let view = LicenceCategoriesListView(viewModel: viewModel)
+        let viewController = HostingViewController(rootView: view)
+        return viewController
+    }
+
     func licenceCategoryDetail(
         entitlement: Entitlement,
         analyticsService: AnalyticsServiceInterface,
