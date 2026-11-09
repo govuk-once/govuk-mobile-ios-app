@@ -609,7 +609,7 @@ class CoordinatorBuilder: ServiceAccountCoordinatorBuilding {
                 notificationCenter: .default,
             )
         }
-    
+
         func notificationCentre(
             navigationController: UINavigationController
         ) -> BaseCoordinator {
