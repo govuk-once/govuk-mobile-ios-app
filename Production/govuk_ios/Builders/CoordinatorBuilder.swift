@@ -597,7 +597,7 @@ class CoordinatorBuilder: ServiceAccountCoordinatorBuilding {
         func serviceAccountRedirect(
             navigationController: UINavigationController,
             accountType: ServiceAccountType,
-            token: String,
+            token: String
         ) -> BaseCoordinator {
             ServiceAccountRedirectCoordinator(
                 navigationController: navigationController,
@@ -609,24 +609,7 @@ class CoordinatorBuilder: ServiceAccountCoordinatorBuilding {
                 notificationCenter: .default,
             )
         }
-
-        func vehicleDetail(
-            navigationController: UINavigationController,
-            vehicleId: Int
-        ) -> BaseCoordinator {
-            VehicleDetailCoordinator(
-                navigationController: navigationController,
-                viewControllerBuilder: ViewControllerBuilder(),
-                analyticsService: container.analyticsService.resolve(),
-                dvlaService: container.dvlaService.resolve(),
-                configService: container.appConfigService.resolve(),
-                userService: container.userService.resolve(),
-                urlOpener: UIApplication.shared,
-                notificationCenter: .default,
-                vehicleId: vehicleId
-            )
-        }
-
+    
         func notificationCentre(
             navigationController: UINavigationController
         ) -> BaseCoordinator {
@@ -639,31 +622,4 @@ class CoordinatorBuilder: ServiceAccountCoordinatorBuilding {
                 urlOpener: UIApplication.shared
             )
         }
-
-        func vehicleCheck(
-            navigationController: UINavigationController
-        ) -> BaseCoordinator {
-            VehicleCheckCoordinator(
-                navigationController: navigationController,
-                viewControllerBuilder: ViewControllerBuilder(),
-                analyticsService: container.analyticsService.resolve(),
-                configService: container.appConfigService.resolve(),
-                urlOpener: UIApplication.shared,
-                dvlaService: container.dvlaService.resolve()
-            )
-        }
-    }
-
-    func notificationCentre(
-        navigationController: UINavigationController
-    ) -> BaseCoordinator {
-        NotificationCentreCoordinator(
-            navigationController: navigationController,
-            viewControllerBuilder: ViewControllerBuilder(),
-            notificationCentreService: container.notificationCentreService.resolve(),
-            analyticsService: container.analyticsService.resolve(),
-            coordinatorBuilder: self,
-            urlOpener: UIApplication.shared
-        )
-    }
-}
+  }
