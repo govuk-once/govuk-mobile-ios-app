@@ -34,6 +34,13 @@ protocol DVLAViewControllerBuilding: AnyObject {
         completionAction: @escaping (VehicleEnquiryResponse.Vehicle) -> Void
     ) -> UIViewController
 
+    func licenceCategoryList(
+        entitlements: [Entitlement],
+        analyticsService: AnalyticsServiceInterface,
+        selectAction: @escaping (Entitlement) -> Void,
+        dismissAction: @escaping () -> Void
+    ) -> UIViewController
+
     func licenceCategoryDetail(
         entitlement: Entitlement,
         analyticsService: AnalyticsServiceInterface,

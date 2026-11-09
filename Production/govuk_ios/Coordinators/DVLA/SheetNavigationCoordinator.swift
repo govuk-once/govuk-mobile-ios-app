@@ -1,26 +1,18 @@
 import UIKit
 import SwiftUI
 
-/// A coordinator that manages a self-contained navigation stack presented modally as a sheet,
-/// providing seamless integration for hosting and pushing SwiftUI views.
+/// A coordinator that manages a self-contained navigation stack presented modally as a sheet.
+///
+/// Subclasses override `start(url:)` to set the root view controller via a builder,
+/// matching the established coordinator pattern in the codebase.
 class SheetNavigationCoordinator: BaseCoordinator {
-    /// Creates a new sheet navigation coordinator with a root view builder.
-    ///
-    /// - Parameter content: A closure that builds the root SwiftUI view, receiving a reference
-    ///   to the coordinator so child views can trigger navigation pushes.
-    ///
-    init<Content: View>(@ViewBuilder content: (SheetNavigationCoordinator) -> Content) {
-            let navController = UINavigationController()
-            super.init(navigationController: navController)
-
-            let view = content(self)
-            let hostingController = UIHostingController(rootView: view)
-            // must use super.set so the root view controller is tracked in stackedViewControllers
-            set(hostingController, animated: false)
-        }
+    init() {
+        let navController = UINavigationController()
+        super.init(navigationController: navController)
+    }
 
     override func start(url: URL?) {
-        // No-op by default; override if deep-linking into the sheet is required.
+        // Subclasses override to set the root view controller via the builder.
     }
 
     /// Pushes a new SwiftUI view onto the sheet's navigation stack.
