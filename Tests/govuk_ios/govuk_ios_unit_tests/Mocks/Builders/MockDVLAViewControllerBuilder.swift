@@ -85,4 +85,12 @@ final class MockDVLAViewControllerBuilder: DVLAViewControllerBuilding, ErrorView
     ) -> UIViewController {
         UIViewController()
     }
+
+    func licenceCategoryList(entitlements: [govuk_ios.Entitlement],
+                             analyticsService: AnalyticsServiceInterface,
+                             selectAction: @escaping (Entitlement) -> Void,
+                             dismissAction: @escaping () -> Void
+    ) -> UIViewController {
+        UIViewController()
+    }
 }

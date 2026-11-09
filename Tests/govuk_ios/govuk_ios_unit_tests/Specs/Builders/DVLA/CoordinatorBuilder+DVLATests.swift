@@ -42,8 +42,7 @@ struct CoordinatorBuilderDVLATests {
         let container = Container()
         container.analyticsService.register(factory: { MockAnalyticsService() })
         let subject = CoordinatorBuilder(container: container)
-        let coordinator = subject.licenceCategories(
-            navigationController: UINavigationController(),
+        let coordinator = subject.licenceCategoriesCoordinator(
             entitlements: [.arrange]
         )
         #expect(coordinator is LicenceCategoriesCoordinator)
