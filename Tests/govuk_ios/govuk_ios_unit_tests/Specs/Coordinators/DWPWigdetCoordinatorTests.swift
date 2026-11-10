@@ -20,7 +20,7 @@ struct DWPTopicWidgetCoordinatorTests {
 
     @Test
     func makeWidget_forBenefitsTopic_whenFeatureSwitchIsEnabled_returnsWidget() {
-        let drivingTopic = Topic.arrange(
+        let benefitsTopic = Topic.arrange(
             context: coreDataRepository.viewContext,
             ref: "benefits"
         )
@@ -33,7 +33,7 @@ struct DWPTopicWidgetCoordinatorTests {
             coordinatorBuilder: CoordinatorBuilder.mock,
             widgetViewBuilder: mockWidgetViewBuilder
         )
-        let widgetView = sut.makeWidget(for: drivingTopic)
+        let widgetView = sut.makeWidget(for: benefitsTopic)
         #expect(widgetView != nil)
     }
 }
