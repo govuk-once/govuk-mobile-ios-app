@@ -266,6 +266,7 @@ struct VMCategoriesSheetView: View {
     }
 }
 
+/*
 struct DrivingLicenceParentView: View {
     @State private var showSheet = false
     @StateObject private var viewModel = CategoriesViewModel(
@@ -305,3 +306,4 @@ struct DrivingLicenceParentView: View {
 #Preview("Parent View") {
     DrivingLicenceParentView()
 }
+ */
