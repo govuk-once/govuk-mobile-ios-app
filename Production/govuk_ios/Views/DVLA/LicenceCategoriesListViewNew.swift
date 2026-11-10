@@ -2,6 +2,20 @@ import SwiftUI
 import Foundation
 import Combine
 
+struct RowHighlightButtonStyle: ButtonStyle {
+    var showsHighlight: Bool = true
+
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .background(
+                showsHighlight && configuration.isPressed
+                    ? Color(.systemFill)
+                    : Color.clear
+            )
+            .contentShape(Rectangle())
+    }
+}
+
 // MARK: - Models
 
 struct EntitlementRow: Identifiable, ExpressibleByStringLiteral {
