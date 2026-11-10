@@ -47,7 +47,6 @@ class WidgetViewBuilder {
         return AnyView(widget)
     }
 
-    @MainActor
     func getDWPWidget(
         analyticsService: AnalyticsServiceInterface,
         configService: AppConfigServiceInterface
