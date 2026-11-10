@@ -69,10 +69,12 @@ struct APIServiceClientTests_Chat {
     }
 
     @Test(arguments: zip(
-        [422,
+        [409,
+         422,
          429,
          500],
-        [ChatError.validationError,
+        [ChatError.feedbackAlreadyGiven,
+         .validationError,
          .apiUnavailable,
          .apiUnavailable]
     ))

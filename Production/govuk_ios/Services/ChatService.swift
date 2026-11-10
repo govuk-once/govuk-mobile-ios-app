@@ -9,6 +9,10 @@ protocol ChatServiceInterface {
                        completion: @escaping (ChatAnswerResult) -> Void)
     func chatHistory(conversationId: String,
                      completion: @escaping (ChatHistoryResult) -> Void)
+    func sendFeedback(conversationId: String,
+                      answerId: String,
+                      isPositive: Bool,
+                      completion: @escaping (ChatFeedbackResult) -> Void)
     func clearHistory()
     func clear()
 
@@ -99,6 +103,25 @@ final class ChatService: ChatServiceInterface {
                 switch result {
                 case .success(let history):
                     completion(.success(history))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+        )
+    }
+
+    func sendFeedback(conversationId: String,
+                      answerId: String,
+                      isPositive: Bool,
+                      completion: @escaping (ChatFeedbackResult) -> Void) {
+        serviceClient.sendFeedback(
+            conversationId: conversationId,
+            answerId: answerId,
+            isPositive: isPositive,
+            completion: { result in
+                switch result {
+                case .success, .failure(.feedbackAlreadyGiven):
+                    completion(.success(()))
                 case .failure(let error):
                     completion(.failure(error))
                 }

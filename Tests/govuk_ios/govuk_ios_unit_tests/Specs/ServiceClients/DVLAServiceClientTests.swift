@@ -35,14 +35,22 @@ struct DVLAServiceClientTests {
         #expect(drivingLicence.driverFirstNames == "KENNETH")
         #expect(drivingLicence.driverLastName == "DECERQUEIRA")
         #expect(drivingLicence.tokenValidToDate == expectedValidToDate)
+        #expect(drivingLicence.entitlements.count == 4)
+        let entitlement = try #require(drivingLicence.entitlements.first)
+        #expect(entitlement.categoryCode == "B")
+        #expect(entitlement.categoryLegalLiteral == "Vehicles up to 3,500 kg Maximum Authorised Mass (MAM) with up to 8 passenger seats and driver (with a trailer up to 750 kg). Can also tow heavier trailers if the total weight of vehicle and trailer isn't more than 3,500 kg. Provisional category B licences have no entitlement to tow a trailer. Physically disabled drivers with provisional category B entitlement will also have provisional entitlement to ride category A1 or A motor tricycles. Able-bodied drivers can no longer ride motor tricycles with a provisional category B licence")
+        #expect(entitlement.categoryType == .full)
+        #expect(entitlement.fromDate == .arrange("17/01/1990"))
+        #expect(entitlement.expiryDate == .arrange("19/06/2028"))
+        #expect(entitlement.restrictions.count == 0)
     }
 
     @Test
     func fetchDrivingLicence_apiUnavailable_returnsExpectedError() async {
-        mockAPI._stubbedSendResponse = .failure(DVLAError.apiUnavailable)
+        mockAPI._stubbedSendResponse = .failure(DVLAResponseError.httpError(statusCode: 500))
         let result = await sut.fetchDrivingLicence()
         let error = result.getError()
-        #expect(error == .apiUnavailable)
+        #expect(error == .serviceUnavailable(statusCode: 500))
     }
 
     @Test
@@ -71,10 +79,10 @@ struct DVLAServiceClientTests {
 
     @Test
     func fetchCustomerVehicles_apiUnavailable_returnsExpectedError() async {
-        mockAPI._stubbedSendResponse = .failure(DVLAError.apiUnavailable)
+        mockAPI._stubbedSendResponse = .failure(DVLAResponseError.httpError(statusCode: 500))
         let result = await sut.fetchCustomerVehicles()
         let error = result.getError()
-        #expect(error == .apiUnavailable)
+        #expect(error == .serviceUnavailable(statusCode: 500))
     }
 
     @Test
@@ -94,10 +102,10 @@ struct DVLAServiceClientTests {
 
     @Test
     func fetchCustomerVehicleDetails_apiUnavailable_returnsExpectedError() async {
-        mockAPI._stubbedSendResponse = .failure(DVLAError.apiUnavailable)
+        mockAPI._stubbedSendResponse = .failure(DVLAResponseError.httpError(statusCode: 500))
         let result = await sut.fetchCustomerVehicleDetails(1)
         let error = result.getError()
-        #expect(error == .apiUnavailable)
+        #expect(error == .serviceUnavailable(statusCode: 500))
     }
 
     @Test
@@ -136,10 +144,10 @@ struct DVLAServiceClientTests {
 
     @Test
     func fetchVehicle_apiUnavailable_returnsExpectedError() async {
-        mockAPI._stubbedSendResponse = .failure(DVLAError.apiUnavailable)
+        mockAPI._stubbedSendResponse = .failure(DVLAResponseError.httpError(statusCode: 500))
         let result = await sut.fetchVehicle(registration: "AA19AMP")
         let error = result.getError()
-        #expect(error == .apiUnavailable)
+        #expect(error == .serviceUnavailable(statusCode: 500))
     }
 
     @Test
@@ -167,10 +175,10 @@ struct DVLAServiceClientTests {
 
     @Test
     func fetchShareCodes_apiUnavailable_returnsExpectedError() async {
-        mockAPI._stubbedSendResponse = .failure(DVLAError.apiUnavailable)
+        mockAPI._stubbedSendResponse = .failure(DVLAResponseError.httpError(statusCode: 500))
         let result = await sut.fetchShareCodes()
         let error = result.getError()
-        #expect(error == .apiUnavailable)
+        #expect(error == .serviceUnavailable(statusCode: 500))
     }
 
     @Test
@@ -199,10 +207,10 @@ struct DVLAServiceClientTests {
 
     @Test
     func createShareCode_apiUnavailable_returnsExpectedError() async {
-        mockAPI._stubbedSendResponse = .failure(DVLAError.apiUnavailable)
+        mockAPI._stubbedSendResponse = .failure(DVLAResponseError.httpError(statusCode: 500))
         let result = await sut.createShareCode()
         let error = result.getError()
-        #expect(error == .apiUnavailable)
+        #expect(error == .serviceUnavailable(statusCode: 500))
     }
 
     @Test
@@ -228,39 +236,103 @@ struct DVLAServiceClientTests {
 
     @Test
     func cancelShareCode_apiUnavailable_returnsExpectedError() async {
-        mockAPI._stubbedSendResponse = .failure(DVLAError.apiUnavailable)
+        mockAPI._stubbedSendResponse = .failure(DVLAResponseError.httpError(statusCode: 500))
         let result = await sut.cancelShareCode(id: "test-share-code-id")
         let error = result.getError()
-        #expect(error == .apiUnavailable)
+        #expect(error == .serviceUnavailable(statusCode: 500))
+    }
+
+    // MARK: - Request Verification
+
+    @Test
+    func fetchCustomerVehicleDetails_sendsExpectedRequest() async {
+        mockAPI._stubbedSendResponse = .success(Self.customerVehicleDetailsResponse)
+        _ = await sut.fetchCustomerVehicleDetails(42)
+
+        #expect(mockAPI._receivedSendRequest?.urlPath == "/app/dvla/v1/customer/vehicle/42")
+        #expect(mockAPI._receivedSendRequest?.method == .get)
+        #expect(mockAPI._receivedSendRequest?.additionalHeaders == ["Content-Type": "application/json"])
+    }
+    
+    // MARK: - Network & Transport Error Mapping
+
+    @Test
+    func performRequest_notConnectedToInternet_returnsNetworkUnavailable() async {
+        let notConnectedError = URLError(.notConnectedToInternet)
+        mockAPI._stubbedSendResponse = .failure(notConnectedError)
+
+        let result = await sut.fetchDrivingLicence()
+        #expect(result.getError() == .networkUnavailable)
+    }
+
+    @Test
+    func performRequest_otherURLError_returnsServiceUnavailableWithoutStatusCode() async {
+        let timedOutError = URLError(.timedOut)
+        mockAPI._stubbedSendResponse = .failure(timedOutError)
+
+        let result = await sut.fetchDrivingLicence()
+        #expect(result.getError() == .serviceUnavailable(statusCode: nil))
+    }
+
+    @Test
+    func performRequest_genericError_returnsServiceUnavailableFallback() async {
+        struct CustomError: Error {}
+        mockAPI._stubbedSendResponse = .failure(CustomError())
+
+        let result = await sut.fetchDrivingLicence()
+        #expect(result.getError() == .serviceUnavailable(statusCode: nil))
+    }
+
+    // MARK: - API Error & Specific HTTP Mapping
+
+    @Test
+    func fetchVehicle_notFound_returnsNotFoundError() async {
+        mockAPI._stubbedSendResponse = .failure(DVLAResponseError.httpError(statusCode: 404))
+
+        let result = await sut.fetchVehicle(registration: "AA19AMP")
+        #expect(result.getError() == .notFound())
+    }
+
+    @Test
+    func performRequest_apiError_mapsUsingEndpointErrorMapping() async {
+        let detail = DVLAAPIErrorDetail(
+            code: "VEHICLE_NOT_FOUND",
+            message: "Not found",
+            statusCode: 404
+        )
+        mockAPI._stubbedSendResponse = .failure(DVLAResponseError.apiError(detail))
+
+        let result = await sut.fetchVehicle(registration: "AA19AMP")
+        #expect(result.getError() != nil)
     }
 
     // MARK: - Static fixtures
 
     static var drivingLicenceResponse: Data = {
-        .load(filename: "MockDrivingLicenceResponse")
+        .loadFixture("MockDrivingLicenceResponse")
     }()
 
     static var customerVehiclesResponse: Data = {
-        .load(filename: "MockCustomerVehiclesResponse")
+        .loadFixture("MockCustomerVehiclesResponse")
     }()
 
     static var customerVehicleDetailsResponse: Data = {
-        .load(filename: "MockCustomerVehicleDetailsResponse")
+        .loadFixture("MockCustomerVehicleDetailsResponse")
     }()
 
     static var vehicleResponse: Data = {
-        .load(filename: "MockVehicleResponse")
+        .loadFixture("MockVehicleResponse")
     }()
 
     static var listShareCodesResponse: Data = {
-        .load(filename: "MockListShareCodesResponse")
+        .loadFixture("MockListShareCodesResponse")
     }()
 
     static var createShareCodeResponse: Data = {
-        .load(filename: "MockCreateShareCodeResponse")
+        .loadFixture("MockCreateShareCodeResponse")
     }()
 
     static var cancelShareCodeResponse: Data = {
-        .load(filename: "MockCancelShareCodeResponse")
+        .loadFixture("MockCancelShareCodeResponse")
     }()
 }

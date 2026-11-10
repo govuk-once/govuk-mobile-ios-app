@@ -322,8 +322,9 @@ struct ViewControllerBuilderTests {
             handleError: { _ in }
         )
 
-        let rootView = (result as? HostingViewController<ChatView>)?.rootView
-        #expect(rootView != nil)
+        let hostingViewController = result as? HostingViewController<ChatView>
+        #expect(hostingViewController?.rootView != nil)
+        #expect(hostingViewController?.shouldAutoFocusVoiceover == false)
     }
 
     @Test
@@ -494,10 +495,26 @@ struct ViewControllerBuilderTests {
             notificationService: MockNotificationService(),
             deviceInfo: MockDeviceInformationProvider(),
             versionProvider: MockAppVersionProvider(),
-            openURLAction: { _ in /* No-op */ }
+            openURLAction: { _ in /* No-op */ },
+            navigateBackAction: { /* No-op */ }
         )
 
         let rootView = (result as? HostingViewController<EditCountriesView>)?.rootView
         #expect(rootView != nil)
+    }
+
+    @Test
+    func vehicleRegistrationInput_returnsExpectedResult() {
+        let subject = ViewControllerBuilder()
+        let result = subject.vehicleRegistrationInput(
+            analyticsService: MockAnalyticsService(),
+            dvlaService: MockDVLAService(),
+            cancelAction: {},
+            completionAction: { _ in }
+        )
+
+        let hostingController = result as? UIHostingController<RegistrationNumberFormModal>
+        #expect(hostingController != nil)
+        #expect(hostingController?.view.backgroundColor == .clear)
     }
 }

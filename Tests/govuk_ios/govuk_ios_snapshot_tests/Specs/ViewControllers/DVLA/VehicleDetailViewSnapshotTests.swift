@@ -139,7 +139,7 @@ class VehicleDetailViewSnapshotTests: SnapshotTestCase {
 
     func test_apiError_light_rendersCorrectly() async {
         let mockDVLAService = MockDVLAService()
-        mockDVLAService._stubbedCustomerVehicleDetailsResult = .failure(.apiUnavailable)
+        mockDVLAService._stubbedCustomerVehicleDetailsResult = .failure(.serviceUnavailable(statusCode: nil))
         let viewModel = VehicleDetailViewModel(
             vehicleId: 123,
             analyticsService: MockAnalyticsService(),
@@ -160,7 +160,7 @@ class VehicleDetailViewSnapshotTests: SnapshotTestCase {
 
     func test_apiError_dark_rendersCorrectly() async {
         let mockDVLAService = MockDVLAService()
-        mockDVLAService._stubbedCustomerVehicleDetailsResult = .failure(.apiUnavailable)
+        mockDVLAService._stubbedCustomerVehicleDetailsResult = .failure(.serviceUnavailable(statusCode: nil))
         let viewModel = VehicleDetailViewModel(
             vehicleId: 123,
             analyticsService: MockAnalyticsService(),

@@ -75,6 +75,9 @@ final class TravelAlertsWidgetCoordinator: BaseCoordinator,
             versionProvider: versionProvider,
             openURLAction: { [weak self] url in
                 self?.presentWebView(url: url)
+            },
+            navigateBackAction: { [weak self] in
+                self?.root.popViewController(animated: true)
             }
         )
         push(viewController)

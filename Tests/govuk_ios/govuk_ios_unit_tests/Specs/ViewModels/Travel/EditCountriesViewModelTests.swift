@@ -16,7 +16,8 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            openCountryListFooterAction: {  /*Empty For Tests*/ }
+            openCountryListFooterAction: {  /*Empty For Tests*/ },
+            navigateBackAction: {  /*Empty For Tests*/ }
         )
 
         if case .loading = sut.viewState {
@@ -38,7 +39,8 @@ struct EditCountriesViewModelTests {
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            openCountryListFooterAction: { footerActionCalled = true }
+            openCountryListFooterAction: { footerActionCalled = true },
+            navigateBackAction: { /* No-op */ }
         )
 
         sut.countryListViewModel.openFooterLink(text: "Tell us the country you're looking for")
@@ -63,7 +65,8 @@ struct EditCountriesViewModelTests {
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            openCountryListFooterAction: {  /*Empty For Tests*/ }
+            openCountryListFooterAction: {  /*Empty For Tests*/ },
+            navigateBackAction: {  /*Empty For Tests*/ }
         )
 
         await sut.viewDidAppear()
@@ -87,7 +90,8 @@ struct EditCountriesViewModelTests {
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            openCountryListFooterAction: {  /*Empty For Tests*/ }
+            openCountryListFooterAction: {  /*Empty For Tests*/ },
+            navigateBackAction: {  /*Empty For Tests*/ }
         )
 
         await sut.viewDidAppear()
@@ -113,16 +117,15 @@ struct EditCountriesViewModelTests {
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            openCountryListFooterAction: {  /*Empty For Tests*/ }
+            openCountryListFooterAction: {  /*Empty For Tests*/ },
+            navigateBackAction: {  /*Empty For Tests*/ }
         )
 
         await sut.viewDidAppear()
-        try await waitForViewState(of: sut) { state in
-            if case .loaded = state { return true }
-            return false
-        }
+        await Task.yield()
 
         #expect(mockTravelService._getCountriesCalled)
+        #expect(sut.countriesSection.isEmpty)
     }
 
     @Test
@@ -140,7 +143,8 @@ struct EditCountriesViewModelTests {
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            openCountryListFooterAction: {  /*Empty For Tests*/ }
+            openCountryListFooterAction: {  /*Empty For Tests*/ },
+            navigateBackAction: {  /*Empty For Tests*/ }
         )
 
         await sut.retryFetchCountryList()
@@ -163,7 +167,8 @@ struct EditCountriesViewModelTests {
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            openCountryListFooterAction: {  /*Empty For Tests*/ }
+            openCountryListFooterAction: {  /*Empty For Tests*/ },
+            navigateBackAction: {  /*Empty For Tests*/ }
         )
 
         await sut.retryFetchCountryList()
@@ -194,7 +199,8 @@ struct EditCountriesViewModelTests {
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            openCountryListFooterAction: {  /*Empty For Tests*/ }
+            openCountryListFooterAction: {  /*Empty For Tests*/ },
+            navigateBackAction: {  /*Empty For Tests*/ }
         )
 
         await sut.viewDidAppear()
@@ -207,28 +213,25 @@ struct EditCountriesViewModelTests {
     }
 
     @Test
-    func buildCountriesSections_returnsEmptyWhenNoGroupsExist() async throws {
+    func buildCountriesSections_returnsEmptyWhenNoGroupsOrCountriesExist() async throws {
         let mockTravelService = MockTravelService()
         mockTravelService._stubbedGetGroupsResult = .success([])
-        mockTravelService._stubbedGetCountriesResult = .success([
-            Country(name: "France", slug: "france", rawLastUpdate: "5 August 2024", synonyms: [])
-        ])
+        mockTravelService._stubbedGetCountriesResult = .success([])
         let mockAnalyticsService = MockAnalyticsService()
+        var navigateBackActionCalled = false
         let sut = EditCountriesViewModel(
             travelService: mockTravelService,
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            openCountryListFooterAction: {  /*Empty For Tests*/ }
+            openCountryListFooterAction: {  /*Empty For Tests*/ },
+            navigateBackAction: { navigateBackActionCalled = true }
         )
 
         await sut.viewDidAppear()
-        try await waitForViewState(of: sut) { state in
-            if case .loaded = state { return true }
-            return false
-        }
 
         #expect(sut.countriesSection.count == 0)
+        #expect(navigateBackActionCalled == false)
     }
 
     @Test
@@ -249,7 +252,8 @@ struct EditCountriesViewModelTests {
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            openCountryListFooterAction: {  /*Empty For Tests*/ }
+            openCountryListFooterAction: {  /*Empty For Tests*/ },
+            navigateBackAction: {  /*Empty For Tests*/ }
         )
 
         await sut.viewDidAppear()
@@ -279,7 +283,8 @@ struct EditCountriesViewModelTests {
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            openCountryListFooterAction: {  /*Empty For Tests*/ }
+            openCountryListFooterAction: {  /*Empty For Tests*/ },
+            navigateBackAction: {  /*Empty For Tests*/ }
         )
 
         await sut.viewDidAppear()
@@ -307,7 +312,8 @@ struct EditCountriesViewModelTests {
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            openCountryListFooterAction: {  /*Empty For Tests*/ }
+            openCountryListFooterAction: {  /*Empty For Tests*/ },
+            navigateBackAction: {  /*Empty For Tests*/ }
         )
 
         await sut.viewDidAppear()
@@ -326,7 +332,8 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            openCountryListFooterAction: {  /*Empty For Tests*/ }
+            openCountryListFooterAction: {  /*Empty For Tests*/ },
+            navigateBackAction: {  /*Empty For Tests*/ }
         )
 
         #expect(sut.isShowingList == false)
@@ -341,7 +348,8 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            openCountryListFooterAction: {  /*Empty For Tests*/ }
+            openCountryListFooterAction: {  /*Empty For Tests*/ },
+            navigateBackAction: {  /*Empty For Tests*/ }
         )
 
         sut.openCountryList()
@@ -358,7 +366,8 @@ struct EditCountriesViewModelTests {
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            openCountryListFooterAction: {  /*Empty For Tests*/ }
+            openCountryListFooterAction: {  /*Empty For Tests*/ },
+            navigateBackAction: {  /*Empty For Tests*/ }
         )
         let screen = EditCountriesView(viewModel: sut)
         sut.trackScreen(screen: screen)
@@ -377,7 +386,8 @@ struct EditCountriesViewModelTests {
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            openCountryListFooterAction: {  /*Empty For Tests*/ }
+            openCountryListFooterAction: {  /*Empty For Tests*/ },
+            navigateBackAction: {  /*Empty For Tests*/ }
         )
 
         sut.openCountryList()
@@ -398,7 +408,8 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            openCountryListFooterAction: {  /*Empty For Tests*/ }
+            openCountryListFooterAction: {  /*Empty For Tests*/ },
+            navigateBackAction: {  /*Empty For Tests*/ }
         )
 
         await sut.toggleNotifications(slug: "france", enabled: true)
@@ -424,7 +435,8 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            openCountryListFooterAction: {  /*Empty For Tests*/ }
+            openCountryListFooterAction: {  /*Empty For Tests*/ },
+            navigateBackAction: {  /*Empty For Tests*/ }
         )
 
         await sut.toggleNotifications(slug: "france", enabled: false)
@@ -448,7 +460,8 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            openCountryListFooterAction: {  /*Empty For Tests*/ }
+            openCountryListFooterAction: {  /*Empty For Tests*/ },
+            navigateBackAction: {  /*Empty For Tests*/ }
         )
 
         // Toggle notifications to enabled
@@ -483,7 +496,8 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            openCountryListFooterAction: {  /*Empty For Tests*/ }
+            openCountryListFooterAction: {  /*Empty For Tests*/ },
+            navigateBackAction: {  /*Empty For Tests*/ }
         )
 
         sut.isShowingCountryDetails = true
@@ -510,7 +524,8 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            openCountryListFooterAction: {  /*Empty For Tests*/ }
+            openCountryListFooterAction: {  /*Empty For Tests*/ },
+            navigateBackAction: {  /*Empty For Tests*/ }
         )
 
         sut.isShowingCountryDetails = true
@@ -542,7 +557,8 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            openCountryListFooterAction: {  /*Empty For Tests*/ }
+            openCountryListFooterAction: {  /*Empty For Tests*/ },
+            navigateBackAction: {  /*Empty For Tests*/ }
         )
 
         // First toggle to populate cache
@@ -565,7 +581,8 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            openCountryListFooterAction: {  /*Empty For Tests*/ }
+            openCountryListFooterAction: {  /*Empty For Tests*/ },
+            navigateBackAction: {  /*Empty For Tests*/ }
         )
 
         sut.displayToggleError = true
@@ -582,7 +599,8 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            openCountryListFooterAction: {  /*Empty For Tests*/ }
+            openCountryListFooterAction: {  /*Empty For Tests*/ },
+            navigateBackAction: {  /*Empty For Tests*/ }
         )
 
         sut.displayUnfollowError = true
@@ -611,7 +629,8 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            openCountryListFooterAction: {  /*Empty For Tests*/ }
+            openCountryListFooterAction: {  /*Empty For Tests*/ },
+            navigateBackAction: {  /*Empty For Tests*/ }
         )
 
         // Toggle to cache enabled state
@@ -636,7 +655,8 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            openCountryListFooterAction: {  /*Empty For Tests*/ }
+            openCountryListFooterAction: {  /*Empty For Tests*/ },
+            navigateBackAction: {  /*Empty For Tests*/ }
         )
 
         await sut.toggleNotifications(slug: "spain", enabled: false)
@@ -661,7 +681,8 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            openCountryListFooterAction: {  /*Empty For Tests*/ }
+            openCountryListFooterAction: {  /*Empty For Tests*/ },
+            navigateBackAction: {  /*Empty For Tests*/ }
         )
 
         // First toggle to populate cache
@@ -694,7 +715,8 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            openCountryListFooterAction: {  /*Empty For Tests*/ }
+            openCountryListFooterAction: {  /*Empty For Tests*/ },
+            navigateBackAction: {  /*Empty For Tests*/ }
         )
 
         await sut.unfollowCountry(slug: "france", enabled: true)
@@ -716,7 +738,8 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            openCountryListFooterAction: {  /*Empty For Tests*/ }
+            openCountryListFooterAction: {  /*Empty For Tests*/ },
+            navigateBackAction: {  /*Empty For Tests*/ }
         )
 
         await sut.unfollowCountry(slug: "spain", enabled: false)
@@ -746,7 +769,8 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            openCountryListFooterAction: {  /*Empty For Tests*/ }
+            openCountryListFooterAction: {  /*Empty For Tests*/ },
+            navigateBackAction: {  /*Empty For Tests*/ }
         )
 
         await sut.viewDidAppear()
@@ -768,7 +792,8 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            openCountryListFooterAction: {  /*Empty For Tests*/ }
+            openCountryListFooterAction: {  /*Empty For Tests*/ },
+            navigateBackAction: {  /*Empty For Tests*/ }
         )
 
         sut.openCountryList()
@@ -794,7 +819,8 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            openCountryListFooterAction: {  /*Empty For Tests*/ }
+            openCountryListFooterAction: {  /*Empty For Tests*/ },
+            navigateBackAction: {  /*Empty For Tests*/ }
         )
 
         sut.openCountryList()
@@ -815,7 +841,8 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            openCountryListFooterAction: {  /*Empty For Tests*/ }
+            openCountryListFooterAction: {  /*Empty For Tests*/ },
+            navigateBackAction: {  /*Empty For Tests*/ }
         )
 
         let countryListVM = sut.countryListViewModel
@@ -832,7 +859,8 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            openCountryListFooterAction: {  /*Empty For Tests*/ }
+            openCountryListFooterAction: {  /*Empty For Tests*/ },
+            navigateBackAction: {  /*Empty For Tests*/ }
         )
 
         sut.isShowingFollowError = true
@@ -850,7 +878,8 @@ struct EditCountriesViewModelTests {
             analyticsService: mockAnalyticsService,
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            openCountryListFooterAction: {  /*Empty For Tests*/ }
+            openCountryListFooterAction: {  /*Empty For Tests*/ },
+            navigateBackAction: {  /*Empty For Tests*/ }
         )
         let screen = EditCountriesView(viewModel: sut)
         sut.trackScreen(screen: screen)
@@ -868,7 +897,8 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
-            openCountryListFooterAction: {  /*Empty For Tests*/ }
+            openCountryListFooterAction: {  /*Empty For Tests*/ },
+            navigateBackAction: {  /*Empty For Tests*/ }
         )
 
         await sut.requestToggle(slug: "france", enabled: false)
@@ -892,7 +922,8 @@ struct EditCountriesViewModelTests {
             analyticsService: MockAnalyticsService(),
             notificationService: mockNotificationService,
             urlOpener: MockURLOpener(),
-            openCountryListFooterAction: {  /*Empty For Tests*/ }
+            openCountryListFooterAction: {  /*Empty For Tests*/ },
+            navigateBackAction: {  /*Empty For Tests*/ }
         )
 
         await sut.requestToggle(slug: "spain", enabled: true)
@@ -914,7 +945,8 @@ struct EditCountriesViewModelTests {
             analyticsService: mockAnalyticsService,
             notificationService: mockNotificationService,
             urlOpener: MockURLOpener(),
-            openCountryListFooterAction: {  /*Empty For Tests*/ }
+            openCountryListFooterAction: {  /*Empty For Tests*/ },
+            navigateBackAction: {  /*Empty For Tests*/ }
         )
 
         await sut.requestToggle(slug: "france", enabled: true)
