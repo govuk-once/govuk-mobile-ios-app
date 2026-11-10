@@ -82,10 +82,7 @@ class ChatViewModel: ObservableObject {
             showValidationAlert = true
             return
         }
-        trackAskQuestionSubmission(type: questionRequest.type.rawValue)
-        clearFeedback()
-        errorText = nil
-        warningText = nil
+        askQuestionSetup(questionRequest: questionRequest)
         let currentQuestionModel = ChatCellViewModel(
             message: localQuestion,
             id: UUID().uuidString,
@@ -97,7 +94,9 @@ class ChatViewModel: ObservableObject {
             .loadingQuestion])
         scrollToBottom = true
         requestInFlight = true
-        chatService.askQuestion(localQuestion) { [weak self] result in
+        chatService.askQuestion(localQuestion,
+                                isSuggestedPrompt: questionRequest.type == .suggestion ? true : nil
+        ) { [weak self] result in
             self?.removeCellModel(.loadingQuestion)
             switch result {
             case .success(let pendingQuestion):
@@ -123,6 +122,12 @@ class ChatViewModel: ObservableObject {
                 }
             }
         }
+    }
+    private func askQuestionSetup(questionRequest: AskQuestionRequest) {
+        trackAskQuestionSubmission(type: questionRequest.type.rawValue)
+        clearFeedback()
+        errorText = nil
+        warningText = nil
     }
 
     private func pollForAnswer(_ question: PendingQuestion) {
