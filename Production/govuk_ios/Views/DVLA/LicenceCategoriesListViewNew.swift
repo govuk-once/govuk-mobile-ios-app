@@ -51,10 +51,25 @@ struct CategoryLink: Identifiable, Hashable {
 
 // MARK: - Components
 
+// MARK: - Row Component
+
 struct KKEntitlementRowView: View {
     let row: EntitlementRow
+    var showsHighlight: Bool = true
+    var onSelect: (() -> Void)?
 
     var body: some View {
+        if let onSelect {
+            Button(action: onSelect) {
+                rowContent
+            }
+            .buttonStyle(RowHighlightButtonStyle(showsHighlight: showsHighlight))
+        } else {
+            rowContent
+        }
+    }
+
+    private var rowContent: some View {
         HStack(alignment: .firstTextBaseline) {
             Text(row.title)
                 .font(.body)
@@ -67,28 +82,36 @@ struct KKEntitlementRowView: View {
                 .foregroundStyle(.secondary)
         }
         .padding(.vertical, 14)
+        .padding(.horizontal, 4)
     }
 }
 
+// MARK: - Section Component
 
 struct EntitlementSectionView: View {
     let title: String
     let items: [EntitlementRow]
+    var showsHighlight: Bool = true
+    var onSelectRow: ((EntitlementRow) -> Void)?
 
     var body: some View {
         let lastID = items.last?.id
+
         VStack(alignment: .leading, spacing: 0) {
             Text(title)
                 .font(.title3.weight(.bold))
                 .foregroundStyle(.primary)
                 .accessibilityAddTraits(.isHeader)
-                .padding(.bottom, 8) // 8pt redline spec
+                .padding(.bottom, 8)
 
             ForEach(items) { row in
-                let isLast = row.id == lastID
-                KKEntitlementRowView(row: row)
+                KKEntitlementRowView(
+                    row: row,
+                    showsHighlight: showsHighlight,
+                    onSelect: onSelectRow != nil ? { onSelectRow?(row) } : nil
+                )
 
-                if !isLast {
+                if row.id != lastID {
                     Divider()
                         .overlay(Color(.separator).opacity(0.6))
                 }
@@ -96,7 +119,6 @@ struct EntitlementSectionView: View {
         }
     }
 }
-
 struct GoodToKnowSectionView: View {
     let links: [CategoryLink]
     var onLinkClick: ((_ text: String, _ url: URL) -> Void)?
@@ -161,13 +183,16 @@ struct GoodToKnowSectionView: View {
     }
 }
 
-
 @MainActor
 final class CategoriesViewModel: ObservableObject {
     @Published private(set) var entitledToDrive: [EntitlementRow] = []
     @Published private(set) var provisionallyEntitledToDrive: [EntitlementRow] = []
     @Published private(set) var links: [CategoryLink] = []
 
+    /// Configures visual tap highlight on rows
+    let showsRowHighlight: Bool
+
+    private let onRowSelected: ((EntitlementRow) -> Void)?
     private let onOpenURL: ((URL) -> Void)?
     private let onAnalyticsEvent: ((String, [String: Any]) -> Void)?
 
@@ -175,14 +200,29 @@ final class CategoriesViewModel: ObservableObject {
         entitledToDrive: [EntitlementRow] = [],
         provisionallyEntitledToDrive: [EntitlementRow] = [],
         links: [CategoryLink] = [],
+        showsRowHighlight: Bool = true,
+        onRowSelected: ((EntitlementRow) -> Void)? = nil,
         onOpenURL: ((URL) -> Void)? = nil,
         onAnalyticsEvent: ((String, [String: Any]) -> Void)? = nil
     ) {
         self.entitledToDrive = entitledToDrive
         self.provisionallyEntitledToDrive = provisionallyEntitledToDrive
         self.links = links
+        self.showsRowHighlight = showsRowHighlight
+        self.onRowSelected = onRowSelected
         self.onOpenURL = onOpenURL
         self.onAnalyticsEvent = onAnalyticsEvent
+    }
+
+    // MARK: - User Actions
+
+    func onRowTap(_ row: EntitlementRow) {
+        onAnalyticsEvent?("licence_category_row_tapped", [
+            "title": row.title,
+            "codes": row.codesDisplay
+        ])
+
+        onRowSelected?(row)
     }
 
     func onLinkClick(_ link: CategoryLink) {
@@ -210,14 +250,22 @@ struct VMCategoriesListView: View {
                 if !viewModel.entitledToDrive.isEmpty {
                     EntitlementSectionView(
                         title: "You are entitled to drive",
-                        items: viewModel.entitledToDrive
+                        items: viewModel.entitledToDrive,
+                        showsHighlight: viewModel.showsRowHighlight,
+                        onSelectRow: { row in
+                            viewModel.onRowTap(row)
+                        }
                     )
                 }
 
                 if !viewModel.provisionallyEntitledToDrive.isEmpty {
                     EntitlementSectionView(
                         title: "You can provisionally drive",
-                        items: viewModel.provisionallyEntitledToDrive
+                        items: viewModel.provisionallyEntitledToDrive,
+                        showsHighlight: viewModel.showsRowHighlight,
+                        onSelectRow: { row in
+                            viewModel.onRowTap(row)
+                        }
                     )
                 }
 
@@ -307,3 +355,32 @@ struct DrivingLicenceParentView: View {
     DrivingLicenceParentView()
 }
  */
+
+#Preview("Row Taps & Highlight") {
+    let viewModel = CategoriesViewModel(
+        entitledToDrive: [
+            "Mopeds, AM, p, q",
+            "Motorcycles, A",
+            "Cars, B",
+            "Trailers, BE, C1E, D1E"
+        ],
+        provisionallyEntitledToDrive: [
+            "Light vehicles and quad bikes, B1"
+        ],
+        links: [
+            CategoryLink(
+                text: "Driving licence categories",
+                url: URL(string: "https://www.gov.uk/driving-licence-categories")!
+            )
+        ],
+        showsRowHighlight: true,
+        onRowSelected: { selectedRow in
+            print("Selected: \(selectedRow.title) with codes \(selectedRow.codesDisplay)")
+        },
+        onAnalyticsEvent: { name, params in
+            print("Analytics: [\(name)] \(params)")
+        }
+    )
+
+    VMCategoriesSheetView(viewModel: viewModel)
+}
