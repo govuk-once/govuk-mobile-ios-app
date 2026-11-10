@@ -284,9 +284,6 @@ struct DrivingLicenceParentView: View {
         }
         .sheet(isPresented: $showSheet) {
             VMCategoriesSheetView(viewModel: viewModel)
-                .presentationDragIndicator(.visible)
-                .presentationDetents([.large])
-                .preferredColorScheme(.dark)
         }
     }
 }
