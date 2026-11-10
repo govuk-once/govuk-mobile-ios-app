@@ -26,7 +26,7 @@ struct DWPTopicWidgetCoordinatorTests {
         )
         mockConfigService.features = [.dwp]
 
-        let sut = BenefitsWidgetCoordinator(
+        let sut = BenefitsTopicWidgetCoordinator(
             navigationController: UINavigationController(),
             analyticsService: mockAnalyticsService,
             configService: mockConfigService,

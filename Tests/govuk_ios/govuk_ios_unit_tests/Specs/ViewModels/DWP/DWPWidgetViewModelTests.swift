@@ -23,7 +23,7 @@ struct DWPWidgetViewModelTests {
              return false
          }())
      }
-
+    
     @Test
     func fetchDWPData_updatesStateToUnlinkedWithExpectedCardDetails() async {
         let sut = DWPWidgetViewModel(

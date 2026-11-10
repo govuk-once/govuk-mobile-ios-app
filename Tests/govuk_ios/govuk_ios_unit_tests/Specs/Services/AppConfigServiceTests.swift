@@ -170,7 +170,6 @@ struct AppConfigServiceTests {
 
         #expect(sut.isFeatureEnabled(key: .dwp) == true)
     }
-
     
     @Test
     func isFeatureEnabled_whenFeatureFlagIsMessages_returnsTrue() {

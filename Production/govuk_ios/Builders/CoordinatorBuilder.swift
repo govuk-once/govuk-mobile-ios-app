@@ -282,7 +282,7 @@ class CoordinatorBuilder: ServiceAccountCoordinatorBuilding {
                 viewControllerBuilder: ViewControllerBuilder()
             )
         case topic.isBenefitsTopic:
-            return BenefitsWidgetCoordinator(
+            return BenefitsTopicWidgetCoordinator(
                 navigationController: navigationController,
                 analyticsService: container.analyticsService.resolve(),
                 configService: container.appConfigService.resolve(),

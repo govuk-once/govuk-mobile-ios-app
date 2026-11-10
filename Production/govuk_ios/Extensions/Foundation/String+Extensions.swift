@@ -113,7 +113,6 @@ extension String {
         )
     }
 
-
     static var notificationCentre: LocalStringBuilder {
         .init(
             tableName: "NotificationCentre",

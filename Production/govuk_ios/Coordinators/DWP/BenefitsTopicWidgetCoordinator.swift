@@ -2,7 +2,7 @@ import UIKit
 import SwiftUI
 import GovKit
 
-final class BenefitsWidgetCoordinator: BaseCoordinator,
+final class BenefitsTopicWidgetCoordinator: BaseCoordinator,
                                            TopicWidgetProvider {
     private let widgetViewBuilder: WidgetViewBuilder
     private let analyticsService: AnalyticsServiceInterface
