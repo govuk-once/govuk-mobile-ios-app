@@ -31,6 +31,7 @@ class EditCountriesViewModel: ObservableObject {
     @Published private(set) var viewState: ViewState = .loading
     @Published private(set) var countriesSection = [GroupedListSection]()
     @Published private(set) var footerSection = [GroupedListSection]()
+    @Published private(set) var errorViewModel: AppErrorViewModel?
     @Published var isShowingList = false
     @Published var isShowingCountryDetails = false
     @Published var selectedCountry: SelectedCountry?
@@ -47,6 +48,7 @@ class EditCountriesViewModel: ObservableObject {
     private let urlOpener: URLOpener
     let analyticsService: AnalyticsServiceInterface
     private let openCountryListFooterAction: () -> Void
+    private let navigateBackAction: () -> Void
     private var allCountries: [Country] = []
     private var followedCountries: Set<String> = []
     private var notificationStateCache: [String: Bool] = [:]
@@ -69,13 +71,15 @@ class EditCountriesViewModel: ObservableObject {
         analyticsService: AnalyticsServiceInterface,
         notificationService: NotificationServiceInterface,
         urlOpener: URLOpener,
-        openCountryListFooterAction: @escaping () -> Void
+        openCountryListFooterAction: @escaping () -> Void,
+        navigateBackAction: @escaping () -> Void
     ) {
         self.travelService = travelService
         self.analyticsService = analyticsService
         self.notificationService = notificationService
         self.urlOpener = urlOpener
         self.openCountryListFooterAction = openCountryListFooterAction
+        self.navigateBackAction = navigateBackAction
     }
 
     @MainActor
@@ -208,11 +212,27 @@ class EditCountriesViewModel: ObservableObject {
                             self?.buildFooterRow()
                         }
                     }
-                case .failure:
-                    self?.viewState = .error
+                case .failure(let error):
+                    self?.handleCountryFetchError(error)
                 }
             }
         }
+    }
+
+    @MainActor
+    private func handleCountryFetchError(_ error: TravelError) {
+        let retryAction: () -> Void = { [weak self] in
+            Task { await self?.retryFetchCountryList() }
+        }
+
+        errorViewModel = switch error {
+        case .networkUnavailable:
+            AppErrorViewModel.networkUnavailable(action: retryAction)
+        default:
+            AppErrorViewModel.travelGenericError(retryAction: retryAction)
+        }
+
+        viewState = .error
     }
 
     private func buildRows(from groups: [TravelGroup], countries: [Country]) {
@@ -228,7 +248,7 @@ class EditCountriesViewModel: ObservableObject {
             return SelectableRow(
                 id: group.group,
                 title: country.name,
-                imageName: "ellipsis",
+                trailingIconName: "ellipsis",
                 action: {
                     self.showCountryDetails(country: country, subgroup: group.subgroup)
                 }
@@ -242,6 +262,9 @@ class EditCountriesViewModel: ObservableObject {
                 rows: rows,
                 footer: nil
             )]
+        } else {
+            self.navigateBackAction()
+            return
         }
 
         self.viewState = .loaded
@@ -251,7 +274,7 @@ class EditCountriesViewModel: ObservableObject {
         let footerRow = [SelectableRow(
             id: "follow",
             title: self.followAnotherTitle,
-            imageName: "plus.circle",
+            trailingIconName: "plus.circle",
             action: { [weak self] in
                 self?.openCountryList()
             }

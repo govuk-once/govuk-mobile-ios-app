@@ -14,7 +14,16 @@ struct EditCountriesView: View {
             case .loaded:
                 scrollView
             case .error:
-                ErrorView(viewModel: createErrorViewModel())
+                if let errorViewModel = viewModel.errorViewModel {
+                    ScrollView {
+                        VStack {
+                            AppErrorView(viewModel: errorViewModel)
+                                .padding(.top, 8)
+                                .frame(maxWidth: .infinity)
+                            Spacer()
+                        }
+                    }
+                }
             }
         }
         .task {
@@ -90,23 +99,4 @@ extension EditCountriesView: TrackableScreen {
     var trackingClass: String { "EditCountriesScreen" }
     var trackingTitle: String? { "Edit countries" }
     var trackingName: String { "Edit countries" }
-}
-
-extension EditCountriesView {
-    private func createErrorViewModel() -> ErrorViewModel {
-        ErrorViewModel(
-            analyticsService: viewModel.analyticsService,
-            title: String(localized: .Travel.countryListScreenErrorTitle),
-            subtitle: String(localized: .Travel.countryListScreenErrorBody),
-            systemImageName: "exclamationmark.circle",
-            primaryButtonTitle: String(localized: .Travel.countryListScreenErrorButtonTitle),
-            primaryAction: { [weak viewModel] in
-                Task {
-                    await viewModel?.retryFetchCountryList()
-                }
-            },
-            contentAlignment: .center,
-            trackingName: "EditCountriesErrorScreen"
-        )
-    }
 }

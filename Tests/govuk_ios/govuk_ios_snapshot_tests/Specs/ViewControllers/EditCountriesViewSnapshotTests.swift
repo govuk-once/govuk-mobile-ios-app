@@ -86,7 +86,7 @@ final class EditCountriesViewSnapshotTests: SnapshotTestCase {
         )
     }
 
-    func test_loadInNavigationController_error_light_rendersCorrectly() async {
+    func test_loadInNavigationController_error_generic_light_rendersCorrectly() async {
         let mockTravelService = MockTravelService()
         mockTravelService._stubbedGetCountriesResult = .failure(.apiUnavailable)
         let viewModel = makeViewModel(travelService: mockTravelService)
@@ -103,10 +103,44 @@ final class EditCountriesViewSnapshotTests: SnapshotTestCase {
         )
     }
 
-    func test_loadInNavigationController_error_dark_rendersCorrectly() async {
+    func test_loadInNavigationController_error_generic_dark_rendersCorrectly() async {
         let mockTravelService = MockTravelService()
         mockTravelService._stubbedGetCountriesResult = .failure(.apiUnavailable)
         let viewModel = makeViewModel()
+
+        await viewModel.viewDidAppear()
+        await Task.yield()
+
+        let viewController = makeViewController(viewModel: viewModel)
+
+        VerifySnapshotInNavigationController(
+            viewController: viewController,
+            mode: .dark,
+            navBarHidden: true
+        )
+    }
+
+    func test_loadInNavigationController_error_network_light_rendersCorrectly() async {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedGetCountriesResult = .failure(.networkUnavailable)
+        let viewModel = makeViewModel(travelService: mockTravelService)
+
+        await viewModel.viewDidAppear()
+        await Task.yield()
+
+        let viewController = makeViewController(viewModel: viewModel)
+
+        VerifySnapshotInNavigationController(
+            viewController: viewController,
+            mode: .light,
+            navBarHidden: true
+        )
+    }
+
+    func test_loadInNavigationController_error_network_dark_rendersCorrectly() async {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedGetCountriesResult = .failure(.networkUnavailable)
+        let viewModel = makeViewModel(travelService: mockTravelService)
 
         await viewModel.viewDidAppear()
         await Task.yield()
@@ -133,7 +167,8 @@ final class EditCountriesViewSnapshotTests: SnapshotTestCase {
             analyticsService: analyticsService,
             notificationService: notificationService,
             urlOpener: MockURLOpener(),
-            openCountryListFooterAction: { /*NO-OP*/ }
+            openCountryListFooterAction: { /*NO-OP*/ },
+            navigateBackAction: { /*NO-OP*/ }
         )
     }
 

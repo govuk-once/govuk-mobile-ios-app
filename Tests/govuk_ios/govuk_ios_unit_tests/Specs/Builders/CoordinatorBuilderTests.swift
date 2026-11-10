@@ -547,5 +547,4 @@ struct CoordinatorBuilderTests {
 
         #expect(coordinator is NotificationCentreCoordinator)
     }
-
 }

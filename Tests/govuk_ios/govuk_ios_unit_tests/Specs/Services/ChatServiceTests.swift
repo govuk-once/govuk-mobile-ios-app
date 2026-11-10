@@ -209,6 +209,80 @@ final class ChatServiceTests {
     }
 
     @Test
+    func sendFeedback_passesExpectedValues() {
+        let sut = ChatService(
+            serviceClient: mockChatServiceClient,
+            chatRepository: mockChatRepository,
+            configService: mockConfigService,
+            userDefaultsService: mockUserDefaultsService
+        )
+
+        sut.sendFeedback(
+            conversationId: "conversationId",
+            answerId: "answerId",
+            isPositive: true,
+            completion: { _ in }
+        )
+
+        #expect(mockChatServiceClient._receivedSendFeedbackConversationId == "conversationId")
+        #expect(mockChatServiceClient._receivedSendFeedbackAnswerId == "answerId")
+        #expect(mockChatServiceClient._receivedSendFeedbackIsPositive == true)
+    }
+
+    @Test(arguments: [
+        ChatFeedbackResult.success(()),
+        .failure(.feedbackAlreadyGiven)
+    ])
+    func sendFeedback_recordedOrAlreadyGiven_returnsSuccess(
+        stubbedResult: ChatFeedbackResult
+    ) async {
+        let sut = ChatService(
+            serviceClient: mockChatServiceClient,
+            chatRepository: mockChatRepository,
+            configService: mockConfigService,
+            userDefaultsService: mockUserDefaultsService
+        )
+        mockChatServiceClient._stubbedSendFeedbackResult = stubbedResult
+
+        let result = await withCheckedContinuation { continuation in
+            sut.sendFeedback(
+                conversationId: "conversationId",
+                answerId: "answerId",
+                isPositive: true,
+                completion: { result in
+                    continuation.resume(returning: result)
+                }
+            )
+        }
+
+        #expect(result.getError() == nil)
+    }
+
+    @Test
+    func sendFeedback_returnsExpectedError() async {
+        let sut = ChatService(
+            serviceClient: mockChatServiceClient,
+            chatRepository: mockChatRepository,
+            configService: mockConfigService,
+            userDefaultsService: mockUserDefaultsService
+        )
+        mockChatServiceClient._stubbedSendFeedbackResult = .failure(.apiUnavailable)
+
+        let result = await withCheckedContinuation { continuation in
+            sut.sendFeedback(
+                conversationId: "conversationId",
+                answerId: "answerId",
+                isPositive: false,
+                completion: { result in
+                    continuation.resume(returning: result)
+                }
+            )
+        }
+
+        #expect(result.getError() == .apiUnavailable)
+    }
+
+    @Test
     func clearHistory_setsConversationIdToNil() {
         mockChatRepository._conversationId = "existing_id"
         let sut = ChatService(
