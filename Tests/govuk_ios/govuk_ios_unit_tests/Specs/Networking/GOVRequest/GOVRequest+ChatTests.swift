@@ -10,6 +10,7 @@ struct GOVRequest_ChatTests {
     func askQuestion_conversationId_returnsExpectedValues() {
         let request = GOVRequest.askQuestion(
             "Hello?",
+            isSuggestedPrompt: false,
             conversationId: "123"
         )
 
@@ -21,6 +22,7 @@ struct GOVRequest_ChatTests {
     func askQuestion_noConversationId_returnsExpectedValues() {
         let request = GOVRequest.askQuestion(
             "Hello?",
+            isSuggestedPrompt: false,
             conversationId: nil
         )
 

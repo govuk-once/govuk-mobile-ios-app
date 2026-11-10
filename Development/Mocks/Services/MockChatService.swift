@@ -27,6 +27,7 @@ final class MockChatService: ChatServiceInterface {
     var _receivedQuestions: [String] = []
     var _receivedQuestionCompletion: ((ChatQuestionResult) -> Void)?
     func askQuestion(_ question: String,
+                     isSuggestedPrompt: Bool?,
                      completion: @escaping (ChatQuestionResult) -> Void) {
         _receivedQuestions.append(question)
         _receivedQuestionCompletion = completion
