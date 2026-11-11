@@ -38,23 +38,6 @@ final class CategoriesViewModel: ObservableObject {
         self.entitledToDrive = entitledToDrive
         self.provisionallyEntitledToDrive = provisionallyEntitledToDrive
         self.links = links
-/*
- // KK Stuff:
-        self.links = [
-            CategoryLink(
-                text: String(localized: .DVLA.compareOldAndNewCategories),
-                url: Constants.API.defaultDvlaCategoriesCompareOldAndNewUrl
-            ),
-            CategoryLink(
-                text: String(localized: .DVLA.vehicleWeightsExplained),
-                url: Constants.API.defaultDvlaCategoriesVehicleWeightsUrl
-            ),
-            CategoryLink(
-                text: String(localized: .DVLA.addingCategoriesToYourVehicle),
-                url: Constants.API.defaultDvlaCategoriesAddingCategoriesUrl
-            ),
-        ]
-*/
         self.showsRowHighlight = showsRowHighlight
         self.didSelectAction = actions.didSelectAction
         self.openURLAction = actions.openURLAction
