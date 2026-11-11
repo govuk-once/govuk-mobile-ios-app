@@ -201,7 +201,9 @@ extension Entitlement {
         showsRowHighlight: true,
         didSelectAction: { selected in
             print("Selected Entitlement: \(selected.categoryCode) (\(selected.categoryType))")
-        }
+        },
+        dismissAction: { },
+        analyticsService: MockAnalyticsService()
     )
 
     NavigationStack {

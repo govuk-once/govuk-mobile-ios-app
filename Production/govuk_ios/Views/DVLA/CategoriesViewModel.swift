@@ -19,6 +19,7 @@ final class CategoriesViewModel: ObservableObject {
 
     private let didSelectAction: ((Entitlement) -> Void)?
     private let onOpenURL: ((URL) -> Void)?
+    private let dismissAction: () -> Void
 
     init(
         entitledToDrive: [EntitlementGroup] = [],
@@ -27,6 +28,7 @@ final class CategoriesViewModel: ObservableObject {
         showsRowHighlight: Bool = true,
         didSelectAction: ((Entitlement) -> Void)? = nil,
         onOpenURL: ((URL) -> Void)? = nil,
+        dismissAction: @escaping () -> Void,
         analyticsService: AnalyticsServiceInterface,
     ) {
         self.entitledToDrive = entitledToDrive
@@ -35,6 +37,7 @@ final class CategoriesViewModel: ObservableObject {
         self.showsRowHighlight = showsRowHighlight
         self.didSelectAction = didSelectAction
         self.onOpenURL = onOpenURL
+        self.dismissAction = dismissAction
         self.analyticsService = analyticsService
     }
 
@@ -57,6 +60,7 @@ final class CategoriesViewModel: ObservableObject {
             showsRowHighlight: showsRowHighlight,
             didSelectAction: didSelectAction,
             onOpenURL: onOpenURL,
+            dismissAction: dismissAction,
             analyticsService: analyticsService
         )
     }
@@ -77,6 +81,11 @@ final class CategoriesViewModel: ObservableObject {
 
 
     // MARK: - User Actions
+
+    func dismiss() {
+        trackDismissEvent()
+        dismissAction()
+    }
 
     func onRowTap(_ entitlement: Entitlement) {
         let metadata = LicenceCategoryDisplayMetadataBuilder.metadata(for: entitlement.categoryCode)
