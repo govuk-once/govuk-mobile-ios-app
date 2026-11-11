@@ -187,10 +187,13 @@ extension Entitlement {
     let viewModel = CategoriesViewModel(
         entitlements: sampleEntitlements,
         showsRowHighlight: true,
-        didSelectAction: { selected in
-            print("Selected Entitlement: \(selected.categoryCode) (\(selected.categoryType))")
-        },
-        dismissAction: { },
+        actions: .init(
+            didSelectAction: { selected in
+                print("Selected Entitlement: \(selected.categoryCode) (\(selected.categoryType))")
+            },
+            openURLAction: nil,
+            dismissAction: {}
+        ),
         analyticsService: MockAnalyticsService()
     )
 

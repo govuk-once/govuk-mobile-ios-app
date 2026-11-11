@@ -1,6 +1,12 @@
 import SwiftUI
 import GovKit
 
+struct CategoriesActions {
+    let didSelectAction: ((Entitlement) -> Void)?
+    let openURLAction: ((URL) -> Void)?
+    let dismissAction: () -> Void
+}
+
 struct CategoryLink: Identifiable, Hashable {
     let id = UUID()
     let text: String
@@ -25,9 +31,7 @@ final class CategoriesViewModel: ObservableObject {
         entitledToDrive: [EntitlementGroup] = [],
         provisionallyEntitledToDrive: [EntitlementGroup] = [],
         showsRowHighlight: Bool = true,
-        didSelectAction: ((Entitlement) -> Void)? = nil,
-        onOpenURL: ((URL) -> Void)? = nil,
-        dismissAction: @escaping () -> Void,
+        actions: CategoriesActions,
         analyticsService: AnalyticsServiceInterface,
     ) {
         self.entitledToDrive = entitledToDrive
@@ -47,9 +51,9 @@ final class CategoriesViewModel: ObservableObject {
             ),
         ]
         self.showsRowHighlight = showsRowHighlight
-        self.didSelectAction = didSelectAction
-        self.openURLAction = onOpenURL
-        self.dismissAction = dismissAction
+        self.didSelectAction = actions.didSelectAction
+        self.openURLAction = actions.openURLAction
+        self.dismissAction = actions.dismissAction
         self.analyticsService = analyticsService
     }
 
@@ -57,9 +61,7 @@ final class CategoriesViewModel: ObservableObject {
         entitlements: [Entitlement],
         mapper: EntitlementMapping = EntitlementMapper(),
         showsRowHighlight: Bool = true,
-        didSelectAction: ((Entitlement) -> Void)? = nil,
-        dismissAction: @escaping () -> Void,
-        onOpenURL: ((URL) -> Void)? = nil,
+        actions: CategoriesActions,
         analyticsService: AnalyticsServiceInterface
     ) {
         let categorised = mapper.map(entitlements: entitlements)
@@ -68,9 +70,7 @@ final class CategoriesViewModel: ObservableObject {
             entitledToDrive: categorised.entitledToDrive,
             provisionallyEntitledToDrive: categorised.provisionallyEntitledToDrive,
             showsRowHighlight: showsRowHighlight,
-            didSelectAction: didSelectAction,
-            onOpenURL: onOpenURL,
-            dismissAction: dismissAction,
+            actions: actions,
             analyticsService: analyticsService
         )
     }
@@ -103,11 +103,9 @@ final class CategoriesViewModel: ObservableObject {
     }
 
     func onLinkClick(_ link: CategoryLink) {
-//        openURLAction(text: link.text, url: link.url)
-    }
-
-    // MARK: - Links
-
-    func setupLinks() {
+        // KKTODO: Analytics
+        if let openURLAction = openURLAction {
+            openURLAction(link.url)
+        }
     }
 }
