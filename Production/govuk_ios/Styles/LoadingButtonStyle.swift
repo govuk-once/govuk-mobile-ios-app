@@ -9,15 +9,14 @@ struct LoadingButtonStyle: ButtonStyle {
 
     func makeBody(configuration: Configuration) -> some View {
         ZStack {
-            if isLoading {
-                ProgressView()
-                    .progressViewStyle(.circular)
-                    .tint(.white)
-                    .accessibilityLabel(loadingLabel)
-            } else {
-                configuration.label
-                    .opacity(configuration.isPressed ? 0.7 : 1.0)
-            }
+            ProgressView()
+                .progressViewStyle(.circular)
+                .tint(.white)
+                .opacity(isLoading ? 1.0 : 0.0)
+                .accessibilityHidden(!isLoading)
+                .accessibilityLabel(loadingLabel)
+            configuration.label
+                .opacity(isLoading ? 0 : (configuration.isPressed ? 0.7 : 1.0))
         }
         .frame(maxWidth: .infinity, idealHeight: 44)
         .padding()
