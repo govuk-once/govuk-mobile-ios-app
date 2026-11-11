@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct LicenceCategoriesListView: View {
+struct PlaceholderLicenceCategoriesListView: View {
     @ObservedObject var viewModel: LicenceCategoryListViewModel
     @State private var selectedID: UUID?
 
@@ -131,7 +131,7 @@ struct LicenceCategoriesListViewContainer: View {
 
     var body: some View {
         NavigationStack {
-            LicenceCategoriesListView(viewModel: viewModel)
+            PlaceholderLicenceCategoriesListView(viewModel: viewModel)
         }
     }
 }

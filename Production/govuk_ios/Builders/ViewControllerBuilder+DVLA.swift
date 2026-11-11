@@ -165,7 +165,7 @@ extension ViewControllerBuilder: DVLAViewControllerBuilding {
         let viewModel = LicenceCategoryListViewModel(entitlements: entitlements,
             didSelectAction: selectAction,
             dismissAction: dismissAction)
-        let view = LicenceCategoriesListView(viewModel: viewModel)
+        let view = PlaceholderLicenceCategoriesListView(viewModel: viewModel)
         let viewController = HostingViewController(rootView: view)
         return viewController
     }
