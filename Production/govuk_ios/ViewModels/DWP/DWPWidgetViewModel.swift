@@ -3,10 +3,12 @@ import SwiftUI
 import GovKit
 
 final class DWPWidgetViewModel: ObservableObject {
-    @Published var state: State = .loading
+    @Published private(set) var state: State = .loading
     private let analyticsService: AnalyticsServiceInterface
-    init(analyticsService: AnalyticsServiceInterface) {
+    init(analyticsService: AnalyticsServiceInterface,
+         state: State = .loading) {
         self.analyticsService = analyticsService
+        self.state = state
     }
 
     enum State {
@@ -14,13 +16,11 @@ final class DWPWidgetViewModel: ObservableObject {
         case unlinked(linkCard: ServiceAccountLinkCardViewModel)
     }
 
+    @MainActor
     func fetchDWPData() {
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            self.state = .unlinked(
-                linkCard: self.linkCardViewModel
-            )
-        }
+        state = .unlinked(
+            linkCard: self.linkCardViewModel
+        )
     }
 
     private var linkCardViewModel: ServiceAccountLinkCardViewModel {
@@ -28,7 +28,7 @@ final class DWPWidgetViewModel: ObservableObject {
         return ServiceAccountLinkCardViewModel(
             title: linkCardTitle,
             subtitle: String.dwp.localized("dwpAccountLinkCardSubtitle"),
-            action: { }
+            action: { /* no-op */ }
         )
     }
 }

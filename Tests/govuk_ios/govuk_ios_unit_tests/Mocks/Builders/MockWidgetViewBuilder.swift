@@ -7,7 +7,7 @@ class MockWidgetViewBuilder: WidgetViewBuilder {
     var _receivedDvlaAccountWidgetLinkAction: (() -> Void)?
     var _receivedVehicleDetailAction: ((Int) -> Void)?
 
-    override func dvlaAccountWidget(
+    override func makeAccountWidget(
         analyticsService: AnalyticsServiceInterface,
         userService: UserServiceInterface,
         dvlaService: DVLAServiceInterface,
@@ -23,7 +23,7 @@ class MockWidgetViewBuilder: WidgetViewBuilder {
     var _receivedTravelAlertEditAction: (() -> Void)?
     var _receivedTravelAlertOpenURLAction: ((URL) -> Void)?
 
-    override func travelAlertWidget(
+    override func makeTravelAlertWidget(
         analyticsService: AnalyticsServiceInterface,
         travelService: TravelServiceInterface,
         notificationService: NotificationServiceInterface,

@@ -510,11 +510,10 @@ struct CoordinatorBuilderTests {
         #expect(topicWidgetProvider is TravelAlertsWidgetCoordinator)
     }
     
-    
     @Test
     func topicWidgetProvider_forBenefitsTopic_returnsBenefitsWidgetCoordinator() async {
         let mockCoreDataViewContext = await CoreDataRepository.arrangeAndLoad.viewContext
-        let travelTopic = Topic.arrange(
+        let benefitsWidget = Topic.arrange(
             context: mockCoreDataViewContext,
             ref: "benefits"
         )
@@ -523,7 +522,7 @@ struct CoordinatorBuilderTests {
         container.userService.register(factory: { MockUserService() })
         let subject = CoordinatorBuilder(container: container)
         let topicWidgetProvider = subject.topicWidgetProvider(
-            topic: travelTopic,
+            topic: benefitsWidget,
             navigationController: UINavigationController()
         )
         #expect(topicWidgetProvider is BenefitsTopicWidgetCoordinator)

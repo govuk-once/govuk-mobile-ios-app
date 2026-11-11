@@ -33,7 +33,7 @@ final class BenefitsTopicWidgetCoordinator: BaseCoordinator,
         else {
             return nil
         }
-        return widgetViewBuilder.getDWPWidget(
+        return widgetViewBuilder.makeDWPWidget(
             analyticsService: analyticsService
         )
     }

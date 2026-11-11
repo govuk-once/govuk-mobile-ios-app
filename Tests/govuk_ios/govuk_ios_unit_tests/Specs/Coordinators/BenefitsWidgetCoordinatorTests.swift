@@ -6,7 +6,7 @@ import Testing
 
 @Suite
 @MainActor
-struct DWPTopicWidgetCoordinatorTests {
+struct BenefitsWidgetCoordinatorTests {
 
     let mockAnalyticsService = MockAnalyticsService()
     let mockConfigService = MockAppConfigService()

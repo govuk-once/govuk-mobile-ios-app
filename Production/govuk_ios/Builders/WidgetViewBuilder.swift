@@ -2,7 +2,7 @@ import SwiftUI
 import GovKit
 
 class WidgetViewBuilder {
-    func dvlaAccountWidget(
+    func makeAccountWidget(
         analyticsService: AnalyticsServiceInterface,
         userService: UserServiceInterface,
         dvlaService: DVLAServiceInterface,
@@ -22,7 +22,7 @@ class WidgetViewBuilder {
     }
 
     // swiftlint:disable:next function_parameter_count
-    func travelAlertWidget(
+    func makeTravelAlertWidget(
         analyticsService: AnalyticsServiceInterface,
         travelService: TravelServiceInterface,
         notificationService: NotificationServiceInterface,
@@ -47,7 +47,7 @@ class WidgetViewBuilder {
         return AnyView(widget)
     }
 
-    func getDWPWidget(
+    func makeDWPWidget(
         analyticsService: AnalyticsServiceInterface
     ) -> AnyView? {
         let viewModel = DWPWidgetViewModel(

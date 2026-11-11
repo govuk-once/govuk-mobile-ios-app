@@ -5,16 +5,17 @@ import GovKit
 
 @testable import govuk_ios
 
-@MainActor class DWPWidgetViewSnapshotTests: SnapshotTestCase {
+@MainActor
+class DWPWidgetViewSnapshotTests: SnapshotTestCase {
     func test_linkAccountCard_light_rendersCorrectly() {
         let viewModel = DWPWidgetViewModel(
-            analyticsService: MockAnalyticsService()
-        )
-        viewModel.state = .unlinked(
-            linkCard: linkCardViewModel
+            analyticsService: MockAnalyticsService(),
+            state: .unlinked(
+                linkCard: linkCardViewModel
+            )
         )
         let view = DWPWidgetView(viewModel: viewModel)
-        let hostingViewController =  HostingViewController(
+        let hostingViewController = HostingViewController(
             rootView: view
         )
         hostingViewController.view.backgroundColor = .govUK.fills.surfaceBackground
@@ -23,16 +24,16 @@ import GovKit
             mode: .light
         )
     }
-    
+
     func test_linkAccountCard_dark_rendersCorrectly() {
         let viewModel = DWPWidgetViewModel(
-            analyticsService: MockAnalyticsService()
-        )
-        viewModel.state = .unlinked(
-            linkCard: linkCardViewModel
+            analyticsService: MockAnalyticsService(),
+            state: .unlinked(
+                linkCard: linkCardViewModel
+            )
         )
         let view = DWPWidgetView(viewModel: viewModel)
-        let hostingViewController =  HostingViewController(
+        let hostingViewController = HostingViewController(
             rootView: view
         )
         hostingViewController.view.backgroundColor = .govUK.fills.surfaceBackground
@@ -43,12 +44,11 @@ import GovKit
     }
     
     private var linkCardViewModel: ServiceAccountLinkCardViewModel {
-        let linkCardTitle = String.dvla.localized("dvlaAccountLinkCardTitle")
+        let linkCardTitle = String.dwp.localized("dwpAccountLinkCardTitle")
         return ServiceAccountLinkCardViewModel(
             title: linkCardTitle,
-            subtitle: String.dvla.localized("dvlaAccountLinkCardSubtitle"),
-            action: { }
+            subtitle: String.dwp.localized("dwpAccountLinkCardSubtitle"),
+            action: { /* no-op */ }
         )
     }
 }
-

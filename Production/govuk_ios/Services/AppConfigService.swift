@@ -148,6 +148,7 @@ public final class AppConfigService: AppConfigServiceInterface {
     private var developmentOverrides: [Feature: Bool] {
     #if STAGING
         [
+            .dwp: true, // featureFlags[Feature.dwp.rawValue] ?? false
             .profile: true, // featureFlags[Feature.profile.rawValue] ?? false,
             .dvla: true, // featureFlags[Feature.dvla.rawValue] ?? false
             .messages: true, // featureFlags[Feature.messages.rawValue] ?? false
@@ -157,7 +158,8 @@ public final class AppConfigService: AppConfigServiceInterface {
         [
             .dvla: false,
             .messages: false,
-            .travelAlerts: false
+            .travelAlerts: false,
+            .dwp: false
         ]
     #endif
     }
