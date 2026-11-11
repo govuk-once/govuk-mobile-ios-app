@@ -177,9 +177,7 @@ extension ViewControllerBuilder: DVLAViewControllerBuilding {
         dismissAction: @escaping () -> Void
     ) -> UIViewController {
         let viewModel = CategoriesViewModel(entitlements: entitlements,
-                                            onRowSelected: { entRow in
-            print("selected entRow: \(entRow)")
-        })
+                                            didSelectAction: selectAction)
 
         let view = VMCategoriesSheetView(viewModel: viewModel)
         let viewController = HostingViewController(rootView: view)

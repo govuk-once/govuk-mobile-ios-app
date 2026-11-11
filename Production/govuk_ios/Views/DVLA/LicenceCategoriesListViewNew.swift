@@ -199,7 +199,7 @@ extension Entitlement {
         entitlements: sampleEntitlements,
         links: sampleLinks,
         showsRowHighlight: true,
-        onRowSelected: { selected in
+        didSelectAction: { selected in
             print("Selected Entitlement: \(selected.categoryCode) (\(selected.categoryType))")
         }
     )

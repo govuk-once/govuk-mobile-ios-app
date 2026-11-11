@@ -14,7 +14,7 @@ final class CategoriesViewModel: ObservableObject {
 
     let showsRowHighlight: Bool
 
-    private let onRowSelected: ((Entitlement) -> Void)?
+    private let didSelectAction: ((Entitlement) -> Void)?
     private let onOpenURL: ((URL) -> Void)?
     private let onAnalyticsEvent: ((String, [String: Any]) -> Void)?
 
@@ -23,7 +23,7 @@ final class CategoriesViewModel: ObservableObject {
         provisionallyEntitledToDrive: [EntitlementGroup] = [],
         links: [CategoryLink] = [],
         showsRowHighlight: Bool = true,
-        onRowSelected: ((Entitlement) -> Void)? = nil,
+        didSelectAction: ((Entitlement) -> Void)? = nil,
         onOpenURL: ((URL) -> Void)? = nil,
         onAnalyticsEvent: ((String, [String: Any]) -> Void)? = nil
     ) {
@@ -31,7 +31,7 @@ final class CategoriesViewModel: ObservableObject {
         self.provisionallyEntitledToDrive = provisionallyEntitledToDrive
         self.links = links
         self.showsRowHighlight = showsRowHighlight
-        self.onRowSelected = onRowSelected
+        self.didSelectAction = didSelectAction
         self.onOpenURL = onOpenURL
         self.onAnalyticsEvent = onAnalyticsEvent
     }
@@ -41,7 +41,7 @@ final class CategoriesViewModel: ObservableObject {
         mapper: EntitlementMapping = EntitlementMapper(),
         links: [CategoryLink] = [],
         showsRowHighlight: Bool = true,
-        onRowSelected: ((Entitlement) -> Void)? = nil,
+        didSelectAction: ((Entitlement) -> Void)? = nil,
         onOpenURL: ((URL) -> Void)? = nil,
         onAnalyticsEvent: ((String, [String: Any]) -> Void)? = nil
     ) {
@@ -52,7 +52,7 @@ final class CategoriesViewModel: ObservableObject {
             provisionallyEntitledToDrive: categorised.provisionallyEntitledToDrive,
             links: links,
             showsRowHighlight: showsRowHighlight,
-            onRowSelected: onRowSelected,
+            didSelectAction: didSelectAction,
             onOpenURL: onOpenURL,
             onAnalyticsEvent: onAnalyticsEvent
         )
@@ -68,7 +68,7 @@ final class CategoriesViewModel: ObservableObject {
             "group": metadata.group.title
         ])
 
-        onRowSelected?(entitlement)
+        didSelectAction?(entitlement)
     }
 
     func onLinkClick(_ link: CategoryLink) {
