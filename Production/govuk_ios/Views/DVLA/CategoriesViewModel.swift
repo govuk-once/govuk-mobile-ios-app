@@ -1,3 +1,5 @@
+import SwiftUI
+
 @MainActor
 final class CategoriesViewModel: ObservableObject {
     @Published private(set) var entitledToDrive: [EntitlementRow] = []
@@ -7,7 +9,7 @@ final class CategoriesViewModel: ObservableObject {
     /// Configures visual tap highlight on rows
     let showsRowHighlight: Bool
 
-    private let onRowSelected: ((EntitlementRow) -> Void)?
+    private let didSelectAtion: ((EntitlementRow) -> Void)?
     private let onOpenURL: ((URL) -> Void)?
     private let onAnalyticsEvent: ((String, [String: Any]) -> Void)?
 
@@ -24,7 +26,7 @@ final class CategoriesViewModel: ObservableObject {
         self.provisionallyEntitledToDrive = provisionallyEntitledToDrive
         self.links = links
         self.showsRowHighlight = showsRowHighlight
-        self.onRowSelected = onRowSelected
+        self.didSelectAtion = onRowSelected
         self.onOpenURL = onOpenURL
         self.onAnalyticsEvent = onAnalyticsEvent
     }
@@ -37,7 +39,7 @@ final class CategoriesViewModel: ObservableObject {
             "codes": row.codesDisplay
         ])
 
-        onRowSelected?(row)
+        didSelectAtion?(row)
     }
 
     func onLinkClick(_ link: CategoryLink) {
