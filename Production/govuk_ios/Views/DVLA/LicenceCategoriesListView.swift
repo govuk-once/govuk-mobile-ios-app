@@ -10,7 +10,7 @@ struct LicenceCategoriesListView: View {
                 selectedID = entitlement.id
                 viewModel.handleDidSelect(entitlement: entitlement)
             } label: {
-                EntitlementRowView(
+                PlaceholderEntitlementRowView(
                     entitlement: entitlement,
                     isSelected: selectedID == entitlement.id
                 )
@@ -31,7 +31,7 @@ struct LicenceCategoriesListView: View {
     }
 }
 
-private struct EntitlementRowView: View {
+private struct PlaceholderEntitlementRowView: View {
     let entitlement: Entitlement
     let isSelected: Bool
 
