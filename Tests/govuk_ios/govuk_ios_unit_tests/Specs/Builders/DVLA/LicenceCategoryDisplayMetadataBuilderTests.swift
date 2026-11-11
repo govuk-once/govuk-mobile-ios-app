@@ -7,8 +7,7 @@ import Testing
 struct LicenceCategoryDisplayMetadataBuilderTests {
     @Test
     func buildMetadata_forKnownCategory_returnsExpectedResult() {
-        let sut = LicenceCategoryDisplayMetadataBuilder()
-        let result = sut.buildMetadata(for: "B")
+        let result = LicenceCategoryDisplayMetadataBuilder.metadata(for: "B")
         #expect(result.group == .cars)
         #expect(result.image == .drivingCategoryB)
         #expect(result.displayName  == "B")
@@ -16,8 +15,7 @@ struct LicenceCategoryDisplayMetadataBuilderTests {
 
     @Test
     func buildMetadata_categoryCodeLookupIsCaseInsensitive() {
-        let sut = LicenceCategoryDisplayMetadataBuilder()
-        let result = sut.buildMetadata(for: "a")
+        let result = LicenceCategoryDisplayMetadataBuilder.metadata(for: "a")
         #expect(result.group == .motorcycles)
         #expect(result.image == .drivingCategoryA)
         #expect(result.displayName == "A")
@@ -35,15 +33,13 @@ struct LicenceCategoryDisplayMetadataBuilderTests {
         categoryCode: String,
         expectedDisplayName: String
     ) {
-        let sut = LicenceCategoryDisplayMetadataBuilder()
-        let result = sut.buildMetadata(for: categoryCode)
+        let result = LicenceCategoryDisplayMetadataBuilder.metadata(for: categoryCode)
         #expect(result.displayName == expectedDisplayName)
     }
 
     @Test
     func buildMetadata_forUnknownCategory_returnsFallbackMetadata() {
-        let sut = LicenceCategoryDisplayMetadataBuilder()
-        let result = sut.buildMetadata(for: "XXZ")
+        let result = LicenceCategoryDisplayMetadataBuilder.metadata(for: "XXZ")
         #expect(result.group == .otherVehicles)
         #expect(result.image == nil)
         #expect(result.displayName == "XXZ")
