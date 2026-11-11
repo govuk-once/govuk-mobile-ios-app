@@ -69,16 +69,6 @@ struct VMCategoriesSheetView: View {
 
     var body: some View {
         VMCategoriesListView(viewModel: viewModel)
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button {
-                        viewModel.dismiss()
-                    } label: {
-                        Image(systemName: "xmark")
-                            .tint(Color(uiColor: .govUK.text.link))
-                    }
-                }
-            }
             .navigationTitle("Categories")
             .navigationBarTitleDisplayMode(.large)
             .background(Color(uiColor: .govUK.fills.surfaceFullscreen))

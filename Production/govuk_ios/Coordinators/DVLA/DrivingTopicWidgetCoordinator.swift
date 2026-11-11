@@ -102,8 +102,9 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator,
 
     private func startLicenceCategories(entitlements: [Entitlement]) {
         let coordinator = coordinatorBuilder.licenceCategoriesCoordinator(
+            navigationController: root,
             entitlements: entitlements
         )
-        present(coordinator)
+        start(coordinator)
     }
 }

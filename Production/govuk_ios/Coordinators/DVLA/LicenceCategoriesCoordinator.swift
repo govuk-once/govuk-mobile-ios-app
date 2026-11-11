@@ -3,13 +3,15 @@ import UIKit
 import GovKit
 
 final class LicenceCategoriesCoordinator: BaseCoordinator {
+    private var previousPrefersLargeTitles: Bool?
     private let viewControllerBuilder: DVLAViewControllerBuilding
     private let urlOpener: URLOpener
     private let configService: AppConfigServiceInterface
     private let analyticsService: AnalyticsServiceInterface
     private let entitlements: [Entitlement]
 
-    init(viewControllerBuilder: DVLAViewControllerBuilding,
+    init(navigationController: UINavigationController,
+         viewControllerBuilder: DVLAViewControllerBuilding,
          urlOpener: URLOpener,
          configService: AppConfigServiceInterface,
          analyticsService: AnalyticsServiceInterface,
@@ -19,11 +21,25 @@ final class LicenceCategoriesCoordinator: BaseCoordinator {
         self.configService = configService
         self.analyticsService = analyticsService
         self.entitlements = entitlements
-        super.init(navigationController: UINavigationController())
+        super.init(navigationController: navigationController)
     }
 
     override func start(url: URL?) {
+        assert(
+            !root.viewControllers.isEmpty,
+            "\(Self.self) must be pushed onto an existing navigation stack via start(_:), not presented modally."
+        )
+        previousPrefersLargeTitles = root.navigationBar.prefersLargeTitles
+        root.navigationBar.prefersLargeTitles = true
         showList()
+    }
+
+    override func finish() {
+        if let previousPrefersLargeTitles {
+            root.navigationBar.prefersLargeTitles = previousPrefersLargeTitles
+            self.previousPrefersLargeTitles = nil
+        }
+        super.finish()
     }
 
     private func showList() {
@@ -45,7 +61,8 @@ final class LicenceCategoriesCoordinator: BaseCoordinator {
             configService: configService,
             actions: actions
         )
-        set(viewController, animated: false)
+        viewController.navigationItem.largeTitleDisplayMode = .always
+        push(viewController)
     }
 
     private func showDetail(entitlement: Entitlement) {
@@ -56,6 +73,8 @@ final class LicenceCategoriesCoordinator: BaseCoordinator {
                 self?.dismiss(animated: true)
             }
         )
-        push(viewController)
+
+        let navCon = UINavigationController(rootViewController: viewController)
+        self.root.present(navCon, animated: true)
     }
 }
