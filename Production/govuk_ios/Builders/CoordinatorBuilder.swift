@@ -19,7 +19,6 @@ protocol ServiceAccountCoordinatorBuilding {
     ) -> BaseCoordinator
 }
 
-
 @MainActor
 // swiftlint:disable:next type_body_length
 class CoordinatorBuilder: ServiceAccountCoordinatorBuilding {
@@ -47,8 +46,9 @@ class CoordinatorBuilder: ServiceAccountCoordinatorBuilding {
         )
     }
 
-    func preAuth(navigationController: UINavigationController,
-                 completion: @escaping () -> Void) -> BaseCoordinator {
+    func preAuth(
+        navigationController: UINavigationController,
+        completion: @escaping () -> Void) -> BaseCoordinator {
         PreAuthCoordinator(
             coordinatorBuilder: self,
             navigationController: navigationController,
@@ -57,8 +57,9 @@ class CoordinatorBuilder: ServiceAccountCoordinatorBuilding {
         )
     }
 
-    func periAuth(navigationController: UINavigationController,
-                  completion: @escaping () -> Void) -> BaseCoordinator {
+    func periAuth(
+        navigationController: UINavigationController,
+        completion: @escaping () -> Void) -> BaseCoordinator {
         PeriAuthCoordinator(
             coordinatorBuilder: self,
             navigationController: navigationController,
@@ -66,8 +67,9 @@ class CoordinatorBuilder: ServiceAccountCoordinatorBuilding {
         )
     }
 
-    func postAuth(navigationController: UINavigationController,
-                  completion: @escaping () -> Void) -> BaseCoordinator {
+    func postAuth(
+        navigationController: UINavigationController,
+        completion: @escaping () -> Void) -> BaseCoordinator {
         PostAuthCoordinator(
             coordinatorBuilder: self,
             analyticsService: container.analyticsService.resolve(),
@@ -80,7 +82,6 @@ class CoordinatorBuilder: ServiceAccountCoordinatorBuilding {
 
     var home: TabItemCoordinator {
         let navigationController = UINavigationController.home
-
         return HomeCoordinator(
             navigationController: navigationController,
             coordinatorBuilder: self,
@@ -107,7 +108,6 @@ class CoordinatorBuilder: ServiceAccountCoordinatorBuilding {
 
     var settings: TabItemCoordinator {
         let navigationController = UINavigationController.settings
-
         return SettingsCoordinator(
             navigationController: navigationController,
             viewControllerBuilder: ViewControllerBuilder(),
@@ -127,9 +127,9 @@ class CoordinatorBuilder: ServiceAccountCoordinatorBuilding {
         )
     }
 
-    func chat(cancelOnboardingAction: @escaping () -> Void) -> TabItemCoordinator {
+    func chat(
+        cancelOnboardingAction: @escaping () -> Void) -> TabItemCoordinator {
         let navigationController = UINavigationController.chat
-
         return ChatCoordinator(
             navigationController: navigationController,
             coordinatorBuilder: self,
@@ -146,8 +146,9 @@ class CoordinatorBuilder: ServiceAccountCoordinatorBuilding {
         )
     }
 
-    func launch(navigationController: UINavigationController,
-                completion: @escaping (AppLaunchResponse) -> Void) -> BaseCoordinator {
+    func launch(
+        navigationController: UINavigationController,
+        completion: @escaping (AppLaunchResponse) -> Void) -> BaseCoordinator {
         LaunchCoordinator(
             navigationController: navigationController,
             viewControllerBuilder: ViewControllerBuilder(),
@@ -157,8 +158,9 @@ class CoordinatorBuilder: ServiceAccountCoordinatorBuilding {
         )
     }
 
-    func relaunch(navigationController: UINavigationController,
-                  completion: @escaping () -> Void) -> BaseCoordinator {
+    func relaunch(
+        navigationController: UINavigationController,
+        completion: @escaping () -> Void) -> BaseCoordinator {
         ReLaunchCoordinator(
             coordinatorBuilder: self,
             authenticationService: container.authenticationService.resolve(),
@@ -168,8 +170,9 @@ class CoordinatorBuilder: ServiceAccountCoordinatorBuilding {
         )
     }
 
-    func jailbreakDetector(navigationController: UINavigationController,
-                           dismissAction: @escaping () -> Void) -> BaseCoordinator {
+    func jailbreakDetector(
+        navigationController: UINavigationController,
+        dismissAction: @escaping () -> Void) -> BaseCoordinator {
         JailbreakCoordinator(
             navigationController: navigationController,
             jailbreakDetectionService: container.jailbreakDetectionService.resolve(),
@@ -177,10 +180,11 @@ class CoordinatorBuilder: ServiceAccountCoordinatorBuilding {
         )
     }
 
-    func appUnavailable(navigationController: UINavigationController,
-                        error: AppUnavailableError?,
-                        retryAction: @escaping (@escaping (Bool) -> Void) -> Void,
-                        dismissAction: @escaping () -> Void) -> BaseCoordinator {
+    func appUnavailable(
+        navigationController: UINavigationController,
+        error: AppUnavailableError?,
+        retryAction: @escaping (@escaping (Bool) -> Void) -> Void,
+        dismissAction: @escaping () -> Void) -> BaseCoordinator {
         AppUnavailableCoordinator(
             navigationController: navigationController,
             error: error,
@@ -189,9 +193,10 @@ class CoordinatorBuilder: ServiceAccountCoordinatorBuilding {
         )
     }
 
-    func appRecommendUpdate(navigationController: UINavigationController,
-                            launchResponse: AppLaunchResponse,
-                            dismissAction: @escaping () -> Void) -> BaseCoordinator {
+    func appRecommendUpdate(
+        navigationController: UINavigationController,
+        launchResponse: AppLaunchResponse,
+        dismissAction: @escaping () -> Void) -> BaseCoordinator {
         AppRecommendUpdateCoordinator(
             navigationController: navigationController,
             launchResponse: launchResponse,
@@ -199,9 +204,10 @@ class CoordinatorBuilder: ServiceAccountCoordinatorBuilding {
         )
     }
 
-    func appForcedUpdate(navigationController: UINavigationController,
-                         launchResponse: AppLaunchResponse,
-                         dismissAction: @escaping () -> Void) -> BaseCoordinator {
+    func appForcedUpdate(
+        navigationController: UINavigationController,
+        launchResponse: AppLaunchResponse,
+        dismissAction: @escaping () -> Void) -> BaseCoordinator {
         AppForcedUpdateCoordinator(
             navigationController: navigationController,
             launchResponse: launchResponse,
@@ -209,8 +215,9 @@ class CoordinatorBuilder: ServiceAccountCoordinatorBuilding {
         )
     }
 
-    func analyticsConsent(navigationController: UINavigationController,
-                          completion: @escaping () -> Void) -> BaseCoordinator {
+    func analyticsConsent(
+        navigationController: UINavigationController,
+        completion: @escaping () -> Void) -> BaseCoordinator {
         AnalyticsConsentCoordinator(
             navigationController: navigationController,
             analyticsService: container.analyticsService.resolve(),
@@ -220,7 +227,8 @@ class CoordinatorBuilder: ServiceAccountCoordinatorBuilding {
         )
     }
 
-    func tab(navigationController: UINavigationController) -> BaseCoordinator {
+    func tab(
+        navigationController: UINavigationController) -> BaseCoordinator {
         TabCoordinator(
             coordinatorBuilder: self,
             navigationController: navigationController,
@@ -228,7 +236,8 @@ class CoordinatorBuilder: ServiceAccountCoordinatorBuilding {
         )
     }
 
-    func recentActivity(navigationController: UINavigationController) -> BaseCoordinator {
+    func recentActivity(
+        navigationController: UINavigationController) -> BaseCoordinator {
         RecentActivityCoordinator(
             navigationController: navigationController,
             viewControllerBuilder: ViewControllerBuilder(),
@@ -238,8 +247,9 @@ class CoordinatorBuilder: ServiceAccountCoordinatorBuilding {
         )
     }
 
-    func topicDetail(_ topic: Topic,
-                     navigationController: UINavigationController) -> BaseCoordinator {
+    func topicDetail(
+        _ topic: Topic,
+        navigationController: UINavigationController) -> BaseCoordinator {
         TopicDetailsCoordinator(
             navigationController: navigationController,
             analyticsService: container.analyticsService.resolve(),
@@ -259,7 +269,8 @@ class CoordinatorBuilder: ServiceAccountCoordinatorBuilding {
         topic: Topic,
         navigationController: UINavigationController
     ) -> TopicWidgetProvider? {
-        if topic.isDrivingTopic {
+        switch true {
+        case topic.isDrivingTopic:
             return DrivingTopicWidgetCoordinator(
                 navigationController: navigationController,
                 analyticsService: container.analyticsService.resolve(),
@@ -270,7 +281,7 @@ class CoordinatorBuilder: ServiceAccountCoordinatorBuilding {
                 widgetViewBuilder: WidgetViewBuilder(),
                 urlOpener: UIApplication.shared
             )
-        } else if topic.isTravelTopic {
+        case topic.isTravelTopic:
             return TravelAlertsWidgetCoordinator(
                 navigationController: navigationController,
                 analyticsService: container.analyticsService.resolve(),
@@ -283,25 +294,35 @@ class CoordinatorBuilder: ServiceAccountCoordinatorBuilding {
                 widgetViewBuilder: WidgetViewBuilder(),
                 viewControllerBuilder: ViewControllerBuilder()
             )
-        } else {
+        case topic.isBenefitsTopic:
+            return BenefitsTopicWidgetCoordinator(
+                navigationController: navigationController,
+                analyticsService: container.analyticsService.resolve(),
+                configService: container.appConfigService.resolve(),
+                coordinatorBuilder: self,
+                widgetViewBuilder: WidgetViewBuilder()
+            )
+        default:
             return nil
         }
     }
 
-    func localAuthority(navigationController: UINavigationController,
-                        dismissAction: @escaping () -> Void) -> BaseCoordinator {
-        LocalAuthorityServiceCoordinator(
-            navigationController: navigationController,
-            viewControllerBuilder: ViewControllerBuilder(),
-            analyticsService: container.analyticsService.resolve(),
-            localAuthorityService: container.localAuthorityService.resolve(),
-            coordinatorBuilder: self,
-            dismissed: dismissAction
-        )
-    }
+    func localAuthority(
+        navigationController: UINavigationController,
+        dismissAction: @escaping () -> Void) -> BaseCoordinator {
+            LocalAuthorityServiceCoordinator(
+                navigationController: navigationController,
+                viewControllerBuilder: ViewControllerBuilder(),
+                analyticsService: container.analyticsService.resolve(),
+                localAuthorityService: container.localAuthorityService.resolve(),
+                coordinatorBuilder: self,
+                dismissed: dismissAction
+            )
+        }
 
-    func editLocalAuthority(navigationController: UINavigationController,
-                            dismissAction: @escaping () -> Void) -> BaseCoordinator {
+    func editLocalAuthority(
+        navigationController: UINavigationController,
+        dismissAction: @escaping () -> Void) -> BaseCoordinator {
         EditLocalAuthorityCoordinator(
             navigationController: navigationController,
             viewControllerBuilder: ViewControllerBuilder(),
@@ -312,8 +333,9 @@ class CoordinatorBuilder: ServiceAccountCoordinatorBuilding {
         )
     }
 
-    func topicOnboarding(navigationController: UINavigationController,
-                         didDismissAction: @escaping () -> Void) -> BaseCoordinator {
+    func topicOnboarding(
+        navigationController: UINavigationController,
+        didDismissAction: @escaping () -> Void) -> BaseCoordinator {
         TopicOnboardingCoordinator(
             navigationController: navigationController,
             viewControllerBuilder: ViewControllerBuilder(),
@@ -324,8 +346,9 @@ class CoordinatorBuilder: ServiceAccountCoordinatorBuilding {
         )
     }
 
-    func notificationOnboarding(navigationController: UINavigationController,
-                                completion: @escaping () -> Void) -> BaseCoordinator {
+    func notificationOnboarding(
+        navigationController: UINavigationController,
+        completion: @escaping () -> Void) -> BaseCoordinator {
         NotificationOnboardingCoordinator(
             navigationController: navigationController,
             notificationService: container.notificationService.resolve(),
@@ -338,9 +361,10 @@ class CoordinatorBuilder: ServiceAccountCoordinatorBuilding {
         )
     }
 
-    func notificationConsent(navigationController: UINavigationController,
-                             consentResult: NotificationConsentResult,
-                             completion: @escaping () -> Void) -> BaseCoordinator {
+    func notificationConsent(
+        navigationController: UINavigationController,
+        consentResult: NotificationConsentResult,
+        completion: @escaping () -> Void) -> BaseCoordinator {
         NotificationConsentCoordinator(
             navigationController: navigationController,
             notificationService: container.notificationService.resolve(),
@@ -353,9 +377,10 @@ class CoordinatorBuilder: ServiceAccountCoordinatorBuilding {
         )
     }
 
-    func notificationSettings(navigationController: UINavigationController,
-                              completionAction: @escaping () -> Void,
-                              dismissAction: @escaping () -> Void) -> BaseCoordinator {
+    func notificationSettings(
+        navigationController: UINavigationController,
+        completionAction: @escaping () -> Void,
+        dismissAction: @escaping () -> Void) -> BaseCoordinator {
         NotificationSettingsCoordinator(
             navigationController: navigationController,
             viewControllerBuilder: ViewControllerBuilder(),
@@ -367,7 +392,8 @@ class CoordinatorBuilder: ServiceAccountCoordinatorBuilding {
         )
     }
 
-    func yourAccountsSettings(navigationController: UINavigationController) -> BaseCoordinator {
+    func yourAccountsSettings(
+        navigationController: UINavigationController) -> BaseCoordinator {
         YourAccountsSettingsCoordinator(
             navigationController: navigationController,
             viewControllerBuilder: ViewControllerBuilder(),
@@ -377,8 +403,9 @@ class CoordinatorBuilder: ServiceAccountCoordinatorBuilding {
         )
     }
 
-    func welcomeOnboarding(navigationController: UINavigationController,
-                           completionAction: @escaping () -> Void) -> BaseCoordinator {
+    func welcomeOnboarding(
+        navigationController: UINavigationController,
+        completionAction: @escaping () -> Void) -> BaseCoordinator {
         WelcomeOnboardingCoordinator(
             navigationController: navigationController,
             authenticationService: container.authenticationService.resolve(),
@@ -395,25 +422,28 @@ class CoordinatorBuilder: ServiceAccountCoordinatorBuilding {
         )
     }
 
-    func authentication(navigationController: UINavigationController,
-                        completionAction: @escaping () -> Void,
-                        errorAction: @escaping (AuthenticationError) -> Void) -> BaseCoordinator {
-        AuthenticationCoordinator(
-            navigationController: navigationController,
-            coordinatorBuilder: self,
-            authenticationService: container.authenticationService.resolve(),
-            localAuthenticationService: container.localAuthenticationService.resolve(),
-            analyticsService: container.analyticsService.resolve(),
-            topicsService: container.topicsService.resolve(),
-            chatService: container.chatService.resolve(),
-            termsAndConditionsService: container.termsAndConditionsService.resolve(),
-            completionAction: completionAction,
-            errorAction: errorAction
-        )
-    }
+    func authentication(
+            navigationController: UINavigationController,
+            completionAction: @escaping () -> Void,
+            errorAction: @escaping (AuthenticationError) -> Void)
+        -> BaseCoordinator {
+            AuthenticationCoordinator(
+                navigationController: navigationController,
+                coordinatorBuilder: self,
+                authenticationService: container.authenticationService.resolve(),
+                localAuthenticationService: container.localAuthenticationService.resolve(),
+                analyticsService: container.analyticsService.resolve(),
+                topicsService: container.topicsService.resolve(),
+                chatService: container.chatService.resolve(),
+                termsAndConditionsService: container.termsAndConditionsService.resolve(),
+                completionAction: completionAction,
+                errorAction: errorAction
+            )
+        }
 
-    func reauthentication(navigationController: UINavigationController,
-                          completionAction: @escaping () -> Void) -> BaseCoordinator {
+    func reauthentication(
+        navigationController: UINavigationController,
+        completionAction: @escaping () -> Void) -> BaseCoordinator {
         ReAuthenticationCoordinator(
             navigationController: navigationController,
             coordinatorBuilder: self,
@@ -424,8 +454,10 @@ class CoordinatorBuilder: ServiceAccountCoordinatorBuilding {
         )
     }
 
-    func localAuthenticationOnboarding(navigationController: UINavigationController,
-                                       completionAction: @escaping () -> Void) -> BaseCoordinator {
+    func localAuthenticationOnboarding(
+        navigationController: UINavigationController,
+        completionAction: @escaping () -> Void)
+    -> BaseCoordinator {
         LocalAuthenticationOnboardingCoordinator(
             navigationController: navigationController,
             userDefaultsService: container.userDefaultsService.resolve(),
@@ -444,8 +476,9 @@ class CoordinatorBuilder: ServiceAccountCoordinatorBuilding {
         )
     }
 
-    func signInSuccess(navigationController: UINavigationController,
-                       completion: @escaping () -> Void) -> BaseCoordinator {
+    func signInSuccess(
+        navigationController: UINavigationController,
+        completion: @escaping () -> Void) -> BaseCoordinator {
         SignInSuccessCoordinator(
             navigationController: navigationController,
             analyticsService: container.analyticsService.resolve(),
@@ -454,8 +487,9 @@ class CoordinatorBuilder: ServiceAccountCoordinatorBuilding {
         )
     }
 
-    func termsAndConditions(navigationController: UINavigationController,
-                            completion: @escaping () -> Void) -> BaseCoordinator {
+    func termsAndConditions(
+        navigationController: UINavigationController,
+        completion: @escaping () -> Void) -> BaseCoordinator {
         TermsAndConditionsCoordinator(
             navigationController: navigationController,
             viewControllerBuilder: ViewControllerBuilder(),
@@ -465,9 +499,10 @@ class CoordinatorBuilder: ServiceAccountCoordinatorBuilding {
             completion: completion)
     }
 
-    func safari(navigationController: UINavigationController,
-                url: URL,
-                fullScreen: Bool) -> BaseCoordinator {
+    func safari(
+        navigationController: UINavigationController,
+        url: URL,
+        fullScreen: Bool) -> BaseCoordinator {
         SafariCoordinator(
             navigationController: navigationController,
             viewControllerBuilder: ViewControllerBuilder(),
@@ -587,7 +622,7 @@ class CoordinatorBuilder: ServiceAccountCoordinatorBuilding {
     func serviceAccountRedirect(
         navigationController: UINavigationController,
         accountType: ServiceAccountType,
-        token: String,
+        token: String
     ) -> BaseCoordinator {
         ServiceAccountRedirectCoordinator(
             navigationController: navigationController,
@@ -599,7 +634,6 @@ class CoordinatorBuilder: ServiceAccountCoordinatorBuilding {
             notificationCenter: .default,
         )
     }
-
 
     func notificationCentre(
         navigationController: UINavigationController

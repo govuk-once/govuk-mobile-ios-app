@@ -47,7 +47,7 @@ final class TravelAlertsWidgetCoordinator: BaseCoordinator,
               configService.isFeatureEnabled(key: .travelAlerts) else {
             return nil
         }
-        return widgetViewBuilder.travelAlertWidget(
+        return widgetViewBuilder.makeTravelAlertWidget(
             analyticsService: analyticsService,
             travelService: travelService,
             notificationService: notificationService,

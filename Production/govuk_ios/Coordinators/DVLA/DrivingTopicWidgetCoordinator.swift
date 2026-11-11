@@ -60,7 +60,7 @@ final class DrivingTopicWidgetCoordinator: BaseCoordinator,
                 self?.startLicenceCategories(entitlements: entitlements)
             }
         )
-        return widgetViewBuilder.dvlaAccountWidget(
+        return widgetViewBuilder.makeDVLAAccountWidget(
             analyticsService: analyticsService,
             userService: userService,
             dvlaService: dvlaService,
