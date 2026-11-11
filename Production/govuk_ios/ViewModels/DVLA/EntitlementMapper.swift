@@ -1,5 +1,11 @@
 import Foundation
 
+struct EntitlementGroup: Identifiable, Equatable {
+    var id: LicenceCategoryGroup { group }
+    let group: LicenceCategoryGroup
+    let entitlements: [Entitlement]
+}
+
 struct CategorisedEntitlements: Equatable {
     let entitledToDrive: [EntitlementGroup]
     let provisionallyEntitledToDrive: [EntitlementGroup]
@@ -10,81 +16,39 @@ protocol EntitlementMapping {
 }
 
 struct EntitlementMapper: EntitlementMapping {
-    private let orderedGroups: [LicenceCategoryGroup] = [
-        .mopeds,
-        .motorcycles,
-        .lightVehicles,
-        .cars,
-        .mediumSizedVehicles,
-        .largeVehicles,
-        .minibuses,
-        .buses,
-        .otherVehicles
-    ]
-
     func map(entitlements: [Entitlement]) -> CategorisedEntitlements {
         CategorisedEntitlements(
-            entitledToDrive: makeGroups(from: entitlements, type: .full),
-            provisionallyEntitledToDrive: makeGroups(from: entitlements, type: .provisional)
+            entitledToDrive: makeOrderedGroups(from: entitlements, type: .full),
+            provisionallyEntitledToDrive: makeOrderedGroups(from: entitlements, type: .provisional)
         )
     }
 
-    private func makeGroups(
+    private func makeOrderedGroups(
         from entitlements: [Entitlement],
         type: CategoryType
     ) -> [EntitlementGroup] {
         let filtered = entitlements.filter { $0.categoryType == type }
-        let groupedByGroup = Dictionary(grouping: filtered, by: \.group)
-
-        return orderedGroups.compactMap { group in
-            guard let matchedEntitlements =
-                    groupedByGroup[group],
-                    !matchedEntitlements.isEmpty else {
-                return nil
-            }
-            return EntitlementGroup(group: group, entitlements: matchedEntitlements)
-        }
-    }
-}
-
-/* old
-struct EntitlementMapper: EntitlementMapping {
-    func map(entitlements: [Entitlement]) -> CategorisedEntitlements {
-        CategorisedEntitlements(
-            entitledToDrive: makeOrderedRows(from: entitlements, type: .full),
-            provisionallyEntitledToDrive: makeOrderedRows(from: entitlements, type: .provisional)
-        )
-    }
-
-    // MARK: - Private Helpers
-
-    private func makeOrderedRows(
-        from entitlements: [Entitlement],
-        type: CategoryType
-    ) -> [EntitlementRow] {
-        let heldCodes = Set(
-            entitlements
-                .lazy
-                .filter { $0.categoryType == type }
-                .map { $0.categoryCode.uppercased() }
+        let entitlementsByCode = Dictionary(
+            grouping: filtered,
+            by: { $0.categoryCode.uppercased() }
         )
 
         return catalogTemplate.compactMap { template in
-            let heldInGroup = template.codes.filter { code in
-                heldCodes.contains(code.uppercased())
+            // Preserve the catalog's exact code ordering within each group
+            let matchingEntitlements = template.codes.compactMap { code in
+                entitlementsByCode[code.uppercased()]?.first
             }
 
-            guard !heldInGroup.isEmpty else { return nil }
+            guard !matchingEntitlements.isEmpty else { return nil }
 
-            return EntitlementRow(
-                title: template.group.title,
-                codes: heldInGroup
+            return EntitlementGroup(
+                group: template.group,
+                entitlements: matchingEntitlements
             )
         }
     }
 
-    // MARK: - Master Catalog (Ordered strictly per GOVUKAPP-4152)
-
+    // Master Catalog (Ordered strictly per GOVUKAPP-4152)
     private var catalogTemplate: [(group: LicenceCategoryGroup, codes: [String])] {
         [
             (.mopeds, ["P", "AM", "Q"]),
@@ -99,4 +63,3 @@ struct EntitlementMapper: EntitlementMapping {
         ]
     }
 }
- */

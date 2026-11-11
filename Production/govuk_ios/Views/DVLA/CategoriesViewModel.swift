@@ -1,15 +1,20 @@
 import SwiftUI
 
+struct CategoryLink: Identifiable, Hashable {
+    let id = UUID()
+    let text: String
+    let url: URL
+}
+
 @MainActor
 final class CategoriesViewModel: ObservableObject {
     @Published private(set) var entitledToDrive: [EntitlementGroup] = []
     @Published private(set) var provisionallyEntitledToDrive: [EntitlementGroup] = []
     @Published private(set) var links: [CategoryLink] = []
 
-    /// Configures visual tap highlight on rows
     let showsRowHighlight: Bool
 
-    private let didSelectAtion: ((EntitlementGroup) -> Void)?
+    private let onRowSelected: ((Entitlement) -> Void)?
     private let onOpenURL: ((URL) -> Void)?
     private let onAnalyticsEvent: ((String, [String: Any]) -> Void)?
 
@@ -18,7 +23,7 @@ final class CategoriesViewModel: ObservableObject {
         provisionallyEntitledToDrive: [EntitlementGroup] = [],
         links: [CategoryLink] = [],
         showsRowHighlight: Bool = true,
-        onRowSelected: ((EntitlementGroup) -> Void)? = nil,
+        onRowSelected: ((Entitlement) -> Void)? = nil,
         onOpenURL: ((URL) -> Void)? = nil,
         onAnalyticsEvent: ((String, [String: Any]) -> Void)? = nil
     ) {
@@ -26,7 +31,7 @@ final class CategoriesViewModel: ObservableObject {
         self.provisionallyEntitledToDrive = provisionallyEntitledToDrive
         self.links = links
         self.showsRowHighlight = showsRowHighlight
-        self.didSelectAtion = onRowSelected
+        self.onRowSelected = onRowSelected
         self.onOpenURL = onOpenURL
         self.onAnalyticsEvent = onAnalyticsEvent
     }
@@ -36,7 +41,7 @@ final class CategoriesViewModel: ObservableObject {
         mapper: EntitlementMapping = EntitlementMapper(),
         links: [CategoryLink] = [],
         showsRowHighlight: Bool = true,
-        onRowSelected: ((EntitlementGroup) -> Void)? = nil,
+        onRowSelected: ((Entitlement) -> Void)? = nil,
         onOpenURL: ((URL) -> Void)? = nil,
         onAnalyticsEvent: ((String, [String: Any]) -> Void)? = nil
     ) {
@@ -55,13 +60,15 @@ final class CategoriesViewModel: ObservableObject {
 
     // MARK: - User Actions
 
-    func onRowTap(_ row: EntitlementGroup) {
+    func onRowTap(_ entitlement: Entitlement) {
+        let metadata = LicenceCategoryDisplayMetadataBuilder.metadata(for: entitlement.categoryCode)
         onAnalyticsEvent?("licence_category_row_tapped", [
-            "title": row.title,
-            "codes": row.codesDisplay
+            "code": entitlement.categoryCode,
+            "display_name": metadata.displayName,
+            "group": metadata.group.title
         ])
 
-        didSelectAtion?(row)
+        onRowSelected?(entitlement)
     }
 
     func onLinkClick(_ link: CategoryLink) {
@@ -70,10 +77,6 @@ final class CategoriesViewModel: ObservableObject {
             "destination": link.url.absoluteString
         ])
 
-        if let onOpenURL {
-            onOpenURL(link.url)
-        } else {
-            UIApplication.shared.open(link.url)
-        }
+        print("KK open link")
     }
 }

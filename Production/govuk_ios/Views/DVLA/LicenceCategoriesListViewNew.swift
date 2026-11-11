@@ -2,110 +2,101 @@ import SwiftUI
 import Foundation
 import Combine
 
-struct RowHighlightButtonStyle: ButtonStyle {
-    var showsHighlight: Bool = true
+// MARK: - Row Content Component
 
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .background(
-                showsHighlight && configuration.isPressed
-                    ? Color(.systemFill)
-                    : Color.clear
-            )
-            .contentShape(Rectangle())
-    }
-}
+struct KKEntitlementRowContentView: View {
+    let metadata: LicenceCategoryDisplayMetadata
 
-// MARK: - Models
-
-struct EntitlementGroup: Identifiable, Equatable {
-    let group: LicenceCategoryGroup
-    let entitlements: [Entitlement]
-
-    // Stable identity derived from the group enum
-    var id: LicenceCategoryGroup { group }
-
-    var title: String {
-        group.title
+    init(metadata: LicenceCategoryDisplayMetadata) {
+        self.metadata = metadata
     }
 
-    var codesDisplay: String {
-        entitlements
-            .map(\.categoryCode)
-            .joined(separator: ", ")
+    init(entitlement: Entitlement) {
+        self.metadata = LicenceCategoryDisplayMetadataBuilder.metadata(
+            for: entitlement.categoryCode
+        )
+    }
+
+    var body: some View {
+        HStack(alignment: .center, spacing: 16) {
+            Text(metadata.displayName)
+                .font(.title2.weight(.bold))
+                .foregroundStyle(.primary)
+
+            Spacer()
+
+            if let imageResource = metadata.image {
+                Image(imageResource)
+                    .renderingMode(.template)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 24)
+                    .foregroundStyle(.primary)
+                    .accessibilityHidden(true)
+            }
+
+            Image(systemName: "info.circle")
+                .font(.title3)
+                .foregroundStyle(.blue)
+                .accessibilityHidden(true)
+        }
+        .padding(.vertical, 14)
+        .padding(.horizontal, 4)
+        .contentShape(Rectangle())
     }
 }
-
-struct CategoryLink: Identifiable, Hashable {
-    let id = UUID()
-    let text: String
-    let url: URL
-}
-
-
-// MARK: - Components
 
 // MARK: - Row Component
 
 struct KKEntitlementRowView: View {
-    let row: EntitlementGroup
+    let entitlement: Entitlement
     var showsHighlight: Bool = true
     var onSelect: (() -> Void)?
 
-    var body: some View {
-        if let onSelect {
-            Button(action: onSelect) {
-                rowContent
-            }
-            .buttonStyle(RowHighlightButtonStyle(showsHighlight: showsHighlight))
-        } else {
-            rowContent
-        }
+    private var metadata: LicenceCategoryDisplayMetadata {
+        LicenceCategoryDisplayMetadataBuilder.metadata(for: entitlement.categoryCode)
     }
 
-    private var rowContent: some View {
-        HStack(alignment: .firstTextBaseline) {
-            Text(row.title)
-                .font(.body)
-                .foregroundStyle(.primary)
-
-            Spacer(minLength: 16)
-
-            Text(row.codesDisplay)
-                .font(.body)
-                .foregroundStyle(.secondary)
+    var body: some View {
+        Group {
+            if let onSelect {
+                Button(action: onSelect) {
+                    KKEntitlementRowContentView(metadata: metadata)
+                }
+                .buttonStyle(RowHighlightButtonStyle(showsHighlight: showsHighlight))
+            } else {
+                KKEntitlementRowContentView(metadata: metadata)
+            }
         }
-        .padding(.vertical, 14)
-        .padding(.horizontal, 4)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("Category \(metadata.displayName)")
     }
 }
 
-// MARK: - Section Component
+// MARK: - Subgroup View (e.g., Mopeds, Cars)
 
-struct EntitlementSectionView: View {
-    let title: String
-    let items: [EntitlementGroup]
+struct EntitlementGroupSubSectionView: View {
+    let group: EntitlementGroup
     var showsHighlight: Bool = true
-    var onSelectRow: ((EntitlementGroup) -> Void)?
+    var onSelectRow: ((Entitlement) -> Void)?
 
     var body: some View {
-        let lastID = items.last?.id
-
         VStack(alignment: .leading, spacing: 0) {
-            Text(title)
-                .font(.title3.weight(.bold))
+            Text(group.group.title)
+                .font(.subheadline.weight(.bold))
                 .foregroundStyle(.primary)
                 .accessibilityAddTraits(.isHeader)
-                .padding(.bottom, 8)
+                .padding(.top, 16)
+                .padding(.bottom, 4)
 
-            ForEach(items) { row in
+            ForEach(group.entitlements) { entitlement in
                 KKEntitlementRowView(
-                    row: row,
+                    entitlement: entitlement,
                     showsHighlight: showsHighlight,
-                    onSelect: onSelectRow != nil ? { onSelectRow?(row) } : nil
+                    onSelect: { onSelectRow?(entitlement) }
                 )
 
-                if row.id != lastID {
+                if entitlement.id != group.entitlements.last?.id {
                     Divider()
                         .overlay(Color(.separator).opacity(0.6))
                 }
@@ -113,111 +104,136 @@ struct EntitlementSectionView: View {
         }
     }
 }
-struct GoodToKnowSectionView: View {
-    let links: [CategoryLink]
-    var onLinkClick: ((_ text: String, _ url: URL) -> Void)?
+
+// MARK: - Major Section View (e.g., You can drive)
+
+struct EntitlementMajorSectionView: View {
+    let title: String
+    let groups: [EntitlementGroup]
+    var showsHighlight: Bool = true
+    var onSelectRow: ((Entitlement) -> Void)?
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            Text("Good to know")
+        VStack(alignment: .leading, spacing: 8) {
+            Text(title)
                 .font(.title3.weight(.bold))
                 .foregroundStyle(.primary)
                 .accessibilityAddTraits(.isHeader)
-                .padding(.bottom, 8) // 8pt redline spec
 
-            VStack(alignment: .leading, spacing: 16) {
-                Text(
-                    """
-                    The codes printed on the back of your \
-                    driving licence tell you what conditions \
-                    you must meet to drive.
-                    """
+            ForEach(groups) { group in
+                EntitlementGroupSubSectionView(
+                    group: group,
+                    showsHighlight: showsHighlight,
+                    onSelectRow: onSelectRow
                 )
-
-                Text(
-                    """
-                    Restrictions or requirements may apply \
-                    to one or more of these categories. \
-                    These are listed on the back of your licence.
-                    """
-                )
-            }
-            .font(.body)
-            .foregroundStyle(.primary)
-
-            if !links.isEmpty {
-                VStack(alignment: .leading, spacing: 0) {
-                    ForEach(Array(links.enumerated()), id: \.element.id) { index, link in
-                        Button {
-                            onLinkClick?(link.text, link.url)
-                        } label: {
-                            HStack {
-                                Text(link.text)
-                                    .font(.body)
-                                    .foregroundStyle(.blue)
-                                Spacer()
-                            }
-                            .contentShape(Rectangle())
-                            .padding(.horizontal, 16)
-                            .padding(.vertical, 16)
-                        }
-                        .buttonStyle(.plain)
-
-                        if index < links.count - 1 {
-                            Divider()
-                                .padding(.horizontal, 16)
-                        }
-                    }
-                }
-                .background(Color(.secondarySystemBackground))
-                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-                .padding(.top, 48) // 48pt redline spec
             }
         }
     }
 }
 
-// MARK: - Reusable List View
+// MARK: - Further Information Section
+
+struct FurtherInformationSectionView: View {
+    let links: [CategoryLink]
+    var onLinkClick: ((CategoryLink) -> Void)?
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text("Further information")
+                .font(.title3.weight(.bold))
+                .foregroundStyle(.primary)
+                .accessibilityAddTraits(.isHeader)
+
+            VStack(alignment: .leading, spacing: 0) {
+                ForEach(Array(links.enumerated()), id: \.element.id) { index, link in
+                    Button {
+                        onLinkClick?(link)
+                    } label: {
+                        HStack {
+                            Text(link.text)
+                                .font(.body)
+                                .foregroundStyle(.blue)
+                            Spacer()
+                        }
+                        .contentShape(Rectangle())
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 16)
+                    }
+                    .buttonStyle(.plain)
+
+                    if index < links.count - 1 {
+                        Divider()
+                            .padding(.horizontal, 16)
+                    }
+                }
+            }
+            .background(Color(.secondarySystemBackground))
+            .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+        }
+    }
+}
+
+// MARK: - Main Categories List View
 
 struct VMCategoriesListView: View {
     @ObservedObject var viewModel: CategoriesViewModel
 
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 48) {
+            VStack(alignment: .leading, spacing: 32) {
+                // Top Header
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Categories")
+                        .font(.largeTitle.weight(.bold))
+                        .foregroundStyle(.primary)
+
+                    Text("""
+                        Your licence categories and \
+                        codes show which vehicles you can \
+                        drive and any restrictions or \
+                        requirements. Check each category \
+                        for restrictions and expiry dates.
+                        """)
+                        .font(.body)
+                        .foregroundStyle(.primary)
+                }
+                .padding(.top, 8)
+
+                // "You can drive"
                 if !viewModel.entitledToDrive.isEmpty {
-                    EntitlementSectionView(
-                        title: "You are entitled to drive",
-                        items: viewModel.entitledToDrive,
+                    EntitlementMajorSectionView(
+                        title: "You can drive",
+                        groups: viewModel.entitledToDrive,
                         showsHighlight: viewModel.showsRowHighlight,
-                        onSelectRow: { row in
-                            viewModel.onRowTap(row)
+                        onSelectRow: { entitlement in
+                            viewModel.onRowTap(entitlement)
                         }
                     )
                 }
 
+                // "You can provisionally drive"
                 if !viewModel.provisionallyEntitledToDrive.isEmpty {
-                    EntitlementSectionView(
+                    EntitlementMajorSectionView(
                         title: "You can provisionally drive",
-                        items: viewModel.provisionallyEntitledToDrive,
+                        groups: viewModel.provisionallyEntitledToDrive,
                         showsHighlight: viewModel.showsRowHighlight,
-                        onSelectRow: { row in
-                            viewModel.onRowTap(row)
+                        onSelectRow: { entitlement in
+                            viewModel.onRowTap(entitlement)
                         }
                     )
                 }
 
-                GoodToKnowSectionView(
-                    links: viewModel.links,
-                    onLinkClick: { _, url in
-                        if let link = viewModel.links.first(where: { $0.url == url }) {
+                // "Further information"
+                if !viewModel.links.isEmpty {
+                    FurtherInformationSectionView(
+                        links: viewModel.links,
+                        onLinkClick: { link in
                             viewModel.onLinkClick(link)
                         }
-                    }
-                )
+                    )
+                }
             }
             .padding(.horizontal, 16)
-            .padding(.top, 12)
             .padding(.bottom, 32)
         }
     }
@@ -296,6 +312,7 @@ struct DrivingLicenceParentView: View {
 #if DEBUG
 extension Entitlement {
     static func preview(
+        id: UUID = UUID(),
         categoryCode: String,
         categoryType: CategoryType,
         categoryLegalLiteral: String = "",
@@ -304,6 +321,7 @@ extension Entitlement {
         restrictions: [EntitlementRestriction] = []
     ) -> Entitlement {
         Entitlement(
+            id: id,
             categoryCode: categoryCode,
             categoryLegalLiteral: categoryLegalLiteral.isEmpty ? "Category \(categoryCode)" : categoryLegalLiteral,
             categoryType: categoryType,
@@ -315,65 +333,67 @@ extension Entitlement {
 }
 #endif
 
-#Preview("Row Taps & Highlight") {
-    let viewModel = CategoriesViewModel(
-        entitlements: [
-            // Full Entitlements
-            .preview(categoryCode: "AM", categoryType: .full),
-            .preview(categoryCode: "P", categoryType: .full),
-            .preview(categoryCode: "Q", categoryType: .full),
-            .preview(categoryCode: "A", categoryType: .full),
-            .preview(categoryCode: "B", categoryType: .full),
-            .preview(categoryCode: "BE", categoryType: .full),
+#Preview("Categories Screen") {
+    let sampleEntitlements: [Entitlement] = [
+        // You can drive
+        .preview(categoryCode: "P", categoryType: .full),
+        .preview(categoryCode: "AM", categoryType: .full),
+        .preview(categoryCode: "Q", categoryType: .full),
+        .preview(categoryCode: "A", categoryType: .full),
+        .preview(categoryCode: "B1", categoryType: .full),
+        .preview(categoryCode: "B", categoryType: .full),
+        .preview(categoryCode: "BE", categoryType: .full),
+        .preview(categoryCode: "C1", categoryType: .full),
+        .preview(categoryCode: "C1E", categoryType: .full),
+        .preview(categoryCode: "D1", categoryType: .full),
+        .preview(categoryCode: "D1E", categoryType: .full),
+        .preview(categoryCode: "F", categoryType: .full),
+        .preview(categoryCode: "K", categoryType: .full),
+        .preview(categoryCode: "L", categoryType: .full),
+        .preview(categoryCode: "N", categoryType: .full),
 
-            // Provisional Entitlements
-            .preview(categoryCode: "B1", categoryType: .provisional)
-        ],
-        links: [
-            CategoryLink(
-                text: "Driving licence categories",
-                url: URL(string: "https://www.gov.uk/driving-licence-categories")!
-            )
-        ],
+        // You can provisionally drive
+        .preview(categoryCode: "A", categoryType: .provisional),
+        .preview(categoryCode: "G", categoryType: .provisional),
+        .preview(categoryCode: "H", categoryType: .provisional)
+    ]
+
+    let sampleLinks = [
+        CategoryLink(
+            text: "Compare old and new categories",
+            url: URL(string: "https://www.gov.uk/driving-licence-categories")!
+        ),
+        CategoryLink(
+            text: "Vehicle weights explained",
+            url: URL(string: "https://www.gov.uk/vehicle-weights-explained")!
+        ),
+        CategoryLink(
+            text: "Adding categories to your licence",
+            url: URL(string: "https://www.gov.uk/adding-higher-categories-to-your-driving-licence")!
+        )
+    ]
+
+    let viewModel = CategoriesViewModel(
+        entitlements: sampleEntitlements,
+        links: sampleLinks,
         showsRowHighlight: true,
-        onRowSelected: { selectedGroup in
-            print("Selected: \(selectedGroup.title) with codes \(selectedGroup.codesDisplay)")
-            print("Underlying entitlements: \(selectedGroup.entitlements)")
-        },
-        onAnalyticsEvent: { name, params in
-            print("Analytics: [\(name)] \(params)")
+        onRowSelected: { selected in
+            print("Selected Entitlement: \(selected.categoryCode) (\(selected.categoryType))")
         }
     )
 
-    VMCategoriesSheetView(viewModel: viewModel)
+    NavigationStack {
+        VMCategoriesListView(viewModel: viewModel)
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        // nothing
+                    }
+                    label: {
+                        Image(systemName: "arrow.backward")
+                            .foregroundStyle(.primary)
+                    }
+                }
+            }
+    }
 }
-/*
-#Preview("Row Taps & Highlight") {
-    let viewModel = CategoriesViewModel(
-        entitledToDrive: [
-            "Mopeds, AM, p, q",
-            "Motorcycles, A",
-            "Cars, B",
-            "Trailers, BE, C1E, D1E"
-        ],
-        provisionallyEntitledToDrive: [
-            "Light vehicles and quad bikes, B1"
-        ],
-        links: [
-            CategoryLink(
-                text: "Driving licence categories",
-                url: URL(string: "https://www.gov.uk/driving-licence-categories")!
-            )
-        ],
-        showsRowHighlight: true,
-        onRowSelected: { selectedRow in
-            print("Selected: \(selectedRow.title) with codes \(selectedRow.codesDisplay)")
-        },
-        onAnalyticsEvent: { name, params in
-            print("Analytics: [\(name)] \(params)")
-        }
-    )
-
-    VMCategoriesSheetView(viewModel: viewModel)
-}
-*/
