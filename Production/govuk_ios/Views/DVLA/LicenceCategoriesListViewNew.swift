@@ -194,6 +194,7 @@ extension Entitlement {
             openURLAction: nil,
             dismissAction: {}
         ),
+        links: [],
         analyticsService: MockAnalyticsService()
     )
 

@@ -48,6 +48,8 @@ extension CoordinatorBuilder: DVLACoordinatorBuilding {
     ) -> BaseCoordinator {
         LicenceCategoriesCoordinator(
             viewControllerBuilder: ViewControllerBuilder(),
+            urlOpener: UIApplication.shared,
+            configService: container.appConfigService.resolve(),
             analyticsService: container.analyticsService.resolve(),
             entitlements: entitlements
         )

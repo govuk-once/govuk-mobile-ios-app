@@ -37,8 +37,8 @@ protocol DVLAViewControllerBuilding: AnyObject {
     func licenceCategoryList(
         entitlements: [Entitlement],
         analyticsService: AnalyticsServiceInterface,
-        selectAction: @escaping (Entitlement) -> Void,
-        dismissAction: @escaping () -> Void
+        configService: AppConfigServiceInterface,
+        actions: CategoriesActions,
     ) -> UIViewController
 
     func licenceCategoryDetail(
@@ -135,57 +135,40 @@ extension ViewControllerBuilder: DVLAViewControllerBuilding {
     func licenceCategoryList(
         entitlements: [Entitlement],
         analyticsService: AnalyticsServiceInterface,
-        selectAction: @escaping (Entitlement) -> Void,
-        dismissAction: @escaping () -> Void
+        configService: AppConfigServiceInterface,
+        actions: CategoriesActions,
     ) -> UIViewController {
-        let useNew = true
-        if !useNew {
-            return licenceCategoryListOLD(
-                entitlements: entitlements,
-                analyticsService: analyticsService,
-                selectAction: selectAction,
-                dismissAction: dismissAction
-            )
-        } else {
-            return licenceCategoryListNEW(
-                entitlements: entitlements,
-                analyticsService: analyticsService,
-                selectAction: selectAction,
-                dismissAction: dismissAction
-            )
-        }
-    }
-// MARK: -
-    func licenceCategoryListOLD(
-        entitlements: [Entitlement],
-        analyticsService: AnalyticsServiceInterface,
-        selectAction: @escaping (Entitlement) -> Void,
-        dismissAction: @escaping () -> Void
-    ) -> UIViewController {
-        let viewModel = LicenceCategoryListViewModel(entitlements: entitlements,
-            didSelectAction: selectAction,
-            dismissAction: dismissAction)
-        let view = PlaceholderLicenceCategoriesListView(viewModel: viewModel)
-        let viewController = HostingViewController(rootView: view)
-        return viewController
-    }
+        let urls: DvlaURLs? = configService.dvlaUrls
+        let links: [CategoryLink] = [
+            CategoryLink(
+                text: String(localized: .DVLA.compareOldAndNewCategories),
+                // KK Stuff:
+                url: urls?.compareOldNewLicenceCategories ??
+                Constants.API.defaultDvlaCategoriesCompareOldAndNewUrl
+            ),
+            CategoryLink(
+                text: String(localized: .DVLA.vehicleWeightsExplained),
+                url: urls?.vehicleWeightExplained ??
+                Constants.API.defaultDvlaCategoriesVehicleWeightsUrl
+            ),
+            CategoryLink(
+                text: String(localized: .DVLA.addingCategoriesToYourVehicle),
+                url: urls?.addCategoriesToLicence ??
+                Constants.API.defaultDvlaCategoriesAddingCategoriesUrl
+            ),
+        ]
 
-    func licenceCategoryListNEW(
-        entitlements: [Entitlement],
-        analyticsService: AnalyticsServiceInterface,
-        selectAction: @escaping (Entitlement) -> Void,
-        dismissAction: @escaping () -> Void
-    ) -> UIViewController {
         let viewModel = CategoriesViewModel(entitlements: entitlements,
-                                            didSelectAction: selectAction,
-                                            dismissAction: dismissAction,
+                                            actions: actions,
+                                            links: links,
                                             analyticsService: analyticsService)
 
         let view = VMCategoriesSheetView(viewModel: viewModel)
         let viewController = HostingViewController(rootView: view)
         return viewController
     }
-// MARK: -
+
+    // MARK: -
 
     func licenceCategoryDetail(
         entitlement: Entitlement,

@@ -32,10 +32,14 @@ final class CategoriesViewModel: ObservableObject {
         provisionallyEntitledToDrive: [EntitlementGroup] = [],
         showsRowHighlight: Bool = true,
         actions: CategoriesActions,
+        links: [CategoryLink],
         analyticsService: AnalyticsServiceInterface,
     ) {
         self.entitledToDrive = entitledToDrive
         self.provisionallyEntitledToDrive = provisionallyEntitledToDrive
+        self.links = links
+/*
+ // KK Stuff:
         self.links = [
             CategoryLink(
                 text: String(localized: .DVLA.compareOldAndNewCategories),
@@ -50,6 +54,7 @@ final class CategoriesViewModel: ObservableObject {
                 url: Constants.API.defaultDvlaCategoriesAddingCategoriesUrl
             ),
         ]
+*/
         self.showsRowHighlight = showsRowHighlight
         self.didSelectAction = actions.didSelectAction
         self.openURLAction = actions.openURLAction
@@ -62,6 +67,7 @@ final class CategoriesViewModel: ObservableObject {
         mapper: EntitlementMapping = EntitlementMapper(),
         showsRowHighlight: Bool = true,
         actions: CategoriesActions,
+        links: [CategoryLink],
         analyticsService: AnalyticsServiceInterface
     ) {
         let categorised = mapper.map(entitlements: entitlements)
@@ -71,6 +77,7 @@ final class CategoriesViewModel: ObservableObject {
             provisionallyEntitledToDrive: categorised.provisionallyEntitledToDrive,
             showsRowHighlight: showsRowHighlight,
             actions: actions,
+            links: links,
             analyticsService: analyticsService
         )
     }
@@ -103,7 +110,7 @@ final class CategoriesViewModel: ObservableObject {
     }
 
     func onLinkClick(_ link: CategoryLink) {
-        // KKTODO: Analytics
+        // KK Stuff: Analytics
         if let openURLAction = openURLAction {
             openURLAction(link.url)
         }
