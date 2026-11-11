@@ -68,25 +68,23 @@ struct VMCategoriesSheetView: View {
     @ObservedObject var viewModel: CategoriesViewModel
 
     var body: some View {
-        NavigationStack {
-            VMCategoriesListView(viewModel: viewModel)
-                .navigationTitle("Categories")
-                .navigationBarTitleDisplayMode(.large)
-                .background(Color(uiColor: .govUK.fills.surfaceFullscreen))
-                .toolbar {
-                    ToolbarItem(placement: .topBarLeading) {
-                        Button {
-                            viewModel.dismiss()
-                        } label: {
-                            Image(systemName: "xmark")
-                                .tint(Color(uiColor: .govUK.text.link))
-                        }
+        VMCategoriesListView(viewModel: viewModel)
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button {
+                        viewModel.dismiss()
+                    } label: {
+                        Image(systemName: "xmark")
+                            .tint(Color(uiColor: .govUK.text.link))
                     }
                 }
-                .onAppear {
-                    viewModel.trackScreen(screen: self)
-                }
-        }
+            }
+            .navigationTitle("Categories")
+            .navigationBarTitleDisplayMode(.large)
+            .background(Color(uiColor: .govUK.fills.surfaceFullscreen))
+            .onAppear {
+                viewModel.trackScreen(screen: self)
+            }
     }
 }
 
