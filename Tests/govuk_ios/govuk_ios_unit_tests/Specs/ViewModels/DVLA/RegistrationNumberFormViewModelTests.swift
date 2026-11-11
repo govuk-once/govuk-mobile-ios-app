@@ -174,7 +174,7 @@ struct RegistrationNumberFormViewModelTests {
     // MARK: - Action and Execution Tests
 
     @Test
-    func performSubmit_trimsWhitespaceBeforeQueryingService() async {
+    func performSubmit_removesAllWhitespaceBeforeQueryingService() async {
         var queriedPlate: String?
 
         let viewModel = makeViewModel(
@@ -186,7 +186,7 @@ struct RegistrationNumberFormViewModelTests {
         )
 
         await viewModel.performSubmit()
-        #expect(queriedPlate == "AB12 CDE")
+        #expect(queriedPlate == "AB12CDE")
     }
 
     @Test
