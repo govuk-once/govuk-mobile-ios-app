@@ -177,7 +177,9 @@ extension ViewControllerBuilder: DVLAViewControllerBuilding {
         dismissAction: @escaping () -> Void
     ) -> UIViewController {
         let viewModel = CategoriesViewModel(entitlements: entitlements,
-                                            didSelectAction: selectAction)
+                                            didSelectAction: selectAction,
+                                            dismissAction: dismissAction,
+                                            analyticsService: analyticsService)
 
         let view = VMCategoriesSheetView(viewModel: viewModel)
         let viewController = HostingViewController(rootView: view)

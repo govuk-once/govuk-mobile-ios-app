@@ -1,5 +1,6 @@
 import SwiftUI
 import Foundation
+import GovKit
 
 struct VMCategoriesListView: View {
     @ObservedObject var viewModel: CategoriesViewModel
@@ -64,7 +65,6 @@ struct VMCategoriesListView: View {
 // MARK: - Sheet Presentation View
 
 struct VMCategoriesSheetView: View {
-    @Environment(\.dismiss) private var dismiss
     @ObservedObject var viewModel: CategoriesViewModel
 
     var body: some View {
@@ -72,23 +72,29 @@ struct VMCategoriesSheetView: View {
             VMCategoriesListView(viewModel: viewModel)
                 .navigationTitle("Categories")
                 .navigationBarTitleDisplayMode(.large)
+                .background(Color(uiColor: .govUK.fills.surfaceFullscreen))
                 .toolbar {
                     ToolbarItem(placement: .topBarLeading) {
                         Button {
-                            dismiss()
+                            viewModel.dismiss()
                         } label: {
                             Image(systemName: "xmark")
-                                .font(.system(size: 13, weight: .bold))
-                                .foregroundStyle(.secondary)
-                                .frame(width: 32, height: 32)
-                                .background(Color(.systemGray5))
-                                .clipShape(Circle())
+                                .tint(Color(uiColor: .govUK.text.link))
                         }
                     }
+                }
+                .onAppear {
+                    viewModel.trackScreen(screen: self)
                 }
         }
     }
 }
+
+extension VMCategoriesSheetView: TrackableScreen {
+    var trackingTitle: String? { "KK TODO" }
+    var trackingName: String { "KK TODO" }
+}
+
 
 /*
 struct DrivingLicenceParentView: View {
