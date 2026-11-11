@@ -6,6 +6,18 @@ struct LicenceCategoryDisplayMetadata {
     let image: ImageResource?
 }
 
+extension LicenceCategoryDisplayMetadata {
+    init(categoryCode: String) {
+        if let existing = LicenceCategoryDisplayMetadataBuilder.categoryRegistry[
+            categoryCode.uppercased()
+        ] {
+            self = existing
+        } else {
+            self.init(displayName: categoryCode, group: .otherVehicles, image: nil)
+        }
+    }
+}
+
 /// Maps raw driving licence category codes to their display titles, groups, and associated asset icons.
 enum LicenceCategoryDisplayMetadataBuilder {
     static let categoryRegistry: [String: LicenceCategoryDisplayMetadata] = [

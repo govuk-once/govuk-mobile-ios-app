@@ -46,8 +46,8 @@ class LicenceCategoryDetailViewModel: ObservableObject {
         self.entitlement = entitlement
         self.analyticsService = analyticsService
         self.dismissAction = dismissAction
-        displayMetadata = LicenceCategoryDisplayMetadataBuilder.metadata(
-            for: entitlement.categoryCode
+        self.displayMetadata = LicenceCategoryDisplayMetadata(
+            categoryCode: entitlement.categoryCode
         )
         self.restrictionRows = entitlement.restrictions.map {
             .init(
