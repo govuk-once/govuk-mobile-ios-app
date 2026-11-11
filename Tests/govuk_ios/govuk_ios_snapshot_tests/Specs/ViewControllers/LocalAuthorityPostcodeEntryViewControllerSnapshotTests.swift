@@ -11,7 +11,7 @@ final class LocalAuthorityPostcodeEntryViewControllerSnapshotTests: SnapshotTest
         VerifySnapshotInNavigationController(
             viewController: viewController(),
             mode: .light,
-            prefersLargeTitles: true
+            prefersLargeTitles: false
         )
     }
 
@@ -19,7 +19,7 @@ final class LocalAuthorityPostcodeEntryViewControllerSnapshotTests: SnapshotTest
         VerifySnapshotInNavigationController(
             viewController: viewController(),
             mode: .dark,
-            prefersLargeTitles: true
+            prefersLargeTitles: false
         )
     }
 
@@ -44,7 +44,7 @@ final class LocalAuthorityPostcodeEntryViewControllerSnapshotTests: SnapshotTest
         VerifySnapshotInNavigationController(
             viewController: viewController,
             mode: .light,
-            prefersLargeTitles: true
+            prefersLargeTitles: false
         )
     }
 
@@ -71,7 +71,7 @@ final class LocalAuthorityPostcodeEntryViewControllerSnapshotTests: SnapshotTest
         VerifySnapshotInNavigationController(
             viewController: viewController,
             mode: .dark,
-            prefersLargeTitles: true
+            prefersLargeTitles: false
         )
     }
 
