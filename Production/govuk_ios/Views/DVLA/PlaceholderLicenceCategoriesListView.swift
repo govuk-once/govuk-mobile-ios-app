@@ -1,5 +1,5 @@
 import SwiftUI
-
+// KK NOTE: Delete this file
 struct PlaceholderLicenceCategoriesListView: View {
     @ObservedObject var viewModel: LicenceCategoryListViewModel
     @State private var selectedID: UUID?
@@ -43,7 +43,7 @@ private struct PlaceholderEntitlementRowView: View {
                         .font(.headline)
                         .fontWeight(.bold)
 
-                    CategoryBadge(type: entitlement.categoryType)
+                    PlaceholderCategoryBadge(type: entitlement.categoryType)
                 }
 
                 Text(entitlement.categoryLegalLiteral)
@@ -85,7 +85,7 @@ private struct PlaceholderEntitlementRowView: View {
     }
 }
 
-private struct CategoryBadge: View {
+private struct PlaceholderCategoryBadge: View {
     let type: CategoryType
 
     private var tintColor: Color {
@@ -106,7 +106,7 @@ private struct CategoryBadge: View {
     }
 }
 
-struct LicenceCategoriesListViewContainer: View {
+struct PHLicenceCategoriesListViewContainer: View {
     @StateObject var viewModel = LicenceCategoryListViewModel(
         entitlements: [
             Entitlement(
@@ -137,5 +137,5 @@ struct LicenceCategoriesListViewContainer: View {
 }
 
 #Preview {
-    LicenceCategoriesListViewContainer()
+    PHLicenceCategoriesListViewContainer()
 }
