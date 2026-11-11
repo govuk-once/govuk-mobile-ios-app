@@ -48,7 +48,7 @@ struct EntitlementRowContentView: View {
 
 // MARK: - Row Component
 
-struct KKEntitlementRowView: View {
+struct EntitlementRowView: View {
     let entitlement: Entitlement
     var showsHighlight: Bool = true
     var onSelect: (() -> Void)?
@@ -90,7 +90,7 @@ struct EntitlementGroupSubSectionView: View {
                 .padding(.bottom, 4)
 
             ForEach(group.entitlements) { entitlement in
-                KKEntitlementRowView(
+                EntitlementRowView(
                     entitlement: entitlement,
                     showsHighlight: showsHighlight,
                     onSelect: { onSelectRow?(entitlement) }
