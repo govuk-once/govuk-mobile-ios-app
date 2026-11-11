@@ -48,8 +48,7 @@ class WidgetViewBuilder {
     }
 
     func getDWPWidget(
-        analyticsService: AnalyticsServiceInterface,
-        configService: AppConfigServiceInterface
+        analyticsService: AnalyticsServiceInterface
     ) -> AnyView? {
         let viewModel = DWPWidgetViewModel(
             analyticsService: analyticsService

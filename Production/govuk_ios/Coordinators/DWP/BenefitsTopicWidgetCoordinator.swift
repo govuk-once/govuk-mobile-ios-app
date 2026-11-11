@@ -34,8 +34,7 @@ final class BenefitsTopicWidgetCoordinator: BaseCoordinator,
             return nil
         }
         return widgetViewBuilder.getDWPWidget(
-            analyticsService: analyticsService,
-            configService: configService
+            analyticsService: analyticsService
         )
     }
 }
