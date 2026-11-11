@@ -1,4 +1,5 @@
 import SwiftUI
+import GovKit
 
 struct CategoryLink: Identifiable, Hashable {
     let id = UUID()
@@ -12,11 +13,12 @@ final class CategoriesViewModel: ObservableObject {
     @Published private(set) var provisionallyEntitledToDrive: [EntitlementGroup] = []
     @Published private(set) var links: [CategoryLink] = []
 
+    private let analyticsService: AnalyticsServiceInterface
+
     let showsRowHighlight: Bool
 
     private let didSelectAction: ((Entitlement) -> Void)?
     private let onOpenURL: ((URL) -> Void)?
-    private let onAnalyticsEvent: ((String, [String: Any]) -> Void)?
 
     init(
         entitledToDrive: [EntitlementGroup] = [],
@@ -25,7 +27,7 @@ final class CategoriesViewModel: ObservableObject {
         showsRowHighlight: Bool = true,
         didSelectAction: ((Entitlement) -> Void)? = nil,
         onOpenURL: ((URL) -> Void)? = nil,
-        onAnalyticsEvent: ((String, [String: Any]) -> Void)? = nil
+        analyticsService: AnalyticsServiceInterface,
     ) {
         self.entitledToDrive = entitledToDrive
         self.provisionallyEntitledToDrive = provisionallyEntitledToDrive
@@ -33,7 +35,7 @@ final class CategoriesViewModel: ObservableObject {
         self.showsRowHighlight = showsRowHighlight
         self.didSelectAction = didSelectAction
         self.onOpenURL = onOpenURL
-        self.onAnalyticsEvent = onAnalyticsEvent
+        self.analyticsService = analyticsService
     }
 
     convenience init(
@@ -42,8 +44,9 @@ final class CategoriesViewModel: ObservableObject {
         links: [CategoryLink] = [],
         showsRowHighlight: Bool = true,
         didSelectAction: ((Entitlement) -> Void)? = nil,
+        dismissAction: @escaping () -> Void,
         onOpenURL: ((URL) -> Void)? = nil,
-        onAnalyticsEvent: ((String, [String: Any]) -> Void)? = nil
+        analyticsService: AnalyticsServiceInterface
     ) {
         let categorised = mapper.map(entitlements: entitlements)
 
@@ -54,29 +57,33 @@ final class CategoriesViewModel: ObservableObject {
             showsRowHighlight: showsRowHighlight,
             didSelectAction: didSelectAction,
             onOpenURL: onOpenURL,
-            onAnalyticsEvent: onAnalyticsEvent
+            analyticsService: analyticsService
         )
     }
+
+    // MARK: - Analytics
+
+    func trackScreen(screen: TrackableScreen) {
+        analyticsService.track(screen: screen)
+    }
+
+    private func trackDismissEvent() {
+        let event = AppEvent.buttonNavigation(
+            text: "Back",
+            external: false,
+            section: "Driving")
+        analyticsService.track(event: event)
+    }
+
 
     // MARK: - User Actions
 
     func onRowTap(_ entitlement: Entitlement) {
         let metadata = LicenceCategoryDisplayMetadataBuilder.metadata(for: entitlement.categoryCode)
-        onAnalyticsEvent?("licence_category_row_tapped", [
-            "code": entitlement.categoryCode,
-            "display_name": metadata.displayName,
-            "group": metadata.group.title
-        ])
-
         didSelectAction?(entitlement)
     }
 
     func onLinkClick(_ link: CategoryLink) {
-        onAnalyticsEvent?("licence_categories_link_tapped", [
-            "title": link.text,
-            "destination": link.url.absoluteString
-        ])
-
         print("KK open link")
     }
 }
