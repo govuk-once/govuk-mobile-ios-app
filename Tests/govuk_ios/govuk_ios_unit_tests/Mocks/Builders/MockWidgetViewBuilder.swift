@@ -7,7 +7,7 @@ class MockWidgetViewBuilder: WidgetViewBuilder {
     var _receivedDvlaAccountWidgetLinkAction: (() -> Void)?
     var _receivedVehicleDetailAction: ((Int) -> Void)?
 
-    override func makeAccountWidget(
+    override func makeDVLAAccountWidget(
         analyticsService: AnalyticsServiceInterface,
         userService: UserServiceInterface,
         dvlaService: DVLAServiceInterface,

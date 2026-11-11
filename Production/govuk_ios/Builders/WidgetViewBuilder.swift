@@ -2,7 +2,7 @@ import SwiftUI
 import GovKit
 
 class WidgetViewBuilder {
-    func makeAccountWidget(
+    func makeDVLAAccountWidget(
         analyticsService: AnalyticsServiceInterface,
         userService: UserServiceInterface,
         dvlaService: DVLAServiceInterface,
