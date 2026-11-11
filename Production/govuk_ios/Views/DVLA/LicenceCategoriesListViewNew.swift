@@ -18,27 +18,21 @@ struct RowHighlightButtonStyle: ButtonStyle {
 
 // MARK: - Models
 
-struct EntitlementRow: Identifiable, ExpressibleByStringLiteral, Equatable {
-    let id = UUID()
-    let title: String
-    private let codes: [String]
+struct EntitlementGroup: Identifiable, Equatable {
+    let group: LicenceCategoryGroup
+    let entitlements: [Entitlement]
 
-    init(title: String, codes: [String]) {
-        self.title = title
-        self.codes = codes
-    }
+    // Stable identity derived from the group enum
+    var id: LicenceCategoryGroup { group }
 
-    init(stringLiteral value: String) {
-        let components = value
-            .split(separator: ",")
-            .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
-
-        self.title = components.first ?? ""
-        self.codes = Array(components.dropFirst().filter { !$0.isEmpty })
+    var title: String {
+        group.title
     }
 
     var codesDisplay: String {
-        codes.joined(separator: ", ")
+        entitlements
+            .map(\.categoryCode)
+            .joined(separator: ", ")
     }
 }
 
@@ -54,7 +48,7 @@ struct CategoryLink: Identifiable, Hashable {
 // MARK: - Row Component
 
 struct KKEntitlementRowView: View {
-    let row: EntitlementRow
+    let row: EntitlementGroup
     var showsHighlight: Bool = true
     var onSelect: (() -> Void)?
 
@@ -90,9 +84,9 @@ struct KKEntitlementRowView: View {
 
 struct EntitlementSectionView: View {
     let title: String
-    let items: [EntitlementRow]
+    let items: [EntitlementGroup]
     var showsHighlight: Bool = true
-    var onSelectRow: ((EntitlementRow) -> Void)?
+    var onSelectRow: ((EntitlementGroup) -> Void)?
 
     var body: some View {
         let lastID = items.last?.id
@@ -299,7 +293,61 @@ struct DrivingLicenceParentView: View {
     DrivingLicenceParentView()
 }
  */
+#if DEBUG
+extension Entitlement {
+    static func preview(
+        categoryCode: String,
+        categoryType: CategoryType,
+        categoryLegalLiteral: String = "",
+        fromDate: Date = Date(),
+        expiryDate: Date = Calendar.current.date(byAdding: .year, value: 10, to: Date()) ?? Date(),
+        restrictions: [EntitlementRestriction] = []
+    ) -> Entitlement {
+        Entitlement(
+            categoryCode: categoryCode,
+            categoryLegalLiteral: categoryLegalLiteral.isEmpty ? "Category \(categoryCode)" : categoryLegalLiteral,
+            categoryType: categoryType,
+            fromDate: fromDate,
+            expiryDate: expiryDate,
+            restrictions: restrictions
+        )
+    }
+}
+#endif
 
+#Preview("Row Taps & Highlight") {
+    let viewModel = CategoriesViewModel(
+        entitlements: [
+            // Full Entitlements
+            .preview(categoryCode: "AM", categoryType: .full),
+            .preview(categoryCode: "P", categoryType: .full),
+            .preview(categoryCode: "Q", categoryType: .full),
+            .preview(categoryCode: "A", categoryType: .full),
+            .preview(categoryCode: "B", categoryType: .full),
+            .preview(categoryCode: "BE", categoryType: .full),
+
+            // Provisional Entitlements
+            .preview(categoryCode: "B1", categoryType: .provisional)
+        ],
+        links: [
+            CategoryLink(
+                text: "Driving licence categories",
+                url: URL(string: "https://www.gov.uk/driving-licence-categories")!
+            )
+        ],
+        showsRowHighlight: true,
+        onRowSelected: { selectedGroup in
+            print("Selected: \(selectedGroup.title) with codes \(selectedGroup.codesDisplay)")
+            print("Underlying entitlements: \(selectedGroup.entitlements)")
+        },
+        onAnalyticsEvent: { name, params in
+            print("Analytics: [\(name)] \(params)")
+        }
+    )
+
+    VMCategoriesSheetView(viewModel: viewModel)
+}
+/*
 #Preview("Row Taps & Highlight") {
     let viewModel = CategoriesViewModel(
         entitledToDrive: [
@@ -328,3 +376,4 @@ struct DrivingLicenceParentView: View {
 
     VMCategoriesSheetView(viewModel: viewModel)
 }
+*/

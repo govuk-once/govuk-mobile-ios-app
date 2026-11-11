@@ -2,23 +2,23 @@ import SwiftUI
 
 @MainActor
 final class CategoriesViewModel: ObservableObject {
-    @Published private(set) var entitledToDrive: [EntitlementRow] = []
-    @Published private(set) var provisionallyEntitledToDrive: [EntitlementRow] = []
+    @Published private(set) var entitledToDrive: [EntitlementGroup] = []
+    @Published private(set) var provisionallyEntitledToDrive: [EntitlementGroup] = []
     @Published private(set) var links: [CategoryLink] = []
 
     /// Configures visual tap highlight on rows
     let showsRowHighlight: Bool
 
-    private let didSelectAtion: ((EntitlementRow) -> Void)?
+    private let didSelectAtion: ((EntitlementGroup) -> Void)?
     private let onOpenURL: ((URL) -> Void)?
     private let onAnalyticsEvent: ((String, [String: Any]) -> Void)?
 
     init(
-        entitledToDrive: [EntitlementRow] = [],
-        provisionallyEntitledToDrive: [EntitlementRow] = [],
+        entitledToDrive: [EntitlementGroup] = [],
+        provisionallyEntitledToDrive: [EntitlementGroup] = [],
         links: [CategoryLink] = [],
         showsRowHighlight: Bool = true,
-        onRowSelected: ((EntitlementRow) -> Void)? = nil,
+        onRowSelected: ((EntitlementGroup) -> Void)? = nil,
         onOpenURL: ((URL) -> Void)? = nil,
         onAnalyticsEvent: ((String, [String: Any]) -> Void)? = nil
     ) {
@@ -36,7 +36,7 @@ final class CategoriesViewModel: ObservableObject {
         mapper: EntitlementMapping = EntitlementMapper(),
         links: [CategoryLink] = [],
         showsRowHighlight: Bool = true,
-        onRowSelected: ((EntitlementRow) -> Void)? = nil,
+        onRowSelected: ((EntitlementGroup) -> Void)? = nil,
         onOpenURL: ((URL) -> Void)? = nil,
         onAnalyticsEvent: ((String, [String: Any]) -> Void)? = nil
     ) {
@@ -55,7 +55,7 @@ final class CategoriesViewModel: ObservableObject {
 
     // MARK: - User Actions
 
-    func onRowTap(_ row: EntitlementRow) {
+    func onRowTap(_ row: EntitlementGroup) {
         onAnalyticsEvent?("licence_category_row_tapped", [
             "title": row.title,
             "codes": row.codesDisplay

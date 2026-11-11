@@ -138,6 +138,30 @@ extension ViewControllerBuilder: DVLAViewControllerBuilding {
         selectAction: @escaping (Entitlement) -> Void,
         dismissAction: @escaping () -> Void
     ) -> UIViewController {
+        let useNew = true
+        if !useNew {
+            return licenceCategoryListOLD(
+                entitlements: entitlements,
+                analyticsService: analyticsService,
+                selectAction: selectAction,
+                dismissAction: dismissAction
+            )
+        } else {
+            return licenceCategoryListNEW(
+                entitlements: entitlements,
+                analyticsService: analyticsService,
+                selectAction: selectAction,
+                dismissAction: dismissAction
+            )
+        }
+    }
+// MARK: -
+    func licenceCategoryListOLD(
+        entitlements: [Entitlement],
+        analyticsService: AnalyticsServiceInterface,
+        selectAction: @escaping (Entitlement) -> Void,
+        dismissAction: @escaping () -> Void
+    ) -> UIViewController {
         let viewModel = LicenceCategoryListViewModel(entitlements: entitlements,
             didSelectAction: selectAction,
             dismissAction: dismissAction)
@@ -145,6 +169,23 @@ extension ViewControllerBuilder: DVLAViewControllerBuilding {
         let viewController = HostingViewController(rootView: view)
         return viewController
     }
+
+    func licenceCategoryListNEW(
+        entitlements: [Entitlement],
+        analyticsService: AnalyticsServiceInterface,
+        selectAction: @escaping (Entitlement) -> Void,
+        dismissAction: @escaping () -> Void
+    ) -> UIViewController {
+        let viewModel = CategoriesViewModel(entitlements: entitlements,
+                                            onRowSelected: { entRow in
+            print("selected entRow: \(entRow)")
+        })
+
+        let view = VMCategoriesSheetView(viewModel: viewModel)
+        let viewController = HostingViewController(rootView: view)
+        return viewController
+    }
+// MARK: -
 
     func licenceCategoryDetail(
         entitlement: Entitlement,
