@@ -18,7 +18,8 @@ struct DrivingLicenceView: View {
                 VStack(spacing: 24) {
                     DrivingLicenceSummaryView(viewModel: loadedState.licenceSummary)
                     DrivingRecordView(viewModel: loadedState.drivingRecord)
-                    LicenceCategoriesSectionView(viewModel: loadedState.categories)
+                    // hide temporarily until categories are complete
+                    // LicenceCategoriesSectionView(viewModel: loadedState.categories)
                 }
                 .padding(.horizontal, 16)
             case .notice(let noticeViewModel):
