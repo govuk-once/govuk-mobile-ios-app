@@ -18,7 +18,7 @@ struct RowHighlightButtonStyle: ButtonStyle {
 
 // MARK: - Models
 
-struct EntitlementRow: Identifiable, ExpressibleByStringLiteral {
+struct EntitlementRow: Identifiable, ExpressibleByStringLiteral, Equatable {
     let id = UUID()
     let title: String
     private let codes: [String]
