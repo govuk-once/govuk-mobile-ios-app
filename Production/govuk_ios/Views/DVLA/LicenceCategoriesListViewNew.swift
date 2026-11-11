@@ -9,10 +9,6 @@ struct VMCategoriesListView: View {
             VStack(alignment: .leading, spacing: 32) {
                 // Top Header
                 VStack(alignment: .leading, spacing: 12) {
-                    Text("Categories")
-                        .font(.largeTitle.weight(.bold))
-                        .foregroundStyle(.primary)
-
                     Text("""
                         Your licence categories and \
                         codes show which vehicles you can \
