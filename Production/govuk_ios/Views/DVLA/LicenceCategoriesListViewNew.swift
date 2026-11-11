@@ -4,7 +4,7 @@ import Combine
 
 // MARK: - Row Content Component
 
-struct KKEntitlementRowContentView: View {
+struct EntitlementRowContentView: View {
     let metadata: LicenceCategoryDisplayMetadata
 
     init(metadata: LicenceCategoryDisplayMetadata) {
@@ -61,11 +61,11 @@ struct KKEntitlementRowView: View {
         Group {
             if let onSelect {
                 Button(action: onSelect) {
-                    KKEntitlementRowContentView(metadata: metadata)
+                    EntitlementRowContentView(metadata: metadata)
                 }
                 .buttonStyle(RowHighlightButtonStyle(showsHighlight: showsHighlight))
             } else {
-                KKEntitlementRowContentView(metadata: metadata)
+                EntitlementRowContentView(metadata: metadata)
             }
         }
         .accessibilityElement(children: .combine)
