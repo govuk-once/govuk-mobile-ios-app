@@ -213,16 +213,24 @@ class BaseCoordinator: NSObject,
         childCoordinators.remove(at: index)
     }
 
-    /// Reverses the presentation or navigation step for this coordinator's root.
+    /// Reverses the top-most presentation or navigation step for this coordinator's root.
     ///
-    /// If `root` has an active `presentingViewController`, it dismisses the modal presentation.
-    /// Otherwise, it pops the top view controller off `root`'s navigation stack.
+    /// Dismisses any modal presented on top of `root`, pops the top view controller if multiple
+    /// controllers are on the stack, or dismisses `root` itself when at the root of a modal flow.
     ///
     /// - Parameter animated: Pass `true` to animate the transition; otherwise, `false`.
     func dismiss(animated: Bool) {
-        if root.presentingViewController != nil {
+        if root.presentedViewController != nil {
+            // Dismiss a modal presented on top of this coordinator
+            root.dismiss(animated: animated)
+        } else if root.viewControllers.count > 1 {
+            // Pop back one screen within this stack (even if this stack is inside a modal)
+            root.popViewController(animated: animated)
+        } else if root.presentingViewController != nil {
+            // At the root of a modally presented stack; dismiss the modal itself
             root.dismiss(animated: animated)
         } else {
+            // Non-modal stack at root or empty; default to pop (safe no-op if nothing to pop)
             root.popViewController(animated: animated)
         }
     }
