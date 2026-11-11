@@ -31,6 +31,28 @@ final class CategoriesViewModel: ObservableObject {
         self.onAnalyticsEvent = onAnalyticsEvent
     }
 
+    convenience init(
+        entitlements: [Entitlement],
+        mapper: EntitlementMapping = EntitlementMapper(),
+        links: [CategoryLink] = [],
+        showsRowHighlight: Bool = true,
+        onRowSelected: ((EntitlementRow) -> Void)? = nil,
+        onOpenURL: ((URL) -> Void)? = nil,
+        onAnalyticsEvent: ((String, [String: Any]) -> Void)? = nil
+    ) {
+        let categorised = mapper.map(entitlements: entitlements)
+
+        self.init(
+            entitledToDrive: categorised.entitledToDrive,
+            provisionallyEntitledToDrive: categorised.provisionallyEntitledToDrive,
+            links: links,
+            showsRowHighlight: showsRowHighlight,
+            onRowSelected: onRowSelected,
+            onOpenURL: onOpenURL,
+            onAnalyticsEvent: onAnalyticsEvent
+        )
+    }
+
     // MARK: - User Actions
 
     func onRowTap(_ row: EntitlementRow) {
