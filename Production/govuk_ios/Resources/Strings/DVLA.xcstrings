@@ -67,6 +67,17 @@
         }
       }
     },
+    "addingCategoriesToYourVehicle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adding categories to your licence"
+          }
+        }
+      }
+    },
     "biFuel" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -283,6 +294,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Colour: %1$(colour)@"
+          }
+        }
+      }
+    },
+    "compareOldAndNewCategories" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compare old and new categories"
           }
         }
       }
@@ -1814,6 +1836,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "We could not get your vehicle details"
+          }
+        }
+      }
+    },
+    "vehicleWeightsExplained" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vehicle weights explained"
           }
         }
       }

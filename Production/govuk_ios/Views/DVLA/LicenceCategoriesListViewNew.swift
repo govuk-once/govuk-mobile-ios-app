@@ -184,24 +184,8 @@ extension Entitlement {
         .preview(categoryCode: "H", categoryType: .provisional)
     ]
 
-    let sampleLinks = [
-        CategoryLink(
-            text: "Compare old and new categories",
-            url: URL(string: "https://www.gov.uk/driving-licence-categories")!
-        ),
-        CategoryLink(
-            text: "Vehicle weights explained",
-            url: URL(string: "https://www.gov.uk/vehicle-weights-explained")!
-        ),
-        CategoryLink(
-            text: "Adding categories to your licence",
-            url: URL(string: "https://www.gov.uk/adding-higher-categories-to-your-driving-licence")!
-        )
-    ]
-
     let viewModel = CategoriesViewModel(
         entitlements: sampleEntitlements,
-        links: sampleLinks,
         showsRowHighlight: true,
         didSelectAction: { selected in
             print("Selected Entitlement: \(selected.categoryCode) (\(selected.categoryType))")

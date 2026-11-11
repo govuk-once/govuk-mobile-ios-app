@@ -18,13 +18,12 @@ final class CategoriesViewModel: ObservableObject {
     let showsRowHighlight: Bool
 
     private let didSelectAction: ((Entitlement) -> Void)?
-    private let onOpenURL: ((URL) -> Void)?
+    private let openURLAction: ((URL) -> Void)?
     private let dismissAction: () -> Void
 
     init(
         entitledToDrive: [EntitlementGroup] = [],
         provisionallyEntitledToDrive: [EntitlementGroup] = [],
-        links: [CategoryLink] = [],
         showsRowHighlight: Bool = true,
         didSelectAction: ((Entitlement) -> Void)? = nil,
         onOpenURL: ((URL) -> Void)? = nil,
@@ -33,10 +32,23 @@ final class CategoriesViewModel: ObservableObject {
     ) {
         self.entitledToDrive = entitledToDrive
         self.provisionallyEntitledToDrive = provisionallyEntitledToDrive
-        self.links = links
+        self.links = [
+            CategoryLink(
+                text: String(localized: .DVLA.compareOldAndNewCategories),
+                url: Constants.API.defaultDvlaCategoriesCompareOldAndNewUrl
+            ),
+            CategoryLink(
+                text: String(localized: .DVLA.vehicleWeightsExplained),
+                url: Constants.API.defaultDvlaCategoriesVehicleWeightsUrl
+            ),
+            CategoryLink(
+                text: String(localized: .DVLA.addingCategoriesToYourVehicle),
+                url: Constants.API.defaultDvlaCategoriesAddingCategoriesUrl
+            ),
+        ]
         self.showsRowHighlight = showsRowHighlight
         self.didSelectAction = didSelectAction
-        self.onOpenURL = onOpenURL
+        self.openURLAction = onOpenURL
         self.dismissAction = dismissAction
         self.analyticsService = analyticsService
     }
@@ -44,7 +56,6 @@ final class CategoriesViewModel: ObservableObject {
     convenience init(
         entitlements: [Entitlement],
         mapper: EntitlementMapping = EntitlementMapper(),
-        links: [CategoryLink] = [],
         showsRowHighlight: Bool = true,
         didSelectAction: ((Entitlement) -> Void)? = nil,
         dismissAction: @escaping () -> Void,
@@ -56,7 +67,6 @@ final class CategoriesViewModel: ObservableObject {
         self.init(
             entitledToDrive: categorised.entitledToDrive,
             provisionallyEntitledToDrive: categorised.provisionallyEntitledToDrive,
-            links: links,
             showsRowHighlight: showsRowHighlight,
             didSelectAction: didSelectAction,
             onOpenURL: onOpenURL,
@@ -93,6 +103,11 @@ final class CategoriesViewModel: ObservableObject {
     }
 
     func onLinkClick(_ link: CategoryLink) {
-        print("KK open link")
+//        openURLAction(text: link.text, url: link.url)
+    }
+
+    // MARK: - Links
+
+    func setupLinks() {
     }
 }
