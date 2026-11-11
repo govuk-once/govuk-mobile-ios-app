@@ -209,7 +209,10 @@ private struct NotificationCentreRow: View {
 extension NotificationCentreContainerView: TrackableScreen {
     var trackingTitle: String? { trackingName }
     var trackingName: String { "Messages" }
+    var trackingClass: String { "MessagesScreen" }
 }
+
+#if DEBUG
 #Preview("Loading") {
     NotificationCentreLoadingView()
 }
@@ -225,7 +228,9 @@ extension NotificationCentreContainerView: TrackableScreen {
                 .init(title: "Read Notification", date: "26 July", isUnread: false, id: "3")
             ]
         ),
-        onNotificationTap: { _ in /* No-op */ }
+        onNotificationTap: { _ in
+            /* no-op */
+        }
     )
 }
 
@@ -238,7 +243,9 @@ extension NotificationCentreContainerView: TrackableScreen {
                 ],
             older: []
         ),
-        onNotificationTap: { _ in /* No-op */ }
+        onNotificationTap: { _ in
+            /* no-op */
+        }
     )
 }
 
@@ -250,12 +257,17 @@ extension NotificationCentreContainerView: TrackableScreen {
     let notification = NotificationCentreViewModel.NotificationListItem(
         title: "test", date: "7th Jan 2026", isUnread: true, id: "1"
     )
-    NotificationCentreRow(notification: notification, onTap: { _ in /* no-op */ })
+    NotificationCentreRow(notification: notification, onTap: { _ in
+        /* no-op */
+    })
 }
 
 #Preview("Read notification") {
     let notification = NotificationCentreViewModel.NotificationListItem(
         title: "test", date: "7th Jan 2026", isUnread: false, id: "1"
     )
-    NotificationCentreRow(notification: notification, onTap: { _ in /* no-op */ })
+    NotificationCentreRow(notification: notification, onTap: { _ in
+        /* no-op */
+    })
 }
+#endif // DEBUG

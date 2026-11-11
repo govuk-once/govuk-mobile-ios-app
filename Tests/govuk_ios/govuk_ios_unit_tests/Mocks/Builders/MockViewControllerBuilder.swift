@@ -433,19 +433,6 @@ class MockViewControllerBuilder: ViewControllerBuilder {
         return _stubbedServiceAccountConsentController ?? UIViewController()
     }
 
-    var _stubbedVehicleDetailController: UIViewController?
-    var _receivedVehicleDetailOpenURLAction: ((URL) -> Void)?
-    override func vehicleDetail(
-        analyticsService: AnalyticsServiceInterface,
-        dvlaService: DVLAServiceInterface,
-        configService configServive: AppConfigServiceInterface,
-        openURLAction: @escaping (URL) -> Void,
-        vehicleId: Int
-    ) -> UIViewController {
-        _receivedVehicleDetailOpenURLAction = openURLAction
-        return _stubbedVehicleDetailController ?? UIViewController()
-    }
-
     var _stubbedNotificationCentreViewController: UIViewController!
     var _receivedShowNotificationCentreDetailAction: ((String) -> Void)?
     override func notificationCentre(showNotificationAction: @escaping (String) -> Void, notificationService: any NotificationCentreServiceInterface, analyticsService: any AnalyticsServiceInterface) -> UIViewController {
@@ -463,35 +450,29 @@ class MockViewControllerBuilder: ViewControllerBuilder {
         return _stubbedNotificationCentreDetailViewController
     }
 
-    var _stubbedDvlaAuthenticationViewController: UIViewController?
-    var _receivedDvlaAuthenticationCompletionAction: ((URL) -> Void)?
-    var _receivedDvlaAuthenticationErrorAction: (() -> Void)?
-    override func dvlaAuthentication(
-        authenticationService: AuthenticationServiceInterface,
-        appEnvironmentService: AppEnvironmentServiceInterface,
-        completionAction: @escaping (URL) -> Void,
-        errorAction: @escaping () -> Void
-    ) -> UIViewController {
-        _receivedDvlaAuthenticationCompletionAction = completionAction
-        _receivedDvlaAuthenticationErrorAction = errorAction
-        return _stubbedDvlaAuthenticationViewController ?? UIViewController()
-    }
-
     var _editCountriesWasCalled = false
     var _receivedEditCountriesTravelService: TravelServiceInterface?
     var _receivedEditCountriesAnalyticsService: AnalyticsServiceInterface?
     var _receivedEditCountriesNotificationService: NotificationServiceInterface?
+    var _receivedEditCountriesOpenURLAction: ((URL) -> Void)?
+    var _receivedEditCountriesNavigateBackAction: (() -> Void)?
     var _stubbedEditCountriesViewController: UIViewController?
     override func editCountries(
         travelService: TravelServiceInterface,
         analyticsService: AnalyticsServiceInterface,
         notificationService: NotificationServiceInterface,
-        openURLAction: @escaping (URL) -> Void
+        deviceInfo: DeviceInformationProviderInterface,
+        versionProvider: AppVersionProvider,
+        openURLAction: @escaping (URL) -> Void,
+        navigateBackAction: @escaping () -> Void
     ) -> UIViewController {
         _editCountriesWasCalled = true
         _receivedEditCountriesTravelService = travelService
         _receivedEditCountriesAnalyticsService = analyticsService
         _receivedEditCountriesNotificationService = notificationService
+        _receivedEditCountriesOpenURLAction = openURLAction
+        _receivedEditCountriesNavigateBackAction = navigateBackAction
         return _stubbedEditCountriesViewController ?? UIViewController()
     }
+    
 }

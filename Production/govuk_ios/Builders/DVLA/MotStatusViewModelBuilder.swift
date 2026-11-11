@@ -17,6 +17,7 @@ protocol MotStatusViewModelBuilderInterface {
 }
 
 struct MotStatusViewModelBuilder: MotStatusViewModelBuilderInterface {
+    private let isOwnedVehicle: Bool
     private let dateFormatter = DateFormatter.dvlaAccount
     private let expiryProgressCalculator = ExpiryProgressCalculator.init(countdownWindowDays: 28)
     private let urls: DvlaURLs?
@@ -24,10 +25,12 @@ struct MotStatusViewModelBuilder: MotStatusViewModelBuilderInterface {
     private let openURLAction: (URL) -> Void
 
     init(
+        isOwnedVehicle: Bool,
         urls: DvlaURLs?,
         analyticsService: AnalyticsServiceInterface,
         openURLAction: @escaping (URL) -> Void
     ) {
+        self.isOwnedVehicle = isOwnedVehicle
         self.urls = urls
         self.analyticsService = analyticsService
         self.openURLAction = openURLAction
@@ -60,7 +63,7 @@ struct MotStatusViewModelBuilder: MotStatusViewModelBuilderInterface {
                         validToDate: validToDate
                     )
                 }
-                if expiryProgress.isWithinCountdownWindow {
+                if expiryProgress.isWithinCountdownWindow && isOwnedVehicle {
                     return makeExpiringViewModel(
                         validToDate: validToDate,
                         expiryProgress: expiryProgress

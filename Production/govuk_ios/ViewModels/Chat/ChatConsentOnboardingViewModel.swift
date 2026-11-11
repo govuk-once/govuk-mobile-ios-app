@@ -49,12 +49,10 @@ class ChatConsentOnboardingViewModel: InfoViewModelInterface {
         )
     }
 
-    var rightBarButtonItem: UIBarButtonItem {
-        .cancel(
-            target: self,
-            action: #selector(cancelOnboarding),
-            tintColour: .govUK.text.linkSecondary
-        )
+    var cancelAction: (() -> Void)? {
+        { [weak self] in
+            self?.cancelOnboarding()
+        }
     }
 
     var primaryButtonTitle: String {
@@ -73,7 +71,6 @@ class ChatConsentOnboardingViewModel: InfoViewModelInterface {
         false
     }
 
-    @objc
     func cancelOnboarding() {
         cancelOnboardingAction()
         trackCancelAction()

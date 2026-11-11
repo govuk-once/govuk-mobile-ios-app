@@ -96,12 +96,14 @@ class MockCoordinatorBuilder: CoordinatorBuilder {
             configService: MockAppConfigService(),
             topicsService: MockTopicsService(),
             notificationService: MockNotificationService(),
+            travelService: MockTravelService(),
             deviceInformationProvider: MockDeviceInformationProvider(),
             searchService: MockSearchService(),
             activityService: MockActivityService(context: coreData.viewContext),
             localAuthorityService: MockLocalAuthorityService(),
             userDefaultsService: MockUserDefaultsService(),
-            chatService: MockChatService()
+            chatService: MockChatService(),
+            versionProvider: MockAppVersionProvider()
         )
         return mockHomeCoordinator
     }
@@ -373,23 +375,8 @@ class MockCoordinatorBuilder: CoordinatorBuilder {
         return _stubbedServiceAccountRedirectCoordinator ?? MockBaseCoordinator()
     }
 
-    var _stubbedVehicleDetailCoordinator: MockBaseCoordinator?
-    override func vehicleDetail(
-        navigationController: UINavigationController,
-        vehicleId: Int
-    ) -> BaseCoordinator {
-        _stubbedVehicleDetailCoordinator ?? MockBaseCoordinator()
-    }
-
     var _stubbedNotificationCentreCoordinator: MockNotificationCentreCoordinator!
     override func notificationCentre(navigationController: UINavigationController) -> NotificationCentreCoordinator {
         _stubbedNotificationCentreCoordinator
-    }
-
-    var _countryListCoordinatorWasCalled = false
-    override func countryList(navigationController: UINavigationController,
-                             completion: @escaping (Bool) -> Void) -> BaseCoordinator {
-        _countryListCoordinatorWasCalled = true
-        return MockBaseCoordinator()
     }
 }

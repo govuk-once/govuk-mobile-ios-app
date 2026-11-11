@@ -65,6 +65,10 @@ struct DvlaURLs: Decodable {
     let replaceLicence: URL?
     let changeLicenceAddress: URL?
     let contact: URL?
+    let buyingUsedCarChecks: URL?
+    let reportAbandonedVehicle: URL?
+    let reportUntaxedVehicle: URL?
+    let reportNoMot: URL?
 }
 
 struct TermsAndConditions: Decodable {

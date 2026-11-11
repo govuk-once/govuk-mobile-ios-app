@@ -78,6 +78,127 @@
         }
       }
     },
+    "categoryDescriptionTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can drive"
+          }
+        }
+      }
+    },
+    "categoryGroupBuses" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buses"
+          }
+        }
+      }
+    },
+    "categoryGroupCars" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cars"
+          }
+        }
+      }
+    },
+    "categoryGroupLargeVehicles" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Large vehicles"
+          }
+        }
+      }
+    },
+    "categoryGroupLightVehicles" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Light vehicles and quad bikes"
+          }
+        }
+      }
+    },
+    "categoryGroupMediumSizedVehicles" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Medium-sized vehicles"
+          }
+        }
+      }
+    },
+    "categoryGroupMinibuses" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Minibuses"
+          }
+        }
+      }
+    },
+    "categoryGroupMopeds" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mopeds"
+          }
+        }
+      }
+    },
+    "categoryGroupMotorcycles" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Motorcycles"
+          }
+        }
+      }
+    },
+    "categoryGroupOtherVehicles" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Other vehicles"
+          }
+        }
+      }
+    },
+    "categoryTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Category"
+          }
+        }
+      }
+    },
     "changeAddressAccessibilityLabel" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -118,6 +239,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Change name or gender on licence"
+          }
+        }
+      }
+    },
+    "clearTextAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clear text"
           }
         }
       }
@@ -475,6 +607,17 @@
         }
       }
     },
+    "enterNumberPlateLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter number plate"
+          }
+        }
+      }
+    },
     "expired" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -493,6 +636,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Expired %1$(date)@"
+          }
+        }
+      }
+    },
+    "expiresIn" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Expires in %1$(days)lld days"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Expires in %1$(days)lld day"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "expiresToday" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Expires today"
           }
         }
       }
@@ -607,6 +784,17 @@
         }
       }
     },
+    "gettingVehicleDetails" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Getting vehicle details"
+          }
+        }
+      }
+    },
     "hybrid" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -647,6 +835,39 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Address on licence: %@ "
+          }
+        }
+      }
+    },
+    "licenceCategoriesButtonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Categories"
+          }
+        }
+      }
+    },
+    "licenceCategoriesSubtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vehicles you’re permitted to drive."
+          }
+        }
+      }
+    },
+    "licenceCategoriesTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can drive"
           }
         }
       }
@@ -1003,6 +1224,17 @@
         }
       }
     },
+    "notValidFormOfIdNotice" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This is not a valid form of identification"
+          }
+        }
+      }
+    },
     "offTheRoadSorn" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1025,6 +1257,17 @@
         }
       }
     },
+    "plateMustBe2To7Characters" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plate must be 2–7 characters"
+          }
+        }
+      }
+    },
     "primaryAndSecondaryColour" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1043,6 +1286,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Registered to"
+          }
+        }
+      }
+    },
+    "registrationLookupNotFound" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Number plate not found"
+          }
+        }
+      }
+    },
+    "registrationLookupServiceUnavailable" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search not working - try again later"
           }
         }
       }
@@ -1109,6 +1374,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Replace licence"
+          }
+        }
+      }
+    },
+    "restrictionsTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restrictions"
           }
         }
       }
@@ -1190,6 +1466,28 @@
         }
       }
     },
+    "validFrom" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Valid from"
+          }
+        }
+      }
+    },
+    "validTo" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Valid to"
+          }
+        }
+      }
+    },
     "validUntil" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1208,6 +1506,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Search for a vehicle"
+          }
+        }
+      }
+    },
+    "vehicleCheckSearchButtonAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search for another vehicle"
           }
         }
       }
@@ -1322,6 +1631,72 @@
         }
       }
     },
+    "vehicleMenuRegisterToYouAccessibilityTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Register vehicle to you"
+          }
+        }
+      }
+    },
+    "vehicleMenuRegisterToYouTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Register to you"
+          }
+        }
+      }
+    },
+    "vehicleMenuReportAbandonedAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Report vehicle as abandoned"
+          }
+        }
+      }
+    },
+    "vehicleMenuReportAbandonedTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Report as abandoned"
+          }
+        }
+      }
+    },
+    "vehicleMenuReportOnRoadAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Report vehicle as on the road"
+          }
+        }
+      }
+    },
+    "vehicleMenuReportOnRoadTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Report as on the road"
+          }
+        }
+      }
+    },
     "vehicleMenuSoldVehicleAccessibilityLabelTitle" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1351,6 +1726,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "SORN rules"
+          }
+        }
+      }
+    },
+    "vehicleMenuUsedCarChecksTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Used vehicle checks"
           }
         }
       }

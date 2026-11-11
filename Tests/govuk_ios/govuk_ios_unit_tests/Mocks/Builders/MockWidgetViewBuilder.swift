@@ -19,7 +19,6 @@ class MockWidgetViewBuilder: WidgetViewBuilder {
         return AnyView(EmptyView())
     }
 
-    var _receivedTravelAlertLinkAction: (() -> Void)?
     var _receivedTravelAlertDismissAction: (() -> Void)?
     var _receivedTravelAlertEditAction: (() -> Void)?
     var _receivedTravelAlertOpenURLAction: ((URL) -> Void)?
@@ -28,12 +27,12 @@ class MockWidgetViewBuilder: WidgetViewBuilder {
         analyticsService: AnalyticsServiceInterface,
         travelService: TravelServiceInterface,
         notificationService: NotificationServiceInterface,
-        linkAction: @escaping () -> Void,
+        deviceInfo: DeviceInformationProviderInterface,
+        versionProvider: AppVersionProvider,
         dismissAction: @escaping () -> Void,
         editAction: @escaping () -> Void,
         openURLAction: @escaping (URL) -> Void
     ) -> AnyView? {
-        _receivedTravelAlertLinkAction = linkAction
         _receivedTravelAlertDismissAction = dismissAction
         _receivedTravelAlertEditAction = editAction
         _receivedTravelAlertOpenURLAction = openURLAction

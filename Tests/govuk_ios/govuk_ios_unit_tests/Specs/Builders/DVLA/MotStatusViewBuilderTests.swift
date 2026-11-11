@@ -17,6 +17,7 @@ struct MOTStatusViewModelBuilderTests {
             registrationNumber: "LG04 NBF"
         )
         let sut = MotStatusViewModelBuilder(
+            isOwnedVehicle: true,
             urls: nil,
             analyticsService: MockAnalyticsService(),
             openURLAction: { _ in }
@@ -41,6 +42,7 @@ struct MOTStatusViewModelBuilderTests {
             registrationNumber: "LG04 NBF"
         )
         let sut = MotStatusViewModelBuilder(
+            isOwnedVehicle: true,
             urls: nil,
             analyticsService: MockAnalyticsService(),
             openURLAction: { _ in }
@@ -59,6 +61,32 @@ struct MOTStatusViewModelBuilderTests {
 
     @MainActor
     @Test
+    func makeViewModel_motExpiringWithinCountdownWindow_notOwnedVehicle_returnsViewModelWithoutCountdown() {
+        let expiryDate = generateFutureDate(daysAhead: 10)
+        let vehicle = MotStatusVehicle(
+            motStatus: .valid,
+            motExpiryDate: expiryDate,
+            registrationNumber: "LG04 NBF"
+        )
+        let sut = MotStatusViewModelBuilder(
+            isOwnedVehicle: false,
+            urls: nil,
+            analyticsService: MockAnalyticsService(),
+            openURLAction: { _ in }
+        )
+        let result = sut.makeViewModel(vehicle: vehicle)
+
+        #expect(result.title == String(localized: .DVLA.motStatusTitle))
+        #expect(result.statusInformation?.displayValue == String(
+            localized: .DVLA.motValidUntil(dateFormatter.string(from: expiryDate)))
+        )
+        #expect(result.status as? MOTValidityStatus == .valid)
+        #expect(result.progressViewModel == nil)
+        #expect(result.footer == nil)
+    }
+
+    @MainActor
+    @Test
     func makeViewModel_motNotValid_returnsExpiredViewModel() {
         let expiryDate = generateFutureDate(daysAhead: -5)
         let vehicle = MotStatusVehicle(
@@ -67,6 +95,7 @@ struct MOTStatusViewModelBuilderTests {
             registrationNumber: "LG04 NBF"
         )
         let sut = MotStatusViewModelBuilder(
+            isOwnedVehicle: true,
             urls: nil,
             analyticsService: MockAnalyticsService(),
             openURLAction: { _ in }
@@ -92,6 +121,7 @@ struct MOTStatusViewModelBuilderTests {
             registrationNumber: "LG04 NBF"
         )
         let sut = MotStatusViewModelBuilder(
+            isOwnedVehicle: true,
             urls: nil,
             analyticsService: MockAnalyticsService(),
             openURLAction: { url in openedUrl = url }
@@ -119,6 +149,7 @@ struct MOTStatusViewModelBuilderTests {
             registrationNumber: "LG04 NBF"
         )
         let sut = MotStatusViewModelBuilder(
+            isOwnedVehicle: true,
             urls: nil,
             analyticsService: MockAnalyticsService(),
             openURLAction: { _ in }
@@ -142,6 +173,7 @@ struct MOTStatusViewModelBuilderTests {
             registrationNumber: "LG04 NBF"
         )
         let sut = MotStatusViewModelBuilder(
+            isOwnedVehicle: true,
             urls: nil,
             analyticsService: MockAnalyticsService(),
             openURLAction: { url in openedUrl = url }
@@ -171,6 +203,7 @@ struct MOTStatusViewModelBuilderTests {
             registrationNumber: "LG04 NBF"
         )
         let sut = MotStatusViewModelBuilder(
+            isOwnedVehicle: true,
             urls: nil,
             analyticsService: MockAnalyticsService(),
             openURLAction: { _ in }

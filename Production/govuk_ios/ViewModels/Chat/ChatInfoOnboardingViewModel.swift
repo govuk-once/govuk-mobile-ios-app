@@ -15,12 +15,10 @@ class ChatInfoOnboardingViewModel: InfoViewModelInterface {
         self.cancelOnboardingAction = cancelOnboardingAction
     }
 
-    var rightBarButtonItem: UIBarButtonItem {
-        .cancel(
-            target: self,
-            action: #selector(cancelOnboarding),
-            tintColour: .govUK.text.linkSecondary
-        )
+    var cancelAction: (() -> Void)? {
+        { [weak self] in
+            self?.cancelOnboarding()
+        }
     }
 
     var contentAlignment: Alignment {
@@ -70,7 +68,6 @@ class ChatInfoOnboardingViewModel: InfoViewModelInterface {
         "Chat Onboarding Screen One"
     }
 
-    @objc
     func cancelOnboarding() {
         cancelOnboardingAction()
         trackCancelAction()

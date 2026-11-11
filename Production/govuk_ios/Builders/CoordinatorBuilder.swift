@@ -5,9 +5,25 @@ import Foundation
 import FactoryKit
 
 @MainActor
+protocol ServiceAccountCoordinatorBuilding {
+    func serviceAccountLink(
+        navigationController: UINavigationController,
+        accountType: ServiceAccountType,
+        completion: @escaping (Bool) -> Void
+    ) -> BaseCoordinator
+
+    func serviceAccountUnlink(
+        navigationController: UINavigationController,
+        accountType: ServiceAccountType,
+        completion: @escaping () -> Void
+    ) -> BaseCoordinator
+}
+
+
+@MainActor
 // swiftlint:disable:next type_body_length
-class CoordinatorBuilder {
-    private let container: Container
+class CoordinatorBuilder: ServiceAccountCoordinatorBuilding {
+    let container: Container
 
     init(container: Container) {
         self.container = container
@@ -78,12 +94,14 @@ class CoordinatorBuilder {
             configService: container.appConfigService.resolve(),
             topicsService: container.topicsService.resolve(),
             notificationService: container.notificationService.resolve(),
+            travelService: container.travelService.resolve(),
             deviceInformationProvider: DeviceInformationProvider(),
             searchService: container.searchService.resolve(),
             activityService: container.activityService.resolve(),
             localAuthorityService: container.localAuthorityService.resolve(),
             userDefaultsService: container.userDefaultsService.resolve(),
-            chatService: container.chatService.resolve()
+            chatService: container.chatService.resolve(),
+            versionProvider: Bundle.main
         )
     }
 
@@ -259,10 +277,11 @@ class CoordinatorBuilder {
                 travelService: container.travelService.resolve(),
                 configService: container.appConfigService.resolve(),
                 notificationService: container.notificationService.resolve(),
+                deviceInformationProvider: DeviceInformationProvider(),
+                versionProvider: Bundle.main,
                 coordinatorBuilder: self,
                 widgetViewBuilder: WidgetViewBuilder(),
-                viewControllerBuilder: ViewControllerBuilder(),
-                urlOpener: UIApplication.shared
+                viewControllerBuilder: ViewControllerBuilder()
             )
         } else {
             return nil
@@ -581,22 +600,6 @@ class CoordinatorBuilder {
         )
     }
 
-    func vehicleDetail(
-        navigationController: UINavigationController,
-        vehicleId: Int
-    ) -> BaseCoordinator {
-        VehicleDetailCoordinator(
-            navigationController: navigationController,
-            viewControllerBuilder: ViewControllerBuilder(),
-            analyticsService: container.analyticsService.resolve(),
-            dvlaService: container.dvlaService.resolve(),
-            configService: container.appConfigService.resolve(),
-            userService: container.userService.resolve(),
-            urlOpener: UIApplication.shared,
-            notificationCenter: .default,
-            vehicleId: vehicleId
-        )
-    }
 
     func notificationCentre(
         navigationController: UINavigationController
@@ -608,23 +611,6 @@ class CoordinatorBuilder {
             analyticsService: container.analyticsService.resolve(),
             coordinatorBuilder: self,
             urlOpener: UIApplication.shared
-        )
-    }
-
-    func countryList(
-        navigationController: UINavigationController,
-        completion: @escaping (Bool) -> Void
-    ) -> BaseCoordinator {
-        CountryListCoordinator(
-            navigationController: navigationController,
-            coordinatorBuilder: self,
-            viewControllerBuilder: ViewControllerBuilder(),
-            analyticsService: container.analyticsService.resolve(),
-            travelService: container.travelService.resolve(),
-            notificationService: container.notificationService.resolve(),
-            userService: container.userService.resolve(),
-            urlOpener: UIApplication.shared,
-            completion: completion
         )
     }
 }

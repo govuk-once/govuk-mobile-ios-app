@@ -45,8 +45,9 @@ struct ListCardView: View {
     }
 }
 
+#if DEBUG
 #Preview {
-    let modelOne = ListCardViewModel(
+    let tomsTestModelOne = ListCardViewModel(
         title: "Card title",
         action: { print("Tap 1") }
     )
@@ -58,9 +59,10 @@ struct ListCardView: View {
     ZStack {
         Color(uiColor: .govUK.fills.surfaceBackground)
         VStack(spacing: 16) {
-            ListCardView(viewModel: modelOne)
+            ListCardView(viewModel: tomsTestModelOne)
             ListCardView(viewModel: modelTwo)
         }
         .padding(.horizontal)
     }
 }
+#endif // DEBUG

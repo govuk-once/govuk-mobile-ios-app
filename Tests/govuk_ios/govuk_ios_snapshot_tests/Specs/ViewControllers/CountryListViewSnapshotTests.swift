@@ -107,7 +107,7 @@ final class CountryListViewSnapshotTests: SnapshotTestCase {
         )
     }
 
-    func test_loadInNavigationController_error_light_rendersCorrectly() async {
+    func test_loadInNavigationController_error_generic_light_rendersCorrectly() async {
         let mockTravelService = MockTravelService()
         mockTravelService._stubbedGetCountriesResult = .failure(.apiUnavailable)
         let viewModel = makeViewModel(travelService: mockTravelService)
@@ -124,7 +124,41 @@ final class CountryListViewSnapshotTests: SnapshotTestCase {
         )
     }
 
-    func test_loadInNavigationController_error_dark_rendersCorrectly() async {
+    func test_loadInNavigationController_error_network_dark_rendersCorrectly() async {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedGetCountriesResult = .failure(.networkUnavailable)
+        let viewModel = makeViewModel(travelService: mockTravelService)
+
+        await viewModel.viewDidAppear()
+        await Task.yield()
+
+        let viewController = makeViewController(viewModel: viewModel)
+
+        VerifySnapshotInNavigationController(
+            viewController: viewController,
+            mode: .dark,
+            navBarHidden: true
+        )
+    }
+
+    func test_loadInNavigationController_error_network_light_rendersCorrectly() async {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedGetCountriesResult = .failure(.networkUnavailable)
+        let viewModel = makeViewModel(travelService: mockTravelService)
+
+        await viewModel.viewDidAppear()
+        await Task.yield()
+
+        let viewController = makeViewController(viewModel: viewModel)
+
+        VerifySnapshotInNavigationController(
+            viewController: viewController,
+            mode: .light,
+            navBarHidden: true
+        )
+    }
+
+    func test_loadInNavigationController_error_generic_dark_rendersCorrectly() async {
         let mockTravelService = MockTravelService()
         mockTravelService._stubbedGetCountriesResult = .failure(.apiUnavailable)
         let viewModel = makeViewModel(travelService: mockTravelService)
@@ -233,13 +267,17 @@ final class CountryListViewSnapshotTests: SnapshotTestCase {
         let mockTravelService = travelService ?? MockTravelService()
         let analyticsService = MockAnalyticsService()
         let notificationService = MockNotificationService()
+        let actions = CountryListViewModel.Actions(
+            dismissAction: { _ in /*Empty For Tests*/ },
+            openFooterLinkAction: { /*NO-OP*/ },
+            openExternalURLAction: { _ in /*NO-OP*/ }
+        )
         return CountryListViewModel(
             travelService: mockTravelService,
             analyticsService: analyticsService,
             notificationService: notificationService,
             urlOpener: MockURLOpener(),
-            dismissAction: { _ in /*Empty For Tests*/ },
-            openURLAction: { _ in /*NO-OP*/ }
+            actions: actions
         )
     }
 

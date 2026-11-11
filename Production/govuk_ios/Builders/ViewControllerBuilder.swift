@@ -8,8 +8,13 @@ import SafariServices
 import MarkdownUI
 
 @MainActor
+protocol ErrorViewControllerBuilding {
+    func error(viewModel: ErrorViewModel) -> UIViewController
+}
+
+@MainActor
 // swiftlint:disable:next type_body_length
-class ViewControllerBuilder {
+class ViewControllerBuilder: ErrorViewControllerBuilding {
     func launch(analyticsService: AnalyticsServiceInterface,
                 completion: @escaping () -> Void) -> UIViewController {
         let viewModel = LaunchViewModel(
@@ -445,10 +450,17 @@ class ViewControllerBuilder {
 
         let viewController = HostingViewController(
             rootView: ChatView(
-                viewModel: viewModel
+                viewModel: viewModel,
+                voiceOverFocusService: VoiceOverFocusService(
+                    delay: VoiceOverFocusService.defaultDelay,
+                    rootElements: VoiceOverFocusService.keyWindows,
+                    currentFocus: VoiceOverFocusService.voiceOverFocusedElement,
+                    postNotification: VoiceOverFocusService.post
+                )
             ),
             navigationBarHidden: true
         )
+        viewController.shouldAutoFocusVoiceover = false
         return viewController
     }
 
@@ -522,7 +534,6 @@ class ViewControllerBuilder {
         let viewController = HostingViewController(
             rootView: containerView
         )
-        viewController.navigationItem.rightBarButtonItem = viewModel.rightBarButtonItem
         viewController.isModalInPresentation = true
         return viewController
     }
@@ -546,7 +557,6 @@ class ViewControllerBuilder {
             rootView: containerView,
             navigationBarTintColor: .govUK.text.linkSecondary
         )
-        viewController.navigationItem.rightBarButtonItem = viewModel.rightBarButtonItem
         viewController.isModalInPresentation = true
         return viewController
     }
@@ -756,27 +766,6 @@ class ViewControllerBuilder {
         return viewController
     }
 
-    func vehicleDetail(
-        analyticsService: AnalyticsServiceInterface,
-        dvlaService: DVLAServiceInterface,
-        configService: AppConfigServiceInterface,
-        openURLAction: @escaping (URL) -> Void,
-        vehicleId: Int
-    ) -> UIViewController {
-        let viewModel = VehicleDetailViewModel(
-            vehicleId: vehicleId,
-            analyticsService: analyticsService,
-            dvlaService: dvlaService,
-            configService: configService,
-            openURLAction: openURLAction
-        )
-        let view = VehicleDetailView(viewModel: viewModel)
-        let viewController = HostingViewController(
-            rootView: view
-        )
-        viewController.hidesBottomBarWhenPushed = true
-        return viewController
-    }
 
     func notificationCentre(
         showNotificationAction: @escaping (String) -> Void,
@@ -844,57 +833,28 @@ class ViewControllerBuilder {
         return viewController
     }
 
-    func dvlaAuthentication(
-        authenticationService: AuthenticationServiceInterface,
-        appEnvironmentService: AppEnvironmentServiceInterface,
-        completionAction: @escaping (URL) -> Void,
-        errorAction: @escaping () -> Void
-    ) -> UIViewController {
-        let viewModel = DVLAAuthenticationViewModel(
-            authenticationService: authenticationService,
-            appEnvironmentService: appEnvironmentService,
-            completionAction: completionAction,
-            errorAction: errorAction
-        )
-        let view = DVLAAuthenticationView(viewModel: viewModel)
-        let viewController = HostingViewController(rootView: view)
-        return viewController
-    }
 
-    func countryList(
-        travelService: TravelServiceInterface,
-        analyticsService: AnalyticsServiceInterface,
-        notificationService: NotificationServiceInterface,
-        dismissAction: @escaping (Bool) -> Void,
-        openURLAction: @escaping (URL) -> Void
-    ) -> UIViewController {
-        let viewModel = CountryListViewModel(
-            travelService: travelService,
-            analyticsService: analyticsService,
-            notificationService: notificationService,
-            urlOpener: UIApplication.shared,
-            dismissAction: dismissAction,
-            openURLAction: openURLAction
-        )
-        let view = CountryListView(viewModel: viewModel)
-        let viewController = HostingViewController(
-            rootView: view
-        )
-        return viewController
-    }
-
+    // swiftlint:disable:next function_parameter_count
     func editCountries(
         travelService: TravelServiceInterface,
         analyticsService: AnalyticsServiceInterface,
         notificationService: NotificationServiceInterface,
-        openURLAction: @escaping (URL) -> Void
+        deviceInfo: DeviceInformationProviderInterface,
+        versionProvider: AppVersionProvider,
+        openURLAction: @escaping (URL) -> Void,
+        navigateBackAction: @escaping () -> Void
     ) -> UIViewController {
+        let feedbackURL = deviceInfo.helpAndFeedbackURL(versionProvider: versionProvider)
+
         let viewModel = EditCountriesViewModel(
             travelService: travelService,
             analyticsService: analyticsService,
             notificationService: notificationService,
             urlOpener: UIApplication.shared,
-            openURLAction: openURLAction
+            openCountryListFooterAction: {
+                openURLAction(feedbackURL)
+            },
+            navigateBackAction: navigateBackAction
         )
         let view = EditCountriesView(viewModel: viewModel)
         let viewController = HostingViewController(

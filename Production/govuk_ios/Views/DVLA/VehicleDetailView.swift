@@ -127,6 +127,25 @@ struct VehicleDetailView: View {
                 )
             }
         }
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Menu {
+                    ForEach(viewVehicleDetails.menuItems, id: \.id) { item in
+                        Button(
+                            action: { item.openURLAction(item.title) },
+                            label: {
+                                Text(item.title)
+                                    .accessibilityLabel(item.accessibilityLabel ?? item.title)
+                                    .accessibilityHint(String.common.localized("openWebLinkHint"))
+                            }
+                        )
+                    }
+                } label: {
+                    Image(systemName: "ellipsis")
+                }
+                .accessibilityLabel(String.dvla.localized("moreOptionsButtonAccessibilityLabel"))
+            }
+        }
     }
 
     @ViewBuilder
@@ -173,3 +192,34 @@ extension VehicleDetailView: TrackableScreen {
     var trackingTitle: String? { trackingName }
     var trackingName: String { "VehicleDetailsScreen" }
 }
+
+#if DEBUG
+@available(iOS 17.0, *)
+#Preview("Vehicle Details") {
+    @Previewable @StateObject var viewModel: VehicleDetailViewModel = {
+        let vehicle = CustomerVehicleDetails.Vehicle.arrange(
+            taxedUntil: .arrange("12/12/2030"),
+            motStatus: MotStatus.valid,
+            motExpiryDate: .arrange("12/12/2030")
+        )
+
+        let dvlaService = MockDVLAService()
+        dvlaService._stubbedCustomerVehicleDetailsResult = .success(
+            .arrange(customerVehicleDetails: vehicle)
+        )
+
+        return VehicleDetailViewModel(vehicleId: vehicle.vehicleId,
+                                      analyticsService: MockAnalyticsService(),
+                                      dvlaService: dvlaService,
+                                      configService: MockAppConfigService(),
+                                      openURLAction: { _ in
+                                            /* no-op */
+                                      }
+                                    )
+    }()
+
+    NavigationStack {
+        VehicleDetailView(viewModel: viewModel)
+    }
+}
+#endif // DEBUG

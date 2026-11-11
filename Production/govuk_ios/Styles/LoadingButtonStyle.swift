@@ -1,0 +1,47 @@
+import SwiftUI
+import GovKitUI
+
+/// A custom button style that displays a loading spinner instead of the label
+/// when `isLoading` is true, providing smooth state transitions.
+struct LoadingButtonStyle: ButtonStyle {
+    let isLoading: Bool
+    var loadingLabel: String
+
+    func makeBody(configuration: Configuration) -> some View {
+        ZStack {
+            if isLoading {
+                ProgressView()
+                    .progressViewStyle(.circular)
+                    .tint(.white)
+                    .accessibilityLabel(loadingLabel)
+            } else {
+                configuration.label
+                    .opacity(configuration.isPressed ? 0.7 : 1.0)
+            }
+        }
+        .frame(maxWidth: .infinity, idealHeight: 44)
+        .padding()
+        .background(Color(uiColor: .primaryBlue))
+        .foregroundColor(.white)
+        .cornerRadius(15)
+        .scaleEffect(configuration.isPressed && !isLoading ? 0.98 : 1.0)
+        .animation(.easeInOut(duration: 0.2), value: isLoading)
+    }
+}
+
+#Preview("LoadingButton") {
+    VStack {
+        Button("Do it") {}
+        .buttonStyle(
+            LoadingButtonStyle(isLoading: false,
+                               loadingLabel: "")
+        )
+
+        Button("Wait for it") {}
+        .buttonStyle(
+            LoadingButtonStyle(isLoading: true,
+                               loadingLabel: "Wait for it")
+        )
+    }
+    .padding(.horizontal)
+}

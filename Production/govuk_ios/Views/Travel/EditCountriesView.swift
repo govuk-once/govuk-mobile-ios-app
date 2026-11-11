@@ -10,11 +10,19 @@ struct EditCountriesView: View {
         Group {
             switch viewModel.viewState {
             case .loading:
-                EditCountriesLoadingView()
+                TravelLoadingView()
             case .loaded:
                 scrollView
             case .error:
-                ErrorView(viewModel: createErrorViewModel())
+                if let errorViewModel = viewModel.errorViewModel {
+                    ScrollView {
+                        VStack {
+                            AppErrorView(viewModel: errorViewModel)
+                                .padding(.top, 8)
+                            Spacer()
+                        }
+                    }
+                }
             }
         }
         .task {
@@ -86,40 +94,8 @@ struct EditCountriesView: View {
     }
 }
 
-private struct EditCountriesLoadingView: View {
-    var body: some View {
-        VStack(alignment: .center) {
-            Spacer()
-            ProgressView()
-                .controlSize(.large)
-                .accessibilityLabel(.Travel.travelAlertsLoading)
-            Spacer()
-        }
-        .frame(maxWidth: .infinity)
-    }
-}
-
 extension EditCountriesView: TrackableScreen {
     var trackingClass: String { "EditCountriesScreen" }
     var trackingTitle: String? { "Edit countries" }
     var trackingName: String { "Edit countries" }
-}
-
-extension EditCountriesView {
-    private func createErrorViewModel() -> ErrorViewModel {
-        ErrorViewModel(
-            analyticsService: viewModel.analyticsService,
-            title: String(localized: .Travel.countryListScreenErrorTitle),
-            subtitle: String(localized: .Travel.countryListScreenErrorBody),
-            systemImageName: "exclamationmark.circle",
-            primaryButtonTitle: String(localized: .Travel.countryListScreenErrorButtonTitle),
-            primaryAction: { [weak viewModel] in
-                Task {
-                    await viewModel?.retryFetchCountryList()
-                }
-            },
-            contentAlignment: .center,
-            trackingName: "EditCountriesErrorScreen"
-        )
-    }
 }

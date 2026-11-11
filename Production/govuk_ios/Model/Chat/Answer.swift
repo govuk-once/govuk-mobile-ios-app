@@ -7,15 +7,23 @@ struct Answer: Codable {
         case id
         case message
         case sources
+        case status
+        case feedback
     }
 
     let createdAt: String?
     let id: String?
     let message: String?
     let sources: [Source]?
+    let status: String?
+    let feedback: AnswerFeedback?
 
     var answerAvailable: Bool {
         id != nil
+    }
+
+    var isTechnicalError: Bool {
+        status?.hasPrefix("error_") == true
     }
 }
 

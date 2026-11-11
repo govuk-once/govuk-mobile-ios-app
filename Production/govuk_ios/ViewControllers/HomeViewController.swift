@@ -81,6 +81,7 @@ class HomeViewController: BaseViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         viewModel.trackECommerce()
+        viewModel.trackABTest(.homeActivation1026)
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {

@@ -128,6 +128,8 @@ class HomeViewModel: ObservableObject {
 
     private var quarterlySurveyWidget: HomepageWidget? {
         guard featureEnabled(.quarterlySurvey) else { return nil }
+        guard analyticsService.permissionState == .accepted else { return nil }
+
         let viewModel = QuarterlySurveyWidgetViewModel(
             analyticsService: analyticsService
         )
@@ -187,6 +189,11 @@ class HomeViewModel: ObservableObject {
     func trackECommerce() {
         topicsWidgetViewModel.trackECommerce()
         bannerBuilder.trackBannersEcommerceEvent()
+    }
+
+    func trackABTest(_ event: ABTestAppEvent) {
+        let event = AppEvent.abTest(event)
+        analyticsService.track(event: event)
     }
 
     func editTopics() {

@@ -17,6 +17,7 @@ struct TaxStatusViewModelBuilderTests {
         let mockAnalyticsService = MockAnalyticsService()
         await confirmation { confirmation in
             let sut = TaxStatusViewModelBuilder(
+                isOwnedVehicle: true,
                 urls: urls,
                 analyticsService: mockAnalyticsService,
                 openURLAction: { _ in confirmation() }
@@ -50,6 +51,7 @@ struct TaxStatusViewModelBuilderTests {
     @Test
     func untaxed_noDate_returnsExpiredViewModel() {
         let sut = TaxStatusViewModelBuilder(
+            isOwnedVehicle: true,
             urls: nil,
             analyticsService: MockAnalyticsService(),
             openURLAction: { _ in }
@@ -71,6 +73,7 @@ struct TaxStatusViewModelBuilderTests {
     func taxed_longDate_returnsValidViewModel() {
         let date = Calendar.current.date(byAdding: .day, value: 60, to: Date())!
         let sut = TaxStatusViewModelBuilder(
+            isOwnedVehicle: true,
             urls: nil,
             analyticsService: MockAnalyticsService(),
             openURLAction: { _ in }
@@ -97,6 +100,7 @@ struct TaxStatusViewModelBuilderTests {
     @Test
     func taxed_noDate_returnsValidViewModel() {
         let sut = TaxStatusViewModelBuilder(
+            isOwnedVehicle: true,
             urls: nil,
             analyticsService: MockAnalyticsService(),
             openURLAction: { _ in }
@@ -126,6 +130,7 @@ struct TaxStatusViewModelBuilderTests {
         let mockAnalyticsService =  MockAnalyticsService()
         await confirmation { confirmation in
             let sut = TaxStatusViewModelBuilder(
+                isOwnedVehicle: true,
                 urls: urls,
                 analyticsService: mockAnalyticsService,
                 openURLAction: { _ in confirmation() }
@@ -164,6 +169,7 @@ struct TaxStatusViewModelBuilderTests {
         let mockAnalyticsService = MockAnalyticsService()
         await confirmation { confirmation in
             let sut = TaxStatusViewModelBuilder(
+                isOwnedVehicle: true,
                 urls: urls,
                 analyticsService: mockAnalyticsService,
                 openURLAction: { _ in confirmation() }
@@ -199,6 +205,7 @@ struct TaxStatusViewModelBuilderTests {
     @Test
     func unknown_returnsUnknownViewModel() {
         let sut = TaxStatusViewModelBuilder(
+            isOwnedVehicle: true,
             urls: nil,
             analyticsService: MockAnalyticsService(),
             openURLAction: { _ in }
@@ -224,6 +231,7 @@ struct TaxStatusViewModelBuilderTests {
     func sorn_returnsSornViewModel() {
         let date = Calendar.current.date(byAdding: .day, value: -10, to: Date())!
         let sut = TaxStatusViewModelBuilder(
+            isOwnedVehicle: true,
             urls: nil,
             analyticsService: MockAnalyticsService(),
             openURLAction: { _ in }
@@ -252,6 +260,7 @@ struct TaxStatusViewModelBuilderTests {
     func sorn_future_returnsSornViewModel() {
         let date = Calendar.current.date(byAdding: .day, value: 10, to: Date())!
         let sut = TaxStatusViewModelBuilder(
+            isOwnedVehicle: true,
             urls: nil,
             analyticsService: MockAnalyticsService(),
             openURLAction: { _ in }
@@ -281,6 +290,7 @@ struct TaxStatusViewModelBuilderTests {
     @Test
     func notTaxedForOnRoadUse_returnsNotNeededViewModel() {
         let sut = TaxStatusViewModelBuilder(
+            isOwnedVehicle: true,
             urls: nil,
             analyticsService: MockAnalyticsService(),
             openURLAction: { _ in }
@@ -299,5 +309,86 @@ struct TaxStatusViewModelBuilderTests {
         #expect(vm.statusInformation?.displayValue == String(
             localized: .DVLA.noTaxToPay
         ))
+    }
+
+    // MARK: - Not owned vehicle
+
+    @Test
+    func makeViewModel_untaxed_notOwnedVehicle_returnsExpiredViewModelWithoutButtonOrFooter() {
+        let sut = TaxStatusViewModelBuilder(
+            isOwnedVehicle: false,
+            urls: urls,
+            analyticsService: MockAnalyticsService(),
+            openURLAction: { _ in }
+        )
+        let vm = sut.makeViewModel(
+            vehicle: TaxValidityVehicle(
+                taxStatus: .untaxed,
+                sornStart: nil,
+                taxedUntil: nil,
+                currentLicencePaymentMethod: nil
+            )
+        )
+
+        #expect(vm.title == String(localized: .DVLA.taxStatusTitle))
+        #expect(vm.iconName == "exclamationmark.triangle.fill")
+        #expect(vm.statusInformation?.displayValue == String(localized: .DVLA.untaxed))
+        #expect(vm.buttonTitle == nil)
+        #expect(vm.buttonAction == nil)
+        #expect(vm.footer == nil)
+    }
+
+    @Test
+    func makeViewModel_taxExpiringSoon_notOwnedVehicle_returnsValidViewModel() {
+        let date = Calendar.current.date(byAdding: .day, value: 10, to: Date())!
+        let sut = TaxStatusViewModelBuilder(
+            isOwnedVehicle: false,
+            urls: urls,
+            analyticsService: MockAnalyticsService(),
+            openURLAction: { _ in }
+        )
+        let vm = sut.makeViewModel(
+            vehicle: TaxValidityVehicle(
+                taxStatus: .taxed,
+                sornStart: nil,
+                taxedUntil: date,
+                currentLicencePaymentMethod: nil
+            )
+        )
+
+        #expect(vm.title == String(localized: .DVLA.taxStatusTitle))
+        #expect(vm.iconName == "checkmark.circle.fill")
+        #expect(vm.progressViewModel == nil)
+        #expect(vm.buttonTitle == nil)
+        #expect(vm.statusInformation?.displayValue == String(
+            localized: .DVLA.validUntil(date: dateFormatter.string(from: date)))
+        )
+    }
+
+    @Test
+    func makeViewModel_taxExpiringSoon_directDebit_notOwnedVehicle_returnsValidViewModel() {
+        let date = Calendar.current.date(byAdding: .day, value: 10, to: Date())!
+        let sut = TaxStatusViewModelBuilder(
+            isOwnedVehicle: false,
+            urls: urls,
+            analyticsService: MockAnalyticsService(),
+            openURLAction: { _ in }
+        )
+        let vm = sut.makeViewModel(
+            vehicle: TaxValidityVehicle(
+                taxStatus: .taxed,
+                sornStart: nil,
+                taxedUntil: date,
+                currentLicencePaymentMethod: "Direct Debit"
+            )
+        )
+
+        #expect(vm.title == String(localized: .DVLA.taxStatusTitle))
+        #expect(vm.iconName == "checkmark.circle.fill")
+        #expect(vm.progressViewModel == nil)
+        #expect(vm.buttonTitle == nil)
+        #expect(vm.statusInformation?.displayValue == String(
+            localized: .DVLA.validUntil(date: dateFormatter.string(from: date)))
+        )
     }
 }

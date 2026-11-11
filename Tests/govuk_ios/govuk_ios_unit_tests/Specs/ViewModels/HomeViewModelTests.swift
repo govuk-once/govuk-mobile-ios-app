@@ -6,6 +6,7 @@ import Testing
 
 @Suite
 struct HomeViewModelTests {
+    @MainActor
     @Test
     func widgets_returnsArrayOfWidgets() async {
         let coreData = await CoreDataRepository.arrangeAndLoad
@@ -77,6 +78,7 @@ struct HomeViewModelTests {
         #expect(widgets.count == 7)
     }
 
+    @MainActor
     @Test
     func widgets_featureDisabled_doesntReturnWidget() async {
         let coreData = await CoreDataRepository.arrangeAndLoad
@@ -114,6 +116,7 @@ struct HomeViewModelTests {
         #expect(widgets.count == 0)
     }
 
+    @MainActor
     @Test
     func emergencyBanners_have_correct_sort_priority() async throws {
         let coreData = await CoreDataRepository.arrangeAndLoad
@@ -175,6 +178,7 @@ struct HomeViewModelTests {
         #expect(bannerTwo.viewModel.sortPriority == 10)
     }
     
+    @MainActor
     @Test
     func edit_Topics() async {
         let coreData = await CoreDataRepository.arrangeAndLoad
@@ -211,5 +215,135 @@ struct HomeViewModelTests {
         subject.editTopics()
 
         #expect(topicsViewModel.isEditingTopics == true)
+    }
+
+    @MainActor
+    @Test
+    func widgets_analyticsAccepted_returnsQuarterlySurvey() async {
+        let analyticsService = MockAnalyticsService()
+        analyticsService._stubbedPermissionState = .accepted
+        let coreData = await CoreDataRepository.arrangeAndLoad
+        let mockConfigService = MockAppConfigService()
+        mockConfigService.features.append(.quarterlySurvey)
+        let topicsViewModel = TopicsWidgetViewModel(
+            topicsService: MockTopicsService(),
+            analyticsService: MockAnalyticsService(),
+            userDefaultsService: MockUserDefaultsService(),
+            topicAction: { _ in },
+            dismissEditAction: { }
+        )
+
+        let subject = HomeViewModel(
+            analyticsService: analyticsService,
+            configService: mockConfigService,
+            notificationService: MockNotificationService(),
+            userDefaultsService: MockUserDefaultsService(),
+            topicsWidgetViewModel: topicsViewModel,
+            urlOpener: MockURLOpener(),
+            searchService: MockSearchService(),
+            activityService: MockActivityService(context: coreData.viewContext),
+            localAuthorityService: MockLocalAuthorityService(),
+            chatService: MockChatService(),
+            localAuthorityAction: { },
+            editLocalAuthorityAction: { },
+            feedbackAction: { },
+            notificationsAction: {},
+            recentActivityAction: { } ,
+            openURLAction: {_ in } ,
+            openAction: {_ in },
+        )
+
+        let widgets = subject.widgets
+
+        let quarterlySurveyPresent = widgets.contains { item in
+            item.content is QuarterlySurveyWidgetView
+        }
+        #expect(quarterlySurveyPresent)
+    }
+
+    @MainActor
+    @Test
+    func widgets_analyticsDenied_doesntReturnQuarterlySurvey() async {
+        let analyticsService = MockAnalyticsService()
+        analyticsService._stubbedPermissionState = .denied
+        let coreData = await CoreDataRepository.arrangeAndLoad
+        let mockConfigService = MockAppConfigService()
+        mockConfigService.features.append(.quarterlySurvey)
+        let topicsViewModel = TopicsWidgetViewModel(
+            topicsService: MockTopicsService(),
+            analyticsService: MockAnalyticsService(),
+            userDefaultsService: MockUserDefaultsService(),
+            topicAction: { _ in },
+            dismissEditAction: { }
+        )
+
+        let subject = HomeViewModel(
+            analyticsService: analyticsService,
+            configService: mockConfigService,
+            notificationService: MockNotificationService(),
+            userDefaultsService: MockUserDefaultsService(),
+            topicsWidgetViewModel: topicsViewModel,
+            urlOpener: MockURLOpener(),
+            searchService: MockSearchService(),
+            activityService: MockActivityService(context: coreData.viewContext),
+            localAuthorityService: MockLocalAuthorityService(),
+            chatService: MockChatService(),
+            localAuthorityAction: { },
+            editLocalAuthorityAction: { },
+            feedbackAction: { },
+            notificationsAction: {},
+            recentActivityAction: { } ,
+            openURLAction: {_ in } ,
+            openAction: {_ in },
+        )
+
+        let widgets = subject.widgets
+
+        let quarterlySurveyPresent = widgets.contains { item in
+            item.content is QuarterlySurveyWidgetView
+        }
+        #expect(quarterlySurveyPresent == false)
+    }
+
+    @MainActor
+    @Test
+    func trackABTest_tracksEvent() async  {
+        let analyticsService = MockAnalyticsService()
+        analyticsService._stubbedPermissionState = .denied
+        let coreData = await CoreDataRepository.arrangeAndLoad
+        let mockConfigService = MockAppConfigService()
+        mockConfigService.features.append(.quarterlySurvey)
+        let topicsViewModel = TopicsWidgetViewModel(
+            topicsService: MockTopicsService(),
+            analyticsService: MockAnalyticsService(),
+            userDefaultsService: MockUserDefaultsService(),
+            topicAction: { _ in },
+            dismissEditAction: { }
+        )
+
+        let subject = HomeViewModel(
+            analyticsService: analyticsService,
+            configService: mockConfigService,
+            notificationService: MockNotificationService(),
+            userDefaultsService: MockUserDefaultsService(),
+            topicsWidgetViewModel: topicsViewModel,
+            urlOpener: MockURLOpener(),
+            searchService: MockSearchService(),
+            activityService: MockActivityService(context: coreData.viewContext),
+            localAuthorityService: MockLocalAuthorityService(),
+            chatService: MockChatService(),
+            localAuthorityAction: { },
+            editLocalAuthorityAction: { },
+            feedbackAction: { },
+            notificationsAction: {},
+            recentActivityAction: { } ,
+            openURLAction: {_ in } ,
+            openAction: {_ in },
+        )
+        subject.trackABTest(.homeActivation1026)
+
+        let events = analyticsService._trackedEvents
+        #expect(events.count == 1)
+        #expect(events.first?.name == "ab_test_activation_home_10_26")
     }
 }
