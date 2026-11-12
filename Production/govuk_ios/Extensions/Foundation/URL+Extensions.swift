@@ -9,4 +9,14 @@ extension URL {
         components?.queryItems = request.queryParameters?.map(URLQueryItem.init)
         self = components?.url ?? base
     }
+
+    var isExternalWebLink: Bool {
+        let scheme = self.scheme?.lowercased() ?? ""
+
+        if scheme.contains("http") {
+            return true
+        }
+
+        return false
+    }
 }
