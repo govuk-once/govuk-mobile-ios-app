@@ -640,6 +640,28 @@
         }
       }
     },
+    "entitlementSectionTitleYouCanDrive" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can drive"
+          }
+        }
+      }
+    },
+    "entitlementSectionTitleYouCanProvisionallyDrive" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can provisionally drive"
+          }
+        }
+      }
+    },
     "expired" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -862,6 +884,28 @@
       }
     },
     "licenceCategoriesButtonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Categories"
+          }
+        }
+      }
+    },
+    "licenceCategoriesExplanation" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your licence categories and codes show which vehicles you can drive and any restrictions or requirements. Check each category for restrictions and expiry dates."
+          }
+        }
+      }
+    },
+    "licenceCategoriesListTitle" : {
       "extractionState" : "manual",
       "localizations" : {
         "en-GB" : {

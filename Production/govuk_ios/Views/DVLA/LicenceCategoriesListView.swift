@@ -10,13 +10,7 @@ struct LicenceCategoriesListView: View {
             VStack(alignment: .leading, spacing: 32) {
                 // Top Header
                 VStack(alignment: .leading, spacing: 12) {
-                    Text("""
-                        Your licence categories and \
-                        codes show which vehicles you can \
-                        drive and any restrictions or \
-                        requirements. Check each category \
-                        for restrictions and expiry dates.
-                        """)
+                    Text(.DVLA.licenceCategoriesExplanation)
                         .font(.body)
                         .foregroundStyle(.primary)
                 }
@@ -25,7 +19,9 @@ struct LicenceCategoriesListView: View {
                 // "You can drive"
                 if !viewModel.entitledToDrive.isEmpty {
                     EntitlementMajorSectionView(
-                        title: "You can drive",
+                        title: String(localized:
+                                .DVLA.entitlementSectionTitleYouCanDrive
+                        ),
                         groups: viewModel.entitledToDrive,
                         showsHighlight: viewModel.showsRowHighlight,
                         onSelectRow: { entitlement in
@@ -37,7 +33,9 @@ struct LicenceCategoriesListView: View {
                 // "You can provisionally drive"
                 if !viewModel.provisionallyEntitledToDrive.isEmpty {
                     EntitlementMajorSectionView(
-                        title: "You can provisionally drive",
+                        title: String(localized:
+                                .DVLA.entitlementSectionTitleYouCanProvisionallyDrive
+                        ),
                         groups: viewModel.provisionallyEntitledToDrive,
                         showsHighlight: viewModel.showsRowHighlight,
                         onSelectRow: { entitlement in
@@ -69,7 +67,9 @@ struct LicenceCategoriesView: View {
 
     var body: some View {
         LicenceCategoriesListView(viewModel: viewModel)
-            .navigationTitle("Categories")
+            .navigationTitle(String(localized:
+                    .DVLA.licenceCategoriesListTitle
+            ))
             .navigationBarTitleDisplayMode(.large)
             .background(Color(uiColor: .govUK.fills.surfaceFullscreen))
             .onAppear {
