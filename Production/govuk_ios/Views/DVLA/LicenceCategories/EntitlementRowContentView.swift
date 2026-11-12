@@ -1,4 +1,5 @@
 import SwiftUI
+import GovKit
 
 struct EntitlementRowContentView: View {
     let metadata: LicenceCategoryDisplayMetadata
@@ -16,7 +17,7 @@ struct EntitlementRowContentView: View {
     var body: some View {
         HStack(alignment: .center, spacing: 16) {
             Text(metadata.displayName)
-                .font(.title2.weight(.bold))
+                .font(.govUK.largeTitleBold)
                 .foregroundStyle(.primary)
 
             Spacer()
@@ -26,14 +27,14 @@ struct EntitlementRowContentView: View {
                     .renderingMode(.template)
                     .resizable()
                     .scaledToFit()
-                    .frame(height: 24)
+                    .frame(height: 36)
                     .foregroundStyle(.primary)
                     .accessibilityHidden(true)
             }
 
             Image(systemName: "info.circle")
-                .font(.title3)
-                .foregroundStyle(.blue)
+                .frame(width: 20, height: 20)
+                .foregroundStyle(Color(UIColor.govUK.text.link))
                 .accessibilityHidden(true)
         }
         .padding(.vertical, 14)

@@ -7,10 +7,8 @@ struct EntitlementGroupSubSectionView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            Text(group.group.title)
-                .font(.subheadline.weight(.bold))
+            SubsectionHeaderText(group.group.title)
                 .foregroundStyle(.primary)
-                .accessibilityAddTraits(.isHeader)
                 .padding(.top, 16)
                 .padding(.bottom, 4)
 

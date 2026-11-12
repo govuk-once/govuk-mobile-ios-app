@@ -1,4 +1,5 @@
 import SwiftUI
+import GovKit
 
 struct FurtherInformationSectionView: View {
     let links: [CategoryLink]
@@ -6,10 +7,7 @@ struct FurtherInformationSectionView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Further information")
-                .font(.title3.weight(.bold))
-                .foregroundStyle(.primary)
-                .accessibilityAddTraits(.isHeader)
+            SectionHeaderText("Further information")
 
             VStack(alignment: .leading, spacing: 0) {
                 ForEach(Array(links.enumerated()), id: \.element.id) { index, link in
@@ -19,7 +17,9 @@ struct FurtherInformationSectionView: View {
                         HStack {
                             Text(link.text)
                                 .font(.body)
-                                .foregroundStyle(.blue)
+                                .foregroundStyle(
+                                    Color(UIColor.govUK.text.link)
+                                )
                             Spacer()
                         }
                         .contentShape(Rectangle())
@@ -30,11 +30,12 @@ struct FurtherInformationSectionView: View {
 
                     if index < links.count - 1 {
                         Divider()
+                            .foregroundStyle(Color(uiColor: .govUK.strokes.listDivider))
                             .padding(.horizontal, 16)
                     }
                 }
             }
-            .background(Color(.secondarySystemBackground))
+            .background(Color(.govUK.fills.surfaceListAlt))
             .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
         }
     }

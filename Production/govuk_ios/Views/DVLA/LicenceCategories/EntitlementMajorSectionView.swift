@@ -8,10 +8,7 @@ struct EntitlementMajorSectionView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text(title)
-                .font(.title3.weight(.bold))
-                .foregroundStyle(.primary)
-                .accessibilityAddTraits(.isHeader)
+            SectionHeaderText(title)
 
             ForEach(groups) { group in
                 EntitlementGroupSubSectionView(
