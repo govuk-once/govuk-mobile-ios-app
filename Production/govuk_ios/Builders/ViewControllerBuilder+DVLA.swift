@@ -142,7 +142,6 @@ extension ViewControllerBuilder: DVLAViewControllerBuilding {
         let links: [CategoryLink] = [
             CategoryLink(
                 text: String(localized: .DVLA.compareOldAndNewCategories),
-                // KK Stuff:
                 url: urls?.compareOldNewLicenceCategories ??
                 Constants.API.defaultDvlaCategoriesCompareOldAndNewUrl
             ),
