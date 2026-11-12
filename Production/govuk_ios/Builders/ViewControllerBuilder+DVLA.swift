@@ -158,7 +158,7 @@ extension ViewControllerBuilder: DVLAViewControllerBuilding {
             ),
         ]
 
-        let viewModel = CategoriesViewModel(entitlements: entitlements,
+        let viewModel = LicenceCategoriesViewModel(entitlements: entitlements,
                                             actions: actions,
                                             links: links,
                                             analyticsService: analyticsService)

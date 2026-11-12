@@ -14,7 +14,7 @@ struct CategoryLink: Identifiable, Hashable {
 }
 
 @MainActor
-final class CategoriesViewModel: ObservableObject {
+final class LicenceCategoriesViewModel: ObservableObject {
     @Published private(set) var entitledToDrive: [EntitlementGroup] = []
     @Published private(set) var provisionallyEntitledToDrive: [EntitlementGroup] = []
     @Published private(set) var links: [CategoryLink] = []

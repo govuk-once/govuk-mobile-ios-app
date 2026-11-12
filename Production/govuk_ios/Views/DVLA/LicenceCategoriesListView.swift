@@ -3,7 +3,7 @@ import Foundation
 import GovKit
 
 struct LicenceCategoriesListView: View {
-    @ObservedObject var viewModel: CategoriesViewModel
+    @ObservedObject var viewModel: LicenceCategoriesViewModel
 
     var body: some View {
         ScrollView {
@@ -63,7 +63,7 @@ struct LicenceCategoriesListView: View {
 // MARK: -
 
 struct LicenceCategoriesView: View {
-    @ObservedObject var viewModel: CategoriesViewModel
+    @ObservedObject var viewModel: LicenceCategoriesViewModel
 
     var body: some View {
         LicenceCategoriesListView(viewModel: viewModel)
@@ -132,7 +132,7 @@ extension Entitlement {
         .preview(categoryCode: "H", categoryType: .provisional)
     ]
 
-    let viewModel = CategoriesViewModel(
+    let viewModel = LicenceCategoriesViewModel(
         entitlements: sampleEntitlements,
         showsRowHighlight: true,
         actions: .init(
