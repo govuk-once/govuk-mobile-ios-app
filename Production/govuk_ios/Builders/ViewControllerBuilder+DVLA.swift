@@ -163,7 +163,7 @@ extension ViewControllerBuilder: DVLAViewControllerBuilding {
                                             links: links,
                                             analyticsService: analyticsService)
 
-        let view = VMCategoriesSheetView(viewModel: viewModel)
+        let view = LicenceCategoriesView(viewModel: viewModel)
         let viewController = HostingViewController(rootView: view)
         return viewController
     }

@@ -2,7 +2,7 @@ import SwiftUI
 import Foundation
 import GovKit
 
-struct VMCategoriesListView: View {
+struct LicenceCategoriesListView: View {
     @ObservedObject var viewModel: CategoriesViewModel
 
     var body: some View {
@@ -62,13 +62,13 @@ struct VMCategoriesListView: View {
     }
 }
 
-// MARK: - Sheet Presentation View
+// MARK: -
 
-struct VMCategoriesSheetView: View {
+struct LicenceCategoriesView: View {
     @ObservedObject var viewModel: CategoriesViewModel
 
     var body: some View {
-        VMCategoriesListView(viewModel: viewModel)
+        LicenceCategoriesListView(viewModel: viewModel)
             .navigationTitle("Categories")
             .navigationBarTitleDisplayMode(.large)
             .background(Color(uiColor: .govUK.fills.surfaceFullscreen))
@@ -78,53 +78,11 @@ struct VMCategoriesSheetView: View {
     }
 }
 
-extension VMCategoriesSheetView: TrackableScreen {
+extension LicenceCategoriesView: TrackableScreen {
     var trackingTitle: String? { "KK TODO" }
     var trackingName: String { "KK TODO" }
 }
 
-
-/*
-struct DrivingLicenceParentView: View {
-    @State private var showSheet = false
-    @StateObject private var viewModel = CategoriesViewModel(
-        entitledToDrive: [
-            "Mopeds, AM, p, q",
-            "Motorcycles, A",
-            "Cars, B",
-            "Trailers, BE, C1E, D1E"
-        ],
-        provisionallyEntitledToDrive: [
-            "Motorcycles, A",
-            "Road roller, G",
-            "Tracked vehicles, H"
-        ],
-        links: [
-            CategoryLink(
-                text: "Driving licence categories",
-                url: URL(string: "https://www.gov.uk/driving-licence-categories")!
-            ),
-            CategoryLink(
-                text: "Driving licence codes",
-                url: URL(string: "https://www.gov.uk/driving-licence-codes")!
-            )
-        ]
-    )
-
-    var body: some View {
-        Button("View Categories") {
-            showSheet = true
-        }
-        .sheet(isPresented: $showSheet) {
-            VMCategoriesSheetView(viewModel: viewModel)
-        }
-    }
-}
-
-#Preview("Parent View") {
-    DrivingLicenceParentView()
-}
- */
 #if DEBUG
 extension Entitlement {
     static func preview(
@@ -189,7 +147,7 @@ extension Entitlement {
     )
 
     NavigationStack {
-        VMCategoriesListView(viewModel: viewModel)
+        LicenceCategoriesListView(viewModel: viewModel)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button {
