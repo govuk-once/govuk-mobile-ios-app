@@ -79,8 +79,8 @@ struct LicenceCategoriesView: View {
 }
 
 extension LicenceCategoriesView: TrackableScreen {
-    var trackingTitle: String? { "KK TODO" }
-    var trackingName: String { "KK TODO" }
+    var trackingTitle: String? { "Categories" }
+    var trackingName: String { "Categories" }
 }
 
 #if DEBUG
