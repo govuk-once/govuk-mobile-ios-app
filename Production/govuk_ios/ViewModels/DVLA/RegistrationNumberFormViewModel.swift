@@ -93,13 +93,13 @@ final class RegistrationNumberFormViewModel: ObservableObject {
     func performSubmit() async {
         guard isValidPlate, !isLoading else { return }
 
-        let trimmed = numberPlate.trimmingCharacters(in: .whitespaces)
+        let sanitized = numberPlate.filter { !$0.isWhitespace }
         isLoading = true
         error = nil
         fetchedVehicle = nil
         defer { isLoading = false }
 
-        let result = await lookupService(trimmed)
+        let result = await lookupService(sanitized)
 
         switch result {
         case .success(let vehicle):
