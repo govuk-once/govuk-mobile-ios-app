@@ -22,20 +22,17 @@ struct EntitlementMapperTests {
 
     @Test
     func map_splitsFullAndProvisionalEntitlementsCorrectly() {
-        let entitlements = [
-            makeEntitlement(code: "B", type: .full),
-            makeEntitlement(code: "A", type: .provisional)
-        ]
+        let fullCar = makeEntitlement(code: "B", type: .full)
+        let provisionalMotorcycle = makeEntitlement(code: "A", type: .provisional)
 
-        let result = sut.map(entitlements: entitlements)
+        let result = sut.map(entitlements: [fullCar, provisionalMotorcycle])
 
-        #expect(result.entitledToDrive.count == 1)
-        #expect(result.entitledToDrive.first?.title == LicenceCategoryGroup.cars.title)
-        #expect(result.entitledToDrive.first?.codesDisplay == "B")
-
-        #expect(result.provisionallyEntitledToDrive.count == 1)
-        #expect(result.provisionallyEntitledToDrive.first?.title == LicenceCategoryGroup.motorcycles.title)
-        #expect(result.provisionallyEntitledToDrive.first?.codesDisplay == "A")
+        #expect(result.entitledToDrive == [
+            EntitlementGroup(group: .cars, entitlements: [fullCar])
+        ])
+        #expect(result.provisionallyEntitledToDrive == [
+            EntitlementGroup(group: .motorcycles, entitlements: [provisionalMotorcycle])
+        ])
     }
 
     // MARK: - Ordering (GOVUKAPP-4152)
@@ -43,87 +40,92 @@ struct EntitlementMapperTests {
     @Test
     func map_ordersGroupsAccordingToCatalogSpecificationRegardlessOfInputOrder() {
         let entitlements = [
-            makeEntitlement(code: "f", type: .full),
+            makeEntitlement(code: "n", type: .full),
+            makeEntitlement(code: "D", type: .full),
+            makeEntitlement(code: "D1", type: .full),
+            makeEntitlement(code: "C", type: .full),
+            makeEntitlement(code: "C1", type: .full),
             makeEntitlement(code: "B", type: .full),
+            makeEntitlement(code: "B1", type: .full),
+            makeEntitlement(code: "A", type: .full),
             makeEntitlement(code: "AM", type: .full)
         ]
 
         let result = sut.map(entitlements: entitlements)
-        let rowTitles = result.entitledToDrive.map(\.title)
+        let groups = result.entitledToDrive.map(\.group)
 
-        let expectedTitles = [
-            LicenceCategoryGroup.mopeds.title,
-            LicenceCategoryGroup.cars.title,
-            LicenceCategoryGroup.otherVehicles.title
-        ]
-
-        #expect(rowTitles == expectedTitles)
+        #expect(groups == [
+            .mopeds,
+            .motorcycles,
+            .lightVehicles,
+            .cars,
+            .mediumSizedVehicles,
+            .largeVehicles,
+            .minibuses,
+            .buses,
+            .otherVehicles
+        ])
     }
 
     @Test
     func map_ordersCodesWithinGroupAccordingToCatalogOrder() {
-        let entitlements = [
-            makeEntitlement(code: "BE", type: .full),
-            makeEntitlement(code: "B", type: .full)
-        ]
+        let be = makeEntitlement(code: "BE", type: .full)
+        let b = makeEntitlement(code: "B", type: .full)
 
-        let result = sut.map(entitlements: entitlements)
-        let carRow = result.entitledToDrive.first
+        let result = sut.map(entitlements: [be, b])
+        let carGroup = result.entitledToDrive.first
 
-        #expect(carRow?.codesDisplay == "B, BE")
+        #expect(carGroup?.group == .cars)
+        #expect(carGroup?.entitlements == [b, be])
     }
 
     @Test
     func map_omitsGroupsWhenNoMatchingEntitlementsAreHeld() {
-        let entitlements = [
-            makeEntitlement(code: "B", type: .full)
-        ]
+        let b = makeEntitlement(code: "B", type: .full)
 
-        let result = sut.map(entitlements: entitlements)
+        let result = sut.map(entitlements: [b])
 
         #expect(result.entitledToDrive.count == 1)
-        #expect(result.entitledToDrive.first?.title == LicenceCategoryGroup.cars.title)
+        #expect(result.entitledToDrive.first?.group == .cars)
+        #expect(result.entitledToDrive.first?.id == .cars)
+    }
+
+    @Test
+    func map_omitsUnrecognisedCategoryCodes() {
+        let known = makeEntitlement(code: "B", type: .full)
+        let unknown = makeEntitlement(code: "Z99", type: .full)
+
+        let result = sut.map(entitlements: [known, unknown])
+
+        #expect(result.entitledToDrive == [
+            EntitlementGroup(group: .cars, entitlements: [known])
+        ])
     }
 
     // MARK: - Case Insensitivity
 
     @Test
     func map_categoryCodeMatchingIsCaseInsensitive() {
-        let entitlements = [
-            makeEntitlement(code: "b", type: .full),
-            makeEntitlement(code: "am", type: .full)
-        ]
+        let lowercaseB = makeEntitlement(code: "b", type: .full)
+        let lowercaseAM = makeEntitlement(code: "am", type: .full)
 
-        let result = sut.map(entitlements: entitlements)
+        let result = sut.map(entitlements: [lowercaseB, lowercaseAM])
 
-        #expect(result.entitledToDrive.count == 2)
-        #expect(result.entitledToDrive[0].codesDisplay == "AM")
-        #expect(result.entitledToDrive[1].codesDisplay == "B")
+        #expect(result.entitledToDrive == [
+            EntitlementGroup(group: .mopeds, entitlements: [lowercaseAM]),
+            EntitlementGroup(group: .cars, entitlements: [lowercaseB])
+        ])
     }
 
-    // MARK: - Special Lowercase Categories
+    @Test(arguments: ["F", "f", "K", "k", "L", "l", "N", "n"])
+    func map_forLowercaseCatalogCategories_matchesRegardlessOfInputCasing(inputCode: String) {
+        let entitlement = makeEntitlement(code: inputCode, type: .full)
 
-    @Test(
-        arguments: [
-            ("F", "f"),
-            ("K", "k"),
-            ("L", "l"),
-            ("N", "n")
-        ]
-    )
-    func map_forSpecialLowercaseCategories_retainsCatalogLowercaseCasing(
-        inputCode: String,
-        expectedDisplayCode: String
-    ) {
-        let entitlements = [
-            makeEntitlement(code: inputCode, type: .full)
-        ]
+        let result = sut.map(entitlements: [entitlement])
 
-        let result = sut.map(entitlements: entitlements)
-        let otherRow = result.entitledToDrive.first
-
-        #expect(otherRow?.title == LicenceCategoryGroup.otherVehicles.title)
-        #expect(otherRow?.codesDisplay == expectedDisplayCode)
+        #expect(result.entitledToDrive == [
+            EntitlementGroup(group: .otherVehicles, entitlements: [entitlement])
+        ])
     }
 
     // MARK: - Helpers
