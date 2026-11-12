@@ -89,13 +89,42 @@ final class LicenceCategoriesViewModel: ObservableObject {
 
     func onRowTap(_ entitlement: Entitlement) {
         let metadata = LicenceCategoryDisplayMetadataBuilder.metadata(for: entitlement.categoryCode)
+        trackRowTapEvent()
         didSelectAction?(entitlement)
     }
 
     func onLinkClick(_ link: CategoryLink) {
-        // KK Stuff: Analytics
+        trackClick(link: link)
         if let openURLAction = openURLAction {
             openURLAction(link.url)
         }
+    }
+
+    // MARK: - Analytics
+    func trackClick(link: CategoryLink) {
+        let event = AppEvent(
+            name: "Navigation",
+            params: [
+                "type": "Button",
+                "text": link.text,
+                "URL": link.url.absoluteString,
+                "external": true,
+                "section": "Driving"
+            ]
+        )
+        analyticsService.track(event: event)
+    }
+
+    func trackRowTapEvent() {
+        let event = AppEvent(
+            name: "Navigation",
+            params: [
+                "type": "Button",
+                "text": "Vehicle Category",
+                "external": false,
+                "section": "Driving"
+            ]
+        )
+        analyticsService.track(event: event)
     }
 }
