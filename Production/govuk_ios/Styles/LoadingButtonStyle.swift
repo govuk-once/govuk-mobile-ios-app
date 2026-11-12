@@ -16,7 +16,7 @@ struct LoadingButtonStyle: ButtonStyle {
                 .accessibilityHidden(!isLoading)
                 .accessibilityLabel(loadingLabel)
             configuration.label
-                .opacity(isLoading ? 0 : (configuration.isPressed ? 0.7 : 1.0))
+                .opacity(labelOpacity(isPressed: configuration.isPressed))
         }
         .frame(maxWidth: .infinity, idealHeight: 44)
         .padding()
@@ -25,6 +25,11 @@ struct LoadingButtonStyle: ButtonStyle {
         .cornerRadius(15)
         .scaleEffect(configuration.isPressed && !isLoading ? 0.98 : 1.0)
         .animation(.easeInOut(duration: 0.2), value: isLoading)
+    }
+
+    private func labelOpacity(isPressed: Bool) -> Double {
+        if isLoading { return 0 }
+        return isPressed ? 0.7 : 1.0
     }
 }
 
