@@ -105,7 +105,6 @@ extension Entitlement {
         )
     }
 }
-#endif
 
 #Preview("Categories Screen") {
     let sampleEntitlements: [Entitlement] = [
@@ -161,3 +160,4 @@ extension Entitlement {
             }
     }
 }
+#endif
