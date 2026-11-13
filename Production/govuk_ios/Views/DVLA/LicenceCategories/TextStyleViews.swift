@@ -1,145 +1,70 @@
 import SwiftUI
 import GovKit
 
-public struct HeaderText: View {
-    private let text: Text
+public protocol GovTextView: View {
+    var baseText: Text { get }
+    static var font: Font { get }
+    static var isHeader: Bool { get }
+    init(baseText: Text)
+}
 
+extension GovTextView {
     public init(
         _ key: LocalizedStringKey,
         tableName: String? = nil,
         bundle: Bundle? = nil,
         comment: StaticString? = nil
     ) {
-        self.text = Text(key, tableName: tableName, bundle: bundle, comment: comment)
+        self.init(baseText: Text(key, tableName: tableName, bundle: bundle, comment: comment))
     }
 
     public init(_ resource: LocalizedStringResource) {
-        self.text = Text(resource)
+        self.init(baseText: Text(resource))
     }
 
     public init(verbatim content: String) {
-        self.text = Text(verbatim: content)
+        self.init(baseText: Text(verbatim: content))
     }
 
     @_disfavoredOverload
     public init<S: StringProtocol>(_ content: S) {
-        self.text = Text(content)
+        self.init(baseText: Text(content))
     }
 
-    /// Use only when a concrete `Text` is required (e.g. inline `Text` interpolation).
     public var rawText: Text {
-        text.font(.govUK.title1Bold)
+        baseText.font(Self.font)
     }
 
     public var body: some View {
         rawText
-            .accessibilityAddTraits(.isHeader)
+            .accessibilityAddTraits(Self.isHeader ? .isHeader : [])
     }
 }
 
-public struct SectionHeaderText: View {
-    private let text: Text
-
-    public init(
-        _ key: LocalizedStringKey,
-        tableName: String? = nil,
-        bundle: Bundle? = nil,
-        comment: StaticString? = nil
-    ) {
-        self.text = Text(key, tableName: tableName, bundle: bundle, comment: comment)
-    }
-
-    public init(_ resource: LocalizedStringResource) {
-        self.text = Text(resource)
-    }
-
-    public init(verbatim content: String) {
-        self.text = Text(verbatim: content)
-    }
-
-    @_disfavoredOverload
-    public init<S: StringProtocol>(_ content: S) {
-        self.text = Text(content)
-    }
-
-    /// Use only when a concrete `Text` is required (e.g. inline `Text` interpolation).
-    public var rawText: Text {
-        text.font(.govUK.title2Bold)
-    }
-
-    public var body: some View {
-        rawText
-            .accessibilityAddTraits(.isHeader)
-    }
+public struct HeaderText: GovTextView {
+    public let baseText: Text
+    public init(baseText: Text) { self.baseText = baseText }
+    public static var font: Font { .govUK.title1Bold }
+    public static var isHeader: Bool { true }
 }
 
-public struct SubsectionHeaderText: View {
-    private let text: Text
-
-    public init(
-        _ key: LocalizedStringKey,
-        tableName: String? = nil,
-        bundle: Bundle? = nil,
-        comment: StaticString? = nil
-    ) {
-        self.text = Text(key, tableName: tableName, bundle: bundle, comment: comment)
-    }
-
-    public init(_ resource: LocalizedStringResource) {
-        self.text = Text(resource)
-    }
-
-    public init(verbatim content: String) {
-        self.text = Text(verbatim: content)
-    }
-
-    @_disfavoredOverload
-    public init<S: StringProtocol>(_ content: S) {
-        self.text = Text(content)
-    }
-
-    /// Use only when a concrete `Text` is required (e.g. inline `Text` interpolation).
-    public var rawText: Text {
-        text.font(.headline.weight(.bold))
-    }
-
-    public var body: some View {
-        rawText
-            .accessibilityAddTraits(.isHeader)
-    }
+public struct SectionHeaderText: GovTextView {
+    public let baseText: Text
+    public init(baseText: Text) { self.baseText = baseText }
+    public static var font: Font { .govUK.title2Bold }
+    public static var isHeader: Bool { true }
 }
 
-public struct BodyText: View {
-    private let text: Text
+public struct SubsectionHeaderText: GovTextView {
+    public let baseText: Text
+    public init(baseText: Text) { self.baseText = baseText }
+    public static var font: Font { .headline.weight(.bold) }
+    public static var isHeader: Bool { true }
+}
 
-    public init(
-        _ key: LocalizedStringKey,
-        tableName: String? = nil,
-        bundle: Bundle? = nil,
-        comment: StaticString? = nil
-    ) {
-        self.text = Text(key, tableName: tableName, bundle: bundle, comment: comment)
-    }
-
-    public init(_ resource: LocalizedStringResource) {
-        self.text = Text(resource)
-    }
-
-    public init(verbatim content: String) {
-        self.text = Text(verbatim: content)
-    }
-
-    @_disfavoredOverload
-    public init<S: StringProtocol>(_ content: S) {
-        self.text = Text(content)
-    }
-
-    /// Use only when a concrete `Text` is required (e.g. inline `Text` interpolation).
-    public var rawText: Text {
-        text.font(.govUK.body)
-    }
-
-    public var body: some View {
-        rawText
-    }
+public struct BodyText: GovTextView {
+    public let baseText: Text
+    public init(baseText: Text) { self.baseText = baseText }
+    public static var font: Font { .govUK.body }
+    public static var isHeader: Bool { false }
 }
