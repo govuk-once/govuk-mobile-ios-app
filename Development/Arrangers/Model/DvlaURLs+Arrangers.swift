@@ -27,10 +27,9 @@ extension DvlaURLs {
         reportAbandonedVehicle: String = "https://www.gov.uk/report-an-abandoned-vehicle",
         reportUntaxedVehicle: String = "https://www.gov.uk/report-an-untaxed-vehicle",
         reportNoMot: String = "https://www.gov.uk/report-no-mot",
-        // KK Stuff: set correct urls...
-        compareOldNewLicence: String = "https://www.gov.uk/???",
-        vehicleWeightExplained: String = "https://www.gov.uk/???",
-        addCategoriesToLicence: String = "https://www.gov.uk/???",
+        compareOldNewLicence: String = "https://www.gov.uk/old-driving-licence-categories",
+        vehicleWeightExplained: String = "https://www.gov.uk/vehicle-weights-explained",
+        addCategoriesToLicence: String = "https://www.gov.uk/adding-higher-categories-to-your-driving-licence",
     ) -> DvlaURLs {
         DvlaURLs(
             addVehicle: URL(string: addVehicle)!,
