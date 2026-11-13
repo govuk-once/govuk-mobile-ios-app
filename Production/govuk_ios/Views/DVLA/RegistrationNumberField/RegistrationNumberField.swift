@@ -31,6 +31,7 @@ struct RegistrationNumberField: View {
     private var clearButton: some View {
         Button {
             text = ""
+            announceTextCleared()
         } label: {
             Image(systemName: "xmark.circle.fill")
                 .font(.system(size: 22))
@@ -38,6 +39,21 @@ struct RegistrationNumberField: View {
         }
         .accessibilityLabel(.DVLA.clearTextAccessibilityLabel)
         .transition(.opacity.combined(with: .scale))
+    }
+
+    private func announceTextCleared() {
+        let message = NSAttributedString(
+            string: String(localized: .DVLA.textClearedAnnouncement),
+            attributes: [
+                .accessibilitySpeechQueueAnnouncement: true
+            ]
+        )
+        DispatchQueue.main.asyncAfter(
+            deadline: .now() + 1,
+            execute: {
+                UIAccessibility.post(notification: .announcement, argument: message)
+            }
+        )
     }
 }
 

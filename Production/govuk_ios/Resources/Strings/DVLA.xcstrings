@@ -1422,6 +1422,17 @@
         }
       }
     },
+    "textClearedAnnouncement" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Text cleared"
+          }
+        }
+      }
+    },
     "today" : {
       "extractionState" : "manual",
       "localizations" : {
