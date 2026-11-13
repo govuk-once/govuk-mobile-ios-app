@@ -101,9 +101,10 @@ private struct AccessibleLink: View {
                 .font(Font.govUK.body)
                 .foregroundColor(Color(UIColor.govUK.text.linkSecondary))
                 .underline()
-                .padding(.top, isFirst ? 11 : 48)
-                .padding(.bottom, 48)
+                .padding(.vertical, 13)
         }
+        .padding(.top, isFirst ? 0 : 24)
+        .padding(.bottom, 24)
         .buttonStyle(.plain)
         .accessibilityLabel(text)
         .accessibilityHint(isExternalLink ? String.common.localized("openWebLinkHint") : "")
