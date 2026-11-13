@@ -28,23 +28,45 @@ struct DrivingLicence: Codable {
     }
 }
 
-enum CategoryType: String, Codable {
+enum CategoryType: String, Codable, Equatable {
     case full = "Full"
     case provisional = "Provisional"
 }
 
-struct EntitlementRestriction: Codable {
+struct EntitlementRestriction: Identifiable, Codable, Equatable {
+    var id: UUID = UUID()
     let restrictionCode: String
     let restrictionLiteral: String
+
+    private enum CodingKeys: String, CodingKey {
+        case restrictionCode
+        case restrictionLiteral
+    }
 }
 
-struct Entitlement: Codable {
+struct Entitlement: Identifiable, Codable, Equatable {
+    var id: UUID = UUID()
     let categoryCode: String
     let categoryLegalLiteral: String
     let categoryType: CategoryType
     let fromDate: Date
     let expiryDate: Date
     let restrictions: [EntitlementRestriction]
+
+    private enum CodingKeys: String, CodingKey {
+        case categoryCode
+        case categoryLegalLiteral
+        case categoryType
+        case fromDate
+        case expiryDate
+        case restrictions
+    }
+}
+
+extension Entitlement {
+    var group: LicenceCategoryGroup? {
+        LicenceCategoryGroup.group(for: categoryCode)
+    }
 }
 
 enum DrivingLicenceStatus: String, Codable {

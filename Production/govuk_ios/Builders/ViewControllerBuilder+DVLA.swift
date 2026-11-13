@@ -34,6 +34,13 @@ protocol DVLAViewControllerBuilding: AnyObject {
         completionAction: @escaping (VehicleEnquiryResponse.Vehicle) -> Void
     ) -> UIViewController
 
+    func licenceCategoryList(
+        entitlements: [Entitlement],
+        analyticsService: AnalyticsServiceInterface,
+        configService: AppConfigServiceInterface,
+        actions: CategoriesActions,
+    ) -> UIViewController
+
     func licenceCategoryDetail(
         entitlement: Entitlement,
         analyticsService: AnalyticsServiceInterface,
@@ -124,6 +131,43 @@ extension ViewControllerBuilder: DVLAViewControllerBuilding {
         hostingController.view.backgroundColor = .clear
         return hostingController
     }
+
+    func licenceCategoryList(
+        entitlements: [Entitlement],
+        analyticsService: AnalyticsServiceInterface,
+        configService: AppConfigServiceInterface,
+        actions: CategoriesActions,
+    ) -> UIViewController {
+        let urls: DvlaURLs? = configService.dvlaUrls
+        let links: [CategoryLink] = [
+            CategoryLink(
+                text: String(localized: .DVLA.compareOldAndNewCategories),
+                url: urls?.compareOldNewLicenceCategories ??
+                Constants.API.defaultDvlaCategoriesCompareOldAndNewUrl
+            ),
+            CategoryLink(
+                text: String(localized: .DVLA.vehicleWeightsExplained),
+                url: urls?.vehicleWeightExplained ??
+                Constants.API.defaultDvlaCategoriesVehicleWeightsUrl
+            ),
+            CategoryLink(
+                text: String(localized: .DVLA.addingCategoriesToYourVehicle),
+                url: urls?.addCategoriesToLicence ??
+                Constants.API.defaultDvlaCategoriesAddingCategoriesUrl
+            ),
+        ]
+
+        let viewModel = LicenceCategoriesViewModel(entitlements: entitlements,
+                                            actions: actions,
+                                            links: links,
+                                            analyticsService: analyticsService)
+
+        let view = LicenceCategoriesView(viewModel: viewModel)
+        let viewController = HostingViewController(rootView: view)
+        return viewController
+    }
+
+    // MARK: -
 
     func licenceCategoryDetail(
         entitlement: Entitlement,

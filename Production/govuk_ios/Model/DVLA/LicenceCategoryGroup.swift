@@ -24,4 +24,30 @@ enum LicenceCategoryGroup: String {
         case .otherVehicles: String(localized: .DVLA.categoryGroupOtherVehicles)
         }
     }
+
+    static func group(for code: String) -> LicenceCategoryGroup? {
+        let uppercased = code.uppercased()
+        switch uppercased {
+        case "P", "AM", "Q":
+            return .mopeds
+        case "A", "A1", "A2":
+            return .motorcycles
+        case "B1":
+            return .lightVehicles
+        case "B", "BE":
+            return .cars
+        case "C1", "C1E":
+            return .mediumSizedVehicles
+        case "C", "CE":
+            return .largeVehicles
+        case "D1", "D1E":
+            return .minibuses
+        case "D", "DE":
+            return .buses
+        case "F", "G", "H", "K", "L", "M", "N":
+            return .otherVehicles
+        default:
+            return nil
+        }
+    }
 }

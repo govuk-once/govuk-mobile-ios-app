@@ -6,8 +6,14 @@ struct LicenceCategoryDisplayMetadata {
     let image: ImageResource?
 }
 
+extension LicenceCategoryDisplayMetadata {
+    init(categoryCode: String) {
+        self = LicenceCategoryDisplayMetadataBuilder.metadata(for: categoryCode)
+    }
+}
+
 /// Maps raw driving licence category codes to their display titles, groups, and associated asset icons.
-struct LicenceCategoryDisplayMetadataBuilder {
+enum LicenceCategoryDisplayMetadataBuilder {
     static let categoryRegistry: [String: LicenceCategoryDisplayMetadata] = [
         // MARK: - Mopeds
         "AM": .init(displayName: "AM", group: .mopeds, image: .drivingCategoryAM),
@@ -52,9 +58,8 @@ struct LicenceCategoryDisplayMetadataBuilder {
         "N": .init(displayName: "n", group: .otherVehicles, image: nil)
     ]
 
-
-    func buildMetadata(for categoryCode: String) -> LicenceCategoryDisplayMetadata {
-        Self.categoryRegistry[categoryCode.uppercased()] ??
+    static func metadata(for categoryCode: String) -> LicenceCategoryDisplayMetadata {
+        categoryRegistry[categoryCode.uppercased()] ??
             .init(displayName: categoryCode, group: .otherVehicles, image: nil)
     }
 }

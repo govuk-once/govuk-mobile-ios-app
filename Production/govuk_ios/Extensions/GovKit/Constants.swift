@@ -122,6 +122,18 @@ extension Constants.API {
         string: "https://www.gov.uk/contact-the-dvla"
     )!
 
+    public static let defaultDvlaCategoriesCompareOldAndNewUrl: URL = URL(
+        string: "https://www.gov.uk/old-driving-licence-categories"
+    )!
+
+    public static let defaultDvlaCategoriesVehicleWeightsUrl: URL = URL(
+        string: "https://www.gov.uk/vehicle-weights-explained"
+    )!
+
+    public static let defaultDvlaCategoriesAddingCategoriesUrl: URL = URL(
+        string: "https://www.gov.uk/adding-higher-categories-to-your-driving-licence"
+    )!
+
     public static let defaultBuyingUsedCarChecksUrl: URL = URL(
         string: "https://www.gov.uk/checks-when-buying-a-used-car"
     )!

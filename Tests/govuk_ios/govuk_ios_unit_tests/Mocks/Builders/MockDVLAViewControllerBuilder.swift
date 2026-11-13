@@ -7,6 +7,16 @@ import GovKit
 
 final class MockDVLAViewControllerBuilder: DVLAViewControllerBuilding, ErrorViewControllerBuilding {
 
+    func licenceCategoryList(
+        entitlements: [govuk_ios.Entitlement],
+        analyticsService: AnalyticsServiceInterface,
+        configService: AppConfigServiceInterface,
+        actions: govuk_ios.CategoriesActions
+    ) -> UIViewController {
+        return UIViewController()
+    }
+    
+
     var _stubbedVehicleDetailController: UIViewController?
     var _receivedVehicleDetailOpenURLAction: ((URL) -> Void)?
     func vehicleDetail(
@@ -85,4 +95,13 @@ final class MockDVLAViewControllerBuilder: DVLAViewControllerBuilding, ErrorView
     ) -> UIViewController {
         UIViewController()
     }
+
+    func licenceCategoryList(entitlements: [govuk_ios.Entitlement],
+                             analyticsService: AnalyticsServiceInterface,
+                             selectAction: @escaping (Entitlement) -> Void,
+                             dismissAction: @escaping () -> Void
+    ) -> UIViewController {
+        UIViewController()
+    }
 }
+

@@ -69,6 +69,9 @@ struct DvlaURLs: Decodable {
     let reportAbandonedVehicle: URL?
     let reportUntaxedVehicle: URL?
     let reportNoMot: URL?
+    let compareOldNewLicenceCategories: URL?
+    let vehicleWeightExplained: URL?
+    let addCategoriesToLicence: URL?
 }
 
 struct TermsAndConditions: Decodable {
