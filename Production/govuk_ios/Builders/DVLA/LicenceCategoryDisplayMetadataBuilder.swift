@@ -8,13 +8,7 @@ struct LicenceCategoryDisplayMetadata {
 
 extension LicenceCategoryDisplayMetadata {
     init(categoryCode: String) {
-        if let existing = LicenceCategoryDisplayMetadataBuilder.categoryRegistry[
-            categoryCode.uppercased()
-        ] {
-            self = existing
-        } else {
-            self.init(displayName: categoryCode, group: .otherVehicles, image: nil)
-        }
+        self = LicenceCategoryDisplayMetadataBuilder.metadata(for: categoryCode)
     }
 }
 
