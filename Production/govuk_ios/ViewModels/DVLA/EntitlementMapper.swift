@@ -1,20 +1,25 @@
 import Foundation
 
+/// A collection of driving entitlements grouped under a single vehicle category.
 struct EntitlementGroup: Identifiable, Equatable {
     var id: LicenceCategoryGroup { group }
     let group: LicenceCategoryGroup
     let entitlements: [Entitlement]
 }
 
+/// Driving entitlements partitioned into full and provisional licence groups.
 struct CategorisedEntitlements: Equatable {
     let entitledToDrive: [EntitlementGroup]
     let provisionallyEntitledToDrive: [EntitlementGroup]
 }
 
+/// A type that groups and orders raw driving entitlements into categorised collections.
 protocol EntitlementMapping {
+    /// Partitions and orders the given entitlements into full and provisional category groups.
     func map(entitlements: [Entitlement]) -> CategorisedEntitlements
 }
 
+/// Maps flat driving entitlements into ordered category groups matching the predefined catalog specification.
 struct EntitlementMapper: EntitlementMapping {
     func map(entitlements: [Entitlement]) -> CategorisedEntitlements {
         CategorisedEntitlements(
