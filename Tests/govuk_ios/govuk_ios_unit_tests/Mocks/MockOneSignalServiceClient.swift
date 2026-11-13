@@ -39,6 +39,7 @@ class MockOneSignalServiceClient: OneSignalServiceClient {
 
 class MockOSNotifications: NSObject,
                            OSNotifications {
+    
     static func __permission() -> Bool {
         return true
     }
@@ -89,5 +90,29 @@ class MockOSNotifications: NSObject,
 
     static func clearAll() {
 
+    }
+    
+    static func didRegisterForRemoteNotifications(deviceToken: Data) {
+        
+    }
+    
+    static func didFailToRegisterForRemoteNotifications(error: any Error) {
+        
+    }
+    
+    static func didReceiveRemoteNotification(userInfo: [AnyHashable : Any] = [:]) async -> UIBackgroundFetchResult {
+        return .noData
+    }
+    
+    static func willPresentNotification(payload: [AnyHashable : Any], completion: @escaping @Sendable (OSNotification?) -> Void) {
+        
+    }
+    
+    static func didReceiveNotificationResponse(_ response: UNNotificationResponse) {
+        
+    }
+    
+    static func setBadgeCount(_ badgeCount: Int) {
+        
     }
 }
