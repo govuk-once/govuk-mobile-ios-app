@@ -6,6 +6,7 @@ class MockChatServiceClient: ChatServiceClientInterface {
 
     var _stubbedAskQuestionResult: ChatQuestionResult?
     func askQuestion(_ question: String,
+                     isSuggestedPrompt: Bool?,
                      conversationId: String?,
                      completion: @escaping (ChatQuestionResult) -> Void) {
         if let result = _stubbedAskQuestionResult {

@@ -102,8 +102,10 @@ struct Container_APIClientTests {
                 returnData = request.bodyStreamData
                 return (.arrangeSuccess, nil, nil)
             }
-
-            let request = GOVRequest.askQuestion("What is your quest?")
+            
+            let request = GOVRequest.askQuestion("What is your quest?",
+                                                 isSuggestedPrompt: false,
+                                                 conversationId: nil)
 
             sut.send(
                 request: request,

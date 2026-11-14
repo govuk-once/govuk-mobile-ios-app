@@ -14,6 +14,7 @@ struct ChatServiceClientTests {
         let expectedQuestion = "expected question?"
 
         sut.askQuestion(expectedQuestion,
+                        isSuggestedPrompt: false,
                         conversationId: nil,
                         completion: { _ in } )
 
@@ -31,6 +32,7 @@ struct ChatServiceClientTests {
         let expectedConversationId = "conversationId"
 
         sut.askQuestion(expectedQuestion,
+                        isSuggestedPrompt: false,
                         conversationId: expectedConversationId,
                         completion: { _ in } )
 
@@ -50,6 +52,7 @@ struct ChatServiceClientTests {
         let chatResponseResult = await withCheckedContinuation { continuation in
             sut.askQuestion(
                 expectedQuestion,
+                isSuggestedPrompt: false,
                 conversationId: nil,
                 completion: {
                     continuation.resume(returning: $0)
