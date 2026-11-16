@@ -282,7 +282,7 @@
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "We only use your postcode to find out what your local council is. It’s not saved or shared anywhere. You can enter a different postcode at any time on the app home page."
+            "value" : "We only use your postcode to find out what your local council is. It’s not saved or shared anywhere. You can remove or change it at any time."
           }
         }
       }
