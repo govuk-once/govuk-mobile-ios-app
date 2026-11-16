@@ -101,28 +101,20 @@ final class LicenceCategoriesViewModel: ObservableObject {
 
     // MARK: - Analytics
     func trackClick(link: CategoryLink) {
-        let event = AppEvent(
-            name: "Navigation",
-            params: [
-                "type": "Button",
-                "text": link.text,
-                "URL": link.url.absoluteString,
-                "external": true,
-                "section": "Driving"
-            ]
+        let event = AppEvent.buttonNavigation(
+            text: link.text,
+            external: true,
+            url: link.url.absoluteString,
+            section: "Driving"
         )
         analyticsService.track(event: event)
     }
 
     func trackRowTapEvent() {
-        let event = AppEvent(
-            name: "Navigation",
-            params: [
-                "type": "Button",
-                "text": "Vehicle Category",
-                "external": false,
-                "section": "Driving"
-            ]
+        let event = AppEvent.buttonNavigation(
+            text: "Vehicle Category",
+            external: false,
+            section: "Driving"
         )
         analyticsService.track(event: event)
     }
