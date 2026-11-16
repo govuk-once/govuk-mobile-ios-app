@@ -5,6 +5,7 @@ class MockLocalAuthorityService: LocalAuthorityServiceInterface {
     func deleteLocalAuthorities(completion: @escaping () -> Void) {
         _savedAuthority = nil
         _deleteLocalAuthoritiesCalled = true
+        completion()
     }
 
     var _stubbedLocalAuthority: [LocalAuthorityItem]?

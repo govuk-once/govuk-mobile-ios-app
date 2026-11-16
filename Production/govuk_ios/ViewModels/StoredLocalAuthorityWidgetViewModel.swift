@@ -7,26 +7,14 @@ class StoredLocalAuthorityWidgetViewModel {
     private let localAuthorityService: LocalAuthorityServiceInterface
     private let openURLAction: (URL) -> Void
     private let deleteCompletion: () -> Void
-    let openEditViewAction: () -> Void
+    private let openEditViewAction: () -> Void
     let localAuthorities: [LocalAuthorityItem]
 
-    let title = String(
-        localized: .LocalAuthority.localServicesTitle
+    let removeLocalAuthorityButtonTitle = String(
+        localized: .LocalAuthority.removeLocalAuthorityButtonTitle
     )
-    let editButtonTitle = String.common.localized(
-        "editButtonTitle"
-    )
-    let editButtonAltText = String(
-        localized: .LocalAuthority.localAuthorityEditButtonAltText
-    )
-    let twoTierAuthorityDescription = String(
-        localized: .LocalAuthority.storedLocalAuthorityWidgetTwoTierDescription
-    )
-    private let localAuthorityTwoTierParentDescription = String(
-        localized: .LocalAuthority.localAuthorityTwoTierParentDescription
-    )
-    private let localAuthorityTwoTierChildDescription = String(
-        localized: .LocalAuthority.localAuthorityTwoTierChildDescription
+    let changeLocalAuthorityButtonTitle = String(
+        localized: .LocalAuthority.changeLocalAuthorityButtonTitle
     )
 
     init(analyticsService: AnalyticsServiceInterface,
@@ -69,12 +57,30 @@ class StoredLocalAuthorityWidgetViewModel {
                 self?.deleteCompletion()
             }
         }
+
+        let event = AppEvent.buttonFunction(
+            text: removeLocalAuthorityButtonTitle,
+            section: "Local",
+            action: "Remove"
+        )
+        analyticsService.track(event: event)
+    }
+
+    func changeAction() {
+        openEditViewAction()
+
+        let event = AppEvent.buttonFunction(
+            text: changeLocalAuthorityButtonTitle,
+            section: "Local",
+            action: "Change"
+        )
+        analyticsService.track(event: event)
     }
 
     private func returnCardDescription(authority: LocalAuthorityItem) -> String {
         authority.parent != nil ?
-        localAuthorityTwoTierChildDescription :
-        localAuthorityTwoTierParentDescription
+        String(localized: .LocalAuthority.localAuthorityTwoTierChildDescription) :
+        String(localized: .LocalAuthority.localAuthorityTwoTierParentDescription)
     }
 
     private func trackNavigationEvent(_ title: String,

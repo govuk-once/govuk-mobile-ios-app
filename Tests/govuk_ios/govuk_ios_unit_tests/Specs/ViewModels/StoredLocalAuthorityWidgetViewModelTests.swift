@@ -1,5 +1,6 @@
 import Foundation
 import Testing
+import Combine
 
 @testable import GovKit
 @testable import govuk_ios
@@ -61,7 +62,6 @@ struct StoredLocalAuthorityWidgetViewModelTests {
         sut.open(item: item)
         let receivedTrackingTitle = mockAnalyticsService._trackedEvents.first?.params?["text"] as? String
         #expect(receivedTrackingTitle == item.name)
-
     }
 
     @Test
@@ -127,5 +127,94 @@ struct StoredLocalAuthorityWidgetViewModelTests {
         #expect(result.count == 2)
         #expect(result.first?.homepageUrl == "https://www.derbyshire.gov.uk/")
         #expect(result.first?.description == "County councils are usually responsible for services like education, social care and transport")
+    }
+
+    @Test
+    func changeAction_opensEditView() async {
+        let coreData = await CoreDataRepository.arrangeAndLoad
+        let localAuthorityItem = LocalAuthorityItem(
+            context: coreData.backgroundContext
+        )
+        await confirmation { confirmation in
+            let sut = StoredLocalAuthorityWidgetViewModel(
+                analyticsService: MockAnalyticsService(),
+                localAuthorityService: MockLocalAuthorityService(),
+                localAuthorities: [localAuthorityItem],
+                openURLAction: { _ in },
+                openEditViewAction: { confirmation() },
+                deleteCompletion: { }
+            )
+            sut.changeAction()
+        }
+    }
+
+    @Test
+    func changeAction_tracksEvent() async {
+        let coreData = await CoreDataRepository.arrangeAndLoad
+        let localAuthorityItem = LocalAuthorityItem(
+            context: coreData.backgroundContext
+        )
+        let mockAnalyticsService = MockAnalyticsService()
+        let sut = StoredLocalAuthorityWidgetViewModel(
+            analyticsService: mockAnalyticsService,
+            localAuthorityService: MockLocalAuthorityService(),
+            localAuthorities: [localAuthorityItem],
+            openURLAction: { _ in },
+            openEditViewAction: { },
+            deleteCompletion: { }
+        )
+        sut.changeAction()
+
+        let receivedTrackingTitle = mockAnalyticsService._trackedEvents.first?.params?["text"] as? String
+        #expect(receivedTrackingTitle == "Change")
+    }
+
+    @Test @MainActor
+    func deleteAction_callsCompletion() async {
+        let service = MockLocalAuthorityService()
+        let completionSubject = PassthroughSubject<Void, Never>()
+        var cancellable: AnyCancellable?
+
+        let sut = StoredLocalAuthorityWidgetViewModel(
+            analyticsService: MockAnalyticsService(),
+            localAuthorityService: service,
+            localAuthorities: [],
+            openURLAction: { _ in },
+            openEditViewAction: {},
+            deleteCompletion: {
+                completionSubject.send(())
+            }
+        )
+
+        await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
+            cancellable = completionSubject
+                .sink { _ in continuation.resume() }
+
+            sut.deleteAction()
+        }
+
+        #expect(service._deleteLocalAuthoritiesCalled)
+        withExtendedLifetime(cancellable) {}
+    }
+
+    @Test
+    func deleteAction_tracksEvent() async {
+        let coreData = await CoreDataRepository.arrangeAndLoad
+        let localAuthorityItem = LocalAuthorityItem(
+            context: coreData.backgroundContext
+        )
+        let mockAnalyticsService = MockAnalyticsService()
+        let sut = StoredLocalAuthorityWidgetViewModel(
+            analyticsService: mockAnalyticsService,
+            localAuthorityService: MockLocalAuthorityService(),
+            localAuthorities: [localAuthorityItem],
+            openURLAction: { _ in },
+            openEditViewAction: { },
+            deleteCompletion: { }
+        )
+        sut.deleteAction()
+
+        let receivedTrackingTitle = mockAnalyticsService._trackedEvents.first?.params?["text"] as? String
+        #expect(receivedTrackingTitle == "Remove")
     }
 }

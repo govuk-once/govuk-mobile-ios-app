@@ -22,7 +22,7 @@ struct StoredLocalAuthorityWidgetView: View {
                     }
             } else if viewModel.localAuthorities.count > 1 {
                 HStack {
-                    Text(viewModel.twoTierAuthorityDescription)
+                    Text(.LocalAuthority.storedLocalAuthorityWidgetTwoTierDescription)
                         .font(.govUK.body)
                         .foregroundColor(Color(uiColor: UIColor.govUK.text.primary))
                         .padding(.bottom, 4)
@@ -32,22 +32,21 @@ struct StoredLocalAuthorityWidgetView: View {
             }
         }
         .alert(
-            String(localized: .LocalAuthority.removeLocalAuthorityAlertTitle),
+            .LocalAuthority.removeLocalAuthorityAlertTitle,
             isPresented: $alertPresented,
             presenting: alertPresented
         ) { _ in
             Button(
-                .LocalAuthority.removeLocalAuthorityButtonTitle,
+                viewModel.removeLocalAuthorityButtonTitle,
                 role: .destructive,
                 action: viewModel.deleteAction
             )
         } message: { _ in
-            Text(String(localized: .LocalAuthority.removeLocalAuthorityAlertDescription))
+            Text(.LocalAuthority.removeLocalAuthorityAlertDescription)
         }
     }
 
-    @ViewBuilder
-    var twoTierView: some View {
+    private var twoTierView: some View {
         ForEach(viewModel.cardModels(), id: \.name) { item in
             StoredLocalAuthorityCardView(model: item)
                 .onTapGesture {
@@ -59,7 +58,7 @@ struct StoredLocalAuthorityWidgetView: View {
 
     private var headerSection: some View {
         HStack {
-            Text(viewModel.title)
+            Text(.LocalAuthority.localServicesTitle)
                 .font(Font.govUK.title3Semibold)
                 .foregroundColor(
                     Color(
@@ -70,8 +69,8 @@ struct StoredLocalAuthorityWidgetView: View {
             Spacer()
             Menu {
                 Button(
-                    .LocalAuthority.changeLocalAuthorityButtonTitle,
-                    action: viewModel.openEditViewAction
+                    viewModel.changeLocalAuthorityButtonTitle,
+                    action: viewModel.changeAction
                 )
                 .accessibilityLabel(.LocalAuthority.changeLocalAuthorityAccessibilityLabel)
                 Button(
@@ -81,14 +80,14 @@ struct StoredLocalAuthorityWidgetView: View {
                 )
                 .accessibilityLabel(.LocalAuthority.removeLocalAuthorityAccessibilityLabel)
             } label: {
-                Text(viewModel.editButtonTitle)
+                Text(String.common.localized("editButtonTitle"))
                     .foregroundColor(
                         Color(UIColor.govUK.text.buttonSecondary)
                     )
                     .font(Font.govUK.subheadlineSemibold)
             }
             .accessibilityLabel(
-                viewModel.editButtonAltText
+                .LocalAuthority.localAuthorityEditButtonAltText
             )
         }
     }
