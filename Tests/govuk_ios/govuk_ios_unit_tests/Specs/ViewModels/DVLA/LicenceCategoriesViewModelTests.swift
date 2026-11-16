@@ -131,6 +131,26 @@ struct LicenceCategoriesViewModelTests {
     }
 
     @Test
+    func onLinkClick_whenNoOpenURLAction_onlyTracksEvent() throws {
+        let mockAnalyticsService = MockAnalyticsService()
+        let mockURL = try #require(URL(string: "https://www.gov.uk/driving-licence-categories"))
+        let mockLink = CategoryLink(text: "Driving licence categories", url: mockURL)
+        let sut = LicenceCategoriesViewModel(
+            actions: CategoriesActions(
+                didSelectAction: nil,
+                openURLAction: nil,
+                dismissAction: {}
+            ),
+            links: [mockLink],
+            analyticsService: mockAnalyticsService
+        )
+
+        sut.onLinkClick(mockLink)
+
+        #expect(mockAnalyticsService._trackedEvents.count == 1)
+    }
+
+    @Test
     func onLinkClick_tracksEventAndCallsOpenURLAction() throws {
         let mockAnalyticsService = MockAnalyticsService()
         let mockURL = try #require(URL(string: "https://www.gov.uk/driving-licence-categories"))
