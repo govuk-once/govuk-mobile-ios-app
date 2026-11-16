@@ -806,6 +806,17 @@
         }
       }
     },
+    "furtherInformation" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Further information"
+          }
+        }
+      }
+    },
     "gasAndDiesel" : {
       "extractionState" : "manual",
       "localizations" : {

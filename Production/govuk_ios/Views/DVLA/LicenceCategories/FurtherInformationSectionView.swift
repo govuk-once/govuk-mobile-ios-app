@@ -7,7 +7,7 @@ struct FurtherInformationSectionView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            SectionHeaderText("Further information")
+            SectionHeaderText(.DVLA.furtherInformation)
 
             VStack(alignment: .leading, spacing: 0) {
                 ForEach(Array(links.enumerated()), id: \.element.id) { index, link in
