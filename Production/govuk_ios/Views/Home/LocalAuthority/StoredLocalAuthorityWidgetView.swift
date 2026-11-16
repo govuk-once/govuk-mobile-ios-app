@@ -4,6 +4,7 @@ import GovKitUI
 
 struct StoredLocalAuthorityWidgetView: View {
     private let viewModel: StoredLocalAuthorityWidgetViewModel
+    @State var alertPresented = false
 
     init(viewModel: StoredLocalAuthorityWidgetViewModel) {
         self.viewModel = viewModel
@@ -29,6 +30,19 @@ struct StoredLocalAuthorityWidgetView: View {
                 }
                 twoTierView
             }
+        }
+        .alert(
+            String(localized: .LocalAuthority.removeLocalAuthorityAlertTitle),
+            isPresented: $alertPresented,
+            presenting: alertPresented
+        ) { _ in
+            Button(
+                .LocalAuthority.removeLocalAuthorityButtonTitle,
+                role: .destructive,
+                action: viewModel.deleteAction
+            )
+        } message: { _ in
+            Text(String(localized: .LocalAuthority.removeLocalAuthorityAlertDescription))
         }
     }
 
@@ -56,13 +70,13 @@ struct StoredLocalAuthorityWidgetView: View {
             Spacer()
             Menu {
                 Button(
-                    .LocalAuthority.changeLocalAuthorityMenuTitle,
+                    .LocalAuthority.changeLocalAuthorityButtonTitle,
                     action: viewModel.openEditViewAction
                 )
                 Button(
-                    .LocalAuthority.removeLocalAuthorityMenuTitle,
+                    .LocalAuthority.removeLocalAuthorityButtonTitle,
                     role: .destructive,
-                    action: viewModel.deleteAction
+                    action: { alertPresented = true }
                 )
             } label: {
                 Text(viewModel.editButtonTitle)

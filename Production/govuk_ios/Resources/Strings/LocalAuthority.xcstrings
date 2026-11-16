@@ -78,7 +78,18 @@
         }
       }
     },
-    "changeLocalAuthorityMenuTitle" : {
+    "cancel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        }
+      }
+    },
+    "changeLocalAuthorityButtonTitle" : {
       "extractionState" : "manual",
       "localizations" : {
         "en-GB" : {
@@ -375,7 +386,29 @@
         }
       }
     },
-    "removeLocalAuthorityMenuTitle" : {
+    "removeLocalAuthorityAlertDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can add it again at any time from the homepage"
+          }
+        }
+      }
+    },
+    "removeLocalAuthorityAlertTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove council?"
+          }
+        }
+      }
+    },
+    "removeLocalAuthorityButtonTitle" : {
       "extractionState" : "manual",
       "localizations" : {
         "en-GB" : {
