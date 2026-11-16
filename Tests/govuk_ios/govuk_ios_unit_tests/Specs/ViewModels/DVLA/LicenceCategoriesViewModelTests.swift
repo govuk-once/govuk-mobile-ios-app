@@ -155,7 +155,7 @@ struct LicenceCategoriesViewModelTests {
         #expect(trackedEvent.name == "Navigation")
         #expect(trackedEvent.params?["type"] as? String == "Button")
         #expect(trackedEvent.params?["text"] as? String == "Driving licence categories")
-        #expect(trackedEvent.params?["URL"] as? String == "https://www.gov.uk/driving-licence-categories")
+        #expect(trackedEvent.params?["url"] as? String == "https://www.gov.uk/driving-licence-categories")
         #expect(trackedEvent.params?["external"] as? Bool == true)
         #expect(trackedEvent.params?["section"] as? String == "Driving")
     }
