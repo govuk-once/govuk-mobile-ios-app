@@ -6,7 +6,7 @@ struct EntitlementRowView: View {
     var onSelect: (() -> Void)?
 
     private var metadata: LicenceCategoryDisplayMetadata {
-        LicenceCategoryDisplayMetadataBuilder.metadata(for: entitlement.categoryCode)
+        LicenceCategoryDisplayMetadata(categoryCode: entitlement.categoryCode)
     }
 
     var body: some View {

@@ -9,9 +9,7 @@ struct EntitlementRowContentView: View {
     }
 
     init(entitlement: Entitlement) {
-        self.metadata = LicenceCategoryDisplayMetadataBuilder.metadata(
-            for: entitlement.categoryCode
-        )
+        self.metadata = LicenceCategoryDisplayMetadata(categoryCode: entitlement.categoryCode)
     }
 
     var body: some View {

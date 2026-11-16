@@ -88,7 +88,7 @@ final class LicenceCategoriesViewModel: ObservableObject {
     }
 
     func onRowTap(_ entitlement: Entitlement) {
-        let metadata = LicenceCategoryDisplayMetadataBuilder.metadata(for: entitlement.categoryCode)
+        let metadata = LicenceCategoryDisplayMetadata(categoryCode: entitlement.categoryCode)
         trackRowTapEvent()
         didSelectAction?(entitlement)
     }

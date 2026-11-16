@@ -65,7 +65,7 @@ struct Entitlement: Identifiable, Codable, Equatable {
 
 extension Entitlement {
     var group: LicenceCategoryGroup? {
-        LicenceCategoryGroup.group(for: categoryCode)
+        LicenceCategory(code: categoryCode)?.group
     }
 }
 
