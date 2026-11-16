@@ -4,37 +4,44 @@ import SwiftUI
 
 class StoredLocalAuthorityWidgetViewModel {
     private let analyticsService: AnalyticsServiceInterface
-    let localAuthorities: [LocalAuthorityItem]
-    let openEditViewAction: () -> Void
+    private let localAuthorityService: LocalAuthorityServiceInterface
     private let openURLAction: (URL) -> Void
+    private let deleteCompletion: () -> Void
+    let openEditViewAction: () -> Void
+    let localAuthorities: [LocalAuthorityItem]
 
-    let title = String.localAuthority.localized(
-        "localServicesTitle"
+    let title = String(
+        localized: .LocalAuthority.localServicesTitle
     )
     let editButtonTitle = String.common.localized(
         "editButtonTitle"
     )
-    let editButtonAltText = String.localAuthority.localized(
-        "localAuthorityEditButtonAltText"
+    let editButtonAltText = String(
+        localized: .LocalAuthority.localAuthorityEditButtonAltText
     )
-    let twoTierAuthorityDescription: String = String.localAuthority.localized(
-        "storedLocalAuthorityWidgetTwoTierDescription"
+    let twoTierAuthorityDescription = String(
+        localized: .LocalAuthority.storedLocalAuthorityWidgetTwoTierDescription
     )
-    private let localAuthorityTwoTierParentDescription = String.localAuthority.localized(
-        "localAuthorityTwoTierParentDescription"
+    private let localAuthorityTwoTierParentDescription = String(
+        localized: .LocalAuthority.localAuthorityTwoTierParentDescription
     )
-    private let localAuthorityTwoTierChildDescription = String.localAuthority.localized(
-        "localAuthorityTwoTierChildDescription"
+    private let localAuthorityTwoTierChildDescription = String(
+        localized: .LocalAuthority.localAuthorityTwoTierChildDescription
     )
 
     init(analyticsService: AnalyticsServiceInterface,
+         localAuthorityService: LocalAuthorityServiceInterface,
          localAuthorities: [LocalAuthorityItem],
          openURLAction: @escaping (URL) -> Void,
-         openEditViewAction: @escaping () -> Void) {
+         openEditViewAction: @escaping () -> Void,
+         deleteCompletion: @escaping () -> Void
+    ) {
         self.analyticsService = analyticsService
+        self.localAuthorityService = localAuthorityService
         self.localAuthorities = localAuthorities
         self.openURLAction = openURLAction
         self.openEditViewAction = openEditViewAction
+        self.deleteCompletion = deleteCompletion
     }
 
     func open(item: StoredLocalAuthorityCardModel) {
@@ -53,6 +60,14 @@ class StoredLocalAuthorityWidgetViewModel {
                 description: localAuthorityDescription
             )
             partialResult.append(card)
+        }
+    }
+
+    func deleteAction() {
+        localAuthorityService.deleteLocalAuthorities { [weak self] in
+            DispatchQueue.main.async {
+                self?.deleteCompletion()
+            }
         }
     }
 
