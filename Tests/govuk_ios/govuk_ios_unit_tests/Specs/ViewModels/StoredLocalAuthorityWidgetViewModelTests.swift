@@ -29,7 +29,7 @@ struct StoredLocalAuthorityWidgetViewModelTests {
                     openedURL = localUrl
                     continuation.resume()
                 },
-                openEditViewAction: {},
+                openEditViewAction: { },
                 deleteCompletion: { }
             )
             sut.open(item: expectedItem)
@@ -55,7 +55,7 @@ struct StoredLocalAuthorityWidgetViewModelTests {
             localAuthorityService: MockLocalAuthorityService(),
             localAuthorities: [localAuthorityItem],
             openURLAction: { _ in },
-            openEditViewAction: {},
+            openEditViewAction: { },
             deleteCompletion: { }
         )
         let item = StoredLocalAuthorityCardModel.arrange
@@ -80,7 +80,7 @@ struct StoredLocalAuthorityWidgetViewModelTests {
             localAuthorityService: MockLocalAuthorityService(),
             localAuthorities: [mockAuthorityItem],
             openURLAction: { _ in },
-            openEditViewAction: {},
+            openEditViewAction: { },
             deleteCompletion: { }
         )
 
@@ -119,7 +119,7 @@ struct StoredLocalAuthorityWidgetViewModelTests {
             localAuthorityService: MockLocalAuthorityService(),
             localAuthorities: authorityItems,
             openURLAction: { _ in },
-            openEditViewAction: {},
+            openEditViewAction: { },
             deleteCompletion: { }
         )
 
@@ -180,7 +180,7 @@ struct StoredLocalAuthorityWidgetViewModelTests {
             localAuthorityService: service,
             localAuthorities: [],
             openURLAction: { _ in },
-            openEditViewAction: {},
+            openEditViewAction: { },
             deleteCompletion: {
                 completionSubject.send(())
             }
@@ -216,5 +216,48 @@ struct StoredLocalAuthorityWidgetViewModelTests {
 
         let receivedTrackingTitle = mockAnalyticsService._trackedEvents.first?.params?["text"] as? String
         #expect(receivedTrackingTitle == "Remove")
+    }
+
+    @Test
+    func removeLocalAuthorityAlertTitle_singleAuthority_returnsTitle() async {
+        let coreData = await CoreDataRepository.arrangeAndLoad
+        let localAuthorityItem = LocalAuthorityItem(
+            context: coreData.backgroundContext
+        )
+        let mockAnalyticsService = MockAnalyticsService()
+        let sut = StoredLocalAuthorityWidgetViewModel(
+            analyticsService: mockAnalyticsService,
+            localAuthorityService: MockLocalAuthorityService(),
+            localAuthorities: [localAuthorityItem],
+            openURLAction: { _ in },
+            openEditViewAction: { },
+            deleteCompletion: { }
+        )
+        #expect(sut.removeLocalAuthorityAlertTitle == "Remove council?")
+    }
+
+    @Test
+    func removeLocalAuthorityAlertTitle_twoTierAuthority_returnsTitle() async {
+        let coreData = await CoreDataRepository.arrangeAndLoad
+        let parentAuthority = LocalAuthorityItem(
+            context: coreData.backgroundContext
+        )
+        let childAuthority = LocalAuthorityItem(
+            context: coreData.backgroundContext
+        )
+        var authorityItems: [LocalAuthorityItem] = []
+        authorityItems.append(parentAuthority)
+        authorityItems.append(childAuthority)
+
+        let sut = StoredLocalAuthorityWidgetViewModel(
+            analyticsService: MockAnalyticsService(),
+            localAuthorityService: MockLocalAuthorityService(),
+            localAuthorities: authorityItems,
+            openURLAction: { _ in },
+            openEditViewAction: { },
+            deleteCompletion: { }
+        )
+
+        #expect(sut.removeLocalAuthorityAlertTitle == "Remove councils?")
     }
 }

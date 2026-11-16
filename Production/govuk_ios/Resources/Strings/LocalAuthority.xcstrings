@@ -397,6 +397,17 @@
         }
       }
     },
+    "removeLocalAuthoritiesAlertTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove councils?"
+          }
+        }
+      }
+    },
     "removeLocalAuthorityAccessibilityLabel" : {
       "extractionState" : "manual",
       "localizations" : {

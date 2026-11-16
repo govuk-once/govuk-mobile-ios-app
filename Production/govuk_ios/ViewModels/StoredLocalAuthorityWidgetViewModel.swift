@@ -16,6 +16,11 @@ class StoredLocalAuthorityWidgetViewModel {
     let changeLocalAuthorityButtonTitle = String(
         localized: .LocalAuthority.changeLocalAuthorityButtonTitle
     )
+    var removeLocalAuthorityAlertTitle: String {
+        localAuthorities.count > 1 ?
+        String(localized: .LocalAuthority.removeLocalAuthoritiesAlertTitle) :
+        String(localized: .LocalAuthority.removeLocalAuthorityAlertTitle)
+    }
 
     init(analyticsService: AnalyticsServiceInterface,
          localAuthorityService: LocalAuthorityServiceInterface,

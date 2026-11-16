@@ -32,7 +32,7 @@ struct StoredLocalAuthorityWidgetView: View {
             }
         }
         .alert(
-            .LocalAuthority.removeLocalAuthorityAlertTitle,
+            viewModel.removeLocalAuthorityAlertTitle,
             isPresented: $alertPresented,
             presenting: alertPresented
         ) { _ in
