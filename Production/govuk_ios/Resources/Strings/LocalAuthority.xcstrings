@@ -89,6 +89,17 @@
         }
       }
     },
+    "changeLocalAuthorityAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Change postcode"
+          }
+        }
+      }
+    },
     "changeLocalAuthorityButtonTitle" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -382,6 +393,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Postcode entry field"
+          }
+        }
+      }
+    },
+    "removeLocalAuthorityAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove postcode"
           }
         }
       }

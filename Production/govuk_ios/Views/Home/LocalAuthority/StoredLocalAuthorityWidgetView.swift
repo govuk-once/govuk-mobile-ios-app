@@ -73,11 +73,13 @@ struct StoredLocalAuthorityWidgetView: View {
                     .LocalAuthority.changeLocalAuthorityButtonTitle,
                     action: viewModel.openEditViewAction
                 )
+                .accessibilityLabel(.LocalAuthority.changeLocalAuthorityAccessibilityLabel)
                 Button(
                     .LocalAuthority.removeLocalAuthorityButtonTitle,
                     role: .destructive,
                     action: { alertPresented = true }
                 )
+                .accessibilityLabel(.LocalAuthority.removeLocalAuthorityAccessibilityLabel)
             } label: {
                 Text(viewModel.editButtonTitle)
                     .foregroundColor(
