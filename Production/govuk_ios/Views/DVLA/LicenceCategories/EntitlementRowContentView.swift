@@ -36,7 +36,7 @@ struct EntitlementRowContentView: View {
                 .accessibilityHidden(true)
         }
         .padding(.vertical, 14)
-        .padding(.horizontal, 4)
+        .padding(.horizontal, 20)
         .contentShape(Rectangle())
     }
 }

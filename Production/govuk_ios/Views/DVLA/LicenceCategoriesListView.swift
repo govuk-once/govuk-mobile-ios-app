@@ -15,6 +15,7 @@ struct LicenceCategoriesListView: View {
                         .foregroundStyle(.primary)
                 }
                 .padding(.top, 8)
+                .padding(.horizontal, 16)
 
                 // "You can drive"
                 if !viewModel.entitledToDrive.isEmpty {
@@ -52,9 +53,9 @@ struct LicenceCategoriesListView: View {
                             viewModel.onLinkClick(link)
                         }
                     )
+                    .padding(.horizontal, 16)
                 }
             }
-            .padding(.horizontal, 16)
             .padding(.bottom, 32)
         }
     }
