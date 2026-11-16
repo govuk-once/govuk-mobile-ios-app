@@ -41,7 +41,7 @@ final class MockDVLACoordinatorBuilder: DVLACoordinatorBuilding, ServiceAccountC
           return _stubbedServiceAccountUnlinkCoordinator ?? MockBaseCoordinator()
     }
 
-    func licenceCategoriesCoordinator(navigationController: UINavigationController,
+    func licenceCategories(navigationController: UINavigationController,
                                       entitlements: [Entitlement]) -> BaseCoordinator {
         MockBaseCoordinator()
     }

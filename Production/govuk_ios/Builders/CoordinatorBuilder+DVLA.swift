@@ -8,7 +8,7 @@ protocol DVLACoordinatorBuilding {
     func vehicleCheck(navigationController: UINavigationController) -> BaseCoordinator
     func vehicleDetail(navigationController: UINavigationController,
                        vehicleId: Int) -> BaseCoordinator
-    func licenceCategoriesCoordinator(
+    func licenceCategories(
         navigationController: UINavigationController,
         entitlements: [Entitlement]) -> BaseCoordinator
 }
@@ -45,7 +45,7 @@ extension CoordinatorBuilder: DVLACoordinatorBuilding {
         )
     }
 
-    func licenceCategoriesCoordinator(
+    func licenceCategories(
         navigationController: UINavigationController,
         entitlements: [Entitlement]
     ) -> BaseCoordinator {
