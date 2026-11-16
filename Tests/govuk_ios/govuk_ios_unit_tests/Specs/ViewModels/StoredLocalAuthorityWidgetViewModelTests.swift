@@ -22,12 +22,14 @@ struct StoredLocalAuthorityWidgetViewModelTests {
         await withCheckedContinuation { continuation in
             let sut = StoredLocalAuthorityWidgetViewModel(
                 analyticsService: MockAnalyticsService(),
+                localAuthorityService: MockLocalAuthorityService(),
                 localAuthorities: [localAuthorityItem],
                 openURLAction: { localUrl in
                     openedURL = localUrl
                     continuation.resume()
                 },
-                openEditViewAction: {}
+                openEditViewAction: {},
+                deleteCompletion: { }
             )
             sut.open(item: expectedItem)
         }
@@ -49,9 +51,11 @@ struct StoredLocalAuthorityWidgetViewModelTests {
 
         let sut = StoredLocalAuthorityWidgetViewModel(
             analyticsService: mockAnalyticsService,
+            localAuthorityService: MockLocalAuthorityService(),
             localAuthorities: [localAuthorityItem],
             openURLAction: { _ in },
-            openEditViewAction: {}
+            openEditViewAction: {},
+            deleteCompletion: { }
         )
         let item = StoredLocalAuthorityCardModel.arrange
         sut.open(item: item)
@@ -73,9 +77,11 @@ struct StoredLocalAuthorityWidgetViewModelTests {
 
         let sut = StoredLocalAuthorityWidgetViewModel(
             analyticsService: MockAnalyticsService(),
+            localAuthorityService: MockLocalAuthorityService(),
             localAuthorities: [mockAuthorityItem],
             openURLAction: { _ in },
-            openEditViewAction: {}
+            openEditViewAction: {},
+            deleteCompletion: { }
         )
 
         let result = sut.cardModels()
@@ -110,9 +116,11 @@ struct StoredLocalAuthorityWidgetViewModelTests {
 
         let sut = StoredLocalAuthorityWidgetViewModel(
             analyticsService: MockAnalyticsService(),
+            localAuthorityService: MockLocalAuthorityService(),
             localAuthorities: authorityItems,
             openURLAction: { _ in },
-            openEditViewAction: {}
+            openEditViewAction: {},
+            deleteCompletion: { }
         )
 
         let result = sut.cardModels()
