@@ -11,24 +11,15 @@ struct StoredLocalAuthorityWidgetView: View {
 
     var body: some View {
         VStack {
-            SectionHeaderLabelView(
-                model: SectionHeaderLabelViewModel(
-                    title: viewModel.title,
-                    button: .init(
-                        localisedTitle: viewModel.editButtonTitle,
-                        localisedAccessibilityLabel: viewModel.editButtonAltText,
-                        action: { viewModel.openEditViewAction() }
-                    )
-                )
-            )
-            .padding(.bottom, 8)
+            headerSection
+                .padding(.bottom, 8)
             if viewModel.localAuthorities.count == 1,
                let item = viewModel.cardModels().first {
                 StoredLocalAuthorityCardView(model: item)
                     .onTapGesture {
                         viewModel.open(item: item)
                     }
-            } else {
+            } else if viewModel.localAuthorities.count > 1 {
                 HStack {
                     Text(viewModel.twoTierAuthorityDescription)
                         .font(.govUK.body)
@@ -49,6 +40,40 @@ struct StoredLocalAuthorityWidgetView: View {
                     viewModel.open(item: item)
                 }
                 .padding(.bottom, 2)
+        }
+    }
+
+    private var headerSection: some View {
+        HStack {
+            Text(viewModel.title)
+                .font(Font.govUK.title3Semibold)
+                .foregroundColor(
+                    Color(
+                        UIColor.govUK.text.primary
+                    )
+                )
+                .accessibilityAddTraits(.isHeader)
+            Spacer()
+            Menu {
+                Button(
+                    .LocalAuthority.changeLocalAuthorityMenuTitle,
+                    action: viewModel.openEditViewAction
+                )
+                Button(
+                    .LocalAuthority.removeLocalAuthorityMenuTitle,
+                    role: .destructive,
+                    action: viewModel.deleteAction
+                )
+            } label: {
+                Text(viewModel.editButtonTitle)
+                    .foregroundColor(
+                        Color(UIColor.govUK.text.buttonSecondary)
+                    )
+                    .font(Font.govUK.subheadlineSemibold)
+            }
+            .accessibilityLabel(
+                viewModel.editButtonAltText
+            )
         }
     }
 }

@@ -78,8 +78,16 @@
         }
       }
     },
-    "Key" : {
-      "extractionState" : "manual"
+    "changeLocalAuthorityMenuTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Change"
+          }
+        }
+      }
     },
     "localAuthorityConfirmationPrimaryButton" : {
       "extractionState" : "manual",
@@ -363,6 +371,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Postcode entry field"
+          }
+        }
+      }
+    },
+    "removeLocalAuthorityMenuTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove"
           }
         }
       }
