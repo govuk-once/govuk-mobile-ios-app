@@ -50,7 +50,6 @@ class EditCountriesViewModel: ObservableObject {
     private let openCountryListFooterAction: () -> Void
     private let navigateBackAction: () -> Void
     private var allCountries: [Country] = []
-    private var followedCountries: Set<String> = []
     private var notificationStateCache: [String: Bool] = [:]
     private var rationaleFlowSlug: String?
     private var rationaleFlowOutcome: NotificationsRationaleFlowOutcome = .none
@@ -204,7 +203,7 @@ class EditCountriesViewModel: ObservableObject {
                 switch result {
                 case .success(let groups):
                     self?.travelService.getCountries(
-                        forceRefresh: false
+                        forceRefresh: forceRefresh
                     ) { [weak self] countriesResult in
                         Task { @MainActor in
                             let countries = (try? countriesResult.get()) ?? []
@@ -243,7 +242,6 @@ class EditCountriesViewModel: ObservableObject {
 
         let rows = groups.compactMap { group -> SelectableRow? in
             guard let country = countryMap[group.group.lowercased()] else { return nil }
-            self.followedCountries.insert(group.group)
 
             return SelectableRow(
                 id: group.group,

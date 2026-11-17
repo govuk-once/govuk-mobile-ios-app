@@ -114,7 +114,9 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
             guard let country = countryMap[group.group.lowercased()] else { return nil }
 
             let travelAdviceURLString = "\(Constants.API.defaultTravelAdviceBaseUrlString)\(country.slug.lowercased())"
-            let url = URL(string: "govuk://app.gov.uk/web?url=\(travelAdviceURLString)")
+            var components = URLComponents(string: "govuk://app.gov.uk/web")
+            components?.queryItems = [URLQueryItem(name: "url", value: travelAdviceURLString)]
+            let url = components?.url
 
             return LinkRow(
                 id: group.group,

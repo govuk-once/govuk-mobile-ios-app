@@ -19,6 +19,7 @@ struct EditCountriesView: View {
                         VStack {
                             AppErrorView(viewModel: errorViewModel)
                                 .padding(.top, 8)
+                                .frame(maxWidth: .infinity)
                             Spacer()
                         }
                     }
