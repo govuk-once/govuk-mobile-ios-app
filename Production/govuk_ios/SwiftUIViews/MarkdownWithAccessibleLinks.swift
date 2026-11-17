@@ -93,7 +93,7 @@ private struct AccessibleLink: View {
             onLinkTapped: { _ in }
         )
         MarkdownWithAccessibleLinks(
-            "More information:\n\n* [Homepage](https://www.gov.uk)\n* [Contact us](https://www.gov.uk/contact) \n \n *  This is a buttlet point without a link",
+            "More information:\n\n* [Homepage](https://www.gov.uk)\n* [Contact us](https://www.gov.uk/contact) \n \n *  Item without a link",
             onLinkTapped: { _ in }
         )
     }
