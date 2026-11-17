@@ -68,10 +68,6 @@ struct LicenceCategoriesView: View {
 
     var body: some View {
         LicenceCategoriesListView(viewModel: viewModel)
-            .navigationTitle(String(localized:
-                    .DVLA.licenceCategoriesListTitle
-            ))
-            .navigationBarTitleDisplayMode(.large)
             .background(Color(uiColor: .govUK.fills.surfaceFullscreen))
             .onAppear {
                 viewModel.trackScreen(screen: self)

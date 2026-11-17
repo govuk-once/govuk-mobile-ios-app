@@ -163,8 +163,10 @@ extension ViewControllerBuilder: DVLAViewControllerBuilding {
                                             analyticsService: analyticsService)
 
         let view = LicenceCategoriesView(viewModel: viewModel)
-        let viewController = HostingViewController(rootView: view)
-        return viewController
+        return makeVoiceOverHostingController(
+                    rootView: view,
+                    largeTitle: String(localized: .DVLA.licenceCategoriesListTitle)
+                )
     }
 
     // MARK: -
