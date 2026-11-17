@@ -19,12 +19,6 @@ final class MockDVLACoordinatorBuilder: DVLACoordinatorBuilding, ServiceAccountC
         return _stubbedVehicleDetailCoordinator ?? MockBaseCoordinator()
     }
 
-    func licenceCategoriesCoordinator(
-        entitlements: [Entitlement]
-    ) -> BaseCoordinator {
-        MockBaseCoordinator()
-    }
-
     var _stubbedServiceAccountLinkCoordinator: MockBaseCoordinator?
     var _receivedServiceAccountLinkCompletion: ((Bool) -> Void)?
     func serviceAccountLink(navigationController: UINavigationController,
