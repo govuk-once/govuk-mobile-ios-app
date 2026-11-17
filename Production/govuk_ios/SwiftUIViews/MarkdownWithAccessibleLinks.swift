@@ -86,7 +86,6 @@ private struct AccessibleLink: View {
     }
 }
 
-#if DEBUG
 #Preview {
     VStack(alignment: .leading, spacing: 24) {
         MarkdownWithAccessibleLinks(
@@ -94,10 +93,9 @@ private struct AccessibleLink: View {
             onLinkTapped: { _ in }
         )
         MarkdownWithAccessibleLinks(
-            "More information:\n\n* [GOV.UK homepage](https://www.gov.uk)\n* [Contact us](https://www.gov.uk/contact)",
+            "More information:\n\n* [Homepage](https://www.gov.uk)\n* [Contact us](https://www.gov.uk/contact) \n \n *  This is a buttlet point without a link",
             onLinkTapped: { _ in }
         )
     }
     .padding()
 }
-#endif
