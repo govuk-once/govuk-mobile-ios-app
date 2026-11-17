@@ -31,12 +31,13 @@ struct MarkdownWithAccessibleLinks: View {
                             onTapped: onLinkTapped
                         )
                     }
-                case .bulletLink(let text, let urlString):
+                case .bulletLink(let text, let urlString, let topSpacing, let bottomSpacing):
                     if let url = URL(string: urlString) {
                         HStack(alignment: .firstTextBaseline, spacing: 8) {
                             Text("•")
                                 .font(Font.govUK.title2Bold)
                                 .foregroundColor(Color(UIColor.govUK.text.primary))
+                                .accessibilityHidden(true)
                             AccessibleLink(
                                 text: text,
                                 url: url,
@@ -46,6 +47,8 @@ struct MarkdownWithAccessibleLinks: View {
                             )
                         }
                         .padding(.leading, 5)
+                        .padding(.top, topSpacing)
+                        .padding(.bottom, bottomSpacing)
                     }
                 }
             }
