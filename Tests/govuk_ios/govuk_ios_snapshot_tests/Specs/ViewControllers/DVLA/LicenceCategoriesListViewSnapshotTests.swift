@@ -8,12 +8,6 @@ import GovKit
 @MainActor
 class LicenceCategoriesListViewSnapshotTests: SnapshotTestCase {
 
-//    override func setUp() {
-//        super.setUp()
-//       self.recordMode = true
-//    }
-
-
     // MARK: - Full list (both sections + links)
 
     func test_fullList_light_rendersCorrectly() {
