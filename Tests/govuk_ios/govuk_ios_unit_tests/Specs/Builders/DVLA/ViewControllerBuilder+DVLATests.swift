@@ -91,7 +91,7 @@ struct ViewControllerBuilderDVLATests {
             )
         )
 
-        let rootView = (result as? HostingViewController<LicenceCategoriesView>)?.rootView
+        let rootView = (result as? AccessibleHostingController<LicenceCategoriesView>)?.rootView
         #expect(rootView != nil)
     }
 
@@ -113,7 +113,7 @@ struct ViewControllerBuilderDVLATests {
             )
         )
 
-        let rootView = (result as? HostingViewController<LicenceCategoriesView>)?.rootView
+        let rootView = (result as? AccessibleHostingController<LicenceCategoriesView>)?.rootView
         #expect(rootView != nil)
     }
 
