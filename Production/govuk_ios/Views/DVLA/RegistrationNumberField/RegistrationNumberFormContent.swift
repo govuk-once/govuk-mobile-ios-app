@@ -37,21 +37,23 @@ extension RegistrationNumberFormContent {
         HStack(spacing: 8) {
             Button("Cancel", action: viewModel.cancel)
                 .buttonStyle(RegistrationCancelButtonStyle())
-
             if viewModel.isValidPlate {
-                Button(action: viewModel.submit) {
-                    Text("Submit")
-                }
-                .buttonStyle(LoadingButtonStyle(
-                    isLoading: viewModel.isLoading,
-                    loadingLabel: viewModel.loadingLabel
-                ))
-                .disabled(!viewModel.isValidPlate || viewModel.isLoading)
-                .transition(.opacity.combined(with:
-                        .move(edge: .trailing))
-                )
+                submitButton
             }
         }
+    }
+
+    private var submitButton: some View {
+        LoadingButton(
+            viewModel: viewModel.submitButtonViewModel,
+            buttonConfiguration: viewModel.submitButtonConfiguration
+        )
+        .frame(minHeight: 44)
+        .fixedSize(horizontal: false, vertical: true)
+        .disabled(!viewModel.isValidPlate || viewModel.isLoading)
+        .transition(.opacity.combined(with:
+                .move(edge: .trailing))
+        )
     }
 
     private var labelContent: StateLabelContent {
