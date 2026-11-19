@@ -10,8 +10,7 @@ protocol DVLACoordinatorBuilding {
                        vehicleId: Int) -> BaseCoordinator
     func licenceCategories(
         navigationController: UINavigationController,
-        entitlements: [Entitlement]
-    ) -> BaseCoordinator
+        entitlements: [Entitlement]) -> BaseCoordinator
 }
 
 @MainActor
@@ -53,6 +52,8 @@ extension CoordinatorBuilder: DVLACoordinatorBuilding {
         LicenceCategoriesCoordinator(
             navigationController: navigationController,
             viewControllerBuilder: ViewControllerBuilder(),
+            urlOpener: UIApplication.shared,
+            configService: container.appConfigService.resolve(),
             analyticsService: container.analyticsService.resolve(),
             entitlements: entitlements
         )
