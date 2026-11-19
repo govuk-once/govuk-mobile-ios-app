@@ -916,6 +916,28 @@
         }
       }
     },
+    "licenceNotFoundBody" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You do not hold a driving licence issued in England, Scotland or Wales"
+          }
+        }
+      }
+    },
+    "licenceNotFoundTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No licence"
+          }
+        }
+      }
+    },
     "licenceNumberAccessibilityLabel" : {
       "extractionState" : "manual",
       "localizations" : {
