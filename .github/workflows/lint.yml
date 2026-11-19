@@ -19,7 +19,7 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@4e97ecde5048e1e0816923020652678063ffbf65 # pin@v1.339.0
         with:
-          ruby-version: '3.3.13' # Required for ubuntu
+          ruby-version: '3.3.14' # Required for ubuntu
           bundler-cache: true
 
       - name: SwiftLint
