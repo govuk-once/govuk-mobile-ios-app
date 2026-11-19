@@ -9,6 +9,9 @@ import Lottie
 
 @MainActor
 class SnapshotTestCase: FBSnapshotTestCase {
+    
+    //To allow for slight liquid glass snapshot shading differences
+    nonisolated static let renderingPerPixelTolerance: CGFloat = 0.025
 
     override func setUp() {
         super.setUp()
@@ -39,10 +42,12 @@ class SnapshotTestCase: FBSnapshotTestCase {
                                               prefersLargeTitles: Bool = false,
                                               file: StaticString = #file,
                                               line: UInt = #line) {
-        let navigationController = UINavigationController(rootViewController: viewController)
-        navigationController.setNavigationBarHidden(navBarHidden, animated: false)
-        navigationController.overrideUserInterfaceStyle = mode
-        navigationController.navigationBar.prefersLargeTitles = prefersLargeTitles
+        let navigationController = makeNavigationController(
+            rootViewController: viewController,
+            mode: mode,
+            navBarHidden: navBarHidden,
+            prefersLargeTitles: prefersLargeTitles
+        )
         VerifySnapshotInWindow(
             navigationController,
             overallTolerance: 0.001,
@@ -59,10 +64,12 @@ class SnapshotTestCase: FBSnapshotTestCase {
                                               file: StaticString = #file,
                                               line: UInt = #line,
                                               waitUntil condition: () -> Bool) async {
-        let navigationController = UINavigationController(rootViewController: viewController)
-        navigationController.setNavigationBarHidden(navBarHidden, animated: false)
-        navigationController.overrideUserInterfaceStyle = mode
-        navigationController.navigationBar.prefersLargeTitles = prefersLargeTitles
+        let navigationController = makeNavigationController(
+            rootViewController: viewController,
+            mode: mode,
+            navBarHidden: navBarHidden,
+            prefersLargeTitles: prefersLargeTitles
+        )
         wrapInWindow(navigationController)
 
         let deadline = ContinuousClock.now + timeout
@@ -74,9 +81,9 @@ class SnapshotTestCase: FBSnapshotTestCase {
             try? await Task.sleep(for: .milliseconds(10))
         }
 
-        FBSnapshotVerifyViewController(
-            navigationController,
-            perPixelTolerance: 0,
+        verifyRenderedSnapshot(
+            of: navigationController,
+            perPixelTolerance: Self.renderingPerPixelTolerance,
             overallTolerance: 0.001,
             file: file,
             line: line
@@ -109,13 +116,13 @@ class SnapshotTestCase: FBSnapshotTestCase {
     }
 
     func VerifySnapshotInWindow(_ viewController: UIViewController,
-                                perPixelTolerance: CGFloat = 0,
+                                perPixelTolerance: CGFloat = SnapshotTestCase.renderingPerPixelTolerance,
                                 overallTolerance: CGFloat = 0,
                                 file: StaticString = #file, 
                                 line: UInt = #line) {
         wrapInWindow(viewController)
-        FBSnapshotVerifyViewController(
-            viewController,
+        verifyRenderedSnapshot(
+            of: viewController,
             perPixelTolerance: perPixelTolerance,
             overallTolerance: overallTolerance,
             file: file,
@@ -179,10 +186,12 @@ class SnapshotTestCase: FBSnapshotTestCase {
                                               prefersLargeTitles: Bool = false,
                                               file: StaticString = #file,
                                               line: UInt = #line) {
-        let navigationController = UINavigationController(rootViewController: viewController)
-        navigationController.setNavigationBarHidden(navBarHidden, animated: false)
-        navigationController.overrideUserInterfaceStyle = mode
-        navigationController.navigationBar.prefersLargeTitles = prefersLargeTitles
+        let navigationController = makeNavigationController(
+            rootViewController: viewController,
+            mode: mode,
+            navBarHidden: navBarHidden,
+            prefersLargeTitles: prefersLargeTitles
+        )
         RecordSnapshotInWindow(
             navigationController,
             file: file,
@@ -196,8 +205,10 @@ class SnapshotTestCase: FBSnapshotTestCase {
         let initialRecordMode = recordMode
         recordMode = true
         wrapInWindow(viewController)
-        FBSnapshotVerifyViewController(
-            viewController,
+        verifyRenderedSnapshot(
+            of: viewController,
+            perPixelTolerance: 0,
+            overallTolerance: 0,
             file: file,
             line: line
         )
@@ -247,5 +258,47 @@ class SnapshotTestCase: FBSnapshotTestCase {
         let window = UIApplication.shared.window
         guard let window = window else { return }
         window.rootViewController = viewController
+    }
+
+    private func makeNavigationController(rootViewController: UIViewController,
+                                          mode: UIUserInterfaceStyle,
+                                          navBarHidden: Bool,
+                                          prefersLargeTitles: Bool) -> UINavigationController {
+        let navigationController = UINavigationController(rootViewController: rootViewController)
+        navigationController.setNavigationBarHidden(navBarHidden, animated: false)
+        navigationController.overrideUserInterfaceStyle = mode
+        navigationController.navigationBar.prefersLargeTitles = prefersLargeTitles
+        return navigationController
+    }
+
+    private func verifyRenderedSnapshot(of viewController: UIViewController,
+                                        perPixelTolerance: CGFloat,
+                                        overallTolerance: CGFloat,
+                                        file: StaticString,
+                                        line: UInt) {
+        viewController.view.bounds = UIScreen.main.bounds
+        viewController.viewWillAppear(false)
+        viewController.viewDidAppear(false)
+        let view: UIView = viewController.view
+        view.layoutIfNeeded()
+        removeAnimations(from: view.layer)
+
+        let format = UIGraphicsImageRendererFormat()
+        format.preferredRange = .standard
+        let image = UIGraphicsImageRenderer(bounds: view.bounds, format: format).image { _ in
+            view.drawHierarchy(in: view.bounds, afterScreenUpdates: true)
+        }
+        FBSnapshotVerifyView(
+            UIImageView(image: image),
+            perPixelTolerance: perPixelTolerance,
+            overallTolerance: overallTolerance,
+            file: file,
+            line: line
+        )
+    }
+
+    private func removeAnimations(from layer: CALayer) {
+        layer.removeAllAnimations()
+        layer.sublayers?.forEach { removeAnimations(from: $0) }
     }
 }
