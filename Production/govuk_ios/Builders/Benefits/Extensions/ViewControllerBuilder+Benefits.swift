@@ -5,17 +5,12 @@ import UIKit
 
 @MainActor
 protocol BenefitsViewControllerBuilding: AnyObject {
-    func makeBenefitsContainer(
-        analyticsService: AnalyticsServiceInterface,
-        configService: AppConfigServiceInterface,
-    ) -> UIViewController
+    func makeBenefitsContainer() -> UIViewController
 }
 
 @MainActor
 extension ViewControllerBuilder: BenefitsViewControllerBuilding {
     func makeBenefitsContainer(
-        analyticsService: AnalyticsServiceInterface,
-        configService: AppConfigServiceInterface,
     ) -> UIViewController {
         let viewModel = BenefitsContainerViewModel()
         let view = BenefitsContainerView(

@@ -7,15 +7,15 @@ final class BenefitsTopicWidgetCoordinator: BaseCoordinator,
     private let widgetViewBuilder: WidgetViewBuilder
     private let analyticsService: AnalyticsServiceInterface
     private let configService: AppConfigServiceInterface
-    private let coordinatorBuilder: CoordinatorBuilder
-    private let viewControllerBuilder: ViewControllerBuilder
+    private let coordinatorBuilder: BenefitsCoordinatorBuilding
+    private let viewControllerBuilder: BenefitsViewControllerBuilding
 
     init(navigationController: UINavigationController,
          analyticsService: AnalyticsServiceInterface,
          configService: AppConfigServiceInterface,
          coordinatorBuilder: CoordinatorBuilder,
          widgetViewBuilder: WidgetViewBuilder,
-         viewControllerBuilder: ViewControllerBuilder) {
+         viewControllerBuilder: BenefitsViewControllerBuilding) {
         self.analyticsService = analyticsService
         self.configService = configService
         self.coordinatorBuilder = coordinatorBuilder

@@ -2,7 +2,7 @@ import Foundation
 import Combine
 
 @MainActor
-class BenefitsContainerViewModel: ObservableObject {
+final class BenefitsContainerViewModel: ObservableObject {
     @Published var selectedTab: BenefitTab = .yourBenefits
     @Published var benefits: [BenefitsSummaryCard] = []
 
@@ -12,6 +12,11 @@ class BenefitsContainerViewModel: ObservableObject {
 
     var filteredBenefits: [BenefitsSummaryCard] {
         benefits.filter { $0.category == selectedTab }
+    }
+
+    func toggleAmountVisibility(for id: UUID) {
+        guard let index = benefits.firstIndex(where: { $0.id == id }) else { return }
+        benefits[index].isAmountHidden.toggle()
     }
 
     func loadBenefits() {
@@ -42,7 +47,17 @@ class BenefitsContainerViewModel: ObservableObject {
 }
 
 enum BenefitTab: String, CaseIterable, Identifiable, Hashable {
-    case yourBenefits = "Your Benefits"
-    case otherBenefits = "Other Benefits"
+    case yourBenefits
+    case otherBenefits
+
     var id: String { rawValue }
+
+    var title: String {
+        switch self {
+        case .yourBenefits:
+            return "Your Benefits"
+        case .otherBenefits:
+            return "Other Benefits"
+        }
+    }
 }

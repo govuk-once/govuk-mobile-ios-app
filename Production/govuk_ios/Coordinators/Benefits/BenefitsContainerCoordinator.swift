@@ -21,10 +21,7 @@ final class BenefitsContainerCoordinator: BaseCoordinator {
     }
 
     override func start(url: URL?) {
-        let viewController = viewControllerBuilder.makeBenefitsContainer(
-            analyticsService: analyticsService,
-            configService: configService,
-        )
+        let viewController = viewControllerBuilder.makeBenefitsContainer()
         push(viewController)
     }
 }
