@@ -35,15 +35,10 @@ struct SettingsViewModelURLParameters {
 
 // swiftlint:disable:next type_body_length
 class SettingsViewModel: SettingsViewModelInterface {
-    var yourAccountsAction: (() -> Void)?
     private enum MessagesState {
         case loading, error, success(unreadCount: Int)
     }
 
-    @Published private var messagesState: MessagesState = .loading
-    private var messagesStateCancelable: AnyCancellable?
-
-    let title: String = String(localized: .Settings.pageTitle)
     private let analyticsService: AnalyticsServiceInterface
     private let urlOpener: URLOpener
     private let versionProvider: AppVersionProvider
@@ -53,14 +48,19 @@ class SettingsViewModel: SettingsViewModelInterface {
     private let appConfigService: AppConfigServiceInterface
     private let userService: UserServiceInterface
     private let notificationCentreService: NotificationCentreServiceInterface
+    private let notificationService: NotificationServiceInterface
+    private let notificationCenter: NotificationCenter
+    private var messagesStateCancelable: AnyCancellable?
 
+    let title: String = String(localized: .Settings.pageTitle)
     @Published var listContent: [GroupedListSection] = []
     @Published var scrollToTop: Bool = false
     @Published var displayNotificationSettingsAlert: Bool = false
+    @Published private var messagesState: MessagesState = .loading
+    @Published private(set) var userEmail: String?
     @Published private(set) var notificationsPermissionState: NotificationPermissionState
     = .notDetermined
-    private let notificationService: NotificationServiceInterface
-    private let notificationCenter: NotificationCenter
+
     var notificationsAction: (() -> Void)?
     var notificationCentreAction: (() -> Void)?
     var localAuthenticationAction: (() -> Void)?
@@ -70,7 +70,7 @@ class SettingsViewModel: SettingsViewModelInterface {
     var signoutAction: (() -> Void)?
     var openAction: ((SettingsViewModelURLParameters) -> Void)?
     var sarAction: (() -> Void)?
-    @Published private(set) var userEmail: String?
+    var yourAccountsAction: (() -> Void)?
 
     init(analyticsService: AnalyticsServiceInterface,
          urlOpener: URLOpener,
