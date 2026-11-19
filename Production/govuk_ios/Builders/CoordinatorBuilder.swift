@@ -300,7 +300,8 @@ class CoordinatorBuilder: ServiceAccountCoordinatorBuilding {
                 analyticsService: container.analyticsService.resolve(),
                 configService: container.appConfigService.resolve(),
                 coordinatorBuilder: self,
-                widgetViewBuilder: WidgetViewBuilder()
+                widgetViewBuilder: WidgetViewBuilder(),
+                viewControllerBuilder: ViewControllerBuilder()
             )
         default:
             return nil

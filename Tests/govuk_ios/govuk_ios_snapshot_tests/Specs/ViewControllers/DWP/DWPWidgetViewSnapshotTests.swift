@@ -6,15 +6,16 @@ import GovKit
 @testable import govuk_ios
 
 @MainActor
-class DWPWidgetViewSnapshotTests: SnapshotTestCase {
+class BenefitsWidgetViewSnapshotTests: SnapshotTestCase {
     func test_linkAccountCard_light_rendersCorrectly() {
-        let viewModel = DWPWidgetViewModel(
+        let viewModel = BenefitsWidgetViewModel(
             analyticsService: MockAnalyticsService(),
             state: .unlinked(
                 linkCard: linkCardViewModel
-            )
+            ),
+            linkAction: {}
         )
-        let view = DWPWidgetView(viewModel: viewModel)
+        let view = BenefitsWidgetView(viewModel: viewModel)
         let hostingViewController = HostingViewController(
             rootView: view
         )
@@ -26,13 +27,14 @@ class DWPWidgetViewSnapshotTests: SnapshotTestCase {
     }
 
     func test_linkAccountCard_dark_rendersCorrectly() {
-        let viewModel = DWPWidgetViewModel(
+        let viewModel = BenefitsWidgetViewModel(
             analyticsService: MockAnalyticsService(),
             state: .unlinked(
                 linkCard: linkCardViewModel
-            )
+            ),
+            linkAction: {}
         )
-        let view = DWPWidgetView(viewModel: viewModel)
+        let view = BenefitsWidgetView(viewModel: viewModel)
         let hostingViewController = HostingViewController(
             rootView: view
         )

@@ -6,16 +6,18 @@ import Testing
 
 @Suite
 @MainActor
-struct DWPWidgetViewModelTests {
+struct BenefitsWidgetViewModelTests {
     private let mockAnalyticsService = MockAnalyticsService()
-    private lazy var sut = DWPWidgetViewModel(
-        analyticsService: mockAnalyticsService
+    private lazy var sut = BenefitsWidgetViewModel(
+        analyticsService: mockAnalyticsService,
+        linkAction: {}
     )
 
     @Test
      func init_setsInitialStateToLoading() {
-         let sut = DWPWidgetViewModel(
-             analyticsService: MockAnalyticsService()
+         let sut = BenefitsWidgetViewModel(
+            analyticsService: MockAnalyticsService(),
+            linkAction: {}
          )
          
          #expect({
@@ -26,8 +28,9 @@ struct DWPWidgetViewModelTests {
     
     @Test
     func fetchDWPData_updatesStateToUnlinkedWithExpectedCardDetails() async {
-        let sut = DWPWidgetViewModel(
-            analyticsService: MockAnalyticsService()
+        let sut = BenefitsWidgetViewModel(
+            analyticsService: MockAnalyticsService(),
+            linkAction: {}
         )
         var stateUpdates = sut.$state
             .dropFirst()
