@@ -51,6 +51,38 @@ class SnapshotTestCase: FBSnapshotTestCase {
         )
     }
 
+    func VerifySnapshotInNavigationController(viewController: UIViewController,
+                                              mode: UIUserInterfaceStyle,
+                                              navBarHidden: Bool = false,
+                                              prefersLargeTitles: Bool = false,
+                                              timeout: Duration = .seconds(2),
+                                              file: StaticString = #file,
+                                              line: UInt = #line,
+                                              waitUntil condition: () -> Bool) async {
+        let navigationController = UINavigationController(rootViewController: viewController)
+        navigationController.setNavigationBarHidden(navBarHidden, animated: false)
+        navigationController.overrideUserInterfaceStyle = mode
+        navigationController.navigationBar.prefersLargeTitles = prefersLargeTitles
+        wrapInWindow(navigationController)
+
+        let deadline = ContinuousClock.now + timeout
+        while !condition() {
+            guard ContinuousClock.now < deadline, !Task.isCancelled else {
+                XCTFail("Snapshot state was not reached before timeout", file: file, line: line)
+                return
+            }
+            try? await Task.sleep(for: .milliseconds(10))
+        }
+
+        FBSnapshotVerifyViewController(
+            navigationController,
+            perPixelTolerance: 0,
+            overallTolerance: 0.001,
+            file: file,
+            line: line
+        )
+    }
+
     func VerifySnapshotWindowWithDelay(view: some View,
                                        mode: UIUserInterfaceStyle,
                                        overallTolerance: CGFloat = 0.001,
