@@ -11,7 +11,7 @@ final class AmbiguousAuthorityViewControllerSnapshotTests: SnapshotTestCase {
         VerifySnapshotInNavigationController(
             viewController: viewController(),
             mode: .light,
-            prefersLargeTitles: true
+            prefersLargeTitles: false
         )
     }
 
@@ -19,7 +19,7 @@ final class AmbiguousAuthorityViewControllerSnapshotTests: SnapshotTestCase {
         VerifySnapshotInNavigationController(
             viewController: viewController(),
             mode: .dark,
-            prefersLargeTitles: true
+            prefersLargeTitles: false
         )
     }
 

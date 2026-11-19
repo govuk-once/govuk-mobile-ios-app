@@ -106,6 +106,7 @@ extension ViewControllerBuilder: DVLAViewControllerBuilding {
         let viewController = HostingViewController(
             rootView: view
         )
+        viewController.view.backgroundColor = .govUK.fills.surfaceModal
         viewController.shouldAutoFocusVoiceover = false
         return viewController
     }
