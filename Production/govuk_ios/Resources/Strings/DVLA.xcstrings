@@ -1411,6 +1411,17 @@
         }
       }
     },
+    "submitButtonLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Submit"
+          }
+        }
+      }
+    },
     "taxStatusTitle" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1418,6 +1429,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tax"
+          }
+        }
+      }
+    },
+    "textClearedAnnouncement" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Text cleared"
           }
         }
       }
