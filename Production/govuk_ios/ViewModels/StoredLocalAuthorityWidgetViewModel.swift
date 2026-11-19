@@ -4,37 +4,37 @@ import SwiftUI
 
 class StoredLocalAuthorityWidgetViewModel {
     private let analyticsService: AnalyticsServiceInterface
-    let localAuthorities: [LocalAuthorityItem]
-    let openEditViewAction: () -> Void
+    private let localAuthorityService: LocalAuthorityServiceInterface
     private let openURLAction: (URL) -> Void
+    private let deleteCompletion: () -> Void
+    private let openEditViewAction: () -> Void
+    let localAuthorities: [LocalAuthorityItem]
 
-    let title = String.localAuthority.localized(
-        "localServicesTitle"
+    let removeLocalAuthorityButtonTitle = String(
+        localized: .LocalAuthority.removeLocalAuthorityButtonTitle
     )
-    let editButtonTitle = String.common.localized(
-        "editButtonTitle"
+    let changeLocalAuthorityButtonTitle = String(
+        localized: .LocalAuthority.changeLocalAuthorityButtonTitle
     )
-    let editButtonAltText = String.localAuthority.localized(
-        "localAuthorityEditButtonAltText"
-    )
-    let twoTierAuthorityDescription: String = String.localAuthority.localized(
-        "storedLocalAuthorityWidgetTwoTierDescription"
-    )
-    private let localAuthorityTwoTierParentDescription = String.localAuthority.localized(
-        "localAuthorityTwoTierParentDescription"
-    )
-    private let localAuthorityTwoTierChildDescription = String.localAuthority.localized(
-        "localAuthorityTwoTierChildDescription"
-    )
+    var removeLocalAuthorityAlertTitle: String {
+        localAuthorities.count > 1 ?
+        String(localized: .LocalAuthority.removeLocalAuthoritiesAlertTitle) :
+        String(localized: .LocalAuthority.removeLocalAuthorityAlertTitle)
+    }
 
     init(analyticsService: AnalyticsServiceInterface,
+         localAuthorityService: LocalAuthorityServiceInterface,
          localAuthorities: [LocalAuthorityItem],
          openURLAction: @escaping (URL) -> Void,
-         openEditViewAction: @escaping () -> Void) {
+         openEditViewAction: @escaping () -> Void,
+         deleteCompletion: @escaping () -> Void
+    ) {
         self.analyticsService = analyticsService
+        self.localAuthorityService = localAuthorityService
         self.localAuthorities = localAuthorities
         self.openURLAction = openURLAction
         self.openEditViewAction = openEditViewAction
+        self.deleteCompletion = deleteCompletion
     }
 
     func open(item: StoredLocalAuthorityCardModel) {
@@ -56,10 +56,36 @@ class StoredLocalAuthorityWidgetViewModel {
         }
     }
 
+    func deleteAction() {
+        localAuthorityService.deleteLocalAuthorities { [weak self] in
+            DispatchQueue.main.async {
+                self?.deleteCompletion()
+            }
+        }
+
+        let event = AppEvent.buttonFunction(
+            text: removeLocalAuthorityButtonTitle,
+            section: "Local",
+            action: "Remove"
+        )
+        analyticsService.track(event: event)
+    }
+
+    func changeAction() {
+        openEditViewAction()
+
+        let event = AppEvent.buttonFunction(
+            text: changeLocalAuthorityButtonTitle,
+            section: "Local",
+            action: "Change"
+        )
+        analyticsService.track(event: event)
+    }
+
     private func returnCardDescription(authority: LocalAuthorityItem) -> String {
         authority.parent != nil ?
-        localAuthorityTwoTierChildDescription :
-        localAuthorityTwoTierParentDescription
+        String(localized: .LocalAuthority.localAuthorityTwoTierChildDescription) :
+        String(localized: .LocalAuthority.localAuthorityTwoTierParentDescription)
     }
 
     private func trackNavigationEvent(_ title: String,

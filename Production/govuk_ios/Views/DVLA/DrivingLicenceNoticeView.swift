@@ -11,6 +11,7 @@ struct DrivingLicenceNoticeView: View {
                 .padding(.top, 64)
                 .padding([.horizontal, .bottom], 16)
                 .frame(maxWidth: .infinity, alignment: .leading)
+                .accessibilityAddTraits(.isHeader)
             Divider()
             Text(viewModel.body)
                 .font(.govUK.body)
@@ -19,17 +20,19 @@ struct DrivingLicenceNoticeView: View {
                 .padding(.leading, 16)
                 .padding(.trailing, 60)
                 .frame(maxWidth: .infinity, alignment: .leading)
-            Divider()
-            button
+            if let action = viewModel.action {
+                Divider()
+                button(for: action)
+            }
         }
     }
 
-    private var button: some View {
+    private func button(for action: DrivingLicenceNoticeViewModel.Action) -> some View {
         Button(
-            action: viewModel.action,
+            action: action.handler,
             label: {
                 HStack {
-                    Text(viewModel.buttonTitle)
+                    Text(action.buttonTitle)
                         .font(.govUK.body)
                         .foregroundStyle(Color(uiColor: .govUK.text.link))
                         .multilineTextAlignment(.leading)
