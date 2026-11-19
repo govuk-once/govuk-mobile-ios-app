@@ -138,13 +138,16 @@ public struct NotificationCentreDetailLoadedView: View {
                     .accessibilityAddTraits(.isHeader)
 
 
-                Markdown(notification.body)
-                    .markdownTheme(.govUKNotification)
-                    .fixedSize(horizontal: false, vertical: true)
-                    .environment(\.openURL, OpenURLAction { url in
-                        onLinkTapped(url)
-                        return .handled
-                    })
+                Markdown(
+                    notification.body)
+                .markdownTheme(.govUKNotification)
+                .environment(
+                    \.openURL,
+                     OpenURLAction { url in
+                         onLinkTapped(url)
+                         return .handled
+                     }
+                )
             }
             .padding(.top, 24)
             .padding(.horizontal, 16)
