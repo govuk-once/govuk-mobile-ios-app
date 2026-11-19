@@ -9,6 +9,7 @@ protocol LocalAuthorityServiceInterface {
         completion: @escaping (Result<[Authority], LocalAuthorityError>) -> Void
     )
     func saveLocalAuthority(_ localAuthority: Authority)
+    func deleteLocalAuthorities(completion: @escaping () -> Void)
 }
 
 class LocalAuthorityService: LocalAuthorityServiceInterface {
@@ -72,5 +73,9 @@ class LocalAuthorityService: LocalAuthorityServiceInterface {
 
     func saveLocalAuthority(_ localAuthority: Authority) {
         repository.save(localAuthority)
+    }
+
+    func deleteLocalAuthorities(completion: @escaping () -> Void) {
+        repository.delete { completion() }
     }
 }

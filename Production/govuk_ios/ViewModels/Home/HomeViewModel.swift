@@ -114,9 +114,13 @@ class HomeViewModel: ObservableObject {
 
         let viewModel = StoredLocalAuthorityWidgetViewModel(
             analyticsService: analyticsService,
+            localAuthorityService: localAuthorityService,
             localAuthorities: localAuthorities,
             openURLAction: openURLAction,
-            openEditViewAction: editLocalAuthorityAction
+            openEditViewAction: editLocalAuthorityAction,
+            deleteCompletion: { [weak self] in
+                self?.updateWidgets()
+            }
         )
         let view = StoredLocalAuthorityWidgetView(
             viewModel: viewModel
