@@ -95,7 +95,7 @@
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Change postcode"
+            "value" : "Change council"
           }
         }
       }
@@ -414,7 +414,7 @@
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Remove postcode"
+            "value" : "Remove council"
           }
         }
       }
