@@ -50,10 +50,11 @@ class SettingsViewModel: SettingsViewModelInterface {
     private let notificationCentreService: NotificationCentreServiceInterface
     private let notificationService: NotificationServiceInterface
     private let notificationCenter: NotificationCenter
-    private var messagesStateCancelable: AnyCancellable?
 
     let title: String = String(localized: .Settings.pageTitle)
-    @Published var listContent: [GroupedListSection] = []
+    var listContent: [GroupedListSection] {
+        getGroupedList()
+    }
     @Published var scrollToTop: Bool = false
     @Published var displayNotificationSettingsAlert: Bool = false
     @Published private var messagesState: MessagesState = .loading
@@ -96,15 +97,6 @@ class SettingsViewModel: SettingsViewModelInterface {
         self.notificationCentreService = notificationCentreService
         updateNotificationPermissionState()
         observeAppMoveToForeground()
-
-        messagesStateCancelable = $messagesState.sink { [weak self] _ in
-            Task { @MainActor in
-                guard let self else { return }
-                self.listContent = self.getGroupedList()
-            }
-        }
-        // Set the initial state
-        self.listContent = self.getGroupedList()
     }
 
     private func observeAppMoveToForeground() {
@@ -163,30 +155,29 @@ class SettingsViewModel: SettingsViewModelInterface {
     func updateEmail() {
         Task { @MainActor in
             userEmail = await authenticationService.userEmail
-            listContent = getGroupedList()
         }
     }
 
     func loadMessages() {
-        Task {
-            await update(messagesState: .loading)
-            await loadMessageCount()
-        }
-    }
+        messagesState = .loading
 
-    @MainActor
-    private func update(messagesState: MessagesState) {
-        self.messagesState = messagesState
-    }
+        notificationCentreService.fetchNotifications { [weak self] result in
+            let unreadCount: Int?
+            switch result {
+            case .success(let notifications):
+                unreadCount = notifications.count(where: \.isUnread)
+            case .failure:
+                unreadCount = nil
+            }
 
-    @MainActor
-    private func loadMessageCount() {
-        notificationCentreService.fetchNotifications { [weak self] res in
-            if case .success(let notifications) = res {
-                let unreadCount = notifications.count(where: \.isUnread)
-                self?.update(messagesState: .success(unreadCount: unreadCount))
-            } else {
-                self?.update(messagesState: .success(unreadCount: 0))
+            Task { @MainActor [weak self] in
+                guard let self else { return }
+
+                if let unreadCount {
+                    self.messagesState = .success(unreadCount: unreadCount)
+                } else {
+                    self.messagesState = .error
+                }
             }
         }
     }
@@ -239,18 +230,23 @@ class SettingsViewModel: SettingsViewModelInterface {
     }
 
     private var messagesSection: GroupedListSection? {
-        var state: CountRow.State
+        let state: CountRow.State
 
         switch messagesState {
         case .loading:
-             state = .loading
+            state = .loading
         case .success(let unreadCount):
-           state = .idle(showIndicator: unreadCount > 0, count: unreadCount)
+            state = .idle(
+                showIndicator: unreadCount > 0,
+                count: unreadCount
+            )
         case .error:
-            return nil
+            state = .idle(showIndicator: false, count: 0)
         }
+
         return GroupedListSection(
-            heading: nil, rows: [
+            heading: nil,
+            rows: [
                 CountRow(
                     id: "settings.messages.row",
                     title: String(localized: .Settings.messagesTitle),
@@ -261,8 +257,11 @@ class SettingsViewModel: SettingsViewModelInterface {
                             external: false
                         )
                         self?.notificationCentreAction?()
-                    })
-            ], footer: nil)
+                    }
+                )
+            ],
+            footer: nil
+        )
     }
 
     // MARK: - Sign out
