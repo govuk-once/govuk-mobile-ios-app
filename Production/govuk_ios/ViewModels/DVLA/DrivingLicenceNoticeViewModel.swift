@@ -1,8 +1,11 @@
 import Foundation
 
 struct DrivingLicenceNoticeViewModel {
+    struct Action {
+        let buttonTitle: String
+        let handler: () -> Void
+    }
     let title: String
     let body: String
-    let buttonTitle: String
-    let action: () -> Void
+    let action: Action?
 }
