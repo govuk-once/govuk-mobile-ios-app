@@ -54,24 +54,24 @@ struct BenefitsContainerView: View {
                             Button {
                             } label: {
                                 Image(systemName: "ellipsis.circle.fill")
-                                    .foregroundColor(Color(UIColor.govUK.text.link))
+                                    .foregroundColor(
+                                        Color(UIColor.govUK.text.link)
+                                    )
                                     .font(Font.govUK.title1)
                                     .fontWeight(.bold)
                             }
                             .buttonStyle(.plain)
                         }
-
                         Spacer().frame(height: 16)
-
                         VStack(alignment: .leading, spacing: 6) {
                             HStack(spacing: 8) {
                                 Text(benefit.isAmountHidden ? "£**.**" : benefit.amount)
                                     .foregroundColor(Color(UIColor.govUK.text.primary))
                                     .font(Font.govUK.bodySemibold)
                                 Button {
-                                    // viewModel.toggleAmountVisibility(for: benefit)
                                 } label: {
-                                    Image(systemName: benefit.isAmountHidden ? "eye.slash" : "eye")
+                                    Image(systemName: benefit.isAmountHidden ? "eye.slash" : "eye"
+                                    )
                                         .foregroundColor(Color(UIColor.govUK.text.primary))
                                         .fontWeight(.semibold)
                                 }
@@ -79,24 +79,30 @@ struct BenefitsContainerView: View {
                             }
                             Text(benefit.nextPaymentText)
                                 .font(Font.govUK.body)
-                                .foregroundColor(Color(UIColor.govUK.text.primary))
+                                .foregroundColor(
+                                    Color(
+                                        UIColor.govUK.text.primary
+                                    )
+                                )
                         }
-
                         Rectangle()
                             .fill(Color(UIColor.govUK.strokes.listDivider))
                             .frame(height: 1)
                             .padding(.vertical, 14)
-
                         Button {
                         } label: {
                             HStack {
                                 Text("Payment history")
-                                    .foregroundColor(Color(UIColor.govUK.text.primary))
+                                    .foregroundColor(
+                                        Color(UIColor.govUK.text.primary)
+                                    )
                                     .font(Font.govUK.body)
                                 Spacer()
                                 Image(systemName: "chevron.right")
                                     .font(Font.govUK.bodySemibold)
-                                    .foregroundColor(Color(UIColor.govUK.text.iconTertiary))
+                                    .foregroundColor(
+                                        Color(UIColor.govUK.text.iconTertiary)
+                                    )
                             }
                             .contentShape(Rectangle())
                         }
@@ -104,7 +110,12 @@ struct BenefitsContainerView: View {
                     }
                     .padding(20)
                     .background(Color(UIColor.govUK.fills.surfaceCardDefault))
-                    .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                    .clipShape(
+                        RoundedRectangle(
+                            cornerRadius: 16,
+                            style: .continuous
+                        )
+                    )
                 }
             }
             .padding(.horizontal, 16)

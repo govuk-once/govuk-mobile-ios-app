@@ -5,7 +5,7 @@ import Foundation
 import FactoryKit
 
 @MainActor
-protocol DWPCoordinatorBuilding {
+protocol BenefitsCoordinatorBuilding {
     func benefitsContainer(
         navigationController: UINavigationController,
         viewControllerBuilder: ViewControllerBuilder,
@@ -15,7 +15,7 @@ protocol DWPCoordinatorBuilding {
 }
 
 @MainActor
-extension CoordinatorBuilder: DWPCoordinatorBuilding {
+extension CoordinatorBuilder: BenefitsCoordinatorBuilding {
     func benefitsContainer(
         navigationController: UINavigationController,
         viewControllerBuilder: ViewControllerBuilder,

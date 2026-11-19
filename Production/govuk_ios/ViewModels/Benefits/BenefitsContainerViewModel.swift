@@ -4,34 +4,33 @@ import Combine
 @MainActor
 class BenefitsContainerViewModel: ObservableObject {
     @Published var selectedTab: BenefitTab = .yourBenefits
-    @Published var benefits: [BenefitItem] = []
-    @Published var selectedHistoryBenefit: BenefitItem?
+    @Published var benefits: [BenefitsSummaryCard] = []
 
     init() {
         loadBenefits()
     }
 
-    var filteredBenefits: [BenefitItem] {
+    var filteredBenefits: [BenefitsSummaryCard] {
         benefits.filter { $0.category == selectedTab }
     }
 
     func loadBenefits() {
         benefits = [
-            BenefitItem(
+            BenefitsSummaryCard(
                 title: "State Pension",
                 frequency: "Paid every 4 weeks",
                 amount: "£884.80",
                 nextPaymentText: "1 November 2027 (in 2 days)",
                 category: .yourBenefits
             ),
-            BenefitItem(
+            BenefitsSummaryCard(
                 title: "Winter Fuel Payment",
                 frequency: "Paid annually",
                 amount: "£200.00",
                 nextPaymentText: "15 November 2027 (in 16 days)",
                 category: .yourBenefits
             ),
-            BenefitItem(
+            BenefitsSummaryCard(
                 title: "Pension Credit",
                 frequency: "Check eligibility",
                 amount: "£0.00",
@@ -39,16 +38,6 @@ class BenefitsContainerViewModel: ObservableObject {
                 category: .otherBenefits
             )
         ]
-    }
-
-    func toggleAmountVisibility(for id: UUID) {
-        if let index = benefits.firstIndex(where: { $0.id == id }) {
-            benefits[index].isAmountHidden.toggle()
-        }
-    }
-
-    func selectPaymentHistory(for benefit: BenefitItem) {
-        selectedHistoryBenefit = benefit
     }
 }
 

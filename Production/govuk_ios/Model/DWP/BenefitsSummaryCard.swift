@@ -1,6 +1,6 @@
 import Foundation
 
-struct BenefitItem: Identifiable {
+struct BenefitsSummaryCard: Identifiable {
     let id = UUID()
     let title: String
     let frequency: String
