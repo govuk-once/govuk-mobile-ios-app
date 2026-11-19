@@ -29,6 +29,7 @@ class MockTravelService: TravelServiceInterface {
     var _getCountriesCalledWithForceRefresh = false
     var _receivedGetCountriesCompletion: CountriesListResultCompletion?
     var _getCountriesCompletion: (() -> Void)?
+    var _autoCallGetCountriesCompletion = true
 
     func getCountries(
         forceRefresh: Bool,
@@ -40,6 +41,7 @@ class MockTravelService: TravelServiceInterface {
         }
         _receivedGetCountriesCompletion = completion
 
+        guard _autoCallGetCountriesCompletion else { return }
         if let result = _stubbedGetCountriesResult {
             completion(result)
         } else {
