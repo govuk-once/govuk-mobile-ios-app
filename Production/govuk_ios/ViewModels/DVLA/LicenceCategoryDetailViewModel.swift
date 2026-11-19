@@ -8,7 +8,6 @@ struct RestrictionDisplayRow: Identifiable {
 }
 
 class LicenceCategoryDetailViewModel: ObservableObject {
-    private let displayMetadataBuilder = LicenceCategoryDisplayMetadataBuilder()
     private let dateFormatter: DateFormatter = .dvlaAccount
     private let analyticsService: AnalyticsServiceInterface
     private let entitlement: Entitlement
@@ -47,7 +46,9 @@ class LicenceCategoryDetailViewModel: ObservableObject {
         self.entitlement = entitlement
         self.analyticsService = analyticsService
         self.dismissAction = dismissAction
-        displayMetadata = displayMetadataBuilder.buildMetadata(for: entitlement.categoryCode)
+        self.displayMetadata = LicenceCategoryDisplayMetadata(
+            categoryCode: entitlement.categoryCode
+        )
         self.restrictionRows = entitlement.restrictions.map {
             .init(
                 id: UUID().uuidString,
