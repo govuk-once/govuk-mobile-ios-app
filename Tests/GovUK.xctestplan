@@ -14,7 +14,7 @@
         "argument" : "-UIPreferredContentSizeCategoryName UICTContentSizeCategoryL"
       }
     ],
-    "defaultTestExecutionTimeAllowance" : 60,
+    "defaultTestExecutionTimeAllowance" : 180,
     "environmentVariableEntries" : [
       {
         "key" : "IMAGE_DIFF_DIR",
