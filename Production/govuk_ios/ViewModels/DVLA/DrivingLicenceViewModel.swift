@@ -219,4 +219,28 @@ class DrivingLicenceViewModel: ObservableObject {
             )
         )
     }
+
+    private var licenceRevokedForMedicalReasonsViewModel: DrivingLicenceNoticeViewModel {
+        let buttonTitle = String(localized: .DVLA.licenceCheckIfYouCanReapplyButtonTitle)
+        let url = configService.dvlaUrls?.reapplyForLicenceHealthCondition
+                    ?? Constants.API.defaultLicenceHealthConditionURL
+
+        let body = [
+            String(localized: .DVLA.licenceHasBeenCancelledByDVLA),
+            String(localized: .DVLA.licenceCheckWebsiteIfYouCanReapply)
+        ].joined(separator: "\n\n")
+
+        let viewModel = DrivingLicenceNoticeViewModel(
+            title: String(localized: .DVLA.revokedTitle),
+            titleStyle: .revoked,
+            body: body,
+            action: .init(
+                buttonTitle: buttonTitle,
+                handler: { [weak self] in
+                    self?.handleOpenURL(url: url, buttonTitle: buttonTitle)
+                }
+            )
+        )
+        return viewModel
+    }
 }
