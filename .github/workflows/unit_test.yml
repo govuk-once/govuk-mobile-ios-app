@@ -45,6 +45,16 @@ jobs:
           path: FailureDiffs
           retention-days: 1
 
+      - name: Archive build logs
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # pin@v7.0.1
+        with:
+          name: BuildLogs
+          path: |
+            build_for_unit_testing/Logs/Build
+            ~/Library/Logs/scan
+          retention-days: 1
+
       - name: Save code coverage results
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # pin@v7.0.1
         with:
