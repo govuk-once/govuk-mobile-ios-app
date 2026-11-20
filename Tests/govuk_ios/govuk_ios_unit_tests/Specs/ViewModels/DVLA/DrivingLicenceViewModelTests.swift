@@ -223,3 +223,86 @@ struct DrivingLicenceViewModelTests {
     }
 }
 
+// MARK: - Tests for Revoked Licence...
+extension DrivingLicenceViewModelTests {
+
+    private func makeSUT(
+        openURLAction: @escaping (URL) -> Void
+    ) -> DrivingLicenceViewModel {
+        DrivingLicenceViewModel(
+            analyticsService: mockAnalyticsService,
+            dvlaService: mockDvlaService,
+            configService: mockConfigService,
+            categoriesAction: { _ in },
+            openURLAction: openURLAction
+        )
+    }
+
+    @Test
+    func viewDidAppear_calledMultipleTimesAfterSuccess_fetchesLicenceOnlyOnce() async {
+        mockDvlaService._stubbedFetchDrivingLicenceResult = .success(.arrange)
+        let sut = makeSUT(openURLAction: { _ in })
+
+        await sut.viewDidAppear()
+        await sut.viewDidAppear()
+
+        #expect(mockDvlaService._fetchDrivingLicenceCallCount == 1)
+    }
+
+    @Test
+    func viewDidAppear_fetchLicenceSuccess_licenceStatusRevokedForMedicalReasons_createsNoticeViewModel() async throws {
+        var openedURL: URL?
+        mockDvlaService._stubbedFetchDrivingLicenceResult = .success(
+            .arrange(licenceStatus: .revokedForMedicalReasons)
+        )
+        let sut = makeSUT(openURLAction: { openedURL = $0 })
+
+        await sut.viewDidAppear()
+
+        var licenceNoticeViewModel: DrivingLicenceNoticeViewModel?
+        if case .notice(let notice) = sut.viewState {
+            licenceNoticeViewModel = notice
+        }
+        let unwrappedLicenceNoticeViewModel = try #require(licenceNoticeViewModel)
+        let expectedBody = [
+            String(localized: .DVLA.licenceHasBeenCancelledByDVLA),
+            String(localized: .DVLA.licenceCheckWebsiteIfYouCanReapply)
+        ].joined(separator: "\n\n")
+        let expectedButtonTitle = String(localized: .DVLA.licenceCheckIfYouCanReapplyButtonTitle)
+        let expectedURL = Constants.API.defaultLicenceHealthConditionURL
+
+        #expect(unwrappedLicenceNoticeViewModel.title == String(localized: .DVLA.revokedTitle))
+        #expect(unwrappedLicenceNoticeViewModel.titleStyle == .inverted)
+        #expect(unwrappedLicenceNoticeViewModel.body == expectedBody)
+        #expect(unwrappedLicenceNoticeViewModel.action?.buttonTitle == expectedButtonTitle)
+
+        unwrappedLicenceNoticeViewModel.action?.handler()
+
+        #expect(openedURL == expectedURL)
+        let trackedEvent = try #require(mockAnalyticsService._trackedEvents.first)
+        #expect(trackedEvent.name == "Navigation")
+        #expect(trackedEvent.params?["text"] as? String == expectedButtonTitle)
+        #expect(trackedEvent.params?["url"] as? String == expectedURL.absoluteString)
+        #expect(trackedEvent.params?["section"] as? String == "Driving")
+        #expect(trackedEvent.params?["type"] as? String == "Button")
+    }
+
+    @Test
+    func licenceSummaryViewModelMenuSelectionAction_opensURL() async throws {
+        var openedURL: URL?
+        let expectedURL = try #require(URL(string: "https://dvla.gov.uk/menu-action"))
+        mockDvlaService._stubbedFetchDrivingLicenceResult = .success(.arrange)
+        let sut = makeSUT(openURLAction: { openedURL = $0 })
+
+        await sut.viewDidAppear()
+
+        var licenceSummaryViewModel: DrivingLicenceSummaryViewModel?
+        if case .loaded(let loadedState) = sut.viewState {
+            licenceSummaryViewModel = loadedState.licenceSummary
+        }
+        let unwrappedLicenceSummaryViewModel = try #require(licenceSummaryViewModel)
+        unwrappedLicenceSummaryViewModel.menuSelectionAction(expectedURL)
+
+        #expect(openedURL == expectedURL)
+    }
+}

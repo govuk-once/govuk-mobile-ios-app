@@ -122,6 +122,10 @@ extension Constants.API {
         string: "https://www.gov.uk/contact-the-dvla"
     )!
 
+    public static let defaultLicenceHealthConditionURL: URL = URL(
+        string: "https://www.gov.uk/reapply-driving-licence-health-condition"
+    )!
+
     public static let defaultDvlaCategoriesCompareOldAndNewUrl: URL = URL(
         string: "https://www.gov.uk/old-driving-licence-categories"
     )!

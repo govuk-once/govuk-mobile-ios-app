@@ -72,6 +72,7 @@ struct DvlaURLs: Decodable {
     let compareOldNewLicenceCategories: URL?
     let vehicleWeightExplained: URL?
     let addCategoriesToLicence: URL?
+    let reapplyForLicenceHealthCondition: URL?
 }
 
 struct TermsAndConditions: Decodable {
