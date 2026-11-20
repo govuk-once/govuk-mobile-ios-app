@@ -1,10 +1,10 @@
 import Foundation
 import XCTest
 import UIKit
-import GovKit
 import Combine
 
 @testable import govuk_ios
+@testable import GovKit
 
 @MainActor
 class SettingsViewControllerSnapshotTests: SnapshotTestCase {
@@ -189,7 +189,6 @@ class SettingsViewControllerSnapshotTests: SnapshotTestCase {
         userService._stubbedLinkedAccounts = [.dvla]
         notificationCentreService._stubbedFetchNotificationsResult = .success(notifications)
         let viewModel = assembleSUT()
-        viewModel.loadMessages()
 
         let settingsContentView = SettingsView(
             viewModel: viewModel
@@ -199,20 +198,12 @@ class SettingsViewControllerSnapshotTests: SnapshotTestCase {
             statusBarStyle: .darkContent
         )
 
-        var cancellables = Set<AnyCancellable>()
-        await withCheckedContinuation { continuation in
-            viewModel.objectWillChange
-                .receive(on: DispatchQueue.main)
-                .sink(receiveValue: { _ in
-                    self.VerifySnapshotInNavigationController(
-                        viewController: hostingViewController,
-                        mode: .dark,
-                        prefersLargeTitles: true
-                    )
-                    continuation.resume()
-                    cancellables.removeAll()
-                })
-                .store(in: &cancellables)
+        await VerifySnapshotInNavigationController(
+            viewController: hostingViewController,
+            mode: .dark,
+            prefersLargeTitles: true
+        ) {
+            self.isMessagesRowLoaded(viewModel)
         }
     }
 
@@ -221,7 +212,6 @@ class SettingsViewControllerSnapshotTests: SnapshotTestCase {
         notificationCentreService._stubbedFetchNotificationsResult = .success(notifications)
 
         let viewModel = assembleSUT()
-        viewModel.loadMessages()
 
         let settingsContentView = SettingsView(
             viewModel: viewModel
@@ -231,20 +221,12 @@ class SettingsViewControllerSnapshotTests: SnapshotTestCase {
             statusBarStyle: .darkContent
         )
 
-        var cancellables = Set<AnyCancellable>()
-        await withCheckedContinuation { continuation in
-            viewModel.objectWillChange
-                .receive(on: DispatchQueue.main)
-                .sink(receiveValue: { _ in
-                    self.VerifySnapshotInNavigationController(
-                        viewController: hostingViewController,
-                        mode: .light,
-                        prefersLargeTitles: true
-                    )
-                    continuation.resume()
-                    cancellables.removeAll()
-                })
-                .store(in: &cancellables)
+        await VerifySnapshotInNavigationController(
+            viewController: hostingViewController,
+            mode: .light,
+            prefersLargeTitles: true
+        ) {
+            self.isMessagesRowLoaded(viewModel)
         }
     }
 
@@ -252,7 +234,6 @@ class SettingsViewControllerSnapshotTests: SnapshotTestCase {
         userService._stubbedLinkedAccounts = [.dvla]
         notificationCentreService._stubbedFetchNotificationsResult = .success([])
         let viewModel = assembleSUT()
-        viewModel.loadMessages()
 
         let settingsContentView = SettingsView(
             viewModel: viewModel
@@ -262,21 +243,12 @@ class SettingsViewControllerSnapshotTests: SnapshotTestCase {
             statusBarStyle: .darkContent
         )
 
-        var cancellables = Set<AnyCancellable>()
-        viewModel.updateEmail()
-        await withCheckedContinuation { continuation in
-            viewModel.objectWillChange
-                .receive(on: DispatchQueue.main)
-                .sink(receiveValue: { _ in
-                    self.VerifySnapshotInNavigationController(
-                        viewController: hostingViewController,
-                        mode: .dark,
-                        prefersLargeTitles: true
-                    )
-                    continuation.resume()
-                    cancellables.removeAll()
-                })
-                .store(in: &cancellables)
+        await VerifySnapshotInNavigationController(
+            viewController: hostingViewController,
+            mode: .dark,
+            prefersLargeTitles: true
+        ) {
+            viewModel.userEmail != nil && self.isMessagesRowLoaded(viewModel)
         }
     }
 
@@ -285,7 +257,6 @@ class SettingsViewControllerSnapshotTests: SnapshotTestCase {
         notificationCentreService._stubbedFetchNotificationsResult = .success([])
 
         let viewModel = assembleSUT()
-        viewModel.loadMessages()
 
         let settingsContentView = SettingsView(
             viewModel: viewModel
@@ -295,21 +266,12 @@ class SettingsViewControllerSnapshotTests: SnapshotTestCase {
             statusBarStyle: .darkContent
         )
 
-        var cancellables = Set<AnyCancellable>()
-        viewModel.updateEmail()
-        await withCheckedContinuation { continuation in
-            viewModel.objectWillChange
-                .receive(on: DispatchQueue.main)
-                .sink(receiveValue: { _ in
-                    self.VerifySnapshotInNavigationController(
-                        viewController: hostingViewController,
-                        mode: .light,
-                        prefersLargeTitles: true
-                    )
-                    continuation.resume()
-                    cancellables.removeAll()
-                })
-                .store(in: &cancellables)
+        await VerifySnapshotInNavigationController(
+            viewController: hostingViewController,
+            mode: .light,
+            prefersLargeTitles: true
+        ) {
+            viewModel.userEmail != nil && self.isMessagesRowLoaded(viewModel)
         }
     }
 
@@ -325,6 +287,16 @@ class SettingsViewControllerSnapshotTests: SnapshotTestCase {
             mode: .light,
             prefersLargeTitles: true
         )
+    }
+
+    private func isMessagesRowLoaded(_ viewModel: SettingsViewModel) -> Bool {
+        viewModel.listContent
+            .flatMap(\.rows)
+            .compactMap { $0 as? CountRow }
+            .contains {
+                if case .idle = $0.state { return true }
+                return false
+            }
     }
 }
 

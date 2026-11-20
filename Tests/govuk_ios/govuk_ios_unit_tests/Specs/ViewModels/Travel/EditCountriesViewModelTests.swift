@@ -748,7 +748,7 @@ struct EditCountriesViewModelTests {
         #expect(mockTravelService._receivedUnfollowCountrySlug == "spain")
     }
 
-    @Test
+    @Test(.timeLimit(.minutes(1)))
     func unfollowCountry_propagatesForceRefreshToGetCountries() async {
         let mockTravelService = MockTravelService()
         mockTravelService._stubbedUnfollowResult = .success(())
@@ -766,8 +766,13 @@ struct EditCountriesViewModelTests {
         )
 
         await sut.unfollowCountry(slug: "france", enabled: true)
-        mockTravelService._receivedUnfollowCountryCompletion?(.success(()))
-        await Task.yield()
+        await withCheckedContinuation { continuation in
+            mockTravelService._getCountriesCompletion = {
+                mockTravelService._getCountriesCompletion = nil
+                continuation.resume()
+            }
+            mockTravelService._receivedUnfollowCountryCompletion?(.success(()))
+        }
 
         #expect(mockTravelService._getCountriesCalledWithForceRefresh == true)
     }

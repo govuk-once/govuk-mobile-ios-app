@@ -43,17 +43,16 @@ final class TravelAlertsWidgetViewSnapshotTests: SnapshotTestCase {
             ])
         )
 
-        await viewModel.viewDidAppear()
-        // Wait for all async tasks to complete
-        try? await Task.sleep(for: .seconds(1))
-
         let viewController = makeViewController(viewModel: viewModel)
 
-        VerifySnapshotInNavigationController(
+        await VerifySnapshotInNavigationController(
             viewController: viewController,
             mode: .light,
             navBarHidden: true
-        )
+        ) {
+            if case .loaded = viewModel.viewState { return true }
+            return false
+        }
     }
 
     func test_loaded_dark_rendersCorrectly() async {
@@ -70,49 +69,46 @@ final class TravelAlertsWidgetViewSnapshotTests: SnapshotTestCase {
             ])
         )
 
-        await viewModel.viewDidAppear()
-        // Wait for all async tasks to complete
-        try? await Task.sleep(for: .seconds(1))
-
         let viewController = makeViewController(viewModel: viewModel)
 
-        VerifySnapshotInNavigationController(
+        await VerifySnapshotInNavigationController(
             viewController: viewController,
             mode: .dark,
             navBarHidden: true
-        )
+        ) {
+            if case .loaded = viewModel.viewState { return true }
+            return false
+        }
     }
 
     func test_error_light_rendersCorrectly() async {
         let viewModel = makeViewModel(result: .failure(.apiUnavailable))
 
-        await viewModel.viewDidAppear()
-        // Wait for all async tasks to complete
-        try? await Task.sleep(for: .seconds(1))
-
         let viewController = makeViewController(viewModel: viewModel)
 
-        VerifySnapshotInNavigationController(
+        await VerifySnapshotInNavigationController(
             viewController: viewController,
             mode: .light,
             navBarHidden: true
-        )
+        ) {
+            if case .error = viewModel.viewState { return true }
+            return false
+        }
     }
 
     func test_error_dark_rendersCorrectly() async {
         let viewModel = makeViewModel(result: .failure(.apiUnavailable))
 
-        await viewModel.viewDidAppear()
-        // Wait for all async tasks to complete
-        try? await Task.sleep(for: .seconds(1))
-
         let viewController = makeViewController(viewModel: viewModel)
 
-        VerifySnapshotInNavigationController(
+        await VerifySnapshotInNavigationController(
             viewController: viewController,
             mode: .dark,
             navBarHidden: true
-        )
+        ) {
+            if case .error = viewModel.viewState { return true }
+            return false
+        }
     }
 
     func test_empty_light_rendersCorrectly() async {
@@ -123,17 +119,16 @@ final class TravelAlertsWidgetViewSnapshotTests: SnapshotTestCase {
             countriesResult: .success([])
         )
 
-        await viewModel.viewDidAppear()
-        // Wait for all async tasks to complete
-        try? await Task.sleep(for: .seconds(1))
-
         let viewController = makeViewController(viewModel: viewModel)
 
-        VerifySnapshotInNavigationController(
+        await VerifySnapshotInNavigationController(
             viewController: viewController,
             mode: .light,
             navBarHidden: true
-        )
+        ) {
+            if case .empty = viewModel.viewState { return true }
+            return false
+        }
     }
 
     func test_empty_dark_rendersCorrectly() async {
@@ -144,17 +139,16 @@ final class TravelAlertsWidgetViewSnapshotTests: SnapshotTestCase {
             countriesResult: .success([])
         )
 
-        await viewModel.viewDidAppear()
-        // Wait for all async tasks to complete
-        try? await Task.sleep(for: .seconds(1))
-
         let viewController = makeViewController(viewModel: viewModel)
 
-        VerifySnapshotInNavigationController(
+        await VerifySnapshotInNavigationController(
             viewController: viewController,
             mode: .dark,
             navBarHidden: true
-        )
+        ) {
+            if case .empty = viewModel.viewState { return true }
+            return false
+        }
     }
 
     private func makeViewModel(result: TravelGroupResult?, countriesResult: CountriesListResult? = nil) -> TravelAlertsWidgetViewModel {
