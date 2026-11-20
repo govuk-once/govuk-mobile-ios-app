@@ -44,10 +44,10 @@ extension Theme {
             .clipShape(RoundedRectangle(cornerRadius: 0))
             .markdownMargin(top: .rem(1), bottom: .rem(1))
         }
-        // List items — matches existing chat theme adjustment
+        // List items — custom setup to increase spacing between listItems
         .listItem { configuration in
             configuration.label
-                .markdownMargin(top: .em(0.3))
+                .markdownMargin(top: .em(1.5), bottom: .em(1.5))
                 .padding(.leading, -12)
         }
         // Thematic break

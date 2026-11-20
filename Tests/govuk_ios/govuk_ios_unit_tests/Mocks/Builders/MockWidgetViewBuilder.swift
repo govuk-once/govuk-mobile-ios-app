@@ -6,6 +6,7 @@ import GovKit
 class MockWidgetViewBuilder: WidgetViewBuilder {
     var _receivedDvlaAccountWidgetLinkAction: (() -> Void)?
     var _receivedVehicleDetailAction: ((Int) -> Void)?
+    var _receivedCategoriesAction: (([Entitlement]) -> Void)?
 
     override func makeDVLAAccountWidget(
         analyticsService: AnalyticsServiceInterface,
@@ -16,6 +17,7 @@ class MockWidgetViewBuilder: WidgetViewBuilder {
     ) -> AnyView? {
         _receivedDvlaAccountWidgetLinkAction = actions.linkAction
         _receivedVehicleDetailAction = actions.vehicleDetailAction
+        _receivedCategoriesAction = actions.categoriesAction
         return AnyView(EmptyView())
     }
 

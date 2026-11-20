@@ -748,6 +748,35 @@ struct EditCountriesViewModelTests {
         #expect(mockTravelService._receivedUnfollowCountrySlug == "spain")
     }
 
+    @Test(.timeLimit(.minutes(1)))
+    func unfollowCountry_propagatesForceRefreshToGetCountries() async {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedUnfollowResult = .success(())
+        mockTravelService._autoCallUnfollowCompletion = false
+        mockTravelService._stubbedGetGroupsResult = .success([])
+        mockTravelService._stubbedGetCountriesResult = .success([])
+
+        let sut = EditCountriesViewModel(
+            travelService: mockTravelService,
+            analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService(),
+            urlOpener: MockURLOpener(),
+            openCountryListFooterAction: {  /*Empty For Tests*/ },
+            navigateBackAction: {  /*Empty For Tests*/ }
+        )
+
+        await sut.unfollowCountry(slug: "france", enabled: true)
+        await withCheckedContinuation { continuation in
+            mockTravelService._getCountriesCompletion = {
+                mockTravelService._getCountriesCompletion = nil
+                continuation.resume()
+            }
+            mockTravelService._receivedUnfollowCountryCompletion?(.success(()))
+        }
+
+        #expect(mockTravelService._getCountriesCalledWithForceRefresh == true)
+    }
+
     @Test
     func buildCountriesSections_sortsCountriesByNameAlphabetically() async throws {
         let mockTravelService = MockTravelService()

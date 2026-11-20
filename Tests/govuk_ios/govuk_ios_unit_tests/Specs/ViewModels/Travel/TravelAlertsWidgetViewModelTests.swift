@@ -548,6 +548,49 @@ struct TravelAlertsWidgetViewModelTests {
     }
 
     @Test
+    func rowAction_encodesURLInDeepLinkWithSpecialCharacters() async throws {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedGetGroupsResult = .success([
+            TravelGroup(namespace: "travel-advice", group: "test&country", subgroup: "travel-subgroup")
+        ])
+        mockTravelService._stubbedGetCountriesResult = .success([
+            Country(name: "Test & Country", slug: "test&country", rawLastUpdate: "2024-08-05", synonyms: [])
+        ])
+
+        var openedURL: URL?
+        let sut = TravelAlertsWidgetViewModel(
+            travelService: mockTravelService,
+            analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService(),
+            feedbackURL: URL(string: "https://example.com/feedback")!,
+            urlOpener: MockURLOpener(),
+            dismissAction: { },
+            editAction: { },
+            openURLAction: { url in openedURL = url }
+        )
+
+        await sut.viewDidAppear()
+        try await waitForViewState(of: sut) { state in
+            if case .loaded = state { return true }
+            return false
+        }
+
+        guard case let .loaded(groupedList) = sut.viewState,
+              let row = groupedList.first?.rows.first as? LinkRow else {
+            Issue.record("no row")
+            return
+        }
+
+        row.action()
+
+        #expect(openedURL?.absoluteString == "govuk://app.gov.uk/web?url=https://www.gov.uk/foreign-travel-advice/test%26country")
+
+        // OR 2. If checking query items:
+        let components = openedURL.flatMap { URLComponents(url: $0, resolvingAgainstBaseURL: false) }
+        #expect(components?.percentEncodedQuery?.contains("test%26country") == true)
+    }
+
+    @Test
     func countryListViewModel_openFooterLink_tracksStaticHelpAndFeedbackURL() {
         let mockAnalyticsService = MockAnalyticsService()
         let feedbackURL = URL(string: "https://example.com/feedback?app_version=1.0")!

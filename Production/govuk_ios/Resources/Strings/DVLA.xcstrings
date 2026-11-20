@@ -67,6 +67,17 @@
         }
       }
     },
+    "addingCategoriesToYourVehicle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adding categories to your licence"
+          }
+        }
+      }
+    },
     "biFuel" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -283,6 +294,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Colour: %1$(colour)@"
+          }
+        }
+      }
+    },
+    "compareOldAndNewCategories" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compare old and new categories"
           }
         }
       }
@@ -618,6 +640,28 @@
         }
       }
     },
+    "entitlementSectionTitleYouCanDrive" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can drive"
+          }
+        }
+      }
+    },
+    "entitlementSectionTitleYouCanProvisionallyDrive" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can provisionally drive"
+          }
+        }
+      }
+    },
     "expired" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -762,6 +806,17 @@
         }
       }
     },
+    "furtherInformation" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Further information"
+          }
+        }
+      }
+    },
     "gasAndDiesel" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -850,6 +905,28 @@
         }
       }
     },
+    "licenceCategoriesExplanation" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your licence categories and codes show which vehicles you can drive and any restrictions or requirements. Check each category for restrictions and expiry dates."
+          }
+        }
+      }
+    },
+    "licenceCategoriesListTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Categories"
+          }
+        }
+      }
+    },
     "licenceCategoriesSubtitle" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -912,6 +989,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Not available"
+          }
+        }
+      }
+    },
+    "licenceNotFoundBody" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You do not hold a driving licence issued in England, Scotland or Wales"
+          }
+        }
+      }
+    },
+    "licenceNotFoundTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No licence"
           }
         }
       }
@@ -1411,6 +1510,17 @@
         }
       }
     },
+    "submitButtonLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Submit"
+          }
+        }
+      }
+    },
     "taxStatusTitle" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1418,6 +1528,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tax"
+          }
+        }
+      }
+    },
+    "textClearedAnnouncement" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Text cleared"
           }
         }
       }
@@ -1814,6 +1935,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "We could not get your vehicle details"
+          }
+        }
+      }
+    },
+    "vehicleWeightsExplained" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vehicle weights explained"
           }
         }
       }

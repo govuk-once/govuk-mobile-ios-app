@@ -49,6 +49,7 @@ platform :ios do
   private_lane :unit_test do
     scan(
       scheme: configuration.app_scheme,
+      number_of_retries: 2,
       devices: configuration.scan_devices,
       ensure_devices_found: true,
       prelaunch_simulator: true,

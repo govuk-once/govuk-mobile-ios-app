@@ -129,9 +129,11 @@ final class StoredLocalAuthorityWidgetViewSnapshotTests: SnapshotTestCase {
     private func returnViewModel(localAuthorities: [LocalAuthorityItem]) -> StoredLocalAuthorityWidgetViewModel {
         return StoredLocalAuthorityWidgetViewModel(
             analyticsService: MockAnalyticsService(),
+            localAuthorityService: MockLocalAuthorityService(),
             localAuthorities: localAuthorities,
             openURLAction: { _ in },
-            openEditViewAction: { }
+            openEditViewAction: { },
+            deleteCompletion: { }
         )
     }
 }

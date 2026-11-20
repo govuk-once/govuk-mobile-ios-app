@@ -6,7 +6,7 @@ struct RegistrationCancelButtonStyle: ButtonStyle {
         configuration.label
             .opacity(configuration.isPressed ? 0.7 : 1.0)
             .frame(maxWidth: .infinity, idealHeight: 44)
-            .padding()
+            .padding(16)
             .background(Color(uiColor: UIColor.govUK.fills.cancelButtonBackground))
             .foregroundColor(
                 Color(uiColor: UIColor.govUK.text.primary)

@@ -36,7 +36,6 @@ final class RegistrationNumberFormViewModel: ObservableObject {
     }
     @Published private(set) var isLoading = false
     @Published private(set) var isSubmitted = false
-    let loadingLabel = String(localized: .DVLA.gettingVehicleDetails)
     @Published private(set) var error: DVLADomainError?
 
     var errorMessage: String? {
@@ -59,6 +58,25 @@ final class RegistrationNumberFormViewModel: ObservableObject {
     private let lookupService: VehicleLookup
     private let onSuccess: (VehicleEnquiryResponse.Vehicle) -> Void
     private let onCancel: () -> Void
+    private let loadingLabel = String(localized: .DVLA.gettingVehicleDetails)
+
+    var submitButtonViewModel: LoadingUIButton.ButtonViewModel {
+        .init(
+            title: String(localized: .DVLA.submitButtonLabel),
+            action: submit,
+            isLoading: isLoading,
+            loadingAccessibilityLabel: loadingLabel
+        )
+    }
+
+    var submitButtonConfiguration: LoadingUIButton.ButtonConfiguration {
+        .init(
+            textColor: .govUK.text.header,
+            backgroundColor: .primaryBlue,
+            focusedTextColor: .black,
+            focusedBackgroundColor: .primaryYellow
+        )
+    }
 
     init(maxCharacters: Int = 7,
          lookupService: @escaping VehicleLookup,
@@ -93,13 +111,13 @@ final class RegistrationNumberFormViewModel: ObservableObject {
     func performSubmit() async {
         guard isValidPlate, !isLoading else { return }
 
-        let trimmed = numberPlate.trimmingCharacters(in: .whitespaces)
+        let sanitized = numberPlate.filter { !$0.isWhitespace }
         isLoading = true
         error = nil
         fetchedVehicle = nil
         defer { isLoading = false }
 
-        let result = await lookupService(trimmed)
+        let result = await lookupService(sanitized)
 
         switch result {
         case .success(let vehicle):

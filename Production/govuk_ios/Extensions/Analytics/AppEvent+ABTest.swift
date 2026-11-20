@@ -11,6 +11,6 @@ extension AppEvent {
 }
 
 enum ABTestAppEvent: String, Codable {
-    case homeActivation1026 = "ab_test_activation_home_10_26"
-    case searchConversion1026 = "ab_test_conversion_search_invoked_10_26"
+    // Example event, example_app_event will match event name in Firebase's Remote Config
+    case exampleAppEvent = "example_app_event"
 }
