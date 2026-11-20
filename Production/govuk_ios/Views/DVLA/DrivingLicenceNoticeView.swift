@@ -34,9 +34,6 @@ struct DrivingLicenceNoticeView: View {
                         .foregroundStyle(Color(uiColor: .govUK.text.link))
                         .multilineTextAlignment(.leading)
                     Spacer()
-                    Image(systemName: "arrow.up.forward")
-                        .font(.govUK.body)
-                        .foregroundStyle(Color(uiColor: .govUK.text.link))
                 }
                 .padding(.horizontal, 16)
                 .padding(.vertical, 18)
