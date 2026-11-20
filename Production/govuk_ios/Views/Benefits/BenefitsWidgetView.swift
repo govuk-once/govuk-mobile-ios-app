@@ -1,7 +1,7 @@
 import SwiftUI
 
-struct DWPWidgetView: View {
-    @StateObject var viewModel: DWPWidgetViewModel
+struct BenefitsWidgetView: View {
+    @StateObject var viewModel: BenefitsWidgetViewModel
 
     var body: some View {
         VStack {

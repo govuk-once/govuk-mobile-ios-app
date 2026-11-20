@@ -47,13 +47,15 @@ class WidgetViewBuilder {
         return AnyView(widget)
     }
 
-    func makeDWPWidget(
-        analyticsService: AnalyticsServiceInterface
+    func makeBenefitsWidget(
+        analyticsService: AnalyticsServiceInterface,
+        linkAction: @escaping () -> Void
     ) -> AnyView? {
-        let viewModel = DWPWidgetViewModel(
-            analyticsService: analyticsService
+        let viewModel = BenefitsWidgetViewModel(
+            analyticsService: analyticsService,
+            linkAction: linkAction
         )
-        let widget = DWPWidgetView(viewModel: viewModel)
+        let widget = BenefitsWidgetView(viewModel: viewModel)
         return AnyView(widget)
     }
 }
