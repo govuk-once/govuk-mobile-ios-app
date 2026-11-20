@@ -72,13 +72,9 @@ class SnapshotTestCase: FBSnapshotTestCase {
         )
         wrapInWindow(navigationController)
 
-        let deadline = ContinuousClock.now + timeout
-        while !condition() {
-            guard ContinuousClock.now < deadline, !Task.isCancelled else {
-                XCTFail("Snapshot state was not reached before timeout", file: file, line: line)
-                return
-            }
-            try? await Task.sleep(for: .milliseconds(10))
+        guard await waitFor(condition, timeout: timeout) else {
+            XCTFail("Snapshot state was not reached before timeout", file: file, line: line)
+            return
         }
 
         verifyRenderedSnapshot(
@@ -295,6 +291,19 @@ class SnapshotTestCase: FBSnapshotTestCase {
             file: file,
             line: line
         )
+    }
+
+    private func waitFor(_ condition: () -> Bool,
+                         timeout: Duration,
+                         pollInterval: Duration = .milliseconds(10)) async -> Bool {
+        let deadline = ContinuousClock.now + timeout
+        while !condition() {
+            guard ContinuousClock.now < deadline, !Task.isCancelled else {
+                return false
+            }
+            try? await Task.sleep(for: pollInterval)
+        }
+        return true
     }
 
     private func removeAnimations(from layer: CALayer) {
