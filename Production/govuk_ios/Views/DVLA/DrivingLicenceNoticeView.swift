@@ -9,7 +9,6 @@ struct DrivingLicenceNoticeView: View {
                 title: viewModel.title,
                 style: viewModel.titleStyle
             )
-            Divider()
             Text(viewModel.body)
                 .font(.govUK.body)
                 .foregroundStyle(Color(uiColor: .govUK.text.primary))
@@ -87,11 +86,15 @@ struct DrivingLicenceNoticeHeader: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .background(backgroundColor)
             .accessibilityAddTraits(.isHeader)
+        if style == .normal {
+            Divider()
+                .padding(.horizontal, 16)
+        }
     }
 }
 
 #if DEBUG
-#Preview("Notice View") {
+#Preview("Notice View - titleStyle normal") {
     DrivingLicenceNoticeView(viewModel:
                                 DrivingLicenceNoticeViewModel(
                                     title: "title",
@@ -100,6 +103,19 @@ struct DrivingLicenceNoticeHeader: View {
                                 )
 }
 #endif
+
+#if DEBUG
+#Preview("Notice View - titleStyle revoked") {
+    DrivingLicenceNoticeView(viewModel:
+                                DrivingLicenceNoticeViewModel(
+                                    title: "title",
+                                    titleStyle: .revoked,
+                                    body: "body\nbody",
+                                    action: nil)
+                                )
+}
+#endif
+
 
 #if DEBUG
 #Preview("Header") {
