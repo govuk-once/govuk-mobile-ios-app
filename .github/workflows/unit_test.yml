@@ -41,6 +41,8 @@ jobs:
           fi
 
       - name: Cache Swift packages
+        env:
+          SEGMENT_DOWNLOAD_TIMEOUT_MINS: 3
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # pin@v6.1.0
         with:
           path: build_for_unit_testing/SourcePackages
@@ -48,6 +50,8 @@ jobs:
           restore-keys: spm-${{ runner.os }}-
 
       - name: Cache compilation results
+        env:
+          SEGMENT_DOWNLOAD_TIMEOUT_MINS: 3
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # pin@v6.1.0
         with:
           path: build_for_unit_testing/CompilationCache.noindex
@@ -56,6 +60,13 @@ jobs:
 
       - name: Unit tests
         run: bundle exec fastlane unit
+
+      - name: Report machine resources
+        if: always()
+        run: |
+          sysctl -n machdep.cpu.brand_string hw.ncpu hw.memsize
+          sysctl vm.swapusage
+          memory_pressure | tail -1
 
       - name: Archive failure diffs
         if: failure()
