@@ -272,7 +272,7 @@ extension DrivingLicenceViewModelTests {
         let expectedURL = Constants.API.defaultLicenceHealthConditionURL
 
         #expect(unwrappedLicenceNoticeViewModel.title == String(localized: .DVLA.revokedTitle))
-        #expect(unwrappedLicenceNoticeViewModel.titleStyle == .revoked)
+        #expect(unwrappedLicenceNoticeViewModel.titleStyle == .inverted)
         #expect(unwrappedLicenceNoticeViewModel.body == expectedBody)
         #expect(unwrappedLicenceNoticeViewModel.action?.buttonTitle == expectedButtonTitle)
 

@@ -63,7 +63,7 @@ struct DrivingLicenceNoticeHeader: View {
         switch style {
         case .normal:
             Color(uiColor: .govUK.text.primary)
-        case .revoked:
+        case .inverted:
             Color(uiColor: Self.revokedForeground)
         }
     }
@@ -72,7 +72,7 @@ struct DrivingLicenceNoticeHeader: View {
         switch style {
         case .normal:
                 .clear
-        case .revoked:
+        case .inverted:
             Color(uiColor: Self.revokedBackground)
         }
     }
@@ -109,7 +109,7 @@ struct DrivingLicenceNoticeHeader: View {
     DrivingLicenceNoticeView(viewModel:
                                 DrivingLicenceNoticeViewModel(
                                     title: "title",
-                                    titleStyle: .revoked,
+                                    titleStyle: .inverted,
                                     body: "body\nbody",
                                     action: nil)
                                 )
@@ -124,7 +124,7 @@ struct DrivingLicenceNoticeHeader: View {
                                   style: .normal)
 
         DrivingLicenceNoticeHeader(title: "Revoked Style",
-                                  style: .revoked)
+                                  style: .inverted)
     }
 }
 #endif

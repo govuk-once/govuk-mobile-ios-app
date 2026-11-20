@@ -8,7 +8,7 @@ struct DrivingLicenceNoticeViewModel {
 
     enum TitleStyle {
         case normal
-        case revoked
+        case inverted
     }
 
     let title: String

@@ -232,7 +232,7 @@ class DrivingLicenceViewModel: ObservableObject {
 
         let viewModel = DrivingLicenceNoticeViewModel(
             title: String(localized: .DVLA.revokedTitle),
-            titleStyle: .revoked,
+            titleStyle: .inverted,
             body: body,
             action: .init(
                 buttonTitle: buttonTitle,
