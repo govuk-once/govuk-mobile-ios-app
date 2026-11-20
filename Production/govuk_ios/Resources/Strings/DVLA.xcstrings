@@ -949,6 +949,28 @@
         }
       }
     },
+    "licenceCheckIfYouCanReapplyButtonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check if you can reapply"
+          }
+        }
+      }
+    },
+    "licenceCheckWebsiteIfYouCanReapply" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check the website for more information on whether you can apply for a new licence. "
+          }
+        }
+      }
+    },
     "licenceFullNameAccessibilityLabel" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -956,6 +978,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Name on licence: %@ "
+          }
+        }
+      }
+    },
+    "licenceHasBeenCancelledByDVLA" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your licence has been cancelled by DVLA."
           }
         }
       }
