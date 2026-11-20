@@ -28,18 +28,6 @@ jobs:
       - name: Select xcode
         run: xcodes select
 
-      - name: Boot simulator in background
-        run: |
-          device=$(ruby -ryaml -e 'puts YAML.load_file("Fastlane/.build.yml", aliases: true)["unit"]["scan"]["devices"].first')
-          name="${device% (*}"
-          os="${device##*(}"
-          os="${os%)}"
-          udid=$(xcrun simctl list devices available -j | ruby -rjson -e 'name, os = ARGV; devices = JSON.parse(STDIN.read)["devices"]; runtime = devices.keys.find { |r| r.end_with?("iOS-#{os.tr(".", "-")}") }; device = (devices[runtime] || []).find { |d| d["name"] == name }; puts device ? device["udid"] : ""' "$name" "$os")
-          echo "Booting $device ($udid)"
-          if [ -n "$udid" ]; then
-            nohup xcrun simctl bootstatus "$udid" -b > "$RUNNER_TEMP/simulator_boot.log" 2>&1 &
-          fi
-
       - name: Cache Swift packages
         env:
           SEGMENT_DOWNLOAD_TIMEOUT_MINS: 3
@@ -57,6 +45,18 @@ jobs:
           path: build_for_unit_testing/CompilationCache.noindex
           key: compilation-${{ runner.os }}-${{ hashFiles('GovUK.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved') }}
           restore-keys: compilation-${{ runner.os }}-
+
+      - name: Boot simulator in background
+        run: |
+          device=$(ruby -ryaml -e 'puts YAML.load_file("Fastlane/.build.yml", aliases: true)["unit"]["scan"]["devices"].first')
+          name="${device% (*}"
+          os="${device##*(}"
+          os="${os%)}"
+          udid=$(xcrun simctl list devices available -j | ruby -rjson -e 'name, os = ARGV; devices = JSON.parse(STDIN.read)["devices"]; runtime = devices.keys.find { |r| r.end_with?("iOS-#{os.tr(".", "-")}") }; device = (devices[runtime] || []).find { |d| d["name"] == name }; puts device ? device["udid"] : ""' "$name" "$os")
+          echo "Booting $device ($udid)"
+          if [ -n "$udid" ]; then
+            nohup xcrun simctl bootstatus "$udid" -b > "$RUNNER_TEMP/simulator_boot.log" 2>&1 &
+          fi
 
       - name: Unit tests
         run: bundle exec fastlane unit
