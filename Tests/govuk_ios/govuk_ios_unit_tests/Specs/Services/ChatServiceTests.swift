@@ -45,6 +45,7 @@ final class ChatServiceTests {
         await withCheckedContinuation { continuation in
             sut.askQuestion(
                 "expectedQuestion",
+                isSuggestedPrompt: false,
                 completion: { result in
                     continuation.resume()
                 }
@@ -68,6 +69,7 @@ final class ChatServiceTests {
         let result = await withCheckedContinuation { continuation in
             sut.askQuestion(
                 "expectedQuestion",
+                isSuggestedPrompt: false,
                 completion: { result in
                     continuation.resume(returning: result)
                 }
@@ -91,6 +93,7 @@ final class ChatServiceTests {
         let result = await withCheckedContinuation { continuation in
             sut.askQuestion(
                 "expectedQuestion",
+                isSuggestedPrompt: false,
                 completion: { result in
                     continuation.resume(returning: result)
                 }
