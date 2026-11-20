@@ -205,6 +205,7 @@ struct TravelAlertsWidgetViewModelTests {
     func viewDidAppear_whenGroupsAreEmpty_setsEmptyState() async throws {
         let mockTravelService = MockTravelService()
         mockTravelService._stubbedGetGroupsResult = .success([])
+        mockTravelService._stubbedGetCountriesResult = .success([])
         let mockAnalyticsService = MockAnalyticsService()
         let sut = TravelAlertsWidgetViewModel(
             travelService: mockTravelService,
@@ -227,7 +228,7 @@ struct TravelAlertsWidgetViewModelTests {
     }
 
     @Test
-    func viewDidAppear_whenCountriesFetchFails_setsEmptyState() async throws {
+    func viewDidAppear_whenCountriesFetchFails_setsErrorState() async throws {
         let mockTravelService = MockTravelService()
         let testGroups = [
             TravelGroup(namespace: "travel-advice", group: "france", subgroup: "travel-subgroup")
@@ -248,7 +249,7 @@ struct TravelAlertsWidgetViewModelTests {
 
         await sut.viewDidAppear()
         try await waitForViewState(of: sut) { state in
-            if case .empty = state { return true }
+            if case .error = state { return true }
             return false
         }
 
@@ -675,7 +676,7 @@ struct TravelAlertsWidgetViewModelTests {
         matching predicate: @escaping (TravelAlertsWidgetViewModel.ViewState) -> Bool,
         timeout: TimeInterval = 2.0
     ) async throws {
-        for await state in viewModel.$viewState.dropFirst().values {
+        for await state in viewModel.$viewState.values {
             if predicate(state) { return }
         }
     }
