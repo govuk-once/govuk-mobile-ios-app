@@ -28,6 +28,12 @@ jobs:
       - name: Select xcode
         run: xcodes select
 
+      - name: Cache Swift packages
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # pin@v6.1.0
+        with:
+          path: build_for_unit_testing/SourcePackages
+          key: spm-${{ runner.os }}-${{ hashFiles('GovUK.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved') }}
+
       - name: Unit tests
         run: bundle exec fastlane unit
 
