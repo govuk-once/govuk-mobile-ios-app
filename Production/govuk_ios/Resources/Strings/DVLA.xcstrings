@@ -1521,6 +1521,17 @@
         }
       }
     },
+    "revokedTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revoked"
+          }
+        }
+      }
+    },
     "specification" : {
       "extractionState" : "manual",
       "localizations" : {
