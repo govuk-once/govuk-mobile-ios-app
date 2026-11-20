@@ -8,9 +8,7 @@ import FactoryKit
 protocol BenefitsCoordinatorBuilding {
     func benefitsContainer(
         navigationController: UINavigationController,
-        viewControllerBuilder: BenefitsViewControllerBuilding,
-        analyticsService: AnalyticsServiceInterface,
-        configService: AppConfigServiceInterface
+        viewControllerBuilder: BenefitsViewControllerBuilding
     ) -> BaseCoordinator
 }
 
@@ -18,15 +16,11 @@ protocol BenefitsCoordinatorBuilding {
 extension CoordinatorBuilder: BenefitsCoordinatorBuilding {
     func benefitsContainer(
         navigationController: UINavigationController,
-        viewControllerBuilder: BenefitsViewControllerBuilding,
-        analyticsService: AnalyticsServiceInterface,
-        configService: AppConfigServiceInterface
+        viewControllerBuilder: BenefitsViewControllerBuilding
     ) -> BaseCoordinator {
         BenefitsContainerCoordinator(
             navigationController: navigationController,
-            viewControllerBuilder: viewControllerBuilder,
-            analyticsService: analyticsService,
-            configService: configService
+            viewControllerBuilder: viewControllerBuilder
         )
     }
 }

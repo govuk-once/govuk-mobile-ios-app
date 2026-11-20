@@ -14,11 +14,6 @@ final class BenefitsContainerViewModel: ObservableObject {
         benefits.filter { $0.category == selectedTab }
     }
 
-    func toggleAmountVisibility(for id: UUID) {
-        guard let index = benefits.firstIndex(where: { $0.id == id }) else { return }
-        benefits[index].isAmountHidden.toggle()
-    }
-
     func loadBenefits() {
         benefits = [
             BenefitsSummaryCard(

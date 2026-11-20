@@ -36,9 +36,7 @@ struct BenefitsContainerView: View {
                 ForEach(viewModel.filteredBenefits) { benefit in
                     BenefitsSummaryCardView(
                         benefit: benefit,
-                        onToggleVisibility: {
-                            viewModel.toggleAmountVisibility(for: benefit.id)
-                        },
+                        onToggleVisibility: { },
                         onMoreActions: { },
                         onPaymentHistory: { }
                     )

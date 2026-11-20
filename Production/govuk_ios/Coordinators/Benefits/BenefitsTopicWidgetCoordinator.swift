@@ -29,9 +29,7 @@ final class BenefitsTopicWidgetCoordinator: BaseCoordinator,
         root.navigationItem.backButtonDisplayMode = .minimal
         let coordinator = coordinatorBuilder.benefitsContainer(
             navigationController: root,
-            viewControllerBuilder: viewControllerBuilder,
-            analyticsService: analyticsService,
-            configService: configService
+            viewControllerBuilder: viewControllerBuilder
         )
         start(coordinator)
     }
