@@ -72,11 +72,13 @@ class DrivingLicenceViewModel: ObservableObject {
         case .exchanged, .surrendered, .surrenderedVoluntarily, .surrenderedForMedicalReasons:
             viewState = .notice(licenceNotFoundNoticeViewModel)
         case .disqualified,
-                .revoked, .revokedForMedicalReasons,
+                .revoked,
                 .refused,
                 .refusedForMedicalReasons,
                 .unknown:
             viewState = .notice(licenceNotAvailableNoticeViewModel)
+        case .revokedForMedicalReasons:
+            viewState = .notice(licenceRevokedForMedicalReasonsViewModel)
         }
         hasLoadedLicence = true
     }
