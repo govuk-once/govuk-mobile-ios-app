@@ -56,6 +56,9 @@ platform :ios do
       xcodebuild_formatter: 'xcbeautify',
       output_types: 'junit',
       derived_data_path: './build_for_unit_testing',
+      xcargs: 'COMPILATION_CACHE_ENABLE_CACHING=YES DEBUG_INFORMATION_FORMAT=dwarf -showBuildTimingSummary',
+      skip_package_dependencies_resolution: true,
+      disable_package_automatic_updates: true,
       output_directory: configuration.scan_output_directory,
       code_coverage: true
     )

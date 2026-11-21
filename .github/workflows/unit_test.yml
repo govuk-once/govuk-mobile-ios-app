@@ -28,8 +28,33 @@ jobs:
       - name: Select xcode
         run: xcodes select
 
+      - name: Cache Swift packages
+        env:
+          SEGMENT_DOWNLOAD_TIMEOUT_MINS: 3
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # pin@v6.1.0
+        with:
+          path: build_for_unit_testing/SourcePackages
+          key: spm-${{ runner.os }}-${{ hashFiles('GovUK.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved') }}
+          restore-keys: spm-${{ runner.os }}-
+
+      - name: Cache compilation results
+        env:
+          SEGMENT_DOWNLOAD_TIMEOUT_MINS: 3
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # pin@v6.1.0
+        with:
+          path: build_for_unit_testing/CompilationCache.noindex
+          key: compilation-${{ runner.os }}-${{ hashFiles('GovUK.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved') }}
+          restore-keys: compilation-${{ runner.os }}-
+
       - name: Unit tests
         run: bundle exec fastlane unit
+
+      - name: Report machine resources
+        if: always()
+        run: |
+          sysctl -n machdep.cpu.brand_string hw.ncpu hw.memsize
+          sysctl vm.swapusage
+          memory_pressure | tail -1
 
       - name: Archive failure diffs
         if: failure()
@@ -37,6 +62,16 @@ jobs:
         with:
           name: FailureDiffs
           path: FailureDiffs
+          retention-days: 1
+
+      - name: Archive build logs
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # pin@v7.0.1
+        with:
+          name: BuildLogs
+          path: |
+            build_for_unit_testing/Logs/Build
+            ~/Library/Logs/scan
           retention-days: 1
 
       - name: Save code coverage results
