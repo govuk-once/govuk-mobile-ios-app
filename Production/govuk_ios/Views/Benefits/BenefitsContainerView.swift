@@ -36,9 +36,9 @@ struct BenefitsContainerView: View {
                 ForEach(viewModel.filteredBenefits) { benefit in
                     BenefitsSummaryCardView(
                         benefit: benefit,
-                        onToggleVisibility: { },
-                        onMoreActions: { },
-                        onPaymentHistory: { }
+                        onToggleVisibility: { /*Donothing*/ },
+                        onMoreActions: { /*Do nothing*/ },
+                        onPaymentHistory: { /*Do nothing*/ }
                     )
                 }
             }
@@ -80,7 +80,10 @@ private struct BenefitsSummaryCardView: View {
                 Text(benefit.title)
                     .font(Font.govUK.title2Bold)
                     .foregroundColor(Color(UIColor.govUK.text.primary))
-                    .fixedSize(horizontal: false, vertical: true)
+                    .fixedSize(
+                        horizontal: false,
+                        vertical: true
+                    )
                 Text(benefit.frequency)
                     .font(Font.govUK.subheadline)
                     .foregroundColor(Color(UIColor.govUK.text.secondary))

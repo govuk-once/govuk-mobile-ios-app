@@ -10,7 +10,7 @@ import UIKit
 struct CoordinatorBuilderBenefitsTests {
 
     @Test
-    func benefits_returnsExpectedResult() {
+    func benefitsContainer_returnsExpectedResult() {
         let container = Container()
         container.analyticsService.register(factory: { MockAnalyticsService() })
         let subject = CoordinatorBuilder(container: container)
