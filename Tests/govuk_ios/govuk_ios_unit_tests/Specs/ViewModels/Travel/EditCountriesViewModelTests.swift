@@ -104,7 +104,7 @@ struct EditCountriesViewModelTests {
     }
 
     @Test
-    func viewDidAppear_whenCountriesFetchFails_setsLoadedState() async throws {
+    func viewDidAppear_whenCountriesFetchFails_setsErrorState() async throws {
         let mockTravelService = MockTravelService()
         let testGroups = [
             TravelGroup(namespace: "travel-advice", group: "france", subgroup: "travel-subgroup")
@@ -122,7 +122,10 @@ struct EditCountriesViewModelTests {
         )
 
         await sut.viewDidAppear()
-        await Task.yield()
+        try await waitForViewState(of: sut) { state in
+            if case .error = state { return true }
+            return false
+        }
 
         #expect(mockTravelService._getCountriesCalled)
         #expect(sut.countriesSection.isEmpty)
@@ -697,6 +700,8 @@ struct EditCountriesViewModelTests {
         await sut.unfollowCountry(slug: "france", enabled: true)
         mockTravelService._receivedUnfollowCountryCompletion?(.success(()))
         await Task.yield()
+        await Task.yield()
+        await Task.yield()
 
         #expect(mockTravelService._unfollowCountryCalled == true)
         #expect(sut.isShowingCountryDetails == false)
@@ -995,7 +1000,7 @@ struct EditCountriesViewModelTests {
         matching predicate: @escaping (EditCountriesViewModel.ViewState) -> Bool,
         timeout: TimeInterval = 2.0
     ) async throws {
-        for await state in viewModel.$viewState.dropFirst().values {
+        for await state in viewModel.$viewState.values {
             if predicate(state) { return }
         }
     }
