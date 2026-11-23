@@ -314,7 +314,7 @@ class SettingsViewModel: SettingsViewModelInterface {
                 id: "settings.notifications.row",
                 title: rowTitle,
                 body: isAuthorized ? String.common.localized("on") : String.common.localized("off"),
-                accessibilityHint: String(localized: .Settings.notificationsAccessibilityHint),
+                accessibilityHint: "",
                 action: { [weak self] in
                     self?.handleNotificationSettingsPressed(title: rowTitle)
                 }
