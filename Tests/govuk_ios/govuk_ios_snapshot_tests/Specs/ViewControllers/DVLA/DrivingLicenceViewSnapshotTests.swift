@@ -112,8 +112,10 @@ import GovKit
         let noticeViewModel = DrivingLicenceNoticeViewModel(
             title: String(localized: .DVLA.licenceNotAvailableTitle),
             body: String(localized: .DVLA.licenceNotAvailableBody),
-            buttonTitle: String(localized: .DVLA.licenceNotAvailableButtonTitle),
-            action: {}
+            action: .init(
+                buttonTitle: String(localized: .DVLA.licenceNotAvailableButtonTitle),
+                handler: {}
+            )
         )
         let viewModel = MockDrivingLicenceViewModel(
             viewState: .notice(noticeViewModel)
@@ -133,8 +135,10 @@ import GovKit
         let noticeViewModel = DrivingLicenceNoticeViewModel(
             title: String(localized: .DVLA.licenceNotAvailableTitle),
             body: String(localized: .DVLA.licenceNotAvailableBody),
-            buttonTitle: String(localized: .DVLA.licenceNotAvailableButtonTitle),
-            action: {}
+            action: .init(
+                buttonTitle: String(localized: .DVLA.licenceNotAvailableButtonTitle),
+                handler: {}
+            )
         )
         let viewModel = MockDrivingLicenceViewModel(
             viewState: .notice(noticeViewModel)

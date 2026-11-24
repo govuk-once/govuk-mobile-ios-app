@@ -31,141 +31,135 @@ final class EditCountriesViewSnapshotTests: SnapshotTestCase {
     }
 
     func test_loadInNavigationController_loaded_light_rendersCorrectly() async {
-        let viewModel = makeViewModel(travelService: SnapshotTravelService(
-            travelGroupResult: .success([
+        let viewModel = makeViewModel(
+            groupsResult: .success([
                 TravelGroup(namespace: "travel", group: "france", subgroup: "instant"),
                 TravelGroup(namespace: "travel", group: "germany", subgroup: "instant"),
                 TravelGroup(namespace: "travel", group: "spain", subgroup: "instant")
             ]),
-            countryListResult: .success([
+            countriesResult: .success([
                 Country(name: "France", slug: "france", rawLastUpdate: "2024-01-01T00:00:00.000Z", synonyms: []),
                 Country(name: "Germany", slug: "germany", rawLastUpdate: "2024-01-01T00:00:00.000Z", synonyms: []),
                 Country(name: "Spain", slug: "spain", rawLastUpdate: "2024-01-01T00:00:00.000Z", synonyms: [])
             ])
-        ))
-
-        await viewModel.viewDidAppear()
-        await Task.yield()
-        // Wait for all async tasks to complete
-        try? await Task.sleep(for: .seconds(1))
+        )
 
         let viewController = makeViewController(viewModel: viewModel)
 
-        VerifySnapshotInNavigationController(
+        await VerifySnapshotInNavigationController(
             viewController: viewController,
             mode: .light,
             navBarHidden: true
-        )
+        ) {
+            if case .loaded = viewModel.viewState { return true }
+            return false
+        }
     }
 
     func test_loadInNavigationController_loaded_dark_rendersCorrectly() async {
-        let viewModel = makeViewModel(travelService: SnapshotTravelService(
-            travelGroupResult: .success([
+        let viewModel = makeViewModel(
+            groupsResult: .success([
                 TravelGroup(namespace: "travel", group: "france", subgroup: "instant"),
                 TravelGroup(namespace: "travel", group: "germany", subgroup: "instant"),
                 TravelGroup(namespace: "travel", group: "spain", subgroup: "instant")
             ]),
-            countryListResult: .success([
+            countriesResult: .success([
                 Country(name: "France", slug: "france", rawLastUpdate: "2024-01-01T00:00:00.000Z", synonyms: []),
                 Country(name: "Germany", slug: "germany", rawLastUpdate: "2024-01-01T00:00:00.000Z", synonyms: []),
                 Country(name: "Spain", slug: "spain", rawLastUpdate: "2024-01-01T00:00:00.000Z", synonyms: [])
             ])
-        ))
-
-        await viewModel.viewDidAppear()
-        await Task.yield()
-        // Wait for all async tasks to complete
-        try? await Task.sleep(for: .seconds(1))
+        )
 
         let viewController = makeViewController(viewModel: viewModel)
 
-        VerifySnapshotInNavigationController(
+        await VerifySnapshotInNavigationController(
             viewController: viewController,
             mode: .dark,
             navBarHidden: true
-        )
+        ) {
+            if case .loaded = viewModel.viewState { return true }
+            return false
+        }
     }
 
     func test_loadInNavigationController_error_generic_light_rendersCorrectly() async {
-        let mockTravelService = MockTravelService()
-        mockTravelService._stubbedGetCountriesResult = .failure(.apiUnavailable)
-        let viewModel = makeViewModel(travelService: mockTravelService)
-
-        await viewModel.viewDidAppear()
-        await Task.yield()
+        let viewModel = makeViewModel(groupsResult: .failure(.apiUnavailable))
 
         let viewController = makeViewController(viewModel: viewModel)
 
-        VerifySnapshotInNavigationController(
+        await VerifySnapshotInNavigationController(
             viewController: viewController,
             mode: .light,
             navBarHidden: true
-        )
+        ) {
+            if case .error = viewModel.viewState { return true }
+            return false
+        }
     }
 
     func test_loadInNavigationController_error_generic_dark_rendersCorrectly() async {
-        let mockTravelService = MockTravelService()
-        mockTravelService._stubbedGetCountriesResult = .failure(.apiUnavailable)
-        let viewModel = makeViewModel()
-
-        await viewModel.viewDidAppear()
-        await Task.yield()
+        let viewModel = makeViewModel(groupsResult: .failure(.apiUnavailable))
 
         let viewController = makeViewController(viewModel: viewModel)
 
-        VerifySnapshotInNavigationController(
+        await VerifySnapshotInNavigationController(
             viewController: viewController,
             mode: .dark,
             navBarHidden: true
-        )
+        ) {
+            if case .error = viewModel.viewState { return true }
+            return false
+        }
     }
 
     func test_loadInNavigationController_error_network_light_rendersCorrectly() async {
-        let mockTravelService = MockTravelService()
-        mockTravelService._stubbedGetCountriesResult = .failure(.networkUnavailable)
-        let viewModel = makeViewModel(travelService: mockTravelService)
-
-        await viewModel.viewDidAppear()
-        await Task.yield()
+        let viewModel = makeViewModel(
+            groupsResult: .success([]),
+            countriesResult: .failure(.networkUnavailable)
+        )
 
         let viewController = makeViewController(viewModel: viewModel)
 
-        VerifySnapshotInNavigationController(
+        await VerifySnapshotInNavigationController(
             viewController: viewController,
             mode: .light,
             navBarHidden: true
-        )
+        ) {
+            if case .error = viewModel.viewState { return true }
+            return false
+        }
     }
 
     func test_loadInNavigationController_error_network_dark_rendersCorrectly() async {
-        let mockTravelService = MockTravelService()
-        mockTravelService._stubbedGetCountriesResult = .failure(.networkUnavailable)
-        let viewModel = makeViewModel(travelService: mockTravelService)
-
-        await viewModel.viewDidAppear()
-        await Task.yield()
+        let viewModel = makeViewModel(
+            groupsResult: .success([]),
+            countriesResult: .failure(.networkUnavailable)
+        )
 
         let viewController = makeViewController(viewModel: viewModel)
 
-        VerifySnapshotInNavigationController(
+        await VerifySnapshotInNavigationController(
             viewController: viewController,
             mode: .dark,
             navBarHidden: true
-        )
+        ) {
+            if case .error = viewModel.viewState { return true }
+            return false
+        }
     }
 
-    private func makeViewModel(travelService: TravelServiceInterface? = nil) -> EditCountriesViewModel {
-        let defaultTravelService = SnapshotTravelService(
-            travelGroupResult: nil,
-            countryListResult: nil
+    private func makeViewModel(
+        groupsResult: TravelGroupResult? = nil,
+        countriesResult: CountriesListResult? = nil
+    ) -> EditCountriesViewModel {
+        let travelService = SnapshotTravelService(
+            travelGroupResult: groupsResult,
+            countryListResult: countriesResult
         )
-        let mockTravelService = travelService ?? defaultTravelService
-        let analyticsService = MockAnalyticsService()
-        let notificationService = MockNotificationService()
         return EditCountriesViewModel(
-            travelService: mockTravelService,
-            analyticsService: analyticsService,
-            notificationService: notificationService,
+            travelService: travelService,
+            analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService(),
             urlOpener: MockURLOpener(),
             openCountryListFooterAction: { /*NO-OP*/ },
             navigateBackAction: { /*NO-OP*/ }

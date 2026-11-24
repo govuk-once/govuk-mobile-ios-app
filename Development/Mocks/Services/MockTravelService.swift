@@ -1,16 +1,14 @@
 import Foundation
 
 class MockTravelService: TravelServiceInterface {
+
     var _getGroupsCalled = false
     var _receivedGetGroupsCompletion: TravelGroupResultCompletion?
     var _getGroupsCompletion: (() -> Void)?
 
-    var _getCountriesCalled = false
-    var _receivedGetCountriesCompletion: CountriesListResultCompletion?
-    var _getCountriesCompletion: (() -> Void)?
-
     var _stubbedGetGroupsResult: TravelGroupResult?
     var _stubbedGetCountriesResult: CountriesListResult?
+
     func getGroups(
         forceRefresh: Bool,
         completion: @escaping TravelGroupResultCompletion
@@ -27,13 +25,23 @@ class MockTravelService: TravelServiceInterface {
         _getGroupsCompletion?()
     }
 
+    var _getCountriesCalled = false
+    var _getCountriesCalledWithForceRefresh = false
+    var _receivedGetCountriesCompletion: CountriesListResultCompletion?
+    var _getCountriesCompletion: (() -> Void)?
+    var _autoCallGetCountriesCompletion = true
+
     func getCountries(
-        forceRefresh: Bool, completion:
-        @escaping CountriesListResultCompletion
+        forceRefresh: Bool,
+        completion: @escaping CountriesListResultCompletion
     ) {
         _getCountriesCalled = true
+        if forceRefresh {
+            _getCountriesCalledWithForceRefresh = true
+        }
         _receivedGetCountriesCompletion = completion
 
+        guard _autoCallGetCountriesCompletion else { return }
         if let result = _stubbedGetCountriesResult {
             completion(result)
         } else {

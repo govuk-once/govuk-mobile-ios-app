@@ -11,23 +11,47 @@ protocol TravelRepositoryInterface {
 }
 
 final class TravelRepository: TravelRepositoryInterface {
-    private var groups: [TravelGroup]?
-    private var countries: [Country]?
+    class DateProvider {
+        var currentDate: Date {
+            Date()
+        }
+    }
+
+    private struct CacheEntry<T> {
+        private let travelExpiration: TimeInterval = 300
+
+        let data: T
+        let lastUpdate: Date
+
+        func hasExpired(with date: Date) -> Bool {
+            date.timeIntervalSince(lastUpdate) > travelExpiration
+        }
+    }
+
+    private var groups: CacheEntry<[TravelGroup]>?
+    private var countries: CacheEntry<[Country]>?
+    private var dateProvider: DateProvider
+
+    init(dateProvider: DateProvider = .init()) {
+        self.dateProvider = dateProvider
+    }
 
     func fetchGroups() -> [TravelGroup]? {
-        groups
+        guard let groups else { return nil }
+        return groups.hasExpired(with: dateProvider.currentDate) ? nil : groups.data
     }
 
     func store(groups: [TravelGroup]) {
-        self.groups = groups
+        self.groups = .init(data: groups, lastUpdate: dateProvider.currentDate)
     }
 
     func fetchCountries() -> [Country]? {
-        countries
+        guard let countries else { return nil }
+        return countries.hasExpired(with: dateProvider.currentDate) ? nil : countries.data
     }
 
     func store(countries: [Country]) {
-        self.countries = countries
+        self.countries = .init(data: countries, lastUpdate: dateProvider.currentDate)
     }
 
     func invalidateGroups() {

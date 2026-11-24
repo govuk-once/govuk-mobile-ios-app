@@ -112,6 +112,35 @@ struct DrivingTopicWidgetCoordinatorTests {
     }
 
     @Test
+    func makeWidget_categoriesAction_startsLicenceCategories() {
+        let drivingTopic = Topic.arrange(
+            context: coreDataRepository.viewContext,
+            ref: "driving-transport"
+        )
+        mockConfigService.features = [.dvla]
+        let mockCoordinatorBuilder = MockDVLACoordinatorBuilder()
+        let mockLicenceCategoriesCoordinator = MockBaseCoordinator()
+        mockCoordinatorBuilder._stubbedLicenceCategoriesCoordinator = mockLicenceCategoriesCoordinator
+        let expectedEntitlements: [Entitlement] = [.arrange]
+
+        let sut = DrivingTopicWidgetCoordinator(
+            navigationController: UINavigationController(),
+            analyticsService: mockAnalyticsService,
+            configService: mockConfigService,
+            userService: mockUserService,
+            dvlaService: mockDvlaService,
+            coordinatorBuilder: mockCoordinatorBuilder,
+            widgetViewBuilder: mockWidgetViewBuilder,
+            urlOpener: MockURLOpener()
+        )
+        let _ = sut.makeWidget(for: drivingTopic)
+        mockWidgetViewBuilder._receivedCategoriesAction?(expectedEntitlements)
+
+        #expect(mockLicenceCategoriesCoordinator._startCalled == true)
+        #expect(mockCoordinatorBuilder._receivedLicenceCategoriesEntitlements == expectedEntitlements)
+    }
+
+    @Test
     func makeWidget_vehicleDetailActions_startsVehicleDetail() {
         let drivingTopic = Topic.arrange(
             context: coreDataRepository.viewContext,

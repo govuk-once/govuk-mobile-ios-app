@@ -184,6 +184,100 @@ struct BaseCoordinatorTests {
 
         #expect(mockNavigationController._popCalled)
     }
+
+    @Test
+    func dismiss_whenPresentingModal_callsDismiss() throws {
+        let mockNavigationController = MockNavigationController()
+        mockNavigationController.viewControllers = [UIViewController(), UIViewController()]
+        let subject = TestCoordinator(navigationController: mockNavigationController)
+
+        let window = try #require(UIApplication.shared.window)
+        window.rootViewController = mockNavigationController
+        window.makeKeyAndVisible()
+        mockNavigationController.present(UIViewController(), animated: false)
+
+        subject.dismiss(animated: false)
+
+        #expect(mockNavigationController._dismissCalled)
+        #expect(!mockNavigationController._popCalled)
+    }
+
+    @Test
+    func dismiss_whenModalWithMultipleViewControllers_callsPop() {
+        let mockNavigationController = MockNavigationController()
+        mockNavigationController.viewControllers = [UIViewController(), UIViewController()]
+        mockNavigationController._stubbedPresentingViewController = UINavigationController()
+        let subject = TestCoordinator(navigationController: mockNavigationController)
+
+        subject.dismiss(animated: false)
+
+        #expect(mockNavigationController._popCalled)
+        #expect(!mockNavigationController._dismissCalled)
+    }
+
+    @Test
+    func dismiss_whenModalWithMultipleViewControllers_popsViewController() {
+        let firstVC = UIViewController()
+        let secondVC = UIViewController()
+        let mockNavigationController = MockNavigationController()
+        mockNavigationController.viewControllers = [firstVC, secondVC]
+        mockNavigationController._stubbedPresentingViewController = UINavigationController()
+        let subject = TestCoordinator(navigationController: mockNavigationController)
+
+        subject.dismiss(animated: false)
+
+        #expect(mockNavigationController.viewControllers == [firstVC])
+        #expect(!mockNavigationController._dismissCalled)
+    }
+
+    @Test
+    func dismiss_whenPushedWithMultipleViewControllers_popsViewController() {
+        let firstVC = UIViewController()
+        let secondVC = UIViewController()
+        let mockNavigationController = MockNavigationController()
+        mockNavigationController.viewControllers = [firstVC, secondVC]
+        let subject = TestCoordinator(navigationController: mockNavigationController)
+
+        subject.dismiss(animated: false)
+
+        #expect(mockNavigationController.viewControllers == [firstVC])
+        #expect(!mockNavigationController._dismissCalled)
+    }
+
+    @Test
+    func dismiss_modalAtRoot_callsDismiss() throws {
+        let rootVC = UIViewController()
+        let mockNavigationController = MockNavigationController()
+        mockNavigationController.viewControllers = [rootVC]
+        let subject = TestCoordinator(navigationController: mockNavigationController)
+
+        let parentNavigationController = UINavigationController()
+        let parent = MockBaseCoordinator(navigationController: parentNavigationController)
+        let window = try #require(UIApplication.shared.window)
+        window.rootViewController = parentNavigationController
+        window.makeKeyAndVisible()
+
+        parent.present(subject, animated: false)
+
+        mockNavigationController._stubbedPresentingViewController = parentNavigationController
+        subject.dismiss(animated: false)
+
+        #expect(mockNavigationController._dismissCalled)
+        #expect(mockNavigationController.viewControllers == [rootVC])
+    }
+
+    @Test
+    func dismiss_whenAtRootAndNotModal_doesNothing() {
+        let rootVC = UIViewController()
+        let mockNavigationController = MockNavigationController()
+        mockNavigationController.viewControllers = [rootVC]
+        let subject = TestCoordinator(navigationController: mockNavigationController)
+
+        subject.dismiss(animated: false)
+
+        #expect(!mockNavigationController._dismissCalled)
+        #expect(mockNavigationController.viewControllers == [rootVC])
+    }
 }
 
 private class TestCoordinator: BaseCoordinator {
