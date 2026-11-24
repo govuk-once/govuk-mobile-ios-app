@@ -14,7 +14,6 @@ struct DrivingLicenceNoticeView: View {
                 .foregroundStyle(Color(uiColor: .govUK.text.primary))
                 .padding(.vertical, 24)
                 .padding(.leading, 16)
-                .padding(.trailing, 60)
                 .frame(maxWidth: .infinity, alignment: .leading)
             if let action = viewModel.action {
                 Divider()
@@ -98,7 +97,12 @@ struct DrivingLicenceNoticeHeader: View {
     DrivingLicenceNoticeView(viewModel:
                                 DrivingLicenceNoticeViewModel(
                                     title: "title",
-                                    body: "body\nbody",
+                                    body: """
+                                    body body
+                                    multiline text
+                                    the quick brown fox jumps over the lazy dog.
+                                    Another line.
+                                    """,
                                     action: nil)
                                 )
 }
@@ -110,7 +114,12 @@ struct DrivingLicenceNoticeHeader: View {
                                 DrivingLicenceNoticeViewModel(
                                     title: "title",
                                     titleStyle: .inverted,
-                                    body: "body\nbody",
+                                    body: """
+                                    body body
+                                    multiline text
+                                    the quick brown fox jumps over the lazy dog.
+                                    Another line.
+                                    """,
                                     action: nil)
                                 )
 }
