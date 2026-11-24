@@ -15,9 +15,8 @@ class ChatInfoOnboardingCoordinator: BaseCoordinator {
                 self?.startChatConsentOnboarding()
             },
             cancelOnboardingAction: { [weak self] in
-                self?.dismiss(animated: true)
                 self?.cancelOnboardingAction()
-                self?.finish()
+                self?.dismissModal()
             }
         )
     }()
@@ -45,13 +44,22 @@ class ChatInfoOnboardingCoordinator: BaseCoordinator {
             navigationController: root,
             cancelOnboardingAction: { [weak self] in
                 self?.cancelOnboardingAction()
-                self?.finish()
+                self?.dismissModal()
             },
             completionAction: { [weak self] in
                 self?.setChatViewControllerAction(true)
-                self?.finish()
+                self?.dismissModal()
             }
         )
         start(coordinator)
+    }
+
+    private func dismissModal() {
+        root.dismiss(
+            animated: true,
+            completion: { [weak self] in
+                self?.finish()
+            }
+        )
     }
 }

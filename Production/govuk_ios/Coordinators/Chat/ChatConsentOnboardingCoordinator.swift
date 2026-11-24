@@ -14,9 +14,8 @@ class ChatConsentOnboardingCoordinator: BaseCoordinator {
             analyticsService: analyticsService,
             chatService: chatService,
             cancelOnboardingAction: { [weak self] in
-                self?.dismiss(animated: true)
                 self?.cancelOnboardingAction()
-                self?.finish()
+                self?.dismissModal()
             },
             completionAction: { [weak self] in
                 self?.startTermsOnboarding()
@@ -29,14 +28,12 @@ class ChatConsentOnboardingCoordinator: BaseCoordinator {
             analyticsService: analyticsService,
             chatService: chatService,
             cancelOnboardingAction: { [weak self] in
-                self?.dismiss(animated: true)
                 self?.cancelOnboardingAction()
-                self?.finish()
+                self?.dismissModal()
             },
             completionAction: { [weak self] in
                 self?.completionAction()
-                self?.dismiss(animated: true)
-                self?.finish()
+                self?.dismissModal()
             },
             openURLAction: presentWebView
         )
@@ -73,5 +70,14 @@ class ChatConsentOnboardingCoordinator: BaseCoordinator {
             fullScreen: true
         )
         start(coordinator)
+    }
+
+    private func dismissModal() {
+        root.dismiss(
+            animated: true,
+            completion: { [weak self] in
+                self?.finish()
+            }
+        )
     }
 }
