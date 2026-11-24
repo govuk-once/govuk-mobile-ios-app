@@ -1,5 +1,6 @@
 import Foundation
 import Testing
+import Combine
 
 @testable import GovKit
 @testable import govuk_ios
@@ -22,12 +23,14 @@ struct StoredLocalAuthorityWidgetViewModelTests {
         await withCheckedContinuation { continuation in
             let sut = StoredLocalAuthorityWidgetViewModel(
                 analyticsService: MockAnalyticsService(),
+                localAuthorityService: MockLocalAuthorityService(),
                 localAuthorities: [localAuthorityItem],
                 openURLAction: { localUrl in
                     openedURL = localUrl
                     continuation.resume()
                 },
-                openEditViewAction: {}
+                openEditViewAction: { },
+                deleteCompletion: { }
             )
             sut.open(item: expectedItem)
         }
@@ -49,15 +52,16 @@ struct StoredLocalAuthorityWidgetViewModelTests {
 
         let sut = StoredLocalAuthorityWidgetViewModel(
             analyticsService: mockAnalyticsService,
+            localAuthorityService: MockLocalAuthorityService(),
             localAuthorities: [localAuthorityItem],
             openURLAction: { _ in },
-            openEditViewAction: {}
+            openEditViewAction: { },
+            deleteCompletion: { }
         )
         let item = StoredLocalAuthorityCardModel.arrange
         sut.open(item: item)
         let receivedTrackingTitle = mockAnalyticsService._trackedEvents.first?.params?["text"] as? String
         #expect(receivedTrackingTitle == item.name)
-
     }
 
     @Test
@@ -73,9 +77,11 @@ struct StoredLocalAuthorityWidgetViewModelTests {
 
         let sut = StoredLocalAuthorityWidgetViewModel(
             analyticsService: MockAnalyticsService(),
+            localAuthorityService: MockLocalAuthorityService(),
             localAuthorities: [mockAuthorityItem],
             openURLAction: { _ in },
-            openEditViewAction: {}
+            openEditViewAction: { },
+            deleteCompletion: { }
         )
 
         let result = sut.cardModels()
@@ -110,14 +116,148 @@ struct StoredLocalAuthorityWidgetViewModelTests {
 
         let sut = StoredLocalAuthorityWidgetViewModel(
             analyticsService: MockAnalyticsService(),
+            localAuthorityService: MockLocalAuthorityService(),
             localAuthorities: authorityItems,
             openURLAction: { _ in },
-            openEditViewAction: {}
+            openEditViewAction: { },
+            deleteCompletion: { }
         )
 
         let result = sut.cardModels()
         #expect(result.count == 2)
         #expect(result.first?.homepageUrl == "https://www.derbyshire.gov.uk/")
         #expect(result.first?.description == "County councils are usually responsible for services like education, social care and transport")
+    }
+
+    @Test
+    func changeAction_opensEditView() async {
+        let coreData = await CoreDataRepository.arrangeAndLoad
+        let localAuthorityItem = LocalAuthorityItem(
+            context: coreData.backgroundContext
+        )
+        await confirmation { confirmation in
+            let sut = StoredLocalAuthorityWidgetViewModel(
+                analyticsService: MockAnalyticsService(),
+                localAuthorityService: MockLocalAuthorityService(),
+                localAuthorities: [localAuthorityItem],
+                openURLAction: { _ in },
+                openEditViewAction: { confirmation() },
+                deleteCompletion: { }
+            )
+            sut.changeAction()
+        }
+    }
+
+    @Test
+    func changeAction_tracksEvent() async {
+        let coreData = await CoreDataRepository.arrangeAndLoad
+        let localAuthorityItem = LocalAuthorityItem(
+            context: coreData.backgroundContext
+        )
+        let mockAnalyticsService = MockAnalyticsService()
+        let sut = StoredLocalAuthorityWidgetViewModel(
+            analyticsService: mockAnalyticsService,
+            localAuthorityService: MockLocalAuthorityService(),
+            localAuthorities: [localAuthorityItem],
+            openURLAction: { _ in },
+            openEditViewAction: { },
+            deleteCompletion: { }
+        )
+        sut.changeAction()
+
+        let receivedTrackingTitle = mockAnalyticsService._trackedEvents.first?.params?["text"] as? String
+        #expect(receivedTrackingTitle == "Change")
+    }
+
+    @Test @MainActor
+    func deleteAction_callsCompletion() async {
+        let service = MockLocalAuthorityService()
+        let completionSubject = PassthroughSubject<Void, Never>()
+        var cancellable: AnyCancellable?
+
+        let sut = StoredLocalAuthorityWidgetViewModel(
+            analyticsService: MockAnalyticsService(),
+            localAuthorityService: service,
+            localAuthorities: [],
+            openURLAction: { _ in },
+            openEditViewAction: { },
+            deleteCompletion: {
+                completionSubject.send(())
+            }
+        )
+
+        await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
+            cancellable = completionSubject
+                .sink { _ in continuation.resume() }
+
+            sut.deleteAction()
+        }
+
+        #expect(service._deleteLocalAuthoritiesCalled)
+        withExtendedLifetime(cancellable) {}
+    }
+
+    @Test
+    func deleteAction_tracksEvent() async {
+        let coreData = await CoreDataRepository.arrangeAndLoad
+        let localAuthorityItem = LocalAuthorityItem(
+            context: coreData.backgroundContext
+        )
+        let mockAnalyticsService = MockAnalyticsService()
+        let sut = StoredLocalAuthorityWidgetViewModel(
+            analyticsService: mockAnalyticsService,
+            localAuthorityService: MockLocalAuthorityService(),
+            localAuthorities: [localAuthorityItem],
+            openURLAction: { _ in },
+            openEditViewAction: { },
+            deleteCompletion: { }
+        )
+        sut.deleteAction()
+
+        let receivedTrackingTitle = mockAnalyticsService._trackedEvents.first?.params?["text"] as? String
+        #expect(receivedTrackingTitle == "Remove")
+    }
+
+    @Test
+    func removeLocalAuthorityAlertTitle_singleAuthority_returnsTitle() async {
+        let coreData = await CoreDataRepository.arrangeAndLoad
+        let localAuthorityItem = LocalAuthorityItem(
+            context: coreData.backgroundContext
+        )
+        let mockAnalyticsService = MockAnalyticsService()
+        let sut = StoredLocalAuthorityWidgetViewModel(
+            analyticsService: mockAnalyticsService,
+            localAuthorityService: MockLocalAuthorityService(),
+            localAuthorities: [localAuthorityItem],
+            openURLAction: { _ in },
+            openEditViewAction: { },
+            deleteCompletion: { }
+        )
+        #expect(sut.removeLocalAuthorityAlertTitle == "Remove council?")
+    }
+
+    @Test
+    func removeLocalAuthorityAlertTitle_twoTierAuthority_returnsTitle() async {
+        let coreData = await CoreDataRepository.arrangeAndLoad
+        let parentAuthority = LocalAuthorityItem(
+            context: coreData.backgroundContext
+        )
+        let childAuthority = LocalAuthorityItem(
+            context: coreData.backgroundContext
+        )
+        var authorityItems: [LocalAuthorityItem] = []
+        authorityItems.append(parentAuthority)
+        authorityItems.append(childAuthority)
+
+        let sut = StoredLocalAuthorityWidgetViewModel(
+            analyticsService: MockAnalyticsService(),
+            localAuthorityService: MockLocalAuthorityService(),
+            localAuthorities: authorityItems,
+            openURLAction: { _ in },
+            openEditViewAction: { },
+            deleteCompletion: { }
+        )
+
+        #expect(sut.removeLocalAuthorityAlertTitle == "Remove councils?")
     }
 }

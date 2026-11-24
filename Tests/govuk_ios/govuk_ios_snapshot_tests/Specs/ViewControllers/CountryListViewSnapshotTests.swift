@@ -10,7 +10,9 @@ final class CountryListViewSnapshotTests: SnapshotTestCase {
     var coreData: CoreDataRepository!
 
     func test_loadInNavigationController_light_rendersCorrectly() {
-        let viewModel = makeViewModel()
+        let mockTravelService = MockTravelService()
+        mockTravelService._autoCallGetCountriesCompletion = false
+        let viewModel = makeViewModel(travelService: mockTravelService)
         let viewController = makeViewController(viewModel: viewModel)
 
         VerifySnapshotInNavigationController(
@@ -21,7 +23,9 @@ final class CountryListViewSnapshotTests: SnapshotTestCase {
     }
 
     func test_loadInNavigationController_dark_rendersCorrectly() {
-        let viewModel = makeViewModel()
+        let mockTravelService = MockTravelService()
+        mockTravelService._autoCallGetCountriesCompletion = false
+        let viewModel = makeViewModel(travelService: mockTravelService)
         let viewController = makeViewController(viewModel: viewModel)
 
         VerifySnapshotInNavigationController(
