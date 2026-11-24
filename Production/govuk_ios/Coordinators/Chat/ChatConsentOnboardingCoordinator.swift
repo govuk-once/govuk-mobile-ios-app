@@ -15,6 +15,7 @@ class ChatConsentOnboardingCoordinator: BaseCoordinator {
             chatService: chatService,
             cancelOnboardingAction: { [weak self] in
                 self?.cancelOnboardingAction()
+                self?.finish()
             },
             completionAction: { [weak self] in
                 self?.startTermsOnboarding()
@@ -28,9 +29,11 @@ class ChatConsentOnboardingCoordinator: BaseCoordinator {
             chatService: chatService,
             cancelOnboardingAction: { [weak self] in
                 self?.cancelOnboardingAction()
+                self?.finish()
             },
             completionAction: { [weak self] in
                 self?.completionAction()
+                self?.finish()
             },
             openURLAction: presentWebView
         )
