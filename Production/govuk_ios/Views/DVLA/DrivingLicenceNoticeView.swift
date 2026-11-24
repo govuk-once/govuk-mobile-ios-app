@@ -13,10 +13,11 @@ struct DrivingLicenceNoticeView: View {
                 .font(.govUK.body)
                 .foregroundStyle(Color(uiColor: .govUK.text.primary))
                 .padding(.vertical, 24)
-                .padding(.leading, 16)
+                .padding(.horizontal, 16)
                 .frame(maxWidth: .infinity, alignment: .leading)
             if let action = viewModel.action {
                 Divider()
+                    .padding(.horizontal, 16)
                 button(for: action)
             }
         }
