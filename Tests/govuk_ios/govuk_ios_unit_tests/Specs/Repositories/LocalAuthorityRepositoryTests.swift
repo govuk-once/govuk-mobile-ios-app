@@ -82,4 +82,35 @@ struct LocalAuthorityRepositoryTests {
         #expect(localAuthorityItems.first?.parent == nil)
     }
 
+    @Test func delete_removesAllItems_callsCompletion() async throws {
+        let coreData = await CoreDataRepository.arrangeAndLoad
+        let sut = LocalAuthorityRepository(coreData: coreData)
+
+        let parentAuthority = Authority(
+            name: "Derbyshire County Council",
+            homepageUrl: "https://www.derbyshiredales.gov.uk/",
+            tier: "county",
+            slug: "derbyshire-dales"
+        )
+        let localAuthority = Authority(
+            name: "Derbyshire Dales District Council",
+            homepageUrl: "https://www.derbyshiredales.gov.uk/",
+            tier: "district",
+            slug: "derbyshire-dales",
+            parent: parentAuthority
+        )
+        sut.save(localAuthority)
+
+        let savedLocalAuthorityItems = sut.fetchLocalAuthority()
+        #expect(savedLocalAuthorityItems.count == 2)
+
+        await confirmation() { confirmation in
+            sut.delete {
+                confirmation()
+            }
+        }
+
+        let localAuthorityItems = sut.fetchLocalAuthority()
+        #expect(localAuthorityItems.count == 0)
+    }
 }

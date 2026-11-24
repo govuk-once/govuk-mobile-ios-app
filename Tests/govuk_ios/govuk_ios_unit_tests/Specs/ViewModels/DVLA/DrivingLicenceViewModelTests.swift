@@ -17,16 +17,20 @@ struct DrivingLicenceViewModelTests {
         mockConfigService = MockAppConfigService()
     }
 
-    @Test
-    func viewDidAppear_fetchesLicence() async {
-        mockDvlaService._stubbedFetchDrivingLicenceResult = .success(.arrange)
-        let sut = DrivingLicenceViewModel(
+    private func makeSUT() -> DrivingLicenceViewModel {
+        DrivingLicenceViewModel(
             analyticsService: mockAnalyticsService,
             dvlaService: mockDvlaService,
             configService: mockConfigService,
             categoriesAction: { _ in },
             openURLAction: { _ in }
         )
+    }
+
+    @Test
+    func viewDidAppear_fetchesLicence() async {
+        mockDvlaService._stubbedFetchDrivingLicenceResult = .success(.arrange)
+        let sut = makeSUT()
         await sut.viewDidAppear()
         #expect(mockDvlaService._fetchDrivingLicenceCallCount == 1)
     }
@@ -36,13 +40,7 @@ struct DrivingLicenceViewModelTests {
         mockDvlaService._stubbedFetchDrivingLicenceResult = .success(
             .arrange(licenceNumber: "ABC123DE")
         )
-        let sut = DrivingLicenceViewModel(
-            analyticsService: mockAnalyticsService,
-            dvlaService: mockDvlaService,
-            configService: mockConfigService,
-            categoriesAction: { _ in },
-            openURLAction: { _ in }
-        )
+        let sut = makeSUT()
         await sut.viewDidAppear()
         var licenceSummaryViewModel: DrivingLicenceSummaryViewModel?
         if case .loaded(let loadedState) = sut.viewState {
@@ -55,13 +53,7 @@ struct DrivingLicenceViewModelTests {
     @Test
     func viewDidAppear_fetchLicenceSuccess_createsDrivingRecordViewModel() async throws {
         mockDvlaService._stubbedFetchDrivingLicenceResult = .success(.arrange)
-        let sut = DrivingLicenceViewModel(
-            analyticsService: mockAnalyticsService,
-            dvlaService: mockDvlaService,
-            configService: mockConfigService,
-            categoriesAction: { _ in },
-            openURLAction: { _ in }
-        )
+        let sut = makeSUT()
         await sut.viewDidAppear()
         var drivingRecordViewModel: DrivingRecordViewModel?
         if case .loaded(let loadedState) = sut.viewState {
@@ -75,13 +67,7 @@ struct DrivingLicenceViewModelTests {
     @Test
     func viewDidAppear_fetchLicenceSuccess_createsCategoriesViewModel() async throws {
         mockDvlaService._stubbedFetchDrivingLicenceResult = .success(.arrange)
-        let sut = DrivingLicenceViewModel(
-            analyticsService: mockAnalyticsService,
-            dvlaService: mockDvlaService,
-            configService: mockConfigService,
-            categoriesAction: { _ in },
-            openURLAction: { _ in }
-        )
+        let sut = makeSUT()
         await sut.viewDidAppear()
         var categoriesViewModel: LicenceCategoriesSectionViewModel?
         if case .loaded(let loadedState) = sut.viewState {
@@ -92,26 +78,25 @@ struct DrivingLicenceViewModelTests {
         #expect(categoriesRow.title == String(localized: .DVLA.licenceCategoriesButtonTitle))
     }
 
-    @Test
-    func viewDidAppear_fetchLicenceSuccess_licenceStatusNotValidOrExpired_createsNoticeViewModel() async throws {
+    @Test(arguments: [
+        DrivingLicenceStatus.surrendered,
+        .surrenderedVoluntarily,
+        .surrenderedForMedicalReasons,
+        .exchanged
+    ])
+    func viewDidAppear_fetchLicenceSuccess_licenceStatusSurrenderedOrExchanged_createsNoticeViewModel(status: DrivingLicenceStatus) async throws {
         mockDvlaService._stubbedFetchDrivingLicenceResult = .success(
-            .arrange(licenceStatus: .surrendered)
+            .arrange(licenceStatus: status)
         )
-        let sut = DrivingLicenceViewModel(
-            analyticsService: mockAnalyticsService,
-            dvlaService: mockDvlaService,
-            configService: mockConfigService,
-            categoriesAction: { _ in },
-            openURLAction: { _ in }
-        )
+        let sut = makeSUT()
         await sut.viewDidAppear()
         var licenceNoticeViewModel: DrivingLicenceNoticeViewModel?
         if case .notice(let notice) = sut.viewState {
             licenceNoticeViewModel = notice
         }
         let unwrappedLicenceNoticeViewModel = try #require(licenceNoticeViewModel)
-        #expect(unwrappedLicenceNoticeViewModel.title == String(localized: .DVLA.licenceNotAvailableTitle))
-        #expect(unwrappedLicenceNoticeViewModel.body == String(localized: .DVLA.licenceNotAvailableBody))
+        #expect(unwrappedLicenceNoticeViewModel.title == String(localized: .DVLA.licenceNotFoundTitle))
+        #expect(unwrappedLicenceNoticeViewModel.body == String(localized: .DVLA.licenceNotFoundBody))
     }
 
     @Test
@@ -119,13 +104,7 @@ struct DrivingLicenceViewModelTests {
         mockDvlaService._stubbedFetchDrivingLicenceResult = .success(
             .arrange(licenceStatus: .unknown)
         )
-        let sut = DrivingLicenceViewModel(
-            analyticsService: mockAnalyticsService,
-            dvlaService: mockDvlaService,
-            configService: mockConfigService,
-            categoriesAction: { _ in },
-            openURLAction: { _ in }
-        )
+        let sut = makeSUT()
         await sut.viewDidAppear()
         var licenceNoticeViewModel: DrivingLicenceNoticeViewModel?
         if case .notice(let notice) = sut.viewState {
@@ -141,13 +120,7 @@ struct DrivingLicenceViewModelTests {
         let mockDriverDetailsURLString = "https://dvla.gov.uk/driver-details"
         mockDvlaService._stubbedFetchDrivingLicenceResult = .failure(.serviceUnavailable(statusCode: nil))
         mockConfigService._dvlaUrls = .arrange(driverDetails: mockDriverDetailsURLString)
-        let sut = DrivingLicenceViewModel(
-            analyticsService: mockAnalyticsService,
-            dvlaService: mockDvlaService,
-            configService: mockConfigService,
-            categoriesAction: { _ in },
-            openURLAction: { _ in }
-        )
+        let sut = makeSUT()
         await sut.viewDidAppear()
         var errorViewModel: InlineActionErrorViewModel?
         if case .error(let error) = sut.viewState {
@@ -170,17 +143,11 @@ struct DrivingLicenceViewModelTests {
     }
 
     @Test
-    func viewDidAppear_fetchLicenceFailure_licenceNotFound_createsNoticeViewModel() async throws {
+    func viewDidAppear_fetchLicenceFailure_licenceNotAvailable_createsNoticeViewModel() async throws {
         let mockDriverDetailsURLString = "https://dvla.gov.uk/driver-details"
-        mockDvlaService._stubbedFetchDrivingLicenceResult = .failure(.notFound())
+        mockDvlaService._stubbedFetchDrivingLicenceResult = .failure(.notAvailable())
         mockConfigService._dvlaUrls = .arrange(driverDetails: mockDriverDetailsURLString)
-        let sut = DrivingLicenceViewModel(
-            analyticsService: mockAnalyticsService,
-            dvlaService: mockDvlaService,
-            configService: mockConfigService,
-            categoriesAction: { _ in },
-            openURLAction: { _ in }
-        )
+        let sut = makeSUT()
         await sut.viewDidAppear()
         var licenceNoticeViewModel: DrivingLicenceNoticeViewModel?
         if case .notice(let notice) = sut.viewState {
@@ -189,7 +156,7 @@ struct DrivingLicenceViewModelTests {
         #expect(licenceNoticeViewModel?.title == String(localized: .DVLA.licenceNotAvailableTitle))
         #expect(licenceNoticeViewModel?.body == String(localized: .DVLA.licenceNotAvailableBody))
 
-        licenceNoticeViewModel?.action()
+        licenceNoticeViewModel?.action?.handler()
         let trackedEvent = try #require(mockAnalyticsService._trackedEvents.first)
         #expect(trackedEvent.name == "Navigation")
         #expect(trackedEvent.params?["text"] as? String == String(localized: .DVLA.licenceNotAvailableButtonTitle))
@@ -199,19 +166,27 @@ struct DrivingLicenceViewModelTests {
     }
 
     @Test
+    func viewDidAppear_fetchLicenceFailure_licenceNotFound_createsNoticeViewModel() async {
+        mockDvlaService._stubbedFetchDrivingLicenceResult = .failure(.notFound())
+        let sut = makeSUT()
+        await sut.viewDidAppear()
+        var licenceNoticeViewModel: DrivingLicenceNoticeViewModel?
+        if case .notice(let notice) = sut.viewState {
+            licenceNoticeViewModel = notice
+        }
+        #expect(licenceNoticeViewModel?.title == String(localized: .DVLA.licenceNotFoundTitle))
+        #expect(licenceNoticeViewModel?.body == String(localized: .DVLA.licenceNotFoundBody))
+        #expect(licenceNoticeViewModel?.action == nil)
+    }
+
+    @Test
     func licenceStatusViewModelAction_tracksOpenURLEvent() async throws {
         mockDvlaService._stubbedFetchDrivingLicenceResult = .success(
             .arrange(licenceStatus: .expired)
         )
         mockConfigService._dvlaUrls = .arrange(renewLicence: "https://renewLicence.com")
 
-        let sut = DrivingLicenceViewModel(
-            analyticsService: mockAnalyticsService,
-            dvlaService: mockDvlaService,
-            configService: mockConfigService,
-            categoriesAction: { _ in },
-            openURLAction: { _ in }
-        )
+        let sut = makeSUT()
         await sut.viewDidAppear()
         var licenceSummaryViewModel: DrivingLicenceSummaryViewModel?
         if case .loaded(let loadedState) = sut.viewState {
@@ -230,13 +205,7 @@ struct DrivingLicenceViewModelTests {
     @Test
     func licenceCategoriesSectionViewModelAction_tracksNavigationEvent() async throws {
         mockDvlaService._stubbedFetchDrivingLicenceResult = .success(.arrange)
-        let sut = DrivingLicenceViewModel(
-            analyticsService: mockAnalyticsService,
-            dvlaService: mockDvlaService,
-            configService: mockConfigService,
-            categoriesAction: { _ in },
-            openURLAction: { _ in }
-        )
+        let sut = makeSUT()
         await sut.viewDidAppear()
         var categoriesViewModel: LicenceCategoriesSectionViewModel?
         if case .loaded(let loadedState) = sut.viewState {

@@ -50,7 +50,6 @@ class EditCountriesViewModel: ObservableObject {
     private let openCountryListFooterAction: () -> Void
     private let navigateBackAction: () -> Void
     private var allCountries: [Country] = []
-    private var followedCountries: Set<String> = []
     private var notificationStateCache: [String: Bool] = [:]
     private var rationaleFlowSlug: String?
     private var rationaleFlowOutcome: NotificationsRationaleFlowOutcome = .none
@@ -198,24 +197,29 @@ class EditCountriesViewModel: ObservableObject {
     private func fetchCountryList(forceRefresh: Bool = false) async {
         viewState = .loading
         countriesSection = []
+        let service = travelService
 
-        travelService.getGroups(forceRefresh: forceRefresh) { [weak self] result in
-            Task { @MainActor in
-                switch result {
-                case .success(let groups):
-                    self?.travelService.getCountries(
-                        forceRefresh: false
-                    ) { [weak self] countriesResult in
-                        Task { @MainActor in
-                            let countries = (try? countriesResult.get()) ?? []
-                            self?.buildRows(from: groups, countries: countries)
-                            self?.buildFooterRow()
-                        }
-                    }
-                case .failure(let error):
-                    self?.handleCountryFetchError(error)
+        async let groupsFetch: Result<[TravelGroup], TravelError> =
+            withCheckedContinuation { continuation in
+                service.getGroups(forceRefresh: forceRefresh) {
+                    continuation.resume(returning: $0)
                 }
             }
+        async let countriesFetch: Result<[Country], TravelError> =
+            withCheckedContinuation { continuation in
+                service.getCountries(forceRefresh: forceRefresh) {
+                    continuation.resume(returning: $0)
+                }
+            }
+
+        let (groupsResult, countriesResult) = await (groupsFetch, countriesFetch)
+
+        switch (groupsResult, countriesResult) {
+        case (.success(let groups), .success(let countries)):
+            buildRows(from: groups, countries: countries)
+            buildFooterRow()
+        case (.failure(let error), _), (_, .failure(let error)):
+            handleCountryFetchError(error)
         }
     }
 
@@ -243,7 +247,6 @@ class EditCountriesViewModel: ObservableObject {
 
         let rows = groups.compactMap { group -> SelectableRow? in
             guard let country = countryMap[group.group.lowercased()] else { return nil }
-            self.followedCountries.insert(group.group)
 
             return SelectableRow(
                 id: group.group,
@@ -262,7 +265,7 @@ class EditCountriesViewModel: ObservableObject {
                 rows: rows,
                 footer: nil
             )]
-        } else {
+        } else if !groups.isEmpty {
             self.navigateBackAction()
             return
         }

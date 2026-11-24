@@ -104,7 +104,7 @@ struct EditCountriesViewModelTests {
     }
 
     @Test
-    func viewDidAppear_whenCountriesFetchFails_setsLoadedState() async throws {
+    func viewDidAppear_whenCountriesFetchFails_setsErrorState() async throws {
         let mockTravelService = MockTravelService()
         let testGroups = [
             TravelGroup(namespace: "travel-advice", group: "france", subgroup: "travel-subgroup")
@@ -122,7 +122,10 @@ struct EditCountriesViewModelTests {
         )
 
         await sut.viewDidAppear()
-        await Task.yield()
+        try await waitForViewState(of: sut) { state in
+            if case .error = state { return true }
+            return false
+        }
 
         #expect(mockTravelService._getCountriesCalled)
         #expect(sut.countriesSection.isEmpty)
@@ -697,6 +700,8 @@ struct EditCountriesViewModelTests {
         await sut.unfollowCountry(slug: "france", enabled: true)
         mockTravelService._receivedUnfollowCountryCompletion?(.success(()))
         await Task.yield()
+        await Task.yield()
+        await Task.yield()
 
         #expect(mockTravelService._unfollowCountryCalled == true)
         #expect(sut.isShowingCountryDetails == false)
@@ -746,6 +751,35 @@ struct EditCountriesViewModelTests {
 
         #expect(mockTravelService._unfollowCountryCalled == true)
         #expect(mockTravelService._receivedUnfollowCountrySlug == "spain")
+    }
+
+    @Test(.timeLimit(.minutes(1)))
+    func unfollowCountry_propagatesForceRefreshToGetCountries() async {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedUnfollowResult = .success(())
+        mockTravelService._autoCallUnfollowCompletion = false
+        mockTravelService._stubbedGetGroupsResult = .success([])
+        mockTravelService._stubbedGetCountriesResult = .success([])
+
+        let sut = EditCountriesViewModel(
+            travelService: mockTravelService,
+            analyticsService: MockAnalyticsService(),
+            notificationService: MockNotificationService(),
+            urlOpener: MockURLOpener(),
+            openCountryListFooterAction: {  /*Empty For Tests*/ },
+            navigateBackAction: {  /*Empty For Tests*/ }
+        )
+
+        await sut.unfollowCountry(slug: "france", enabled: true)
+        await withCheckedContinuation { continuation in
+            mockTravelService._getCountriesCompletion = {
+                mockTravelService._getCountriesCompletion = nil
+                continuation.resume()
+            }
+            mockTravelService._receivedUnfollowCountryCompletion?(.success(()))
+        }
+
+        #expect(mockTravelService._getCountriesCalledWithForceRefresh == true)
     }
 
     @Test
@@ -966,7 +1000,7 @@ struct EditCountriesViewModelTests {
         matching predicate: @escaping (EditCountriesViewModel.ViewState) -> Bool,
         timeout: TimeInterval = 2.0
     ) async throws {
-        for await state in viewModel.$viewState.dropFirst().values {
+        for await state in viewModel.$viewState.values {
             if predicate(state) { return }
         }
     }

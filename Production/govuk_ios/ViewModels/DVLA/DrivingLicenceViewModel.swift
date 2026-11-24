@@ -69,10 +69,10 @@ class DrivingLicenceViewModel: ObservableObject {
         switch drivingLicence.licenceStatus {
         case .valid, .expired:
             viewState = .loaded(makeLoadedState(for: drivingLicence))
+        case .exchanged, .surrendered, .surrenderedVoluntarily, .surrenderedForMedicalReasons:
+            viewState = .notice(licenceNotFoundNoticeViewModel)
         case .disqualified,
                 .revoked, .revokedForMedicalReasons,
-                .surrendered, .surrenderedVoluntarily, .surrenderedForMedicalReasons,
-                .exchanged,
                 .refused,
                 .refusedForMedicalReasons,
                 .unknown:
@@ -83,7 +83,10 @@ class DrivingLicenceViewModel: ObservableObject {
 
     private func handleFailedFetch(with error: DVLADomainError) {
         switch error {
-        case .notFound, .notAvailable:
+        case .notFound:
+            hasLoadedLicence = true
+            viewState = .notice(licenceNotFoundNoticeViewModel)
+        case .notAvailable:
             hasLoadedLicence = true
             viewState = .notice(licenceNotAvailableNoticeViewModel)
         case .networkUnavailable, .serviceUnavailable, .unrecognisedAPIError, .decodingError:
@@ -191,18 +194,27 @@ class DrivingLicenceViewModel: ObservableObject {
         )
     }
 
+    private var licenceNotFoundNoticeViewModel: DrivingLicenceNoticeViewModel {
+        .init(
+            title: String(localized: .DVLA.licenceNotFoundTitle),
+            body: String(localized: .DVLA.licenceNotFoundBody),
+            action: nil
+        )
+    }
+
     private var licenceNotAvailableNoticeViewModel: DrivingLicenceNoticeViewModel {
         let buttonTitle = String(localized: .DVLA.licenceNotAvailableButtonTitle)
         let url = configService.dvlaUrls?.driverDetails ?? Constants.API.defaultDvlaDriverDetailsUrl
 
-        let noticeViewModel = DrivingLicenceNoticeViewModel(
+        return DrivingLicenceNoticeViewModel(
             title: String(localized: .DVLA.licenceNotAvailableTitle),
             body: String(localized: .DVLA.licenceNotAvailableBody),
-            buttonTitle: buttonTitle,
-            action: { [weak self] in
-                self?.handleOpenURL(url: url, buttonTitle: buttonTitle)
-            }
+            action: .init(
+                buttonTitle: buttonTitle,
+                handler: { [weak self] in
+                    self?.handleOpenURL(url: url, buttonTitle: buttonTitle)
+                }
+            )
         )
-        return noticeViewModel
     }
 }

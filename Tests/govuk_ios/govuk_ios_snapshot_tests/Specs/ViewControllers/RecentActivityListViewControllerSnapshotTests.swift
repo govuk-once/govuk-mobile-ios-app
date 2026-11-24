@@ -52,6 +52,7 @@ final class RecentActivityListViewControllerSnapshotTests: SnapshotTestCase {
                 selectedAction: { _ in }
             )
         )
+        viewController.loadViewIfNeeded()
         let navigationController = UINavigationController(rootViewController: viewController)
         navigationController.navigationBar.prefersLargeTitles = true
         navigationController.overrideUserInterfaceStyle = .light
@@ -104,6 +105,7 @@ final class RecentActivityListViewControllerSnapshotTests: SnapshotTestCase {
                 selectedAction: { _ in }
             )
         )
+        viewController.loadViewIfNeeded()
         let navigationController = UINavigationController(rootViewController: viewController)
         navigationController.navigationBar.prefersLargeTitles = true
         navigationController.overrideUserInterfaceStyle = .dark

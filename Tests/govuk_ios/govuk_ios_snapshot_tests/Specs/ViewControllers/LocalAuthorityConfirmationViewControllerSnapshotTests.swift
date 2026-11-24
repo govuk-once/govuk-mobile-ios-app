@@ -28,7 +28,7 @@ final class LocalAuthorityConfirmationViewControllerSnapshotTests: SnapshotTestC
         VerifySnapshotInNavigationController(
             viewController: HostingViewController(rootView: view),
             mode: .light,
-            prefersLargeTitles: true
+            prefersLargeTitles: false
         )
     }
 
@@ -51,7 +51,7 @@ final class LocalAuthorityConfirmationViewControllerSnapshotTests: SnapshotTestC
         VerifySnapshotInNavigationController(
             viewController: HostingViewController(rootView: view),
             mode: .dark,
-            prefersLargeTitles: true
+            prefersLargeTitles: false
         )
     }
 
@@ -78,10 +78,14 @@ final class LocalAuthorityConfirmationViewControllerSnapshotTests: SnapshotTestC
         let view = LocalAuthorityConfirmationView(
             viewModel: viewModel
         )
+        let hosting = HostingViewController(
+            rootView: view,
+            navigationBarTintColor: .govUK.text.linkSecondary
+        )
         VerifySnapshotInNavigationController(
-            viewController: HostingViewController(rootView: view),
+            viewController: hosting,
             mode: .light,
-            prefersLargeTitles: true
+            prefersLargeTitles: false
         )
     }
 
@@ -111,7 +115,7 @@ final class LocalAuthorityConfirmationViewControllerSnapshotTests: SnapshotTestC
         VerifySnapshotInNavigationController(
             viewController: HostingViewController(rootView: view),
             mode: .dark,
-            prefersLargeTitles: true
+            prefersLargeTitles: false
         )
     }
 }

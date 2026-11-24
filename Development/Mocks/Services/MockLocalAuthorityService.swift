@@ -1,6 +1,12 @@
 import Foundation
 
 class MockLocalAuthorityService: LocalAuthorityServiceInterface {
+    var _deleteLocalAuthoritiesCalled = false
+    func deleteLocalAuthorities(completion: @escaping () -> Void) {
+        _savedAuthority = nil
+        _deleteLocalAuthoritiesCalled = true
+        completion()
+    }
 
     var _stubbedLocalAuthority: [LocalAuthorityItem]?
     func fetchSavedLocalAuthority() -> [LocalAuthorityItem] {

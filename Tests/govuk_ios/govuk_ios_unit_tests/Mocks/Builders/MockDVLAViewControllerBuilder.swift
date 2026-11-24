@@ -7,6 +7,25 @@ import GovKit
 
 final class MockDVLAViewControllerBuilder: DVLAViewControllerBuilding, ErrorViewControllerBuilding {
 
+    var _stubbedLicenceCategoryListViewController: UIViewController?
+    var _receivedLicenceCategoryListEntitlements: [govuk_ios.Entitlement]?
+    var _receivedLicenceCategoryListAnalyticsService: AnalyticsServiceInterface?
+    var _receivedLicenceCategoryListConfigService: AppConfigServiceInterface?
+    var _receivedLicenceCategoryListActions: govuk_ios.CategoriesActions?
+
+    func licenceCategoryList(
+        entitlements: [govuk_ios.Entitlement],
+        analyticsService: AnalyticsServiceInterface,
+        configService: AppConfigServiceInterface,
+        actions: govuk_ios.CategoriesActions
+    ) -> UIViewController {
+        _receivedLicenceCategoryListEntitlements = entitlements
+        _receivedLicenceCategoryListAnalyticsService = analyticsService
+        _receivedLicenceCategoryListConfigService = configService
+        _receivedLicenceCategoryListActions = actions
+        return _stubbedLicenceCategoryListViewController ?? UIViewController()
+    }
+
     var _stubbedVehicleDetailController: UIViewController?
     var _receivedVehicleDetailOpenURLAction: ((URL) -> Void)?
     func vehicleDetail(
@@ -19,7 +38,6 @@ final class MockDVLAViewControllerBuilder: DVLAViewControllerBuilding, ErrorView
         _receivedVehicleDetailOpenURLAction = openURLAction
         return _stubbedVehicleDetailController ?? UIViewController()
     }
-
 
     var _stubbedVehicleRegistrationInputViewController: UIViewController?
     var _receivedVehicleRegistrationInputDvlaService: DVLAServiceInterface?
@@ -78,10 +96,26 @@ final class MockDVLAViewControllerBuilder: DVLAViewControllerBuilding, ErrorView
         return _stubbedErrorController ?? UIViewController()
     }
 
+    var _stubbedLicenceCategoryDetailViewController: UIViewController?
+    var _receivedLicenceCategoryDetailEntitlement: Entitlement?
+    var _receivedLicenceCategoryDetailAnalyticsService: AnalyticsServiceInterface?
+    var _receivedLicenceCategoryDetailDismissAction: (() -> Void)?
+
     func licenceCategoryDetail(
         entitlement: Entitlement,
         analyticsService: AnalyticsServiceInterface,
         dismissAction: @escaping () -> Void
+    ) -> UIViewController {
+        _receivedLicenceCategoryDetailEntitlement = entitlement
+        _receivedLicenceCategoryDetailAnalyticsService = analyticsService
+        _receivedLicenceCategoryDetailDismissAction = dismissAction
+        return _stubbedLicenceCategoryDetailViewController ?? UIViewController()
+    }
+
+    func licenceCategoryList(entitlements: [govuk_ios.Entitlement],
+                             analyticsService: AnalyticsServiceInterface,
+                             selectAction: @escaping (Entitlement) -> Void,
+                             dismissAction: @escaping () -> Void
     ) -> UIViewController {
         UIViewController()
     }

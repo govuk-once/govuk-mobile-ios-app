@@ -106,7 +106,7 @@
       "location" : "https://github.com/govuk-once/govuk-mobile-ios-gov-kit.git",
       "state" : {
         "branch" : "main",
-        "revision" : "22d99ff35fa40c527c7a8dac14c5885e47eeedd7"
+        "revision" : "8a7641ea4b60292fb7d737987f2f8ed486915322"
       }
     },
     {
@@ -213,8 +213,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/OneSignal/OneSignal-XCFramework",
       "state" : {
-        "revision" : "5482958fa1c2c78b24e5bc002d70fc1154b16c13",
-        "version" : "5.2.14"
+        "revision" : "f49b88ed897d9eb884bd747b6a7c1fea40406692",
+        "version" : "5.8.1"
       }
     },
     {
