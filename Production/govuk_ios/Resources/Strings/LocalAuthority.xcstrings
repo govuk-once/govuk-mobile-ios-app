@@ -78,8 +78,38 @@
         }
       }
     },
-    "Key" : {
-      "extractionState" : "manual"
+    "cancel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        }
+      }
+    },
+    "changeLocalAuthorityAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Change council"
+          }
+        }
+      }
+    },
+    "changeLocalAuthorityButtonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Change"
+          }
+        }
+      }
     },
     "localAuthorityConfirmationPrimaryButton" : {
       "extractionState" : "manual",
@@ -252,7 +282,7 @@
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "We only use your postcode to find out what your local council is. It’s not saved or shared anywhere. You can enter a different postcode at any time on the app home page."
+            "value" : "We only use your postcode to find out what your local council is. It’s not saved or shared anywhere. You can remove or change it at any time."
           }
         }
       }
@@ -363,6 +393,61 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Postcode entry field"
+          }
+        }
+      }
+    },
+    "removeLocalAuthoritiesAlertTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove councils?"
+          }
+        }
+      }
+    },
+    "removeLocalAuthorityAccessibilityLabel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove council"
+          }
+        }
+      }
+    },
+    "removeLocalAuthorityAlertDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can add it again at any time from the homepage"
+          }
+        }
+      }
+    },
+    "removeLocalAuthorityAlertTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove council?"
+          }
+        }
+      }
+    },
+    "removeLocalAuthorityButtonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove"
           }
         }
       }

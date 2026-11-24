@@ -106,7 +106,7 @@
       "location" : "https://github.com/govuk-once/govuk-mobile-ios-gov-kit.git",
       "state" : {
         "branch" : "feature/privacy-policy-test-version",
-        "revision" : "fc05e03dfc57e9bdb28acb1603044f6e48787cc2"
+        "revision" : "65fb6806c010381fd82f0254503371369675269a"
       }
     },
     {
@@ -213,8 +213,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/OneSignal/OneSignal-XCFramework",
       "state" : {
-        "revision" : "5482958fa1c2c78b24e5bc002d70fc1154b16c13",
-        "version" : "5.2.14"
+        "revision" : "f49b88ed897d9eb884bd747b6a7c1fea40406692",
+        "version" : "5.8.1"
       }
     },
     {

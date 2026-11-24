@@ -84,25 +84,31 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
     @MainActor
     private func fetchCountryList(forceRefresh: Bool = false) async {
         viewState = .loading
+        let service = travelService
 
-        travelService.getGroups(forceRefresh: forceRefresh) { [weak self] result in
-            Task { @MainActor in
-                switch result {
-                case .success(let groups):
-                    self?.travelService.getCountries(
-                        forceRefresh: forceRefresh
-                    ) { [weak self] countriesResult in
-                        Task { @MainActor in
-                            let countries = (try? countriesResult.get()) ?? []
-                            self?.buildSections(from: groups, countries: countries)
-                        }
-                    }
-                case .failure:
-                    self?.viewState = .error
-                    self?.errorViewModel = AppErrorViewModel.travelAlertErrorWithoutAction()
+        async let groupsFetch: Result<[TravelGroup], TravelError> =
+            withCheckedContinuation { continuation in
+                service.getGroups(forceRefresh: forceRefresh) {
+                    continuation.resume(returning: $0)
                 }
             }
+        async let countriesFetch: Result<[Country], TravelError> =
+            withCheckedContinuation { continuation in
+                service.getCountries(forceRefresh: forceRefresh) {
+                    continuation.resume(returning: $0)
+                }
+            }
+
+        let (groupsResult, countriesResult) = await (groupsFetch, countriesFetch)
+
+        guard let groups = try? groupsResult.get(),
+              let countries = try? countriesResult.get() else {
+            viewState = .error
+            errorViewModel = AppErrorViewModel.travelAlertErrorWithoutAction()
+            return
         }
+
+        buildSections(from: groups, countries: countries)
     }
 
     private func buildSections(from groups: [TravelGroup], countries: [Country]) {
@@ -114,7 +120,9 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
             guard let country = countryMap[group.group.lowercased()] else { return nil }
 
             let travelAdviceURLString = "\(Constants.API.defaultTravelAdviceBaseUrlString)\(country.slug.lowercased())"
-            let url = URL(string: "govuk://app.gov.uk/web?url=\(travelAdviceURLString)")
+            var components = URLComponents(string: "govuk://app.gov.uk/web")
+            components?.queryItems = [URLQueryItem(name: "url", value: travelAdviceURLString)]
+            let url = components?.url
 
             return LinkRow(
                 id: group.group,

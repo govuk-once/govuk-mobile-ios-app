@@ -114,9 +114,13 @@ class HomeViewModel: ObservableObject {
 
         let viewModel = StoredLocalAuthorityWidgetViewModel(
             analyticsService: analyticsService,
+            localAuthorityService: localAuthorityService,
             localAuthorities: localAuthorities,
             openURLAction: openURLAction,
-            openEditViewAction: editLocalAuthorityAction
+            openEditViewAction: editLocalAuthorityAction,
+            deleteCompletion: { [weak self] in
+                self?.updateWidgets()
+            }
         )
         let view = StoredLocalAuthorityWidgetView(
             viewModel: viewModel
@@ -189,11 +193,6 @@ class HomeViewModel: ObservableObject {
     func trackECommerce() {
         topicsWidgetViewModel.trackECommerce()
         bannerBuilder.trackBannersEcommerceEvent()
-    }
-
-    func trackABTest(_ event: ABTestAppEvent) {
-        let event = AppEvent.abTest(event)
-        analyticsService.track(event: event)
     }
 
     func editTopics() {

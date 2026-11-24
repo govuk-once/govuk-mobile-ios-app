@@ -147,15 +147,17 @@ class VehicleDetailViewSnapshotTests: SnapshotTestCase {
             configService: MockAppConfigService(),
             openURLAction: { _ in }
         )
-        await viewModel.viewDidAppear()
         let view = VehicleDetailView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
             rootView: view
         )
-        VerifySnapshotInNavigationController(
+        await VerifySnapshotInNavigationController(
             viewController: hostingViewController,
             mode: .light
-        )
+        ) {
+            if case .error = viewModel.viewState { return true }
+            return false
+        }
     }
 
     func test_apiError_dark_rendersCorrectly() async {
@@ -168,14 +170,16 @@ class VehicleDetailViewSnapshotTests: SnapshotTestCase {
             configService: MockAppConfigService(),
             openURLAction: { _ in }
         )
-        await viewModel.viewDidAppear()
         let view = VehicleDetailView(viewModel: viewModel)
         let hostingViewController =  HostingViewController(
             rootView: view
         )
-        VerifySnapshotInNavigationController(
+        await VerifySnapshotInNavigationController(
             viewController: hostingViewController,
             mode: .dark
-        )
+        ) {
+            if case .error = viewModel.viewState { return true }
+            return false
+        }
     }
 }

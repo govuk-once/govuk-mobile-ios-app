@@ -284,4 +284,15 @@ struct LocalAuthorityServiceTests {
         #expect(result.getError() == .networkUnavailable)
         #expect(!mockRepository._didSaveLocalAuthority)
     }
+
+    @Test
+    func deleteLocalAuthorities_callsDelete() {
+        let mockRepository = MockLocalAuthorityRepository()
+        let sut = LocalAuthorityService(
+            serviceClient: MockLocalServiceClient(),
+            repository: mockRepository
+        )
+        sut.deleteLocalAuthorities { }
+        #expect(mockRepository._didDeleteLocalAuthorities == true)
+    }
 }

@@ -4,6 +4,7 @@ import GovKit
 
 protocol LocalAuthorityRepositoryInterface {
     func save(_ authority: Authority)
+    func delete(completion: @escaping () -> Void)
     func fetchLocalAuthority() -> [LocalAuthorityItem]
 }
 
@@ -36,6 +37,19 @@ struct LocalAuthorityRepository: LocalAuthorityRepositoryInterface {
 
         try? context.save()
     }
+
+    func delete(completion: @escaping () -> Void) {
+        let context = coreData.backgroundContext
+        context.performAndWait {
+            let items = fetch(context: context)
+            items.forEach { context.delete($0) }
+            if context.hasChanges {
+                try? context.save()
+                completion()
+            }
+        }
+    }
+
 
     func fetchLocalAuthority() -> [LocalAuthorityItem] {
         fetch(context: coreData.viewContext)

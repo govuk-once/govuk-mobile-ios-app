@@ -1,4 +1,4 @@
-import Foundation
+//import Foundation
 import XCTest
 import GovKit
 import UIKit
@@ -6,12 +6,12 @@ import UIKit
 @testable import govuk_ios
 
 @MainActor
-final class AmbiguousAddressViewControllerSnapshotTests: SnapshotTestCase {
+final class AmbiguousAddressSelectionViewSnapshotTests: SnapshotTestCase {
     func test_loadInNavigationController_light_rendersCorrectly() {
         VerifySnapshotInNavigationController(
             viewController: viewController(),
             mode: .light,
-            prefersLargeTitles: true
+            prefersLargeTitles: false
         )
     }
 
@@ -19,7 +19,7 @@ final class AmbiguousAddressViewControllerSnapshotTests: SnapshotTestCase {
         VerifySnapshotInNavigationController(
             viewController: viewController(),
             mode: .dark,
-            prefersLargeTitles: true
+            prefersLargeTitles: false
         )
     }
 
