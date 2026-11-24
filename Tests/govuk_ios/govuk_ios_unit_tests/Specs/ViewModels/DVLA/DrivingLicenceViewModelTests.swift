@@ -95,8 +95,13 @@ struct DrivingLicenceViewModelTests {
             licenceNoticeViewModel = notice
         }
         let unwrappedLicenceNoticeViewModel = try #require(licenceNoticeViewModel)
-        #expect(unwrappedLicenceNoticeViewModel.title == String(localized: .DVLA.licenceNotFoundTitle))
-        #expect(unwrappedLicenceNoticeViewModel.body == String(localized: .DVLA.licenceNotFoundBody))
+
+        // temporarily reverse licence state mapping behaviour for release
+        #expect(unwrappedLicenceNoticeViewModel.title == String(localized: .DVLA.licenceNotAvailableTitle))
+        #expect(unwrappedLicenceNoticeViewModel.body == String(localized: .DVLA.licenceNotAvailableBody))
+
+//        #expect(unwrappedLicenceNoticeViewModel.title == String(localized: .DVLA.licenceNotFoundTitle))
+//        #expect(unwrappedLicenceNoticeViewModel.body == String(localized: .DVLA.licenceNotFoundBody))
     }
 
     @Test
