@@ -78,26 +78,27 @@ struct DrivingLicenceViewModelTests {
         #expect(categoriesRow.title == String(localized: .DVLA.licenceCategoriesButtonTitle))
     }
 
-    @Test(arguments: [
-        DrivingLicenceStatus.surrendered,
-        .surrenderedVoluntarily,
-        .surrenderedForMedicalReasons,
-        .exchanged
-    ])
-    func viewDidAppear_fetchLicenceSuccess_licenceStatusSurrenderedOrExchanged_createsNoticeViewModel(status: DrivingLicenceStatus) async throws {
-        mockDvlaService._stubbedFetchDrivingLicenceResult = .success(
-            .arrange(licenceStatus: status)
-        )
-        let sut = makeSUT()
-        await sut.viewDidAppear()
-        var licenceNoticeViewModel: DrivingLicenceNoticeViewModel?
-        if case .notice(let notice) = sut.viewState {
-            licenceNoticeViewModel = notice
-        }
-        let unwrappedLicenceNoticeViewModel = try #require(licenceNoticeViewModel)
-        #expect(unwrappedLicenceNoticeViewModel.title == String(localized: .DVLA.licenceNotFoundTitle))
-        #expect(unwrappedLicenceNoticeViewModel.body == String(localized: .DVLA.licenceNotFoundBody))
-    }
+// temporarily reverse licence state mapping behaviour for release
+//    @Test(arguments: [
+//        DrivingLicenceStatus.surrendered,
+//        .surrenderedVoluntarily,
+//        .surrenderedForMedicalReasons,
+//        .exchanged
+//    ])
+//    func viewDidAppear_fetchLicenceSuccess_licenceStatusSurrenderedOrExchanged_createsNoticeViewModel(status: DrivingLicenceStatus) async throws {
+//        mockDvlaService._stubbedFetchDrivingLicenceResult = .success(
+//            .arrange(licenceStatus: status)
+//        )
+//        let sut = makeSUT()
+//        await sut.viewDidAppear()
+//        var licenceNoticeViewModel: DrivingLicenceNoticeViewModel?
+//        if case .notice(let notice) = sut.viewState {
+//            licenceNoticeViewModel = notice
+//        }
+//        let unwrappedLicenceNoticeViewModel = try #require(licenceNoticeViewModel)
+//        #expect(unwrappedLicenceNoticeViewModel.title == String(localized: .DVLA.licenceNotFoundTitle))
+//        #expect(unwrappedLicenceNoticeViewModel.body == String(localized: .DVLA.licenceNotFoundBody))
+//    }
 
     @Test
     func viewDidAppear_fetchLicenceSuccess_licenceStatusUnknown_createsNoticeViewModel() async throws {

@@ -70,7 +70,9 @@ class DrivingLicenceViewModel: ObservableObject {
         case .valid, .expired:
             viewState = .loaded(makeLoadedState(for: drivingLicence))
         case .exchanged, .surrendered, .surrenderedVoluntarily, .surrenderedForMedicalReasons:
-            viewState = .notice(licenceNotFoundNoticeViewModel)
+            // temporarily reverse driving licence state mapping bahviour for release
+            // viewState = .notice(licenceNotFoundNoticeViewModel)
+            viewState = .notice(licenceNotAvailableNoticeViewModel)
         case .disqualified,
                 .revoked, .revokedForMedicalReasons,
                 .refused,
