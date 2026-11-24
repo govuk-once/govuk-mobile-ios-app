@@ -21,7 +21,7 @@ struct BenefitsContainerView: View {
     private var viewPicker: some View {
         Picker("Benefits", selection: $viewModel.selectedTab) {
             ForEach(BenefitTab.allCases) { tab in
-                Text(tab.rawValue)
+                Text(tab.title)
                     .foregroundColor(Color(UIColor.govUK.text.primary))
                     .tag(tab)
             }
