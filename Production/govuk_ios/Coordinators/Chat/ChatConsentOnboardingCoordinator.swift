@@ -14,7 +14,6 @@ class ChatConsentOnboardingCoordinator: BaseCoordinator {
             analyticsService: analyticsService,
             chatService: chatService,
             cancelOnboardingAction: { [weak self] in
-                self?.dismiss(animated: true)
                 self?.cancelOnboardingAction()
                 self?.finish()
             },
@@ -29,13 +28,11 @@ class ChatConsentOnboardingCoordinator: BaseCoordinator {
             analyticsService: analyticsService,
             chatService: chatService,
             cancelOnboardingAction: { [weak self] in
-                self?.dismiss(animated: true)
                 self?.cancelOnboardingAction()
                 self?.finish()
             },
             completionAction: { [weak self] in
                 self?.completionAction()
-                self?.dismiss(animated: true)
                 self?.finish()
             },
             openURLAction: presentWebView
