@@ -15,3 +15,13 @@ struct DrivingRecordView: View {
         }
     }
 }
+
+#Preview("DrivingRecordView") {
+    DrivingRecordView(viewModel:
+                        DrivingRecordViewModel(
+                            dvlaURLs: DvlaURLs.arrange(),
+                            openURLAction: { url, buttonTitle in
+                                print("openURLAction(\(url), \(buttonTitle))")
+                            }
+    ))
+}
