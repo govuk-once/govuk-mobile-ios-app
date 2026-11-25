@@ -21,9 +21,9 @@ struct DrivingRecordViewModelTests {
     func drivingRecordRowAction_callsOpenURLAction() throws {
         var receivedButtonTitle: String?
         var receivedOpenURL: URL?
-        let mockDrivingRecordUrl = "https://dvla.gov.uk/driving-record"
+        let mockEndorsementsUrl = "https://driver-and-vehicles-account.service.gov.uk/driver_details?locale=en#Entitlements"
         let sut = DrivingRecordViewModel(
-            dvlaURLs: .arrange(drivingRecord: mockDrivingRecordUrl),
+            dvlaURLs: .arrange(endorsements: mockEndorsementsUrl),
             openURLAction: { url, buttonTitle in
                 receivedOpenURL = url
                 receivedButtonTitle = buttonTitle
@@ -32,6 +32,6 @@ struct DrivingRecordViewModelTests {
         let drivingRecordRow = try #require(sut.listContent.first?.rows.first as? LinkRow)
         drivingRecordRow.action()
         #expect(receivedButtonTitle == String(localized: .DVLA.drivingRecordButtonTitle))
-        #expect(receivedOpenURL?.absoluteString == mockDrivingRecordUrl)
+        #expect(receivedOpenURL?.absoluteString == mockEndorsementsUrl)
     }
 }
