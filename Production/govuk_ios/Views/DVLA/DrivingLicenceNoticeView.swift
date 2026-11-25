@@ -16,6 +16,7 @@ struct DrivingLicenceNoticeView: View {
                 style: viewModel.titleStyle
             )
             BodyText(viewModel.body)
+                .foregroundStyle(Color(uiColor: .govUK.text.primary))
                 .padding(.vertical, 24)
                 .padding(.horizontal, Layout.horizontalPadding)
                 .frame(maxWidth: .infinity, alignment: .leading)
