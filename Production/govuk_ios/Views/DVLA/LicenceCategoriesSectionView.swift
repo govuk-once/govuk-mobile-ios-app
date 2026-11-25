@@ -28,13 +28,7 @@ struct LicenceCategoriesSectionView: View {
     let viewModel: LicenceCategoriesSectionViewModel
     var body: some View {
         VStack(spacing: 8) {
-            Text(.DVLA.licenceCategoriesTitle)
-                .font(.govUK.title2.bold())
-                .foregroundColor(Color(UIColor.govUK.text.primary))
-                .accessibilityAddTraits(.isHeader)
-                .frame(maxWidth: .infinity, alignment: .leading)
-            Text(.DVLA.licenceCategoriesSubtitle)
-                .font(.govUK.subheadline)
+            SubsectionHeaderText(.DVLA.licenceCategoriesTitle)
                 .foregroundColor(Color(UIColor.govUK.text.primary))
                 .frame(maxWidth: .infinity, alignment: .leading)
             GroupedList(content: viewModel.listContent)
