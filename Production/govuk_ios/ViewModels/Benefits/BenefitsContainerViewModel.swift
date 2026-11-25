@@ -41,7 +41,7 @@ final class BenefitsContainerViewModel: ObservableObject {
     }
 }
 
-enum BenefitTab: String, CaseIterable, Identifiable, Hashable {
+enum BenefitsTab: String, CaseIterable, Identifiable, Hashable {
     case yourBenefits
     case otherBenefits
 
