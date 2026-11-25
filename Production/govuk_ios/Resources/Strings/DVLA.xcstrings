@@ -883,17 +883,6 @@
         }
       }
     },
-    "licenceCategoriesButtonTitle" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Categories"
-          }
-        }
-      }
-    },
     "licenceCategoriesExplanation" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -912,17 +901,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Categories"
-          }
-        }
-      }
-    },
-    "licenceCategoriesSubtitle" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vehicles you’re permitted to drive."
           }
         }
       }
@@ -1099,6 +1077,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Licence type: %@ "
+          }
+        }
+      }
+    },
+    "licenceVehicleTypesButtonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vehicle Types"
           }
         }
       }
