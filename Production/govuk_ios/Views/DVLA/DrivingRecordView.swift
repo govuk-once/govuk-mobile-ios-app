@@ -10,10 +10,6 @@ struct DrivingRecordView: View {
                 .foregroundColor(Color(UIColor.govUK.text.primary))
                 .accessibilityAddTraits(.isHeader)
                 .frame(maxWidth: .infinity, alignment: .leading)
-            Text(.DVLA.drivingRecordSubtitle)
-                .font(.govUK.subheadline)
-                .foregroundColor(Color(UIColor.govUK.text.primary))
-                .frame(maxWidth: .infinity, alignment: .leading)
             GroupedList(content: viewModel.listContent)
                 .padding(.top, 8)
         }
