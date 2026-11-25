@@ -6,6 +6,6 @@ struct BenefitsSummaryCard: Identifiable {
     let frequency: String
     let amount: String
     let nextPaymentText: String
-    let category: BenefitTab
+    let category: BenefitsTab
     var isAmountHidden: Bool = true
 }

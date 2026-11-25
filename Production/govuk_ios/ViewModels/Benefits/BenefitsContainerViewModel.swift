@@ -3,7 +3,7 @@ import Combine
 
 @MainActor
 final class BenefitsContainerViewModel: ObservableObject {
-    @Published var selectedTab: BenefitTab = .yourBenefits
+    @Published var selectedTab: BenefitsTab = .yourBenefits
     @Published var benefits: [BenefitsSummaryCard] = []
 
     init() {
