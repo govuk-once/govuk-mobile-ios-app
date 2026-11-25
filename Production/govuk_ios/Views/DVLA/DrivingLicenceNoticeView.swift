@@ -22,9 +22,10 @@ struct DrivingLicenceNoticeView: View {
                 .padding(.horizontal, Layout.horizontalPadding)
                 .frame(maxWidth: .infinity, alignment: .leading)
             if let action = viewModel.action {
-                Divider()
-                    .padding(.horizontal,
-                             Layout.horizontalPadding)
+                let padding = (viewModel.titleStyle == .normal) ? Layout.horizontalPadding : 0
+                    Divider()
+                        .padding(.horizontal,
+                                 padding)
                 button(for: action)
             }
         }
