@@ -5,7 +5,7 @@ struct LicenceCategoriesSectionViewModel {
     let listContent: [GroupedListSection]
 
     init(action: @escaping (String) -> Void) {
-        let buttonTitle = String(localized: .DVLA.licenceCategoriesButtonTitle)
+        let buttonTitle = String(localized: .DVLA.licenceVehicleTypesButtonTitle)
         let categoriesRow = NavigationRow(
             id: UUID().uuidString,
             title: buttonTitle,
