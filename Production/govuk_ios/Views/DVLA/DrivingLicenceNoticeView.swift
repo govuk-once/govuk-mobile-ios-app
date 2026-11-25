@@ -15,9 +15,7 @@ struct DrivingLicenceNoticeView: View {
                 title: viewModel.title,
                 style: viewModel.titleStyle
             )
-            Text(viewModel.body)
-                .font(.govUK.body)
-                .foregroundStyle(Color(uiColor: .govUK.text.primary))
+            BodyText(viewModel.body)
                 .padding(.vertical, 24)
                 .padding(.horizontal, Layout.horizontalPadding)
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -36,8 +34,7 @@ struct DrivingLicenceNoticeView: View {
             action: action.handler,
             label: {
                 HStack {
-                    Text(action.buttonTitle)
-                        .font(.govUK.body)
+                    BodyText(action.buttonTitle)
                         .foregroundStyle(Color(uiColor: .govUK.text.link))
                         .multilineTextAlignment(.leading)
                     Spacer()
@@ -86,8 +83,7 @@ struct DrivingLicenceNoticeHeader: View {
     }
 
     var body: some View {
-        Text(title)
-            .font(.govUK.title1Bold)
+        HeaderText(title)
             .foregroundStyle(foregroundColor)
             .padding(.top, 64)
             .padding(.horizontal, Layout.horizontalPadding)
