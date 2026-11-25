@@ -67,14 +67,14 @@ struct BenefitsContainerViewModelTests {
     }
 
     @Test
-    func benefitTab_properties_returnExpectedValues() {
-        #expect(BenefitTab.allCases == [.yourBenefits, .otherBenefits])
+    func benefitsTab_properties_returnExpectedValues() {
+        #expect(BenefitsTab.allCases == [.yourBenefits, .otherBenefits])
 
-        #expect(BenefitTab.yourBenefits.id == "yourBenefits")
-        #expect(BenefitTab.yourBenefits.title == "Your Benefits")
+        #expect(BenefitsTab.yourBenefits.id == "yourBenefits")
+        #expect(BenefitsTab.yourBenefits.title == "Your Benefits")
 
-        #expect(BenefitTab.otherBenefits.id == "otherBenefits")
-        #expect(BenefitTab.otherBenefits.title == "Other Benefits")
+        #expect(BenefitsTab.otherBenefits.id == "otherBenefits")
+        #expect(BenefitsTab.otherBenefits.title == "Other Benefits")
     }
 }
 
