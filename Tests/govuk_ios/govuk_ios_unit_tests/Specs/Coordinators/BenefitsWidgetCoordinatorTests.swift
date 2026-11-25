@@ -31,7 +31,8 @@ struct BenefitsWidgetCoordinatorTests {
             analyticsService: mockAnalyticsService,
             configService: mockConfigService,
             coordinatorBuilder: CoordinatorBuilder.mock,
-            widgetViewBuilder: mockWidgetViewBuilder
+            widgetViewBuilder: mockWidgetViewBuilder,
+            viewControllerBuilder: MockViewControllerBuilder()
         )
         let widgetView = sut.makeWidget(for: benefitsTopic)
         #expect(widgetView != nil)
@@ -50,7 +51,8 @@ struct BenefitsWidgetCoordinatorTests {
                analyticsService: mockAnalyticsService,
                configService: mockConfigService,
                coordinatorBuilder: CoordinatorBuilder.mock,
-               widgetViewBuilder: mockWidgetViewBuilder
+               widgetViewBuilder: mockWidgetViewBuilder,
+               viewControllerBuilder: MockViewControllerBuilder()
            )
            let widgetView = sut.makeWidget(for: benefitsTopic)
 
@@ -70,7 +72,8 @@ struct BenefitsWidgetCoordinatorTests {
                analyticsService: mockAnalyticsService,
                configService: mockConfigService,
                coordinatorBuilder: CoordinatorBuilder.mock,
-               widgetViewBuilder: mockWidgetViewBuilder
+               widgetViewBuilder: mockWidgetViewBuilder,
+               viewControllerBuilder: MockViewControllerBuilder()
            )
            let widgetView = sut.makeWidget(for: otherTopic)
 

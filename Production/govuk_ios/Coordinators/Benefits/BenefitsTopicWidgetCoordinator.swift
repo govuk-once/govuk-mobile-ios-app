@@ -7,22 +7,31 @@ final class BenefitsTopicWidgetCoordinator: BaseCoordinator,
     private let widgetViewBuilder: WidgetViewBuilder
     private let analyticsService: AnalyticsServiceInterface
     private let configService: AppConfigServiceInterface
-    private let coordinatorBuilder: CoordinatorBuilder
+    private let coordinatorBuilder: BenefitsCoordinatorBuilding
+    private let viewControllerBuilder: BenefitsViewControllerBuilding
 
     init(navigationController: UINavigationController,
          analyticsService: AnalyticsServiceInterface,
          configService: AppConfigServiceInterface,
          coordinatorBuilder: CoordinatorBuilder,
-         widgetViewBuilder: WidgetViewBuilder) {
+         widgetViewBuilder: WidgetViewBuilder,
+         viewControllerBuilder: BenefitsViewControllerBuilding) {
         self.analyticsService = analyticsService
         self.configService = configService
         self.coordinatorBuilder = coordinatorBuilder
         self.widgetViewBuilder = widgetViewBuilder
+        self.viewControllerBuilder = viewControllerBuilder
         super.init(navigationController: navigationController)
     }
 
     override func start(url: URL?) {
-        /* do nothing */
+        root.navigationBar.prefersLargeTitles = true
+        root.navigationItem.backButtonDisplayMode = .minimal
+        let coordinator = coordinatorBuilder.benefitsContainer(
+            navigationController: root,
+            viewControllerBuilder: viewControllerBuilder
+        )
+        start(coordinator)
     }
 
     func makeWidget(
@@ -33,8 +42,11 @@ final class BenefitsTopicWidgetCoordinator: BaseCoordinator,
         else {
             return nil
         }
-        return widgetViewBuilder.makeDWPWidget(
-            analyticsService: analyticsService
+        return widgetViewBuilder.makeBenefitsWidget(
+            analyticsService: analyticsService,
+            linkAction: { [weak self] in
+                self?.start()
+            }
         )
     }
 }

@@ -2,13 +2,16 @@ import Foundation
 import SwiftUI
 import GovKit
 
-final class DWPWidgetViewModel: ObservableObject {
+final class BenefitsWidgetViewModel: ObservableObject {
     @Published private(set) var state: State = .loading
     private let analyticsService: AnalyticsServiceInterface
+    let linkAction: () -> Void
     init(analyticsService: AnalyticsServiceInterface,
-         state: State = .loading) {
+         state: State = .loading,
+         linkAction: @escaping () -> Void) {
         self.analyticsService = analyticsService
         self.state = state
+        self.linkAction = linkAction
     }
 
     enum State {
@@ -28,7 +31,9 @@ final class DWPWidgetViewModel: ObservableObject {
         return ServiceAccountLinkCardViewModel(
             title: linkCardTitle,
             subtitle: String.dwp.localized("dwpAccountLinkCardSubtitle"),
-            action: { /* no-op */ }
+            action: { [weak self ] in
+                self?.linkAction()
+            }
         )
     }
 }
