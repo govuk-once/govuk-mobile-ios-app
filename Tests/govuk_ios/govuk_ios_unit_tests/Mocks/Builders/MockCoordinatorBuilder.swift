@@ -321,11 +321,13 @@ class MockCoordinatorBuilder: CoordinatorBuilder {
         return _stubbedChatInfoOnboardingCoordinator ?? MockBaseCoordinator()
     }
 
+    var _receivedChatConsentCancelAction: (() -> Void)?
     var _receivedChatConsentOnboardingCompletion: (() -> Void)?
     var _stubbedChatConsentOnboardingCoordinator: MockBaseCoordinator?
     override func chatConsentOnboarding(navigationController: UINavigationController,
                                         cancelOnboardingAction: @escaping () -> Void,
                                         completionAction: @escaping () -> Void) -> BaseCoordinator {
+        _receivedChatConsentCancelAction = cancelOnboardingAction
         _receivedChatConsentOnboardingCompletion = completionAction
         return _stubbedChatConsentOnboardingCoordinator ?? MockBaseCoordinator()
     }
