@@ -30,6 +30,8 @@ extension DvlaURLs {
         compareOldNewLicence: String = "https://www.gov.uk/old-driving-licence-categories",
         vehicleWeightExplained: String = "https://www.gov.uk/vehicle-weights-explained",
         addCategoriesToLicence: String = "https://www.gov.uk/adding-higher-categories-to-your-driving-licence",
+        endorsements: String =
+            "https://driver-and-vehicles-account.service.gov.uk/driver_details?locale=en#Endorsements",
     ) -> DvlaURLs {
         DvlaURLs(
             addVehicle: URL(string: addVehicle)!,
@@ -56,6 +58,7 @@ extension DvlaURLs {
             compareOldNewLicenceCategories: URL(string: compareOldNewLicence)!,
             vehicleWeightExplained: URL(string: vehicleWeightExplained)!,
             addCategoriesToLicence: URL(string: addCategoriesToLicence)!,
+            endorsements: URL(string: endorsements)!,
         )
     }
 }

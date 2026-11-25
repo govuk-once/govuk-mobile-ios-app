@@ -12,7 +12,7 @@ struct DrivingRecordViewModel {
             body: nil,
             showLinkImage: false,
             action: {
-                let url = dvlaURLs?.drivingRecord ?? Constants.API.defaultDvlaDrivingRecordUrl
+                let url = dvlaURLs?.endorsements ?? Constants.API.defaultEndorsementsUrl
                 openURLAction(url, buttonTitle)
             }
         )
