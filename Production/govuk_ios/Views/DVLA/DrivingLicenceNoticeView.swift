@@ -113,7 +113,8 @@ struct DrivingLicenceNoticeHeader: View {
             the quick brown fox jumps over the lazy dog.
             Another line.
             """,
-            action: nil
+            action: .init(buttonTitle: "some button",
+                          handler: {})
         )
     )
 }
@@ -129,7 +130,8 @@ struct DrivingLicenceNoticeHeader: View {
             the quick brown fox jumps over the lazy dog.
             Another line.
             """,
-            action: nil
+            action: .init(buttonTitle: "some button",
+                          handler: {})
         )
     )
 }
