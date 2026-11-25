@@ -75,7 +75,7 @@ struct DrivingLicenceViewModelTests {
         }
         let unwrappedCategoriesViewModel = try #require(categoriesViewModel)
         let categoriesRow = try #require(unwrappedCategoriesViewModel.listContent.first?.rows.first)
-        #expect(categoriesRow.title == String(localized: .DVLA.licenceCategoriesButtonTitle))
+        #expect(categoriesRow.title == String(localized: .DVLA.licenceVehicleTypesButtonTitle))
     }
 
     @Test(arguments: [
@@ -217,7 +217,7 @@ struct DrivingLicenceViewModelTests {
 
         let trackedEvent = try #require(mockAnalyticsService._trackedEvents.first)
         #expect(trackedEvent.name == "Navigation")
-        #expect(trackedEvent.params?["text"] as? String == String(localized: .DVLA.licenceCategoriesButtonTitle))
+        #expect(trackedEvent.params?["text"] as? String == String(localized: .DVLA.licenceVehicleTypesButtonTitle))
         #expect(trackedEvent.params?["section"] as? String == "Driving")
         #expect(trackedEvent.params?["type"] as? String == "Button")
     }
