@@ -12,4 +12,17 @@ class MockUserNotificationCenter: UserNotificationCenterInterface {
         }
     }
 
+    var _stubbedRequestAuthorizationResult: Bool = false
+    var _stubbedRequestAuthorizationError: Error?
+    var _receivedRequestAuthorizationOptions: UNAuthorizationOptions?
+    var _requestAuthorizationAction: (() -> Void)?
+    func requestAuthorization(options: UNAuthorizationOptions) async throws -> Bool {
+        _receivedRequestAuthorizationOptions = options
+        _requestAuthorizationAction?()
+        if let error = _stubbedRequestAuthorizationError {
+            throw error
+        }
+        return _stubbedRequestAuthorizationResult
+    }
+
 }
