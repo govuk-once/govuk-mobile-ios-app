@@ -1,3 +1,4 @@
+import Combine
 import Foundation
 import GovKitUI
 import GovKit
@@ -10,9 +11,10 @@ class CountryListViewModel: ObservableObject {
         case error(AppErrorViewModel)
     }
 
-    private enum CountryListAnalyticsKeys {
+    enum CountryListAnalyticsKeys {
         static let section = "Travel Abroad Notifications"
         static let searchSection = "country_search"
+        static let closeText = "Close"
     }
 
     struct Actions {
@@ -20,6 +22,9 @@ class CountryListViewModel: ObservableObject {
         let openFooterLinkAction: () -> Void
         let openExternalURLAction: (URL) -> Void
     }
+
+    /// How long the search text must stay unchanged before a search with no results is tracked.
+    static let noResultsSearchDebounceMilliseconds = 500
 
     @Published private(set) var viewState: ViewState = .loading
     @Published var searchText = "" {
@@ -40,19 +45,24 @@ class CountryListViewModel: ObservableObject {
     private let actions: Actions
     private let footerLinkURLString: String?
     let errorCallback: (() -> Void)?
+    private var noResultsSearchCancellable: AnyCancellable?
+    // Set when the app closes the sheet itself, so the sheet's onDismiss
+    // doesn't also count it as the user closing it.
+    private var isDismissalHandled = false
 
     var hasNotificationConsent: Bool {
         notificationService.hasGivenConsent
     }
 
-    init(
+    init<S: Scheduler>(
         travelService: TravelServiceInterface,
         analyticsService: AnalyticsServiceInterface,
         notificationService: NotificationServiceInterface,
         urlOpener: URLOpener,
         actions: Actions,
         footerLinkURLString: String? = nil,
-        errorCallback: (() -> Void)? = nil
+        errorCallback: (() -> Void)? = nil,
+        searchDebounceScheduler: S
     ) {
         self.travelService = travelService
         self.analyticsService = analyticsService
@@ -61,6 +71,30 @@ class CountryListViewModel: ObservableObject {
         self.actions = actions
         self.footerLinkURLString = footerLinkURLString
         self.errorCallback = errorCallback
+        noResultsSearchCancellable = trackSearchesWithNoResults(
+            scheduler: searchDebounceScheduler
+        )
+    }
+
+    convenience init(
+        travelService: TravelServiceInterface,
+        analyticsService: AnalyticsServiceInterface,
+        notificationService: NotificationServiceInterface,
+        urlOpener: URLOpener,
+        actions: Actions,
+        footerLinkURLString: String? = nil,
+        errorCallback: (() -> Void)? = nil
+    ) {
+        self.init(
+            travelService: travelService,
+            analyticsService: analyticsService,
+            notificationService: notificationService,
+            urlOpener: urlOpener,
+            actions: actions,
+            footerLinkURLString: footerLinkURLString,
+            errorCallback: errorCallback,
+            searchDebounceScheduler: DispatchQueue.main
+        )
     }
 
     @MainActor
@@ -72,7 +106,10 @@ class CountryListViewModel: ObservableObject {
     func retryFetchCountryList() async {
         await fetchCountryList()
     }
+}
 
+// MARK: - Country list loading
+extension CountryListViewModel {
     @MainActor
     private func fetchCountryList() async {
         viewState = .loading
@@ -112,7 +149,10 @@ class CountryListViewModel: ObservableObject {
 
         viewState = .error(errorViewModel)
     }
+}
 
+// MARK: - Country selection
+extension CountryListViewModel {
     func onGetNotificationAlertTap(_ country: Country, text: String) {
         analyticsService.track(
             event: AppEvent.widgetNavigation(
@@ -137,6 +177,17 @@ class CountryListViewModel: ObservableObject {
         Task {
             await handleCountrySelection(country, notificationOptIn: false)
         }
+    }
+
+    func onCancelAlertTap(text: String) {
+        analyticsService.track(
+            event: AppEvent.widgetNavigation(
+                text: text,
+                external: false,
+                params: ["section": CountryListAnalyticsKeys.section]
+            )
+        )
+        selectedCountry = nil
     }
 
     func onSearchSubmitted() {
@@ -189,13 +240,16 @@ class CountryListViewModel: ObservableObject {
     private func processSubscriptionResult(_ result: Result<Void, TravelError>) {
         switch result {
         case .success:
-            actions.dismissAction(true)
+            dismiss(true)
         case .failure:
-            actions.dismissAction(false)
+            dismiss(false)
             errorCallback?()
         }
     }
+}
 
+// MARK: - Country list filtering
+extension CountryListViewModel {
     private func buildSections(from countries: [Country]) -> [GroupedListSection] {
         let sortedCountries = countries.sorted {
             $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending
@@ -224,7 +278,7 @@ class CountryListViewModel: ObservableObject {
         ]
     }
 
-    private func updateFilteredSections() {
+    func updateFilteredSections() {
         let trimmedSearch = searchText.trimmingCharacters(in: .whitespaces)
         let filtered = trimmedSearch.isEmpty
         ? allCountries
@@ -254,32 +308,30 @@ class CountryListViewModel: ObservableObject {
     }
 
     func dismiss(_ forceRefresh: Bool) {
+        isDismissalHandled = true
         actions.dismissAction(forceRefresh)
     }
 }
 
-// MARK: - Analytics
+// MARK: - Sheet dismissal
 extension CountryListViewModel {
-    func trackScreen(screen: TrackableScreen) {
-        analyticsService.track(screen: screen)
+    func closeButtonTapped() {
+        trackClose()
+        selectedCountry = nil
+        dismiss(false)
     }
 
-    private func trackSearchInput(text: String) {
-        let searchEvent = AppEvent.searchTerm(
-            term: Redactor.pii.redact(text),
-            type: .typed,
-            section: CountryListAnalyticsKeys.searchSection
-        )
-        analyticsService.track(event: searchEvent)
+    func sheetDidAppear() {
+        isDismissalHandled = false
     }
 
-    private func trackToggleFunction(countryName: String) {
-        let toggleEvent = AppEvent.toggleAction(
-            text: countryName,
-            section: CountryListAnalyticsKeys.section,
-            action: "Add"
-        )
-        analyticsService.track(event: toggleEvent)
+    /// Call from the presenting sheet's `onDismiss`. Any dismissal the app didn't
+    /// trigger itself (e.g. swipe down) is the user closing the sheet.
+    func sheetDidDismiss() {
+        if !isDismissalHandled {
+            trackClose()
+        }
+        isDismissalHandled = false
     }
 }
 
@@ -322,7 +374,7 @@ extension CountryListViewModel {
         if didError {
             self.errorCallback?()
         }
-        self.actions.dismissAction(forceRefresh)
+        self.dismiss(forceRefresh)
     }
 
     func resetNotificationsRationaleFlow() {

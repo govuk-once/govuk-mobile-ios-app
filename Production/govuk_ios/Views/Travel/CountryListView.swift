@@ -2,7 +2,7 @@ import SwiftUI
 import GovKitUI
 import GovKit
 
-struct CountryListView: View {
+struct CountryListView: View, TrackableScreen {
     @StateObject var viewModel: CountryListViewModel
     @Environment(\.sizeCategory) var sizeCategory
 
@@ -44,6 +44,7 @@ struct CountryListView: View {
                 await viewModel.viewDidAppear()
             }
             .onAppear {
+                viewModel.sheetDidAppear()
                 viewModel.trackScreen(screen: self)
             }
             .overlay(alignment: searchBarAlignment) {
@@ -145,8 +146,9 @@ struct CountryListView: View {
             viewModel.onNotNowAlertTap(country, text: notNowText)
         }
 
-        Button(String(localized: .Travel.countryListAlertCancel), role: .cancel) {
-            viewModel.selectedCountry = nil
+        let cancelText = String(localized: .Travel.countryListAlertCancel)
+        Button(cancelText, role: .cancel) {
+            viewModel.onCancelAlertTap(text: cancelText)
         }
     }
 
@@ -160,14 +162,17 @@ struct CountryListView: View {
     private var closeButton: some ToolbarContent {
         ToolbarItem(placement: ToolbarItemPlacement.cancellationAction) {
             Button {
-                viewModel.selectedCountry = nil
-                viewModel.dismiss(false)
+                viewModel.closeButtonTapped()
             } label: {
                 Image(systemName: "xmark")
                     .foregroundStyle(Color(uiColor: .govUK.text.primary))
             }
         }
     }
+
+    var trackingClass: String { "CountryListScreen" }
+    var trackingTitle: String? { "Follow a country" }
+    var trackingName: String { "Follow a country" }
 
     @ViewBuilder
     func modifiedScrollView(geometry: GeometryProxy) -> some View {
@@ -272,10 +277,4 @@ private struct CountryListFooterView: View {
         .accessibilityRemoveTraits(.isButton)
         .accessibilityAddTraits(.isLink)
     }
-}
-
-extension CountryListView: TrackableScreen {
-    var trackingClass: String { "CountryListScreen" }
-    var trackingTitle: String? { "Follow a country" }
-    var trackingName: String { "Follow a country" }
 }

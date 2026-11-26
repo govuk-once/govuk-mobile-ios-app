@@ -16,15 +16,17 @@ extension AppEvent {
     static func searchTerm(
         term: String,
         type: SearchInvocationType,
-        section: String? = nil
+        section: String? = nil,
+        extraParams: [String: Any] = [:]
     ) -> AppEvent {
-        let params: [String: Any?] = [
+        let baseParams: [String: Any?] = [
             "text": term,
             "type": type.rawValue,
             "section": section
         ]
-
-        return search(params: params.compactMapValues { $0 })
+        var params = baseParams.compactMapValues { $0 }
+        params.merge(extraParams) { _, new in new }
+        return search(params: params)
     }
 
     private static func search(params: [String: Any]) -> AppEvent {

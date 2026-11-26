@@ -4,6 +4,7 @@ import Combine
 import XCTest
 
 @testable import govuk_ios
+import GovKit
 
 @Suite
 @MainActor
@@ -1003,5 +1004,277 @@ struct EditCountriesViewModelTests {
         for await state in viewModel.$viewState.values {
             if predicate(state) { return }
         }
+    }
+
+    // MARK: - Analytics
+
+    private func makeLoadedSut(
+        analyticsService: MockAnalyticsService,
+        travelService: MockTravelService = MockTravelService(),
+        notificationService: MockNotificationService = MockNotificationService()
+    ) async throws -> EditCountriesViewModel {
+        travelService._stubbedGetGroupsResult = .success([
+            TravelGroup(namespace: "travel-advice", group: "france", subgroup: "daily")
+        ])
+        travelService._stubbedGetCountriesResult = .success([
+            Country(name: "France", slug: "france", rawLastUpdate: "2024-08-05", synonyms: [])
+        ])
+        let sut = EditCountriesViewModel(
+            travelService: travelService,
+            analyticsService: analyticsService,
+            notificationService: notificationService,
+            urlOpener: MockURLOpener(),
+            openCountryListFooterAction: {  /*Empty For Tests*/ },
+            navigateBackAction: {  /*Empty For Tests*/ }
+        )
+        await sut.viewDidAppear()
+        try await waitForViewState(of: sut) { state in
+            if case .loaded = state { return true }
+            return false
+        }
+        return sut
+    }
+
+    private func toggleEvents(_ analyticsService: MockAnalyticsService) -> [AppEvent] {
+        analyticsService._trackedEvents.filter {
+            $0.name == "Function" && $0.params?["type"] as? String == "Toggle"
+        }
+    }
+
+    private func notNowEvents(_ analyticsService: MockAnalyticsService) -> [AppEvent] {
+        analyticsService._trackedEvents.filter {
+            $0.name == "Navigation" && $0.params?["text"] as? String == "Not now"
+        }
+    }
+
+    @Test
+    func openCountryList_tracksFollowAnotherCountry() {
+        let mockAnalyticsService = MockAnalyticsService()
+        let sut = EditCountriesViewModel(
+            travelService: MockTravelService(),
+            analyticsService: mockAnalyticsService,
+            notificationService: MockNotificationService(),
+            urlOpener: MockURLOpener(),
+            openCountryListFooterAction: {  /*Empty For Tests*/ },
+            navigateBackAction: {  /*Empty For Tests*/ }
+        )
+
+        sut.openCountryList()
+
+        #expect(mockAnalyticsService._trackedEvents.count == 1)
+        let event = mockAnalyticsService._trackedEvents.first
+        #expect(event?.name == "Navigation")
+        #expect(event?.params?["text"] as? String == "Follow another country")
+        #expect(event?.params?["type"] as? String == "Button")
+        #expect(event?.params?["external"] as? Bool == false)
+        #expect(event?.params?["section"] as? String == "Travel Abroad Notifications")
+    }
+
+    @Test
+    func countryListSheetDidDismiss_whenSwipedAway_tracksCloseAndHidesSheet() {
+        let mockAnalyticsService = MockAnalyticsService()
+        let sut = EditCountriesViewModel(
+            travelService: MockTravelService(),
+            analyticsService: mockAnalyticsService,
+            notificationService: MockNotificationService(),
+            urlOpener: MockURLOpener(),
+            openCountryListFooterAction: {  /*Empty For Tests*/ },
+            navigateBackAction: {  /*Empty For Tests*/ }
+        )
+        sut.openCountryList()
+        sut.countryListViewModel.sheetDidAppear()
+
+        sut.countryListSheetDidDismiss()
+
+        let closeEvents = mockAnalyticsService._trackedEvents.filter {
+            $0.params?["text"] as? String == "Close"
+        }
+        #expect(closeEvents.count == 1)
+        #expect(sut.isShowingList == false)
+    }
+
+    @Test
+    func countryListSheetDidDismiss_afterFollow_doesNotTrackClose() async {
+        let mockAnalyticsService = MockAnalyticsService()
+        let sut = EditCountriesViewModel(
+            travelService: MockTravelService(),
+            analyticsService: mockAnalyticsService,
+            notificationService: MockNotificationService(),
+            urlOpener: MockURLOpener(),
+            openCountryListFooterAction: {  /*Empty For Tests*/ },
+            navigateBackAction: {  /*Empty For Tests*/ }
+        )
+        sut.openCountryList()
+        sut.countryListViewModel.sheetDidAppear()
+
+        sut.countryListViewModel.dismiss(true)
+        sut.countryListSheetDidDismiss()
+
+        let closeEvents = mockAnalyticsService._trackedEvents.filter {
+            $0.params?["text"] as? String == "Close"
+        }
+        #expect(closeEvents.isEmpty)
+    }
+
+    @Test
+    func requestToggle_off_tracksToggleOffWithCountryName() async throws {
+        let mockAnalyticsService = MockAnalyticsService()
+        let mockTravelService = MockTravelService()
+        mockTravelService._autoCallToggleCompletion = false
+        let sut = try await makeLoadedSut(
+            analyticsService: mockAnalyticsService,
+            travelService: mockTravelService
+        )
+
+        await sut.requestToggle(slug: "france", enabled: false)
+
+        let events = toggleEvents(mockAnalyticsService)
+        #expect(events.count == 1)
+        #expect(events.first?.params?["text"] as? String == "France")
+        #expect(events.first?.params?["action"] as? String == "Off")
+        #expect(events.first?.params?["section"] as? String == "Travel Abroad Notifications")
+    }
+
+    @Test
+    func requestToggle_onWithoutPermissionFlow_tracksToggleOnOnce() async throws {
+        let mockAnalyticsService = MockAnalyticsService()
+        let mockTravelService = MockTravelService()
+        mockTravelService._autoCallToggleCompletion = false
+        let mockNotificationService = MockNotificationService()
+        mockNotificationService._stubbedhasGivenConsent = true
+        mockNotificationService._stubbededPermissionState = .authorized
+        let sut = try await makeLoadedSut(
+            analyticsService: mockAnalyticsService,
+            travelService: mockTravelService,
+            notificationService: mockNotificationService
+        )
+
+        await sut.requestToggle(slug: "france", enabled: true)
+
+        let events = toggleEvents(mockAnalyticsService)
+        #expect(events.count == 1)
+        #expect(events.first?.params?["text"] as? String == "France")
+        #expect(events.first?.params?["action"] as? String == "On")
+        #expect(mockTravelService._toggleNotificationsCalled)
+    }
+
+    @Test
+    func requestToggle_onWithPermissionFlow_tracksToggleOnBeforeShowingPermissionScreen() async throws {
+        let mockAnalyticsService = MockAnalyticsService()
+        let mockNotificationService = MockNotificationService()
+        mockNotificationService._stubbedhasGivenConsent = false
+        let sut = try await makeLoadedSut(
+            analyticsService: mockAnalyticsService,
+            notificationService: mockNotificationService
+        )
+
+        await sut.requestToggle(slug: "france", enabled: true)
+
+        let events = toggleEvents(mockAnalyticsService)
+        #expect(events.count == 1)
+        #expect(events.first?.params?["action"] as? String == "On")
+        #expect(sut.showNotificationsRationale)
+    }
+
+    @Test
+    func requestToggle_unknownCountry_doesNotTrack() async throws {
+        let mockAnalyticsService = MockAnalyticsService()
+        let mockTravelService = MockTravelService()
+        mockTravelService._autoCallToggleCompletion = false
+        let sut = try await makeLoadedSut(
+            analyticsService: mockAnalyticsService,
+            travelService: mockTravelService
+        )
+
+        await sut.requestToggle(slug: "narnia", enabled: false)
+
+        #expect(toggleEvents(mockAnalyticsService).isEmpty)
+    }
+
+    @Test
+    func rationaleFlowDidDismiss_whenSwipedAway_tracksNotNow() async throws {
+        let mockAnalyticsService = MockAnalyticsService()
+        let mockNotificationService = MockNotificationService()
+        mockNotificationService._stubbedhasGivenConsent = false
+        let sut = try await makeLoadedSut(
+            analyticsService: mockAnalyticsService,
+            notificationService: mockNotificationService
+        )
+        await sut.requestToggle(slug: "france", enabled: true)
+
+        sut.rationaleFlowDidDismiss()
+
+        let events = notNowEvents(mockAnalyticsService)
+        #expect(events.count == 1)
+        #expect(events.first?.params?["type"] as? String == "Button")
+        #expect(events.first?.params?["external"] as? Bool == false)
+        #expect(events.first?.params?["section"] as? String == "Travel Abroad Notifications")
+        #expect(sut.selectedCountryNotificationEnabled == false)
+    }
+
+    @Test
+    func rationaleFlowDidDismiss_afterNotNow_tracksNotNowOnce() async throws {
+        let mockAnalyticsService = MockAnalyticsService()
+        let mockNotificationService = MockNotificationService()
+        mockNotificationService._stubbedhasGivenConsent = false
+        let sut = try await makeLoadedSut(
+            analyticsService: mockAnalyticsService,
+            notificationService: mockNotificationService
+        )
+        await sut.requestToggle(slug: "france", enabled: true)
+        let rationaleViewModel = try #require(sut.createNotificationsRationaleViewModel())
+
+        rationaleViewModel.notNowAction()
+        sut.rationaleFlowDidDismiss()
+
+        #expect(notNowEvents(mockAnalyticsService).count == 1)
+        #expect(sut.showNotificationsRationale == false)
+    }
+
+    @Test
+    func rationaleFlowDidDismiss_afterBackButton_tracksNotNowOnce() async throws {
+        let mockAnalyticsService = MockAnalyticsService()
+        let mockNotificationService = MockNotificationService()
+        mockNotificationService._stubbedhasGivenConsent = false
+        let sut = try await makeLoadedSut(
+            analyticsService: mockAnalyticsService,
+            notificationService: mockNotificationService
+        )
+        await sut.requestToggle(slug: "france", enabled: true)
+        let rationaleViewModel = try #require(sut.createNotificationsRationaleViewModel())
+
+        rationaleViewModel.backButtonAction()
+        sut.rationaleFlowDidDismiss()
+
+        #expect(notNowEvents(mockAnalyticsService).count == 1)
+        #expect(sut.showNotificationsRationale == false)
+        #expect(sut.selectedCountryNotificationEnabled == false)
+    }
+
+    @Test
+    func rationaleFlowDidDismiss_afterSuccess_doesNotTrackNotNow() async throws {
+        let mockAnalyticsService = MockAnalyticsService()
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedToggleResult = .success(())
+        let mockNotificationService = MockNotificationService()
+        mockNotificationService._stubbedhasGivenConsent = false
+        mockNotificationService._stubbededPermissionState = .authorized
+        let sut = try await makeLoadedSut(
+            analyticsService: mockAnalyticsService,
+            travelService: mockTravelService,
+            notificationService: mockNotificationService
+        )
+        await sut.requestToggle(slug: "france", enabled: true)
+        let rationaleViewModel = try #require(sut.createNotificationsRationaleViewModel())
+
+        rationaleViewModel.allowNotificationsAction()
+        for _ in 0..<100 where sut.showNotificationsRationale {
+            try await Task.sleep(for: .milliseconds(10))
+        }
+        sut.rationaleFlowDidDismiss()
+
+        #expect(sut.showNotificationsRationale == false)
+        #expect(notNowEvents(mockAnalyticsService).isEmpty)
+        #expect(sut.selectedCountryNotificationEnabled == true)
     }
 }

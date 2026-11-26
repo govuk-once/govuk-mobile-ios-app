@@ -3,7 +3,7 @@ import SwiftUI
 import GovKitUI
 import GovKit
 
-struct EditCountriesView: View {
+struct EditCountriesView: View, TrackableScreen {
     @StateObject var viewModel: EditCountriesViewModel
 
     var body: some View {
@@ -36,7 +36,7 @@ struct EditCountriesView: View {
         .sheet(
             isPresented: $viewModel.isShowingList,
             onDismiss: {
-                viewModel.didDismissList(forceRefresh: false)
+                viewModel.countryListSheetDidDismiss()
             }, content: {
                 NavigationView {
                     CountryListView(viewModel: viewModel.countryListViewModel)
@@ -68,6 +68,10 @@ struct EditCountriesView: View {
         }
     }
 
+    var trackingClass: String { "EditCountriesScreen" }
+    var trackingTitle: String? { "Edit countries" }
+    var trackingName: String { "Edit countries" }
+
     private var scrollView: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
@@ -93,10 +97,4 @@ struct EditCountriesView: View {
             .padding(.vertical, 16)
         }
     }
-}
-
-extension EditCountriesView: TrackableScreen {
-    var trackingClass: String { "EditCountriesScreen" }
-    var trackingTitle: String? { "Edit countries" }
-    var trackingName: String { "Edit countries" }
 }

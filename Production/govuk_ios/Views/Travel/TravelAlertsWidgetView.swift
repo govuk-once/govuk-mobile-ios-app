@@ -49,7 +49,7 @@ struct TravelAlertsWidgetView: View {
         .sheet(
             isPresented: $viewModel.isShowingList,
             onDismiss: {
-                viewModel.didDismissList()
+                viewModel.countryListSheetDidDismiss()
             }, content: {
                 NavigationView {
                     CountryListView(

@@ -104,7 +104,7 @@ struct NotificationsRationaleView: View {
     private var backButton: some ToolbarContent {
         ToolbarItem(placement: ToolbarItemPlacement.cancellationAction) {
             Button {
-                viewModel.dismissSheetAction()
+                viewModel.backButtonAction()
             } label: {
                 Image(systemName: "chevron.left")
                     .foregroundStyle(Color(uiColor: .govUK.text.primary))

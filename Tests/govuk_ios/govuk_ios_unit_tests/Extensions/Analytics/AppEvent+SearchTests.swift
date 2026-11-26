@@ -44,4 +44,20 @@ struct AppEvent_SearchTests {
         #expect(result.params?["type"] as? String == "typed")
     }
 
+    @Test
+    func searchTerm_withExtraParams_includesThemInEvent() {
+        let result = AppEvent.searchTerm(
+            term: "Narnia",
+            type: .typed,
+            section: "country_search",
+            extraParams: ["results": 0]
+        )
+
+        #expect(result.name == "Search")
+        #expect(result.params?.count == 4)
+        #expect(result.params?["text"] as? String == "Narnia")
+        #expect(result.params?["type"] as? String == "typed")
+        #expect(result.params?["section"] as? String == "country_search")
+        #expect(result.params?["results"] as? Int == 0)
+    }
 }
