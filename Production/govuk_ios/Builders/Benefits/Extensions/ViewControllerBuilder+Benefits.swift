@@ -24,4 +24,14 @@ extension ViewControllerBuilder: BenefitsViewControllerBuilding {
         viewController.navigationItem.largeTitleDisplayMode = .always
         return viewController
     }
+    func makeBenefitsLinkingAccountView(
+    ) -> UIViewController {
+        let view = BenefitsLinkingAccountview()
+        let viewController = HostingViewController(
+            rootView: view
+        )
+        viewController.view.backgroundColor = .clear
+        viewController.navigationItem.largeTitleDisplayMode = .always
+        return viewController
+    }
 }
