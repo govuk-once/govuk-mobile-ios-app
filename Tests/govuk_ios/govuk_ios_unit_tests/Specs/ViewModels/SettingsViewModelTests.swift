@@ -48,8 +48,7 @@ class SettingsViewModelTests {
     private struct SectionIndexes {
         static let manageAccounts = 0
         static let yourAccounts = SectionIndexes.manageAccounts + 1
-        static let messages = SectionIndexes.yourAccounts + 1
-        static let appOptions = SectionIndexes.messages + 1
+        static let appOptions = SectionIndexes.yourAccounts + 1
         static let about = SectionIndexes.appOptions + 1
         static let policies = SectionIndexes.about + 1
         static let signOut = SectionIndexes.policies + 1
@@ -65,8 +64,8 @@ class SettingsViewModelTests {
         try #require(sut.listContent.count == SectionIndexes.signOut + 1)
         try #require(sut.listContent[SectionIndexes.manageAccounts].rows.count == 2)
         try #require(sut.listContent[SectionIndexes.yourAccounts].rows.count == 1)
-        try #require(sut.listContent[SectionIndexes.messages].rows.count == 1)
-        try #require(sut.listContent[SectionIndexes.appOptions].rows.count == 3)
+        // Notifications, Notification History, biometrics, app usage
+        try #require(sut.listContent[SectionIndexes.appOptions].rows.count == 4)
         try #require(sut.listContent[SectionIndexes.about].rows.count == 2)
         try #require(sut.listContent[SectionIndexes.policies].rows.count == 4)
         try #require(sut.listContent[SectionIndexes.signOut].rows.count == 1)
@@ -81,10 +80,9 @@ class SettingsViewModelTests {
         let signOutRow = try #require(signOutSection.rows.first as? DetailRow)
         #expect(signOutRow.title == "Sign out")
         
-        let messagesSection = sut.listContent[SectionIndexes.messages]
-        #expect(messagesSection.heading?.title == nil)
-        try #require(messagesSection.rows.count == 1)
-        #expect(messagesSection.rows[0].title == "Messages")
+        let messagesRow = sut.listContent[SectionIndexes.appOptions].rows[1]
+        #expect(messagesRow.id == "settings.messages.row")
+        #expect(messagesRow.title == "Notification History")
 
         let yourAccountSection = sut.listContent[SectionIndexes.yourAccounts]
         let yourAccountsRow = try #require(yourAccountSection.rows.first as? NavigationRow)
@@ -182,8 +180,8 @@ class SettingsViewModelTests {
             notificationCentreService: MockNotificationCentreService()
         )
 
-        let messagesRow = sut.listContent[SectionIndexes.messages]
-        let rowIds = messagesRow.rows.map { $0.id }
+        let appOptionsSection = sut.listContent[SectionIndexes.appOptions]
+        let rowIds = appOptionsSection.rows.map { $0.id }
         #expect(!rowIds.contains("settings.messages.row"))
     }
 

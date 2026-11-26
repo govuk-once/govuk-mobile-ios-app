@@ -1,3 +1,4 @@
+#if DEBUG || targetEnvironment(simulator)
 import Foundation
 import Security
 
@@ -39,3 +40,4 @@ final class ZscalerTrustDelegate: NSObject, URLSessionDelegate {
         }
     }
 }
+#endif

@@ -151,12 +151,17 @@ extension Container {
 
     var urlSession: Factory<URLSession> {
         Factory(self) {
-            let delegate = ZscalerTrustDelegate()
+            #if DEBUG || targetEnvironment(simulator)
+            // Trusts the Zscaler root CA so the Simulator works behind the
+            // corporate proxy. Never compiled into Release device builds.
             return URLSession(
                 configuration: .default,
-                delegate: delegate,
+                delegate: ZscalerTrustDelegate(),
                 delegateQueue: nil
             )
+            #else
+            return URLSession(configuration: .default)
+            #endif
         }
     }
 }

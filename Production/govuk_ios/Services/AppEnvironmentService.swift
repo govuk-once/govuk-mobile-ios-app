@@ -13,8 +13,6 @@ protocol AppEnvironmentServiceInterface {
     var dvlaAuthenticationURL: URL { get }
     var qualtricsBrandId: String { get }
     var qualtricsProjectId: String { get }
-    }
-
     var mailboxBaseURL: URL { get }
 }
 
