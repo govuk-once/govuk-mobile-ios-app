@@ -5,6 +5,7 @@ import MarkdownUI
 
 struct NotificationCentreDetailContainerView: View {
     @ObservedObject var viewModel: NotificationCentreDetailViewModel
+    @State private var buttonAreaHeight: CGFloat = 0
 
     var body: some View {
         GeometryReader { geometry in
@@ -38,11 +39,23 @@ struct NotificationCentreDetailContainerView: View {
                 .frame(minWidth: geometry.size.width, minHeight: geometry.size.height)
                 .accessibilitySortPriority(1)
             }
+            .safeAreaInset(edge: .bottom) {
+                if #available(iOS 26.0, *), case .loaded = viewModel.state {
+                    Color.clear.frame(height: buttonAreaHeight)
+                }
+            }
             .overlay(alignment: .bottomLeading) {
                 if #available(iOS 26.0, *), case .loaded = viewModel.state {
                     FloatingIconButtons(
                         unreadAction: viewModel.onMarkUnread,
                         deleteAction: viewModel.onDelete
+                    )
+                    .background(
+                        GeometryReader { buttonGeometry in
+                            Color.clear.onAppear {
+                                buttonAreaHeight = buttonGeometry.size.height
+                            }
+                        }
                     )
                     .accessibilitySortPriority(-1)
                 }
