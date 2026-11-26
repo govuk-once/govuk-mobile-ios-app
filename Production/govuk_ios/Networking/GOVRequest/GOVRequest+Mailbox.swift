@@ -74,19 +74,4 @@ extension GOVRequest {
             requiresAuthentication: true
         )
     }
-
-    static func mailboxToken(authSystemSub: String) -> GOVRequest {
-        GOVRequest(
-            urlPath: "/v1/token",
-            method: .post,
-            body: MailboxTokenRequestBody(authSystemSub: authSystemSub),
-            queryParameters: nil,
-            additionalHeaders: jsonHeaders,
-            requiresAuthentication: false
-        )
-    }
-}
-
-struct MailboxTokenRequestBody: Codable {
-    let authSystemSub: String
 }

@@ -16,7 +16,6 @@ protocol AppEnvironmentServiceInterface {
     }
 
     var mailboxBaseURL: URL { get }
-    var mailboxTokenBaseURL: URL { get }
 }
 
 enum AppEnvironmentKey: String {
@@ -31,7 +30,6 @@ enum AppEnvironmentKey: String {
     case qualtricsProjectId = "QUALTRICS_PROJECT_ID"
     case qualtricsBrandId = "QUALTRICS_BRAND_ID"
     case mailboxBaseURL = "MAILBOX_BASE_URL"
-    case mailboxTokenBaseURL = "MAILBOX_TOKEN_BASE_URL"
 }
 
 struct AppEnvironmentService: AppEnvironmentServiceInterface {
@@ -104,11 +102,6 @@ struct AppEnvironmentService: AppEnvironmentServiceInterface {
 
     var mailboxBaseURL: URL {
         let urlString = string(for: .mailboxBaseURL)
-        return URL(string: urlString)!
-    }
-
-    var mailboxTokenBaseURL: URL {
-        let urlString = string(for: .mailboxTokenBaseURL)
         return URL(string: urlString)!
     }
 }

@@ -17,6 +17,8 @@ struct MailboxListView: View {
             if viewModel.isLoading && viewModel.messages.isEmpty && viewModel.loadError == nil {
                 ProgressView()
                     .accessibilityLabel("Loading messages")
+            } else if viewModel.hasNoMailbox {
+                noMailboxState
             } else if let loadError = viewModel.loadError {
                 errorState(loadError)
             } else if viewModel.messages.isEmpty {
@@ -148,6 +150,28 @@ struct MailboxListView: View {
                 .foregroundStyle(Color(uiColor: .govUK.text.secondary))
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, 32)
+        }
+    }
+
+    private var noMailboxState: some View {
+        ScrollView {
+            VStack(spacing: 16) {
+                Image(systemName: "tray")
+                    .font(.system(size: 48))
+                    .foregroundStyle(Color(uiColor: .govUK.text.secondary))
+                    .accessibilityHidden(true)
+
+                Text("No mailbox exists for this One Login account")
+                    .font(Font.govUK.title3Semibold)
+                    .foregroundStyle(Color(uiColor: .govUK.text.primary))
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 32)
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.top, 120)
+        }
+        .refreshable {
+            await viewModel.refreshMessages()
         }
     }
 

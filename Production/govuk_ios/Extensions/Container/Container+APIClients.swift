@@ -137,22 +137,13 @@ extension Container {
         }
     }
 
-    var mailboxTokenAPIClient: Factory<APIServiceClientInterface> {
-        Factory(self) {
-            APIServiceClient(
-                baseUrl: self.appEnvironmentService().mailboxTokenBaseURL,
-                session: self.urlSession(),
-                requestBuilder: RequestBuilder()
-            )
-        }
-    }
-
     var mailboxAPIClient: Factory<APIServiceClientInterface> {
         Factory(self) {
             APIServiceClient(
                 baseUrl: self.appEnvironmentService().mailboxBaseURL,
                 session: self.urlSession(),
                 requestBuilder: RequestBuilder(),
+                responseHandler: MailboxResponseHandler(),
                 tokenProvider: self.authenticationService()
             )
         }

@@ -5,6 +5,25 @@ enum MailboxError: Error {
     case apiUnavailable
     case decodingError
     case notFound
+    case noMailbox
+}
+
+/// Maps Client Access API status codes to `MailboxError`.
+///
+/// The API answers 403 both for a bad token and for a citizen with no
+/// mailbox. `APIServiceClient` refreshes the token and retries once on a
+/// 403, so a 403 that reaches this handler is treated as "no mailbox".
+struct MailboxResponseHandler: ResponseHandler {
+    func handleStatusCode(_ statusCode: Int) -> Error {
+        switch statusCode {
+        case 403:
+            return MailboxError.noMailbox
+        case 404:
+            return MailboxError.notFound
+        default:
+            return MailboxError.apiUnavailable
+        }
+    }
 }
 
 protocol MailboxServiceClientInterface {
@@ -91,6 +110,9 @@ class MailboxServiceClient: MailboxServiceClientInterface {
     }
 
     private func mapError(_ error: Error) -> MailboxError {
+        if let mailboxError = error as? MailboxError {
+            return mailboxError
+        }
         let nsError = error as NSError
         if nsError.code == NSURLErrorNotConnectedToInternet {
             return .networkUnavailable

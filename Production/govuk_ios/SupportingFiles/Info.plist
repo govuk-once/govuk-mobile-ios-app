@@ -36,8 +36,6 @@
 	<false/>
 	<key>MAILBOX_BASE_URL</key>
 	<string>$(MAILBOX_BASE_URL)</string>
-	<key>MAILBOX_TOKEN_BASE_URL</key>
-	<string>$(MAILBOX_TOKEN_BASE_URL)</string>
 	<key>ONESIGNAL_APP_ID</key>
 	<string>$(ONESIGNAL_APP_ID)</string>
 	<key>OneSignal_suppress_launch_urls</key>

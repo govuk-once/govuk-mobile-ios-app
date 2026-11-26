@@ -39,6 +39,43 @@ struct MailboxListViewModelTests {
     }
 
     @Test
+    func loadMessages_noMailbox_setsHasNoMailbox() async {
+        mockMailboxService._stubbedFetchMessagesResult = .failure(MailboxError.noMailbox)
+        let sut = MailboxListViewModel(
+            mailboxService: mockMailboxService,
+            analyticsService: mockAnalyticsService,
+            messageSelectedAction: { _ in }
+        )
+
+        sut.loadMessages()
+        await waitForMainQueueHop()
+
+        #expect(sut.hasNoMailbox == true)
+        #expect(sut.messages.isEmpty)
+        #expect(sut.loadError == nil)
+        #expect(sut.refreshFailed == false)
+    }
+
+    @Test
+    func loadMessages_successAfterNoMailbox_clearsHasNoMailbox() async {
+        mockMailboxService._stubbedFetchMessagesResult = .failure(MailboxError.noMailbox)
+        let sut = MailboxListViewModel(
+            mailboxService: mockMailboxService,
+            analyticsService: mockAnalyticsService,
+            messageSelectedAction: { _ in }
+        )
+        sut.loadMessages()
+        await waitForMainQueueHop()
+
+        mockMailboxService._stubbedFetchMessagesResult = .success([.arrange(messageId: "message-1")])
+        sut.loadMessages()
+        await waitForMainQueueHop()
+
+        #expect(sut.hasNoMailbox == false)
+        #expect(sut.messages.count == 1)
+    }
+
+    @Test
     func loadMessages_failureWithCachedMessages_setsRefreshFailedAndKeepsMessages() async {
         let existingMessages: [MailboxMessage] = [.arrange(messageId: "message-1")]
         mockMailboxService._stubbedFetchMessagesResult = .success(existingMessages)

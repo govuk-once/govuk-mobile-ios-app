@@ -27,7 +27,6 @@ protocol MailboxServiceInterface {
 
 final class MailboxService: MailboxServiceInterface {
     private let serviceClient: MailboxServiceClientInterface
-    private let tokenProvider: MailboxTokenProvider
     private let userDefaults: UserDefaults
     private let cacheLock = NSLock()
 
@@ -45,10 +44,8 @@ final class MailboxService: MailboxServiceInterface {
     }
 
     init(serviceClient: MailboxServiceClientInterface,
-         tokenProvider: MailboxTokenProvider,
          userDefaults: UserDefaults = .standard) {
         self.serviceClient = serviceClient
-        self.tokenProvider = tokenProvider
         self.userDefaults = userDefaults
     }
 

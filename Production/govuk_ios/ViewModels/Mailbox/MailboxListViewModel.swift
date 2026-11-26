@@ -11,6 +11,7 @@ class MailboxListViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published private(set) var loadError: InlineActionErrorViewModel?
     @Published private(set) var refreshFailed: Bool = false
+    @Published private(set) var hasNoMailbox: Bool = false
     @Published var selectedSenderFilter: MessageSender?
 
     var filteredMessages: [MailboxMessage] {
@@ -49,6 +50,12 @@ class MailboxListViewModel: ObservableObject {
                     self.messages = messages
                     self.loadError = nil
                     self.refreshFailed = false
+                    self.hasNoMailbox = false
+                case .failure(MailboxError.noMailbox):
+                    self.messages = []
+                    self.loadError = nil
+                    self.refreshFailed = false
+                    self.hasNoMailbox = true
                 case .failure:
                     if self.messages.isEmpty {
                         self.loadError = self.mailboxLoadErrorViewModel
