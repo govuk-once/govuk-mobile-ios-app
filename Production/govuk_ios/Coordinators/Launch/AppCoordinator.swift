@@ -68,10 +68,28 @@ class AppCoordinator: BaseCoordinator {
     private func handleNotificationConsentChange(consentGiven: Bool) {
         guard authenticationService.isSignedIn else { return }
         if let pushId = userService.pushId {
-            notificationService.register(pushId: pushId)
-            let consentStatus: ConsentStatus = consentGiven ? .accepted : .denied
-            userService.setNotificationsConsent(consentStatus)
-       }
+            register(pushId: pushId, consentGiven: consentGiven)
+        } else if consentGiven, userService.isEnabled {
+            // No push ID means this session's user state fetch failed or hasn't finished yet.
+            // Without fetching it now, this device isn't linked to the user until the next cold
+            // boot, and any push sent to them before then fails. If the first fetch was only
+            // slow, both will register; logging in again with the same ID does nothing.
+            userService.fetchUserState { [weak self] result in
+                switch result {
+                case .success(let userState):
+                    self?.register(pushId: userState.notifications.pushId, consentGiven: true)
+                case .failure(let error):
+                    self?.analyticsService.track(error: error)
+                }
+            }
+        }
+    }
+
+    private func register(pushId: String, consentGiven: Bool) {
+        // register checks consent again, so nothing logs in if it was withdrawn while fetching.
+        notificationService.register(pushId: pushId)
+        let consentStatus: ConsentStatus = consentGiven ? .accepted : .denied
+        userService.setNotificationsConsent(consentStatus)
     }
 
     override func start(url: URL?) {

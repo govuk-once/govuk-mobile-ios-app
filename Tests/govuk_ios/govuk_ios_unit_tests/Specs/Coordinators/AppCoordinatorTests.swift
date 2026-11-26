@@ -641,6 +641,91 @@ struct AppCoordinatorTests {
     }
 
     @Test
+    func notificationConsentAccepted_isSignedIn_noPushId_fetchesUserStateThenRegisters() {
+        let mockUserService = MockUserService()
+        mockUserService._stubbedPushId = nil
+        mockUserService._stubbedFetchUserStateResult = .success(UserState.arrange)
+        let mockAuthenticationService = MockAuthenticationService()
+        mockAuthenticationService._stubbedIsSignedIn = true
+        let mockNotificationService = MockNotificationService()
+        let subject = AppCoordinator(
+            coordinatorBuilder: MockCoordinatorBuilder.mock,
+            inactivityService: MockInactivityService(),
+            authenticationService: mockAuthenticationService,
+            localAuthenticationService: MockLocalAuthenticationService(),
+            notificationService: mockNotificationService,
+            userService: mockUserService,
+            analyticsService: MockAnalyticsService(),
+            tokenProvider: MockAuthenticationService(),
+            privacyPresenter: MockPrivacyService(),
+            navigationController: MockNavigationController())
+        subject.start()
+        mockNotificationService._receivedOnConsentChangedAction?(true)
+        #expect(mockNotificationService._stubbedPushId == "push_id")
+        #expect(mockUserService._receivedNotificationConsent == .accepted)
+    }
+
+    @Test
+    func notificationConsentAccepted_isSignedIn_noPushId_fetchFails_tracksError() {
+        let mockUserService = MockUserService()
+        mockUserService._stubbedPushId = nil
+        mockUserService._stubbedFetchUserStateResult = .failure(.apiUnavailable)
+        let mockAuthenticationService = MockAuthenticationService()
+        mockAuthenticationService._stubbedIsSignedIn = true
+        let mockNotificationService = MockNotificationService()
+        let mockAnalyticsService = MockAnalyticsService()
+        let subject = AppCoordinator(
+            coordinatorBuilder: MockCoordinatorBuilder.mock,
+            inactivityService: MockInactivityService(),
+            authenticationService: mockAuthenticationService,
+            localAuthenticationService: MockLocalAuthenticationService(),
+            notificationService: mockNotificationService,
+            userService: mockUserService,
+            analyticsService: mockAnalyticsService,
+            tokenProvider: MockAuthenticationService(),
+            privacyPresenter: MockPrivacyService(),
+            navigationController: MockNavigationController())
+        subject.start()
+        mockNotificationService._receivedOnConsentChangedAction?(true)
+        #expect(mockNotificationService._stubbedPushId == nil)
+        #expect(mockAnalyticsService._trackErrorReceivedErrors.count == 1)
+        #expect(mockAnalyticsService._trackErrorReceivedErrors.first as? UserStateError == .apiUnavailable)
+    }
+
+    @Test(arguments: [
+        (consentGiven: false, userServiceEnabled: true),
+        (consentGiven: true, userServiceEnabled: false)
+    ])
+    func notificationConsentChanged_isSignedIn_noPushId_doesNotFetchUserState(
+        consentGiven: Bool,
+        userServiceEnabled: Bool
+    ) {
+        let mockUserService = MockUserService()
+        mockUserService._stubbedPushId = nil
+        mockUserService._stubbedIsEnabled = userServiceEnabled
+        var fetched = false
+        mockUserService._fetchUserStateCompletionBlock = { fetched = true }
+        let mockAuthenticationService = MockAuthenticationService()
+        mockAuthenticationService._stubbedIsSignedIn = true
+        let mockNotificationService = MockNotificationService()
+        let subject = AppCoordinator(
+            coordinatorBuilder: MockCoordinatorBuilder.mock,
+            inactivityService: MockInactivityService(),
+            authenticationService: mockAuthenticationService,
+            localAuthenticationService: MockLocalAuthenticationService(),
+            notificationService: mockNotificationService,
+            userService: mockUserService,
+            analyticsService: MockAnalyticsService(),
+            tokenProvider: MockAuthenticationService(),
+            privacyPresenter: MockPrivacyService(),
+            navigationController: MockNavigationController())
+        subject.start()
+        mockNotificationService._receivedOnConsentChangedAction?(consentGiven)
+        #expect(!fetched)
+        #expect(mockNotificationService._stubbedPushId == nil)
+    }
+
+    @Test
     func notificationConsentAccepted_isNotSignedIn_doesNotCallNotificationServiceRegister() {
         let mockUserService = MockUserService()
         let mockAuthenticationService = MockAuthenticationService()
