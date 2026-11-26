@@ -435,6 +435,41 @@ struct AppCoordinatorTests {
         #expect(mockPrivacyService._didHidePrivacyScreen)
     }
 
+    @Test(arguments: [
+        SignoutReason.tokenRefreshFailure,
+        SignoutReason.userSignout,
+        SignoutReason.reauthFailure
+    ])
+    func start_didSignOutAction_clearsUserState(reason: SignoutReason) {
+        let mockAuthenticationService = MockAuthenticationService()
+        let mockCoordinatorBuilder = MockCoordinatorBuilder.mock
+        let mockNavigationController = UINavigationController()
+        let mockUserService = MockUserService()
+        mockCoordinatorBuilder._stubbedPreAuthCoordinator = MockBaseCoordinator(
+            navigationController: mockNavigationController
+        )
+        mockCoordinatorBuilder._stubbedPeriAuthCoordinator = MockBaseCoordinator()
+
+        let subject = AppCoordinator(
+            coordinatorBuilder: mockCoordinatorBuilder,
+            inactivityService: MockInactivityService(),
+            authenticationService: mockAuthenticationService,
+            localAuthenticationService: MockLocalAuthenticationService(),
+            notificationService: MockNotificationService(),
+            userService: mockUserService,
+            analyticsService: MockAnalyticsService(),
+            tokenProvider: MockAuthenticationService(),
+            privacyPresenter: MockPrivacyService(),
+            navigationController: mockNavigationController
+        )
+
+        subject.start(url: nil)
+
+        mockAuthenticationService.didSignOutAction?(reason)
+
+        #expect(mockUserService._clearUserStateCalled)
+    }
+
     @Test
     func inactivityWithBiometrics_presentsPrivacyScreen() {
         let mockAuthenticationService = MockAuthenticationService()

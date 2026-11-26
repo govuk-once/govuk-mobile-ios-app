@@ -13,6 +13,7 @@ protocol UserServiceInterface {
     var notificationsConsentStatus: ConsentStatus? { get }
     var isEnabled: Bool { get }
     var linkedAccounts: [ServiceAccountType]? { get }
+    func clearUserState()
 }
 
  class UserService: UserServiceInterface {
@@ -50,9 +51,18 @@ protocol UserServiceInterface {
                  self.userState = userState
                  completion(.success(userState))
              case .failure(let error):
+                 // Don't keep a previous user's state after a failed fetch: a later consent
+                 // change would register their push ID for whoever is signed in now.
+                 self.userState = nil
                  completion(.failure(error))
              }
          }
+     }
+
+     /// Called on sign-out. This service is a singleton, so without this the next user could be
+     /// registered with OneSignal using the previous user's push ID.
+     func clearUserState() {
+         userState = nil
      }
 
      /// Temporarily disable sending of consent
