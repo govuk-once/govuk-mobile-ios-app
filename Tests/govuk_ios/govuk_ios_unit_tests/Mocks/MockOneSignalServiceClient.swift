@@ -72,8 +72,9 @@ class MockOSNotifications: NSObject,
 
     }
 
+    static var _requestPermissionCallCount = 0
     static func requestPermission(_ block: OSUserResponseBlock?, fallbackToSettings fallback: Bool) {
-
+        _requestPermissionCallCount += 1
     }
 
     static func __register(forProvisionalAuthorization block: OSUserResponseBlock? = nil) {

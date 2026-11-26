@@ -122,12 +122,38 @@ class NotificationService: NSObject,
         }
     }
 
+    // Ask iOS first, then give OneSignal consent based on the answer.
+    //
+    // We used to give consent first, because OneSignal's own requestPermission won't run without
+    // it. That started the SDK while the prompt was still on screen, so it created the user and
+    // push subscription marked "asked, not answered". If the user then tapped Allow, that stale
+    // update could reach OneSignal after the "subscribed" one and leave them stuck as "Never
+    // Subscribed" (OneSignal SDK-4874, fixed in SDK 5.5.5; this removes the window entirely).
+    // If they tapped Don't Allow, OneSignal was left with a record for someone who had refused.
+    //
+    // Calling iOS directly is supported: OneSignal intercepts requestAuthorization and records
+    // the answer, and reads the permission from iOS when it starts.
     func requestPermissions(completion: ((Bool) -> Void)?) {
-        updateConsent(given: true)
-        oneSignalServiceClient.Notifications.requestPermission({ [weak self] accepted in
-            self?.updateConsent(given: accepted)
-            completion?(accepted)
-        }, fallbackToSettings: false)
+        Task { @MainActor [weak self] in
+            guard let self else { return }
+            // The same options OneSignal's own prompt asks for.
+            let granted = (try? await notificationCenter.requestAuthorization(
+                options: [.alert, .sound, .badge]
+            )) ?? false
+            updateConsent(given: granted)
+            if granted {
+                // Giving consent only starts the SDK if it was waiting for consent at launch.
+                // If consent was on at launch and has been turned off since, turning it back on
+                // doesn't restart anything, and the SDK wouldn't send the new permission until
+                // the app next comes to the foreground. iOS has already answered, so this shows
+                // no dialog; it just runs OneSignal's after-prompt update straight away.
+                oneSignalServiceClient.Notifications.requestPermission(
+                    nil,
+                    fallbackToSettings: false
+                )
+            }
+            completion?(granted)
+        }
     }
 
     func addClickListener(onClickAction: @escaping (URL) -> Void) {

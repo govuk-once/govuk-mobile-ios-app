@@ -4,7 +4,8 @@ import Testing
 
 @testable import govuk_ios
 
-@Suite
+// These tests share MockOneSignalServiceClient's static state, so they must run one at a time.
+@Suite(.serialized)
 class NotificationServiceTests {
 
     @Test
@@ -511,58 +512,105 @@ class NotificationServiceTests {
     }
 
     @Test
-    func requestPermissions_consentGranted_doesNothing() {
+    func requestPermissions_granted_givesConsentOnlyAfterAsking() async {
         let mockDefaults = MockUserDefaultsService()
+        let mockNotificationCenter = MockUserNotificationCenter()
+        mockNotificationCenter._stubbedRequestAuthorizationResult = true
+        var consentWhileAsking: Bool?
+        mockNotificationCenter._requestAuthorizationAction = {
+            consentWhileAsking = mockDefaults.bool(forKey: .notificationsConsentGranted)
+        }
+        MockOSNotifications._requestPermissionCallCount = 0
         let sut = NotificationService(
             environmentService: MockAppEnvironmentService(),
-            notificationCenter: MockUserNotificationCenter(),
+            notificationCenter: mockNotificationCenter,
             configService: MockAppConfigService(),
             userDefaultsService: mockDefaults,
             oneSignalServiceClient: MockOneSignalServiceClient.self,
             notificationCentreService: { MockNotificationCentreService() }
         )
 
+        let granted = await withCheckedContinuation { continuation in
+            sut.requestPermissions { continuation.resume(returning: $0) }
+        }
+
+        #expect(granted)
+        #expect(consentWhileAsking == false)
+        #expect(mockDefaults.bool(forKey: .notificationsConsentGranted))
+        let expectedOptions: UNAuthorizationOptions = [.alert, .sound, .badge]
+        #expect(mockNotificationCenter._receivedRequestAuthorizationOptions == expectedOptions)
+        #expect(MockOSNotifications._requestPermissionCallCount == 1)
+    }
+
+    @Test
+    func requestPermissions_denied_leavesConsentOff() async {
+        let mockDefaults = MockUserDefaultsService()
+        let mockNotificationCenter = MockUserNotificationCenter()
+        mockNotificationCenter._stubbedRequestAuthorizationResult = false
+        MockOSNotifications._requestPermissionCallCount = 0
+        let sut = NotificationService(
+            environmentService: MockAppEnvironmentService(),
+            notificationCenter: mockNotificationCenter,
+            configService: MockAppConfigService(),
+            userDefaultsService: mockDefaults,
+            oneSignalServiceClient: MockOneSignalServiceClient.self,
+            notificationCentreService: { MockNotificationCentreService() }
+        )
+
+        let granted = await withCheckedContinuation { continuation in
+            sut.requestPermissions { continuation.resume(returning: $0) }
+        }
+
+        #expect(!granted)
+        #expect(!mockDefaults.bool(forKey: .notificationsConsentGranted))
+        #expect(MockOSNotifications._requestPermissionCallCount == 0)
+    }
+
+    @Test
+    func requestPermissions_consentPreviouslyGranted_denied_removesConsent() async {
+        let mockDefaults = MockUserDefaultsService()
         mockDefaults.set(bool: true, forKey: .notificationsConsentGranted)
-
-        sut.requestPermissions(completion: nil)
-
-        #expect(mockDefaults.bool(forKey: .notificationsConsentGranted))
-    }
-
-    @Test
-    func requestPermissions_consentRejected_grantsConsent() {
-        let mockDefaults = MockUserDefaultsService()
+        let mockNotificationCenter = MockUserNotificationCenter()
+        mockNotificationCenter._stubbedRequestAuthorizationResult = false
         let sut = NotificationService(
             environmentService: MockAppEnvironmentService(),
-            notificationCenter: MockUserNotificationCenter(),
+            notificationCenter: mockNotificationCenter,
             configService: MockAppConfigService(),
             userDefaultsService: mockDefaults,
             oneSignalServiceClient: MockOneSignalServiceClient.self,
             notificationCentreService: { MockNotificationCentreService() }
         )
 
-        mockDefaults.set(bool: false, forKey: .notificationsConsentGranted)
+        let granted = await withCheckedContinuation { continuation in
+            sut.requestPermissions { continuation.resume(returning: $0) }
+        }
 
-        sut.requestPermissions(completion: nil)
-
-        #expect(mockDefaults.bool(forKey: .notificationsConsentGranted))
+        #expect(!granted)
+        #expect(!mockDefaults.bool(forKey: .notificationsConsentGranted))
     }
 
     @Test
-    func requestPermissions_consentNotSet_grantsConsent() {
+    func requestPermissions_authorizationError_treatedAsDenied() async {
         let mockDefaults = MockUserDefaultsService()
+        let mockNotificationCenter = MockUserNotificationCenter()
+        mockNotificationCenter._stubbedRequestAuthorizationError = TestError.anyError
+        MockOSNotifications._requestPermissionCallCount = 0
         let sut = NotificationService(
             environmentService: MockAppEnvironmentService(),
-            notificationCenter: MockUserNotificationCenter(),
+            notificationCenter: mockNotificationCenter,
             configService: MockAppConfigService(),
             userDefaultsService: mockDefaults,
             oneSignalServiceClient: MockOneSignalServiceClient.self,
             notificationCentreService: { MockNotificationCentreService() }
         )
 
-        sut.requestPermissions(completion: nil)
+        let granted = await withCheckedContinuation { continuation in
+            sut.requestPermissions { continuation.resume(returning: $0) }
+        }
 
-        #expect(mockDefaults.bool(forKey: .notificationsConsentGranted))
+        #expect(!granted)
+        #expect(!mockDefaults.bool(forKey: .notificationsConsentGranted))
+        #expect(MockOSNotifications._requestPermissionCallCount == 0)
     }
 
     @Test
