@@ -166,7 +166,7 @@ class SettingsViewModel: SettingsViewModelInterface {
             switch result {
             case .success(let notifications):
                 unreadCount = notifications.count(where: \.isUnread)
-            case .failure:
+            case .failure(let error):
                 unreadCount = nil
             }
 
