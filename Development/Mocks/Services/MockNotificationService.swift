@@ -73,6 +73,15 @@ class MockNotificationService: NotificationServiceInterface {
         _stubbedPushId = pushId
     }
 
+    var _stubbedOneSignalStateError: OneSignalStateError?
+    var _receivedOneSignalStatePushId: String?
+    var _oneSignalStateCheckedBeforeRegister: Bool?
+    func oneSignalStateError(pushId: String) -> OneSignalStateError? {
+        _receivedOneSignalStatePushId = pushId
+        _oneSignalStateCheckedBeforeRegister = _stubbedPushId == nil
+        return _stubbedOneSignalStateError
+    }
+
     func unregisterPushId() {
         _stubbedPushId = nil
     }

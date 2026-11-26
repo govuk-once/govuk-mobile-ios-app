@@ -72,6 +72,76 @@ class WelcomeOnboardingCoordinatorTests {
     }
 
     @Test
+    func start_signedIn_inconsistentOneSignalState_tracksErrorBeforeRegistering() async {
+        let stateError = OneSignalStateError(
+            externalIdSet: false,
+            externalIdMatches: false,
+            onesignalIdSet: true,
+            pushSubscriptionIdSet: true,
+            pushOptedIn: true
+        )
+        let mockAuthenticationService = MockAuthenticationService()
+        let mockNotificationService = MockNotificationService()
+        mockNotificationService._stubbedOneSignalStateError = stateError
+        let mockUserService = MockUserService()
+        mockUserService._stubbedFetchUserStateResult = .success(UserState.arrange)
+        let mockAnalyticsService = MockAnalyticsService()
+        mockAuthenticationService._stubbedIsSignedIn = true
+        let completion = await withCheckedContinuation { continuation in
+            let sut = WelcomeOnboardingCoordinator(
+                navigationController: MockNavigationController(),
+                authenticationService: mockAuthenticationService,
+                appConfigService: MockAppConfigService(),
+                userService: mockUserService,
+                notificationService: mockNotificationService,
+                termsAndConditionsService: MockTermsAndConditionsService(),
+                coordinatorBuilder: CoordinatorBuilder.mock,
+                viewControllerBuilder: MockViewControllerBuilder(),
+                analyticsService: mockAnalyticsService,
+                deviceInformationProvider: MockDeviceInformationProvider(),
+                versionProvider: MockAppVersionProvider(),
+                completionAction: { continuation.resume(returning: true) }
+            )
+            sut.start(url: nil)
+        }
+
+        #expect(completion)
+        #expect(mockNotificationService._receivedOneSignalStatePushId == "push_id")
+        #expect(mockNotificationService._oneSignalStateCheckedBeforeRegister == true)
+        #expect(mockNotificationService._stubbedPushId == "push_id")
+        #expect(mockAnalyticsService._trackErrorReceivedErrors.count == 1)
+        #expect(mockAnalyticsService._trackErrorReceivedErrors.first as? OneSignalStateError == stateError)
+    }
+
+    @Test
+    func fetchUserState_afterFreshSignIn_doesNotCheckOneSignalState() async {
+        let mockNotificationService = MockNotificationService()
+        let mockUserService = MockUserService()
+        mockUserService._stubbedFetchUserStateResult = .success(UserState.arrange)
+        let completion = await withCheckedContinuation { continuation in
+            let sut = WelcomeOnboardingCoordinator(
+                navigationController: MockNavigationController(),
+                authenticationService: MockAuthenticationService(),
+                appConfigService: MockAppConfigService(),
+                userService: mockUserService,
+                notificationService: mockNotificationService,
+                termsAndConditionsService: MockTermsAndConditionsService(),
+                coordinatorBuilder: CoordinatorBuilder.mock,
+                viewControllerBuilder: MockViewControllerBuilder(),
+                analyticsService: MockAnalyticsService(),
+                deviceInformationProvider: MockDeviceInformationProvider(),
+                versionProvider: MockAppVersionProvider(),
+                completionAction: { continuation.resume(returning: true) }
+            )
+            sut.fetchUserState()
+        }
+
+        #expect(completion)
+        #expect(mockNotificationService._receivedOneSignalStatePushId == nil)
+        #expect(mockNotificationService._stubbedPushId == "push_id")
+    }
+
+    @Test
     func start_signedIn_userStateRequestSuccess_dvlaFeatureFlagEnabled_fetchesLinkedAccounts() async {
         let mockAuthenticationService = MockAuthenticationService()
         let mockNotificationService = MockNotificationService()

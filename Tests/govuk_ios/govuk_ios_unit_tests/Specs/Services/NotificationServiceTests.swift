@@ -714,6 +714,148 @@ class NotificationServiceTests {
     }
 
     @Test
+    func oneSignalStateError_consistentState_returnsNil() {
+        MockOneSignalServiceClient._stubbedDeviceState = OneSignalDeviceState(
+            externalId: "push_id",
+            onesignalId: "onesignal_id",
+            pushSubscriptionId: "subscription_id",
+            pushOptedIn: false
+        )
+        let sut = NotificationService(
+            environmentService: MockAppEnvironmentService(),
+            notificationCenter: MockUserNotificationCenter(),
+            configService: MockAppConfigService(),
+            userDefaultsService: MockUserDefaultsService(),
+            oneSignalServiceClient: MockOneSignalServiceClient.self,
+            notificationCentreService: { MockNotificationCentreService() }
+        )
+        sut.acceptConsent()
+
+        #expect(sut.oneSignalStateError(pushId: "push_id") == nil)
+    }
+
+    @Test
+    func oneSignalStateError_externalIdMissing_returnsFlags() {
+        MockOneSignalServiceClient._stubbedDeviceState = OneSignalDeviceState(
+            externalId: nil,
+            onesignalId: "onesignal_id",
+            pushSubscriptionId: "subscription_id",
+            pushOptedIn: true
+        )
+        let sut = NotificationService(
+            environmentService: MockAppEnvironmentService(),
+            notificationCenter: MockUserNotificationCenter(),
+            configService: MockAppConfigService(),
+            userDefaultsService: MockUserDefaultsService(),
+            oneSignalServiceClient: MockOneSignalServiceClient.self,
+            notificationCentreService: { MockNotificationCentreService() }
+        )
+        sut.acceptConsent()
+
+        let expected = OneSignalStateError(
+            externalIdSet: false,
+            externalIdMatches: false,
+            onesignalIdSet: true,
+            pushSubscriptionIdSet: true,
+            pushOptedIn: true
+        )
+        #expect(sut.oneSignalStateError(pushId: "push_id") == expected)
+    }
+
+    @Test
+    func oneSignalStateError_differentExternalId_returnsFlags() {
+        MockOneSignalServiceClient._stubbedDeviceState = OneSignalDeviceState(
+            externalId: "previous_push_id",
+            onesignalId: "onesignal_id",
+            pushSubscriptionId: "subscription_id",
+            pushOptedIn: true
+        )
+        let sut = NotificationService(
+            environmentService: MockAppEnvironmentService(),
+            notificationCenter: MockUserNotificationCenter(),
+            configService: MockAppConfigService(),
+            userDefaultsService: MockUserDefaultsService(),
+            oneSignalServiceClient: MockOneSignalServiceClient.self,
+            notificationCentreService: { MockNotificationCentreService() }
+        )
+        sut.acceptConsent()
+
+        let expected = OneSignalStateError(
+            externalIdSet: true,
+            externalIdMatches: false,
+            onesignalIdSet: true,
+            pushSubscriptionIdSet: true,
+            pushOptedIn: true
+        )
+        #expect(sut.oneSignalStateError(pushId: "push_id") == expected)
+    }
+
+    @Test
+    func oneSignalStateError_noServerUserOrSubscription_returnsFlags() {
+        MockOneSignalServiceClient._stubbedDeviceState = OneSignalDeviceState(
+            externalId: "push_id",
+            onesignalId: nil,
+            pushSubscriptionId: "",
+            pushOptedIn: true
+        )
+        let sut = NotificationService(
+            environmentService: MockAppEnvironmentService(),
+            notificationCenter: MockUserNotificationCenter(),
+            configService: MockAppConfigService(),
+            userDefaultsService: MockUserDefaultsService(),
+            oneSignalServiceClient: MockOneSignalServiceClient.self,
+            notificationCentreService: { MockNotificationCentreService() }
+        )
+        sut.acceptConsent()
+
+        let expected = OneSignalStateError(
+            externalIdSet: true,
+            externalIdMatches: true,
+            onesignalIdSet: false,
+            pushSubscriptionIdSet: false,
+            pushOptedIn: true
+        )
+        #expect(sut.oneSignalStateError(pushId: "push_id") == expected)
+    }
+
+    @Test
+    func oneSignalStateError_noConsent_returnsNil() {
+        MockOneSignalServiceClient._stubbedDeviceState = OneSignalDeviceState(
+            externalId: nil,
+            onesignalId: nil,
+            pushSubscriptionId: nil,
+            pushOptedIn: false
+        )
+        let sut = NotificationService(
+            environmentService: MockAppEnvironmentService(),
+            notificationCenter: MockUserNotificationCenter(),
+            configService: MockAppConfigService(),
+            userDefaultsService: MockUserDefaultsService(),
+            oneSignalServiceClient: MockOneSignalServiceClient.self,
+            notificationCentreService: { MockNotificationCentreService() }
+        )
+
+        #expect(sut.oneSignalStateError(pushId: "push_id") == nil)
+    }
+
+    @Test
+    func oneSignalStateError_reportsFlagsAsUserInfo() {
+        let error = OneSignalStateError(
+            externalIdSet: true,
+            externalIdMatches: false,
+            onesignalIdSet: true,
+            pushSubscriptionIdSet: false,
+            pushOptedIn: true
+        ) as NSError
+
+        #expect(error.userInfo["externalIdSet"] as? Bool == true)
+        #expect(error.userInfo["externalIdMatches"] as? Bool == false)
+        #expect(error.userInfo["onesignalIdSet"] as? Bool == true)
+        #expect(error.userInfo["pushSubscriptionIdSet"] as? Bool == false)
+        #expect(error.userInfo["pushOptedIn"] as? Bool == true)
+    }
+
+    @Test
     func unregisterPushId_callsLogout() {
         MockOneSignalServiceClient._stubbedExternalId = "test_user_id"
         let sut = NotificationService(

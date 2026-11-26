@@ -16,6 +16,7 @@ protocol NotificationServiceInterface {
     var isFeatureEnabled: Bool { get }
     func fetchConsentAlignment() async -> NotificationConsentResult
     func register(pushId: String)
+    func oneSignalStateError(pushId: String) -> OneSignalStateError?
     func unregisterPushId()
     var hasGivenConsent: Bool { get }
     func addConsentChangedListener(action: @escaping (Bool) -> Void)
@@ -202,6 +203,26 @@ class NotificationService: NSObject,
     func register(pushId: String) {
         guard hasGivenConsent else { return }
         oneSignalServiceClient.login(pushId)
+    }
+
+    // Compares what the OneSignal SDK saved on this device with the signed-in user, and returns
+    // an error to report if they don't match.
+    //
+    // Call it on app start for a returning user, before register. Logging in again can repair
+    // the state, which would hide what the previous session left behind. Don't call it after a
+    // fresh sign-in: that starts logged out of OneSignal, so a mismatch there is expected.
+    func oneSignalStateError(pushId: String) -> OneSignalStateError? {
+        // Only users who have consented should be linked in OneSignal.
+        guard hasGivenConsent else { return nil }
+        let state = oneSignalServiceClient.deviceState
+        let error = OneSignalStateError(
+            externalIdSet: !(state.externalId ?? "").isEmpty,
+            externalIdMatches: state.externalId == pushId,
+            onesignalIdSet: !(state.onesignalId ?? "").isEmpty,
+            pushSubscriptionIdSet: !(state.pushSubscriptionId ?? "").isEmpty,
+            pushOptedIn: state.pushOptedIn
+        )
+        return error.isConsistent ? nil : error
     }
 
     func unregisterPushId() {

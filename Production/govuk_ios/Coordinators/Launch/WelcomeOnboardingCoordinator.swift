@@ -59,7 +59,7 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
 
     override func start(url: URL?) {
         if shouldSkipOnboarding {
-            fetchUserState()
+            fetchUserState(isReturningUser: true)
         } else {
             setWelcomeOnboardingViewController()
         }
@@ -130,7 +130,7 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
         start(coordinator)
     }
 
-    func fetchUserState() {
+    func fetchUserState(isReturningUser: Bool = false) {
         guard userService.isEnabled else {
             completionAction()
             return
@@ -138,13 +138,24 @@ class WelcomeOnboardingCoordinator: BaseCoordinator {
         userService.fetchUserState(completion: { [weak self] result in
             switch result {
             case .success(let userState):
-                self?.notificationService.register(pushId: userState.notifications.pushId)
+                let pushId = userState.notifications.pushId
+                if isReturningUser {
+                    self?.reportOneSignalState(pushId: pushId)
+                }
+                self?.notificationService.register(pushId: pushId)
                 self?.handleUserStateFetched()
             case .failure(let error):
                 self?.handleUserStateFailure(error)
             }
         })
         completionAction()
+    }
+
+    // Must run before register: logging in again can repair the OneSignal state and hide what
+    // the previous session left behind. See NotificationService.oneSignalStateError.
+    private func reportOneSignalState(pushId: String) {
+        guard let error = notificationService.oneSignalStateError(pushId: pushId) else { return }
+        analyticsService.track(error: error)
     }
 
     private func handleUserStateFetched() {

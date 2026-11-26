@@ -34,6 +34,16 @@ class MockOneSignalServiceClient: OneSignalServiceClient {
         MockOSNotifications.self
     }
 
+    static var _stubbedDeviceState = OneSignalDeviceState(
+        externalId: nil,
+        onesignalId: nil,
+        pushSubscriptionId: nil,
+        pushOptedIn: false
+    )
+    static var deviceState: OneSignalDeviceState {
+        _stubbedDeviceState
+    }
+
 }
 
 
