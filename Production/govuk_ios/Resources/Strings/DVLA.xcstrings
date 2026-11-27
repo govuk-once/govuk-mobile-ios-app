@@ -360,18 +360,7 @@
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Your driving record"
-          }
-        }
-      }
-    },
-    "drivingRecordSubtitle" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vehicles you can drive, offences and penalty points"
+            "value" : "Offences and points"
           }
         }
       }
@@ -382,7 +371,7 @@
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Driving record"
+            "value" : "Your driving record"
           }
         }
       }
@@ -894,17 +883,6 @@
         }
       }
     },
-    "licenceCategoriesButtonTitle" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Categories"
-          }
-        }
-      }
-    },
     "licenceCategoriesExplanation" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -927,24 +905,13 @@
         }
       }
     },
-    "licenceCategoriesSubtitle" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vehicles you’re permitted to drive."
-          }
-        }
-      }
-    },
     "licenceCategoriesTitle" : {
       "extractionState" : "manual",
       "localizations" : {
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "You can drive"
+            "value" : "What you can drive"
           }
         }
       }
@@ -1110,6 +1077,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Licence type: %@ "
+          }
+        }
+      }
+    },
+    "licenceVehicleTypesButtonTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vehicle types"
           }
         }
       }

@@ -118,6 +118,10 @@ extension Constants.API {
         string: "https://driver-and-vehicles-account.service.gov.uk/driver_details?locale=en#Entitlements"
     )!
 
+    public static let defaultEndorsementsUrl: URL = URL(
+        string: "https://driver-and-vehicles-account.service.gov.uk/driver_details?locale=en#Endorsements"
+    )!
+
     public static let defaultDvlaContactUrl: URL = URL(
         string: "https://www.gov.uk/contact-the-dvla"
     )!
