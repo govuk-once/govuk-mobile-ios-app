@@ -4,6 +4,7 @@ import GovKit
 protocol ChatServiceInterface {
     // MARK: - Service
     func askQuestion(_ question: String,
+                     isSuggestedPrompt: Bool?,
                      completion: @escaping (ChatQuestionResult) -> Void)
     func pollForAnswer(_ pendingQuestion: PendingQuestion,
                        completion: @escaping (ChatAnswerResult) -> Void)
@@ -48,9 +49,11 @@ final class ChatService: ChatServiceInterface {
     }
 
     func askQuestion(_ question: String,
+                     isSuggestedPrompt: Bool?,
                      completion: @escaping (ChatQuestionResult) -> Void) {
         serviceClient.askQuestion(
             question,
+            isSuggestedPrompt: isSuggestedPrompt,
             conversationId: currentConversationId,
             completion: { [weak self] result in
                 switch result {

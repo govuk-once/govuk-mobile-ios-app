@@ -18,7 +18,10 @@ struct APIServiceClientTests_Chat {
             tokenProvider: mockAuthenticationService
 
         )
-        let request = GOVRequest.askQuestion("What is your quest?")
+        let request = GOVRequest.askQuestion(
+            "What is your quest?",
+        isSuggestedPrompt: false
+        )
 
         MockURLProtocol.registerHandler(forUrl: "https://www.google.com/conversation") { request in
             #expect(request.httpMethod == "POST")
@@ -49,7 +52,10 @@ struct APIServiceClientTests_Chat {
             tokenProvider: mockAuthenticationService
 
         )
-        let request = GOVRequest.askQuestion("What is your quest?")
+        let request = GOVRequest.askQuestion(
+            "What is your quest?",
+            isSuggestedPrompt: false
+        )
         let expectedResponse = HTTPURLResponse.arrange(statusCode: 200)
         let expectedData = Data()
         MockURLProtocol.registerHandler(forUrl: "https://www.google.com/conversation") { request in
@@ -88,7 +94,9 @@ struct APIServiceClientTests_Chat {
             requestBuilder: RequestBuilder(),
             responseHandler: ChatResponseHandler()
         )
-        let request = GOVRequest.askQuestion("What is your quest?")
+        let request = GOVRequest.askQuestion("What is your quest?",
+        isSuggestedPrompt: false
+        )
         let expectedResponse = HTTPURLResponse.arrange(statusCode: statusCode)
         MockURLProtocol.registerHandler(forUrl: "https://www.google.com/conversation") { request in
             return (expectedResponse, nil, nil)

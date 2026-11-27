@@ -8,6 +8,7 @@ typealias ChatFeedbackResult = (Result<Void, ChatError>)
 
 protocol ChatServiceClientInterface {
     func askQuestion(_ question: String,
+                     isSuggestedPrompt: Bool?,
                      conversationId: String?,
                      completion: @escaping (ChatQuestionResult) -> Void)
     func fetchAnswer(conversationId: String,
@@ -39,10 +40,12 @@ struct ChatServiceClient: ChatServiceClientInterface {
     }
 
     func askQuestion(_ question: String,
+                     isSuggestedPrompt: Bool?,
                      conversationId: String?,
                      completion: @escaping (ChatQuestionResult) -> Void) {
         let request = GOVRequest.askQuestion(
             question,
+            isSuggestedPrompt: isSuggestedPrompt,
             conversationId: conversationId
         )
         serviceClient.send(
