@@ -38,6 +38,7 @@ struct ChatExampleQuestionsView: View {
             }
         }
         .padding(.leading, 44)
+        .padding(.trailing, 0.5)
         .onAppear {
             viewModel.trackEcommerce()
         }
