@@ -173,11 +173,23 @@ final class TravelAlertsWidgetViewModel: ObservableObject {
     }
 
     func openEditCountries() {
+        analyticsService.track(
+            event: AppEvent.widgetNavigation(
+                text: String(localized: .Travel.travelAlertLoadedButtonEdit),
+                external: false,
+                params: ["section": TravelAlertWidgetAnalyticsKeys.section]
+            )
+        )
         editAction()
     }
 
     func openExternalURL(_ url: URL) {
         openURLAction(url)
+    }
+
+    func countryListSheetDidDismiss() {
+        countryListViewModel.sheetDidDismiss()
+        didDismissList()
     }
 
     func didDismissList(forceRefresh: Bool = false) {

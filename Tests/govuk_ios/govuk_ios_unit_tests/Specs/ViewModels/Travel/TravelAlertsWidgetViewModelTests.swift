@@ -680,4 +680,97 @@ struct TravelAlertsWidgetViewModelTests {
             if predicate(state) { return }
         }
     }
+
+    // MARK: - Analytics
+
+    private func makeSut(
+        analyticsService: MockAnalyticsService,
+        editAction: @escaping () -> Void = { /*Empty For Tests*/ },
+        dismissAction: @escaping () -> Void = { /*Empty For Tests*/ }
+    ) -> TravelAlertsWidgetViewModel {
+        TravelAlertsWidgetViewModel(
+            travelService: MockTravelService(),
+            analyticsService: analyticsService,
+            notificationService: MockNotificationService(),
+            feedbackURL: URL(string: "https://example.com/feedback")!,
+            urlOpener: MockURLOpener(),
+            dismissAction: dismissAction,
+            editAction: editAction,
+            openURLAction: { _ in /*Empty For Tests*/ }
+        )
+    }
+
+    private func closeEvents(_ analyticsService: MockAnalyticsService) -> [AppEvent] {
+        analyticsService._trackedEvents.filter {
+            $0.name == "Navigation" && $0.params?["text"] as? String == "Close"
+        }
+    }
+
+    @Test
+    func openEditCountries_tracksEditWidgetNavigation() {
+        let mockAnalyticsService = MockAnalyticsService()
+        var editActionCalled = false
+        let sut = makeSut(
+            analyticsService: mockAnalyticsService,
+            editAction: { editActionCalled = true }
+        )
+
+        sut.openEditCountries()
+
+        #expect(editActionCalled)
+        #expect(mockAnalyticsService._trackedEvents.count == 1)
+        let event = mockAnalyticsService._trackedEvents.first
+        #expect(event?.name == "Navigation")
+        #expect(event?.params?["text"] as? String == "Edit")
+        #expect(event?.params?["type"] as? String == "Widget")
+        #expect(event?.params?["external"] as? Bool == false)
+        #expect(event?.params?["section"] as? String == "Travel Abroad Notifications")
+    }
+
+    @Test
+    func countryListSheetDidDismiss_whenSwipedAway_tracksCloseAndHidesSheet() {
+        let mockAnalyticsService = MockAnalyticsService()
+        var dismissActionCalled = false
+        let sut = makeSut(
+            analyticsService: mockAnalyticsService,
+            dismissAction: { dismissActionCalled = true }
+        )
+        sut.onFollowCountryTap(text: "Follow a country")
+        sut.countryListViewModel.sheetDidAppear()
+
+        sut.countryListSheetDidDismiss()
+
+        let events = closeEvents(mockAnalyticsService)
+        #expect(events.count == 1)
+        #expect(events.first?.params?["type"] as? String == "Button")
+        #expect(events.first?.params?["section"] as? String == "Travel Abroad Notifications")
+        #expect(sut.isShowingList == false)
+        #expect(dismissActionCalled)
+    }
+
+    @Test
+    func countryListSheetDidDismiss_afterCloseButton_tracksCloseOnce() {
+        let mockAnalyticsService = MockAnalyticsService()
+        let sut = makeSut(analyticsService: mockAnalyticsService)
+        sut.onFollowCountryTap(text: "Follow a country")
+        sut.countryListViewModel.sheetDidAppear()
+
+        sut.countryListViewModel.closeButtonTapped()
+        sut.countryListSheetDidDismiss()
+
+        #expect(closeEvents(mockAnalyticsService).count == 1)
+    }
+
+    @Test
+    func countryListSheetDidDismiss_afterFollow_doesNotTrackClose() {
+        let mockAnalyticsService = MockAnalyticsService()
+        let sut = makeSut(analyticsService: mockAnalyticsService)
+        sut.onFollowCountryTap(text: "Follow a country")
+        sut.countryListViewModel.sheetDidAppear()
+
+        sut.countryListViewModel.dismiss(true)
+        sut.countryListSheetDidDismiss()
+
+        #expect(closeEvents(mockAnalyticsService).isEmpty)
+    }
 }

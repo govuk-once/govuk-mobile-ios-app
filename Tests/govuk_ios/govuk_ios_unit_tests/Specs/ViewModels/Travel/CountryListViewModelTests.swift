@@ -16,7 +16,8 @@ struct CountryListViewModelTests {
         openFooterLinkAction: @escaping () -> Void = { },
         openExternalURLAction: @escaping (URL) -> Void = { _ in },
         footerLinkURLString: String? = nil,
-        errorCallback: (() -> Void)? = nil
+        errorCallback: (() -> Void)? = nil,
+        searchDebounceScheduler: TestScheduler = TestScheduler()
     ) -> CountryListViewModel {
         let actions = CountryListViewModel.Actions(
             dismissAction: dismissAction,
@@ -30,8 +31,42 @@ struct CountryListViewModelTests {
             urlOpener: MockURLOpener(),
             actions: actions,
             footerLinkURLString: footerLinkURLString,
-            errorCallback: errorCallback
+            errorCallback: errorCallback,
+            searchDebounceScheduler: searchDebounceScheduler
         )
+    }
+
+    private static let debounce: DispatchQueue.SchedulerTimeType.Stride = .milliseconds(
+        CountryListViewModel.noResultsSearchDebounceMilliseconds
+    )
+
+    private func searchEvents(_ analyticsService: MockAnalyticsService) -> [AppEvent] {
+        analyticsService._trackedEvents.filter { $0.name == "Search" }
+    }
+
+    private func closeEvents(_ analyticsService: MockAnalyticsService) -> [AppEvent] {
+        analyticsService._trackedEvents.filter {
+            $0.name == "Navigation" && $0.params?["text"] as? String == "Close"
+        }
+    }
+
+    private func loadedViewModel(
+        analyticsService: MockAnalyticsService,
+        scheduler: TestScheduler = TestScheduler()
+    ) async -> CountryListViewModel {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedGetCountriesResult = .success([
+            Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: ["Gaul"]),
+            Country(name: "Spain", slug: "spain", rawLastUpdate: "", synonyms: [])
+        ])
+        let viewModel = makeViewModel(
+            travelService: mockTravelService,
+            analyticsService: analyticsService,
+            searchDebounceScheduler: scheduler
+        )
+        await viewModel.viewDidAppear()
+        await Task.yield()
+        return viewModel
     }
 
     @Test
@@ -1166,5 +1201,306 @@ struct CountryListViewModelTests {
         let searchEvent = mockAnalyticsService._trackedEvents.first(where: { $0.name == "Search" })
         #expect(searchEvent != nil)
         #expect(searchEvent?.params?["text"] as? String == "[postcode]")
+    }
+
+    // MARK: - N4: Close
+
+    @Test
+    func closeButtonTapped_tracksCloseAndDismisses() {
+        let mockAnalyticsService = MockAnalyticsService()
+        var receivedForceRefresh: Bool?
+        let viewModel = makeViewModel(
+            analyticsService: mockAnalyticsService,
+            dismissAction: { receivedForceRefresh = $0 }
+        )
+        viewModel.selectedCountry = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
+
+        viewModel.closeButtonTapped()
+
+        let events = closeEvents(mockAnalyticsService)
+        #expect(events.count == 1)
+        #expect(events.first?.params?["type"] as? String == "Button")
+        #expect(events.first?.params?["external"] as? Bool == false)
+        #expect(events.first?.params?["section"] as? String == "Travel Abroad Notifications")
+        #expect(events.first?.params?["url"] == nil)
+        #expect(viewModel.selectedCountry == nil)
+        #expect(receivedForceRefresh == false)
+    }
+
+    @Test
+    func closeButtonTapped_thenSheetDidDismiss_tracksCloseOnce() {
+        let mockAnalyticsService = MockAnalyticsService()
+        let viewModel = makeViewModel(analyticsService: mockAnalyticsService)
+
+        viewModel.sheetDidAppear()
+        viewModel.closeButtonTapped()
+        viewModel.sheetDidDismiss()
+
+        #expect(closeEvents(mockAnalyticsService).count == 1)
+    }
+
+    @Test
+    func sheetDidDismiss_withoutAppDismissal_tracksClose() {
+        let mockAnalyticsService = MockAnalyticsService()
+        let viewModel = makeViewModel(analyticsService: mockAnalyticsService)
+
+        viewModel.sheetDidAppear()
+        viewModel.sheetDidDismiss()
+
+        let events = closeEvents(mockAnalyticsService)
+        #expect(events.count == 1)
+        #expect(events.first?.params?["type"] as? String == "Button")
+    }
+
+    @Test
+    func sheetDidDismiss_afterSuccessfulFollow_doesNotTrackClose() async {
+        let mockTravelService = MockTravelService()
+        mockTravelService._stubbedSubscribeResult = .success(())
+        mockTravelService._autoCallSubscribeCompletion = false
+        let mockAnalyticsService = MockAnalyticsService()
+        let viewModel = makeViewModel(travelService: mockTravelService, analyticsService: mockAnalyticsService)
+
+        viewModel.sheetDidAppear()
+        viewModel.proceedWithCountrySelection(
+            Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: []),
+            false
+        )
+        mockTravelService._receivedSubscribeCompletion?(.success(()))
+        await Task.yield()
+        await Task.yield()
+        viewModel.sheetDidDismiss()
+
+        #expect(closeEvents(mockAnalyticsService).isEmpty)
+    }
+
+    @Test
+    func sheetDidDismiss_afterFailedFollow_doesNotTrackClose() async {
+        let mockTravelService = MockTravelService()
+        mockTravelService._autoCallSubscribeCompletion = false
+        let mockAnalyticsService = MockAnalyticsService()
+        let viewModel = makeViewModel(travelService: mockTravelService, analyticsService: mockAnalyticsService)
+
+        viewModel.sheetDidAppear()
+        viewModel.proceedWithCountrySelection(
+            Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: []),
+            false
+        )
+        mockTravelService._receivedSubscribeCompletion?(.failure(.apiUnavailable))
+        await Task.yield()
+        await Task.yield()
+        viewModel.sheetDidDismiss()
+
+        #expect(closeEvents(mockAnalyticsService).isEmpty)
+    }
+
+    @Test
+    func sheetDidDismiss_afterFollowViaPermissionScreen_doesNotTrackClose() async throws {
+        let mockNotificationService = MockNotificationService()
+        mockNotificationService._stubbedhasGivenConsent = false
+        let mockTravelService = MockTravelService()
+        let mockAnalyticsService = MockAnalyticsService()
+        let viewModel = makeViewModel(
+            travelService: mockTravelService,
+            analyticsService: mockAnalyticsService,
+            notificationService: mockNotificationService
+        )
+        viewModel.sheetDidAppear()
+        viewModel.onGetNotificationAlertTap(
+            Country(name: "Spain", slug: "spain", rawLastUpdate: "", synonyms: []),
+            text: "Get notifications"
+        )
+        try await Task.sleep(for: .milliseconds(200))
+        let rationaleViewModel = try #require(viewModel.createNotificationsRationaleViewModel())
+
+        rationaleViewModel.notNowAction()
+        try await Task.sleep(for: .milliseconds(200))
+        viewModel.sheetDidDismiss()
+
+        #expect(closeEvents(mockAnalyticsService).isEmpty)
+    }
+
+    @Test
+    func sheetDidDismiss_resetsSoNextSwipeIsTracked() {
+        let mockAnalyticsService = MockAnalyticsService()
+        let viewModel = makeViewModel(analyticsService: mockAnalyticsService)
+
+        viewModel.sheetDidAppear()
+        viewModel.dismiss(true)
+        viewModel.sheetDidDismiss()
+        viewModel.sheetDidAppear()
+        viewModel.sheetDidDismiss()
+
+        #expect(closeEvents(mockAnalyticsService).count == 1)
+    }
+
+    @Test
+    func sheetDidAppear_clearsDismissalThatHappenedAfterTheSheetClosed() {
+        let mockAnalyticsService = MockAnalyticsService()
+        let viewModel = makeViewModel(analyticsService: mockAnalyticsService)
+
+        // The user swipes the sheet away, then a follow request still in flight completes
+        viewModel.sheetDidAppear()
+        viewModel.sheetDidDismiss()
+        viewModel.dismiss(false)
+        // Next time the sheet opens, a swipe is still counted
+        viewModel.sheetDidAppear()
+        viewModel.sheetDidDismiss()
+
+        #expect(closeEvents(mockAnalyticsService).count == 2)
+    }
+
+    // MARK: - N6: Cancel on the "Get notifications?" alert
+
+    @Test
+    func onCancelAlertTap_tracksWidgetNavigationAndClearsSelection() {
+        let mockAnalyticsService = MockAnalyticsService()
+        let viewModel = makeViewModel(analyticsService: mockAnalyticsService)
+        viewModel.selectedCountry = Country(name: "France", slug: "france", rawLastUpdate: "", synonyms: [])
+
+        viewModel.onCancelAlertTap(text: "Cancel")
+
+        #expect(mockAnalyticsService._trackedEvents.count == 1)
+        let event = mockAnalyticsService._trackedEvents.first
+        #expect(event?.name == "Navigation")
+        #expect(event?.params?["text"] as? String == "Cancel")
+        #expect(event?.params?["type"] as? String == "Widget")
+        #expect(event?.params?["external"] as? Bool == false)
+        #expect(event?.params?["section"] as? String == "Travel Abroad Notifications")
+        #expect(viewModel.selectedCountry == nil)
+    }
+
+    // MARK: - N5: Search with no results
+
+    @Test
+    func searchWithNoResults_tracksSearchWithZeroResultsAfterDebounce() async {
+        let mockAnalyticsService = MockAnalyticsService()
+        let scheduler = TestScheduler()
+        let viewModel = await loadedViewModel(analyticsService: mockAnalyticsService, scheduler: scheduler)
+
+        viewModel.searchText = "Narnia"
+        scheduler.advance(by: .milliseconds(499))
+        #expect(searchEvents(mockAnalyticsService).isEmpty)
+
+        scheduler.advance(by: .milliseconds(1))
+        let events = searchEvents(mockAnalyticsService)
+        #expect(events.count == 1)
+        #expect(events.first?.params?["text"] as? String == "Narnia")
+        #expect(events.first?.params?["type"] as? String == "typed")
+        #expect(events.first?.params?["section"] as? String == "country_search")
+        #expect(events.first?.params?["results"] as? Int == 0)
+    }
+
+    @Test
+    func searchWithNoResults_whileTyping_onlyTracksSettledQuery() async {
+        let mockAnalyticsService = MockAnalyticsService()
+        let scheduler = TestScheduler()
+        let viewModel = await loadedViewModel(analyticsService: mockAnalyticsService, scheduler: scheduler)
+
+        for query in ["N", "Na", "Nar", "Narn", "Narni", "Narnia"] {
+            viewModel.searchText = query
+            scheduler.advance(by: .milliseconds(200))
+        }
+        scheduler.advance(by: Self.debounce)
+
+        let events = searchEvents(mockAnalyticsService)
+        #expect(events.count == 1)
+        #expect(events.first?.params?["text"] as? String == "Narnia")
+    }
+
+    @Test
+    func searchWithResults_doesNotTrack() async {
+        let mockAnalyticsService = MockAnalyticsService()
+        let scheduler = TestScheduler()
+        let viewModel = await loadedViewModel(analyticsService: mockAnalyticsService, scheduler: scheduler)
+
+        viewModel.searchText = "Fra"
+        scheduler.advance(by: Self.debounce)
+        viewModel.searchText = "Gaul"
+        scheduler.advance(by: Self.debounce)
+
+        #expect(searchEvents(mockAnalyticsService).isEmpty)
+    }
+
+    @Test
+    func searchWithBlankText_doesNotTrack() async {
+        let mockAnalyticsService = MockAnalyticsService()
+        let scheduler = TestScheduler()
+        let viewModel = await loadedViewModel(analyticsService: mockAnalyticsService, scheduler: scheduler)
+
+        viewModel.searchText = "   "
+        scheduler.advance(by: Self.debounce)
+        viewModel.searchText = ""
+        scheduler.advance(by: Self.debounce)
+
+        #expect(searchEvents(mockAnalyticsService).isEmpty)
+    }
+
+    @Test
+    func searchWithNoResults_sameSettledQueryTwice_tracksOnce() async {
+        let mockAnalyticsService = MockAnalyticsService()
+        let scheduler = TestScheduler()
+        let viewModel = await loadedViewModel(analyticsService: mockAnalyticsService, scheduler: scheduler)
+
+        viewModel.searchText = "Narnia"
+        scheduler.advance(by: Self.debounce)
+        viewModel.searchText = "Narnia "
+        scheduler.advance(by: Self.debounce)
+        viewModel.searchText = "Narniaa"
+        viewModel.searchText = "Narnia"
+        scheduler.advance(by: Self.debounce)
+
+        #expect(searchEvents(mockAnalyticsService).count == 1)
+    }
+
+    @Test
+    func searchWithNoResults_newQuery_tracksAgain() async {
+        let mockAnalyticsService = MockAnalyticsService()
+        let scheduler = TestScheduler()
+        let viewModel = await loadedViewModel(analyticsService: mockAnalyticsService, scheduler: scheduler)
+
+        viewModel.searchText = "Narn"
+        scheduler.advance(by: Self.debounce)
+        viewModel.searchText = "Narnia"
+        scheduler.advance(by: Self.debounce)
+
+        let texts = searchEvents(mockAnalyticsService).compactMap { $0.params?["text"] as? String }
+        #expect(texts == ["Narn", "Narnia"])
+    }
+
+    @Test
+    func searchWithNoResults_redactsPII() async {
+        let mockAnalyticsService = MockAnalyticsService()
+        let scheduler = TestScheduler()
+        let viewModel = await loadedViewModel(analyticsService: mockAnalyticsService, scheduler: scheduler)
+
+        viewModel.searchText = "SW1A 1AA"
+        scheduler.advance(by: Self.debounce)
+
+        #expect(searchEvents(mockAnalyticsService).first?.params?["text"] as? String == "[postcode]")
+    }
+
+    @Test
+    func searchSubmitted_doesNotIncludeResults() async {
+        let mockAnalyticsService = MockAnalyticsService()
+        let viewModel = await loadedViewModel(analyticsService: mockAnalyticsService)
+
+        viewModel.searchText = "Fra"
+        viewModel.onSearchSubmitted()
+
+        let events = searchEvents(mockAnalyticsService)
+        #expect(events.count == 1)
+        #expect(events.first?.params?["results"] == nil)
+    }
+
+    @Test
+    func searchWithNoResults_sendsTrimmedText() async {
+        let mockAnalyticsService = MockAnalyticsService()
+        let scheduler = TestScheduler()
+        let viewModel = await loadedViewModel(analyticsService: mockAnalyticsService, scheduler: scheduler)
+
+        viewModel.searchText = "  Narnia "
+        scheduler.advance(by: Self.debounce)
+
+        #expect(searchEvents(mockAnalyticsService).first?.params?["text"] as? String == "Narnia")
     }
 }

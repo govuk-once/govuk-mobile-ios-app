@@ -3,6 +3,7 @@ import Testing
 import UIKit
 
 @testable import govuk_ios
+import GovKit
 
 @Suite
 struct NotificationsRationaleViewModelTests {
@@ -461,7 +462,7 @@ struct NotificationsRationaleViewModelTests {
         #expect(viewEvents.count == 1)
     }
 
-    // MARK: - T8: Privacy notice external=false
+    // MARK: - TA-09: Privacy notice external=true with url
 
     @Test
     func openPrivacyPolicy_tracksButtonNavigation() {
@@ -472,9 +473,161 @@ struct NotificationsRationaleViewModelTests {
             $0.name == "Navigation" && $0.params?["type"] as? String == "Button"
         })
         #expect(navEvent != nil)
-        #expect(navEvent?.params?["external"] as? Bool == false)
+        #expect(navEvent?.params?["external"] as? Bool == true)
+        #expect(
+            navEvent?.params?["url"] as? String ==
+            "https://www.gov.uk/government/publications/govuk-app-privacy-notice-how-we-use-your-data"
+        )
         #expect(navEvent?.params?["text"] as? String == viewModel.privacyPolicyLinkTitle)
         #expect(navEvent?.params?["section"] as? String == "Travel Abroad Notifications")
+    }
+
+    // MARK: - Q9: Back button
+
+    @Test
+    func backButtonAction_editOrigin_tracksNotNowAndDeclines() {
+        var declinedCalled = false
+        var dismissSheetCalled = false
+        let viewModel = makeViewModel(
+            declineBehaviour: .report({ declinedCalled = true }),
+            dismissSheetAction: { dismissSheetCalled = true },
+            origin: .EDIT
+        )
+
+        viewModel.backButtonAction()
+
+        let navEvents = mockAnalyticsService._trackedEvents.filter { $0.name == "Navigation" }
+        #expect(navEvents.count == 1)
+        #expect(navEvents.first?.params?["text"] as? String == viewModel.secondaryButtonTitle)
+        #expect(navEvents.first?.params?["type"] as? String == "Button")
+        #expect(navEvents.first?.params?["external"] as? Bool == false)
+        #expect(navEvents.first?.params?["section"] as? String == "Travel Abroad Notifications")
+        #expect(declinedCalled)
+        #expect(!dismissSheetCalled)
+    }
+
+    @Test
+    func backButtonAction_followOrigin_dismissesWithoutTracking() {
+        var dismissSheetCalled = false
+        let viewModel = makeViewModel(
+            dismissSheetAction: { dismissSheetCalled = true },
+            origin: .FOLLOW
+        )
+
+        viewModel.backButtonAction()
+
+        #expect(dismissSheetCalled)
+        #expect(mockAnalyticsService._trackedEvents.isEmpty)
+        #expect(mockTravelService._subscribeToGroupsCalled == false)
+    }
+
+    @Test
+    func notNowEvent_matchesNotNowButtonEvent() {
+        let viewModel = makeViewModel()
+        viewModel.notNowAction()
+
+        let tracked = mockAnalyticsService._trackedEvents.first
+        let notNowEvent = NotificationsRationaleViewModel.notNowEvent
+        #expect(tracked?.name == notNowEvent.name)
+        #expect(tracked?.params?["text"] as? String == notNowEvent.params?["text"] as? String)
+        #expect(tracked?.params?["text"] as? String == "Not now")
+    }
+
+    // MARK: - N9: System permission prompt result
+
+    @Test(arguments: [(true, "Granted"), (false, "Denied")])
+    func systemPermissionPrompt_tracksResult(granted: Bool, action: String) async throws {
+        mockNotificationService._stubbededPermissionState = .notDetermined
+        mockTravelService._autoCallSubscribeCompletion = false
+        let viewModel = makeViewModel(declineBehaviour: .report({ }))
+
+        viewModel.allowNotificationsAction()
+        try await waitForTrue { mockNotificationService._receivedRequestPermissionsCompletion != nil }
+        mockNotificationService._receivedRequestPermissionsCompletion?(granted)
+        try await waitForTrue { !permissionEvents().isEmpty }
+
+        let events = permissionEvents()
+        #expect(events.count == 1)
+        #expect(events.first?.params?["text"] as? String == "Notification permission")
+        #expect(events.first?.params?["type"] as? String == "System")
+        #expect(events.first?.params?["action"] as? String == action)
+        #expect(events.first?.params?["section"] as? String == "Travel Abroad Notifications")
+    }
+
+    @Test
+    func allowNotificationsAction_whenAlreadyAuthorized_doesNotTrackPermissionResult() async throws {
+        mockNotificationService._stubbededPermissionState = .authorized
+        mockTravelService._autoCallSubscribeCompletion = false
+        let viewModel = makeViewModel()
+
+        viewModel.allowNotificationsAction()
+        try await waitForTrue { viewModel.viewState == .loading }
+
+        #expect(permissionEvents().isEmpty)
+    }
+
+    @Test
+    func allowNotificationsAction_whenDenied_doesNotTrackPermissionResult() async throws {
+        mockNotificationService._stubbededPermissionState = .denied
+        let viewModel = makeViewModel()
+
+        viewModel.allowNotificationsAction()
+        try await waitForTrue { viewModel.displayNotificationSettingsAlert }
+
+        #expect(permissionEvents().isEmpty)
+    }
+
+    // MARK: - N11: Permission after returning from Settings
+
+    @Test(arguments: [
+        (NotificationPermissionState.authorized, "Granted"),
+        (NotificationPermissionState.denied, "Denied")
+    ])
+    func returningFromSettings_tracksResultOnce(
+        state: NotificationPermissionState,
+        action: String
+    ) async throws {
+        let notificationCenter = NotificationCenter()
+        mockURLOpener.shouldOpenNotificationSettings = true
+        mockNotificationService._stubbededPermissionState = state
+        mockTravelService._autoCallSubscribeCompletion = false
+        let viewModel = makeViewModel(notificationCenter: notificationCenter)
+
+        viewModel.onSettingsAlertContinueAction()
+        notificationCenter.post(name: UIApplication.willEnterForegroundNotification, object: nil)
+        try await waitForTrue { !permissionEvents().isEmpty }
+        // A later return to the app isn't another trip to Settings
+        notificationCenter.post(name: UIApplication.willEnterForegroundNotification, object: nil)
+        try await Task.sleep(for: .milliseconds(200))
+
+        withExtendedLifetime(viewModel) {
+            let events = permissionEvents()
+            #expect(events.count == 1)
+            #expect(events.first?.params?["text"] as? String == "Notification permission")
+            #expect(events.first?.params?["type"] as? String == "Settings")
+            #expect(events.first?.params?["action"] as? String == action)
+            #expect(events.first?.params?["section"] as? String == "Travel Abroad Notifications")
+        }
+    }
+
+    @Test
+    func returningToApp_withoutGoingToSettings_doesNotTrackPermissionResult() async throws {
+        let notificationCenter = NotificationCenter()
+        mockNotificationService._stubbededPermissionState = .authorized
+        let viewModel = makeViewModel(notificationCenter: notificationCenter)
+
+        notificationCenter.post(name: UIApplication.willEnterForegroundNotification, object: nil)
+        try await Task.sleep(for: .milliseconds(200))
+
+        withExtendedLifetime(viewModel) {
+            #expect(permissionEvents().isEmpty)
+        }
+    }
+
+    private func permissionEvents() -> [AppEvent] {
+        mockAnalyticsService._trackedEvents.filter {
+            $0.name == "Function" && $0.params?["text"] as? String == "Notification permission"
+        }
     }
 
     @Test

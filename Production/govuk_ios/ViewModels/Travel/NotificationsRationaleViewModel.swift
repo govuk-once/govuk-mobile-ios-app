@@ -163,6 +163,7 @@ class NotificationsRationaleViewModel: ObservableObject {
     private func requestNotificationPermission() {
         notificationService.requestPermissions { [weak self] granted in
             Task { @MainActor in
+                self?.trackPermissionResult(type: .system, granted: granted)
                 if granted {
                     self?.subscribeToCountry(notificationsEnabled: true)
                 } else {
@@ -173,13 +174,7 @@ class NotificationsRationaleViewModel: ObservableObject {
     }
 
     func notNowAction() {
-        analyticsService.track(
-            event: AppEvent.buttonNavigation(
-                text: secondaryButtonTitle,
-                external: false,
-                section: NotificationRationaleAnalyticsKeys.section
-            )
-        )
+        analyticsService.track(event: Self.notNowEvent)
         declineNotifications()
     }
 
@@ -209,14 +204,15 @@ class NotificationsRationaleViewModel: ObservableObject {
     }
 
     func openPrivacyPolicy() {
+        let privacyPolicyURL = URL(string: Constants.API.privacyPolicyUrl.absoluteString)
         analyticsService.track(
             event: AppEvent.buttonNavigation(
                 text: privacyPolicyLinkTitle,
-                external: false,
+                external: true,
+                url: privacyPolicyURL?.absoluteString,
                 section: NotificationRationaleAnalyticsKeys.section
             )
         )
-        let privacyPolicyURL = URL(string: Constants.API.privacyPolicyUrl.absoluteString)
         if let url = privacyPolicyURL {
             openExternalURLAction(url)
         }
@@ -279,17 +275,51 @@ class NotificationsRationaleViewModel: ObservableObject {
             await MainActor.run {
                 switch permissionState {
                 case .authorized:
+                    self.trackPermissionResult(type: .settings, granted: true)
                     self.notificationService.acceptConsent()
                     self.isPendingPermissionCheck = false
                     self.hasAgreedPendingPermission = false
                     self.displayNotificationSettingsAlert = false
                     self.subscribeToCountry(notificationsEnabled: true)
                 case .denied, .notDetermined:
+                    self.trackPermissionResult(type: .settings, granted: false)
                     self.isPendingPermissionCheck = false
                     self.hasAgreedPendingPermission = false
                     self.displayNotificationSettingsAlert = false
                 }
             }
         }
+    }
+}
+
+extension NotificationsRationaleViewModel {
+    /// "Not now" (TA-08). The Edit journey also sends it when the user goes back
+    /// or swipes the screen away, as both decline notifications.
+    static var notNowEvent: AppEvent {
+        AppEvent.buttonNavigation(
+            text: String(localized: .Travel.travelAlertPermissionSecondaryButton),
+            external: false,
+            section: NotificationRationaleAnalyticsKeys.section
+        )
+    }
+
+    func backButtonAction() {
+        switch origin {
+        case .EDIT:
+            notNowAction()
+        case .FOLLOW:
+            dismissSheetAction()
+        }
+    }
+
+    private func trackPermissionResult(type: NotificationPermissionResultType,
+                                       granted: Bool) {
+        analyticsService.track(
+            event: AppEvent.notificationPermissionResult(
+                type: type,
+                section: NotificationRationaleAnalyticsKeys.section,
+                granted: granted
+            )
+        )
     }
 }

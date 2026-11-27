@@ -126,6 +126,7 @@ class EditCountriesViewModel: ObservableObject {
 
     @MainActor
     func requestToggle(slug: String, enabled: Bool) async {
+        trackNotificationsToggle(slug: slug, enabled: enabled)
         guard enabled else {
             await toggleNotifications(slug: slug, enabled: false)
             return
@@ -133,7 +134,9 @@ class EditCountriesViewModel: ObservableObject {
         if await notificationService.needsTravelAlertsPermissionFlow {
             selectedCountryNotificationEnabled = true
             rationaleFlowSlug = slug
-            rationaleFlowOutcome = .declined
+            // Stays .none until the permission screen finishes the flow, so a
+            // dismissal while it's still .none means the user swiped it away.
+            rationaleFlowOutcome = .none
             showNotificationsRationale = true
         } else {
             await toggleNotifications(slug: slug, enabled: true)
@@ -288,10 +291,6 @@ class EditCountriesViewModel: ObservableObject {
         ]
     }
 
-    func openCountryList() {
-        isShowingList = true
-    }
-
     func didDismissList(forceRefresh: Bool) {
         isShowingList = false
         if forceRefresh {
@@ -362,12 +361,28 @@ class EditCountriesViewModel: ObservableObject {
         case .error:
             selectedCountryNotificationEnabled = false
             displayToggleError = true
-        case .declined, .none:
+        case .declined:
+            selectedCountryNotificationEnabled = false
+        case .none:
+            // Swiping the permission screen away declines, the same as "Not now"
+            analyticsService.track(event: NotificationsRationaleViewModel.notNowEvent)
             selectedCountryNotificationEnabled = false
         }
         rationaleFlowSlug = nil
         rationaleFlowOutcome = .none
         rationaleViewModel = nil
+    }
+
+    private func trackNotificationsToggle(slug: String, enabled: Bool) {
+        guard let countryName = allCountries.first(where: { $0.slug == slug })?.name
+        else { return }
+        analyticsService.track(
+            event: AppEvent.toggle(
+                text: countryName,
+                section: EditCountriesAnalyticsKeys.section,
+                isOn: enabled
+            )
+        )
     }
 
     private func showCountryDetails(country: Country, subgroup: String) {
