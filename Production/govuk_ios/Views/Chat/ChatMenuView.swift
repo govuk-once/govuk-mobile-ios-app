@@ -48,14 +48,6 @@ struct ChatMenuView: View {
                         .accessibilityHint(String.common.localized("openWebLinkHint"))
                 }
             )
-            Button(
-                action: { viewModel.openFeedbackURL() },
-                label: {
-                    Text(.Chat.feedbackMenuTitle)
-                        .accessibilityLabel(.Chat.feedbackMenuAccessibilityTitle)
-                        .accessibilityHint(String.common.localized("openWebLinkHint"))
-                }
-            )
         } label: {
             Image(systemName: "ellipsis")
                 .font(.system(size: 18, weight: .bold))
