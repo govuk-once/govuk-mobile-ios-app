@@ -64,4 +64,9 @@ class MockUserService: UserServiceInterface {
         _fetchLinkedAccountsCalledContinuation?.resume()
         return _stubbedFetchLinkedAccountsResult
     }
+
+    var _clearUserStateCalled = false
+    func clearUserState() {
+        _clearUserStateCalled = true
+    }
 }

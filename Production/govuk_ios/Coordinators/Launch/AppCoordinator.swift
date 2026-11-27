@@ -46,6 +46,9 @@ class AppCoordinator: BaseCoordinator {
 
     private func configureObservers() {
         authenticationService.didSignOutAction = { [weak self] reason in
+            // Clear first, for every reason including reauth failure. Otherwise a consent change
+            // before the next successful fetch would register the signed-out user's push ID.
+            self?.userService.clearUserState()
             if reason == .reauthFailure {
                 // Any presented modals need to be dismissed or they
                 // will be on top of the sign in flow

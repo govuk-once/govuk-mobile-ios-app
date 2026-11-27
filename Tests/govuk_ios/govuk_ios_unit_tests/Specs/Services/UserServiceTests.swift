@@ -58,6 +58,40 @@ final class UserServiceTests {
     }
 
     @Test
+    func fetchUserState_failure_clearsPreviousUserState() {
+        mockAppConfigService.features = [.profile]
+        let sut = UserService(
+            appConfigService: mockAppConfigService,
+            userServiceClient: mockUserServiceClient,
+            notificationCenter: mockNotificationCenter
+        )
+        mockUserServiceClient._stubbedFetchUserStateResult = .success(UserState.arrange)
+        sut.fetchUserState { _ in }
+        #expect(sut.pushId == "push_id")
+
+        mockUserServiceClient._stubbedFetchUserStateResult = .failure(UserStateError.apiUnavailable)
+        sut.fetchUserState { _ in }
+
+        #expect(sut.pushId == nil)
+    }
+
+    @Test
+    func clearUserState_clearsPushId() {
+        mockAppConfigService.features = [.profile]
+        let sut = UserService(
+            appConfigService: mockAppConfigService,
+            userServiceClient: mockUserServiceClient,
+            notificationCenter: mockNotificationCenter
+        )
+        mockUserServiceClient._stubbedFetchUserStateResult = .success(UserState.arrange)
+        sut.fetchUserState { _ in }
+
+        sut.clearUserState()
+
+        #expect(sut.pushId == nil)
+    }
+
+    @Test
     func fetchUserState_setsNotificationsConsent() async throws {
         mockAppConfigService.features = [.profile]
         let sut = UserService(
