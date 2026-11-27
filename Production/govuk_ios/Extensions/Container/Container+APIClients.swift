@@ -133,7 +133,8 @@ extension Container {
                              session: self.urlSession(),
                              requestBuilder: RequestBuilder(),
                              responseHandler: NotificationCentreResponseHandler(),
-                             tokenProvider: self.authenticationService())
+                             tokenProvider: self.authenticationService()
+            )
         }
     }
 
